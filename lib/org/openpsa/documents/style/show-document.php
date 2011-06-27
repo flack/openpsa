@@ -6,8 +6,8 @@ $view =& $data['document_dm'];
 </div>
 
 <div class="main">
-    <?php 
-    $view->display_view(); 
+    <?php
+    $view->display_view();
 
     $tabs = array();
 
@@ -22,6 +22,6 @@ $view =& $data['document_dm'];
             'title' => $data['l10n']->get('older versions'),
         );
     }
-    org_openpsa_core_ui::render_tabs($data['document']->guid, $tabs);
+    org_openpsa_widgets_ui::render_tabs($data['document']->guid, $tabs);
     ?>
 </div>

@@ -352,29 +352,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Function which calculates the invoice_sum by invoice_items
-     *
-     * @param bool round - indicates if result should be rounded
-     */
-    function get_invoice_sum($round = true)
-    {
-        $invoice_sum = 0;
-        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $this->id);
-        $items = $qb->execute();
-
-        foreach ($items as $item)
-        {
-            $invoice_sum += $item->pricePerUnit * $item->units;
-        }
-        if ($round)
-        {
-            $invoice_sum = round($invoice_sum, 2);
-        }
-        return $invoice_sum;
-    }
-
-    /**
      * Helper function to get corresponding invoice_items indexed by GUID
      */
     function get_invoice_items()
@@ -441,6 +418,27 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $billing_data->due = $due;
 
         return $billing_data;
+    }
+
+    public function get_customer()
+    {
+        try
+        {
+            $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
+        }
+        catch (midcom_error $e)
+        {
+            try
+            {
+                $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $customer = null;
+                $e->log();
+            }
+        }
+        return $customer;
     }
 
     /**

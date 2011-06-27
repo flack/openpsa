@@ -37,7 +37,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $this->_campaign = $this->_master->load_campaign($args[0]);
 
         $_MIDCOM->load_library('org.openpsa.qbpager');
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_campaign);
@@ -47,6 +46,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $this->_request_data['campaign'] =& $this->_campaign;
         $this->_request_data['datamanager'] =& $this->_datamanager;
 
+        org_openpsa_widgets_contact::add_head_elements();
         $this->_populate_toolbar();
 
         $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
@@ -146,6 +146,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $qb->add_constraint('campaign', '=', $data['campaign']->id);
         $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
         $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
+        $qb->add_constraint('person.metadata.deleted', '=', false);
 
         // Set the order
         $qb->add_order('person.lastname', 'ASC');

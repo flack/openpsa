@@ -46,7 +46,7 @@
         'org.openpsa.core' => array(),
         'org.openpsa.mail' => array(),
         'org.openpsa.helpers' => array(),
-        'org.openpsa.calendarwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.contacts' => array(),
         'org.openpsa.notifications' => array(),
         'midcom' => array(),

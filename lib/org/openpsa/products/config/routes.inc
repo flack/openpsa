@@ -202,38 +202,6 @@
     'variable_args' => 2,
 ),
 
-// Handle /downloads/<product group>/<N>
-'downloads_products_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_downloads', 'downloads'),
-    'fixed_args' => Array('downloads'),
-    'variable_args' => 2,
-),
-
-// Handle /score/<product group>/<N>
-'downloads_by_score_products_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_downloads', 'downloads_by_score'),
-    'fixed_args' => Array('score'),
-    'variable_args' => 2,
-),
-
-// Handle /featured/<product group>/<N>
-'featured_products_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_featured', 'featured'),
-    'fixed_args' => Array('featured'),
-    'variable_args' => 2,
-),
-
-// Handle /bestrated/<product group>/<N>
-'bestrated_products_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_bestrated', 'bestrated'),
-    'fixed_args' => Array('bestrated'),
-    'variable_args' => 2,
-),
-
 // Handle /rss.xml
 'updated_products_feed' => Array
 (

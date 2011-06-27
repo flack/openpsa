@@ -54,9 +54,9 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
 
-        if ($this->_deliverable->state < ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED)
+        if ($this->_deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED)
         {
-            $this->_deliverable->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED;
+            $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED;
             $this->_deliverable->update();
         }
 

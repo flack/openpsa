@@ -1,0 +1,15 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE fi
+
+---STRING no person
+Ei henkilöä
+---STRINGEND
+
+---STRING time
+Kellonaika
+---STRINGEND
+
+---STRING week
+Viikko
+---STRINGEND

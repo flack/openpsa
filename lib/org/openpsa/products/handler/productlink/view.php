@@ -27,7 +27,6 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
     private function _prepare_request_data()
     {
         $this->_request_data['productlink'] =& $this->_productlink;
-        $this->_request_data['enable_components'] = $this->_config->get('enable_components');
 
         $this->_view_toolbar->add_item
         (

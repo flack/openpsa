@@ -76,17 +76,19 @@
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
-                'require_corresponding_option' => false,
-                'option_callback' => 'midcom_helper_datamanager2_callback_select_personlister',
-                'option_callback_arg' => array
-                (
-                    'key_field' => 'id'
-                ),
+                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array
             (
+	            'class' => 'midcom_db_person',
                 'id_field' => 'id',
+                'searchfields' => array
+                (
+                    'lastname',
+                    'firstname',
+                    'email'
+                ),
                 'result_headers' => array
                 (
                     array(

@@ -49,7 +49,7 @@ foreach ($data['documents'] as $document)
     {
         $author = org_openpsa_contacts_person_dba::get_cached($document->author);
         $entry['index_author'] = $author->rname;
-        $author_card = org_openpsa_contactwidget::get($author->guid);
+        $author_card = org_openpsa_widgets_contact::get($author->guid);
         $entry['author'] = $author_card->show_inline();
     }
 

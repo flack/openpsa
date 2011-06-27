@@ -137,10 +137,9 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     /**
      * Static method for populating user interface for editing and creating topics
      *
-     * @static
      * @return Array Containing a list of components
      */
-    public function list_components($parent_component = '', $all = false)
+    public static function list_components($parent_component = '', $all = false)
     {
         $list = array();
 
@@ -154,24 +153,23 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
         foreach (self::get_component_list() as $component => $details)
         {
-            if (   isset($GLOBALS['midcom_config']['component_listing_allowed'])
-                && is_array($GLOBALS['midcom_config']['component_listing_allowed'])
-                && !in_array($component, $GLOBALS['midcom_config']['component_listing_allowed'])
-                && $component !== $parent_component
+            if (   $component !== $parent_component
                 && !$all)
             {
-                continue;
-            }
+                if (   isset($GLOBALS['midcom_config']['component_listing_allowed'])
+                    && is_array($GLOBALS['midcom_config']['component_listing_allowed'])
+                    && !in_array($component, $GLOBALS['midcom_config']['component_listing_allowed']))
+                {
+                    continue;
+                }
 
-            if (   isset($GLOBALS['midcom_config']['component_listing_excluded'])
-                && is_array($GLOBALS['midcom_config']['component_listing_excluded'])
-                && in_array($component, $GLOBALS['midcom_config']['component_listing_excluded'])
-                && $component !== $parent_component
-                && !$all)
-            {
-                continue;
+                if (   isset($GLOBALS['midcom_config']['component_listing_excluded'])
+                    && is_array($GLOBALS['midcom_config']['component_listing_excluded'])
+                    && in_array($component, $GLOBALS['midcom_config']['component_listing_excluded']))
+                {
+                    continue;
+                }
             }
-
             $list[$component] = "{$details['name']} ({$component} {$details['version']})";
         }
 

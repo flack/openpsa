@@ -763,11 +763,11 @@ Text-E-Mail
 ---STRINGEND
 
 ---STRING total clicks
-Summe Klicks
+Anzahl Klicks
 ---STRINGEND
 
 ---STRING total recipients
-Summe Empfänger
+Anzahl Empfänger
 ---STRINGEND
 
 ---STRING type

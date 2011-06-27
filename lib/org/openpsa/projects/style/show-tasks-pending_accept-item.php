@@ -12,7 +12,7 @@ if ($task->manager)
         $resources_string = '';
         foreach ($task->resources as $id => $boolean)
         {
-            $contact = org_openpsa_contactwidget::get($id);
+            $contact = org_openpsa_widgets_contact::get($id);
             $resources_string .= ' ' . $contact->show_inline();
         }
         echo sprintf($data['l10n']->get("proposed to %s"), $resources_string);

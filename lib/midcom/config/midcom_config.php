@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package midcom
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+
+/**
  * Core configuration defaults.
  *
  * The global variable <i>midcom_config</i> will hold the current values of all these
@@ -174,9 +181,6 @@
  *   MIDCOM_LOG_ERROR by default. You cannot use the MIDCOM* constants when setting
  *   micdom_config_local, as they are not defined at that point. Use 0 for CRITICAL,
  *   1 for ERROR, 2 for WARING, 3 for INFO and 4 for DEBUG level logging.
- * - <b>boolean log_tailurl_enable:</b> Set this to true to enable the on-site interface to
- *   the logging system. See the URL method log of midcom_application for details. Turned off
- *   by default for security reasons.
  * - <b>array error_actions:</b> Actions to run when a specific error code is produced. This can
  *   be used for saving logs about 404 errors from broken links, or sending an error 500 to
  *   webmaster for analysis.
@@ -299,280 +303,312 @@
  * tracking and displaying the geographical position where they were created.
  *
  * @package midcom
- * @author The Midgard Project, http://www.midgard-project.org
- * @copyright The Midgard Project, http://www.midgard-project.org
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-
-/**
- * MidCOM core configuration option defaults.
- *
- * @global Array $GLOBALS['midcom_config_default']
- */
-$GLOBALS['midcom_config_default'] = Array();
-/**
- * MidCOM version
- * @global string
- */
-$GLOBALS['midcom_version'] = '9.0pre';
-// Initialize Helpers
-
-if (isset($_MIDGARD['config']['auth_cookie_id']))
+class midcom_config implements arrayaccess
 {
-    $auth_cookie_id = $_MIDGARD['config']['auth_cookie_id'];
+    private $_default_config = array
+    (
+        // Authentication configuration
+        'auth_type' => 'Plaintext',
+        'auth_backend' => 'simple',
+        'auth_backend_simple_cookie_id' => '',
+        'auth_login_session_timeout' => 3600,
+        'auth_login_session_update_interval' => 300,
+        'auth_frontend' => 'form',
+        'auth_sitegroup_mode' => 'auto',
+        'auth_check_client_ip' => true,
+        'auth_allow_sudo' => true,
+        'auth_login_form_httpcode' => 403,
+        'auth_openid_enable' => false,
+        'auth_save_prev_login' => false,
+        'auth_success_callback' => null,
+        'auth_failure_callback' => null,
+        'auth_allow_trusted' => false,
+        'person_class' => 'midgard_person',
+
+        'auth_backend_simple_cookie_path' => 'auto',
+        'auth_backend_simple_cookie_domain' => null,
+        // set secure flag on cookie (applies only when using SSL)
+        'auth_backend_simple_cookie_secure' => true,
+
+        // Cache configuration
+        'cache_base_directory' => '/tmp/',
+        'cache_autoload_queue' => Array('content', 'nap', 'phpscripts', 'memcache'),
+
+        // Content Cache
+        'cache_module_content_name' => 'auto',
+
+        //Memory Caching Daemon
+        'cache_module_content_backend' => array('driver' => 'flatfile'),
+        'cache_module_memcache_backend' => 'flatfile',
+        'cache_module_memcache_backend_config' => Array(),
+        'cache_module_memcache_data_groups' => Array('ACL', 'PARENT', 'L10N'/*, 'jscss_merged'*/),
+
+        // Defaults:
+        // 'cache_module_content_backend' => Array ('directory' => 'content/', 'driver' => 'dba'),
+        'cache_module_content_uncached' => true,
+        'cache_module_content_headers_strategy' => 'revalidate',
+        'cache_module_content_headers_strategy_authenticated' => 'private',
+        // Seconds, added to gmdate() for expiry timestamp (in case no other expiry is set),
+        // also used as default expiry for content-cache entries that have no expiry set
+        'cache_module_content_default_lifetime' => 900,
+        // as above but concerns only authenticated state
+        'cache_module_content_default_lifetime_authenticated' => 0,
+        // Valid options are 'user' (default), 'memberships' and 'public'
+        'cache_module_content_caching_strategy' => 'user',
+
+        // NAP / Metadata Cache
+        'cache_module_nap_backend' => Array() /* Auto-Detect */,
+        'cache_module_nap_metadata_cachesize' => 75,
+
+        // Generated class cache directory
+        'cache_module_phpscripts_directory' => 'phpscripts/',
+
+        // CRON Service configuration
+        'cron_day_hours' => 0,
+        'cron_day_minutes' => 0,
+        'cron_hour_minutes' => 30,
+
+        // I18n Subsystem configuration
+        'i18n_language_db_path' => 'file:/midcom/config/language_db.inc',
+        'i18n_available_languages' => null,
+        'i18n_fallback_language' => 'en',
+
+        // Indexer Configuration
+        'indexer_backend' => false,
+        'indexer_index_name' => 'auto',
+        'indexer_reindex_memorylimit' => 250,
+        'indexer_reindex_allowed_ips' => Array('127.0.0.1'),
+
+        // XMLTCP indexer backend (THE RECOMMENDED ONE)
+        'indexer_xmltcp_host' => "127.0.0.1",
+        'indexer_xmltcp_port' => 8983,
+
+        // Logging Configuration
+        'log_filename' => '/tmp/midcom.log',
+        'log_level' => MIDCOM_LOG_ERROR,
+        'log_firephp' => false,
+        'enable_included_list' => false,
+        'error_actions' => array(),
+
+        // Core configuration
+        'midcom_root_topic_guid' => '',
+        'midcom_sgconfig_basedir' => '/sitegroup-config',
+        'midcom_site_url' => '/',
+        'midcom_site_title' => '',
+        'midcom_tempdir' => '/tmp',
+        'midcom_temporary_resource_timeout' => 86400,
+
+        // Visibility settings (NAP)
+        'show_hidden_objects' => true,
+        'show_unapproved_objects' => true,
+        // Style Engine defaults
+        'styleengine_relative_paths' => false,
+        'styleengine_default_styles' => Array(),
+
+        // Toolbars service
+        'toolbars_host_style_class' => 'midcom_toolbar host_toolbar',
+        'toolbars_host_style_id' => null,
+        'toolbars_node_style_class' => 'midcom_toolbar node_toolbar',
+        'toolbars_node_style_id' => null,
+        'toolbars_view_style_class' => 'midcom_toolbar view_toolbar',
+        'toolbars_view_style_id' => null,
+        'toolbars_help_style_class' => 'midcom_toolbar help_toolbar',
+        'toolbars_help_style_id' => null,
+        'toolbars_simple_css_path' => '',
+        'toolbars_enable_centralized' => true,
+        'toolbars_type' => 'palette', // Either 'menu' or 'palette'
+        'toolbars_position_storagemode' => 'cookie', // Either 'session', 'cookie' or 'parameter'
+
+        // Service implementation defaults
+        'service_midcom_core_service_urlparser' => 'midcom_core_service_implementation_urlparsertopic',
+        'service_midcom_core_service_urlgenerator' => 'midcom_core_service_implementation_urlgeneratori18n',
+
+        // Public attachment caching directives
+        'attachment_cache_enabled' => false,
+        'attachment_cache_root' => '/var/lib/midgard/vhosts/example.net/80/midcom-static/blobs',
+        'attachment_cache_url' => '/midcom-static/blobs',
+
+        //X-sendfile support
+        'attachment_xsendfile_enable' => false,
+
+        // Utilities
+        'utility_imagemagick_base' => '',
+        'utility_jpegtran' => 'jpegtran',
+        'utility_unzip' => 'unzip',
+        'utility_gzip' => 'gzip',
+        'utility_tar' => 'tar',
+        'utility_find' => 'find',
+        'utility_file' => 'file',
+        'utility_catdoc' => 'catdoc',
+        'utility_pdftotext' => 'pdftotext',
+        'utility_unrtf' => 'unrtf',
+        'utility_diff' => 'diff',
+        'utility_rcs' => 'rcs',
+
+        'midcom_services_rcs_bin_dir' => '/usr/bin',
+        'midcom_services_rcs_root' => '',
+        'midcom_services_rcs_enable' => true,
+
+        // Metadata system
+
+        // Enables approval/scheduling controls (does not influence visibility checks using
+        // show_unapproved_objects). Disabled by default. Unsafe to Link Prefetching!
+        'metadata_approval' => false,
+        'metadata_scheduling' => false,
+        'metadata_lock_timeout' => 60,    // Time in minutes
+        'staging2live_staging' => false,
+
+        // Set the DM2 schema used by the Metadata Service
+        'metadata_schema' => 'file:/midcom/config/metadata_default.inc',
+
+        // Map MidCOM metadata properties to HTML meta tags
+        'metadata_head_elements' => array
+        (
+            'published'   => 'DC.date',
+        ),
+
+        // Whether to gather and display Open Graph Protocol metadata for Midgard pages
+        'metadata_opengraph' => false,
+
+        // Component system
+        // Show only these components when creating or editing
+        'component_listing_allowed' => null,
+        'component_listing_excluded' => null,
+
+        // Positioning system
+        // If this argument is set to true, various components will start gathering
+        // and displaying geolocation information.
+        'positioning_enable' => false,
+
+        // Page class (body class)
+        // If this argument is set to true, sanitized name of the component is added to the page class string.
+        'page_class_include_component' => true,
+
+        // If this argument is set to true, All midcom_show_style calls wrap the style with HTML comments defining the style path
+        'wrap_style_show_with_name' => false,
+
+        // Related to JavaScript libraries
+        'jquery_version' => '1.5.2.min',
+        'jquery_ui_version' => '1.8.11',
+        'jquery_ui_theme' => null,
+        'jquery_load_from_google' => false,
+        'enable_ajax_editing' => false,
+
+        /**
+         * Sessioning service, disabling the service will help with external caches.
+         * The second option is to allow logged in users to benefit from the service
+         */
+        'sessioning_service_enable' => true,
+        'sessioning_service_always_enable_for_users' => true,
+
+        /**
+         * Trash cleanup, purge deleted objects after X days
+         */
+        'cron_purge_deleted_after' => 25,
+
+        /**
+         * MidCOM core level symlink support
+         *
+         * Same kind of functionality as directory symlinks in the file system
+         * but with Midgard topics. These folder symlinks are followed
+         * recursively in case the target folder has subfolders. If enabled,
+         * component level topic symlink support is disabled.
+         *
+         * Disabled by default because component level symlinks were introduced
+         * first and we need to be backwards compatible by default.
+         */
+        'symlinks' => false,
+
+        /**
+         * Theme support
+         */
+        'theme' => '',
+    );
+
+    private $_merged_config = array();
+
+    public function __construct()
+    {
+        $this->_complete_defaults();
+
+        /* ----- MERGE THE CONFIGURATION ----- */
+        if (! array_key_exists('midcom_config_site', $GLOBALS))
+        {
+            $GLOBALS['midcom_config_site'] = Array();
+        }
+        if (! array_key_exists('midcom_config_local', $GLOBALS))
+        {
+            $GLOBALS['midcom_config_local'] = Array();
+        }
+        $this->_merged_config = array_merge
+        (
+            $this->_default_config,
+            $GLOBALS['midcom_config_site'],
+            $GLOBALS['midcom_config_local']
+        );
+    }
+
+    private function _complete_defaults()
+    {
+        if (isset($_MIDGARD['config']['auth_cookie_id']))
+        {
+            $auth_cookie_id = $_MIDGARD['config']['auth_cookie_id'];
+        }
+        else
+        {
+            // Generate host identifier from Midgard host
+            $auth_cookie_id = "host{$_MIDGARD['host']}";
+        }
+        $this->_default_config['auth_backend_simple_cookie_id'] = $auth_cookie_id;
+
+        if (class_exists('Memcache'))
+        {
+            $this->_default_config['cache_module_content_backend'] = array('driver' => 'memcached');
+            $this->_default_config['cache_module_memcache_backend'] = 'memcached';
+        }
+        if (isset($_SERVER['SERVER_ADDR']))
+        {
+            $this->_default_config['indexer_reindex_allowed_ips'][] = $_SERVER['SERVER_ADDR'];
+        }
+        $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
+        $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
+
+        // TODO: Would be good to include DB name into the path
+        if ($_MIDGARD['config']['prefix'] == '/usr')
+        {
+            $this->_default_config['midcom_services_rcs_root'] = '/var/lib/midgard/rcs';
+        }
+        else if ($_MIDGARD['config']['prefix'] == '/usr/local')
+        {
+            $this->_default_config['midcom_services_rcs_root'] = '/var/local/lib/midgard/rcs';
+        }
+        else
+        {
+            $this->_default_config['midcom_services_rcs_root'] =  "{$_MIDGARD['config']['prefix']}/var/lib/midgard/rcs";
+        }
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->_merged_config[$offset] = $value;
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->_merged_config[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->_merged_config[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->_merged_config[$offset]) ? $this->_merged_config[$offset] : null;
+    }
 }
-else
-{
-    // Generate host identifier from Midgard host
-    $auth_cookie_id = "host{$_MIDGARD['host']}";
-}
-
-// Authentication configuration
-$GLOBALS['midcom_config_default']['auth_type'] = 'Plaintext';
-$GLOBALS['midcom_config_default']['auth_backend'] = 'simple';
-$GLOBALS['midcom_config_default']['auth_login_session_timeout'] = 3600;
-$GLOBALS['midcom_config_default']['auth_login_session_update_interval'] = 300;
-$GLOBALS['midcom_config_default']['auth_frontend'] = 'form';
-$GLOBALS['midcom_config_default']['auth_sitegroup_mode'] = 'auto';
-$GLOBALS['midcom_config_default']['auth_check_client_ip'] = true;
-$GLOBALS['midcom_config_default']['auth_allow_sudo'] = true;
-$GLOBALS['midcom_config_default']['auth_login_form_httpcode'] = 403;
-$GLOBALS['midcom_config_default']['auth_openid_enable'] = false;
-$GLOBALS['midcom_config_default']['auth_save_prev_login'] = false;
-$GLOBALS['midcom_config_default']['auth_success_callback'] = null;
-$GLOBALS['midcom_config_default']['auth_failure_callback'] = null;
-$GLOBALS['midcom_config_default']['auth_allow_trusted'] = false;
-$GLOBALS['midcom_config_default']['person_class'] = 'midgard_person';
-
-$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_id'] = $auth_cookie_id;
-$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_path'] = 'auto';
-$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_domain'] = null;
-$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_secure'] = true; // set secure flag on cookie (applies only when using SSL)
-
-// Cache configuration
-$GLOBALS['midcom_config_default']['cache_base_directory'] = '/tmp/';
-$GLOBALS['midcom_config_default']['cache_autoload_queue'] = Array('content', 'nap', 'phpscripts', 'memcache');
-
-// Content Cache
-$GLOBALS['midcom_config_default']['cache_module_content_name'] = 'auto';
-
-if (class_exists('Memcache'))
-{
-    $GLOBALS['midcom_config_default']['cache_module_content_backend'] = array('driver' => 'memcached');
-    $GLOBALS['midcom_config_default']['cache_module_memcache_backend'] = 'memcached';
-}
-else
-{
-    $GLOBALS['midcom_config_default']['cache_module_content_backend'] = array('driver' => 'flatfile');
-    $GLOBALS['midcom_config_default']['cache_module_memcache_backend'] = 'flatfile';
-}
-
-//Memory Caching Daemon
-$GLOBALS['midcom_config_default']['cache_module_memcache_backend_config'] = Array();
-$GLOBALS['midcom_config_default']['cache_module_memcache_data_groups'] = Array('ACL', 'PARENT', 'L10N'/*, 'jscss_merged'*/);
-
-// Defaults:
-// $GLOBALS['midcom_config_default']['cache_module_content_backend'] = Array ('directory' => 'content/', 'driver' => 'dba');
-$GLOBALS['midcom_config_default']['cache_module_content_uncached'] = true;
-$GLOBALS['midcom_config_default']['cache_module_content_headers_strategy'] = 'revalidate';
-$GLOBALS['midcom_config_default']['cache_module_content_headers_strategy_authenticated'] = 'private';
-$GLOBALS['midcom_config_default']['cache_module_content_default_lifetime'] = 900; // Seconds, added to gmdate() for expiry timestamp (in case no other expiry is set), also used as default expiry for content-cache entries that have no expiry set
-$GLOBALS['midcom_config_default']['cache_module_content_default_lifetime_authenticated'] = 0; // as above but concerns only authenticated state
-$GLOBALS['midcom_config_default']['cache_module_content_caching_strategy'] = 'user'; // Valid options are 'user' (default), 'memberships' and 'public'
-
-// NAP / Metadata Cache
-$GLOBALS['midcom_config_default']['cache_module_nap_backend'] = Array(); /* Auto-Detect */
-$GLOBALS['midcom_config_default']['cache_module_nap_metadata_cachesize'] = 75;
-
-// Generated class cache directory
-$GLOBALS['midcom_config_default']['cache_module_phpscripts_directory'] = 'phpscripts/';
-
-
-// CRON Service configuration
-$GLOBALS['midcom_config_default']['cron_day_hours'] = 0;
-$GLOBALS['midcom_config_default']['cron_day_minutes'] = 0;
-$GLOBALS['midcom_config_default']['cron_hour_minutes'] = 30;
-
-
-// I18n Subsystem configuration
-$GLOBALS['midcom_config_default']['i18n_language_db_path'] = 'file:/midcom/config/language_db.inc';
-$GLOBALS['midcom_config_default']['i18n_available_languages'] = null;
-$GLOBALS['midcom_config_default']['i18n_fallback_language'] = 'en';
-
-// Indexer Configuration
-$GLOBALS['midcom_config_default']['indexer_backend'] = false;
-$GLOBALS['midcom_config_default']['indexer_index_name'] = 'auto';
-$GLOBALS['midcom_config_default']['indexer_reindex_memorylimit'] = 250;
-$GLOBALS['midcom_config_default']['indexer_reindex_allowed_ips'] = Array('127.0.0.1');
-
-if (isset($_SERVER['SERVER_ADDR']))
-{
-    $GLOBALS['midcom_config_default']['indexer_reindex_allowed_ips'][] = $_SERVER['SERVER_ADDR'];
-}
-
-// XMLTCP indexer backend (THE RECOMMENDED ONE)
-$GLOBALS['midcom_config_default']['indexer_xmltcp_host'] = "127.0.0.1";
-$GLOBALS['midcom_config_default']['indexer_xmltcp_port'] = 8983;
-
-// Logging Configuration
-$GLOBALS['midcom_config_default']['log_filename'] = '/tmp/midcom.log';
-$GLOBALS['midcom_config_default']['log_level'] = MIDCOM_LOG_ERROR;
-$GLOBALS['midcom_config_default']['log_tailurl_enable'] = false;
-$GLOBALS['midcom_config_default']['log_firephp'] = false;
-$GLOBALS['midcom_config_default']['enable_included_list'] = false;
-$GLOBALS['midcom_config_default']['error_actions'] = array();
-
-// Core configuration
-$GLOBALS['midcom_config_default']['midcom_root_topic_guid'] = '';
-$GLOBALS['midcom_config_default']['midcom_sgconfig_basedir'] = '/sitegroup-config';
-$GLOBALS['midcom_config_default']['midcom_site_url'] = '/';
-$GLOBALS['midcom_config_default']['midcom_site_title'] = $_SERVER['SERVER_NAME'];
-$GLOBALS['midcom_config_default']['midcom_tempdir'] = '/tmp';
-$GLOBALS['midcom_config_default']['midcom_temporary_resource_timeout'] = 86400;
-
-// Visibility settings (NAP)
-$GLOBALS['midcom_config_default']['show_hidden_objects'] = true;
-$GLOBALS['midcom_config_default']['show_unapproved_objects'] = true;
-// Style Engine defaults
-$GLOBALS['midcom_config_default']['styleengine_relative_paths'] = false;
-$GLOBALS['midcom_config_default']['styleengine_default_styles'] = Array();
-
-// Toolbars service
-$GLOBALS['midcom_config_default']['toolbars_host_style_class'] = 'midcom_toolbar host_toolbar';
-$GLOBALS['midcom_config_default']['toolbars_host_style_id'] = null;
-$GLOBALS['midcom_config_default']['toolbars_node_style_class'] = 'midcom_toolbar node_toolbar';
-$GLOBALS['midcom_config_default']['toolbars_node_style_id'] = null;
-$GLOBALS['midcom_config_default']['toolbars_view_style_class'] = 'midcom_toolbar view_toolbar';
-$GLOBALS['midcom_config_default']['toolbars_view_style_id'] = null;
-$GLOBALS['midcom_config_default']['toolbars_help_style_class'] = 'midcom_toolbar help_toolbar';
-$GLOBALS['midcom_config_default']['toolbars_help_style_id'] = null;
-$GLOBALS['midcom_config_default']['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
-$GLOBALS['midcom_config_default']['toolbars_enable_centralized'] = true;
-$GLOBALS['midcom_config_default']['toolbars_type'] = 'palette'; // Either 'menu' or 'palette'
-$GLOBALS['midcom_config_default']['toolbars_position_storagemode'] = 'cookie';   // Either 'session', 'cookie' or 'parameter'
-
-// Service implementation defaults
-$GLOBALS['midcom_config_default']['service_midcom_core_service_urlparser'] = 'midcom_core_service_implementation_urlparsertopic';
-$GLOBALS['midcom_config_default']['service_midcom_core_service_urlgenerator'] = 'midcom_core_service_implementation_urlgeneratori18n';
-
-// Public attachment caching directives
-$GLOBALS['midcom_config_default']['attachment_cache_enabled'] = false;
-$GLOBALS['midcom_config_default']['attachment_cache_root'] = '/var/lib/midgard/vhosts/example.net/80/midcom-static/blobs';
-$GLOBALS['midcom_config_default']['attachment_cache_url'] = '/midcom-static/blobs';
-
-//X-sendfile support
-$GLOBALS['midcom_config_default']['attachment_xsendfile_enable'] = false;
-
-// Utilities
-$GLOBALS['midcom_config_default']['utility_imagemagick_base'] = '';
-$GLOBALS['midcom_config_default']['utility_jpegtran'] = 'jpegtran';
-$GLOBALS['midcom_config_default']['utility_unzip'] = 'unzip';
-$GLOBALS['midcom_config_default']['utility_gzip'] = 'gzip';
-$GLOBALS['midcom_config_default']['utility_tar'] = 'tar';
-$GLOBALS['midcom_config_default']['utility_find'] = 'find';
-$GLOBALS['midcom_config_default']['utility_file'] = 'file';
-$GLOBALS['midcom_config_default']['utility_catdoc'] = 'catdoc';
-$GLOBALS['midcom_config_default']['utility_pdftotext'] = 'pdftotext';
-$GLOBALS['midcom_config_default']['utility_unrtf'] = 'unrtf';
-$GLOBALS['midcom_config_default']['utility_diff'] = 'diff';
-$GLOBALS['midcom_config_default']['utility_rcs'] = 'rcs';
-
-$GLOBALS['midcom_config_default']['midcom_services_rcs_bin_dir'] = '/usr/bin';
-
-// TODO: Would be good to include DB name into the path
-if (   $_MIDGARD['config']['prefix'] == '/usr' )
-{
-    $GLOBALS['midcom_config_default']['midcom_services_rcs_root'] = '/var/lib/midgard/rcs';
-}
-else if ( $_MIDGARD['config']['prefix'] == '/usr/local')
-{
-    $GLOBALS['midcom_config_default']['midcom_services_rcs_root'] = '/var/local/lib/midgard/rcs';
-}
-else
-{
-    $GLOBALS['midcom_config_default']['midcom_services_rcs_root'] =  "{$_MIDGARD['config']['prefix']}/var/lib/midgard/rcs";
-}
-
-$GLOBALS['midcom_config_default']['midcom_services_rcs_enable'] = true;
-
-// Metadata system
-// Be aware that these options are INTERMEDIATE until the actual rewrite to the
-// 1.8 Metadata system commences. Option names might change at that point (as might
-// some of the functionality. These options are unofficial which is why they are not
-// PHPDoc'ed yet.
-
-// Enables approval/scheduling controls (does not influence visibility checks using
-// show_unapproved_objects). Disabled by default. Unsafe to Link Prefetching!
-$GLOBALS['midcom_config_default']['metadata_approval'] = false;
-$GLOBALS['midcom_config_default']['metadata_scheduling'] = false;
-$GLOBALS['midcom_config_default']['metadata_lock_timeout'] = 60;    // Time in minutes
-$GLOBALS['midcom_config_default']['staging2live_staging'] = false;
-
-// Set the DM2 schema used by the Metadata Service
-$GLOBALS['midcom_config_default']['metadata_schema'] = 'file:/midcom/config/metadata_default.inc';
-
-// Map MidCOM metadata properties to HTML meta tags
-$GLOBALS['midcom_config_default']['metadata_head_elements'] = array
-(
-    'published'   => 'DC.date',
-);
-
-// Whether to gather and display Open Graph Protocol metadata for Midgard pages
-$GLOBALS['midcom_config_default']['metadata_opengraph'] = false;
-
-// Component system
-// Show only these components when creating or editing
-$GLOBALS['midcom_config_default']['component_listing_allowed'] = null;
-$GLOBALS['midcom_config_default']['component_listing_excluded'] = null;
-
-// Positioning system
-// If this argument is set to true, various components will start gathering
-// and displaying geolocation information.
-$GLOBALS['midcom_config_default']['positioning_enable'] = false;
-
-// Page class (body class)
-// If this argument is set to true, sanitized name of the component is added to the page class string.
-$GLOBALS['midcom_config_default']['page_class_include_component'] = true;
-
-// If this argument is set to true, All midcom_show_style calls wrap the style with HTML comments defining the style path
-$GLOBALS['midcom_config_default']['wrap_style_show_with_name'] = false;
-
-// Related to JavaScript libraries
-$GLOBALS['midcom_config_default']['jquery_version'] = '1.5.2.min';
-$GLOBALS['midcom_config_default']['jquery_ui_version'] = '1.8.11';
-$GLOBALS['midcom_config_default']['jquery_ui_theme'] = null;
-$GLOBALS['midcom_config_default']['jquery_load_from_google'] = false;
-$GLOBALS['midcom_config_default']['enable_ajax_editing'] = false;
-
-/**
- * Sessioning service, disabling the service will help with external caches.
- * The second option is to allow logged in users to benefit from the service
- */
-$GLOBALS['midcom_config_default']['sessioning_service_enable'] = true;
-$GLOBALS['midcom_config_default']['sessioning_service_always_enable_for_users'] = true;
-
-/**
- * Trash cleanup, purge deleted objects after X days
- */
-$GLOBALS['midcom_config_default']['cron_purge_deleted_after'] = 25;
-
-/**
- * MidCOM core level symlink support
- *
- * Same kind of functionality as directory symlinks in the file system
- * but with Midgard topics. These folder symlinks are followed
- * recursively in case the target folder has subfolders. If enabled,
- * component level topic symlink support is disabled.
- *
- * Disabled by default because component level symlinks were introduced
- * first and we need to be backwards compatible by default.
- */
-$GLOBALS['midcom_config_default']['symlinks'] = false;
-
-/**
- * Theme support
- */
-$GLOBALS['midcom_config_default']['theme'] = '';
 
 /* ----- Include the site config ----- */
 /* This should be replaced by $_MIDGARD constructs */
@@ -581,35 +617,10 @@ if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
     include(MIDCOM_CONFIG_FILE_BEFORE);
 }
 
-/* ----- MERGE THE CONFIGURATION ----- */
-if (! array_key_exists('midcom_config_site', $GLOBALS))
-{
-    /**
-     * MidCOM site specific configuration, read from /etc/midgard/midcom.conf.
-     *
-     * @global Array $GLOBALS['midcom_config_site']
-     */
-    $GLOBALS['midcom_config_site'] = Array();
-}
-if (! array_key_exists('midcom_config_local', $GLOBALS))
-{
-    /**
-     * Local MidCOM configuration options, specific to this Instance.
-     *
-     * @global Array $GLOBALS['midcom_config_local']
-     */
-    $GLOBALS['midcom_config_local'] = Array();
-}
-
 /**
  * Current MidCOM configuration
  *
  * @global Array $GLOBALS['midcom_config']
  */
-$GLOBALS['midcom_config'] = array_merge
-(
-    $GLOBALS['midcom_config_default'],
-    $GLOBALS['midcom_config_site'],
-    $GLOBALS['midcom_config_local']
-);
+$GLOBALS['midcom_config'] = new midcom_config;
 ?>

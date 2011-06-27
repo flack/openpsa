@@ -90,7 +90,7 @@
         'notify' => Array
         (
             'title' => 'notify date',
-            'storage' => null,
+            'storage' => 'notify',
             'type' => 'date',
             'type_config' => Array
             (
@@ -118,13 +118,13 @@
             (
                 'options' => Array
                 (
-                    'p' =>  'unit',      // per piece
-                    'h' =>  'hour',      // per hour
-                    'd' =>  'day',       // per day
-                    'm' =>  'month',     // per month
-                    'q' =>  'quarter',   // per quarter
-                    'hy' => 'half-year', // per half
-                    'y' =>  'year',      // per annum
+                    'p' =>  $_MIDCOM->i18n->get_string('unit', 'org.openpsa.products'),       // per piece
+                    'h' =>  $_MIDCOM->i18n->get_string('hour', 'org.openpsa.products'),       // per hour
+                    'd' =>  $_MIDCOM->i18n->get_string('day', 'org.openpsa.products'),       // per day
+                    'm' =>  $_MIDCOM->i18n->get_string('month', 'org.openpsa.products'),     // per month
+                    'q' =>  $_MIDCOM->i18n->get_string('quarter', 'org.openpsa.products'),   // per quarter
+                    'hy' => $_MIDCOM->i18n->get_string('half-year', 'org.openpsa.products'), // per half
+                    'y' =>  $_MIDCOM->i18n->get_string('year', 'org.openpsa.products'),      // per annum
                 ),
             ),
             'readonly' => true,
@@ -196,22 +196,6 @@
             'type' => 'number',
             'widget'  => 'text',
             'readonly' => true,
-        ),
-        'components' => Array
-        (
-            'title' => 'components',
-            'storage' => null,
-            'type' => 'composite',
-            'type_config' => Array
-            (
-                'child_class' => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'child_schemadb' => 'file:/org/openpsa/sales/config/schemadb_deliverable_component_default.inc',
-                'child_foreign_key_fieldname' => 'up',
-                'style_element_name' => 'deliverable',
-                'enable_creation' => false,
-                'area_element' => 'tr',
-            ),
-            'widget' => 'composite',
         ),
     )
 ),
@@ -460,22 +444,6 @@
             'type' => 'number',
             'widget'  => 'text',
             'hidden' => true,
-        ),
-        'components' => Array
-        (
-            'title' => 'components',
-            'storage' => null,
-            'type' => 'composite',
-            'type_config' => Array
-            (
-                'child_class' => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'child_schemadb' => 'file:/org/openpsa/sales/config/schemadb_deliverable_component_default.inc',
-                'child_foreign_key_fieldname' => 'up',
-                'style_element_name' => 'deliverable',
-                'enable_creation' => false,
-                'area_element' => 'tr',
-            ),
-            'widget' => 'composite',
         ),
     )
 ),

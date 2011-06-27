@@ -19,9 +19,6 @@
     'y'  => 'year',      // per annum
 ),
 
-// Whether to enable adding subcomponents to products
-'enable_components' => true,
-
 // Whether to enable adding productlinks to products
 'enable_productlinks' => false,
 
@@ -78,17 +75,5 @@
 // These are used to detect charset of imported data and convert to local
 'mb_detect_encoding_list' => 'ASCII,JIS,UTF-8,ISO-8859-1,EUC-JP,SJIS',
 'iconv_append_target' => '//TRANSLIT', //Transliterate by default (other valid options '//IGNORE' or null)
-
-
-'redirect_to_first_product' => false,
-'redirect_order_by' => 'code',
-
-// Options for the "groupsync" see http://trac.midgard-project.org/ticket/1149
-'groupsync_watches_enabled' => false,
-'groupsync_cron_enabled' => false, // If watches are enabled you should enable also cron
-'groupsync_root_topic' => null,
-'groupsync_root_group' => null,
-'groupsync_topic_name_from' => 'code', // You can specify 'title' here safely, it will be passed through the standard url-name generation
-'groupsync_topic_title_from' => 'title',
 
 'product_page_title' => '<TOPIC_TITLE>: <PRODUCT_TITLE>',

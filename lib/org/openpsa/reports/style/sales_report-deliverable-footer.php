@@ -10,7 +10,7 @@ $sums_all = $data['sums_all'];
                         $colspan++;
                         foreach ($data['sums_per_person'] as $person_id => $sums)
                         {
-                            $owner_card = org_openpsa_contactwidget::get($person_id);
+                            $owner_card = org_openpsa_widgets_contact::get($person_id);
                             ?>
                             <tr>
                                 <td colspan="&(colspan);"><?php echo $owner_card->show_inline(); ?></td>

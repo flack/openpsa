@@ -196,7 +196,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
                     break;
 
                 case 'alt':
-                    $position['altitide'] = $value;
+                    $position['altitude'] = $value;
                     break;
             }
         }

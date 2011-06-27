@@ -15,7 +15,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
 implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     /**
-     * The mode we're using (by username, by emil, by username and email or none)
+     * The mode we're using (by username, by email, by username and email or none)
      *
      * @var string
      */
@@ -35,6 +35,20 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @var boolean
      */
     private $_success = false;
+
+    /**
+     * The localized processing message
+     *
+     * @var string
+     */
+    private $_processing_message;
+
+    /**
+     * The raw processing message
+     *
+     * @var string
+     */
+    private $_processing_message_raw;
 
     public function load_schemadb()
     {
@@ -153,28 +167,21 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             $from = $person->email;
         }
-        $template = array
-        (
-            'from' => $from,
-            'reply-to' => '',
-            'cc' => '',
-            'bcc' => '',
-            'x-mailer' => '',
-            'subject' => $this->_config->get('lostpassword_reset_mail_subject'),
-            'body' => $this->_config->get('lostpassword_reset_mail_body'),
-            'body_mime_type' => 'text/plain',
-            'charset' => 'UTF-8',
-        );
 
-        $mail = new midcom_helper_mailtemplate($template);
         $parameters = array
         (
             'PERSON' => $person,
             'PASSWORD' => $password,
         );
-        $mail->set_parameters($parameters);
-        $mail->parse();
-        $mail->send($person->email);
+
+        $mail = new org_openpsa_mail();
+        $mail->from = $from;
+        $mail->to = $person->email;
+        $mail->subject = $this->_config->get('lostpassword_reset_mail_subject');
+        $mail->body = $this->_config->get('lostpassword_reset_mail_body');
+        $mail->parameters = $parameters;
+
+        $mail->send();
     }
 
     /**

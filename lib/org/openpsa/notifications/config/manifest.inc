@@ -27,13 +27,3 @@
         'midcom' => array(),
     ),
 ),
-'customdata' => array
-(
-    'request_handler_plugin' => array
-    (
-        'class' => 'org_openpsa_notifications_preferences',
-        'src' => 'file:/org/openpsa/notifications/preferences.php',
-        'name' => 'Notification settings',
-        'config' => '',
-    ),
-),

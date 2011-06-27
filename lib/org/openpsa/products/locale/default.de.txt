@@ -170,10 +170,6 @@ Preis
 Produkt
 ---STRINGEND
 
----STRING product components
-Produktkomponenten
----STRINGEND
-
 ---STRING product database
 Produkt-Datenbank
 ---STRINGEND
@@ -260,10 +256,6 @@ Aktualisiert am %S
 
 ---STRING updated products
 Aktualisierte Produkte
----STRINGEND
-
----STRING whether to enable adding subcomponents to products
-Soll das Hinzufügen von Subkomponenten zu Produkten aktiviert werden?
 ---STRINGEND
 
 ---STRING year

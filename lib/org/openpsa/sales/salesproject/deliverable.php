@@ -16,6 +16,14 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject_deliverable';
 
+    const STATUS_NEW = 100;
+    const STATUS_PROPOSED = 200;
+    const STATUS_DECLINED = 300;
+    const STATUS_ORDERED = 400;
+    const STATUS_STARTED = 450;
+    const STATUS_DELIVERED = 500;
+    const STATUS_INVOICED = 600;
+
     /**
      * Combination property containing HTML depiction of the deliverable
      *
@@ -150,36 +158,22 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_deliverable_html .= "</span>\n";
     }
 
-    /**
-     * List subcomponents of this deliverable
-     *
-     * @return Array
-     */
-    public function get_components()
-    {
-        $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $deliverable_qb->add_constraint('salesproject', '=', $this->salesproject);
-        $deliverable_qb->add_constraint('up', '=', $this->id);
-        $deliverables = $deliverable_qb->execute();
-        return $deliverables;
-    }
-
     function get_status()
     {
         switch ($this->state)
         {
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_NEW:
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_PROPOSED:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_PROPOSED:
                 return 'proposed';
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED:
                 return 'declined';
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED:
                 return 'ordered';
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED:
                 return 'started';
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED:
                 return 'delivered';
-            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED:
+            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED:
                 return 'invoiced';
         }
         return '';
@@ -231,10 +225,19 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      * @param integer $task_id The ID of the task that requested the update
      * @param array $hours The task's hours
      */
-    function update_units($task_id, $hours)
+    function update_units($task_id = 0, $hours = null)
     {
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
+        if (null === $hours)
+        {
+            $hours = array
+            (
+                'reported' => 0,
+                'invoiced' => 0,
+                'invoiceable' => 0
+            );
+        }
         $agreement_hours = $hours;
 
         // List hours from tasks of the agreement
@@ -281,9 +284,9 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
     }
 
-    function invoice($sum, $generate_invoice = true)
+    function invoice($sum)
     {
-        if ($this->state > ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED)
+        if ($this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
         {
             return false;
         }
@@ -295,115 +298,42 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             return false;
         }
 
-        $open_amount = $this->price - $this->invoiced;
+        $calculator = new org_openpsa_invoices_calculator();
+        $amount = $calculator->process_deliverable($this->_deliverable);
 
-        /* if generate_invoice is set to false, we most likely generate one for
-         *  multiple deliverables, so we skip the consistency check
-         */
-        if (   $generate_invoice
-            && $sum > $open_amount)
+        if ($amount > 0)
         {
-            $_MIDCOM->uimessages->add
-            (
-                $_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
-                sprintf($_MIDCOM->i18n->get_string('the amount youre trying to invoice %s exceeds the open amount of the deliverable %s', 'org.openpsa.sales'), $sum, $open_amount),
-                'error'
-            );
-            return false;
+            $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;
+            $this->invoiced = $this->invoiced + $sum;
+            $this->update();
+
+            // Update sales project and mark as delivered (if no other deliverables are active)
+            $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
+            $salesproject->mark_invoiced();
         }
-
-        if (   $generate_invoice
-            && $sum > 0)
-        {
-            // Generate org.openpsa.invoices invoice
-            $this->_create_invoice($sum, "{$this->title}\n\n{$this->description}");
-        }
-
-        $this->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED;
-        $this->invoiced = $this->invoiced + $sum;
-        $this->update();
-
-        // Update sales project and mark as delivered (if no other deliverables are active)
-        $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-        $salesproject->mark_invoiced();
-
         return true;
-    }
-
-    /**
-     * Send an invoice from the deliverable.
-     *
-     * Creates a new, unsent org.openpsa.invoices object
-     * and adds a relation between it and the deliverable.
-     *
-     * @param float $sum The invoice sum
-     * @param string $description The invoice description
-     */
-    private function _create_invoice($sum, $description)
-    {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->salesproject);
-
-        $invoice = new org_openpsa_invoices_invoice_dba();
-        $invoice->customer = $salesproject->customer;
-        $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
-        $invoice->owner = $salesproject->owner;
-
-        $invoice->vat = $invoice->get_default_vat();
-        $invoice->due = ($invoice->get_default_due() * 3600 * 24) + time();
-
-        $invoice->description = $invoice->description . "\n\n" . $description;
-        $invoice->sum = $sum;
-
-        if (!$invoice->create())
-        {
-            throw new midcom_error("Invoice could not be created. Last Midgard error: " . midcom_connection::get_error_string());
-        }
-
-        // TODO: Create invoicing task if assignee is defined
-
-        // Mark the tasks (and hour reports) related to this agreement as invoiced
-        $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-        $task_qb->add_constraint('agreement', '=', $this->id);
-        $tasks = $task_qb->execute();
-
-        foreach ($tasks as $task)
-        {
-            org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
-            //calculate the invoice_items by actual units if set in agreement
-            $invoice->_recalculate_invoice_items(array( 0 => $task->id));
-        }
     }
 
     function decline()
     {
-        if ($this->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED)
+        if ($this->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED)
         {
             return false;
         }
 
-        $this->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED;
+        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED;
 
         if ($this->update())
         {
-            // Mark subcomponents as declined also
-            $deliverables = $this->get_components();
-            if (count($deliverables) > 0)
-            {
-                foreach ($deliverables as $deliverable)
-                {
-                    $deliverable->decline();
-                }
-            }
-
             // Update sales project if it doesn't have any open deliverables
             $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
             $qb->add_constraint('salesproject', '=', $this->salesproject);
-            $qb->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+            $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
             if ($qb->count() == 0)
             {
                 // No proposals that are not declined
                 $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-                $salesproject->status = ORG_OPENPSA_SALESPROJECTSTATUS_LOST;
+                $salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_LOST;
                 $salesproject->update();
             }
 
@@ -414,7 +344,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function order()
     {
-        if ($this->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
+        if ($this->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
         {
             return false;
         }
@@ -455,25 +385,15 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             }
         }
 
-        $this->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED;
+        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED;
 
         if ($this->update())
         {
-            // Mark subcomponents as ordered also
-            $deliverables = $this->get_components();
-            if (count($deliverables) > 0)
-            {
-                foreach ($deliverables as $deliverable)
-                {
-                    $deliverable->order();
-                }
-            }
-
             // Update sales project and mark as won
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            if ($salesproject->status != ORG_OPENPSA_SALESPROJECTSTATUS_WON)
+            if ($salesproject->status != org_openpsa_sales_salesproject_dba::STATUS_WON)
             {
-                $salesproject->status = ORG_OPENPSA_SALESPROJECTSTATUS_WON;
+                $salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_WON;
                 $salesproject->update();
             }
 
@@ -485,7 +405,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function deliver($update_deliveries = true)
     {
-        if ($this->state > ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED)
+        if ($this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
         {
             return false;
         }
@@ -520,20 +440,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             }
         }
 
-        $this->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED;
+        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED;
         $this->end = time();
         if ($this->update())
         {
-            // Mark subcomponents as delivered also
-            $deliverables = $this->get_components();
-            if (count($deliverables) > 0)
-            {
-                foreach ($deliverables as $deliverable)
-                {
-                    $deliverable->deliver($update_deliveries);
-                }
-            }
-
             // Update sales project and mark as delivered (if no other deliverables are active)
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_delivered();

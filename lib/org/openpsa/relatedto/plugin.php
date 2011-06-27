@@ -233,7 +233,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             $node_guid = $siteconfig->get_node_guid($button_component);
             if (!$node_guid)
             {
-                debug_add("data['node'] not given, and {$button_component} could not be found in siteconfig", MIDCOM_LOG_ERROR);
+                debug_add("data['node'] not given, and {$button_component} could not be found in siteconfig", MIDCOM_LOG_INFO);
                 return false;
             }
 

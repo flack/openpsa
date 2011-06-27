@@ -281,16 +281,11 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
 
     private function _decode_email()
     {
-        //Load o.o.mail
-        $_MIDCOM->load_library('org.openpsa.mail');
-
         //Make sure we have the components we use and the Mail_mimeDecode package
-        if (!class_exists('org_openpsa_mail'))
+        if (!class_exists('org_openpsa_mail_decoder'))
         {
             throw new midcom_error('library org.openpsa.mail could not be loaded.');
         }
-
-        $this->_decoder = new org_openpsa_mail();
 
         if (!class_exists('Mail_mimeDecode'))
         {
@@ -304,9 +299,8 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             throw new midcom_error('_POST[\'message_source\'] not present or empty.');
         }
 
-        $this->_decoder = new org_openpsa_mail();
-        $this->_decoder->body = $_POST['message_source'];
-        $this->_decoder->mime_decode();
+        $this->_decoder = new org_openpsa_mail_decoder();
+        $this->_decoder->mime_decode($_POST['message_source']);
     }
 
     private function _parse_email_persons()

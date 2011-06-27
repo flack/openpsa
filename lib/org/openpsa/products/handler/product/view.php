@@ -27,12 +27,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     private function _prepare_request_data()
     {
         $this->_request_data['product'] =& $this->_product;
-        $this->_request_data['enable_components'] = $this->_config->get('enable_components');
-
-        if ($this->_product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT)
-        {
-            $this->_request_data['enable_components'] = false;
-        }
 
         $this->_view_toolbar->add_item
         (
@@ -96,121 +90,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         {
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_product->guid);
         }
-
-        if ($this->_config->get('redirect_to_first_product'))
-        {
-            try
-            {
-                $product_group = new org_openpsa_products_product_group_dba($this->_product->__object->productGroup);
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "edit/{$product_group->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit group'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                        MIDCOM_TOOLBAR_ENABLED => $product_group->can_do('midgard:update'),
-                    )
-                );
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
-
-            if ($product_group)
-            {
-                $allow_create_group = $product_group->can_do('midgard:create');
-                $allow_create_product = $product_group->can_do('midgard:create');
-
-                if ($product_group->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
-                {
-                    $allow_create_product = false;
-                }
-            }
-            else
-            {
-                $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-                $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
-            }
-
-            foreach (array_keys($this->_request_data['schemadb_group']) as $name)
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "create/{$product_group->up}/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($this->_request_data['schemadb_group'][$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                        MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
-                    )
-                );
-            }
-
-            foreach (array_keys($this->_request_data['schemadb_product']) as $name)
-            {
-                if (isset($this->_request_data['schemadb_product'][$name]->customdata['icon']))
-                {
-                    $icon = $this->_request_data['schemadb_product'][$name]->customdata['icon'];
-                }
-                else
-                {
-                    $icon = 'stock-icons/16x16/new-text.png';
-                }
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "product/create/{$product_group->up}/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                        MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-                    )
-                );
-            }
-
-            if (   $this->_config->get('enable_productlinks')
-                && isset($this->_request_data['schemadb_productlink']))
-            {
-                $this->_request_data['datamanager_productlink'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_productlink']);
-                foreach (array_keys($this->_request_data['schemadb_productlink']) as $name)
-                {
-                    if (isset($this->_request_data['schemadb_productlink'][$name]->customdata['icon']))
-                    {
-                        $icon = $this->_request_data['schemadb_productlink'][$name]->customdata['icon'];
-                    }
-                    else
-                    {
-                        $icon = 'stock-icons/16x16/new-text.png';
-                    }
-                    $this->_view_toolbar->add_item
-                    (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "productlink/create/{$product_group->id}/{$name}/",
-                            MIDCOM_TOOLBAR_LABEL => sprintf
-                            (
-                                $this->_l10n_midcom->get('create %s'),
-                                $this->_l10n->get($this->_request_data['schemadb_productlink'][$name]->description)
-                            ),
-                            MIDCOM_TOOLBAR_ICON => $icon,
-                            MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                            MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-                        )
-                    );
-                }
-            }
-        }
     }
 
     /**
@@ -246,11 +125,10 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 throw new midcom_error_notfound("Product group {$args[0]} not found" );
             }
 
-            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $categories_qb->add_constraint('up', '=', $groups[0]->id);
-            $categories = $categories_qb->execute();
-            $categories_in = array();
-            if (count($categories) == 0)
+            $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
+            $categories_in = $categories_mc->get_values('id');
+
+            if (count($categories_in) == 0)
             {
                 /* No matching categories belonging to this group
                  * So we can search for the application using only
@@ -260,10 +138,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             }
             else
             {
-                for ($i = 0; $i < count($categories); $i++)
-                {
-                    $categories_in[$i] = $categories[$i]->id;
-                }
+                $categories_in[] = $groups[0]->id;
                 $qb->add_constraint('productGroup', 'IN', $categories_in);
             }
 

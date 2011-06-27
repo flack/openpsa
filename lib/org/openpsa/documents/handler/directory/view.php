@@ -211,10 +211,10 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         $this->_request_data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         //load js/css for jqgrid
-        org_openpsa_core_grid_widget::add_head_elements();
+        org_openpsa_widgets_grid::add_head_elements();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");
+        org_openpsa_widgets_contact::add_head_elements();
 
         $this->_populate_toolbar();
     }

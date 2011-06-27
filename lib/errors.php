@@ -250,7 +250,7 @@ class midcom_exception_handler
 
         // Add the line to the error-specific log
         $logger = new midcom_debug($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']);
-        $logger->setLoglevel(MIDCOM_LOG_INFO);
+        $logger->set_loglevel(MIDCOM_LOG_INFO);
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 

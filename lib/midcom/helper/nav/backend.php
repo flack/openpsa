@@ -753,19 +753,8 @@ class midcom_helper_nav_backend
                 $leaf[MIDCOM_NAV_NOENTRY] = false;
             }
 
-            //TODO: I don't see how this can work, $leaf is an array, so is_object should return false
-            if (   $leaf[MIDCOM_NAV_NOENTRY] == false
-                && is_object($leaf))
-            {
-                $metadata = $leaf->metadata;
-                if ($metadata)
-                {
-                    $leaf[MIDCOM_NAV_NOENTRY] = (bool) $metadata->get('navnoentry');
-                }
-            }
-
             // complete NAV_NAMES where necessary
-            if ( trim($leaf[MIDCOM_NAV_NAME]) == '')
+            if (trim($leaf[MIDCOM_NAV_NAME]) == '')
             {
                 $leaf[MIDCOM_NAV_NAME] = $_MIDCOM->i18n->get_string('unknown', 'midcom');
             }

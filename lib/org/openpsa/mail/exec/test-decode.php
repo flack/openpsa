@@ -3,8 +3,6 @@ $_MIDCOM->auth->require_admin_user();
 
 echo "<p>\n";
 
-$mail = new org_openpsa_mail();
-
 if (   !isset($_POST['decodepath'])
     || empty($_POST['decodepath']))
 {
@@ -27,8 +25,8 @@ else
     else
     {
         $data = file_get_contents($_POST['decodepath']);
-        $mail->body = $data;
-        $mail->mime_decode();
+        $mail = new org_openpsa_mail_decoder();
+        $mail->mime_decode($data);
         $fields = array
         (
             'from',

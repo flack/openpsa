@@ -81,7 +81,7 @@ $_MIDCOM->auth->require_valid_user();
                     </tr>
                     <tr>
                         <td><a href="http://www.midgard-project.org/documentation/midcom/">MidCOM</a></td>
-                        <td><?php echo $GLOBALS['midcom_version']; ?></td>
+                        <td><?php echo midcom::get_version(); ?></td>
                         <td>Component Framework for PHP</td>
                     </tr>
                     <tr>

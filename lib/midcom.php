@@ -12,6 +12,13 @@
 class midcom
 {
     /**
+     * MidCOM version
+     *
+     * @var string
+     */
+    private static $_version = '9.0pre';
+
+    /**
      * Main application singleton
      *
      * @var midcom_application
@@ -33,21 +40,22 @@ class midcom
      */
     private static $_service_classes = array
     (
-        'serviceloader' => 'midcom_helper_serviceloader',
-        'i18n' => 'midcom_services_i18n',
         'componentloader' => 'midcom_helper__componentloader',
         'dbclassloader' => 'midcom_services_dbclassloader',
         'dbfactory' => 'midcom_helper__dbfactory',
+        'debug' => 'midcom_debug',
         'head' => 'midcom_helper_head',
-        'style' => 'midcom_helper__styleloader',
+        'i18n' => 'midcom_services_i18n',
+        'indexer' => 'midcom_services_indexer',
+        'metadata' => 'midcom_services_metadata',
         'permalinks' => 'midcom_services_permalinks',
+        'rcs' => 'midcom_services_rcs',
+        'serviceloader' => 'midcom_helper_serviceloader',
+        'session' => 'midcom_services__sessioning',
+        'style' => 'midcom_helper__styleloader',
         'tmp' => 'midcom_services_tmp',
         'toolbars' => 'midcom_services_toolbars',
         'uimessages' => 'midcom_services_uimessages',
-        'metadata' => 'midcom_services_metadata',
-        'rcs' => 'midcom_services_rcs',
-        'session' => 'midcom_services__sessioning',
-        'indexer' => 'midcom_services_indexer',
     );
 
     public static function init()
@@ -135,9 +143,8 @@ class midcom
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
-        $GLOBALS['midcom_cache'] = new midcom_services_cache();
-        $GLOBALS['midcom_cache']->initialize();
-        self::$_services['cache'] = $GLOBALS['midcom_cache'];
+        self::$_services['cache'] = new midcom_services_cache();
+        self::$_services['cache']->initialize();
 
         require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
 
@@ -149,7 +156,7 @@ class midcom
 
         $_MIDCOM = new midcom_compat_superglobal();
 
-        $_MIDCOM->initialize();
+        self::$_application->initialize();
 
         if (file_exists(MIDCOM_CONFIG_FILE_AFTER))
         {
@@ -192,7 +199,7 @@ class midcom
             && $class_name != 'midcom_baseclasses_components_interface')
         {
             // MidCOM component interfaces are named midcom/interface.php
-            $_MIDCOM->dbclassloader->load_component_for_class($class_name);
+            self::get('dbclassloader')->load_component_for_class($class_name);
             return;
         }
 
@@ -237,6 +244,11 @@ class midcom
         }
 
         throw new midcom_error("Requested service '$name' is not available.");
+    }
+
+    public static function get_version()
+    {
+        return self::$_version;
     }
 }
 

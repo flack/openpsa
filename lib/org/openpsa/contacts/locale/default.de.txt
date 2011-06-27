@@ -2,7 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
----# Schema Account Person
 ---STRING person_fieldset
 Person
 ---STRINGEND
@@ -217,10 +216,6 @@ Ihre Suche lieferte keine Treffer
 
 ---STRING notes
 Anmerkungen
----STRINGEND
-
----STRING notification settings
-Benachrichtigungseinstellungen
 ---STRINGEND
 
 ---STRING official

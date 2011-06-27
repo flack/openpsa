@@ -44,15 +44,6 @@
 
     </type>
 
-    <!-- This table is going to be removed and should only be used for content migration -->
-    <type name="org_openpsa_invoice_hour" table="org_openpsa_invoice_hour" parent="org_openpsa_invoice">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="invoice" link="org_openpsa_invoice:id" type="unsigned integer" parentfield="invoice"/>
-        <property name="hourReport" link="org_openpsa_hour_report:id" type="unsigned integer"/>
-    </type>
-
     <type name="org_openpsa_billing_data" table="org_openpsa_billing_data">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
@@ -71,6 +62,7 @@
         <property name="bic" type="string" />
         <property name="bankName" type="string" />
         <property name="vatNo" type="string" />
+        <property name="taxId" type="string" />
         <property name="vat" type="integer" />
         <property name="delivery" type="string" />
         <property name="due" type="unsigned integer" />

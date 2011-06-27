@@ -8,57 +8,39 @@
 
 /**
  * Send backend for org_openpsa_mail, using PHPs mail() function
+ *
  * @package org.openpsa.mail
  */
-class org_openpsa_mail_backend_mail
+class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
 {
-    var $error = false;
-
-    function send(&$mailclass, &$params)
+    public function __construct(array $params)
     {
-        if (!$this->is_available())
+        if (!function_exists('mail'))
         {
-            debug_add('backend is unavailable');
-            $this->error = 'Backend is unavailable';
-            return false;
+            throw new midcom_error('mail() is not available');
         }
+    }
+
+    public function mail($recipients, array $headers, $body)
+    {
         $hdr = '';
-        reset($mailclass->headers);
-        foreach ($mailclass->headers as $k => $v)
+        $subject = '';
+        reset($headers);
+        foreach ($headers as $key => $value)
         {
-            if (   strtolower($k) == 'to'
-                || strtolower($k) == 'subject')
+            if (strtolower($key) == 'to')
             {
                 continue;
             }
-            $hdr .= "{$k}: {$v}\n";
+            else if (strtolower($key) == 'subject')
+            {
+                $subject = $value;
+                continue;
+            }
+            $hdr .= "{$key}: {$value}\n";
         }
-        $merged = $mailclass->merge_address_headers();
-        debug_add("address_headers_merged:\n===\n{$merged}\n===\nheaders:\n===\n{$hdr}\n===\n");
-        $ret = mail($merged, $mailclass->subject, $mailclass->body, $hdr);
-        if (!$ret)
-        {
-            $this->error = true;
-        }
-        else
-        {
-            $this->error = false;
-        }
-        return $ret;
-    }
 
-    function get_error_message()
-    {
-        if (!$this->error)
-        {
-            return false;
-        }
-        return 'Unknown error';
-    }
-
-    function is_available()
-    {
-        return function_exists('mail');
+        return mail($recipients, $subject, $body, $hdr);
     }
 }
 ?>

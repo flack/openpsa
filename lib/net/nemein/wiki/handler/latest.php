@@ -61,25 +61,29 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
                     // We can ignore revisions outside the timeframe
                     continue;
                 }
-
-                $history_date = date('Y-m-d', $history['date']);
-
-                if (!isset($this->_request_data['latest_pages'][$history_date]))
-                {
-                    $this->_request_data['latest_pages'][$history_date] = array();
-                }
-
-                if (!isset($this->_request_data['latest_pages'][$history_date][$page->guid]))
-                {
-                    $this->_request_data['latest_pages'][$history_date][$page->guid] = array();
-                }
-
-                $this->_updated_pages++;
-
                 $history['object'] = $page;
-                $this->_request_data['latest_pages'][$history_date][$page->guid][$version] = $history;
+                $this->_add_history_entry($version, $history);
             }
         }
+    }
+
+    private function _add_history_entry($version, array $entry)
+    {
+        $history_date = date('Y-m-d', $entry['date']);
+
+        if (!isset($this->_request_data['latest_pages'][$history_date]))
+        {
+            $this->_request_data['latest_pages'][$history_date] = array();
+        }
+
+        if (!isset($this->_request_data['latest_pages'][$history_date][$entry['object']->guid]))
+        {
+            $this->_request_data['latest_pages'][$history_date][$entry['object']->guid] = array();
+        }
+
+        $this->_updated_pages++;
+
+        $this->_request_data['latest_pages'][$history_date][$entry['object']->guid][$version] = $entry;
     }
 
     /**
@@ -112,6 +116,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb('latest/', $data['view_title']);
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**
@@ -121,7 +126,6 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     public function _show_latest($handler_id, array &$data)
     {
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
         $data['wikiname'] = $this->_topic->extra;
         if (count($data['latest_pages']) > 0)
         {

@@ -86,10 +86,6 @@ darabok
 Termék
 ---STRINGEND
 
----STRING product components
-Termék összettevők
----STRINGEND
-
 ---STRING product database
 Termék adatbázis
 ---STRINGEND

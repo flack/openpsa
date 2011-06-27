@@ -74,13 +74,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
 
                 $task = $this->_tasks[$invoice_item->task];
 
-                if (   class_exists('org_openpsa_sales_salesproject_deliverable_dba')
-                    && $task->agreement)
-                {
-                    $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
-                    $agreement->invoice($invoice_item->pricePerUnit * $invoice_item->units, false);
-                }
-
                 // Connect invoice to the tasks involved
                 org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
             }
@@ -124,7 +117,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
                 $qb->add_constraint('invoiceableHours', '>', 0);
                 $qb->begin_group('AND');
                     $qb->add_constraint('agreement.invoiceByActualUnits', '=', false);
-                    $qb->add_constraint('agreement.state', '=', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED);
+                    $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED);
                     $qb->add_constraint('agreement.price', '>', 0);
                 $qb->end_group();
             $qb->end_group();

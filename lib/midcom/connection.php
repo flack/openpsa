@@ -340,36 +340,41 @@ class midcom_connection
             // Midgard 9.09 or newer
             if (!array_key_exists($key, self::$_data))
             {
-                self::_parse_url();
-            }
-
-            if (array_key_exists($key, self::$_data))
-            {
-                return self::$_data[$key];
+                $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
+                self::_parse_url($url_components['path'], OPENPSA2_PREFIX, substr(OPENPSA2_PREFIX, 0, -1));
             }
         }
         else if (array_key_exists($key, $_MIDGARD))
         {
             // Midgard 8.09 or 9.03
-            return $_MIDGARD[$key];
+            if (!array_key_exists($key, self::$_data))
+            {
+                self::_parse_url(implode('/', $_MIDGARD['argv']), $_MIDGARD['self'], $_MIDGARD['prefix']);
+            }
+        }
+
+        if (array_key_exists($key, self::$_data))
+        {
+            return self::$_data[$key];
         }
 
         return false;
     }
 
     /**
-     * Helper function that emulates Midgard1 URL parsing. It is pretty basic at this point,
-     * f.x. it doesn't know about host prefixes and pages.
+     * Helper function that enables themes to have subdirectories (which have a similar effect to mgd1 pages)
+     *
+     * @param string $uri The request path
+     * @param string $self The instance's root URL
+     * @param string $prefix The root URL's prefix, if any (corresponds to mgd1 host)
      */
-    private static function _parse_url()
+    private static function _parse_url($uri, $self, $prefix)
     {
-        $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
-
-        $path = '/';
-        $path_parts = explode('/', $url_components['path']);
+        $path_parts = explode('/', $uri);
+        $page_style = '';
+        $path = $self;
 
         self::$_data['argv'] = array();
-
         $args_started = false;
         foreach ($path_parts as $part)
         {
@@ -378,12 +383,11 @@ class midcom_connection
                 continue;
             }
 
-            // @todo Port the theme part to midgard1
             if (    isset($GLOBALS['midcom_config']['theme'])
                  && !$args_started
                  && is_dir(OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style/' . $part))
             {
-                $GLOBALS['midgard_page_style'] .= '/' . $part;
+                $page_style .= '/' . $part;
             }
             else
             {
@@ -393,11 +397,11 @@ class midcom_connection
             }
         }
 
+        self::$_data['page_style'] = $page_style;
         self::$_data['uri'] = $path;
-        self::$_data['self'] = OPENPSA2_PREFIX;
-        self::$_data['prefix'] = substr(self::$_data['self'], 0, -1);
-
         self::$_data['argc'] = count(self::$_data['argv']);
+        self::$_data['self'] = $self;
+        self::$_data['prefix'] = $prefix;
     }
 
     public static function get_unique_host_name()

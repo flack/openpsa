@@ -24,7 +24,6 @@
  * <b>You cannot use this class directly, consider it as an abstract base class!</b>
  *
  * @package midcom.helper.datamanager2
- * @abstract
  */
 abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_components_purecode
 {

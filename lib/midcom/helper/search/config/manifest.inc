@@ -29,8 +29,7 @@
     'dependencies' => array
     (
         'midcom' => array(),
-        'midcom.helper.xsspreventer' => array(),
-        'http_request' => array
+        'HTTP_Request2' => array
         (
             'channel' => 'pear.php.net',
         ),

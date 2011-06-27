@@ -212,13 +212,9 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         {
             foreach ($parameters as $param_data)
             {
-                if (   !isset($param_data['domain'])
-                    || empty($param_data['domain'])
-                    || !isset($param_data['name'])
+                if (   empty($param_data['domain'])
                     || empty($param_data['name'])
-                    || !isset($param_data['value'])
-                    || empty($param_data['value'])
-                    )
+                    || empty($param_data['value']))
                 {
                     // TODO: Log warning
                     continue;

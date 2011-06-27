@@ -7,7 +7,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     if ($data['salesproject']->can_do('midgard:create'))
     {
         ?>
-        <form method="post" action="&(prefix);deliverable/add/<?php echo $data['salesproject']->guid; ?>">
+        <form method="post" action="&(prefix);deliverable/add/<?php echo $data['salesproject']->guid; ?>/">
             <label>
                 <?php
                 echo $data['l10n']->get('add deliverable');

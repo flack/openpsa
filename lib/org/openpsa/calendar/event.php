@@ -34,26 +34,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     var $resources = array();
 
-    /* Skip repeat handling for now
-     * var $repeat_rule;
-     * var $repeat_prev;  //GUID, For repeating events, previous event
-     * var $repeat_next;  //GUID, For repeating events, next event
-     * var $repeat_rule;  //Array, describes the repeat rules:
-     */
-
-    /*
-     * * = mandatory key
-     * * ['type'], string: daily,weekly,monthly_by_dom
-     * * ['interval'], int: 1 means every day/week/monthday
-     * * ['from'], int: timestamp of date from which repeating starts (1 second after midnight)
-     *   ['to'], int: timestamp of date to which the repeating ends (1 second before midnight)
-     *   ['num'], int: how many occurrences of repeat fit between from and to (mind the interval!)
-     *   ['days'], array: keys are weekday numbers, values true/false
-     *
-     * It's mandatory to have 'to' or 'num' defined, the other can be calculated from the other,
-     * if both are defined 'to' has precedence.
-     */
-
     /**
      * vCalendar (or similar external source) GUID for this event
      *
@@ -63,26 +43,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     var $externalGuid = '';
     var $old_externalGuid = '';    //as above, for diffs
-
-    /**
-     * unserialized from vCalSerialized
-     * not used for anything yet
-     */
-    private $_vCal_store = null;
-
-    /**
-     * In case of busy eventmembers this is an array
-     *
-     * @var mixed
-     */
-    var $busy_em = false;
-
-    /**
-     * In case of busy event resources this is an array
-     *
-     * @var mixed
-     */
-    var $busy_er = false;
 
     /**
      * Send notifications to participants of the event
@@ -147,21 +107,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
     }
 
-    public function __get($property)
-    {
-        if ($property == 'vCal_store')
-        {
-            /* This in theory can cause confusion if the actual DB status (cache) field is different.
-              but it's better to get the correct value late than never, next update will make sure it's correct in DB as well */
-            if(is_null($this->_vCal_store))
-            {
-                $this->_unserialize_vcal();
-            }
-            return $this->_vCal_store;
-        }
-        return parent::__get($property);
-    }
-
     public function _on_loaded()
     {
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
@@ -214,60 +159,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
     }
 
-
-    /**
-     * Handles updates to repeating events
-     */
-    function update_repeat($handler='this')
-    {
-        //TODO: Re-implement
-        return false;
-    }
-
-    /**
-     * Unserializes vCalSerialized to vCal_store
-     */
-    private function _unserialize_vcal()
-    {
-        $unserRet = @unserialize($this->vCalSerialized);
-        if ($unserRet === false)
-        {
-            //Unserialize failed (probably newline/encoding issue), try to fix the serialized string and unserialize again
-            $unserRet = @unserialize(org_openpsa_helpers::fix_serialization($this->vCalSerialized));
-            if ($unserRet === false)
-            {
-                debug_add('Failed to unserialize vCalSerialized', MIDCOM_LOG_WARN);
-                $this->_vCal_store = array();
-                return;
-            }
-        }
-        $this->_vCal_store = $unserRet;
-    }
-
-    /**
-     * Serializes vCal_store to vCalSerialized
-     */
-    private function _serialize_vcal()
-    {
-        //TODO: do not store those variables that are regenerated on runtime
-/* copied from old, must be refactored
-               //Do not store vCal variables that are properties of the event itself
-               unset ($this->vCal_variables['DESCRIPTION'], $this->vCal_parameters['DESCRIPTION']);
-               unset ($this->vCal_variables['SUMMARY'], $this->vCal_parameters['SUMMARY']);
-               unset ($this->vCal_variables['LOCATION'], $this->vCal_parameters['LOCATION']);
-               unset ($this->vCal_variables['DTSTART'], $this->vCal_parameters['DTSTART']);
-               unset ($this->vCal_variables['DTEND'], $this->vCal_parameters['DTEND']);
-               unset ($this->vCal_variables['CLASS'], $this->vCal_parameters['CLASS']);
-               unset ($this->vCal_variables['STATUS'], $this->vCal_parameters['STATUS']);
-               unset ($this->vCal_variables['TRANSP'], $this->vCal_parameters['TRANSP']);
-*/
-        $this->vCalSerialized = serialize($this->vCal_store);
-    }
-
     /**
      * Preparations related to all save operations (=create/update)
      */
-    private function _prepare_save($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
+    private function _prepare_save($ignorebusy_em = false, $rob_tentantive = false)
     {
         // Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype)
@@ -311,17 +206,15 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             return false; //Calendar events must always be under some other event
         }
 
+        $conflictmanager = new org_openpsa_calendar_conflictmanager($this);
+
         //check for busy participants/resources
-        if (   $this->busy_em($rob_tentantive)
+        if (   !$conflictmanager->run($rob_tentantive)
             && !$ignorebusy_em)
         {
-            debug_print_r("Unresolved resource conflicts, aborting, busy_em:", $this->busy_em);
+            debug_print_r("Unresolved resource conflicts, aborting");
             $this->errstr = 'Resource conflict with busy event';
             return false;
-        }
-        else
-        {
-            $this->busy_em = false; //Make sure this is only present for the latest event op
         }
 
         /*
@@ -335,8 +228,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         {
             $this->externalGuid = $this->old_externalGuid;
         }
-
-        $this->_serialize_vcal();
 
         return true;
     }
@@ -382,9 +273,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     }
 
     //TODO: Move these options elsewhere
-    public function _on_creating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
+    public function _on_creating($ignorebusy_em = false, $rob_tentantive = false)
     {
-        if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive, $repeat_handler))
+        if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive))
         {
             //Some requirement for an update failed, see $this->__errstr;
             debug_add('prepare_save failed, aborting', MIDCOM_LOG_ERROR);
@@ -396,10 +287,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         //TODO: handle the repeats somehow (if set)
-        // When anonymous creation is allowed creating the members can be problematic, this works around that
-        $_MIDCOM->auth->request_sudo('org.openpsa.calendar');
 
-        $_MIDCOM->auth->drop_sudo();
         if ($this->search_relatedtos)
         {
             //TODO: add check for failed additions
@@ -539,11 +427,11 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     }
 
     //TODO: move these options elsewhere
-    public function _on_updating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
+    public function _on_updating($ignorebusy_em = false, $rob_tentantive = false)
     {
         //TODO: Handle repeats
 
-        if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive, $repeat_handler))
+        if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive))
         {
             //Some requirement for an update failed, see $this->__errstr;
             debug_add('prepare_save failed, aborting', MIDCOM_LOG_ERROR);
@@ -649,8 +537,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return $results[0];
     }
 
-    //TODO: move this option elsewhere
-    public function _on_deleting($repeat_handler = 'this')
+    public function _on_deleting()
     {
         $this->_get_em();
         //Remove participants
@@ -661,8 +548,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $obj =  $this->_get_member_by_personid($id, 'participant');
             if (is_object($obj))
             {
-                if (   $repeat_handler=='this'
-                    && $this->send_notify)
+                if ($this->send_notify)
                 {
                     $obj->notify('cancel', $this);
                 }
@@ -677,8 +563,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $obj =  $this->_get_member_by_personid($id, 'resource');
             if (is_object($obj))
             {
-                if (   $repeat_handler=='this'
-                    && $this->send_notify)
+                if ($this->send_notify)
                 {
                     $obj->notify('cancel', $this);
                 }
@@ -713,316 +598,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         else
         {
             return false;
-        }
-    }
-
-    private function _busy_em_event_constraints(&$qb_ev, $fieldname = 'eid')
-    {
-        $qb_ev->add_constraint($fieldname . '.busy', '<>', false);
-        if ($this->id)
-        {
-            $qb_ev->add_constraint($fieldname . '.id', '<>', (int)$this->id);
-        }
-        //Target event starts or ends inside this events window or starts before and ends after
-        $qb_ev->begin_group('OR');
-            $qb_ev->begin_group('AND');
-                $qb_ev->add_constraint($fieldname . '.start', '>=', (int)$this->start);
-                $qb_ev->add_constraint($fieldname . '.start', '<=', (int)$this->end);
-            $qb_ev->end_group();
-            $qb_ev->begin_group('AND');
-                $qb_ev->add_constraint($fieldname . '.end', '<=', (int)$this->end);
-                $qb_ev->add_constraint($fieldname . '.end', '>=', (int)$this->start);
-            $qb_ev->end_group();
-            $qb_ev->begin_group('AND');
-                $qb_ev->add_constraint($fieldname . '.start', '<=', (int)$this->start);
-                $qb_ev->add_constraint($fieldname . '.end', '>=', (int)$this->end);
-            $qb_ev->end_group();
-        $qb_ev->end_group();
-    }
-
-    /**
-     * Check for potential busy conflicts to allow more graceful handling of those conditions
-     *
-     * Also allows normal events to "rob" resources from tentative ones.
-     * NOTE: return false for *no* (or resolved automatically) conflicts and true for unresolvable conflicts
-     */
-    function busy_em($rob_tentative = false)
-    {
-        //If we're not busy it's not worth checking
-        if (!$this->busy)
-        {
-            debug_add('we allow overlapping, so there is no point in checking others');
-            return false;
-        }
-        //If this event is tentative always disallow robbing resources from other tentative events
-        if ($this->tentative)
-        {
-            $rob_tentative = false;
-        }
-        //We need sudo to see busys in events we normally don't see and to rob resources from tentative events
-        $_MIDCOM->auth->request_sudo('org.openpsa.calendar');
-
-        //Storage for events that have been modified due the course of this method
-        $modified_events = array();
-
-        /**
-         * Look for duplicate events only if we have participants or resources, otherwise we incorrectly get all events at
-         * the same timeframe as duplicates since there are no participant constraints to narrow things down
-         */
-        if (!empty($this->participants))
-        {
-            //We attack this "backwards" in the sense that in the end we need the events but this is faster way to filter them
-            $qb_ev = org_openpsa_calendar_event_member_dba::new_query_builder();
-            $this->_busy_em_event_constraints($qb_ev, 'eid');
-            //Shared eventmembers
-            reset ($this->participants);
-            $qb_ev->begin_group('OR');
-                foreach ($this->participants as $uid => $bool)
-                {
-                    $qb_ev->add_constraint('uid', '=', $uid);
-                }
-            $qb_ev->end_group();
-            $ret_ev = $qb_ev->execute();
-            unset($qb_ev);
-        }
-        else
-        {
-            $ret_ev = array();
-        }
-
-        // Shared resources need a separate check (different member object)
-        if (!empty($this->resources))
-        {
-            $qb_ev2 = org_openpsa_calendar_event_resource_dba::new_query_builder();
-            $this->_busy_em_event_constraints($qb_ev2, 'event');
-            reset ($this->resources);
-            $qb_ev2->begin_group('OR');
-                foreach ($this->resources as $resource => $bool)
-                {
-                    $qb_ev2->add_constraint('resource', '=', $resource);
-                }
-            $qb_ev2->end_group();
-            $ret_ev2 = $qb_ev2->execute();
-            unset($qb_ev2);
-        }
-        else
-        {
-            $ret_ev2 = array();
-        }
-
-        // TODO: Shared tasks need a separate check (different member object)
-
-        // Both QBs returned empty sets
-        if (   (   !is_array($ret_ev)
-                || count($ret_ev) === 0)
-            && (   !is_array($ret_ev2)
-                || count($ret_ev2) === 0)
-            )
-        {
-            //No busy events found within the timeframe
-            $_MIDCOM->auth->drop_sudo();
-            debug_add('no overlaps found');
-            return false;
-        }
-
-        foreach ($ret_ev as $member)
-        {
-            $this->_process_participant($member, $modified_events, $rob_tentative);
-        }
-
-        foreach ($ret_ev2 as $member)
-        {
-            $this->_process_resource($member, $modified_events, $rob_tentative);
-        }
-
-        if (   is_array($this->busy_em)
-            || is_array($this->busy_er))
-        {
-            //Unresolved conflicts (note return value is for conflicts not lack of them)
-            $_MIDCOM->auth->drop_sudo();
-            debug_add('unresolvable conflicts found, returning true');
-            midcom_connection::set_error(MGD_ERR_ERROR);
-            return true;
-        }
-
-        foreach($modified_events as $event)
-        {
-            //These events have been robbed of (some of) their resources
-            $creator = new midcom_db_person($event->metadata->creator);
-            if ( (count($event->participants) == 0
-                  || (count($event->participants) == 1
-                      && array_key_exists($creator->id, $event->participants)
-                     )
-                  )
-                &&  count($event->resources) == 0)
-            {
-                /* If modified event has no-one or only creator as participant and no resources
-                   then delete it (as it's unlikely the stub event is useful anymore) */
-                debug_add("event {$event->title} (#{$event->id}) has been robbed of all of its resources, calling delete");
-                //TODO: take notifications and repeats into account
-                $event->delete();
-            }
-            else
-            {
-                //Otherwise just commit the changes
-                //TODO: take notifications and repeats into account
-                debug_add("event {$event->title} (#{$event->id}) has been robbed of some its resources, calling update");
-                $event->update();
-            }
-        }
-
-        $_MIDCOM->auth->drop_sudo();
-        //No conflicts found or they could be automatically resolved
-        $this->busy_em = false;
-        $this->busy_er = false;
-        return false;
-    }
-
-    private function _process_resource($member, &$modified_events, $rob_tentative)
-    {
-        //We might get multiple matches for same event/resource
-        static $processed_events_resources = array();
-
-        //Check if we have processed this resource/event combination already
-        if (   array_key_exists($member->event, $processed_events_resources)
-            && array_key_exists($member->resource, $processed_events_resources[$member->event]))
-        {
-            continue;
-        }
-        if (   !array_key_exists($member->event, $processed_events_resources)
-            || !is_array($processed_events_resources[$member->event]))
-        {
-            $processed_events_resources[$member->event] = array();
-        }
-        $processed_events_resources[$member->event][$member->resource] = true;
-
-        if (array_key_exists($member->event, $modified_events))
-        {
-            $event =& $modified_events[$member->event];
-            $set_as_modified = false;
-        }
-        else
-        {
-            try
-            {
-                $event = new org_openpsa_calendar_event_dba($member->event);
-                $set_as_modified = true;
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
-                $member->delete();
-                continue;
-            }
-        }
-        debug_add("overlap found in event {$event->title} (#{$event->id})");
-
-        if (   $event->tentative
-            && $rob_tentative)
-        {
-            debug_add('event is tentative, robbing resources');
-            //"rob" resources from tentative event
-            $event = new org_openpsa_calendar_event_dba($event->id);
-
-            //resources
-            reset($this->resources);
-            foreach ($this->resources as $id => $bool)
-            {
-                if (array_key_exists($id, $event->resources))
-                {
-                    unset($event->resources[$id]);
-                }
-            }
-            if ($set_as_modified)
-            {
-                $modified_events[$event->id] = $event;
-            }
-        }
-        else
-        {
-            debug_add('event is normal, flagging busy');
-            //Non tentative event, flag busy resources
-            if (!is_array($this->busy_er))
-            {
-                //this is false under normal circumstances
-                $this->busy_er = array();
-            }
-            if (   !array_key_exists($member->guid, $this->busy_er)
-                || !is_array($this->busy_er[$member->resource]))
-            {
-                //for mapping
-                $this->busy_er[$member->resource] = array();
-            }
-            //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-            $this->busy_er[$member->resource][] = $event->guid;
-        }
-    }
-
-    private function _process_participant($member, &$modified_events, $rob_tentative)
-    {
-        //We might get multiple matches for same event/person
-        static $processed_events_participants = array();
-
-        //Check if we have processed this participant/event combination already
-        if (   array_key_exists($member->eid, $processed_events_participants)
-            && array_key_exists($member->uid, $processed_events_participants[$member->eid]))
-        {
-            return;
-        }
-        if (   !array_key_exists($member->eid, $processed_events_participants)
-            || !is_array($processed_events_participants[$member->eid]))
-        {
-            $processed_events_participants[$member->eid] = array();
-        }
-        $processed_events_participants[$member->eid][$member->uid] = true;
-
-        try
-        {
-            $event = new org_openpsa_calendar_event_dba($member->eid);
-        }
-        catch (midcom_error $e)
-        {
-            debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
-            $member->delete();
-            return;
-        }
-        debug_add("overlap found in event {$event->title} (#{$event->id})");
-
-        if (   $event->tentative
-            && $rob_tentative)
-        {
-            debug_add('event is tentative, robbing resources');
-            //"rob" resources from tentative event
-            $event = new org_openpsa_calendar_event_dba($event->id);
-
-            //participants
-            reset($this->participants);
-            foreach ($this->participants as $id => $bool)
-            {
-                if (array_key_exists($id, $event->participants))
-                {
-                    unset($event->participants[$id]);
-                }
-            }
-            $modified_events[$event->id] = $event;
-        }
-        else
-        {
-            debug_add('event is normal, flagging busy');
-            //Non tentative event, flag busy resources
-            if (!is_array($this->busy_em))
-            {
-                //this is false under normal circumstances
-                $this->busy_em = array();
-            }
-            if (   !array_key_exists($member->guid, $this->busy_em)
-                || !is_array($this->busy_em[$member->uid]))
-            {
-                //for mapping
-                $this->busy_em[$member->uid] = array();
-            }
-            //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-            $this->busy_em[$member->uid][] = $event->guid;
         }
     }
 
@@ -1068,31 +643,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         return true;
-    }
-
-    /**
-     * gets person object from database id
-     */
-    private static function _pid_to_obj($pid)
-    {
-        return new midcom_db_person($pid);
-    }
-
-    /**
-     *
-     */
-    private static function _pid_to_obj_cached($pid)
-    {
-        if (   !isset($GLOBALS['org_openpsa_event_pid_cache'])
-            || !is_array($GLOBALS['org_openpsa_event_pid_cache']))
-        {
-            $GLOBALS['org_openpsa_event_pid_cache'] = array();
-        }
-        if (!isset($GLOBALS['org_openpsa_event_pid_cache'][$pid]))
-        {
-            $GLOBALS['org_openpsa_event_pid_cache'][$pid] = self::_pid_to_obj($pid);
-        }
-        return $GLOBALS['org_openpsa_event_pid_cache'][$pid];
     }
 
     /**
@@ -1169,139 +719,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $i++;
         }
         return $str;
-    }
-
-    /**
-     * Method for exporting event in vCalendar format
-     *
-     * @param string newline format, defaults to \r\n
-     * @param array compatibility options to override
-     * @return string vCalendar data
-     */
-    function vcal_export($nl = "\r\n", $compatibility = array())
-    {
-        $encoder = new org_openpsa_helpers_vxparser();
-        $encoder->merge_compatibility($compatibility);
-
-        // Simple key/value pairs, for multiple occurrences of same key use array as value
-        $vcal_keys = array();
-        // For extended key data, like charset
-        $vcal_key_parameters = array();
-
-        // TODO: handle UID smarter
-        $vcal_keys['UID'] = "{$this->guid}-midgardGuid";
-
-        $revised = $this->metadata->revised;
-        $created = $this->metadata->created;
-
-        $vcal_keys['LAST-MODIFIED'] = $encoder->vcal_stamp($revised, array('TZID' => 'UTC')) . 'Z';
-        $vcal_keys['CREATED'] = $encoder->vcal_stamp($created, array('TZID' => 'UTC')) . 'Z';
-        /**
-         * The real meaning of the DTSTAMP is fuzzy at best
-         * http://www.kanzaki.com/docs/ical/dtstamp.html is less than helpful
-         * http://lists.osafoundation.org/pipermail/ietf-calsify/2007-July/001750.html
-         * seems to suggest that using the revision would be best
-         */
-        $vcal_keys['DTSTAMP'] =& $vcal_keys['LAST-MODIFIED'];
-        // Type handling
-        switch ($this->orgOpenpsaAccesstype)
-        {
-            case ORG_OPENPSA_ACCESSTYPE_PUBLIC:
-                $vcal_keys['CLASS'] = 'PUBLIC';
-                break;
-            default:
-            case ORG_OPENPSA_ACCESSTYPE_PRIVATE:
-                $vcal_keys['CLASS'] = 'PRIVATE';
-                break;
-        }
-        // "busy" or "transparency" as vCalendar calls it
-        if ($this->busy)
-        {
-            $vcal_keys['TRANSP'] = 'OPAQUE';
-        }
-        else
-        {
-            $vcal_keys['TRANSP'] = 'TRANSPARENT';
-        }
-        // tentative vs confirmed
-        $vcal_keys['STATUS'] = 'CONFIRMED';
-        // we don't categorize events, at least yet
-        $vcal_keys['CATEGORIES'] = 'MEETING';
-        // we don't handle priorities
-        $vcal_keys['PRIORITY'] = 1;
-        // Basic fields
-        $vcal_keys['SUMMARY'] = $encoder->escape_separators($this->title);
-        $vcal_keys['DESCRIPTION'] = $encoder->escape_separators($this->description);
-        $vcal_keys['LOCATION'] = $encoder->escape_separators($this->location);
-        // Start & End in UTC
-        $vcal_keys['DTSTART'] = $encoder->vcal_stamp($this->start, array('TZID' => 'UTC')) . 'Z';
-        $vcal_keys['DTEND'] = $encoder->vcal_stamp($this->end, array('TZID' => 'UTC')) . 'Z';
-        // Participants
-        $vcal_keys['ATTENDEE'] = array();
-        $vcal_key_parameters['ATTENDEE'] = array();
-        // Safety, otherwise the notice will make output invalid
-        if (!is_array($this->participants))
-        {
-            $this->participants = array();
-        }
-        foreach ($this->participants as $uid => $bool)
-        {
-            // Just a safety
-            if (!$bool)
-            {
-                continue;
-            }
-            $person = self::_pid_to_obj_cached($uid);
-            if (empty($person->email))
-            {
-                // Attendee must have email address of valid format, these must also be unique.
-                $person->email = preg_replace('/[^0-9_\x61-\x7a]/i', '_', strtolower($person->name)) . '_is_not@openpsa.org';
-            }
-            $vcal_keys['ATTENDEE'][] = "mailto:{$person->email}";
-            $vcal_key_parameters['ATTENDEE'][] = array
-            (
-                'ROLE' => 'REQ-PARTICIPANT',
-                'CUTYPE' => 'INDIVIDUAL',
-                'PARTSTAT' => 'ACCEPTED',
-                'CN' => $encoder->escape_separators($person->rname, true),
-            );
-        }
-        $ret = "BEGIN:VEVENT{$nl}";
-        $ret .= $encoder->export_vx_variables_recursive($vcal_keys, $vcal_key_parameters, false, $nl);
-        $ret .= "END:VEVENT{$nl}";
-        return $ret;
-    }
-
-    /**
-     * Method for getting correct vcal file headers
-     *
-     * @param string method vCalendar method (defaults to "publish")
-     * @param string newline format, defaults to \r\n
-     * @return string vCalendar data
-     */
-    function vcal_headers($method="publish", $nl="\r\n")
-    {
-        $method = strtoupper($method);
-        $ret = '';
-        $ret .= "BEGIN:VCALENDAR{$nl}";
-        $ret .= "VERSION:2.0{$nl}";
-        $ret .= "PRODID:-//Nemein/OpenPSA2 Calendar V2.0.0//EN{$nl}";
-        $ret .= "METHOD:{$method}{$nl}";
-        //TODO: Determine server timezone and output correct header (we still send all times as UTC)
-        return $ret;
-    }
-
-    /**
-     * Method for getting correct vcal file footers
-     *
-     * @param string newline format, defaults to \r\n
-     * @return string vCalendar data
-     */
-    function vcal_footers($nl="\r\n")
-    {
-        $ret = '';
-        $ret .= "END:VCALENDAR{$nl}";
-        return $ret;
     }
 }
 ?>

@@ -174,7 +174,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
     {
         if (!$this->_request_data['notfound'])
         {
-            $_MIDCOM->load_library('org.openpsa.contactwidget');
             midcom_show_style('show-duplicate-persons');
         }
         else

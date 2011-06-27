@@ -13,7 +13,7 @@ $deliverable = $data['deliverable'];
         <?php
         if ($data['handler_id'] != 'deliverable_report')
         {
-            $owner_card = org_openpsa_contactwidget::get($salesproject->owner);
+            $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
             ?>
             <td><?php echo $owner_card->show_inline(); ?></td>
             <?php

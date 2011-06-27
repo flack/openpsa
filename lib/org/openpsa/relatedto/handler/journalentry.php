@@ -75,7 +75,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($this->_output_mode == 'html')
         {
             $this->_prepare_output();
-            org_openpsa_core_grid_widget::add_head_elements();
+            org_openpsa_widgets_grid::add_head_elements();
             //pass url where to get the data for js-plugin
             $this->_request_data['data_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid ."/xml/";
 
@@ -121,7 +121,7 @@ implements midcom_helper_datamanager2_interfaces_create
             )
         );
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     public function _show_entry($handler_id , &$data)
@@ -322,7 +322,7 @@ implements midcom_helper_datamanager2_interfaces_create
             //url where the xml-data can be loaded
             $this->_request_data['data_url'] =$_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/list/xml/" ;
             //enable jqgrid for html-output
-            org_openpsa_core_grid_widget::add_head_elements();
+            org_openpsa_widgets_grid::add_head_elements();
         }
         $this->_prepare_header();
     }

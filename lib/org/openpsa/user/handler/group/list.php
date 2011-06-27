@@ -26,7 +26,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
         $data['groups'] = $this->_list_groups(0);
         $data['handler'] = $this;
 
-        org_openpsa_core_ui::enable_dynatree();
+        org_openpsa_widgets_ui::enable_dynatree();
 
         $this->add_breadcrumb("", $this->_l10n->get('groups'));
         $this->_view_toolbar->add_item

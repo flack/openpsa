@@ -19,7 +19,11 @@
 ---STRINGEND
 
 ---STRING action new_subscription_cycle
-Start of new subscription cycle
+Start of a new subscription cycle
+---STRINGEND
+
+---STRING action new_notification_message
+Expiration of an agreement
 ---STRINGEND
 
 ---STRING active
@@ -28,6 +32,10 @@ Active
 
 ---STRING add deliverable
 Add deliverable
+---STRINGEND
+
+---STRING agreement %s ends on %s. click here: %s
+Agreement %s is scheduled to end on %s. Click here for details: %s
 ---STRINGEND
 
 ---STRING calculation basis
@@ -126,6 +134,10 @@ Estimated closing date
 Estimated delivery
 ---STRINGEND
 
+---STRING generate now
+Generate now
+---STRINGEND
+
 ---STRING invoice
 Invoice
 ---STRINGEND
@@ -182,8 +194,8 @@ Marked deliverable "%s" delivered
 Next action
 ---STRINGEND
 
----STRING next invoice will be sent on %s
-The next invoice will be sent on %s
+---STRING next invoice will be generated on %s
+The next invoice will be generated on %s
 ---STRINGEND
 
 ---STRING next run
@@ -196,6 +208,10 @@ No action
 
 ---STRING no customer
 No customer
+---STRINGEND
+
+---STRING notification for agreement %s
+Notification for agreement "%s"
 ---STRINGEND
 
 ---STRING notify date

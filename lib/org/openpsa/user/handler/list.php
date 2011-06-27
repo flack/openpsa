@@ -12,7 +12,7 @@
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_core_grid_provider_client
+implements org_openpsa_widgets_grid_provider_client
 {
     /**
      * Handler method for listing users
@@ -29,9 +29,9 @@ implements org_openpsa_core_grid_provider_client
             $person = $auth->user->get_storage();
             midcom::get()->relocate('view/' . $person->guid . '/');
         }
-        $data['grid'] = new org_openpsa_core_grid_widget('org_openpsa_user_grid', 'json');
+        $data['grid'] = new org_openpsa_widgets_grid('org_openpsa_user_grid', 'json');
 
-        org_openpsa_core_ui::enable_dynatree();
+        org_openpsa_widgets_ui::enable_dynatree();
 
         $this->_view_toolbar->add_item
         (
@@ -87,7 +87,7 @@ implements org_openpsa_core_grid_provider_client
      */
     public function _show_json($handler_id, array &$data)
     {
-        $data['provider'] = new org_openpsa_core_grid_provider($this);
+        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
         midcom_show_style('users-grid-json');
     }
 

@@ -17,87 +17,76 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
-    var $_content_topic = null;
+    protected $_content_topic = null;
 
     /**
      * The DBA class to use
      *
      * @var string
-     * @access private
      */
-    var $_dba_class = null;
+    protected $_dba_class = null;
 
     /**
      * The prefix to use for style element names and URLs, if any
      *
      * @var string
-     * @access private
      */
-    var $_prefix = null;
+    protected $_prefix = null;
 
     /**
      * The mode (Create, Read, Update, Delete) we're in
      *
      * @var string
-     * @access private
      */
-    var $_mode = null;
+    protected $_mode = null;
 
     /**
      * The object to operate on
-     *
-     * @access private
      */
-    var $_object = null;
+    protected $_object = null;
 
     /**
      * The parent of an object to be created
      *
      * @access private
      */
-    var $_parent = null;
+    protected $_parent = null;
 
     /**
      * Datamanager2 to be used for displaying an object used for delete preview
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    protected $_datamanager = null;
 
     /**
      * The Datamanager2 controller of the object used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    protected $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    protected $_schemadb = null;
 
     /**
      * The schema name to use when creating new objects
      *
      * @var string
-     * @access private
      */
-    var $_schema = 'default';
+    protected $_schema = 'default';
 
     /**
      * Default values to be given to creation controller.
      *
      * @var array
-     * @access private
      */
-    var $_defaults = array();
+    protected $_defaults = array();
 
     /**
      * Method for loading an object, must be implemented in the component handler.

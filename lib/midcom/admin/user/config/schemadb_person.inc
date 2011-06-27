@@ -1,11 +1,11 @@
 // This is for a midcom_db_person object
-'default' => array 
+'default' => array
 (
     'description' => 'person',
     'l10n_db' => 'midcom.admin.user',
-    'fields' => array 
+    'fields' => array
     (
-        'firstname' => array 
+        'firstname' => array
         (
             'title' => 'firstname',
             'type' => 'text',
@@ -13,7 +13,7 @@
             'storage' => 'firstname',
             'index_method' => 'noindex',
         ),
-        'lastname' => array 
+        'lastname' => array
         (
             'title' => 'lastname',
             'type' => 'text',
@@ -21,7 +21,7 @@
             'storage' => 'lastname',
             'index_method' => 'noindex',
         ),
-        'email' => array 
+        'email' => array
         (
             'title' => 'email',
             'type' => 'text',
@@ -29,7 +29,7 @@
             'storage' => 'email',
             'validation' => 'email',
         ),
-        'workphone' => array 
+        'workphone' => array
         (
             'title' => 'workphone',
             'type' => 'text',
@@ -68,42 +68,36 @@
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'require_corresponding_option' => false,
-                'option_callback' => 'midcom_helper_datamanager2_callback_select_grouplister',
-                'option_callback_arg' => array
-                (
-                    'value_field' => 'official',
-                    'key_field' => 'id'
-                ),
+                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array
             (
-                'id_field' => 'id',
+                'class' => 'midcom_db_group',
                 'result_headers' => array
                 (
                     array
                     (
+                        'title' => 'name',
                         'name' => 'name',
-                        'title' => 'Name',
                     ),
                     array
                     (
+                        'title' => 'official',
                         'name' => 'official',
-                        'title' => 'Official',
                     ),
+                ),
+                'searchfields' => array
+                (
+                    'name',
+                    'official',
                 ),
                 'orders' => array
                 (
-                    array
-                    (
-                        'owner' => 'ASC',
-                    ),
-                    array
-                    (
-                        'name' => 'ASC',
-                    )   
+                    array('owner' => 'ASC'),
+                    array('name' => 'ASC'),
                 ),
+                'id_field' => 'id',
             ),
         ),
     ),

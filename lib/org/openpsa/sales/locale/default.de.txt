@@ -20,7 +20,11 @@
 ---STRINGEND
 
 ---STRING action new_subscription_cycle
-Einen neuen Abonnement-Zyklus beginnen
+Beginn eines neuen Abonnement-Zyklus
+---STRINGEND
+
+---STRING action new_notification_message
+Auslaufen einer Vereinbarung
 ---STRINGEND
 
 ---STRING active
@@ -29,6 +33,10 @@ Aktiv
 
 ---STRING add deliverable
 Bestellung hinzufügen
+---STRINGEND
+
+---STRING agreement %s ends on %s. click here: %s
+Die Vereinbarung "%s" endet planmäßig am %s. Klicken Sie hier für weitere Informationen: %s
 ---STRINGEND
 
 ---STRING calculation basis
@@ -127,6 +135,10 @@ Geschätztes Abschlussdatum
 Geschätztes Lieferdatum
 ---STRINGEND
 
+---STRING generate now
+Jetzt erstellen
+---STRINGEND
+
 ---STRING invoice
 Rechnung
 ---STRINGEND
@@ -183,8 +195,8 @@ Bestellung "%s" als geliefert markiert
 Nächste Aktion
 ---STRINGEND
 
----STRING next invoice will be sent on %s
-Die nächste Rechnung wird am %s verschickt
+---STRING next invoice will be generated on %s
+Die nächste Rechnung wird am %s erstellt
 ---STRINGEND
 
 ---STRING next run
@@ -197,6 +209,10 @@ Keine Aktion
 
 ---STRING no customer
 Kein Kunde
+---STRINGEND
+
+---STRING notification for agreement %s
+Benachrichtigung für Vereinbarung "%s"
 ---STRINGEND
 
 ---STRING notify date

@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_view
 
         $this->_group = new midcom_db_group($args[0]);
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_group);
-        org_openpsa_core_ui::enable_dynatree();
+        org_openpsa_widgets_ui::enable_dynatree();
 
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', $this->_group->get_label());
@@ -79,6 +79,16 @@ implements midcom_helper_datamanager2_interfaces_view
             )
         );
 
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "group/notifications/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
+                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
+            )
+        );
         midcom::get()->bind_view_to_object($this->_group);
     }
 

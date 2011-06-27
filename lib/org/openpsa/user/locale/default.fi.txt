@@ -74,6 +74,10 @@ Uusi salasana (uudestaan)
 Ei käyttäjätunnusta
 ---STRINGEND
 
+---STRING notification settings
+Ilmoitusten asetukset
+---STRINGEND
+
 ---STRING password expired
 Salasanasi on vanhentunut. Ole hyvä ja syötä uusi salasana.
 ---STRINGEND

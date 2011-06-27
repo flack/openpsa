@@ -24,36 +24,10 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS', 2000);
         // Solution is a nonmaterial good
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION', 2001);
-        // Component that a product is based on, usually something
-        // acquired from a supplier
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT', 3000);
 
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART', 1000);
 
         return true;
-    }
-
-    public function _on_watched_operation($operation, &$object)
-    {
-        $config = $this->get_config_for_topic();
-        if (!$config->get('groupsync_watches_enabled'))
-        {
-            return;
-        }
-        $sync_helper = new org_openpsa_products_groupsync();
-        switch ($operation)
-        {
-            case MIDCOM_OPERATION_DBA_DELETE:
-                $sync_helper->on_deleted($object);
-                break;
-            case MIDCOM_OPERATION_DBA_UPDATE:
-                $sync_helper->on_updated($object);
-                break;
-            case MIDCOM_OPERATION_DBA_CREATE:
-                $sync_helper->on_created($object);
-                break;
-        }
-        unset($sync_helper);
     }
 
     public function _on_resolve_permalink($topic, $config, $guid)

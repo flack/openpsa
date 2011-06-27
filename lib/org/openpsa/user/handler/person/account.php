@@ -134,6 +134,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         //get existing account for gui
         $this->_account = new midcom_core_account($this->_person);
+
         if (!$this->_account->get_password())
         {
             // Account needs to be created first, relocate

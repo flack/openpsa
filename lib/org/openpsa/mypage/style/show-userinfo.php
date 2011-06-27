@@ -2,7 +2,7 @@
 $user = $_MIDCOM->auth->user->get_storage();
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_root_node());
-$contact = new org_openpsa_contactwidget($user);
+$contact = new org_openpsa_widgets_contact($user);
 
 echo "<ul>\n";
 echo "    <li class=\"user\">" . $contact->show_inline() . "</li>\n";

@@ -30,6 +30,13 @@
     'fixed_args' => 'delete',
     'variable_args' => 1,
 ),
+// Match /person/notifications/<guid>/
+'person_notifications' => array
+(
+    'handler' => array('org_openpsa_user_handler_person_notifications', 'notifications'),
+    'fixed_args' => array('person', 'notifications'),
+    'variable_args' => 1,
+),
 // Match /privileges/<guid>/
 'user_privileges' => array
 (
@@ -103,6 +110,13 @@
 (
     'handler' => array('org_openpsa_user_handler_group_delete', 'delete'),
     'fixed_args' => array('group', 'delete'),
+    'variable_args' => 1,
+),
+// Match /group/notifications/<guid>/
+'group_notifications' => array
+(
+    'handler' => array('org_openpsa_user_handler_group_notifications', 'notifications'),
+    'fixed_args' => array('group', 'notifications'),
     'variable_args' => 1,
 ),
 // Match /group/privileges/<guid>/

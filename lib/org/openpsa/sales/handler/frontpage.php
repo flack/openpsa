@@ -31,7 +31,7 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
             )
         );
 
-        org_openpsa_core_ui::enable_ui_tab();
+        org_openpsa_widgets_ui::enable_ui_tab();
 
         $sales_url = org_openpsa_core_siteconfig::get_instance()->get_node_relative_url('org.openpsa.sales');
 

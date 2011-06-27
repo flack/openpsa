@@ -17,7 +17,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**
@@ -95,7 +95,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 //for json no style is needed
                 case 'all':
                     $this->_prepare_output();
-                    org_openpsa_core_grid_widget::add_head_elements();
+                    org_openpsa_widgets_grid::add_head_elements();
                     $this->_handler_list_all($args);
                     break;
                 case 'project':

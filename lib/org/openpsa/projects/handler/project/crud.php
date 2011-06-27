@@ -147,7 +147,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         if ($handler_id == 'project')
         {
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
-            $_MIDCOM->load_library('org.openpsa.contactwidget');
+            org_openpsa_widgets_contact::add_head_elements();
         }
     }
 

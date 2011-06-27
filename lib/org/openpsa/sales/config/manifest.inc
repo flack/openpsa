@@ -41,17 +41,13 @@
         'midcom.services.at' => array(),
         'org.openpsa.core' => array(),
         'org.openpsa.contacts' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'net.nemein.tag' => array(),
         'org.openpsa.calendar' => array(),
         'org.openpsa.helpers' => array(),
         'org.openpsa.projects' => array(),
         'org.openpsa.products' => array(),
         'org.openpsa.invoices' => array(),
-        'Calendar' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),
@@ -63,5 +59,9 @@
         (
             'default' => 'email',
         ),
+        'new_notification_message' => array
+        (
+            'default' => 'email',
+        )
     ),
 ),

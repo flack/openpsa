@@ -31,21 +31,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         //org.openpsa.sales object types
         define('ORG_OPENPSA_OBTYPE_SALESPROJECT', 10000);
         define('ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER', 10500);
-        //org.openpsa.sales salesproject statuses
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_LOST', 11000);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_CANCELED', 11001);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE', 11050);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_WON', 11100);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED', 11200);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED', 11300);
-        //org.openpsa.sales salesproject deliverable statuses
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_NEW', 100);
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_PROPOSED', 200);
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED', 300);
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED', 400);
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED', 450);
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED', 500);
-        define('ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED', 600);
 
         return true;
     }
@@ -140,7 +125,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         $qb->end_group();
 
         //Target sales project is active
-        $qb->add_constraint('salesproject.status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
+        $qb->add_constraint('salesproject.status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
 
         //Each event participant is either manager or member (resource/contact) in task
         foreach ($object->participants as $pid => $bool)
@@ -189,7 +174,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     {
         $qb = new midgard_query_builder('org_openpsa_salesproject_member');
         $qb->add_constraint('person', '=', $object->id);
-        $qb->add_constraint('salesproject.status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
+        $qb->add_constraint('salesproject.status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
         $qbret = @$qb->execute();
         $seen_sp = array();
         if (is_array($qbret))
@@ -215,7 +200,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
         $qb2 = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb2->add_constraint('owner', '=', $object->id);
-        $qb2->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
+        $qb2->add_constraint('status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
         $qb2ret = @$qb2->execute();
         if (is_array($qb2ret))
         {
@@ -274,9 +259,9 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     }
 
     /**
-     * function to send a notification to owner of the deliverable - guid of deliverable is passed
+     * Function to send a notification to owner of the deliverable - guid of deliverable is passed
      */
-    function new_notification_message($args , &$handler)
+    public function new_notification_message($args , &$handler)
     {
         if (!isset($args['deliverable']))
         {
@@ -291,28 +276,42 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
         catch (midcom_error $e)
         {
-            $msg = 'no deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
+            $msg = 'no deliverable with passed GUID: ' . $args['deliverable'] . ' , aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;
         }
 
-        $notify_msg = $deliverable->title;
-        //get the owner of the sales-project the deliverable belongs to
+        //get the owner of the salesproject the deliverable belongs to
         try
         {
             $project = new org_openpsa_sales_salesproject_dba($deliverable->salesproject);
         }
         catch (midcom_error $e)
         {
-            $msg = 'no project(id:' . $deliverable->salesproject . ') found for deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
+            $msg = 'Failed to load salesproject: ' . $e->getMessage();
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;
         }
+
+        $content = sprintf
+        (
+            $this->_l10n->get('agreement %s ends on %s. click here: %s'),
+            $deliverable->title,
+            strftime('%x', $deliverable->end),
+            midcom::get('permalinks')->create_permalink($deliverable->guid)
+        );
+
+        $message = array
+        (
+            'title' => sprintf($this->_l10n->get('notification for agreement %s'), $deliverable->title),
+            'content' => $content,
+        );
+
         $_MIDCOM->load_library('org.openpsa.notifications');
 
-        return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $notify_msg);
+        return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);
     }
 }
 ?>

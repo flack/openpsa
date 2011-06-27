@@ -16,7 +16,7 @@ $checked = ' checked="checked"';
 <?php
 if ($task->manager)
 {
-    $contact = org_openpsa_contactwidget::get($task->manager);
+    $contact = org_openpsa_widgets_contact::get($task->manager);
 
     echo sprintf($data['l10n']->get("pending approval by %s"), $contact->show_inline());
 }

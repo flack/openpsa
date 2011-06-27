@@ -487,16 +487,14 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @todo Refactor in subfunctions for better readability.
      */
-    function _complete_field_defaults(&$config)
+    private function _complete_field_defaults(&$config)
     {
         // Sanity check for b0rken schemas, missing type/widget would cause DM & PHP to barf later on...
-        if (   !array_key_exists('type', $config)
-            || empty($config['type']))
+        if (empty($config['type']))
         {
             throw new midcom_error("Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *type* definition");
         }
-        if (   !array_key_exists('widget', $config)
-            || empty($config['widget']))
+        if (empty($config['widget']))
         {
             throw new midcom_error("Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *widget* definition");
         }
@@ -521,17 +519,17 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         );
         foreach ($simple_defaults as $property => $value)
         {
-            if (! array_key_exists( $property, $config))
+            if (!array_key_exists($property, $config))
             {
-                $config[ $property] = $value;
+                $config[$property] = $value;
             }
         }
         unset($property, $value);
 
         // And complex ones
-        if (! array_key_exists('storage', $config))
+        if (!array_key_exists('storage', $config))
         {
-            $config['storage'] = Array
+            $config['storage'] = array
             (
                 'location' => 'parameter',
                 'domain' => 'midcom.helper.datamanager2'
@@ -541,12 +539,12 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             if (is_string($config['storage']))
             {
-                $config['storage'] = Array ( 'location' => $config['storage'] );
+                $config['storage'] = array('location' => $config['storage']);
             }
             if (strtolower($config['storage']['location']) === 'parameter')
             {
                 $config['storage']['location'] = strtolower($config['storage']['location']);
-                if (! array_key_exists('domain', $config['storage']))
+                if (!array_key_exists('domain', $config['storage']))
                 {
                     $config['storage']['domain'] = 'midcom.helper.datamanager2';
                 }
@@ -564,49 +562,49 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             $config['widget_config'] = Array();
         }
 
-        if (   ! array_key_exists('validation', $config)
-            || ! $config['validation'])
-        {
-            $config['validation'] = Array();
-        }
-        else if (! is_array($config['validation']))
-        {
-            $config['validation'] = Array($config['validation']);
-        }
+        $config['validation'] = $this->_complete_validation_field($config);
+    }
 
-        foreach ($config['validation'] as $key => $rule)
+    private function _complete_validation_field($config)
+    {
+        $validation = array();
+        if (array_key_exists('validation', $config))
         {
-            if (! is_array($rule))
+            if (is_array($config['validation']))
             {
-                $config['validation'][$key] = Array
-                (
-                    'type' => $rule,
-                    'message' => "validation failed: {$rule}",
-                    'format' => ''
-                );
-                continue;
+                $validation = $config['validation'];
             }
+            else
+            {
+                $validation = array($config['validation']);
+            }
+        }
 
-            if (! array_key_exists('type', $rule))
+        foreach ($validation as $key => $rule)
+        {
+            if (!is_array($rule))
+            {
+                $validation[$key] = array('type' => $rule);
+            }
+            else if (!array_key_exists('type', $rule))
             {
                 throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
             }
-            if (! array_key_exists('message', $rule))
+            else if (   $rule['type'] == 'compare'
+                     && !array_key_exists('compare_with', $rule))
             {
-                $config['validation'][$key]['message'] = "validation failed: {$rule['type']}";
+                throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
             }
-            if (! array_key_exists('format', $rule))
-            {
-                $config['validation'][$key]['format'] = '';
-            }
-            if ($rule['type'] == 'compare')
-            {
-                if (! array_key_exists('compare_with', $rule))
-                {
-                    throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
-                }
-            }
+
+            $defaults = array
+            (
+                'message' => "validation failed: {$rule['type']}",
+                'format' => ''
+            );
+
+            $validation[$key] = array_merge($defaults, $validation[$key]);
         }
+        return $validation;
     }
 
     /**

@@ -82,6 +82,11 @@ div.org_openpsa_invoices table button.yes
     float: left;
 }
 
+.org_openpsa_helpers_fileinfo .icon img
+{
+    border: none;
+}
+
 .org_openpsa_helpers_fileinfo .filename,
 .org_openpsa_helpers_fileinfo .mimetype,
 .org_openpsa_helpers_fileinfo .filesize

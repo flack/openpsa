@@ -82,21 +82,6 @@
  * current site, "nocache" will bypass the cache for the current request by
  * calling midcom::get('cache')->content->no_cache();
  *
- * <b>mixed log</b>
- *
- * Shows the contents of the current debuglog. You have to enable this interface
- * by setting the config option <i>log_tailurl_enable</i> to true.
- * Note, that this method is using the debug log path
- * of the current MidCOM logger automatically, it is not possible to switch to
- * another logfile dynamically due to security reasons. The parameter can be
- * either "all" which will yield the complete log (beware of huge logfiles), or
- * an integer, which is the number of lines counting from the file backwards you
- * want to display (this uses the systems tail command via exec).
- *
- * NOTE: This function is limited by PHP's memory limit, as the (f)passthru
- * functions are really intelligent and try to load the complete file into memory
- * instead streaming it to the client.
- *
  * @package midcom
  */
 class midcom_application
@@ -477,18 +462,6 @@ class midcom_application
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
     }
 
-
-    /* *************************************************************************
-     * Component Invocation Helper Functions:
-     *
-     * _process               - CANHANDLE->HANDLE || ATTACHMENT_OUTPUT
-     * _can_handle           - CANHANDLE
-     * _loadconfig            - CANHANDLE
-     * _handle                - HANDLE
-     * _output                - OUTPUT
-     */
-
-
     /**
      * Process the request
      *
@@ -529,28 +502,11 @@ class midcom_application
                 $this->serve_attachment($object);
             }
 
-            $path = $object->component;
-            if (!$path)
-            {
-                $path = 'midcom.core.nullcomponent';
-                debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
-            }
-
-            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-
             // Check whether the component can handle the request.
             // If so, execute it, if not, continue.
-            if ($this->_can_handle($object))
+            if ($handler = $context->get_handler($object))
             {
-                $this->_status = MIDCOM_STATUS_HANDLE;
-
-                $prefix = $context->parser->get_url();
-
-                // Initialize context
-                $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
-
-                $this->_handle($context->get_key(MIDCOM_CONTEXT_COMPONENT));
-
+                $context->run($handler);
                 $success = true;
                 break;
             }
@@ -734,10 +690,6 @@ class midcom_application
                         $this->_exec_file($value);
                         // This will exit
 
-                    case 'log':
-                        $this->_showdebuglog($value);
-                        break;
-
                     case 'servejscsscache':
                         if (   !midcom::get('head')->jscss
                             || !is_callable(array(midcom::get('head')->jscss, 'serve')))
@@ -754,128 +706,6 @@ class midcom_application
                 }
             }
         }
-    }
-
-    /**
-     * Handle the request.
-     *
-     * _handle is called after _can_handle determined, that
-     * a component can handle a request. The URL of the component that is used
-     * to handle the request is obtained automatically. The parameter $path is
-     * optional and reserved for future usage. It will fetch the required COMPONENT class
-     *
-     * from the Component Loader and instruct it to handle a request. If the handler
-     * hook returns false (i.e. handling failed), it will produce an Errorpage
-     * according to the error code and -string of the component in question.
-     */
-    private function _handle()
-    {
-        $context = midcom_core_context::get();
-        $path = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
-
-        $handler = midcom::get('componentloader')->get_interface_class($path);
-
-        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $context->parser->get_current_object());
-        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $context->parser->get_objects());
-
-        if (!$handler->handle($context->parser->get_current_object(), $context->parser->argc, $context->parser->argv, $context->id))
-        {
-            throw new midcom_error("Component $path failed to handle the request");
-        }
-
-        // Retrieve Metadata
-        $nav = new midcom_helper_nav();
-        if ($nav->get_current_leaf() === false)
-        {
-            $meta = $nav->get_node($nav->get_current_node());
-        }
-        else
-        {
-            $meta = $nav->get_leaf($nav->get_current_leaf());
-        }
-
-        if ($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null)
-        {
-            $context->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $meta[MIDCOM_NAV_GUID]);
-        }
-
-        if ($context->get_key(MIDCOM_CONTEXT_PAGETITLE) == '')
-        {
-            $context->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
-        }
-    }
-
-    /**
-     * Check, whether a given component is able to handle the current request.
-     *
-     * Used by _process(), it checks if the component associated to $object is able
-     * to handle the request. First it will load the component associated to $object.
-     * Then it will fetch the COMPONENT class associated to the MidCOM. After the
-     * local configuration is retrieved from the object in question the component will
-     * be asked, if it can handle the request. true or false will be returned
-     * accordingly, both on the configure and on the can_handle run.
-     *
-     * @param midcom_db_topic $object    The node that is currently being tested.
-     * @return boolean                    Indication, whether a component can handle a request.
-     */
-    private function _can_handle($object)
-    {
-        $context = midcom_core_context::get();
-        $path = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
-
-        // Get component interface class
-        $component_interface = midcom::get('componentloader')->get_interface_class($path);
-        if ($component_interface === null)
-        {
-            $path = 'midcom.core.nullcomponent';
-            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-            $component_interface = midcom::get('componentloader')->get_interface_class($path);
-        }
-
-        // Load configuration
-        $config_obj = $this->_loadconfig($context->id, $object);
-        $config = ($config_obj == false) ? array() : $config_obj->get_all();
-        if (! $component_interface->configure($config, $context->id))
-        {
-            throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
-        }
-
-        // Make can_handle check
-        if (!$component_interface->can_handle($object, $context->parser->argc, $context->parser->argv, $context->id))
-        {
-            debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Load the configuration for a given object.
-     *
-     * This is a small wrapper function that retrieves all local configuration data
-     * attached to $object. The assigned component is used to determine which
-     * parameter domain has to be used.
-     *
-     * @param MidgardObject $object    The node from which to load the configuration.
-     * @return midcom_helper_configuration    Reference to the newly constructed configuration object.
-     */
-    private function _loadconfig($context_id, $object)
-    {
-        static $configs = array();
-        if (!isset($configs[$context_id]))
-        {
-            $configs[$context_id] = array();
-        }
-
-        $path = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-
-        if (!isset($configs[$context_id][$object->guid]))
-        {
-            $configs[$context_id][$object->guid] = new midcom_helper_configuration($object, $path);
-        }
-
-        return $configs[$context_id][$object->guid];
     }
 
     /**
@@ -1119,6 +949,17 @@ class midcom_application
     }
 
     /**
+     * Manually override the current MidCOM processing state.
+     * Don't use this unless you know what you're doing
+     *
+     * @param int One of the MIDCOM_STATUS_... constants indicating current state.
+     */
+    function set_status($status)
+    {
+        $this->_status = $status;
+    }
+
+    /**
      * Load a code library
      *
      * This will load the pure-code library denoted by the MidCOM Path $path. It will
@@ -1162,7 +1003,6 @@ class midcom_application
      * serve_snippet      - Serves snippet including all necessary headers
      * serve_attachment   - Serves attachment including all necessary headers
      * relocate           - executes a HTTP relocation to the given URL
-     * _showdebuglog      - internal helper for the debuglog URL method.
      */
 
     /**
@@ -1529,60 +1369,6 @@ class midcom_application
         // Exit
         $this->finish();
         _midcom_stop_request('');
-    }
-
-    /**
-     * Shows the contents of the current debuglog. You have to enable this interface
-     * by setting the config option <i>log_tailurl_enable</i> to true. Note, that ´
-     * this method is using the debug log path
-     * of the current MidCOM debugger automatically, it is not possible to switch to
-     * another logfile dynamically due to security reasons. The parameter can be
-     * either "all" which will yield the complete log (beware of huge logfiles), or
-     * an integer, which is the number of lines counting from the file backwards you
-     * want to display (this uses the systems tail command via exec).
-     *
-     * MidCOM Error pages (FORBIDDEN/NOTFOUND) are created upon error.
-     *
-     * @param mixed $count Number of lines to be dumped or 'all' for everything
-     */
-    private function _showdebuglog($count)
-    {
-        $context = midcom_core_context::get();
-        if ($context->parser->argc > 1)
-        {
-            throw new midcom_error_notfound("Too many arguments for debuglog");
-        }
-
-        if ($GLOBALS['midcom_config']['log_tailurl_enable'] !== true)
-        {
-            throw new midcom_error_forbidden("Access to the debug log is disabled.");
-        }
-
-        $filename = $GLOBALS["midcom_debugger"]->_filename;
-
-        if ($count == "all")
-        {
-            $this->header("Content-Type: text/plain");
-            midcom::get('cache')->content->no_cache();
-            $handle = fopen($filename, "r");
-
-            fpassthru($handle);
-            $this->finish();
-            _midcom_stop_request();
-        }
-        else if (is_numeric($count))
-        {
-            $this->header("Content-Type: text/plain");
-
-            midcom::get('cache')->content->no_cache();
-            passthru ("tail -" . abs($count) . " " . escapeshellarg($filename));
-            $this->finish();
-            _midcom_stop_request();
-        }
-        else
-        {
-            throw new midcom_error_notfound("Parameter must be 'all' or an integer");
-        }
     }
 
     /**

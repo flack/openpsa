@@ -7,7 +7,6 @@
 'class_mapping' => array
 (
     'org_openpsa_invoice' => 'org_openpsa_invoices_invoice_dba',
-    'org_openpsa_invoice_hour' => 'org_openpsa_invoices_invoice_hour_dba',
     'org_openpsa_invoice_item' => 'org_openpsa_invoices_invoice_item_dba',
     'org_openpsa_billing_data' => 'org_openpsa_invoices_billing_data_dba',
 ),
@@ -45,7 +44,7 @@
     'dependencies' => array
     (
         'midcom.helper.datamanager2' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.contacts' => array(),
         'org.openpsa.projects' => array(),
         'org.openpsa.relatedto' => array(),

@@ -8,7 +8,6 @@
 (
     'org_openpsa_products_product' => 'org_openpsa_products_product_dba',
     'org_openpsa_products_product_group' => 'org_openpsa_products_product_group_dba',
-    'org_openpsa_products_product_member' => 'org_openpsa_products_product_member_dba',
     'org_openpsa_products_product_link' => 'org_openpsa_products_product_link_dba',
 ),
 'watches' => array
@@ -54,16 +53,5 @@
         'org.openpsa.qbpager' => array(),
         'org.openpsa.helpers' => array(),
         'midcom' => array(),
-    ),
-),
-'customdata' => array
-(
-    'midcom.services.cron' => array
-    (
-        array
-        (
-            'handler' => 'org_openpsa_products_cron_groupsync',
-            'recurrence' => MIDCOM_CRON_DAY,
-        ),
     ),
 ),

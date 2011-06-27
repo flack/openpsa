@@ -21,7 +21,7 @@
     'dependencies' => array
     (
         'midcom.helper.datamanager2' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.directmarketing' => array(),
         'midcom' => array(),
     ),

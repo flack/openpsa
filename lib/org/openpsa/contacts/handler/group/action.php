@@ -12,53 +12,7 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_notifications'));
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_notifications($handler_id, array $args, array &$data)
-    {
-        $_MIDCOM->auth->require_valid_user();
-        // Check if we get the group
-        $group = new org_openpsa_contacts_group_dba($args[0]);
-        $group->require_do('midgard:update');
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $controller = $this->get_controller('simple', $group);
-
-        switch ($controller->process_form())
-        {
-            case 'save':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
-                                   . "group/" . $group->guid . "/");
-                // This will exit()
-
-            case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
-                                   . "group/" . $group->guid . "/");
-                // This will exit()
-        }
-
-        $this->_request_data['notifications_dm'] =& $controller;
-        $this->_request_data['group'] =& $group;
-
-        $_MIDCOM->set_pagetitle($group->official . ": ". $this->_l10n->get("notification settings"));
-
-        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_request_data['group'], $this);
-        $this->add_breadcrumb("", $this->_l10n->get("notification settings"));
-
-        org_openpsa_helpers::dm2_savecancel($this);
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -68,10 +22,10 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
-        $this->_request_data['group'] = new org_openpsa_contacts_group_dba($args[0]);
+        $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
 
         // Check if the action is a valid one
-        $this->_request_data['action'] = $args[1];
+        $data['action'] = $args[1];
         switch ($args[1])
         {
             case "update_member_title":
@@ -122,16 +76,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_notifications($handler_id, array &$data)
-    {
-        midcom_show_style("show-notifications");
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
     public function _show_action($handler_id, array &$data)
     {
         switch ($this->_view)
@@ -148,7 +92,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 if (count($results) > 0)
                 {
                     midcom_show_style("show-group-persons-header");
-                    $_MIDCOM->load_library('org.openpsa.contactwidget');
                     foreach ($results as $member)
                     {
                         $this->_request_data['member'] = $member;

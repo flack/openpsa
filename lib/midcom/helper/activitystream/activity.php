@@ -56,12 +56,6 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
 
     static function generate_summary($activity, $target = null)
     {
-        $actor = null;
-        if ($activity->actor)
-        {
-            $actor = new midcom_core_user($activity->actor);
-        }
-
         if (   !$target
             && $activity->target)
         {
@@ -81,26 +75,26 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         switch ($activity->verb)
         {
             case 'http://activitystrea.ms/schema/1.0/post':
-                if ($actor)
-                {
-                    return sprintf($_MIDCOM->i18n->get_string('%s saved %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
-                }
-                return sprintf($_MIDCOM->i18n->get_string('%s was saved', 'midcom.helper.activitystream'), $target_label);
+                $verb = 'saved';
+                break;
             case 'http://community-equity.org/schema/1.0/delete':
-                if ($actor)
-                {
-                    return sprintf($_MIDCOM->i18n->get_string('%s deleted %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
-                }
-                return sprintf($_MIDCOM->i18n->get_string('%s was deleted', 'midcom.helper.activitystream'), $target_label);
+                $verb = 'deleted';
+                break;
             case 'http://community-equity.org/schema/1.0/clone':
-                if ($actor)
-                {
-                    return sprintf($_MIDCOM->i18n->get_string('%s cloned %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
-                }
-                return sprintf($_MIDCOM->i18n->get_string('%s was cloned', 'midcom.helper.activitystream'), $target_label);
+                $verb = 'cloned';
+                break;
             default:
                 // TODO: Check if the originating component can provide this
                 return '';
+        }
+        try
+        {
+            $actor = new midcom_core_user($activity->actor);
+            return sprintf($_MIDCOM->i18n->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
+        }
+        catch (midcom_error $e)
+        {
+            return sprintf($_MIDCOM->i18n->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
         }
     }
 

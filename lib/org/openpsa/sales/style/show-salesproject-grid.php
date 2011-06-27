@@ -37,29 +37,17 @@ foreach ($data['salesprojects'] as $salesproject)
         }
     }
 
-    if (array_key_exists($salesproject->customer, $data['customers']))
+    try
     {
-        $customer = $data['customers'][$salesproject->customer];
-        $row['index_customer'] = $customer->official;
-        if ($data['contacts_url'])
-        {
-            $row['customer'] = "<a href=\"{$data['contacts_url']}group/{$customer->guid}/\">{$customer->official}</a>";
-        }
-        else
-        {
-            $row['customer'] = $customer->official;
-        }
-    }
-
-    $row['index_owner'] = '';
-    $row['owner'] = '';
-    if (array_key_exists($salesproject->owner, $data['owners']))
-    {
-        $owner = $data['owners'][$salesproject->owner];
-
-        $owner_widget = org_openpsa_contactwidget::get($salesproject->owner);
+        $owner = org_openpsa_contacts_person_dba::get_cached($salesproject->owner);
+        $owner_widget = org_openpsa_widgets_contact::get($salesproject->owner);
         $row['index_owner'] = $owner->rname;
         $row['owner'] = $owner_widget->show_inline();
+    }
+    catch (midcom_error $e)
+    {
+        $row['index_owner'] = '';
+        $row['owner'] = '';
     }
 
     $row['index_closeest'] = '';

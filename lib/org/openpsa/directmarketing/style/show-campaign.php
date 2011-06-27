@@ -15,7 +15,7 @@ function org_openpsa_directmarketing_ajax_unsubscribe_callback(response, element
 {
     newId = new String(element.id);
     regEx = /org_openpsa_directmarketing_unsubscribe-/;
-    newId = newId.replace(regEx, 'org_openpsa_contactwidget-');
+    newId = newId.replace(regEx, 'org_openpsa_widgets_contact-');
     //alert('new id:' + newId.valueOf());
     contactwidget_div = document.getElementById(newId.valueOf());
     setTimeout('hideElement(document.getElementById("' + contactwidget_div.id + '"))', 2000);
@@ -52,7 +52,7 @@ function hideElement(element)
         $counter = 1;
         foreach($data['campaign']->testers as $id => $bool)
         {
-            $person = org_openpsa_contactwidget::get($id);
+            $person = org_openpsa_widgets_contact::get($id);
             echo $person->show_inline();
 
             if (($counter++) < count($data['campaign']->testers))
@@ -77,7 +77,7 @@ function hideElement(element)
 
         foreach ($data['campaign_members'] as $k => $member)
         {
-            $contact = new org_openpsa_contactwidget($member);
+            $contact = new org_openpsa_widgets_contact($member);
 
             //TODO: Localize, use proper constants, better icon for bounce etc
             $delete_string = sprintf($data['l10n']->get('remove %s from campaign'), $member->name);

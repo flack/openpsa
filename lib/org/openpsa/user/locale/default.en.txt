@@ -109,6 +109,10 @@ Generate Password
 Group Information
 ---STRINGEND
 
+---STRING notification settings
+Notification settings
+---STRINGEND
+
 ---STRING own_password
 Own Password
 ---STRINGEND
@@ -297,8 +301,12 @@ Password
 The password was reset and sent to the profile's email address
 ---STRINGEND
 
----STRING person %s saved
+---STRING person %s created
 Person %s created
+---STRINGEND
+
+---STRING person %s saved
+Person %s saved
 ---STRINGEND
 
 ---STRING postcode

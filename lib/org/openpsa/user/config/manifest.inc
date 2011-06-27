@@ -25,6 +25,8 @@
     'dependencies' => array
     (
         'org.openpsa.core' => array(),
+        'org.openpsa.widgets' => array(),
+        'org.openpsa.notifications' => array(),
         'midcom' => array(),
     ),
 ),

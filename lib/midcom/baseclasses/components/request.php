@@ -561,12 +561,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Before doing anything, it will call the _on_handle event handler to allow for
      * generic request preparation.
      *
-     * @param int $argc The argument count
-     * @param Array $argv The argument list
      * @return boolean Indicating whether the request was handled successfully.
      * @see _on_handle()
      */
-    public function handle($argc, $argv)
+    public function handle()
     {
         // Init
         $handler = $this->_handler['handler'][0];

@@ -50,13 +50,14 @@
         'org.openpsa.mail' => array(),
         'org.openpsa.helpers' => array(),
         'midcom.helper.datamanager2' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.smslib' => array(),
         'org.openpsa.qbpager' => array(),
         'midcom.services.at' => array(),
         'Contact_Vcard_Parse' => array
         (
             'channel' => 'pear.php.net',
+            'optional' => 'yes'
         ),
         'midcom' => array(),
     ),

@@ -12,7 +12,6 @@ $lastmod_content = array
     strtotime('-1 year') => $data['l10n']->get('since 1 year')
 );
 
-$_MIDCOM->load_library('midcom.helper.xsspreventer');
 $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 ?>
 <form method='get' name='midcom_helper_search_form' action='&(prefix);result/' class='midcom.helper.search'>

@@ -32,7 +32,7 @@
         'midcom.helper.datamanager2' => array(),
         'de.bitfolge.feedcreator' => array(),
         'no.bergfald.rcs' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.notifications' => array(),
         'org.openpsa.mail' => array(),
         'net.nemein.tag' => array(),

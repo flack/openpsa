@@ -1,5 +1,5 @@
 <?php
-$contactwidget = new org_openpsa_contactwidget($data['person']);
+$contactwidget = new org_openpsa_widgets_contact($data['person']);
 ?>
 <div class="org_openpsa_projects_projectbroker_prospect">
     <?php
@@ -23,7 +23,7 @@ $contactwidget = new org_openpsa_contactwidget($data['person']);
                 echo "    <td class=\"previous\">\n";
                 if ($slot['previous'])
                 {
-                    $event = new org_openpsa_calendarwidget_event($slot['previous']);
+                    $event = new org_openpsa_widgets_calendar_event($slot['previous']);
                     echo $event->render();
                 }
                 else
@@ -38,7 +38,7 @@ $contactwidget = new org_openpsa_contactwidget($data['person']);
                 echo "        <input type=\"checkbox\" class=\"crirHiddenJS\" id=\"{$dom_id}_checkbox\" onchange=\"project_prospects_slot_changed('{$dom_id}')\" name=\"{$post_name}[used]\" value=\"1\" />\n";
                 echo "        <label for=\"{$dom_id}_checkbox\">\n";
 
-                $event = new org_openpsa_calendarwidget_event();
+                $event = new org_openpsa_widgets_calendar_event();
                 $event->start = $slot['start'];
                 $event->end = $slot['end'];
                 echo $event->render_timelabel(null, true);
@@ -49,7 +49,7 @@ $contactwidget = new org_openpsa_contactwidget($data['person']);
                 echo "    <td class=\"next\">\n";
                 if ($slot['next'])
                 {
-                    $event = new org_openpsa_calendarwidget_event($slot['next']);
+                    $event = new org_openpsa_widgets_calendar_event($slot['next']);
                     echo $event->render();
                 }
                 else

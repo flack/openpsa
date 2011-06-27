@@ -40,10 +40,14 @@ $grid->set_option('caption', $data['list_label']);
 $grid->set_option('footerrow', true);
 $grid->set_option('loadComplete', 'calculate_total', false);
 
-$grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string')
-    ->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false');
+$grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
 
-if ($data['show_customer'])
+if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
+{
+    $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false');
+}
+
+if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
 {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'sortable: false');
 }

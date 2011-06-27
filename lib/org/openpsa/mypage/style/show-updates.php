@@ -39,7 +39,7 @@ foreach ($view_types as $type)
                 {
                     $editor = new midcom_db_person($document->_fields['__CREATOR']['content']);
                 }
-                $contact = new org_openpsa_contactwidget($editor);
+                $contact = new org_openpsa_widgets_contact($editor);
                 echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . strftime("%x %X", $document->_fields['__EDITED_TS']['content']) . " (" . $contact->show_inline() . ")</div></li>\n";
             }
             catch (midcom_error $e){}

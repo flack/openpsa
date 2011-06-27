@@ -109,7 +109,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_find_parent($args);
+        $this->_master->find_parent($args);
 
         $data['selected_schema'] = $args[1];
         if (!array_key_exists($data['selected_schema'], $data['schemadb_productlink']))
@@ -153,70 +153,6 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
-    }
-
-    private function _find_parent($args)
-    {
-        //Check if args[0] is a product group code.
-        if ((int)$args[0] == 0
-            && strlen($args[0]) > 1)
-        {
-            $qb2 = org_openpsa_products_product_group_dba::new_query_builder();
-            $qb2->add_constraint('code', '=', $args[0]);
-            $qb2->add_order('code');
-            $up_group = $qb2->execute();
-            if (isset($up_group[0])
-                && isset($up_group[0]->id))
-            {
-                //We just pick the first category here
-                $qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $qb->add_constraint('up', '=', $up_group[0]->id);
-                $qb->add_order('code', 'ASC');
-                $qb->set_limit(1);
-                $up_group = $qb->execute();
-                if (isset($up_group[0])
-                    && isset($up_group[0]->id))
-                {
-                    $this->_request_data['up'] = $up_group[0]->id;
-                }
-                else
-                {
-                    $this->_request_data['up'] = 0;
-                }
-            }
-            else
-            {
-                $this->_request_data['up'] = 0;
-            }
-        }
-        else
-        {
-            $this->_request_data['up'] = (int) $args[0];
-        }
-
-        if ($this->_request_data['up'] == 0)
-        {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
-        }
-        else
-        {
-            try
-            {
-                $parent = new org_openpsa_products_product_group_dba($this->_request_data['up']);
-            }
-            catch (midcom_error $e)
-            {
-                return false;
-            }
-            $parent->require_do('midgard:create');
-
-            if ($parent->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
-            {
-                return false;
-            }
-
-            $this->_request_data['parent'] = $parent;
-        }
     }
 
     /**

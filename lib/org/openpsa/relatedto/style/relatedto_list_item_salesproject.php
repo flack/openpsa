@@ -2,7 +2,7 @@
 $link =& $data['link'];
 $salesproject =& $data['other_obj'];
 
-$owner_card = org_openpsa_contactwidget::get($salesproject->owner);
+$owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
 $customer = midcom_db_group::get_cached($salesproject->customer);
 ?>
 

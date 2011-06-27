@@ -24,7 +24,7 @@
             ),
             'widget' => 'select',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'display settings',
             ),
         ),
@@ -96,27 +96,6 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'enable_components' => array
-        (
-            'title' => 'whether to enable adding subcomponents to products',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'enable_components',
-            ),
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-            'widget' => 'select',
         ),
         'enable_productlinks' => array
         (
@@ -243,13 +222,13 @@
             ),
             'widget' => 'select',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'Indexer related',
             ),
         ),
         'index_groups' => array
         (
-            'title' => 'Index grouos',
+            'title' => 'Index groups',
             'storage' => array
             (
                 'location' => 'configuration',
@@ -281,7 +260,7 @@
             'type' => 'text',
             'widget' => 'text',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'advanced schema and data settings',
             ),
         ),

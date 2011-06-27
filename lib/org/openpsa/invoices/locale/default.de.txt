@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING account data
+Kontodaten
+---STRINGEND
+
 ---STRING account number
 Konto-Nummer
 ---STRINGEND
@@ -294,8 +298,8 @@ Unverschickte Rechnungen
 MwSt-Satz
 ---STRINGEND
 
----STRING VAT No.
-USt-IdNr.
+---STRING vat reg no
+USt-ID.
 ---STRINGEND
 
 ---STRING vat sum
@@ -307,7 +311,7 @@ Weitere Optionen
 ---STRINGEND
 
 ---STRING sending option
-Wie verschicken?
+Versandmethode
 ---STRINGEND
 
 ---STRING send per email
@@ -316,6 +320,14 @@ Per E-Mail
 
 ---STRING send manually
 Manuell
+---STRINGEND
+
+---STRING tax identification number
+Steuernummer
+---STRINGEND
+
+---STRING payment target
+Zahlungsziel (in Tagen)
 ---STRINGEND
 
 ---STRING there is no invoice with number %s

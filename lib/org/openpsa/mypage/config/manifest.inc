@@ -30,7 +30,7 @@
         'org.openpsa.helpers' => array(),
         'midcom.helper.datamanager2' => array(),
         'org.openpsa.projects' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.routamc.positioning' => array(),
     ),
 ),

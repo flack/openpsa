@@ -1,7 +1,7 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $project =& $data['project'];
-$manager_card = org_openpsa_contactwidget::get($project->manager);
+$manager_card = org_openpsa_widgets_contact::get($project->manager);
 
 $customer = new midcom_db_group($project->customer);
 ?>

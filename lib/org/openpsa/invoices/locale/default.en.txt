@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING account data
+Account data
+---STRINGEND
+
 ---STRING account number
 Account number
 ---STRINGEND
@@ -184,7 +188,7 @@ Marked task "%s" as finished
 
 ---STRING name of bank
 Name of institute
----STRING
+---STRINGEND
 
 ---STRING next action
 Next Action
@@ -298,6 +302,14 @@ Sum including VAT
 Sum (excl. VAT)
 ---STRINGEND
 
+---STRING tax identification number
+Taxpayer identification number
+---STRINGEND
+
+---STRING payment target
+Payment target (in days)
+---STRINGEND
+
 ---STRING there is no invoice with number %s
 There is no invoice with number %s
 ---STRINGEND
@@ -318,8 +330,8 @@ Unsent invoices
 VAT
 ---STRINGEND
 
----STRING VAT No.
-VAT No.
+---STRING vat reg no
+VAT registration number
 ---STRINGEND
 
 ---STRING vat sum
@@ -335,7 +347,7 @@ How to send?
 ---STRINGEND
 
 ---STRING send per email
-Via E-Mail
+By email
 ---STRINGEND
 
 ---STRING send manually

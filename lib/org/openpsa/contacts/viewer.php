@@ -28,7 +28,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
             $_MIDCOM->auth->require_valid_user();
         }
 
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     public static function add_breadcrumb_path_for_group($group, &$handler)

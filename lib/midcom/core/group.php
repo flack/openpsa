@@ -159,11 +159,13 @@ class midcom_core_group
      */
     function list_members()
     {
+        $return = array();
+
         if (   !is_object($this->_storage)
             || empty($this->_storage->id))
         {
             debug_add('$this->storage is not object or id is empty', MIDCOM_LOG_ERROR);
-            return array();
+            return $return;
         }
 
         $qb = new midgard_query_builder('midgard_member');
@@ -171,21 +173,23 @@ class midcom_core_group
         $result = @$qb->execute();
         if (! $result)
         {
-            $result = Array();
+            return $return;
         }
 
-        $return = Array();
         foreach ($result as $member)
         {
-            $user = new midcom_core_user($member->uid);
-            if (! $user)
+            try
             {
-                debug_add("The membership record {$member->id} is invalid, the user {$member->uid} is unknown, skipping it.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
+                $user = new midcom_core_user($member->uid);
+                $return[$user->id] = $user;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add("The membership record {$member->id} is invalid, the user {$member->uid} failed to load.", MIDCOM_LOG_ERROR);
+                debug_add('Last Midgard error was: ' . $e->getMessage());
                 debug_print_r('Membership record was:', $member);
                 continue;
             }
-            $return[$user->id] = $user;
         }
 
         return $return;

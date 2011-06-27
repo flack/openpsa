@@ -255,12 +255,7 @@ class midcom_helper__componentloader
             return false;
         }
 
-        // Make DBA Classes known, bail out if we encounter an invalid class
-        if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping))
-        {
-            debug_add("Failed to load the component manifest for {$this->manifests[$path]->name}: The DBA classes failed to load.", MIDCOM_LOG_WARN);
-            return false;
-        }
+        $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
         $init_class =& $this->_interface_classes[$path];
         if ($init_class->initialize($path) == false)
@@ -781,7 +776,6 @@ class midcom_helper__componentloader
             return false;
         }
 
-        // This is the list as agreed in Midgard Gathering 2008-11-08
         $core_components = array
         (
             'de.bitfolge.feedcreator',
@@ -797,7 +791,6 @@ class midcom_helper__componentloader
             'midcom.helper.replicator',
             'midcom.helper.search',
             'midcom.helper.xml',
-            'midcom.helper.xsspreventer',
             'midcom.services.at',
             'midgard.admin.asgard',
             'net.nehmer.blog',
@@ -808,8 +801,7 @@ class midcom_helper__componentloader
             'net.nemein.rss',
             'net.nemein.tag',
             'no.bergfald.rcs',
-            'org.openpsa.calendarwidget',
-            'org.openpsa.contactwidget',
+            'org.openpsa.widgets',
             'org.openpsa.httplib',
             'org.openpsa.mail',
             'org.openpsa.qbpager',
@@ -837,7 +829,7 @@ class midcom_helper__componentloader
     {
         if ($component == 'midcom')
         {
-            return $GLOBALS['midcom_version'];
+            return midcom::get_version();
         }
 
         if (   !$this->is_installed($component)

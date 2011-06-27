@@ -22,9 +22,9 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
 
             if(is_object($user))
             {
-                if (class_exists('org_openpsa_contactwidget'))
+                if (class_exists('org_openpsa_widgets_contact'))
                 {
-                    $user_card = org_openpsa_contactwidget::get($user->guid);
+                    $user_card = org_openpsa_widgets_contact::get($user->guid);
                     $person_label = $user_card->show_inline();
                 }
                 else
@@ -47,7 +47,7 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
         ?>
     </td>
     <td class="message">
-        <?php 
+        <?php
         if (strlen($history['message']) > 42)
         {
             echo substr($history['message'], 0, 40) . '...';

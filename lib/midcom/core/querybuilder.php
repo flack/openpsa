@@ -338,8 +338,8 @@ class midcom_core_querybuilder extends midcom_core_query
     }
 
     /**
-     * Runs a query where <i>limit and offset is taken into account prior to
-     * execution in the core.</i>
+     * Runs a query where limit and offset is taken into account <i>prior</i> to
+     * execution in the core.
      *
      * This is useful in cases where you can safely assume read privileges on all
      * objects, and where you would otherwise have to deal with huge resultsets.

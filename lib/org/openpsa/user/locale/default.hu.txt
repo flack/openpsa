@@ -18,6 +18,10 @@ Felhasználói azonosító szerkesztése
 Nincs azonosító
 ---STRINGEND
 
+---STRING notification settings
+Figyelmeztetés beállításai
+---STRINGEND
+
 ---STRING permissions
 Engedélyek
 ---STRINGEND

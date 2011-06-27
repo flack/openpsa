@@ -105,23 +105,20 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $_MIDCOM->componentloader->load('org.openpsa.mail');
             $mail = new org_openpsa_mail();
             $mail->to = $usermail;
-
             $mail->from = $this->_config->get('welcome_mail_from_address');
-
-
             $mail->subject = $this->_config->get('welcome_mail_title');
+            $mail->body = $this->_config->get('welcome_mail_body');
 
             // Make replacements to body
-            $replacements = array(
-                "__USERNAME__" => $username,
-                "__PASSWORD__" => $password
+            $mail->parameters = array
+            (
+                "USERNAME" => $username,
+                "PASSWORD" => $password
             );
-            $mail->body = strtr($this->_config->get('welcome_mail_body'), $replacements);
 
-            $ret = $mail->send();
-            if (!$ret)
+            if (!$mail->send())
             {
-                $this->errstr = "Unable to deliver welcome mail";
+                $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_string();
                 return false;
             }
 

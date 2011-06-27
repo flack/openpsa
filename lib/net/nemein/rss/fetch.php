@@ -6,11 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once(MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc');
-require_once(MIDCOM_ROOT . '/external/magpierss/rss_parse.inc');
-require_once(MIDCOM_ROOT . '/external/magpierss/rss_cache.inc');
-require_once(MIDCOM_ROOT . '/external/magpierss/rss_utils.inc');
-
 /**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
  * in net.nehmer.blog or events in net.nemein.calendar
@@ -57,6 +52,11 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     public function __construct($feed)
     {
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
+
         $this->_feed = $feed;
 
         $this->_node = new midcom_db_topic($this->_feed->node);

@@ -2,14 +2,14 @@
 $link =& $data['link'];
 $page =& $data['other_obj'];
 $page_url = $data['page_url'] . $page->name;
-$author_card = org_openpsa_contactwidget::get($page->metadata->creator);
+$author_card = org_openpsa_widgets_contact::get($page->metadata->creator);
 ?>
 <li class="note" id="org_openpsa_relatedto_line_&(link['guid']);">
   <span class="icon">&(data['icon']:h);</span>
   <span class="title"><a href="&(page_url);" target="wiki_&(page.guid);">&(page.title);</a></span>
     <ul class="metadata">
       <li class="time"><?php echo strftime('%x', $page->metadata->created); ?></li>
-      <li class="members"><?php 
+      <li class="members"><?php
         echo $_MIDCOM->i18n->get_string('author', 'net.nemein.wiki') . ': ' ;
         echo $author_card->show_inline(); ?>
       </li>

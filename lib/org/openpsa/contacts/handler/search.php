@@ -232,7 +232,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
             if (count($this->_persons) > 0)
             {
-                $_MIDCOM->load_library('org.openpsa.contactwidget');
                 midcom_show_style('search-persons-header');
                 foreach($this->_persons as $person)
                 {

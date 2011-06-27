@@ -63,6 +63,175 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $_MIDCOM->auth->drop_sudo();
     }
 
+    public function testGet_parent()
+    {
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', array('salesproject' => $this->_salesproject->id));
+        $parent = $deliverable->get_parent();
+        $this->assertEquals($parent->guid, $this->_salesproject->guid);
+        $parent_guid = $deliverable->get_parent_guid_uncached();
+        $this->assertEquals($parent_guid, $this->_salesproject->guid);
+    }
+
+    /**
+     * @dataProvider providerOrder
+     * @depends testCRUD
+     */
+    public function testOrder($attributes, $retval, $results)
+    {
+        $productgroup = $this->create_object('org_openpsa_products_product_group_dba');
+        $attributes['product']['productGroup'] = $productgroup->id;
+        $product = $this->create_object('org_openpsa_products_product_dba', $attributes['product']);
+
+        $attributes['deliverable']['product'] = $product->id;
+        $attributes['deliverable']['salesproject'] = $this->_salesproject->id;
+
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes['deliverable']);
+
+        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        $stat = $deliverable->order();
+        midcom::get('auth')->drop_sudo();
+
+        $this->assertEquals($stat, $retval);
+
+        if ($retval === true)
+        {
+            $salesproject =& $this->_salesproject;
+            $salesproject->refresh();
+
+            foreach ($results as $type => $values)
+            {
+                foreach ($values as $field => $value)
+                {
+                    $this->assertEquals($value, $$type->$field, 'Difference in ' . $type . ' field ' . $field);
+                }
+            }
+        }
+    }
+
+    public function providerOrder()
+    {
+        //get necessary constants
+        midcom::get('componentloader')->load('org.openpsa.products');
+
+        return array
+        (
+            0 => array
+            (
+                'attributes' => array
+                (
+                    'product' => array
+                    (
+                        'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+                        'type' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
+                    ),
+                    'deliverable' => array
+                    (
+                        'units' => 10,
+                        'costPerUnit' => 2,
+                    )
+                ),
+                true,
+                'results' => array
+                (
+                    'deliverable' => array
+                    (
+                        'plannedUnits' => 10,
+                        'plannedCost' => 20,
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+                    ),
+                    'salesproject' => array
+                    (
+                        'status' => org_openpsa_sales_salesproject_dba::STATUS_WON
+                    )
+                ),
+            ),
+            1 => array
+            (
+                'attributes' => array
+                (
+                    'product' => array(),
+                    'deliverable' => array
+                    (
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+                    )
+                ),
+                false,
+                'results' => array()
+            ),
+            2 => array
+            (
+                'attributes' => array
+                (
+                    'product' => array
+                    (
+                        'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+                        'type' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
+                    ),
+                    'deliverable' => array
+                    (
+                        'units' => 10,
+                        'costPerUnit' => 2,
+                        'invoiceByActualUnits' => true,
+                    )
+                ),
+                true,
+                'results' => array
+                (
+                    'deliverable' => array
+                    (
+                        'plannedUnits' => 10,
+                        'plannedCost' => 20,
+                        'cost' => 0,
+                        'units' => 0,
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+                    ),
+                    'salesproject' => array
+                    (
+                        'status' => org_openpsa_sales_salesproject_dba::STATUS_WON
+                    )
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @depends testCRUD
+     */
+    public function testDecline()
+    {
+        $attributes = array
+        (
+            'salesproject' => $this->_salesproject->id
+        );
+
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+
+        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        $stat = $deliverable->decline();
+
+        $this->assertTrue($stat);
+
+        $this->_salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_LOST, $this->_salesproject->status);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED, $deliverable->state);
+
+        $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $deliverable3 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $this->_salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_ACTIVE;
+        $this->_salesproject->update();
+
+        $this->assertTrue($deliverable2->decline());
+        $this->assertFalse($deliverable2->decline());
+
+        $this->_salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_ACTIVE, $this->_salesproject->status);
+
+        $this->assertTrue($deliverable3->decline());
+        $this->_salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_LOST, $this->_salesproject->status);
+        midcom::get('auth')->drop_sudo();
+    }
+
     /**
      * @dataProvider providerCalculate_price
      * @depends testCRUD

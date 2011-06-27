@@ -138,9 +138,8 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         $this->set_active_leaf($this->_document->id);
 
-        org_openpsa_core_ui::enable_ui_tab();
-
-        $_MIDCOM->componentloader->load('org.openpsa.contactwidget');
+        org_openpsa_widgets_ui::enable_ui_tab();
+        org_openpsa_widgets_contact::add_head_elements();
 
         $this->_request_data['document_dm'] =& $this->_datamanager;
         $this->_request_data['document'] =& $this->_document;

@@ -349,99 +349,111 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 break;
 
             case 'parameter':
-                if (!$this->storage->object
-                    || !$this->storage->object->guid)
-                {
-                    break;
-                }
-
-                // Get the row parameters with collector
-                $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
-
-                // Add the constraints
-                $mc->add_constraint('metadata.deleted', '=', 0);
-                $mc->add_constraint('domain', '=', $this->parameter_domain);
-                $mc->add_constraint('name', 'LIKE', "{$this->name}{$this->storage_mode_parameter_limiter}%");
-
-                // Add orders
-                $mc->add_order('metadata.revised', 'DESC');
-                $mc->add_order('metadata.created', 'DESC');
-
-                $keys = $mc->get_values('name');
-
-                $length = strlen("{$this->name}{$this->storage_mode_parameter_limiter}");
-
-                // List the name fields and get the row data
-                foreach ($keys as $name)
-                {
-                    $name = substr($name, $length);
-                    $parts = explode("{$this->storage_mode_parameter_limiter}", $name);
-
-                    if (!isset($parts[1]))
-                    {
-                        continue;
-                    }
-
-                    $row = preg_replace('/^row_/', '', $parts[0]);
-
-                    // Already exists, skip
-                    if (in_array($row, $rows))
-                    {
-                        continue;
-                    }
-
-                    $rows[] = $row;
-                }
+                $rows = $this->_load_parameter_rows();
                 break;
 
             case 'link':
-                if (!$this->storage->object
-                    || !$this->storage->object->guid)
-                {
-                    break;
-                }
-
-                // Get the row parameters with collector
-                $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
-
-                // Add the constraints
-                $mc->add_constraint('metadata.deleted', '=', 0);
-
-                // Add orders
-                $mc->add_order($this->link_row_property . '.' . $this->link_row_title_field);
-                $mc->add_order('metadata.revised', 'DESC');
-                $mc->add_order('metadata.created', 'DESC');
-
-                $keys = $mc->get_values($this->link_row_property);
-
-                // List the name fields and get the row data
-                foreach ($keys as $guid => $row_object_id)
-                {
-                    try
-                    {
-                        $row_object = new $this->link_row_class($row_object_id);
-                    }
-                    catch (midcom_error $e)
-                    {
-                        $e->log();
-                        continue;
-                    }
-
-                    $name = $row_object->{$this->link_row_title_field};
-
-                    // Already exists, skip
-                    if (in_array($name, $rows))
-                    {
-                        continue;
-                    }
-
-                    $this->rows[$row_object_id] = $name;
-                    $rows[$row_object_id] = $row_object_id;
-                }
+                $rows = $this->_load_link_rows();
                 break;
 
             default:
                 throw new midcom_error("Error in type configuration: storage mode cannot be '{$this->storage_mode}'");
+        }
+        return $rows;
+    }
+
+    private function _load_parameter_rows()
+    {
+        $rows = array();
+        if (empty($this->storage->object->guid))
+        {
+            return $rows;
+        }
+
+        // Get the row parameters with collector
+        $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
+
+        // Add the constraints
+        $mc->add_constraint('metadata.deleted', '=', 0);
+        $mc->add_constraint('domain', '=', $this->parameter_domain);
+        $mc->add_constraint('name', 'LIKE', "{$this->name}{$this->storage_mode_parameter_limiter}%");
+
+        // Add orders
+        $mc->add_order('metadata.revised', 'DESC');
+        $mc->add_order('metadata.created', 'DESC');
+
+        $keys = $mc->get_values('name');
+
+        $length = strlen("{$this->name}{$this->storage_mode_parameter_limiter}");
+
+        // List the name fields and get the row data
+        foreach ($keys as $name)
+        {
+            $name = substr($name, $length);
+            $parts = explode("{$this->storage_mode_parameter_limiter}", $name);
+
+            if (!isset($parts[1]))
+            {
+                continue;
+            }
+
+            $row = preg_replace('/^row_/', '', $parts[0]);
+
+            // Already exists, skip
+            if (in_array($row, $rows))
+            {
+                continue;
+            }
+
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    private function _load_link_rows()
+    {
+        $rows = array();
+        if (empty($this->storage->object->guid))
+        {
+            return $rows;
+        }
+
+        // Get the row parameters with collector
+        $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+
+        // Add the constraints
+        $mc->add_constraint('metadata.deleted', '=', 0);
+
+        // Add orders
+        $mc->add_order($this->link_row_property . '.' . $this->link_row_title_field);
+        $mc->add_order('metadata.revised', 'DESC');
+        $mc->add_order('metadata.created', 'DESC');
+
+        $keys = $mc->get_values($this->link_row_property);
+
+        // List the name fields and get the row data
+        foreach ($keys as $guid => $row_object_id)
+        {
+            try
+            {
+                $row_object = new $this->link_row_class($row_object_id);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
+
+            $name = $row_object->{$this->link_row_title_field};
+
+            // Already exists, skip
+            if (in_array($name, $rows))
+            {
+                continue;
+            }
+
+            $this->rows[$row_object_id] = $name;
+            $rows[$row_object_id] = $row_object_id;
         }
         return $rows;
     }

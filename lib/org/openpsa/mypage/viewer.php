@@ -19,7 +19,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**

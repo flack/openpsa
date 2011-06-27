@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <type name="org_openpsa_products_product" table="org_openpsa_products_product" parent="org_openpsa_products_product_group" parentfield="productGroup">
+    <type name="org_openpsa_products_product" table="org_openpsa_products_product" parent="org_openpsa_products_product_group" >
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -35,7 +35,7 @@
         <!-- /Common OpenPSA properties -->
     </type>
 
-    <type name="org_openpsa_products_product_group" table="org_openpsa_products_product_group" upfield="up">
+    <type name="org_openpsa_products_product_group" table="org_openpsa_products_product_group">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -55,26 +55,6 @@
         <!-- /Common OpenPSA properties -->
     </type>
 
-    <type name="org_openpsa_products_product_member" table="org_openpsa_products_product_member" parent="org_openpsa_products_product" parentfield="product">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-
-        <property name="product" link="org_openpsa_products_product:id" type="unsigned integer" parentfield="product"/>
-        <property name="componentGroup" link="org_openpsa_products_product_group:id" type="unsigned integer"/>
-        <property name="component" link="org_openpsa_products_product:id" type="unsigned integer"/>
-
-        <property name="pieces" type="integer"/>
-
-        <property name="description" type="text"/>
-
-        <!-- Common OpenPSA properties -->
-
-        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
-        <property name="orgOpenpsaObtype" type="integer" index="yes"/>
-
-        <!-- /Common OpenPSA properties -->
-    </type>
     <type name="org_openpsa_products_product_link" table="org_openpsa_products_product_link" parent="org_openpsa_products_product_group" parentfield="productGroup">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>

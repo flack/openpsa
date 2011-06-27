@@ -93,8 +93,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             )
         );
 
-        if (   !empty($_MIDCOM->auth->user)
-            && !empty($_MIDCOM->auth->user->guid))
+        if (!empty($_MIDCOM->auth->user->guid))
         {
             $preview_url = "message/compose/{$this->_message->guid}/{$_MIDCOM->auth->user->guid}/";
         }

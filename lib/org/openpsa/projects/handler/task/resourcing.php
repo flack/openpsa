@@ -58,8 +58,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('org.openpsa.calendarwidget');
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
+        org_openpsa_widgets_calendar::add_head_elements();
+        org_openpsa_widgets_contact::add_head_elements();
 
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.projects/projectbroker.js");
     }

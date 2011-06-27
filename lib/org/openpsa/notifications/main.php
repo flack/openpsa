@@ -45,7 +45,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param string $recipient GUID of the receiving person
      * @param Array $message Notification message in array format
      */
-    function notify($component_action, $recipient, $message)
+    public static function notify($component_action, $recipient, $message)
     {
         // Parse action to component and action
         $action_parts = explode(':', $component_action);
@@ -58,7 +58,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $action = $action_parts[1];
 
         // Find in which ways to notify the user
-        $notification_type = org_openpsa_notifications::merge_notification_prefences($component, $action, $recipient);
+        $notification_type = self::_merge_notification_prefences($component, $action, $recipient);
         if ($notification_type == 'none')
         {
             // User doesn't wish to be notified
@@ -91,7 +91,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param string $recipient GUID of the receiving person
      * @return Array options supported by user
      */
-    function merge_notification_prefences($component, $action, $recipient)
+    private static function _merge_notification_prefences($component, $action, $recipient)
     {
         // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         $preference = 'none';
@@ -115,15 +115,9 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         // Fall back to component defaults
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
-        if (array_key_exists($component, $customdata))
+        if (!empty($customdata[$component][$action]['default']))
         {
-            if (array_key_exists($action, $customdata[$component]))
-            {
-                if (array_key_exists('default', $customdata[$component][$action]))
-                {
-                    $preference = $customdata[$component][$action]['default'];
-                }
-            }
+            $preference = $customdata[$component][$action]['default'];
         }
 
         // Seek possible preferences for this action from user's groups
@@ -153,6 +147,81 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         }
 
         return $preference;
+    }
+
+    public function load_schemadb()
+    {
+        $schemadb = array
+        (
+        	'default' => array
+            (
+                'description' => 'notifications',
+                'fields'      => array()
+            )
+        );
+        $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
+        $notifiers = $this->_list_notifiers();
+
+        // Load actions of various components
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('org.openpsa.notifications');
+
+        foreach ($customdata as $component => $actions)
+        {
+            $i = 0;
+            $total = sizeof($actions);
+            foreach ($actions as $action => $settings)
+            {
+                $action_key = "{$component}:{$action}";
+                $field_config = array
+                (
+                    'title'   => midcom::get('i18n')->get_string("action {$action}", $component),
+                    'storage' => array
+                    (
+                        'location' => 'configuration',
+                        'domain'   => 'org.openpsa.notifications',
+                        'name'     => $action_key,
+                    ),
+                    'type'    => 'select',
+                    'widget'  => 'radiocheckselect',
+                    'type_config' => array
+                    (
+                        'options' => $notifiers,
+                    ),
+                );
+                if ($i == 0)
+                {
+                    $field_config['start_fieldset'] = array
+                    (
+                        'title' => midcom::get('i18n')->get_string($component, $component),
+                        'css_group' => 'area',
+                    );
+                }
+                if (++$i == $total)
+                {
+                    $field_config['end_fieldset'] = '';
+                }
+
+                $schemadb['default']->append_field
+                (
+                    str_replace(':', '_', str_replace('.', '_', $action_key)),
+                    $field_config
+                );
+            }
+        }
+        return $schemadb;
+    }
+
+    private function _list_notifiers()
+    {
+        // TODO: Figure out which notifiers are possible
+        $notifiers = array
+        (
+            ''         => $this->_l10n->get('inherit'),
+            'none'     => $this->_l10n->get('none'),
+            'email'    => $this->_l10n->get('email'),
+        );
+
+        return $notifiers;
     }
 }
 ?>

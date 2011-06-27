@@ -21,6 +21,14 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         'org_openpsa_contacts_role_dba' => 'objectGuid'
     );
 
+    //org.openpsa.sales salesproject statuses
+    const STATUS_LOST = 11000;
+    const STATUS_CANCELED = 11001;
+    const STATUS_ACTIVE = 11050;
+    const STATUS_WON = 11100;
+    const STATUS_DELIVERED = 11200;
+    const STATUS_INVOICED = 11300;
+
     /**
      * Shorthand access for contact members
      */
@@ -70,7 +78,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
         $deliverable_qb->add_constraint('salesproject', '=', $this->id);
         $deliverable_qb->add_constraint('up', '=', 0);
-        $deliverable_qb->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $deliverable_qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $deliverables = $deliverable_qb->execute();
         foreach ($deliverables as $deliverable)
         {
@@ -130,7 +138,15 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-            $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            try
+            {
+                $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $customer = null;
+                $e->log();
+            }
         }
         return $customer;
     }
@@ -246,7 +262,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
         if (!$this->status)
         {
-            $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE;
+            $this->status = self::STATUS_ACTIVE;
         }
         if (!$this->owner)
         {
@@ -257,14 +273,14 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if (   $this->status != ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE
+        if (   $this->status != self::STATUS_ACTIVE
             && !$this->end)
         {
             //Not active anymore and end not set, set it to now
             $this->end = time();
         }
         if (   $this->end
-            && $this->status == ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE)
+            && $this->status == self::STATUS_ACTIVE)
         {
             //Returned to active status, clear the end marker.
             $this->end = 0;
@@ -333,7 +349,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     {
         if ($this->up != 0)
         {
-            $parent = new org_openpsa_sales_salesproject_dba($this->up);
+            $parent = new self($this->up);
             return $parent->guid;
         }
         else
@@ -347,19 +363,19 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function mark_delivered()
     {
-        if ($this->status >= ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED)
+        if ($this->status >= self::STATUS_DELIVERED)
         {
             return;
         }
 
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->id);
-        $mc->add_constraint('state', '<', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED);
-        $mc->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $mc->add_constraint('state', '<', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED);
+        $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $mc->execute();
 
         if ($mc->count() == 0)
         {
-            $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED;
+            $this->status = self::STATUS_DELIVERED;
             $this->update();
         }
     }
@@ -369,19 +385,19 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function mark_invoiced()
     {
-        if ($this->status >= ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED)
+        if ($this->status >= self::STATUS_INVOICED)
         {
             return;
         }
 
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->id);
-        $mc->add_constraint('state', '<', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED);
-        $mc->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $mc->add_constraint('state', '<', org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED);
+        $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $mc->execute();
 
         if ($mc->count() == 0)
         {
-            $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED;
+            $this->status = self::STATUS_INVOICED;
             $this->update();
         }
     }
