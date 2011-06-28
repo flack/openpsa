@@ -134,13 +134,17 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         //get existing account for gui
         $this->_account = new midcom_core_account($this->_person);
-
-        if (!$this->_account->get_password())
+        //if we have no username there is no account
+        if (!$this->_account->get_username())
         {
             // Account needs to be created first, relocate
             $_MIDCOM->relocate("account/create/" . $this->_person->guid . "/");
         }
-
+        //if there is no pasword set, show ui-message for info
+        if (!$this->_account->get_password())
+        {
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
+        }
         $data['controller'] = $this->get_controller('nullstorage');
         $formmanager = $data["controller"]->formmanager;
 
