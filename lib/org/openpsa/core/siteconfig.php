@@ -171,6 +171,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         $parts = explode('.', $component);
         $last = array_pop($parts);
+
         return $this->get($last . '_full_url');
     }
 
