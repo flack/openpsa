@@ -570,6 +570,11 @@ class midcom_helper__componentloader
      */
     function trigger_watches($operation, $object)
     {
+        if ($this->_watch_notifications === null)
+        {
+            debug_add('Notifies were already processed, aborting.', MIDCOM_LOG_WARN);
+            return;
+        }
         // We collect the components of all watches here, so that we can
         // unique-out all duplicates before actually calling the handler.
         $components = Array();
