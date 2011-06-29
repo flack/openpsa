@@ -78,6 +78,19 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
     }
 
+    public function get_relocate_url()
+    {
+        $headers = midcom_compat_unittest::flush_registered_headers();
+        foreach ($headers as $header)
+        {
+            if (preg_match('/^Location: http:\/\/localhost\/(.*?)$/', $header['value'], $matches))
+            {
+                return $matches[1];
+            }
+        }
+        return null;
+    }
+
     public function create_object($classname, $data = array())
     {
         $object = self::_create_object($classname, $data);
@@ -177,6 +190,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         self::_process_delete_queue($queue);
         $this->_testcase_objects = array();
+        midcom_compat_unittest::flush_registered_headers();
     }
 
     public static function TearDownAfterClass()
