@@ -98,17 +98,8 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
         $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);
         $this->_deliverable = $this->_create_deliverable($this->_product);
-        if ($this->_deliverable)
-        {
-            // Go to deliverable edit screen
-            $_MIDCOM->relocate("deliverable/edit/{$this->_deliverable->guid}/");
-        }
-        else
-        {
-            // Get user back to the sales project
-            // TODO: Add UImessage on why this failed
-            $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
-        }
+        // Go to deliverable edit screen
+        $_MIDCOM->relocate("deliverable/edit/{$this->_deliverable->guid}/");
     }
 }
 ?>
