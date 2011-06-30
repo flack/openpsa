@@ -46,7 +46,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $person;
     }
 
-    public function run_handler($component, $args)
+    public function run_handler($component, array $args = array())
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($topic_guid = $siteconfig->get_node_guid($component))
@@ -83,7 +83,8 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $headers = midcom_compat_unittest::flush_registered_headers();
         foreach ($headers as $header)
         {
-            if (preg_match('/^Location: http:\/\/localhost\/(.*?)$/', $header['value'], $matches))
+            if (   preg_match('/^Location: http:\/\/localhost\/(.*?)$/', $header['value'], $matches)
+                || preg_match('/^Location: \/(.*?)$/', $header['value'], $matches))
             {
                 return $matches[1];
             }
