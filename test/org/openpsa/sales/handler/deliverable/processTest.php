@@ -17,7 +17,7 @@ if (!defined('OPENPSA_TEST_ROOT'))
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_salesproject_deliverable_processTest extends openpsa_testcase
+class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_salesproject;
@@ -55,8 +55,8 @@ class org_openpsa_sales_salesproject_deliverable_processTest extends openpsa_tes
             'order' => true,
         );
 
-        $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
-        $this->assertEquals('deliverable_process', $data['handler_id']);
+        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED, $deliverable->state);
 
@@ -64,8 +64,8 @@ class org_openpsa_sales_salesproject_deliverable_processTest extends openpsa_tes
         (
             'deliver' => true,
         );
-        $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
-        $this->assertEquals('deliverable_process', $data['handler_id']);
+        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED, $deliverable->state);
 

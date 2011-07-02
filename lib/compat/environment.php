@@ -162,6 +162,10 @@ class midcom_compat_unittest extends midcom_compat_environment
 
     public function header($string, $replace = true, $http_response_code = null)
     {
+        if (preg_match('/^Location: (.*?)$/', $string, $matches))
+        {
+            throw new openpsa_test_relocate($matches[1], $http_response_code);
+        }
         self::$_headers[] = array
         (
             'value' => $string,

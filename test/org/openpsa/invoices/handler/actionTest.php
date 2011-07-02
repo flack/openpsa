@@ -32,9 +32,8 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'mark_sent', self::$_invoice->guid));
-        $this->assertEquals('invoice_mark_sent', $data['handler_id']);
-        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $this->get_relocate_url());
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'mark_sent', self::$_invoice->guid));
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -43,9 +42,8 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'mark_paid', self::$_invoice->guid));
-        $this->assertEquals('invoice_mark_paid', $data['handler_id']);
-        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $this->get_relocate_url());
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'mark_paid', self::$_invoice->guid));
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -64,9 +62,8 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'recalculation', self::$_invoice->guid));
-        $this->assertEquals('recalc_invoice', $data['handler_id']);
-        $this->assertEquals('invoice/items/' . self::$_invoice->guid . '/', $this->get_relocate_url());
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'recalculation', self::$_invoice->guid));
+        $this->assertEquals('invoice/items/' . self::$_invoice->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
     }

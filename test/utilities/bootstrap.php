@@ -8,6 +8,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+require_once MIDCOM_ROOT . '/../test/utilities/testcase.php';
+require_once MIDCOM_ROOT . '/../test/utilities/helpers.php';
+
 define('OPENPSA2_UNITTEST_RUN', true);
 define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
 

@@ -207,8 +207,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
         else
         {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate("{$prefix}invoice/{$this->_object->guid}/");
+            $_MIDCOM->relocate("invoice/{$this->_object->guid}/");
             // This will exit
         }
     }
@@ -388,11 +387,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     public function _handler_recalculation($handler_id, array $args, array &$data)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
-        $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/items/" . $this->_object->guid . "/";
-
         $this->_object->_recalculate_invoice_items();
 
-        $_MIDCOM->relocate($relocate);
+        $_MIDCOM->relocate("invoice/items/" . $this->_object->guid . "/");
     }
 
     private function _prepare_output()

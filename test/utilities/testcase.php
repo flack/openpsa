@@ -78,18 +78,20 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
     }
 
-    public function get_relocate_url()
+    public function run_relocate_handler($component, array $args = array())
     {
-        $headers = midcom_compat_unittest::flush_registered_headers();
-        foreach ($headers as $header)
+        $url = null;
+        try
         {
-            if (   preg_match('/^Location: http:\/\/localhost\/(.*?)$/', $header['value'], $matches)
-                || preg_match('/^Location: \/(.*?)$/', $header['value'], $matches))
-            {
-                return $matches[1];
-            }
+            $data = $this->run_handler($component, $args);
         }
-        return null;
+        catch (openpsa_test_relocate $e)
+        {
+            $url = $e->getMessage();
+        }
+        $this->assertTrue(!is_null($url), $component . ' handler did not relocate');
+        $url = preg_replace('/^\//', '', $url);
+        return $url;
     }
 
     public function create_object($classname, $data = array())
