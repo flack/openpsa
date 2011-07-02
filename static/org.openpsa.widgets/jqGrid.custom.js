@@ -31,7 +31,7 @@ var org_openpsa_grid_resize =
 
         org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
         org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
-        $('.fill-height table.ui-jqgrid-btable, .crop-height table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
+        $('table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
         {
             $(window).trigger('resize');
         }});
