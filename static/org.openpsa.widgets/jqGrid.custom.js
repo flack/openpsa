@@ -31,7 +31,7 @@ var org_openpsa_grid_resize =
 
         org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
         org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
-        $('.fill-height table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
+        $('.fill-height table.ui-jqgrid-btable, .crop-height table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
         {
             $(window).trigger('resize');
         }});
@@ -175,10 +175,22 @@ var org_openpsa_grid_resize =
 
         var available_space = container_height - container_nongrid_height;
         if (   grids_content_height == 0
-            || available_space <= minimum_height * visible_grids
-            || (   available_space > grids_content_height)
-                && mode !== 'fill')
+            || available_space <= minimum_height * visible_grids)
         {
+            return;
+        }
+
+        if (   available_space > grids_content_height
+            && mode !== 'fill')
+        {
+            $.each(grid_heights, function(grid_id, content_height)
+            {
+                try
+                {
+                    $("#" + grid_id).jqGrid().setGridHeight(content_height);
+                }
+                catch(e){}
+            });
             return;
         }
 
