@@ -31,8 +31,9 @@ var org_openpsa_grid_resize =
 
         org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
         org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
-        $('table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
+        $('table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function(gridstate)
         {
+            $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate == 'visible');
             $(window).trigger('resize');
         }});
         org_openpsa_grid_resize.fill_width($('.full-width', scope));
@@ -79,8 +80,10 @@ var org_openpsa_grid_resize =
                         container
                             .detach()
                             .removeClass('ui-jqgrid-maximized')
-                            .insertBefore(placeholder);
+                            .insertBefore(placeholder)
+                            .find('.ui-jqgrid-titlebar-close').show();
                         placeholder.remove();
+                        $('#content-text').children().removeClass('ui-jqgrid-maximized-background');
                     }
                     else
                     {
@@ -93,7 +96,9 @@ var org_openpsa_grid_resize =
                         container
                             .detach()
                             .addClass('ui-jqgrid-maximized')
-                            .prependTo($('#content-text'));
+                            .prependTo($('#content-text'))
+                            .find('.ui-jqgrid-titlebar-close').hide();
+                        $('#content-text').children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
                     }
                     $(window).trigger('resize');
                 })
