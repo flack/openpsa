@@ -212,7 +212,7 @@ var org_openpsa_grid_resize =
 
         $.each(grid_heights, function(grid_id, content_height)
         {
-            var new_height = available_space * (content_height / grids_content_height);
+            var new_height = Math.round(available_space * (content_height / grids_content_height));
 
             try
             {
