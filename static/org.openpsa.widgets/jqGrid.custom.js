@@ -143,49 +143,61 @@ var org_openpsa_grid_resize =
         var grids_content_height = 0,
         container_height = $('#content-text').height(),
         container_nongrid_height = 0,
-        visible_grids = 0;
+        visible_grids = 0,
+        grid_heights = {},
+        minimum_height = 21;
 
         $('#content-text').children(':visible').each(function()
         {
-            container_nongrid_height += $(this).outerHeight(true);
-        });
-
-        $(items).each(function()
-        {
             var part_height = $(this).outerHeight(true),
-            grid_body = $("table.ui-jqgrid-btable", $(this)),
-            grid_height = grid_body.parent().parent().height();
+            grid_body = $("table.ui-jqgrid-btable", $(this));
 
-            if ($('#' + grid_body.attr('id')).jqGrid('getGridParam', 'gridstate') == 'visible')
+            if (grid_body.length > 0)
             {
-                grids_content_height += grid_body.outerHeight();
-                container_nongrid_height -= grid_height;
-                visible_grids++;
+                var grid_height = grid_body.parent().parent().height(),
+                content_height = grid_body.outerHeight();;
+
+                if ($('#' + grid_body.attr('id')).jqGrid('getGridParam', 'gridstate') == 'visible')
+                {
+                    grid_heights[grid_body.attr('id')] = content_height;
+                    grids_content_height += content_height;
+                    part_height -= grid_height;
+                    visible_grids++;
+                }
             }
+            container_nongrid_height += part_height;
         });
 
         var available_space = container_height - container_nongrid_height;
-        if (available_space <= 20 * visible_grids)
+        if (   grids_content_height == 0
+            || available_space <= minimum_height * visible_grids)
         {
             return;
         }
 
-        $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
+        $.each(grid_heights, function(grid_id, content_height)
         {
-            var id = $(this).attr('id'),
-            proportional_grid_height = 1,
-            new_height;
-
-            if (grids_content_height > 0)
+            var new_height = available_space * (content_height / grids_content_height);
+            if (new_height < minimum_height)
             {
-                proportional_grid_height = $('#' + id).height() / grids_content_height;
+                available_space -= minimum_height;
+                grids_content_height -= content_height;
+                try
+                {
+                    $("#" + grid_id).jqGrid().setGridHeight(minimum_height);
+                }
+                catch(e){}
+                delete grid_heights[grid_id];
             }
+        });
 
-            new_height = available_space * proportional_grid_height;
+        $.each(grid_heights, function(grid_id, content_height)
+        {
+            var new_height = available_space * (content_height / grids_content_height);
 
             try
             {
-                $("#" + id).jqGrid().setGridHeight(new_height);
+                $("#" + grid_id).jqGrid().setGridHeight(new_height);
             }
             catch(e){}
         });
