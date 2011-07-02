@@ -29,7 +29,8 @@ var org_openpsa_grid_resize =
             org_openpsa_grid_resize.event_handler(scope);
         });
 
-        org_openpsa_grid_resize.fill_height($('.fill-height', scope));
+        org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
+        org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
         $('.fill-height table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
         {
             $(window).trigger('resize');
@@ -47,7 +48,8 @@ var org_openpsa_grid_resize =
         }
         else
         {
-            org_openpsa_grid_resize.fill_height($('.fill-height', scope));
+            org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
+            org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
             org_openpsa_grid_resize.fill_width($('.full-width', scope));
         }
     },
@@ -134,7 +136,7 @@ var org_openpsa_grid_resize =
             catch(e){}
         });
     },
-    fill_height: function(items)
+    set_height: function(items, mode)
     {
         if (items.length === 0)
         {
@@ -149,33 +151,33 @@ var org_openpsa_grid_resize =
 
         $('#content-text').children(':visible').each(function()
         {
-            var part_height = $(this).outerHeight(true),
-            grid_body = $(".fill-height table.ui-jqgrid-btable", $(this));
+            container_nongrid_height += $(this).outerHeight(true);
+        });
 
-            if ($(this).hasClass('fill-height'))
-            {
-                grid_body = $("table.ui-jqgrid-btable", $(this));
-            }
+        items.each(function()
+        {
+            var grid_body = $("table.ui-jqgrid-btable", $(this));
 
             if (grid_body.length > 0)
             {
                 var grid_height = grid_body.parent().parent().height(),
-                content_height = grid_body.outerHeight();;
+                content_height = grid_body.outerHeight();
 
                 if ($('#' + grid_body.attr('id')).jqGrid('getGridParam', 'gridstate') == 'visible')
                 {
                     grid_heights[grid_body.attr('id')] = content_height;
                     grids_content_height += content_height;
-                    part_height -= grid_height;
+                    container_nongrid_height -= grid_height;
                     visible_grids++;
                 }
             }
-            container_nongrid_height += part_height;
         });
 
         var available_space = container_height - container_nongrid_height;
         if (   grids_content_height == 0
-            || available_space <= minimum_height * visible_grids)
+            || available_space <= minimum_height * visible_grids
+            || (   available_space > grids_content_height)
+                && mode !== 'fill')
         {
             return;
         }
