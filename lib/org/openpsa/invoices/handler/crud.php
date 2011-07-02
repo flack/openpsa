@@ -419,7 +419,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if ($this->_mode != 'read')
         {
-            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($this->_mode . ' %s'), $this->_l10n->get('invoice')));
+            $action = $this->_mode;
+            if ($action == 'update')
+            {
+                $action = 'edit';
+            }
+            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('invoice')));
         }
     }
 
