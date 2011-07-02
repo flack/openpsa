@@ -77,7 +77,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         if (null === self::$_contacts_url)
         {
             $siteconfig = org_openpsa_core_siteconfig::get_instance();
-            self::$_contacts_url = $siteconfig->get_node_full_url('org.openpsa.contact');
+            self::$_contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         }
 
         // Read properties of provided person object/DM array
