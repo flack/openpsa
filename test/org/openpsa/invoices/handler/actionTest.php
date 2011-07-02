@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'mark_sent', self::$_invoice->guid));
-        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
+        $this->assertEquals('', $url);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -43,7 +43,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'mark_paid', self::$_invoice->guid));
-        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
+        $this->assertEquals('', $url);
 
         midcom::get('auth')->drop_sudo();
     }

@@ -207,7 +207,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
         else
         {
-            $_MIDCOM->relocate("invoice/{$this->_object->guid}/");
+            $_MIDCOM->relocate("");
             // This will exit
         }
     }
