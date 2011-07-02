@@ -1,4 +1,5 @@
-var org_openpsa_jqgrid_presets = {
+var org_openpsa_jqgrid_presets =
+{
     autowidth: true,
     altRows: true,
     altclass: 'even',
@@ -41,7 +42,7 @@ var org_openpsa_grid_resize =
     {
         if ($('.ui-jqgrid-maximized', scope).length > 0)
         {
-            org_openpsa_grid_resize.fill_height($('.ui-jqgrid-maximized', scope));
+            org_openpsa_grid_resize.maximize_height($('.ui-jqgrid-maximized', scope));
             org_openpsa_grid_resize.fill_width($('.ui-jqgrid-maximized', scope));
         }
         else
@@ -139,43 +140,48 @@ var org_openpsa_grid_resize =
         {
             return;
         }
-        var grids_height = 0,
-        controls_height = 0,
-        container_height = $('#content-text').height() - $(items).position().top;
+        var grids_content_height = 0,
+        container_height = $('#content-text').height(),
+        container_nongrid_height = 0,
+        visible_grids = 0;
+
+        $('#content-text').children(':visible').each(function()
+        {
+            container_nongrid_height += $(this).outerHeight(true);
+        });
 
         $(items).each(function()
         {
             var part_height = $(this).outerHeight(true),
             grid_body = $("table.ui-jqgrid-btable", $(this)),
-            grid_height = grid_body.parent().parent().outerHeight();
+            grid_height = grid_body.parent().parent().height();
 
             if ($('#' + grid_body.attr('id')).jqGrid('getGridParam', 'gridstate') == 'visible')
             {
-                grids_height += grid_body.outerHeight();
-            }
-
-            if (grid_height > part_height)
-            {
-                controls_height += part_height;
-            }
-            else
-            {
-                controls_height += (part_height - grid_height);
+                grids_content_height += grid_body.outerHeight();
+                container_nongrid_height -= grid_height;
+                visible_grids++;
             }
         });
+
+        var available_space = container_height - container_nongrid_height;
+        if (available_space <= 20 * visible_grids)
+        {
+            return;
+        }
 
         $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
         {
             var id = $(this).attr('id'),
-            factor = 1,
+            proportional_grid_height = 1,
             new_height;
 
-            if (grids_height > 0)
+            if (grids_content_height > 0)
             {
-                factor = $('#' + id).outerHeight() / grids_height;
+                proportional_grid_height = $('#' + id).height() / grids_content_height;
             }
 
-            new_height = (container_height - controls_height) * factor;
+            new_height = available_space * proportional_grid_height;
 
             try
             {
@@ -183,6 +189,18 @@ var org_openpsa_grid_resize =
             }
             catch(e){}
         });
+    },
+    maximize_height: function(part)
+    {
+        var part_height = $(part).outerHeight(true),
+        grid_height = $("table.ui-jqgrid-btable", part).parent().parent().outerHeight(),
+        new_height = $('#content-text').height() + grid_height - part_height;
+
+        try
+        {
+            $("table.ui-jqgrid-btable", part).jqGrid().setGridHeight(new_height);
+        }
+        catch(e){}
     }
 };
 
@@ -237,7 +255,7 @@ var org_openpsa_grid_editable =
         $('#edit_button_' + id).addClass('hidden');
         $('#save_button_' + id).removeClass('hidden');
         $('#cancel_button_' + id).removeClass('hidden')
-	.closest("tr").find('input[type="text"]:first:visible').focus();
+            .closest("tr").find('input[type="text"]:first:visible').focus();
     },
     saveRow: function(id)
     {
