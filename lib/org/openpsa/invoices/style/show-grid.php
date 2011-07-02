@@ -55,6 +55,6 @@ else
 $grid->set_footer_data($footer_data);
 ?>
 
-<div class="org_openpsa_invoices <?php echo $classes ?> full-width">
+<div class="org_openpsa_invoices <?php echo $classes ?> full-width crop-height">
 <?php $grid->render($data['entries']); ?>
 </div>
