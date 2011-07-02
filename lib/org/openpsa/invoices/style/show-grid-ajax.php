@@ -32,7 +32,7 @@ function calculate_total()
 </script>
 <?php
 $grid->set_option('scroll', 1);
-$grid->set_option('rowNum', 12);
+$grid->set_option('rowNum', 6);
 $grid->set_option('height', 120);
 $grid->set_option('viewrecords', true);
 $grid->set_option('url', $prefix . 'list/json/' . $data['list_type'] . '/');
