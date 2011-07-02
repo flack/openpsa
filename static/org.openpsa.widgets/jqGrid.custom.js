@@ -150,7 +150,12 @@ var org_openpsa_grid_resize =
         $('#content-text').children(':visible').each(function()
         {
             var part_height = $(this).outerHeight(true),
-            grid_body = $("table.ui-jqgrid-btable", $(this));
+            grid_body = $(".fill-height table.ui-jqgrid-btable", $(this));
+
+            if ($(this).hasClass('fill-height'))
+            {
+                grid_body = $("table.ui-jqgrid-btable", $(this));
+            }
 
             if (grid_body.length > 0)
             {
