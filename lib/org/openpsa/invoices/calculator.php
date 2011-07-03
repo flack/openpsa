@@ -46,7 +46,6 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         }
 
         $this->_invoice = $this->_probe_invoice($cycle_number);
-        $this->_invoice->due = ($this->_invoice->get_default_due() * 3600 * 24) + time();
 
         if (!$this->_invoice->update())
         {
@@ -131,9 +130,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $invoice->customer = $salesproject->customer;
         $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
         $invoice->owner = $salesproject->owner;
-
         $invoice->vat = $invoice->get_default_vat();
-        $invoice->due = ($invoice->get_default_due() * 3600 * 24) + time();
 
         if ($invoice->create())
         {

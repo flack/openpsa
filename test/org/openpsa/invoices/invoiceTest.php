@@ -31,6 +31,14 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $this->register_object($invoice);
         $this->assertEquals($next_number + 1, $invoice->generate_invoice_number());
 
+        $sent = time();
+        $invoice->sent = $sent;
+        $stat = $invoice->update();
+        $this->assertTrue($stat);
+        $invoice->refresh();
+        $expected_due = ($invoice->get_default_due() * 3600 * 24) + $sent;
+        $this->assertEquals($expected_due, $invoice->due);
+
         $stat = $invoice->delete();
         $this->assertTrue($stat);
         $this->assertEquals($next_number, $invoice->generate_invoice_number());

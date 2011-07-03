@@ -117,7 +117,11 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_sum'] = $invoice->sum;
         $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
 
-        $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
+        $entry['due'] = '';
+        if ($invoice->due > 0)
+        {
+            $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
+        }
 
         $next_marker = array();
         $entry['action'] = '';

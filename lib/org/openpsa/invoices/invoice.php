@@ -183,11 +183,27 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
+        $this->_pre_write_operations();
+        return true;
+    }
+
+    public function _on_updating()
+    {
+        $this->_pre_write_operations();
+        return true;
+    }
+
+    private function _pre_write_operations()
+    {
         if (!$this->date)
         {
             $this->date = time();
         }
-        return true;
+        if (   $this->sent > 0
+            && $this->due == 0)
+        {
+            $this->due = ($this->get_default_due() * 3600 * 24) + $this->sent;
+        }
     }
 
     /**

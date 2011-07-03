@@ -113,6 +113,10 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $fields['pdf_file']['hidden'] = false;
         }
+        if (!empty($this->_object->sent))
+        {
+            $fields['due']['hidden'] = false;
+        }
     }
 
     /**
@@ -192,7 +196,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $dummy = new org_openpsa_invoices_invoice_dba();
             $dummy->customer = $this->_request_data['customer']->id;
-            $this->_defaults['due'] = ($dummy->get_default_due() * 3600 * 24) + time();
             $this->_defaults['vat'] = $dummy->get_default_vat();
             if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_person_dba'))
             {

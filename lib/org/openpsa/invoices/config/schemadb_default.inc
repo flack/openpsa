@@ -192,7 +192,8 @@
             'widget_config' => array
             (
                 'show_time' => false
-            )
+            ),
+            'hidden' => true
         ),
         'sent' => array
         (
