@@ -81,14 +81,7 @@ implements org_openpsa_widgets_grid_provider_client
             try
             {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-                if ($this->_request_data['invoices_url'])
-                {
-                    $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
-                }
-                else
-                {
-                    $entry['customer'] = $customer->official;
-                }
+                $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\">" . $customer->get_label() . "</a>";
             }
             catch (midcom_error $e)
             {
@@ -98,8 +91,15 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba'))
         {
-            $customer_card = org_openpsa_widgets_contact::get($invoice->customerContact);
-            $entry['contact'] = $customer_card->show_inline();
+            try
+            {
+                $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
+                $entry['contact'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$contact->guid}/\">" . $contact->get_label() . "</a>";
+            }
+            catch (midcom_error $e)
+            {
+                $entry['contact'] = '';
+            }
         }
 
         if (!empty($this->_request_data['deliverable']))

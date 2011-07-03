@@ -26,15 +26,15 @@ if (!array_key_exists('deliverable', $data))
 
 $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
 
+if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
+{
+    $grid->set_column('customer', $data['l10n']->get('customer'));
+}
 if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
 {
     $grid->set_column('contact', $data['l10n']->get('customer contact'));
 }
 
-if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
-{
-    $grid->set_column('customer', $data['l10n']->get('customer'));
-}
 if (array_key_exists('deliverable', $data))
 {
     $grid->set_column('item_sum', $data['deliverable']->title, 'width: 80, fixed: true, align: "right"', 'number');
