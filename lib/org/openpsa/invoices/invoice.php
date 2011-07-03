@@ -112,7 +112,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             return $result[0];
         }
-        return new self;
+        return false;
     }
 
     function generate_invoice_number()

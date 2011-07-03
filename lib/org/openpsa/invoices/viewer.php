@@ -23,26 +23,39 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     {
         if ($object->number > 1)
         {
-            $previous = org_openpsa_invoices_invoice_dba::get_by_number($object->number - 1);
-            $toolbar->add_item
-            (
-                array
+            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+            $qb->add_constraint('number', '<', $object->number);
+            $qb->set_limit(1);
+            $qb->add_order('number', 'DESC');
+            $results = $qb->execute();
+
+            if (sizeof($results) == 1)
+            {
+                $toolbar->add_item
                 (
-                    MIDCOM_TOOLBAR_URL => $urlprefix . $previous->guid . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                )
-             );
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+                    )
+                );
+            }
         }
         if (($object->number + 1) < $object->generate_invoice_number())
         {
-            $next = org_openpsa_invoices_invoice_dba::get_by_number($object->number + 1);
+            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+            $qb->add_constraint('number', '>', $object->number);
+            $qb->set_limit(1);
+            $qb->add_order('number', 'ASC');
+            $results = $qb->execute();
+
             $toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => $urlprefix . $next->guid . '/',
+                    MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
