@@ -195,14 +195,16 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     private function _pre_write_operations()
     {
-        if (!$this->date)
+        if ($this->sent > 0)
         {
-            $this->date = time();
-        }
-        if (   $this->sent > 0
-            && $this->due == 0)
-        {
-            $this->due = ($this->get_default_due() * 3600 * 24) + $this->sent;
+            if (!$this->date)
+            {
+                $this->date = time();
+            }
+            if ($this->due == 0)
+            {
+                $this->due = ($this->get_default_due() * 3600 * 24) + $this->date;
+            }
         }
     }
 
