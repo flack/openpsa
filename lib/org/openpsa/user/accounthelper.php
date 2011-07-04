@@ -574,7 +574,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
          * on the stack is within our defined timeframe, we block the account
          */
         if (   sizeof($attempts) >= $max_attempts
-            && $attempts[0] >= (time() - ($timeframe * 60)))
+            && $attempts[$max_attempts-1] >= (time() - ($timeframe * 60)))
         {
             $helper = new self($person);
             $helper->disable_account();
