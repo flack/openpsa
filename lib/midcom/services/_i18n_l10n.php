@@ -68,6 +68,13 @@ class midcom_services__i18n_l10n
     private $_library_filename;
 
     /**
+     * The name of the current component
+     *
+     * @var string
+     */
+    private $_component_name;
+
+    /**
      * A copy of the language DB from i18n.
      *
      * @var Array
@@ -143,6 +150,8 @@ class midcom_services__i18n_l10n
 
         $this->_library_filename = MIDCOM_ROOT . $library;
         $this->_library = $library;
+        $this->_component_name = explode( "/", $this->_library );
+        $this->_component_name = implode( ".", array_slice( $this->_component_name, 1, count($this->_component_name)-3 ) );
 
         $this->_language_db = $_MIDCOM->i18n->get_language_db();
         $this->_fallback_language = $_MIDCOM->i18n->get_fallback_language();
@@ -220,6 +229,13 @@ class midcom_services__i18n_l10n
         }
 
         $data = file($filename);
+
+        // get components specific l10n
+        $component_locale = midcom_helper_misc::get_snippet_content_graceful($GLOBALS['midcom_config']['midcom_sgconfig_basedir']."/".$this->_component_name."/l10n/".$lang);
+        if (!empty($component_locale))
+        {
+            $data = array_merge( $data, explode("\n", $component_locale) );
+        }
 
         // Parse the Array
         $stringtable = Array();
