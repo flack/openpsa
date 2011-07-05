@@ -109,18 +109,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb = org_openpsa_projects_project::new_query_builder();
         $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::STARTED);
         $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ONHOLD);
-
-        // Workgroup filtering
-        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
-
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $project)
             {
@@ -139,18 +130,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ACCEPTED);
         $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ONHOLD);
         $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-
-        // Workgroup filtering
-        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
-
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $project)
             {
@@ -167,17 +149,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb->add_constraint('end', '<', time());
         $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
 
-        // Workgroup filtering
-        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
-
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (count($ret) > 0)
         {
             foreach ($ret as $project)
             {
@@ -192,18 +164,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
 
         $qb = org_openpsa_projects_project::new_query_builder();
         $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::CLOSED);
-
-        // Workgroup filtering
-        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
-
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $project)
             {
@@ -218,18 +181,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $this->_request_data['project_list_results']['all'] = array();
 
         $qb = org_openpsa_projects_project::new_query_builder();
-
-        // Workgroup filtering
-        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
-
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $project)
             {

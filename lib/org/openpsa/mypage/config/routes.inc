@@ -1,17 +1,3 @@
-// Match /savefilter
-'savefilter' => array
-(
-    'fixed_args' => 'savefilter',
-    'handler' => 'savefilter'
-),
-
-// Match /userinfo
-'userinfo' => array
-(
-    'fixed_args' => 'userinfo',
-    'handler' => 'userinfo'
-),
-
 // Match /updates
 'updates' => array
 (
