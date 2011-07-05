@@ -29,6 +29,7 @@ div.org_openpsa_invoices table button
 {
     background: transparent;
     border: none;
+    padding: 0;
 }
 div.org_openpsa_invoices table button:hover
 {
