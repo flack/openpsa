@@ -133,19 +133,10 @@ class org_openpsa_helpers_list
             }
 
             $qb = org_openpsa_projects_project::new_query_builder();
-
-            // Workgroup filtering
-            if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-            {
-                $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-            }
-
             $qb->add_order('title');
-
-            //Execute
             $ret = $qb->execute();
-            if (   is_array($ret)
-                && count($ret) > 0)
+
+            if (count($ret) > 0)
             {
                 foreach ($ret as $task)
                 {
@@ -211,48 +202,6 @@ class org_openpsa_helpers_list
             }
         }
         return $GLOBALS[$array_name];
-    }
-
-    /**
-     * Helper function for listing virtual groups of user
-     *
-     * @return Array List of persons appropriate for the current selection
-     * @todo This doesn't seem to be used anywhere
-     */
-    static function resources()
-    {
-        // List members of selected ACL group for usage in DM arrays
-        if (!array_key_exists('org_openpsa_helpers_resources', $GLOBALS))
-        {
-            $GLOBALS['org_openpsa_helpers_resources'] = array();
-            //Safety
-            if (!isset($GLOBALS['org_openpsa_core_workgroup_filter']))
-            {
-                $GLOBALS['org_openpsa_core_workgroup_filter'] = 'all';
-            }
-
-            if (   $GLOBALS['org_openpsa_core_workgroup_filter'] == 'all'
-                && $_MIDCOM->auth->user)
-            {
-                // Populate only the user himself to the list
-                $user = $_MIDCOM->auth->user->get_storage();
-                $GLOBALS['org_openpsa_helpers_resources'][$user->id] = true;
-            }
-            else
-            {
-                $group = & $_MIDCOM->auth->get_group($GLOBALS['org_openpsa_core_workgroup_filter']);
-                if ($group)
-                {
-                    $members = $group->list_members();
-                    foreach ($members as $person)
-                    {
-                        $member = $person->get_storage();
-                        $GLOBALS['org_openpsa_helpers_resources'][$member->id] = true;
-                    }
-                }
-            }
-        }
-        return $GLOBALS['org_openpsa_helpers_resources'];
     }
 }
 ?>

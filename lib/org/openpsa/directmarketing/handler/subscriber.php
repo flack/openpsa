@@ -150,13 +150,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $qb->add_constraint('archived', '=', 0);
             $qb->add_order('metadata.created', $this->_config->get('campaign_list_order'));
 
-            // Workgroup filtering
-            if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-            {
-                debug_add("Filtering documents by workgroup {$GLOBALS['org_openpsa_core_workgroup_filter']}");
-                $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-            }
-
             $campaigns = $qb->execute();
         }
 
