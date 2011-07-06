@@ -184,7 +184,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         $rows = $this->_get_rows();
 
         foreach ($rows as $key)
-        {
+        {var_dump($key);
             $html .= "        <tr class=\"{$key}\" id=\"row_{$key}\">\n";
 
             // Sortable table order
@@ -319,13 +319,15 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             && (!$this->_type->row_limit
                 || count($rows) < $this->_type->row_limit))
         {
-            $rows[] = time() . microtime();
+            //$rows[] = time() . microtime();
+            $rows[] = 0;
         }
         else
         {
             for ($i = 0; $i < $this->_type->rows; $i++)
             {
-                $rows[] = time() . microtime();
+                //$rows[] = time() . microtime();
+                $rows[] = 0;
             }
         }
 
