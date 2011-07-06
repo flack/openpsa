@@ -33,7 +33,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice->customer = (int) $_POST['org_openpsa_invoices_invoice_customer'];
         $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
         $invoice->owner = midcom_connection::get_user();
-        $invoice->due = ($this->_config->get('default_due_days') * 3600 * 24) + time();
 
         // Fill VAT value
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
@@ -44,16 +43,13 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         $invoice->description = '';
-        $invoice->sum = 0;
+
         $invoice_items = array();
         foreach ($_POST['org_openpsa_invoices_invoice_tasks'] as $task_id => $invoiceable)
         {
             if ($invoiceable)
             {
                 $task = $this->_tasks[$task_id];
-
-                //can't be += because of #567
-                $invoice->sum = $invoice->sum + ((float) $_POST['org_openpsa_invoices_invoice_tasks_price'][$task_id] * (float) $_POST['org_openpsa_invoices_invoice_tasks_units'][$task_id]);
 
                 //instance the invoice_items
                 $invoice_items[$task_id] = new org_openpsa_invoices_invoice_item_dba();
