@@ -1,7 +1,7 @@
 'default_try_backends' => array
 (
-    'mail_smtp',
     'mail_sendmail',
+    'mail_smtp',
     'mail',
 ),
 
@@ -13,8 +13,8 @@
 
 'mail_sendmail_params' => array
 (
-    'path' => null,
-    'args' => null,
+    'sendmail_path' => null,
+    'sendmail_args' => null,
 ),
 
 //Theses domains report character set incorrectly (thus messing up the conversion if we trust it)
