@@ -233,6 +233,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     {
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->_object->id);
+        $qb->add_order('date', 'ASC');
         $reports = $qb->execute();
         if (!is_array($reports)
             || sizeof($reports) < 1)

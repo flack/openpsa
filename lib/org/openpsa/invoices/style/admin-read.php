@@ -1,6 +1,5 @@
 <?php
 $view = $data['object_view'];
-
 $invoice = $data['object'];
 
 try
