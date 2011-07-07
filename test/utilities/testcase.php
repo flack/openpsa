@@ -176,10 +176,19 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
+        if (isset($_SERVER['REQUEST_METHOD']))
+        {
+            unset($_SERVER['REQUEST_METHOD']);
+        }
+        if (!empty($_POST))
+        {
+            $_POST = array();
+        }
         if (midcom_core_context::get()->id != 0)
         {
             midcom_core_context::get(0)->set_current();
         }
+
         $queue = array();
         while (!empty($this->_testcase_objects))
         {
