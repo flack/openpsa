@@ -422,6 +422,10 @@ Aufgaben-Status
 Aufgaben
 ---STRINGEND
 
+---STRING timeframe
+Zeitrahmen
+---STRINGEND
+
 ---STRING totals
 Gesamtsummen
 ---STRINGEND
