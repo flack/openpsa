@@ -56,18 +56,5 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        if (isset($_SERVER['REQUEST_METHOD']))
-        {
-            unset($_SERVER['REQUEST_METHOD']);
-        }
-        if (!empty($_POST))
-        {
-            $_POST = array();
-        }
-    }
 }
 ?>

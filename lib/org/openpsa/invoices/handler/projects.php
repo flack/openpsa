@@ -33,64 +33,58 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice->customer = (int) $_POST['org_openpsa_invoices_invoice_customer'];
         $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
         $invoice->owner = midcom_connection::get_user();
-
-        // Fill VAT value
-        $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (   is_array($vat_array)
-            && count($vat_array) > 0)
-        {
-            $invoice->vat = (int) $vat_array[0];
-        }
-
+        $invoice->vat = $invoice->get_default_vat();
         $invoice->description = '';
 
-        $invoice_items = array();
-        foreach ($_POST['org_openpsa_invoices_invoice_tasks'] as $task_id => $invoiceable)
-        {
-            if ($invoiceable)
-            {
-                $task = $this->_tasks[$task_id];
-
-                //instance the invoice_items
-                $invoice_items[$task_id] = new org_openpsa_invoices_invoice_item_dba();
-                $invoice_items[$task_id]->task = $task_id;
-                $invoice_items[$task_id]->description = $task->title;
-                $invoice_items[$task_id]->pricePerUnit = (float) $_POST['org_openpsa_invoices_invoice_tasks_price'][$task_id];
-                $invoice_items[$task_id]->units = (float) $_POST['org_openpsa_invoices_invoice_tasks_units'][$task_id];
-            }
-        }
-
-        if ($invoice->create())
-        {
-            // create invoice_items
-            foreach ($invoice_items as $invoice_item)
-            {
-                $invoice_item->invoice = $invoice->id;
-                $invoice_item->create();
-
-                $task = $this->_tasks[$invoice_item->task];
-
-                // Connect invoice to the tasks involved
-                org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
-            }
-
-            // Generate "Send invoice" task
-            $invoice_sender_guid = $this->_config->get('invoice_sender');
-            if (!empty($invoice_sender_guid))
-            {
-                $invoice->generate_invoicing_task($invoice_sender_guid);
-            }
-
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice "%s" created'), $invoice->get_label()), 'ok');
-
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate("{$prefix}invoice/edit/{$invoice->guid}/");
-            // This will exit
-        }
-        else
+        if (!$invoice->create())
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
+            return false;
         }
+
+        // create invoice_items
+        foreach ($_POST['org_openpsa_invoices_invoice_tasks'] as $task_id => $invoiceable)
+        {
+            if (!$invoiceable)
+            {
+                continue;
+            }
+
+            $task = $this->_tasks[$task_id];
+
+            //instance the invoice_items
+            $item = new org_openpsa_invoices_invoice_item_dba();
+            $item->task = $task_id;
+            try
+            {
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
+                $item->deliverable = $deliverable->id;
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
+            $item->invoice = $invoice->id;
+            $item->description = $task->title;
+            $item->pricePerUnit = (float) $_POST['org_openpsa_invoices_invoice_tasks_price'][$task_id];
+            $item->units = (float) $_POST['org_openpsa_invoices_invoice_tasks_units'][$task_id];
+            $item->create();
+
+            // Connect invoice to the tasks involved
+            org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
+        }
+
+        // Generate "Send invoice" task
+        $invoice_sender_guid = $this->_config->get('invoice_sender');
+        if (!empty($invoice_sender_guid))
+        {
+            $invoice->generate_invoicing_task($invoice_sender_guid);
+        }
+
+        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice "%s" created'), $invoice->get_label()), 'ok');
+
+        $_MIDCOM->relocate("invoice/edit/{$invoice->guid}/");
+            // This will exit
     }
 
     /**
@@ -106,22 +100,15 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '>=', org_openpsa_projects_task_status_dba::COMPLETED);
 
-        //Load component here already to get the needed constants
-        if ($_MIDCOM->componentloader->load_graceful('org.openpsa.sales'))
-        {
-            $qb->begin_group('OR');
-                $qb->add_constraint('invoiceableHours', '>', 0);
-                $qb->begin_group('AND');
-                    $qb->add_constraint('agreement.invoiceByActualUnits', '=', false);
-                    $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED);
-                    $qb->add_constraint('agreement.price', '>', 0);
-                $qb->end_group();
-            $qb->end_group();
-        }
-        else
-        {
+        $qb->begin_group('OR');
             $qb->add_constraint('invoiceableHours', '>', 0);
-        }
+            $qb->begin_group('AND');
+                $qb->add_constraint('agreement.invoiceByActualUnits', '=', false);
+                $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED);
+                $qb->add_constraint('agreement.price', '>', 0);
+            $qb->end_group();
+        $qb->end_group();
+
         $tasks = $qb->execute();
 
         foreach ($tasks as $task)
@@ -145,9 +132,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         $title = $this->_l10n->get('project invoicing');
-
         $_MIDCOM->set_pagetitle($title);
-
         $this->add_breadcrumb("", $title);
     }
 
