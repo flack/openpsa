@@ -415,8 +415,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         );
 
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
-
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoice_item.js');
     }
 }
 ?>
