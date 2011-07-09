@@ -229,11 +229,13 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                  && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //delivered, invoiced
-            $calculator = new org_openpsa_invoices_calculator();
-            $amount = $calculator->process_deliverable($this->_deliverable);
-            if ($amount > 0)
+            $client_class = $this->_config->get('calculator');
+            $client = new $client_class($deliverable);
+            $client->run();
+
+            if ($client->get_price > 0)
             {
-                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . $this->_l10n->get('invoice') . "\" />\n";
+                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . $this->_l10n->get('create invoice') . "\" />\n";
             }
         }
 
