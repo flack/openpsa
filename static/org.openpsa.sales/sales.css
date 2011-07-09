@@ -94,8 +94,6 @@ div.salesproject div.deliverables ol.deliverable_list li h3
 }
 
 div.salesproject div.deliverables ol.deliverable_list li div.information,
-div.salesproject div.deliverables ol.deliverable_list li div.invoices,
-div.salesproject div.deliverables ol.deliverable_list li div.tasks,
 div.salesproject div.deliverables ol.deliverable_list li div.toolbar
 {
     margin-left: 24px;

@@ -59,7 +59,7 @@ echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($rows);
 echo "\n//]]></script>";
 ?>
-<div class="org_openpsa_projects <?php echo $data['view_identifier']; ?> full-width">
+<div class="org_openpsa_projects <?php echo $data['view_identifier']; ?> full-width crop-height">
 
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>

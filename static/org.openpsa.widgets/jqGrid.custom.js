@@ -139,7 +139,7 @@ var org_openpsa_grid_resize =
         {
             return;
         }
-        var new_width = items.width() - 12;
+        var new_width = items.filter(':visible').width() - 12;
 
         if (items.hasClass('ui-jqgrid-maximized'))
         {
