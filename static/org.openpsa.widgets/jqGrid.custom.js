@@ -139,7 +139,8 @@ var org_openpsa_grid_resize =
         {
             return;
         }
-        var new_width = items.attr('clientWidth') - 5;
+        var new_width = items.width() - 12;
+
         if (items.hasClass('ui-jqgrid-maximized'))
         {
             new_width = $('#content-text').attr('clientWidth') - 20;
@@ -149,7 +150,8 @@ var org_openpsa_grid_resize =
             var id = $(this).attr('id');
 
             var panel = jQuery("#gbox_" + id).closest('.ui-tabs-panel');
-            if (panel.hasClass('ui-tabs-hide'))
+            if (   panel.length > 0
+                && panel.hasClass('ui-tabs-hide'))
             {
                 return;
             }
