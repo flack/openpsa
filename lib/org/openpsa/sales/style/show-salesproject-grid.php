@@ -113,7 +113,7 @@ echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($rows);
 echo "\n//]]></script>";
 ?>
-<div class="org_openpsa_sales <?php echo $data['list_title']; ?>">
+<div class="org_openpsa_sales full-width fill-height <?php echo $data['list_title']; ?>">
 
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>
@@ -121,19 +121,6 @@ echo "\n//]]></script>";
 </div>
 
 <script type="text/javascript">
-function jqgrid_&(grid_id);_resize()
-{
-    var new_width = jQuery("#gbox_&(grid_id);").parent().attr('clientWidth') - 5;
-    var new_height = jQuery("#content").attr('clientHeight') - 220;
-
-    try
-    {
-        jQuery("#&(grid_id);").jqGrid().setGridWidth(new_width);
-        jQuery("#&(grid_id);").jqGrid().setGridHeight(new_height);
-    }
-    catch (e){};
-}
-
 jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
@@ -179,14 +166,6 @@ jQuery("#&(grid_id);").jqGrid({
       rowNum: <?php echo sizeof($rows); ?>,
       scroll: 1
 });
-
-jqgrid_&(grid_id);_resize();
-
-jQuery(window).resize(function()
-{
-    jqgrid_&(grid_id);_resize();
-});
-
 </script>
 
 <?php
