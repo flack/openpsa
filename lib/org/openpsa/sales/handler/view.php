@@ -226,6 +226,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             }
         }
         else if (   $deliverable->orgOpenpsaObtype != ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+                 && $deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED
                  && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //delivered, invoiced
@@ -233,9 +234,9 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $client = new $client_class($deliverable);
             $client->run();
 
-            if ($client->get_price > 0)
+            if ($client->get_price() > 0)
             {
-                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . $this->_l10n->get('create invoice') . "\" />\n";
+                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice')) . "\" />\n";
             }
         }
 
