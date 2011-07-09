@@ -26,10 +26,6 @@ Accepted by %s
 Agreement
 ---STRINGEND
 
----STRING agreement tasks
-Delivery tasks
----STRINGEND
-
 ---STRING approve
 Approve
 ---STRINGEND
@@ -425,6 +421,11 @@ Task status
 ---STRING tasks
 Tasks
 ---STRINGEND
+
+---STRING tasks for agreement %s
+Tasks for agreement %s
+---STRINGEND
+
 
 ---STRING timeframe
 Timeframe
