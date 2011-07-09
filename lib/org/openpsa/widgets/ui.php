@@ -153,7 +153,8 @@ $(document).ready(
         var tabs = $('#tabs').tabs({
               cache: true,
               spinner: '{$wait}...',
-              load: function(){org_openpsa_jsqueue.execute();}
+              load: function(){org_openpsa_jsqueue.execute();},
+              show: function(){\$(window).trigger('resize');}
         });
 
         $.history.init(function(url)

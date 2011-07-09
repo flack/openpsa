@@ -22,6 +22,7 @@ $.jgrid.defaults = $.extend($.jgrid.defaults, org_openpsa_jqgrid_presets);
 
 var org_openpsa_grid_resize =
 {
+    timer: false,
     attach_events: function(scope)
     {
         jQuery(window).resize(function()
@@ -29,19 +30,32 @@ var org_openpsa_grid_resize =
             org_openpsa_grid_resize.event_handler(scope);
         });
 
+        $('#content-text').addClass('openpsa-resizing');
         org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
         org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
+
         $('table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function(gridstate)
         {
             $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate == 'visible');
             $(window).trigger('resize');
         }});
         org_openpsa_grid_resize.fill_width($('.full-width', scope));
+        $('#content-text').removeClass('openpsa-resizing');
 
         org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar', scope));
     },
     event_handler: function(scope)
     {
+        if (!org_openpsa_grid_resize.timer)
+        {
+            $('#content-text').addClass('openpsa-resizing');
+        }
+        else
+        {
+            clearTimeout(org_openpsa_grid_resize.timer);
+        }
+        org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 200);
+
         if ($('.ui-jqgrid-maximized', scope).length > 0)
         {
             org_openpsa_grid_resize.maximize_height($('.ui-jqgrid-maximized', scope));
@@ -53,6 +67,11 @@ var org_openpsa_grid_resize =
             org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
             org_openpsa_grid_resize.fill_width($('.full-width', scope));
         }
+    },
+    end_resize: function()
+    {
+        org_openpsa_grid_resize.timer = false;
+        $('#content-text').removeClass('openpsa-resizing');
     },
     attach_maximizer: function(items)
     {
@@ -190,11 +209,7 @@ var org_openpsa_grid_resize =
         {
             $.each(grid_heights, function(grid_id, content_height)
             {
-                try
-                {
-                    $("#" + grid_id).jqGrid().setGridHeight(content_height);
-                }
-                catch(e){}
+                set_param(grid_id, content_height)
             });
             return;
         }
@@ -206,11 +221,7 @@ var org_openpsa_grid_resize =
             {
                 available_space -= minimum_height;
                 grids_content_height -= content_height;
-                try
-                {
-                    $("#" + grid_id).jqGrid().setGridHeight(minimum_height);
-                }
-                catch(e){}
+                set_param(grid_id, minimum_height)
                 delete grid_heights[grid_id];
             }
         });
@@ -218,13 +229,21 @@ var org_openpsa_grid_resize =
         $.each(grid_heights, function(grid_id, content_height)
         {
             var new_height = Math.round(available_space * (content_height / grids_content_height));
+            set_param(grid_id, new_height)
+        });
 
+        function set_param(grid_id, value)
+        {
+            if ($("#" + grid_id).parent().parent().height() == value)
+            {
+                return;
+            }
             try
             {
-                $("#" + grid_id).jqGrid().setGridHeight(new_height);
+                $("#" + grid_id).jqGrid().setGridHeight(value);
             }
             catch(e){}
-        });
+        }
     },
     maximize_height: function(part)
     {
