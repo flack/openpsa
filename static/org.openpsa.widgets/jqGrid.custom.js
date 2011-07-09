@@ -48,7 +48,10 @@ var org_openpsa_grid_resize =
     {
         if (!org_openpsa_grid_resize.timer)
         {
-            $('#content-text').addClass('openpsa-resizing');
+            if ($('#content-text').scrollHeight == $('#content-text').height())
+            {
+                $('#content-text').addClass('openpsa-resizing');
+            }
         }
         else
         {
