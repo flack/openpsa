@@ -225,7 +225,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $toolbar .= "<input type=\"submit\" class=\"deliver\" name=\"deliver\" value=\"" . $this->_l10n->get('mark delivered') . "\" />\n";
             }
         }
-        else if (   $deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+        else if (   $deliverable->orgOpenpsaObtype != ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
                  && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //delivered, invoiced
