@@ -103,7 +103,8 @@ div.salesproject div.deliverables ol.deliverable_list li div.toolbar
 
 div.salesproject div.deliverables ol.deliverable_list li div.tasks
 {
-    margin-top: .5em
+    margin-top: .5em;
+    clear: both
 }
 
 div.salesproject div.deliverables ol.deliverable_list li div.tags

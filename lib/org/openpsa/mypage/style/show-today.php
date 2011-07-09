@@ -36,9 +36,6 @@ $view_today =& $data['view_today'];
 
         <script type="text/javascript">
         //call for jqgrid-plugin
-        $(document).ready(
-        function()
-        {
             var post_array = <?php echo json_encode($data['journal_constraints']) ;?>;
 
             jQuery("#treegrid").jqGrid({
@@ -74,10 +71,6 @@ $view_today =& $data['view_today'];
                 loadonce: true,
                 caption: "<?php echo $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto');?>",
              });
-             jQuery("#gbox_treegrid").css('float' , 'none');
-        });
-
-
         </script>
         <?php
     }
