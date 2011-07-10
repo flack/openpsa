@@ -319,6 +319,10 @@ Abgerechnete Verkaufsprojekte
 Verkaufsprojekte: %s
 ---STRINGEND
 
+---STRING select either end date or continuous
+Bitte geben sie ein Enddatum an oder wählen sie "Fortlaufend"
+---STRINGEND
+
 ---STRING select product
 Produkt wählen
 ---STRINGEND
