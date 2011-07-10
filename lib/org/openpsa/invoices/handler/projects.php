@@ -179,22 +179,25 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
                 }
                 $data['class'] = $class;
 
-                if (   class_exists('org_openpsa_sales_salesproject_deliverable_dba')
-                    && $task->agreement)
+                try
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
                     $deliverable->calculate_price(false);
                     $data['default_price'] = $deliverable->pricePerUnit;
                     $data['invoiceable_hours'] = $task->invoiceableHours;
                 }
-                else if ($this->_config->get('default_hourly_price'))
+                catch (midcom_error $e)
                 {
-                    $data['default_price'] = $this->_config->get('default_hourly_price');
-                    $data['invoiceable_hours'] = $task->invoiceableHours;
-                }
-                else
-                {
-                    $data['default_price'] = '';
+                    $e->log();
+                    if ($this->_config->get('default_hourly_price'))
+                    {
+                        $data['default_price'] = $this->_config->get('default_hourly_price');
+                        $data['invoiceable_hours'] = $task->invoiceableHours;
+                    }
+                    else
+                    {
+                        $data['default_price'] = '';
+                    }
                 }
                 midcom_show_style('show-projects-customer-task');
             }
