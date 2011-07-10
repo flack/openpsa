@@ -36,9 +36,13 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         self::$_product = self::create_class_object('org_openpsa_products_product_dba', $product_attributes);
     }
 
-    public function testHandler_process()
+    public function testHandler_process_single()
     {
         midcom::get('auth')->request_sudo('org.openpsa.sales');
+
+        $product = org_openpsa_products_product_dba::get_cached(self::$_product->id);
+        $product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE;
+        $product->update();
 
         $deliverable_attributes = array
         (
@@ -68,6 +72,41 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED, $deliverable->state);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_process_subscription()
+    {
+        midcom::get('auth')->request_sudo('org.openpsa.sales');
+
+        $product = org_openpsa_products_product_dba::get_cached(self::$_product->id);
+        $product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION;
+        $product->update();
+
+        $deliverable_attributes = array
+        (
+            'salesproject' => self::$_salesproject->id,
+            'product' => self::$_product->id,
+            'start' => time(),
+            'unit' => 'q',
+            'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+        );
+
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable->update();
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        $_POST = array
+        (
+            'order' => true,
+        );
+
+        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
+        $deliverable->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED, $deliverable->state);
 
         midcom::get('auth')->drop_sudo();
     }
