@@ -81,7 +81,8 @@ form.datamanager2 label span.field_text
     margin-right: 1em;
 }
 
-form.datamanager2 .error
+form.datamanager2 .error,
+form.datamanager2 .field_error
 {
     color: red;
 }
