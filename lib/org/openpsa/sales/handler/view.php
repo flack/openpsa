@@ -126,7 +126,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         {
             $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         }
-
+        $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
         $deliverables = $qb->execute();
         foreach ($deliverables as $deliverable)
