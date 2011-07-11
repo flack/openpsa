@@ -126,7 +126,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         {
             $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         }
-
+        $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
         $deliverables = $qb->execute();
         foreach ($deliverables as $deliverable)
@@ -225,15 +225,25 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $toolbar .= "<input type=\"submit\" class=\"deliver\" name=\"deliver\" value=\"" . $this->_l10n->get('mark delivered') . "\" />\n";
             }
         }
-        else if (   $deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
-                 && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
         {
             //delivered, invoiced
-            $calculator = new org_openpsa_invoices_calculator();
-            $amount = $calculator->process_deliverable($this->_deliverable);
-            if ($amount > 0)
+            if ($deliverable->invoiced > 0)
             {
-                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . $this->_l10n->get('invoice') . "\" />\n";
+                $toolbar .= "<p>" . $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced, 2) . "</p>\n";
+            }
+        }
+        else if (   $deliverable->orgOpenpsaObtype != ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+                 && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+        {
+            //not invoiced yet
+            $client_class = $this->_config->get('calculator');
+            $client = new $client_class($deliverable);
+            $client->run();
+
+            if ($client->get_price() > 0)
+            {
+                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice')) . "\" />\n";
             }
         }
 

@@ -367,11 +367,11 @@ Festpreis
 ---STRINGEND
 
 ---STRING price per unit
-Preis pro Einheit
+Stückpreis
 ---STRINGEND
 
 ---STRING units
-Einheiten
+Stückzahl
 ---STRINGEND
 
 ---STRING use contact address

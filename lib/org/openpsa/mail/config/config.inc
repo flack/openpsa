@@ -5,12 +5,17 @@
     'mail',
 ),
 
+//This becomes the fifth parameter of mail()
+'mail_additional_params' => '',
+
+//These are passed to the Mail_smtp backend
 'mail_smtp_params' => array
 (
     'host' => null,
     'port' => null
 ),
 
+//These are passed to the Mail_sendmail backend
 'mail_sendmail_params' => array
 (
     'sendmail_path' => null,

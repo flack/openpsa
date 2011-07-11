@@ -123,7 +123,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         if (   $autoquote_string
             && is_string($value))
         {
-            $value = '"' . $value . '"';
+            $value = '"' . str_replace('"', '\\"', $value) . '"';
         }
         else if ($value === true)
         {

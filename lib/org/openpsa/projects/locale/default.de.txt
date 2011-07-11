@@ -26,10 +26,6 @@ Angenommen von %s
 Vereinbarung
 ---STRINGEND
 
----STRING agreement tasks
-Aufgaben zur Vereinbarung
----STRINGEND
-
 ---STRING approve
 Genehmigen
 ---STRINGEND
@@ -420,6 +416,14 @@ Aufgaben-Status
 
 ---STRING tasks
 Aufgaben
+---STRINGEND
+
+---STRING tasks for agreement %s
+Aufgaben zur Vereinbarung "%s"
+---STRINGEND
+
+---STRING timeframe
+Zeitrahmen
 ---STRINGEND
 
 ---STRING totals

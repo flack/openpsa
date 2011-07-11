@@ -594,6 +594,11 @@ input#org_openpsa_search_query
     cursor: pointer
 }
 
+#content-text.openpsa-resizing
+{
+    overflow: hidden
+}
+
 #org_openpsa_widgets_calendar
 {
     position: absolute;

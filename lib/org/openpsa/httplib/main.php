@@ -14,7 +14,7 @@
 class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 {
     private $_client = null;
-    
+
     private $_params = array
     (
         'connect_timeout' => 15,
@@ -28,8 +28,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         'password' => false,
     );
     var $files = array();
-    var $http_timeout = 15;
-    var $http_read_timeout = 30;
 
     /**
      * Initializes the class
@@ -56,6 +54,17 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         }
         debug_add("Got HTTP response code {$response_code}, reporting failure");
         return false;
+    }
+
+    /**
+     * Set one of the HTTP_Request2 parameters
+     *
+     * @param string $name The parameter's name
+     * @param mixed $value The new value
+     */
+    public function set_param($name, $value)
+    {
+        $this->_params[$name] = $value;
     }
 
     /**

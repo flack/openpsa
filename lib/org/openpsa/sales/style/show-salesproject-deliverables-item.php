@@ -55,7 +55,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     <div class="description">
         &(deliverable['description']:h);
     </div>
-    </div>
 
     <div class="tasks">
         <?php
@@ -81,6 +80,8 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         }
         ?>
     </div>
+    </div>
+
     <div class="toolbar">
         <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">
         <?php
@@ -89,19 +90,3 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         </form>
     </div>
 </li>
-
-<script type="text/javascript">
-jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?> .icon').click(function(e){
-    jQuery('#information_<?php echo $data['deliverable_object']->guid; ?>').toggle('fast');
-    if (jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').hasClass('expanded'))
-    {
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').removeClass('expanded');
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').addClass('collapsed');
-    }
-    else
-    {
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').addClass('expanded');
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').removeClass('collapsed');
-    }
-});
-</script>

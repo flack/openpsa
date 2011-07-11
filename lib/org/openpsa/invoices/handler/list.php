@@ -513,7 +513,10 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_process_invoice_list($invoices);
         }
 
-        $_MIDCOM->set_pagetitle($data['list_label']);
+        $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $data['deliverable']->title);
+
+        $_MIDCOM->set_pagetitle($title);
+        $this->add_breadcrumb("", $title);
     }
 
     /**

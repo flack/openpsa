@@ -351,6 +351,12 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 }
                 $agreement_id = (int) $args[2];
                 $this->_request_data['agreement'] = $agreement_id;
+
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement_id);
+                $title = sprintf($this->_l10n->get('tasks for agreement %s'), $deliverable->title);
+                $_MIDCOM->set_pagetitle($title);
+                $this->add_breadcrumb("", $title);
+
                 $qb->add_constraint('agreement', '=', $agreement_id);
                 $qb->add_order('end', 'DESC');
                 break;

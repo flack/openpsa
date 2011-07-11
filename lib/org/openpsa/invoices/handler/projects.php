@@ -130,6 +130,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
 
         $title = $this->_l10n->get('project invoicing');
         $_MIDCOM->set_pagetitle($title);
@@ -178,23 +180,34 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
                     $class = "even";
                 }
                 $data['class'] = $class;
-
-                if (   class_exists('org_openpsa_sales_salesproject_deliverable_dba')
-                    && $task->agreement)
+                $data['reported_hours'] = $task->reportedHours;
+                try
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
                     $deliverable->calculate_price(false);
                     $data['default_price'] = $deliverable->pricePerUnit;
-                    $data['invoiceable_hours'] = $task->invoiceableHours;
+
+                    if ($deliverable->invoiceByActualUnits)
+                    {
+                        $data['invoiceable_units'] = $task->invoiceableHours;
+                    }
+                    else
+                    {
+                        $data['invoiceable_units'] = $task->plannedHours;
+                    }
                 }
-                else if ($this->_config->get('default_hourly_price'))
+                catch (midcom_error $e)
                 {
-                    $data['default_price'] = $this->_config->get('default_hourly_price');
-                    $data['invoiceable_hours'] = $task->invoiceableHours;
-                }
-                else
-                {
-                    $data['default_price'] = '';
+                    $e->log();
+                    if ($this->_config->get('default_hourly_price'))
+                    {
+                        $data['default_price'] = $this->_config->get('default_hourly_price');
+                        $data['invoiceable_units'] = $task->invoiceableHours;
+                    }
+                    else
+                    {
+                        $data['default_price'] = '';
+                    }
                 }
                 midcom_show_style('show-projects-customer-task');
             }

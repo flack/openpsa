@@ -1,7 +1,7 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
-<div class="main">
+<div class="wide">
     <div class="area">
         <h1><?php echo $data['l10n']->get('org.openpsa.reports'); ?></h1>
     <?php
