@@ -11,6 +11,16 @@
             'type' => 'text',
             'widget'  => 'text',
         ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => Array (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
         'tags' => Array
         (
             'title' => 'tags',
@@ -18,6 +28,7 @@
             'type' => 'tags',
             'widget' => 'text',
         ),
+
         'supplier' => array
         (
             'title'   => 'supplier',
@@ -62,16 +73,6 @@
                 ),
             ),
         ),
-        'description' => Array
-        (
-            'title' => 'description',
-            'storage' => 'description',
-            'type' => 'text',
-            'type_config' => Array (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
-        ),
         'end' => Array
         (
             'title' => 'estimated delivery',
@@ -101,6 +102,13 @@
             (
                 'show_time' => false,
             ),
+        ),
+        'product' => Array
+        (
+            'title' => 'product',
+            'storage' => 'product',
+            'type' => 'number',
+            'widget' => 'hidden',
         ),
         'pricePerUnit' => Array
         (
