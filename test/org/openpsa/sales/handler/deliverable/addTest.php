@@ -46,13 +46,8 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
             'product' => $product->id,
         );
 
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'add', $salesproject->guid));
-
-        $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $qb->add_constraint('salesproject', '=', $salesproject->id);
-        $results =  $qb->execute();
-        $this->assertEquals(1, sizeof($results));
-        $this->assertEquals('deliverable/edit/' . $results[0]->guid . '/', $url);
+        $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $salesproject->guid));
+        $this->assertEquals('deliverable_add', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();
     }

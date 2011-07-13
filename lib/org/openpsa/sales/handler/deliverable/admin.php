@@ -264,7 +264,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     public function _show_edit ($handler_id, array &$data)
     {
-        midcom_show_style('show-deliverable-edit');
+        midcom_show_style('show-deliverable-form');
     }
 
     /**
