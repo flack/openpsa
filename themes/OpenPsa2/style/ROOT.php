@@ -8,7 +8,7 @@ $pref_found = false;
 $width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset');
 if ($width !== false)
 {
-    $navigation_width = $width;
+    $navigation_width = $width - 2;
     $content_offset = $width;
     $pref_found = true;
 }
@@ -43,16 +43,16 @@ echo "<?xml version=\"1.0\"?>\n";
 
         if ($pref_found)
         {?>
-              <style type="text/css">
-                #container #leftframe
-                {
-                 width: &(navigation_width);px;
-                }
+            <style type="text/css">
+            #container #leftframe
+            {
+                width: &(navigation_width);px;
+            }
 
-                #container #content
-                {
-                  margin-left: &(content_offset);px;
-                }
+            #container #content
+            {
+                margin-left: &(content_offset);px;
+            }
             </style>
         <?php } ?>
     </head>
