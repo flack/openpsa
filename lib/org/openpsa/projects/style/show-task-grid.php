@@ -114,7 +114,7 @@ jQuery("#&(grid_id);").jqGrid({
       scroll: 1,
       grouping: true,
       groupingView: {
-          groupField: ['index_project'],
+          groupField: ['project'],
           groupColumnShow: [false],
           groupText : ['<strong>{0}</strong> ({1})'],
           groupOrder: ['asc'],
@@ -140,20 +140,15 @@ jQuery("#chgrouping_&(grid_id);").change(function()
         }
         else
         {
-            &(grid_id);_grouping = selection.replace(/^index_/, '');
+            &(grid_id);_grouping = selection;
             jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
             jQuery("#&(grid_id);").hideCol(&(grid_id);_grouping);
         }
         if (old_grouping)
         {
             jQuery("#&(grid_id);").showCol(old_grouping);
-            jQuery("#&(grid_id);").hideCol('index_' + old_grouping);
         }
-        else
-        {
-            //workaround for some weird jqgrid behavior that hopefully disappears with newer (>3.8) versions..
-            jQuery("#&(grid_id);").hideCol('index_project');
-        }
+	jQuery(window).trigger('resize');
     }
 });
 
