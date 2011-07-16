@@ -21,6 +21,13 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
+        $root_group = org_openpsa_contacts_interface::find_root_group();
+
+        $tree = new org_openpsa_widgets_tree('org_openpsa_contacts_group_dba', 'owner');
+        $tree->constraints[] = array('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_OTHERGROUP);
+        $tree->root_node = $root_group->id;
+        $tree->title_fields = array('official', 'name');
+        $data['tree'] = $tree;
 
         $this->_view_toolbar->add_item
         (
