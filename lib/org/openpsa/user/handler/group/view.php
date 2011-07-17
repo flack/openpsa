@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_view
 
         $this->_group = new midcom_db_group($args[0]);
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_group);
-        org_openpsa_widgets_ui::enable_dynatree();
+        org_openpsa_widgets_tree::add_head_elements();
 
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', $this->_group->get_label());

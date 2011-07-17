@@ -89,7 +89,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
 
         $identifier = 'org_openpsa_widgets_treemenu_' . $this->_object_class;
 
-        echo '<div id="' . $identifier . "\">\n";
+        echo '<div class="openpsa-dynatree-container" id="' . $identifier . "\">\n";
         $this->_render_items($items);
         echo "\n</div>\n";
 
@@ -99,22 +99,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
 <script type="text/javascript">
       $(document).ready(function ()
       {
-        $("#{$identifier}").dynatree(
-        {
-            minExpandLevel: 1,
-            persist: true,
-            cookie: {path: "{$prefix}"},
-            cookieId: "{$identifier}",
-            clickFolderMode: 2,
-            autoCollapse: false,
-
-            onActivate: function(dtnode) {
-                if (typeof dtnode.data.url !== 'undefined')
-                {
-                    window.location.href = dtnode.data.url;
-                }
-            }
-        });
+          org_openpsa_tree.setup("{$identifier}", "{$prefix}");
       });
 </script>
 JSINIT;
@@ -211,6 +196,7 @@ JSINIT;
         {
             return;
         }
+
         $head = midcom::get('head');
         $head->enable_jquery();
 
@@ -220,6 +206,7 @@ JSINIT;
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/dynatree/jquery.dynatree.min.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/dynatree/skin/ui.dynatree.css");
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/dynatree.custom.js');
         $head->add_jquery_ui_theme();
         self::$_head_elements_added = true;
     }

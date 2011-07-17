@@ -31,7 +31,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         $data['grid'] = new org_openpsa_widgets_grid('org_openpsa_user_grid', 'json');
 
-        org_openpsa_widgets_ui::enable_dynatree();
+        org_openpsa_widgets_tree::add_head_elements();
 
         $this->_view_toolbar->add_item
         (
