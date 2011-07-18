@@ -67,6 +67,8 @@ implements midcom_helper_datamanager2_interfaces_view
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_group);
         $data['group'] = $this->_group;
 
+        org_openpsa_widgets_tree::add_head_elements();
+
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('delete %s'), $this->_group->get_label()));
 

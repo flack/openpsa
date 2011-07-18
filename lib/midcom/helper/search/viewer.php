@@ -38,26 +38,25 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_searchform($handler_id, array $args, array &$data)
     {
-        switch ($handler_id)
+        $this->_prepare_formdata($handler_id);
+    }
+
+    private function _prepare_formdata($handler_id)
+    {
+        $this->_request_data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
+        if ($handler_id === 'advanced')
         {
-            case 'basic':
-                $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
-                break;
+            $this->_request_data['request_topic'] = (array_key_exists('topic', $_REQUEST) ? $_REQUEST['topic'] : '');
+            $this->_request_data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
+            $this->_request_data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
 
-            case 'advanced':
-                $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
-                $data['request_topic'] = (array_key_exists('topic', $_REQUEST) ? $_REQUEST['topic'] : '');
-                $data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
-                $data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
+            $this->_request_data['topics'] = array('' => $this->_l10n->get('search anywhere'));
+            $this->_request_data['components'] = array('' => $this->_l10n->get('search all content types'));
 
-                $data['topics'] = array('' => $this->_l10n->get('search anywhere'));
-                $data['components'] = array('' => $this->_l10n->get('search all content types'));
-
-                $nap = new midcom_helper_nav();
-                $this->_search_nodes($nap->get_root_node(), $nap, '');
-                break;
+            $nap = new midcom_helper_nav();
+            $this->_search_nodes($nap->get_root_node(), $nap, '');
         }
-        $data['type'] = $handler_id;
+        $this->_request_data['type'] = $handler_id;
     }
 
     /**
@@ -134,9 +133,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
     public function _handler_result($handler_id, array $args, array &$data)
     {
         $this->_prepare_query_data();
-
-        $data['type'] = $_REQUEST['type'];
-        $data['query'] = trim($_REQUEST['query']);
+        $this->_prepare_formdata($_REQUEST['type']);
 
         if (   count(explode(' ', $data['query'])) == 1
             && strpos($data['query'], '*') === false
@@ -196,7 +193,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             $data['result'] = array_slice($result, $first_document_id, $results_per_page);
 
             // Register GUIDs for cache engine
-            foreach($data['result'] as $doc)
+            foreach ($data['result'] as $doc)
             {
                 if (   !isset($doc->source)
                     || !mgd_is_guid($doc->source))

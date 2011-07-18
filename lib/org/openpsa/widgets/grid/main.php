@@ -224,7 +224,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             }
             $colnames[] = $column['label'];
         }
-        echo "colNames: " . json_encode($colnames) . ",\n";
+        echo "\ncolNames: " . json_encode($colnames) . ",\n";
 
         $this->_render_colmodel();
 
@@ -260,7 +260,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
                 echo 'sorttype: "' . $column['separate_index'] . '", hidden: true}' . ",\n";
             }
 
-            echo '{name:"' . $name . '", ';
+            echo '{name: "' . $name . '", ';
             if ($column['separate_index'])
             {
                 echo 'index: "index_' . $name . '"';

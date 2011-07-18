@@ -143,7 +143,8 @@ jQuery("#&(grid_id);").jqGrid({
           groupColumnShow: [false],
           groupText : ['<strong>{0}</strong> ({1})'],
           groupOrder: ['asc'],
-          groupSummary : [true]
+          groupSummary : [true],
+          showSummaryOnHide: true
        }
 });
 

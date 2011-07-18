@@ -23,7 +23,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title"'
 </div>
 
 <div class="main">
-<div class="org_openpsa_user full-width">
+<div class="org_openpsa_user full-width fill-height">
 <?php $grid->render(); ?>
 </div>
 </div>

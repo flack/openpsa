@@ -30,9 +30,9 @@ $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 <?php
 foreach ($data['topics'] as $url => $name)
 {
-    $selected = ($data['request_topic'] == $url) ? ' selected' : '';
+    $selected = ($data['request_topic'] == $url) ? ' selected="selected"' : '';
 ?>
-                <option&(selected); value='&(url);'>&(name:h);</option>
+                <option&(selected:h); value='&(url);'>&(name:h);</option>
 <?php
 }
 ?>
@@ -46,9 +46,9 @@ foreach ($data['topics'] as $url => $name)
 <?php
 foreach ($data['components'] as $id => $name)
 {
-    $selected = ($data['component'] == $id) ? ' selected' : '';
+    $selected = ($data['component'] == $id) ? ' selected="selected"' : '';
 ?>
-                <option&(selected); value='&(id);'>&(name:h);</option>
+                <option&(selected:h); value='&(id);'>&(name:h);</option>
 <?php
 }
 ?>
@@ -62,9 +62,9 @@ foreach ($data['components'] as $id => $name)
 <?php
 foreach ($lastmod_content as $timestamp => $name)
 {
-    $selected = (abs($data['lastmodified'] - $timestamp) < 10000) ? ' selected' : '';
+    $selected = (abs($data['lastmodified'] - $timestamp) < 10000) ? ' selected="selected"' : '';
 ?>
-                <option&(selected); value='&(timestamp);'>&(name:h);</option>
+                <option&(selected:h); value='&(timestamp);'>&(name:h);</option>
 <?php
 }
 ?>

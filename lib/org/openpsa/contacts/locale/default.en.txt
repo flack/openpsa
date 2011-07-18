@@ -122,6 +122,10 @@ Fax
 First name
 ---STRINGEND
 
+---STRING groups
+Groups
+---STRINGEND
+
 ---STRING homepage
 Homepage
 ---STRINGEND

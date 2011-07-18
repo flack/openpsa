@@ -130,6 +130,10 @@ Fax
 Vorname
 ---STRINGEND
 
+---STRING groups
+Gruppen
+---STRINGEND
+
 ---STRING homepage
 Web-Adresse
 ---STRINGEND

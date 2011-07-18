@@ -672,14 +672,21 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     font-size: .9em
 }
 
-.ui-jqgrid .jqgroup
+.ui-jqgrid tr.jqgroup td
 {
-    border-bottom: 1px solid #999791;
+    border-top: 1px solid #999791;
+    border-bottom: 1px solid #BABDB6;
 }
 
-.ui-jqgrid .jqfoot td
+.ui-jqgrid tr.jqgfirstrow+tr.jqgroup td
+{
+    border-top: none;
+}
+
+.ui-jqgrid tr.jqfoot td
 {
     border-top: 1px solid #BABDB6;
+    border-bottom: none;
 }
 
 .ui-jqgrid-ftable tr

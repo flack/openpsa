@@ -171,6 +171,7 @@ var org_openpsa_grid_resize =
         {
             return;
         }
+
         var grids_content_height = 0,
         container_height = $('#content-text').height(),
         container_nongrid_height = 0,
@@ -180,6 +181,10 @@ var org_openpsa_grid_resize =
 
         $('#content-text').children(':visible').each(function()
         {
+            if ($(this).css('float') !== 'none')
+            {
+                return;
+            }
             container_nongrid_height += $(this).outerHeight(true);
         });
 
@@ -191,6 +196,11 @@ var org_openpsa_grid_resize =
             {
                 var grid_height = grid_body.parent().parent().height(),
                 content_height = grid_body.outerHeight();
+                if (    content_height == 0
+                    && $('#' + grid_body.attr('id')).jqGrid('getGridParam', 'datatype') !== 'local')
+                {
+                    content_height = 100;
+                }
 
                 if ($('#' + grid_body.attr('id')).jqGrid('getGridParam', 'gridstate') == 'visible')
                 {
