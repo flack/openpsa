@@ -20,72 +20,78 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     private $_object = null;
 
+
+
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_mark_sent($handler_id, array $args, array &$data)
+    public function _handler_process($handler_id, array $args, array &$data)
     {
-        // prepare action hasnt been called before
-        if (!isset($args["no_redirect"]))
+        $_MIDCOM->auth->require_valid_user();
+
+        if (   empty($_POST['id'])
+            || empty($_POST['action']))
         {
-            $this->_prepare_action($args);
+            throw new midcom_error('Incomplete POST data');
         }
 
-        if (!$this->_object->sent)
+        $invoice = new org_openpsa_invoices_invoice_dba((int) $_POST['id']);
+        $invoice->require_do('midgard:update');
+
+        midcom::get()->skip_page_style = true;
+
+        $data['message'] = array
+        (
+            'title' => $this->_l10n->get($this->_component),
+            'type' => 'error'
+        );
+        switch ($_POST['action'])
         {
-            $this->_object->sent = time();
-            $this->_object->update();
-
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" sent'), $this->_object->get_label()), 'ok');
-
-            $mc = new org_openpsa_relatedto_collector($this->_object->guid, 'org_openpsa_projects_task_dba');
-            $tasks = $mc->get_related_objects();
-
-            // Close "Send invoice" task
-            foreach ($tasks as $task)
-            {
-                if (org_openpsa_projects_workflow::complete($task) && !isset($args["no_redirect"]))
-                {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
-                }
-            }
+            case 'mark_sent':
+                $data['success'] = $this->_mark_as_sent($invoice);
+                break;
+            case 'send_by_mail':
+                $data['success'] = $this->_send_by_mail($invoice);
+                break;
+            case 'mark_paid':
+                $data['success'] = $this->_mark_as_paid($invoice);
+                break;
+            default:
+                debug_add("The action " . $_POST["action"] . " is unknown");
+                throw new midcom_error_notfound('Unknown operation');
         }
 
-        if (isset($args["no_redirect"]))
+        if ($data['success'])
         {
-            return true;
+            $data['message']['type'] = 'ok';
         }
-        else
-        {
-            $this->_relocate();
-        }
+
+        $data['next_action'] = $this->_master->render_invoice_actions($invoice);
+        $data['invoice'] = $invoice;
     }
 
     /**
-     * This function will not only mark the invoice, but
-     * actually send the mail as well
-     *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
-    public function _handler_mark_sent_per_mail($handler_id, array $args, array &$data)
+    public function _show_process($handler_id, array &$data)
     {
-        $args["no_redirect"] = true;
-        $this->_prepare_action($args);
+        midcom_show_style('admin-process');
+    }
 
-        $customerCard = org_openpsa_widgets_contact::get($this->_object->customerContact);
+    private function _send_by_mail(org_openpsa_invoices_invoice_dba $invoice)
+    {
+        $customerCard = org_openpsa_widgets_contact::get($invoice->customerContact);
         $contactDetails = $customerCard->contact_details;
-        $invoice_label = $this->_object->get_label();
+        $invoice_label = $invoice->get_label();
 
         // generate pdf, only if not existing yet
-        $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+        $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
         if (count($pdf_files) == 0)
         {
-            $_MIDCOM->skip_page_style = true;
-            $this->_object->render_and_attach_pdf();
+            $invoice->render_and_attach_pdf();
         }
 
         $mail = new org_openpsa_mail();
@@ -106,7 +112,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         // attach pdf to mail
         if ($mail->can_attach())
         {
-            $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+            $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
 
             if (count($pdf_files) > 0)
             {
@@ -138,78 +144,74 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             }
         }
 
-        // send mail
-        $ret = $mail->send();
-
-        if (!$ret)
+        if (!$mail->send())
         {
             throw new midcom_error("Unable to deliver mail.");
         }
         else
         {
-            // mark as sent
-            $this->_handler_mark_sent($handler_id, $args, &$data);
-            // show ui message
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" sent per mail'), $this->_object->get_label()), 'ok');
+            return $this->_mark_as_sent($invoice);
         }
-
-        // relocate
-        $this->_relocate();
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_mark_paid($handler_id, array $args, array &$data)
-    {
-        $this->_prepare_action($args);
-
-        if (!$this->_object->paid)
-        {
-            $this->_object->paid = time();
-            $this->_object->update();
-
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" paid'), $this->_object->get_label()), 'ok');
-        }
-
-        $this->_relocate();
-    }
-
-    /**
-     * Helper that prepares the action
+     * helper function - contains code to mark invoice as paid,
+     * maybe move it to invoice-class ?
      *
-     * @return boolean Indicating success
+     * @parama org_openpsa_invoices_invoice_dba $invoice contains invoice
      */
-    private function _prepare_action(&$args)
+    private function _mark_as_paid(org_openpsa_invoices_invoice_dba $invoice)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+        if (!$invoice->paid)
         {
-            throw new midcom_error_forbidden('Only POST requests are allowed here.');
+            $invoice->paid = time();
+            if ($invoice->update())
+            {
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice "%s" paid'), $invoice->get_label());
+            }
+            else
+            {
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice "%s" paid'), $invoice->get_label());
+                return false;
+            }
         }
-
-        $_MIDCOM->auth->require_valid_user();
-
-        $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
-        $this->_object->require_do('midgard:update');
+        return true;
     }
 
     /**
-     * Helper that redirects after the action completed
+     * helper function - contains code to mark invoice as sent,
+     * maybe move it to invoice-class ?
+     *
+     * @param org_openpsa_invoices_invoice_dba $invoice contains invoice
      */
-    private function _relocate()
+    private function _mark_as_sent(org_openpsa_invoices_invoice_dba $invoice)
     {
-        if (isset($_GET['org_openpsa_invoices_redirect']))
+        if (!$invoice->sent)
         {
-            $_MIDCOM->relocate($_GET['org_openpsa_invoices_redirect']);
-            // This will exit
+            $invoice->sent = time();
+
+            if ($invoice->update())
+            {
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice "%s" sent'), $invoice->get_label());
+            }
+            else
+            {
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice "%s" paid'), $invoice->get_label());
+                return false;
+            }
+            $mc = new org_openpsa_relatedto_collector($invoice->guid, 'org_openpsa_projects_task_dba');
+            $tasks = $mc->get_related_objects();
+
+            // Close "Send invoice" task
+            foreach ($tasks as $task)
+            {
+                if (org_openpsa_projects_workflow::complete($task) && !isset($args["no_redirect"]))
+                {
+                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
+                }
+            }
         }
-        else
-        {
-            $_MIDCOM->relocate("");
-            // This will exit
-        }
+        return true;
     }
 
     /**
