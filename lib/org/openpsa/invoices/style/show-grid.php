@@ -41,11 +41,11 @@ if (array_key_exists('deliverable', $data))
     $footer_data['item_sum'] = org_openpsa_helpers::format_number($data['totals']['deliverable']);
 }
 $grid->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"')
-    ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right"', 'number');
+    ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false', 'number');
 
 if ($data['list_type'] != 'paid')
 {
-    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center"');
+    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center", title: false');
 }
 else
 {
