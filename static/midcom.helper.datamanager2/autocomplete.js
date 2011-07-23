@@ -168,7 +168,7 @@ var midcom_helper_datamanager2_autocomplete =
         var default_config =
         {
             id_field: 'guid',
-            auto_wildcards: 'end',
+            auto_wildcards: 'both',
             categorize_by_parent_label: false,
             helptext: '',
             default_value: ''

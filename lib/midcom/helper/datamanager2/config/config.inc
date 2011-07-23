@@ -291,7 +291,8 @@
         ),
         'searchfields'  => array
         (
-            'title'
+            'title',
+            'project.title'
         ),
         'orders'        => array
         (
