@@ -325,10 +325,16 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "invoice/mark_sent/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "invoice/process/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
                     MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        'action' => 'mark_sent',
+                        'id' => $this->_object->id,
+                        'relocate' => true
+                    ),
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                 )
             );
@@ -341,10 +347,16 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => "invoice/mark_sent_per_mail/{$this->_object->guid}/",
+                        MIDCOM_TOOLBAR_URL => "invoice/process/send_by_mail/{$this->_object->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
                         MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        (
+                            'action' => 'mark_sent',
+                            'id' => $this->_object->id,
+                            'relocate' => true
+                        ),
                         MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                     )
                 );
@@ -357,10 +369,16 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "invoice/mark_paid/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "invoice/process/mark_paid/{$this->_object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
                     MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        'action' => 'mark_sent',
+                        'id' => $this->_object->id,
+                        'relocate' => true
+                    ),
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                 )
             );

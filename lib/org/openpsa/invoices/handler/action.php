@@ -20,8 +20,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     private $_object = null;
 
-
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -66,6 +64,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         if ($data['success'])
         {
             $data['message']['type'] = 'ok';
+        }
+
+        if (!empty($_POST['relocate']))
+        {
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $data['message']['message'], $data['message']['type']);
+            midcom::get()->relocate('');
         }
 
         $data['next_action'] = $this->_master->render_invoice_actions($invoice);

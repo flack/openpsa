@@ -39,6 +39,28 @@ function calculate_total(table)
     table.find('tfoot .totals').text(total.toFixed(2));
 }
 
+function calculate_invoices_total(table)
+{
+    var total = 0,
+    row_sum;
+    table.find('tbody tr').not('.jqgfirstrow').each(function()
+    {
+        row_sum = parseFloat($(this).find('.sum').prev().text());
+        if (isNaN(row_sum))
+        {
+            console.log($(this).find('.sum').parent());
+            return;
+        }
+
+        total += row_sum;
+    });
+    var totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum'),
+    decimal_separator = totals_field.text().slice(totals_field.text().length - 3, totals_field.text().length - 2);
+
+    total = total.toFixed(2).replace('.', decimal_separator);
+    totals_field.text(total);
+}
+
 function process_invoice(button, action)
 {
     var id = button.parent().parent().attr('id');
@@ -50,8 +72,10 @@ function process_invoice(button, action)
             //TODO: Error reporting
             return;
         }
-        var row_data = button.closest('.ui-jqgrid-btable').getRowData(id);
-        button.closest('.ui-jqgrid-btable').delRowData(id);
+        var old_grid = button.closest('.ui-jqgrid-btable'),
+        row_data = old_grid.getRowData(id);
+        old_grid.delRowData(id);
+        calculate_invoices_total(old_grid);
 
         var new_grid = jQuery('#' + parsed.new_status + '_invoices_grid');
         if (new_grid.length < 1)
@@ -66,6 +90,7 @@ function process_invoice(button, action)
             row_data.action = parsed.action;
             row_data.due = parsed.due;
             jQuery('#' + parsed.new_status + '_invoices_grid').addRowData(row_data.id, row_data, "last");
+            calculate_invoices_total(new_grid);
         }
         else
         {

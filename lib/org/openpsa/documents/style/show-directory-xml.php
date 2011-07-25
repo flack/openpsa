@@ -82,10 +82,10 @@ foreach ($data['directories'] as $directory)
 {
     echo "<row>";
     echo "<cell>" . $directory->id ."</cell>";
-    echo "<cell>" . $directory->extra ."</cell>";
+    echo "<cell><![CDATA[" . $directory->extra . "]]></cell>";
 
     $link_html = "<![CDATA[";
-    $link_html .= "<a href='" . $prefix . $path . $directory->name ."/'>";
+    $link_html .= "<a href='" . $prefix . $path . $directory->name . "/'>";
     $link_html .= "<img class='folder_icon' src='" . $icon . "' />";
     $link_html .= "<span>" . $directory->extra . "</span></a>";
     $link_html .= "]]>";
@@ -129,11 +129,11 @@ foreach ($data['documents'] as $document)
     }
     echo "<row>";
     echo "<cell>" . $document->id . "</cell>";
-    echo "<cell>" . $document->title ."</cell>";
+    echo "<cell><![CDATA[" . $document->title . "]]></cell>";
 
     $class = 'document ' . $document->get_class();
     $link_html = "<![CDATA[";
-    $link_html .= "<a href='" . $prefix . $path . "document/" . $document->guid ."/' class='" . $class . "'>";
+    $link_html .= "<a href='" . $prefix . $path . "document/" . $document->guid . "/' class='" . $class . "'>";
     $link_html .= "<img class='document_icon' src='" . $icon . "' />";
     $link_html .= "<span>" . $document->title . "</span></a>";
     $link_html .= "]]>";
