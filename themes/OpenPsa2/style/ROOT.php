@@ -96,7 +96,6 @@ $_MIDCOM->uimessages->show();
 
     jQuery(document).ready(function()
     {
-        org_openpsa_layout.resize_content();
         org_openpsa_layout.add_splitter();
         org_openpsa_layout.clip_toolbar();
         org_openpsa_layout.bind_admin_toolbar_loader();

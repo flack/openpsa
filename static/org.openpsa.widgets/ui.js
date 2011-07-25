@@ -75,6 +75,10 @@ var org_openpsa_layout =
         jQuery(window).resize(function(){
                 handler();
         });
+        if (typeof org_openpsa_grid_resize != 'undefined')
+        {
+            org_openpsa_grid_resize.initialize();
+        }
     },
 
     add_splitter: function()
