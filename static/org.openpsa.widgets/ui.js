@@ -62,11 +62,15 @@ var org_openpsa_layout =
         });
     },
 
-    resize_content: function(containment)
+    resize_content: function(containment, margin_bottom)
     {
+        if (typeof margin_bottom === 'undefined')
+        {
+            margin_bottom = 0;
+        }
         var handler = function()
         {
-            var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height()));
+            var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height() + margin_bottom));
             jQuery(containment).css('height', content_height + 'px');
         };
         handler();
