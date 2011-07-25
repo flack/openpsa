@@ -209,6 +209,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         self::_process_delete_queue(self::$_class_objects);
         self::$_class_objects = array();
+        midcom::get('auth')->logout();
     }
 
     private static function _process_delete_queue($queue)
