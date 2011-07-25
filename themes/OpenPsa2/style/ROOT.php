@@ -92,7 +92,7 @@ $_MIDCOM->uimessages->show();
 ?>
     <script type="text/javascript">
     //This has to be timed with the jqgrid resizers
-    org_openpsa_layout.resize_content();
+    org_openpsa_layout.resize_content('#content-text');
 
     jQuery(document).ready(function()
     {

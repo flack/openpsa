@@ -62,13 +62,12 @@ var org_openpsa_layout =
         });
     },
 
-    resize_content: function()
+    resize_content: function(containment)
     {
         var handler = function()
         {
-            var content_height = jQuery(window).height() - (jQuery('#content-menu').outerHeight() + jQuery('#org_openpsa_toolbar').outerHeight() + (jQuery('#content-text').outerHeight() - jQuery('#content-text').height()));
-
-            jQuery('#content-text').css('height', content_height + 'px');
+            var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height()));
+            jQuery(containment).css('height', content_height + 'px');
         };
         handler();
 
