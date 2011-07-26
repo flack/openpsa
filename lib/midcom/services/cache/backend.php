@@ -153,11 +153,11 @@ abstract class midcom_services_cache_backend
         {
             $this->_config = Array($config);
         }
-        if (! array_key_exists('directory', $this->_config))
+        if (!isset($this->_config['directory']))
         {
             $this->_config['directory'] = '';
         }
-        if (array_key_exists('auto_serialize', $this->_config))
+        if (isset($this->_config['auto_serialize']))
         {
             $this->_auto_serialize = $this->_config['auto_serialize'];
         }
