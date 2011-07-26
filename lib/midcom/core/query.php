@@ -237,7 +237,7 @@ abstract class midcom_core_query
      *
      * @param int $offset The record number to start with.
      */
-    function set_offset($offset)
+    public function set_offset($offset)
     {
         $this->_reset();
 
@@ -253,7 +253,7 @@ abstract class midcom_core_query
      *     ordering. The default is 'ASC'.
      * @return boolean Indicating success.
      */
-    function add_order($field, $direction = 'ASC')
+    public function add_order($field, $direction = 'ASC')
     {
         $result = $this->_query->add_order($field, $direction);
 
@@ -271,6 +271,14 @@ abstract class midcom_core_query
         }
 
         return $result;
+    }
+
+    /**
+     * Get the DBA class we're currently working on
+     */
+    public function get_classname()
+    {
+        return $this->_real_class;
     }
 
     abstract public function execute();
