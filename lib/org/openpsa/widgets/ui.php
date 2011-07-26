@@ -72,6 +72,14 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         $head->add_jquery_ui_theme();
     }
 
+    public static function add_head_elements()
+    {
+        $head = midcom::get('head');
+        $head->enable_jquery();
+
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/ui.js');
+    }
+
     /**
      * Function to load the necessary javascript & css files for ui_tab
      */

@@ -36,7 +36,7 @@ echo "<?xml version=\"1.0\"?>\n";
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/OpenPsa2/ui.js');
+        org_openpsa_widgets_ui::add_head_elements();
         $_MIDCOM->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 
         $_MIDCOM->print_head_elements();
@@ -55,6 +55,7 @@ echo "<?xml version=\"1.0\"?>\n";
             }
             </style>
         <?php } ?>
+
     </head>
     <body<?php $_MIDCOM->print_jsonload(); ?>>
         <(toolbar)>
@@ -90,7 +91,17 @@ echo "<?xml version=\"1.0\"?>\n";
 $_MIDCOM->uimessages->show();
 ?>
     <script type="text/javascript">
-        jQuery(document).ready(org_openpsa_jsqueue.execute());
+    //This has to be timed with the jqgrid resizers
+    org_openpsa_layout.resize_content('#content-text');
+
+    jQuery(document).ready(function()
+    {
+        org_openpsa_layout.add_splitter();
+        org_openpsa_layout.clip_toolbar();
+        org_openpsa_layout.bind_admin_toolbar_loader();
+
+        org_openpsa_jsqueue.execute()
+    });
     </script>
     </body>
 </html>

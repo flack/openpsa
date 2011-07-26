@@ -1,4 +1,5 @@
-var org_openpsa_jsqueue = {
+var org_openpsa_jsqueue =
+{
     actions: [],
     add: function (action)
     {
@@ -61,19 +62,26 @@ var org_openpsa_layout =
         });
     },
 
-    resize_content: function()
+    resize_content: function(containment, margin_bottom)
     {
+        if (typeof margin_bottom === 'undefined')
+        {
+            margin_bottom = 0;
+        }
         var handler = function()
         {
-            var content_height = jQuery(window).height() - (jQuery('#content-menu').outerHeight() + jQuery('#org_openpsa_toolbar').outerHeight() + (jQuery('#content-text').outerHeight() - jQuery('#content-text').height()));
-
-            jQuery('#content-text').css('height', content_height + 'px');
+            var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height() + margin_bottom));
+            jQuery(containment).css('height', content_height + 'px');
         };
         handler();
 
         jQuery(window).resize(function(){
                 handler();
         });
+        if (typeof org_openpsa_grid_resize != 'undefined')
+        {
+            org_openpsa_grid_resize.initialize();
+        }
     },
 
     add_splitter: function()
@@ -263,13 +271,3 @@ var org_openpsa_layout =
         });
     }
 };
-
-jQuery(document).ready(function()
-{
-    org_openpsa_layout.add_splitter();
-    org_openpsa_layout.clip_toolbar();
-    org_openpsa_layout.bind_admin_toolbar_loader();
-});
-
-//This has to be timed with the jqgrid resizers
-org_openpsa_jsqueue.add(org_openpsa_layout.resize_content);

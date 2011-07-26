@@ -23,6 +23,15 @@ $.jgrid.defaults = $.extend($.jgrid.defaults, org_openpsa_jqgrid_presets);
 var org_openpsa_grid_resize =
 {
     timer: false,
+    containment: '#content-text',
+    initialize: function()
+    {
+        org_openpsa_grid_resize.attach_events($(org_openpsa_grid_resize.containment));
+        $('#tabs').bind('tabsload', function(event, ui)
+        {
+            org_openpsa_grid_resize.attach_events($(ui.panel));
+        });
+    },
     attach_events: function(scope)
     {
         jQuery(window).resize(function()
@@ -30,7 +39,7 @@ var org_openpsa_grid_resize =
             org_openpsa_grid_resize.event_handler(scope);
         });
 
-        $('#content-text').addClass('openpsa-resizing');
+        $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
         org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
         org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
 
@@ -40,7 +49,7 @@ var org_openpsa_grid_resize =
             $(window).trigger('resize');
         }});
         org_openpsa_grid_resize.fill_width($('.full-width', scope));
-        $('#content-text').removeClass('openpsa-resizing');
+        $(org_openpsa_grid_resize.containment).removeClass('openpsa-resizing');
 
         org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar', scope));
     },
@@ -48,9 +57,9 @@ var org_openpsa_grid_resize =
     {
         if (!org_openpsa_grid_resize.timer)
         {
-            if ($('#content-text').scrollHeight == $('#content-text').height())
+            if ($(org_openpsa_grid_resize.containment).scrollHeight == $(org_openpsa_grid_resize.containment).height())
             {
-                $('#content-text').addClass('openpsa-resizing');
+                $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
             }
         }
         else
@@ -74,7 +83,7 @@ var org_openpsa_grid_resize =
     end_resize: function()
     {
         org_openpsa_grid_resize.timer = false;
-        $('#content-text').removeClass('openpsa-resizing');
+        $(org_openpsa_grid_resize.containment).removeClass('openpsa-resizing');
     },
     attach_maximizer: function(items)
     {
@@ -105,12 +114,12 @@ var org_openpsa_grid_resize =
                             .insertBefore(placeholder)
                             .find('.ui-jqgrid-titlebar-close').show();
                         placeholder.remove();
-                        $('#content-text').children().removeClass('ui-jqgrid-maximized-background');
+                        $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
                     }
                     else
                     {
                         $(this).addClass('ui-state-active');
-                        $('#content-text').scrollTop(0);
+                        $(org_openpsa_grid_resize.containment).scrollTop(0);
                         var placeholder = $('<div id="maximized_placeholder"></div>')
                         placeholder
                             .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())
@@ -118,9 +127,9 @@ var org_openpsa_grid_resize =
                         container
                             .detach()
                             .addClass('ui-jqgrid-maximized')
-                            .prependTo($('#content-text'))
+                            .prependTo($(org_openpsa_grid_resize.containment))
                             .find('.ui-jqgrid-titlebar-close').hide();
-                        $('#content-text').children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
+                        $(org_openpsa_grid_resize.containment).children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
                     }
                     $(window).trigger('resize');
                 })
@@ -146,7 +155,7 @@ var org_openpsa_grid_resize =
 
         if (items.hasClass('ui-jqgrid-maximized'))
         {
-            new_width = $('#content-text').attr('clientWidth') - 20;
+            new_width = $(org_openpsa_grid_resize.containment).attr('clientWidth') - 20;
         }
         $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
         {
@@ -173,13 +182,13 @@ var org_openpsa_grid_resize =
         }
 
         var grids_content_height = 0,
-        container_height = $('#content-text').height(),
+        container_height = $(org_openpsa_grid_resize.containment).height(),
         container_nongrid_height = 0,
         visible_grids = 0,
         grid_heights = {},
         minimum_height = 21;
 
-        $('#content-text').children(':visible').each(function()
+        $(org_openpsa_grid_resize.containment).children(':visible').each(function()
         {
             if ($(this).css('float') !== 'none')
             {
@@ -191,11 +200,11 @@ var org_openpsa_grid_resize =
         items.each(function()
         {
             var grid_body = $("table.ui-jqgrid-btable", $(this));
-
             if (grid_body.length > 0)
             {
                 var grid_height = grid_body.parent().parent().height(),
                 content_height = grid_body.outerHeight();
+
                 if (    content_height == 0
                     && $('#' + grid_body.attr('id')).jqGrid('getGridParam', 'datatype') !== 'local')
                 {
@@ -213,6 +222,7 @@ var org_openpsa_grid_resize =
         });
 
         var available_space = container_height - container_nongrid_height;
+
         if (   grids_content_height == 0
             || available_space <= minimum_height * visible_grids)
         {
@@ -264,7 +274,7 @@ var org_openpsa_grid_resize =
     {
         var part_height = $(part).outerHeight(true),
         grid_height = $("table.ui-jqgrid-btable", part).parent().parent().outerHeight(),
-        new_height = $('#content-text').height() + grid_height - part_height;
+        new_height = $(org_openpsa_grid_resize.containment).height() + grid_height - part_height;
 
         try
         {
@@ -525,11 +535,3 @@ var org_openpsa_batch_processing =
         });
     }
 }
-
-$(document).ready(function(){
-    org_openpsa_grid_resize.attach_events($(this));
-});
-
-$('#tabs').bind('tabsload', function(event, ui){
-    org_openpsa_grid_resize.attach_events($(ui.panel));
-});
