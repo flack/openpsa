@@ -65,7 +65,7 @@
      */
     function use_rcs()
     {
-        if (array_key_exists('midcom_services_rcs_enable', $this->config))
+        if (isset($this->config['midcom_services_rcs_enable']))
         {
             return $this->config['midcom_services_rcs_enable'];
         }
