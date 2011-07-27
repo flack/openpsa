@@ -65,7 +65,7 @@
      */
     function use_rcs()
     {
-        if (array_key_exists('midcom_services_rcs_enable', $this->config))
+        if (isset($this->config['midcom_services_rcs_enable']))
         {
             return $this->config['midcom_services_rcs_enable'];
         }
@@ -88,8 +88,7 @@
      */
     function _get_handler_class()
     {
-        if (   array_key_exists('midcom_services_rcs_enable', $this->config)
-            && $this->config['midcom_services_rcs_enable'])
+        if (!empty($this->config['midcom_services_rcs_enable']))
         {
             $this->_test_rcs_config();
             return 'midcom_services_rcs_backend_rcs';
@@ -105,7 +104,7 @@
      */
     private function _test_rcs_config()
     {
-        if (!array_key_exists('midcom_services_rcs_root', $this->config))
+        if (!isset($this->config['midcom_services_rcs_root']))
         {
             throw new midcom_error("midcom_services_rcs_root not found in configuration.");
         }
@@ -115,7 +114,7 @@
             throw new midcom_error("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!");
         }
 
-        if (!array_key_exists('midcom_services_rcs_bin_dir', $this->config))
+        if (!isset($this->config['midcom_services_rcs_bin_dir']))
         {
             throw new midcom_error("midcom_services_rcs_bin_dir not found in configuration. This must be defined before RCS will work.");
         }

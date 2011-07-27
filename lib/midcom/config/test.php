@@ -106,7 +106,7 @@ class midcom_config_test
     private function _check_rcs()
     {
         $config = $GLOBALS['midcom_config'];
-        if (array_key_exists('midcom_services_rcs_enable', $config) && $config['midcom_services_rcs_enable'])
+        if (!empty($config['midcom_services_rcs_enable']))
         {
             if (!is_writable($config['midcom_services_rcs_root']))
             {
