@@ -35,7 +35,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             (
                 MIDCOM_TOOLBAR_URL => 'person/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
             )
         );
@@ -46,7 +46,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             (
                 MIDCOM_TOOLBAR_URL => 'group/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
             )
         );
