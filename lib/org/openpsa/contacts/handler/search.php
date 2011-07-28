@@ -173,7 +173,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 (
                     MIDCOM_TOOLBAR_URL => "person/create/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
                 )
             );
         }
@@ -186,7 +186,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 (
                     MIDCOM_TOOLBAR_URL => 'group/create/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 )
             );
         }
