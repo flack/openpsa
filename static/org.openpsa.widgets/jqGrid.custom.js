@@ -188,14 +188,13 @@ var org_openpsa_grid_resize =
         grid_heights = {},
         minimum_height = 21;
 
-        $(org_openpsa_grid_resize.containment).children(':visible').each(function()
+        if ($('#org_openpsa_resize_marker_end').length == 0)
         {
-            if ($(this).css('float') !== 'none')
-            {
-                return;
-            }
-            container_nongrid_height += $(this).outerHeight(true);
-        });
+            $(org_openpsa_grid_resize.containment)
+                .append('<div id="org_openpsa_resize_marker_end"></div>')
+                .prepend('<div id="org_openpsa_resize_marker_start"></div>');
+        }
+        container_nongrid_height = $('#org_openpsa_resize_marker_end').position().top - $('#org_openpsa_resize_marker_start').position().top;
 
         items.each(function()
         {
@@ -204,14 +203,15 @@ var org_openpsa_grid_resize =
             {
                 var grid_height = grid_body.parent().parent().height(),
                 content_height = grid_body.outerHeight();
-
                 if (    content_height == 0
-                    && $('#' + grid_body.attr('id')).jqGrid('getGridParam', 'datatype') !== 'local')
+                    && (   grid_body.jqGrid('getGridParam', 'datatype') !== 'local'
+                        || (   grid_body.jqGrid('getGridParam', 'treeGrid') === true)
+                            && grid_body.jqGrid('getGridParam', 'treedatatype') !== 'local'))
                 {
                     content_height = 100;
                 }
 
-                if ($('#' + grid_body.attr('id')).jqGrid('getGridParam', 'gridstate') == 'visible')
+                if (grid_body.jqGrid('getGridParam', 'gridstate') == 'visible')
                 {
                     grid_heights[grid_body.attr('id')] = content_height;
                     grids_content_height += content_height;
