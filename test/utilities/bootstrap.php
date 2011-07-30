@@ -33,6 +33,10 @@ if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs'))
 {
     throw new Exception('could not create output RCS directory');
 }
+if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache'))
+{
+    throw new Exception('could not create output cache directory');
+}
 
 if (empty($GLOBALS['midcom_config_local']['theme']))
 {
@@ -41,6 +45,10 @@ if (empty($GLOBALS['midcom_config_local']['theme']))
 if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root']))
 {
     $GLOBALS['midcom_config_local']['midcom_services_rcs_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs';
+}
+if (empty($GLOBALS['midcom_config_local']['cache_base_directory']))
+{
+    $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache';
 }
 if (empty($GLOBALS['midcom_config_local']['log_filename']))
 {
