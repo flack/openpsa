@@ -50,12 +50,20 @@
     'fixed_args' => 'search',
 ),
 
-// Match /group/create/<GUID>
+// Match /group/create/<type>
+'group_new' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_group_create', 'create'),
+    'fixed_args' => array('group', 'create'),
+    'variable_args' => 1
+),
+
+// Match /group/create/<type>/<GUID>
 'group_new_subgroup' => array
 (
     'handler' => array('org_openpsa_contacts_handler_group_create', 'create'),
     'fixed_args' => array('group', 'create'),
-    'variable_args' => 1,
+    'variable_args' => 2,
 ),
 
 // Match /group/edit/<GUID>
@@ -72,13 +80,6 @@
     'handler' => array('org_openpsa_contacts_handler_group_action', 'action'),
     'fixed_args' => 'group',
     'variable_args' => 2,
-),
-
-// Match /group/create
-'group_new' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_group_create', 'create'),
-    'fixed_args' => array('group', 'create'),
 ),
 
 // Match /group/<GUID>

@@ -1,7 +1,6 @@
-'default' => array
+'organization' => array
 (
     'description'   => 'organization',
-    'l10n_db' => 'org.openpsa.contacts',
     'fields'  => array
     (
         'official' => array
@@ -36,8 +35,7 @@
                 (
                     ORG_OPENPSA_OBTYPE_ORGANIZATION => 'organization',
                     ORG_OPENPSA_OBTYPE_DAUGHTER     => 'daughter organization',
-                    ORG_OPENPSA_OBTYPE_DEPARTMENT   => 'department',
-                    ORG_OPENPSA_OBTYPE_OTHERGROUP => 'other',
+                    ORG_OPENPSA_OBTYPE_DEPARTMENT   => 'department'
                 ),
             ),
             'widget'       => 'radiocheckselect',
@@ -228,5 +226,105 @@
             'widget'   => 'text',
             'end_fieldset' => '',
         ),
+    )
+),
+'group' => array
+(
+    'description'   => 'group',
+    'fields'  => array
+    (
+        'official' => array
+        (
+            'title'    => 'official',
+            'storage'  => 'official',
+            'type'     => 'text',
+            'widget'   => 'text',
+            'required' => true,
+            'index_method' => 'title',
+        ),
+        'name' => array
+        (
+            'title'    => 'name',
+            'storage'  => 'name',
+            'type'     => 'text',
+            'widget'   => 'text',
+        ),
+        'owner' => array
+        (
+            'title' => 'owner group',
+            'storage' => 'owner',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'allow_multiple' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'clever_class' => 'group',
+                'id_field' => 'id',
+            ),
+        ),
+        'notes' => array
+        (
+            'title' => 'notes',
+            'widget'    => 'textarea',
+            'type' => 'text',
+            'storage'    => 'extra',
+        ),
+        'members' => array
+        (
+            'title' => 'members',
+            'storage' => null,
+            'type' => 'mnrelation',
+            'type_config' => array
+            (
+                'mapping_class_name' => 'midcom_db_member',
+                'master_fieldname' => 'gid',
+                'member_fieldname' => 'uid',
+                'master_is_id' => true,
+                'allow_multiple' => true,
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class' => 'org_openpsa_contacts_person_dba',
+                'component' => 'org.openpsa.contacts',
+                'titlefield' => 'name',
+
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'email',
+                        'name' => 'email',
+                    ),
+                ),
+
+                'searchfields' => array
+                (
+                    'firstname',
+                    'lastname',
+                    'username',
+                ),
+                'orders' => array
+                (
+                    array('lastname' => 'ASC'),
+                    array('firstname' => 'ASC'),
+                ),
+                'id_field' => 'id',
+                'creation_mode_enabled' => true,
+                'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
+                'creation_default_key' => 'openpsa',
+            ),
+            'index_method' => 'noindex',
+        )
     )
 ),
