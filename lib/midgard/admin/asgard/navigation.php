@@ -218,7 +218,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
             echo "    <li class=\"{$css_class}\">";
 
-            $label = htmlspecialchars($label);
             $icon = $ref->get_object_icon($object);
 
             if (empty($label))

@@ -655,6 +655,7 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
             $start_time = date('H:i', $reservation['start']);
             $end_time = date('H:i', $reservation['end']);
             $event_width = ceil($event_width);
+            $event_left = round($event_left);
 
             echo "          <div class=\"vevent{$additional_event_class}\"  title=\"{$start_time}-{$end_time}: {$reservation['name']}\" style=\"width: {$event_width}px; left: {$event_left}px; top: {$event_top}px;\"{$additional_attributes}>\n";
             echo "            <span class=\"time\">\n";
