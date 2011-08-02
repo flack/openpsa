@@ -37,8 +37,9 @@ class midcom_helper_datamanager2_handler
     {
         $schemadb = $handler->load_schemadb();
         $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+        $datamanager->set_schema($handler->get_schema_name());
 
-        if (!$datamanager->autoset_storage($object))
+        if (!$datamanager->set_storage($object))
         {
             throw new midcom_error("Failed to create a DM2 instance for object {$object->guid}.");
         }

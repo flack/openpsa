@@ -90,6 +90,10 @@ Person erstellen
 Unterorganisation erstellen
 ---STRINGEND
 
+---STRING create subgroup
+Untergruppe erstellen
+---STRINGEND
+
 ---STRING customers invoices
 Rechnungen des Kunden
 ---STRINGEND
@@ -128,6 +132,10 @@ Fax
 
 ---STRING firstname
 Vorname
+---STRINGEND
+
+---STRING group
+Gruppe
 ---STRINGEND
 
 ---STRING groups
@@ -176,6 +184,10 @@ Ich
 
 ---STRING member
 Mitglied der Organisation
+---STRINGEND
+
+---STRING members
+Mitglieder
 ---STRINGEND
 
 ---STRING merge persons
@@ -244,6 +256,10 @@ Organisationen
 
 ---STRING other
 andere
+---STRINGEND
+
+---STRING owner group
+Übergeordnete Gruppe
 ---STRINGEND
 
 ---STRING partner

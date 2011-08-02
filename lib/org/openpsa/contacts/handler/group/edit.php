@@ -15,6 +15,13 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
 implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
+     * What type of group are we dealing with, organization or group?
+     *
+     * @var string
+     */
+    private $_type;
+
+    /**
      * The group we're working on
      *
      * @var org_openpsa_contacts_group_dba
@@ -35,15 +42,14 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_schemadb = null;
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-    }
-
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
+    }
+
+    public function get_schema_name()
+    {
+        return $this->_type;
     }
 
     /**
@@ -57,6 +63,15 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Check if we get the group
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $this->_group->require_do('midgard:update');
+
+        if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+        {
+            $this->_type = 'group';
+        }
+        else
+        {
+            $this->_type = 'organization';
+        }
 
         $data['controller'] = $this->get_controller('simple', $this->_group);
 
@@ -77,17 +92,17 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $root_group = org_openpsa_contacts_interface::find_root_group($this->_config);
 
-        if ($this->_group->owner
+        if (   $this->_group->owner
             && $this->_group->owner != $root_group->id)
         {
-            $this->_request_data['parent_group'] = new org_openpsa_contacts_group_dba($this->_group->owner);
+            $data['parent_group'] = new org_openpsa_contacts_group_dba($this->_group->owner);
         }
         else
         {
-            $this->_request_data['parent_group'] = false;
+            $data['parent_group'] = false;
         }
 
-        $this->_request_data['group'] =& $this->_group;
+        $data['group'] =& $this->_group;
 
         org_openpsa_helpers::dm2_savecancel($this);
         $_MIDCOM->bind_view_to_object($this->_group);
@@ -95,7 +110,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('organization')));
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get($this->_type)));
     }
 
     /**

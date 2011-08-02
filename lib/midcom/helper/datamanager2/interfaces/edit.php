@@ -13,11 +13,5 @@
  */
 interface midcom_helper_datamanager2_interfaces_edit extends midcom_helper_datamanager2_interfaces_view
 {
-    /**
-     * Returns the schema to use
-     *
-     * @return string The identifier of the schema to use
-     */
-    public function get_schema_name();
 }
 ?>
