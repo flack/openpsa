@@ -49,27 +49,28 @@ if (!isset($_REQUEST['get_label_for']))
 }
 
 $query = $_REQUEST["term"];
+$wildcard_query = $query;
 if (   isset($_REQUEST['auto_wildcards'])
     && strpos($query, '%') === false)
 {
     switch ($_REQUEST['auto_wildcards'])
     {
         case 'start':
-            $query = '%' . $query;
+            $wildcard_query = '%' . $query;
             break;
         case 'end':
-            $query = $query . '%';
+            $wildcard_query = $query . '%';
             break;
         case 'both':
-            $query = '%' . $query . '%';
+            $wildcard_query = '%' . $query . '%';
             break;
         default:
             debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
             break;
     }
 }
-$query = str_replace("*", "%", $query);
-$query = preg_replace('/%+/', '%', $query);
+$wildcard_query = str_replace("*", "%", $wildcard_query);
+$wildcard_query = preg_replace('/%+/', '%', $wildcard_query);
 
 
 $qb = @call_user_func(array($_REQUEST['class'], 'new_query_builder'));
@@ -106,11 +107,32 @@ if (preg_match('/^%+$/', $query))
 }
 else
 {
+    $reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($_REQUEST['class']));
+
     $qb->begin_group('OR');
     foreach ($_REQUEST['searchfields'] as $field)
     {
-        debug_add("adding search (ORed) constraint: {$field} LIKE '{$query}'");
-        $qb->add_constraint($field, 'LIKE', $query);
+        $field_type = $reflector->get_midgard_type($field);
+        $operator = 'LIKE';
+
+        switch ($field_type)
+        {
+            case MGD_TYPE_GUID:
+            case MGD_TYPE_STRING:
+            case MGD_TYPE_LONGTEXT:
+                debug_add("adding search (ORed) constraint: {$field} LIKE '{$wildcard_query}'");
+                $qb->add_constraint($field, 'LIKE', $wildcard_query);
+                break;
+            case MGD_TYPE_INT:
+            case MGD_TYPE_UINT:
+            case MGD_TYPE_FLOAT:
+                debug_add("adding search (ORed) constraint: {$field} = {$query}'");
+                $qb->add_constraint($field, '=', $query);
+                break;
+            default:
+                debug_add("can't handle field type " . $field_type, MIDCOM_LOG_WARN);
+                break;
+        }
     }
     $qb->end_group();
 }
@@ -143,7 +165,6 @@ if (   $results === false
 // Common headers
 $_MIDCOM->cache->content->content_type('application/json');
 $_MIDCOM->header('Content-type: application/json; charset=UTF-8');
-
 $items = array();
 
 foreach ($results as $object)
