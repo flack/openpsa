@@ -161,7 +161,7 @@ $(document).ready(
         var tabs = $('#tabs').tabs({
               cache: true,
               spinner: '{$wait}...',
-              load: function(){org_openpsa_jsqueue.execute();},
+              load: function(){\$(window).trigger('resize');},
               show: function(){\$(window).trigger('resize');}
         });
 
