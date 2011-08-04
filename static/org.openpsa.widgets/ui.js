@@ -47,7 +47,6 @@ var org_openpsa_resizers =
     },
     process_queue: function()
     {
-        console.log(org_openpsa_resizers.queue);
         $.each(org_openpsa_resizers.queue, function(index, callback)
         {
             callback();
@@ -114,8 +113,6 @@ var org_openpsa_layout =
             var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height() + margin_bottom));
             jQuery(containment).css('height', content_height + 'px');
         });
-        console.log('X');
-
     },
 
     add_splitter: function()

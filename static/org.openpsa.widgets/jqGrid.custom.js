@@ -24,18 +24,24 @@ var org_openpsa_grid_resize =
 {
     timer: false,
     containment: '#content-text',
+    firstrun: true,
     add_header_controls: function()
     {
-        $('table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function(gridstate)
+        $('table.ui-jqgrid-btable').jqGrid('setGridParam', {onHeaderClick: function(gridstate)
         {
             $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate == 'visible');
             $(window).trigger('resize');
         }});
 
-        org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar', scope));
+        org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
     },
     event_handler: function()
     {
+        if (org_openpsa_grid_resize.firstrun)
+        {
+            org_openpsa_grid_resize.firstrun = false;
+            org_openpsa_grid_resize.add_header_controls();
+        }
         if (!org_openpsa_grid_resize.timer)
         {
             $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
