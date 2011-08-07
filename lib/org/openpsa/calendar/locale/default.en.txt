@@ -111,7 +111,7 @@ No event
 ---STRINGEND
 
 ---STRING org.openpsa.calendar
-Calendar
+Group Calendar
 ---STRINGEND
 
 ---STRING participants
