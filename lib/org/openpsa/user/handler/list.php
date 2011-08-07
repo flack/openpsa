@@ -146,8 +146,15 @@ implements org_openpsa_widgets_grid_provider_client
 
         foreach ($gids as $gid)
         {
-            $group = org_openpsa_contacts_group_dba::get_cached($gid);
-            $entry['groups'][] = '<a href="' . $prefix . 'group/' . $group->guid . '/">' . $group->get_label() . '</a>';
+            try
+            {
+                $group = org_openpsa_contacts_group_dba::get_cached($gid);
+                $entry['groups'][] = '<a href="' . $prefix . 'group/' . $group->guid . '/">' . $group->get_label() . '</a>';
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
         $entry['groups'] = implode(', ', $entry['groups']);
 
