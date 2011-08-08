@@ -15,6 +15,46 @@ var org_openpsa_jsqueue =
     }
 };
 
+var org_openpsa_resizers =
+{
+    handlers: {},
+    queue: [],
+    append_handler: function(identifier, callback)
+    {
+        if (typeof org_openpsa_resizers.handlers[identifier] !== 'undefined')
+        {
+            return;
+        }
+        org_openpsa_resizers.handlers[identifier] = true;
+        org_openpsa_resizers.queue.push(callback);
+    },
+    prepend_handler: function(identifier, callback)
+    {
+        if (typeof org_openpsa_resizers.handlers[identifier] !== 'undefined')
+        {
+            return;
+        }
+        org_openpsa_resizers.handlers[identifier] = true;
+        org_openpsa_resizers.queue.unshift(callback);
+    },
+    bind_events: function()
+    {
+        $(window).resize(function()
+        {
+            org_openpsa_resizers.process_queue();
+        });
+        org_openpsa_jsqueue.add(org_openpsa_resizers.process_queue);
+    },
+    process_queue: function()
+    {
+        $.each(org_openpsa_resizers.queue, function(index, callback)
+        {
+            callback();
+        });
+    }
+}
+org_openpsa_resizers.bind_events();
+
 var org_openpsa_layout =
 {
     clip_toolbar: function()
@@ -68,20 +108,11 @@ var org_openpsa_layout =
         {
             margin_bottom = 0;
         }
-        var handler = function()
+        org_openpsa_resizers.prepend_handler('content', function()
         {
             var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height() + margin_bottom));
             jQuery(containment).css('height', content_height + 'px');
-        };
-        handler();
-
-        jQuery(window).resize(function(){
-                handler();
         });
-        if (typeof org_openpsa_grid_resize != 'undefined')
-        {
-            org_openpsa_grid_resize.initialize();
-        }
     },
 
     add_splitter: function()

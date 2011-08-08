@@ -24,43 +24,27 @@ var org_openpsa_grid_resize =
 {
     timer: false,
     containment: '#content-text',
-    initialize: function()
+    firstrun: true,
+    add_header_controls: function()
     {
-        org_openpsa_grid_resize.attach_events($(org_openpsa_grid_resize.containment));
-        $('#tabs').bind('tabsload', function(event, ui)
-        {
-            org_openpsa_grid_resize.attach_events($(ui.panel));
-        });
-    },
-    attach_events: function(scope)
-    {
-        jQuery(window).resize(function()
-        {
-            org_openpsa_grid_resize.event_handler(scope);
-        });
-
-        $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
-        org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
-        org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
-
-        $('table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function(gridstate)
+        $('table.ui-jqgrid-btable').jqGrid('setGridParam', {onHeaderClick: function(gridstate)
         {
             $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate == 'visible');
             $(window).trigger('resize');
         }});
-        org_openpsa_grid_resize.fill_width($('.full-width', scope));
-        $(org_openpsa_grid_resize.containment).removeClass('openpsa-resizing');
 
-        org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar', scope));
+        org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
     },
-    event_handler: function(scope)
+    event_handler: function()
     {
+        if (org_openpsa_grid_resize.firstrun)
+        {
+            org_openpsa_grid_resize.firstrun = false;
+            org_openpsa_grid_resize.add_header_controls();
+        }
         if (!org_openpsa_grid_resize.timer)
         {
-            if ($(org_openpsa_grid_resize.containment).scrollHeight == $(org_openpsa_grid_resize.containment).height())
-            {
-                $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
-            }
+            $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
         }
         else
         {
@@ -68,16 +52,16 @@ var org_openpsa_grid_resize =
         }
         org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 200);
 
-        if ($('.ui-jqgrid-maximized', scope).length > 0)
+        if ($('.ui-jqgrid-maximized').length > 0)
         {
-            org_openpsa_grid_resize.maximize_height($('.ui-jqgrid-maximized', scope));
-            org_openpsa_grid_resize.fill_width($('.ui-jqgrid-maximized', scope));
+            org_openpsa_grid_resize.maximize_height($('.ui-jqgrid-maximized'));
+            org_openpsa_grid_resize.fill_width($('.ui-jqgrid-maximized'));
         }
         else
         {
-            org_openpsa_grid_resize.set_height($('.fill-height', scope), 'fill');
-            org_openpsa_grid_resize.set_height($('.crop-height', scope), 'crop');
-            org_openpsa_grid_resize.fill_width($('.full-width', scope));
+            org_openpsa_grid_resize.set_height($('.fill-height'), 'fill');
+            org_openpsa_grid_resize.set_height($('.crop-height'), 'crop');
+            org_openpsa_grid_resize.fill_width($('.full-width'));
         }
     },
     end_resize: function()
@@ -283,6 +267,8 @@ var org_openpsa_grid_resize =
         catch(e){}
     }
 };
+
+org_openpsa_resizers.append_handler('grid', org_openpsa_grid_resize.event_handler);
 
 var org_openpsa_grid_editable =
 {
