@@ -48,7 +48,7 @@ if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root']))
 }
 if (empty($GLOBALS['midcom_config_local']['cache_base_directory']))
 {
-    $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache';
+    $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/';
 }
 if (empty($GLOBALS['midcom_config_local']['log_filename']))
 {
