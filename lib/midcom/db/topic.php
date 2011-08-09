@@ -77,7 +77,7 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * @param string $guid GUID of topic to get the parent for
      */
-    public static function get_parent_guid_uncached_static($guid)
+    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS_)
     {
         if (empty($guid))
         {

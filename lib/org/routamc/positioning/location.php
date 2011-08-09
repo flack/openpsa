@@ -84,7 +84,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
      *
      * @return string Parent GUID or null if there is none
      */
-    public static function get_parent_guid_uncached_static($guid)
+    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS_)
     {
         $mc = new midgard_collector('org_routamc_positioning_location', 'guid', $guid);
         $mc->set_key_property('parent');

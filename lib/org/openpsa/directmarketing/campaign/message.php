@@ -77,7 +77,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return self::get_parent_guid_uncached_static($this->guid);
     }
 
-    public static function get_parent_guid_uncached_static($guid)
+    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS_)
     {
         if (empty($guid))
         {
