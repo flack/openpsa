@@ -1,33 +1,3 @@
-<script type="text/javascript">
-
-/* function to parse the input and exchanges , with .
-*/
-function parse_input(string)
-{
-    search_string = ',';
-    replace_string = '.';
-
-    return string.replace(search_string , replace_string);
-}
-
-function calculate_row(id)
-{
-    price_unit = parse_input($("#price_per_unit_" + id).val());
-    units = parse_input($("#units_" + id).val());
-    //check if they are numbers
-    if(isNaN(price_unit)
-        && isNaN(units))
-    {
-        sum = 0;
-    }
-    else
-    {
-        sum = price_unit * units;
-    }
-    $('#row_sum_' + id).html(sum.toFixed(2));
-}
-</script>
-
 <h2><?php echo $data['customer_label']; ?></h2>
 
 <form method="post" action="">
@@ -37,8 +7,19 @@ function calculate_row(id)
                 <th><?php echo $data['l10n']->get('invoice'); ?></th>
                 <th><?php echo $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects'); ?></th>
                 <th><?php echo $_MIDCOM->i18n->get_string('hours', 'org.openpsa.projects'); ?></th>
-                <th><?php echo $data['l10n']->get('price'); ?></th>
+                <th><?php echo $data['l10n']->get('units'); ?></th>
+                <th><?php echo $data['l10n']->get('price per unit'); ?></th>
                 <th><?php echo $data['l10n']->get('sum'); ?></th>
             </tr>
         </thead>
+        <tfoot>
+            <tr class="primary">
+                <td>&nbsp;</td>
+                <td><?php echo $data['l10n']->get('totals'); ?></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td class="numeric"><span class="totals"></span></td>
+            </tr>
+        </tfoot>
         <tbody>

@@ -8,6 +8,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+require_once MIDCOM_ROOT . '/../test/utilities/testcase.php';
+require_once MIDCOM_ROOT . '/../test/utilities/helpers.php';
+
 define('OPENPSA2_UNITTEST_RUN', true);
 define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
 
@@ -30,6 +33,10 @@ if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs'))
 {
     throw new Exception('could not create output RCS directory');
 }
+if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache'))
+{
+    throw new Exception('could not create output cache directory');
+}
 
 if (empty($GLOBALS['midcom_config_local']['theme']))
 {
@@ -38,6 +45,10 @@ if (empty($GLOBALS['midcom_config_local']['theme']))
 if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root']))
 {
     $GLOBALS['midcom_config_local']['midcom_services_rcs_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs';
+}
+if (empty($GLOBALS['midcom_config_local']['cache_base_directory']))
+{
+    $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/';
 }
 if (empty($GLOBALS['midcom_config_local']['log_filename']))
 {
@@ -58,6 +69,7 @@ $_SERVER = array
 	'HTTP_HOST' => 'localhost',
 	'SERVER_NAME' => 'localhost',
 	'SERVER_SOFTWARE' => 'PHPUnit',
+	'HTTP_USER_AGENT' => 'PHPUnit',
 	'SERVER_PORT' => '80',
 	'REMOTE_ADDR' => 'unittest dummy connection',
 	'REQUEST_URI' => '/midcom-test-init',

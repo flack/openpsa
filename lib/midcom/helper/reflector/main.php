@@ -497,7 +497,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 case ($property == 'lastname'):
                 case ($property == 'official'):
                 case ($property == 'username'):
-                    $search_properties[] = $property;
+                    $search_properties[$property] = true;
                     break;
                 // TODO: More per property heuristics
             }
@@ -508,87 +508,55 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         if (    is_string($label_prop)
              && $label_prop != 'guid'
-             && property_exists($obj, $label_prop)
-             && !in_array($label_prop, $search_properties))
+             && property_exists($obj, $label_prop))
         {
-            $search_properties[] = $label_prop;
+            $search_properties[$label_prop] = true;
         }
 
         // Exceptions - always search these fields
-        if (is_object($this->_config))
-        {
-            $always_search_all = $this->_config->get('always_search_fields');
-            // safety against misconfiguration
-            if (!is_array($always_search_all))
-            {
-                $always_search_all = array();
-            }
-        }
-        else
+        $always_search_all = $this->_config->get('always_search_fields');
+        // safety against misconfiguration
+        if (!is_array($always_search_all))
         {
             $always_search_all = array();
         }
-        $always_search = array();
         if (isset($always_search_all[$this->mgdschema_class]))
         {
-            $always_search = $always_search_all[$this->mgdschema_class];
-        }
-        foreach ($always_search as $property)
-        {
-            if (!in_array($property, $properties))
+            foreach ($always_search_all[$this->mgdschema_class] as $property)
             {
-                debug_add("Property '{$property}' is set as always search, but is not a property in class '{$this->mgdschema_class}'", MIDCOM_LOG_WARN);
-                continue;
+                if (!in_array($property, $properties))
+                {
+                    debug_add("Property '{$property}' is set as always search, but is not a property in class '{$this->mgdschema_class}'", MIDCOM_LOG_WARN);
+                    continue;
+                }
+                $search_properties[$property] = true;
             }
-            if (in_array($property, $search_properties))
-            {
-                // Already listed
-                debug_add("Property '{$property}', already exists in \$search_properties");
-                continue;
-            }
-            $search_properties[] = $property;
         }
 
         // Exceptions - never search these fields
-        if (is_object($this->_config))
-        {
-            $never_search_all = $this->_config->get('never_search_fields');
-            // safety against misconfiguration
-            if (!is_array($never_search_all))
-            {
-                $never_search_all = array();
-            }
-        }
-        else
+        $never_search_all = $this->_config->get('never_search_fields');
+        // safety against misconfiguration
+        if (!is_array($never_search_all))
         {
             $never_search_all = array();
         }
-        $never_search = array();
         if (isset($never_search_all[$this->mgdschema_class]))
         {
-            $never_search = $never_search_all[$this->mgdschema_class];
-        }
-        foreach ($never_search as $property)
-        {
-            if (!in_array($property, $search_properties))
+            foreach ($never_search_all[$this->mgdschema_class] as $property)
             {
-                continue;
+                if (array_key_exists($property, $search_properties))
+                {
+                    debug_add("Removing '{$property}' from \$search_properties", MIDCOM_LOG_INFO);
+                    unset($search_properties[$property]);
+                }
             }
-            debug_add("Removing '{$property}' from \$search_properties", MIDCOM_LOG_INFO);
-            $key = array_search($property, $search_properties);
-            if ($key === false)
-            {
-                debug_add("Cannot find key for '{$property}' in \$search_properties", MIDCOM_LOG_ERROR);
-                continue;
-            }
-            unset($search_properties[$key]);
         }
 
+        $search_properties = array_keys($search_properties);
         debug_print_r("Search properties for {$this->mgdschema_class}: ", $search_properties);
         $cache[$this->mgdschema_class] = $search_properties;
         return $search_properties;
     }
-
 
     /**
      * Gets a list of link properties and the links target info

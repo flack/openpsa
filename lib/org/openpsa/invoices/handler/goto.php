@@ -20,7 +20,6 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
      */
     public function _handler_goto($handler_id, array $args, array &$data)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (!isset($_GET['query']))
         {
             $MessageContent = sprintf
@@ -30,41 +29,25 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
             );
 
             $_MIDCOM->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
-            $_MIDCOM->relocate($prefix);
+            $_MIDCOM->relocate('');
         }
 
-        $invoicenumber = $_GET['query'] ;
-        if ((int) $invoicenumber == 0)
+        $invoicenumber = (int) $_GET['query'] ;
+
+        if ($invoice = org_openpsa_invoices_invoice_dba::get_by_number($invoicenumber))
         {
-            $MessageContent = sprintf
-            (
-                $this->_l10n->get('there is no invoice with number %s'),
-                $this->_l10n->get($_GET['query'])
-            );
-
-            $_MIDCOM->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
-            $_MIDCOM->relocate($prefix);
+            $_MIDCOM->relocate('invoice/' . $invoice->guid . '/');
         }
 
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->add_constraint('number', '=', (int) $invoicenumber);
+        $MessageContent = sprintf
+        (
+            $this->_l10n->get('there is no invoice with number %s'),
+            $this->_l10n->get($invoicenumber)
+        );
 
-        switch (count($searched_invoice = $qb->execute()))
-        {
-            case 1:
-                $_MIDCOM->relocate($prefix . 'invoice/' .$searched_invoice[0]->guid .'/');
-            case 0:
-                $MessageContent = sprintf
-                (
-                    $this->_l10n->get('there is no invoice with number %s'),
-                    $this->_l10n->get($_GET['query'])
-                );
+        $_MIDCOM->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
 
-                $_MIDCOM->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
-
-            default:
-                $_MIDCOM->relocate($prefix);
-        }
+        $_MIDCOM->relocate('');
     }
 }
 ?>

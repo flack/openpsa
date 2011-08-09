@@ -13,7 +13,7 @@ else if ($data['list_type'] == 'paid')
 
 $footer_data = array
 (
-    'contact' => $data['l10n']->get('totals'),
+    'customer' => $data['l10n']->get('totals'),
     'sum' => org_openpsa_helpers::format_number($data['totals']['totals'])
 );
 
@@ -26,26 +26,26 @@ if (!array_key_exists('deliverable', $data))
 
 $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
 
+if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
+{
+    $grid->set_column('customer', $data['l10n']->get('customer'));
+}
 if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
 {
     $grid->set_column('contact', $data['l10n']->get('customer contact'));
 }
 
-if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
-{
-    $grid->set_column('customer', $data['l10n']->get('customer'));
-}
 if (array_key_exists('deliverable', $data))
 {
     $grid->set_column('item_sum', $data['deliverable']->title, 'width: 80, fixed: true, align: "right"', 'number');
     $footer_data['item_sum'] = org_openpsa_helpers::format_number($data['totals']['deliverable']);
 }
-$grid->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right"', 'number')
-    ->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"');
+$grid->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"')
+->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false, classes:"sum"', 'number');
 
 if ($data['list_type'] != 'paid')
 {
-    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center"');
+    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center", title: false');
 }
 else
 {
@@ -55,6 +55,6 @@ else
 $grid->set_footer_data($footer_data);
 ?>
 
-<div class="org_openpsa_invoices <?php echo $classes ?> full-width">
+<div class="org_openpsa_invoices <?php echo $classes ?> full-width crop-height">
 <?php $grid->render($data['entries']); ?>
 </div>

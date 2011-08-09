@@ -1,10 +1,10 @@
-'default' => array 
+'default' => array
 (
     'description' => 'directory',
-    'fields'      => array 
+    'fields'      => array
     (
         // Metadata
-        'extra' => array 
+        'extra' => array
         (
             'title' => 'Title',
             'storage'    => 'extra',
@@ -18,7 +18,7 @@
             ),
             'end_fieldset' => '',
         ),
-        'orgOpenpsaAccesstype' => array 
+        'orgOpenpsaAccesstype' => array
         (
             'title' => 'Access type',
             'storage' => array
@@ -33,14 +33,14 @@
                  'options' => $GLOBALS['org_openpsa_core_acl_options'],
             ),
             'widget'       => 'select',
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'Access control',
                 'css_group' => 'area acl',
             ),
             'index_merge_with_content' => false,
         ),
-        'orgOpenpsaOwnerWg' => array 
+        'orgOpenpsaOwnerWg' => array
         (
             'title' => 'workgroup',
             'storage' => array
@@ -55,7 +55,6 @@
                 'options' => org_openpsa_helpers_list::workgroups(),
             ),
             'widget' => 'select',
-            'default' => $GLOBALS['org_openpsa_core_workgroup_filter'],
             'end_fieldset' => '',
             'index_merge_with_content' => false,
         ),

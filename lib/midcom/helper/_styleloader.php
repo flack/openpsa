@@ -645,7 +645,7 @@ class midcom_helper__styleloader
         }
         else
         {
-            if (array_key_exists('theme', $GLOBALS['midcom_config']))
+            if (isset($GLOBALS['midcom_config']['theme']))
             {
                 $filename = preg_replace('/lib$/', 'themes', MIDCOM_ROOT) . '/' . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
                 if (file_exists($filename))
@@ -745,7 +745,7 @@ class midcom_helper__styleloader
         {
             // Get style from sitewide per-component defaults.
             $component = $topic->component;
-            if (array_key_exists($component, $GLOBALS['midcom_config']['styleengine_default_styles']))
+            if (isset($GLOBALS['midcom_config']['styleengine_default_styles'][$component]))
             {
                 $_st = $this->get_style_id_from_path($GLOBALS['midcom_config']['styleengine_default_styles'][$component]);
             }

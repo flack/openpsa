@@ -193,9 +193,17 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     {
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
-        foreach ($root_objects as $object)
+        $label_mapping = array();
+        foreach ($root_objects as $i => $object)
         {
-            $label = $ref->get_object_label($object);
+            $label_mapping[$i] = htmlspecialchars($ref->get_object_label($object));
+        }
+
+        asort($label_mapping);
+
+        foreach ($label_mapping as $index => $label)
+        {
+            $object = $root_objects[$index];
             $selected = $this->_is_selected($object);
             $css_class = get_class($object);
             $this->_common_css_classes($object, $ref, $css_class);
@@ -210,7 +218,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
             echo "    <li class=\"{$css_class}\">";
 
-            $label = htmlspecialchars($label);
             $icon = $ref->get_object_icon($object);
 
             if (empty($label))

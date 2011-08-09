@@ -68,8 +68,8 @@ foreach ($data['invoices'] as $invoice)
     }
     catch (midcom_error $e)
     {
-        $entry['customer'] = $data['l10n']->get('no customer');
-        $entry['index_customer'] = $data['l10n']->get('no customer');
+        $entry['customer'] = '';
+        $entry['index_customer'] = '';
     }
 
     $entry['index_contact'] = '';
@@ -143,7 +143,8 @@ jQuery("#&(grid_id);").jqGrid({
           groupColumnShow: [false],
           groupText : ['<strong>{0}</strong> ({1})'],
           groupOrder: ['asc'],
-          groupSummary : [true]
+          groupSummary : [true],
+          showSummaryOnHide: true
        }
 });
 

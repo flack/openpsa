@@ -74,7 +74,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var boolean
      */
-    private $_no_cache = false;
+    public $_no_cache = false;
 
     /**
      * Page expiration in seconds. If null (unset), the page does
@@ -313,11 +313,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function _on_initialize()
     {
         $backend_config = $GLOBALS['midcom_config']['cache_module_content_backend'];
-        if (! array_key_exists('directory', $backend_config))
+        if (!isset($backend_config['directory']))
         {
             $backend_config['directory'] = 'content/';
         }
-        if (! array_key_exists('driver', $backend_config))
+        if (! isset($backend_config['driver']))
         {
             $backend_config['driver'] = 'null';
         }
@@ -331,28 +331,28 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $backend_config['auto_serialize'] = false;
         $this->_data_cache = $this->_create_backend($data_backend_name, $backend_config);
 
-        if (array_key_exists('cache_module_content_uncached', $GLOBALS['midcom_config']))
+        if (isset($GLOBALS['midcom_config']['cache_module_content_uncached']))
         {
             $this->_uncached = $GLOBALS['midcom_config']['cache_module_content_uncached'];
         }
 
-        if (array_key_exists('cache_module_content_headers_strategy', $GLOBALS['midcom_config']))
+        if (isset($GLOBALS['midcom_config']['cache_module_content_headers_strategy']))
         {
             $this->_headers_strategy = strtolower($GLOBALS['midcom_config']['cache_module_content_headers_strategy']);
         }
-        if (array_key_exists('cache_module_content_headers_strategy_authenticated', $GLOBALS['midcom_config']))
+        if (isset($GLOBALS['midcom_config']['cache_module_content_headers_strategy_authenticated']))
         {
             $this->_headers_strategy_authenticated = strtolower($GLOBALS['midcom_config']['cache_module_content_headers_strategy_authenticated']);
         }
-        if (array_key_exists('cache_module_content_default_lifetime', $GLOBALS['midcom_config']))
+        if (isset($GLOBALS['midcom_config']['cache_module_content_default_lifetime']))
         {
             $this->_default_lifetime = (int)$GLOBALS['midcom_config']['cache_module_content_default_lifetime'];
         }
-        if (array_key_exists('cache_module_content_default_lifetime_authenticated', $GLOBALS['midcom_config']))
+        if (isset($GLOBALS['midcom_config']['cache_module_content_default_lifetime_authenticated']))
         {
             $this->_default_lifetime_authenticated = (int)$GLOBALS['midcom_config']['cache_module_content_default_lifetime_authenticated'];
         }
-        if (array_key_exists('cache_module_content_headers_force', $GLOBALS['midcom_config']))
+        if (isset($GLOBALS['midcom_config']['cache_module_content_headers_force']))
         {
             $this->_force_headers = $GLOBALS['midcom_config']['cache_module_content_headers_force'];
         }

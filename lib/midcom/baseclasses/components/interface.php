@@ -360,15 +360,12 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     /**
      * Relays the handle call to the component.
      *
-     * @param midcom_db_topic $current_object The topic in question.
-     * @param int $argc The count of the remaining URL arguments.
-     * @param Array $argv The argument listing
-     * @param int $contextid The id of the context we are operating in.
      * @return boolean True, if the component successfully handle the request, false otherwise.
      */
-    public function handle($current_object, $argc, $argv, $contextid)
+    public function handle()
     {
-        return $this->_context_data[$contextid]['handler']->handle($argc, $argv);
+        midcom::get()->set_status(MIDCOM_STATUS_HANDLE);
+        return $this->_context_data[midcom_core_context::get()->id]['handler']->handle();
     }
 
     /**

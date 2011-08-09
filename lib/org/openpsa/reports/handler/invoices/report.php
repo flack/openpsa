@@ -167,7 +167,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
             $qb->add_constraint('owner', 'IN', $this->_request_data['query_data']['resource_expanded']);
-            $qb->begin_group('OR');
         }
 
         switch ($status)

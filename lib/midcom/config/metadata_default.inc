@@ -331,7 +331,7 @@
         'revision' => array
         (
             'title' => 'revision',
-            'stogare' => 'metadata',
+            'storage' => 'metadata',
             'type' => 'number',
             'widget' => 'text',
             'readonly' => true,

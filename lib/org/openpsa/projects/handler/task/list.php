@@ -133,11 +133,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
         $mc->add_order('task.priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $mc->add_constraint('task.orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $tasks = $mc->get_values('task');
 
         if (!empty($tasks))
@@ -160,11 +155,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::ACCEPTED);
         $mc->end_group();
         $mc->add_order('task.priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $mc->add_constraint('task.orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $tasks = $mc->get_values('task');
 
         if (!empty($tasks))
@@ -181,11 +171,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_order('task.priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $mc->add_constraint('task.orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $tasks = $mc->get_values('task');
 
         if (!empty($tasks))
@@ -202,14 +187,9 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $task)
             {
@@ -227,14 +207,9 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $task)
             {
@@ -252,14 +227,9 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $task)
             {
@@ -277,14 +247,9 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
+
+        if (count($ret) > 0)
         {
             foreach ($ret as $task)
             {
@@ -386,6 +351,12 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 }
                 $agreement_id = (int) $args[2];
                 $this->_request_data['agreement'] = $agreement_id;
+
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement_id);
+                $title = sprintf($this->_l10n->get('tasks for agreement %s'), $deliverable->title);
+                $_MIDCOM->set_pagetitle($title);
+                $this->add_breadcrumb("", $title);
+
                 $qb->add_constraint('agreement', '=', $agreement_id);
                 $qb->add_order('end', 'DESC');
                 break;

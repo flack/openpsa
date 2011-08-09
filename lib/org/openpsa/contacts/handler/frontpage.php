@@ -21,6 +21,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
+        $data['tree'] = $this->_master->get_group_tree();
 
         $this->_view_toolbar->add_item
         (
@@ -28,7 +29,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             (
                 MIDCOM_TOOLBAR_URL => 'person/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
             )
         );
@@ -37,9 +38,20 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => 'group/create/',
+                MIDCOM_TOOLBAR_URL => 'group/create/organization/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+            )
+        );
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'group/create/group/',
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
             )
         );

@@ -149,12 +149,12 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *
      * Example:
      * <code>
-     *     'auto_wildcards' => 'both',
+     *     'auto_wildcards' => 'end',
      * </code>
      *
      * @var string
      */
-    public $auto_wildcards = 'end';
+    public $auto_wildcards = 'both';
 
     public $creation_mode_enabled = false;
     public $creation_handler = null;

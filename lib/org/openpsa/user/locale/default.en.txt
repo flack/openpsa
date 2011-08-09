@@ -41,6 +41,7 @@ Delete account
 ---STRING delete account %s %s
 Delete account for %s %s
 ---STRINGEND
+
 ---STRING enable calendar
 Allow to create events in the Group Calendar
 ---STRINGEND

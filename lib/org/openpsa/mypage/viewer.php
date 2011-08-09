@@ -53,60 +53,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_savefilter($handler_id, array $args, array &$data)
-    {
-        $_MIDCOM->auth->require_valid_user();
-        if (array_key_exists('org_openpsa_workgroup_filter', $_POST))
-        {
-            $session = new midcom_services_session('org.openpsa.core');
-            $session->set('org_openpsa_core_workgroup_filter', $_POST['org_openpsa_workgroup_filter']);
-            // TODO: Check that session actually was saved
-            $ajax = new org_openpsa_helpers_ajax();
-            $ajax->simpleReply(true, 'Session saved');
-        }
-        else
-        {
-            $ajax = new org_openpsa_helpers_ajax();
-            $ajax->simpleReply(false, 'No filter given');
-        }
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_userinfo($handler_id, array $args, array &$data)
-    {
-        $_MIDCOM->auth->require_valid_user();
-        if ($_MIDCOM->auth->user)
-        {
-            $this->_request_data['virtual_groups']['all'] = $this->_l10n->get('all groups');
-            $this->_request_data['virtual_groups'] += org_openpsa_helpers_list::workgroups();
-        }
-
-        // This handler uses Ajax, include the handler javascripts
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL."/org.openpsa.helpers/ajaxutils.js");
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_userinfo($handler_id, array &$data)
-    {
-        if ($_MIDCOM->auth->user)
-        {
-            midcom_show_style("show-userinfo");
-        }
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
     public function _handler_updates($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();

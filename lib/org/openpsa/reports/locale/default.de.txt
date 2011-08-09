@@ -58,6 +58,10 @@ Abrechenbare Stunden im letzten Monat
 Abrechenbare Stunden in diesem Monat
 ---STRINGEND
 
+---STRING no customer
+Kein Kunde
+---STRINGEND
+
 ---STRING no results
 Keine Ergebnisse
 ---STRINGEND

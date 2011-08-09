@@ -58,6 +58,10 @@ Invoiceable hours last month
 Invoiceable hours this month
 ---STRINGEND
 
+---STRING no customer
+Kein Kunde
+---STRINGEND
+
 ---STRING no results
 No results
 ---STRINGEND

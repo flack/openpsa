@@ -112,7 +112,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             return $result[0];
         }
-        return new self;
+        return false;
     }
 
     function generate_invoice_number()
@@ -183,11 +183,29 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->date)
-        {
-            $this->date = time();
-        }
+        $this->_pre_write_operations();
         return true;
+    }
+
+    public function _on_updating()
+    {
+        $this->_pre_write_operations();
+        return true;
+    }
+
+    private function _pre_write_operations()
+    {
+        if ($this->sent > 0)
+        {
+            if (!$this->date)
+            {
+                $this->date = time();
+            }
+            if ($this->due == 0)
+            {
+                $this->due = ($this->get_default_due() * 3600 * 24) + $this->date;
+            }
+        }
     }
 
     /**

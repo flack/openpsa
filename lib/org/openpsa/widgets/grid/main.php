@@ -76,6 +76,8 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         }
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/i18n/grid.locale-'. $lang . '.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/jquery.jqGrid.min.js');
+
+        org_openpsa_widgets_ui::add_head_elements();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.js');
 
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
@@ -123,7 +125,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         if (   $autoquote_string
             && is_string($value))
         {
-            $value = '"' . $value . '"';
+            $value = '"' . str_replace('"', '\\"', $value) . '"';
         }
         else if ($value === true)
         {
@@ -224,7 +226,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             }
             $colnames[] = $column['label'];
         }
-        echo "colNames: " . json_encode($colnames) . ",\n";
+        echo "\ncolNames: " . json_encode($colnames) . ",\n";
 
         $this->_render_colmodel();
 
@@ -260,7 +262,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
                 echo 'sorttype: "' . $column['separate_index'] . '", hidden: true}' . ",\n";
             }
 
-            echo '{name:"' . $name . '", ';
+            echo '{name: "' . $name . '", ';
             if ($column['separate_index'])
             {
                 echo 'index: "index_' . $name . '"';

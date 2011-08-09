@@ -63,7 +63,7 @@ var midcom_helper_datamanager2_autocomplete =
     {
         var selection_holder_id = $(event.target).attr('id').replace(/_search_input$/, '') + '_selection';
         $('#' + selection_holder_id).val(JSON.stringify([ui.item.id]));
-        $(event.target).data('selected', true);
+        $(event.target).data('selected', ui.item.label);
     },
 
     open: function(event, ui)
@@ -71,20 +71,6 @@ var midcom_helper_datamanager2_autocomplete =
         var offset = $(this).offset(),
         height = $(window).height() - (offset.top + $(this).height() + 10);
         $('ul.ui-autocomplete').css('maxHeight', height);
-    },
-
-    close: function(event, ui)
-    {
-        if ($(event.target).data('selected'))
-        {
-            $(event.target).removeData('selected');
-        }
-        else
-        {
-            $(event.target)
-                .val('')
-                .blur();
-        }
     },
 
     /**
@@ -168,7 +154,7 @@ var midcom_helper_datamanager2_autocomplete =
         var default_config =
         {
             id_field: 'guid',
-            auto_wildcards: 'end',
+            auto_wildcards: 'both',
             categorize_by_parent_label: false,
             helptext: '',
             default_value: ''
@@ -180,7 +166,6 @@ var midcom_helper_datamanager2_autocomplete =
             minLength: 2,
             source: midcom_helper_datamanager2_autocomplete.query,
             select: midcom_helper_datamanager2_autocomplete.select,
-            close: midcom_helper_datamanager2_autocomplete.close,
             position: {collision: 'flip'},
             autoFocus: true
         };
@@ -220,9 +205,20 @@ var midcom_helper_datamanager2_autocomplete =
                 {
                     if ($(this).val() === '')
                     {
+                        $(this).data('selected', false);
+                    }
+                    if (!$(this).data('selected'))
+                    {
+                        var selection_holder_id = $(this).attr('id').replace(/_search_input$/, '') + '_selection';
+                        $('#' + selection_holder_id).val('');
+
                         $(this)
                             .val(helptext)
                             .addClass('autocomplete_helptext_shown');
+                    }
+                    else
+                    {
+                        $(this).val($(this).data('selected'));
                     }
                 });
         }

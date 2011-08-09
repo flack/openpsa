@@ -15,6 +15,13 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
 implements midcom_helper_datamanager2_interfaces_create
 {
     /**
+     * What type of group are we dealing with, organization or group?
+     *
+     * @var string
+     */
+    private $_type;
+
+    /**
      * The group we're working with
      *
      * @var org_openpsa_contacts_group_dba
@@ -33,13 +40,21 @@ implements midcom_helper_datamanager2_interfaces_create
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
+    public function get_schema_name()
+    {
+        return $this->_type;
+    }
+
     public function get_schema_defaults()
     {
-        $defaults = array();
         if (!is_null($this->_parent_group))
         {
-            // Set the default type to "department"
-            $defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
+            if ($this->_type == 'organization')
+            {
+                // Set the default type to "department"
+                $defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
+            }
+            $defaults['owner'] = $this->_parent_group->id;
         }
         return $defaults;
     }
@@ -51,15 +66,17 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $group = new org_openpsa_contacts_group_dba();
 
-        $group->owner = 0;
-        if ($this->_parent_group)
+        if ($this->_type == 'organization')
         {
-            $group->owner = (int) $this->_parent_group->id;
-        }
-        else
-        {
-            $root_group = org_openpsa_contacts_interface::find_root_group();
-            $group->owner = (int) $root_group->id;
+            if ($this->_parent_group)
+            {
+                $group->owner = (int) $this->_parent_group->id;
+            }
+            else
+            {
+                $root_group = org_openpsa_contacts_interface::find_root_group();
+                $group->owner = (int) $root_group->id;
+            }
         }
         $group->name = time();
 
@@ -83,11 +100,13 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $_MIDCOM->auth->require_valid_user();
 
+        $this->_type = $args[0];
+
         $this->_parent_group = false;
-        if (count($args) > 0)
+        if (count($args) > 1)
         {
             // Get the parent organization
-            $this->_parent_group = new org_openpsa_contacts_group_dba($args[0]);
+            $this->_parent_group = new org_openpsa_contacts_group_dba($args[1]);
             $_MIDCOM->auth->require_do('midgard:create', $this->_parent_group);
         }
         else
@@ -105,13 +124,18 @@ implements midcom_helper_datamanager2_interfaces_create
                 org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_topic);
 
                 // Relocate to group view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate($prefix . "group/" . $this->_group->guid . "/");
+                $_MIDCOM->relocate("group/" . $this->_group->guid . "/");
                 // This will exit
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                if ($this->_parent_group)
+                {
+                    $_MIDCOM->relocate("group/" . $this->_parent_group->guid . "/");
+                }
+                else
+                {
+                    $_MIDCOM->relocate('');
+                }
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
@@ -122,7 +146,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $_MIDCOM->set_pagetitle($this->_l10n->get("create organization"));
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_parent_group, $this);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('organization')));
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_type)));
     }
 
     /**

@@ -156,15 +156,36 @@ class midcom_compat_default extends midcom_compat_environment
  */
 class midcom_compat_unittest extends midcom_compat_environment
 {
+    private static $_headers = array();
+
     public function __construct() {}
 
-    public function header($string, $replace = true, $http_response_code = null) {}
+    public function header($string, $replace = true, $http_response_code = null)
+    {
+        if (preg_match('/^Location: (.*?)$/', $string, $matches))
+        {
+            throw new openpsa_test_relocate($matches[1], $http_response_code);
+        }
+        self::$_headers[] = array
+        (
+            'value' => $string,
+            'replace' => $replace,
+            'http_response_code' => $http_response_code
+        );
+    }
 
     public function stop_request($message = '') {}
 
     public function headers_sent() {}
 
     public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false) {}
+
+    public static function flush_registered_headers()
+    {
+        $headers = self::$_headers;
+        self::$_headers = array();
+        return $headers;
+    }
 }
 
 /**

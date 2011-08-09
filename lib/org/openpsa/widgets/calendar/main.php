@@ -549,40 +549,38 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                 $label_width = 0;
             }
 
-            if (   $reservation['start'] < $before_end
-                && $reservation['end'] > $before_end
-                && $reservation['end'] < $after_start)
+            if ($reservation['start'] < $before_end)
             {
-                // This event starts in the "before" block or earlier and ends in "normal" slot
-                $event_left = $label_width;
-                $event_width = ((($reservation['end'] - $before_end) / $this->calendar_slot_length) * $this->column_width) + ($this->column_width / 2);
+                if ($reservation['end'] > $after_start)
+                {
+                    // This event starts in the "before" block and ends after the "after" slot
+                    $event_left = $label_width;
+                    $event_width = ((($after_start - $before_end) / $this->calendar_slot_length) * $this->column_width) + $this->column_width;
+                }
+                else if ($reservation['end'] <= $before_end)
+                {
+                    // This event is completely in the "before" block
+                    $event_left = $label_width;
+                    $event_width = $this->column_width / 2;
+                }
+                else
+                {
+                    // This event starts in the "before" block or earlier and ends in "normal" slot
+                    $event_left = $label_width;
+                    $event_width = ((($reservation['end'] - $before_end) / $this->calendar_slot_length) * $this->column_width) + ($this->column_width / 2);
+                }
             }
-            else if (   $reservation['start'] < $before_end
-                && $reservation['end'] > $before_end)
-            {
-                // This event starts in the "before" block and ends after the "after" slot
-                $event_left = $label_width;
-                $event_width = ((($after_start - $before_end) / $this->calendar_slot_length) * $this->column_width) + $this->column_width;
-            }
-            else if (   $reservation['start'] < $after_start
-                && $reservation['end'] > $after_start)
-            {
-                // This event starts in "normal" block and ends in the "after" slot or some next day
-                $event_left = $label_width + ($this->column_width / 2) + (($reservation['start'] - $before_end) / $this->calendar_slot_length) * $this->column_width;
-                $event_width = ((($after_start - $reservation['start']) / $this->calendar_slot_length) * $this->column_width) + ($this->column_width / 2);
-            }
-            else if (   $reservation['start'] < $before_end
-                    && $reservation['end'] <= $before_end)
-            {
-                // This event is completely in the "before" block
-                $event_left = $label_width;
-                $event_width = $this->column_width / 2;
-            }
-            else if (   $reservation['start'] > $after_start)
+            else if ($reservation['start'] > $after_start)
             {
                 // This event is completely in the "after" block
                 $event_left = $label_width + ($this->column_width / 2) + ((count($slots) - 2) * $this->column_width);
                 $event_width = $this->column_width / 2;
+            }
+            else if ($reservation['end'] > $after_start)
+            {
+                // This event starts in "normal" block and ends in the "after" slot or some next day
+                $event_left = $label_width + ($this->column_width / 2) + (($reservation['start'] - $before_end) / $this->calendar_slot_length) * $this->column_width;
+                $event_width = ((($after_start - $reservation['start']) / $this->calendar_slot_length) * $this->column_width) + ($this->column_width / 2);
             }
             else
             {
@@ -657,6 +655,7 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
             $start_time = date('H:i', $reservation['start']);
             $end_time = date('H:i', $reservation['end']);
             $event_width = ceil($event_width);
+            $event_left = round($event_left);
 
             echo "          <div class=\"vevent{$additional_event_class}\"  title=\"{$start_time}-{$end_time}: {$reservation['name']}\" style=\"width: {$event_width}px; left: {$event_left}px; top: {$event_top}px;\"{$additional_attributes}>\n";
             echo "            <span class=\"time\">\n";

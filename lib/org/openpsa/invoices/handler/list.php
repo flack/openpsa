@@ -36,6 +36,8 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
 
         org_openpsa_widgets_grid::add_head_elements();
+        midcom::get('head')->add_jscript('var INVOICES_URL ="' . $this->_request_data['invoices_url'] . 'invoice/process/";');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
     }
 
     private function _process_invoice_list($invoices)
@@ -81,14 +83,7 @@ implements org_openpsa_widgets_grid_provider_client
             try
             {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-                if ($this->_request_data['invoices_url'])
-                {
-                    $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
-                }
-                else
-                {
-                    $entry['customer'] = $customer->official;
-                }
+                $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\">" . $customer->get_label() . "</a>";
             }
             catch (midcom_error $e)
             {
@@ -98,8 +93,15 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba'))
         {
-            $customer_card = org_openpsa_widgets_contact::get($invoice->customerContact);
-            $entry['contact'] = $customer_card->show_inline();
+            try
+            {
+                $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
+                $entry['contact'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$contact->guid}/\">" . $contact->get_label() . "</a>";
+            }
+            catch (midcom_error $e)
+            {
+                $entry['contact'] = '';
+            }
         }
 
         if (!empty($this->_request_data['deliverable']))
@@ -117,50 +119,13 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_sum'] = $invoice->sum;
         $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
 
-        $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
-
-        $next_marker = array();
-        $entry['action'] = '';
-
-        // unsent invoices
-        if (   $this->_list_type == 'unsent'
-            || $invoice->sent == 0)
+        $entry['due'] = '';
+        if ($invoice->due > 0)
         {
-            $next_marker[] = 'sent';
-
-            // sending per mail enabled in billing data?
-            $billing_data = $invoice->get_billing_data();
-            // only show if mail was chosen as option
-            if (intval($billing_data->sendingoption) == 2)
-            {
-                $next_marker[] = 'sent_per_mail';
-            }
-        }
-        // not paid yet
-        else if (!$invoice->paid)
-        {
-            $next_marker[] = 'paid';
-        }
-        else
-        {
-            $entry['action'] .= strftime('%x', $invoice->paid);
+            $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
         }
 
-        // generate next action buttons
-        if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
-            && count($next_marker) > 0)
-        {
-            foreach ($next_marker as $mark)
-            {
-                $next_marker_url = $prefix . "invoice/mark_" . $mark . "/" . $invoice->guid . "/";
-                $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
-
-                $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
-                $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
-                $entry['action'] .= $this->_l10n->get('mark ' . $mark);
-                $entry['action'] .= '</button></form>';
-            }
-        }
+        $entry['action'] = $this->_master->render_invoice_actions($invoice);
 
         return $entry;
     }
@@ -233,7 +198,6 @@ implements org_openpsa_widgets_grid_provider_client
                 )
             );
         }
-
         $_MIDCOM->set_pagetitle($this->_l10n->get('dashboard'));
     }
 
@@ -509,7 +473,10 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_process_invoice_list($invoices);
         }
 
-        $_MIDCOM->set_pagetitle($data['list_label']);
+        $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $data['deliverable']->title);
+
+        $_MIDCOM->set_pagetitle($title);
+        $this->add_breadcrumb("", $title);
     }
 
     /**

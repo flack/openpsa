@@ -284,7 +284,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
     }
 
-    function invoice($sum)
+    function invoice()
     {
         if ($this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
         {
@@ -299,12 +299,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
 
         $calculator = new org_openpsa_invoices_calculator();
-        $amount = $calculator->process_deliverable($this->_deliverable);
+        $amount = $calculator->process_deliverable($this);
 
         if ($amount > 0)
         {
             $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;
-            $this->invoiced = $this->invoiced + $sum;
             $this->update();
 
             // Update sales project and mark as delivered (if no other deliverables are active)

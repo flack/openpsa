@@ -15,6 +15,13 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
 implements midcom_helper_datamanager2_interfaces_view
 {
     /**
+     * What type of group are we dealing with, organization or group?
+     *
+     * @var string
+     */
+    private $_type;
+
+    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -22,6 +29,11 @@ implements midcom_helper_datamanager2_interfaces_view
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
+    }
+
+    public function get_schema_name()
+    {
+        return $this->_type;
     }
 
     /**
@@ -35,42 +47,88 @@ implements midcom_helper_datamanager2_interfaces_view
 
         // Get the requested group object
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
-        $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
         $data['group'] =& $this->_group;
 
-        $root_group = org_openpsa_contacts_interface::find_root_group();
-        if ($this->_group->owner != $root_group->id)
+        if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
         {
-            $data['parent_group'] = $this->_group->get_parent();
+            $this->_type = 'group';
+            $data['group_tree'] = $this->_master->get_group_tree();
+            $data['members_grid'] = new org_openpsa_widgets_grid('members_grid', 'local');
+            $data['members'] = $this->_load_members();
         }
         else
         {
-            $data['parent_group'] = false;
-        }
-
-        //pass billing-data if invoices is installed
-        if ($_MIDCOM->componentloader->is_installed('org.openpsa.invoices'))
-        {
-            $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);
-            $billing_data = $qb_billing_data->execute();
-            if (count($billing_data) > 0)
+            $this->_type = 'organization';
+            $root_group = org_openpsa_contacts_interface::find_root_group();
+            if ($this->_group->owner != $root_group->id)
             {
-                $this->_request_data['billing_data'] = $billing_data[0];
+                $data['parent_group'] = $this->_group->get_parent();
             }
+            else
+            {
+                $data['parent_group'] = false;
+            }
+
+            //pass billing-data if invoices is installed
+            if ($_MIDCOM->componentloader->is_installed('org.openpsa.invoices'))
+            {
+                $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
+                $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);
+                $billing_data = $qb_billing_data->execute();
+                if (count($billing_data) > 0)
+                {
+                    $this->_request_data['billing_data'] = $billing_data[0];
+                }
+            }
+            // This handler uses Ajax, include the handler javascripts
+            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+            org_openpsa_widgets_ui::enable_ui_tab();
         }
+        $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
 
         // Add toolbar items
         $this->_populate_toolbar();
         $_MIDCOM->bind_view_to_object($this->_group);
 
-        // This handler uses Ajax, include the handler javascripts
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        org_openpsa_widgets_ui::enable_ui_tab();
-
         $_MIDCOM->set_pagetitle($this->_group->official);
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
+    }
+
+    private function _load_members()
+    {
+        $rows = array();
+
+        $mc = midcom_db_member::new_collector('gid', $this->_group->id);
+        $ids = $mc->get_values('uid');
+        if (empty($ids))
+        {
+            return $rows;
+        }
+        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', $ids);
+        $qb->add_order('lastname');
+        $qb->add_order('firstname');
+        $qb->add_order('email');
+        $members = $qb->execute();
+
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix .= 'person/';
+
+        foreach ($members as $person)
+        {
+            $row = array
+            (
+                'index_firstname' => $person->firstname,
+                'firstname' => '<a href="' . $prefix . $person->guid . '/">' . $person->firstname . '</a>',
+                'index_lastname' => $person->lastname,
+                'lastname' => '<a href="' . $prefix . $person->guid . '/">' . $person->lastname . '</a>',
+                'index_email' => $person->email,
+                'email' =>  '<a href="mailto:' . $person->email . '">' . $person->email . '</a>',
+            );
+            $rows[] = $row;
+        }
+        return $rows;
     }
 
     private function _populate_toolbar()
@@ -91,8 +149,19 @@ implements midcom_helper_datamanager2_interfaces_view
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "group/create/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_URL => "group/create/organization/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
+            )
+        );
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "group/create/group/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
             )
@@ -163,7 +232,14 @@ implements midcom_helper_datamanager2_interfaces_view
      */
     public function _show_view($handler_id, array &$data)
     {
-        midcom_show_style("show-group");
+        if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+        {
+            midcom_show_style("show-group-other");
+        }
+        else
+        {
+            midcom_show_style("show-group");
+        }
     }
 }
 ?>

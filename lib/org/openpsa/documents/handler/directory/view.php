@@ -55,12 +55,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
 
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
-        // Workgroup filtering
-        if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-        {
-            debug_add("Filtering documents by workgroup {$GLOBALS['org_openpsa_core_workgroup_filter']}");
-            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-        }
         //check if there is another output-mode wanted
         if(isset($args[0]))
         {

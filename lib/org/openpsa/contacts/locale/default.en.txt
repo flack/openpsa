@@ -78,6 +78,10 @@ Create person
 Create suborganization
 ---STRINGEND
 
+---STRING create subgroup
+Create subgroup
+---STRINGEND
+
 ---STRING customers invoices
 Customer's invoices
 ---STRINGEND
@@ -122,6 +126,14 @@ Fax
 First name
 ---STRINGEND
 
+---STRING group
+Group
+---STRINGEND
+
+---STRING groups
+Groups
+---STRINGEND
+
 ---STRING homepage
 Homepage
 ---STRINGEND
@@ -164,6 +176,10 @@ Me
 
 ---STRING member
 Organization member
+---STRINGEND
+
+---STRING members
+Members
 ---STRINGEND
 
 ---STRING merge persons
@@ -232,6 +248,10 @@ Organizations
 
 ---STRING other
 Other
+---STRINGEND
+
+---STRING owner group
+Owner Group
 ---STRINGEND
 
 ---STRING partner

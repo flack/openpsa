@@ -92,6 +92,5 @@ if (!defined('MIDCOM_ROOT'))
 }
 
 //Get required helpers
-require_once MIDCOM_ROOT . '/../test/utilities/testcase.php';
 require_once MIDCOM_ROOT . '/../test/utilities/bootstrap.php';
 ?>

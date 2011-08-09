@@ -251,5 +251,129 @@ class midcom_core_context
     {
         $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
     }
+
+    /**
+     * Check whether a given component is able to handle the current request.
+     *
+     * Used by midcom_application::_process(), it checks if the component associated to $object is able
+     * to handle the request. After the local configuration is retrieved from the object in question the
+     * component will be asked if it can handle the request. If so, the interface class will be returned to the caller
+     *
+     * @param midcom_db_topic $object The node that is currently being tested.
+     * @return mixed The component's interface class or false
+     */
+    public function get_handler(midcom_db_topic $object)
+    {
+        $path = $object->component;
+        if (!$path)
+        {
+            $path = 'midcom.core.nullcomponent';
+            debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
+        }
+        $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
+
+        // Get component interface class
+        $component_interface = midcom::get('componentloader')->get_interface_class($path);
+        if ($component_interface === null)
+        {
+            $path = 'midcom.core.nullcomponent';
+            $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
+            $component_interface = midcom::get('componentloader')->get_interface_class($path);
+        }
+
+        // Load configuration
+        $config_obj = $this->_loadconfig($this->id, $object);
+        $config = ($config_obj == false) ? array() : $config_obj->get_all();
+        if (! $component_interface->configure($config, $this->id))
+        {
+            throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
+        }
+
+        // Make can_handle check
+        if (!$component_interface->can_handle($object, $this->parser->argc, $this->parser->argv, $this->id))
+        {
+            debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
+            return false;
+        }
+
+        // Initialize context
+        $prefix = $this->parser->get_url();
+        $this->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
+
+        $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
+
+        $handler = midcom::get('componentloader')->get_interface_class($path);
+
+        $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
+        $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
+
+        return $component_interface;
+    }
+
+    /**
+     * Handle a request.
+     *
+     * The URL of the component that is used to handle the request is obtained automatically.
+     * If the handler hook returns false (i.e. handling failed), it will produce an error page.
+     *
+     * @param midcom_baseclasses_components_interface $handler The component's main handler class
+     */
+    public function run(midcom_baseclasses_components_interface $handler)
+    {
+        if (!$handler->handle())
+        {
+            throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
+        }
+
+        // Retrieve Metadata
+        $nav = new midcom_helper_nav();
+        if ($nav->get_current_leaf() === false)
+        {
+            $meta = $nav->get_node($nav->get_current_node());
+        }
+        else
+        {
+            $meta = $nav->get_leaf($nav->get_current_leaf());
+        }
+
+        if ($this->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null)
+        {
+            $this->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $meta[MIDCOM_NAV_GUID]);
+        }
+
+        if ($this->get_key(MIDCOM_CONTEXT_PAGETITLE) == '')
+        {
+            $this->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
+        }
+    }
+
+    /**
+     * Load the configuration for a given object.
+     *
+     * This is a small wrapper function that retrieves all local configuration data
+     * attached to $object. The assigned component is used to determine which
+     * parameter domain has to be used.
+     *
+     * @param midcom_db_topic $object    The node from which to load the configuration.
+     * @return midcom_helper_configuration    Reference to the newly constructed configuration object.
+     */
+    private function _loadconfig($context_id, midcom_db_topic $object)
+    {
+        static $configs = array();
+        if (!isset($configs[$context_id]))
+        {
+            $configs[$context_id] = array();
+        }
+
+        $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
+
+        if (!isset($configs[$context_id][$object->guid]))
+        {
+            $configs[$context_id][$object->guid] = new midcom_helper_configuration($object, $path);
+        }
+
+        return $configs[$context_id][$object->guid];
+    }
+
 }
 ?>

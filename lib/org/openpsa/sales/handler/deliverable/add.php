@@ -12,66 +12,87 @@
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The deliverable to display
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
-    private $_deliverable = null;
+    private $_deliverable;
 
     /**
      * The salesproject the deliverable is connected to
      *
      * @var org_openpsa_sales_salesproject_dba
      */
-    private $_salesproject = null;
+    private $_salesproject;
 
     /**
      * The product to deliver
      *
      * @var org_openpsa_products_product_dba
      */
-    private $_product = null;
+    private $_product;
 
-    private function _create_deliverable(&$product, $up = 0, $units = 1)
+
+    public function load_schemadb()
     {
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
-        $deliverable->product = $product->id;
-        $deliverable->salesproject = $this->_salesproject->id;
-        $deliverable->up = $up;
-        $deliverable->units = $units;
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
+    }
 
-        // Copy values from product
-        $deliverable->unit = $product->unit;
-        $deliverable->pricePerUnit = $product->price;
-        $deliverable->costPerUnit = $product->cost;
-        $deliverable->costType = $product->costType;
-        $deliverable->title = $product->title;
-        $deliverable->description = $product->description;
-        $deliverable->supplier = $product->supplier;
-
-        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
-
-        $deliverable->orgOpenpsaObtype = $product->delivery;
-
-        if (!$deliverable->create())
+    public function get_schema_name()
+    {
+        // Set schema based on product type
+        if ($this->_product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
         {
-            debug_print_r('We operated on this object:', $deliverable);
+            return 'subscription';
+        }
+
+        return 'default';
+    }
+
+    /**
+     * DM2 creation callback, binds to the current content topic.
+     */
+    public function & dm2_create_callback (&$controller)
+    {
+        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
+        $this->_deliverable->salesproject = $this->_salesproject->id;
+        $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
+
+        if (! $this->_deliverable->create())
+        {
+            debug_print_r('We operated on this object:', $this->_deliverable);
             throw new midcom_error('Failed to create a new deliverable. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
 
-        // Set schema based on product type
-        if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
-        {
-            $deliverable->parameter('midcom.helper.datamanager2', 'schema_name', 'subscription');
-        }
+        return $this->_deliverable;
+    }
 
-        // Copy tags from product
-        $tagger = new net_nemein_tag_handler();
-        $tagger->copy_tags($product, $deliverable);
+    public function get_schema_defaults()
+    {
+        $defaults = array
+        (
+            'product' => $this->_product->id,
+            'units' => 1,
 
-        return $deliverable;
+            // Copy values from product
+            'unit' => $this->_product->unit,
+            'pricePerUnit' => $this->_product->price,
+            'costPerUnit' => $this->_product->cost,
+            'costType' => $this->_product->costType,
+            'title' => $this->_product->title,
+            'description' => $this->_product->description,
+            'supplier' => $this->_product->supplier,
+            'orgOpenpsaObtype' => $this->_product->delivery,
+        );
+
+        //TODO: Copy tags from product
+        //$tagger = new net_nemein_tag_handler();
+        //$tagger->copy_tags($this->_product, $this->_deliverable);
+
+        return $defaults;
     }
 
     /**
@@ -97,18 +118,33 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
         }
 
         $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);
-        $this->_deliverable = $this->_create_deliverable($this->_product);
-        if ($this->_deliverable)
+
+        // Load the controller instance
+        $data['controller'] = $this->get_controller('create');
+
+        // Process form
+        switch ($data['controller']->process_form())
         {
-            // Go to deliverable edit screen
-            $_MIDCOM->relocate("deliverable/edit/{$this->_deliverable->guid}/");
+            case 'save':
+            case 'cancel':
+                $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
+                break;
         }
-        else
-        {
-            // Get user back to the sales project
-            // TODO: Add UImessage on why this failed
-            $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
-        }
+
+        org_openpsa_helpers::dm2_savecancel($this);
+        $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
+        $this->add_breadcrumb('', $this->_l10n->get('add deliverable'));
+    }
+
+    /**
+     * Show the create screen
+     *
+     * @param String $handler_id    Name of the request handler
+     * @param array &$data          Public request data, passed by reference
+     */
+    public function _show_add($handler_id, array &$data)
+    {
+        midcom_show_style('show-deliverable-form');
     }
 }
 ?>

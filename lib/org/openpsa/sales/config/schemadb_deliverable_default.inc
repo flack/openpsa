@@ -11,6 +11,16 @@
             'type' => 'text',
             'widget'  => 'text',
         ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => Array (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
         'tags' => Array
         (
             'title' => 'tags',
@@ -18,6 +28,7 @@
             'type' => 'tags',
             'widget' => 'text',
         ),
+
         'supplier' => array
         (
             'title'   => 'supplier',
@@ -62,16 +73,6 @@
                 ),
             ),
         ),
-        'description' => Array
-        (
-            'title' => 'description',
-            'storage' => 'description',
-            'type' => 'text',
-            'type_config' => Array (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
-        ),
         'end' => Array
         (
             'title' => 'estimated delivery',
@@ -101,6 +102,13 @@
             (
                 'show_time' => false,
             ),
+        ),
+        'product' => Array
+        (
+            'title' => 'product',
+            'storage' => 'product',
+            'type' => 'number',
+            'widget' => 'hidden',
         ),
         'pricePerUnit' => Array
         (
@@ -202,15 +210,23 @@
 'subscription' => array
 (
     'description' => 'recurring subscription',
+    'validation' => array
+    (
+        array
+        (
+            'callback' => 'validate_subscription',
+            'autoload_snippet' => 'file:/org/openpsa/sales/config/validation_callbacks.php',
+        ),
+    ),
     'fields'      => array
     (
         'title' => Array
         (
-            // COMPONENT-REQUIRED
             'title' => 'title',
             'storage' => 'title',
             'type' => 'text',
             'widget'  => 'text',
+            'required' => true
         ),
         'tags' => Array
         (
@@ -304,46 +320,6 @@
                 'show_time' => false,
             ),
         ),
-        'notify' => Array
-        (
-            'title' => 'notify date',
-            'storage' => 'notify',
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME'
-            ),
-            'widget' => 'jsdate',
-            'widget_config' => Array
-            (
-                'show_time' => false,
-            ),
-        ),
-
-        'at_entry' => Array
-        (
-            'title'   => '',
-            'storage' => null,
-            'type'    => 'number',
-            'widget'  => 'hidden',
-        ),
-        'next_cycle' => Array
-        (
-            'title' => 'next run',
-            'storage' => null,
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME'
-            ),
-            'widget' => 'jsdate',
-            'widget_config' => Array
-            (
-                'show_time' => false,
-            ),
-            'hidden' => true
-        ),
-
         'continuous' => Array
         (
             'title'   => 'continuous subscription',
@@ -351,6 +327,7 @@
             'type'    => 'boolean',
             'widget'  => 'checkbox',
         ),
+
         'pricePerUnit' => Array
         (
             'title' => 'price per unit',
@@ -444,6 +421,44 @@
             'type' => 'number',
             'widget'  => 'text',
             'hidden' => true,
+        ),
+        'at_entry' => Array
+        (
+            'title'   => '',
+            'storage' => null,
+            'type'    => 'number',
+            'widget'  => 'hidden',
+        ),
+        'next_cycle' => Array
+        (
+            'title' => 'next run',
+            'storage' => null,
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+            'hidden' => true
+        ),
+        'notify' => Array
+        (
+            'title' => 'notify date',
+            'storage' => 'notify',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
         ),
     )
 ),

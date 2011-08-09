@@ -103,7 +103,7 @@ Kein Termin
 ---STRINGEND
 
 ---STRING org.openpsa.calendar
-Kalender
+Gruppen-Kalender
 ---STRINGEND
 
 ---STRING participants

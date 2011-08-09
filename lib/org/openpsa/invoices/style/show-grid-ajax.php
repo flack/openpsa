@@ -32,7 +32,7 @@ function calculate_total()
 </script>
 <?php
 $grid->set_option('scroll', 1);
-$grid->set_option('rowNum', 12);
+$grid->set_option('rowNum', 6);
 $grid->set_option('height', 120);
 $grid->set_option('viewrecords', true);
 $grid->set_option('url', $prefix . 'list/json/' . $data['list_type'] . '/');
@@ -42,19 +42,18 @@ $grid->set_option('loadComplete', 'calculate_total', false);
 
 $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
 
-if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
-{
-    $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false');
-}
-
 if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
 {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'sortable: false');
 }
 
-$grid->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right"', 'number')
-    ->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"');
+if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
+{
+    $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false');
+}
 
+$grid->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"')
+    ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right"', 'number');
 if ($data['list_type'] != 'paid')
 {
     $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center"');
@@ -66,7 +65,7 @@ else
 
 $footer_data = array
 (
-    'contact' => $data['l10n']->get('totals')
+    'customer' => $data['l10n']->get('totals')
 );
 
 $grid->set_footer_data($footer_data);

@@ -10,7 +10,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     <?php
     echo "<h3><a href=\"{$prefix}deliverable/{$data['deliverable_object']->guid}/\">{$data['deliverable_object']->title}</a></h3>\n";
     ?>
-
     <div class="information" id="information_<?php echo $data['deliverable_object']->guid; ?>">
     <table class="details">
         <tbody>
@@ -22,10 +21,13 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 <th><?php echo $data['l10n']->get('subscription starts'); ?></th>
                 <td>&(deliverable['start']:h);</td>
             </tr>
+            <?php if (!$data['deliverable_object']->continuous)
+            { ?>
             <tr>
                 <th><?php echo $data['l10n']->get('subscription ends'); ?></th>
                 <td>&(deliverable['end']:h);</td>
             </tr>
+            <?php } ?>
             <tr>
                 <th><?php echo $data['l10n']->get('continuous subscription'); ?></th>
                 <td>&(deliverable['continuous']:h);</td>
@@ -65,8 +67,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         &(deliverable['description']:h);
     </div>
 
-    </div>
-
     <div class="tasks">
         <?php
         if (   $data['projects_url']
@@ -92,6 +92,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         }
         ?>
     </div>
+    </div>
     <div class="toolbar">
         <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">
         <?php
@@ -100,19 +101,3 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         </form>
     </div>
 </li>
-
-<script type="text/javascript">
-jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?> .icon').click(function(e){
-    jQuery('#information_<?php echo $data['deliverable_object']->guid; ?>').toggle('fast');
-    if (jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').hasClass('expanded'))
-    {
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').removeClass('expanded');
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').addClass('collapsed');
-    }
-    else
-    {
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').addClass('expanded');
-        jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').removeClass('collapsed');
-    }
-});
-</script>

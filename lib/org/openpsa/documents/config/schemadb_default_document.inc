@@ -204,7 +204,6 @@
                 'options' => org_openpsa_helpers_list::workgroups(),
             ),
             'widget'       => 'select',
-            'default' => $GLOBALS['org_openpsa_core_workgroup_filter'],
             'end_fieldset' => '',
             'index_merge_with_content' => false,
         ),

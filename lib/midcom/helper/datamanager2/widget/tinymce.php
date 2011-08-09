@@ -443,11 +443,6 @@ EOT;
 
         $this->_form->removeElement($this->name);
 
-        $element_attributes = array
-        (
-            'name' => $this->name
-        );
-
         $new_element = new HTML_QuickForm_hidden($original_element->getName(), $original_element->getLabel());
         $new_element->setValue($original_element->getValue());
 

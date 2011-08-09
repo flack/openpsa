@@ -113,6 +113,10 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $fields['pdf_file']['hidden'] = false;
         }
+        if (!empty($this->_object->sent))
+        {
+            $fields['due']['hidden'] = false;
+        }
     }
 
     /**
@@ -192,7 +196,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $dummy = new org_openpsa_invoices_invoice_dba();
             $dummy->customer = $this->_request_data['customer']->id;
-            $this->_defaults['due'] = ($dummy->get_default_due() * 3600 * 24) + time();
             $this->_defaults['vat'] = $dummy->get_default_vat();
             if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_person_dba'))
             {
@@ -230,6 +233,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     {
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->_object->id);
+        $qb->add_order('date', 'ASC');
         $reports = $qb->execute();
         if (!is_array($reports)
             || sizeof($reports) < 1)
@@ -321,10 +325,16 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "invoice/mark_sent/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "invoice/process/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
                     MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        'action' => 'mark_sent',
+                        'id' => $this->_object->id,
+                        'relocate' => true
+                    ),
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                 )
             );
@@ -337,10 +347,16 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => "invoice/mark_sent_per_mail/{$this->_object->guid}/",
+                        MIDCOM_TOOLBAR_URL => "invoice/process/send_by_mail/{$this->_object->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
                         MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        (
+                            'action' => 'mark_sent',
+                            'id' => $this->_object->id,
+                            'relocate' => true
+                        ),
                         MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                     )
                 );
@@ -353,10 +369,16 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "invoice/mark_paid/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "invoice/process/mark_paid/{$this->_object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
                     MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        'action' => 'mark_sent',
+                        'id' => $this->_object->id,
+                        'relocate' => true
+                    ),
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                 )
             );
@@ -419,7 +441,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if ($this->_mode != 'read')
         {
-            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($this->_mode . ' %s'), $this->_l10n->get('invoice')));
+            $action = $this->_mode;
+            if ($action == 'update')
+            {
+                $action = 'edit';
+            }
+            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('invoice')));
         }
     }
 
@@ -497,11 +524,18 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $this->_request_data['invoice'] = $this->_object;
             // set customer
-            if($this->_object->customer)
+            if ($this->_object->customer)
             {
                 $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
             }
-            $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_object->customerContact);
+            try
+            {
+                $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_object->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $this->_request_data['customer_contact'] = false;
+            }
             $this->_request_data['billing_data'] = $this->_object->get_billing_data();
             $_MIDCOM->skip_page_style = true;
         }

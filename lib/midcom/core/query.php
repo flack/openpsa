@@ -143,7 +143,7 @@ abstract class midcom_core_query
     }
 
     /**
-     * Add a constraint to the query builder.
+     * Add a constraint to the query.
      *
      * @param string $field The name of the MgdSchema property to query against.
      * @param string $operator The operator to use for the constraint, currently supported are
@@ -167,6 +167,32 @@ abstract class midcom_core_query
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
             debug_print_r('Value:', $value);
+
+            return false;
+        }
+
+        $this->_constraint_count++;
+
+        return true;
+    }
+
+    /**
+     * Add a constraint against another DB column to the query.
+     *
+     * @param string $field The name of the MgdSchema property to query against.
+     * @param string $operator The operator to use for the constraint, currently supported are
+     *     <, <=, =, <>, >=, >, LIKE. LIKE uses the percent sign ('%') as a
+     *     wildcard character.
+     * @param string $compare_field The field to compare against.
+     * @return boolean Indicating success.
+     */
+    public function add_constraint_with_property($field, $operator, $compare_field)
+    {
+        $this->_reset();
+        if (! $this->_query->add_constraint_with_property($field, $operator, $compare_field))
+        {
+            debug_add("Failed to execute add_constraint_with_property.", MIDCOM_LOG_ERROR);
+            debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}', compare_field: '{$compare_field}'");
 
             return false;
         }
@@ -237,7 +263,7 @@ abstract class midcom_core_query
      *
      * @param int $offset The record number to start with.
      */
-    function set_offset($offset)
+    public function set_offset($offset)
     {
         $this->_reset();
 
@@ -253,7 +279,7 @@ abstract class midcom_core_query
      *     ordering. The default is 'ASC'.
      * @return boolean Indicating success.
      */
-    function add_order($field, $direction = 'ASC')
+    public function add_order($field, $direction = 'ASC')
     {
         $result = $this->_query->add_order($field, $direction);
 
@@ -271,6 +297,14 @@ abstract class midcom_core_query
         }
 
         return $result;
+    }
+
+    /**
+     * Get the DBA class we're currently working on
+     */
+    public function get_classname()
+    {
+        return $this->_real_class;
     }
 
     abstract public function execute();

@@ -1,5 +1,7 @@
+<div class="full-width">
 <table id="journal_entry_grid"></table>
 <div id="p_journal_entry_grid"></div>
+</div>
 
 <script type="text/javascript">
     <?php
@@ -58,11 +60,6 @@
         echo 'var entries = ' . json_encode($rows) . ";\n";
     }
     ?>
-    function jqgrid_resize()
-    {
-        var new_width = jQuery("#gbox_journal_entry_grid").parent().attr('clientWidth') - 2;
-        jQuery("#journal_entry_grid").jqGrid().setGridWidth(new_width);
-    }
     //check if jqgrid was loaded in tab
     var loaded_in_tab = false;
     if ($(".ui-tabs").length > 0)
@@ -135,13 +132,6 @@
         },
         pager : "#p_journal_entry_grid",
         loadonce: true
-    });
-
-    jqgrid_resize();
-
-    jQuery(window).resize(function()
-    {
-        jqgrid_resize();
     });
 
 </script>

@@ -326,6 +326,10 @@ Sales projects won
 Sales projects: %s
 ---STRINGEND
 
+---STRING select either end date or continuous
+Please select either an end date or check "continuous"
+---STRINGEND
+
 ---STRING select product
 Select product
 ---STRINGEND

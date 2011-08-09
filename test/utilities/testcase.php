@@ -46,6 +46,54 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $person;
     }
 
+    public function run_handler($component, array $args = array())
+    {
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($topic_guid = $siteconfig->get_node_guid($component))
+        {
+            $topic = new midcom_db_topic($topic_guid);
+        }
+        else
+        {
+            $root_topic = midcom_db_topic::get_cached($GLOBALS['midcom_config']['root_topic']);
+            $topic_attributes = array
+            (
+                'up' => $root_topic->id,
+                'component' => $component,
+                'name' => 'handler_test_' . time()
+            );
+            $topic = $this->create_object('midcom_db_topic', $topic_attributes);
+        }
+
+        $context = new midcom_core_context(null, $topic);
+        $context->set_current();
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . implode('/', $args));
+
+        // Parser Init: Generate arguments and instantiate it.
+        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
+        $context->parser->parse($args);
+        $handler = $context->get_handler($topic);
+        $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
+        $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
+        return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+    }
+
+    public function run_relocate_handler($component, array $args = array())
+    {
+        $url = null;
+        try
+        {
+            $data = $this->run_handler($component, $args);
+        }
+        catch (openpsa_test_relocate $e)
+        {
+            $url = $e->getMessage();
+        }
+        $this->assertTrue(!is_null($url), $component . ' handler did not relocate');
+        $url = preg_replace('/^\//', '', $url);
+        return $url;
+    }
+
     public function create_object($classname, $data = array())
     {
         $object = self::_create_object($classname, $data);
@@ -128,6 +176,19 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
+        if (isset($_SERVER['REQUEST_METHOD']))
+        {
+            unset($_SERVER['REQUEST_METHOD']);
+        }
+        if (!empty($_POST))
+        {
+            $_POST = array();
+        }
+        if (midcom_core_context::get()->id != 0)
+        {
+            midcom_core_context::get(0)->set_current();
+        }
+
         $queue = array();
         while (!empty($this->_testcase_objects))
         {
@@ -141,12 +202,14 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         self::_process_delete_queue($queue);
         $this->_testcase_objects = array();
+        midcom_compat_unittest::flush_registered_headers();
     }
 
     public static function TearDownAfterClass()
     {
         self::_process_delete_queue(self::$_class_objects);
         self::$_class_objects = array();
+        midcom::get('auth')->logout();
     }
 
     private static function _process_delete_queue($queue)

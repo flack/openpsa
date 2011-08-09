@@ -119,12 +119,12 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->_component = 'org.openpsa.mail';
         parent::__construct();
 
-        $this->headers['User-Agent'] = 'Midgard/' . substr(mgd_version(), 0, 4);
-        $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
-
         $this->encoding = $this->_i18n->get_current_charset();
 
         $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
+
+        $this->headers['X-Originating-IP'] = $_SERVER['REMOTE_ADDR'];
+        $this->headers['X-Mailer'] = "PHP/" . phpversion() . ' /OpenPSA/' . midcom::get('componentloader')->get_component_version($this->_component) . '/' . get_class($this->_backend);
     }
 
     /**
@@ -265,8 +265,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             debug_add('no backend object available, aborting');
             return false;
         }
-
-        $this->headers['X-org.openpsa.mail-backend-class'] = get_class($this->_backend);
 
         //Prepare mail for sending
         $message = $this->_prepare_message();

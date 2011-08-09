@@ -188,12 +188,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         $additional_assignees = array
         (
             '' => '',
+            'EVERYONE' => $this->_l10n->get('EVERYONE'),
+            'USERS' => $this->_l10n->get('USERS'),
+            'ANONYMOUS' => $this->_l10n->get('ANONYMOUS')
         );
-
-        // Populate the magic assignees
-        $additional_assignees['EVERYONE'] = $_MIDCOM->i18n->get_string('EVERYONE', 'midgard.admin.asgard');
-        $additional_assignees['USERS'] = $_MIDCOM->i18n->get_string('USERS', 'midgard.admin.asgard');
-        $additional_assignees['ANONYMOUS'] = $_MIDCOM->i18n->get_string('ANONYMOUS', 'midgard.admin.asgard');
 
         // List groups as potential assignees
         $qb = midcom_db_group::new_query_builder();
@@ -201,17 +199,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $groups = $qb->execute();
         foreach ($groups as $group)
         {
-            $label = $group->official;
-            if (empty($group->official))
-            {
-                $label = $group->name;
-                if (empty($group->name))
-                {
-                    $label = sprintf($_MIDCOM->i18n->get_string('group %s', 'midgard.admin.asgard'), "#{$group->id}");
-                }
-            }
-
-            $additional_assignees["group:{$group->guid}"] = $label;
+            $additional_assignees["group:{$group->guid}"] = $group->get_label();
         }
 
         $assignees = array();
@@ -337,7 +325,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $script = "
             applyRowClasses();
         ";
-
         $_MIDCOM->add_jquery_state_script($script);
 
         // Load possible additional component privileges
@@ -354,65 +341,10 @@ implements midcom_helper_datamanager2_interfaces_edit
             $_MIDCOM->relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
         }
 
-        // Unset privileges so rearrangements work
-        if (   isset($_POST['midcom_helper_datamanager2_save'])
-            && $_POST['midcom_helper_datamanager2_save'])
-        {
-            $privs = $this->_object->get_privileges();
-            foreach ($privs as $priv)
-            {
-                $priv->drop();
-                $this->_object->unset_privilege($priv->name, $priv->assignee);
-            }
-
-            // Reread privilege types
-            foreach ($this->_controller->datamanager->types as $field => $type)
-            {
-                if ($field != 'add_assignee')
-                {
-                    $this->_controller->datamanager->types[$field]->convert_from_storage('');
-                }
-            }
-
-            // Reorder schema fields according to the POST vars
-            $tmp_fields = array();
-            foreach ($_POST as $key => $value)
-            {
-                if (! in_array($key, array('_qf__net_nehmer_static', 'midcom_helper_datamanager2_save')))
-                {
-                    if (isset($this->_controller->datamanager->storage->_schema->fields[$key]))
-                    {
-                        $tmp_fields[$key] = $this->_controller->datamanager->storage->_schema->fields[$key];
-                    }
-                }
-            }
-            if (!empty($tmp_fields))
-            {
-                $this->_controller->datamanager->storage->_schema->fields = $tmp_fields;
-                $this->_controller->datamanager->schema->fields = $tmp_fields;
-            }
-        }
-
         switch ($this->_controller->process_form())
         {
             case 'save':
-                // Handle populating additional assignees
-                $new_assignee = $this->_object->parameter('midgard.admin.asgard.acl', 'add_assignee');
-                if ($new_assignee)
-                {
-                    // We do this by adding a READ privilege so they show up on get_privileges()
-                    // TODO: Would be nicer to register a priv that doesn't really count
-                    if (!$this->_object->set_privilege('midgard:read', $new_assignee, MIDCOM_PRIVILEGE_ALLOW))
-                    {
-                        debug_add("Adding new privilege for assignee {$new_assignee} failed.", MIDCOM_LOG_WARN);
-                    }
-
-                    // Then clear the parameter and relocate
-                    $this->_object->parameter('midgard.admin.asgard.acl', 'add_assignee', '');
-
-                    $_MIDCOM->relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
-                    // This will exit.
-                }
+                //Fall-through
             case 'cancel':
                 $_MIDCOM->relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
                 // This will exit.
@@ -428,7 +360,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 break;
             default:
                 $type_parts = explode('_', get_class($this->_object));
-                $type = $type_parts[count($type_parts)-1];
+                $type = $type_parts[count($type_parts) - 1];
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);

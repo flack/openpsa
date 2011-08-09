@@ -1,6 +1,5 @@
 <?php
 $view = $data['object_view'];
-
 $invoice = $data['object'];
 
 try
@@ -56,23 +55,32 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         }
     }
     echo "</p>\n";
+
+    if (   $invoice->sent
+        && !$invoice->paid)
+    {
+        echo "<p><strong>" . $data['l10n']->get('sent date') . ": </strong>\n";
+        echo strftime("%x", $invoice->sent) . "</p>\n";
+    }
     if ($invoice->owner)
     {
         echo "<p><strong>" . $data['l10n_midcom']->get('owner') . ": </strong>\n";
         $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
         echo $owner_card->show_inline() . "</p>\n";
-    }
+    } ?>
 
-    if ($customer)
+    <h2><?php echo $data['l10n']->get('invoice data'); ?></h2>
+    <?php if ($customer)
     {
         echo "<p><strong>" . $data['l10n']->get('customer') . ": </strong>\n";
         echo '<a href="' . $contacts_url . 'group/' . $customer->guid . '/">' . $customer->get_label() . "</a>\n";
         echo "</p>\n";
     }
-    ?>
-    <h2><?php echo $data['l10n']->get('invoice data'); ?></h2>
-    <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
-    <?php echo strftime("%x", $invoice->date); ?></p>
+    if ($invoice->date > 0)
+    { ?>
+        <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
+        <?php echo strftime("%x", $invoice->date); ?></p>
+    <?php } ?>
 
     <p><strong><?php echo $_MIDCOM->i18n->get_string('description', 'midcom');?>: </strong></p>
     <pre class="description">

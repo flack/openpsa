@@ -271,8 +271,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     public function providerRun_cycle()
     {
         //get the necessary constants
-        $_MIDCOM->componentloader->load('org.openpsa.sales');
-        $_MIDCOM->componentloader->load('org.openpsa.products');
+        midcom::get('componentloader')->load('org.openpsa.sales');
+        midcom::get('componentloader')->load('org.openpsa.products');
 
         $now = time();
         $this_month = gmdate('n', $now);
@@ -313,17 +313,26 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             $two_month_past_year--;
         }
 
+        $past_two_month = $this->_generate_unixtime($two_month_past, $this_day, $two_month_past_year);
+        $past_one_month = $this->_generate_unixtime($one_month_past, $this_day, $one_month_past_year);
         $future_one_month = $this->_generate_unixtime($one_month_future, $this_day, $one_month_future_year);
         $future_two_month = $this->_generate_unixtime($two_month_future, $this_day, $two_month_future_year);
-        $past_one_month = $this->_generate_unixtime($one_month_past, $this_day, $one_month_past_year);
-        $past_two_month = $this->_generate_unixtime($two_month_past, $this_day, $two_month_past_year);
+
+        //If one of our dates is at the end of the month, align the others to be at the end of the month as well
+        if (    gmdate('t', $past_two_month) == gmdate('j', $past_two_month)
+             || gmdate('t', $past_one_month) == gmdate('j', $past_one_month))
+        {
+            $past_one_month += (gmdate('t', $past_one_month) - gmdate('j', $past_one_month)) * 24 * 60 * 60;
+            $midnight_today += (gmdate('t', $midnight_today) - gmdate('j', $midnight_today)) * 24 * 60 * 60;
+            $future_one_month += (gmdate('t', $future_one_month) - gmdate('j', $future_one_month)) * 24 * 60 * 60;
+            $future_two_month += (gmdate('t', $future_two_month) - gmdate('j', $future_two_month)) * 24 * 60 * 60;
+        }
 
         $beginning_feb = gmmktime(0, 0, 0, 2, 1, 2011);
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
         return array
         (
-
             //SET 0: Deliverable not yet started
             array
             (
