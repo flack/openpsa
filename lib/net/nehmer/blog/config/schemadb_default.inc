@@ -14,7 +14,7 @@
             (
                 'allow_catenate' => true,
             ),
-        ),    
+        ),
         'title' => Array
         (
             // COMPONENT-REQUIRED
@@ -39,9 +39,9 @@
             'storage' => 'content',
             'required' => true,
             'type' => 'text',
-            'type_config' => Array 
-            ( 
-                'output_mode' => 'html' 
+            'type_config' => Array
+            (
+                'output_mode' => 'html'
             ),
             'widget' => 'tinymce',
         ),
@@ -51,18 +51,18 @@
             'storage' => 'extra1',
             'type' => 'select',
             'widget' => 'select',
-            'type_config' => Array 
-            ( 
+            'type_config' => Array
+            (
                 'options'        => Array(),
                 'allow_other'    => true,
                 'allow_multiple' => true,
                 'multiple_storagemode' => 'imploded_wrapped',
-            ),    
-            'widget_config' => Array 
-            ( 
-                'height' => count(explode(',', $this->_config->get('categories'))),
             ),
-        ),  
+            'widget_config' => Array
+            (
+                'height' => count(explode(',', midcom_baseclasses_components_configuration::get('net.nehmer.blog', 'config')->get('categories'))),
+            ),
+        ),
         'related' => array
         (
             'title' => 'related stories',
@@ -79,7 +79,7 @@
             'widget_config' => array
             (
                 'clever_class' => 'article',
-            ),        
+            ),
         ),
         'image' => Array
         (
