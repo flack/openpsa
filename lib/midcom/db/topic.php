@@ -65,9 +65,9 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * @return MidgardObject Parent topic (null if we have a root topic).
      */
-    function get_parent_guid_uncached()
+    public function get_parent_guid_uncached()
     {
-        return midcom_db_topic::_get_parent_guid_uncached_static_topic($this->up);
+        return self::_get_parent_guid_uncached_static_topic($this->up);
     }
 
     /**
@@ -77,13 +77,13 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * @param string $guid GUID of topic to get the parent for
      */
-    function get_parent_guid_uncached_static($guid)
+    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS_)
     {
         if (empty($guid))
         {
             return null;
         }
-        $mc_topic = midcom_db_topic::new_collector('guid', $guid);
+        $mc_topic = self::new_collector('guid', $guid);
         $mc_topic_keys = $mc_topic->get_values('up');
         if (empty($mc_topic_keys))
         {
@@ -107,7 +107,7 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * @param int $parent_id id of topic to get the guid for
      */
-    private function _get_parent_guid_uncached_static_topic($parent_id)
+    private static function _get_parent_guid_uncached_static_topic($parent_id)
     {
         if (!$parent_id)
         {

@@ -132,7 +132,7 @@ abstract class midcom_core_dbaobject
                 }
                 else
                 {
-                   $guids[$this->__object->guid] = 1;
+                    $guids[$this->__object->guid] = 1;
                 }
             }
         }
@@ -675,7 +675,7 @@ abstract class midcom_core_dbaobject
      * property values, which will give us the parent's ID. Since the ID => GUID relation
      * won't change, the corresponding GUID is then stored in an in-request static cache
      */
-    public function get_parent_guid_uncached_static($object_guid, $class_name)
+    public static function get_parent_guid_uncached_static($object_guid, $class_name)
     {
         static $parent_mapping = array();
 
