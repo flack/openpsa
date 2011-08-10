@@ -819,7 +819,7 @@ abstract class midcom_core_dbaobject
         return $this->_delete_dependents();
     }
     public function _on_loaded() {}
-    public function _on_prepare_exec_query_builder(&$qb) { return true; }
+    public static function _on_prepare_exec_query_builder(&$qb) { return true; }
     public static function _on_prepare_new_query_builder(&$qb) {}
     public function _on_process_query_result(&$result) {}
     public function _on_prepare_new_collector(&$mc) {}
