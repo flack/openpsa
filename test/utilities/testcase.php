@@ -78,6 +78,16 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
     }
 
+    public function set_dm2_formdata($formname, $formdata)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        $_POST = $formdata;
+        $_POST['_qf__' . $formname] = '';
+        $_POST['midcom_helper_datamanager2_save'] = array('');
+        $_REQUEST = $_POST;
+    }
+
     public function run_relocate_handler($component, array $args = array())
     {
         $url = null;
@@ -183,6 +193,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         if (!empty($_POST))
         {
             $_POST = array();
+        }
+        if (!empty($_REQUEST))
+        {
+            $_REQUEST = array();
         }
         if (midcom_core_context::get()->id != 0)
         {

@@ -51,5 +51,38 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
+
+    public function testHandler_add_create()
+    {
+        midcom::get('auth')->request_sudo('org.openpsa.sales');
+
+        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $product_group = $this->create_object('org_openpsa_products_product_group_dba');
+        $product_attributes = array
+        (
+            'productGroup' => $product_group->id,
+            'name' => 'TEST_' . __CLASS__ . '_' . time(),
+        );
+        $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+
+        $formdata = array
+        (
+            'title' => 'TEST ' . __CLASS__ . '_' . time(),
+            'product' => $product->id,
+        );
+
+        $this->set_dm2_formdata('org_openpsa_sales', $formdata);
+
+        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'add', $salesproject->guid));
+        $this->assertEquals('salesproject/' . $salesproject->guid . '/', $url);
+
+        $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
+        $qb->add_constraint('salesproject', '=', $salesproject->id);
+        $results = $qb->execute();
+        $this->assertEquals(1, sizeof($results));
+        $this->register_object($results[0]);
+
+        midcom::get('auth')->drop_sudo();
+    }
 }
 ?>
