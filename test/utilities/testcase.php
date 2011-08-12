@@ -78,14 +78,36 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
     }
 
-    public function set_dm2_formdata($formname, $formdata)
+    public function set_dm2_formdata($controller, $formdata)
     {
+        $formname = substr($controller->formmanager->namespace, 0, -1);
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $_POST = $formdata;
+        $_POST = array_merge($controller->formmanager->form->_defaultValues, $formdata);
+
         $_POST['_qf__' . $formname] = '';
         $_POST['midcom_helper_datamanager2_save'] = array('');
         $_REQUEST = $_POST;
+    }
+
+    public function submit_dm2_form($controller_key, $formdata, $component, $args = array())
+    {
+        $data = $this->run_handler($component, $args);
+
+        $this->set_dm2_formdata($data[$controller_key], $formdata);
+
+        try
+        {
+            $data = $this->run_handler($component, $args);
+        }
+        catch (openpsa_test_relocate $e)
+        {
+            $url = $e->getMessage();
+            $url = preg_replace('/^\//', '', $url);
+            return $url;
+        }
+        $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
+        $this->assertTrue(false, 'Form did not relocate');
     }
 
     public function run_relocate_handler($component, array $args = array())
