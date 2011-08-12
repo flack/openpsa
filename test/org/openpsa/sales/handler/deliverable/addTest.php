@@ -105,7 +105,10 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $results = $qb->execute();
         $this->assertEquals(1, sizeof($results));
-        $this->register_object($results[0]);
+
+        $deliverable = $results[0];
+        $this->register_object($deliverable);
+        $this->assertEquals(ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION, $deliverable->orgOpenpsaObtype);
 
         midcom::get('auth')->drop_sudo();
     }
