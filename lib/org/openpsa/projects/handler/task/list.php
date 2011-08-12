@@ -279,7 +279,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_order('title');
 
         //don't filter for json'
-        if($args[0] != 'json')
+        if ($args[0] != 'json')
         {
             //array with filter options
             $filters = array
@@ -301,7 +301,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         if (   is_array($ret)
             && count($ret) > 0)
         {
-            foreach($ret as $task)
+            foreach ($ret as $task)
             {
                 switch ($task->status)
                 {

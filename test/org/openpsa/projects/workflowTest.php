@@ -54,6 +54,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
     {
         $stat = org_openpsa_projects_workflow::propose(self::$_task, self::$_user->id, 'test comment');
         $this->assertTrue($stat);
+
         self::$_task->refresh();
         $this->assertEquals(org_openpsa_projects_task_status_dba::ACCEPTED, self::$_task->status);
         $this->assertEquals('not_started', self::$_task->status_type);
