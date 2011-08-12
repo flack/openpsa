@@ -50,5 +50,44 @@ class midcom_helper_datamanager2_ajax_autocompleteTest extends openpsa_testcase
         $this->assertEquals(1, sizeof($res));
         $this->assertEquals($res[0]['label'], $invoice->number);
     }
+
+    public function test_parent_field()
+    {
+        midcom::get('auth')->request_sudo('midcom.helper.datamanager2');
+        $project_title = 'PROJECT_TEST_' . __CLASS__ . '_' . time();
+        $project = $this->create_object('org_openpsa_projects_project', array('title' => $project_title));
+
+        $task_properties = array
+        (
+            'project' => $project->id,
+            'title' => 'TASK_TEST_' . __CLASS__ . '_' . time()
+        );
+        $task = $this->create_object('org_openpsa_projects_task_dba', $task_properties);
+
+        $request = array
+        (
+            'component' => 'org.openpsa.projects',
+            'class' => 'org_openpsa_projects_task_dba',
+            'id_field' => 'id',
+            'searchfields' => array('title', 'project.title'),
+            'titlefield' => 'title',
+            'result_headers' => array
+            (
+                array
+                (
+                    'title' => 'title',
+                    'name' => 'title',
+                ),
+            ),
+            'term' => $project_title
+        );
+
+        $handler = new midcom_helper_datamanager2_ajax_autocomplete($request);
+        $res = $handler->get_results();
+        midcom::get('auth')->drop_sudo();
+
+        $this->assertEquals(1, sizeof($res));
+        $this->assertEquals($res[0]['label'], $task->title);
+    }
 }
 ?>
