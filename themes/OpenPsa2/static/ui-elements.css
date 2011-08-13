@@ -486,7 +486,7 @@ dl.campaigns dt.unsubscribed {
     border: 1px solid #807D74;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    border-radius: 8px;
     background: #FFFFFF;
     background: -moz-linear-gradient(top, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(72%, #fbfbfb), color-stop(73%, #f7f7f7), color-stop(100%, #fcfcfc));
