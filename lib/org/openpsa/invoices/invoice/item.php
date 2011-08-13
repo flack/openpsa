@@ -101,6 +101,11 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
                 if ($old_sum != $invoice->sum)
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($this->deliverable);
+                    if (   $deliverable->orgOpenpsaObtype !== ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+                        && $deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
+                    {
+                        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;
+                    }
                     self::update_deliverable($deliverable);
                 }
             }

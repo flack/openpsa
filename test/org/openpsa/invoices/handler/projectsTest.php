@@ -82,6 +82,9 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $this->assertEquals(100, $invoice->sum);
         $this->assertEquals($deliverable->id, $item->deliverable);
 
+        $deliverable->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED, $deliverable->state);
+
         midcom::get('auth')->drop_sudo();
     }
 }
