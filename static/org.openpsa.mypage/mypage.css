@@ -4,6 +4,7 @@ div.org_openpsa_mypage_workingon
     border: 1px solid #babdb6;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
+    border-radius: 8px;
     padding-left: 24px;
     padding-bottom: 8px;
 }
@@ -20,6 +21,7 @@ div.org_openpsa_mypage_workingon
     -moz-border-radius-topright: 8px;
     -webkit-border-top-right-radius: 8px;
     border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 div.org_openpsa_mypage_workingon form
 {
