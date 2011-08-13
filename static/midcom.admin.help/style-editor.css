@@ -4,6 +4,7 @@ fieldset
     margin-bottom: 20px;
     background-color: #d3d7cf;
     -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 fieldset legend
 {
@@ -31,6 +32,7 @@ fieldset div.description,
     background-color: #eeeeec;
     padding: 1em;
     -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 fieldset div.description
