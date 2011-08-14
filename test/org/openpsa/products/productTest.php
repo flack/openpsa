@@ -28,7 +28,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        $code = 'PRODUCT-TEST-' . __CLASS__;
+        $code = 'PRODUCT-TEST-' . __CLASS__ . time();
         $product = new org_openpsa_products_product_dba();
         $product->code = $code;
         $product->productGroup = self::$_group->id;

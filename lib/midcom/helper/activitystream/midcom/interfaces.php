@@ -15,7 +15,7 @@
  */
 class midcom_helper_activitystream_interface extends midcom_baseclasses_components_interface
 {
-    public function _on_watched_operation($operation, &$object)
+    public function _on_watched_operation($operation, $object)
     {
         if (!$object->_use_activitystream)
         {

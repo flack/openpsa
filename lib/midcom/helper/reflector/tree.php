@@ -314,14 +314,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Statically callable method to get rendered path for object
+     * Method to get rendered path for object
      *
      * @param midgard_object $object, the object to get path for
      * @param string $separator the string used to separate path components
      * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return string resolved path
      */
-    function resolve_path(&$object, $separator = ' &gt; ', $stop_at = null)
+    public static function resolve_path(&$object, $separator = ' &gt; ', $stop_at = null)
     {
         static $cache = array();
         $cache_key = $object->guid . $separator . $stop_at;
@@ -329,7 +329,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             return $cache[$cache_key];
         }
-        $parts = midcom_helper_reflector_tree::resolve_path_parts($object, $stop_at);
+        $parts = self::resolve_path_parts($object, $stop_at);
         $d = count($parts);
         $ret = '';
         foreach ($parts as $part)
@@ -348,13 +348,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Statically callable method to get path components for object
+     * Get path components for object
      *
      * @param midgard_object $object, the object to get path for
      * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return array path components
      */
-    function resolve_path_parts(&$object, $stop_at = null)
+    public static function resolve_path_parts(&$object, $stop_at = null)
     {
         static $cache = array();
         $cache_key = $object->guid . $stop_at;
@@ -462,13 +462,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
 
     /**
-     * Statically callable method to get children of given object
+     * Get children of given object
      *
      * @param midgard_object &$object object to get children for
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects or false on failure
      */
-    function get_child_objects(&$object, $deleted = false)
+    public static function get_child_objects(&$object, $deleted = false)
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
