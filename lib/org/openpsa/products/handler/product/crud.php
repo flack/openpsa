@@ -17,7 +17,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
     {
         $this->_dba_class = 'org_openpsa_products_product_dba';
     }
-    
+
     /**
      * Return the URL to the product view handler
      */
@@ -46,12 +46,12 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         }
         return "product/{$this->_object->guid}/";
     }
-    
+
     public function _update_breadcrumb($handler_id)
     {
         // Get common breadcrumb for the product
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_object);
-        
+
         // Handler-based additions
         switch ($handler_id)
         {
@@ -76,6 +76,12 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
 
     public function _populate_toolbar($handler_id)
     {
+        if (   $this->_mode === 'update'
+            || $this->_mode === 'create')
+        {
+            org_openpsa_helpers::dm2_savecancel($this);
+        }
+
         if ($this->_object->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item
@@ -86,6 +92,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+                    MIDCOM_TOOLBAR_ENABLED => ($this->_mode != 'update')
                 )
             );
         }
@@ -100,6 +107,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'd',
+                    MIDCOM_TOOLBAR_ENABLED => ($this->_mode != 'delete')
                 )
             );
         }
