@@ -373,7 +373,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $ret[] = $part;
         unset($part, $object_reflector);
 
-        $parent = midcom_helper_reflector_tree::get_parent($object);
+        $parent = self::get_parent($object);
         while (is_object($parent))
         {
             $parent_reflector =& midcom_helper_reflector::get($parent);
@@ -384,7 +384,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             );
             $ret[] = $part;
             unset($part, $parent_reflector);
-            $parent = midcom_helper_reflector_tree::get_parent($parent);
+            $parent = self::get_parent($parent);
         }
         unset($parent);
 
@@ -395,7 +395,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * statically callable method to get the parent object of given object
+     * Get the parent object of given object
      *
      * Tries to utilize MidCOM DBA features first but can fallback on pure MgdSchema
      * as necessary
@@ -405,7 +405,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @param midgard_object &$object the object to get parent for
      */
-    function get_parent(&$object)
+    public static function get_parent(&$object)
     {
         $parent_object = false;
         $dba_parent_callback = array($object, 'get_parent');
@@ -850,7 +850,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         static $root_classes = false;
         if (empty($root_classes))
         {
-            $root_classes = midcom_helper_reflector_tree::_resolve_root_classes();
+            $root_classes = self::_resolve_root_classes();
         }
         return $root_classes;
     }
@@ -860,7 +860,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of classnames (or false on critical failure)
      */
-    private function _resolve_root_classes()
+    private static function _resolve_root_classes()
     {
         $root_exceptions_notroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_notroot');
         // Safety against misconfiguration

@@ -29,7 +29,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         return true;
     }
 
-    public function _on_watched_dba_create(&$object)
+    public function _on_watched_dba_create($object)
     {
         $ret = array();
         //Check if we have data in session, if so use that.

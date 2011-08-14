@@ -824,7 +824,7 @@ abstract class midcom_core_dbaobject
     public static function _on_process_query_result(&$result) {}
     public static function _on_prepare_new_collector(&$mc) {}
     public static function _on_prepare_exec_collector(&$mc) { return true; }
-    public function _on_process_collector_result(&$result) {}
+    public static function _on_process_collector_result(&$result) {}
     public function _on_updated() {}
     public function _on_updating() { return true; }
     public function _on_imported() {}

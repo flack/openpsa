@@ -173,7 +173,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
-    public function prepare_object($classname, $data)
+    public static function prepare_object($classname, $data)
     {
         $object = new $classname();
 
