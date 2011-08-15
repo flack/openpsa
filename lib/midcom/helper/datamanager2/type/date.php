@@ -129,7 +129,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             // Get some way for really undefined dates until we can work with null
             // dates everywhere midgardside.
-            $this->value = new Date('00-00-0000 00:00:00');
+            $this->value = new Date('0000-00-00 00:00:00');
             $this->value->day = 0;
             $this->value->month = 0;
             if (!empty($this->default_date))
