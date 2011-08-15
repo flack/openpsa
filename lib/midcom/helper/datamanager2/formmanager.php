@@ -321,14 +321,15 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
     private function _load_field_default($name, $config)
     {
-        if (!empty($config['default']))
+        $field_default = null;
+        if (!$this->_types[$name]->storage instanceof midcom_helper_datamanager2_storage_null)
+        {
+            $field_default = $this->widgets[$name]->get_default();
+        }
+        else if (!empty($config['default']))
         {
             // Empty value from widget, run defaults
             $field_default = $config['default'];
-        }
-        else
-        {
-            $field_default = $this->widgets[$name]->get_default();
         }
 
         if ($field_default !== null)
