@@ -54,6 +54,15 @@ if (extension_loaded('midgard2'))
     // Open connection
     $midgard = midgard_connection::get_instance();
 
+    // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
+    if (!$midgard->is_connected())
+    {
+        $config = new midgard_config();
+        $config->read_file_at_path(ini_get('midgard.configuration_file'));
+        $midgard->open_config($config);
+    }
+
+    // if we still can't connect to a DB, we'll create a new one
     if (!$midgard->is_connected())
     {
         $config = new midgard_config();
@@ -63,7 +72,7 @@ if (extension_loaded('midgard2'))
         $config->tablecreate = true;
         $config->tableupdate = true;
         $config->loglevel = 'critical';
- 
+
         if (!$midgard->open_config($config))
         {
             throw new Exception('Could not open Midgard connection to test database: ' . $midgard->get_error_string());
