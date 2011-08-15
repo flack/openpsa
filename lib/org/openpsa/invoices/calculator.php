@@ -125,9 +125,10 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
 
     private function _create_invoice($cycle_number = null)
     {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
+        $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->customer = $salesproject->customer;
+        $invoice->customerContact = $salesproject->customerContact;
         $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
         $invoice->owner = $salesproject->owner;
         $invoice->vat = $invoice->get_default_vat();

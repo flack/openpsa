@@ -331,6 +331,9 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $beginning_feb = gmmktime(0, 0, 0, 2, 1, 2011);
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
+        $customer = $this->create_object('org_openpsa_contacts_group_dba');
+        $customer_contact = $this->create_object('org_openpsa_contacts_person_dba');
+
         return array
         (
             //SET 0: Deliverable not yet started
@@ -394,7 +397,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 2: First deliverable cycle, invoice by planned units
+            //SET 2: First deliverable cycle, invoice by planned units, customer is set
             array
             (
                 array
@@ -404,6 +407,10 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 ),
                 array
                 (
+                    '_salesproject' => array
+                    (
+                        'customer' => $customer->id,
+                    ),
                     '_deliverable' => array
                     (
                         'start' => $beginning_feb,
@@ -427,7 +434,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     'invoice' => array
                     (
-                        'sum' => 120
+                        'sum' => 120,
+                        'customer' => $customer->id
                     ),
                     '_deliverable' => array
                     (
@@ -437,7 +445,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 3: second deliverable cycle, invoice by actual units
+            //SET 3: second deliverable cycle, invoice by actual units, customerContact is set
             array
             (
                 array
@@ -447,6 +455,10 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 ),
                 array
                 (
+                    '_salesproject' => array
+                    (
+                        'customerContact' => $customer_contact->id
+                    ),
                     '_deliverable' => array
                     (
                         'start' => $past_two_month,
@@ -492,7 +504,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                                 'units' => 13,
                                 'pricePerUnit' => 10
                             )
-                        )
+                        ),
+                        'customerContact' => $customer_contact->id
                     )
                 )
             ),
