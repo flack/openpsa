@@ -51,6 +51,28 @@ if (extension_loaded('midgard2'))
 
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 
+    // Open connection
+    $midgard = midgard_connection::get_instance();
+
+    if (!$midgard->is_connected())
+    {
+        $config = new midgard_config();
+        $config->dbtype = 'SQLite';
+        $config->database = 'openpsa_test';
+        $config->blobdir = "/tmp/openpsa_test";
+        $config->tablecreate = true;
+        $config->tableupdate = true;
+        $config->loglevel = 'critical';
+ 
+        if (!$midgard->open_config($config))
+        {
+            throw new Exception('Could not open Midgard connection to test database: ' . $midgard->get_error_string());
+        }
+        require_once dirname(__FILE__) . '/../tools/bootstrap.php';
+        openpsa_prepare_database($config);
+        $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
+    }
+
     // Initialize the $_MIDGARD superglobal
     $_MIDGARD = $mgd_defaults;
 }
