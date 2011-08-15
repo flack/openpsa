@@ -31,14 +31,12 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
         {
             case 'reopen':
                 org_openpsa_projects_workflow::reopen($task);
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate("{$prefix}task/{$task->guid}/");
+                $_MIDCOM->relocate("task/{$task->guid}/");
                 // This will exit()
 
             case 'complete':
                 org_openpsa_projects_workflow::complete($task);
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate("{$prefix}task/{$task->guid}/");
+                $_MIDCOM->relocate("task/{$task->guid}/");
                 // This will exit()
             default:
                 throw new midcom_error('Unknown action ' . $args[1]);

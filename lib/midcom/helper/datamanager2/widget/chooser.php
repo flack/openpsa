@@ -1115,7 +1115,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $value = @$object->$item_name;
                 if ($item_name === $this->generate_path_for)
                 {
-                    $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
+                    $value = self::resolve_path($object, $value);
                 }
                 $this->_static_items_html .= "<td class=\"{$item_name}\">{$value}&nbsp;</td>";
             }
@@ -1186,7 +1186,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $value = @$object->$item_name;
                 if ($item_name === $this->generate_path_for)
                 {
-                    $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
+                    $value = self::resolve_path($object, $value);
                 }
                 $tmp = str_replace('.', '_', $item_name);
 
@@ -1409,9 +1409,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     }
 
     /**
-     * Statically callable helper method to resolve path for an object
+     * Helper method to resolve path for an object
      */
-    function resolve_path(&$object, $title)
+    public static function resolve_path(&$object, $title)
     {
         if (!class_exists('midcom_helper_reflector_tree'))
         {

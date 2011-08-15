@@ -216,6 +216,7 @@ dm2AjaxEditor.prototype = {
             'background-repeat' : 'no-repeat',
             'background-position': 'top center',
             '-moz-border-radius': '8px',
+            'border-radius': '8px',
             'z-index'   : '999999',
             'display'   : 'none'           
         };

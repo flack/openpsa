@@ -340,7 +340,8 @@ class midcom_services_toolbars
             return false;
         }
 
-        $urltopic = end($_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS));
+        $topics = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS);
+        $urltopic = end($topics);
         if (!$urltopic)
         {
             $urltopic = $topic;

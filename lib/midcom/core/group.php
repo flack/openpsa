@@ -203,9 +203,8 @@ class midcom_core_group
      *
      * @param midcom_core_user $user The user that should be looked-up.
      * @return Array An array of member groups or false on failure, indexed by their ID.
-     * @static
      */
-    function list_memberships($user)
+    public static function list_memberships($user)
     {
         $mc = new midgard_collector('midgard_member', 'uid', $user->_storage->id);
         $mc->add_constraint('gid', '<>', 0);

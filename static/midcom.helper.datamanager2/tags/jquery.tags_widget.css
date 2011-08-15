@@ -71,6 +71,7 @@ input.tags_widget_input
     padding: 0 3px 0 3px;
     margin-right: 3px;
     -moz-border-radius: 3px;
+    border-radius: 3px;
     float: left;
     color: #ffffff;
     font-size: 0.9em;

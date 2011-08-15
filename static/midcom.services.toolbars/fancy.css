@@ -26,6 +26,7 @@
 {
     -moz-border-radius: 0.6em;
     -webkit-border-radius: 0.6em;
+    border-radius: 0.6em;
 }
 .midcom_services_toolbars_fancy,
 .midcom_services_toolbars_fancy a
@@ -175,8 +176,10 @@
     border-bottom: #555555 solid 2px;
     -moz-border-radius-bottomleft: 0.4em;
     -webkit-border-bottom-left-radius: 0.4em;
+    border-bottom-left-radius: 0.4em;
     -moz-border-radius-bottomright: 0.4em;
     -webkit-border-bottom-right-radius: 0.4em;
+    border-bottom-right-radius: 0.4em;
     color: #000000;
     position: absolute;
     display: none;

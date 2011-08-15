@@ -249,14 +249,9 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
-        //build url for relocate
-        $url_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/";
-        $url_prefix = $url_prefix . $this->_current_object->guid . "/both/";
 
-        $_MIDCOM->relocate($url_prefix);
+        $_MIDCOM->relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
     }
-
-    public function _show_delete($handler_id, array &$data){}
 
     public function _handler_list($handler_id , $args , &$data)
     {
@@ -373,6 +368,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->qb_journal_entries->set_offset($offset);
         }
     }
+
     /**
      * Helper function to prepare the breadcrumb
      */

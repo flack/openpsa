@@ -33,7 +33,7 @@ class org_openpsa_smslib extends midcom_baseclasses_components_purecode
         return new $classname();
     }
 
-    function send_sms()
+    function send_sms($number, $msg, $sender = false, $dlr = false, $udh = false, $clientid = false)
     {
         debug_add('SMSLib factory method does not do anything, must be overridden in real backend', MIDCOM_LOG_ERROR);
         return false;

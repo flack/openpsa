@@ -8,6 +8,7 @@
     padding: 4px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    border-radius: 5px;
     background-color: #ffffff;
     /* Don't display the box by default */
     display: none;
@@ -135,6 +136,7 @@ div.area form.subscribe input:hover
     background-color: #c0c0c0;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 /* MidCOM toolbars in OpenPSA areas */
@@ -191,6 +193,7 @@ div.area ul.comments li div {
    padding-right: 20px;
    -moz-border-radius: 6px;
    -webkit-border-radius: 6px;
+   border-radius: 6px;
    background-image: url('../stock-icons/16x16/stock_mail.png');
    background-position: top right;
    background-repeat: no-repeat;
@@ -249,6 +252,7 @@ form.datamanager2 .form fieldset.fieldset
     border-color: #999;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    border-radius: 5px;
     background: #FFFFFF;
     background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(32%,#F9F9F9), color-stop(96%,#F9F9F8), color-stop(100%,#FCFCFC));
@@ -482,6 +486,7 @@ dl.campaigns dt.unsubscribed {
     border: 1px solid #807D74;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
+    border-radius: 8px;
     background: #FFFFFF;
     background: -moz-linear-gradient(top, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(72%, #fbfbfb), color-stop(73%, #f7f7f7), color-stop(100%, #fcfcfc));

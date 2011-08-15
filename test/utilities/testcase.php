@@ -67,7 +67,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
-        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . implode('/', $args));
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . implode('/', $args) . '/');
 
         // Parser Init: Generate arguments and instantiate it.
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
@@ -76,6 +76,38 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
         $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
         return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+    }
+
+    public function set_dm2_formdata($controller, $formdata)
+    {
+        $formname = substr($controller->formmanager->namespace, 0, -1);
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        $_POST = array_merge($controller->formmanager->form->_defaultValues, $formdata);
+
+        $_POST['_qf__' . $formname] = '';
+        $_POST['midcom_helper_datamanager2_save'] = array('');
+        $_REQUEST = $_POST;
+    }
+
+    public function submit_dm2_form($controller_key, $formdata, $component, $args = array())
+    {
+        $data = $this->run_handler($component, $args);
+
+        $this->set_dm2_formdata($data[$controller_key], $formdata);
+
+        try
+        {
+            $data = $this->run_handler($component, $args);
+        }
+        catch (openpsa_test_relocate $e)
+        {
+            $url = $e->getMessage();
+            $url = preg_replace('/^\//', '', $url);
+            return $url;
+        }
+        $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
+        $this->assertTrue(false, 'Form did not relocate');
     }
 
     public function run_relocate_handler($component, array $args = array())
@@ -141,7 +173,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
-    public function prepare_object($classname, $data)
+    public static function prepare_object($classname, $data)
     {
         $object = new $classname();
 
@@ -183,6 +215,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         if (!empty($_POST))
         {
             $_POST = array();
+        }
+        if (!empty($_REQUEST))
+        {
+            $_REQUEST = array();
         }
         if (midcom_core_context::get()->id != 0)
         {

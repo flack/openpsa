@@ -11,6 +11,7 @@ div.midcom_admin_content_componentlist div.note
     margin-bottom: 8px;
     padding: 8px;
     -moz-border-radius: 8px;
+    border-radius: 8px;
     color: #000000;
     background-color: #f0f0f0;
 }

@@ -93,7 +93,7 @@ class org_openpsa_projects_workflow
         $status->task = $task->id;
         $status->type = $status_type;
         //This shouldn't be needed
-        $status->timestamp = org_openpsa_projects_task_status_dba::gmtime();
+        $status->timestamp = $status->gmtime();
         $status->comment = $comment;
 
         $ret = $status->create();

@@ -97,7 +97,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         midcom_show_style('midcom-admin-user-move-group-start');
 
         // Show the recursive listing
-        $this->list_groups(0, $data, true);
+        self::list_groups(0, $data, true);
 
         // Show the form footers
         midcom_show_style('midcom-admin-user-move-group-end');
@@ -137,7 +137,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         midcom_show_style('midcom-admin-user-group-list-start');
 
         // Show the recursive listing
-        $this->list_groups(0, $data);
+        self::list_groups(0, $data);
 
         midcom_show_style('midcom-admin-user-group-list-end');
         midgard_admin_asgard_plugin::asgard_footer();
@@ -149,7 +149,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param int $id
      * @param array &$data
      */
-    public function list_groups($id, &$data, $move = false)
+    public static function list_groups($id, &$data, $move = false)
     {
         $mc = midcom_db_group::new_collector('owner', (int) $id);
         $mc->add_value_property('name');

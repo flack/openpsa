@@ -533,18 +533,6 @@ EOT;
         return implode(', ', $label);
     }
 
-    /**
-     * Statically callable helper method to resolve path for an object
-     */
-    function resolve_path(&$object, $title)
-    {
-        if (!class_exists('midcom_helper_reflector_tree'))
-        {
-            return $title;
-        }
-        return midcom_helper_reflector_tree::resolve_path($object);
-    }
-
     public static function sort_items($a, $b)
     {
         if (isset($a['category']))

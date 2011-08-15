@@ -32,6 +32,7 @@ button.midcom_helper_datamanager2_composite_create_button
     border: 1px solid #000000;
     background-color: #eae8e3;
     -moz-border-radius: 0.6em 0.6em 0.6em 0.6em;
+    border-radius: 0.6em 0.6em 0.6em 0.6em;
     margin: 4px;
     padding-left: 18px;
     background-image: url('../stock-icons/16x16/new-html.png');
@@ -59,12 +60,14 @@ div.ajax_editable_window
 	text-align: left;
 	padding: 6px;
 	-moz-border-radius: 12px;
+	border-radius: 12px;
 }
 div.ajax_editable_window div.midcom_helper_datamanager2_ajax_toolbar
 {
     width: 100%;
     background-color: #eae8e3;
     -moz-border-radius: 0.6em 0.6em 0.6em 0.6em;
+    border-radius: 0.6em 0.6em 0.6em 0.6em;
     text-align: center;
 }
 div.ajax_editable_window div.midcom_helper_datamanager2_ajax_toolbar input
