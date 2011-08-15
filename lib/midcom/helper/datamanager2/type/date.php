@@ -146,7 +146,6 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     /**
      * Converts Date object to storage representation.
      *
-     * @todo Move to getDate where possible.
      * @return string The string representation of the Date according to the
      *     storage_type.
      */
