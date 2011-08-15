@@ -54,7 +54,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 // Set the default type to "department"
                 $defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
             }
-            $defaults['owner'] = $this->_parent_group->id;
+            if ($this->_parent_group)
+            {
+                $defaults['owner'] = $this->_parent_group->id;
+            }
         }
         return $defaults;
     }
