@@ -223,7 +223,7 @@ Keine Doppelungen gefunden
 ---STRINGEND
 
 ---STRING no more duplicates to merge found
-Keine Doppelugen gefunden, die mit Ihren Berechtigungen zusammengeführt werden könnten
+Keine Doppelungen gefunden, die mit Ihren Berechtigungen zusammengeführt werden könnten
 ---STRINGEND
 
 ---STRING no results

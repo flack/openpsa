@@ -28,7 +28,7 @@
 ),
 
 // Match /buddylist/remove/<person guid>
-'budyylist_remove' => array
+'buddylist_remove' => array
 (
     'handler' => array('org_openpsa_contacts_handler_buddy_list', 'remove'),
     'fixed_args' => array('buddylist', 'remove'),
