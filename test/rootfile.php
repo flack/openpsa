@@ -55,10 +55,11 @@ if (extension_loaded('midgard2'))
     $midgard = midgard_connection::get_instance();
 
     // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-    if (!$midgard->is_connected())
+    if (   !$midgard->is_connected()
+        && $path = ini_get('midgard.configuration_file'))
     {
         $config = new midgard_config();
-        $config->read_file_at_path(ini_get('midgard.configuration_file'));
+        $config->read_file_at_path($path);
         $midgard->open_config($config);
     }
 
