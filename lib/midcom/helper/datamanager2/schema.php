@@ -199,7 +199,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *     to use.
      * @see midcom_helper_misc::get_snippet_content()
      */
-    function _load_schemadb($schemadb)
+    private function _load_schemadb($schemadb)
     {
         $contents = $this->_load_schemadb_contents($schemadb);
 
@@ -382,7 +382,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @param string $name The name of the schema to load.
      */
-    function _load_schema($name)
+    private function _load_schema($name)
     {
         // Setup the raw schema reference
         if (! array_key_exists($name, $this->_raw_schemadb))
