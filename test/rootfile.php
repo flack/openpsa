@@ -41,18 +41,20 @@ $mgd_defaults = array
 
 $GLOBALS['midcom_config_local'] = array();
 
+if (   function_exists('gc_enabled')
+    && gc_enabled())
+{
+    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
+    gc_disable();
+}
+
+
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
     if (!ini_get('midgard.superglobals_compat'))
     {
         throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
-    }
-    if (   function_exists('gc_enabled')
-        && gc_enabled())
-    {
-        // workaround for crashes that might have something to do with https://bugs.php.net/bug.php?id=51091
-        gc_disable();
     }
 
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
