@@ -34,43 +34,7 @@ if (!$midgard->open_config($config))
     exit(1);
 }
 
-if (!$config->create_blobdir())
-{
-    echo "Failed to create file attachment storage directory to {$config->blobdir}:" . $midgard->get_error_string() . "\n";
-    exit(1);
-}
+require_once 'tools/bootstrap.php';
 
-// Create storage
-if (!midgard_storage::create_base_storage())
-{
-    if ($midgard->get_error_string() != 'MGD_ERR_OK')
-    {
-        echo "Failed to create base database structures" . $midgard->get_error_string() . "\n";
-        exit(1);
-    }
-}
-else
-{
-    echo "Database initialized, preparing storage for MgdSchema classes:\n";
-}
-
-$re = new ReflectionExtension('midgard2');
-$classes = $re->getClasses();
-foreach ($classes as $refclass)
-{
-    $parent_class = $refclass->getParentClass();
-    if (!$parent_class)
-    {
-        continue;
-    }
-    if ($parent_class->getName() != 'midgard_object')
-    {
-        continue;
-    }
-    $type = $refclass->getName();
-            
-    midgard_storage::create_class_storage($type);
-    midgard_storage::update_class_storage($type);
-    echo "  Created storage for {$type}\n";
-}
+openpsa_prepare_database($config);
 ?>

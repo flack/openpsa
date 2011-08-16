@@ -1,7 +1,7 @@
-'default' => array 
+'default' => array
 (
     'description' => 'Query settings for Invoice module reports',
-    'fields'      => array 
+    'fields'      => array
     (
             'component' => array
             (
@@ -36,7 +36,7 @@
                 'default' => 'builtin:basic',
                 'widget'        => 'hidden',
             ),
-            'start' => array 
+            'start' => array
             (
                 'title'   => 'Start time',
                 'storage'      => 'start',
@@ -50,14 +50,14 @@
                 (
                     'show_time' => false,
                 ),
-                'default'       => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y'))),
-                'start_fieldset'  => array 
+                'default'       => array('start_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y')))),
+                'start_fieldset'  => array
                 (
                     'title'     => 'Timeframe',
                     'css_group' => 'area',
                 ),
             ),
-            'end' => array 
+            'end' => array
             (
                 'title'   => 'End time',
                 'storage'      => 'end',
@@ -71,7 +71,7 @@
                 (
                     'show_time' => false,
                 ),
-                'default'       => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y'))),
+                'default'       => array('end_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y')))),
             ),
             'date_field' => array
             (
@@ -110,13 +110,13 @@
 
                 ),
                 'widget'        => 'radiocheckselect',
-                'start_fieldset'  => array 
+                'start_fieldset'  => array
                 (
                     'title'     => 'Scope',
                     'css_group' => 'area',
                 ),
             ),
-            'resource' => array 
+            'resource' => array
             (
                 'title'   => 'Workgroup/Person',
                 'storage'      => 'parameter',
@@ -143,7 +143,7 @@
                 ),
                 'widget'        => 'radiocheckselect',
                 'default'       => ORG_OPENPSA_OBTYPE_REPORT_TEMPORARY,
-                'start_fieldset'  => array 
+                'start_fieldset'  => array
                 (
                     'title'     => 'Metadata',
                     'css_group' => 'area',

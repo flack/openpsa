@@ -21,7 +21,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_MIDCOM->auth->request_sudo('midcom.core');
         $person = new midcom_db_person();
         $password = substr('p_' . time(), 0, 11);
-        $username = __CLASS__ . ' user ' . time();
+        $username = __CLASS__ . ' user ' . microtime();
 
         $_MIDCOM->auth->request_sudo('midcom.core');
         if (!$person->create())
@@ -146,7 +146,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
      * Register multiple objects created in a testcase. That way, they'll get properly deleted
      * if the test aborts
      */
-    public function register_objects($array)
+    public function register_objects(array $array)
     {
         foreach ($array as $object)
         {

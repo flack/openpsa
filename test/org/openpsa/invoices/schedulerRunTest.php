@@ -71,7 +71,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         );
         $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
-        $this->_project = $this->create_object('org_openpsa_projects_project');
+        $this->_project = $this->_salesproject->get_project();
 
         $task_attributes = array
         (
@@ -145,25 +145,41 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
         foreach ($result as $type => $values)
         {
-            if ($type == 'at_entry')
+            switch ($type)
             {
-                $this->_verify_at_entry($values);
-            }
-            else if ($type == 'invoice')
-            {
-                $this->_verify_invoice($values, $params['cycle_number']);
-            }
-            else
-            {
-                $this->$type->refresh();
-                foreach ($values as $field => $value)
-                {
-                    $this->assertEquals($value, $this->$type->$field, 'Difference in ' . $type . ' field ' . $field);
-                }
+                case 'at_entry':
+                    $this->_verify_at_entry($values);
+                    break;
+                case 'invoice':
+                    $this->_verify_invoice($values, $params['cycle_number']);
+                    break;
+                case 'new_task':
+                    $this->_verify_new_task();
+                    break;
+                default:
+                    $this->$type->refresh();
+                    foreach ($values as $field => $value)
+                    {
+                        $this->assertEquals($value, $this->$type->$field, 'Difference in ' . $type . ' field ' . $field);
+                    }
             }
         }
 
         $_MIDCOM->auth->drop_sudo();
+    }
+
+    private function _verify_new_task()
+    {
+        $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('guid', '<>', $this->_task->guid);
+        $qb->add_constraint('project', '=', $this->_project->id);
+        $results = $qb->execute();
+        $this->register_objects($results);
+        $this->assertEquals(1, sizeof($results));
+        $new_task = $results[0];
+        $this->assertEquals($this->_deliverable->id, $new_task->agreement);
+        $this->assertEquals($this->_salesproject->customer, $new_task->customer);
+        $this->assertEquals($this->_task->manager, $new_task->manager);
     }
 
     private function _verify_at_entry($values)
@@ -331,6 +347,9 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $beginning_feb = gmmktime(0, 0, 0, 2, 1, 2011);
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
+        $customer = $this->create_object('org_openpsa_contacts_group_dba');
+        $customer_contact = $this->create_object('org_openpsa_contacts_person_dba');
+
         return array
         (
             //SET 0: Deliverable not yet started
@@ -394,7 +413,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 2: First deliverable cycle, invoice by planned units
+            //SET 2: First deliverable cycle, invoice by planned units, customer is set
             array
             (
                 array
@@ -404,6 +423,10 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 ),
                 array
                 (
+                    '_salesproject' => array
+                    (
+                        'customer' => $customer->id,
+                    ),
                     '_deliverable' => array
                     (
                         'start' => $beginning_feb,
@@ -427,7 +450,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     'invoice' => array
                     (
-                        'sum' => 120
+                        'sum' => 120,
+                        'customer' => $customer->id
                     ),
                     '_deliverable' => array
                     (
@@ -437,7 +461,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 3: second deliverable cycle, invoice by actual units
+            //SET 3: second deliverable cycle, invoice by actual units, customerContact is set
             array
             (
                 array
@@ -447,6 +471,10 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 ),
                 array
                 (
+                    '_salesproject' => array
+                    (
+                        'customerContact' => $customer_contact->id
+                    ),
                     '_deliverable' => array
                     (
                         'start' => $past_two_month,
@@ -492,8 +520,10 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                                 'units' => 13,
                                 'pricePerUnit' => 10
                             )
-                        )
-                    )
+                        ),
+                        'customerContact' => $customer_contact->id
+                    ),
+                    'new_task' => true,
                 )
             ),
 
@@ -540,7 +570,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     (
                         'invoicedHours' => 0
                     ),
-                    'invoice' => false
+                    'invoice' => false,
+                    'new_task' => true,
                 )
             ),
 

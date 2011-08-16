@@ -194,7 +194,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         $this->_request_data['products_qb'] =& $product_qb;
     }
 
-    private function _populate_toobar()
+    private function _populate_toolbar()
     {
         // Populate toolbar
         if ($this->_request_data['group'])

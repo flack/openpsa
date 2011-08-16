@@ -34,10 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
-
-        org_openpsa_widgets_grid::add_head_elements();
-        midcom::get('head')->add_jscript('var INVOICES_URL ="' . $this->_request_data['invoices_url'] . 'invoice/process/";');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
+        org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
     }
 
     private function _process_invoice_list($invoices)

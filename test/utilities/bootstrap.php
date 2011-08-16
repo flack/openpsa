@@ -57,7 +57,7 @@ if (empty($GLOBALS['midcom_config_local']['log_filename']))
 
 if (!defined('OPENPSA2_PREFIX'))
 {
-    define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
+    define('OPENPSA2_PREFIX', '/');
 }
 if (! defined('MIDCOM_STATIC_URL'))
 {

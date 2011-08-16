@@ -84,6 +84,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         {
             $invoice = new org_openpsa_invoices_invoice_dba();
             $invoice->customer = $salesproject->customer;
+            $invoice->customerContact = $salesproject->customerContact;
             $invoice->owner = $salesproject->owner;
             $invoice->sum = $invoice_sum;
 
