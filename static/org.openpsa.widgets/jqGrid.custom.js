@@ -35,23 +35,25 @@ var org_openpsa_grid_resize =
 
         org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
     },
-    event_handler: function()
+    event_handler: function(resizing)
     {
         if (org_openpsa_grid_resize.firstrun)
         {
             org_openpsa_grid_resize.firstrun = false;
             org_openpsa_grid_resize.add_header_controls();
         }
-        if (!org_openpsa_grid_resize.timer)
+        if (resizing)
         {
-            $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
+            if (!org_openpsa_grid_resize.timer)
+            {
+                $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
+            }
+            else
+            {
+                clearTimeout(org_openpsa_grid_resize.timer);
+            }
+            org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 200);
         }
-        else
-        {
-            clearTimeout(org_openpsa_grid_resize.timer);
-        }
-        org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 200);
-
         if ($('.ui-jqgrid-maximized').length > 0)
         {
             org_openpsa_grid_resize.maximize_height($('.ui-jqgrid-maximized'));
