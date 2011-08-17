@@ -41,6 +41,14 @@ $mgd_defaults = array
 
 $GLOBALS['midcom_config_local'] = array();
 
+if (   function_exists('gc_enabled')
+    && gc_enabled())
+{
+    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
+    gc_disable();
+}
+
+
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
@@ -55,10 +63,11 @@ if (extension_loaded('midgard2'))
     $midgard = midgard_connection::get_instance();
 
     // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-    if (!$midgard->is_connected())
+    if (   !$midgard->is_connected()
+        && $path = ini_get('midgard.configuration_file'))
     {
         $config = new midgard_config();
-        $config->read_file_at_path(ini_get('midgard.configuration_file'));
+        $config->read_file_at_path($path);
         $midgard->open_config($config);
     }
 
