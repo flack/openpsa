@@ -76,7 +76,6 @@
             'end_fieldset' => '',
         ),
 
-        // Metadata
         'calendar' => array
         (
             'title'       => 'enable calendar',
@@ -96,7 +95,7 @@
                 'css_group' => 'area',
             ),
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.calendar'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.calendar'),
         ),
 
         'projects' => array
@@ -117,7 +116,7 @@
                 'css_group' => 'area',
             ),
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.calendar'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.calendar'),
         ),
 
         'contact_creation' => array
@@ -232,7 +231,7 @@
                 'title' => $_MIDCOM->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
                 'css_group' => 'area',
             ),
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.invoices'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.invoices'),
         ),
 
         'invoices_editing' => array
@@ -248,7 +247,7 @@
 
             'widget'      => 'privilege',
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.invoices'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.invoices'),
         ),
 
         'wiki_creation' => array
@@ -268,7 +267,7 @@
                 'title' => $_MIDCOM->i18n->get_string('net.nemein.wiki', 'net.nemein.wiki'),
                 'css_group' => 'area',
             ),
-            'hidden' => !$_MIDCOM->componentloader->is_installed('net.nemein.wiki'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('net.nemein.wiki'),
         ),
 
         'wiki_editing' => array
@@ -284,7 +283,7 @@
 
             'widget'      => 'privilege',
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('net.nemein.wiki'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('net.nemein.wiki'),
         ),
 
         'products_creation' => array
@@ -304,7 +303,7 @@
                 'title' => $_MIDCOM->i18n->get_string('org.openpsa.products', 'org.openpsa.products'),
                 'css_group' => 'area',
             ),
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.products'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.products'),
         ),
 
         'products_editing' => array
@@ -320,7 +319,7 @@
 
             'widget'      => 'privilege',
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.products'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.products'),
         ),
 
         'campaigns_creation' => array
@@ -340,7 +339,7 @@
                 'title' => $_MIDCOM->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'),
                 'css_group' => 'area',
             ),
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.directmarketing'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.directmarketing'),
         ),
 
         'campaigns_editing' => array
@@ -356,7 +355,7 @@
 
             'widget'      => 'privilege',
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.directmarketing'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.directmarketing'),
         ),
 
         'salesproject_creation' => array
@@ -377,7 +376,7 @@
                 'css_group' => 'area',
             ),
             'end_fieldset' => '',
-            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.sales'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.sales'),
         ),
     )
 )

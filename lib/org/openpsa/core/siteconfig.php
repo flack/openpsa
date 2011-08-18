@@ -158,12 +158,23 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     }
 
     /**
+     * Check if a node for a given component is available
+     *
+     * @param string $component the component to look for
+     */
+    public function node_exists($component)
+    {
+        $guid = $this->get_node_guid($component);
+        return !empty($guid);
+    }
+
+    /**
      * Helper function to retrieve the full URL for the first topic of a given component
      *
      * @param string $component the component to look for
      * @return mixed The component URL or false
      */
-    function get_node_full_url($component)
+    public function get_node_full_url($component)
     {
         if (!array_key_exists($component, $this->components))
         {

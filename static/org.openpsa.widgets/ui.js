@@ -41,15 +41,19 @@ var org_openpsa_resizers =
     {
         $(window).resize(function()
         {
-            org_openpsa_resizers.process_queue();
+            org_openpsa_resizers.process_queue(true);
         });
         org_openpsa_jsqueue.add(org_openpsa_resizers.process_queue);
     },
-    process_queue: function()
+    process_queue: function(resizing)
     {
+        if (typeof resizing === 'undefined')
+        {
+            resizing = false;
+        }
         $.each(org_openpsa_resizers.queue, function(index, callback)
         {
-            callback();
+            callback(resizing);
         });
     }
 }
@@ -149,7 +153,7 @@ var org_openpsa_layout =
                 jQuery('#content').css('margin-left', content_margin_left + 'px');
 
                 jQuery.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
-                jQuery(window).trigger('resize');
+                org_openpsa_resizers.process_queue();
             }
             });
     },
