@@ -62,7 +62,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             debug_add("Receipt belongs to message '{$message->title}' (#{$message->id}) in campaign '{$campaign->title}' (#{$campaign->id})");
 
             $qb2 = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-            $qb2->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER);
+            $qb2->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
             //PONDER: or should be just mark the person bounced in ALL campaigns while we're at it ?
             //Just in case we somehow miss the campaign
             if (isset($campaign->id))
@@ -78,7 +78,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             foreach ($ret2 as $member)
             {
                 debug_add("Found member #{$member->id}, marking bounced");
-                $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_BOUNCED;
+                $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::BOUNCED;
                 $this->_request_data['update_status']['members'][$member->guid] = $member->update();
             }
         }
@@ -103,10 +103,10 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * QB search for message receipts with given token and type
      *
      * @param string $token token string
-     * @param int $type receipt type, defaults to ORG_OPENPSA_MESSAGERECEIPT_SENT
+     * @param int $type receipt type, defaults to org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT
      * @return array QB->execute results
      */
-    private function _qb_token_receipts($token, $type = ORG_OPENPSA_MESSAGERECEIPT_SENT)
+    private function _qb_token_receipts($token, $type = org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT)
     {
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '=', $token);
@@ -176,7 +176,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $read_receipt->person = $receipt->person;
         $read_receipt->message = $receipt->message;
         $read_receipt->token = $token;
-        $read_receipt->orgOpenpsaObtype = ORG_OPENPSA_MESSAGERECEIPT_RECEIVED;
+        $read_receipt->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_messagereceipt_dba::RECEIVED;
         $this->_request_data['create_status']['receipts'][$token] = $read_receipt->create();
     }
 

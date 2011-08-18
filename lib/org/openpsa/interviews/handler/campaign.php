@@ -52,33 +52,33 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
         // List members who haven't been interviewed yet
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
         $qb->add_constraint('suspended', '<', time());
         $this->_request_data['members_waiting'] = $qb->execute();
 
         // List members who we're interviewing currently
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_LOCKED);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::LOCKED);
         $this->_request_data['members_locked'] = $qb->execute();
 
         // List members who we have to call later
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
         $qb->add_constraint('suspended', '>', time());
         $this->_request_data['members_suspended'] = $qb->execute();
 
         // List members who have been interviewed
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_INTERVIEWED);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::INTERVIEWED);
         $this->_request_data['members_interviewed'] = $qb->execute();
 
         // List members who asked not to be called again
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $this->_request_data['members_unsubscribed'] = $qb->execute();
 
         $this->add_breadcrumb('', $data['campaign']->title);
@@ -107,7 +107,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
         // Figure out next person to call
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
         $qb->add_constraint('suspended', '<', time());
         $qb->set_limit(1);
         $next_contact = $qb->execute();
@@ -117,7 +117,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
             $member =& $next_contact[0];
 
             // Found, lock and redirect
-            $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_LOCKED;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::LOCKED;
 
             if (!$member->update())
             {

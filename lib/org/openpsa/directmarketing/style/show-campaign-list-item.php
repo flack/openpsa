@@ -5,12 +5,12 @@ if (array_key_exists('membership', $data))
 {
     switch ($data['membership']->orgOpenpsaObtype)
     {
-        case ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED:
+        case org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED:
             $class = 'unsubscribed';
             $unsubscribe_code = false;
             break;
         //This is unnecessary for now as we filter testers out earlier but in the future it might be needed
-        case ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER:
+        case org_openpsa_directmarketing_campaign_member_dba::TESTER:
             $class = 'tester';
             $unsubscribe_code = false;
             break;

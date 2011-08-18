@@ -39,8 +39,8 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
         $qb->begin_group("OR");
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_INTERVIEWED);
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::INTERVIEWED);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $qb->end_group();
         $this->_request_data['members_interviewed'] = $qb->execute();
 

@@ -122,15 +122,15 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         $icon = 'stock_mail.png';
         switch ($type)
         {
-            case ORG_OPENPSA_MESSAGETYPE_SMS:
-            case ORG_OPENPSA_MESSAGETYPE_MMS:
+            case org_openpsa_directmarketing_campaign_message_dba::SMS:
+            case org_openpsa_directmarketing_campaign_message_dba::MMS:
                 $icon = 'stock_cell-phone.png';
                 break;
-            case ORG_OPENPSA_MESSAGETYPE_CALL:
-            case ORG_OPENPSA_MESSAGETYPE_FAX:
+            case org_openpsa_directmarketing_campaign_message_dba::CALL:
+            case org_openpsa_directmarketing_campaign_message_dba::FAX:
                 $icon = 'stock_landline-phone.png';
                 break;
-            case ORG_OPENPSA_MESSAGETYPE_SNAILMAIL:
+            case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
                 $icon = 'stock_home.png';
                 break;
         }
@@ -142,15 +142,15 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         $class = 'email';
         switch ($type)
         {
-            case ORG_OPENPSA_MESSAGETYPE_SMS:
-            case ORG_OPENPSA_MESSAGETYPE_MMS:
+            case org_openpsa_directmarketing_campaign_message_dba::SMS:
+            case org_openpsa_directmarketing_campaign_message_dba::MMS:
                 $class = 'mobile';
                 break;
-            case ORG_OPENPSA_MESSAGETYPE_CALL:
-            case ORG_OPENPSA_MESSAGETYPE_FAX:
+            case org_openpsa_directmarketing_campaign_message_dba::CALL:
+            case org_openpsa_directmarketing_campaign_message_dba::FAX:
                 $class = 'telephone';
                 break;
-            case ORG_OPENPSA_MESSAGETYPE_SNAILMAIL:
+            case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
                 $class = 'postal';
                 break;
         }

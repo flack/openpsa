@@ -16,16 +16,29 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_campaign';
 
-    var $testers = array(); // List of tests members (stored as campaign_members, referenced here for easier access)
+    const TYPE_NORMAL = 9500;
+    const TYPE_SMART = 9501;
 
-    var $rules = array(); //rules for smart-campaign
+    /**
+     * List of tests members (stored as campaign_members, referenced here for easier access)
+     *
+     * @var array
+     */
+    public $testers = array();
+
+    /**
+     * Rules for smart-campaign
+     *
+     * @var array
+     */
+    public $rules = array();
 
     public function __construct($id = null)
     {
         parent::__construct($id);
         if (!$this->orgOpenpsaObtype)
         {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN;
+            $this->orgOpenpsaObtype = self::TYPE_NORMAL;
         }
     }
 
@@ -76,7 +89,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             return false;
         }
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->id);
-        $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+        $mc->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $testers = $mc->get_values('person');
 
         //Just to be sure
@@ -142,7 +155,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
             return false;
         }
-        if ($this->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
+        if ($this->orgOpenpsaObtype != self::TYPE_SMART)
         {
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;
@@ -182,7 +195,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         //Delete (normal) members that should not be here anymore
         $qb_unwanted = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_unwanted->add_constraint('campaign', '=', $this->id);
-        $qb_unwanted->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER);
+        $qb_unwanted->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
 
         if (sizeof($wanted_persons) > 0)
         {
@@ -207,7 +220,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         //List current non-tester members (including unsubscribed etc), and filter those out of rule_persons
         $qb_current = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_current->add_constraint('campaign', '=', $this->id);
-        $qb_current->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+        $qb_current->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $cret = $qb_current->execute();
         if (   is_array($cret)
             && !empty($cret))
@@ -231,7 +244,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         {
             debug_add("Creating new member (linked to person #{$id}) to campaign #{$this->id}");
             $member = new org_openpsa_directmarketing_campaign_member_dba();
-            $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
             $member->campaign = $this->id;
             $member->person = $id;
             $mcret = $member->create();
@@ -262,7 +275,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
             return false;
         }
-        if ($this->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
+        if ($this->orgOpenpsaObtype != self::TYPE_SMART)
         {
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;
@@ -296,7 +309,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
             return false;
         }
-        if ($this->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
+        if ($this->orgOpenpsaObtype != self::TYPE_SMART)
         {
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;

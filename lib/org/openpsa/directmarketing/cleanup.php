@@ -13,7 +13,7 @@
  * The cleanup script will remove all of the following:
  * - org_openpsa_campaign_messagereceipt
  * - org_openpsa_link_log
- * - org_openpsa_campaign_member (where orgOpenpsaObtype is not ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER)
+ * - org_openpsa_campaign_member (where orgOpenpsaObtype is not org_openpsa_directmarketing_campaign_member_dba::TESTER)
  * - org_openpsa_person (without username)
  *
  * that have not been updated within the configured time (by default one month).
@@ -62,8 +62,8 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         {
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
-            $qb->add_constraint('campaign.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::TESTER);
+            $qb->add_constraint('campaign.orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
             $qb->end_group();
         }
         else
@@ -71,10 +71,10 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
             $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
 
             // Don't delete testers
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+            $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
 
             // Don't delete from smart campaigns
-            $qb->add_constraint('campaign.orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART);
+            $qb->add_constraint('campaign.orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
         }
         return $qb;
     }

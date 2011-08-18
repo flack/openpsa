@@ -16,28 +16,36 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
 
+    public $_use_rcs = false;
+    public $_use_activitystream = false;
+
+    const NORMAL = 9000;
+    const TESTER = 9001;
+    const UNSUBSCRIBED = 9002;
+    const BOUNCED = 9003;
+    const INTERVIEWED = 9004;
+    const LOCKED = 9005;
+
     public function __construct($id = null)
     {
-        $this->_use_rcs = false;
-        $this->_use_activitystream = false;
         parent::__construct($id);
         if (!$this->orgOpenpsaObtype)
         {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
+            $this->orgOpenpsaObtype = self::NORMAL;
         }
     }
 
-    static function new_query_builder()
+    public static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
 
-    static function new_collector($domain, $value)
+    public static function new_collector($domain, $value)
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
 
-    static function &get_cached($src)
+    public static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
@@ -64,13 +72,13 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $qb->add_constraint('person', '=', $this->person);
         $qb->add_constraint('campaign', '=', $this->campaign);
         //For tester membership check only other tester memberships for duplicates, for other memberships check all BUT testers
-        if ($this->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER)
+        if ($this->orgOpenpsaObtype == self::TESTER)
         {
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+            $qb->add_constraint('orgOpenpsaObtype', '=', self::TESTER);
         }
         else
         {
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+            $qb->add_constraint('orgOpenpsaObtype', '<>', self::TESTER);
         }
         if ($this->id)
         {
@@ -115,7 +123,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $sep_start = '<';
         $sep_end = '>';
 
-        if ($message_type == ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML)
+        if ($message_type == org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML)
         {
             $sep_start = '&lt;';
             $sep_end = '&gt;';

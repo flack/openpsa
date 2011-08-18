@@ -184,7 +184,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             $message = new org_openpsa_directmarketing_campaign_message_dba();
             $message->campaign = $campaign->id;
             // FIXME: Support HTML mails and other notifications too
-            $message->orgOpenpsaObtype = ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT;
+            $message->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT;
             $message->title = $post->subject;
             $stat = $message->create();
             if ($stat)
