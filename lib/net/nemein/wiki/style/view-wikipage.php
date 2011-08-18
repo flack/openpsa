@@ -17,38 +17,15 @@ $node = $nap->get_node($nap->get_current_node());
     }
 
     // List possible wiki pages tagged with name of this page
-    $qb = net_nemein_tag_link_dba::new_query_builder();
-    $qb->add_constraint('tag.tag', '=', $data['wikipage']->title);
-    $qb->add_constraint('fromClass', '=', 'net_nemein_wiki_wikipage');
-    $qb->add_order('context', 'ASC');
-    // TODO: $qb->add_order('tag.tag', 'ASC');
-    $links = $qb->execute();
-    if (count($links) > 0)
+    $tagged_pages = net_nemein_tag_handler::get_objects_with_tags(array($data['wikipage']->title), array('net_nemein_wiki_wikipage'));
+    if (count($tagged_pages) > 0)
     {
+        usort($tagged_pages, array('net_nemein_wiki_handler_view', 'sort_by_title'));
         echo "<dl class=\"tagged\">\n";
-        $contexts_shown = array();
-        foreach ($links as $link)
+        echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), $_MIDCOM->i18n->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
+        foreach ($tagged_pages as $page)
         {
-            $context = $link->context;
-            if (!$context)
-            {
-                $context = $_MIDCOM->i18n->get_string('tagged', 'net.nemein.tag');
-            }
-
-            if (!array_key_exists($context, $contexts_shown))
-            {
-                echo "    <dt>" . sprintf($data['l10n']->get('%s for %s'), ucfirst($context), $data['wikipage']->title) . "</dt>\n";
-                $contexts_shown[$context] = true;
-            }
-            try
-            {
-                $linked_page = new net_nemein_wiki_wikipage($link->fromGuid);
-                echo "        <dd><a href=\"{$node[MIDCOM_NAV_FULLURL]}{$linked_page->name}/\">{$linked_page->title}</a></dd>\n";
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
+            echo "    <dd><a href=\"{$node[MIDCOM_NAV_FULLURL]}{$page->name}/\">{$page->title}</a></dd>\n";
         }
         echo "</dl>\n";
     }
