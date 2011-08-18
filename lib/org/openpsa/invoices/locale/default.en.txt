@@ -98,6 +98,10 @@ Files
 Go to customer
 ---STRINGEND
 
+---STRING go to customer
+Go to deliverable
+---STRINGEND
+
 ---STRING search title
 Go to invoice number
 ---STRINGEND

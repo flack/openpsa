@@ -470,8 +470,23 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_process_invoice_list($invoices);
         }
 
-        $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $data['deliverable']->title);
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
+        if ($sales_url)
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$data['deliverable']->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                )
+            );
+        }
+
+        $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $data['deliverable']->title);
         $_MIDCOM->set_pagetitle($title);
         $this->add_breadcrumb("", $title);
     }

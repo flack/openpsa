@@ -23,7 +23,7 @@ Rechnungen des Kunden %s
 ---STRINGEND
 
 ---STRING all invoices for deliverable %s
-Rechnungen zu Lieferung %s
+Rechnungen zur Bestellung %s
 ---STRINGEND
 
 ---STRING amount
@@ -96,6 +96,10 @@ Dateien
 
 ---STRING go to customer
 Kunden anzeigen
+---STRINGEND
+
+---STRING go to deliverable
+Bestellung anzeigen
 ---STRINGEND
 
 ---STRING invoice
