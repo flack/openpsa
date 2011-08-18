@@ -93,10 +93,11 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Recurses trough the rules array and creates QB instances & constraints as needed
+     *
      * @param array $rules rules array
      * @return boolean indicating success/failure
      */
-    function resolve($rules)
+    function resolve(array $rules)
     {
         $this->_rules = $rules;
         if (!is_array($rules))
@@ -214,8 +215,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         return true;
     }
 
-    /** Iterates over passed rules for given class and calls functions
+    /**
+     * Iterates over passed rules for given class and calls functions
      * to add rules to the querybuilder/collector
+     *
      * @param array $rules array containing rules
      * @param string $class containing name of class for the rules
      */
@@ -272,6 +275,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Adds rule directly to the querybuilder
+     *
      * @param array $rule contains the rule
      */
     function add_person_rule($rule)
@@ -281,6 +285,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Adds a group-rule to the querybuilder
+     *
      * @param array $rule contains the group-rule
      */
     function add_group_rule($rule)
@@ -325,16 +330,17 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
-     * adds parameter rule to the querybuilder
+     * Adds parameter rule to the querybuilder
+     *
      * @param array $rules array containing rules for the paramter
      */
-    function add_parameter_rule($rules)
+    function add_parameter_rule(array $rules)
     {
         //get parents of wanted midgard_parameter
         $mc_parameter = new midgard_collector('midgard_parameter', 'metadata.deleted', false);
         $mc_parameter->set_key_property('id');
         $mc_parameter->add_value_property('parentguid');
-        foreach($rules as $rule)
+        foreach ($rules as $rule)
         {
             $mc_parameter->add_constraint($rule['property'], $rule['match'], $rule['value']);
         }
@@ -345,14 +351,14 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         {
             //TODO: better solution for constraints leading to zero results
             //build constraint only if on 'LIKE' or '=' should be matched
-            if($rule['match'] == 'LIKE' || $rule['match'] == '=')
+            if ($rule['match'] == 'LIKE' || $rule['match'] == '=')
             {
                 $this->_result_mc->add_constraint('id', '=', -1);
             }
             return false;
         }
         //iterate over found parameters & call needed rule-functions
-        foreach($parameter_keys as $parameter_key => $value)
+        foreach ($parameter_keys as $parameter_key => $value)
         {
             $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
             try
@@ -398,20 +404,21 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Adds a passed rule for the passed class to the querybuilder
+     *
      * @param array $rule contains the rule
      * @param string $class name of the class the rule will be added to
      * @param string $person_property contains the name of the property of the
      * passed class which links to the person
      */
-    function add_misc_rule($rule, $class, $person_property)
+    function add_misc_rule(array $rule, $class, $person_property)
     {
         $persons = array ( 0 => -1);
         $match = $rule['match'];
         $constraint_match = "IN";
-        if($rule['match'] == '<>' || $rule['match'] == 'NOT LIKE')
+        if ($rule['match'] == '<>' || $rule['match'] == 'NOT LIKE')
         {
             $constraint_match = "NOT IN";
-            switch($rule['match'])
+            switch ($rule['match'])
             {
                 case '<>':
                     $match = '=';
