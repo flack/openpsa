@@ -108,7 +108,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     private function _qb_token_receipts($token, $type = ORG_OPENPSA_MESSAGERECEIPT_SENT)
     {
-        $qb = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
+        $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '=', $token);
         $qb->add_constraint('orgOpenpsaObtype', '=', $type);
         $ret = $qb->execute();
@@ -172,7 +172,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $this->_request_data['create_status']['links'][$target] = $link->create();
 
         //Create received and read receipts
-        $read_receipt = new org_openpsa_directmarketing_campaign_message_receipt_dba();
+        $read_receipt = new org_openpsa_directmarketing_campaign_messagereceipt_dba();
         $read_receipt->person = $receipt->person;
         $read_receipt->message = $receipt->message;
         $read_receipt->token = $token;

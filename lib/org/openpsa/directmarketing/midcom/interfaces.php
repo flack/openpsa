@@ -13,25 +13,9 @@
  */
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
 {
-    public function __construct()
-    {
-        $this->_autoload_files = array
-        (
-            'campaign/message_receipt.php',
-        );
-        $this->_autoload_libraries = array
-        (
-            'org.openpsa.core',
-            'org.openpsa.mail',
-            'midcom.helper.datamanager2',
-            'org.openpsa.smslib',
-            'org.openpsa.qbpager',
-            'midcom.services.at',
-        );
-    }
-
     /**
      * Test case for the AT service
+     *
      * @param array $args handler arguments
      * @param object &$handler reference to the cron_handler object calling this method.
      * @return boolean Always true
@@ -45,6 +29,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
     /**
      * Background message sending AT batch handler
+     *
      * @param array $args handler arguments
      * @param object &$handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure
@@ -75,6 +60,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
     /**
      * For updating smart campaigns members in background
+     *
      * @param array $args handler arguments
      * @param object &$handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure
@@ -286,7 +272,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         }
 
         // ** Receipts **
-        $qb_receipt = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
+        $qb_receipt = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipt->add_constraint('person', '=', $person2->id);
         $receipts = $qb_receipt->execute();
         if ($receipts === false)
@@ -335,7 +321,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             'org_openpsa_directmarketing_campaign_dba',
             'org_openpsa_directmarketing_campaign_member_dba',
             'org_openpsa_directmarketing_campaign_message_dba',
-            'org_openpsa_directmarketing_campaign_message_receipt_dba',
+            'org_openpsa_directmarketing_campaign_messagereceipt_dba',
             'org_openpsa_directmarketing_link_log_dba',
         );
         foreach($classes as $class)

@@ -39,7 +39,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $_MIDCOM->auth->require_valid_user();
 
         $this->_request_data['report'] = array();
-        $qb_receipts = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
+        $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->_request_data['message']->id);
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
         $receipts = $qb_receipts->execute_unchecked();

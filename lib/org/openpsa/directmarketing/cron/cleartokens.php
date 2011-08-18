@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
         }
 
         $th = time() - ($days * 3600 * 24);
-        $qb = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
+        $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '<>', '');
         $qb->add_constraint('timestamp', '<', $th);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);

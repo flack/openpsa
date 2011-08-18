@@ -460,7 +460,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $token .= $tokenchars[$rand(0, strlen($tokenchars) - 1)];
         }
         //If token is not free or (very, very unlikely) matches our dummy token, recurse.
-        if (   !org_openpsa_directmarketing_campaign_message_receipt_dba::token_is_free($token)
+        if (   !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token)
             || $token === 'dummy')
         {
             return $this->_create_email_token();
@@ -878,7 +878,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $this->_qb_common_constaints($qb_mem);
         $valid_members = $qb_mem->count();
 
-        $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt_dba');
+        $qb_receipts = org_openpsa_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->id);
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
         $send_receipts = $qb_receipts->count();
