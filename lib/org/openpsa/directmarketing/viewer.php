@@ -95,28 +95,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         midcom_show_style("show-frontpage");
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_debug($handler_id, array $args, array &$data)
-    {
-        $_MIDCOM->auth->require_valid_user();
-        $this->_request_data['config'] =& $this->_config;
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_debug($handler_id, array &$data)
-    {
-        midcom_show_style("show-debug");
-    }
-
-
     function get_messagetype_icon($type)
     {
         $icon = 'stock_mail.png';

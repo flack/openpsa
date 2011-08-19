@@ -305,13 +305,6 @@
     'fixed_args' => array('config'),
 ),
 
-// Match /debug
-'debugger' => array
-(
-    'fixed_args' => 'debug',
-    'handler' => 'debug',
-),
-
 // Match /
 'frontpage' => array
 (
