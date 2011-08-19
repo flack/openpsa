@@ -13,6 +13,8 @@
  */
 class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_handler_base
 {
+    private $_sales_url;
+
     public function _on_initialize()
     {
         org_openpsa_widgets_contact::add_head_elements();
@@ -91,7 +93,12 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $invoice->sent = $time;
             $invoice->due = ($invoice->get_default_due() * 3600 * 24) + $time;
             $invoice->vat = $invoice->get_default_vat();
+
             $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
+            if ($this->_sales_url)
+            {
+                $invoice->description = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice->description . '</a>';
+            }
 
             $invoice->paid = $invoice->due;
 
@@ -159,6 +166,8 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     {
         if ($status == 'scheduled')
         {
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            $this->_sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
             return $this->_get_scheduled_invoices();
         }
 
