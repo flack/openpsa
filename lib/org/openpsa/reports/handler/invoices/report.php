@@ -171,12 +171,15 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             return $this->_get_scheduled_invoices();
         }
 
-        // List invoices
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->begin_group('AND');
-            $qb->add_constraint($this->_request_data['date_field'], '>=', $this->_request_data['start']);
-            $qb->add_constraint($this->_request_data['date_field'], '<', $this->_request_data['end']);
-        $qb->end_group();
+
+        if ($status != 'unsent')
+        {
+            $qb->begin_group('AND');
+                $qb->add_constraint($this->_request_data['date_field'], '>=', $this->_request_data['start']);
+                $qb->add_constraint($this->_request_data['date_field'], '<', $this->_request_data['end']);
+            $qb->end_group();
+        }
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
