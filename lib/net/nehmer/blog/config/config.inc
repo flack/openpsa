@@ -84,3 +84,5 @@
 
 'disable_permalinks' => false,
 'disable_indexing' => false,
+
+'simple_name_handling' => true,
