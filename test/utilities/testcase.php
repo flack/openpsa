@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class openpsa_testcase extends PHPUnit_Framework_TestCase
+abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 {
     private static $_class_objects = array();
     private $_testcase_objects = array();
