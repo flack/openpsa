@@ -61,9 +61,6 @@ else if (!extension_loaded('midgard'))
     throw new Exception("OpenPSA requires Midgard PHP extension to run");
 }
 
-
-ini_set('memory_limit', '68M');
-
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
