@@ -43,8 +43,8 @@ ignore_user_abort(true);
 // Disable ob
 while(@ob_end_flush());
 
-debug_add("Setting Memorylimit to configured value of {$GLOBALS['midcom_config']['indexer_reindex_memorylimit']} MB");
-ini_set('memory_limit', "{$GLOBALS['midcom_config']['indexer_reindex_memorylimit']}M");
+debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
+ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
 
 $nap = new midcom_helper_nav();
 $nodes = Array();

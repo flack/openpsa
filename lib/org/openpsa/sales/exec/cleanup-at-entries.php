@@ -5,9 +5,7 @@ midcom::get('auth')->require_admin_user();
 midcom::get('cache')->content->enable_live_mode();
 while(@ob_end_flush())
 
-// TODO: Could this be done more safely somehow
-@ini_set('memory_limit', -1);
-@ini_set('max_execution_time', 0);
+midcom::get()->disable_limits();
 
 echo "<h1>Cleanup deliverable AT entries:</h1>\n";
 

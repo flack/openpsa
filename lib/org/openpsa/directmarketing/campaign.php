@@ -147,9 +147,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     function update_smart_campaign_members()
     {
-        //Disable limits
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         if (!$this->id)
         {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);

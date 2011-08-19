@@ -218,10 +218,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_recreate($handler_id, array &$data)
     {
-        //Disable limits
-        // TODO: Could this be done more safely somehow
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         $_MIDCOM->style->data['title'] = $data['title'];
         $_MIDCOM->style->data['objects'] = $this->_load_objects();

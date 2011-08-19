@@ -18,8 +18,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
     public function _on_execute()
     {
         //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         debug_add('_on_execute called');
         $days = $this->_config->get('send_token_max_age');
         if ($days == 0)

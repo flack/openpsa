@@ -31,9 +31,7 @@ if (   array_key_exists('cities_file_path', $_POST)
 {
     $features = explode(',', $_POST['featurecodes_to_import']);
 
-    //Disable limits
-    @ini_set('memory_limit', -1);
-    @ini_set('max_execution_time', 0);
+    midcom::get()->disable_limits();
     // this is a potentially very time and resource intensive operation, so let's play nicely:
     if (is_callable('proc_nice'))
     {
@@ -129,7 +127,7 @@ else
     </p>
 
     <p><strong>Please note that this process will take a long time.</strong> This can be anything between half hour and several hours
-    to process the 3 million cities of the full dump, or significantly less for the 
+    to process the 3 million cities of the full dump, or significantly less for the
     <a href="http://download.geonames.org/export/dump/cities15000.zip">list of cities with over 15,000 inhabitants</a>.</p>
 
     <form method="post">
@@ -155,10 +153,10 @@ feature code      : see http://www.geonames.org/export/codes.html, varchar(10)
 country code      : ISO-3166 2-letter country code, 2 characters
 cc2               : alternate country codes, comma separated, ISO-3166 2-letter country code, 60 characters
 admin1 code       : fipscode (subject to change to iso code), isocode for the us and ch, see file admin1Codes.txt for display names of this code; varchar(20)
-admin2 code       : code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80) 
+admin2 code       : code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)
 admin3 code       : code for third level administrative division, varchar(20)
 admin4 code       : code for fourth level administrative division, varchar(20)
-population        : integer 
+population        : integer
 elevation         : in meters, integer
 gtopo30           : average elevation of 30'x30' (ca 900mx900m) area in meters, integer
 timezone          : the timezone id (see file timeZone.txt)

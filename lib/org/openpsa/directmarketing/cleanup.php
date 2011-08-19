@@ -116,10 +116,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
             return;
         }
 
-        //Disable limits
-        // TODO: Could this be done more safely somehow
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         $qb = $this->get_message_receipt_qb();
         $qb->set_limit($this->_config->get('delete_older_per_run'));

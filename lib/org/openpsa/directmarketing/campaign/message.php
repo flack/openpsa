@@ -175,9 +175,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send(&$content, &$from, &$subject, &$data_array)
     {
-        //Disable limits, TODO: Make smarter if at all possible, see reindex.php from torben for ideas
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         //Make sure we have smart campaign members up-to-date (this might take a while)
         if (!$this->test_mode)
         {
@@ -222,9 +220,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send_bg($url_base, $batch, &$content, &$from, &$subject, &$data_array)
     {
-        //Disable limits, TODO: Make smarter if at all possible, see reindex.php from torben for ideas
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
         if (   $batch == 1
             && !$this->test_mode)

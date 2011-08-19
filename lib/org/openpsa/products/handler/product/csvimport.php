@@ -31,10 +31,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product']);
 
-        //Disable limits
-        // TODO: Could this be done more safely somehow
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
     }
 
     private function _datamanager_process(&$productdata, &$object)

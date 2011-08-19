@@ -58,10 +58,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
-        //Disable limits
-        // TODO: Could this be done more safely somehow
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
     }
 
     /**

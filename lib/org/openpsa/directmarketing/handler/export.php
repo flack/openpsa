@@ -109,13 +109,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         }
     }
 
-    private function _disable_limits()
-    {
-        //Disable limits
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -135,7 +128,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             $_MIDCOM->relocate("{$prefix}campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
             // This will exit
         }
-        $this->_disable_limits();
+        midcom::get()->disable_limits();
 
         $this->_request_data['export_rows'] = array();
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
