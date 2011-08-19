@@ -61,14 +61,6 @@
     'variable_args' => 2,
 ),
 
-// Match /message/new/<campaign guid>/<schema>
-'create_message_old' => array
-(
-    'fixed_args' => array('message','new'),
-    'variable_args' => 2,
-    'handler' => array('org_openpsa_directmarketing_handler_message_create', 'create'),
-),
-
 // Match /message/list/<type>/<guid>
 'message_list_dynamic_type' => array
 (
