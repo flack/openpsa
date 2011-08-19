@@ -97,7 +97,11 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
             $invoices[] = $invoice;
 
-            $time = $scheduler->calculate_cycle_next($time);
+            if (!$time = $scheduler->calculate_cycle_next($time))
+            {
+                debug_add('Failed to calculate timestamp for next cycle, exiting', MIDCOM_LOG_WARN);
+                break;
+            }
         }
 
         return $invoices;
