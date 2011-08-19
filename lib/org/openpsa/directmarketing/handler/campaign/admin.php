@@ -133,9 +133,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_prepare_request_data($handler_id);
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-
         $this->_view_toolbar->add_item
         (
             array
@@ -152,21 +149,18 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         // PONDER: Locking ?
 
-        if (   isset($_POST['midcom_helper_datamanager2_cancel'])
-            && !empty($_POST['midcom_helper_datamanager2_cancel']))
+        if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
             $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
             // This will exit()
         }
 
         //check if it should be saved or preview
-        if (   (isset($_POST['midcom_helper_datamanager2_save'])
-            && !empty($_POST['midcom_helper_datamanager2_save']))
+        if (   !empty($_POST['midcom_helper_datamanager2_save'])
             || isset($_POST['show_rule_preview']))
         {
             $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-            //@todo str_replace is a hotfix for servers with magic_quotes_gpc enabled
-            $eval_ret = eval(str_replace('\\', '', $eval));
+            $eval_ret = eval($eval);
 
             if (   $eval_ret === false
                 || !is_array($tmp_array))
@@ -214,13 +208,15 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $_MIDCOM->skip_page_style = true;
         }
 
+        // Add toolbar items
+        org_openpsa_helpers::dm2_savecancel($this);
+
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $_MIDCOM->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign);
         $this->_update_breadcrumb_line($handler_id);
     }
-
 
     /**
      * Shows the loaded campaign.
