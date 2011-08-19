@@ -268,14 +268,6 @@
     'variable_args' => 1,
 ),
 
-// Match /campaign/preview/<campaign GUID>
-'preview_campaign_query' => array
-(
-    'handler' => array('org_openpsa_directmarketing_handler_campaign_preview', 'preview'),
-    'fixed_args' => array('campaign', 'preview'),
-    'variable_args' => 1,
-),
-
 // Match /logger/bounce
 'log_bounce' => array
 (
