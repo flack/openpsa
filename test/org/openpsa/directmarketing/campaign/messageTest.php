@@ -12,6 +12,8 @@ if (!defined('OPENPSA_TEST_ROOT'))
     require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
 }
 
+require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
+
 /**
  * OpenPSA testcase
  *
@@ -21,10 +23,10 @@ class org_openpsa_directmarketing_campaign_messageTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        $helper = new org_openpsa_directmarketing_campaign_helper($this);
+        $campaign = $helper->get_campaign();
 
-        $topic = $this->create_object('midcom_db_topic', array('component' => 'org.openpsa.directmarketing'));
-        $campaign = $this->create_object('org_openpsa_directmarketing_campaign_dba', array('node' => $topic->id));
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
 
         $message = new org_openpsa_directmarketing_campaign_message_dba();
 
