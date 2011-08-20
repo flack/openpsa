@@ -83,6 +83,7 @@ table.calendarwidget tbody div.vevent {
     color: #000000;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
     overflow: hidden;
     padding: 1px;
     margin: 0px;
@@ -122,17 +123,21 @@ table.calendarwidget tbody div.ending_after {
     border-right: none;
     padding-right: 2px;
     -moz-border-radius-topright: 0px;
-    -webkit-border-radius-topright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    border-top-right-radius: 0px;
     -moz-border-radius-bottomright: 0px;
-    -webkit-border-radius-bottomright: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 table.calendarwidget tbody div.starting_before {
     border-left: none;
     padding-left: 2px;
     -moz-border-radius-topleft: 0px;
-    -webkit-border-radius-topleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
     -moz-border-radius-bottomleft: 0px;
-    -webkit-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
 table.calendarwidget tbody span.assignee {
@@ -195,6 +200,7 @@ table.calendarwidget tbody span.assignee {
     color: #ffffff;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 #org_openpsa_widgets_calendar div.calendar_column h3.statusinfo {
     background-image: url("gnome-status.png");
@@ -246,6 +252,7 @@ table.calendarwidget tbody span.assignee {
 #org_openpsa_widgets_calendar div.reservations div, #org_openpsa_widgets_calendar ul.reservations li span.reservation {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
     border: 1px solid #826647;
     background-color: #E0C39E;
     color: #000000;
@@ -284,6 +291,7 @@ table.calendarwidget tbody span.assignee {
     background-color: #ffffff;
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
+    border-radius: 0px;
 }
 
 #org_openpsa_widgets_calendar div.reservations .free:hover {

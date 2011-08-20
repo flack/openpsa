@@ -51,7 +51,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 $_MIDCOM->auth->require_do('midgard:create', $campaign);
 
                 $member = new org_openpsa_directmarketing_campaign_member_dba();
-                $member->orgOpenpsaObType = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
+                $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
                 $member->person = $this->_request_data['person']->id;
                 $member->campaign = $campaign->id;
                 $member->create();
@@ -101,7 +101,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
             $qb->add_constraint('person', '=', $this->_request_data['person']->id);
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+            $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
             $memberships = $qb->execute();
 
             $campaign_membership_map = array();
@@ -182,19 +182,14 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe($handler_id, array $args, array &$data)
     {
-        if (count($args) != 1)
-        {
-            throw new midcom_error_notfound("Missing member ID.");
-        }
-
         $_MIDCOM->auth->request_sudo();
 
         $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['membership']->campaign);
 
-        $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
-        $this->_request_data['unsubscribe_status'] = $this->_request_data['membership']->update();
-        debug_add("Unsubscribe status: {$this->_request_data['unsubscribe_status']}");
+        $data['membership']->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
+        $data['unsubscribe_status'] = $data['membership']->update();
+        debug_add("Unsubscribe status: {$data['unsubscribe_status']}");
         $_MIDCOM->auth->drop_sudo();
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
         $_MIDCOM->skip_page_style = true;
@@ -227,15 +222,11 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe_ajax($handler_id, array $args, array &$data)
     {
-        if (count($args) != 1)
-        {
-            throw new midcom_error_notfound("Missing member ID.");
-        }
         $_MIDCOM->auth->request_sudo();
         $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $this->_request_data['campaign'] = $this->_master->load_campaign($this->_request_data['membership']->campaign);
 
-        $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
+        $this->_request_data['membership']->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
         $this->_request_data['unsubscribe_status'] = $this->_request_data['membership']->update();
 
         debug_add("Unsubscribe status: {$this->_request_data['unsubscribe_status']}");
@@ -266,10 +257,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe_all($handler_id, array $args, array &$data)
     {
-        if (count($args) < 1)
-        {
-            throw new midcom_error_notfound("Missing member ID.");
-        }
         $_MIDCOM->auth->request_sudo();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
@@ -284,8 +271,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb->add_constraint('campaign.node', '=', $this->_topic->id);
         $qb->add_constraint('person', '=', $this->_request_data['person']->id);
         // FIXME: Use NOT IN
-        $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
-        $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $memberships = $qb->execute();
 
         if ($memberships === false)
@@ -295,7 +282,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         }
         foreach ($memberships as $member)
         {
-            $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $mret = $member->update();
             if (!$mret)
             {

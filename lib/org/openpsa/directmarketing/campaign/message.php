@@ -16,6 +16,14 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_campaign_message';
 
+    const EMAIL_TEXT = 8000;
+    const SMS = 8001;
+    const MMS = 8002;
+    const CALL = 8003;
+    const SNAILMAIL = 8004;
+    const FAX = 8005;
+    const EMAIL_HTML = 8006;
+
     var $send_output = false;
     var $sms_lib = 'org.openpsa.smslib';
     var $sms_lib_api = 'tambur';
@@ -77,7 +85,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return self::get_parent_guid_uncached_static($this->guid);
     }
 
-    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS_)
+    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS__)
     {
         if (empty($guid))
         {
@@ -122,7 +130,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     {
         if (!$this->orgOpenpsaObtype)
         {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT;
+            $this->orgOpenpsaObtype = self::EMAIL_TEXT;
             $this->update();
         }
     }
@@ -144,31 +152,21 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     {
         switch($this->orgOpenpsaObtype)
         {
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT:
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML:
+            case self::EMAIL_TEXT:
+            case self::EMAIL_HTML:
                 return $this->send_email_status();
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_SMS:
+            case self::SMS:
                 return $this->send_sms_status();
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_MMS:
+            case self::MMS:
                 return $this->send_mms_status();
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_CALL:
+            case self::CALL:
                 //This quite naturally cannot be handled via web
-                return false;
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_SNAILMAIL:
+            case self::SNAILMAIL:
                 //While this can in theory be automated we don't do it yet
-                return false;
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_FAX:
+            case self::FAX:
                 //See above
-                return false;
-            break;
             default:
                 return false;
-            break;
         }
     }
 
@@ -177,41 +175,29 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send(&$content, &$from, &$subject, &$data_array)
     {
-        //Disable limits, TODO: Make smarter if at all possible, see reindex.php from torben for ideas
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         //Make sure we have smart campaign members up-to-date (this might take a while)
         if (!$this->test_mode)
         {
             $this->_check_campaign_up_to_date();
         }
-        switch($this->orgOpenpsaObtype)
+        switch ($this->orgOpenpsaObtype)
         {
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT:
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML:
+            case self::EMAIL_TEXT:
+            case self::EMAIL_HTML:
                 return $this->send_email($subject, $content, $from, $data_array);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_SMS:
+            case self::SMS:
                 return $this->send_sms($content, $from, $data_array);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_MMS:
+            case self::MMS:
                 return $this->send_mms($content, $from, $data_array);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_CALL:
+            case self::CALL:
                 //This quite naturally cannot be handled via web
-                return false;
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_SNAILMAIL:
+            case self::SNAILMAIL:
                 //While this can in theory be automated we don't do it yet
-                return false;
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_FAX:
+            case self::FAX:
                 //See above
-                return false;
-            break;
             default:
                 return false;
-            break;
         }
     }
 
@@ -223,7 +209,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
         $campaign = new org_openpsa_directmarketing_campaign_dba($this->campaign);
         $_MIDCOM->auth->drop_sudo();
-        if ($campaign->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
+        if ($campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
         {
             $campaign->update_smart_campaign_members();
         }
@@ -234,9 +220,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send_bg($url_base, $batch, &$content, &$from, &$subject, &$data_array)
     {
-        //Disable limits, TODO: Make smarter if at all possible, see reindex.php from torben for ideas
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
         if (   $batch == 1
             && !$this->test_mode)
@@ -252,33 +236,26 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 $this->update();
             }
         }
-        switch($this->orgOpenpsaObtype)
+        switch ($this->orgOpenpsaObtype)
         {
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT:
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML:
+            case self::EMAIL_TEXT:
+            case self::EMAIL_HTML:
                 list ($status, $reg_next) = $this->send_email_bg($batch, $subject, $content, $from, $data_array);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_SMS:
+                break;
+            case self::SMS:
                 list ($status, $reg_next) = $this->send_sms_bg($batch, $content, $from, $data_array);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_MMS:
+                break;
+            case self::MMS:
                 list ($status, $reg_next) = $this->send_mms_bg($batch, $content, $from, $data_array);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_CALL:
+                break;
+            case self::CALL:
                 //This quite naturally cannot be handled via web
-                return false;
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_SNAILMAIL:
+            case self::SNAILMAIL:
                 //While this can in theory be automated we don't do it yet
-                return false;
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_FAX:
+            case self::FAX:
                 //See above
-                return false;
-            break;
             default:
                 return false;
-            break;
         }
 
         debug_add("status: {$status}, reg_next: {$reg_next}");
@@ -329,7 +306,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             // FIXME: Rewrite for collector
             $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt');
             $qb_receipts->add_constraint('message', '=', $this->id);
-            $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
+            $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
             $qb_receipts->add_constraint('person', 'IN', $results_persons);
             $qb_receipts->end_group();
 
@@ -392,16 +369,16 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         if ($this->test_mode)
         {
             debug_add('TEST mode, adding constraints');
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         }
         else
         {
             debug_add('REAL mode, adding constraints');
             //Fail safe way, exclude those we know we do not want, in case some wanted members have incorrect type...
             // FIXME: use NOT IN
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_BOUNCED);
+            $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
+            $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
+            $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::BOUNCED);
         }
         $qb->add_order('person.lastname', 'ASC');
         $qb->add_order('person.firstname', 'ASC');
@@ -422,7 +399,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
         $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt');
         $qb_receipts->add_constraint('message', '=', $this->id);
-        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
+        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $send_receipts = $qb_receipts->count();
 
         return array($valid_members, $send_receipts);
@@ -460,7 +437,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $token .= $tokenchars[$rand(0, strlen($tokenchars) - 1)];
         }
         //If token is not free or (very, very unlikely) matches our dummy token, recurse.
-        if (   !org_openpsa_directmarketing_campaign_message_receipt_dba::token_is_free($token)
+        if (   !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token)
             || $token === 'dummy')
         {
             return $this->_create_email_token();
@@ -511,7 +488,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             || $person->get_parameter('org.openpsa.directmarketing', "send_{$type}_denied"))
         {
             debug_add("Sending {$type} messages to person {$person->rname} is denied, unsubscribing member (member #{$member->id})");
-            $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->update();
             return true;
         }
@@ -532,7 +509,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             || empty($person->guid))
         {
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");
-            $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->update();
             return false;
         }
@@ -579,7 +556,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         }
         $mail = new org_openpsa_mail($data_array['mail_send_backend'], $data_array['mail_send_backend_params']);
         $mail->to = $person->email;
-        $subject = $member->personalize_message($subject, ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT, $person);
+        $subject = $member->personalize_message($subject, self::EMAIL_TEXT, $person);
         if ($this->test_mode)
         {
             $mail->subject = "[TEST] {$subject}";
@@ -599,12 +576,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $mail->headers['List-Unsubscribe'] =  '<' . $member->get_unsubscribe_url(false, $person) . '>';
 
         debug_add('mail->from: ' . $mail->from . ', mail->to: ' . $mail->to . ', mail->subject: ' . $mail->subject);
-        switch($this->orgOpenpsaObtype)
+        switch ($this->orgOpenpsaObtype)
         {
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT:
+            case self::EMAIL_TEXT:
                 $mail->body = $member->personalize_message($content, $this->orgOpenpsaObtype, $person);
-            break;
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML:
+                break;
+            case self::EMAIL_HTML:
                 $mail->html_body = $member->personalize_message($content, $this->orgOpenpsaObtype, $person);
                 if (   array_key_exists('htmlemail_force_text_body', $data_array)
                     && strlen($data_array['htmlemail_force_text_body']) > 0)
@@ -636,11 +613,10 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                     $link_address = str_replace('TOKEN', $token, $data_array['link_detector_address']);
                     $mail->html_body = $this->_insert_link_detector($mail->html_body, $link_address);
                 }
-            break;
+                break;
             default:
                 debug_add('Invalid message type, aborting', MIDCOM_LOG_ERROR);
                 return array(false, $mail);
-            break;
         }
 
         //Go trough DM2 types array for attachments
@@ -697,7 +673,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             debug_add('Mail sent to: ' . $mail->to);
             if (!$this->test_mode)
             {
-                $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_SENT, $token);
+                $member->create_receipt($this->id, org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT, $token);
             }
         }
         else
@@ -878,9 +854,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $this->_qb_common_constaints($qb_mem);
         $valid_members = $qb_mem->count();
 
-        $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt_dba');
+        $qb_receipts = org_openpsa_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->id);
-        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
+        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $send_receipts = $qb_receipts->count();
 
         return array($valid_members, $send_receipts);
@@ -909,7 +885,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             debug_add('SMS sent to: ' . $person->handphone);
             if (!$this->test_mode)
             {
-                $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_SENT);
+                $member->create_receipt($this->id, org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
             }
         }
         else
@@ -1092,7 +1068,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
         $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt');
         $qb_receipts->add_constraint('message', '=', $this->id);
-        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
+        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $send_receipts = $qb_receipts->count();
 
         return array($valid_members, $send_receipts);

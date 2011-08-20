@@ -101,6 +101,10 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
         {
             throw new midcom_error('Failed to run cycle, see debug log for details');
         }
+        if (!$entry->delete())
+        {
+            throw new midcom_error('Could not delete AT entry: ' . midcom_connection::get_error_string());
+        }
     }
 }
 ?>

@@ -1,9 +1,7 @@
 <?php
 $_MIDCOM->auth->require_admin_user();
 
-//Disable limits
-@ini_set('memory_limit', -1);
-@ini_set('max_execution_time', 0);
+midcom::get()->disable_limits();
 
 $json = file_get_contents('/tmp/doors.json');
 
@@ -18,21 +16,21 @@ foreach ($doors->entrances as $entrance)
     $location->longitude = (float) ($entrance->lon / 20037508.34) * 180;
     $location->building = (string) $entrance->title;
     $location->street = (string) $entrance->address;
-    
+
     if (isset($entrance->descr))
     {
         $location->description = (string) $entrance->descr;
     }
-        
+
     if (isset($entrance->url))
     {
         $location->uri = (string) $entrance->url;
     }
-    
+
     // Other metadata
     $location->relation = 20;
     $location->create();
-    
+
     echo "{$location->building}: " . midcom_connection::get_error_string() . "\n";
 }
 echo "</pre>\n";

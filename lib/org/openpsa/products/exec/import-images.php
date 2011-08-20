@@ -21,8 +21,7 @@ if (   !isset($_POST['address'])
 }
 else
 {
-    @ini_set('memory_limit', -1);
-    @ini_set('max_execution_time', 0);
+    midcom::get()->disable_limits();
 
     // Import product images
     $_MIDCOM->componentloader->load_graceful('org.openpsa.products');

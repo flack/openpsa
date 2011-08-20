@@ -56,6 +56,7 @@ div.salesproject div.deliverables ol.deliverable_list li
     border-color: #babdb6;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
+    border-radius: 8px;
 }
 
 div.salesproject div.deliverables ol.deliverable_list .icon
@@ -88,6 +89,7 @@ div.salesproject div.deliverables ol.deliverable_list li h3
     border-bottom: solid 1px #babdb6;
     -moz-border-radius-bottomleft: 8px;
     -webkit-border-bottom-left-radius: 8px;
+    border-bottom-left-radius: 8px;
     display: block;
     line-height: 24px;
     font-weight: bold;

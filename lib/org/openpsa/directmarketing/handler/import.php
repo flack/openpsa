@@ -58,10 +58,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
-        //Disable limits
-        // TODO: Could this be done more safely somehow
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
     }
 
     /**
@@ -229,7 +226,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('person', '=', $person->id);
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $members = $qb->execute_unchecked();
         if (count($members) > 0)
         {
@@ -237,7 +234,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             $member = $members[0];
 
             // Fix http://trac.midgard-project.org/ticket/1112
-            if ($member->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED)
+            if ($member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED)
             {
                 // PONDER: Which code to use ??
                 //$this->_request_data['import_status']['failed_add']++;
@@ -247,7 +244,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 // PONDER: Should we skip any updates, they're usually redundant but ne never knows..
                 return $member;
             }
-            elseif ($member->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER)
+            else if ($member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::NORMAL)
             {
                 // PONDER: What is the difference between these two?
                 $this->_request_data['import_status']['already_subscribed']++;
@@ -255,7 +252,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             }
             else
             {
-                $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
+                $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
                 if ($member->update())
                 {
                     if (array_key_exists('person', $this->_request_data['new_objects']))
@@ -281,7 +278,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             $member = new org_openpsa_directmarketing_campaign_member_dba();
             $member->person = $person->id;
             $member->campaign = $this->_request_data['campaign']->id;
-            $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
             if (!$member->create())
             {
                 $this->_request_data['import_status']['failed_add']++;

@@ -1,9 +1,7 @@
 <?php
 $_MIDCOM->auth->require_admin_user();
 
-//Disable limits
-@ini_set('memory_limit', -1);
-@ini_set('max_execution_time', 0);
+midcom::get()->disable_limits();
 
 $_MIDCOM->load_library('org.openpsa.httplib');
 $http_request = new org_openpsa_httplib();

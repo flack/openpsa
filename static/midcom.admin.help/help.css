@@ -32,6 +32,7 @@ blockquote
 {
     border: 1px solid #826647;
     -moz-border-radius: 8px;
+    border-radius: 8px;
     font-style: italic;
     padding-left: 70px;
     padding-top: 8px;
@@ -111,6 +112,7 @@ div.components h2
     line-height: 22px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 div.components hr
@@ -135,6 +137,7 @@ div.components ul li
     list-style:none;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    border-radius: 6px;
     margin: 6px;
 }
 

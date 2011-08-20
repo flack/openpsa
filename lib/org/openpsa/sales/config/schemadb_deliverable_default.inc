@@ -10,6 +10,7 @@
             'storage' => 'title',
             'type' => 'text',
             'widget'  => 'text',
+            'required' => true,
         ),
         'description' => Array
         (
@@ -327,7 +328,13 @@
             'type'    => 'boolean',
             'widget'  => 'checkbox',
         ),
-
+        'product' => Array
+        (
+            'title' => 'product',
+            'storage' => 'product',
+            'type' => 'number',
+            'widget' => 'hidden',
+        ),
         'pricePerUnit' => Array
         (
             'title' => 'price per unit',

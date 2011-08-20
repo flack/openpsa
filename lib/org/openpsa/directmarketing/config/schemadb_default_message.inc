@@ -18,7 +18,7 @@
             'type' => 'text',
             'type_config' => array
             (
-                'output_mode' => 'markdown' 
+                'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
         ),
@@ -49,9 +49,9 @@
         (
             'title'    => 'content',
             'type'     => 'text',
-            'type_config' => array 
+            'type_config' => array
             (
-                'output_mode' => 'specialchars' 
+                'output_mode' => 'specialchars'
             ),
             'widget'   => 'textarea',
             'storage'  => 'parameter',
@@ -66,7 +66,7 @@
     ),
     'customdata'  => array
     (
-        'org_openpsa_directmarketing_messagetype' => ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT,
+        'org_openpsa_directmarketing_messagetype' => org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT,
     ),
 ),
 'htmlemail' => array (
@@ -89,7 +89,7 @@
             'type' => 'text',
             'type_config' => array
             (
-                'output_mode' => 'markdown' 
+                'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
         ),
@@ -120,9 +120,9 @@
         (
             'title'    => 'content',
             'type'     => 'text',
-            'type_config' => array 
+            'type_config' => array
             (
-                'output_mode' => 'html' 
+                'output_mode' => 'html'
             ),
             'widget'   => 'tinymce',
             'storage'  => 'parameter',
@@ -131,7 +131,7 @@
     ),
     'customdata'  => array
     (
-        'org_openpsa_directmarketing_messagetype' => ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML,
+        'org_openpsa_directmarketing_messagetype' => org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML,
     ),
 ),
 /* TODO: hide newsletter if midcom_helper_find_node_by_component(net.nehmer.blog) returns no results */
@@ -183,7 +183,7 @@
             'type' => 'text',
             'type_config' => array
             (
-                'output_mode' => 'markdown' 
+                'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
         ),
@@ -214,22 +214,22 @@
         (
             'title'    => 'content',
             'type'     => 'text',
-            'type_config' => array 
+            'type_config' => array
             (
-                'output_mode' => 'html' 
+                'output_mode' => 'html'
             ),
             'widget'   => 'tinymce',
             'storage'  => 'parameter',
             'required' => true,
         ),
-        'newsitems' => array 
+        'newsitems' => array
         (
             'title'       => 'number of news items to load',
             'storage'     => 'parameter',
             'type'        => 'select',
             'type_config' => array
             (
-                'options' => array 
+                'options' => array
                 (
                     1 => '1 latest item',
                     2 => '2 latest items',
@@ -244,7 +244,7 @@
     ),
     'customdata'  => array
     (
-        'org_openpsa_directmarketing_messagetype' => ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML,
+        'org_openpsa_directmarketing_messagetype' => org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML,
     ),
 ),
 'sms' => array (
@@ -267,7 +267,7 @@
             'type' => 'text',
             'type_config' => array
             (
-                'output_mode' => 'markdown' 
+                'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
         ),
@@ -298,9 +298,9 @@
         (
             'title'    => 'content',
             'type'     => 'text',
-            'type_config' => array 
+            'type_config' => array
             (
-                'output_mode' => 'specialchars' 
+                'output_mode' => 'specialchars'
             ),
             'widget'   => 'textarea',
             'storage'  => 'parameter',
@@ -309,6 +309,6 @@
     ),
     'customdata'  => array
     (
-        'org_openpsa_directmarketing_messagetype' => ORG_OPENPSA_MESSAGETYPE_SMS,
+        'org_openpsa_directmarketing_messagetype' => org_openpsa_directmarketing_campaign_message_dba::SMS,
     ),
 ),

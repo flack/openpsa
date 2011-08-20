@@ -162,9 +162,9 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     /**
      * Returns string of JS code for opening the new event popup
      */
-    function calendar_newevent_js($node, $start = false, $resource = false, $url_append = '')
+    public static function calendar_newevent_js($node, $start = false, $resource = false, $url_append = '')
     {
-        if (!org_openpsa_calendar_interface::_popup_verify_node($node))
+        if (!self::_popup_verify_node($node))
         {
             return false;
         }
@@ -186,7 +186,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             $url = "{$node[MIDCOM_NAV_FULLURL]}event/new/";
         }
         $url .= $url_append;
-        $js = "window.open('{$url}', 'newevent', '" . org_openpsa_calendar_interface::_js_window_options($height, $width) . "'); return false;";
+        $js = "window.open('{$url}', 'newevent', '" . self::_js_window_options($height, $width) . "'); return false;";
 
         return $js;
     }
@@ -196,9 +196,9 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      *
      * PONDER: In theory we should be able to get the node with just the event guid ?
      */
-    function calendar_editevent_js($event, $node)
+    public static function calendar_editevent_js($event, $node)
     {
-        if (!org_openpsa_calendar_interface::_popup_verify_node($node))
+        if (!self::_popup_verify_node($node))
         {
             return false;
         }
@@ -207,7 +207,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         $width = $node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_width');
 
         $js = "window.open('{$node[MIDCOM_NAV_FULLURL]}event/{$event}/', ";
-        $js .= "'event_{$event}', '" . org_openpsa_calendar_interface::_js_window_options($height, $width) . "'); return false;";
+        $js .= "'event_{$event}', '" . self::_js_window_options($height, $width) . "'); return false;";
 
         return $js;
     }
@@ -215,7 +215,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     /**
      * Returns string of correct window options for JS
      */
-    private function _js_window_options($height, $width)
+    private static function _js_window_options($height, $width)
     {
         $ret = "toolbar=0,";
         $ret .= "location=0,";
@@ -232,7 +232,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     /**
      * Verifies that given node has all we need to construct the popup
      */
-    private function _popup_verify_node($node)
+    private static function _popup_verify_node($node)
     {
         if (   !is_array($node)
             || !array_key_exists(MIDCOM_NAV_FULLURL, $node)

@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING %s for %s
+%s for %s
+---STRINGEND
+
 ---STRING action page_updated
 Page updated
 ---STRINGEND

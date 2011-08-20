@@ -1445,7 +1445,7 @@ class midcom_application
      *     which contains a ready-made permalink.
      * @see set_26_request_metadata()
      */
-    function get_26_request_metadata($context_id = null)
+    public function get_26_request_metadata($context_id = null)
     {
         $context = midcom_core_context::get($context_id);
         if ($context === false)
@@ -1467,6 +1467,23 @@ class midcom_application
         }
 
         return $meta;
+    }
+
+    /**
+     * Helper function that raises some PHP limits for resource-intensive tasks
+     */
+    public function disable_limits()
+    {
+        $stat = @ini_set('max_execution_time', $GLOBALS['midcom_config']['midcom_max_execution_time']);
+        if (false === $stat)
+        {
+            debug_add('ini_set("max_execution_time", ' . $GLOBALS['midcom_config']['midcom_max_execution_time'] . ') returned false', MIDCOM_LOG_WARN);
+        }
+        $stat = @ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+        if (false === $stat)
+        {
+            debug_add('ini_set("memory_limit", ' . $GLOBALS['midcom_config']['midcom_max_memory'] . ') returned false', MIDCOM_LOG_WARN);
+        }
     }
 }
 ?>

@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         debug_add('_on_execute called');
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('archived', '=', 0);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
         $ret = $qb->execute();
         $_MIDCOM->auth->drop_sudo();

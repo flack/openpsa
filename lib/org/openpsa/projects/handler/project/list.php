@@ -148,6 +148,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb = org_openpsa_projects_project::new_query_builder();
         $qb->add_constraint('end', '<', time());
         $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
+        $ret = $qb->execute();
 
         if (count($ret) > 0)
         {

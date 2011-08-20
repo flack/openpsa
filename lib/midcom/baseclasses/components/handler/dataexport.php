@@ -76,9 +76,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     {
         $_MIDCOM->auth->require_valid_user();
 
-        //Disable limits
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         $this->_load_datamanager($this->_load_schemadb($handler_id, $args, $data));
         $this->_objects = $this->_load_data($handler_id, $args, $data);

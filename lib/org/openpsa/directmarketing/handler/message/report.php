@@ -39,9 +39,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $_MIDCOM->auth->require_valid_user();
 
         $this->_request_data['report'] = array();
-        $qb_receipts = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
+        $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->_request_data['message']->id);
-        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
+        $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $receipts = $qb_receipts->execute_unchecked();
         $this->_request_data['report']['receipt_data'] = array();
         $receipt_data =& $this->_request_data['report']['receipt_data'];
@@ -85,7 +85,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $campaign_data['unsubscribed'] = 0;
         $qb_unsub = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_unsub->add_constraint('campaign', '=', $this->_request_data['message']->campaign);
-        $qb_unsub->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
+        $qb_unsub->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $qb_unsub->add_constraint('metadata.revised', '>', date('Y-m-d H:i:s', $first_send));
         $campaign_data['next_message'] = false;
         // Find "next message" and if present use its sendStarted as constraint for this query
@@ -207,7 +207,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                                 (
                                     'property' => 'orgOpenpsaObtype',
                                     'match' => '<>',
-                                    'value' => ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED,
+                                    'value' => org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED,
                                 ),
                                 array
                                 (
@@ -327,7 +327,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     private function _create_campaign_from_link()
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba();
-        $campaign->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART;
+        $campaign->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_dba::TYPE_SMART;
         $eval = '$tmp_array = ' . $_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']] . ';';
         $eval_ret = @eval($eval);
         if ($eval_ret === false)

@@ -1,4 +1,5 @@
 <?php
+midcom::get('auth')->require_admin_user();
 if (!class_exists('org_openpsa_task_old'))
 {
     throw new midcom_error('MgdSchemas for the converter could not be found');
@@ -6,8 +7,7 @@ if (!class_exists('org_openpsa_task_old'))
 
 include MIDCOM_ROOT . '/../tools/project_converter.php';
 
-set_time_limit(50000);
-ini_set('memory_limit', "800M");
+midcom::get()->disable_limits();
 
 while(@ob_end_flush());
 echo "<pre>\n";

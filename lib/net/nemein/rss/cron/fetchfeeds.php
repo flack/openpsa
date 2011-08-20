@@ -26,10 +26,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
             return;
         }
 
-        //Disable limits
-        // TODO: Could this be done more safely somehow
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         // Process lang0 subscriptions first

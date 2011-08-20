@@ -11,15 +11,20 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_campaign_message_receipt_dba extends midcom_core_dbaobject
+class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_campaign_message_receipt';
+    public $_use_rcs = false;
+    public $_use_activitystream = false;
+
+    const SENT = 8500;
+    const DELIVERED = 8501;
+    const RECEIVED = 8502;
+    const FAILURE = 8503;
 
     public function __construct($id = null)
     {
-        $this->_use_rcs = false;
-        $this->_use_activitystream = false;
         parent::__construct($id);
     }
 
@@ -49,10 +54,11 @@ class org_openpsa_directmarketing_campaign_message_receipt_dba extends midcom_co
 
     /**
      * Check whether given token has already been used in the database
+     *
      * @param string $token
      * @return boolean indicating whether token is free or not (true for free == not present)
      */
-    function token_is_free($token, $type = ORG_OPENPSA_MESSAGERECEIPT_SENT)
+    function token_is_free($token, $type = self::SENT)
     {
         $qb = new midgard_query_builder('org_openpsa_campaign_message_receipt');
         $qb->add_constraint('token', '=', $token);

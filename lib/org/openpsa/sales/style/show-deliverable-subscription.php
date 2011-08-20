@@ -8,8 +8,11 @@ try
 {
     $product = org_openpsa_products_product_dba::get_cached($data['deliverable']->product);
     $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
-    $unit = $_MIDCOM->i18n->get_string($unit_options[$product->unit], 'org.openpsa.products');
-    $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
+    if (array_key_exists($product->unit, $unit_options))
+    {
+        $unit = $_MIDCOM->i18n->get_string($unit_options[$product->unit], 'org.openpsa.products');
+        $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
+    }
 }
 catch (midcom_error $e)
 {

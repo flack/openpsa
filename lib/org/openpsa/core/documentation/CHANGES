@@ -34,7 +34,7 @@ Legend:
 
 2006-03-21 rambo
   ! added new object org_openpsa_link_log
-  + new constant: ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_BOUNCED
+  + new constant: org_openpsa_directmarketing_campaign_member_dba::BOUNCED
 
 2006-02-16 rambo & jlz
   ! message_receipt added two properties: token & bounced

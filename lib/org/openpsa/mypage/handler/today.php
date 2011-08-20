@@ -92,23 +92,31 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 *60 ; //7 days
 
-        $this->_request_data['journal_constraints'] = array();
-        //just show entries of current_user
-        $this->_request_data['journal_constraints'][] = array(
-                        'property' => 'metadata.creator',
-                        'operator' => '=',
-                        'value' => $_MIDCOM->auth->user->guid,
-                        );
-        $this->_request_data['journal_constraints'][] = array(
-                        'property' => 'followUp',
-                        'operator' => '<',
-                        'value' => $this->_request_data['day_start'] + $time_span,
-                        );
-        $this->_request_data['journal_constraints'][] = array(
-                        'property' => 'closed',
-                        'operator' => '=',
-                        'value' => false,
-                        );
+        $this->_request_data['journal_constraints'] = array
+        (
+            //just show entries of current_user
+            array(
+                'property' => 'metadata.creator',
+                'operator' => '=',
+                'value' => $_MIDCOM->auth->user->guid,
+            ),
+            //only show entries with followUp set and within the next 7 days
+            array(
+                'property' => 'followUp',
+                'operator' => '<',
+                'value' => $this->_request_data['day_start'] + $time_span,
+            ),
+            array(
+                'property' => 'followUp',
+                'operator' => '>',
+                'value' => 0,
+            ),
+            array(
+                'property' => 'closed',
+                'operator' => '=',
+                'value' => false,
+            )
+        );
     }
 
     /**

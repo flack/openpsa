@@ -96,8 +96,8 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         debug_add('message type: ' . $data['message_obj']->orgOpenpsaObtype);
         switch($data['message_obj']->orgOpenpsaObtype)
         {
-            case ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT:
-            case ORG_OPENPSA_MESSAGETYPE_SMS:
+            case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
+            case org_openpsa_directmarketing_campaign_message_dba::SMS:
                 debug_add('Forcing content type: text/plain');
                 $_MIDCOM->cache->content->content_type('text/plain');
             break;

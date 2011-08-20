@@ -582,8 +582,6 @@ class midcom_baseclasses_core_dbobject
     {
         $undeleted_size = 0;
 
-        $ref = midcom_helper_reflector_tree::get($type);
-
         if (!is_array($guids))
         {
             $guids = array
@@ -643,7 +641,7 @@ class midcom_baseclasses_core_dbobject
 
             //FIXME: are we sure we want to undelete all children here unconditionally, shouldn't it be left as UI decision ??
             // List all deleted children
-            $children_types = $ref->get_child_objects($object, true);
+            $children_types = midcom_helper_reflector_tree::get_child_objects($object, true);
 
             if (empty($children_types))
             {
@@ -748,7 +746,6 @@ class midcom_baseclasses_core_dbobject
     {
         $purged_size = 0;
 
-        $ref = midcom_helper_reflector_tree::get($type);
         foreach ($guids as $guid)
         {
             $object = midcom_helper_reflector::get_object($guid, $type);
@@ -760,7 +757,7 @@ class midcom_baseclasses_core_dbobject
             }
 
             // first kill your children
-            $children_types = $ref->get_child_objects($object, true);
+            $children_types = midcom_helper_reflector_tree::get_child_objects($object, true);
 
             if (is_array($children_types))
             {

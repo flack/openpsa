@@ -60,6 +60,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $this->_deliverable->salesproject = $this->_salesproject->id;
         $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
+        $this->_deliverable->orgOpenpsaObtype = $this->_product->delivery;
 
         if (! $this->_deliverable->create())
         {

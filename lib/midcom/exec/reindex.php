@@ -80,8 +80,8 @@ if (!class_exists('org_openpsa_httplib'))
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 
-debug_add("Setting Memorylimit to configured value of {$GLOBALS['midcom_config']['indexer_reindex_memorylimit']} MB");
-ini_set('memory_limit', "{$GLOBALS['midcom_config']['indexer_reindex_memorylimit']}M");
+debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
+ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
 
 $nap = new midcom_helper_nav();
 $nodes = Array();

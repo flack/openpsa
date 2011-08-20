@@ -343,12 +343,12 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $this->_topic->require_do('midgard:create');
         $_MIDCOM->cache->content->enable_live_mode();
 
+        //Disable limits
+        @ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+        @ini_set('max_execution_time', 0);
+
         if ($handler_id == 'feeds_fetch')
         {
-            //Disable limits
-            @ini_set('memory_limit', -1);
-            @ini_set('max_execution_time', 0);
-
             $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
 
             $fetcher = new net_nemein_rss_fetch($data['feed']);
@@ -359,10 +359,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         }
         else
         {
-            //Disable limits
-            @ini_set('memory_limit', -1);
-            @ini_set('max_execution_time', 0);
-
             $data['items'] = array();
             $qb = net_nemein_rss_feed_dba::new_query_builder();
             $qb->add_order('title');

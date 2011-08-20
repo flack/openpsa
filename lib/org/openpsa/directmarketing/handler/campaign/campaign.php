@@ -95,7 +95,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
             )
         );
 
-        if ($this->_campaign->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
+        if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
         {
             //Edit query parameters button in case 1) not in edit mode 2) is smart campaign 3) can edit
             $this->_view_toolbar->add_item
@@ -144,8 +144,8 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         // List members of this campaign
         $qb = new org_openpsa_qbpager_direct('org_openpsa_campaign_member', 'campaign_members');
         $qb->add_constraint('campaign', '=', $data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
-        $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $qb->add_constraint('person.metadata.deleted', '=', false);
 
         // Set the order

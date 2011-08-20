@@ -84,7 +84,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
      *
      * Returns true if word is free, false if reserved
      */
-    function node_wikiword_is_free(&$node, $wikiword)
+    public static function node_wikiword_is_free(&$node, $wikiword)
     {
         if (empty($node))
         {

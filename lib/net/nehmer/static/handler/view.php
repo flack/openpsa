@@ -11,14 +11,12 @@
  *
  * @package net.nehmer.static
  */
-
 class net_nehmer_static_handler_view extends midcom_baseclasses_components_handler
 {
     /**
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -26,7 +24,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * The article to display
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article = null;
 
@@ -34,7 +31,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * The Datamanager of the article to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
     private $_datamanager = null;
 
@@ -152,7 +148,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
         return false;
     }
-
 
     /**
      * Looks up an article to display. If the handler_id is 'index', the index article is tried to be

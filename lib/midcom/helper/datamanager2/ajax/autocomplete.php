@@ -132,7 +132,11 @@ class midcom_helper_datamanager2_ajax_autocomplete
             {
                 $field_type = $reflector->get_midgard_type($field);
                 $operator = 'LIKE';
-
+                if (strpos($field, '.'))
+                {
+                    //TODO: This should be resolved properly
+                    $field_type = MGD_TYPE_STRING;
+                }
                 switch ($field_type)
                 {
                     case MGD_TYPE_GUID:

@@ -1,10 +1,10 @@
-'default' => array 
+'default' => array
 (
     'description' => 'campaign',
-    'fields'      => array 
+    'fields'      => array
     (
         // Metadata
-        'title' => array 
+        'title' => array
         (
             // COMPONENT-REQUIRED
             'title'    => 'title',
@@ -13,17 +13,17 @@
             'storage'  => 'title',
             'required' => true,
         ),
-        'type' => array 
+        'type' => array
         (
             'title'       => 'type',
             'storage'     => 'orgOpenpsaObtype',
             'type'        => 'select',
             'type_config' => array
             (
-                'options' => array 
+                'options' => array
                 (
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN       => 'normal campaign',
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART => 'smart campaign',
+                    org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL => 'normal campaign',
+                    org_openpsa_directmarketing_campaign_dba::TYPE_SMART => 'smart campaign',
                 ),
             ),
             'widget'      => 'select',
@@ -33,13 +33,13 @@
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => array 
-            ( 
-                'output_mode' => 'markdown' 
+            'type_config' => array
+            (
+                'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
         ),
-        'testers' => array 
+        'testers' => array
         (
             'title'       => 'testers',
             'storage'     => null,
@@ -55,7 +55,7 @@
                 'require_corresponding_option' => false,
                 'additional_fields' => array
                 (
-                    'orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER,
+                    'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_member_dba::TESTER,
                 ),
             ),
             'widget' => 'chooser',
@@ -97,16 +97,16 @@
                 ),
                 'searchfields' => array
                 (
-                    'firstname', 
-                    'lastname', 
-                    'email', 
+                    'firstname',
+                    'lastname',
+                    'email',
                     'username',
                     'handphone',
                 ),
                 'auto_wildcards' => 'both',
             ),
         ),
-        'orgOpenpsaAccesstype' => array 
+        'orgOpenpsaAccesstype' => array
         (
             'title'       => 'access type',
             'storage'     => 'orgOpenpsaAccesstype',
@@ -117,7 +117,7 @@
             ),
             'widget'      => 'select',
         ),
-        'orgOpenpsaOwnerWg' => array 
+        'orgOpenpsaOwnerWg' => array
         (
             'title'       => 'workgroup',
             'storage'     => 'orgOpenpsaOwnerWg',

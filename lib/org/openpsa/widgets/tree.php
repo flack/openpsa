@@ -87,7 +87,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
             return;
         }
 
-        $identifier = 'org_openpsa_widgets_treemenu_' . $this->_object_class;
+        $identifier = 't_' . md5('org_openpsa_widgets_treemenu_' . $this->_object_class);
 
         echo '<div class="openpsa-dynatree-container" id="' . $identifier . "\">\n";
         $this->_render_items($items);

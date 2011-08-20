@@ -63,7 +63,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         }
 
         //We should not fall this far trough
-        throw new midom_error('Unknown error.');
+        throw new midcom_error('Unknown error.');
     }
 
     private function _redirect()
@@ -113,7 +113,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         $this->_request_data['reply_mode'] = 'redirect';
         if (!isset($_POST['org_openpsa_projects_workflow_action_redirect']))
         {
-            //NOTE: This might header not be trustworthy...
+            //NOTE: This header might not be trustworthy...
             $this->_request_data['redirect_to'] = $_SERVER['HTTP_REFERER'];
         }
         else

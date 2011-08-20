@@ -111,6 +111,7 @@ p
   margin-bottom: 6px;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
 
 #navigation div.section.selected
@@ -149,6 +150,7 @@ p
     margin-top: 1px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li a:hover
 {
@@ -187,14 +189,17 @@ p
     font-size: 100%;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 #navigation div.expanded h3
 {
     -moz-border-radius-bottomleft: 0;
     -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
     -moz-border-radius-bottomright: 0;
     -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 #navigation h3 a
@@ -221,6 +226,7 @@ p
   padding: 1em;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
 #content div.page-title
 {
@@ -232,6 +238,7 @@ p
   margin-bottom: 0;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
 
 * html #content div.page-title
@@ -295,6 +302,7 @@ p
     background-color: #EEEEEC;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    border-radius: 6px;
     padding: 2px 6px;
     margin-bottom: 0.5em
 }
@@ -434,6 +442,7 @@ p
     border-bottom: 3px solid #babdb6;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
 #container a:link,
@@ -466,8 +475,10 @@ p
   line-height: 22px;
   -moz-border-radius-bottomleft: 6px;
   -webkit-border-bottom-left-radius: 6px;
+  border-bottom-left-radius: 6px;
   -moz-border-radius-bottomright: 6px;
   -webkit-border-bottom-right-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 * html #container #toolbar ul
@@ -491,6 +502,7 @@ p
   display: inline-block;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+  border-radius: 6px;
   padding: 4px;
   margin: 0;
   white-space: nowrap;

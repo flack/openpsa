@@ -1,8 +1,7 @@
 <?php
 $_MIDCOM->auth->require_admin_user();
 
-@ini_set('memory_limit', -1);
-@ini_set('max_execution_time', 0);
+midcom::get()->disable_limits();
 
 $qb = midcom_db_attachment::new_query_builder();
 $qb->add_order('metadata.created', 'DESC');

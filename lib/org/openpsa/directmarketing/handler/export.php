@@ -109,13 +109,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         }
     }
 
-    private function _disable_limits()
-    {
-        //Disable limits
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -125,22 +118,20 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     {
         $this->_prepare_handler($args);
 
-        if (   !isset($args[1])
-            || empty($args[1]))
+        if (empty($args[1]))
         {
             debug_add('Filename part not specified in URL, generating');
             //We do not have filename in URL, generate one and redirect
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate("{$prefix}campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
+            $_MIDCOM->relocate("campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
             // This will exit
         }
-        $this->_disable_limits();
+        midcom::get()->disable_limits();
 
         $this->_request_data['export_rows'] = array();
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_members->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
-        $qb_members->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
+        $qb_members->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         // PONDER: Filter by status (other than tester) ??
         $qb_members->add_order('person.lastname', 'ASC');
         $qb_members->add_order('person.firstname', 'ASC');

@@ -26,9 +26,9 @@
             (
                 'options' => Array
                 (
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_INTERVIEWED => 'interviewed',
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER => 'waiting',
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED => 'unsubscribed',
+                    org_openpsa_directmarketing_campaign_member_dba::INTERVIEWED => 'interviewed',
+                    org_openpsa_directmarketing_campaign_member_dba::NORMAL => 'waiting',
+                    org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED => 'unsubscribed',
                 ),
             ),
             'widget' => 'select',

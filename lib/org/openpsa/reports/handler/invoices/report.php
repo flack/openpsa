@@ -13,6 +13,8 @@
  */
 class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_handler_base
 {
+    private $_sales_url;
+
     public function _on_initialize()
     {
         org_openpsa_widgets_contact::add_head_elements();
@@ -84,19 +86,29 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         {
             $invoice = new org_openpsa_invoices_invoice_dba();
             $invoice->customer = $salesproject->customer;
+            $invoice->customerContact = $salesproject->customerContact;
             $invoice->owner = $salesproject->owner;
             $invoice->sum = $invoice_sum;
 
             $invoice->sent = $time;
             $invoice->due = ($invoice->get_default_due() * 3600 * 24) + $time;
             $invoice->vat = $invoice->get_default_vat();
+
             $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
+            if ($this->_sales_url)
+            {
+                $invoice->description = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice->description . '</a>';
+            }
 
             $invoice->paid = $invoice->due;
 
             $invoices[] = $invoice;
 
-            $time = $scheduler->calculate_cycle_next($time);
+            if (!$time = $scheduler->calculate_cycle_next($time))
+            {
+                debug_add('Failed to calculate timestamp for next cycle, exiting', MIDCOM_LOG_WARN);
+                break;
+            }
         }
 
         return $invoices;
@@ -154,15 +166,20 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     {
         if ($status == 'scheduled')
         {
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            $this->_sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
             return $this->_get_scheduled_invoices();
         }
 
-        // List invoices
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->begin_group('AND');
-            $qb->add_constraint($this->_request_data['date_field'], '>=', $this->_request_data['start']);
-            $qb->add_constraint($this->_request_data['date_field'], '<', $this->_request_data['end']);
-        $qb->end_group();
+
+        if ($status != 'unsent')
+        {
+            $qb->begin_group('AND');
+                $qb->add_constraint($this->_request_data['date_field'], '>=', $this->_request_data['start']);
+                $qb->add_constraint($this->_request_data['date_field'], '<', $this->_request_data['end']);
+            $qb->end_group();
+        }
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);

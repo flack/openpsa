@@ -41,6 +41,14 @@ $mgd_defaults = array
 
 $GLOBALS['midcom_config_local'] = array();
 
+if (   function_exists('gc_enabled')
+    && gc_enabled())
+{
+    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
+    gc_disable();
+}
+
+
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
@@ -50,6 +58,38 @@ if (extension_loaded('midgard2'))
     }
 
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
+
+    // Open connection
+    $midgard = midgard_connection::get_instance();
+
+    // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
+    if (   !$midgard->is_connected()
+        && $path = ini_get('midgard.configuration_file'))
+    {
+        $config = new midgard_config();
+        $config->read_file_at_path($path);
+        $midgard->open_config($config);
+    }
+
+    // if we still can't connect to a DB, we'll create a new one
+    if (!$midgard->is_connected())
+    {
+        $config = new midgard_config();
+        $config->dbtype = 'SQLite';
+        $config->database = 'openpsa_test';
+        $config->blobdir = "/tmp/openpsa_test";
+        $config->tablecreate = true;
+        $config->tableupdate = true;
+        $config->loglevel = 'critical';
+
+        if (!$midgard->open_config($config))
+        {
+            throw new Exception('Could not open Midgard connection to test database: ' . $midgard->get_error_string());
+        }
+        require_once dirname(__FILE__) . '/../tools/bootstrap.php';
+        openpsa_prepare_database($config);
+        $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
+    }
 
     // Initialize the $_MIDGARD superglobal
     $_MIDGARD = $mgd_defaults;

@@ -82,7 +82,7 @@ function hideElement(element)
             //TODO: Localize, use proper constants, better icon for bounce etc
             $delete_string = sprintf($data['l10n']->get('remove %s from campaign'), $member->name);
             $contact->prefix_html .= '<input type="image" style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" class="delete" id="org_openpsa_directmarketing_unsubscribe-' . $member->guid . '" onclick="org_openpsa_directmarketing_ajax_unsubscribe(\'' . $member->guid . '\', \'' . $data['memberships'][$k]->guid . '\')" value="' . $delete_string . '" title="' . $delete_string . '" alt="' . $delete_string . '" />';
-            if ($data['memberships'][$k]->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_BOUNCED)
+            if ($data['memberships'][$k]->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::BOUNCED)
             {
                 $bounce_string = sprintf($data['l10n']->get('%s has bounced'), $member->email);
                 $contact->prefix_html .= '<img style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/repair.png" class="delete" id="org_openpsa_directmarketing_bounced-' . $member->guid . '" title="' . $bounce_string . '" alt="' . $bounce_string . '" />';
