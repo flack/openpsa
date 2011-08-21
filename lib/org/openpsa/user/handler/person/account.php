@@ -114,7 +114,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _generate_password()
     {
-        $this->_request_data["default_password"] = self::generate_password($this->_config->get('default_password_length'));
+        $this->_request_data["default_password"] = org_openpsa_user_accounthelper::generate_password($this->_config->get('default_password_length'));
     }
 
     /**
