@@ -9,6 +9,8 @@
  */
 'verify_imagemagick' => true,
 
+'schemadb_delete' => "file://midcom/helper/datamanager2/config/schemadb_default_delete.inc",
+
 // TinyMCE Defaults
 // The Theme is only used if the config snippet is not set (an invalid snippet name
 // will be silently ignored).
