@@ -54,10 +54,6 @@
         'net.nehmer.markdown' => array(),
         'org.openpsa.notifications' => array(),
         'org.openpsa.qbpager' => array(),
-        'Text_Password' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),
