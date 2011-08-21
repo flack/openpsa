@@ -33,7 +33,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         {
             org_openpsa_helpers::dm2_savecancel($this);
         }
-
+        else if ($this->_mode == 'delete')
+        {
+            org_openpsa_helpers::dm2_savecancel($this, 'delete');
+        }
         if ($this->_mode == 'create')
         {
             return;

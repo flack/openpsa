@@ -283,6 +283,10 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             // Add toolbar items
             org_openpsa_helpers::dm2_savecancel($this);
         }
+        else if ($this->_mode == 'delete')
+        {
+            org_openpsa_helpers::dm2_savecancel($this, 'delete');
+        }
         //check if save-pdf should be shown in toolbar & if invoice is unsent
         if (   $this->_config->get('invoice_pdfbuilder_class')
             && isset($this->_object)
