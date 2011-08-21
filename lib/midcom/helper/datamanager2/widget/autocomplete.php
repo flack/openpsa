@@ -425,6 +425,10 @@ EOT;
      */
     public function get_default()
     {
+        if (sizeof($this->_type->selection) == 0)
+        {
+            return null;
+        }
         $defaults = array();
         foreach ($this->_type->selection as $key)
         {

@@ -174,11 +174,6 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         return true;
     }
 
-    function get_default()
-    {
-        return '';
-    }
-
     /**
      * When syncing data we clear the capatcha data in the session.
      */

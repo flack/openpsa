@@ -15,7 +15,7 @@
  * any standard m:n relationship.
  *
  * The member objects used to construct this mapping must be fully
- * qualified DBA objects where the user owning the master object has full control So
+ * qualified DBA objects where the user owning the master object has full control, so
  * that the objects can be updated accordingly. It is recommended to make the member
  * objects children of the master objects. In addition, edit, delete and create rights
  * should always go together.
@@ -47,7 +47,7 @@
  * wrong is specified there, it will surface during runtime, as invalid mapping entries
  * will be silently ignored (and thus saving won't work).
  *
- * This type should be set to a null storage location, as the m:n mapping entries do not
+ * This type should be set to a null storage location
  *
  *
  * <b>Available configuration options:</b>
@@ -110,7 +110,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    var $mapping_class_name = null;
+    public $mapping_class_name = null;
 
     /**
      * Mandatory option. Holds the fieldname containing
@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    var $master_fieldname = null;
+    public $master_fieldname = null;
 
     /**
      * Mandatory option. Holds the fieldname containing
@@ -126,7 +126,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    var $member_fieldname = null;
+    public $member_fieldname = null;
 
     /**
      * Set this to true if you want the ID instead of the GUID
@@ -134,7 +134,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var boolean
      */
-    var $master_is_id = false;
+    public $master_is_id = false;
 
     /**
      * This SQL LIKE compatible constraint limits the number of valid member keys if set
@@ -142,7 +142,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    var $member_limit_like = null;
+    public $member_limit_like = null;
 
     /**
      * Set this to false to use with chooser, this skips making sure the key exists in option list
@@ -309,11 +309,11 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     /**
      * Reads all entries from the mapping table. This overrides the base types I/O code completely.
      *
-     * @var mixed $source UNUSED.
+     * @var mixed $source
      */
     function convert_from_storage ($source)
     {
-        $this->selection = Array();
+        $this->selection = array();
         // Check for the defaults section first
         if (is_array($source))
         {

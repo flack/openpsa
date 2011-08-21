@@ -137,8 +137,8 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * @param string $name The name of the field to which this widget is bound.
      * @param Array $config The configuration data which should be used to customize the widget.
-     * @param midcom_helper_datamanager2_schema &$schema A reference to the full schema object.
-     * @param midcom_helper_datamanager2_type &$type A reference to the type to which we are bound.
+     * @param midcom_helper_datamanager2_schema $schema The full schema object.
+     * @param midcom_helper_datamanager2_type $type The type to which we are bound.
      * @param string $namespace The namespace to use including the trailing underscore.
      * @param boolean $initialize_dependencies Whether to load JS and other dependencies on initialize
      * @return boolean Indicating success. If this is false, the type will be unusable.
@@ -236,8 +236,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     }
 
     /**
-     * This call, which must be overridden by subclasses, adds the necessary form elements
-     * to the form passed by reference.
+     * This call adds the necessary form elements to the form passed by reference.
      */
     abstract function add_elements_to_form($attributes);
 
@@ -246,13 +245,14 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * You may either return a single value for simple types, or an array of form
      * field name / value pairs in case of composite types. A value of null indicates
-     * no applicable default.
+     * no applicable default from the type or storage, in which case defaults from the
+     * handler or the DM2 schema can be applied.
      *
      * This default implementation returns null unconditionally.
      *
      * @return mixed The default value as outlined above.
      */
-    function get_default()
+    public function get_default()
     {
         return null;
     }
@@ -306,7 +306,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * The default implementation calls the type's convert_to_html method.
      */
-    function render_content ()
+    public function render_content()
     {
         return $this->_type->convert_to_html();
     }
@@ -319,7 +319,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * This maps to the HTML_QuickForm_element::freeze() function.
      */
-    function freeze()
+    public function freeze()
     {
         $element = $this->_form->getElement($this->name);
         if (method_exists($element, 'freeze'))
@@ -336,7 +336,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * This maps to the HTML_QuickForm_element::unfreeze() function.
      */
-    function unfreeze()
+    public function unfreeze()
     {
         $element = $this->_form->getElement($this->name);
         $element->unfreeze();
@@ -352,7 +352,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * @return boolean True if the element is frozen, false otherwise.
      */
-    function is_frozen()
+    public function is_frozen()
     {
         $element = $this->_form->getElement($this->name);
         return $element->isFrozen();

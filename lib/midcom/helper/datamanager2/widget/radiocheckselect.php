@@ -108,25 +108,29 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     {
         if ($this->_type->allow_multiple)
         {
-            $defaults = Array();
+            if (sizeof($this->_type->selection) == 0)
+            {
+                return null;
+            }
+            $defaults = array();
             foreach ($this->_type->selection as $key)
             {
                 $defaults[$key] = true;
             }
-            return Array($this->name => $defaults);
+            return array($this->name => $defaults);
         }
         else
         {
             if (count($this->_type->selection) > 0)
             {
-                return Array($this->name => $this->_type->selection[0]);
+                return array($this->name => $this->_type->selection[0]);
             }
             else if ($this->_field['required'])
             {
                 // Select the first radiobox always when this is a required field:
                 $all = $this->_type->list_all();
                 reset($all);
-                return Array($this->name => key($all));
+                return array($this->name => key($all));
             }
             else
             {

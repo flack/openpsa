@@ -1324,17 +1324,21 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     }
 
     /**
-      * The defaults of the widget are mapped to the current selection.
-      */
-     function get_default()
-     {
-         $defaults = array();
-         foreach ($this->_type->selection as $key)
-         {
-             $defaults[$key] = true;
-         }
-         return array($this->name => $defaults);
-     }
+     * The defaults of the widget are mapped to the current selection.
+     */
+    function get_default()
+    {
+        if (sizeof($this->_type->selection) == 0)
+        {
+            return null;
+        }
+        $defaults = array();
+        foreach ($this->_type->selection as $key)
+        {
+            $defaults[$key] = true;
+        }
+        return array($this->name => $defaults);
+    }
 
     /**
      * Reads the given get/post data and puts to type->selection

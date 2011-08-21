@@ -70,28 +70,28 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
      *
      * @var string
      */
-    var $class = null;
+    public $class = null;
 
     /**
      * Which component the searched class belongs to
      *
      * @var string
      */
-    var $component = null;
+    public $component = null;
 
     /**
      * Object's id/guid which is to be tagged
      *
      * @var string
      */
-    var $object_id = null;
+    public $object_id = null;
 
     /**
      * Field/property to use as the key for object_id
      *
      * @var string
      */
-    var $id_field = null;
+    public $id_field = null;
 
     /**
      * The javascript to append to the page
@@ -119,20 +119,15 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
             return false;
         }
 
-        if (   !isset($this->component)
-            || empty($this->component))
+        if (   empty($this->component)
+            && empty($this->_type->option_callback))
         {
-            if (   !isset($this->_type->option_callback)
-                || empty($this->_type->option_callback))
-            {
-                debug_add("You must give either object to be edited or callback for action handling!",
-                    MIDCOM_LOG_ERROR);
-                return false;
-            }
+            debug_add("You must give either object to be edited or callback for action handling!",
+                MIDCOM_LOG_ERROR);
+            return false;
         }
 
-        if (   isset($this->component)
-            || !empty($this->component))
+        if (!empty($this->component))
         {
             $object = $this->_type->storage->object;
             $idfield = $this->id_field;
@@ -163,7 +158,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
         return true;
     }
 
-    function _init_widget_options()
+    private function _init_widget_options()
     {
         $this->_js_widget_options['widget_type_name'] = "'{$this->name}'";
         $this->_js_widget_options['min_chars'] = 1;
@@ -336,18 +331,22 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
       */
      function get_default()
      {
-         $defaults = Array();
+         if (sizeof($this->_type->selection) == 0)
+         {
+             return null;
+         }
+         $defaults = array();
          foreach ($this->_type->selection as $key)
          {
              $defaults[$key] = true;
          }
-         return Array($this->name => $defaults);
+         return array($this->name => $defaults);
      }
 
     /**
      * Reads the given get/post data and puts to type->selection
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $this->_type->selection = Array();
         if (!isset($results["{$this->name}_tags"]))
@@ -367,20 +366,22 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
     /**
      * @todo Implement freezing and unfreezing
      */
-    function freeze()
+    public function freeze()
     {
         //We should freeze the inputs here
     }
-    function unfreeze()
+
+    public function unfreeze()
     {
         //We should unfreeze the inputs here
     }
-    function is_frozen()
+
+    public function is_frozen()
     {
         return false;
     }
 
-    function render_content()
+    public function render_content()
     {
         echo '<ul>';
         if (count($this->_type->selection) == 0)

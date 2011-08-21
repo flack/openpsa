@@ -87,7 +87,7 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $attributes = array_merge($attributes, array
         (
@@ -108,12 +108,12 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
         $this->_form->addElement('static', "{$this->name}_taglist", '', $this->_taglist_html);
     }
 
-    function get_default()
+    public function get_default()
     {
         return $this->_type->value;
     }
 
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         if (   $this->allow_other
             || empty($results[$this->name]))
@@ -144,7 +144,7 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
         $this->_type->value = implode(' ', $tags_to_save);
     }
 
-    function _generate_tag_list()
+    private function _generate_tag_list()
     {
         $html = '';
         $tags = net_nemein_tag_handler::get_tags();

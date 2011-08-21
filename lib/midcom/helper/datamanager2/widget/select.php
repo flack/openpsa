@@ -150,8 +150,14 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
     /**
      * The defaults of the widget are mapped to the current selection.
      */
-    function get_default()
+    public function get_default()
     {
+        if (   empty($this->_type->selection)
+            && (    !$this->_type->allow_other
+                 || empty($this->_type->others)))
+        {
+            return null;
+        }
         if ($this->_type->allow_other)
         {
             return Array
@@ -165,16 +171,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
         }
         else
         {
-            if (count($this->_type->selection) > 0)
-            {
-                return Array($this->name => $this->_type->selection);
-            }
-            else if (! $this->_type->allow_multiple)
-            {
-                // Select the first element of a dropdown always:
-                reset($this->_all_elements);
-                return Array($this->name => key($this->_all_elements));
-            }
+            return array($this->name => $this->_type->selection);
         }
     }
 
@@ -182,7 +179,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
      * The current selection is compatible to the widget value only for multiselects.
      * We need minor typecasting otherwise.
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $selection = $this->_select_element->getSelected();
         if ($selection === null)

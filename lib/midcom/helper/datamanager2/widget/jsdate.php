@@ -9,7 +9,7 @@
 /**
  * Datamanager 2 JS date widget
  *
- * This widget is built around the JS date calendar, it requires the date type or a subclass thereof.
+ * This widget is built around the jQuery UI datepickerr, it requires the date type or a subclass thereof.
  *
  * <b>Available configuration options:</b>
  *
@@ -32,42 +32,42 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      *
      * @var boolean
      */
-    var $show_time = true;
+    public $show_time = true;
 
     /**
      * Indicates whether the timestamp should include seconds or not.
      *
      * @var boolean
      */
-    var $hide_seconds = true;
+    public $hide_seconds = true;
 
     /**
      * Minimum Year available for selection.
      *
      * @var int
      */
-    var $minyear = 0;
+    public $minyear = 0;
 
     /**
      * Maximum Year available for selection.
      *
      * @var int
      */
-    var $maxyear = 9999;
+    public $maxyear = 9999;
 
     /**
      * Used date format
      *
      * @var String
      */
-    var $format = '%Y-%m-%d %H:%M';
+    public $format = '%Y-%m-%d %H:%M';
 
     /**
      * When should the calendar be shown (possible values: button, focus, both)
      *
      * @var String
      */
-    var $showOn = 'both';
+    public $showOn = 'both';
 
     /**
      * Adapts the min/maxyear defaults if the base date is set to UNIXDATE storage.
@@ -308,6 +308,10 @@ EOT;
      */
     function get_default()
     {
+        if (null === $this->_type->value)
+        {
+            return null;
+        }
         if ($this->_type->value->year == 0)
         {
             $this->_type->value->year = '0000';

@@ -11,7 +11,7 @@
  *
  * This type encapsulates a sinlge uploaded image along with an optional number of
  * derived images like thumbnails. Both the main image and the derived thumbnails
- * will be ran through a defined filter chain. The originally uploaded file can be
+ * will be run through a defined filter chain. The originally uploaded file can be
  * kept optionally.
  *
  * The original image will be available under the "original" identifier unless
@@ -88,7 +88,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var boolean
      */
-    var $keep_original = false;
+    public $keep_original = false;
 
     /**
      * The filter chain to use to create the "main" image.
@@ -96,14 +96,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * @var string
      * @see midcom_helper_imagefilter
      */
-    var $filter_chain = null;
+    public $filter_chain = null;
 
     /**
      * The list of derived images to construct.
      *
      * @var array
      */
-    var $derived_images = null;
+    public $derived_images = null;
 
     /**
      * The maximum width/height (in this order) of the thumbnail to be auto-created.
@@ -114,15 +114,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var array
      */
-    var $auto_thumbnail = null;
+    public $auto_thumbnail = null;
 
     /**
-     * The image title entered by the user. Stored in each attachments
-     * title field.
+     * The image title entered by the user. Stored in each attachment's title field.
      *
      * @var string
      */
-    var $title = '';
+    public $title = '';
 
     /**
      * The original filename of the uploaded file.
