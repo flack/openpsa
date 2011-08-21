@@ -39,10 +39,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     /**
      * Loads and prepares the schema database.
      *
-     * Special treatment is done for the name field, which is set readonly for non-creates
-     * if the simple_name_handling config option is set. (using an auto-generated urlname based
-     * on the title, if it is missing.)
-     *
      * The operations are done on all available schemas within the DB.
      */
     private function _load_schemadb()
