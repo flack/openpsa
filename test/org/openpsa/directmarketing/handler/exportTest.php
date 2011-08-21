@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
 
     public function testHandler_csv()
     {
-        $helper = new org_openpsa_directmarketing_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
@@ -42,7 +42,7 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
 
     public function testHandler_csv2()
     {
-        $helper = new org_openpsa_directmarketing_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');

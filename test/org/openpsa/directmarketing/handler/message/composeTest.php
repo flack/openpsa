@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_composeTest extends openpsa_te
 
     public function testHandler_compose()
     {
-        $helper = new org_openpsa_directmarketing_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper($this);
         $message = $helper->get_message();
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
@@ -42,7 +42,7 @@ class org_openpsa_directmarketing_handler_message_composeTest extends openpsa_te
 
     public function testHandler_compose4person()
     {
-        $helper = new org_openpsa_directmarketing_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper($this);
         $message = $helper->get_message();
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');

@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_campaign_helper
+class openpsa_test_campaign_helper
 {
     private $_testcase;
 

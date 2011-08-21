@@ -23,7 +23,7 @@ class org_openpsa_directmarketing_campaign_messageTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $helper = new org_openpsa_directmarketing_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
