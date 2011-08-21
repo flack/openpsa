@@ -209,7 +209,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         switch ($data['controller']->process_form())
         {
-            case 'save':
+            case 'delete':
                 if ($this->_document->delete())
                 {
                     // Update the index

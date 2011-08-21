@@ -999,6 +999,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             case (array_key_exists('midcom_helper_datamanager2_preview', $_REQUEST)):
                 return 'preview';
 
+            case (array_key_exists('midcom_helper_datamanager2_delete', $_REQUEST)):
+                return 'delete';
+
             default:
                 return 'edit';
         }
