@@ -383,20 +383,21 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
 
     public function render_content()
     {
-        echo '<ul>';
+        $output = '<ul>';
         if (count($this->_type->selection) == 0)
         {
-            echo '<li>' . $this->_translate('type select: no selection') . '</li>';
+            $output .= '<li>' . $this->_translate('type select: no selection') . '</li>';
         }
         else
         {
             foreach ($this->_type->selection as $key)
             {
                 $data = $this->_get_key_data($key);
-                echo '<li>' . $data['name'] . '</li>';
+                $output .= '<li>' . $data['name'] . '</li>';
             }
         }
-        echo '</ul>';
+        $output .= '</ul>';
+        return $output;
     }
 }
 ?>

@@ -305,6 +305,8 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * editing widget or surrounding braces in plain and simple HTML.
      *
      * The default implementation calls the type's convert_to_html method.
+     *
+     * @return string The rendered HTML
      */
     public function render_content()
     {

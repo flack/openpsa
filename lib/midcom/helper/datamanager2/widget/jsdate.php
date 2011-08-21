@@ -468,7 +468,7 @@ EOT;
     /**
      * Renders the date in the ISO format.
      */
-    function render_content()
+    public function render_content()
     {
         if ($this->show_time)
         {
@@ -485,7 +485,7 @@ EOT;
         {
             $format = '%Y-%m-%d';
         }
-        echo $this->_type->value->format($format);
+        return $this->_type->value->format($format);
     }
 }
 ?>

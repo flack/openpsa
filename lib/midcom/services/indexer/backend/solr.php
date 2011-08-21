@@ -313,6 +313,7 @@ class midcom_services_indexer_solrDocumentFactory
         $this->xml->documentElement->appendChild($id_element);
         $id_element->nodeValue = $id;
     }
+
     /**
      * Deletes all elements with the id defined
      * (this should be all midgard documents)

@@ -576,21 +576,12 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             echo '<div class="title" style="font-weight: bold;">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
             echo '<div class="value" style="margin-left: 5em; min-height: 1em;">';
 
-            if (   $config['widget'] == 'chooser'
-                || $config['widget'] == 'autocomplete')
+            if (is_null($this->formmanager))
             {
-                if (is_null($this->formmanager))
-                {
-                    $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
-                    $this->formmanager->initialize();
-                }
-                $this->formmanager->widgets[$name]->render_content();
+                $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
+                $this->formmanager->initialize();
             }
-            else
-            {
-                echo $this->types[$name]->convert_to_html();
-            }
-
+            echo $this->formmanager->widgets[$name]->render_content();
             echo "</div>\n";
             echo "</div>\n";
 

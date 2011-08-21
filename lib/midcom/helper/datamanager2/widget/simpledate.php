@@ -331,12 +331,12 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
     /**
      * Renders the date using an ISO syntax
      */
-    function render_content()
+    public function render_content()
     {
         $with_date = false;
         $with_time = false;
 
-        for($i = 0; $i < strlen($this->format); $i++)
+        for ($i = 0; $i < strlen($this->format); $i++)
         {
             switch ($this->format{$i})
             {
@@ -371,7 +371,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
             $format_string .= '%T';
         }
 
-        echo $this->_type->value->format($format_string);
+        return $this->_type->value->format($format_string);
     }
 }
 ?>
