@@ -388,6 +388,7 @@ class midcom_connection
                  && is_dir(OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style/' . $part))
             {
                 $page_style .= '/' . $part;
+                $self .= $part . '/';
             }
             else
             {
