@@ -113,15 +113,15 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     public static function render_tabs($guid = null, $tabdata = array())
     {
         $uipage = self::get_config_value('ui_page');
-        //set the url where the data for the tabs are loaded
-        $data_url_prefix = $_MIDCOM->get_host_prefix() . $uipage;
+        $host_prefix = substr($_MIDCOM->get_host_prefix(), strlen($_MIDCOM->get_host_name()));
+        $prefix = $host_prefix . $uipage . '/';
 
         if (null !== $guid)
         {
             //pass the urls & titles for the tabs
             $tabdata[] = array
             (
-               'url' => '/__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
+               'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
                'title' => $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
             );
             $tabdata[] = array
@@ -135,8 +135,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         echo "\n<ul>\n";
         foreach ($tabdata as $key => $tab)
         {
-            $url = $data_url_prefix . '/' . $tab['url'];
-            echo "<li><a id='key_" . $key ."' class='tabs_link' href='" . $url . "' ><span> " . $tab['title'] . "</span></a></li>";
+            echo "<li><a id='key_" . $key ."' class='tabs_link' href='" . $prefix . $tab['url'] . "' ><span> " . $tab['title'] . "</span></a></li>";
         }
         echo "\n</ul>\n";
         echo "</div>\n";
@@ -157,6 +156,7 @@ $(document).ready(
             var url = $.data(event.currentTarget, 'href.tabs').replace(/\/{$uipage}\//, '/');
             location.href = url;
         });
+        $('#tabs a').live('click', function(event){intercept_clicks(event)});
 
         var tabs = $('#tabs').tabs({
               cache: true,
@@ -186,8 +186,6 @@ $(document).ready(
             $.history.load(url);
             return true;
         });
-
-        $('#tabs a').live('click', function(event){intercept_clicks(event)});
     }
 );
 </script>

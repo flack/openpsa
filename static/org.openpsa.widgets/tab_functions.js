@@ -19,6 +19,7 @@ function intercept_clicks(event)
     {
         return true;
     }
+
     var href = $(event.currentTarget).attr('href');
 
     if (!href.match(/\/uitab\//))
@@ -37,7 +38,7 @@ function intercept_clicks(event)
     if (href.slice(href.length - 1, href.length) != '#')
     {
         jQuery(":not(.ui-tabs-hide) > .tab_div").load(href);
-        
+
         event.preventDefault();
         return false;
     }
@@ -50,8 +51,7 @@ function parse_js(javascripts)
     for (var i = 0 ; i < javascripts.length ; i++)
     {
         url = javascripts[i].match(/src="(.+?)"/)[1];
-
-        if (    added_js_files[javascripts[i]] == undefined 
+        if (    added_js_files[javascripts[i]] == undefined
              && (   typeof url == 'undefined'
                  || url == ''
                  || $('script[src="' + url + '"]').length == 0))
@@ -66,10 +66,11 @@ function parse_css(css_tags)
 {
     var url = "",
     insertion_point = $('link[rel="stylesheet"]:first');
-    
-    for (var i = 0 ; i < css_tags.length ; i++)
+
+    for (var i = 0; i < css_tags.length; i++)
     {
         url = css_tags[i].match(/href="(.+?)"/)[1];
+
         //check if css_file is already loaded
         if (   added_css_files[css_tags[i]] == undefined
             && (   typeof url == 'undefined'
