@@ -719,6 +719,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     font-weight: bold;
 }
 
+.ui-jqgrid .ui-widget-content a
+{
+    text-decoration: none
+}
+
 .ui-jqgrid .ui-widget-content a:hover
 {
     text-decoration: underline
