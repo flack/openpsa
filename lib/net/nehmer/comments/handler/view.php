@@ -363,7 +363,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      *
      * @return int Last-Modified Timestamp
      */
-    function _get_last_modified()
+    private function _get_last_modified()
     {
         if (! $this->_comments)
         {
