@@ -171,7 +171,6 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
 
         self::$_project->status = 0;
         self::$_project->update();
-        $_MIDCOM->auth->drop_sudo();
     }
 
     public static function TearDownAfterClass()
