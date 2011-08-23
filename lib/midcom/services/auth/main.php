@@ -275,9 +275,10 @@ class midcom_services_auth
      */
     private function _initialize_user_from_midgard()
     {
-        if (midcom_connection::get_user())
+        if (   midcom_connection::get_user()
+            && $user = $this->get_user(midcom_connection::get_user()))
         {
-            $this->user = $this->get_user(midcom_connection::get_user());
+            $this->user = $user;
             if (   midcom_connection::is_admin()
                 || $_MIDGARD['root'])
             {
