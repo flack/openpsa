@@ -53,7 +53,6 @@ var org_openpsa_tree =
         if (   available_height > tree_content_height
             && tree.height() >= tree_content_height)
         {
-            console.log('X');
             return;
         }
         

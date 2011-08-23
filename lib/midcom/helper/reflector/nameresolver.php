@@ -54,7 +54,7 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating cleanlines (on missing property or other failure returns false)
+     * @return boolean indicating cleanliness
      */
     public function name_is_clean($name_property = null)
     {
@@ -83,7 +83,7 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety (on missing property or other failure returns false)
+     * @return boolean indicating safety 
      */
     public function name_is_safe($name_property = null)
     {
@@ -112,7 +112,7 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety (on missing property or other failure returns false)
+     * @return boolean indicating safety
      */
     public function name_is_safe_or_empty($name_property = null)
     {
@@ -134,7 +134,7 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating cleanlines (on missing property or other failure returns false)
+     * @return boolean indicating cleanliness
      */
     public function name_is_clean_or_empty($name_property = null)
     {

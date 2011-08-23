@@ -182,8 +182,9 @@ class org_openpsa_helpers
      * Function for adding JavaScript buttons for saving/cancelling Datamanager 2 form via the toolbar
      *
      * @param object $handler The current handler object reference
+     * @param string $action The DM's principal action (save or delete)
      */
-    public static function dm2_savecancel(&$handler)
+    public static function dm2_savecancel(&$handler, $action = 'save')
     {
         $toolbar =& $handler->_view_toolbar;
         if (   !is_object($toolbar)
@@ -191,13 +192,20 @@ class org_openpsa_helpers
         {
             return;
         }
+
+        $icon = $action;
+        if ($action == 'delete')
+        {
+            $icon = 'trash';
+        }
+
         $toolbar->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_save[0]")[0].click();',
-                MIDCOM_TOOLBAR_LABEL => $handler->_l10n_midcom->get("save"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save.png',
+                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_' . $action . '[0]")[0].click();',
+                MIDCOM_TOOLBAR_LABEL => $handler->_l10n_midcom->get($action),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $icon . '.png',
                 MIDCOM_TOOLBAR_OPTIONS  => array
                 (
                     'rel' => 'directlink',

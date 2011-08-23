@@ -756,8 +756,12 @@ END;
      */
     function get_default()
     {
-        $defaults = Array();
-        foreach($this->_type->images as $identifier => $images)
+        if (sizeof($this->_type->images) == 0)
+        {
+            return null;
+        }
+        $defaults = array();
+        foreach ($this->_type->images as $identifier => $images)
         {
             if (isset($this->_type->titles[$identifier]))
             {
@@ -768,7 +772,7 @@ END;
                 $defaults["e_exist_{$identifier}_title"] = '';
             }
         }
-        return Array ($this->name => $defaults);
+        return array($this->name => $defaults);
     }
 }
 ?>

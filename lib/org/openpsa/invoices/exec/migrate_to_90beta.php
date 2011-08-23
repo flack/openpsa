@@ -2,9 +2,8 @@
 /**
  * Converter script that transfers old-style relatedto connections to invoice_items. Handle with care!
  */
-
-set_time_limit(50000);
-ini_set('memory_limit', "800M");
+midcom::get('auth')->require_admin_user();
+midcom::get()->disable_limits();
 
 while(@ob_end_flush());
 echo "<pre>\n";

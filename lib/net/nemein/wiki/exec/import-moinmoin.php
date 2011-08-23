@@ -57,8 +57,7 @@ $import_revisions = $_REQUEST['import_revisions'];
 
 $_MIDCOM->cache->content->enable_live_mode();
 while(@ob_end_flush());
-ini_set('max_execution_time', 0);
-ini_set('memory_limit', -1);
+midcom::get()->disable_limits();
 
 echo "<p>\n";
 

@@ -40,14 +40,14 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
      *
      * @var int
      */
-    var $minyear = 2000;
+    var $minyear = 2010;
 
     /**
      * Maximum Year available for selection.
      *
      * @var int
      */
-    var $maxyear = 2010;
+    var $maxyear = 2020;
 
     /**
      * First items for selections.
@@ -109,7 +109,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
         $this->_form->addRule($this->name, $this->_translate('validation failed: date'), 'checksimpledate');
     }
 
-    function _generate_items()
+    private function _generate_items()
     {
         for($i = 0; $i < strlen($this->format); $i++)
         {
@@ -131,9 +131,9 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     $this->_items[$this->format{$i}] = array();
                     $this->_populate_first_item($this->format{$i});
 
-                    for ($m=1; $m<=12; $m++)
+                    for ($m = 1; $m <= 12; $m++)
                     {
-                        $value = $m<10?"0{$m}":$m;
+                        $value = $m < 10 ? "0{$m}" : $m;
                         $this->_items[$this->format{$i}][$m] = $value;
                     }
                     break;
@@ -141,7 +141,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     $this->_items[$this->format{$i}] = array();
                     $this->_populate_first_item($this->format{$i});
 
-                    for ($y=$this->minyear; $y<=$this->maxyear; $y++)
+                    for ($y = $this->minyear; $y <= $this->maxyear; $y++)
                     {
                         $value = $y;
                         $this->_items[$this->format{$i}][$value] = $value;
@@ -151,7 +151,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     $this->_items[$this->format{$i}] = array();
                     $this->_populate_first_item($this->format{$i});
 
-                    for ($y=$this->minyear; $y<=$this->maxyear; $y++)
+                    for ($y = $this->minyear; $y <= $this->maxyear; $y++)
                     {
                         $value = substr($y, -2);
                         $this->_items[$this->format{$i}][$value] = $value;
@@ -161,9 +161,9 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     $this->_items[$this->format{$i}] = array();
                     $this->_populate_first_item($this->format{$i});
 
-                    for ($h=0; $h<=12; $h++)
+                    for ($h = 0; $h <= 12; $h++)
                     {
-                        $value = $h<10?"0{$h}":$h;
+                        $value = $h < 10 ? "0{$h}" : $h;
                         $this->_items[$this->format{$i}][$h] = $value;
                     }
                     break;
@@ -171,9 +171,9 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     $this->_items[$this->format{$i}] = array();
                     $this->_populate_first_item($this->format{$i});
 
-                    for ($m=0; $m<=59; $m++)
+                    for ($m = 0; $m <= 59; $m++)
                     {
-                        $value = $m<10?"0{$m}":$m;
+                        $value = $m < 10 ? "0{$m}" : $m;
                         $this->_items[$this->format{$i}][$m] = $value;
                     }
                     break;
@@ -181,9 +181,9 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     $this->_items[$this->format{$i}] = array();
                     $this->_populate_first_item($this->format{$i});
 
-                    for ($s=0; $s<=59; $s++)
+                    for ($s = 0; $s <= 59; $s++)
                     {
-                        $value = $s<10?"0{$s}":$s;
+                        $value = $s < 10 ? "0{$s}" : $s;
                         $this->_items[$this->format{$i}][$s] = $value;
                     }
                     break;
@@ -191,7 +191,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
         }
     }
 
-    function _populate_first_item($key)
+    private function _populate_first_item($key)
     {
         if (isset($this->first_items[$key]))
         {
@@ -207,10 +207,14 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
      * The default call parses the format string and retrieves the corresponding
      * information from the Date class of the type.
      */
-    function get_default()
+    public function get_default()
     {
+        if (null === $this->_type->value)
+        {
+            return null;
+        }
         $defaults = Array();
-        for($i = 0; $i < strlen($this->format); $i++)
+        for ($i = 0; $i < strlen($this->format); $i++)
         {
             switch ($this->format{$i})
             {
@@ -327,12 +331,12 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
     /**
      * Renders the date using an ISO syntax
      */
-    function render_content()
+    public function render_content()
     {
         $with_date = false;
         $with_time = false;
 
-        for($i = 0; $i < strlen($this->format); $i++)
+        for ($i = 0; $i < strlen($this->format); $i++)
         {
             switch ($this->format{$i})
             {
@@ -367,7 +371,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
             $format_string .= '%T';
         }
 
-        echo $this->_type->value->format($format_string);
+        return $this->_type->value->format($format_string);
     }
 }
 ?>

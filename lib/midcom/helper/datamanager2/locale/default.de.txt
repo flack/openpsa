@@ -75,6 +75,10 @@ Das Feld %s muss ausgefüllt werden.
 Abbrechen
 ---STRINGEND
 
+---STRING form submit: delete
+Löschen
+---STRINGEND
+
 ---STRING form submit: next
 Weiter
 ---STRINGEND

@@ -160,9 +160,6 @@
  *   the same MidCOM site across multiple hosts.
  * - <b>string indexer_backend:</b> The default indexer backend to use. This defaults to the false,
  *   indicating that <i>no</i> indexing should be done. Right now, the SOLR backend is recommended.
- * - <b>int indexer_reindex_memorylimit:</b> The memory limit to use when reindexing the entire site.
- *   This is required, as reindexing can require quite some amount of memory, as the complete NAP
- *   cache has to be loaded for example and binary indexing can take some memory too. Defaults to 250 MB.
  * - <b>indexer_reindex_allowed_ips:</b> Array of IPs that don't need to basic authenticate themselves
  *   to run MidCOM reindexing or cron.
  *
@@ -222,6 +219,10 @@
  * - <b>int midcom_temporary_resource_timeout:</b> Temporary resources will be deleted
  *   after the amount of seconds set in this options. It defaults to 86400 = 1 day.
  *   The corresponding cron-job is run on hourly.
+ * - <b>mixed midcom_max_memory:</b> The maximum memory limit to use doing resource-intensive tasks
+ *   like when reindexing the entire site, which can require quite some amount of memory, as the complete NAP
+ *   cache has to be loaded and binary indexing can take some memory, too. Defaults to -1.
+ *  - <b>mixed midcom_max_execution_time:</b> The maximum execution time for resource-intensive tasks
  *
  * <b>RCS system</b>
  *
@@ -377,7 +378,6 @@ class midcom_config implements arrayaccess
         // Indexer Configuration
         'indexer_backend' => false,
         'indexer_index_name' => 'auto',
-        'indexer_reindex_memorylimit' => 250,
         'indexer_reindex_allowed_ips' => Array('127.0.0.1'),
 
         // XMLTCP indexer backend (THE RECOMMENDED ONE)
@@ -398,6 +398,8 @@ class midcom_config implements arrayaccess
         'midcom_site_title' => '',
         'midcom_tempdir' => '/tmp',
         'midcom_temporary_resource_timeout' => 86400,
+        'midcom_max_memory' => -1,
+        'midcom_max_execution_time' => 0,
 
         // Visibility settings (NAP)
         'show_hidden_objects' => true,
@@ -489,8 +491,8 @@ class midcom_config implements arrayaccess
         'wrap_style_show_with_name' => false,
 
         // Related to JavaScript libraries
-        'jquery_version' => '1.5.2.min',
-        'jquery_ui_version' => '1.8.11',
+        'jquery_version' => '1.6.2.min',
+        'jquery_ui_version' => '1.8.16',
         'jquery_ui_theme' => null,
         'jquery_load_from_google' => false,
         'enable_ajax_editing' => false,

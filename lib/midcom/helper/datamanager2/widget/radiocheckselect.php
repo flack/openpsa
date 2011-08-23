@@ -108,25 +108,29 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     {
         if ($this->_type->allow_multiple)
         {
-            $defaults = Array();
+            if (sizeof($this->_type->selection) == 0)
+            {
+                return null;
+            }
+            $defaults = array();
             foreach ($this->_type->selection as $key)
             {
                 $defaults[$key] = true;
             }
-            return Array($this->name => $defaults);
+            return array($this->name => $defaults);
         }
         else
         {
             if (count($this->_type->selection) > 0)
             {
-                return Array($this->name => $this->_type->selection[0]);
+                return array($this->name => $this->_type->selection[0]);
             }
             else if ($this->_field['required'])
             {
                 // Select the first radiobox always when this is a required field:
                 $all = $this->_type->list_all();
                 reset($all);
-                return Array($this->name => key($all));
+                return array($this->name => key($all));
             }
             else
             {
@@ -166,33 +170,34 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         }
     }
 
-    function render_content()
+    public function render_content()
     {
+        $output = '';
         if ($this->_type->allow_multiple)
         {
-            echo '<ul>';
+            $output .= '<ul>';
             if (count($this->_type->selection) == 0)
             {
-                echo '<li>' . $this->_translate('type select: no selection') . '</li>';
+                $output .= '<li>' . $this->_translate('type select: no selection') . '</li>';
             }
             else
             {
                 foreach ($this->_type->selection as $key)
                 {
-                    echo '<li>' . $this->_translate($this->_type->get_name_for_key($key)) . '</li>';
+                    $output .= '<li>' . $this->_translate($this->_type->get_name_for_key($key)) . '</li>';
                 }
             }
-            echo '</ul>';
+            $output .= '</ul>';
         }
         else
         {
             if (count($this->_type->selection) == 0)
             {
-                echo $this->_translate('type select: no selection');
+                $output .= $this->_translate('type select: no selection');
             }
             else
             {
-                echo $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));
+                $output .= $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));
             }
         }
 
@@ -200,11 +205,12 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         {
             if (! $this->_type->allow_multiple)
             {
-                echo '; ';
+                $output .= '; ';
             }
-            echo $this->_translate($this->othertext) . ': ';
-            echo implode(',', $this->_type->others);
+            $output .= $this->_translate($this->othertext) . ': ';
+            $output .= implode(',', $this->_type->others);
         }
+        return $output;
     }
 }
 ?>

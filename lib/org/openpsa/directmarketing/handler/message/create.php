@@ -37,12 +37,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
     /**
      * Loads and prepares the schema database.
-     *
-     * Special treatement is done for the name field, which is set readonly for non-creates
-     * if the simple_name_handling config option is set. (using an auto-generated urlname based
-     * on the title, if it is missing.)
-     *
-     * The operations are done on all available schemas within the DB.
      */
     public function load_schemadb()
     {

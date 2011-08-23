@@ -384,7 +384,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      *
      * @param $controller DM2 creation controller
      */
-    function &dm2_create_callback(&$controller)
+    public function &dm2_create_callback(&$controller)
     {
         echo "The creation callback has to be implemented in the child class";
         _midcom_stop_request();
@@ -622,33 +622,29 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_load_schemadb();
         $this->_load_datamanager();
 
-        if (array_key_exists('midcom_baseclasses_components_handler_crud_deleteok', $_POST))
+        $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
+
+        switch ($this->_controller->process_form())
         {
-            // Deletion confirmed, try doing it.
-            if (!$this->_object->delete())
-            {
-                throw new midcom_error("Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
+            case 'delete':
+                // Deletion confirmed, try doing it.
+                if (!$this->_object->delete())
+                {
+                    throw new midcom_error("Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_connection::get_error_string());
+                }
 
-            // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
-            $indexer->delete($this->_object->guid);
+                // Update the index
+                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer->delete($this->_object->guid);
 
-            // Show user interface message
-            // $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
+                // Show user interface message
+                // $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
-            // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
-            // This will exit.
-        }
-
-        if (array_key_exists('midcom_baseclasses_components_handler_crud_deletecancel', $_REQUEST))
-        {
-            //$_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
-
-            // Redirect to view page.
-            $_MIDCOM->relocate($this->_get_object_url());
-            // This will exit
+                // Delete ok, relocating to welcome.
+                $_MIDCOM->relocate('');
+                // This will exit.
+            case 'cancel':
+                $_MIDCOM->relocate($this->_get_object_url());
         }
 
         $this->_prepare_request_data();

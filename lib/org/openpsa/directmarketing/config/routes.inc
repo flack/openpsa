@@ -61,14 +61,6 @@
     'variable_args' => 2,
 ),
 
-// Match /message/new/<campaign guid>/<schema>
-'create_message_old' => array
-(
-    'fixed_args' => array('message','new'),
-    'variable_args' => 2,
-    'handler' => array('org_openpsa_directmarketing_handler_message_create', 'create'),
-),
-
 // Match /message/list/<type>/<guid>
 'message_list_dynamic_type' => array
 (
@@ -268,14 +260,6 @@
     'variable_args' => 1,
 ),
 
-// Match /campaign/preview/<campaign GUID>
-'preview_campaign_query' => array
-(
-    'handler' => array('org_openpsa_directmarketing_handler_campaign_preview', 'preview'),
-    'fixed_args' => array('campaign', 'preview'),
-    'variable_args' => 1,
-),
-
 // Match /logger/bounce
 'log_bounce' => array
 (
@@ -311,13 +295,6 @@
     'handler' => Array('midcom_baseclasses_components_handler_configuration', 'config'),
     'schema' => 'config',
     'fixed_args' => array('config'),
-),
-
-// Match /debug
-'debugger' => array
-(
-    'fixed_args' => 'debug',
-    'handler' => 'debug',
 ),
 
 // Match /

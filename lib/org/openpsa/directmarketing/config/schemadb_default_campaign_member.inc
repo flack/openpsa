@@ -28,10 +28,10 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER => 'tester',
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER => 'normal',
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED => 'unsubscribed',
-                    ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_BOUNCED => 'bounced',
+                    org_openpsa_directmarketing_campaign_member_dba::TESTER => 'tester',
+                    org_openpsa_directmarketing_campaign_member_dba::NORMAL => 'normal',
+                    org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED => 'unsubscribed',
+                    org_openpsa_directmarketing_campaign_member_dba::BOUNCED => 'bounced',
                 ),
             ),
             'widget' => 'select',

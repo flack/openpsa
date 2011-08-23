@@ -48,8 +48,8 @@ if(isset($_REQUEST['language']))
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 
-debug_add("Setting Memorylimit to configured value of {$GLOBALS['midcom_config']['indexer_reindex_memorylimit']} MB");
-ini_set('memory_limit', "{$GLOBALS['midcom_config']['indexer_reindex_memorylimit']}M");
+debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
+ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
 
 $loader = $_MIDCOM->get_component_loader();
 $indexer = $_MIDCOM->get_service('indexer');

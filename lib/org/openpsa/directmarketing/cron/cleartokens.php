@@ -18,8 +18,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
     public function _on_execute()
     {
         //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
         debug_add('_on_execute called');
         $days = $this->_config->get('send_token_max_age');
         if ($days == 0)
@@ -29,10 +28,10 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
         }
 
         $th = time() - ($days * 3600 * 24);
-        $qb = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
+        $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '<>', '');
         $qb->add_constraint('timestamp', '<', $th);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $ret = $qb->execute_unchecked();
         if (   $ret === false
             || !is_array($ret))

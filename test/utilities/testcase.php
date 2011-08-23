@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class openpsa_testcase extends PHPUnit_Framework_TestCase
+abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 {
     private static $_class_objects = array();
     private $_testcase_objects = array();
@@ -46,7 +46,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $person;
     }
 
-    public function run_handler($component, array $args = array())
+    public function get_component_node($component)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($topic_guid = $siteconfig->get_node_guid($component))
@@ -55,6 +55,16 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
         else
         {
+            $qb = midcom_db_topic::new_query_builder();
+            $qb->add_constraint('component', '=', $component);
+            $qb->set_limit(1);
+            $qb->add_order('id');
+            $result = $qb->execute();
+            if (sizeof($result) == 1)
+            {
+                return $result[0];
+            }
+
             $root_topic = midcom_db_topic::get_cached($GLOBALS['midcom_config']['root_topic']);
             $topic_attributes = array
             (
@@ -64,6 +74,12 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
             );
             $topic = $this->create_object('midcom_db_topic', $topic_attributes);
         }
+        return $topic;
+    }
+
+    public function run_handler($component, array $args = array())
+    {
+        $topic = $this->get_component_node($component);
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
@@ -223,6 +239,16 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         if (midcom_core_context::get()->id != 0)
         {
             midcom_core_context::get(0)->set_current();
+        }
+
+        if (!$GLOBALS['midcom_config']['auth_allow_sudo'])
+        {
+            $GLOBALS['midcom_config']['auth_allow_sudo'] = true;
+        }
+
+        while (midcom::get('auth')->is_component_sudo())
+        {
+            midcom::get('auth')->drop_sudo();
         }
 
         $queue = array();

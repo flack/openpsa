@@ -51,30 +51,6 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
         //org.openpsa.reports object types
         define('ORG_OPENPSA_OBTYPE_REPORT', 7000);
         define('ORG_OPENPSA_OBTYPE_REPORT_TEMPORARY', 7001);
-
-        //org.openpsa.directmarketing message types
-        define('ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT', 8000);
-        define('ORG_OPENPSA_MESSAGETYPE_SMS', 8001);
-        define('ORG_OPENPSA_MESSAGETYPE_MMS', 8002);
-        define('ORG_OPENPSA_MESSAGETYPE_CALL', 8003);
-        define('ORG_OPENPSA_MESSAGETYPE_SNAILMAIL', 8004);
-        define('ORG_OPENPSA_MESSAGETYPE_FAX', 8005);
-        define('ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML', 8006);
-        //org.openpsa.directmarketing message receipt types
-        define('ORG_OPENPSA_MESSAGERECEIPT_SENT', 8500); //Created when message has been sent successfully
-        define('ORG_OPENPSA_MESSAGERECEIPT_DELIVERED', 8501); //Created if we get a delivery receipt
-        define('ORG_OPENPSA_MESSAGERECEIPT_RECEIVED', 8502); //Created if we get some confirmation from the recipient
-        define('ORG_OPENPSA_MESSAGERECEIPT_FAILURE', 8503); //Created when message has been send has failed
-        //org.openpsa.directmarketing campaign member types
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER', 9000);
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER', 9001);
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED', 9002);
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_BOUNCED', 9003);
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_INTERVIEWED', 9004);
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_LOCKED', 9005);
-        //org.openpsa.directmarketing campaign types
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN', 9500);
-        define('ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART', 9501);
     }
 
     /**

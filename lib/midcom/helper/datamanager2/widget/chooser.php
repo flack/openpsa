@@ -1324,17 +1324,21 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     }
 
     /**
-      * The defaults of the widget are mapped to the current selection.
-      */
-     function get_default()
-     {
-         $defaults = array();
-         foreach ($this->_type->selection as $key)
-         {
-             $defaults[$key] = true;
-         }
-         return array($this->name => $defaults);
-     }
+     * The defaults of the widget are mapped to the current selection.
+     */
+    function get_default()
+    {
+        if (sizeof($this->_type->selection) == 0)
+        {
+            return null;
+        }
+        $defaults = array();
+        foreach ($this->_type->selection as $key)
+        {
+            $defaults[$key] = true;
+        }
+        return array($this->name => $defaults);
+    }
 
     /**
      * Reads the given get/post data and puts to type->selection
@@ -1377,14 +1381,14 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
     }
 
-    function render_content()
+    public function render_content()
     {
-        echo "<table class=\"chooser_results\">\n";
+        $output = "<table class=\"chooser_results\">\n";
         if (count($this->_type->selection) == 0)
         {
-            echo "    <tr>\n";
-            echo "        <td>" . $this->_translate('type select: no selection') . "</td>\n";
-            echo "    </tr>\n";
+            $output .= "    <tr>\n";
+            $output .= "        <td>" . $this->_translate('type select: no selection') . "</td>\n";
+            $output .= "    </tr>\n";
         }
         else
         {
@@ -1393,19 +1397,20 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 if (   !$key
                     && count($this->_type->selection) == 1)
                 {
-                    echo "    <tr>\n";
-                    echo "        <td>" . $this->_translate('type select: no selection') . "</td>\n";
-                    echo "    </tr>\n";
+                    $output .= "    <tr>\n";
+                    $output .= "        <td>" . $this->_translate('type select: no selection') . "</td>\n";
+                    $output .= "    </tr>\n";
                     continue;
                 }
 
                 $data = rawurldecode($this->_get_key_data($key, true));
-                echo "    <tr>\n";
-                echo "        <td>{$data}</td>\n";
-                echo "    </tr>";
+                $output .= "    <tr>\n";
+                $output .= "        <td>{$data}</td>\n";
+                $output .= "    </tr>";
             }
         }
-        echo "</table>\n";
+        $output .= "</table>\n";
+        return $output;
     }
 
     /**

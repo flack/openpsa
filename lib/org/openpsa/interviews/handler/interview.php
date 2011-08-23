@@ -23,12 +23,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     /**
      * Loads and prepares the schema database.
-     *
-     * Special treatment is done for the name field, which is set readonly for non-creates
-     * if the simple_name_handling config option is set. (using an auto-generated urlname based
-     * on the title, if it is missing.)
-     *
-     * The operations are done on all available schemas within the DB.
      */
     public function load_schemadb()
     {
@@ -57,7 +51,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
             case 'cancel':
                 // Clear lock and return to summary
-                $this->_member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
+                $this->_member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
                 $this->_member->update();
 
                 $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$data['campaign']->guid}/");

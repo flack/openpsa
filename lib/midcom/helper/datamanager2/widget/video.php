@@ -608,12 +608,13 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
     /**
      * Populate the title field.
      */
-    function get_default()
+    public function get_default()
     {
         if ($this->show_title)
         {
-            return Array("{$this->name}_title" => $this->_type->title);
+            return array("{$this->name}_title" => $this->_type->title);
         }
+        return null;
     }
 
     /**

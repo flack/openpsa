@@ -773,8 +773,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         if ($this->copy_tree)
         {
             // Disable execution timeout and memory limit, this can be very intensive
-            ini_set('max_execution_time', -1);
-            ini_set('memory_limit', -1);
+            midcom::get()->disable_limits();
 
             $this->new_root_object = $this->copy_tree($this->source, $this->target);
         }

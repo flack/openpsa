@@ -71,12 +71,6 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
             return false;
         }
 
-        //if (strpos($_SERVER['HTTP_USER_AGENT'], 'WebKit') !== false)
-        //{
-        //    // EditArea really messes up Asgard for WebKit browsers
-        //    $this->editarea_enabled = false;
-        //}
-
         if ($this->editarea_enabled)
         {
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');

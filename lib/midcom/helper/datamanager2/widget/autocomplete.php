@@ -425,6 +425,10 @@ EOT;
      */
     public function get_default()
     {
+        if (sizeof($this->_type->selection) == 0)
+        {
+            return null;
+        }
         $defaults = array();
         foreach ($this->_type->selection as $key)
         {
@@ -441,11 +445,11 @@ EOT;
         $this->_type->selection = $this->_get_form_selection($results);
     }
 
-    function render_content()
+    public function render_content()
     {
         if (count($this->_type->selection) == 0)
         {
-            echo $this->_translate('type select: no selection');
+            return $this->_translate('type select: no selection');
         }
         else
         {
@@ -475,7 +479,7 @@ EOT;
                 $ref = new midcom_helper_reflector($object);
                 $selection[] = $ref->get_object_label($object);
             }
-            echo implode(', ', $selection);
+            return implode(', ', $selection);
         }
     }
 

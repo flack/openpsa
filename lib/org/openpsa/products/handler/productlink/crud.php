@@ -17,7 +17,7 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
     {
         $this->_dba_class = 'org_openpsa_products_product_link_dba';
     }
-    
+
     /**
      * Return the URL to the productlink view handler
      */
@@ -46,12 +46,12 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
         }
         return "productlink/{$this->_object->guid}/";
     }
-    
+
     public function _update_breadcrumb($handler_id)
     {
         // Get common breadcrumb for the product
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_object);
-        
+
         // Handler-based additions
         switch ($handler_id)
         {
@@ -76,6 +76,10 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
 
     public function _populate_toolbar($handler_id)
     {
+        if ($this->_mode == 'delete')
+        {
+            org_openpsa_helpers::dm2_savecancel($this, 'delete');
+        }
         if ($this->_object->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item

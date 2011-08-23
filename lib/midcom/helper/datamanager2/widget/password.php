@@ -33,10 +33,10 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
      * @var string
      */
     var $confirm_text = '(confirm)';
-    
+
     /**
      * Explicitly allow empty password
-     * 
+     *
      * @var boolean
      */
     var $require_password = true;
@@ -72,7 +72,7 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
         $this->_form->addElement('password', $this->name, $title, $attributes);
         $this->_form->addElement('password', $confirm_name, $confirm_title, Array('class' => 'shorttext'));
         $this->_form->addRule(array($this->name, $confirm_name), $this->_translate('passwords do not match'), 'compare', null);
-        
+
         if ($this->require_password)
         {
             $this->_form->addRule($this->name, 'required', 'required', '');
@@ -88,15 +88,6 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
         parent::freeze();
         $confirm = $this->_form->getElement("{$this->name}_confirm");
         $confirm->unfreeze();
-    }
-
-    function get_default()
-    {
-        return Array
-        (
-            $this->name => '',
-            "{$this->name}_confirm" => '',
-        );
     }
 
     function sync_type_with_widget($results)

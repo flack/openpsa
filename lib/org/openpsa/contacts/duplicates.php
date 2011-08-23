@@ -335,13 +335,12 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Find duplicates for given all org_openpsa_contacts_person_dba objects in database
+     *
      * @return array array of persons with their possible duplicates
      */
     function check_all_persons($threshold = 1)
     {
-        //Disable limits
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         // PONDER: Can we do this in smaller batches using find_duplicated_person
         /*
@@ -500,13 +499,12 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Find duplicates for given all org_openpsa_contacts_group_dba objects in database
+     *
      * @return array array of groups with their possible duplicates
      */
     function check_all_groups($threshold = 1)
     {
-        //Disable limits
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         $ret = array();
         $ret['objects'] = array();

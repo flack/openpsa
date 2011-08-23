@@ -411,7 +411,7 @@ class midcom_services_auth
     {
         $user_id = $this->acl->get_user_id($user);
 
-        return $this->acl->get_privileges_byguid($content_object->guid, get_class($content_object), $user_id);
+        return $this->acl->get_privileges_by_guid($content_object->guid, get_class($content_object), $user_id);
     }
 
     /**

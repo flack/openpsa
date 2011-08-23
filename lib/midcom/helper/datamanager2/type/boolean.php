@@ -25,11 +25,11 @@
 class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2_type
 {
     /**
-     * The current string encapsulated by this type.
+     * The current value encapsulated by this type.
      *
      * @var boolean
      */
-    public $value = false;
+    public $value;
 
     /**
      * The text displayed if the value of the type is true. This defaults to
@@ -49,13 +49,13 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
 
     function convert_from_storage ($source)
     {
-        if ($source)
+        if ($source === null)
         {
-            $this->value = true;
+            $this->value = null;
         }
         else
         {
-            $this->value = false;
+            $this->value = (boolean) $source;
         }
     }
 

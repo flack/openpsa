@@ -521,11 +521,11 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * Gets all objects of given classes with given tags
      *
      * @param array of tags to search for
-     * @param array of classes to search in (NOTE: you must have loaded the files that defined these classes beforehand)
+     * @param array of classes to search in
      * @param string AND or OR, depending if you require all of the given tags on any of them, defaults to 'OR'
      * @return array of objects or false on critical failure
      */
-    public static function get_objects_with_tags($tags, $classes, $match = 'OR')
+    public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR')
     {
         switch (strtoupper($match))
         {
@@ -543,34 +543,15 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 break;
         }
         $qb = net_nemein_tag_link_dba::new_query_builder();
-        $qb->begin_group('OR');
-        foreach ($classes as $class)
-        {
-            if (!class_exists($class))
-            {
-                // Invalid class
-                return false;
-            }
-            $qb->add_constraint('fromClass', '=', $class);
-        }
-        $qb->end_group();
-        $qb->begin_group('OR');
-        foreach ($tags as $tag)
-        {
-            $qb->add_constraint('tag.tag', '=', $tag);
-        }
-        $qb->end_group();
+        $qb->add_constraint('fromClass', 'IN', $classes);
+        $qb->add_constraint('tag.tag', 'IN', $tags);
+
         $qb->add_order('fromGuid', 'ASC');
         $qb->add_order('tag.tag', 'ASC');
 
         $links = $qb->execute();
-        if (!is_array($links))
-        {
-            // Fatal QB error
-            return false;
-        }
+
         $link_object_map = array();
-        $tag_cache = array();
         foreach ($links as $link)
         {
             if (!array_key_exists($link->fromGuid, $link_object_map))
@@ -581,26 +562,19 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                     'links'  => array(),
                 );
             }
-            $map =& $link_object_map[$link->fromGuid];
 
-            if (!array_key_exists($link->tag, $tag_cache))
+            try
             {
-                try
-                {
-                    $tag_cache[$link->tag] = new net_nemein_tag_tag_dba($link->tag);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                    continue;
-                }
+                $tag = net_nemein_tag_tag_dba::get_cached($link->tag);
             }
-            $tag =& $tag_cache[$link->tag];
-            // PHP5-TODO: must be copy by value
-            $map['links'][$tag->tag] = $link;
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
+
+            $link_object_map[$link->fromGuid]['links'][$tag->tag] = $link;
         }
-        // Clear this reference or it will cause pain later
-        unset($map);
 
         // For AND matches, make sure we have all the required tags.
         if ($match == 'AND')

@@ -57,8 +57,14 @@ foreach ($data['invoices'] as $invoice)
         $e->log();
     }
     $entry['index_date'] = $invoice->{$data['date_field']};
-    $entry['date'] = strftime('%x', $invoice->{$data['date_field']});
-
+    if ($invoice->{$data['date_field']} > 0)
+    {
+        $entry['date'] = strftime('%x', $invoice->{$data['date_field']});
+    }
+    else
+    {
+        $entry['date'] = '';
+    }
     try
     {
         $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);

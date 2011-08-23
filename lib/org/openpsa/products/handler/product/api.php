@@ -144,8 +144,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
 
-        @ini_set('memory_limit', -1);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         if ($handler_id != 'api_product_list_all')
         {

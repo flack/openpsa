@@ -407,7 +407,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             else if ($current_tag_level == $tag_level)
             {
                 $toc .= "</li>\n";
-            } 
+            }
             else if ($tag_level > $current_tag_level)
             {
                 for ($i = $current_tag_level; $i < $tag_level; $i++)
@@ -631,6 +631,17 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($this->_page, 'replace_wikiwords'), $data['wikipage_view']['content']);
 
         midcom_show_style('view-wikipage-whatlinks');
+    }
+
+    /**
+     * Callback for sorting wikipages by title
+     *
+     * @param net_nemein_wiki_wikipage $a
+     * @param net_nemein_wiki_wikipage $b
+     */
+    public static function sort_by_title(net_nemein_wiki_wikipage $a, net_nemein_wiki_wikipage $b)
+    {
+        return strnatcmp($a->title, $b->title);
     }
 }
 ?>

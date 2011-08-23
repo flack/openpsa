@@ -98,14 +98,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
 
     function get_default()
     {
-        if ($this->_type->value)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return $this->_type->value;
     }
 
     function sync_type_with_widget($results)

@@ -138,11 +138,6 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
         return true;
     }
 
-    function get_default()
-    {
-        return '';
-    }
-
     function sync_type_with_widget($results)
     {
     }
