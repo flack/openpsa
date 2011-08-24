@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_campaign_helper
+class openpsa_test_campaign_helper
 {
     private $_testcase;
 
@@ -28,7 +28,7 @@ class org_openpsa_directmarketing_campaign_helper
     {
         if (!$this->_campaign)
         {
-            $topic = $this->_testcase->get_component_node('org.openpsa.directmarketing');
+            $topic = openpsa_testcase::get_component_node('org.openpsa.directmarketing');
 
             $this->_campaign = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_dba', array('node' => $topic->id));
         }

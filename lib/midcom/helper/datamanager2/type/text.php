@@ -37,7 +37,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      *
      * @var string
      */
-    public $value = '';
+    public $value;
 
     /**
      * Maximum length of the string encapsulated by this type. 0 means no limit.
@@ -246,13 +246,13 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
     function purify_content()
     {
-        $this->value = $this->purify_string($this->value);
+        $this->value = $this->purify_string((string) $this->value);
     }
 
     function convert_to_storage()
     {
         // Normalize line breaks to the UNIX format
-        $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", $this->value);
+        $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", (string) $this->value);
 
         if ($this->purify)
         {
@@ -269,7 +269,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
     function convert_to_csv()
     {
-        return $this->value;
+        return (string) $this->value;
     }
 
     /**
@@ -286,6 +286,8 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             $this->validation_error = $this->_l10n->get('type text: value may not be array or object');
             return false;
         }
+
+        $this->value = (string) $this->value;
 
         if (   $this->maxlength > 0
             && strlen($this->value) > $this->maxlength)
@@ -364,12 +366,13 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             }
         }
 
-
         return true;
     }
 
     function convert_to_html()
     {
+        $this->value = (string) $this->value;
+
         switch ($this->output_mode)
         {
             case 'code':

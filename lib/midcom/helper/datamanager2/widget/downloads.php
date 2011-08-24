@@ -626,8 +626,12 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     function get_default()
     {
+        if (sizeof($this->_type->attachments_info) == 0)
+        {
+            return null;
+        }
         $defaults = Array();
-        foreach($this->_type->attachments_info as $identifier => $info)
+        foreach ($this->_type->attachments_info as $identifier => $info)
         {
             $defaults["e_exist_{$identifier}_title"] = $info['description'];
         }

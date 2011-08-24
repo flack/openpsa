@@ -7,7 +7,7 @@
  */
 
 /**
- * Datamanager 2 Simple select type. This allows the selection of one or more values
+ * Datamanager 2 simple select type. This allows the selection of one or more values
  * from a given list. It is possible to enable adding "unreferenced" items in a "others"
  * listing, but those are outside the normal processing.
  *
@@ -88,7 +88,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * This is only valid if the allow_other flag is set.
      *
-     * @var String
+     * @var string
      */
     public $others = array();
 
@@ -236,7 +236,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             }
             else
             {
-                // This is probably universalchooser
+                // This is probably chooser
                 // FIXME: This is not exactly an elegant way to do this
                 if (    $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
                     || !isset($this->storage->_schema->fields[$this->name]['widget_config']['class'])
@@ -310,7 +310,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     }
 
     /**
-     * Checks, whether the given key is known.
+     * Checks whether the given key is known.
      *
      * @param string $key The key index to look up.
      * @return boolean True if the key is known, false otherwise.
@@ -658,7 +658,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         return $values;
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         $values_localized = array();
         $values = $this->combine_values();

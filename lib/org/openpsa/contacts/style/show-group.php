@@ -70,8 +70,8 @@ $addresses = array();
     {
         echo "<h2>" . $data['l10n']->get('invoice defaults') . "</h2>\n";
         echo "<div><strong>" . $_MIDCOM->i18n->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
-        echo $data['billing_data']->vat . "</div>\n";
-        echo "<div><strong>" . $data['l10n']->get('due') . ": </strong>";
+        echo $data['billing_data']->vat . " %</div>\n";
+        echo "<div><strong>" . $_MIDCOM->i18n->get_string('payment target', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->due . "</div>\n";
         $data['billing_data']->render_address();
     }

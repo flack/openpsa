@@ -69,7 +69,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     function convert_from_storage ($source)
     {
-        if ($source === false || $source === null || $source == '')
+        if ($source === false || $source === null || trim($source) === '')
         {
             $this->value = null;
         }

@@ -104,5 +104,23 @@ class midcom_helper_datamanager2_handler
         }
         return $controller;
     }
+
+    /**
+     * Loads and prepares a delete controller. Any error triggers a 500.
+     *
+     * @return midcom_helper_datamanager2_controller_nullstorage The delete controller
+     */
+    public static function get_delete_controller()
+    {
+        $controller = midcom_helper_datamanager2_controller::create('nullstorage');
+        $delete_schemadb = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('schemadb_delete');
+        $controller->schemadb = midcom_helper_datamanager2_schema::load_database($delete_schemadb);
+
+        if (! $controller->initialize())
+        {
+            throw new midcom_error("Failed to initialize a DM2 controller instance for object {$object->guid}.");
+        }
+        return $controller;
+    }
 }
 ?>

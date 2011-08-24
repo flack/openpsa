@@ -205,50 +205,35 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         $_MIDCOM->auth->require_do('midgard:delete', $this->_document);
 
-        $delete_succeeded = false;
-        if (array_key_exists('org_openpsa_documents_deleteok', $_POST))
+        $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
+
+        switch ($data['controller']->process_form())
         {
-            $delete_succeeded = $this->_document->delete();
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            if ($delete_succeeded)
-            {
-                // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
-                $indexer->delete($this->_document->guid);
-                // Redirect to the directory
-                $_MIDCOM->relocate($prefix);
-                // This will exit
-            }
-            else
-            {
-                // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
-                $_MIDCOM->relocate($prefix . '/document/' . $this->_document->guid . '/');
-                // This will exit
-            }
+            case 'delete':
+                if ($this->_document->delete())
+                {
+                    // Update the index
+                    $indexer = $_MIDCOM->get_service('indexer');
+                    $indexer->delete($this->_document->guid);
+                    // Redirect to the directory
+                    $_MIDCOM->relocate('');
+                    // This will exit
+                }
+                else
+                {
+                    // Failure, give a message
+                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
+                }
+                //Fall-through
+            case 'cancel':
+                $_MIDCOM->relocate("document/" . $this->_document->guid . "/");
+                // This will exit()
         }
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementById("org_openpsa_documents_document_deleteform").submit();',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("delete"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
-                    'rel' => 'directlink',
-                ),
-             )
-         );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'document/' . $this->_document->guid.'/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("cancel"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
-             )
-         );
+
+        $data['document_dm'] = $this->_datamanager;
+        $data['document'] = $this->_document;
+
+        org_openpsa_helpers::dm2_savecancel($this, 'delete');
         $this->_update_breadcrumb_line('delete');
     }
 
@@ -259,8 +244,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     public function _show_delete($handler_id, array &$data)
     {
-        $this->_request_data['document_dm'] =& $this->_datamanager;
-        $this->_request_data['document'] =& $this->_document;
         midcom_show_style("show-document-delete");
     }
 

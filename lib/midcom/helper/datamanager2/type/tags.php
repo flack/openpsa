@@ -16,9 +16,16 @@
 class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_type_text
 {
     /**
+     * The current tags
+     *
+     * @var string
+     */
+    public $value;
+
+    /**
      * Automatically use this context for all tags that lack one
      */
-    var $auto_context = null;
+    public $auto_context = null;
 
     /**
      * This event handler is called after construction, so passing references to $this to the
@@ -32,7 +39,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         return $_MIDCOM->load_library('net.nemein.tag');
     }
 
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         if (! $this->storage->object)
         {
@@ -44,7 +51,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         $this->value = net_nemein_tag_handler::tag_array2string($tags);
     }
 
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         $tag_array = net_nemein_tag_handler::string2tag_array($this->value);
         $this->auto_context = trim($this->auto_context);
@@ -74,7 +81,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         return null;
     }
 
-    function convert_to_raw()
+    public function convert_to_raw()
     {
         return net_nemein_tag_handler::string2tag_array($this->value);
     }

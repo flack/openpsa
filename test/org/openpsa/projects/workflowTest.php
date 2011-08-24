@@ -62,10 +62,11 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
 
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
+        $qb->add_order('type');
         $result = $qb->execute();
         $this->assertEquals(sizeof($result), 2);
-        $this->assertEquals($result[0]->targetPerson, self::$_user->id);
-        $this->assertEquals($result[1]->targetPerson, 0);
+        $this->assertEquals(self::$_user->id, $result[0]->targetPerson);
+        $this->assertEquals(0, $result[1]->targetPerson);
 
         self::$_project->refresh();
         $this->assertEquals(org_openpsa_projects_task_status_dba::ACCEPTED, self::$_project->status);
@@ -170,7 +171,6 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
 
         self::$_project->status = 0;
         self::$_project->update();
-        $_MIDCOM->auth->drop_sudo();
     }
 
     public static function TearDownAfterClass()

@@ -81,7 +81,10 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         {
             org_openpsa_helpers::dm2_savecancel($this);
         }
-
+        else if ($this->_mode == 'delete')
+        {
+            org_openpsa_helpers::dm2_savecancel($this, 'delete');
+        }
         if ($this->_object->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item

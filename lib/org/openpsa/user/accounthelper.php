@@ -168,11 +168,18 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $rand = 'rand';
         }
         // Valid characters for default password (PONDER: make configurable ?)
-        $passwdchars = 'abcdefghijklmnopqrstuvwxyz.,-*!:+=()/&%$<>?#@ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-*!:+=()/&%$<>?#@';
         $password = "";
         while ($length--)
         {
-            $password .= $passwdchars[$rand(0, strlen($passwdchars) - 1)];
+            $offset = 1;
+            if (   $length == 1
+                || $password == '')
+            {
+                //make sure password doesn't begin or end in punctuation character
+                $offset = 20;
+            }
+            $password .= $passwdchars[$rand(0, strlen($passwdchars) - $offset)];
         }
         return $password;
     }

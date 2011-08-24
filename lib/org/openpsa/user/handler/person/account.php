@@ -114,7 +114,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _generate_password()
     {
-        $this->_request_data["default_password"] = self::generate_password($this->_config->get('default_password_length'));
+        $this->_request_data["default_password"] = org_openpsa_user_accounthelper::generate_password($this->_config->get('default_password_length'));
     }
 
     /**
@@ -247,16 +247,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $_MIDCOM->relocate("view/" . $this->_person->guid . "/");
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        if (   array_key_exists('midcom_helper_datamanager2_save', $_POST)
-            && $this->_account->delete())
+        $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
+
+        switch ($data['controller']->process_form())
         {
-            // Account updated, redirect to person card
-            $_MIDCOM->relocate('view/' . $this->_person->guid . "/");
-        }
-        else if (array_key_exists('midcom_helper_datamanager2_cancel', $_POST))
-        {
-            $_MIDCOM->relocate('view/' . $this->_person->guid . "/");
+            case 'delete':
+                if (!$this->_account->delete())
+                {
+                    throw new midcom_error("Failed to delete account for {$this->_person->guid}, last Midgard error was: " . midcom_connection::get_error_string());
+                }
+                //Fall-through
+            case 'cancel':
+                $_MIDCOM->relocate('view/' . $this->_person->guid . "/");
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
@@ -267,7 +269,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_update_breadcrumb_line('delete account');
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
+        org_openpsa_helpers::dm2_savecancel($this, 'delete');
     }
 
     /**

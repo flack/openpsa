@@ -31,7 +31,7 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
      * @return boolean Indicating success
      * @access protected
      */
-    function _load_widget($name)
+    function _load_widget($name, $initialize_dependencies = true)
     {
         return parent::_load_widget($name, true);
     }
@@ -141,7 +141,7 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
      *
      * @return string One of 'editing', 'save', 'next', 'previous' and 'cancel'
      */
-    function process_form()
+    function process_form($ajax_mode = true)
     {
         $this->_exitcode = parent::process_form(true);
 

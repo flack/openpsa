@@ -110,24 +110,6 @@
             {
                 new_height = $(this).attr('clientHeight') + $("#gbox_journal_entry_grid").siblings('.org_openpsa_toolbar').attr('clientHeight') + 15;
                 $("#gbox_journal_entry_grid").parent().css('height' , new_height);
-
-                //if this is loaded into a tab - load the links into tabs also
-                $('#tabs').bind('tabsload', function(event , ui)
-                {
-                    //just take links which have no onclick-handling
-                    $('a', ui.panel).not('onclick').click(function()
-                    {
-                        //check if a target is set - if it is - don't load it into tab
-                        if (this.target == undefined || this.target == '')
-                        {
-                            if (this.href.slice(this.href.length - 1, this.href.length) != '#')
-                            {
-                                $(ui.panel).load(this.href);
-                                return false;
-                            }
-                        }
-                    });
-                });
             }
         },
         pager : "#p_journal_entry_grid",

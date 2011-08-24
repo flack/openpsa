@@ -13,7 +13,7 @@ require_once('Text/Password.php');
  * Datamanager 2 captcha widget
  *
  * Uses the PEAR Text_CAPTCHA package to provide Captcha authentification to a form.
- * Uses the PEAR Text_Password package to generate a captcha passphrase.
+ * Uses midcom_admin_user_plugin method to generate a captcha passphrase.
  *
  * The captcha is completely auto-generated, you should not have to worry about any
  * defaults. The captcha rendering is done using a midcom-exec callback linking into
@@ -115,7 +115,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         $session = new midcom_services_session($this->_session_domain);
         if (! $session->exists($this->_session_key))
         {
-            $phrase = Text_Password::create($this->length);
+            $phrase = midcom_admin_user_plugin::generate_password($this->length);
             $this->_passphrase = $phrase;
             $session->set($this->_session_key, $phrase);
         }
@@ -172,11 +172,6 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         }
 
         return true;
-    }
-
-    function get_default()
-    {
-        return '';
     }
 
     /**

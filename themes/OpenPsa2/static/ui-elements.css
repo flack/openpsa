@@ -338,10 +338,11 @@ input[type="submit"],
     padding: 1px
 }
 
-form.datamanager2 input.checkbox,
-form.datamanager2 input.radiobutton
+form.datamanager2 div.input input.checkbox,
+form.datamanager2 div.input input.radiobutton
 {
     border: none;
+    box-shadow: none;
 }
 
 form.datamanager2 input.shorttext,

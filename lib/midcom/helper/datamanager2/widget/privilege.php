@@ -46,7 +46,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     }
 
     /**
-     * Adds the radibox triplet to the form if and only if we have the permissions.
+     * Adds the radiobox triplet to the form if and only if we have the permissions.
      */
     function add_elements_to_form($attributes)
     {
@@ -104,7 +104,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     }
 
     /**
-     * Synchronizes  if and only if we have the permissions.
+     * Synchronizes if and only if we have the permissions.
      */
     function sync_type_with_widget($results)
     {
@@ -140,7 +140,6 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             return;
         }
 
-
         foreach (array_keys($this->_elements) as $index)
         {
             $this->_elements[$index]->freeze();
@@ -155,7 +154,6 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         {
             return;
         }
-
 
         foreach (array_keys($this->_elements) as $index)
         {

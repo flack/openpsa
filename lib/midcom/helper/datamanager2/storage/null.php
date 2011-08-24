@@ -54,7 +54,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
     public function _on_store_data($name, $data) {}
 
     /**
-     * This returns the defaults set. An empty string is used for unset defaults.
+     * This returns the defaults set. null is used for unset defaults.
      */
     public function _on_load_data($name)
     {
@@ -64,7 +64,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
         }
         else
         {
-            return '';
+            return null;
         }
     }
 

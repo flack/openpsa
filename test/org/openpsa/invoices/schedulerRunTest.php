@@ -186,10 +186,11 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     {
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $at_entries = $mc->get_related_objects('midcom.services.at');
+        $this->register_objects($at_entries);
 
         $this->assertEquals(1, sizeof($at_entries));
         $at_entry = $at_entries[0];
-        $this->register_object($at_entry);
+
         foreach ($values as $field => $value)
         {
             if ($field == 'start')

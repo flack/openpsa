@@ -19,7 +19,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
      *
      * @var string
      */
-    public $value = '';
+    public $value;
 
     var $code_valid = true;
     var $code_valid_errors = array();
@@ -47,7 +47,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     function convert_to_storage()
     {
         // Normalize line breaks to the UNIX format
-        $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", $this->value);
+        $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", (string) $this->value);
 
         return $this->value;
     }
@@ -59,7 +59,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
     function convert_to_csv()
     {
-        return $this->value;
+        return (string) $this->value;
     }
 
     /**
@@ -100,7 +100,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     {
         if (!$this->editarea_enabled)
         {
-            return highlight_string($this->value, true);
+            return highlight_string((string) $this->value, true);
         }
 
         $html = "<textarea rows=\"30\" cols=\"100%\" class=\"editarea php\" id=\"editarea_{$this->name}\" name=\"editarea_{$this->name}\">{$this->value}</textarea>";

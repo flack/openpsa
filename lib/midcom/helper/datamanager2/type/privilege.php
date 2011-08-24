@@ -73,7 +73,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
     }
 
     /**
-     * Returns the current privilege value, defaulting to INHERIT in case the
+     * Returns the current privilege value, defaulting to MIDCOM_PRIVILEGE_INHERIT in case the
      * privilege is yet unset.
      *
      * @return int Privilege value
@@ -173,7 +173,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
 
     function convert_to_html()
     {
-        switch($this->get_value())
+        switch ($this->get_value())
         {
             case MIDCOM_PRIVILEGE_ALLOW:
                 return $this->_l10n->get('widget privilege: allow');

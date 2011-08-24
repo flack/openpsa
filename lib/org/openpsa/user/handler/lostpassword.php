@@ -140,7 +140,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         // Generate a random password
         $length = max(8, $this->_config->get('password_minlength'));
-        $password = midcom_admin_user_plugin::generate_password($length);
+        $password = org_openpsa_user_accounthelper::generate_password($length);
 
         if (! $user->update_password($password, false))
         {

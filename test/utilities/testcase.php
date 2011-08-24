@@ -18,7 +18,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public static function create_user($login = false)
     {
-        $_MIDCOM->auth->request_sudo('midcom.core');
         $person = new midcom_db_person();
         $password = substr('p_' . time(), 0, 11);
         $username = __CLASS__ . ' user ' . microtime();
@@ -46,9 +45,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $person;
     }
 
-    public function get_component_node($component)
+    public static function get_component_node($component)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        midcom::get('auth')->request_sudo($component);
         if ($topic_guid = $siteconfig->get_node_guid($component))
         {
             $topic = new midcom_db_topic($topic_guid);
@@ -72,8 +72,9 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 'component' => $component,
                 'name' => 'handler_test_' . time()
             );
-            $topic = $this->create_object('midcom_db_topic', $topic_attributes);
+            $topic = self::create_class_object('midcom_db_topic', $topic_attributes);
         }
+        midcom::get('auth')->drop_sudo();
         return $topic;
     }
 
@@ -239,6 +240,16 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         if (midcom_core_context::get()->id != 0)
         {
             midcom_core_context::get(0)->set_current();
+        }
+
+        if (!$GLOBALS['midcom_config']['auth_allow_sudo'])
+        {
+            $GLOBALS['midcom_config']['auth_allow_sudo'] = true;
+        }
+
+        while (midcom::get('auth')->is_component_sudo())
+        {
+            midcom::get('auth')->drop_sudo();
         }
 
         $queue = array();

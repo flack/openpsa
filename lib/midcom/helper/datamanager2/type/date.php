@@ -10,8 +10,7 @@
 require_once('Date.php');
 
 /**
- * Datamanager 2 date datatype. The type is based on the PEAR date types
- * types.
+ * Datamanager 2 date datatype. The type is based on the PEAR date types.
  *
  * <b>Available configuration options:</b>
  *
@@ -125,17 +124,13 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      */
     function convert_from_storage ($source)
     {
-        if (! $source)
+        if (null === $source)
         {
-            // Get some way for really undefined dates until we can work with null
-            // dates everywhere midgardside.
+            $this->value = null;
+        }
+        else if (!$source)
+        {
             $this->value = new Date('0000-00-00 00:00:00');
-            $this->value->day = 0;
-            $this->value->month = 0;
-            if (!empty($this->default_date))
-            {
-                $this->value = new Date($this->default_date);
-            }
         }
         else
         {
@@ -266,6 +261,10 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      */
     function is_empty()
     {
+        if (null === $this->value)
+        {
+            return true;
+        }
         return
         (
                $this->value->year == 0
@@ -280,10 +279,13 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     private function _validate_date_range()
     {
         $format = $this->_get_format();
+        if ($this->is_empty())
+        {
+            return true;
+        }
         //sometimes the date-compare function seems to corrupt the date, by changing timezone maybe
         $before_compare_value = clone $this->value;
         if (   !empty($this->min_date)
-            && !$this->is_empty()
             && !$this->_validate_date($this->value, new Date($this->min_date - 86400)))
         {
             $min_date = new Date($this->min_date);
@@ -291,7 +293,6 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             return false;
         }
         if (   !empty($this->max_date)
-            && !$this->is_empty()
             && !$this->_validate_date(new Date($this->max_date), $this->value))
         {
             $max_date = new Date($this->max_date);

@@ -79,6 +79,10 @@ The field %s is required, please fill it out.
 Cancel
 ---STRINGEND
 
+---STRING form submit: delete
+Delete
+---STRINGEND
+
 ---STRING form submit: next
 Next
 ---STRINGEND

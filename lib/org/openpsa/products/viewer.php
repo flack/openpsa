@@ -322,7 +322,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      *
      * @param org_openpsa_products_product $object
      */
-    function update_breadcrumb_line($object, $product_group = null)
+    public static function update_breadcrumb_line($object, $product_group = null)
     {
         $tmp = Array();
 

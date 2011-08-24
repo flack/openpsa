@@ -82,14 +82,6 @@ EOT;
         return $jsinit;
     }
 
-    public function get_default()
-    {
-        return array
-        (
-            $this->name => '',
-        );
-    }
-
     public function sync_type_with_widget($results)
     {
         if ($results[$this->name] !== null)

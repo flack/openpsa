@@ -500,10 +500,12 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function get_default()
     {
-        if ($this->show_title)
+        if (   $this->show_title
+            && $this->_type->title !== '')
         {
             return Array("{$this->name}_title" => $this->_type->title);
         }
+        return null;
     }
 
     /**
