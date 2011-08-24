@@ -245,7 +245,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     public function _show_view($handler_id, array &$data)
     {
         // For AJAX handling it is the controller that renders everything
-        $data['contact_view'] =& $this->_controller->get_content_html();
+        $data['contact_view'] = $this->_controller->get_content_html();
         $data['datamanager'] =& $this->_controller->datamanager;
 
         midcom_show_style('show-person');
