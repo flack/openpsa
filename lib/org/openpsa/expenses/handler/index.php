@@ -175,7 +175,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         midcom_show_style('expenses_index_header');
         midcom_show_style('hours_week');
-        midcom_show_style('expenses_index_footer');
     }
 }
 ?>
