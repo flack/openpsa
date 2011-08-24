@@ -382,10 +382,6 @@ Username or password was invalid.
 Logout
 ---STRINGEND
 
----STRING long date
-%A %B %d, %Y
----STRINGEND
-
 ---STRING lowercase, no special characters or spaces
 Lowercase, no special characters or spaces
 ---STRINGEND
@@ -643,11 +639,11 @@ Settings
 ---STRINGEND
 
 ---STRING short date
-%Y-%m-%d
+Y-m-d
 ---STRINGEND
 
 ---STRING short date csv
-%Y-%m-%d
+Y-m-d
 ---STRINGEND
 
 ---STRING shown from %s

@@ -73,10 +73,6 @@
             'min' => '0.2.1',
             'max' => '0.2.1',
         ),
-        'Date' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
         'midcom.helper.imagepopup' => array(),
         'midcom.helper.reflector' => array

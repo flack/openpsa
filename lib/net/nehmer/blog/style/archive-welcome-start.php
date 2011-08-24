@@ -6,7 +6,7 @@ $summary = sprintf($data['l10n']->get('there is a total of %d posts.'), $data['t
 if ($data['first_post'])
 {
     $summary .= ' ' . sprintf($data['l10n']->get('first post was made on %s.'),
-        $data['first_post']->format($data['l10n_midcom']->get('short date')));
+    $data['first_post']->format($data['l10n_midcom']->get('short date')));
 }
 ?>
 
