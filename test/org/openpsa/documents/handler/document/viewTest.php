@@ -25,8 +25,8 @@ class org_openpsa_documents_handler_document_viewTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        $siteconf = org_openpsa_core_siteconfig::get_instance();
-        $topic = new midcom_db_topic($siteconf->get_node_guid('org.openpsa.documents'));
+
+        $topic = self::get_component_node('org.openpsa.documents');
         self::$_document = self::create_class_object('org_openpsa_documents_document_dba', array('topic' => $topic->id));
     }
 

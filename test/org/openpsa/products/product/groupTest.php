@@ -21,22 +21,23 @@ class org_openpsa_products_product_groupTest extends openpsa_testcase
 {
     public function testCRUD()
     {
+        $time = time();
         $_MIDCOM->auth->request_sudo('org.openpsa.products');
         $group = new org_openpsa_products_product_group_dba();
-        $group->code = 'TEST-100';
+        $group->code = 'TEST-100' . $time;
         $stat = $group->create();
         $this->assertTrue($stat);
 
-        $this->assertEquals($group->code, 'TEST-100');
+        $this->assertEquals($group->code, 'TEST-100' . $time);
 
-        $group->code = 'TEST-101';
+        $group->code = 'TEST-101' . $time;
         $stat = $group->update();
         $this->assertTrue($stat);
         $this->register_object($group);
-        $this->assertEquals($group->code, 'TEST-101');
+        $this->assertEquals($group->code, 'TEST-101' . $time);
 
         $group2 = new org_openpsa_products_product_group_dba();
-        $group2->code = 'TEST-101';
+        $group2->code = 'TEST-101' . $time;
         $stat = $group2->create();
         $this->assertFalse($stat);
         $this->assertEquals(midcom_connection::get_error(), MGD_ERR_OBJECT_NAME_EXISTS);

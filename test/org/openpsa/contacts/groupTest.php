@@ -23,16 +23,17 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
         $group = new org_openpsa_contacts_group_dba();
+        $time = time();
 
-        $group->name = 'TEST NAME';
+        $group->name = 'TEST NAME' . $time;;
         $stat = $group->create();
         $this->assertFalse($stat);
 
-        $group->name = 'TEST-NAME';
+        $group->name = 'TEST-NAME' . $time;
         $stat = $group->create();
         $this->assertTrue($stat);
         $this->register_object($group);
-        $this->assertEquals('TEST-NAME', $group->get_label());
+        $this->assertEquals('TEST-NAME' . $time, $group->get_label());
         $this->assertEquals(ORG_OPENPSA_ACCESSTYPE_PUBLIC, $group->orgOpenpsaAccesstype);
 
         $group->official = 'TEST OFFICIAL';

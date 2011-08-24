@@ -334,7 +334,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      * @param midcom_db_topic $topic The base topic to use.
      * @param mdicom_db_topic $content_topic The topic where the articles are stored.
      */
-    function get_last_modified($topic, $content_topic)
+    public static function get_last_modified($topic, $content_topic)
     {
         // Get last modified timestamp
         $qb = midcom_db_article::new_query_builder();
@@ -365,7 +365,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      * @param midgard_query_builder $qb reference to the QB object
      * @param array $data reference to the request_data array
      */
-    function article_qb_constraints(&$qb, &$data, $handler_id)
+    public static function article_qb_constraints(&$qb, &$data, $handler_id)
     {
         $config =& $data['config'];
         // GUIDs of topics to list articles from.
