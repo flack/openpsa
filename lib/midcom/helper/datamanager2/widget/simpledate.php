@@ -219,58 +219,35 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
             switch ($this->format{$i})
             {
                 case 'd':
-                    $value = $this->_type->value->getDay();
-                    if ($value == 0)
-                    {
-                        $defaults[$this->format{$i}] = '';
-                    }
-                    else
-                    {
-                        $defaults[$this->format{$i}] = $value;
-                    }
+                    $format = 'j';
                     break;
-
                 case 'M':
                 case 'm':
                 case 'F':
-                    $value = $this->_type->value->getMonth();
-                    if ($value == 0)
-                    {
-                        $defaults[$this->format{$i}] = '';
-                    }
-                    else
-                    {
-                        $defaults[$this->format{$i}] = $value;
-                    }
+                    $format = 'n';
                     break;
-
                 case 'Y':
-                    $value = $this->_type->value->getYear();
-                    if ($value == 0)
-                    {
-                        $defaults[$this->format{$i}] = '';
-                    }
-                    else
-                    {
-                        $defaults[$this->format{$i}] = $value;
-                    }
+                    $format = 'Y';
                     break;
-
-                case 'y':
-                    $defaults[$this->format{$i}] = substr($this->_type->value->getYear(), -2);
-                    break;
-
                 case 'H':
-                    $defaults[$this->format{$i}] = $this->_type->value->getHour();
+                    $format = 'G';
                     break;
-
-                case 'i':
-                    $defaults[$this->format{$i}] = $this->_type->value->getMinute();
-                    break;
-
-                case 's':
-                    $defaults[$this->format{$i}] = $this->_type->value->getSecond();
-                    break;
+            }
+            if ($this->_type->is_empty())
+            {
+                $defaults[$this->format{$i}] = '';
+            }
+            else
+            {
+                $value = (int) $this->_type->value->format($format);
+                if ($value == 0)
+                {
+                    $defaults[$this->format{$i}] = '';
+                }
+                else
+                {
+                    $defaults[$this->format{$i}] = $value;
+                }
             }
         }
 
@@ -284,18 +261,29 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
             return;
         }
 
+        $year = 0;
+        $month = 0;
+        $day = 0;
+        $hour = 0;
+        $minute = 0;
+        $second = 0;
+
         foreach ($results[$this->name] as $formatter => $value)
         {
+            if ($value == '')
+            {
+                continue;
+            }
             switch ($formatter)
             {
                 case 'd':
-                    $this->_type->value->day = ($value == '' ? 0 : $value);
+                    $day = $value;
                     break;
 
                 case 'M':
                 case 'm':
                 case 'F':
-                    $this->_type->value->month = ($value == '' ? 0 : $value);
+                    $month = $value;
                     break;
 
                 case 'y':
@@ -310,22 +298,24 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
                     // ** FALL THROUGH **
 
                 case 'Y':
-                    $this->_type->value->year = ($value == '' ? 0 : $value);
+                    $year = $value;
                     break;
 
                 case 'H':
-                    $this->_type->value->setHour($value);
+                    $hour = $value;
                     break;
 
                 case 'i':
-                    $this->_type->value->setMinute($value);
+                    $minute = $value;
                     break;
 
                 case 's':
-                    $this->_type->value->setSecond($value);
+                    $second = $value;
                     break;
             }
         }
+        $this->_type->value->setDate((int) $year, (int) $month, (int) $day);
+        $this->_type->value->setTime((int) $hour, (int) $minute, (int) $second);
     }
 
     /**

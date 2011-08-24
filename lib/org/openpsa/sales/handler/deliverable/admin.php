@@ -216,7 +216,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $formdata = $this->_controller->datamanager->types;
 
                 $entry = isset($formdata['at_entry']) ? (int) $formdata['at_entry']->value : 0;
-                $next_cycle = isset($formdata['next_cycle']) ? $formdata['next_cycle']->value->getTime() : 0;
+                $next_cycle = isset($formdata['next_cycle']) ? (int) $formdata['next_cycle']->value->format('U') : 0;
 
                 if ($entry != 0)
                 {

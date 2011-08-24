@@ -49,18 +49,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             if (   array_key_exists($key, $this->_datamanager->types)
                 && !in_array($key, $data['fields_to_skip']))
             {
-                /**
-                 * Is there a particular reason to do this this way (with invalid handling for selects etc ?)
-                 *
-                if (is_a($this->_datamanager->types[$key], 'midcom_helper_datamanager2_type_date'))
-                {
-                    $this->_datamanager->types[$key]->value = new Date($value);
-                }
-                else
-                {
-                    $this->_datamanager->types[$key]->value = $value;
-                }
-                 */
                 $this->_datamanager->types[$key]->convert_from_csv($value);
             }
         }

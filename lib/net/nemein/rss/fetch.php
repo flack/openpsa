@@ -653,8 +653,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         $this->_datamanager->autoset_storage($event);
-        $this->_datamanager->types['start']->value = new Date($start);
-        $this->_datamanager->types['end']->value = new Date($end);
+        $this->_datamanager->types['start']->value = new DateTime(strftime('%Y-%m-%d %H:%M:%S', $start));
+        $this->_datamanager->types['end']->value = new DateTime(strftime('%Y-%m-%d %H:%M:%S', $end));
 
         if (is_a($this->_datamanager->types['location'], 'midcom_helper_datamanager2_type_position'))
         {

@@ -336,7 +336,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             if (   $date->format('t') == $date->format('j')
                 && $new_date->format('t') != $new_date->format('j'))
             {
-                $new_date->setDate($new_date->format('Y'), $new_date->format('m'), $new_date->format('t'));
+                $new_date->setDate((int) $new_date->format('Y'), (int) $new_date->format('m'), (int) $new_date->format('t'));
             }
         }
         $next_cycle = (int) $new_date->format('U');

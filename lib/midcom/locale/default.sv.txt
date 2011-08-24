@@ -350,10 +350,6 @@ Användarnamn eller lösenord är felaktigt.
 Logga ut
 ---STRINGEND
 
----STRING long date
-%A %B %d, %Y
----STRINGEND
-
 ---STRING lowercase, no special characters or spaces
 Gemener, inga specialtecken eller mellanslag
 ---STRINGEND
@@ -579,7 +575,7 @@ Inställningar
 ---STRINGEND
 
 ---STRING short date
-%Y-%m-%d
+Y-m-d
 ---STRINGEND
 
 ---STRING shown from %s
