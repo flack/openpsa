@@ -109,7 +109,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             }
         }
 
-        if ($this->_config->get('invoice_pdf_class_file'))
+        if ($this->_config->get('invoice_pdfbuilder_class'))
         {
             $fields['pdf_file']['hidden'] = false;
         }

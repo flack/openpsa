@@ -370,10 +370,6 @@ Niepoprawny użytkownik lub hasło.
 Logout
 ---STRINGEND
 
----STRING long date
-%A %B %d, %Y
----STRINGEND
-
 ---STRING lowercase, no special characters or spaces
 Małe litery, bez znaków specjalnych i spacji
 ---STRINGEND
@@ -607,11 +603,11 @@ Ustawienia
 ---STRINGEND
 
 ---STRING short date
-%Y-%m-%d
+Y-m-d
 ---STRINGEND
 
 ---STRING short date csv
-%Y-%m-%d
+Y-m-d
 ---STRINGEND
 
 ---STRING shown from %s

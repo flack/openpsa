@@ -153,15 +153,15 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     function _create_initscript()
     {
-        $init_max = new Date($this->maxyear . '-12-31');
-        $init_min = new Date($this->minyear . '-01-01');
+        $init_max = new DateTime($this->maxyear . '-12-31');
+        $init_min = new DateTime($this->minyear . '-01-01');
         if (!empty($this->_type->max_date))
         {
-            $init_max = new Date($this->_type->max_date);
+            $init_max = new DateTime($this->_type->max_date);
         }
         if (!empty($this->_type->min_date))
         {
-            $init_min = new Date($this->_type->min_date);
+            $init_min = new DateTime($this->_type->min_date);
         }
         //need this due to js Date begins to count the months with 0 instead of 1
         $init_max->month--;
@@ -173,8 +173,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
         {
             jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
             {
-              maxDate: new Date({$init_max->year} , {$init_max->month} , {$init_max->day}),
-              minDate: new Date({$init_min->year} , {$init_min->month} , {$init_min->day}),
+              maxDate: new Date({$init_max->format('Y')} , {$init_max->format('m')} , {$init_max->format('d')}),
+              minDate: new Date({$init_min->format('Y')} , {$init_min->format('m')} , {$init_min->format('d')}),
               dateFormat: 'yy-mm-dd',
               prevText: '',
               nextText: '',
@@ -305,6 +305,8 @@ EOT;
 
     /**
      * The default call produces a simple text representation of the current date.
+     *
+     * @todo do we really need to set this->format here?
      */
     function get_default()
     {
@@ -312,36 +314,47 @@ EOT;
         {
             return null;
         }
-        if ($this->_type->value->year == 0)
-        {
-            $this->_type->value->year = '0000';
-        }
 
-        $this->format = '%Y-%m-%d';
-        $defaults = array
-        (
-            $this->name . '_date' => $this->_type->value->format($this->format)
-        );
+        $defaults = array($this->name . '_date' => '0000-00-00');
+        $this->format = 'Y-m-d';
 
         if ($this->show_time)
         {
-            $this->format = '%Y-%m-%d %H:%M';
-            $defaults[$this->name . '_hours'] = $this->_type->value->format('%H');
-            $defaults[$this->name . '_minutes'] = $this->_type->value->format('%M');
-
+            $this->format = 'Y-m-d H:i';
+            $defaults[$this->name . '_hours'] = '00';
+            $defaults[$this->name . '_minutes'] = '00';
             if (!$this->hide_seconds)
             {
-                $this->format = '%Y-%m-%d %H:%M:%S';
-                $defaults[$this->name . '_seconds'] = $this->_type->value->format('%S');
+                $defaults[$this->name . '_seconds'] = '00';
+                $this->format = 'Y-m-d H:i:s';
             }
         }
 
+        if (!$this->_type->is_empty())
+        {
+            $defaults[$this->name . '_date'] = $this->_type->value->format('Y-m-d');
+
+            if ($this->show_time)
+            {
+                $defaults[$this->name . '_hours'] = $this->_type->value->format('H');
+                $defaults[$this->name . '_minutes'] = $this->_type->value->format('i');
+
+                if (!$this->hide_seconds)
+                {
+                    $defaults[$this->name . '_seconds'] = $this->_type->value->format('s');
+                }
+            }
+        }
         return $defaults;
     }
 
     private function _normalize_time_input($string)
     {
         $output = trim($string);
+        if (strlen($output) == 0)
+        {
+            $output = '00';
+        }
         if (strlen($output) == 1)
         {
             $output = '0' . $output;
@@ -380,7 +393,7 @@ EOT;
 
             $input .= ' ' . $hours . ':' . $minutes . ':';
             // If we have hidden seconds, we need to change format to save those seconds
-            $this->format = '%Y-%m-%d %H:%M:%S';
+            $this->format = 'Y-m-d H:i:s';
             if ($this->hide_seconds)
             {
                 $input .= '00';
@@ -461,8 +474,7 @@ EOT;
     {
         // Try to fix the incorrect input
         $date = $this->check_user_input($results);
-
-        $this->_type->value = new Date($date);
+        $this->_type->value = new DateTime($date);
     }
 
     /**
@@ -474,16 +486,16 @@ EOT;
         {
             if ($this->hide_seconds)
             {
-                $format = '%Y-%m-%d %H:%M';
+                $format = 'Y-m-d H:i';
             }
             else
             {
-                $format = '%Y-%m-%d %H:%M:%S';
+                $format = 'Y-m-d H:i:s';
             }
         }
         else
         {
-            $format = '%Y-%m-%d';
+            $format = 'Y-m-d';
         }
         return $this->_type->value->format($format);
     }

@@ -66,7 +66,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     private function _load_schemadb()
     {
-        $this->_schemadb =& midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
+        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
     }
 
     /**

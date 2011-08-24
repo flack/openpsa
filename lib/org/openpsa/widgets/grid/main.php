@@ -50,6 +50,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     private static $_head_elements_added = false;
 
     /**
+     * Data for the table footer
+     *
+     * @var array
+     */
+    private $_footer_data;
+
+    /**
      * function that loads the necessary javascript & css files for jqgrid
      */
     public static function add_head_elements()

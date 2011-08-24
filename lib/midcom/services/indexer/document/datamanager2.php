@@ -254,14 +254,19 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      * UNIX timestamp. For all other cases you should use an ISO 8601 representation,
      * which should work as well with Lucene range queries.
      *
-     * @todo Refactor this to use PEAR Date
+     * @todo Refactor this to use DateTime
      * @param string $name The name of the field that should be stored
      */
     private function _add_as_date_field($name)
     {
         if ($this->_schema->fields[$name]['type'] == 'date')
         {
-            $this->add_date_pair($name, $this->_datamanager->types[$name]->value->getTime());
+            $timestamp = 0;
+            if (!$this->_datamanager->types[$name]->is_empty())
+            {
+                $timestamp = $this->_datamanager->types[$name]->value->format('U');
+            }
+            $this->add_date_pair($name, $timestamp);
         }
         else
         {

@@ -366,10 +366,6 @@ Käyttäjätunnus tai salasana oli virheellinen
 Kirjaudu ulos
 ---STRINGEND
 
----STRING long date
-%x %X
----STRINGEND
-
 ---STRING lowercase, no special characters or spaces
 Pienet kirjaimet, ei erikoismerkkejä, ääkkösiä tai välejä
 ---STRINGEND
@@ -607,7 +603,7 @@ Asetukset
 ---STRINGEND
 
 ---STRING short date
-%d.%m.%Y
+d.m.Y
 ---STRINGEND
 
 ---STRING shown from %s
@@ -823,7 +819,7 @@ MidCOM CMS Framework
 ---STRINGEND
 
 ---STRING short date csv
-%d.%m.%Y
+d.m.Y
 ---STRINGEND
 
 ---STRING restore submitted form data

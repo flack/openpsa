@@ -34,8 +34,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         $next_marker = array();
 
         // unsent invoices
-        if (   $this->_list_type == 'unsent'
-            || $invoice->sent == 0)
+        if ($invoice->sent == 0)
         {
             // sending per mail enabled in billing data?
             $billing_data = $invoice->get_billing_data();

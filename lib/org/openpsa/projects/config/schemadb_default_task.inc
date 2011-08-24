@@ -77,7 +77,8 @@
             'type' => 'date',
             'type_config' => Array
             (
-                'storage_type' => 'UNIXTIME'
+                'storage_type' => 'UNIXTIME',
+                'later_than' => 'start'
             ),
             'widget' => 'jsdate',
             'widget_config' => Array
