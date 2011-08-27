@@ -191,7 +191,7 @@ EOT;
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $this->_add_external_html_elements();
 
@@ -217,7 +217,7 @@ EOT;
     /**
      * Create the unfrozen element listing.
      */
-    function _create_unfrozen_elements()
+    private function _create_unfrozen_elements()
     {
         $elements = array();
         $attributes = Array
@@ -266,7 +266,7 @@ EOT;
     /**
      * Create the frozen element listing.
      */
-    function _create_frozen_elements()
+    private function _create_frozen_elements()
     {
         $attributes = Array
         (
@@ -282,7 +282,7 @@ EOT;
      * Freeze the entire group, special handling applies, the formgroup is replaced by a single
      * static element.
      */
-    function freeze()
+    public function freeze()
     {
         $new_elements = $this->_create_frozen_elements();
 

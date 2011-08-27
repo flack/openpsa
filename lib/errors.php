@@ -33,7 +33,7 @@ class midcom_exception_handler
     public function handle_exception(Exception $e)
     {
         //For unit tests or MidgardMVC we just pass exceptions on and let the frameworks do the work
-        if (   $e instanceof midgardmvc_exception_unauthorized)
+        if ($e instanceof midgardmvc_exception_unauthorized)
         {
             throw $e;
         }
