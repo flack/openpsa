@@ -14,11 +14,6 @@
 class midcom_helper_head
 {
     /**
-     * JS/CSS merger service
-     */
-    var $jscss = false;
-
-    /**
      * Array with all JavaScript declarations for the page's head.
      *
      * @var Array
@@ -133,15 +128,6 @@ class midcom_helper_head
      */
     public function add_jsfile($url, $prepend = false)
     {
-        // use merger cache if possible
-        if (   $this->jscss
-            && is_callable(array($this->jscss, 'add_jsfile')))
-        {
-            if ($this->jscss->add_jsfile($url, $prepend))
-            {
-                return;
-            }
-        }
         // Adds a URL for a <script type="text/javascript" src="tinymce.js"></script>
         // like call. $url is inserted into src. Duplicates are omitted.
         if (! in_array($url, $this->_jsfiles))
@@ -313,15 +299,6 @@ class midcom_helper_head
         {
             return false;
         }
-        // use merger cache if possible
-        if (   $this->jscss
-            && is_callable(array($this->jscss, 'add_cssfile')))
-        {
-            if ($this->jscss->add_cssfile($attributes))
-            {
-                return;
-            }
-        }
 
         // Register each URL only once
         if ($key = array_search($attributes['href'], $this->_linkhrefs))
@@ -483,19 +460,10 @@ class midcom_helper_head
             }
         }
 
-        if (   $this->jscss
-            && is_callable(array($this->jscss, 'print_cssheaders')))
-        {
-            $this->jscss->print_cssheaders();
-        }
         echo $this->_object_head;
         echo $this->_style_head;
         echo $this->_meta_head;
-        // if (   $this->jscss
-        //     && is_callable(array($this->jscss, 'print_jsheaders')))
-        // {
-        //     $this->jscss->print_jsheaders();
-        // }
+
         foreach ($this->_jshead as $js_call)
         {
             echo $js_call;
