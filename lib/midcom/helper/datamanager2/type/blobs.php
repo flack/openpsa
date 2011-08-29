@@ -435,6 +435,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             }
             return false;
         }
+
         if (! $this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, true, $tmpname))
         {
             fclose($handle);
@@ -559,15 +560,19 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        $this->attachments[$identifier] = $attachment;
-        $this->_save_attachment_listing();
-
-        $attachment->copy_from_handle($source);
+        if (!$attachment->copy_from_handle($source))
+        {
+            debug_add('Failed to create the attachment file.', MIDCOM_LOG_WARN);
+            return false;
+        }
 
         if ($autoclose)
         {
             fclose($source);
         }
+
+        $this->attachments[$identifier] = $attachment;
+        $this->_save_attachment_listing();
 
         $this->_store_att_map_parameters($identifier, $attachment);
 
@@ -792,16 +797,17 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         }
 
         $attachment = $this->attachments[$identifier];
-        if ($title !== null)
-        {
-            $attachment->title = $title;
-        }
+
         if ($mimetype !== null)
         {
             $attachment->mimetype = $mimetype;
         }
 
-        $attachment->copy_from_handle($source);
+        if (!$attachment->copy_from_handle($source))
+        {
+            debug_add('Failed to update the attachment file.', MIDCOM_LOG_WARN);
+            return false;
+        }
         if ($autoclose)
         {
             fclose($source);
