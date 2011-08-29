@@ -131,9 +131,9 @@ echo "  ... Done.\n";
 $rootdir = realpath(dirname(__FILE__)) . '/../';
 
 require $rootdir . 'lib/midcom/connection.php';
-require $rootdir . 'lib/midcom/config/midcom_config.php';
 
 $GLOBALS['midcom_config']['person_class'] = 'openpsa_person';
+$GLOBALS['midcom_config']['auth_type'] = 'Plaintext';
 
 function _migrate_account($person)
 {
