@@ -4,7 +4,7 @@
  */
 if (count($argv) != 2)
 {
-    die("Usage: php quick_init.php midgardconffile\n");
+    die("Usage: php update_db.php midgardconffile\n");
 }
 
 if (!extension_loaded('midgard2'))
@@ -164,7 +164,7 @@ function _migrate_account($person)
     }
 
     $user->set_person($mgd_person);
-
+    $user->active = true;
     try
     {
         $user->create();
