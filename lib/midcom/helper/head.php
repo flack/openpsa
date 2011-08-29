@@ -16,23 +16,23 @@ class midcom_helper_head
     /**
      * Array with all JavaScript declarations for the page's head.
      *
-     * @var Array
+     * @var array
      */
     private $_jshead = array();
 
     /**
      * Array with all JavaScript file inclusions.
      *
-     * @var Array
+     * @var array
      */
     private $_jsfiles = array();
 
     /**
-     * String with all prepend JavaScript declarations for the page's head.
+     * Array with all prepend JavaScript declarations for the page's head.
      *
-     * @var string
+     * @var array
      */
-    private $_prepend_jshead = '';
+    private $_prepend_jshead = array();
 
     /**
      * Boolean showing if jQuery is enabled
@@ -133,7 +133,7 @@ class midcom_helper_head
         if (! in_array($url, $this->_jsfiles))
         {
             $this->_jsfiles[] = $url;
-            $js_call = "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
+            $js_call = array('url' => $url);
             if ($prepend)
             {
                 // Add the javascript include to the beginning, not the end of array
@@ -154,7 +154,7 @@ class midcom_helper_head
      * at anytime it likes. The queue-up SHOULD be done during the code-init phase,
      * while the print_head_elements output SHOULD be included in the HTML HEAD area and
      * the HTTP onload attribute returned by print_jsonload SHOULD be included in the
-     * BODY-tag. Note, that these suggestions are not enforced, if you want a JScript
+     * BODY-tag. Note, that these suggestions are not enforced, if you want a Javascript
      * clean site, just omit the print calls and you should be fine in almost all
      * cases.
      *
@@ -168,9 +168,7 @@ class midcom_helper_head
      */
     public function add_jscript($script, $defer = '', $prepend = false)
     {
-        $js_call = "<script type=\"text/javascript\"{$defer}>\n";
-        $js_call .= trim($script) . "\n";
-        $js_call .= "</script>\n";
+        $js_call = array('content' => trim($script), 'defer' => $defer);
         if ($prepend)
         {
             $this->_prepend_jshead[] = $js_call;
@@ -231,8 +229,8 @@ class midcom_helper_head
     }
 
     /**
-     *  Register a metatag  to be added to the head element.
-     *  This allows MidCOM components to register metatags  to be placed in the
+     *  Register a metatag to be added to the head element.
+     *  This allows MidCOM components to register metatags to be placed in the
      *  head section of the page.
      *
      *  @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
@@ -431,7 +429,7 @@ class midcom_helper_head
         {
             foreach ($this->_prepend_jshead as $js_call)
             {
-                echo $js_call;
+                $this->_print_js($js_call);
             }
         }
 
@@ -466,9 +464,33 @@ class midcom_helper_head
 
         foreach ($this->_jshead as $js_call)
         {
-            echo $js_call;
+            $this->_print_js($js_call);
         }
         $this->print_jquery_statuses();
+    }
+
+    private function _print_js(array $js_call)
+    {
+        if (array_key_exists('url', $js_call))
+        {
+            echo '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
+        }
+        else
+        {
+            echo '<script type="text/javascript"' . $js_call['defer'] . ">\n";
+            echo  $js_call['content'] . "\n";
+            echo "</script>\n";
+        }
+    }
+
+    public function get_jshead_elements()
+    {
+        return $this->_prepend_jshead + $this->_jshead;
+    }
+
+    public function get_link_head()
+    {
+        return $this->_link_head;
     }
 
     /**
