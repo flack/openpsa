@@ -423,7 +423,7 @@ Aufgaben zur Vereinbarung "%s"
 ---STRINGEND
 
 ---STRING timeframe
-Zeitrahmen
+Zeitraum
 ---STRINGEND
 
 ---STRING totals
