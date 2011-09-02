@@ -80,7 +80,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (isset($args[1]))
         {
-            $this->_requested_time = $args[1];
+            $this->_requested_time = (int) $args[1];
         }
 
         // Load the controller instance
