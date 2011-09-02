@@ -9,7 +9,7 @@
 /**
  * Datamanager 2 JS date widget
  *
- * This widget is built around the jQuery UI datepickerr, it requires the date type or a subclass thereof.
+ * This widget is built around the jQuery UI datepicker, it requires the date type or a subclass thereof.
  *
  * <b>Available configuration options:</b>
  *
@@ -482,6 +482,10 @@ EOT;
      */
     public function render_content()
     {
+        if ($this->_type->is_empty())
+        {
+            return '';
+        }
         if ($this->show_time)
         {
             if ($this->hide_seconds)
