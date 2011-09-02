@@ -48,6 +48,9 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         (
             'salesproject' => self::$_salesproject->id,
             'product' => self::$_product->id,
+            'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+            'units' => 1,
+            'pricePerUnit' => 5
         );
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
@@ -72,6 +75,15 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED, $deliverable->state);
+
+        $_POST = array
+        (
+            'invoice' => true,
+        );
+        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
+        $deliverable->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED, $deliverable->state);
 
         midcom::get('auth')->drop_sudo();
     }
