@@ -346,7 +346,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $entry_keys = $mc_entry->get_values('fromGuid');
 
         //check date
-        if (!$formdata['notify']->value->is_empty())
+        if (!$formdata['notify']->is_empty())
         {
             $notification_entry = null;
 
