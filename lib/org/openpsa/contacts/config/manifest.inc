@@ -8,7 +8,7 @@
     'org_openpsa_role' => 'org_openpsa_contacts_role_dba',
     'net_nehmer_buddylist_entry_db' => 'org_openpsa_contacts_buddy_dba',
 ),
-'version' => '9.0beta1',
+'version' => '9.0beta1+git',
 'state' => 'stable',
 'package.xml' => array
 (
