@@ -1,6 +1,6 @@
 'name' => 'net.nehmer.buddylist',
 'icon' => 'stock-icons/16x16/stock_people.png',
-'version' => '9.0pre',
+'version' => '9.0beta1',
 'class_mapping' => array
 (
     'net_nehmer_buddylist_entry_db' => 'net_nehmer_buddylist_entry'

@@ -1,6 +1,6 @@
 'name' => 'midcom.helper.datamanager2',
 'icon' => 'midcom.helper.datamanager2/datamanager.png',
-'version' => '9.0pre',
+'version' => '9.0beta1',
 'state' => 'stable',
 'purecode' => true,
 'package.xml' => array

@@ -1,7 +1,7 @@
 'name' => 'midcom.helper.xml',
 'icon' => 'midcom.helper.xml/xml.png',
 'purecode' => true,
-'version' => '9.0pre',
+'version' => '9.0beta1',
 'privileges' => array(),
 'class_mapping' => array(),
 'package.xml' => array

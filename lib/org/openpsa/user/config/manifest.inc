@@ -7,7 +7,7 @@
     'manage' => MIDCOM_PRIVILEGE_DENY,
 ),
 'class_mapping' => array(),
-'version' => '9.0pre',
+'version' => '9.0beta1',
 'state' => 'stable',
 'package.xml' => array
 (
