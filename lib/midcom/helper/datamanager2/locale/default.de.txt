@@ -143,6 +143,14 @@ Dateigröße
 Dieses Datum muss größer als %s sein
 ---STRINGEND
 
+---STRING type date: this date must be %s or earlier
+Dieses Datum muss %s oder kleiner sein
+---STRINGEND
+
+---STRING type date: this date must be %s or later
+Dieses Datum muss %s oder größer sein
+---STRINGEND
+
 ---STRING type image: actions
 Bild-Aktionen
 ---STRINGEND

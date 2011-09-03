@@ -270,14 +270,14 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             && $this->value < new DateTime($this->min_date))
         {
             $min_date = new DateTime($this->min_date);
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be at least %s or later'), htmlspecialchars($min_date->format($format)));
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be %s or later'), htmlspecialchars($min_date->format($this->_l10n_midcom->get('short date'))));
             return false;
         }
         if (   !empty($this->max_date)
             && $this->value > new DateTime($this->max_date))
         {
             $max_date = new DateTime($this->max_date);
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be earlier or be %s'), htmlspecialchars($max_date->format($format)));
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be %s or earlier'), htmlspecialchars($max_date->format($this->_l10n_midcom->get('short date'))));
             return false;
         }
 
