@@ -84,12 +84,12 @@ $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
 {
-    include(MIDCOM_ROOT . '/../config.inc.php');
+    include MIDCOM_ROOT . '/../config.inc.php';
 }
 else
 {
     //TODO: Hook in an installation wizard here, once it is written
-    include(MIDCOM_ROOT . '/../config-default.inc.php');
+    include MIDCOM_ROOT . '/../config-default.inc.php';
 }
 
 if (! defined('MIDCOM_STATIC_URL'))
@@ -99,11 +99,11 @@ if (! defined('MIDCOM_STATIC_URL'))
 
 if (file_exists(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php'))
 {
-    include(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php');
+    include MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php';
 }
 
 // Include the MidCOM environment for running OpenPSA
-require(MIDCOM_ROOT . '/midcom.php');
+require MIDCOM_ROOT . '/midcom.php';
 
 // Start request processing
 $midcom = midcom::get();
