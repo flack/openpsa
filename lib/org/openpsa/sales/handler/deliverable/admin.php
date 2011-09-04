@@ -216,11 +216,18 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $formdata = $this->_controller->datamanager->types;
 
                 $entry = isset($formdata['at_entry']) ? (int) $formdata['at_entry']->value : 0;
-                $next_cycle = isset($formdata['next_cycle']) ? (int) $formdata['next_cycle']->value->format('U') : 0;
 
                 if ($entry != 0)
                 {
                     $entry = new midcom_services_at_entry_dba($entry);
+
+                    $next_cycle = 0;
+                    if (   isset($formdata['next_cycle'])
+                        && !$formdata['next_cycle']->is_empty())
+                    {
+                        $next_cycle =  (int) $formdata['next_cycle']->value->format('U');
+                    }
+
                     //@todo If next_cycle is changed to be in the past, should we check if this would lead
                     //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to
                     //one year in the past, this would trigger twelve consecutive runs and maybe
