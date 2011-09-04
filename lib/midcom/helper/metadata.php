@@ -509,7 +509,7 @@ class midcom_helper_metadata
                     }
                     else
                     {
-                        $value = $this->__metadata->$key->format('U');
+                        $value = (int) $this->__metadata->$key->format('U');
                     }
                 }
                 else if (   empty($this->__metadata->$key)
