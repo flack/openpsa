@@ -1,6 +1,5 @@
 <?php
 /**
- * Created on Jan 12, 2006
  * @author tarjei huse
  * @package midcom.helper.xml
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -45,6 +44,7 @@ class midcom_helper_xml_objectmapper
 
     /**
      * Take xml and move it into an object
+     *
      * @param array xmldata
      * @param the object in question.
      * @return object the updated object (not saved)
@@ -113,7 +113,8 @@ class midcom_helper_xml_objectmapper
      * Note, the function expects xml like this:
      * <objecttype><attribute>attribute_value</attribute></objecttype>
      * But it will not return the objecttype.
-     * @param xml
+     *
+     * @param string $data xml
      * @return array with attribute => key values.
      */
     function data2array ($data)
@@ -190,7 +191,8 @@ class midcom_helper_xml_objectmapper
 
     /**
      * Make XML out of an object loaded into datamanager
-     * @param midcom_helper_datamanager2_datamanager
+     *
+     * @param midcom_helper_datamanager2_datamanager $datamanager
      * @return xmldata
      */
     function dm2data($datamanager, $fallback_label = 'default', $additional_data = array())
@@ -210,7 +212,8 @@ class midcom_helper_xml_objectmapper
 
     /**
      * Make XML out of an array.
-     * @param array
+     *
+     * @param array $array
      * @return xmldata
      */
     function array2data($array, $root_node = 'array', $prefix = '')
@@ -262,8 +265,9 @@ class midcom_helper_xml_objectmapper
     }
 
     /**
-     * Make xml out of an object.
-     * @param object
+     * Make XML out of an object.
+     *
+     * @param object $object
      * @return xmldata
      */
     function object2data($object, $classname = null, $prefix = '')
@@ -311,13 +315,13 @@ class midcom_helper_xml_objectmapper
         foreach ($fields as $key)
         {
             if (is_object($object->$key))
-            {;
+            {
                 $data .= $this->object2data($object->$key, null, "{$prefix}    ");
             }
 
-            elseif (   is_numeric($object->$key)
-                    || is_null($object->$key)
-                    || is_bool($object->$key))
+            else if (   is_numeric($object->$key)
+                     || is_null($object->$key)
+                     || is_bool($object->$key))
             {
                 $data .= "{$prefix}    <{$key}>{$object->$key}</{$key}>\n";
             }
@@ -330,11 +334,12 @@ class midcom_helper_xml_objectmapper
         $data .= "{$prefix}</{$classname}>";
         return $data;
     }
+
     /**
      * Get the correct classname
-     * @param object the object
-     * @return string the mgdschmea classname
      *
+     * @param object $object the object
+     * @return string the mgdschmea classname
      */
     function _get_classname( $object)
     {
@@ -346,3 +351,4 @@ class midcom_helper_xml_objectmapper
         return get_class($object);
     }
 }
+?>
