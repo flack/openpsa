@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Prepares a mgd2 database 
+ * Prepares a mgd2 database
  */
 function openpsa_prepare_database($config)
 {
@@ -23,17 +23,12 @@ function openpsa_prepare_database($config)
     $classes = $re->getClasses();
     foreach ($classes as $refclass)
     {
-        $parent_class = $refclass->getParentClass();
-        if (!$parent_class)
-        {
-            continue;
-        }
-        if ($parent_class->getName() != 'midgard_object')
+        if (!$refclass->isSubclassOf('midgard_object'))
         {
             continue;
         }
         $type = $refclass->getName();
-            
+
         midgard_storage::create_class_storage($type);
         midgard_storage::update_class_storage($type);
     }
