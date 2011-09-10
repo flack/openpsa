@@ -79,6 +79,74 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
     }
 
     /**
+     * @dataProvider providerGet_cycle_identifier
+     */
+    public function testGet_cycle_identifier($attributes, $output)
+    {
+        $deliverable = self::prepare_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
+        $identifier = $scheduler->get_cycle_identifier($deliverable->start);
+        $this->assertEquals($identifier, $output);
+    }
+
+    public function providerGet_cycle_identifier()
+    {
+        return array
+        (
+            array
+            (
+                array
+                (
+                    'unit' => 'd',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                '2011-01-01',
+            ),
+            array
+            (
+                array
+                (
+                    'unit' => 'm',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                '2011-01',
+            ),
+            array
+            (
+                array
+                (
+                    'unit' => 'y',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                '2011',
+            ),
+            array
+            (
+                array
+                (
+                    'unit' => 'q',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                '1Q11',
+            ),
+            array
+            (
+                array
+                (
+                    'unit' => 'hy',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                '1/2011',
+            ),
+        );
+    }
+
+    /**
      * @dataProvider providerCalculate_cycles
      * @depends testCalculate_cycle_next
      */
@@ -128,6 +196,28 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
                 ),
                 null,
                 1,
+            ),
+            array
+            (
+                array
+                (
+                    'unit' => 'hy',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                null,
+                2,
+            ),
+            array
+            (
+                array
+                (
+                    'unit' => 'q',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ),
+                null,
+                4,
             ),
             array
             (
