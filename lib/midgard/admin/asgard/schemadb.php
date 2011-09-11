@@ -82,26 +82,22 @@ class midgard_admin_asgard_schemadb
             $type_fields = $this->_object->get_properties();
         }
 
-        switch (true)
+        if (empty($include_fields))
         {
-            case is_null($include_fields):
-            case !$include_fields:
-                break;
-            case is_array($include_fields):
-                if (count($include_fields) === 0)
-                {
-                    $include_fields = null;
-                }
-                break;
-            case is_string($include_fields):
-                $include_fields = array
-                (
-                    $include_fields,
-                );
-                break;
+            $include_fields = null;
         }
-
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database('file:/midgard/admin/asgard/config/schemadb_default.inc');
+        else if (is_string($include_fields))
+        {
+            $include_fields = array
+            (
+                $include_fields,
+            );
+        }
+        //This is an ugly little workaround for unittesting
+        $template = midcom_helper_datamanager2_schema::load_database('file:/midgard/admin/asgard/config/schemadb_default.inc');
+        $empty_db = clone $template['object'];
+        $this->_schemadb = array('object' => $empty_db);
+        //workaround end
         $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($type));
 
         // Iterate through object properties
