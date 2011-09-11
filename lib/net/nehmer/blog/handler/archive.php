@@ -6,9 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once('Date.php');
-
 /**
  * Blog Archive pages handler
  *
@@ -22,15 +19,13 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
     /**
      * The articles to display
      *
-     * @var Array
-     * @access private
+     * @var array
      */
     private $_articles = null;
 
@@ -44,16 +39,14 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     /**
      * The start date of the Archive listing.
      *
-     * @var Date
-     * @access private
+     * @var DateTime
      */
     private $_start = null;
 
     /**
      * The end date of the Archive listing.
      *
-     * @var Date
-     * @access private
+     * @var DateTime
      */
     private $_end = null;
 
@@ -110,7 +103,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * is hidden. This keeps up performance, as an execute_unchecked() can be made in this case.
      * If sudo cannot be acquired, the system falls back to excute().
      *
-     * @return Date The time of the first posting or null on failure.
+     * @return DateTime The time of the first posting or null on failure.
      */
     private function _compute_welcome_first_post()
     {
@@ -134,7 +127,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         if ($result)
         {
-            return new Date($result[0]->metadata->published);
+            return new DateTime(strftime('%Y-%m-%d %H:%M:%S', $result[0]->metadata->published));
         }
         else
         {
@@ -145,8 +138,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     /**
      * Computes the number of postings in a given timeframe.
      *
-     * @param Date $start Start of the timeframe (inclusive)
-     * @param Date $end End of the timeframe (exclusive)
+     * @param DateTime $start Start of the timeframe (inclusive)
+     * @param DateTime $end End of the timeframe (exclusive)
      * @return int Posting count
      */
     private function _compute_welcome_posting_count($start, $end)
@@ -154,8 +147,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $data =& $this->_request_data;
         $qb = midcom_db_article::new_query_builder();
 
-        $qb->add_constraint('metadata.published', '>=', $start->getDate());
-        $qb->add_constraint('metadata.published', '<', $end->getDate());
+        $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:M:s'));
+        $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:M:s'));
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'archive_welcome');
 
         return $qb->count();
@@ -183,13 +176,12 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         // Second step of request data: Years and months.
-        $now = new Date();
-        $first_year = $first_post->getYear();
-        $last_year = $now->getYear();
+        $now = new DateTime();
+        $first_year = $first_post->format('Y');
+        $last_year = $now->format('Y');
 
-        $month_names = Date_Calc::getMonthNames();
+        $month_names = $this->_get_month_names();
 
-        //for ($year = $first_year; $year <= $last_year; $year++)
         for ($year = $last_year; $year >= $first_year; $year--)
         {
             $year_url = "{$prefix}year/{$year}/";
@@ -201,7 +193,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             // being december by default unless for the current year.
             if ($year == $first_year)
             {
-                $first_month = $first_post->getMonth();
+                $first_month = $first_post->format('n');
             }
             else
             {
@@ -210,7 +202,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
             if ($year == $last_year)
             {
-                $last_month = $now->getMonth();
+                $last_month = $now->format('n');
             }
             else
             {
@@ -219,23 +211,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
             for ($month = $first_month; $month <= $last_month; $month++)
             {
-                $start_time = $now;
-                $start_time->setYear($year);
-                $start_time->setMonth($month);
-                $start_time->setDay(1);
-                $start_time->setHour(0);
-                $start_time->setMinute(0);
-                $start_time->setSecond(0);
-                $end_time = clone($start_time);
-                if ($month == 12)
-                {
-                    $end_time->setYear($year + 1);
-                    $end_time->setMonth(1);
-                }
-                else
-                {
-                    $end_time->setMonth($month + 1);
-                }
+                $start_time = new DateTime();
+                $start_time->setDate($year, $month, 1);
+                $end_time = clone $start_time;
+                $end_time->modify('+1 month');
 
                 $month_url = "{$prefix}month/{$year}/{$month}/";
                 $month_count = $this->_compute_welcome_posting_count($start_time, $end_time);
@@ -260,6 +239,17 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
     }
 
+    private function _get_month_names()
+    {
+        $names = array();
+        for ($i = 1; $i < 13; $i++)
+        {
+            $timestamp = mktime(0, 0, 0, $i, 1, 2011);
+            $names[$i] = strftime('%B', $timestamp);
+        }
+        return $names;
+    }
+
     /**
      * Displays the welcome page.
      *
@@ -272,7 +262,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * Context data for all elements:
      *
      * - int total_count (total number of postings w/o ACL restrictions)
-     * - Date first_post (the first posting date, may be null)
+     * - DateTime first_post (the first posting date, may be null)
      * - Array year_data (the year data, contains the year context info as outlined below)
      *
      * Context data for year elements:
@@ -364,22 +354,22 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 throw new midcom_error("The request handler {$handler_id} is not supported.");
         }
 
-        $qb->add_constraint('metadata.published', '>=', $this->_start->getDate());
-        $qb->add_constraint('metadata.published', '<', $this->_end->getDate());
+        $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:M:s'));
+        $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:M:s'));
         $qb->add_order('metadata.published', $this->_config->get('archive_item_order'));
         $this->_articles = $qb->execute();
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
         // Move end date one day backwards for display purposes.
-        $now = new Date();
-        if ($now->before($this->_end))
+        $now = new DateTime();
+        if ($now < $this->_end)
         {
             $this->_end = $now;
         }
         else
         {
-            $this->_end->subtractSeconds(86400);
+            $this->_end->modify('-1 day');
         }
 
         $start = $this->_start->format($this->_l10n_midcom->get('short date'));
@@ -417,15 +407,15 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
-        $now = new Date();
-        if ($year > $now->getYear())
+        $now = new DateTime();
+        if ($year > (int) $now->format('Y'))
         {
             throw new midcom_error_notfound("The year '{$year}' is in the future, no archive available.");
         }
 
         $endyear = $year + 1;
-        $this->_start = new Date("{$year}-01-01 00:00:00");
-        $this->_end = new Date("{$endyear}-01-01 00:00:00");
+        $this->_start = new DateTime("{$year}-01-01 00:00:00");
+        $this->_end = new DateTime("{$endyear}-01-01 00:00:00");
     }
 
     /**
@@ -453,13 +443,13 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             throw new midcom_error_notfound("The year {$month} is not a valid year identifier.");
         }
 
-        $now = new Date();
+        $now = new DateTime();
         if (strlen($month) == 1)
         {
             $month = "0{$month}";
         }
-        $this->_start = new Date("{$year}-{$month}-01 00:00:00");
-        if ($this->_start->after($now))
+        $this->_start = new DateTime("{$year}-{$month}-01 00:00:00");
+        if ($this->_start > $now)
         {
             throw new midcom_error_notfound("The month '{$year}-{$month}' is in the future, no archive available.");
         }
@@ -478,7 +468,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         {
             $endmonth = "0{$endmonth}";
         }
-        $this->_end = new Date("{$endyear}-{$endmonth}-01 00:00:00");
+        $this->_end = new DateTime("{$endyear}-{$endmonth}-01 00:00:00");
     }
 
     /**

@@ -47,10 +47,5 @@
             'channel' => 'pear.php.net',
             'optional' => 'yes'
         ),
-        'Date' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
-
     ),
 ),
