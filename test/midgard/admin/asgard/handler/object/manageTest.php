@@ -33,7 +33,8 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'view', self::$_object->guid));
         $this->assertEquals('____mfa-asgard-object_view', $data['handler_id']);
-
+        $output = $this->show_handler($data);
+        $this->assertRegExp('/class="midcom_helper_datamanager2_view"/', $output);
         midcom::get('auth')->drop_sudo();
     }
 
