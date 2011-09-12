@@ -60,13 +60,6 @@ class midcom
 
     public static function init()
     {
-        ///////////////////////////////////////////////////////////
-        // Ignore deprecation warnings on PHP 5.3 because they're caused by our PEAR dependencies
-        if (version_compare(PHP_VERSION, '5.3.0', '>='))
-        {
-            error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
-        }
-
         ///////////////////////////////////
         // Try to be smart about the paths:
         // Define default constants
