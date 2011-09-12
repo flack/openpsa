@@ -18,6 +18,10 @@ Create person
 Create task
 ---STRINGEND
 
+---STRING day review
+Day View
+---STRINGEND
+
 ---STRING invoiceable
 Invoiceable
 ---STRINGEND

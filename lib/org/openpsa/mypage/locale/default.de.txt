@@ -18,6 +18,10 @@ Person erstellen
 Aufgabe erstellen
 ---STRINGEND
 
+---STRING day review
+Tagesansicht
+---STRINGEND
+
 ---STRING my summary
 Meine Zusammenfassung
 ---STRINGEND
