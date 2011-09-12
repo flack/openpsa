@@ -101,7 +101,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_request_data['object'] = $this->_object;
         $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['schemadb'] = $this->_schemadb;
-        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['asgard_prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
     }
 
