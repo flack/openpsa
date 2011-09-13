@@ -84,7 +84,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
-        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . implode('/', $args) . '/');
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . '/' . implode('/', $args) . '/');
 
         // Parser Init: Generate arguments and instantiate it.
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
@@ -95,6 +95,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $data = $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
         $data['__openpsa_testcase_handler'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][0];
         $data['__openpsa_testcase_handler_method'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][1];
+
+        // added to simulate http uri composition
+        $_SERVER['REQUEST_URI'] = $context->get_key(MIDCOM_CONTEXT_URI);
+
         return $data;
     }
 
