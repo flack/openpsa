@@ -12,7 +12,7 @@
     'org_openpsa_calendar_resource' => 'org_openpsa_calendar_resource_dba',
     'org_openpsa_calendar_event_resource' => 'org_openpsa_calendar_event_resource_dba',
 ),
-'version' => '9.0pre',
+'version' => '9.0beta1+git',
 'state' => 'stable',
 'package.xml' => array
 (

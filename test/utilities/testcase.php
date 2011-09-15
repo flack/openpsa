@@ -84,7 +84,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
-        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . implode('/', $args) . '/');
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . '/' . implode('/', $args) . '/');
 
         // Parser Init: Generate arguments and instantiate it.
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
@@ -92,7 +92,28 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $handler = $context->get_handler($topic);
         $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
         $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
-        return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+        $data = $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+        $data['__openpsa_testcase_handler'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][0];
+        $data['__openpsa_testcase_handler_method'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][1];
+
+        // added to simulate http uri composition
+        $_SERVER['REQUEST_URI'] = $context->get_key(MIDCOM_CONTEXT_URI);
+
+        return $data;
+    }
+
+    public function show_handler($data)
+    {
+        $handler = $data['__openpsa_testcase_handler'];
+        $method = '_show_' . $data['__openpsa_testcase_handler_method'];
+
+        midcom::get('style')->enter_context(midcom_core_context::get()->id);
+        ob_start();
+        $handler->$method($data['handler_id'], $data);
+        $output = ob_get_contents();
+        ob_end_clean();
+        midcom::get('style')->leave_context();
+        return $output;
     }
 
     public function set_dm2_formdata($controller, $formdata)

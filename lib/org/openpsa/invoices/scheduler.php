@@ -95,7 +95,8 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             }
 
             // Create task for the duration of this cycle
-            $new_task = $this->create_task($this_cycle_start, $next_cycle_start - 1, sprintf('%s %s', $this->_deliverable->title, $cycle_number), $last_task);
+            $task_title = sprintf('%s %s', $this->_deliverable->title, $this->get_cycle_identifier($this_cycle_start));
+            $new_task = $this->create_task($this_cycle_start, $next_cycle_start - 1, $task_title, $last_task);
         }
 
         // TODO: Warehouse management: create new order
@@ -299,7 +300,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return $cycles;
     }
 
-    function calculate_cycle_next($time)
+    public function calculate_cycle_next($time)
     {
         $offset = '';
         switch ($this->_deliverable->unit)
@@ -342,6 +343,40 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $next_cycle = (int) $new_date->format('U');
 
         return $next_cycle;
+    }
+
+    public function get_cycle_identifier($time)
+    {
+        $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+
+        switch ($this->_deliverable->unit)
+        {
+            case 'd':
+                // Daily recurring subscription
+                $identifier = $date->format('Y-m-d');
+                break;
+            case 'm':
+                // Monthly recurring subscription
+                $identifier = $date->format('Y-m');
+                break;
+            case 'q':
+                // Quarterly recurring subscription
+                $identifier = ceil(((int)$date->format('n')) / 4) . 'Q' . $date->format('y');
+                break;
+            case 'hy':
+                // Half-yearly recurring subscription
+                $identifier = ceil(((int)$date->format('n')) / 6) . '/' . $date->format('Y');
+                break;
+            case 'y':
+                // Yearly recurring subscription
+                $identifier = $date->format('Y');
+                break;
+            default:
+                debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
+                return false;
+        }
+
+        return $identifier;
     }
 }
 ?>

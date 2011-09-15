@@ -48,12 +48,19 @@ if (extension_loaded('midgard2'))
 
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 
+    $midgard = midgard_connection::get_instance();
+
     // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-    if (!midgard_connection::get_instance()->is_connected())
+    if (!$midgard->is_connected())
     {
         $config = new midgard_config();
         $config->read_file_at_path(ini_get('midgard.configuration_file'));
-        midgard_connection::get_instance()->open_config($config);
+        $midgard->open_config($config);
+    }
+
+    if (method_exists($midgard, 'enable_workspace'))
+    {
+        $midgard->enable_workspace(false);
     }
 }
 else if (!extension_loaded('midgard'))
@@ -63,7 +70,13 @@ else if (!extension_loaded('midgard'))
 
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
-define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
+
+$prefix = dirname($_SERVER['SCRIPT_NAME']) . '/';
+if (strpos($_SERVER['REQUEST_URI'], $prefix) !== 0)
+{
+    $prefix = '/';
+}
+define('OPENPSA2_PREFIX', $prefix);
 
 header('Content-Type: text/html; charset=utf-8');
 
@@ -71,12 +84,12 @@ $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
 {
-    include(MIDCOM_ROOT . '/../config.inc.php');
+    include MIDCOM_ROOT . '/../config.inc.php';
 }
 else
 {
     //TODO: Hook in an installation wizard here, once it is written
-    include(MIDCOM_ROOT . '/../config-default.inc.php');
+    include MIDCOM_ROOT . '/../config-default.inc.php';
 }
 
 if (! defined('MIDCOM_STATIC_URL'))
@@ -86,11 +99,11 @@ if (! defined('MIDCOM_STATIC_URL'))
 
 if (file_exists(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php'))
 {
-    include(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php');
+    include MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php';
 }
 
 // Include the MidCOM environment for running OpenPSA
-require(MIDCOM_ROOT . '/midcom.php');
+require MIDCOM_ROOT . '/midcom.php';
 
 // Start request processing
 $midcom = midcom::get();

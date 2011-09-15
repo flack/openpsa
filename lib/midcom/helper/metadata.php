@@ -92,34 +92,30 @@ class midcom_helper_metadata
     /**
      * Holds the values already read from the database.
      *
-     * @access private
      * @var Array
      */
-    var $_cache = Array();
+    private $_cache = Array();
 
     /**
      * The schema database URL to use for this instance.
      *
-     * @access private
      * @var string
      */
-    var $_schemadb_path = null;
+    private $_schemadb_path = null;
 
     /**
      * Datamanager instance for the given object.
      *
-     * @access private
      * @var midcom_helper_datamanager2
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Translation array for the object
      *
-     * @access private
      * @var array
      */
-    var $_translations = null;
+    private $_translations = null;
 
     /**
      * This will construct a new metadata object for an existing content object.
@@ -513,7 +509,7 @@ class midcom_helper_metadata
                     }
                     else
                     {
-                        $value = $this->__metadata->$key->format('U');
+                        $value = (int) $this->__metadata->$key->format('U');
                     }
                 }
                 else if (   empty($this->__metadata->$key)

@@ -18,28 +18,18 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    private function _populate_node_toolbar($task)
+    private function _populate_view_toolbar($task)
     {
         foreach (array_keys($this->_request_data['schemadb_hours_simple']) as $name)
         {
             $create_url = "hours/create/{$name}/";
 
-            /*
-             * @todo Normally, the create links would be under the view toolbar, but
-             * this creates problems with the consistency of the button order, f.x.
-             * the DM2 save/cancel buttons should always be first. So we move the
-             * create link to the node toolbar unless the current page is a task-
-             * specific one until a more elegant solution can be found
-             */
-            $toolbar = '_node_toolbar';
-
             if ($task)
             {
                 $create_url .= $task . "/";
-                $toolbar = '_view_toolbar';
             }
 
-            $this->{$toolbar}->add_item
+            $this->_view_toolbar->add_item
             (
                 array
                 (
@@ -72,7 +62,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         if (   $handler != 'hours_create'
             && $handler != 'hours_create_task')
         {
-            $this->_populate_node_toolbar($task);
+            $this->_populate_view_toolbar($task);
         }
     }
 }

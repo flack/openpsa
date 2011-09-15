@@ -26,9 +26,18 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         (
             array
             (
+                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['this_day'] . '/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week review'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+            )
+        );
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
                 MIDCOM_TOOLBAR_URL => 'day/' . $this->_request_data['prev_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
             )
         );
         $this->_view_toolbar->add_item
@@ -37,17 +46,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
             (
                 MIDCOM_TOOLBAR_URL => 'day/' . $this->_request_data['next_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['this_day'] . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week review'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
             )
         );
     }

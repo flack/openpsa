@@ -182,7 +182,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _show_view($handler_id, array &$data)
     {
-        switch($this->_output_mode)
+        switch ($this->_output_mode)
         {
             case 'html':
                 midcom_show_style("show-directory-header");

@@ -229,6 +229,11 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         $this->namespace = "{$name}_";
 
+        // Ignore deprecation warnings on PHP 5.3 because they're caused by HTML_Quickform2
+        if (version_compare(PHP_VERSION, '5.3.0', '>='))
+        {
+            $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+        }
         // TODO: make configurable to get URL from $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $this->_defaults = array();
@@ -238,6 +243,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $this->_create_default_renderer();
 
         $this->_create_form();
+        if (version_compare(PHP_VERSION, '5.3.0', '>='))
+        {
+             error_reporting($old_value);
+        }
         return true;
     }
 

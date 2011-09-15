@@ -101,6 +101,25 @@ function process_invoice(button, action)
     });
 }
 
+function bind_invoice_actions(classes)
+{
+    classes = classes.replace(/ /g, '.');
+
+    $('.org_openpsa_invoices.' + classes + ' .ui-jqgrid-btable')
+        .delegate('button.mark_sent', 'click', function()
+        {
+            process_invoice($(this), 'mark_sent');
+        })
+        .delegate('button.mark_sent_per_mail', 'click', function()
+        {
+            process_invoice($(this), 'send_by_mail');
+        })
+        .delegate('button.mark_paid', 'click', function()
+        {
+            process_invoice($(this), 'mark_paid');
+        });
+}
+
 $(document).ready(function()
 {
     $('.projects table')
@@ -118,18 +137,4 @@ $(document).ready(function()
         {
             calculate_total($(this));
         });
-    $('.org_openpsa_invoices .ui-jqgrid-btable')
-        .delegate('button.mark_sent', 'click', function()
-        {
-            process_invoice($(this), 'mark_sent');
-        })
-        .delegate('button.mark_sent_per_mail', 'click', function()
-        {
-            process_invoice($(this), 'send_by_mail');
-        })
-        .delegate('button.mark_paid', 'click', function()
-        {
-            process_invoice($(this), 'mark_paid');
-        });
-
 });

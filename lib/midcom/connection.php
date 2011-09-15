@@ -307,12 +307,7 @@ class midcom_connection
             $classes = $re->getClasses();
             foreach ($classes as $refclass)
             {
-                $parent_class = $refclass->getParentClass();
-                if (!$parent_class)
-                {
-                    continue;
-                }
-                if ($parent_class->getName() == 'midgard_object')
+                if ($refclass->isSubclassOf('midgard_object'))
                 {
                     self::$_data['schema_types'][] = $refclass->getName();
                 }

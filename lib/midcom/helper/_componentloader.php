@@ -297,6 +297,10 @@ class midcom_helper__componentloader
      */
     function is_installed($path)
     {
+        if (empty($this->manifests))
+        {
+            $this->load_all_manifests();
+        }
         if (!isset($this->manifests[$path]))
         {
             if ($path == 'midcom')

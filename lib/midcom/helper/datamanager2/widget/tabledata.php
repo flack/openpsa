@@ -184,7 +184,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         $rows = $this->_get_rows();
 
         foreach ($rows as $key)
-        {var_dump($key);
+        {
             $html .= "        <tr class=\"{$key}\" id=\"row_{$key}\">\n";
 
             // Sortable table order

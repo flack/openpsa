@@ -309,7 +309,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
         }
-        if (isset($this->_request_data['task']))
+        if (!empty($this->_request_data['task']))
         {
             $task = new org_openpsa_projects_task_dba($this->_request_data['task']);
         }

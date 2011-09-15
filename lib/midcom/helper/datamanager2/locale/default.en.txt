@@ -147,6 +147,14 @@ File size
 This date must be later than %s
 ---STRINGEND
 
+---STRING type date: this date must be %s or earlier
+This date must be %s or earlier
+---STRINGEND
+
+---STRING type date: this date must be %s or later
+This date must be %s or later
+---STRINGEND
+
 ---STRING type image: actions
 Image actions
 ---STRINGEND

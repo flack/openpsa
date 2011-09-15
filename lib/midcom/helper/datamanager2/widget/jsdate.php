@@ -9,7 +9,7 @@
 /**
  * Datamanager 2 JS date widget
  *
- * This widget is built around the jQuery UI datepickerr, it requires the date type or a subclass thereof.
+ * This widget is built around the jQuery UI datepicker, it requires the date type or a subclass thereof.
  *
  * <b>Available configuration options:</b>
  *
@@ -164,8 +164,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
             $init_min = new DateTime($this->_type->min_date);
         }
         //need this due to js Date begins to count the months with 0 instead of 1
-        $init_max->month--;
-        $init_min->month--;
+        $init_max_month = $init_max->format('n') - 1;
+        $init_min_month = $init_min->format('n') - 1;
         $script = <<<EOT
 <script type="text/javascript">
         jQuery(document).ready(
@@ -173,8 +173,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
         {
             jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
             {
-              maxDate: new Date({$init_max->format('Y')} , {$init_max->format('m')} , {$init_max->format('d')}),
-              minDate: new Date({$init_min->format('Y')} , {$init_min->format('m')} , {$init_min->format('d')}),
+              maxDate: new Date({$init_max->format('Y')} , {$init_max_month} , {$init_max->format('d')}),
+              minDate: new Date({$init_min->format('Y')} , {$init_min_month} , {$init_min->format('d')}),
               dateFormat: 'yy-mm-dd',
               prevText: '',
               nextText: '',
@@ -191,7 +191,7 @@ EOT;
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $this->_add_external_html_elements();
 
@@ -217,7 +217,7 @@ EOT;
     /**
      * Create the unfrozen element listing.
      */
-    function _create_unfrozen_elements()
+    private function _create_unfrozen_elements()
     {
         $elements = array();
         $attributes = Array
@@ -266,7 +266,7 @@ EOT;
     /**
      * Create the frozen element listing.
      */
-    function _create_frozen_elements()
+    private function _create_frozen_elements()
     {
         $attributes = Array
         (
@@ -282,7 +282,7 @@ EOT;
      * Freeze the entire group, special handling applies, the formgroup is replaced by a single
      * static element.
      */
-    function freeze()
+    public function freeze()
     {
         $new_elements = $this->_create_frozen_elements();
 
@@ -482,6 +482,10 @@ EOT;
      */
     public function render_content()
     {
+        if ($this->_type->is_empty())
+        {
+            return '';
+        }
         if ($this->show_time)
         {
             if ($this->hide_seconds)

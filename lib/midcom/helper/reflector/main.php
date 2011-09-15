@@ -806,7 +806,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $cached[$classname] = $parent_class;
             $parent_class = get_parent_class($cached[$classname]);
             if (   empty($parent_class)
-                || $parent_class == 'midgard_object')
+                || $parent_class == 'midgard_object'
+                || $parent_class == 'MidgardObject')
             {
                 break;
             }

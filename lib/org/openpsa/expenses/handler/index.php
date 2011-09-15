@@ -98,7 +98,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             (
                 MIDCOM_TOOLBAR_URL => "{$prefix}" . $previous_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
             )
         );
         $this->_view_toolbar->add_item
@@ -107,7 +107,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             (
                 MIDCOM_TOOLBAR_URL => "{$prefix}" . $next_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
             )
         );
     }

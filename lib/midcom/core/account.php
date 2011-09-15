@@ -223,8 +223,8 @@ class midcom_core_account
         {
             $mgd_person = $this->_person;
         }
-
         $this->_user->set_person($mgd_person);
+        $this->_user->active = true;
 
         try
         {

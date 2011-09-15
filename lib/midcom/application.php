@@ -690,16 +690,6 @@ class midcom_application
                         $this->_exec_file($value);
                         // This will exit
 
-                    case 'servejscsscache':
-                        if (   !midcom::get('head')->jscss
-                            || !is_callable(array(midcom::get('head')->jscss, 'serve')))
-                        {
-                            throw new midcom_error('Cache is not initialized');
-                        }
-                        $name = $context->parser->argv[0];
-                        midcom::get('head')->jscss->serve($name);
-                        // this will exit()
-
                     default:
                         debug_add("Unknown MidCOM URL Property ignored: {$key} => {$value}", MIDCOM_LOG_WARN);
                         throw new midcom_error_notfound("This MidCOM URL method is unknown.");

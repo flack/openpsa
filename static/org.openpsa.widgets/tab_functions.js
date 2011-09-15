@@ -44,48 +44,50 @@ function intercept_clicks(event)
     }
 }
 
-//function to add the passed javascript-files
+//function to add the passed javascript elements
 function parse_js(javascripts)
 {
-    var url = "";
-    for (var i = 0 ; i < javascripts.length ; i++)
+    $.each(javascripts, function(index, jscall)
     {
-        url = javascripts[i].match(/src="(.+?)"/)[1];
-        if (    added_js_files[javascripts[i]] == undefined
-             && (   typeof url == 'undefined'
-                 || url == ''
-                 || $('script[src="' + url + '"]').length == 0))
+        if (   typeof jscall.url !== 'undefined'
+            && $('script[src="' + jscall.url + '"]').length == 0)
         {
-            $("head").append(javascripts[i]);
-            added_js_files[javascripts[i]] = true;
+            $("head").append('<script type="text/javascript" src="' + jscall.url + '"></script>');
         }
-    }
+        else
+        {
+            $('head').append('<script type="text/javascript">' + jscall.content + '</script>');
+        }
+    });
 }
 //function to add the passed css_tags
 function parse_css(css_tags)
 {
-    var url = "",
-    insertion_point = $('link[rel="stylesheet"]:first');
-
-    for (var i = 0; i < css_tags.length; i++)
+    var insertion_point = $('link[rel="stylesheet"]:first');
+    $.each(css_tags, function(index, data)
     {
-        url = css_tags[i].match(/href="(.+?)"/)[1];
-
-        //check if css_file is already loaded
-        if (   added_css_files[css_tags[i]] == undefined
-            && (   typeof url == 'undefined'
-                || url == ''
-                || $('link[href="' + url + '"]').length == 0))
+        if (   typeof data.type === 'undefined'
+            || typeof data.href === 'undefined'
+            || data.type !== 'text/css')
         {
-            insertion_point.after(css_tags[i]);
-            added_css_files[css_tags[i]] = true;
-            insertion_point = insertion_point.next();
+            return;
+        }
+        if ($('link[href="' + data.href + '"]').length != 0)
+        {
+            insertion_point = $('link[href="' + data.href + '"]');
         }
         else
         {
-            insertion_point = $('link[href="' + url + '"]');
+            var tag = '<link';
+            $.each(data, function(key, value)
+            {
+                tag += ' ' + key + '="' + value + '"';
+            });
+            tag += ' />';
+            insertion_point.after(tag);
+            insertion_point = insertion_point.next();
         }
-   }
+    });
 }
 
 function modify_content()

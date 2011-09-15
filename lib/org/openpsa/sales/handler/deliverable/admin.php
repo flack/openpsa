@@ -216,11 +216,18 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $formdata = $this->_controller->datamanager->types;
 
                 $entry = isset($formdata['at_entry']) ? (int) $formdata['at_entry']->value : 0;
-                $next_cycle = isset($formdata['next_cycle']) ? (int) $formdata['next_cycle']->value->format('U') : 0;
 
                 if ($entry != 0)
                 {
                     $entry = new midcom_services_at_entry_dba($entry);
+
+                    $next_cycle = 0;
+                    if (   isset($formdata['next_cycle'])
+                        && !$formdata['next_cycle']->is_empty())
+                    {
+                        $next_cycle =  (int) $formdata['next_cycle']->value->format('U');
+                    }
+
                     //@todo If next_cycle is changed to be in the past, should we check if this would lead
                     //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to
                     //one year in the past, this would trigger twelve consecutive runs and maybe
@@ -338,8 +345,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     private function _process_notify_date($formdata)
     {
-        $unix_time = $formdata['notify']->convert_to_storage();
-
         //check if there is already an at_entry
         $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_deliverable->guid);
         $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
@@ -348,7 +353,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $entry_keys = $mc_entry->get_values('fromGuid');
 
         //check date
-        if ($formdata['notify']->value->year != '0000' )
+        if (!$formdata['notify']->is_empty())
         {
             $notification_entry = null;
 
@@ -381,13 +386,13 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                     break;
                 }
             }
-            $notification_entry->start = $unix_time;
+            $notification_entry->start = $formdata['notify']->value->format('U');
             $notification_entry->method = 'new_notification_message';
             $notification_entry->component = 'org.openpsa.sales';
             $notification_entry->arguments = array('deliverable' => $this->_deliverable->guid);
             $notification_entry->update();
         }
-        else if ($formdata['notify']->value->year == '0000')
+        else
         {
             //void date - so delete existing at_entrys for this notify_date
             foreach ($entry_keys as $key => $empty)

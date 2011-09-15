@@ -4,7 +4,7 @@
  */
 if (count($argv) != 2)
 {
-    die("Usage: php quick_init.php midgardconffile\n");
+    die("Usage: php update_db.php midgardconffile\n");
 }
 
 if (!extension_loaded('midgard2'))
@@ -34,12 +34,7 @@ $re = new ReflectionExtension('midgard2');
 $classes = $re->getClasses();
 foreach ($classes as $refclass)
 {
-    $parent_class = $refclass->getParentClass();
-    if (!$parent_class)
-    {
-        continue;
-    }
-    if ($parent_class->getName() != 'midgard_object')
+    if (!$refclass->isSubclassOf('midgard_object'))
     {
         continue;
     }
@@ -131,9 +126,9 @@ echo "  ... Done.\n";
 $rootdir = realpath(dirname(__FILE__)) . '/../';
 
 require $rootdir . 'lib/midcom/connection.php';
-require $rootdir . 'lib/midcom/config/midcom_config.php';
 
 $GLOBALS['midcom_config']['person_class'] = 'openpsa_person';
+$GLOBALS['midcom_config']['auth_type'] = 'Plaintext';
 
 function _migrate_account($person)
 {
@@ -164,7 +159,7 @@ function _migrate_account($person)
     }
 
     $user->set_person($mgd_person);
-
+    $user->active = true;
     try
     {
         $user->create();
