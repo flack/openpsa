@@ -50,8 +50,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _show_generator_get($handler_id, array &$data)
     {
         $this->_show_generator($handler_id, $data);
-
-        return;
     }
 
     protected function _initialize_datamanager()
@@ -211,8 +209,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
 
-        if (   !isset($args[1])
-            || empty($args[1]))
+        if (empty($args[1]))
         {
             debug_add('Filename part not specified in URL, generating');
             //We do not have filename in URL, generate one and redirect
@@ -227,10 +224,8 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['query']->title));
             }
             $filename .= $this->_request_data['query']->extension;
-            debug_add('Generated filename: ' . $filename);
 
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
+            $_MIDCOM->relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
             //this will exit
         }
         $this->_request_data['filename'] = $args[1];
