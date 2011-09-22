@@ -95,7 +95,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
+        //$this->_contact = new org_openpsa_contacts_person_dba($args[0]);
+$person_class = $GLOBALS['midcom_config']['person_class'] . '_dba';
+$this->_contact = new $person_class($args[0]);
 
         $this->_prepare_request_data();
         $this->_load_controller();
