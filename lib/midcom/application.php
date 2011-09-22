@@ -1317,10 +1317,6 @@ class midcom_application
         }
         else
         {
-            if (! midcom::get('componentloader')->validate_url($component))
-            {
-                throw new midcom_error_notfound("The component path {$component} is invalid.");
-            }
             midcom::get('componentloader')->load($component);
             $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
             $path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . '/exec/';
