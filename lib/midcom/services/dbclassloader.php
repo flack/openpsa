@@ -150,10 +150,6 @@ class midcom_services_dbclassloader
      * look in the directory MIDCOM_ROOT/net/nehmer/static/config/my_classes.inc. The magic
      * component 'midcom' goes for the MIDCOM_ROOT/midcom/config directory and is reserved
      * for MidCOM core classes and compatibility classes.
-     *
-     * If the class definition file is invalid, false is returned.
-     *
-     * If this function completes successfully, all __xxx classes are loaded and present.
      */
     function load_classes($component, $filename, $definition_list = null)
     {
@@ -173,8 +169,6 @@ class midcom_services_dbclassloader
 
     /**
      * This helper function validates a class definition list for correctness.
-     *
-     * Any error will be logged and false is returned.
      *
      * Where possible, missing elements are completed with sensible defaults.
      *
@@ -512,12 +506,11 @@ class midcom_services_dbclassloader
      * outside of it.
      *
      * Its purpose is to ensure that the component providing a certain DBA class instance is
-     * actually loaded. This is necessary, as the intermediate classes along with the class
-     * descriptions are loaded during system startup now, but the full-blown DBA class
-     * is not available at that point (for performance reasons). It will load the components
-     * in question when requested by any operation in the system that might have to convert
-     * to a yet unloaded class, mainly this covers the type conversion of arbitrary objects
-     * retrieved by the GUID object getter.
+     * actually loaded. This is necessary, as the class descriptions are loaded during system
+     * startup now, but the full-blown DBA class is not available at that point (for performance
+     * reasons). It will load the components in question when requested by any operation in the
+     * system that might have to convert to a yet unloaded class, mainly this covers the type
+     * conversion of arbitrary objects retrieved by the GUID object getter.
      *
      * @param string $classname The name of the MidCOM DBA class that must be available.
      * @return boolean Indicating success. False is returned only if you are requesting unknown
