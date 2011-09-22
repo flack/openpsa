@@ -38,7 +38,16 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function & dm2_create_callback(&$datamanager)
     {
-        $person = new org_openpsa_contacts_person_dba();
+        if ($GLOBALS['midcom_config']['person_class'] == 'midgard_person')
+        {
+            $person = new org_openpsa_contacts_person_dba();
+        }
+        else
+        {
+            $person_class = $GLOBALS['midcom_config']['person_class'] . '_dba';
+            $person = new $person_class();
+        }
+
         $person->firstname = "";
         $person->lastname = "";
 
