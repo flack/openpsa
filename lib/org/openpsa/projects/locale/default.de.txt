@@ -18,6 +18,10 @@
 Annehmen
 ---STRINGEND
 
+---STRING accepted
+Angenommen
+---STRINGEND
+
 ---STRING accepted by %s
 Angenommen von %s
 ---STRINGEND
@@ -116,6 +120,10 @@ Deadline
 
 ---STRING decline
 Ablehnen
+---STRINGEND
+
+---STRING declined
+Nicht angenommen
 ---STRINGEND
 
 ---STRING declined by %s
@@ -332,6 +340,10 @@ Abgelehnt von %s
 
 ---STRING reopen
 Erneut eröffnen
+---STRINGEND
+
+---STRING reopened
+wieder aufgenommen
 ---STRINGEND
 
 ---STRING report hours

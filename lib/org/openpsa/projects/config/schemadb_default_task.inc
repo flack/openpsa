@@ -41,9 +41,12 @@
                 (
                     org_openpsa_projects_task_status_dba::PROPOSED => 'not_started',
                     org_openpsa_projects_task_status_dba::STARTED => 'ongoing',
+                    org_openpsa_projects_task_status_dba::REOPENED => 'reopened',
                     org_openpsa_projects_task_status_dba::ONHOLD => 'on_hold',
                     org_openpsa_projects_task_status_dba::REJECTED => 'rejected',
-                    org_openpsa_projects_task_status_dba::COMPLETED => 'closed',
+                    org_openpsa_projects_task_status_dba::COMPLETED => 'completed',
+                    org_openpsa_projects_task_status_dba::APPROVED => 'approved',
+                    org_openpsa_projects_task_status_dba::CLOSED => 'closed',
                 ),
             ),
             'widget' => 'select',

@@ -22,6 +22,10 @@ Accept
 Accepted by %s
 ---STRINGEND
 
+---STRING accepted
+Accepted
+---STRINGEND
+
 ---STRING agreement
 Agreement
 ---STRINGEND
@@ -116,6 +120,10 @@ Deadline
 
 ---STRING decline
 Decline
+---STRINGEND
+
+---STRING declined
+Declined
 ---STRINGEND
 
 ---STRING declined by %s
@@ -336,6 +344,10 @@ Rejected by %s
 
 ---STRING reopen
 Re-open
+---STRINGEND
+
+---STRING reopened
+Reopened
 ---STRINGEND
 
 ---STRING report hours
