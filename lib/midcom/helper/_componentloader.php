@@ -239,7 +239,7 @@ class midcom_helper__componentloader
             debug_add("File {$directory}/interfaces.php is not present.", MIDCOM_LOG_CRIT);
             return false;
         }
-        require("{$directory}/interfaces.php");
+        require_once $directory . '/interfaces.php';
 
         // Load the component interface, try to be backwards-compatible
         $prefix = $this->snippetpath_to_prefix($snippetpath);
@@ -424,30 +424,27 @@ class midcom_helper__componentloader
     }
 
     /**
-     * This function is called during system startup and loads all component manifests from
-     * the disk. The list of manifests to load is determined using a find shell call and is cached
-     * using the phpscripts cache module.
+     * This function is called during system startup and loads all component manifests. The list
+     * of manifests to load is determined using a find shell call and is cached using the memcache
+     * cache module.
      *
      * This method is executed during system startup by the framework. Other parts of the system
      * must not access it.
      */
     function load_all_manifests()
     {
-        $cache_identifier = $_MIDCOM->cache->phpscripts->create_identifier('midcom.componentloader', 'manifests');
+        $manifests = $_MIDCOM->cache->memcache->get('MISC', 'midcom.componentloader.manifests');
 
-        if (! $cache_identifier)
-        {
-            $cache_hit = false;
-        }
-        else
-        {
-            $cache_hit = $_MIDCOM->cache->phpscripts->load($cache_identifier, filemtime(__FILE__));
-        }
-
-        if (! $cache_hit)
+        if (! is_array($manifests))
         {
             debug_add('Cache miss, generating component manifest cache now.');
-            $this->_generate_class_manifest_cache($cache_identifier);
+            $manifests = $this->_get_manifests();
+            $_MIDCOM->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
+        }
+
+        foreach ($manifests as $manifest)
+        {
+            $this->_register_manifest($manifest);
         }
     }
 
@@ -455,17 +452,16 @@ class midcom_helper__componentloader
      * This function is called from the class manifest loader in case of a cache
      * miss.
      *
-     * @param string $cache_identifier The cache identifier to use to cache the manifest
-     *     loading queue.
      * @todo investigate if we should unset the package.xml part of the arrays and serialize them
      */
-    private function _generate_class_manifest_cache($cache_identifier)
+    private function _get_manifests()
     {
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
         // This does follow symlinks, which can be important when several
         // repositories are "merged" manually
-        $directories = Array();
+        $directories = array();
+        $manifests = array();
         exec('find ' . MIDCOM_ROOT . ' -follow -type d -name "config"', $directories);
         $code = "";
         foreach ($directories as $directory)
@@ -473,36 +469,21 @@ class midcom_helper__componentloader
             $filename = "{$directory}/manifest.inc";
             if (file_exists($filename))
             {
-                $manifest_data = file_get_contents($filename);
-
-                $code .= "\$_MIDCOM->componentloader->load_manifest(
-                    new midcom_core_manifest(
-                    '{$filename}', array({$manifest_data})));\n";
+                $manifests[] = new midcom_core_manifest($filename);
             }
         }
 
-        if (! $_MIDCOM->cache->phpscripts->add($cache_identifier, $code))
-        {
-            debug_add("Failed to add the manifest loading queue to the cache using the identifier {$cache_identifier}.",
-                MIDCOM_LOG_WARN);
-            debug_add('Continuing uncached.');
-            eval($code);
-        }
-        return;
+        return $manifests;
     }
 
     /**
-     * Load a manifest from the disk and add it to the $manifests list.
+     * Register manifest data.
      *
-     * It already does all necessary registration work:
-     *
-     * - All default privileges are made known
-     * - All defined DBA class sets are loaded. If an error occurs here,
-     *   the manifest will be ignored and an error is logged.
+     * All default privileges are made known to ACL, the watches are registered
      *
      *  @param object $manifest the manifest object to load.
      */
-    function load_manifest($manifest)
+    private function _register_manifest($manifest)
     {
         $this->manifests[$manifest->name] = $manifest;
 

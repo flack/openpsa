@@ -292,13 +292,13 @@ class midcom_core_manifest
      * the file is accessed directly.
      *
      * @param string $filename The name of the manifest file to load.
-     * @param array $values the values the manifest uses.
      */
-    public function __construct($filename, $values)
+    public function __construct($filename)
     {
         $this->filename = $filename;
-        $this->_raw_data = $values;
-        $this->_load_manifest($values);
+        $this->_raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);
+
+        $this->_load_manifest();
     }
 
     /**
@@ -306,7 +306,7 @@ class midcom_core_manifest
      *
      * @todo move this into the constructor, use isset.
      */
-    private function _load_manifest($values )
+    private function _load_manifest()
     {
         if (!is_array($this->_raw_data))
         {
