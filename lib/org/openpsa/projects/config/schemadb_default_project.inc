@@ -256,6 +256,7 @@
             'storage' => null,
             'type' => 'tags',
             'widget' => 'text',
+            'end_fieldset' => '',
         ),
 
         'orgOpenpsaWgtype' => array
