@@ -1,11 +1,5 @@
 <div class="sidebar">
-   <?php
-        // is there any array with persons which could be filtered
-        if (array_key_exists ("filter_persons", $data))
-        {
-            midcom_show_style('person_filter');
-        }
-   ?>
+   <?php midcom_show_style('person_filter'); ?>
 </div>
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);

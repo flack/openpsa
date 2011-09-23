@@ -65,5 +65,24 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
             $this->_populate_view_toolbar($task);
         }
     }
+
+    /**
+     * Helper function that lists options for the person filter
+     */
+    public function get_person_options()
+    {
+        $qb_persons = midcom_db_person::new_query_builder();
+        $qb_persons->add_constraint('username', '<>', '');
+        $qb_persons->add_constraint('password', '<>', '');
+
+        $person_array = array();
+
+        $persons = $qb_persons->execute();
+        foreach ($persons as $person)
+        {
+            $person_array[$person->id] = $person->get_label();
+        }
+        return $person_array;
+    }
 }
 ?>

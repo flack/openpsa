@@ -57,13 +57,13 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $hours_mc->add_value_property('date');
         $hours_mc->add_value_property('person');
 
-        //array with filter options
-        $filters = array
-        (
-            "person"
-        );
-        $person_filter = new org_openpsa_core_filter($filters, $hours_mc);
-        $this->_request_data["filter_persons"] = $person_filter->list_filter("person");
+        $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
+        $person_filter = new org_openpsa_core_filter('person');
+        $person_filter->set('option_callback', array($this->_master, 'get_person_options'));
+        $person_filter->set('mode', 'multiselect');
+        $qf->add_filter($person_filter);
+        $qf->apply_filters($hours_mc);
+        $this->_request_data["qf"] = $qf;
 
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);

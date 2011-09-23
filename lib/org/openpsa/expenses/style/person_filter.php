@@ -24,28 +24,6 @@ function send_form(form_id, set)
 </script>
 
 <div class="area">
-    <form id = 'person_form' action="" method="post">
-        <select id="select_person" name="person[]" multiple="multiple" >
-            <?php
-            foreach($data['filter_persons'] as $person)
-            {
-            ?>
-                <option value="<?php echo $person['userid'];?>"
-                <?php
-                if($person['selected'] == true)
-                {
-                    echo "selected=\"selected\"";
-                }
-                ?>
-                >
-                <?php echo $person['username'];?>
-                </option>
-            <?php
-            }
-            ?>
-        </select>
-        <img src ="<?php echo MIDCOM_STATIC_URL ;?>/stock-icons/16x16/ok.png" onclick="send_form('person_form', 'void')" title="<?php echo $data['l10n']->get("apply"); ?>" />
-        <img src ="<?php echo MIDCOM_STATIC_URL ;?>/stock-icons/16x16/cancel.png" onclick="send_form('person_form' , 'unset_filter')" title="<?php echo $data['l10n']->get("unset"); ?>" />
-    </form>
+	<?php $data['qf']->render(); ?>
 </div>
 

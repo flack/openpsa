@@ -281,13 +281,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         //don't filter for json'
         if ($args[0] != 'json')
         {
-            //array with filter options
-            $filters = array
-            (
-                "priority"
-            );
-            $priority_filter = new org_openpsa_core_filter($filters, $qb, '<=', $this->_request_data['priority_array']);
-            $this->_request_data["filter_priority"] = $priority_filter->list_filter("priority");
+            $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list');
+            $qf->add_filter(new org_openpsa_core_filter('priority', '<=', $this->_request_data['priority_array']));
+            $qf->apply_filters($qb);
+            $this->_request_data["qf"] = $qf;
         }
 
         $ret = $qb->execute();
@@ -407,13 +404,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_order('project');
         $qb->add_order('title');
 
-        //array with filter options
-        $filters = array
-        (
-            "priority"
-        );
-        $priority_filter = new org_openpsa_core_filter($filters, $qb, '<=', $this->_request_data['priority_array']);
-        $this->_request_data["filter_priority"] = $priority_filter->list_filter("priority");
+        $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list');
+        $qf->add_filter(new org_openpsa_core_filter('priority', '<=', $this->_request_data['priority_array']));
+        $qf->apply_filters($qb);
+        $this->_request_data["qf"] = $qf;
 
         $this->_request_data['table-heading'] = $args[1] . ' tasks';
         $tasks = $qb->execute();
@@ -588,7 +582,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             $this->_request_data['priority_array'] = $schemadb['default']->fields['priority']['type_config']['options'];
             $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
-            foreach($this->_request_data['priority_array'] as $key => $title)
+            foreach ($this->_request_data['priority_array'] as $key => $title)
             {
                 $this->_request_data['priority_array'][$key] = $this->_l10n->get($title);
             }

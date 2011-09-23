@@ -1,23 +1,10 @@
 <div class="grid-filters">
 <?php
-if (array_key_exists('filter_priority', $data))
+if (array_key_exists('qf', $data))
 {
-    echo $data['l10n']->get('only tasks with priority'); ?>:
-    <form id="priority_filter" action="" method="post" style="display:inline">
-        <select onchange="document.forms['priority_filter'].submit();" name="priority" id="multiselect" size="1" >
-        <?php
-        foreach($data['filter_priority'] as $id => $priority)
-        {
-            echo '<option value="' .  $id . '"';
-            if ($priority['selected'] == true)
-            {
-                echo " selected=\"selected\"";
-            }
-            echo '>' . $priority['title'] . '</option>';
-        } ?>
-        </select>
-    </form>
-<?php }
+    echo $data['l10n']->get('only tasks with priority') . ': ';
+    $data['qf']->render();
+}
 
 if ($data['view'] == 'grid')
 {
