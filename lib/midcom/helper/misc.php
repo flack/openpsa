@@ -26,9 +26,9 @@ class midcom_helper_misc
        's' => 'unmodified',
     );
 
-
     /**
      * Register PHP function as string formatter to the Midgard formatting engine.
+     *
      * @see http://www.midgard-project.org/documentation/reference-other-mgd_register_filter/
      */
     public static function register_filter($name, $function)
@@ -36,6 +36,22 @@ class midcom_helper_misc
         self::$_filters["x{$name}"] = $function;
     }
 
+    /**
+     * Helper function to turn typical midcom config files into PHP arrays
+     *
+     * @param string $data The data to parse
+     * @throws midcom_error
+     * @return array The config in array format
+     */
+    public static function parse_config($data)
+    {
+        $result = eval("\$data = array({$data}\n);");
+        if ($result === false)
+        {
+            throw new midcom_error("Failed to parse config data, see above for PHP errors.");
+        }
+        return $data;
+    }
 
     /**
      * This helper function searches for a snippet either in the Filesystem

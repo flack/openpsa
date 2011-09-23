@@ -167,12 +167,8 @@ class midcom_baseclasses_components_configuration
         {
             return false;
         }
-        $result = eval("\$data = array({$data}\n);");
-        if ($result === false)
-        {
-            throw new midcom_error("Failed to parse content loaded from file '{$filename}', see above for PHP errors.");
-        }
-        return $data;
+
+        return midcom_helper_misc::parse_config($data);
     }
 
     /**
@@ -190,12 +186,7 @@ class midcom_baseclasses_components_configuration
     public static function read_array_from_snippet($snippetpath)
     {
         $code = midcom_helper_misc::get_snippet_content_graceful($snippetpath);
-        $result = eval("\$data = Array({$code}\n);");
-        if ($result === false)
-        {
-            throw new midcom_error("Failed to parse content loaded from snippet '{$snippetpath}', see above for PHP errors.");
-        }
-        return $data;
+        return midcom_helper_misc::parse_config($code);
     }
 }
 ?>

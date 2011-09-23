@@ -662,7 +662,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             // doesn't have line breaks
             if (preg_match('/\n/', $raw_db))
             {
-                $result = eval("\$raw_db = array ( {$raw_db} );");
+                $raw_db = midcom_helper_misc::parse_config($raw_db);
             }
             else
             {
@@ -672,13 +672,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     return $loaded_dbs[$path];
                 }
                 $data = midcom_helper_misc::get_snippet_content($raw_db);
-                $result = eval ("\$raw_db = array ( {$data}\n );");
-            }
-
-            // Bullet-proof against syntax errors
-            if ($result === false)
-            {
-                throw new midcom_error("Failed to parse the schema database loaded from '{$raw_db}', see above for PHP errors.");
+                $raw_db = midcom_helper_misc::parse_config($data);
             }
         }
 
