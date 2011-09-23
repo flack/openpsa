@@ -15,6 +15,15 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
+    function __construct($identifier = null)
+    {
+        if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+        {
+            $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
+        }
+        parent::__construct($identifier);
+    }
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
