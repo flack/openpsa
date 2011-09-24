@@ -55,8 +55,11 @@ class org_openpsa_core_queryfilter
      */
     public function apply_filters(midcom_core_query $query)
     {
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
+        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
         foreach ($this->_filters as $filter)
         {
+            $filter->add_head_elements();
             if ($selection = $this->_get_selection($filter->name))
             {
                 $filter->apply($selection, $query);
@@ -76,14 +79,16 @@ class org_openpsa_core_queryfilter
         $filter_id = $this->_identifier . '_' . $filtername;
         $user = midcom::get('auth')->user->get_storage();
 
-        if (isset($_POST['unset_filter']))
+        if (   isset($_POST['unset_filter'])
+            && $_POST['unset_filter'] == $filtername . '_form')
         {
-            if (!$user->set_parameter("org_openpsa_core_filter", $filter_id, ""))
+            if (   $user->get_parameter("org_openpsa_core_filter", $filter_id)
+                && !$user->delete_parameter("org_openpsa_core_filter", $filter_id))
             {
                 $message_content = sprintf
                 (
                     $i18n->get_string('the handed filter for %s could not be set as parameter', 'org.openpsa.core'),
-                    $i18n->get_string($filter, 'org.openpsa.core')
+                    $i18n->get_string($filtername, 'org.openpsa.core')
                 );
                 midcom::get('uimessages')->add($i18n->get_string('filter error', 'org.openpsa.core'), $message_content, 'error');
             }

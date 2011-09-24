@@ -76,6 +76,21 @@ class org_openpsa_core_filter
         $query->end_group();
     }
 
+    public function add_head_elements()
+    {
+        $head = midcom::get('head');
+
+        if ($this->_config['mode'] == 'multiselect')
+        {
+            $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dropdown-check-list.1.4/css/ui.dropdownchecklist.standalone.css");
+
+            $head->enable_jquery();
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+            $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dropdown-check-list.1.4/js/ui.dropdownchecklist-1.4-min.js');
+        }
+    }
+
     /**
      * Renders the filter widget according to mode
      */
@@ -123,8 +138,8 @@ class org_openpsa_core_filter
      */
     private function _render_singleselect(array $options)
     {
-        echo '<form id="' . $this->name . '_filter" action="" method="post" style="display:inline">';
-        echo '<select onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '" id="multiselect" size="1" >';
+        echo '<form id="' . $this->name . '_filter" class="filter" action="" method="post" style="display:inline">';
+        echo '<select onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
 
         foreach ($options as $option)
         {
@@ -146,7 +161,7 @@ class org_openpsa_core_filter
     private function _render_multiselect(array $options)
     {
         $l10n = midcom::get('i18n')->get_l10n('org.openpsa.core');
-        echo '<form id="' . $this->name . '_form" action="" method="post">';
+        echo '<form id="' . $this->name . '_form" action="" class="filter" method="post">';
         echo '<select id="select_' . $this->name . '" name="' . $this->name . '[]" multiple="multiple" >';
 
         foreach ($options as $option)
@@ -160,9 +175,13 @@ class org_openpsa_core_filter
             echo "\n</option>\n";
         }
         echo "\n</select>\n";
-        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" onclick="send_form(\'' . $this->name . '_form\', \'void\')" title="' . $l10n->get("apply") . '" />';
-        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" onclick="send_form(\'' . $this->name . '_form\', \'unset_filter\')" title="' . $l10n->get("unset") . '" />';
+        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" class="filter_action filter_apply" title="' . $l10n->get("apply") . '" />';
+        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" class="filter_action filter_unset" title="' . $l10n->get("unset") . '" />';
         echo "\n</form>\n";
+        echo '<script type="text/javascript">';
+        echo "\$(document).ready(function()\n{\n\n$('#select_" . $this->name . "').dropdownchecklist({\n";
+        echo " maxDropHeight: 200,\n emptyText: '" . $this->_config['helptext'] . "' });\n});\n";
+        echo "\n</script>\n";
     }
 
     /**

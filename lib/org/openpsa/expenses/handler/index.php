@@ -70,12 +70,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $this->_populate_toolbar($previous_week, $next_week);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/expenses.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/dropdown-check-list.0.9/css/ui.dropdownchecklist.css");
-
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
 
         $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
 

@@ -125,28 +125,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         org_openpsa_widgets_grid::add_head_elements();
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
-        $this->_add_filter_widget();
 
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->add_breadcrumb('', $data['breadcrumb_title']);
     }
-
-    private function _add_filter_widget()
-    {
-        if (!array_key_exists("filter_persons", $this->_request_data))
-        {
-            return;
-        }
-
-        //css & js needed for widget
-        $_MIDCOM->enable_jquery();
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/dropdown-check-list.0.9/css/ui.dropdownchecklist.css");
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
-    }
-
 
     /**
      * Helper to load the data linked to the hour reports
