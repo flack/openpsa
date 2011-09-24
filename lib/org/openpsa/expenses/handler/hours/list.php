@@ -66,8 +66,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         switch ($handler_id)
         {
             case 'list_hours_between':
-                $person_filter = new org_openpsa_core_filter($filter_array, $qb);
-                $data['filter_persons'] = $person_filter->list_filter("person");
+                $this->_master->add_list_filter($qb);
                 // Fallthrough
             case 'list_hours_between_all':
                 $start_time = @strtotime($args[0]);
@@ -85,8 +84,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 break;
 
             case 'list_hours_task':
-                $person_filter = new org_openpsa_core_filter($filter_array, $qb);
-                $data['filter_persons'] = $person_filter->list_filter("person");
+                $this->_master->add_list_filter($qb);
                 // Fallthrough
             case 'list_hours_task_all':
                 $task = new org_openpsa_projects_task_dba($args[0]);

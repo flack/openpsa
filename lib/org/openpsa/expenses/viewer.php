@@ -67,6 +67,22 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     }
 
     /**
+     * Apply user filters to hour lists
+     *
+     * @param midcom_core_query $query The query obejct to work on
+     */
+    public function add_list_filter(midcom_core_query $query)
+    {
+        $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
+        $person_filter = new org_openpsa_core_filter('person');
+        $person_filter->set('option_callback', array($this, 'get_person_options'));
+        $person_filter->set('mode', 'multiselect');
+        $qf->add_filter($person_filter);
+        $qf->apply_filters($query);
+        $this->_request_data["qf"] = $qf;
+    }
+
+    /**
      * Helper function that lists options for the person filter
      */
     public function get_person_options()
