@@ -497,8 +497,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             'index_parent' => array(),
             'customer' => array(),
             'index_customer' => array(),
-            'agreement' => array(),
-            'index_agreement' => array(),
         );
 
         // Get parent object
@@ -546,27 +544,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             }
             $ret['customer'] =& $row_cache['customer'][$task->customer];
             $ret['index_customer'] =& $row_cache['index_customer'][$task->customer];
-
-            if (!array_key_exists($task->agreement, $row_cache['agreement']))
-            {
-                $html = "&nbsp;";
-                $row_cache['index_agreement'][$task->agreement] = $html;
-                if ($task->agreement)
-                {
-                    try
-                    {
-                        $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
-                        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
-                        $agreement_url = "{$data['sales_url']}salesproject/{$salesproject->guid}/";
-                        $html = "<a href='{$agreement_url}'>{$agreement->title}</a>";
-                        $row_cache['index_agreement'][$task->agreement] = $agreement->title;
-                    }
-                    catch (midcom_error $e){}
-                }
-                $row_cache['agreement'][$task->agreement] = $html;
-            }
-            $ret['agreement'] =& $row_cache['agreement'][$task->agreement];
-            $ret['index_agreement'] =& $row_cache['index_agreement'][$task->agreement];
         }
 
         return $ret;

@@ -38,8 +38,6 @@ foreach ($data['tasks'] as $task)
 
     $row['index_customer'] = $celldata['index_customer'];
     $row['customer'] = $celldata['customer'];
-    $row['index_agreement'] = $celldata['index_agreement'];
-    $row['agreement'] = $celldata['agreement'];
 
     $row['manager'] = $manager_card->show_inline();
     $row['index_manager'] = preg_replace('/<span.*?class="uid".*?>.*?<\/span>/', '', $row['manager']);
@@ -81,7 +79,6 @@ jQuery("#&(grid_id);").jqGrid({
                  echo '"index_task", "' . $data['l10n']->get('task') . '",';
                  echo '"index_project", "' . $data['l10n']->get('project') . '",';
                  echo '"index_customer", "' . $data['l10n']->get('customer') . '",';
-                 echo '"index_agreement", "' . $data['l10n']->get('agreement') . '",';
                  echo '"index_manager", "' . $data['l10n']->get('manager') . '",';
                  echo '"index_start", "' . $data['l10n']->get('start') . '",';
                  echo '"index_end", "' . $data['l10n']->get('end') . '",';
@@ -97,8 +94,6 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'project', index: 'index_project', width: 80, classes: 'a-ellipsis', hidden: true},
           {name:'index_customer', index: 'index_customer', hidden:true},
           {name:'customer', index: 'index_customer', width: 55, classes: 'a-ellipsis'},
-          {name:'index_agreement', index: 'index_agreement', hidden:true},
-          {name:'agreement', index: 'index_agreement', width: 80, classes: 'a-ellipsis'},
           {name:'index_manager', index: 'index_manager', hidden: true },
           {name:'manager', index: 'index_manager', width: 70},
           {name:'index_start', index: 'index_start', sorttype: "integer", hidden: true },
