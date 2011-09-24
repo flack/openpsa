@@ -125,37 +125,10 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             );
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.core.min.js");
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.datepicker.min.js");
-
-        $lang = $_MIDCOM->i18n->get_current_language();
-        /*
-         * The calendar doesn't have all lang files and some are named differently
-         * Since a missing lang file causes the calendar to break, let's make extra sure
-         * that this won't happen
-         */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
-        {
-            $lang = $_MIDCOM->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
-            {
-                $lang = false;
-            }
-        }
-
-        if ($lang)
-        {
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js");
-        }
-
+        midcom_helper_datamanager2_widget_jsdate::add_head_elements();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
 
-        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
-        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.css');
-
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $default_date = date('Y-m-d', $this->_selected_time);
 
         $_MIDCOM->add_jscript('

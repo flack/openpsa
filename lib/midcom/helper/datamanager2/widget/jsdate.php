@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
 
         if ($this->_initialize_dependencies)
         {
-            $this->_add_external_html_elements();
+            self::add_head_elements();
         }
 
         return true;
@@ -106,7 +106,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      * Adds the external HTML dependencies, both JS and CSS. A static flag prevents
      * multiple insertions of these dependencies.
      */
-    private function _add_external_html_elements()
+    public static function add_head_elements()
     {
         static $executed = false;
 
@@ -193,7 +193,7 @@ EOT;
      */
     public function add_elements_to_form($attributes)
     {
-        $this->_add_external_html_elements();
+        self::add_head_elements();
 
         $elements = $this->_create_unfrozen_elements();
 
