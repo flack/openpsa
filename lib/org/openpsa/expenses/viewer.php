@@ -79,6 +79,15 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         $person_filter->set('mode', 'multiselect');
         $person_filter->set('helptext', $this->_l10n->get("choose user"));
         $qf->add_filter($person_filter);
+
+        if (   $this->_request_data['handler_id'] != 'index_timestamp'
+            && $this->_request_data['handler_id'] != 'index')
+        {
+            $date_filter = new org_openpsa_core_filter('date');
+            $date_filter->set('mode', 'timeframe');
+            $date_filter->set('helptext', $this->_l10n->get("timeframe"));
+            $qf->add_filter($date_filter);
+        }
         $qf->apply_filters($query);
         $this->_request_data["qf"] = $qf;
     }

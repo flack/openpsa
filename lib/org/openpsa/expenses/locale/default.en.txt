@@ -30,8 +30,8 @@ Filter error
 Hour report
 ---STRINGEND
 
----STRING hour reports between %s and %s
-Hour reports between %s and %s
+---STRING hour reports
+Hour reports
 ---STRINGEND
 
 ---STRING hours
@@ -104,6 +104,10 @@ Task
 
 ---STRING the handed filter for %s could not be set as parameter
 The handed filter for %s could not be set as parameter
+---STRINGEND
+
+---STRING timeframe
+Timeframe
 ---STRINGEND
 
 ---STRING total

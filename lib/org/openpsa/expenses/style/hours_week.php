@@ -18,7 +18,7 @@ echo "        <th></th>\n";
 while ($time < $data['week_end'])
 {
     $next_time = $time + 3600 * 24;
-    echo "        <th><a href=\"{$prefix}hours/between/" . date('Y-m-d', $time) . "/" .  date('Y-m-d', $next_time) . "/\">" . strftime('%a', $time) . "</a></th>\n";
+    echo "        <th><a href=\"{$prefix}hours/?date[from]=" . date('Y-m-d', $time) . "&amp;date[to]=" .  date('Y-m-d', $next_time) . "\">" . strftime('%a', $time) . "</a></th>\n";
 
     // Hop to next day
     $time = $next_time;

@@ -28,6 +28,8 @@ class org_openpsa_core_queryfilter
      */
     private $_identifier;
 
+    private $_selection = array();
+
     /**
      * Constructor
      *
@@ -63,6 +65,7 @@ class org_openpsa_core_queryfilter
             if ($selection = $this->_get_selection($filter->name))
             {
                 $filter->apply($selection, $query);
+                $this->_selection[$filter->name] = $selection;
             }
         }
     }
@@ -80,7 +83,7 @@ class org_openpsa_core_queryfilter
         $user = midcom::get('auth')->user->get_storage();
 
         if (   isset($_POST['unset_filter'])
-            && $_POST['unset_filter'] == $filtername . '_form')
+            && $_POST['unset_filter'] == $filtername . '_filter')
         {
             if (   $user->get_parameter("org_openpsa_core_filter", $filter_id)
                 && !$user->delete_parameter("org_openpsa_core_filter", $filter_id))
@@ -101,16 +104,25 @@ class org_openpsa_core_queryfilter
                 $selection = array($selection);
             }
 
-            $filter_string = implode('|', $selection);
+            $filter_string = serialize($selection);
             if (!$user->set_parameter("org_openpsa_core_filter", $filter_id, $filter_string))
             {
                 midcom::get('uimessages')->add($i18n->get_string('filter error', 'org.openpsa.core'), $i18n->get_string('the handed filter for %s could not be set as parameter', 'org.openpsa.core'), 'error');
             }
             return $selection;
         }
+        else if (isset($_GET[$filtername]))
+        {
+            $selection = $_GET[$filtername];
+            if (!is_array($selection))
+            {
+                $selection = array($selection);
+            }
+            return $selection;
+        }
         else if ($filter_string = $user->get_parameter("org_openpsa_core_filter", $filter_id))
         {
-            return explode('|', $filter_string);
+            return unserialize($filter_string);
         }
         return false;
     }
@@ -120,9 +132,19 @@ class org_openpsa_core_queryfilter
      */
     public function render()
     {
+        $url = midcom_connection::get_url('uri');
+        if (!empty($this->_selection))
+        {
+            $url .= '?' . http_build_query($this->_selection);
+        }
         foreach ($this->_filters as $filter)
         {
+            echo '<div class="org_openpsa_filter_widget">';
+            echo '<form id="' . $filter->name . '_filter" class="filter" action="' . $url . '" method="post" style="display:inline">';
+
+
             $filter->render();
+            echo "</div>\n";
         }
     }
 }

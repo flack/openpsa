@@ -22,8 +22,8 @@ Ausgaben in KW %s
 Stundenbericht
 ---STRINGEND
 
----STRING hour reports between %s and %s
-Stundenberichte zwischen %s und %s
+---STRING hour reports
+Stundenberichte
 ---STRINGEND
 
 ---STRING hours
@@ -80,6 +80,10 @@ Aufgabe "%s" anzeigen
 
 ---STRING task
 Aufgabe
+---STRINGEND
+
+---STRING timeframe
+Zeitraum
 ---STRINGEND
 
 ---STRING total

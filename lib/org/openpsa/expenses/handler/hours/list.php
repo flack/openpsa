@@ -65,21 +65,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         switch ($handler_id)
         {
-            case 'list_hours_between':
+            case 'list_hours':
                 $this->_master->add_list_filter($qb);
-                // Fallthrough
-            case 'list_hours_between_all':
-                $start_time = @strtotime($args[0]);
-                $end_time = @strtotime($args[1]);
-                if (   $start_time == -1
-                    || $end_time == -1)
-                {
-                    throw new midcom_error('Failed to generate start and end times from ' . $args[0] . ', ' . $args[1]);
-                }
-                $qb->add_constraint('date', '>=', $start_time);
-                $qb->add_constraint('date', '<=', $end_time);
 
-                $data['view_title'] = sprintf($data['l10n']->get('hour reports between %s and %s'), strftime("%x", $start_time), strftime("%x", $end_time));
+                $data['view_title'] = $data['l10n']->get('hour reports');
                 $data['breadcrumb_title'] = $data['view_title'];
                 break;
 

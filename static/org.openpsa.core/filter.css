@@ -1,4 +1,26 @@
-.filter .filter_action
+.org_openpsa_filter_widget
 {
-	cursor: pointer
+    padding-right: .5em;
+    padding-bottom: .5em;
+    display: inline-block
+}
+
+.org_openpsa_filter_widget .filter .filter_action
+{
+    cursor: pointer;
+    visibility: hidden;
+    padding-left: .3em
+}
+
+.org_openpsa_filter_widget:hover .filter .filter_action
+{
+    visibility: visible
+}
+
+.org_openpsa_filter_widget .filter .hasDatepicker
+{
+    border: 1px solid #BABDB6;
+    padding: .2em;
+    margin: 0 0.25em;
+    width: 7em;
 }

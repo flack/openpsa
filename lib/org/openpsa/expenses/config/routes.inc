@@ -21,12 +21,11 @@
     'variable_args' => 1,
 ),
 
-// Handle /hours/between/<from>/<to>
-'list_hours_between' => array
+// Handle /hours/
+'list_hours' => array
 (
     'handler' => array('org_openpsa_expenses_handler_hours_list', 'list'),
-    'fixed_args' => array('hours', 'between'),
-    'variable_args' => 2,
+    'fixed_args' => array('hours'),
 ),
 
 // Handle /hours/between/all/<from>/<to>

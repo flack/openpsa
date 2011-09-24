@@ -68,12 +68,30 @@ class org_openpsa_core_filter
     {
         $this->_selection = $selection;
 
+        if ($this->_config['mode'] == 'timeframe')
+        {
+            $this->_apply_timeframe_constraints($query);
+            return;
+        }
+
         $query->begin_group('OR');
         foreach ($this->_selection as $id)
         {
             $query->add_constraint($this->_config['fieldname'], $this->_config['operator'], (int) $id);
         }
         $query->end_group();
+    }
+
+    private function _apply_timeframe_constraints($query)
+    {
+        if (!empty($this->_selection['from']))
+        {
+            $query->add_constraint($this->_config['fieldname'], '>=', strtotime($this->_selection['from']));
+        }
+        if (!empty($this->_selection['to']))
+        {
+            $query->add_constraint($this->_config['fieldname'], '<=', strtotime($this->_selection['to']));
+        }
     }
 
     public function add_head_elements()
@@ -90,6 +108,10 @@ class org_openpsa_core_filter
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
             $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dropdown-check-list.1.4/js/ui.dropdownchecklist-1.4-min.js');
         }
+        else if ($this->_config['mode'] == 'timeframe')
+        {
+            midcom_helper_datamanager2_widget_jsdate::add_head_elements();
+        }
     }
 
     /**
@@ -97,13 +119,21 @@ class org_openpsa_core_filter
      */
     public function render()
     {
-        $method = '_render_' . $this->_config['mode'];
-        $options = $this->_get_options();
-
-        if (!empty($options))
+        if ($this->_config['mode'] == 'timeframe')
         {
-            $this->$method($options);
+            $this->_render_timeframe();
         }
+        else
+        {
+            $options = $this->_get_options();
+
+            if (!empty($options))
+            {
+                $method = '_render_' . $this->_config['mode'];
+                $this->$method($options);
+            }
+        }
+        echo "\n</form>\n";
     }
 
     /**
@@ -132,6 +162,33 @@ class org_openpsa_core_filter
         return $this->_config[$key];
     }
 
+
+    /**
+     * Renderer for 'datepicker' mode
+     *
+     * @param array $options The options to render
+     */
+    private function _render_timeframe()
+    {
+        $ids = array
+        (
+            'from' => 'datepicker_' . $this->name . '_from',
+            'to' => 'datepicker_' . $this->name . '_to',
+        );
+        $to_value = (!empty($this->_selection['to'])) ? $this->_selection['to'] : '';
+        $from_value = (!empty($this->_selection['from'])) ? $this->_selection['from'] : '';
+
+        echo $this->_config['helptext'] . ': ';
+        echo '<input type="text" name="' . $this->name . '[from]" id="' . $ids['from'] . '" value="' . $from_value . '" />';
+        echo '<input type="text" name="' . $this->name . '[to]" id="' . $ids['to'] . '" value="' . $to_value . '" />';
+        $this->_render_actions();
+
+        echo '<script type="text/javascript">';
+        echo "\$(document).ready(function()\n{\n\norg_openpsa_filter.init_timeframe(\n";
+        echo json_encode($ids) . " );\n});\n";
+        echo "\n</script>\n";
+    }
+
     /**
      * Renderer for 'singleselect' mode
      *
@@ -139,7 +196,6 @@ class org_openpsa_core_filter
      */
     private function _render_singleselect(array $options)
     {
-        echo '<form id="' . $this->name . '_filter" class="filter" action="" method="post" style="display:inline">';
         echo '<select onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
 
         foreach ($options as $option)
@@ -151,7 +207,7 @@ class org_openpsa_core_filter
             }
             echo '>' . $option['title'] . '</option>';
         }
-        echo "\n</select>\n</form>\n";
+        echo "\n</select>\n";
     }
 
     /**
@@ -161,8 +217,6 @@ class org_openpsa_core_filter
      */
     private function _render_multiselect(array $options)
     {
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.core');
-        echo '<form id="' . $this->name . '_form" action="" class="filter" method="post">';
         echo '<select id="select_' . $this->name . '" name="' . $this->name . '[]" multiple="multiple" >';
 
         foreach ($options as $option)
@@ -176,13 +230,26 @@ class org_openpsa_core_filter
             echo "\n</option>\n";
         }
         echo "\n</select>\n";
+
+        $this->_render_actions();
+
+        $config = array
+        (
+            'maxDropHeight' => 200,
+            'emptyText' => $this->_config['helptext']
+        );
+
+        echo '<script type="text/javascript">';
+        echo "\$(document).ready(function()\n{\n\n$('#select_" . $this->name . "').dropdownchecklist(\n";
+        echo json_encode($config) . " );\n});\n";
+        echo "\n</script>\n";
+    }
+
+    private function _render_actions()
+    {
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.core');
         echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" class="filter_action filter_apply" title="' . $l10n->get("apply") . '" />';
         echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" class="filter_action filter_unset" title="' . $l10n->get("unset") . '" />';
-        echo "\n</form>\n";
-        echo '<script type="text/javascript">';
-        echo "\$(document).ready(function()\n{\n\n$('#select_" . $this->name . "').dropdownchecklist({\n";
-        echo " maxDropHeight: 200,\n emptyText: '" . $this->_config['helptext'] . "' });\n});\n";
-        echo "\n</script>\n";
     }
 
     /**
