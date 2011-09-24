@@ -28,14 +28,6 @@
     'fixed_args' => array('hours'),
 ),
 
-// Handle /hours/between/all/<from>/<to>
-'list_hours_between_all' => array
-(
-    'handler' => array('org_openpsa_expenses_handler_hours_list', 'list'),
-    'fixed_args' => array('hours', 'between', 'all'),
-    'variable_args' => 2,
-),
-
 // Handle /hours/edit/<guid>
 'hours_edit' => array
 (

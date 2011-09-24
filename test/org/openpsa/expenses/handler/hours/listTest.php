@@ -48,22 +48,21 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
         midcom::get('auth')->drop_sudo();
     }
 
-    public function testHandler_list_hours_between()
+    public function testHandler_list_hours()
     {
         midcom::get('auth')->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'between', '2011-10-03', '2011-10-10'));
-        $this->assertEquals('list_hours_between', $data['handler_id']);
+        $_GET = array
+        (
+            'date' => array
+            (
+                'from' => '2011-10-03',
+                'to' => '2011-10-10'
+            )
+        );
 
-        midcom::get('auth')->drop_sudo();
-    }
-
-    public function testHandler_list_hours_between_all()
-    {
-        midcom::get('auth')->request_sudo('org.openpsa.expenses');
-
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'between', 'all', '2011-10-03', '2011-10-10'));
-        $this->assertEquals('list_hours_between_all', $data['handler_id']);
+        $data = $this->run_handler('org.openpsa.expenses', array('hours'));
+        $this->assertEquals('list_hours', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();
     }

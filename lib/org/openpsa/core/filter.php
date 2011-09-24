@@ -100,10 +100,10 @@ class org_openpsa_core_filter
 
         if ($this->_config['mode'] == 'multiselect')
         {
+            $head->enable_jquery();
             $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dropdown-check-list.1.4/css/ui.dropdownchecklist.themeroller.css");
             $head->add_jquery_ui_theme(array('widget'));
 
-            $head->enable_jquery();
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
             $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dropdown-check-list.1.4/js/ui.dropdownchecklist-1.4-min.js');

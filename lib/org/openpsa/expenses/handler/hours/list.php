@@ -145,6 +145,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             ),
         );
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
         foreach ($hours as $report)
         {
             if (!array_key_exists($report->person, $this->reporters))

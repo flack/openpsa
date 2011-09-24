@@ -74,10 +74,6 @@ käytä
 Suodatusvirhe
 ---STRINGEND
 
----STRING hour reports between %s and %s
-Tuntiraportit välille %s ja %s
----STRINGEND
-
 ---STRING hours unit
 h
 ---STRINGEND
