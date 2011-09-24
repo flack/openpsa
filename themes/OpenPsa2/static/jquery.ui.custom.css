@@ -655,6 +655,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 {
     border-bottom-color: transparent;
     height: 20px;
+    padding: 1px 4px
 }
 
 .ui-jqgrid .ui-jqgrid-hdiv

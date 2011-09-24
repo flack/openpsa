@@ -58,27 +58,27 @@ jQuery("#&(grid_id);").jqGrid({
       data: &(grid_id);_entries,
       colNames: ['id', 'index_date', <?php
                  echo '"' . $data['l10n']->get('date') . '",';
+                 echo '"' . $data['l10n']->get('person') . '",';
                  if ($data['mode'] != 'simple')
                  {
                      echo '"' . $data['l10n']->get('task') . '",';
                  }
+                 echo '"index_hours", "' . $data['l10n']->get('hours') . '",';
                  echo '"index_description", "' . $data['l10n']->get('description') . '",';
-                 echo '"' . $data['l10n']->get('person') . '",';
-                 echo '"index_hours", "' . $data['l10n']->get('hours') . '"';
       ?>],
       colModel:[
           {name:'id', index:'id', hidden: true, key: true},
           {name:'index_date',index:'index_date', sorttype: "integer", hidden: true},
           {name:'date', index: 'index_date', width: 80, align: 'center', fixed: true},
+          {name:'reporter', index: 'reporter', width: 80},
           <?php if ($data['mode'] != 'simple')
           { ?>
               {name:'task', index: 'task'},
           <?php } ?>
-          {name:'index_description', index: 'index_description', hidden: true},
-          {name:'description', index: 'index_description', width: 300},
-          {name:'reporter', index: 'reporter', width: 80},
           {name:'index_hours', index: 'index_hours', sorttype: "integer", hidden: true },
-          {name:'hours', index: 'index_hours', width: 50, align: 'right'}
+          {name:'hours', index: 'index_hours', width: 50, align: 'right'},
+          {name:'index_description', index: 'index_description', hidden: true},
+          {name:'description', index: 'index_description', width: 250}
        ],
        pager: "#p_&(grid_id);",
        loadonce: true,
