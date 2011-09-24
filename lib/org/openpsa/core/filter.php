@@ -37,7 +37,7 @@ class org_openpsa_core_filter
     /**
      * The filter's configuration.
      *
-     * Currently supported keys are 'mode', 'fieldname', 'operator' and 'option_callback'
+     * Currently supported keys are 'mode', 'fieldname', 'operator', 'helptext' and 'option_callback'
      *
      * @var array
      */
@@ -82,7 +82,8 @@ class org_openpsa_core_filter
 
         if ($this->_config['mode'] == 'multiselect')
         {
-            $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dropdown-check-list.1.4/css/ui.dropdownchecklist.standalone.css");
+            $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dropdown-check-list.1.4/css/ui.dropdownchecklist.themeroller.css");
+            $head->add_jquery_ui_theme(array('widget'));
 
             $head->enable_jquery();
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');

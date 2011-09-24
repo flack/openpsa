@@ -1,5 +1,7 @@
 <div class="sidebar">
-   <?php midcom_show_style('person_filter'); ?>
+    <div class="area">
+        <?php $data['qf']->render(); ?>
+    </div>
 </div>
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
