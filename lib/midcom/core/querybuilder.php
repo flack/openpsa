@@ -245,7 +245,7 @@ class midcom_core_querybuilder extends midcom_core_query
                     $size = $size - $offset;
                 }
 
-                if ($limit >= $size)
+                if ($limit > $size)
                 {
                     $limit -= $size;
                 }
