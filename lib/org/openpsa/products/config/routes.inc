@@ -77,7 +77,7 @@
 ),
 
 // Handle /product/create/<group id>/<schema name>
-'create_product' => Array
+'create_group_product' => Array
 (
     'handler' => Array('org_openpsa_products_handler_product_create', 'create'),
     'fixed_args' => Array('product', 'create'),

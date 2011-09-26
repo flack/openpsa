@@ -76,7 +76,9 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_product = new org_openpsa_products_product_dba();
 
+        $controller->formmanager->widgets['productGroup']->sync_type_with_widget($controller->formmanager->get_submit_values());
         $product_group = $controller->datamanager->types['productGroup']->convert_to_storage();
+
         $this->_request_data['up'] = $product_group;
         $this->_product->productGroup = $this->_request_data['up'];
 
@@ -105,7 +107,15 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_master->find_parent($args);
 
-        $data['selected_schema'] = $args[1];
+        if ($handler_id == 'create_product')
+        {
+            $data['selected_schema'] = $args[0];
+        }
+        else
+        {
+            $data['selected_schema'] = $args[1];
+        }
+
         if (!array_key_exists($data['selected_schema'], $data['schemadb_product']))
         {
             throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found in schemadb');

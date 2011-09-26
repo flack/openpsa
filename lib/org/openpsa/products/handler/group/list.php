@@ -374,11 +374,17 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 $icon = 'stock-icons/16x16/new-text.png';
             }
+            $create_url = $name;
+
+            if ($this->_request_data['parent_group'])
+            {
+                $create_url = $this->_request_data['parent_group'] . '/' . $create_url;
+            }
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['parent_group']}/{$name}/",
+                    MIDCOM_TOOLBAR_URL => "product/create/{$create_url}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
