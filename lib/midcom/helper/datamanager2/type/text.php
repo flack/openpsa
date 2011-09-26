@@ -79,6 +79,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      * @see http://www.php.net/htmlspecialchars
      */
     var $specialchars_quotes = ENT_QUOTES;
+
     /**
      * Define the charset to use when htmlspecialchars() is called
      *
@@ -288,6 +289,11 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
 
         $this->value = (string) $this->value;
+
+        if ($this->purify)
+        {
+            $this->purify_content();
+        }
 
         if (   $this->maxlength > 0
             && strlen($this->value) > $this->maxlength)
