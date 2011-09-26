@@ -316,6 +316,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         // looks fine. The change of the storage backend will only be done if we have a clear
         // save/next result from the QF layer.
         $result = $this->formmanager->compute_form_result();
+
         if ($result == 'save')
         {
             $this->_cast_to_storage_object();
@@ -323,14 +324,14 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
         // Do the actual I/O
         $result = $this->formmanager->process_form();
+
         if (   $result == 'save'
             || $result == 'next')
         {
             // Ok, we can save now. At this point we already have a content object.
             if (! $this->datamanager->validate())
             {
-                // In case that the type validation fails, we bail with generate_error, until
-                // In case that the type validation fails, we bail with generate_error, until
+                // In case that the type validation fails, we return to edit mode
                 foreach ($this->datamanager->validation_errors as $field => $error)
                 {
                     $this->formmanager->form->setElementError($field, $error);
