@@ -470,12 +470,8 @@ class org_openpsa_contacts_duplicates
             }
 
             if (   (   !empty($obj1->guid)
-                && is_object($obj1)
-                && method_exists($obj1, 'get_parameter')
                 && $obj1->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj2->guid))
             || (   !empty($obj1->guid)
-                && is_object($obj2)
-                && method_exists($obj2, 'set_parameter')
                 && $obj2->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj1->guid))
             )
             {

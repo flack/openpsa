@@ -90,10 +90,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (method_exists($this, 'purge'))
-        {
-            $this->purge();
-        }
+        $this->purge();
     }
 
     /**

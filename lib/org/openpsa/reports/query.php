@@ -71,10 +71,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (method_exists($this, 'purge'))
-        {
-            $this->purge();
-        }
+        $this->purge();
     }
 
     public static function get_saved($component)

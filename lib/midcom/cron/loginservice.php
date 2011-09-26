@@ -32,10 +32,7 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
             }
             else
             {
-                if (method_exists($tmp, 'purge'))
-                {
-                    $tmp->purge();
-                }
+                $tmp->purge();
                 debug_add("Deleted login session {$tmp->id}.");
             }
         }

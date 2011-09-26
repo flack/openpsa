@@ -139,10 +139,6 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (!method_exists($this, 'purge'))
-        {
-            return;
-        }
         $this->purge();
     }
 }
