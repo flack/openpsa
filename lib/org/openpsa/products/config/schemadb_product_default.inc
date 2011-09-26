@@ -69,6 +69,7 @@
                 ),
                 'generate_path_for' => 'title',
             ),
+            'required' => true,
         ),
         'orgOpenpsaObtype' => Array
         (
