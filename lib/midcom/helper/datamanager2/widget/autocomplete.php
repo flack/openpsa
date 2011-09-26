@@ -322,6 +322,18 @@ EOT;
         );
 
         $this->_form->addGroup($this->_widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_autocomplete'));
+        if ($this->_field['required'])
+        {
+            $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
+            $this->_form->addGroupRule($this->name, array
+            (
+                "{$this->_element_id}_selection" => array
+                (
+                    array($errmsg, 'required'),
+                    array($errmsg, 'regex', '/\[.+?\]/')
+                )
+            ));
+        }
     }
 
     private function _get_selection()

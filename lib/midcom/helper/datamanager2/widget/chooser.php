@@ -1029,8 +1029,25 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             '',
             $this->_static_items_html
         );
+        $this->widget_elements[] = HTML_QuickForm::createElement
+        (
+            'hidden',
+            "{$this->_element_id}_selections",
+            ''
+        );
 
         $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_chooser'));
+        if ($this->_field['required'])
+        {
+            $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
+            $this->_form->addGroupRule($this->name, array
+            (
+                "{$this->_element_id}_widget_selections" => array
+                (
+                    array($errmsg, 'required'),
+                ),
+            ));
+        }
     }
 
     private function _add_items_to_form()
