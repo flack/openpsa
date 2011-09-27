@@ -707,11 +707,6 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     font-weight: normal
 }
 
-.ui-jqgrid .a-ellipsis a
-{
-    text-overflow: ellipsis;
-}
-
 .ui-jqgrid .ui-widget-content td.title,
 .ui-jqgrid .ui-widget-content td.title a
 {

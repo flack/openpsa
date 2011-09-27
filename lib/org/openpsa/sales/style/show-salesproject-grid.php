@@ -142,15 +142,15 @@ jQuery("#&(grid_id);").jqGrid({
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
           {name:'index_title',index:'index_title', hidden:true},
-          {name:'title', index: 'index_title', width: 100, classes: 'a-ellipsis title'},
+          {name:'title', index: 'index_title', width: 100, classes: 'ui-ellipsis title'},
           {name:'index_customer', index:'index_customer', hidden:true},
-          {name:'customer', index: 'index_customer', width: 80, classes: 'a-ellipsis'},
+          {name:'customer', index: 'index_customer', width: 80, classes: 'ui-ellipsis'},
           {name:'index_owner', index:'index_owner', hidden:true},
           {name:'owner', index: 'index_owner', width: 70},
           {name:'index_closeest',index:'index_closeest', sorttype: "integer", hidden: true},
           {name:'closeest', index: 'index_closeest', width: 65, align: 'center', fixed: true},
           {name:'index_value', index: 'index_value', sorttype: "float", hidden: true },
-          {name:'value', index: 'index_value', width: 55, align: 'right', fixed: true},
+          {name:'value', index: 'index_value', width: 60, align: 'right', fixed: true},
           <?php if ($data['list_title'] == 'active')
           { ?>
               {name:'probability', index: 'probability', width: 55, align: 'right'},
@@ -158,9 +158,9 @@ jQuery("#&(grid_id);").jqGrid({
               {name:'weightedvalue', index: 'index_weightedvalue', width: 55, align: 'right', fixed: true},
           <?php } ?>
           {name:'index_profit', index: 'index_profit', sorttype: "float", hidden: true },
-          {name:'profit', index: 'index_profit', width: 55, align: 'right', fixed: true},
-          {name:'prev_action', width: 75, align: 'center'},
-          {name:'next_action', width: 75, align: 'center'}
+          {name:'profit', index: 'index_profit', width: 60, align: 'right', fixed: true},
+          {name:'prev_action', width: 75, align: 'center', classes: 'ui-ellipsis'},
+          {name:'next_action', width: 75, align: 'center', classes: 'ui-ellipsis'}
       ],
       loadonce: true,
       rowNum: <?php echo sizeof($rows); ?>,
