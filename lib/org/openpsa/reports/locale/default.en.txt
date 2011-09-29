@@ -118,6 +118,10 @@ Report style
 Root project/process
 ---STRINGEND
 
+---STRING sales report %s - %s
+Sales Report %s - %s
+---STRINGEND
+
 ---STRING save query for future
 Save query for future
 ---STRINGEND
