@@ -70,14 +70,15 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
     private function _get_deliverable_invoices($id)
     {
         $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $id);
-        $ids = $mc->get_values('id');
+        $ids = $mc->get_values('invoice');
         if (sizeof($ids) < 1)
         {
             return array();
         }
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', $ids);
-
+        $qb->add_constraint('metadata.created', '>=', strftime('%Y-%m-%d %H:%M:%S', $this->_request_data['start']));
+        $qb->add_constraint('metadata.created', '<=', strftime('%Y-%m-%d %H:%M:%S', $this->_request_data['end']));
         return $qb->execute();
     }
 
