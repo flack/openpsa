@@ -70,15 +70,15 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'id', index:'id', hidden: true, key: true},
           {name:'index_date',index:'index_date', sorttype: "integer", hidden: true},
           {name:'date', index: 'index_date', width: 80, align: 'center', fixed: true},
-          {name:'reporter', index: 'reporter', width: 80},
+          {name:'reporter', index: 'reporter', width: 80, classes: 'ui-ellipsis'},
           <?php if ($data['mode'] != 'simple')
           { ?>
-              {name:'task', index: 'task'},
+              {name:'task', index: 'task', classes: 'ui-ellipsis'},
           <?php } ?>
           {name:'index_hours', index: 'index_hours', sorttype: "integer", hidden: true },
           {name:'hours', index: 'index_hours', width: 50, align: 'right'},
           {name:'index_description', index: 'index_description', hidden: true},
-          {name:'description', index: 'index_description', width: 250}
+          {name:'description', index: 'index_description', width: 250, classes: 'ui-ellipsis'}
        ],
        pager: "#p_&(grid_id);",
        loadonce: true,

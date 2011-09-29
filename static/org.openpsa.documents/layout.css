@@ -73,7 +73,7 @@ dl.search_results ul
 {
     list-style-type: none
 }
-.jqgrid_size, .jqgrid_person, .jqgrid_date
+.jqgrid_size, .jqgrid_date
 {
     width: 100%;
     display: block;

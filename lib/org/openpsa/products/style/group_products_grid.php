@@ -64,7 +64,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'index_code', index:'index_code', hidden:true},
           {name:'code', index: 'index_code', width: 80, fixed: true},
           {name:'index_title', index:'index_title', hidden:true},
-          {name:'title', index: 'index_title', classes: 'title'},
+          {name:'title', index: 'index_title', classes: 'title ui-ellipsis'},
           {name:'orgOpenpsaObtype', index:'orgOpenpsaObtype', width: 130, fixed: true},
           {name:'delivery', index:'delivery', width: 130, fixed: true},
           {name:'index_price', index:'index_price', sorttype: 'number', hidden: true},

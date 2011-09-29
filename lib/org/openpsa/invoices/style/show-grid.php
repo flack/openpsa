@@ -28,11 +28,11 @@ $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "c
 
 if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
 {
-    $grid->set_column('customer', $data['l10n']->get('customer'));
+    $grid->set_column('customer', $data['l10n']->get('customer'), 'classes: "ui-ellipsis"');
 }
 if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
 {
-    $grid->set_column('contact', $data['l10n']->get('customer contact'));
+    $grid->set_column('contact', $data['l10n']->get('customer contact'), 'classes: "ui-ellipsis"');
 }
 
 if (array_key_exists('deliverable', $data))
@@ -41,7 +41,7 @@ if (array_key_exists('deliverable', $data))
     $footer_data['item_sum'] = org_openpsa_helpers::format_number($data['totals']['deliverable']);
 }
 $grid->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"')
-->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false, classes:"sum"', 'number');
+->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false, classes: "sum"', 'number');
 
 if ($data['list_type'] != 'paid')
 {

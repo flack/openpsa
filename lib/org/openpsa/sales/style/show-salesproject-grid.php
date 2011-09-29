@@ -146,7 +146,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'index_customer', index:'index_customer', hidden:true},
           {name:'customer', index: 'index_customer', width: 80, classes: 'ui-ellipsis'},
           {name:'index_owner', index:'index_owner', hidden:true},
-          {name:'owner', index: 'index_owner', width: 70},
+          {name:'owner', index: 'index_owner', width: 70, classes: "ui-ellipsis"},
           {name:'index_closeest',index:'index_closeest', sorttype: "integer", hidden: true},
           {name:'closeest', index: 'index_closeest', width: 65, align: 'center', fixed: true},
           {name:'index_value', index: 'index_value', sorttype: "float", hidden: true },

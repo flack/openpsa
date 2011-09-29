@@ -44,12 +44,12 @@ $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "c
 
 if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
 {
-    $grid->set_column('customer', $data['l10n']->get('customer'), 'sortable: false');
+    $grid->set_column('customer', $data['l10n']->get('customer'), 'sortable: false, classes: "ui-ellipsis"');
 }
 
 if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
 {
-    $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false');
+    $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false, classes: "ui-ellipsis"');
 }
 
 $grid->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"')

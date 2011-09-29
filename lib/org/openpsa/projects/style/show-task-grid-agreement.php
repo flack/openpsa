@@ -89,7 +89,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'index_project',index:'index_project', hidden: true},
           {name:'project', index: 'index_project', width: 80, classes: 'ui-ellipsis', hidden: true},
           {name:'index_manager', index: 'index_manager', hidden: true },
-          {name:'manager', index: 'index_manager', width: 70},
+          {name:'manager', index: 'index_manager', width: 70, classes: "ui-ellipsis"},
           {name:'index_start', index: 'index_start', sorttype: "integer", hidden: true },
           {name:'start', index: 'index_start', width: 75, align: 'center', fixed: true},
           {name:'index_end', index: 'index_end', sorttype: "integer", hidden: true },

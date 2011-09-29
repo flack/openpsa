@@ -81,14 +81,14 @@ jQuery("#&(grid_id);").jqGrid({
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
           {name:'index_title',index:'index_title', hidden:true},
-          {name:'title', index: 'index_title', width: 80},
+          {name:'title', index: 'index_title', width: 80, classes: "ui-ellipsis"},
           {name:'index_filesize', index: 'index_filesize', sorttype: "number", hidden:true},
           {name:'filesize', index: 'index_filesize', width: 60, fixed: true, align: 'right'},
-          {name:'mimetype', index: 'mimetype', width: 60},
+          {name:'mimetype', index: 'mimetype', width: 60, classes: "ui-ellipsis"},
           {name:'index_created', index: 'index_created', sorttype: "number", hidden:true},
           {name:'created', index: 'index_created', width: 135, fixed: true, align: 'center'},
           {name:'index_author', index: 'index_author', sorttype: "integer", hidden:true },
-          {name:'author', index: 'index_author', width: 70}
+          {name:'author', index: 'index_author', width: 70, classes: "ui-ellipsis"}
       ],
       loadonce: true
 });
