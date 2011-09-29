@@ -77,8 +77,8 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         }
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', $ids);
-        $qb->add_constraint('metadata.created', '>=', strftime('%Y-%m-%d %H:%M:%S', $this->_request_data['start']));
-        $qb->add_constraint('metadata.created', '<=', strftime('%Y-%m-%d %H:%M:%S', $this->_request_data['end']));
+        $qb->add_constraint('sent', '>=', $this->_request_data['start']);
+        $qb->add_constraint('sent', '<=', $this->_request_data['end']);
         return $qb->execute();
     }
 
