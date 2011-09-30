@@ -39,7 +39,7 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
             $parent = dirname($path);
             if (!is_writable($parent))
             {
-                throw new midcom_error("Directory {$parent} is not writable by Apache");
+                throw new midcom_error("Directory {$parent} is not writable");
                 // This will exit.
             }
 
@@ -60,7 +60,7 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
         {
             if (!is_writable($path))
             {
-                throw new midcom_error("Directory {$path} is not writable by Apache");
+                throw new midcom_error("Directory {$path} is not writable");
                 // This will exit.
             }
 
