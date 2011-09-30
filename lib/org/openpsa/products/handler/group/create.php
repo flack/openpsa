@@ -136,7 +136,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     $indexer = $_MIDCOM->get_service('indexer');
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
-
+                midcom::get('cache')->invalidate($this->_topic->guid);
                 $_MIDCOM->relocate("{$this->_group->guid}/");
                 // This will exit.
 
