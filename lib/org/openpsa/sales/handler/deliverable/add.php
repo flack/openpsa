@@ -127,6 +127,8 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
+                $formdata = $data['controller']->datamanager->types;
+                $this->_master->process_notify_date($formdata, $this->_deliverable);
             case 'cancel':
                 $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
                 break;
