@@ -98,14 +98,24 @@ class midcom_baseclasses_components_configuration
      */
     private static function _load_configuration($component)
     {
-        $loader = $_MIDCOM->get_component_loader();
+        $data = array();
+        $loader = midcom::get('componentloader');
+        if (!empty($loader->manifests[$component]->extends))
+        {
+            $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($loader->manifests[$component]->extends);
+            // Load and parse the global config
+            $parent_data = self::read_array_from_file($component_path . '/config/config.inc');
+            if ($parent_data)
+            {
+                $data = $parent_data;
+            }
+        }
         $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($component);
         // Load and parse the global config
-        $data = self::read_array_from_file($component_path . '/config/config.inc');
-        if (! $data)
+        $component_data = self::read_array_from_file($component_path . '/config/config.inc');
+        if ($component_data)
         {
-            // Empty defaults
-            $data = Array();
+            $data = array_merge($data, $component_data);
         }
         $config = new midcom_helper_configuration($data);
 

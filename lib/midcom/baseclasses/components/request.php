@@ -303,7 +303,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Request specific data storage area. Registered in the component context
      * as ''.
      *
-     * @var Array
+     * @var array
      */
     public $_request_data = Array();
 
@@ -353,9 +353,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * it will be post-processed afterwards during initialize to provide a unified
      * set of data. Therefore you must not modify this switch after construction.
      *
-     * @var Array
+     * @var array
      */
-    public $_request_switch = Array();
+    public $_request_switch = array();
 
     /**#@+
      * Internal request handling state variable, these are considered read-only for
@@ -416,7 +416,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $this->_register_core_plugin_namespaces();
         }
 
-        $this->_request_switch = midcom_baseclasses_components_configuration::get($this->_component, 'routes');
+        $manifest = midcom::get('componentloader')->manifests[$this->_component];
+        if (!empty($manifest->extends))
+        {
+            $this->_request_switch = midcom_baseclasses_components_configuration::get($manifest->extends, 'routes');
+        }
+
+        $this->_request_switch = array_merge($this->_request_switch, midcom_baseclasses_components_configuration::get($this->_component, 'routes'));
 
         $this->_on_initialize();
     }

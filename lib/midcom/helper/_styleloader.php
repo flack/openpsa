@@ -798,6 +798,11 @@ class midcom_helper__styleloader
         {
             return null;
         }
+        if (!empty($loader->manifests[$topic->component]->extends))
+        {
+            $this->append_component_styledir($loader->manifests[$topic->component]->extends);
+        }
+
         return $loader->path_to_snippetpath($topic->component) . "/style";
     }
 
@@ -838,23 +843,21 @@ class midcom_helper__styleloader
     /**
      * prepend the styledir of a component
      *
-     * @param string componentname
-     * @throws midcom exception if directory does not exist.
+     * @param string $component component name
      */
     function prepend_component_styledir ($component)
     {
         $loader = $_MIDCOM->get_component_loader();
-        $path = $loader->path_to_snippetpath($component ) . "/style";
+        $path = $loader->path_to_snippetpath($component) . "/style";
         $this->prepend_styledir($path);
-        return;
     }
 
     /**
      * Function prepend styledir
      *
-     * @param dirname path of styledirectory within midcom.
+     * @param string $dirname path of styledirectory within midcom.
      * @return boolean true if directory appended
-     * @throws midcom exception if directory does not exist.
+     * @throws midcom_error if directory does not exist.
      */
     function prepend_styledir ($dirname)
     {

@@ -66,6 +66,8 @@
  *
  * <i>string name</i> should be clear, it is the full name of the component.
  *
+ * <i>string extends</i> The name of the component from which the current should inherit
+ *
  * <i>boolean purecode</i> is equally easy, indicating whether this is a library or a full
  * scale component.
  *
@@ -212,6 +214,13 @@ class midcom_core_manifest
     public $name = '';
 
     /**
+     * The name of the parent component, if any.
+     *
+     * @var string
+     */
+    public $extends;
+
+    /**
      * This is the translated, full component name obtained by looking up the string
      * $name in the l10n library $name.
      *
@@ -318,6 +327,10 @@ class midcom_core_manifest
         if (array_key_exists('purecode', $this->_raw_data))
         {
             $this->purecode = ($this->_raw_data['purecode'] == true);
+        }
+        if (!empty($this->_raw_data['extends']))
+        {
+            $this->extends = $this->_raw_data['extends'];
         }
         if (array_key_exists('version', $this->_raw_data))
         {

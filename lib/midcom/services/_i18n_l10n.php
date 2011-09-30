@@ -132,26 +132,22 @@ class midcom_services__i18n_l10n
      * @param string $library    Name of the locale library to use.
      * @param string $database    Name of the database in the library to load.
      */
-    public function __construct ($library = null, $database)
+    public function __construct($library, $database)
     {
-        if (is_null($library))
-        {
-            throw new midcom_error("Default constructor forbidden, library path must be present.");
-        }
+        $path = str_replace('.', '/', $library);
 
-        if (substr($library, -1) != "/")
+        if (substr($path, -1) != "/")
         {
-            $library = "/{$library}/locale/{$database}";
+            $path = "/{$path}/locale/{$database}";
         }
         else
         {
-            $library = "/{$library}locale/{$database}";
+            $path = "/{$path}locale/{$database}";
         }
 
-        $this->_library_filename = MIDCOM_ROOT . $library;
-        $this->_library = $library;
-        $this->_component_name = explode( "/", $this->_library );
-        $this->_component_name = implode( ".", array_slice( $this->_component_name, 1, count($this->_component_name)-3 ) );
+        $this->_library_filename = MIDCOM_ROOT . $path;
+        $this->_library = $path;
+        $this->_component_name = $library;
 
         $this->_language_db = $_MIDCOM->i18n->get_language_db();
         $this->_fallback_language = $_MIDCOM->i18n->get_fallback_language();
@@ -211,7 +207,9 @@ class midcom_services__i18n_l10n
      */
     private function _load_language($lang)
     {
+        $this->_stringdb[$lang] = array();
         $filename = "{$this->_library_filename}.{$lang}.txt";
+
         if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
         {
             $stringtable = $_MIDCOM->cache->memcache->get('L10N', $filename);
@@ -222,19 +220,24 @@ class midcom_services__i18n_l10n
             }
         }
 
-        if (! file_exists($filename))
+        if (!empty(midcom::get('componentloader')->manifests[$this->_component_name]->extends))
         {
-            $this->_stringdb[$lang] = Array();
+            $parent_l10n = new self(midcom::get('componentloader')->manifests[$this->_component_name]->extends, 'default');
+            $this->_stringdb[$lang] = $parent_l10n->get_stringdb($lang);
+        }
+
+        if (!file_exists($filename))
+        {
             return;
         }
 
         $data = file($filename);
 
-        // get components specific l10n
-        $component_locale = midcom_helper_misc::get_snippet_content_graceful($GLOBALS['midcom_config']['midcom_sgconfig_basedir']."/".$this->_component_name."/l10n/".$lang);
+        // get site-specific l10n
+        $component_locale = midcom_helper_misc::get_snippet_content_graceful($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name . "/l10n/" . $lang);
         if (!empty($component_locale))
         {
-            $data = array_merge( $data, explode("\n", $component_locale) );
+            $data = array_merge($data, explode("\n", $component_locale));
         }
 
         // Parse the Array
@@ -362,8 +365,7 @@ class midcom_services__i18n_l10n
 
     /**
      * Checks, whether the referenced language is already loaded. If not,
-     * it is automatically made available. Any errors will trigger
-     * generate_error.
+     * it is automatically made available.
      *
      * @param string $lang The language to check for.
      * @see midcom_services__i18n_l10n::_load_language()
@@ -394,7 +396,7 @@ class midcom_services__i18n_l10n
      * This is usually set through midcom_services_i18n.
      *
      * @param string $charset    Charset name.
-     * @see midcom_services_18n::set_charset()
+     * @see midcom_services_i18n::set_charset()
      */
     function set_charset ($encoding)
     {
@@ -498,7 +500,7 @@ class midcom_services__i18n_l10n
      * @param string $language The language to search in, uses the current language as default.
      * @return string The translated string if available, the fallback string otherwise.
      */
-    function get ($string, $language = null)
+    public function get($string, $language = null)
     {
         if (is_null($language))
         {
@@ -530,9 +532,24 @@ class midcom_services__i18n_l10n
      * @param string $language The language to search in, uses the current language as default.
      * @see get()
      */
-    function show ($string, $language = null)
+    public function show ($string, $language = null)
     {
         echo $this->get($string, $language);
+    }
+
+    /**
+     * Helper function that returns the entire translation table for the given language
+     *
+     * @param string $language The language to query
+     */
+    public function get_stringdb($language)
+    {
+        $this->_check_for_language($language);
+        if (empty($this->_stringdb[$language]))
+        {
+            return array();
+        }
+        return $this->_stringdb[$language];
     }
 
     /**
@@ -558,7 +575,7 @@ class midcom_services__i18n_l10n
      */
     function delete ($string, $language)
     {
-        // This is error-resilent, deleting a non-existent string will
+        // This is error-resilient, deleting a non-existent string will
         // just do nothing.
         if ($this->string_exists($string, $language))
         {

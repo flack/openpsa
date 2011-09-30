@@ -435,7 +435,7 @@ class midcom_services_i18n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
      */
-    function _load_l10n_db($component, $database)
+    private function _load_l10n_db($component, $database)
     {
         $cacheid = "{$component}/{$database}";
 
@@ -445,8 +445,7 @@ class midcom_services_i18n
         }
         else
         {
-            $path = str_replace('.', '/', $component);
-            $obj = new midcom_services__i18n_l10n($path, $database);
+            $obj = new midcom_services__i18n_l10n($component, $database);
         }
 
         if (! $obj)
@@ -464,7 +463,7 @@ class midcom_services_i18n
      * Scans the HTTP negotiation and the cookie data and tries to set a
      * suitable default language. Cookies have priority here.
      */
-    function _set_startup_langs()
+    private function _set_startup_langs()
     {
         $this->_read_cookie();
         if (!is_null ($this->_cookie_data))
@@ -493,7 +492,7 @@ class midcom_services_i18n
      * This method tries to pull the user's preferred language and
      * character set out of a cookie named "midcom_services_i18n".
      */
-    function _read_cookie ()
+    private function _read_cookie ()
     {
         if (!isset ($_COOKIE))
         {
@@ -525,7 +524,7 @@ class midcom_services_i18n
      *
      * q-parameters for prioritization are supported.
      */
-    function _read_http_negotiation ()
+    private function _read_http_negotiation ()
     {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
         {
@@ -621,7 +620,7 @@ class midcom_services_i18n
     /**
      * Loads the language database.
      */
-    function _load_language_db()
+    private function _load_language_db()
     {
         $path = $GLOBALS['midcom_config']['i18n_language_db_path'];
 

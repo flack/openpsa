@@ -229,7 +229,7 @@ class midcom_helper__componentloader
         $directory = MIDCOM_ROOT . "{$snippetpath}/midcom";
         if (! is_dir($directory))
         {
-            debug_add("Failed to access Snippetdir {$directory}: Directory not found.", MIDCOM_LOG_CRIT);
+            debug_add("Failed to access {$directory}: Directory not found.", MIDCOM_LOG_CRIT);
             return false;
         }
 
