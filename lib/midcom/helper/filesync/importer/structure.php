@@ -47,7 +47,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
                     return false;
                 }
 
-                if ($structure['create_index'])
+                if (!empty($structure['create_index']))
                 {
                     // Create index article for n.n.static
                     $article = new midcom_db_article();
