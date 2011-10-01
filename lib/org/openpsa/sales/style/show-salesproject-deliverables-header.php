@@ -10,7 +10,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <form method="post" action="&(prefix);deliverable/add/<?php echo $data['salesproject']->guid; ?>/">
             <label>
                 <?php
-                echo $data['l10n']->get('add deliverable');
+                echo $data['l10n']->get('add offer');
                 ?>
                 <select name="product" id="org_openpsa_sales_salesproject_deliverable_add" onchange="if (this.selectedIndex != 0) { this.form.submit(); }">
                     <option value="0"><?php echo $data['l10n']->get('select product'); ?></option>

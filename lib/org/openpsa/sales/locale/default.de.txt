@@ -31,8 +31,8 @@ Auslaufen einer Vereinbarung
 Aktiv
 ---STRINGEND
 
----STRING add deliverable
-Bestellung hinzufügen
+---STRING add offer
+Angebot hinzufügen
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s

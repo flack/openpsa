@@ -30,8 +30,8 @@ Expiration of an agreement
 Active
 ---STRINGEND
 
----STRING add deliverable
-Add deliverable
+---STRING add offer
+Add offer
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
