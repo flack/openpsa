@@ -62,6 +62,10 @@ Invoiceable Reports
 Invoiced Reports
 ---STRINGEND
 
+---STRING list view
+List view
+---STRINGEND
+
 ---STRING list_hours_task %s
 Hour reports for Task %s
 ---STRINGEND

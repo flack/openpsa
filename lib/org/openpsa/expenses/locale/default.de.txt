@@ -50,6 +50,10 @@ Abrechenbare Stundenberichte
 Abgerechnete Stundenberichte
 ---STRINGEND
 
+---STRING list view
+Listenansicht
+---STRINGEND
+
 ---STRING list_hours_task %s
 Stundenberichte für Aufgabe "%s"
 ---STRINGEND

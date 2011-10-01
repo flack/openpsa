@@ -78,13 +78,23 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
     private function _populate_toolbar($previous_week, $next_week)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
+        $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&amp;date[to]=' . $week_end,
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+            )
+        );
 
         $this->_view_toolbar->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$prefix}" . $previous_week . "/",
+                MIDCOM_TOOLBAR_URL => $previous_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
             )
@@ -93,7 +103,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$prefix}" . $next_week . "/",
+                MIDCOM_TOOLBAR_URL => $next_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
             )
