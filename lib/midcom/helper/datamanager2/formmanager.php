@@ -6,9 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** We depend on the PEAR Package HTML_QuickForm. */
-require_once "HTML/QuickForm.php";
-
 /**
  * Datamanager 2 Form Manager core class.
  *
@@ -234,6 +231,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
         }
+
+        require_once "HTML/QuickForm.php";
+
         // TODO: make configurable to get URL from $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $this->_defaults = array();
