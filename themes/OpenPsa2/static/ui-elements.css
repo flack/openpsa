@@ -511,6 +511,10 @@ dl.campaigns dt.unsubscribed {
 {
     color: #333333;
 }
+#container div.vcard a:hover
+{
+    text-decoration: underline
+}
 #container div.main div.vcard li
 {
     margin-left: 10px;
