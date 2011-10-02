@@ -19,6 +19,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     public static function create_user($login = false)
     {
         $person = new midcom_db_person();
+        $person->_use_rcs = false;
+        $person->_use_activitystream = false;
         $password = substr('p_' . time(), 0, 11);
         $username = __CLASS__ . ' user ' . microtime();
 
