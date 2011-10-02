@@ -178,7 +178,7 @@ class midcom_services_auth
 
         $this->_sync_user_with_backend();
 
-        $person = $this->_user->get_storage();
+        $person = $this->user->get_storage();
         if (   $GLOBALS['midcom_config']['auth_save_prev_login']
             && $person->parameter('midcom', 'last_login'))
         {
