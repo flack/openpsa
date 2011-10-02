@@ -29,36 +29,42 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     /**
      * Optional URI to person details
+     *
      * @var string
      */
     var $link = null;
 
     /**
      * Optional HTML to be placed into the card
+     *
      * @var string
      */
     var $extra_html = null;
 
     /**
      * Optional HTML to be placed into the card (before any other output in the DIV)
+     *
      * @var string
      */
     var $prefix_html = null;
 
     /**
      * Whether to show person's groups in a list
+     *
      * @var boolean
      */
     var $show_groups = true;
 
     /**
      * Whether to generate links to the groups using NAP
+     *
      * @var boolean
      */
     var $link_contacts = true;
 
     /**
      * Default org.openpsa.contacts URL to be used for linking to groups. Will be autoprobed if not supplied.
+     *
      * @var string
      */
     private static $_contacts_url;
@@ -410,6 +416,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                     $e->log();
                     continue;
                 }
+
+                if ($group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+                {
+                    continue;
+                }
+
                 if ($mc->get_subkey($guid, 'extra'))
                 {
                     echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
