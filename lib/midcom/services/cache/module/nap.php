@@ -118,8 +118,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     function invalidate($guid)
     {
         $nav = new midcom_helper_nav();
-        $this->_initialize_cache($nav->get_root_node());
-
         $napobject = $nav->resolve_guid($guid);
 
         if ($napobject === false)
@@ -142,6 +140,10 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
                 {
                     $this->_cache->remove($this->_prefix . '-' . $parent_entry_from_object[MIDCOM_NAV_ID] . '-leaves');
                 }
+            }
+            if (!empty($napobject[MIDCOM_NAV_GUID]))
+            {
+                $this->_cache->remove($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
             }
         }
         else
@@ -176,23 +178,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $leaves_key = "{$cached_node_id}-leaves";
 
         $this->_cache->remove("{$this->_prefix}-{$cached_node_id}");
+        $this->_cache->remove($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
         $this->_cache->remove("{$this->_prefix}-{$leaves_key}");
-    }
-
-    /**
-     * Helper function that pre-warms the in-request NAP cache.
-     * This might not be the most performance-friendly implementation, but it's necesary to
-     * catch node and leave moves
-     */
-    private function _initialize_cache($node_id)
-    {
-        $nav = new midcom_helper_nav();
-        $nav->list_leaves($node_id);
-        $subnodes = $nav->list_nodes($node_id, true);
-        foreach ($subnodes as $subnode_id)
-        {
-            $this->_initialize_cache($subnode_id);
-        }
     }
 
     /**
@@ -263,7 +250,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    function put_node($key, $data, $timeout = false)
+    public function put_node($key, $data, $timeout = false)
     {
         if ($this->_cache === null)
         {
@@ -271,6 +258,40 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         }
 
         $this->_cache->put("{$this->_prefix}-{$key}", $data, $timeout);
+        $this->_cache->put($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $data, $timeout);
+    }
+
+    /**
+     * Save a given array by GUID in the cache.
+     *
+     * @param string $guid The key to store.
+     * @param mixed $data The data to store.
+     * @param int $timeout how long the data should live in the cache.
+     */
+    public function put_guid($guid, $data, $timeout = false)
+    {
+        if ($this->_cache === null)
+        {
+            return;
+        }
+
+        $this->_cache->put($this->_prefix . '-' . $guid, $data, $timeout);
+    }
+
+    /**
+     * Get a given array by GUID from the cache.
+     *
+     * @param string $guid The key to look up.
+     * @param int $timeout how long the data should live in the cache.
+     */
+    public function get_guid($guid, $timeout = false)
+    {
+        if ($this->_cache === null)
+        {
+            return;
+        }
+
+        $this->_cache->get($this->_prefix . '-' . $guid, $timeout);
     }
 
     /**
@@ -280,7 +301,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    function put_leaves($key, $data, $timeout = false)
+    public function put_leaves($key, $data, $timeout = false)
     {
         if ($this->_cache === null)
         {

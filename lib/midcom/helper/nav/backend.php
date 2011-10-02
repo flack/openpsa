@@ -114,14 +114,6 @@ class midcom_helper_nav_backend
     private static $_nodes;
 
     /**
-     * This map tracks all loaded GUIDs along with their NAP structures. This cache
-     * is used by nav's resolve_guid function to short-circut already known GUIDs.
-     *
-     * @var Array
-     */
-    private $_guid_map = Array();
-
-    /**
      * This array holds a list of all topics for which the leaves have been loaded.
      * If the id of the node is in this array, the leaves are available, otherwise,
      * the leaves have to be loaded.
@@ -836,6 +828,7 @@ class midcom_helper_nav_backend
             if (is_object($leaf[MIDCOM_NAV_OBJECT]))
             {
                 $leaves[$id][MIDCOM_NAV_OBJECT] = new midcom_core_dbaproxy($leaf[MIDCOM_NAV_OBJECT]->guid, get_class($leaf[MIDCOM_NAV_OBJECT]));
+                $this->_nap_cache->put_guid($leaf[MIDCOM_NAV_OBJECT]->guid, $leaf);
             }
         }
 
@@ -1006,17 +999,26 @@ class midcom_helper_nav_backend
      *
      * Access is restricted to midcom_helper_nav::resolve_guid().
      *
-     * @access protected
      * @param GUID $guid The GUID to look up in the in-memory cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
     function get_loaded_object_by_guid($guid)
     {
-        if (! array_key_exists($guid, $this->_guid_map))
+        $entry = $this->_nap_cache->get_guid($guid);
+        if (empty($entry))
         {
             return null;
         }
-        return $this->_guid_map[$guid];
+        if ($entry[MIDCOM_NAV_TYPE] == 'leaf')
+        {
+            return $this->get_leaf($entry[MIDCOM_NAV_ID]);
+        }
+        else
+        {
+            return $this->get_node($entry[MIDCOM_NAV_ID]);
+        }
+
+        return $entry;
     }
 
     /**
