@@ -99,14 +99,14 @@ implements midcom_helper_datamanager2_interfaces_view
     {
         $rows = array();
 
-        $mc = midcom_db_member::new_collector('gid', $this->_group->id);
-        $ids = $mc->get_values('uid');
-        if (empty($ids))
+        $member_ids = array_keys($this->_group->get_members());
+
+        if (empty($member_ids))
         {
             return $rows;
         }
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', $ids);
+        $qb->add_constraint('id', 'IN', $member_ids);
         $qb->add_order('lastname');
         $qb->add_order('firstname');
         $qb->add_order('email');
