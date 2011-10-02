@@ -15,7 +15,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_openpsa_organization';
 
     var $members = array();
-    var $members_loaded = false;
+    private $_members_loaded = false;
 
     private $_address_extras = array();
 
@@ -118,12 +118,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if (   array_key_exists('org_openpsa_contacts_group_autoload_members', $GLOBALS)
-            && $GLOBALS['org_openpsa_contacts_group_autoload_members'])
-        {
-            $this->_get_members();
-        }
-
         if (empty($this->official))
         {
             if (!empty($this->name))
@@ -165,6 +159,10 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     private function _get_members_array()
     {
+        if ($this->_members_loaded)
+        {
+            return $this->members;
+        }
         $members = array();
         $mc = midcom_db_member::new_collector('gid', $this->id);
         $uids = $mc->get_values('uid');
@@ -173,13 +171,13 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         {
             $members[$uid] = true;
         }
+        $this->_members_loaded = true;
         return $members;
     }
 
-    private function _get_members()
+    public function get_members()
     {
-        $this->members = $this->_get_members_array();
-        $this->members_loaded = true;
+        return $this->_get_members_array();
     }
 }
 ?>
