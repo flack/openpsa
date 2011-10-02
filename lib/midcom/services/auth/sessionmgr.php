@@ -496,7 +496,7 @@ class midcom_services_auth_sessionmgr
      */
     function is_user_online(&$user)
     {
-        if (! $this->auth->can_do('midcom:isonline', $user->_storage))
+        if (! $this->auth->can_do('midcom:isonline', $user->get_storage()))
         {
             return 'unknown';
         }

@@ -28,9 +28,8 @@ class midcom_core_user
      * need a real Storage object for this group, call get_storage() instead.
      *
      * @var midgard_person
-     * @access protected
      */
-    var $_storage = null;
+    protected $_storage = null;
 
     /**
      * Username of the current user, it is to be considered read-only.
@@ -387,7 +386,7 @@ class midcom_core_user
                 // User is not member of any groups
                 return false;
             }
-            return $this->_direct_groups[key($this->_direct_groups)]->_storage->guid;
+            return $this->_direct_groups[key($this->_direct_groups)]->get_storage()->guid;
         }
 
         //Not yet initialized, try to load one midgard group
@@ -400,14 +399,14 @@ class midcom_core_user
         if (!empty($result))
         {
             $group = $_MIDCOM->auth->get_group(key($result));
-            return $group->_storage->guid;
+            return $group->get_storage()->guid;
         }
 
         $this->_load_all_groups();
 
         if (!empty($this->_direct_groups))
         {
-            return $this->_direct_groups[key($this->_direct_groups)]->_storage->guid;
+            return $this->_direct_groups[key($this->_direct_groups)]->get_storage()->guid;
         }
 
         return false;
@@ -576,7 +575,7 @@ class midcom_core_user
             foreach ($this->_all_groups as $group_object)
             {
                 if (   $_MIDCOM->dbfactory->is_a($group_object, 'midcom_core_group')
-                    && $group_object->_storage->name == $group)
+                    && $group_object->get_storage()->name == $group)
                 {
                     return true;
                 }

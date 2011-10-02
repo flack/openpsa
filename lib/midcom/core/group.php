@@ -22,9 +22,8 @@ class midcom_core_group
      * need a real Storage object for this group, call get_storage() instead.
      *
      * @var midgard_group
-     * @access protected
      */
-    var $_storage = null;
+    protected $_storage = null;
 
     /**
      * Name of the group
@@ -206,7 +205,7 @@ class midcom_core_group
      */
     public static function list_memberships($user)
     {
-        $mc = new midgard_collector('midgard_member', 'uid', $user->_storage->id);
+        $mc = new midgard_collector('midgard_member', 'uid', $user->get_storage()->id);
         $mc->add_constraint('gid', '<>', 0);
         $mc->set_key_property('gid');
         @$mc->execute();

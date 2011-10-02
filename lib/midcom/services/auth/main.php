@@ -178,17 +178,18 @@ class midcom_services_auth
 
         $this->_sync_user_with_backend();
 
+        $person = $this->_user->get_storage();
         if (   $GLOBALS['midcom_config']['auth_save_prev_login']
-            && $this->user->_storage->parameter('midcom', 'last_login'))
+            && $person->parameter('midcom', 'last_login'))
         {
-            $this->user->_storage->parameter('midcom', 'prev_login', $this->user->_storage->parameter('midcom', 'last_login'));
+            $person->parameter('midcom', 'prev_login', $person->parameter('midcom', 'last_login'));
         }
 
-        $this->user->_storage->parameter('midcom', 'last_login', time());
+        $person->parameter('midcom', 'last_login', time());
 
-        if (! $this->user->_storage->parameter('midcom', 'first_login'))
+        if (! $person->parameter('midcom', 'first_login'))
         {
-            $this->user->_storage->parameter('midcom', 'first_login', time());
+            $person->parameter('midcom', 'first_login', time());
         }
 
         if (   isset($GLOBALS['midcom_config']['auth_success_callback'])
