@@ -110,8 +110,20 @@ Generate Password
 Group Information
 ---STRINGEND
 
+---STRING last login
+Letzer Login
+---STRINGEND
+
 ---STRING notification settings
 Notification settings
+---STRINGEND
+
+---STRING new password
+New password
+---STRINGEND
+
+---STRING new password repeat
+Repeat new password
 ---STRINGEND
 
 ---STRING own_password
@@ -122,16 +134,12 @@ Own Password
 Send welcome mail?
 ---STRINGEND
 
+---STRING user is online
+User is online
+---STRINGEND
+
 ---STRING username_already_exists
 This username is already taken.
----STRINGEND
-
----STRING new password
-New password
----STRINGEND
-
----STRING new password repeat
-Repeat new password
 ---STRINGEND
 
 ---STRING password_too_weak

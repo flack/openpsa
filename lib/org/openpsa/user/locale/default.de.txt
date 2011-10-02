@@ -118,16 +118,8 @@ Passwort automatisch erzeugen
 Gruppen-Informationen
 ---STRINGEND
 
----STRING own_password
-Eigenes Passwort
----STRINGEND
-
----STRING send_welcome_mail
-Willkommens-Mail schicken?
----STRINGEND
-
----STRING username_already_exists
-Dieser Benutzername ist bereits vergeben
+---STRING last login
+Letzer Login
 ---STRINGEND
 
 ---STRING notification settings
@@ -140,6 +132,22 @@ Neues Passwort
 
 ---STRING new password repeat
 Neues Passwort wiederholen
+---STRINGEND
+
+---STRING own_password
+Eigenes Passwort
+---STRINGEND
+
+---STRING send_welcome_mail
+Willkommens-Mail schicken?
+---STRINGEND
+
+---STRING user is online
+Der Benutzer ist online
+---STRINGEND
+
+---STRING username_already_exists
+Dieser Benutzername ist bereits vergeben
 ---STRINGEND
 
 ---STRING password_too_weak

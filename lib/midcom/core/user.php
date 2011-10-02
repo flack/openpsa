@@ -704,7 +704,7 @@ class midcom_core_user
      *     state.
      * @see midcom_services_auth_sessionmgr::is_user_online()
      */
-    function is_online()
+    public function is_online()
     {
         return $_MIDCOM->auth->sessionmgr->is_user_online($this);
     }
@@ -721,7 +721,7 @@ class midcom_core_user
      * @return mixed The time of the last login, or null in case of insufficient privileges. If
      *     there is no known last login time, numeric zero is returned.
      */
-    function get_last_login()
+    public function get_last_login()
     {
         if (! $_MIDCOM->auth->can_do('midcom:isonline', $this->_storage))
         {
@@ -730,7 +730,6 @@ class midcom_core_user
 
         return (int) $this->_storage->parameter('midcom', 'last_login');
     }
-
 
     /**
      * Returns the first login time of the user, if available.
@@ -742,7 +741,7 @@ class midcom_core_user
      * @return int The time of the first login, or zero in case of users which have never
      *     logged in.
      */
-    function get_first_login()
+    public function get_first_login()
     {
         return (int) $this->_storage->parameter('midcom', 'first_login');
     }

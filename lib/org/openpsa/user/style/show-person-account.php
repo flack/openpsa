@@ -7,7 +7,16 @@ $username = $data['account']->get_username();
     <?php
     if ($username)
     {
-        echo "<p>{$username}</p>";
+        echo "<p>{$username}</p>\n";
+        $user = new midcom_core_user($data['person']);
+        if ($user->is_online() == 'online')
+        {
+            echo '<p>' . $data['l10n']->get('user is online') . "</p>\n";
+        }
+        else if ($lastlogin = $user->get_last_login())
+        {
+            echo '<p>' . $data['l10n']->get('last login') . ': ' . strftime('%x %X', $lastlogin) . "</p>\n";
+        }
         if (   $data['person']->id == midcom_connection::get_user()
             || midcom::get('auth')->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
         {
