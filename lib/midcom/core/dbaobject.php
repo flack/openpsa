@@ -83,7 +83,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     {
         if (is_object($id))
         {
-            $this->__object = $_MIDCOM->dbfactory->convert_midcom_to_midgard($id);
+            $this->__object = midcom::get('dbfactory')->convert_midcom_to_midgard($id);
         }
         else
         {

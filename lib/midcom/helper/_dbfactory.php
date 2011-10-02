@@ -180,9 +180,9 @@ class midcom_helper__dbfactory
             return null;
         }
 
-        if (!$_MIDCOM->dbclassloader->is_midcom_db_object($object))
+        if (!midcom::get('dbclassloader')->is_midcom_db_object($object))
         {
-            if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
+            if (midcom::get('dbclassloader')->is_mgdschema_object($object))
             {
                 // Return it directly, it is already in the format we want
                 return $object;
