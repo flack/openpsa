@@ -226,7 +226,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         $this->namespace = "{$name}_";
 
-        // Ignore deprecation warnings on PHP 5.3 because they're caused by HTML_Quickform2
+        // Ignore deprecation warnings on PHP 5.3 caused by HTML_Quickform
         if (version_compare(PHP_VERSION, '5.3.0', '>='))
         {
             $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
@@ -884,11 +884,20 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if (   $exitcode == 'save'
             || $exitcode == 'next')
         {
+            // Ignore deprecation warnings on PHP 5.3 caused by HTML_Quickform
+            if (version_compare(PHP_VERSION, '5.3.0', '>='))
+            {
+                $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+            }
             // Validate the form.
             if (! $this->form->validate())
             {
                 debug_add('Failed to validate the form, reverting to edit mode.');
                 $exitcode = 'edit';
+            }
+            if (version_compare(PHP_VERSION, '5.3.0', '>='))
+            {
+                error_reporting($old_value);
             }
         }
         return $exitcode;
