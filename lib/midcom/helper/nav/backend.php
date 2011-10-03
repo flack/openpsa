@@ -895,7 +895,7 @@ class midcom_helper_nav_backend
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK)
         {
             debug_add("Unable to load parent node $parent_node", MIDCOM_LOG_ERROR);
-            return false;
+            return array();
         }
 
         $cache_identifier = $parent_node . (($show_noentry) ? 'noentry' : '');
@@ -965,7 +965,7 @@ class midcom_helper_nav_backend
 
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK)
         {
-            return false;
+            return array();
         }
 
         if (!array_key_exists($parent_node, $this->_loaded_leaves))
