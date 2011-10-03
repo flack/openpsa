@@ -57,8 +57,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit.
         }
 
-        $this->_master->add_password_validation_code();
-
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));
 
         org_openpsa_helpers::dm2_savecancel($this);
