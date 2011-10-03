@@ -33,6 +33,10 @@ class midcom_helper_datamanager2_schemaTest extends openpsa_testcase
         $this->assertEquals(array(), $db['default']->validation);
         $this->assertEquals(array(), $db['default']->filters);
         $this->assertEquals('', $db['default']->l10n_schema);
+
+        $db['default']->validation = array('TEST');
+        $db = midcom_helper_datamanager2_schema::load_database($filename);
+        $this->assertEquals(array(), $db['default']->validation);
     }
 }
 ?>

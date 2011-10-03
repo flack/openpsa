@@ -667,12 +667,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             else
             {
                 $path = $raw_db;
-                if (array_key_exists($path, $loaded_dbs))
+                if (!array_key_exists($path, $loaded_dbs))
                 {
-                    return $loaded_dbs[$path];
+                    $data = midcom_helper_misc::get_snippet_content($raw_db);
+                    $loaded_dbs[$path] = midcom_helper_misc::parse_config($data);
                 }
-                $data = midcom_helper_misc::get_snippet_content($raw_db);
-                $raw_db = midcom_helper_misc::parse_config($data);
+
+                $raw_db = $loaded_dbs[$path];
             }
         }
 
@@ -686,11 +687,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         foreach ($raw_db as $name => $raw_schema)
         {
             $schemadb[$name] = new midcom_helper_datamanager2_schema($raw_db, $name, $path);
-        }
-
-        if (!is_null($path))
-        {
-            $loaded_dbs[$path] = $schemadb;
         }
 
         return $schemadb;
