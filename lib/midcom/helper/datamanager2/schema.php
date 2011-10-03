@@ -584,7 +584,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             if (!is_array($rule))
             {
-                $validation[$key] = array('type' => $rule);
+                $rule = array('type' => $rule);
             }
             else if (!array_key_exists('type', $rule))
             {
@@ -602,7 +602,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 'format' => ''
             );
 
-            $validation[$key] = array_merge($defaults, $validation[$key]);
+            $validation[$key] = array_merge($defaults, $rule);
         }
         return $validation;
     }
