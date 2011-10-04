@@ -205,7 +205,7 @@ class midcom_core_group
      */
     public static function list_memberships($user)
     {
-        $mc = new midgard_collector('midgard_member', 'uid', $user->get_storage()->id);
+        $mc = new midgard_collector('midgard_member', 'uid.guid', $user->guid);
         $mc->add_constraint('gid', '<>', 0);
         $mc->set_key_property('gid');
         @$mc->execute();
