@@ -162,8 +162,7 @@ class midcom_services_auth
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
 
-            if (   isset($GLOBALS['midcom_config']['auth_failure_callback'])
-                && !empty($GLOBALS['midcom_config']['auth_failure_callback'])
+            if (   !empty($GLOBALS['midcom_config']['auth_failure_callback'])
                 && is_callable($GLOBALS['midcom_config']['auth_failure_callback']))
             {
                 debug_print_r('Calling auth failure callback: ', $GLOBALS['midcom_config']['auth_failure_callback']);
@@ -178,7 +177,8 @@ class midcom_services_auth
 
         $this->_sync_user_with_backend();
 
-        $person = $this->user->get_storage();
+        $person_class = $GLOBALS['midcom_config']['person_class'];
+        $person = new $person_class($this->user->guid);
         if (   $GLOBALS['midcom_config']['auth_save_prev_login']
             && $person->parameter('midcom', 'last_login'))
         {
@@ -192,8 +192,7 @@ class midcom_services_auth
             $person->parameter('midcom', 'first_login', time());
         }
 
-        if (   isset($GLOBALS['midcom_config']['auth_success_callback'])
-            && !empty($GLOBALS['midcom_config']['auth_success_callback'])
+        if (   !empty($GLOBALS['midcom_config']['auth_success_callback'])
             && is_callable($GLOBALS['midcom_config']['auth_success_callback']))
         {
             debug_print_r('Calling auth success callback:', $GLOBALS['midcom_config']['auth_success_callback']);

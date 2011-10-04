@@ -429,13 +429,13 @@ class midcom_core_privilege
         }
         else
         {
-            $return = $_MIDCOM->cache->memcache->get('ACL', $cache_key);
+            $return = midcom::get('cache')->memcache->get('ACL', $cache_key);
 
             if (! is_array($return))
             {
                 // Didn't get privileges from cache, get them from DB
                 $return = self::_query_privileges($guid, $type);
-                $_MIDCOM->cache->memcache->put('ACL', $cache_key, $return);
+                midcom::get('cache')->memcache->put('ACL', $cache_key, $return);
             }
 
             $cache[$cache_key] = $return;
