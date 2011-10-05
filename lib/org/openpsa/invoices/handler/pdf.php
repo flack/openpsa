@@ -139,7 +139,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             }
         }
 
-        $attachment = $invoice->create_attachment($title, $title, "application/pdf");
+        $attachment = $invoice->create_attachment($title . '.pdf', $title, "application/pdf");
 
         if (!$attachment)
         {
