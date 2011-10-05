@@ -136,9 +136,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         $this->set_dm2_formdata($data[$controller_key], $formdata);
 
-        // added flag to drive handler behavior (like delete just created object)
-        $_REQUEST['phpunit_test'] = true;
-
         try
         {
             $data = $this->run_handler($component, $args);
