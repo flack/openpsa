@@ -101,7 +101,7 @@
 'create_pdf' => array
 (
     'fixed_args' => array('invoice' , 'pdf'),
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'pdf'),
+    'handler' => Array('org_openpsa_invoices_handler_pdf', 'pdf'),
     'variable_args' => 1,
 ),
 // Match /invoice/<guid>

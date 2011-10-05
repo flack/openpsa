@@ -95,7 +95,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
         if (count($pdf_files) == 0)
         {
-            $invoice->render_and_attach_pdf();
+            org_openpsa_invoices_handler_pdf::render_and_attach_pdf($invoice);
         }
 
         $mail = new org_openpsa_mail();
