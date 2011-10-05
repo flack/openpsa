@@ -24,7 +24,7 @@
      'widget' => 'org_routamc_positioning_dm2_widget',
      'widget_config' => Array
      (
-         'service' => 'geonames', //Possible values are city, geonames, yahoo
+         'service' => 'geonames', //Possible values are city, geonames
      ),
  ),
  *

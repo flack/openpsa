@@ -222,7 +222,6 @@ if ($coordinates)
         <select name="geocoder">
             <option value="city">Local city database</option>
             <option value="geonames">GeoNames</option>
-            <option value="yahoo">Yahoo!</option>
         </select>
     </label>
     <p>OR</p>

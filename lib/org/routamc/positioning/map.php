@@ -191,16 +191,6 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
                     $_MIDCOM->add_jsfile('http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js');
                 }
                 break;
-            case 'yahoo':
-                if ($echo_output)
-                {
-                    echo "<script type=\"text/javascript\" src=\"http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=YellowMasp4R\"></script>\n";
-                }
-                else
-                {
-                    $_MIDCOM->add_jsfile('http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=YellowMasp4R');
-                }
-                break;
             case 'openlayers':
                 if ($echo_output)
                 {

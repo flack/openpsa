@@ -106,10 +106,6 @@ Katuosoite
 Tarkempi paikka
 ---STRINGEND
 
----STRING yahoo_application_key
-Yahoo!:n kehittäjäavain
----STRINGEND
-
 ---STRING city
 kaupunki
 ---STRINGEND

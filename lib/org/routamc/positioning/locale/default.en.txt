@@ -125,8 +125,3 @@ Street address
 ---STRING xep_text
 Place details
 ---STRINGEND
-
----STRING yahoo_application_key
-Yahoo! application key
----STRINGEND
-
