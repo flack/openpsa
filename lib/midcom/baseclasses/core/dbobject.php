@@ -1227,7 +1227,8 @@ class midcom_baseclasses_core_dbobject
         }
 
         // Not in cache, query from MgdSchema API directly
-        $value = $object->__object->parameter($domain, $name);
+        $value = $object->__object->get_parameter($domain, $name);
+
         return $value;
     }
 
@@ -1461,18 +1462,15 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   isset(self::$parameter_cache[$object->guid])
-            && is_array(self::$parameter_cache[$object->guid])
-            && isset(self::$parameter_cache[$object->guid][$domain]))
-        {
-            // Invalidate run-time cache
-            unset(self::$parameter_cache[$object->guid][$domain]);
-        }
-
         // Set via MgdSchema API directly
         if (!$object->__object->parameter($domain, $name, (string) $value))
         {
             return false;
+        }
+
+        if (isset(self::$parameter_cache[$object->guid][$domain]))
+        {
+            self::$parameter_cache[$object->guid][$domain][$name] = $value;
         }
 
         // Don't store parameter changes to activity stream
