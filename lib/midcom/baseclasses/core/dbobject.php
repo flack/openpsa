@@ -1470,7 +1470,10 @@ class midcom_baseclasses_core_dbobject
         }
 
         // Set via MgdSchema API directly
-        $result = $object->__object->parameter($domain, $name, (string) $value);
+        if (!$object->__object->parameter($domain, $name, (string) $value))
+        {
+            return false;
+        }
 
         // Don't store parameter changes to activity stream
         $original_use_activitystream = $object->_use_activitystream;
@@ -1480,7 +1483,7 @@ class midcom_baseclasses_core_dbobject
 
         $object->_use_activitystream = $original_use_activitystream;
 
-        return $result;
+        return true;
     }
 
     /**
