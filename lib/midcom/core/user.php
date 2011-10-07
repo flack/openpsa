@@ -398,8 +398,10 @@ class midcom_core_user
         $result = $mc->list_keys();
         if (!empty($result))
         {
-            $group = $_MIDCOM->auth->get_group(key($result));
-            return $group->get_storage()->guid;
+            if ($group = $_MIDCOM->auth->get_group(key($result)))
+            {
+                return $group->get_storage()->guid;
+            }
         }
 
         $this->_load_all_groups();
