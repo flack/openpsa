@@ -88,11 +88,11 @@ class midcom_helper_configuration
      * @param mixed $param1        Either an associative array or a reference to a Midgard object.
      * @param mixed $param2        Either null or the name of a Parameter domain.
      */
-    public function __construct($param1 = null, $param2 = null)
+    public function __construct($param1, $param2 = null)
     {
         if (! is_null($param2))
         {
-            $this->_object = &$param1;
+            $this->_object = $param1;
             $this->_path = $param2;
             $this->_local = array();
             $this->_store_from_object(true);
@@ -102,10 +102,6 @@ class midcom_helper_configuration
             $this->_global = $param1;
             $this->_local = array();
             $this->_merged = $param1;
-        }
-        else
-        {
-            throw new midcom_error('Default constructor not allowed.');
         }
     }
 
@@ -265,7 +261,7 @@ class midcom_helper_configuration
      * value in the configuration data. Do error checking with the function exists (see
      * below).
      *
-     * @param mixed    $key    The configuration key to query.
+     * @param string    $key    The configuration key to query.
      * @return mixed        Its value or false, if the key doesn't exist.
      * @see midcom_helper_configuration::exists()
      */
