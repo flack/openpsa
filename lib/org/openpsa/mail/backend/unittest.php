@@ -30,6 +30,7 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
         self::$recipients = $recipients;
         self::$headers = $headers;
         self::$body = $body;
+        return true;
     }
 }
 ?>
