@@ -133,7 +133,7 @@ class midcom_baseclasses_components_configuration
             $config->store($data, false);
         }
 
-        self::$_data[$component]['config'] = new midcom_helper_configuration($config->get_all());
+        self::$_data[$component]['config'] = $config;
     }
 
     private static function _load_routes($component)
