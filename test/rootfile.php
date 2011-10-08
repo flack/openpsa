@@ -41,14 +41,6 @@ $mgd_defaults = array
 
 $GLOBALS['midcom_config_local'] = array();
 
-if (   function_exists('gc_enabled')
-    && gc_enabled())
-{
-    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
-    gc_disable();
-}
-
-
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
@@ -98,11 +90,11 @@ else if (extension_loaded('midgard'))
 {
     if (file_exists(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php'))
     {
-        include(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php');
+        include OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php';
     }
     else
     {
-        include(OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php');
+        include OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php';
     }
     $_MIDGARD = array_merge($mgd_defaults, $_MIDGARD);
 }

@@ -76,6 +76,13 @@ $_SERVER = array
 	'REQUEST_TIME' => time()
 );
 
+if (   function_exists('gc_enabled')
+    && gc_enabled())
+{
+    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
+    gc_disable();
+}
+
 // Include the MidCOM environment for running OpenPSA
 require MIDCOM_ROOT . '/midcom.php';
 
