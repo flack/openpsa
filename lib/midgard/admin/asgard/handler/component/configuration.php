@@ -182,7 +182,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         // Prepare defaults
-        foreach ($this->_request_data['config']->_merged as $key => $value)
+        foreach ($this->_request_data['config']->get_all() as $key => $value)
         {
             if (!isset($schemadb[$schema]->fields[$key]))
             {

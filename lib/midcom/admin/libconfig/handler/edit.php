@@ -77,7 +77,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function get_schema_defaults()
     {
         $defaults = array();
-        foreach ($this->_libconfig->_merged as $key => $value)
+        foreach ($this->_libconfig->get_all() as $key => $value)
         {
             if (is_array($value))
             {

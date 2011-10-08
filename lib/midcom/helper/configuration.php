@@ -63,7 +63,7 @@ class midcom_helper_configuration
      *
      * @var Array
      */
-    public $_merged;
+    private $_merged;
 
     /**
      * Internal cache-related items
@@ -301,7 +301,6 @@ class midcom_helper_configuration
             $this->_store_from_object();
         }
 
-        // Copy-By-Value is PHPs default, so don't bother copying it by hand...
         return $this->_merged;
     }
 
