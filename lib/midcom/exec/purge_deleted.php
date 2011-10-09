@@ -1,6 +1,7 @@
 <?php
 $_MIDCOM->auth->require_valid_user('basic');
 $_MIDCOM->auth->require_admin_user();
+midcom::get()->disable_limits();
 
 if (!isset($_GET['days']))
 {
