@@ -132,8 +132,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
      * Set the content topic to use. This will check against the configuration setting 'symlink_topic'.
      * We don't do sanity checking here for performance reasons, it is done when accessing the topic,
      * that should be enough.
-     *
-     * @access protected
      */
     private function _determine_content_topic()
     {

@@ -22,14 +22,11 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      * unless overridden by the symlink topic feature.
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
     /**
      * Initialize the request switch and the content topic.
-     *
-     * @access protected
      */
     public function _on_initialize()
     {
@@ -59,8 +56,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
     /**
      * Set the content topic to use. This will check against the configuration setting 'symlink_topic'.
-     *
-     * @access protected
      */
     private function _determine_content_topic()
     {
@@ -115,8 +110,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     private function _populate_node_toolbar()
     {
