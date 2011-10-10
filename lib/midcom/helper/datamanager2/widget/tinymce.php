@@ -46,7 +46,7 @@
  * are initialized individually. If the specified snippet is not used, some default configuration
  * is used (see the private function _get_advanced_configuration).
  *
- * Configuraton is specified in an already JScript compatible way: The main config snippet is included
+ * Configuration is specified in an already JScript compatible way: The main config snippet is included
  * verbatim, as is the information in the local_config option.
  *
  * The following options must not be specified in any configuration: mode, elements, language

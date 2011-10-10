@@ -323,7 +323,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
         $data['config'] = $this->_config;
 
-        if (! $data['config']->store($configuration))
+        if (!$data['config']->store($configuration, false))
         {
             return false;
         }
