@@ -56,25 +56,32 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
         //check if there is another output-mode wanted
-        if(isset($args[0]))
+        if (isset($args[0]))
         {
             $this->_output_mode = $args[0];
         }
 
-        $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        if (isset($args[1]))
+        {
+            $current_topic = midcom_db_topic::get_cached($args[1]);
+        }
+        else
+        {
+            $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        }
 
         switch ($this->_output_mode)
         {
             case 'xml':
-                $current_component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->component;
+                $current_component = $current_topic->component;
                 $parent_link = "";
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 //check if id of a topic is passed
                 if (isset($_POST['nodeid']))
                 {
                     $root_topic = new midcom_db_topic((int)$_POST['nodeid']);
-                    while (($root_topic->get_parent()->component == $current_component)
-                        && ($root_topic->id != $current_topic->id))
+                    while (   ($root_topic->get_parent()->component == $current_component)
+                           && ($root_topic->id != $current_topic->id))
                     {
                         $parent_link = $root_topic->name . "/" . $parent_link;
                         $root_topic = $root_topic->get_parent();
