@@ -80,9 +80,17 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $topic;
     }
 
-    public function run_handler($component, array $args = array())
+    public function run_handler($topic, array $args = array())
     {
-        $topic = $this->get_component_node($component);
+        if (is_object($topic))
+        {
+            $component = $topic->component;
+        }
+        else
+        {
+            $component = $topic;
+            $topic = $this->get_component_node($component);
+        }
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
@@ -92,6 +100,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $context->parser->parse($args);
         $handler = $context->get_handler($topic);
+        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
         $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
         $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
         $data = $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
