@@ -14,12 +14,10 @@
 class org_openpsa_documents_handler_directory_navigation extends midcom_baseclasses_components_handler
 {
     /**
-     * shows the navigation tree
+     * Shows the navigation tree
      *
-     * @param Array $tree_array - array which contains tree (build by _tree_array_build)
-     * @param Array $link_url - contains the link for the item
-     * @param Array $current_topic -
-     *
+     * @param array $tree_array - array which contains tree (build by _tree_array_build)
+     * @param string $link_url - contains the link for the item
      */
     private function _show_navigation_tree($tree_array, $link_url = "")
     {
@@ -44,12 +42,11 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     }
 
     /**
-     * builds an array with a tree-structure from a given array of topics
+     * Builds an array with a tree-structure from a given array of topics
      *
      * @param Array $topic_array - array which contains the topics for the tree
      * @param Array $root_topic - root topic of the tree
-     * @param Array &$tree:array - array which contains the tree
-     *
+     * @param Array &$tree_array - array which contains the tree
      */
     private function _tree_array_build($topic_array, $root_topic, &$tree_array)
     {
@@ -57,7 +54,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         {
             if ($topic->up == $root_topic->id)
             {
-                if(is_array($tree_array[$root_topic->id]))
+                if (is_array($tree_array[$root_topic->id]))
                 {
                     $tree_array[$root_topic->id][$topic->id] = array
                     (

@@ -1380,7 +1380,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 }
             }
         }
-        elseif (!$this->allow_multiple)
+        else if (!$this->allow_multiple)
         {
             $this->_type->selection[] = $real_results;
         }

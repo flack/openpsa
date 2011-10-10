@@ -393,8 +393,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             $images_identifier = $info[0];
             if (   isset($this->attachments_info[$blobs_identifier])
                 && isset($this->attachments_info[$blobs_identifier]['object'])
-                && is_object($this->attachments_info[$blobs_identifier]['object'])
-               )
+                && is_object($this->attachments_info[$blobs_identifier]['object']))
             {
                 $this->titles[$images_identifier] = $this->attachments_info[$blobs_identifier]['object']->title;
             }
