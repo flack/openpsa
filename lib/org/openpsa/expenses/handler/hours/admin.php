@@ -101,7 +101,9 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            $this->_hour_report->task = (int) $_POST['task'];
+            $controller->formmanager->widgets['task']->sync_type_with_widget($controller->formmanager->get_submit_values());
+            $task = $controller->datamanager->types['task']->convert_to_storage();
+            $this->_hour_report->task = $task;
         }
         if (! $this->_hour_report->create())
         {
