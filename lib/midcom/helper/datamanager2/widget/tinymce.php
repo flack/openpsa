@@ -108,6 +108,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
 
     /**
      * Should the imagepopup button be shown?
+     *
      * @var boolean defaults to true.
      */
     var $use_imagepopup = true;
@@ -162,13 +163,6 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         {
              $language = 'nb';
         }
-        /**
-         * #1454
-        if ($language == 'sv')
-        {
-             $language = 'sv_utf8';
-        }
-         */
 
         $imagepopup_url = '';
         if ($this->use_imagepopup)
@@ -201,7 +195,7 @@ disk_cache : true,
 debug : false
 });
 EOT;
-        $_MIDCOM->add_jscript($script_gz);
+            $_MIDCOM->add_jscript($script_gz);
         }
 
         // Compute the final script:
@@ -223,9 +217,11 @@ EOT;
 
         $_MIDCOM->add_jscript($script);
     }
+
     /**
      * Returns the string ,imagepopup that is added if we are editing a
      * saved object (and thus can add attachments)
+     *
      * @return string empty or containing ",imagepopup"
      */
     function _get_imagepopup_jsstring()
@@ -236,6 +232,7 @@ EOT;
         }
         return "";
     }
+
     /**
      * Returns the configuration theme based on the local_config_theme.
      *
@@ -293,6 +290,7 @@ theme_advanced_toolbar_location : "top",
 paste_create_linebreaks : false,
 EOT;
     }
+
     /**
      * Returns the "advanced" configuration
      */
@@ -374,9 +372,10 @@ EOT;
     /**
      * This is called during intialization the function is used to
      * register the schema to a session key
+     *
      * @return boolean always true
      */
-     public function _on_initialize ()
+     public function _on_initialize()
      {
         if ($this->_initialize_dependencies)
         {
