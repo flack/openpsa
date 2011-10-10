@@ -65,7 +65,7 @@ class midcom_core_context
     public function __construct($id = null, $node = null)
     {
         $this->_data[MIDCOM_CONTEXT_ANCHORPREFIX] = '';
-        $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
+        $this->_data[MIDCOM_CONTEXT_URI] = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
         if (is_object($node))
         {
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
