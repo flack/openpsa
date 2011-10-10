@@ -318,7 +318,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 }
                 else
                 {
-                    throw new midcom_error('Cleanup test object ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
+                    throw new midcom_error('Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
                 }
             }
             if ($iteration++ > $limit)
