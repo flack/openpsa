@@ -18,7 +18,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * Your buddy list in the form of a username => midcom_core_user listing.
      *
      * @var Array
-     * @access protected
      */
     private $_buddies = array();
 
@@ -31,7 +30,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * - boolean isonline
      *
      * @var Array
-     * @access protected
      */
     private $_buddies_meta = null;
 

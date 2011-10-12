@@ -51,8 +51,6 @@ class midcom_db_group extends midcom_core_dbaobject
 
     /**
      * Updates all computed members.
-     *
-     * @access protected
      */
     public function _on_loaded()
     {

@@ -127,7 +127,6 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      * Event handler called after a new topic has been set. The configuration is
      * already loaded at this point.
      *
-     * @access protected
      * @return boolean Set this to false to indicate that you could not set this instance
      *   to the topic. NAP will abort loading this node and log the error accordingly.
      *   Return true if everything is fine.

@@ -27,7 +27,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * Only valid for the list_pending target.
      *
      * @var Array
-     * @access protected
      */
     private $_pending = null;
 
@@ -35,7 +34,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * The entry being processed, only valid for the process targets.
      *
      * @var net_nehmer_buddylist_entry
-     * @access protected
      */
     private $_entry = null;
 
@@ -43,7 +41,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * Processing message, only valid for the process targets.
      *
      * @var net_nehmer_buddylist_entry
-     * @access protected
      */
     private $_processing_msg = null;
 
@@ -51,7 +48,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * Untranslated processing message, only valid for the process targets.
      *
      * @var net_nehmer_buddylist_entry
-     * @access protected
      */
     private $_processing_msg_raw = null;
 

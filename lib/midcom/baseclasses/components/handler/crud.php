@@ -48,8 +48,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
     /**
      * The parent of an object to be created
-     *
-     * @access private
      */
     protected $_parent = null;
 

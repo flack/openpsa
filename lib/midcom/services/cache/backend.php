@@ -260,8 +260,6 @@ abstract class midcom_services_cache_backend
 
     /**#@+
      * Event handler function.
-     *
-     * @access protected
      */
 
     /**

@@ -81,7 +81,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      * outside is safe at this point.
      *
      * @return boolean Indicating success, false will abort the type construction sequence.
-     * @access protected
      */
     public function _on_initialize()
     {

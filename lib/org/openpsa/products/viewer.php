@@ -15,8 +15,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 {
     /**
      * Initialize the request switch and the content topic.
-     *
-     * @access protected
      */
     public function _on_initialize()
     {
@@ -133,8 +131,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     private function _populate_node_toolbar()
     {

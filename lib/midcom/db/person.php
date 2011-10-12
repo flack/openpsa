@@ -113,8 +113,6 @@ class midcom_db_person extends midcom_core_dbaobject
 
     /**
      * Updates all computed members.
-     *
-     * @access protected
      */
     public function _on_loaded()
     {
@@ -170,8 +168,6 @@ class midcom_db_person extends midcom_core_dbaobject
     /**
      * Updates all computed members and adds a midgard:owner privilege for the person itself
      * on the record.
-     *
-     * @access protected
      */
     public function _on_created()
     {
@@ -183,8 +179,6 @@ class midcom_db_person extends midcom_core_dbaobject
     /**
      * Synchronizes the $name, $rname, $emaillink and $homepagelink members
      * with the members they are based on.
-     *
-     * @access protected
      */
     private function _update_computed_members()
     {

@@ -15,8 +15,6 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
 {
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     private function _populate_view_toolbar($task)
     {

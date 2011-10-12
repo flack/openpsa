@@ -20,7 +20,6 @@ class net_nehmer_buddylist_callbacks_categorylister extends midcom_baseclasses_c
      * The array with the data we're working on.
      *
      * @var array
-     * @access private
      */
     private $_data = null;
 

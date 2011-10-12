@@ -20,7 +20,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -28,7 +27,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * The articles to display
      *
      * @var Array
-     * @access private
      */
     private $_articles = null;
 

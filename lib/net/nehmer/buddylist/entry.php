@@ -68,7 +68,6 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * retrieval functions.
      *
      * @param midcom_core_user $user The user of whom the pending approvals should be listed.
-     * @access protected
      */
     private function _get_unapproved_qb($user)
     {
@@ -84,7 +83,6 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * retrieval functions.
      *
      * @param midcom_core_user $user The user of whom the buddies should be listed.
-     * @access protected
      */
     private function _get_buddy_qb($user)
     {

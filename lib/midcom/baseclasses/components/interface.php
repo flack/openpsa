@@ -574,8 +574,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     /**#@+
      * This is an event handler which is called during MidCOM's component interaction.
      * For most basic components, the default implementation should actually be enough.
-     *
-     * @access protected
      */
 
     /**

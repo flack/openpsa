@@ -65,8 +65,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * A special case is the visible_data array, which maps field names
      * to prepared values, which can be used in display directly. The
      * information returned is already HTML escaped.
-     *
-     * @access private
      */
     private function _prepare_request_data()
     {

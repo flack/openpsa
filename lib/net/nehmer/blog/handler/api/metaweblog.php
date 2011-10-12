@@ -23,7 +23,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 

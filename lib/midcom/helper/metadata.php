@@ -131,7 +131,6 @@ class midcom_helper_metadata
      * @param mixed $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
      * @see midcom_helper_metadata::get()
-     * @access private
      */
     public function __construct(&$guid, $object, $schemadb)
     {

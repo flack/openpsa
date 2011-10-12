@@ -20,7 +20,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -28,7 +27,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * The articles to display
      *
      * @var Array
-     * @access private
      */
     private $_articles = null;
 
@@ -43,7 +41,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * The de.bitfolge.feedcreator instance used.
      *
      * @var UniversalFeedCreator
-     * @access private
      */
     private $_feed = null;
 

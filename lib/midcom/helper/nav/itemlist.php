@@ -21,7 +21,6 @@ abstract class midcom_helper_nav_itemlist
    /**
     * A reference to the NAP instance we belong to.
     *
-    * @access protected
     * @var midcom_helper_nav
     */
     protected $_nap = null;

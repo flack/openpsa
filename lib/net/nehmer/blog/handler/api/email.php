@@ -21,7 +21,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * The article to operate on
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article;
 
@@ -29,7 +28,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -37,7 +35,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * Email importer
      *
      * @var org_openpsa_mail
-     * @access private
      */
     private $_decoder;
 

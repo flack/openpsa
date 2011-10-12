@@ -18,7 +18,6 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * The user for which we add a buddylist entry.
      *
      * @param midcom_core_user
-     * @access protected
      */
     private $_buddy_user = null;
 
@@ -26,7 +25,6 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * Processing message.
      *
      * @var net_nehmer_buddylist_entry
-     * @access protected
      */
     private $_processing_msg = null;
 
@@ -34,7 +32,6 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * Untranslated processing message.
      *
      * @var net_nehmer_buddylist_entry
-     * @access protected
      */
     private $_processing_msg_raw = null;
 

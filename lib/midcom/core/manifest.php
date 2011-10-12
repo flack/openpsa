@@ -378,8 +378,6 @@ class midcom_core_manifest
      *
      * It will not complete any missing owner default privileges, this is done by the
      * Authentication service upon privilege registering.
-     *
-     * @access protected
      */
     private function _process_privileges()
     {
