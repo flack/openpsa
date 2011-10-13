@@ -108,7 +108,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         if (   $this->type == org_openpsa_projects_task_status_dba::DECLINED
             && $this->targetPerson)
         {
-            $qb = org_openpsa_projects_task_resource_dba();
+            $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
             $qb->add_constraint('task', '=', $this->task);
             $qb->add_constraint('person', '=', $this->targetPerson);
             $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);

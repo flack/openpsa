@@ -160,6 +160,17 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $this->assertFalse($stat);
     }
 
+
+    public function testDeclineTask()
+    {
+        self::$_task->manager = self::$_other_user->id;
+        self::$_task->update();
+        self::$_task->refresh();
+
+        $stat = org_openpsa_projects_workflow::decline(self::$_task, 'test comment');
+        $this->assertTrue($stat);
+    }
+
     public function tearDown()
     {
         self::delete_linked_objects('org_openpsa_projects_task_status_dba', 'task', self::$_task->id);
