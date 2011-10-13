@@ -318,7 +318,7 @@ class midcom_services_auth
         }
 
         if (   is_null($user)
-            && ! is_null($this->user)
+            && !is_null($this->user)
             && $this->admin)
         {
             // Administrators always have access.

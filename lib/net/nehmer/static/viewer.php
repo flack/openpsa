@@ -9,10 +9,6 @@
 /**
  * n.n.static site interface class
  *
- * This is a complete rewrite of the topic-article viewer the has been made for MidCOM 2.6.
- * It incorporates all of the goodies current MidCOM has to offer and can serve as an
- * example component therefore.
- *
  * @package net.nehmer.static
  */
 class net_nehmer_static_viewer extends midcom_baseclasses_components_request

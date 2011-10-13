@@ -41,7 +41,6 @@ class midcom_helper__dbfactory
         {
             $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
         }
-
         return $this->convert_midgard_to_midcom($tmp);
     }
 
@@ -295,7 +294,7 @@ class midcom_helper__dbfactory
             {
                 $object_guid = null;
             }
-            elseif (   isset($object->__guid)
+            else if (   isset($object->__guid)
                     && !$object->guid)
             {
                 $object_guid = $object->__guid;
@@ -324,7 +323,7 @@ class midcom_helper__dbfactory
 
             $parent_guid = $_MIDCOM->cache->memcache->lookup_parent_guid($object_guid);
         }
-        elseif ($the_object === null)
+        else if ($the_object === null)
         {
             throw new midcom_error('Tried to resolve an invalid GUID without an object being present. This cannot be done.');
         }
