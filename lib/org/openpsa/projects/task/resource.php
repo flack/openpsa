@@ -200,6 +200,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
                 if ($task->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_TASK)
                 {
+                    $task->set_privilege('midgard:read', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                     // Resources must be permitted to create hour/expense reports into tasks
                     $task->set_privilege('midgard:create', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                     //For declines etc they also need update...
