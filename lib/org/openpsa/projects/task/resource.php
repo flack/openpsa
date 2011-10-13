@@ -54,37 +54,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
     }
 
-    private function _add_to_buddylist_of($account)
-    {
-        if (!$_MIDCOM->auth->user)
-        {
-            return false;
-        }
-        try
-        {
-            $account = new midcom_db_person($account);
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            return false;
-        }
-        $mc = org_openpsa_contacts_buddy_dba::new_collector('account', (string) $account->guid);
-        $mc->add_constraint('buddy', '=', (string) $this->_personobject->guid);
-        $mc->add_constraint('blacklisted', '=', false);
-        $mc->execute();
-
-        if ($mc->count() == 0)
-        {
-            // Cache the association to buddy list of the sales project owner
-            $buddy = new org_openpsa_contacts_buddy_dba();
-            $buddy->account = $account->guid;
-            $buddy->buddy = $this->_personobject->guid;
-            $buddy->isapproved = false;
-            return $buddy->create();
-        }
-    }
-
     private function _find_duplicates()
     {
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -236,19 +205,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
                     //For declines etc they also need update...
                     $task->set_privilege('midgard:update', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 }
-            }
-
-            // Add resource to manager's buddy list
-            $this->_add_to_buddylist_of($task->manager);
-
-            // Add resource to other resources' buddy lists
-            $mc = org_openpsa_projects_task_resource_dba::new_collector('task', (int) $this->task);
-            $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-            $mc->add_constraint('id', '<>', (int) $this->id);
-            $resources = $mc->get_values('person');
-            foreach ($resources as $resource)
-            {
-                $this->_add_to_buddylist_of($resource);
             }
         }
     }
