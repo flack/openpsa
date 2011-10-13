@@ -325,6 +325,20 @@ class midcom_services_auth_acl
     private static $_privileges_cache = array();
 
     /**
+    * Internal cache of the content privileges of users on content objects, this is
+    * an associative array using a combination of the user identifier and the object's
+    * guid as index. The privileges for the anonymous user use the magic
+    * EVERYONE as user identifier.
+    *
+    * This must not be merged with the class-wide privileges_cache, because otherwise
+    * class_default_privileges for child objects might be overridden by parent default
+    * privileges
+    *
+    * @var Array
+    */
+    private static $_content_privileges_cache = array();
+
+    /**
      * Simple, currently empty default constructor.
      */
     public function __construct($auth)
@@ -925,6 +939,7 @@ class midcom_services_auth_acl
 
         if (self::_load_content_privilege($privilege, $object_guid, $object_class, $user_id))
         {
+            self::$_privileges_cache[$cache_key][$privilege] = self::$_content_privileges_cache[$cache_key][$privilege];
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
@@ -994,9 +1009,13 @@ class midcom_services_auth_acl
     {
         $cache_id = $user_id . '::' . $guid;
 
-        if (array_key_exists($privilegename, self::$_privileges_cache[$cache_id]))
+        if (!array_key_exists($cache_id, self::$_content_privileges_cache))
         {
-            return true;
+            self::$_content_privileges_cache[$cache_id] = array();
+        }
+        if (array_key_exists($privilegename, self::$_content_privileges_cache[$cache_id]))
+        {
+            return self::$_content_privileges_cache[$cache_id][$privilegename];
         }
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
@@ -1026,9 +1045,9 @@ class midcom_services_auth_acl
             {
                 $found = self::_load_content_privilege('midgard:owner', $guid, $class, $user_id);
                 if (    $found
-                     && self::$_privileges_cache[$cache_id]['midgard:owner'])
+                     && self::$_content_privileges_cache[$cache_id]['midgard:owner'])
                 {
-                    self::$_privileges_cache[$cache_id][$privilegename] = $owner_privileges[$privilegename];
+                    self::$_content_privileges_cache[$cache_id][$privilegename] = $owner_privileges[$privilegename];
                     return true;
                 }
             }
@@ -1036,7 +1055,7 @@ class midcom_services_auth_acl
 
         if (!is_null($content_privilege))
         {
-            self::$_privileges_cache[$cache_id][$privilegename] = ($content_privilege->value == MIDCOM_PRIVILEGE_ALLOW);
+            self::$_content_privileges_cache[$cache_id][$privilegename] = ($content_privilege->value == MIDCOM_PRIVILEGE_ALLOW);
             return true;
         }
 
@@ -1061,14 +1080,16 @@ class midcom_services_auth_acl
             $parent_cache_id = $user_id . '::' . $parent_guid;
             if (!array_key_exists($parent_cache_id, self::$_privileges_cache))
             {
-                self::$_privileges_cache[$parent_cache_id] = array();
+                self::$_content_privileges_cache[$parent_cache_id] = array();
             }
 
             if (self::_load_content_privilege($privilegename, $parent_guid, null, $user_id))
             {
-                self::$_privileges_cache[$cache_id][$privilegename] = self::$_privileges_cache[$parent_cache_id][$privilegename];
+                self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
+
                 return true;
             }
+
             return false;
         }
     }
