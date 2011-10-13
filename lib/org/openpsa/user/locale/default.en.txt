@@ -82,6 +82,10 @@ Enable organization creation
 Enable product creation
 ---STRINGEND
 
+---STRING enable task view
+Enable viewing tasks created by others
+---STRINGEND
+
 ---STRING enable editing products created by others
 Enable editing products created by others
 ---STRINGEND

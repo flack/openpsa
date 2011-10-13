@@ -82,6 +82,10 @@ Darf Organisationen anlegen
 Darf Produkte anlegen
 ---STRINGEND
 
+---STRING enable task view
+Darf Aufgaben sehen, die von anderen erstellt wurden
+---STRINGEND
+
 ---STRING enable editing products created by others
 Darf Produkte bearbeiten, die von anderen erstellt wurden
 ---STRINGEND

@@ -115,8 +115,22 @@
                 'title' => $_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
                 'css_group' => 'area',
             ),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
+        ),
+        'projects_tasks' => array
+        (
+            'title' => 'enable task view',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:read',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_projects_task_dba',
+            ),
+
+            'widget'      => 'privilege',
             'end_fieldset' => '',
-            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.calendar'),
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
         ),
 
         'contact_creation' => array
