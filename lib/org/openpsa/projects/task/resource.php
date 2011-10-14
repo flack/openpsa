@@ -160,6 +160,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     {
         $task = new org_openpsa_projects_task_dba($this->task);
         $this->remove_resource_from_parent($task);
+        if ($personobject = self::pid_to_obj($this->person))
+        {
+            $task->unset_privilege('midgard:read', $personobject->id);
+            $task->unset_privilege('midgard:create', $personobject->id);
+            $task->unset_privilege('midgard:update', $personobject->id);
+        }
     }
 
     public function _on_created()
