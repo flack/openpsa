@@ -99,7 +99,7 @@ class midcom_core_user
      *
      * This member is populated with $_all_groups.
      *
-     * @var Array
+     * @var array
      */
     private $_inheritance_chains = null;
 

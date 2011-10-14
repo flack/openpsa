@@ -253,16 +253,14 @@ class midcom_core_group
 
             if ($this->_storage->id == $this->_storage->owner)
             {
-                debug_add('WARNING: A group was its own parent, this is critical as it will result in an infinite loop. See debug log for more info.',
-                    MIDCOM_LOG_CRIT);
-                debug_print_r('Current group', $this);
-                return null;
+                debug_print_r('Broken Group', $this, MIDCOM_LOG_CRIT);
+                throw new midcom_error('A group was its own parent, which will result in an infinite loop. See debug log for more info.');
             }
 
             $parent = new midgard_group();
             $parent->get_by_id($this->_storage->owner);
 
-            if (! $parent->id)
+            if (!$parent->id)
             {
                 debug_add("Could not load Group ID {$this->_storage->owner} from the database, aborting, this should not happen. See the debug level log for details. ("
                     . midcom_connection::get_error_string() . ')',
@@ -278,11 +276,11 @@ class midcom_core_group
 
     /**
      * Return a list of privileges assigned directly to the group. The default implementation
-     * queries the storage object directly using the get_privileges method of the
-     * midcom_core_baseclasses_core_dbobject class, which should work fine on all MgdSchema
+     * queries the GUID directly using the get_self_privileges method of the
+     * midcom_core_privilege class, which should work fine on all MgdSchema
      * objects. If the storage object is null, an empty array is returned.
      *
-     * @return Array A list of midcom_core_privilege objects.
+     * @return array A list of midcom_core_privilege objects.
      */
     function get_privileges()
     {
@@ -303,7 +301,7 @@ class midcom_core_group
      * The default implementation will return an instance of midcom_db_group based
      * on the member $this->_storage->id if that object is defined, or null otherwise.
      *
-     * @return MidgardObject Any MidCOM DBA level object that holds the information associated with
+     * @return midcom_core_dbaobject Any MidCOM DBA level object that holds the information associated with
      *     this group, or null if there is no storage object.
      */
     function get_storage()
