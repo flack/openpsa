@@ -19,7 +19,7 @@ if (!defined('OPENPSA_TEST_ROOT'))
  */
 class midcom_services_auth_aclTest extends openpsa_testcase
 {
-    public function test_can_do_inherited_privilege()
+    public function test_can_do_parent_object_privilege()
     {
         $topic = $this->create_object('midcom_db_topic');
         $article = $this->create_object('midcom_db_article', array('topic' => $topic->id));
@@ -45,6 +45,27 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $auth->user = $user2;
 
         $this->assertTrue($auth->can_do('midgard:read', $article));
+    }
+
+    public function test_can_do_group_privilege()
+    {
+        $topic = $this->create_object('midcom_db_topic');
+        $person = $this->create_user();
+        $group = $this->create_object('midcom_db_group');
+        $this->create_object('midcom_db_member', array('gid' => $group->id, 'uid' => $person->id));
+
+        midcom::get('auth')->request_sudo('midcom.core');
+        $topic->set_privilege('midgard:read', 'group:' . $group->guid, MIDCOM_PRIVILEGE_DENY);
+        $user = new midcom_core_user($person);
+        midcom::get('auth')->drop_sudo();
+
+        $auth = new midcom_services_auth;
+        $auth->initialize();
+
+        $this->assertTrue($auth->can_do('midgard:read', $topic));
+
+        $auth->user = $user;
+        $this->assertFalse($auth->can_do('midgard:read', $topic));
     }
 }
 ?>
