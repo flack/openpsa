@@ -19,6 +19,16 @@
  * relocate function is used to for relocation, thus you can take full advantage of the
  * convenience functions in there. See midcom_application::relocate() for details.
  *
+ * <b>Checking Privileges</b>
+ *
+ * This class overs various methods to verify the privilege state of a user, all of them prefixed
+ * with can_* for privileges and is_* for membership checks.
+ *
+ * Each function is available in a simple check version, which returns true or false, and a
+ * require_* prefixed variant, which has no return value. The require variants of these calls
+ * instead check if the given condition is met, if yes, they return silently, otherwise they
+ * throw an access denied error.
+ *
  * @todo Fully document authentication.
  * @package midcom.services
  */

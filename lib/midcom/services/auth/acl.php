@@ -9,10 +9,6 @@
 /**
  * This class is responsible for ACL checks against classes and content objects.
  *
- * Unless further qualified, "Midgard Content Objects" can be either pre-mgdschema
- * or mgdschema objects. The only necessary constraint is that a MidCOM base class
- * (midgard_db_*) must be available.
- *
  * This implementation is based on the general idea outlined in mRFC 15
  * ( http://www.midgard-project.org/development/mrfc/0015/ ),
  * MidCOM Authentication and Access Control service. <i>Developers Note:</i> Be aware that
@@ -69,7 +65,7 @@
  * This is analogous to the MidCOM default configuration, they are taken into account globally to each
  * and every check whether a privilege is granted. Whenever a privilege is defined, there is also a
  * default value (either ALLOW or DENY) assigned to it. They serve as a basis for all privilege sets
- * and ensure, that there is a value set for all privileges.
+ * and ensure that there is a value set for all privileges.
  *
  * These defaults are defined by the MidCOM core and the components respectively and are very restrictive,
  * basically granting read-only access to all non sensitive information.
@@ -90,7 +86,7 @@
  * example:
  *
  * <code>
- * function get_class_magic_default_privileges()
+ * public static function get_class_magic_default_privileges()
  * {
  *     return Array (
  *         'EVERYONE' => Array(),
@@ -122,21 +118,21 @@
  * object in the system, and are read on every access to a content object. As you can see in the
  * introduction, you have the most flexibility here.
  *
- * The basic idea is, that you can assign privileges based on the combination of users/groups and
+ * The basic idea is that you can assign privileges based on the combination of users/groups and
  * content objects. In other words, you can say the user x has the privilege midgard:update for
  * this object (and its descendants) only. This works with groups as well.
  *
  * The possible assignees here are either a user, a group or one of the magic assignees EVERYONE,
- * USERS or ANONYMOuS, as outlined above.
+ * USERS or ANONYMOUS, as outlined above.
  *
- * Be aware, that Midgard Persons and Groups count as content object when loaded from the database
- * in a tool like net.nemein.personnel, as the groups are not used for authentication but for
+ * Be aware, that persons and groups are treted as content objects when loaded from the database
+ * in a tool like org.openpsa.user, as the groups are not used for authentication but for
  * regular site operation there. Therefore, the SELF privileges mentioned above are not taken into
  * account when determining the content object privileges!
  *
  * <i>Privilege merging</i>
  *
- * This is, where we get to the guts of privileges, as this is not trivial (but nevertheless
+ * This is where we get to the guts of privilege system, as this is not trivial (but nevertheless
  * straight-forward I hope). The general idea is based on the scope of object a privilege applies:
  *
  * System default privileges obviously have the largest scope, they apply to everyone. The next
@@ -155,7 +151,6 @@
  * |                  Root Midgard group
  * |                  ... more parent Midgard groups ...
  * |                  Direct Midgard group membership
- * |                  Virtual group memberships
  * |                  User
  * |                  SELF privileges limited to a class
  * |                  Root content object
@@ -168,7 +163,7 @@
  * merged into the privilege set. It is of no importance from where you get ownership at that point.
  *
  * Implementation notes: Internally, MidCOM separates the "user privilege set" which is everything
- * down to the line User above, and the content object privileges, which constitutes of the rest.
+ * down to the line User above, and the content object privileges, which constitutes the rest.
  * This separation has been done for performance reasons, as the user's privileges are loaded
  * immediately upon authentication of the user, and the privileges of the actual content objects
  * are merged into this set then. Normally, this should be of no importance for ACL users, but it
@@ -181,19 +176,18 @@
  * <i>Midgard Core Privileges</i>
  *
  * These privileges are part of the MidCOM Database Abstraction layer (MidCOM DBA) and have been
- * originally proposed by me in a mail to the Midgard developers list. They will move into the
- * core level eventually, but for the time being MidCOM will control them. Unless otherwise noted,
+ * originally proposed by me in a mail to the Midgard developers list. Unless otherwise noted,
  * all privileges are denied by default and no difference between owner and normal default privileges
  * is made.
  *
  * - <i>midgard:read</i> controls read access to the object, if denied, you cannot load the object
  *   from the database. This privilege is granted by default.
- * - <i>midgard:update</i> controls updating of objects. Be aware, that you need to be able to read
+ * - <i>midgard:update</i> controls updating of objects. Be aware that you need to be able to read
  *   the object before updating it, it is granted by default only for owners.
- * - <i>midgard:delete</i> controls deletion of objects. Be aware, that you need to be able to read
+ * - <i>midgard:delete</i> controls deletion of objects. Be aware that you need to be able to read
  *   the object before updating it, it is granted by default only for owners.
  * - <i>midgard:create</i> allows you to create new content objects as children on whatever content
- *   object that you have the create privilege for. This means, you can create an article if and only
+ *   object that you have the create privilege for. This means that you can create an article if and only
  *   if you have create permission for either the parent article (if you create a so-called 'reply
  *   article') or the parent topic, it is granted by default only for owners.
  * - <i>midgard:parameters</i> allows the manipulation of parameters on the current object if and
@@ -237,7 +231,7 @@
  * </pre>
  *
  * These calls operate only on the privileges of the given object. They do not do any merging
- * whatsoever, this is the job of the auth framework itself (midcom_services_auth).
+ * whatsoever, this is the job of the CAL framework itself (midcom_services_auth_acl).
  *
  * Unsetting a privilege does not deny it, but clears the privilege specification on the current
  * object and sets it to INHERIT internally. As you might have guessed, if you want to clear
@@ -245,19 +239,8 @@
  *
  * See the documentation of the DBA layer for more information on these five calls.
  *
- * <b>Checking Privileges</b>
- *
- * This class overs various methods to verify the privilege state of a user, all of them prefixed
- * with can_* for privileges and is_* for membership checks.
- *
- * Each function is available in a simple check version, which returns true or false, and a
- * require_* prefixed variant, which has no return value. The require variants of these calls
- * instead check if the given condition is met, if yes, they return silently, otherwise they
- * throw an access denied error.
- *
  * @package midcom.services
  */
-
 class midcom_services_auth_acl
 {
     var $auth = null;
