@@ -130,6 +130,10 @@ Declined
 Declined by %s
 ---STRINGEND
 
+---STRING declined tasks
+Declined Tasks
+---STRINGEND
+
 ---STRING delete task
 Delete task
 ---STRINGEND

@@ -130,6 +130,10 @@ Nicht angenommen
 Abgelehnt von %s
 ---STRINGEND
 
+---STRING declined tasks
+Abgelehnte Aufgaben
+---STRINGEND
+
 ---STRING delete task
 Aufgabe löschen
 ---STRINGEND
