@@ -68,38 +68,6 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_created()
-    {
-        // Check if the salesman and the contact are buddies already
-        try
-        {
-            $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            $owner = new midcom_db_person($salesproject->owner);
-            $person = new midcom_db_person($this->person);
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            return;
-        }
-
-        $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
-        $qb->add_constraint('account', '=', (string)$owner->guid);
-        $qb->add_constraint('buddy', '=', (string)$person->guid);
-        $qb->add_constraint('blacklisted', '=', false);
-        $buddies = $qb->execute();
-
-        if (count($buddies) == 0)
-        {
-            // Cache the association to buddy list of the sales project owner
-            $buddy = new org_openpsa_contacts_buddy_dba();
-            $buddy->account = $owner->guid;
-            $buddy->buddy = $person->guid;
-            $buddy->isapproved = false;
-            $buddy->create();
-        }
-    }
-
     function get_parent_guid_uncached()
     {
         if ($this->salesproject != 0)
