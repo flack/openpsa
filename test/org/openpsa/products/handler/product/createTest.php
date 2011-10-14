@@ -37,7 +37,7 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
         (
             'title' => 'TEST ' . __CLASS__ . ' ' . time(),
             'code' => 'TEST_' . __CLASS__ . '_' . time(),
-            'delivery' => (string) ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+            'delivery' => (string) org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'orgOpenpsaObtype' => (string) ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
             'org_openpsa_products_productGroup_chooser_widget_selections' => array((string) self::$_group->id => '1')
         );

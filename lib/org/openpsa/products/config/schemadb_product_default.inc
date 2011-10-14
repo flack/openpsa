@@ -100,8 +100,8 @@
             (
                 'options' => Array
                 (
-                    ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE       => 'single delivery',
-                    ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION => 'subscription',
+                    org_openpsa_products_product_dba::DELIVERY_SINGLE       => 'single delivery',
+                    org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION => 'subscription',
                 ),
             ),
             'widget' => 'select',

@@ -16,6 +16,9 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_products_product';
 
+    const DELIVERY_SINGLE = 1000;
+    const DELIVERY_SUBSCRIPTION = 2000;
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

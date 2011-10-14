@@ -82,7 +82,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $deliverables = $deliverable_qb->execute();
         foreach ($deliverables as $deliverable)
         {
-            if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 $scheduler = new org_openpsa_invoices_scheduler($deliverable);
                 if ($deliverable->end == 0)

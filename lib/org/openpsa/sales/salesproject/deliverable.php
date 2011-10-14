@@ -87,7 +87,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     {
         $this->calculate_price(false);
 
-        if (   $this->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+        if (   $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
             && $this->continuous == true)
         {
             $this->end = 0;
@@ -288,7 +288,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     function invoice()
     {
         if (   $this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED
-            || $this->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             return false;
         }
@@ -353,7 +353,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $product = org_openpsa_products_product_dba::get_cached($this->product);
         $scheduler = new org_openpsa_invoices_scheduler($this);
 
-        if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             // This is a new subscription, initiate the cycle but don't send invoice
             if (!$scheduler->run_cycle(1, false))
@@ -402,7 +402,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
 
         $product = org_openpsa_products_product_dba::get_cached($this->product);
-        if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             // Subscriptions are ongoing, not one delivery
             return false;

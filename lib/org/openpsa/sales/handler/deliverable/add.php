@@ -44,7 +44,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_name()
     {
         // Set schema based on product type
-        if ($this->_product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($this->_product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             return 'subscription';
         }

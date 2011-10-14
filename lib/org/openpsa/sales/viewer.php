@@ -121,7 +121,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         {
             if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
             {
-                if ($object->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                 {
                     $prefix = $handler->_l10n->get('subscription');
                 }

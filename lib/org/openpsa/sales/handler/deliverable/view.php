@@ -113,7 +113,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         // For AJAX handling it is the controller that renders everything
         $this->_request_data['view_deliverable'] = $this->_request_data['controller']->get_content_html();
 
-        if ($this->_deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             midcom_show_style('show-deliverable-subscription');
         }

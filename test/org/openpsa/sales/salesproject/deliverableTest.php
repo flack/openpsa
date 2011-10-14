@@ -121,7 +121,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                 (
                     'product' => array
                     (
-                        'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+                        'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'type' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
                     ),
                     'deliverable' => array
@@ -164,7 +164,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                 (
                     'product' => array
                     (
-                        'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+                        'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'type' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
                     ),
                     'deliverable' => array

@@ -172,7 +172,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                     {
                         $data['product'] = false;
                     }
-                    if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                    if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                     {
                         midcom_show_style('show-salesproject-deliverables-subscription');
                     }
@@ -205,7 +205,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
         {
             //started, ordered
-            if (   $deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            if (   $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 $entries = $deliverable->get_at_entries();
                 if (isset($entries[0]))
@@ -233,7 +233,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $toolbar .= "<p>" . $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced, 2) . "</p>\n";
             }
         }
-        else if (   $deliverable->orgOpenpsaObtype != ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+        else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                  && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //not invoiced yet

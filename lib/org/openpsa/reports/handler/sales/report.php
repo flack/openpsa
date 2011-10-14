@@ -162,7 +162,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                     $invoice_label = $invoice->get_label();
                 }
 
-                if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                 {
                     $invoice_cycle_numbers[] = (int) $invoice->parameter('org.openpsa.sales', 'cycle_number');
                 }
@@ -170,7 +170,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                 $data['invoice_string'] .= "<li class=\"{$invoice_class}\">{$invoice_label}</li>\n";
             }
 
-            if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 // This is a subscription, it should be shown only if it is the first invoice
                 if (!in_array(1, $invoice_cycle_numbers))

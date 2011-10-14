@@ -42,7 +42,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         (
             'productGroup' => $this->_group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
-            'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+            'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
         );
         $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
 
@@ -440,7 +440,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+                        'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                     )
                 ),
                 array
@@ -654,7 +654,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         );
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $this->_product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION;
+        $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();
 
         $this->_deliverable->start = strtotime('2010-02-02 00:00:00');

@@ -13,10 +13,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
 {
     public function _on_initialize()
     {
-        // Define delivery types
-        define('ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE', 1000);
-        define('ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION', 2000);
-
         // Define product types
         // Professional services
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE', 1000);
