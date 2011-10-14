@@ -215,7 +215,7 @@ class midcom_core_privilege
         {
             $assignee = $this->assignee;
         }
-        switch($assignee)
+        switch ($assignee)
         {
             case 'SELF':
             case 'EVERYONE':
@@ -444,7 +444,6 @@ class midcom_core_privilege
         return $return;
     }
 
-
     /**
      * This is an internal helper function, which may only be called statically.
      *
@@ -526,13 +525,13 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @param object &$object A reference to the object to query.
+     * @param object $object The object to query.
      * @param string $name The name of the privilege to query
      * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      * @return midcom_core_privilege The privilege matching the constraints.
      */
-    public static function get_privilege(&$object, $name, $assignee, $classname = '')
+    public static function get_privilege($object, $name, $assignee, $classname = '')
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);

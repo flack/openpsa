@@ -645,9 +645,9 @@ class midcom_services_auth_acl
      * only in the case of nonpersistent objects (no valid GUID yet), it will revert to
      * regular object usage.
      *
-     * @param $guid The GUID for which we should load privileges.
+     * @param string $guid The GUID for which we should load privileges.
      * @param string $user_id The MidCOM user assignee for which we should collect the privileges.
-     * @param $class The DBA classname
+     * @param string $class The DBA classname
      * @return Array An array of privilege_name => privilege_value pairs valid for the given user.
      */
     private static function _collect_content_privileges($guid, $user_id, $class = null)
@@ -745,7 +745,6 @@ class midcom_services_auth_acl
                 $last_owner_scope = $scope;
             }
         }
-
 
         // Process owner privileges
         if (! $is_owner)
@@ -983,8 +982,8 @@ class midcom_services_auth_acl
      * a few corners and therefore be faster
      *
      * @param string $privilegename The privilege to check for
-     * @param string $object_guid A Midgard GUID pointing to an object
-     * @param string $object_class DBA Class of the object in question
+     * @param string $guid A Midgard GUID pointing to an object
+     * @param string $class DBA Class of the object in question
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      * @return boolean True when privilege was found, otherwise false
      */
