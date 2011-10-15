@@ -170,7 +170,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         {
             $url = $e->getMessage();
         }
-        $this->assertTrue(!is_null($url), $component . ' handler did not relocate');
+
+        $this->assertTrue(!is_null($url), 'handler did not relocate');
         $url = preg_replace('/^\//', '', $url);
         return $url;
     }
