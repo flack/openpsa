@@ -179,6 +179,7 @@ class midcom_exception_handler
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
         $style->data['error_code'] = $code;
+        $style->data['error_exception'] = $this->_exception;
         $style->data['error_handler'] = $this;
 
         if (!$style->show_midcom('midcom_error_' . $code))

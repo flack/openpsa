@@ -24,13 +24,19 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 <p>
 <?php echo $message; ?>
 </p>
-
+<?php if ($this->data['error_exception'])
+{
+    $e = $this->data['error_exception'];
+    echo '<p>in ' . $e->getFile() . ', line ' . $e->getLine() . "</p>";
+}
+?>
 <h2>Error <?php echo $code; ?></h2>
 <address>
   <a href="/"><?php echo $_SERVER['SERVER_NAME']; ?></a><br />
   <?php echo date('r'); ?><br />
   <?php echo $_SERVER['SERVER_SOFTWARE']; ?>
 </address>
+
 <?php
 $stacktrace = $this->data['error_handler']->get_function_stack();
 if (!empty($stacktrace))
