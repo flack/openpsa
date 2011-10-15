@@ -23,6 +23,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     {
         //org.openpsa.contacts object types
         define('ORG_OPENPSA_OBTYPE_OTHERGROUP', 0);
+        define('ORG_OPENPSA_OBTYPE_MYCONTACTS', 500);
         define('ORG_OPENPSA_OBTYPE_ORGANIZATION', 1000);
         define('ORG_OPENPSA_OBTYPE_DAUGHTER', 1001);
         define('ORG_OPENPSA_OBTYPE_DEPARTMENT', 1002);
@@ -94,21 +95,19 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     /**
      * Locates the root group
      */
-    static function find_root_group()
+    static function find_root_group($name = '__org_openpsa_contacts')
     {
-        static $root_group = null;
+        static $root_groups = array();
 
         //Check if we have already initialized
-        if (!is_null($root_group))
+        if (!empty($root_groups[$name]))
         {
-            return $root_group;
+            return $root_groups[$name];
         }
-
-        $root_group = false;
 
         $qb = midcom_db_group::new_query_builder();
         $qb->add_constraint('owner', '=', 0);
-        $qb->add_constraint('name', '=', '__org_openpsa_contacts');
+        $qb->add_constraint('name', '=', $name);
 
         $results = $qb->execute();
 
@@ -117,7 +116,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         {
             foreach ($results as $group)
             {
-                $root_group = $group;
+                $root_groups[$name] = $group;
             }
         }
         else
@@ -128,19 +127,18 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $_MIDCOM->auth->request_sudo();
             $grp = new midcom_db_group();
             $grp->owner = 0;
-            $grp->name = '__org_openpsa_contacts';
-            $grp->official = 'CRM Root Group';
+            $grp->name = $name;
+            $grp->official = midcom::get('i18n')->get_l10n('org.openpsa.contacts')->get($name);
             $ret = $grp->create();
             $_MIDCOM->auth->drop_sudo();
             if (!$ret)
             {
-                debug_add("Could not auto-initialize the module, create root group '__org_openpsa_contacts' manually", MIDCOM_LOG_ERROR);
-                return false;
+                throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());
             }
-            $root_group = $grp;
+            $root_groups[$name] = $grp;
         }
 
-        return $root_group;
+        return $root_groups[$name];
     }
 
     public function _on_resolve_permalink($topic, $config, $guid)

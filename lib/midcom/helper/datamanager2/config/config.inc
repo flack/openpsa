@@ -104,44 +104,6 @@
 //Pre-made chooser configurations
 'clever_classes' => array
 (
-    'buddy' => array
-    (
-        'class' => 'net_nehmer_buddylist_entry',
-        'component' => 'net.nehmer.buddylist',
-        'headers' => array
-        (
-            'firstname',
-            'lastname',
-            'email',
-        ),
-        'constraints' => array
-        (
-            array
-            (
-                'field' => 'account',
-                'op'    => '=',
-                'value' => '__CURRENT_USER__',
-            ),
-            array
-            (
-                'field' => 'blacklisted',
-                'op'    => '=',
-                'value' => false,
-            ),
-        ),
-        'searchfields' => array
-        (
-            'buddy.firstname',
-            'buddy.lastname',
-            'buddy.username',
-        ),
-        'orders' => array
-        (
-            array('buddy.lastname' => 'ASC'),
-            array('buddy.firstname' => 'ASC'),
-        ),
-        'reflector_key' => 'buddy',
-    ),
     'contact' => array
     (
         'class' => 'org_openpsa_contacts_person_dba',

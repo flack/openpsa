@@ -398,18 +398,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         {
             foreach ($memberships as $guid => $empty)
             {
-                echo "<li class=\"org\">";
-
                 try
                 {
-                    if (class_exists('org_openpsa_contacts_group_dba'))
-                    {
-                        $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
-                    }
-                    else
-                    {
-                        $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
-                    }
+                    $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
                 }
                 catch (midcom_error $e)
                 {
@@ -417,11 +408,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                     continue;
                 }
 
-                if ($group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+                if ($group->orgOpenpsaObtype < ORG_OPENPSA_OBTYPE_ORGANIZATION)
                 {
                     continue;
                 }
 
+                echo "<li class=\"org\">";
                 if ($mc->get_subkey($guid, 'extra'))
                 {
                     echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";

@@ -200,23 +200,18 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             )
         );
 
-        $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
-        $user = $_MIDCOM->auth->user->get_storage();
-        $qb->add_constraint('account', '=', $user->guid);
-        $qb->add_constraint('buddy', '=', $this->_contact->guid);
-        $qb->add_constraint('blacklisted', '=', false);
-        $buddies = $qb->count();
-        if ($buddies > 0)
+        $mycontacts = new org_openpsa_contacts_mycontacts;
+
+        if ($mycontacts->is_member($this->_contact->guid))
         {
             // We're buddies, show remove button
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "buddylist/remove/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
+                    MIDCOM_TOOLBAR_URL => "mycontacts/remove/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
                 )
             );
         }
@@ -227,10 +222,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "buddylist/add/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
+                    MIDCOM_TOOLBAR_URL => "mycontacts/add/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add to my contacts'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
                 )
             );
         }

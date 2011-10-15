@@ -124,7 +124,6 @@
     ),
     'stock_people.png' => array
     (
-        'net_nehmer_buddylist_entry_db',
         'org_openpsa_campaign',
     ),
     'stock_news.png' => array

@@ -23,7 +23,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
 
-        if ($handler != 'buddylist_xml')
+        if ($handler != 'mycontacts_xml')
         {
             $_MIDCOM->auth->require_valid_user();
         }

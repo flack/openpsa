@@ -2,6 +2,14 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING __org_openpsa_contacts
+CRM Root Group
+---STRINGEND
+
+---STRING __org_openpsa_contacts_list
+Contact Lists Root Group
+---STRINGEND
+
 ---STRING %s of
 %s of
 ---STRINGEND
@@ -10,7 +18,7 @@
 &lt;title>
 ---STRINGEND
 
----STRING add buddy
+---STRING add to my contacts
 Add to my contacts
 ---STRINGEND
 
@@ -80,6 +88,10 @@ Create suborganization
 
 ---STRING create subgroup
 Create subgroup
+---STRINGEND
+
+---STRING contacts of %s
+Contacts of %s
 ---STRINGEND
 
 ---STRING customers invoices
@@ -286,7 +298,7 @@ Postal address
 ZIP
 ---STRINGEND
 
----STRING remove buddy
+---STRING remove from my contacts
 Remove from my contacts
 ---STRINGEND
 

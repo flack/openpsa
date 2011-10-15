@@ -60,7 +60,6 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
         );
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
-        //remember to remove buddylist entry later on
 
         $deliverable_attributes = array
         (

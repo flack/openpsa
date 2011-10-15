@@ -17,7 +17,7 @@ if (!defined('OPENPSA_TEST_ROOT'))
  *
  * @package openpsa.test
  */
-class org_openpsa_contacts_handler_buddy_listTest extends openpsa_testcase
+class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
 {
     protected static $_person;
 
@@ -30,8 +30,8 @@ class org_openpsa_contacts_handler_buddy_listTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('buddylist'));
-        $this->assertEquals('buddylist', $data['handler_id']);
+        $data = $this->run_handler('org.openpsa.contacts', array('mycontacts'));
+        $this->assertEquals('mycontacts', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -40,8 +40,8 @@ class org_openpsa_contacts_handler_buddy_listTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('buddylist', 'xml'));
-        $this->assertEquals('buddylist_xml', $data['handler_id']);
+        $data = $this->run_handler('org.openpsa.contacts', array('mycontacts', 'xml'));
+        $this->assertEquals('mycontacts_xml', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -52,7 +52,7 @@ class org_openpsa_contacts_handler_buddy_listTest extends openpsa_testcase
 
         $person = $this->create_object('org_openpsa_contacts_person_dba');
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('buddylist', 'add', $person->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'add', $person->guid));
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
@@ -64,15 +64,14 @@ class org_openpsa_contacts_handler_buddy_listTest extends openpsa_testcase
 
         $person = $this->create_object('org_openpsa_contacts_person_dba');
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('buddylist', 'add', $person->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'add', $person->guid));
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('buddylist', 'remove', $person->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'remove', $person->guid));
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
     }
-
 }
 ?>

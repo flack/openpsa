@@ -45,26 +45,6 @@ if (! class_exists('midcom_helper_reflector'))
  * </code>
  * OR
  * <code>
- *  'buddies' => Array
- *  (
- *      'title' => 'buddies',
- *      'storage' => null,
- *      'type' => 'select',
- *      'type_config' => array
- *      (
- *           'require_corresponding_option' => false,
- *           'allow_multiple' => true,
- *           'multiple_storagemode' => 'array',
- *      ),
- *      'widget' => 'chooser',
- *      'widget_config' => array
- *      (
- *          'clever_class' => 'buddy',
- *      ),
- *  ),
- * </code>
- * OR
- * <code>
  *  'styles' => Array
  *  (
  *      'title' => 'styles',
@@ -576,26 +556,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     function _check_clever_class()
     {
         $clever_classes = $this->_config->get('clever_classes');
-
-        //This is a lazy workaround to preserve a rarely-used feature for backwards-compatibility
-        if (   isset($_MIDCOM->auth->user)
-            && method_exists($_MIDCOM->auth->user, 'get_storage'))
-        {
-            $current_user = $_MIDCOM->auth->user->get_storage();
-        }
-        else
-        {
-            $current_user = new midcom_db_person();
-        }
-
-        foreach ($clever_classes['buddy']['constraints'] as $i => $constraint)
-        {
-            if ($constraint['value'] == '__USER__')
-            {
-                $clever_classes['buddy']['constraints'][$i]['value'] = $current_user->guid;
-            }
-        }
-        //workaround end
 
         if (array_key_exists($this->clever_class, $clever_classes))
         {
@@ -1240,16 +1200,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         $_MIDCOM->auth->request_sudo();
-
-        if (   isset($this->reflector_key)
-            && !empty($this->reflector_key))
-        {
-            if ($this->reflector_key == 'buddy')
-            {
-                $this->class = 'org_openpsa_contacts_person_dba';
-                $this->component = 'org.openpsa.contacts';
-            }
-        }
 
         if (!class_exists($this->class))
         {

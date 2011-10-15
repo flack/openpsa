@@ -53,6 +53,32 @@
         <!-- /Common OpenPSA properties -->
     </type>
 
+
+    <type name="org_openpsa_contacts_list" table="grp">
+        <!-- Clean extending not supported yet
+             NewMidgardGrp properties -->
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name" type="string" index="yes" />
+        <property name="official" type="string" index="yes" />
+        <property name="extra" type="text" />
+        <property name="owner" link="midgard_group:id" type="unsigned integer" upfield="owner" />
+        <property name="person" field="customerId" type="string" index="yes" />
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Shortcut for various ACL scenarios -->
+        <property name="orgOpenpsaAccesstype" type="integer" />
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" />
+        <!-- will contain bitmask as integer, 00(int=0) not a workgroup, 01(int=1) is workgroup
+             but not active, 11(int=3) active workgroup -->
+        <property name="orgOpenpsaWgtype" type="integer" />
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
     <type name="org_openpsa_person" table="person">
         <!-- Clean extending not supported yet
              midgard_person properties -->

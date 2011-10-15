@@ -6,7 +6,7 @@
 <titteli>
 ---STRINGEND
 
----STRING add buddy
+---STRING add to my contacts
 Lisää omiin yhteyshenkilöihin
 ---STRINGEND
 
@@ -222,7 +222,7 @@ Postiosoite
 Postinumero
 ---STRINGEND
 
----STRING remove buddy
+---STRING remove from my contacts
 Poista omista yhteyshenkilöistäni
 ---STRINGEND
 

@@ -262,7 +262,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
         );
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
-        //remember to remove buddylist entry later on
 
         $deliverable_attributes = array
         (
@@ -330,8 +329,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $this->assertEquals($member->id, $task2->manager);
         $this->assertEquals($task->resources, $task2->resources);
 
-
-        $this->delete_linked_objects('org_openpsa_contacts_buddy_dba', 'account', $manager->guid);
         $_MIDCOM->auth->drop_sudo();
     }
 }

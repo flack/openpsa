@@ -90,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit.
         }
 
-        $root_group = org_openpsa_contacts_interface::find_root_group($this->_config);
+        $root_group = org_openpsa_contacts_interface::find_root_group();
 
         if (   $this->_group->owner
             && $this->_group->owner != $root_group->id)

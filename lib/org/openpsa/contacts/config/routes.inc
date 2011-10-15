@@ -5,33 +5,33 @@
     'fixed_args' => array('duplicates', 'person'),
 ),
 
-// Match /buddylist/
-'buddylist' => array
+// Match /mycontacts/
+'mycontacts' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_buddy_list', 'list'),
-    'fixed_args' => 'buddylist',
+    'handler' => array('org_openpsa_contacts_handler_mycontacts', 'list'),
+    'fixed_args' => 'mycontacts',
 ),
 
-// Match /buddylist/xml
-'buddylist_xml' => array
+// Match /mycontacts/xml
+'mycontacts_xml' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_buddy_list', 'list'),
-    'fixed_args' => array('buddylist', 'xml'),
+    'handler' => array('org_openpsa_contacts_handler_mycontacts', 'list'),
+    'fixed_args' => array('mycontacts', 'xml'),
 ),
 
-// Match /buddylist/add/<person guid>
-'buddylist_add' => array
+// Match /mycontacts/add/<person guid>
+'mycontacts_add' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_buddy_list', 'add'),
-    'fixed_args' => array('buddylist', 'add'),
+    'handler' => array('org_openpsa_contacts_handler_mycontacts', 'add'),
+    'fixed_args' => array('mycontacts', 'add'),
     'variable_args' => 1,
 ),
 
-// Match /buddylist/remove/<person guid>
-'buddylist_remove' => array
+// Match /mycontacts/remove/<person guid>
+'mycontacts_remove' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_buddy_list', 'remove'),
-    'fixed_args' => array('buddylist', 'remove'),
+    'handler' => array('org_openpsa_contacts_handler_mycontacts', 'remove'),
+    'fixed_args' => array('mycontacts', 'remove'),
     'variable_args' => 1,
 ),
 

@@ -2,6 +2,14 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING __org_openpsa_contacts
+CRM-Basisgruppe
+---STRINGEND
+
+---STRING __org_openpsa_contacts_list
+Basisgruppe für Kontaktlisten
+---STRINGEND
+
 ---STRING person_fieldset
 Person
 ---STRINGEND
@@ -22,7 +30,7 @@ Suche in
 <Titel>
 ---STRINGEND
 
----STRING add buddy
+---STRING add to my contacts
 Zu meinen Kontakten hinzufügen
 ---STRINGEND
 
@@ -92,6 +100,10 @@ Unterorganisation erstellen
 
 ---STRING create subgroup
 Untergruppe erstellen
+---STRINGEND
+
+---STRING contacts of %s
+Kontakte von %s
 ---STRINGEND
 
 ---STRING customers invoices
@@ -290,7 +302,7 @@ Postanschrift
 PLZ
 ---STRINGEND
 
----STRING remove buddy
+---STRING remove from my contacts
 Aus meinen Kontakten entfernen
 ---STRINGEND
 
