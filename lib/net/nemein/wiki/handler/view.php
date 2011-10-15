@@ -248,7 +248,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 $_MIDCOM->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
             }
         }
-        $_MIDCOM->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword));
+        $_MIDCOM->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
         // This will exit
     }
 
