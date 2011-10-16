@@ -84,7 +84,7 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         {   
             settings.class_name = root.attr('class');
             root_element = root;
-            item_holder = jQuery('div.items',root_element);
+            item_holder = jQuery('div.items', root_element);
         }
         else
         {
@@ -111,9 +111,9 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         var cookie_array = document.cookie.split(';');
         for (var i = 0; i < cookie_array.length; i++)
         {
-            if (cookie_array[i].match(/^\smidcom_services_toolbars_position=/))
+            if (cookie_array[i].match(/^\s?midcom_services_toolbars_position=/))
             {
-                var pos = cookie_array[i].replace(/^\smidcom_services_toolbars_position=/, '');
+                var pos = cookie_array[i].replace(/^\s?midcom_services_toolbars_position=/, '');
                 memorized_position = {};
                 memorized_position.x = pos.split('_')[0];
                 memorized_position.y = pos.split('_')[1];
