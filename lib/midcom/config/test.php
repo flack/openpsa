@@ -19,8 +19,8 @@ class midcom_config_test
 
     public function println($testname, $result_code, $recommendations = '&nbsp;')
     {
-        echo "  <tr>\n";
-        echo "    <td>{$testname}</td>\n";
+        echo "  <tr class=\"test\">\n";
+        echo "    <th>{$testname}</th>\n";
         switch ($result_code)
         {
             case self::OK:
@@ -136,7 +136,7 @@ class midcom_config_test
         }
         else
         {
-            $this->println('Midgard Version', self::OK);
+            $this->println('Midgard Version', self::OK, mgd_version());
         }
 
         // Validate the Cache Base Directory.
@@ -150,7 +150,7 @@ class midcom_config_test
         }
         else
         {
-            $this->println('MidCOM cache base directory', self::OK);
+            $this->println('MidCOM cache base directory', self::OK, $GLOBALS['midcom_config']['cache_base_directory']);
         }
 
         $this->_check_rcs();
@@ -165,13 +165,13 @@ class midcom_config_test
         }
         else
         {
-            $this->println('Version', self::OK);
+            $this->println('Version', self::OK, phpversion());
         }
 
         $cur_limit = $this->ini_get_filesize('memory_limit');
         if ($cur_limit >= (40 * 1024 * 1024))
         {
-            $this->println('Setting: memory_limit', self::OK);
+            $this->println('Setting: memory_limit', self::OK, ini_get('memory_limit'));
         }
         else
         {
@@ -199,7 +199,7 @@ class midcom_config_test
         $upload_limit = $this->ini_get_filesize('upload_max_filesize');
         if ($upload_limit >= (50 * 1024 * 1024))
         {
-            $this->println('Setting: upload_max_filesize', self::OK);
+            $this->println('Setting: upload_max_filesize', self::OK, ini_get('upload_max_filesize'));
         }
         else
         {
@@ -210,7 +210,7 @@ class midcom_config_test
         $post_limit = $this->ini_get_filesize('post_max_size');
         if ($post_limit >= $upload_limit)
         {
-            $this->println('Setting: post_max_size', self::OK);
+            $this->println('Setting: post_max_size', self::OK, ini_get('post_max_size'));
         }
         else
         {
