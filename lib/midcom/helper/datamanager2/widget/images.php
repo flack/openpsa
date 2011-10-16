@@ -352,7 +352,7 @@ END;
 
         $img_title = '';
         // Some reason we're kicking out-of-sync, check explicitly for POSTed value
-        if (!empty(isset($_POST[$this->name]["e_exist_{$identifier}_title"]))
+        if (!empty($_POST[$this->name]["e_exist_{$identifier}_title"]))
         {
             $img_title = $_POST[$this->name]["e_exist_{$identifier}_title"];
         }
