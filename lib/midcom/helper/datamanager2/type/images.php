@@ -11,7 +11,7 @@
  *
  * This type encapsulates a unlimited list of uploaded images each along with an optional
  * number of derived images like thumbnails. Both the main image and the derived thumbnails
- * will be ran through a defined filter chain. The originally uploaded files can be
+ * will be run through a defined filter chain. The originally uploaded files can be
  * kept optionally.
  *
  * Similar to the downloads widget, the individual images are distinguished using md5
@@ -23,10 +23,9 @@
  *
  * The original image will be available with the "original" identifier prefix unless
  * configured otherwise. The main image used for display is available as "main",
- * which will be ensured to be web-compatible. (This
- * distinction is important in case you upload TIFF or other non-web-compatible
- * images. All derived images will be available under the prefixes defined in the schema
- * configuration.
+ * which will be ensured to be web-compatible. (This distinction is important in case
+ * you upload TIFF or other non-web-compatible images. All derived images will be available
+ * under the prefixes defined in the schema configuration.
  *
  * An optional "quick" thumbnail mode is available as well where you just specify the
  * maximum frame of a thumbnail to-be-generated. The auto-generated image will then be
@@ -428,7 +427,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         return parent::convert_to_storage();
     }
 
-
     /**
      * The HTML-Version of the image type can take two forms, depending on
      * type configuration:
@@ -519,7 +517,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * the images (heuristics could not be safe enough when subtypes create
      * non-md5 based identifiers).
      */
-    function _save_image_listing()
+    private function _save_image_listing()
     {
         $data = array();
 
@@ -670,11 +668,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     function _sort_images_callback($a, $b)
     {
         // safety against broken images
-        if (   isset($a['main'])
-            && isset($a['main']['object'])
-            && isset($b['main'])
-            && isset($b['main']['object'])
-            )
+        if (   !empty($a['main']['object'])
+            && !empty($b['main']['object']))
         {
             $a_obj = $a['main']['object'];
             $b_obj = $b['main']['object'];
@@ -685,11 +680,10 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             if (   is_array($a)
                 && is_array($b))
             {
-                foreach($a as $key => $data)
+                foreach ($a as $key => $data)
                 {
-                    if (   isset($a[$key]['object'])
-                        && isset($b[$key])
-                        && isset($b[$key]['object']))
+                    if (   !empty($a[$key]['object'])
+                        && !empty($b[$key]['object']))
                     {
                         $a_obj = $a[$key]['object'];
                         $b_obj = $b[$key]['object'];
@@ -698,10 +692,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             }
         }
 
-        if (   (   !isset($a_obj)
-                || !$a_obj)
-            && (   !isset($b_obj)
-                || !$b_obj))
+        if (   empty($a_obj)
+            && empty($b_obj))
         {
             return 0;
         }
@@ -753,7 +745,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 $image = $images['original'];
             }
-            elseif (isset($images['main']))
+            else if (isset($images['main']))
             {
                 $image = $images['main'];
             }
@@ -830,7 +822,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         return true;
     }
 
-    function _batch_handler_cleanup($tmp_dir, $new_name)
+    private function _batch_handler_cleanup($tmp_dir, $new_name)
     {
         debug_add("called with: '{$tmp_dir}', '{$new_name}'");
         if (   empty($tmp_dir)
@@ -859,7 +851,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         exec($cmd, $output, $ret);
     }
 
-    function _batch_handler($extension, $file_data)
+    public function _batch_handler($extension, $file_data)
     {
         $tmp_name = $file_data['tmp_name'];
         $new_name = "{$tmp_name}.{$extension}";
@@ -926,7 +918,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         $this->_batch_handler_cleanup($tmp_dir, $new_name);
     }
 
-    function _batch_handler_get_files_recursive($path, &$files)
+    private function _batch_handler_get_files_recursive($path, &$files)
     {
         $dp = @opendir($path);
         if (!$dp)
