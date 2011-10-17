@@ -139,6 +139,10 @@ Geschätztes Lieferdatum
 Jetzt erstellen
 ---STRINGEND
 
+---STRING go to customer
+Kunden anzeigen
+---STRINGEND
+
 ---STRING invoice
 Rechnung
 ---STRINGEND
@@ -295,6 +299,10 @@ Verkaufsbericht für %s - %s
 Verkaufsprojekt
 ---STRINGEND
 
+---STRING salesprojects
+Verkaufsprojekte
+---STRINGEND
+
 ---STRING salesprojects active
 Aktive Verkaufsprojekte
 ---STRINGEND
@@ -317,6 +325,10 @@ Abgerechnete Verkaufsprojekte
 
 ---STRING salesprojects: %s
 Verkaufsprojekte: %s
+---STRINGEND
+
+---STRING salesprojects with %s
+Verkaufsprojekte mit %s
 ---STRINGEND
 
 ---STRING select either end date or continuous

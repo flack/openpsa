@@ -82,16 +82,27 @@ $addresses = array();
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
     $tabs = array();
-    $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-    if (   $invoices_url
-           && strpos($data['view']['categories'], $data['l10n']->get('client')) !== false)
+    if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false)
     {
         //TODO: Check for privileges somehow
-        $tabs[] = array
-        (
-            'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
-            'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
-        );
+        $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
+        if ($invoices_url)
+        {
+            $tabs[] = array
+            (
+                'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
+                'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
+            );
+        }
+        $sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales');
+        if ($sales_url)
+        {
+            $tabs[] = array
+            (
+                'url' => $sales_url . "list/customer/{$data['group']->guid}/",
+                'title' => $_MIDCOM->i18n->get_string('salesprojects', 'org.openpsa.sales'),
+            );
+        }
     }
     org_openpsa_widgets_ui::render_tabs($data['group']->guid, $tabs);
     ?>

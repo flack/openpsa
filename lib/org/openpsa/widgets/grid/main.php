@@ -100,7 +100,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      * Constructor. Add head elements when necessary and the ID column
      *
      * @param string $identifier The grid's ID
-     * @param string $datatype The gird's data type
+     * @param string $datatype The grid's data type
      */
     public function __construct($identifier, $datatype)
     {

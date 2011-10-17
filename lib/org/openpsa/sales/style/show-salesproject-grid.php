@@ -1,8 +1,6 @@
 <?php
-$grid_id = $data['list_title'] . '_salesprojects_grid';
-
+$grid = $data['grid'];
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 $rows = array();
 
 foreach ($data['salesprojects'] as $salesproject)
@@ -16,24 +14,27 @@ foreach ($data['salesprojects'] as $salesproject)
     $row['index_title'] = $salesproject->title;
     $row['title'] = '<a href="' . $salesproject_url . '">' . $salesproject->title . '</a>';
 
-    $row['index_customer'] = '';
-    $row['customer'] = '';
-    if ($customer = $salesproject->get_customer())
+    if ($data['mode'] != 'customer')
     {
-        $label = $customer->get_label();
-        $row['index_customer'] = $label;
-        if ($data['contacts_url'])
+        $row['index_customer'] = '';
+        $row['customer'] = '';
+        if ($customer = $salesproject->get_customer())
         {
-            $type = 'group';
-            if (is_a($customer, 'org_openpsa_contacts_person_dba'))
+            $label = $customer->get_label();
+            $row['index_customer'] = $label;
+            if ($data['contacts_url'])
             {
-                $type = 'person';
+                $type = 'group';
+                if (is_a($customer, 'org_openpsa_contacts_person_dba'))
+                {
+                    $type = 'person';
+                }
+                $row['customer'] = "<a href=\"{$data['contacts_url']}{$type}/{$customer->guid}/\">{$label}</a>";
             }
-            $row['customer'] = "<a href=\"{$data['contacts_url']}{$type}/{$customer->guid}/\">{$label}</a>";
-        }
-        else
-        {
-            $row['customer'] = $label;
+            else
+            {
+                $row['customer'] = $label;
+            }
         }
     }
 
@@ -62,7 +63,7 @@ foreach ($data['salesprojects'] as $salesproject)
     $row['index_value'] = $salesproject->value;
     $row['value'] = org_openpsa_helpers::format_number($salesproject->value);
 
-    if ($data['list_title'] == 'active')
+    if ($data['mode'] == 'active')
     {
         $row['probability'] = $salesproject->probability . '%';
 
@@ -108,70 +109,39 @@ foreach ($data['salesprojects'] as $salesproject)
     }
     $rows[] = $row;
 }
-
-echo '<script type="text/javascript">//<![CDATA[';
-echo "\nvar " . $grid_id . '_entries = ' . json_encode($rows);
-echo "\n//]]></script>";
 ?>
-<div class="org_openpsa_sales full-width fill-height <?php echo $data['list_title']; ?>">
-
-<table id="&(grid_id);"></table>
-<div id="p_&(grid_id);"></div>
-
-</div>
-
-<script type="text/javascript">
-jQuery("#&(grid_id);").jqGrid({
-      datatype: "local",
-      data: &(grid_id);_entries,
-      colNames: ['id', <?php
-                 echo '"index_title", "' . $data['l10n']->get('title') . '",';
-                 echo '"index_customer", "' . $data['l10n']->get('customer') . '",';
-                 echo '"index_owner", "' . $data['l10n']->get('owner') . '",';
-                 echo '"index_closeest", "' . $data['l10n']->get('estimated closing date') . '",';
-                 echo '"index_value", "' . $data['l10n']->get('value') . '",';
-                 if ($data['list_title'] == 'active')
-                 {
-                     echo '"' . $data['l10n']->get('probability') . '",';
-                     echo '"index_weightedvalue", "' . $data['l10n']->get('weighted value') . '",';
-                 }
-                 echo '"index_profit", "' . $data['l10n']->get('profit') . '",';
-                 echo '"' . $data['l10n']->get('previous action') . '",';
-                 echo '"' . $data['l10n']->get('next action') . '"';
-                ?>],
-      colModel:[
-          {name:'id', index:'id', hidden:true, key:true},
-          {name:'index_title',index:'index_title', hidden:true},
-          {name:'title', index: 'index_title', width: 100, classes: 'ui-ellipsis title'},
-          {name:'index_customer', index:'index_customer', hidden:true},
-          {name:'customer', index: 'index_customer', width: 80, classes: 'ui-ellipsis'},
-          {name:'index_owner', index:'index_owner', hidden:true},
-          {name:'owner', index: 'index_owner', width: 70, classes: "ui-ellipsis"},
-          {name:'index_closeest',index:'index_closeest', sorttype: "integer", hidden: true},
-          {name:'closeest', index: 'index_closeest', width: 65, align: 'center', fixed: true},
-          {name:'index_value', index: 'index_value', sorttype: "float", hidden: true },
-          {name:'value', index: 'index_value', width: 60, align: 'right', fixed: true},
-          <?php if ($data['list_title'] == 'active')
-          { ?>
-              {name:'probability', index: 'probability', width: 55, align: 'right'},
-              {name:'index_weightedvalue', index: 'index_weightedvalue', sorttype: 'float', hidden: true},
-              {name:'weightedvalue', index: 'index_weightedvalue', width: 55, align: 'right', fixed: true},
-          <?php } ?>
-          {name:'index_profit', index: 'index_profit', sorttype: "float", hidden: true },
-          {name:'profit', index: 'index_profit', width: 60, align: 'right', fixed: true},
-          {name:'prev_action', width: 75, align: 'center', classes: 'ui-ellipsis'},
-          {name:'next_action', width: 75, align: 'center', classes: 'ui-ellipsis'}
-      ],
-      loadonce: true,
-      rowNum: <?php echo sizeof($rows); ?>,
-      scroll: 1
-});
-</script>
+<div class="org_openpsa_sales full-width fill-height <?php echo $data['mode']; ?>">
 
 <?php
+$grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis title"', 'string');
+if ($data['mode'] != 'customer')
+{
+    $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
+}
+$grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
+->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 65, align: "center", fixed: true', 'integer')
+->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", fixed: true', 'float');
+if ($data['mode'] == 'active')
+{
+    $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, align: "right"')
+    ->set_column('weightedvalue', $data['l10n']->get('weighted value'), 'width: 55, align: "right"', 'float');
+}
+$grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "right"', 'float')
+->set_column('prev_action', $data['l10n']->get('previous action'), 'width: 75, align: "center", classes: "ui-ellipsis"')
+->set_column('next_action', $data['l10n']->get('next action'), 'width: 75, align: "center", classes: "ui-ellipsis"');
+
+$grid->set_option('scroll', 1)
+->set_option('loadonce', true);
+
+$grid->render($rows);
+?>
+
+</div>
+<?php
+$grid_id = $grid->get_identifier();
 $host_prefix = $_MIDCOM->get_host_prefix();
 
-$filename = $data['l10n']->get('salesprojects ' . $data['list_title']);
+$filename = $data['list_title'];
 $filename .= '_' . date('Y_m_d');
 $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 ?>
@@ -188,11 +158,14 @@ org_openpsa_export_csv.add({
       id: '&(grid_id);',
       fields: {
           index_title: '<?php echo $data['l10n']->get('title'); ?>',
-          index_customer: '<?php echo $data['l10n']->get('customer'); ?>',
+          <?php if ($data['mode'] != 'customer')
+          { ?>
+            index_customer: '<?php echo $data['l10n']->get('customer'); ?>',
+          <?php } ?>
           index_owner: '<?php echo $data['l10n']->get('owner'); ?>',
           closeest: '<?php echo $data['l10n']->get('estimated closing date'); ?>',
           index_value: '<?php echo $data['l10n']->get('value'); ?>',
-          <?php if ($data['list_title'] == 'active')
+          <?php if ($data['mode'] == 'active')
           { ?>
               probability: '<?php echo $data['l10n']->get('probability'); ?>',
               index_weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
