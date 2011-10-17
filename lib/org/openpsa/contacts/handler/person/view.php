@@ -52,9 +52,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['person'] =& $this->_contact;
-        $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['person_user'] =& $this->_person_user;
+        $this->_request_data['person'] = $this->_contact;
+        $this->_request_data['controller'] = $this->_controller;
+        $this->_request_data['person_user'] = $this->_person_user;
     }
 
     private function _load_controller()
@@ -62,7 +62,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
 
         $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
-        $this->_controller->schemadb =& $schemadb_person;
+        $this->_controller->schemadb = $schemadb_person;
         $this->_controller->set_storage($this->_contact, $this->_schema);
         $this->_controller->process_ajax();
 
@@ -78,7 +78,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             // Figure out if user is from own organization or other org
             $this->_person_user = new midcom_core_user($this->_contact->id);
 
-            if (method_exists($this->_person_user, 'is_in_group')
+            if (   method_exists($this->_person_user, 'is_in_group')
                 && $this->_person_user->is_in_group("group:{$owner_guid}"))
             {
                 $this->_schema = 'employee';

@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_view
 
         // Get the requested group object
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
-        $data['group'] =& $this->_group;
+        $data['group'] = $this->_group;
 
         if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
         {
