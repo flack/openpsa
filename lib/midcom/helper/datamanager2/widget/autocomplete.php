@@ -212,6 +212,16 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
     }
 
+    public static function get_widget_config($type)
+    {
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+
+        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
+        $config = $widget_config[$type];
+        $config['handler_url'] = $handler_url;
+        return $config;
+    }
+
     /**
      * Adds a simple search form and place holder for results.
      * Also adds static options to results.

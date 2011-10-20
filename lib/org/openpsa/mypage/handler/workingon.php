@@ -27,11 +27,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
         $_MIDCOM->skip_page_style = true;
 
-        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
-
-        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
-        $task_conf = $widget_config['task'];
-        $task_conf['handler_url'] = $handler_url;
+        $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $task_conf['id_field'] = 'guid';
 
         $task_conf['constraints'][] = array

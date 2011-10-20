@@ -232,12 +232,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     private function _prepare_batch_options()
     {
-        // Get url to search handler
-        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
-
-        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
-        $task_conf = $widget_config['task'];
-        $task_conf['handler_url'] = $handler_url;
+        $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
 
         //Make sure we have the needed constants
         midcom::get('componentloader')->load('org.openpsa.projects');
@@ -248,8 +243,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             'value' => ORG_OPENPSA_OBTYPE_TASK,
         );
 
-        $invoice_conf = $widget_config['invoice'];
-        $invoice_conf['handler_url'] = $handler_url;
+        $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
         $options = array
         (
