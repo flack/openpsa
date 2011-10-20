@@ -25,7 +25,12 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->add($args[0]);
 
-        $_MIDCOM->relocate("person/{$target->guid}/");
+        $return_url = "person/{$target->guid}/";
+        if (!empty($_GET['return_url']))
+        {
+            $return_url = $_GET['return_url'];
+        }
+        $_MIDCOM->relocate($return_url);
     }
 
     /**
@@ -61,6 +66,9 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         else
         {
             $_MIDCOM->auth->require_valid_user();
+
+            $data['widget_config'] = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('contact');
+            $data['widget_config']['id_field'] = 'guid';
         }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
@@ -74,53 +82,50 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
-        if (count($data['mycontacts']) > 0)
+        if ($handler_id == 'mycontacts_xml')
         {
-            if ($handler_id == 'mycontacts_xml')
+            $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
+
+            $datamanager = new midcom_helper_datamanager2_datamanager($schemadb_person);
+            $xml = '<contacts></contacts>';
+            $simplexml = simplexml_load_string($xml);
+
+            foreach ($data['mycontacts'] as $person)
             {
-                $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
+                $contact = $simplexml->addChild('contact');
+                $contact->addAttribute('guid', $person->guid);
+                $datamanager->autoset_storage($person);
+                $person_data = $datamanager->get_content_xml();
 
-                $datamanager = new midcom_helper_datamanager2_datamanager($schemadb_person);
-                $xml = '<contacts></contacts>';
-                $simplexml = simplexml_load_string($xml);
-
-                foreach ($data['mycontacts'] as $person)
+                foreach ($person_data as $key => $value)
                 {
-                    $contact = $simplexml->addChild('contact');
-                    $contact->addAttribute('guid', $person->guid);
-                    $datamanager->autoset_storage($person);
-                    $person_data = $datamanager->get_content_xml();
-
-                    foreach ($person_data as $key => $value)
-                    {
-                        $contact->addChild($key, $value);
-                    }
-
-                    $mc = midcom_db_member::new_collector('uid', $person->id);
-                    $memberships = $mc->get_values('gid');
-                    $qb = org_openpsa_contacts_group_dba::new_query_builder();
-                    $qb->add_constraint('gid', 'IN', $memberships);
-                    $qb->add_constraint('orgOpenpsaObtype', '>', org_openpsa_contacts_list_dba::MYCONTACTS);
-                    $organisations = $qb->execute();
-
-                    foreach ($organisations as $organisation)
-                    {
-                        $contact->addChild('company', str_replace('&', '&amp;', $$organisation->get_label()));
-                    }
+                    $contact->addChild($key, $value);
                 }
 
-                echo $simplexml->asXml();
-            }
-            else
-            {
-                midcom_show_style("show-mycontacts-header");
-                foreach ($data['mycontacts'] as $person)
+                $mc = midcom_db_member::new_collector('uid', $person->id);
+                $memberships = $mc->get_values('gid');
+                $qb = org_openpsa_contacts_group_dba::new_query_builder();
+                $qb->add_constraint('gid', 'IN', $memberships);
+                $qb->add_constraint('orgOpenpsaObtype', '>', org_openpsa_contacts_list_dba::MYCONTACTS);
+                $organisations = $qb->execute();
+
+                foreach ($organisations as $organisation)
                 {
-                    $data['person'] = $person;
-                    midcom_show_style("show-mycontacts-item");
+                    $contact->addChild('company', str_replace('&', '&amp;', $$organisation->get_label()));
                 }
-                midcom_show_style("show-mycontacts-footer");
             }
+
+            echo $simplexml->asXml();
+        }
+        else
+        {
+            midcom_show_style("show-mycontacts-header");
+            foreach ($data['mycontacts'] as $person)
+            {
+                $data['person'] = $person;
+                midcom_show_style("show-mycontacts-item");
+            }
+            midcom_show_style("show-mycontacts-footer");
         }
     }
 }

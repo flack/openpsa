@@ -18,6 +18,10 @@ Contact Lists Root Group
 &lt;title>
 ---STRINGEND
 
+---STRING add contact
+Add contact
+---STRINGEND
+
 ---STRING add to my contacts
 Add to my contacts
 ---STRINGEND

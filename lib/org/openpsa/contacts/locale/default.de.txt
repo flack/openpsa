@@ -10,6 +10,10 @@ CRM-Basisgruppe
 Basisgruppe für Kontaktlisten
 ---STRINGEND
 
+---STRING add contact
+Kontakt hinzufügen
+---STRINGEND
+
 ---STRING person_fieldset
 Person
 ---STRINGEND
