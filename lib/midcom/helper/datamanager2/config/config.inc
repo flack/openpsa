@@ -108,10 +108,18 @@
     (
         'class' => 'org_openpsa_contacts_person_dba',
         'component' => 'org.openpsa.contacts',
-        'headers' => array
+        'result_headers' => array
         (
-            'name',
-            'email',
+            array
+            (
+                'title' => 'name',
+                'name' => 'name',
+            ),
+            array
+            (
+                'title' => 'email',
+                'name' => 'email',
+            ),
         ),
         'constraints' => array(),
         'searchfields' => array
