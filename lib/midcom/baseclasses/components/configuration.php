@@ -79,22 +79,15 @@ class midcom_baseclasses_components_configuration
      * and constructs a midcom_helper_configuration object out of it. Both
      * Component defaults and sitegroup-configuration gets merged. The
      * resulting object is stored under the key 'config' in the
-     * components' data storage area.
-     *
-     * Errors will be logged as MIDCOM_LOG_WARN but silently ignored. This
-     * should be viable, since as of MidCOM 2.4 the configuration class is
-     * more flexible when local and global configurations do not match.
+     * component's data storage area.
      *
      * Three files will be loaded in order:
      *
-     * 1. The components default configuration, placed in $prefix/config/$name.inc
-     * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/$name.inc.
-     * 3. Any site configuration in the snippet $GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/$name.
-     *
-     * If $_config_snippet_name is set to null, no configuration will be done.
+     * 1. The component's default configuration, placed in $prefix/config/config.inc
+     * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/config.inc.
+     * 3. Any site configuration in the snippet $GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/config.
      *
      * @see midcom_helper_configuration
-     * @see $_config_snippet_name
      */
     private static function _load_configuration($component)
     {
