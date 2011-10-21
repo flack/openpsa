@@ -177,7 +177,7 @@ JSINIT;
             {
                 $url = $prefix . 'midcom-permalink-' . $item['guid'];
             }
-            echo '<li id="g_' . $item['guid'] . '" data="url: \'' . $url . '\'"><span>' . $item['title'] . "</span>\n";
+            echo '<li id="g_' . $item['guid'] . '"><a href="' . $url . '">' . $item['title'] . "</a>\n";
             if (!empty($item['children']))
             {
                 $this->_render_items($item['children']);

@@ -13,11 +13,33 @@ var org_openpsa_tree =
                 clickFolderMode: 2,
                 autoCollapse: false,
     
-                onActivate: function(dtnode) {
-                    if (typeof dtnode.data.url !== 'undefined')
+                onActivate: function(dtnode)
+                {
+                    if (typeof dtnode.data.href !== 'undefined')
                     {
-                        window.location.href = dtnode.data.url;
+                        window.location.href = dtnode.data.href;
                     }
+                },
+                onClick: function(dtnode, event)
+                {
+                    if (   typeof dtnode.tree.activeNode !== 'undefined'
+                        && dtnode.tree.activeNode === dtnode)
+                    {
+                        dtnode.deactivate();
+                    }
+                    return true;
+                },
+                onCustomRender: function(dtnode)
+                {
+                    var url = '#',
+                    tooltip = dtnode.data.tooltip ? " title='" + dtnode.data.tooltip + "'" : "";
+
+                    if (typeof dtnode.data.href !== 'undefined')
+                    {
+                        url = dtnode.data.href;
+                    }
+                    return '<a href="' + url + '" class="' + dtnode.tree.options.classNames.title + '"' + tooltip + '>' + dtnode.data.title + '</a>';
+
                 },
                 onPostInit: function(isReloading, isError)
                 {
