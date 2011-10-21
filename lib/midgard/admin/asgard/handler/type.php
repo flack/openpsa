@@ -13,21 +13,13 @@
  */
 class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_handler
 {
-    var $type = '';
+    var $type;
 
     public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
-    }
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
     }
 
     private function _prepare_qb($dummy_object)
@@ -157,7 +149,19 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
         }
 
-        $this->_prepare_request_data();
+        if (isset($_GET['search']))
+        {
+            $data['search_results'] = $this->_search($_GET['search']);
+
+            //If there is exactly one result, go there directly
+            if (sizeof($data['search_results']) == 1)
+            {
+                $_MIDCOM->relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
+                //this will exit
+            }
+            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
+        }
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -168,56 +172,19 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         {
             $data['documentation_component'] = 'midcom';
         }
-        else
-        {
-            $data['asgard_toolbar']->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string($data['component'], $data['component']),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
-                )
-            );
-        }
 
-        $data['asgard_toolbar']->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('type documentation', 'midgard.admin.asgard'),
-                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-            )
-        );
-
-        if (isset($_GET['search']))
-        {
-            $data['search_results'] = $this->_search($_GET['search']);
-
-            //If there is exactly one result, go there directly
-            if (sizeof($data['search_results']) == 1)
-            {
-                  $_MIDCOM->relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
-                  //this will exit
-            }
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-            $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
-        }
+        $this->_prepare_toolbar($data);
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
     }
 
-    private function _prepare_toolbar()
+    private function _prepare_toolbar(&$data)
     {
-        $toolbar = new midcom_helper_toolbar();
-
         if ($_MIDCOM->auth->can_user_do('midgard:create', null, $this->type))
         {
-            $toolbar->add_item
+            $data['asgard_toolbar']->add_item
             (
                 array
                 (
@@ -236,7 +203,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $deleted = $qb->count();
             if ($deleted > 0)
             {
-                $toolbar->add_item
+                $data['asgard_toolbar']->add_item
                 (
                     array
                     (
@@ -248,7 +215,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             }
             else
             {
-                $toolbar->add_item
+                $data['asgard_toolbar']->add_item
                 (
                     array
                     (
@@ -259,7 +226,28 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
                 );
             }
         }
-        return $toolbar;
+        if ($data['component'] != 'midgard')
+        {
+            $data['asgard_toolbar']->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
+                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string($data['component'], $data['component']),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
+                )
+            );
+        }
+        $data['asgard_toolbar']->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('type documentation', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
+            )
+        );
     }
 
     /**
