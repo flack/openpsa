@@ -286,6 +286,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
 
         $queue = array();
+
         while (!empty($this->_testcase_objects))
         {
             $object = array_pop($this->_testcase_objects);
@@ -318,7 +319,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $object = array_pop($queue);
             if (!$object->delete())
             {
-                if (midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS)
+                if (   midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS
+                    || midcom_connection::get_error() == MGD_ERR_OK)
                 {
                     array_unshift($queue, $object);
                 }
