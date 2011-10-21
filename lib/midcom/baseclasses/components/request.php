@@ -570,13 +570,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Update the request data
         $this->_request_data['topic'] = $this->_topic;
-        if (array_key_exists('plugin_namespace', $this->_request_data))
-        {
-            // Prepend the plugin anchor prefix so that it is complete.
-            $this->_request_data['plugin_anchorprefix'] =
-                  $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . $this->_request_data['plugin_anchorprefix'];
-        }
 
         // Get the toolbars for both the main request object and the handler
         // object. Note, if both are equal, we will have two assignments at this
@@ -590,14 +583,23 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
 
-        // Call the general handle event handler
-        $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
-        if ($result === false)
+        if (array_key_exists('plugin_namespace', $this->_request_data))
         {
-            debug_add('_on_handle for ' . $this->_handler['id'] . ' returned false. This is deprecated, please use exceptions instead');
-            return false;
+            // Prepend the plugin anchor prefix so that it is complete.
+            $this->_request_data['plugin_anchorprefix'] =
+            $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            . $this->_request_data['plugin_anchorprefix'];
         }
-
+        else
+        {
+            // We're not using a plugin handler, so call the general handle event handler
+            $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
+            if ($result === false)
+            {
+                debug_add('_on_handle for ' . $this->_handler['id'] . ' returned false. This is deprecated, please use exceptions instead');
+                return false;
+            }
+        }
         $method = "_handler_{$this->_handler['handler'][1]}";
         $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
 
