@@ -31,11 +31,12 @@
 class midcom_baseclasses_core_dbobject
 {
     static $parameter_cache = array();
+
     /**
      * "Pre-flight" checks for update method
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
+     */
     public static function update_pre_checks($object)
     {
         if (! $_MIDCOM->auth->can_do('midgard:update', $object))
@@ -90,7 +91,7 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for create
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
+     */
     public static function update_post_ops($object)
     {
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
@@ -364,7 +365,7 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for create
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
+     */
     public static function create_post_ops($object)
     {
         // WORKAROUND START
@@ -546,7 +547,7 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for delete
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
+     */
     public static function delete_post_ops($object)
     {
         $object->_on_deleted();
@@ -2019,7 +2020,7 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for delete method
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
+     */
     public static function delete_pre_checks($object)
     {
         if (!$object->id)

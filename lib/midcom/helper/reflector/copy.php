@@ -468,7 +468,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             {
                 return false;
             }
-            /**/
+
             // @TODO: Is there a sure way to determine if the parent is
             // GUID or is it ID? If so, please change it here.
             if (is_string($source->$parent_property))
