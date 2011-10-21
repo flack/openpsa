@@ -208,8 +208,6 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     function _on_handle($handler, $args)
     {
         $this->_populate_node_toolbar();
-
-        return true;
     }
 }
 
