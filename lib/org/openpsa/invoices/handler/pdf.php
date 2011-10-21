@@ -114,6 +114,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
 
     public static function render_and_attach_pdf(org_openpsa_invoices_invoice_dba $invoice)
     {
+        if ($invoice->date == 0)
+        {
+            $invoice->date = time();
+            $invoice->update();
+        }
         // renders the pdf and attaches it to the invoice
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
         $pdf_builder = new $client_class($invoice);
