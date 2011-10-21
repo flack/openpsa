@@ -106,7 +106,6 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
         );
     }
 
-
     /**
      * Set a new content object. This updates the local configuration copy with the
      * topic in question. It calls the event handler _on_set_object after initializing

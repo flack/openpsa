@@ -117,7 +117,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         if (   $this->_component
             && $this->_component != $master->_component)
         {
-            $this->_config->store_from_object($this->_topic, $this->_component);
+            $this->_config->store_from_object($this->_topic, $this->_component, true);
         }
         else
         {

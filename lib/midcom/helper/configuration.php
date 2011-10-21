@@ -49,21 +49,21 @@ class midcom_helper_configuration
      *
      * @var Array
      */
-    public $_global;
+    public $_global = array();
 
     /**
      * Locally overridden configuration data.
      *
      * @var Array
      */
-    public $_local;
+    public $_local = array();
 
     /**
      * Merged, current configuration state.
      *
      * @var Array
      */
-    private $_merged;
+    private $_merged = array();
 
     /**
      * Internal cache-related items
@@ -109,9 +109,9 @@ class midcom_helper_configuration
      * This function will fetch the configuration data stored in the parameter domain
      * $path of the Midgard Object $object.
      *
-     * The flag $global controls whether the
-     * global or the local configuration should be updated. No control whether an
-     * update of the global data is allowed is done here, the caller has to do this.
+     * The flag $global controls whether the global or the local configuration should
+     * be updated. No control whether an update of the global data is allowed is done
+     * here, the caller has to do this.
      * This function will update the config data cache array. If it stores global
      * configuration data it will automatically erase the local configuration data.
      *
@@ -119,7 +119,7 @@ class midcom_helper_configuration
      *
      * @param boolean            $global        Set to true to replace the global configuration.
      */
-    private function _store_from_object($global = false)
+    private function _store_from_object($global = false, $merge = false)
     {
         $array = array();
 
@@ -133,13 +133,27 @@ class midcom_helper_configuration
 
         if ($global)
         {
-            $this->_global = $array;
+            if ($merge)
+            {
+                $this->_global = array_merge($this->_global, $array);
+            }
+            else
+            {
+                $this->_global = $array;
+            }
             $this->_local = array();
             $this->_merged = $array;
         }
 
         $this->_check_local_array($array);
-        $this->_local = $array;
+        if ($merge)
+        {
+            $this->_local = array_merge($this->_local, $array);
+        }
+        else
+        {
+            $this->_local = $array;
+        }
         $this->_update_cache();
         $this->_object_stored = true;
     }
@@ -196,7 +210,7 @@ class midcom_helper_configuration
      *
      * After import the cache array will be updated, reset is done by reset_local.
      *
-     * @param Array    $params        The new local parameters
+     * @param array    $params        The new local parameters
      * @param boolean    $reset        If set to true, the current local configuration will be discarded first.
      * @return boolean                Indicating success.
      * @see midcom_helper_configuration::reset_local()
@@ -230,15 +244,16 @@ class midcom_helper_configuration
      * domain $path of $object. Unlike the constructor this function will store the
      * data in the local configuration.
      *
-     * @param MidgardObject    $object    The object from which to import data.
-     * @param string        $path    The parameter domain to query.
+     * @param MidgardObject $object    The object from which to import data.
+     * @param string $path    The parameter domain to query.
+     * @param boolean $merge Should the existing local config be overridden or merged
      * @return boolean            Indicating success
      */
-    public function store_from_object($object, $path)
+    public function store_from_object($object, $path, $merge = false)
     {
         $this->_object = $object;
         $this->_path = $path;
-        $this->_store_from_object();
+        $this->_store_from_object(false, $merge);
         return true;
     }
 
