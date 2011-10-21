@@ -21,7 +21,7 @@ abstract class midcom_baseclasses_components_base
 {
     /**
      * The name of the component, e.g. net.nehmer.static. Should be used whenever the
-     * components' name is required instead of hardcoding it.
+     * component's name is required instead of hardcoding it.
      *
      * @var string
      */
