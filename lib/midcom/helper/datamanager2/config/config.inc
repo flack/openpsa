@@ -138,10 +138,18 @@
     (
         'class' => 'net_nemein_wiki_wikipage',
         'component' => 'net.nemein.wiki',
-        'headers' => array
+        'result_headers' => array
         (
-            'revised',
-            'title',
+            array
+            (
+                'title' => 'revised',
+                'name' => 'revised',
+            ),
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
         ),
         'constraints' => array(),
         'searchfields' => array
@@ -159,9 +167,13 @@
     (
         'class' => 'midcom_db_article',
         'component' => 'net.nehmer.static',
-        'headers' => array
+        'result_headers' => array
         (
-            'title',
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
         ),
         'constraints' => array(),
         'searchfields' => array
@@ -179,10 +191,18 @@
     (
         'class' => 'midcom_db_topic',
         'component' => 'midcom.admin.folder',
-        'headers' => array
+        'result_headers' => array
         (
-            'extra',
-            'component',
+            array
+            (
+                'title' => 'extra',
+                'name' => 'extra',
+            ),
+            array
+            (
+                'title' => 'component',
+                'name' => 'component',
+            ),
         ),
         'constraints' => array(),
         'searchfields' => array
@@ -202,10 +222,18 @@
     (
         'class' => 'midcom_db_group',
         'component' => 'midgard.admin.asgard',
-        'headers' => array
+        'result_headers' => array
         (
-            'name',
-            'official',
+            array
+            (
+                'title' => 'name',
+                'name' => 'name',
+            ),
+            array
+            (
+                'title' => 'official',
+                'name' => 'official',
+            ),
         ),
         'constraints' => array(),
         'searchfields' => array
@@ -225,12 +253,28 @@
     (
         'class' => 'net_nemein_calendar_event',
         'component' => 'net.nemein.calendar',
-        'headers' => array
+        'result_headers' => array
         (
-            'start',
-            'end',
-            'title',
-            'location',
+            array
+            (
+                'title' => 'start',
+                'name' => 'start',
+            ),
+            array
+            (
+                'title' => 'end',
+                'name' => 'end',
+            ),
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
+            array
+            (
+                'title' => 'location',
+                'name' => 'location',
+            ),
         ),
         'constraints' => array(),
         'searchfields' => array

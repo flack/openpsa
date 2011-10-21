@@ -581,19 +581,17 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (empty($this->result_headers))
         {
             $this->result_headers = array();
-            foreach ($class['headers'] as $header_key)
+            foreach ($class['result_headers'] as $header_data)
             {
-                $header = array();
                 if ($this->component)
                 {
-                    $header['title'] = $_MIDCOM->i18n->get_string($header_key, $this->component);
+                    $header_data['title'] = $_MIDCOM->i18n->get_string($header_data['title'], $this->component);
                 }
                 else
                 {
-                    $header['title'] = $this->_l10n_midcom->get($header_key);
+                    $header_data['title'] = $this->_l10n_midcom->get($header_data['title']);
                 }
-                $header['name'] = $header_key;
-                $this->result_headers[] = $header;
+                $this->result_headers[] = $header_data;
             }
         }
         if (   is_null($this->generate_path_for)
