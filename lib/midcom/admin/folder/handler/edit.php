@@ -33,15 +33,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     private $_handler_id;
 
     /**
-     * Load the schemadb and other midcom.admin.folder specific stuff
-     */
-    public function _on_initialize()
-    {
-        // Load the configuration
-        $_MIDCOM->componentloader->load('midcom.admin.folder');
-    }
-
-    /**
      * Load either a create controller or an edit (simple) controller or trigger an error message
      */
     private function _load_controller()
