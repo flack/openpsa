@@ -171,6 +171,47 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $this->assertTrue($stat);
     }
 
+    public function test_mark_invoiced()
+    {
+        $group = $this->create_object('org_openpsa_products_product_group_dba');
+
+        $product_attributes = array
+        (
+            'productGroup' => $group->id,
+            'code' => 'TEST-' . __CLASS__ . time(),
+            'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+        );
+        $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+
+        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+
+        $deliverable_attributes = array
+        (
+           'salesproject' => $salesproject->id,
+           'product' => $product->id,
+           'description' => 'TEST DESCRIPTION',
+           'plannedUnits' => 15,
+        );
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        self::$_task->agreement = $deliverable->id;
+        self::$_task->update();
+
+        $report_attributes = array
+        (
+            'task' => self::$_task->id,
+            'invoiceable' => true,
+            'hours' => 15
+        );
+        $report = $this->create_object('org_openpsa_projects_hour_report_dba', $report_attributes);
+
+        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
+        $result = org_openpsa_projects_workflow::mark_invoiced(self::$_task, $invoice);
+
+        $this->assertEquals(15, $result);
+        $report->refresh();
+        $this->assertEquals($invoice->id, $report->invoice);
+    }
+
     public function tearDown()
     {
         self::delete_linked_objects('org_openpsa_projects_task_status_dba', 'task', self::$_task->id);
@@ -182,6 +223,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
 
         self::$_project->status = 0;
         self::$_project->update();
+        parent::tearDown();
     }
 
     public static function TearDownAfterClass()
