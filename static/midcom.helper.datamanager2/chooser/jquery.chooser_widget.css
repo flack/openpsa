@@ -86,7 +86,7 @@ input.chooser_widget_search_input
 .chooser_widget_search_deleted
 {
     padding-right: 20px;
-    background: url('failed.png') right center no-repeat;
+    background: url('../failed.png') right center no-repeat;
 }
 
 .chooser_widget_create_button
