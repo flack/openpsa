@@ -722,16 +722,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Component specific initialization code for the handle phase. The name of the request
      * handler is passed as an argument to the event handler.
      *
-     * If you discover that you cannot handle the request already at this stage, return false
-     * and set the error variables accordingly. The remainder of the handle phase is skipped
-     * then, returning immediately to MidCOM.
-     *
      * Note, that while you have the complete information around the request (handler id,
      * args and request data) available, it is strongly discouraged to handle everything
      * here. Instead, stay with the specific request handler methods as far as sensible.
-     *
-     * This callback is executed even if the actual request is handled by an external
-     * handler class.
      *
      * @param mixed $handler The ID (array key) of the handler that is responsible to handle
      *   the request.
@@ -752,11 +745,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * This is run before the actual evaluation of the request switch. Components can use
      * this phase to load plugins that need registering in the request switch on demand.
      *
-     * The advantage of this is that it is not necessary, to load all plugins completely,
+     * The advantage of this is that it is not necessary to load all plugins completely,
      * you just have to know the "root" URL space (f.x. "/plugins/$name/").
      *
      * If you discover that you cannot handle the request already at this stage, return false
-     * The reminder of the can_handle phase is skipped then, returning the URL processing back
+     * The remainder of the can_handle phase is skipped then, returning the URL processing back
      * to MidCOM.
      *
      * @param int $argc The argument count as passed by the Core.
