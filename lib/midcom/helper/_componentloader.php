@@ -151,7 +151,7 @@ class midcom_helper__componentloader
 
     /**
      * This function will invoke _load directly. If the loading process
-     * is unsuccessful, it will call generate_error.
+     * is unsuccessful, it will throw midcom_error.
      *
      * @param string $path    The component to load explicitly.
      */

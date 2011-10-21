@@ -93,7 +93,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
      * This will yield a line containing all the field descriptions to
      * be used as column headers.
      *
-     * This may trigger generate_error in case of critical errors (like an undefined
+     * This may trigger midcom_error in case of critical errors (like an undefined
      * DM instance).
      *
      * @return string CSV header line.
@@ -131,7 +131,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
      * The actual CSV representation of the data is determined by the individual
      * datatypes.
      *
-     * This may trigger generate_error in case of critical errors (like an undefined
+     * This may trigger midcom_error in case of critical errors (like an undefined
      * DM instance).
      *
      * @param MidCOMDBAObject &$object A reference to the object that should be dumped.

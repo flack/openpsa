@@ -230,7 +230,7 @@ abstract class midcom_services_cache_backend
     /**
      * This helper will ensure that the cache base directory is created and usable
      * by checking it is actually a directory. If it does not exist, it will be created
-     * automatically. Errors will be handled by calling generate_error.
+     * automatically. Errors will be handled by midcom_error.
      */
     private function _check_cache_dir()
     {
@@ -283,8 +283,8 @@ abstract class midcom_services_cache_backend
      * Open the database for usage. If $write is set to true, it must be opened in
      * read/write access, otherwise read-only access is sufficient.
      *
-     * If the database cannot be opened, midcom_application::generate_error() should
-     * be called.
+     * If the database cannot be opened, midcom_error should
+     * be thrown.
      *
      * The concrete subclass must track any resource handles internally, of course.
      *
@@ -325,7 +325,7 @@ abstract class midcom_services_cache_backend
      *
      * The data store is opened in read-write mode when this function executes.
      *
-     * Any error condition should call midcom_application::generate_error() and
+     * Any error condition should throw midcom_error and
      * must close the data store before doing so.
      *
      * @param string $key The key to store at.
@@ -339,8 +339,8 @@ abstract class midcom_services_cache_backend
      * The data store is opened in read-write mode when this function executes.
      *
      * Deleting non existent keys
-     * should fail silently. All other error conditions should call
-     * midcom_application::generate_error() and must close the data store before doing so.
+     * should fail silently. All other error conditions should throw
+     * midcom_error and must close the data store before doing so.
      *
      * @param string $key The key to delete.
      */
@@ -352,7 +352,7 @@ abstract class midcom_services_cache_backend
      * The data store will not be opened in either read-only or read-write mode when
      * this function executes, to allow for open/truncate operations.
      *
-     * Any error condition should call midcom_application::generate_error().
+     * Any error condition should throw midcom_error
      */
     abstract function _remove_all();
 
@@ -555,7 +555,7 @@ abstract class midcom_services_cache_backend
      * The database must not be opened by this process when this is called. If it is,
      * it will be automatically closed prior to executing this call.
      *
-     * Any error condition should call midcom_application::generate_error().
+     * Any error condition should throw midcom_error.
      */
     function remove_all()
     {

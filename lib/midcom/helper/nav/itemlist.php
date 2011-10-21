@@ -42,7 +42,7 @@ abstract class midcom_helper_nav_itemlist
    /**
     * Returns the sorted list for this topic according to our sorting criteria.
     *
-    * It has to be overridden. Call generate_error on any critical failure.
+    * It has to be overridden. Throw midcom_error on any critical failure.
     *
     * @return Array An array of all objects.
     */

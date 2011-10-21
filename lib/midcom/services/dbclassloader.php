@@ -108,7 +108,7 @@
  *
  * The recommended way of handling inconsistencies as the ones shown above is to log an error with
  * at least MIDCOM_LOG_INFO and then return null. Depending on your application you could also
- * call generate_error instead, halting execution.
+ * throw midcom_error instead, halting execution.
  *
  * @package midcom.services
  */
@@ -549,7 +549,7 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        // This generate_error's on any problems.
+        // This throws midcom_error on any problems.
         $_MIDCOM->componentloader->load($component);
 
         return true;

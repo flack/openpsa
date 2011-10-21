@@ -70,7 +70,7 @@ class midcom_core_group
      * It will use the Query Builder to retrieve a group by its name and populate the
      * $storage, $name and $id members accordingly.
      *
-     * Any error will call midcom_application::generate_error().
+     * Any error will trigger midcom_error.
      *
      * @param mixed $id This is a valid identifier for the group to be loaded. Usually this is either
      *     a database ID or GUID for Midgard Groups or a valid complete MidCOM group identifier, which

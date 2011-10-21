@@ -338,7 +338,7 @@ class midcom_helper_metadata
      * - created can only be set with articles.
      * - creator, editor and edited cannot be set.
      *
-     * Any error will trigger generate_error.
+     * Any error will trigger midcom_error.
      *
      * @param string $key The key to set.
      * @param mixed $value The value to set.

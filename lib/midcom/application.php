@@ -386,7 +386,6 @@ class midcom_application
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
-        // Processing, upon error the generate_error function will die here...
         $this->_process($context);
 
         if ($this->_status == MIDCOM_STATUS_ABORT)
@@ -954,8 +953,8 @@ class midcom_application
      *
      * This will load the pure-code library denoted by the MidCOM Path $path. It will
      * return true if the component truly was a pure-code library, false otherwise.
-     * If the component loader cannot load the component, generate_error will be
-     * called by it.
+     * If the component loader cannot load the component, midcom_error will be
+     * thrown by it.
      *
      * Common example:
      *
@@ -1290,8 +1289,6 @@ class midcom_application
      * the script will not execute.
      *
      * The script's name is taken from the current argv[0].
-     *
-     * Any error calls generate_error.
      *
      * The script file is executed in the cache's live mode to allow for long running
      * scripts (just produce any output regularly, or Apache will kill you after ~ 2 mins.).

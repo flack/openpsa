@@ -200,7 +200,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      * It takes care of loading the required class files. The returned instances will be created
      * but not initialized.
      *
-     * On any error (class not found etc.) the factory method will call generate_error.
+     * On any error (class not found etc.) the factory method will throw midcom_error.
      *
      * @param string $type The type of the controller (the file name from the controller directory).
      * @return midcom_helper_datamanager2_controller A reference to the newly created controller instance.

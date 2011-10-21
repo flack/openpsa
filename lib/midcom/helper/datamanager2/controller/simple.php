@@ -143,7 +143,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
     {
         if (! $this->datamanager->validate())
         {
-            // In case that the type validation fails, we bail with generate_error, until
+            // In case that the type validation fails, we bail with midcom_error
             foreach ($this->datamanager->validation_errors as $field => $error)
             {
                 $this->formmanager->form->setElementError($field, $error);

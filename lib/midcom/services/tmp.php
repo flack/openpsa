@@ -40,7 +40,7 @@ class midcom_services_tmp
      * request and release operations. The GUID of the object should not be used
      * for further references.
      *
-     * In case the temporary object cannot be created, generate_error is called.
+     * In case the temporary object cannot be created, midcom_error is thrown.
      *
      * All existing privileges (created by the DBA core) will be dropped, so that
      * privileges can be created at will by the application (f.x. using DM(2)

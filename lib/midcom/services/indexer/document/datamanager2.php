@@ -114,7 +114,7 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      * out of that instance.
      *
      * The document is ready for indexing after construction. On any
-     * critical error, generate_error is triggered.
+     * critical error, midcom_error is triggered.
      *
      * @param midcom_helper_datamanager2_datamanager &$datamanager The fully initialized datamanager2 instance to use
      */

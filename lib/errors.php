@@ -10,7 +10,7 @@
  * midcom_exception_handler
  *
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
- * and converted into Exception handled by $_MIDCOM->generate_error() with
+ * and converted into Exception handled by midcom_exception_handler::show() with
  * code 500 thus can be customized and make user friendly.
  *
  * @package midcom
@@ -27,7 +27,6 @@ class midcom_exception_handler
     /**
      * Catch an Exception and show it as a HTTP error
      *
-     * @see midcom_application::generate_error()
      * @see midcom_exception_handler::show()
      */
     public function handle_exception(Exception $e)

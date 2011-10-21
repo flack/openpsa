@@ -86,7 +86,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      * parameters etc. This feature is mainly geared towards preparing a freshly
      * created final object with the data associated with this temporary object.
      *
-     * Any invalid object / missing privilege will trigger a generate_error.
+     * Any invalid object / missing privilege will trigger a midcom_error.
      *
      * @param midcom_dba_object $object The object to transfer the extensions to.
      */

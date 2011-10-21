@@ -37,7 +37,7 @@
  * </code>
  *
  * If the callback is unable to create an empty object for whatever reason, you should
- * call generate_error. There is no error handling whatsoever on the side of this
+ * throw midcom_error. There is no error handling whatsoever on the side of this
  * controller instance. If the function returns, a valid instance is expected.
  *
  * @package midcom.helper.datamanager2

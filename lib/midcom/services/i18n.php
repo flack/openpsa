@@ -429,7 +429,7 @@ class midcom_services_i18n
     /**
      * Load the specified l10n library.
      *
-     * If loading the library failed, generate_error is called, otherwise the l10n
+     * If loading the library failed, midcom_error is thrown, otherwise the l10n
      * db cache is populated accordingly.
      *
      * @param string $component    The component for which to retrieve a string database.
