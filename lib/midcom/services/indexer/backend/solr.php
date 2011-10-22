@@ -72,16 +72,16 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * @param Array $documents A list of midcom_services_indexer_document objects.
      * @return boolean Indicating success.
      */
-    function index ($documents)
+    public function index($documents)
     {
         $this->factory->reset();
         if (!is_array($documents))
         {
-            $documents = array( $documents );
+            $documents = array($documents);
         }
 
         $added = false;
-        foreach ($documents as $document )
+        foreach ($documents as $document)
         {
             if (!$document->actually_index)
             {
@@ -100,14 +100,22 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     }
 
     /**
-     * Removes the document with the given resource identifier from the index.
+     * Removes the document(s) with the given resource identifier(s) from the index.
      *
-     * @param string $RI The resource identifier of the document that should be deleted.
+     * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    function delete ($RI)
+    public function delete($RIs)
     {
-        $this->factory->delete($RI);
+        $this->factory->reset();
+        if (!is_array($RIs))
+        {
+            $RIs = array($RIs);
+        }
+        foreach ($RIs as $RI)
+        {
+            $this->factory->delete($RI);
+        }
         return $this->request->execute();
     }
 
@@ -304,7 +312,6 @@ class midcom_services_indexer_solrDocumentFactory
      */
     public function delete($id)
     {
-        $this->reset();
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
         $id_element = $this->xml->createElement('id');

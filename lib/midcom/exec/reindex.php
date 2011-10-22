@@ -82,6 +82,7 @@ ignore_user_abort(true);
 
 debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
 ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+$start = microtime(true);
 
 $nap = new midcom_helper_nav();
 $nodes = Array();
@@ -89,7 +90,7 @@ $nodeid = $nap->get_root_node();
 $loader = $_MIDCOM->get_component_loader();
 $indexer = $_MIDCOM->get_service('indexer');
 
-// Use this to check that indexer is on-line (and hope the root topic isn't a gigantic wiki)
+// Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nodeid);
 $existing_documents = $indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
 if ($existing_documents === false)
@@ -176,5 +177,5 @@ if ($ip_sudo)
 ob_start();
 ?>
 
-Reindex complete
+Reindex complete. Time elapsed: <?php echo round(microtime(true) - $start, 2) . 's'; ?>
 </pre>

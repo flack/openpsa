@@ -103,14 +103,14 @@ class midcom_services_indexer
      *           midcom_services_indexer_document or an Array of these objects.
      * @return boolean Indicating success.
      */
-    function index ($documents)
+    function index($documents)
     {
         if ($this->_disabled)
         {
             return true;
         }
 
-        if (! is_array($documents))
+        if (!is_array($documents))
         {
             $documents = array($documents);
         }
@@ -160,21 +160,29 @@ class midcom_services_indexer
     }
 
     /**
-     * Removes the document with the given resource identifier from the index.
+     * Removes the document(s) with the given resource identifier(s) from the index.
      *
-     * @param string $RI The resource identifier of the document that should be deleted.
+     * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    function delete($RI)
+    function delete($RIs)
     {
         if ($this->_disabled)
         {
             return true;
         }
-
+        if (!is_array($RIs))
+        {
+            $RIs = array($RIs);
+        }
+        if (count($RIs) == 0)
+        {
+            // Nothing to do.
+            return true;
+        }
         try
         {
-            $stat = $this->_backend->delete($RI);
+            $stat = $this->_backend->delete($RIs);
         }
         catch (Exception $e)
         {

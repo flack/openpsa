@@ -40,7 +40,7 @@ if (   !isset($_REQUEST['nodeid'])
 }
 
 //check if language is passed & set language if needed
-if(isset($_REQUEST['language']))
+if (isset($_REQUEST['language']))
 {
     $_MIDCOM->i18n->set_language($_REQUEST['language']);
 }
@@ -55,7 +55,7 @@ $loader = $_MIDCOM->get_component_loader();
 $indexer = $_MIDCOM->get_service('indexer');
 
 $nap = new midcom_helper_nav();
-$nodeid =& $_REQUEST['nodeid'];
+$nodeid = $_REQUEST['nodeid'];
 $node = $nap->get_node($nodeid);
 if (empty($node))
 {
@@ -97,22 +97,30 @@ if (   is_array($existing_documents)
 {
     echo "Dropping existing documents in node... ";
     flush();
+    $RIs = array();
     foreach ($existing_documents as $document)
     {
-        if (!$indexer->delete($document->RI))
-        {
-            debug_add("Failed to remove document {$document->RI} from index", MIDCOM_LOG_WARN);
-        }
-        else
-        {
-            debug_add("Removed document {$document->RI} from index", MIDCOM_LOG_INFO);
-        }
+        $RIs[] = $document->RI;
+    }
+    if (!$indexer->delete($RIs))
+    {
+        debug_add("Failed to remove documents from index", MIDCOM_LOG_WARN);
+    }
+    else
+    {
+        debug_add("Removed documents from index", MIDCOM_LOG_INFO);
     }
     echo "Done\n";
     flush();
 }
 
-if (!$interface->reindex($node[MIDCOM_NAV_OBJECT]))
+$stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
+if (is_a($stat, 'midcom_services_indexer_client'))
+{
+    $stat = $stat->reindex();
+}
+
+if ($stat === false)
 {
     $msg = "Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.";
     debug_add($msg, MIDCOM_LOG_ERROR);
