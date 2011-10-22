@@ -113,7 +113,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 // TODO: Update the URL name?
 
                 // Update the Index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);

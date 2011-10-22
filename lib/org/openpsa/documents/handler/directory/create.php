@@ -94,7 +94,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         {
             case 'save':
                 // Index the directory
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
                 // Relocate to the new directory view

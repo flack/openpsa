@@ -119,44 +119,21 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     }
 
     /**
-     * Iterate over all events and create index record using the datamanager indexer
-     * method.
+     * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $root_event = self::find_root_event();
 
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
-
         $qb->add_constraint('up', '=',  $root_event->id);
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
+        $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
 
-            foreach ($ret as $event)
-            {
-                if (! $datamanager)
-                {
-                    debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb'),
-                        MIDCOM_LOG_WARN);
-                    continue;
-                }
 
-                if (! $datamanager->autoset_storage($event))
-                {
-                    debug_add("Warning, failed to initialize datamanager for Event {$event->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Event dump:', $event);
-                    continue;
-                }
+        $indexer = new org_openpsa_calendar_midcom_indexer($topic, $indexer);
+        $indexer->add_query('events', $qb, $schemadb);
 
-                $indexer->index($datamanager);
-            }
-        }
-        return true;
+        return $indexer;
     }
 
     /**

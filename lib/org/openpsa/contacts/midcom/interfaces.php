@@ -33,63 +33,22 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     }
 
     /**
-     * Iterate over all groups and create index record using the datamanager indexer
-     * method.
+     * Prepares the component's indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+        $qb_organisations = org_openpsa_contacts_group_dba::new_query_builder();
+        $qb_organisations->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_MYCONTACTS);
+        $organisation_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
 
-        $qb = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb->add_constraint('orgOpenpsaObtype', '<>', 0);
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
+        $qb_persons = org_openpsa_contacts_person_dba::new_query_builder();
+        $person_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_person'));
 
-            foreach ($ret as $group)
-            {
-                if (!$datamanager->autoset_storage($group))
-                {
-                    debug_add("Warning, failed to initialize datamanager for group {$group->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Group dump:', $group);
+        $indexer = new org_openpsa_contacts_midcom_indexer($topic, $indexer);
+        $indexer->add_query('organisations', $qb_organisations, $organisation_schema);
+        $indexer->add_query('persons', $qb_persons, $person_schema);
 
-                    continue;
-                }
-                org_openpsa_contacts_viewer::index_group($datamanager, $indexer, $topic);
-            }
-        }
-
-        $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_person'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
-            if (!$datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb_document'),
-                    MIDCOM_LOG_WARN);
-                return false;
-            }
-
-            foreach ($ret as $person)
-            {
-                if (!$datamanager->autoset_storage($person))
-                {
-                    debug_add("Warning, failed to initialize datamanager for person {$person->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Person dump:', $person);
-
-                    continue;
-                }
-                org_openpsa_contacts_viewer::index_person($datamanager, $indexer, $topic);
-            }
-        }
-
-        return true;
+        return $indexer;
     }
 
     /**

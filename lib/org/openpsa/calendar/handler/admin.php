@@ -63,6 +63,9 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         switch ($this->_controller->process_form())
         {
             case 'save':
+                $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
+                $indexer->index($dm);
+                //FALL-THROUGH
             case 'cancel':
                 $_MIDCOM->add_jsonload('window.opener.location.reload();');
                 $_MIDCOM->add_jsonload('window.close();');

@@ -79,8 +79,8 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'save':
 
                 // Index the person
-                $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($data['controller']->datamanager, $indexer, $this->_topic);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+                $indexer->index($data['controller']->datamanager);
 
                 // Add person to group if requested
                 if ($this->_group)

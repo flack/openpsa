@@ -90,6 +90,9 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['event_dm']->process_form())
         {
             case 'save':
+                $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
+                $indexer->index($dm);
+                //FALL-THROUGH
             case 'cancel':
                 $_MIDCOM->add_jsonload('window.opener.location.reload();');
                 $_MIDCOM->add_jsonload('window.close();');

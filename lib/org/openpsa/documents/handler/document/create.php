@@ -114,7 +114,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         {
             case 'save':
                 /* Index the document */
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
                 // Relocate to document view

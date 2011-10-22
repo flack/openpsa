@@ -408,43 +408,21 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
     }
 
     /**
-     * Iterate over all projects and create index record using the datamanager indexer
-     * method.
+     * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+        $qb_tasks = org_openpsa_projects_task_dba::new_query_builder();
+        $schemadb_tasks = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_task'));
 
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            //get guid, topic_url of passed node
-            $nav = new midcom_helper_nav();
-            $node = $nav->resolve_guid($topic->guid, true);
+        $qb_projects = org_openpsa_projects_project::new_query_builder();
+        $schemadb_projects = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
 
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
+        $indexer = new org_openpsa_projects_midcom_indexer($topic, $indexer);
+        $indexer->add_query('tasks', $qb_tasks, $schemadb_tasks);
+        $indexer->add_query('projects', $qb_projects, $schemadb_projects);
 
-            foreach ($ret as $project)
-            {
-                if (!$datamanager->autoset_storage($project))
-                {
-                    debug_add("Warning, failed to initialize datamanager for project {$project->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Project dump:', $project);
-                    continue;
-                }
-                //create index_datamanger from datamanger
-                $index_datamanager = new midcom_services_indexer_document_datamanager2($datamanager);
-
-                $index_datamanager->topic_guid = $topic->guid;
-                $index_datamanager->topic_url = $node[MIDCOM_NAV_FULLURL];
-                $index_datamanager->component = $node[MIDCOM_NAV_COMPONENT];
-                $indexer->index($index_datamanager);
-            }
-        }
-        return true;
+        return $indexer;
     }
 }
 ?>

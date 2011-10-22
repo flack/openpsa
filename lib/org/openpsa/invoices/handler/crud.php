@@ -491,6 +491,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             $this->_request_data['invoice_items'] = $this->_object->get_invoice_items();
         }
     }
+
     /**
      * Method for adding or updating the invoice to the MidCOM indexer service.
      *
@@ -498,23 +499,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     public function _index_object(&$dm)
     {
-        $indexer = $_MIDCOM->get_service('indexer');
-
-        $nav = new midcom_helper_nav();
-        //get the node to fill the required index-data for topic/component
-        $node = $nav->get_node($nav->get_current_node());
-
-        $document = $indexer->new_document($dm);
-        $document->topic_guid = $node[MIDCOM_NAV_GUID];
-        $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->storage->object);
-        $document->component = $node[MIDCOM_NAV_COMPONENT];
-
-        if ($indexer->index($document))
-        {
-            return true;
-        }
-        return false;
+        $indexer = new org_openpsa_invoices_midcom_indexer($this->_topic);
+        return $indexer->index($dm);
     }
 }
 ?>

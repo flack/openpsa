@@ -31,7 +31,6 @@
             'type'  => 'number',
             'widget'  => 'text',
             'required' => true,
-            'index_method' => 'title',
         ),
         'owner' => array
         (
