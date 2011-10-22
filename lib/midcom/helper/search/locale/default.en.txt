@@ -6,6 +6,10 @@
 Advanced search
 ---STRINGEND
 
+---STRING basic search
+Basic search
+---STRINGEND
+
 ---STRING found %s documents, showing %s documents.
 Found %s documents, showing %s documents on this page.
 ---STRINGEND

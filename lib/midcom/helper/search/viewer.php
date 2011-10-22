@@ -39,6 +39,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
     public function _handler_searchform($handler_id, array $args, array &$data)
     {
         $this->_prepare_formdata($handler_id);
+        $this->_populate_toolbar();
     }
 
     private function _prepare_formdata($handler_id)
@@ -157,6 +158,41 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 break;
         }
 
+        $this->_process_results($result);
+        $this->_populate_toolbar();
+    }
+
+    private function _populate_toolbar()
+    {
+        $other_type = ($this->_request_data['type'] == 'advanced') ? 'basic' : 'advanced';
+        $this->_request_data['params'] = '';
+        if (!empty($_GET))
+        {
+            $this->_request_data['params'] = '?';
+            $params = $_GET;
+            $params['type'] = $other_type;
+            $this->_request_data['params'] .= http_build_query($params);
+        }
+
+        $url = '';
+        if ($this->_request_data['type'] == 'basic')
+        {
+            $url = 'advanced/';
+        }
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => $url . $this->_request_data['params'],
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($other_type . ' search'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
+            )
+        );
+    }
+
+    private function _process_results($result)
+    {
         if ($result === false)
         {
             // Error while searching, we ignore this silently, as this is usually
@@ -168,9 +204,9 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         }
 
         $count = count($result);
-        $data['document_count'] = $count;
+        $this->_request_data['document_count'] = $count;
 
-        if ($data['document_count'] == 0)
+        if ($count == 0)
         {
             $_MIDCOM->cache->content->uncached();
         }
@@ -183,17 +219,17 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             $first_document_id = ($page - 1) * $results_per_page;
             $last_document_id = min(($count - 1), (($page * $results_per_page) - 1));
 
-            $data['page'] = $page;
-            $data['max_pages'] = $max_pages;
-            $data['first_document_number'] = $first_document_id + 1;
-            $data['last_document_number'] = $last_document_id + 1;
-            $data['shown_documents'] = $last_document_id - $first_document_id + 1;
-            $data['results_per_page'] = $results_per_page;
-            $data['all_results'] =& $result;
-            $data['result'] = array_slice($result, $first_document_id, $results_per_page);
+            $this->_request_data['page'] = $page;
+            $this->_request_data['max_pages'] = $max_pages;
+            $this->_request_data['first_document_number'] = $first_document_id + 1;
+            $this->_request_data['last_document_number'] = $last_document_id + 1;
+            $this->_request_data['shown_documents'] = $last_document_id - $first_document_id + 1;
+            $this->_request_data['results_per_page'] = $results_per_page;
+            $this->_request_data['all_results'] =& $result;
+            $this->_request_data['result'] = array_slice($result, $first_document_id, $results_per_page);
 
             // Register GUIDs for cache engine
-            foreach ($data['result'] as $doc)
+            foreach ($this->_request_data['result'] as $doc)
             {
                 if (   !isset($doc->source)
                     || !mgd_is_guid($doc->source))
@@ -203,7 +239,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 }
                 $_MIDCOM->cache->content->register($doc->source);
             }
-            reset($data['result']);
+            reset($this->_request_data['result']);
         }
     }
 
