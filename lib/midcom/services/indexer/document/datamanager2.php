@@ -8,7 +8,7 @@
 
 /**
  * This class is geared to ease indexing of datamanager2 driven documents. The
- * user invoking the indexing must have full read permissions to the object
+ * user invoking the indexing must have full read permissions to the object,
  * otherwise the NAP or Metadata objects can probably not be loaded successfully.
  *
  * <b>Basic indexing operation</b>

@@ -27,17 +27,14 @@
  * - Inherit the class as {$component}_interface (e.g. net_nehmer_static_interface).
  * - Prepare a component manifest for your component, see the class
  *   midcom_core_manifest for details.
- * - You need to set the values of all <i>Component configuration variables</i>
+ * - You can set the values of all <i>Component configuration variables</i>
  *   to something suitable to your component. Especially: $_autoload_files,
  *   $_autoload_libraries and $_component.
- *   The defaults of the other variables should be suitable for basic operation.
- * - The components data storage area will contain two keys when the initialized
+ *   The defaults should be suitable for basic operation.
+ * - The component's data storage area will contain two keys when the initialized
  *   event handler is called: The NAP active id, defaulting to false and stored
  *   as <i>active_leaf</i> and the component's default configuration, stored as
  *   a midcom_helper_configuration object in the key <i>config</i>.
- *   The active leaf check now automatically returns the contents of the component
- *   data storage area, the components get_active_leaf NAP function is no longer
- *   called.
  * - Put your component wide default configuration into $component_dir/config/config.inc.
  *
  * <b>Class parameters</b>
@@ -443,7 +440,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @return boolean Indicating success.
      * @see _on_reindex()
      */
-    public function reindex ($topic)
+    public function reindex($topic)
     {
         return $this->_on_reindex($topic, $this->get_config_for_topic($topic), $_MIDCOM->get_service('indexer'));
     }
@@ -485,7 +482,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @return string The local URL (without leading slashes) or null on failure.
      * @see _on_resolve_permalink()
      */
-    public function resolve_permalink ($topic, $guid)
+    public function resolve_permalink($topic, $guid)
     {
         return $this->_on_resolve_permalink($topic, $this->get_config_for_topic($topic), $guid);
     }

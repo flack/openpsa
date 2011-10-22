@@ -356,7 +356,9 @@ class midcom_services_indexer_solrDocumentFactory
 class midcom_services_indexer_solrRequest
 {
     /**
-     * the HTTP_Request2 object
+     * The HTTP_Request2 object
+     *
+     * @var HTTP_Request2
      */
     var $request = null;
 
