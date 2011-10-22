@@ -1,6 +1,5 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$view_today =& $data['view_today'];
 ?>
 
 <div class="sidebar">
