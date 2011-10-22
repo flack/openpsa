@@ -23,10 +23,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     /**
      * Method for getting URL to the current object.
-     *
-     * <b>Note</b>: This implementation uses MidCOM's permalink resolution service for generating the
-     * link, which is slow. Overriding this with a local implementation is recommended.
-     *
+	 *
      * @return string URL to the current object
      */
     public function _get_object_url()
