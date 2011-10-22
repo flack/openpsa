@@ -22,6 +22,19 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
+     * Method for getting URL to the current object.
+     *
+     * <b>Note</b>: This implementation uses MidCOM's permalink resolution service for generating the
+     * link, which is slow. Overriding this with a local implementation is recommended.
+     *
+     * @return string URL to the current object
+     */
+    public function _get_object_url()
+    {
+        return 'task/' . $this->_object->guid . '/';
+    }
+
+    /**
      * Method for adding the supported operations into the toolbar.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -411,6 +424,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _index_object(&$dm)
     {
+        //Ugly workaround to http://trac.openpsa2.org/ticket/31
+        $this->_object->refresh_status();
+
         $indexer = new org_openpsa_projects_midcom_indexer($this->_topic);
         return $indexer->index($dm);
     }

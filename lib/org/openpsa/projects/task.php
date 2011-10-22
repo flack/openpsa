@@ -98,10 +98,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         {
             return org_openpsa_projects_workflow::get_status_type($this->status);
         }
-        else if ($property == 'status_comment'
+        else if (   $property == 'status_comment'
                  || $property == 'status_time')
         {
-            if(is_null($this->_status))
+            if (is_null($this->_status))
             {
                 $this->_status = $this->_get_status();
             }
@@ -567,6 +567,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $return['status_time'] = $timestamp;
 
         return $return;
+    }
+
+    public function refresh_status()
+    {
+        $this->_get_status();
     }
 
     /**

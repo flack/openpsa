@@ -62,10 +62,21 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
 
     public function testHandler_update()
     {
+        $person = self::create_user(true);
         midcom::get('auth')->request_sudo('org.openpsa.projects');
 
-        $data = $this->run_handler('org.openpsa.projects', array('task', 'edit', self::$_task->guid));
-        $this->assertEquals('task_edit', $data['handler_id']);
+        $formdata = array
+        (
+            'org_openpsa_projects_resources_chooser_widget_selections' => array($person->id => '1'),
+            'org_openpsa_projects_manager_chooser_widget_selections' => array($person->id => '1')
+        );
+
+        $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.projects', array('task', 'edit', self::$_task->guid));
+
+        $this->assertEquals('task/' . self::$_task->guid . '/', $url);
+
+        self::$_task->refresh();
+        $this->assertEquals(org_openpsa_projects_task_status_dba::ACCEPTED, self::$_task->status);
 
         midcom::get('auth')->drop_sudo();
     }
