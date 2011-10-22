@@ -7,15 +7,14 @@
  */
 
 /**
- * This class is the main access points into the MidCOM Indexer subsystem.
+ * This class is the main access point into the MidCOM Indexer subsystem.
  *
- * It allows you to maintain and query the MidCOM document index.
+ * It allows you to maintain and query the document index.
  *
  * Do not instantiate this class directly. Instead use the get_service
  * method on midcom_application using the service name 'indexer' to obtain
  * a running instance. You <i>must</i> honor the reference of that call.
  *
- * @package midcom.services
  * @see midcom_services_indexer_document
  * @see midcom_services_indexer_backend
  * @see midcom_services_indexer_filter
@@ -23,8 +22,8 @@
  * @todo Batch indexing support
  * @todo Write code examples
  * @todo More elaborate class introduction.
+ * @package midcom.services
  */
-
 class midcom_services_indexer
 {
     /**
@@ -87,7 +86,7 @@ class midcom_services_indexer
      */
     function enabled()
     {
-        return ! $this->_disabled;
+        return !$this->_disabled;
     }
 
     /**
@@ -113,7 +112,7 @@ class midcom_services_indexer
 
         if (! is_array($documents))
         {
-            $documents = Array($documents);
+            $documents = array($documents);
         }
         if (count($documents) == 0)
         {
@@ -135,37 +134,30 @@ class midcom_services_indexer
 
         try
         {
-            $stat = $this->_backend->index($documents);
+            return $this->_backend->index($documents);
         }
         catch (Exception $e)
         {
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $stat = false;
+            return false;
         }
-        return $stat;
     }
 
     /**
      * Automatic helper which transforms a reference-passed object into an indexable document.
      * Where necessary (f.x. with the DM instances) automatic indexing of subclasses is done.
      *
-     * Currently supported arguments:
-     *
-     * - Datamanager 2 Instances (midcom_helper_datamanager2_datamanager)
-     *
      * Note, that this is conceptually different from the public new_document operation: It might
-     * already trigger indexing of dependant objects: A datamanager instance for example will
+     * already trigger indexing of dependent objects: A datamanager instance for example will
      * automatically reindex all BLOBs defined in the schema.
      *
-     * @param midcom_helper_datamanager2_datamanager &$object A reference to the supported object types which allow for automatic
-     *     casting (see above).
+     * @param midcom_helper_datamanager2_datamanager &$object A reference to the DM2 object
      * @access protected
      */
     function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
     {
         $object = $this->new_document($object);
     }
-
 
     /**
      * Removes the document with the given resource identifier from the index.
@@ -208,14 +200,13 @@ class midcom_services_indexer
 
         try
         {
-            $stat = $this->_backend->delete_all();
+            return $this->_backend->delete_all();
         }
         catch (Exception $e)
         {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $stat = false;
+            return false;
         }
-        return $stat;
     }
 
     /**
@@ -225,10 +216,10 @@ class midcom_services_indexer
      * The backend determines what filters are supported and how they are
      * treated.
      *
-     * The query syntax is also dependant on the backend. Refer to its documentation
+     * The query syntax is also dependent on the backend. Refer to its documentation
      * how queries should be built.
      *
-     * @param string $query The query, which must suite the backends query syntax. It is assumed to be in the site charset.
+     * @param string $query The query, which must suit the backends query syntax. It is assumed to be in the site charset.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query.
      * @return Array An array of documents matching the query, or false on a failure.
      * @todo Refactor into multiple methods

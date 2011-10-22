@@ -14,28 +14,28 @@ require_once 'HTTP/Request2.php';
 /**
  * Solr implementation of the indexer backend.
  *
- * This works by communicating with solr over http requests. It uses the same tcphost
- * and tcpport settings as the old TCP indexer used.
+ * This works by communicating with solr over http requests.
  *
- * @package midcom.services
  * @see midcom_services_indexer
- * @see midcom_services_indexer_backend
+ * @package midcom.services
  */
 class midcom_services_indexer_backend_solr implements midcom_services_indexer_backend
 {
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
      */
-    var $_index_name = null;
+    private $_index_name = null;
 
     /**
      * The xml factory class
+     *
      * @var midcom_services_indexer_solrDocumentFactory
      */
     private $factory = null;
 
     /**
      * The http_request wrapper
+     *
      * @var midcom_services_indexer_solrRequest
      */
     private $request = null;
@@ -125,11 +125,12 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
     /**
      * Query the index and, if set, restrict the query by a given filter.
+     *
      * @param string $query The query, which must suite the backends query syntax.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
      * @return Array An array of documents matching the query, or false on a failure.
      */
-    function query ($query, $filter)
+    public function query($query, $filter)
     {
         if ($filter !== null)
         {
@@ -160,10 +161,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         if (!empty($this->_index_name))
         {
             $url->setQueryVariable('fq', '__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"');
-        }
-        if (isset($_REQUEST['debug']))
-        {
-            var_dump($url);
         }
 
         $request->setHeader('Accept-Charset', 'UTF-8');
@@ -239,7 +236,7 @@ class midcom_services_indexer_solrDocumentFactory
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
      */
-    var $_index_name = null;
+    private $_index_name = null;
 
     /**
      * The xml document to post.
@@ -302,6 +299,7 @@ class midcom_services_indexer_solrDocumentFactory
 
     /**
      * Deletes one element
+     *
      * @param string $id the element id
      */
     public function delete($id)
@@ -377,7 +375,6 @@ class midcom_services_indexer_solrRequest
         return $this->do_post($this->factory->to_xml(), $optimize);
     }
 
-
     /**
      * Posts the xml to the suggested url using HTTP_Request2.
      */
@@ -437,6 +434,5 @@ class midcom_services_indexer_solrRequest
         }
         return true;
     }
-
 }
 ?>
