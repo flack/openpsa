@@ -522,20 +522,12 @@ class midcom_services_indexer_document
         $this->creator = $this->get_field('__CREATOR');
         if ($this->creator != '')
         {
-            try
-            {
-                $this->creator = $_MIDCOM->dbfactory->get_object_by_guid($this->creator);
-            }
-            catch (midcom_error $e){}
+            $this->creator = $this->_read_metadata_from_object_get_person_cached($this->creator);
         }
         $this->editor = $this->get_field('__EDITOR');
         if ($this->editor != '')
         {
-            try
-            {
-                $this->editor = $_MIDCOM->dbfactory->get_object_by_guid($this->editor);
-            }
-            catch (midcom_error $e){}
+            $this->editor = $this->_read_metadata_from_object_get_person_cached($this->editor);
         }
         $this->author = $this->get_field('author');
         $this->abstract = $this->get_field('abstract');
@@ -614,7 +606,7 @@ class midcom_services_indexer_document
      * Don't replace with an empty string but with a space, so that constructs like
      * <li>torben</li><li>nehmer</li> are recognized correctly.
      * While this might result in double-spaces between words, this is better then
-     * loosing the word boundaries entirely.
+     * losing the word boundaries entirely.
      *
      * @param string $text The text to convert to text
      * @return string The converted text.
@@ -746,7 +738,7 @@ class midcom_services_indexer_document
      * @param string $stamp ISO or unix datetime
      * @return unixtime
      */
-    function _read_metadata_from_object_to_unixtime($stamp)
+    private function _read_metadata_from_object_to_unixtime($stamp)
     {
         if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $stamp))
         {
@@ -764,7 +756,7 @@ class midcom_services_indexer_document
      * @param string $id GUID or ID to get person for
      * @return midcom_db_person object
      */
-    function _read_metadata_from_object_get_person_cached($id)
+    private function _read_metadata_from_object_get_person_cached($id)
     {
         try
         {
@@ -784,7 +776,7 @@ class midcom_services_indexer_document
      * @param string $id GUID or ID to get person for
      * @return string $author->name
      */
-    function _read_metadata_from_object_to_authorname($id)
+    private function _read_metadata_from_object_to_authorname($id)
     {
         // Check for imploded_wrapped DM2 select storage.
         if (strpos($id, '|') !== false)
