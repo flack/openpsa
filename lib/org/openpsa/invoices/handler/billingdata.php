@@ -22,38 +22,16 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_linked_object = null;
 
     /**
-     * Contains the billing_data
+     * Contains the billing data object
      *
      * @var object
      */
     private $_billing_data = null;
 
     /**
-     * Contains datamanager-controller
+     * Contains DM2 controller
      */
     private $_controller = null;
-
-    public function _handler_billingdata($handler_id, array $args, array &$data)
-    {
-        //get billing_data
-        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
-        $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
-
-        $_MIDCOM->set_pagetitle($_MIDCOM->i18n->get_string('edit', 'midcom') . " " . $this->_l10n->get("billing data"));
-
-        $this->_controller = $this->get_controller('simple', $this->_billing_data);
-        $this->_process_billing_form();
-
-        $_MIDCOM->enable_jquery();
-
-        $this->_update_breadcrumb();
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_billing_data);
-
-        $this->_request_data['controller'] =& $this->_controller;
-    }
 
     public function load_schemadb()
     {
@@ -82,11 +60,6 @@ implements midcom_helper_datamanager2_interfaces_create
         return $schemadb;
     }
 
-    public function _show_billingdata($handler_id, array &$data)
-    {
-        midcom_show_style('show-billingdata');
-    }
-
     /**
      * Datamanager callback
      */
@@ -103,16 +76,23 @@ implements midcom_helper_datamanager2_interfaces_create
         return $billing_data;
     }
 
-    /**
-     * Helper to update the breadcrumb
-     */
-    private function _update_breadcrumb()
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $ref = midcom_helper_reflector::get($this->_linked_object);
-        $object_label = $ref->get_object_label($this->_linked_object);
+        //get billing_data
+        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
+        $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
 
-        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_linked_object->guid), $object_label);
-        $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
+        $this->_controller = $this->get_controller('simple', $this->_billing_data);
+        $this->_process_billing_form();
+
+        $this->_prepare_output('edit');
+
+        $_MIDCOM->bind_view_to_object($this->_billing_data);
+    }
+
+    public function _show_edit($handler_id, array &$data)
+    {
+        midcom_show_style('show-billingdata');
     }
 
     public function _handler_create($handler_id, array $args, array &$data)
@@ -131,8 +111,18 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_controller = $this->get_controller('create');
         $this->_process_billing_form();
 
+        $this->_prepare_output('create');
+    }
+
+    public function _show_create($handler_id, array &$data)
+    {
+        midcom_show_style('show-billingdata');
+    }
+
+    private function _prepare_output($mode)
+    {
         $_MIDCOM->enable_jquery();
-        $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create', 'midcom') . " " . $this->_l10n->get("billing data")));
+        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . " %s"), $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();
 
@@ -142,13 +132,8 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_request_data['controller'] =& $this->_controller;
     }
 
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('show-billingdata');
-    }
-
     /**
-     * helper function to process the form of the controller
+     * Helper function to process the form of the controller
      */
     private function _process_billing_form()
     {
@@ -173,6 +158,18 @@ implements midcom_helper_datamanager2_interfaces_create
                 $_MIDCOM->relocate($relocate);
                 // This will exit.
         }
+    }
+
+    /**
+     * Helper to update the breadcrumb
+     */
+    private function _update_breadcrumb()
+    {
+        $ref = midcom_helper_reflector::get($this->_linked_object);
+        $object_label = $ref->get_object_label($this->_linked_object);
+
+        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_linked_object->guid), $object_label);
+        $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 }
 ?>

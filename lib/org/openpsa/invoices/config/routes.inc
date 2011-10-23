@@ -121,7 +121,7 @@
 // Match /billingdata/<guid>
 'billing_data' => array
 (
-    'handler' => array('org_openpsa_invoices_handler_billingdata', 'billingdata'),
+    'handler' => array('org_openpsa_invoices_handler_billingdata', 'edit'),
     'fixed_args' => array('billingdata'),
     'variable_args' => 1,
 ),
