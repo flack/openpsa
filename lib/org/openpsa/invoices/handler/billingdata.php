@@ -178,8 +178,9 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         switch ($this->_controller->process_form())
         {
-            case 'save':
             case 'delete':
+                $this->_billing_data->delete();
+            case 'save':
             case 'cancel':
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');
