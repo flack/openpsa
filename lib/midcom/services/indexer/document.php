@@ -57,10 +57,9 @@ class midcom_services_indexer_document
     /**
      * A reference to the i18n service, used for charset conversion.
      *
-     * @access protected
      * @var midcom_services_i18n
      */
-    var $_i18n = null;
+    protected $_i18n = null;
 
     /**
      * This is the score of this document. Only populated on resultset documents,
@@ -296,9 +295,9 @@ class midcom_services_indexer_document
      * @param string $name The name of the field.
      * @return mixed The content of the field or false on failure.
      */
-    function get_field($name)
+    public function get_field($name)
     {
-        if (! array_key_exists($name, $this->_fields))
+        if (!array_key_exists($name, $this->_fields))
         {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
             return false;
@@ -316,9 +315,9 @@ class midcom_services_indexer_document
      * @param string $name The name of the field.
      * @return Array The full content record.
      */
-    function get_field_record($name)
+    public function get_field_record($name)
     {
-        if (! array_key_exists($name, $this->_fields))
+        if (!array_key_exists($name, $this->_fields))
         {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
             return false;
@@ -331,7 +330,7 @@ class midcom_services_indexer_document
      *
      * @return Array Fieldname list.
      */
-    function list_fields()
+    public function list_fields()
     {
         return array_keys($this->_fields);
     }
@@ -341,7 +340,7 @@ class midcom_services_indexer_document
      *
      * @param string $name The name of the field.
      */
-    function remove_field($name)
+    public function remove_field($name)
     {
         unset($this->_fields[$name]);
     }
@@ -359,7 +358,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param int $timestamp The timestamp to store.
      */
-    function add_date($name, $timestamp)
+    public function add_date($name, $timestamp)
     {
         // This is always UTF-8 conformant.
         $this->_add_field($name, 'date', strftime('%Y-%m-%dT%H:%M:%SZ', $timestamp), true);
@@ -377,7 +376,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name, "_TS" is appended for the plain-timestamp field.
      * @param int $timestamp The timestamp to store.
      */
-    function add_date_pair($name, $timestamp)
+    public function add_date_pair($name, $timestamp)
     {
         $this->add_date($name, $timestamp);
         $this->add_unindexed("{$name}_TS", $timestamp);
@@ -389,7 +388,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_keyword($name, $content)
+    public function add_keyword($name, $content)
     {
         $this->_add_field($name, 'keyword', $content);
     }
@@ -400,7 +399,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_unindexed($name, $content)
+    public function add_unindexed($name, $content)
     {
         $this->_add_field($name, 'unindexed', $content);
     }
@@ -411,7 +410,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_unstored($name, $content)
+    public function add_unstored($name, $content)
     {
         $this->_add_field($name, 'unstored', $content);
     }
@@ -422,7 +421,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_text($name, $content)
+    public function add_text($name, $content)
     {
         $this->_add_field($name, 'text', $content);
     }
@@ -435,11 +434,10 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content, which is <b>assumed to be UTF-8 already</b>
      */
-    function add_result($name, $content)
+    public function add_result($name, $content)
     {
         $this->_add_field($name, 'result', $content, true);
     }
-
 
     /**
      * This will translate all member variables into appropriate
@@ -449,7 +447,7 @@ class midcom_services_indexer_document
      * This call will automatically populate indexed with time()
      * and author with the name of the creator (if set).
      */
-    function members_to_fields()
+    public function members_to_fields()
     {
         // Complete fields
         $this->indexed = time();
@@ -507,7 +505,7 @@ class midcom_services_indexer_document
      * index. It will populate all relevant members with the according
      * values.
      */
-    function fields_to_members()
+    public function fields_to_members()
     {
         $this->RI = $this->get_field('__RI');
         $this->lang = $this->get_field('__LANG');

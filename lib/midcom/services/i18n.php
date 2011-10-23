@@ -16,13 +16,13 @@
  * fallback.
  *
  * A good deal of major languages are predefined, see the snippet
- * /lib/midcom/services/_i18n_language-db.dat for details.
+ * /lib/midcom/config/language_db.inc for details.
  *
  * This class is able to run independently from midcom_application
  * due to the fact that it is used in the cache_hit code.
  *
  * Use this class to set the language preferences (charset and locale) and to gain
- * access to the l10n string databases. A few helper which can be used to ease
+ * access to the l10n string databases. A few helpers which can be used to ease
  * translation work (like charset conversion) are in here as well.
  *
  * All language codes used here are ISO 639-1 two-letter codes.
@@ -32,7 +32,7 @@
 class midcom_services_i18n
 {
     /**
-     * The language database, loaded from /midcom/config/language_db.inc
+     * The language database, loaded from /lib/midcom/config/language_db.inc
      *
      * @var Array
      */
@@ -120,13 +120,13 @@ class midcom_services_i18n
      * Negotiation, Client side language cookie.
      *
      * It uses the MidCOM Language database now located at
-     * /midcom/services/i18n/_i18n_language-db for any decisions. Its two
+     * /lib/midcom/config/language-db.inc for any decisions. Its two
      * parameters set the default language in case that none is supplied
      * via HTTP Content Negotiation or through Cookies.
      *
-     * The default language set on startup is currently hardcoded to en
-     * by the MidCOM core, you should override it after Initialization if you
-     * want something else using the setter methods below.
+     * The default language set on startup is currently hardcoded to 'en',
+     * you should override it after initialization, if you want something
+     * else using the setter methods below.
      *
      * The fallback language is read from the MidCOM configuration directive
      * <i>i18n_fallback_language</i>.
@@ -216,8 +216,7 @@ class midcom_services_i18n
     /**
      * Convert the language code to its corresponding ID in Midgard database
      *
-     * @static
-     * @param String $code    Two-letter code
+     * @param string $code    Two-letter code
      * @return int            ID field of the database
      */
     public function code_to_id($code)
@@ -244,7 +243,6 @@ class midcom_services_i18n
     /**
      * Convert the ID to its corresponding language code in Midgard database
      *
-     * @static
      * @param int $id   ID field of the database
      * @return String Two-letter code
      */
@@ -290,7 +288,7 @@ class midcom_services_i18n
      *
      * @return Array
      */
-    function get_language_db ()
+    function get_language_db()
     {
         return $this->_language_db;
     }
@@ -320,7 +318,7 @@ class midcom_services_i18n
      *
      * @return string
      */
-    function get_fallback_language ()
+    function get_fallback_language()
     {
         return $this->_fallback_language;
     }
@@ -360,18 +358,16 @@ class midcom_services_i18n
      *
      * Using the special name "midcom" you will get the midcom core l10n library.
      *
-     * Note that you are receiving a reference here.
-     *
      * @see midcom_services__i18n_l10n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
      * @return midcom_helper__i18n_l10n    The cached L10n database; honor the reference for memory consumptions sake.
      */
-    function get_l10n ($component = 'midcom', $database = 'default')
+    function get_l10n($component = 'midcom', $database = 'default')
     {
         $cacheid = "{$component}/{$database}";
 
-        if (! array_key_exists($cacheid, $this->_obj_l10n))
+        if (!array_key_exists($cacheid, $this->_obj_l10n))
         {
             $this->_load_l10n_db($component, $database);
         }
@@ -492,7 +488,7 @@ class midcom_services_i18n
      * This method tries to pull the user's preferred language and
      * character set out of a cookie named "midcom_services_i18n".
      */
-    private function _read_cookie ()
+    private function _read_cookie()
     {
         if (!isset ($_COOKIE))
         {
@@ -524,7 +520,7 @@ class midcom_services_i18n
      *
      * q-parameters for prioritization are supported.
      */
-    private function _read_http_negotiation ()
+    private function _read_http_negotiation()
     {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
         {
@@ -663,6 +659,7 @@ class midcom_services_i18n
 
     /**
      * Lists languages as identifier -> name pairs
+     *
      * @return Array
      */
     function list_languages()
@@ -716,7 +713,7 @@ class midcom_services_i18n
      * @param string $string The string to convert
      * @return string The string converted to UTF-8
      */
-    function convert_to_utf8 ($string)
+    function convert_to_utf8($string)
     {
         if ($this->_current_charset == 'utf-8')
         {
@@ -732,7 +729,7 @@ class midcom_services_i18n
      * @param string $string The string to convert
      * @return string The string converted to the current charset
      */
-    function convert_from_utf8 ($string)
+    function convert_from_utf8($string)
     {
         if ($this->_current_charset == 'utf-8')
         {
@@ -751,7 +748,7 @@ class midcom_services_i18n
      * @param string $charset The charset in which string currently is, omit this parameter to use mb_detect_encoding (error prone!)
      * @return string The converted string.
      */
-    function convert_to_current_charset ($string, $charset = null)
+    function convert_to_current_charset($string, $charset = null)
     {
         if (is_null($charset))
         {
@@ -763,54 +760,14 @@ class midcom_services_i18n
     }
 
     /**
-     * Charset-aware replacement of html_entity_decode.
-     *
-     * Uses Iconv to modify the HTML_ENTITIES translation tables.
-     *
-     * In addition, this will drop all numeric HTML entities.
+     * Wrapped html_entity_decode call
      *
      * @param string $text The text with HTML entities, which should be replaced by their native equivalents.
      * @return string The translated string.
      */
     function html_entity_decode($text)
     {
-        $trans = array_flip(get_html_translation_table(HTML_ENTITIES));
-        if ($this->_current_charset != 'ISO-8859-15')
-        {
-            foreach ($trans as $key => $value)
-            {
-                $trans[$key] = iconv('ISO-8859-15', $this->_current_charset, $value);
-            }
-        }
-        $text = strtr($text, $trans);
-
-        // Now convert the numeric entities:
-        $search = Array
-        (
-            '/&#\d{2,5};/ue', // Decimal
-            '/&#x([a-fA-F0-7]{2,8});/ue' // Hex
-        );
-        $replace = Array
-        (
-            '$this->numeric_entity_decode(\'$0\')',
-            '$this->numeric_entity_decode(\'&#\' . hexdec(\'$1\') . \';\')'
-        );
-
-        return preg_replace($search, $replace, $text);
-    }
-
-    /**
-     * This little helper converts a single numeric HTML entity into its
-     * current native equivalent.
-     *
-     * @param string $entity the &# encoded entity (only decimal supported, Hex-
-     *     Entities need to be converted with hexdec first.
-     * @return string The converted entity into the current charset.
-     */
-    function numeric_entity_decode ($entity)
-    {
-        $convmap = array(0x0, 0xFFFFFF, 0, 0xFFFFFF);
-        return mb_decode_numericentity($entity, $convmap, $this->_current_charset);
+        return html_entity_decode($text, ENT_COMPAT, $this->_current_charset);
     }
 }
 ?>
