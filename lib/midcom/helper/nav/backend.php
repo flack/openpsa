@@ -147,7 +147,7 @@ class midcom_helper_nav_backend
     /**
      * A reference to the NAP cache store
      *
-     * @var midcom_services_cache_backend
+     * @var midcom_services_cache_module_nap
      */
     private $_nap_cache = null;
 
@@ -886,7 +886,6 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array            An array of node IDs or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function list_nodes($parent_node, $show_noentry)
     {
         static $listed = array();
@@ -958,7 +957,6 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array             A list of leaves found, or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function list_leaves($parent_node, $show_noentry)
     {
         static $listed = array();
@@ -999,7 +997,7 @@ class midcom_helper_nav_backend
      *
      * Access is restricted to midcom_helper_nav::resolve_guid().
      *
-     * @param GUID $guid The GUID to look up in the in-memory cache.
+     * @param string $guid The GUID to look up in the NAP cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
     function get_loaded_object_by_guid($guid)
@@ -1029,7 +1027,6 @@ class midcom_helper_nav_backend
      * @param mixed $node_id    The node ID to be retrieved.
      * @return Array        The node data as outlined in the class introduction, false on failure
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_node($node_id)
     {
         $node = $node_id;
@@ -1058,7 +1055,6 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The leaf-id to be retrieved.
      * @return Array        The leaf-data as outlined in the class introduction, false on failure
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_leaf ($leaf_id)
     {
         if (! $this->_check_leaf_id($leaf_id))
@@ -1076,7 +1072,6 @@ class midcom_helper_nav_backend
      *
      * @return mixed    The ID of the node in question.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_current_node()
     {
         return $this->_current;
@@ -1090,7 +1085,6 @@ class midcom_helper_nav_backend
      *
      * @return string    The ID of the leaf in question or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_current_leaf()
     {
         return $this->_currentleaf;
@@ -1101,7 +1095,6 @@ class midcom_helper_nav_backend
      *
      * @return mixed    The ID of the node in question.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_current_upper_node()
     {
         static $upper_node = null;
@@ -1131,7 +1124,6 @@ class midcom_helper_nav_backend
      *
      * @return int    The ID of the root node.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_root_node()
     {
         return $this->_root;
@@ -1144,7 +1136,6 @@ class midcom_helper_nav_backend
      *
      * @return Array    The node path array.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_node_path()
     {
         return $this->_node_path;
@@ -1157,7 +1148,6 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The Leaf-ID to search an uplink for.
      * @return mixed             The ID of the Node for which we have a match, or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_leaf_uplink($leaf_id)
     {
         if (! $this->_check_leaf_id($leaf_id))
@@ -1176,7 +1166,6 @@ class midcom_helper_nav_backend
      * @param mixed $node_id    The node ID to search an uplink for.
      * @return mixed             The ID of the node for which we have a match, -1 for the root node, or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_node_uplink($node_id)
     {
         if ($this->_loadNode($node_id) !== MIDCOM_ERROK)
@@ -1185,49 +1174,6 @@ class midcom_helper_nav_backend
         }
 
         return self::$_nodes[$node_id][MIDCOM_NAV_NODEID];
-    }
-
-    /**
-     * Helper function to read a parameter without loading the corresponding object.
-     * This is primarily for improving performance, so the function does not check
-     * for privileges.
-     *
-     * @param string $objectguid The object's GUID
-     * @param string $name The parameter to look for
-     */
-    public static function get_parameter($objectguid, $name)
-    {
-        static $parameter_cache = array();
-
-        if (!isset($parameter_cache[$objectguid]))
-        {
-            $parameter_cache[$objectguid] = array();
-        }
-
-        if (isset($parameter_cache[$objectguid][$name]))
-        {
-            return $parameter_cache[$objectguid][$name];
-        }
-
-        $mc = midgard_parameter::new_collector('parentguid', $objectguid);
-        $mc->set_key_property('value');
-        $mc->add_constraint('name', '=', $name);
-        $mc->add_constraint('domain', '=', 'midcom.helper.nav');
-        $mc->set_limit(1);
-        $mc->execute();
-        $parameters = $mc->list_keys();
-
-        if (count($parameters) == 0)
-        {
-            $parameter_cache[$objectguid][$name] = null;
-            return $parameter_cache[$objectguid][$name];
-        }
-
-        $parameter_cache[$objectguid][$name] = key($parameters);
-
-        unset($mc);
-
-        return $parameter_cache[$objectguid][$name];
     }
 
     /**
@@ -1335,7 +1281,7 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Checks, if the NAP object indicated by $napdata is visible within the current
+     * Checks if the NAP object indicated by $napdata is visible within the current
      * runtime environment. It will work with both nodes and leaves.
      * This includes checks for:
      *
@@ -1343,9 +1289,8 @@ class midcom_helper_nav_backend
      * - Scheduling/Hiding (only on-site)
      * - Approval (only on-site)
      *
-     * @param Array $napdata The NAP data structure for the object to check (supports null values).
+     * @param array $napdata The NAP data structure for the object to check (supports null values).
      * @return boolean Indicating visibility.
-     * @todo Integrate with midcom_helper_metadata::is_object_visible_onsite()
      */
     private function _is_object_visible($napdata)
     {

@@ -263,7 +263,7 @@ class midcom_helper_nav
         {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }
-        $navorder = (int) $this->_backend->get_parameter($guid, 'navorder');
+        $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
 
         switch ($navorder)
         {
@@ -329,6 +329,7 @@ class midcom_helper_nav
         try
         {
             $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+
             if (is_a($object, 'midcom_db_topic'))
             {
                 // Ok. This topic should be within the content tree,
@@ -338,6 +339,7 @@ class midcom_helper_nav
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
                 }
+
                 return $this->get_node($object->id);
             }
 
@@ -399,7 +401,7 @@ class midcom_helper_nav
         // function call.
         $unprocessed_node_ids = Array ($this->get_root_node());
 
-        while ( count ($unprocessed_node_ids) > 0)
+        while (count ($unprocessed_node_ids) > 0)
         {
             $node_id = array_shift($unprocessed_node_ids);
 
