@@ -220,9 +220,12 @@ class midcom_helper_metadata
      */
     function load_datamanager()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
+        static $schemadbs = array();
+        if (!array_key_exists($this->_schemadb_path, $schemadbs))
+        {
+            $schemadbs[$this->_schemadb_path] = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
+        }
+        $this->_schemadb = $schemadbs[$this->_schemadb_path];
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
