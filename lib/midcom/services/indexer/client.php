@@ -28,6 +28,13 @@ abstract class midcom_services_indexer_client
     protected $_node;
 
     /**
+     * The L10n DB for the topic's component
+     *
+     * @var midcom_services__i18n_l10n
+     */
+    protected $_l10n;
+
+    /**
      * The indexer service
      *
      * @var midcom_services_indexer
@@ -51,6 +58,7 @@ abstract class midcom_services_indexer_client
     public function __construct($topic, midcom_services_indexer $indexer = null)
     {
         $this->_topic = $topic;
+        $this->_l10n = midcom::get('i18n')->get_l10n($topic->component);
         if (null === $indexer)
         {
             $indexer = midcom::get('indexer');

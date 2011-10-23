@@ -1,5 +1,5 @@
 <?php
-$document =& $data['document'];
+$document = $data['document'];
 $score = round($document->score * 100);
 ?>
 <div class="midcom_helper_search_result">
