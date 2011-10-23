@@ -344,11 +344,6 @@ class midcom_services_indexer_solrDocumentFactory
      */
     public function to_xml()
     {
-        if (isset($_REQUEST['debug']))
-        {
-            echo $this->xml->saveXML();
-            _midcom_stop_request();
-        }
         return $this->xml->saveXML();
     }
 }
