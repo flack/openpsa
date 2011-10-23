@@ -347,6 +347,7 @@ class midcom_services_dbclassloader
                     $component = 'org.openpsa.calendar';
                     break;
                 case 'org.openpsa.invoice':
+                case 'org.openpsa.billing':
                     $component = 'org.openpsa.invoices';
                     break;
                 case 'org.openpsa.query':
