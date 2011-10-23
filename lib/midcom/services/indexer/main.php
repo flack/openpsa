@@ -152,9 +152,8 @@ class midcom_services_indexer
      * automatically reindex all BLOBs defined in the schema.
      *
      * @param midcom_helper_datamanager2_datamanager &$object A reference to the DM2 object
-     * @access protected
      */
-    function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
+    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
     {
         $object = $this->new_document($object);
     }
