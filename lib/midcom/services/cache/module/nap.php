@@ -291,7 +291,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return;
         }
 
-        $this->_cache->get($this->_prefix . '-' . $guid, $timeout);
+        return $this->_cache->get($this->_prefix . '-' . $guid, $timeout);
     }
 
     /**
