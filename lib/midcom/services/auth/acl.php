@@ -895,7 +895,7 @@ class midcom_services_auth_acl
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    function can_do_byguid($privilege, $object_guid, $object_class, $user_id)
+    public function can_do_byguid($privilege, $object_guid, $object_class, $user_id)
     {
         if ($this->_internal_sudo)
         {

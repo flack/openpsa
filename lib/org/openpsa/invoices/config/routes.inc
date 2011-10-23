@@ -118,6 +118,13 @@
     'fixed_args' => array('billingdata' , 'create'),
     'variable_args' => 1,
 ),
+// Match /billingdata/delete/<guid>
+'billing_data_delete' => array
+(
+    'handler' => array('org_openpsa_invoices_handler_billingdata', 'delete'),
+    'fixed_args' => array('billingdata', 'delete'),
+    'variable_args' => 1,
+),
 // Match /billingdata/<guid>
 'billing_data' => array
 (

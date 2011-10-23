@@ -87,6 +87,17 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_prepare_output('edit');
 
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "billingdata/delete/{$this->_billing_data->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_billing_data->can_do('midgard:delete'),
+            )
+        );
+
         $_MIDCOM->bind_view_to_object($this->_billing_data);
     }
 
@@ -119,6 +130,34 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom_show_style('show-billingdata');
     }
 
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_delete($handler_id, array $args, array &$data)
+    {
+        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
+        $this->_billing_data->require_do('midgard:delete');
+        $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
+
+        $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        $this->_process_billing_form();
+
+        $data['datamanager'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_billing_data);
+        $this->_prepare_output('delete');
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_delete($handler_id, array &$data)
+    {
+        midcom_show_style("show-billingdata-delete");
+    }
+
     private function _prepare_output($mode)
     {
         $_MIDCOM->enable_jquery();
@@ -140,6 +179,7 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($this->_controller->process_form())
         {
             case 'save':
+            case 'delete':
             case 'cancel':
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');

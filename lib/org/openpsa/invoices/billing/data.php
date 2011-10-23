@@ -56,7 +56,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     }
 
     /**
-     * function to add the address of the contact(person/group) to the billing_data
+     * Function to add the address of the contact(person/group) to the billing_data
      * if the flag useContactAddress is set
      */
     function set_address()
