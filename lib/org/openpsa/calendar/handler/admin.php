@@ -52,19 +52,19 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         // Load the controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $schemadb;
-        $this->_controller->set_storage($this->_event);
-        if (! $this->_controller->initialize())
+        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
+        $data['controller']->schemadb = $schemadb;
+        $data['controller']->set_storage($this->_event);
+        if (!$data['controller']->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
-                $indexer->index($dm);
+                $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
                 $_MIDCOM->add_jsonload('window.opener.location.reload();');
@@ -89,7 +89,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
         // Show popup
         midcom_show_style('show-popup-header');
-        $this->_request_data['event_dm'] =& $this->_controller;
         midcom_show_style('show-event-edit');
         midcom_show_style('show-popup-footer');
     }

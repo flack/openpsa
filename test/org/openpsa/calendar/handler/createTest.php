@@ -53,6 +53,33 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
         $this->assertEquals('new_event', $data['handler_id']);
 
+        $title = __CLASS__ . '::' . __FUNCTION__ . microtime();
+
+        $formdata = array
+        (
+            'title' => $title,
+            'start_date' => '2009-10-11',
+            'start_hours' => '10',
+            'start_minutes' => '15',
+            'end_date' => '2009-10-11',
+            'end_hours' => '14',
+            'end_minutes' => '15'
+        );
+        $this->set_dm2_formdata($data['controller'], $formdata);
+        $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
+
+        $this->assertEquals(array(), $data['controller']->formmanager->form->_errors, 'Form validation failed');
+
+        $this->assertEquals('new_event', $data['handler_id']);
+
+        $qb = midcom_db_event::new_query_builder();
+        $qb->add_constraint('title', '=', $title);
+        $results = $qb->execute();
+
+        $this->assertEquals(1, sizeof($results));
+
+        $this->assertEquals('2009-10-11 10:15:01', date('Y-m-d h:i:s', $results[0]->start));
+
         midcom::get('auth')->drop_sudo();
     }
 

@@ -84,14 +84,14 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         // Load the controller instance
-        $data['event_dm'] = $this->get_controller('create');
+        $data['controller'] = $this->get_controller('create');
 
         // Process form
-        switch ($data['event_dm']->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
-                $indexer->index($dm);
+                $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
                 $_MIDCOM->add_jsonload('window.opener.location.reload();');
