@@ -334,6 +334,10 @@ Remove account
 Street address
 ---STRINGEND
 
+---STRING switch to user
+Switch to user
+---STRINGEND
+
 ---STRING unknown email address
 Unknown email address
 ---STRINGEND

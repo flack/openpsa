@@ -23,6 +23,11 @@ $username = $data['account']->get_username();
             echo '<ul class="area_toolbar">';
             echo '<li><a class="button" href="' . $prefix . 'account/edit/' . $data['person']->guid . '/" />' . $data['l10n_midcom']->get('edit') . "</a></li>\n";
             echo '<li><a class="button" href="' . $prefix . 'account/delete/' . $data['person']->guid . '/" />' . $data['l10n_midcom']->get('delete') . "</a></li>\n";
+            if (    $GLOBALS['midcom_config']['auth_allow_trusted'] === true
+                 && $data['person']->can_do('org.openpsa.user:su'))
+            {
+                echo '<li><a class="button" href="' . $prefix . 'account/su/' . $data['person']->guid . '/" />' . $data['l10n']->get('switch to user') . "</a></li>\n";
+            }
             echo "</ul>\n";
         }
     }

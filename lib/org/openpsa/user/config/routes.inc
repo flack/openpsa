@@ -71,6 +71,13 @@
     'fixed_args' => array('account', 'delete'),
     'variable_args' => 1,
 ),
+// Match /account/su/<guid>/
+'account_su' => array
+(
+    'handler' => array('org_openpsa_user_handler_person_account', 'su'),
+    'fixed_args' => array('account', 'su'),
+    'variable_args' => 1,
+),
 // Match /lostpassword/
 'lostpassword' => array
 (

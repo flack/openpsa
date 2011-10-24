@@ -334,6 +334,10 @@ Benutzerkonto löschen
 Strasse
 ---STRINGEND
 
+---STRING switch to user
+Benutzer wechseln
+---STRINGEND
+
 ---STRING unknown username
 Unbekannter Benutzername
 ---STRINGEND

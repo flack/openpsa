@@ -111,9 +111,28 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_master->add_password_validation_code();
     }
 
-    private function _generate_password()
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_su($handler_id, array $args, array &$data)
     {
-        $this->_request_data["default_password"] = org_openpsa_user_accounthelper::generate_password($this->_config->get('default_password_length'));
+        $this->_person = new midcom_db_person($args[0]);
+        $this->_person->require_do($this->_component . ':su');
+
+        $this->_account = new midcom_core_account($this->_person);
+        if (!$username = $this->_account->get_username())
+        {
+            throw new midcom_error('Could not get username');
+        }
+
+        if (!midcom::get('auth')->trusted_login($username))
+        {
+            throw new midcom_error('Login for user ' . $username . ' failed');
+        }
+        //midcom::get('auth')->_sync_user_with_backend();
+        midcom::get()->relocate(midcom_connection::get_url('self'));
     }
 
     /**
