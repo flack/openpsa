@@ -994,7 +994,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function post_db_load_checks(midcom_core_dbaobject $object)
     {
-        if (! midcom::get('auth')->can_do('midgard:read', $object))
+        if (!$object->can_do('midgard:read'))
         {
             debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.");
             self::_clear_object($object);
@@ -1466,8 +1466,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   ! midcom::get('auth')->can_do('midgard:update', $object)
-            || ! midcom::get('auth')->can_do('midgard:parameters', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:parameters'))
         {
             debug_add("Failed to set parameters, midgard:update or midgard:parameters on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);

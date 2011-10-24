@@ -41,8 +41,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         // Check if we get the person
         $this->_person = new midcom_db_person($args[0]);
-
-        midcom::get('auth')->require_do('midgard:update', $this->_person);
+        $this->_person->require_do('midgard:update');
 
         $this->_account = new midcom_core_account($this->_person);
         if ($this->_account->get_username())
@@ -125,8 +124,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_person = new midcom_db_person($args[0]);
-
-        midcom::get('auth')->require_do('midgard:update', $this->_person);
+        $this->_person->require_do('midgard:update');
         if ($this->_person->id != midcom_connection::get_user())
         {
             midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
@@ -178,7 +176,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 MIDCOM_TOOLBAR_URL => "account/delete/{$this->_person->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_do('midgard:update', $this->_person),
             )
         );
     }
@@ -234,12 +231,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         // Check if we get the person
         $this->_person = new midcom_db_person($args[0]);
-        midcom::get('auth')->require_do('midgard:update', $this->_person);
-
+        $this->_person->require_do('midgard:update');
         if ($this->_person->id != midcom_connection::get_user())
         {
             midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
+
         $this->_account = new midcom_core_account($this->_person);
         if (!$this->_account->get_username())
         {

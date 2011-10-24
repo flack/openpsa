@@ -82,7 +82,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // Check if we get the group
         $this->_group = new midcom_db_group($args[0]);
-        midcom::get('auth')->require_do('midgard:privileges', $this->_group);
+        $this->_group->require_do('midgard:privileges');
 
         $data['group'] = $this->_group;
 
