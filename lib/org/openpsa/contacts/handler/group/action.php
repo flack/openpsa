@@ -82,7 +82,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         {
             case "area_group_members":
                 // This is most likely a dynamic_load
-                $_MIDCOM->load_library('org.openpsa.qbpager');
                 $qb = new org_openpsa_qbpager('midcom_db_member', 'group_members');
                 $qb->add_constraint('gid', '=', $this->_request_data['group']->id);
                 $qb->results_per_page = 10;
@@ -109,7 +108,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                 }
                 break;
             case "area_group_subgroups":
-                // This is most likely a dynamic_load
                 $qb = org_openpsa_contacts_group_dba::new_query_builder();
                 $qb->add_constraint('owner', '=', $this->_request_data['group']->id);
                 $results = $qb->execute();

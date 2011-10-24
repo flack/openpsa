@@ -277,22 +277,27 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             midcom_show_style("show-person-groups-header");
             foreach ($data['memberships'] as $member)
             {
+                try
+                {
+                    $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
+                    if ($data['group']->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_MYCONTACTS)
+                    {
+                        continue;
+                    }
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                    continue;
+                }
                 $data['member'] = $member;
-
                 if ($member->extra == "")
                 {
                     $member->extra = $this->_l10n->get('<title>');
                 }
                 $data['member_title'] = $member->extra;
-                try
-                {
-                    $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-                    midcom_show_style("show-person-groups-item");
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
+
+                midcom_show_style("show-person-groups-item");
             }
             midcom_show_style("show-person-groups-footer");
         }
