@@ -559,7 +559,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     // ACL Shortcuts
     public function can_do($privilege, $user = null)
     {
-        return $_MIDCOM->auth->can_do($privilege, $this->__object, $user);
+        return $_MIDCOM->auth->can_do($privilege, $this, $user);
     }
     public function can_user_do($privilege, $user = null)
     {
@@ -567,7 +567,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     }
     public function require_do($privilege, $message = null)
     {
-        $_MIDCOM->auth->require_do($privilege, $this->__object, $message);
+        $_MIDCOM->auth->require_do($privilege, $this, $message);
     }
     public function require_user_do($privilege, $message = null)
     {
