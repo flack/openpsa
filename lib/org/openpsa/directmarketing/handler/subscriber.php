@@ -48,7 +48,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 }
 
                 // FIXME: use can_do check to be graceful
-                $_MIDCOM->auth->require_do('midgard:create', $campaign);
+                $campaign->require_do('midgard:create');
 
                 $member = new org_openpsa_directmarketing_campaign_member_dba();
                 $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
@@ -131,7 +131,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 foreach ($campaigns_all as $campaign)
                 {
                     if (   !array_key_exists($campaign->id, $campaigns)
-                        && $_MIDCOM->auth->can_do('midgard:create', $campaign))
+                        && $campaign->can_do('midgard:create'))
                     {
                         $this->_request_data['campaigns_all'][] = $campaign;
                     }

@@ -613,8 +613,7 @@ class midcom_core_user
     function update_password($new, $crypted = true)
     {
         $person = $this->get_storage();
-        if (   ! $person
-            || ! $_MIDCOM->auth->can_do('midgard:update', $person))
+        if (!$person->can_do('midgard:update'))
         {
             debug_add('Cannot update password, insufficient privileges.', MIDCOM_LOG_INFO);
             return false;
@@ -656,9 +655,8 @@ class midcom_core_user
     function update_username($new)
     {
         $person = $this->get_storage();
-        if (   ! $person
-            || ! $_MIDCOM->auth->can_do('midgard:update', $person)
-            || ! $_MIDCOM->auth->can_do('midgard:parameters', $person))
+        if (   !$person->can_do('midgard:update')
+            || !$person->can_do('midgard:parameters'))
         {
             debug_add('Cannot update username, insufficient privileges.', MIDCOM_LOG_INFO);
             return false;
@@ -723,12 +721,13 @@ class midcom_core_user
      */
     public function get_last_login()
     {
-        if (! $_MIDCOM->auth->can_do('midcom:isonline', $this->_storage))
+        $person = $this->get_storage();
+        if (!$person->can_do('midcom:isonline'))
         {
             return null;
         }
 
-        return (int) $this->_storage->parameter('midcom', 'last_login');
+        return (int) $person->parameter('midcom', 'last_login');
     }
 
     /**
@@ -760,13 +759,7 @@ class midcom_core_user
     function delete()
     {
         $person = $this->get_storage();
-        if (! $person)
-        {
-            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        $_MIDCOM->auth->require_do('midgard:delete', $person);
+        $person->require_do('midgard:delete');
 
         if (! $person->delete())
         {

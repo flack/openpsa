@@ -8,7 +8,7 @@ if ($task->manager)
     echo sprintf($data['l10n']->get("from %s"), $contact->show_inline());
 }
 $task->get_members();
-if ($_MIDCOM->auth->can_do('midgard:update', $task)
+if (   $task->can_do('midgard:update')
     && isset($task->resources[midcom_connection::get_user()]))
 {
 ?>

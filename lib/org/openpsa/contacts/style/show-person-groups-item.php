@@ -5,7 +5,7 @@ $node = $nap->get_node($nap->get_current_node());
 $view_group = $data['group'];
 $group_guid = $data['group']->guid;
 
-if ($_MIDCOM->auth->can_do('midgard:update', $data['member']))
+if ($data['member']->can_do('midgard:update'))
 {
     $view_title_form = "<input id=\"editable_title_{$group_guid}_ajaxDefault\" value=\"" . $data['l10n']->get('<title>') . "\" type=\"hidden\" />\n";
     $view_title_form .= "<input id=\"editable_title_{$group_guid}_ajaxUrl\" value=\"{$node[MIDCOM_NAV_FULLURL]}group/{$group_guid}/update_member_title/\" type=\"hidden\" />\n";

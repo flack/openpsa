@@ -233,7 +233,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
         }
         else
         {
-            return $_MIDCOM->auth->can_do($privilege, $this->object);
+            return $this->object->can_do($privilege);
         }
     }
 }

@@ -337,8 +337,8 @@ class midcom_core_privilege
                 MIDCOM_LOG_INFO);
             return false;
         }
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:privileges'))
         {
             debug_add("Insufficient privileges on the content object with the GUID '{$this->__guid}', midgard:update and midgard:privileges required.",
                 MIDCOM_LOG_INFO);

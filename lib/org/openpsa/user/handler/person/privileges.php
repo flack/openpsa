@@ -97,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // Check if we get the person
         $this->_person = new midcom_db_person($args[0]);
-        $_MIDCOM->auth->require_do('midgard:privileges', $this->_person);
+        $this->_person->require_do('midgard:privileges');
         $this->_request_data['person'] =& $this->_person;
 
         $data['acl_dm'] = $this->get_controller('simple', $this->_person);

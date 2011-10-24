@@ -202,8 +202,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $_MIDCOM->auth->require_valid_user();
 
         $this->_document = $this->_load_document($args[0]);
-
-        $_MIDCOM->auth->require_do('midgard:delete', $this->_document);
+        $this->_document->require_do('midgard:delete');
 
         $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
 

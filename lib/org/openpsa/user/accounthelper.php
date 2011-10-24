@@ -68,6 +68,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         // Check if we get the person
         $this->_person = new midcom_db_person($person_guid);
+        $this->_person->require_do('midgard:update');
 
         //need to generate password?
         if (empty($password))
@@ -79,8 +80,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         {
             $generated_password = false;
         }
-
-        $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
         $this->_account = new midcom_core_account($this->_person);
 

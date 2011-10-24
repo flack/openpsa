@@ -131,7 +131,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     private function _populate_toolbar()
     {
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (
@@ -152,7 +152,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 )
             );
         }
-        if ($_MIDCOM->auth->can_do('midgard:update', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item
             (
@@ -165,7 +165,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 )
             );
         }
-        if ($_MIDCOM->auth->can_do('midgard:delete', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:delete'))
         {
             $this->_view_toolbar->add_item
             (

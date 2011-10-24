@@ -66,7 +66,7 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
             $id = (int)$id;
         }
         $rootdir = new midcom_db_page($id);
-        if (!$_MIDCOM->auth->can_do('midgard:update', $rootdir))
+        if (!$rootdir->can_do('midgard:update'))
         {
             return false;
         }
@@ -80,7 +80,7 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
         $rootdirs = $qb->execute();
         foreach ($rootdirs as $rootdir)
         {
-            if ($_MIDCOM->auth->can_do('midgard:update', $rootdir))
+            if ($rootdir->can_do('midgard:update'))
             {
                 $this->read_page($rootdir, $this->root_dir);
             }

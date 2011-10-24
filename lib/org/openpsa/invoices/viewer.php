@@ -59,7 +59,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         }
 
         // generate next action buttons
-        if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
+        if (   $invoice->can_do('midgard:update')
             && count($next_marker) > 0)
         {
             foreach ($next_marker as $mark)

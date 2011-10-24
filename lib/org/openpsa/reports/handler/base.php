@@ -149,7 +149,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if (isset($args[0]))
         {
             $data['query'] = $this->_load_query($args[0], $this->module);
-            $_MIDCOM->auth->require_do('midgard:update', $data['query']);
+            $data['query']->require_do('midgard:update');
 
             $this->_load_edit_controller();
         }

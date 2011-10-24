@@ -72,7 +72,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_do('midgard:update', $this->_request_data['directory']);
+        $data['directory']->require_do('midgard:update');
 
         $this->_load_edit_controller();
 

@@ -111,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             // Get the parent organization
             $this->_parent_group = new org_openpsa_contacts_group_dba($args[1]);
-            $_MIDCOM->auth->require_do('midgard:create', $this->_parent_group);
+            $this->_parent_group->require_do('midgard:create');
         }
         else
         {

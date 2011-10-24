@@ -55,7 +55,7 @@ implements midcom_helper_datamanager2_interfaces_view
                     MIDCOM_TOOLBAR_URL => "edit/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("edit"),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $auth->can_do('midgard:update', $this->_person),
+                    MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:update'),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
@@ -66,7 +66,7 @@ implements midcom_helper_datamanager2_interfaces_view
                     MIDCOM_TOOLBAR_URL => "delete/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("delete"),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $auth->can_do('midgard:delete', $this->_person),
+                    MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:delete'),
                 )
             );
             if (midcom_connection::is_user($this->_person))
@@ -78,7 +78,7 @@ implements midcom_helper_datamanager2_interfaces_view
                         MIDCOM_TOOLBAR_URL => "privileges/{$this->_person->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                         MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                        MIDCOM_TOOLBAR_ENABLED => $auth->can_do('midgard:privileges', $this->_person),
+                        MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:privileges'),
                     )
                 );
             }
@@ -89,7 +89,7 @@ implements midcom_helper_datamanager2_interfaces_view
                     MIDCOM_TOOLBAR_URL => "person/notifications/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_person),
+                    MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:update'),
                 )
             );
         }

@@ -140,7 +140,7 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_URL => "group/edit/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("edit"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
+                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
@@ -168,7 +168,7 @@ implements midcom_helper_datamanager2_interfaces_view
         );
 
         if (   $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
-            && $_MIDCOM->auth->can_do('midgard:create', $this->_group))
+            && $this->_group->can_do('midgard:create'))
         {
             $allow_person_create = true;
         }

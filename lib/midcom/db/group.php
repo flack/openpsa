@@ -103,7 +103,7 @@ class midcom_db_group extends midcom_core_dbaobject
      */
     function add_member($person)
     {
-        $_MIDCOM->auth->require_do('midgard:create', $this);
+        $this->require_do('midgard:create');
 
         if ($this->is_member($person))
         {

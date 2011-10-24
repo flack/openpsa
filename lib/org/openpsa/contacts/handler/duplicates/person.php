@@ -40,8 +40,8 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 switch(true)
                 {
                     case ($keep == 'both'):
-                        $_MIDCOM->auth->require_do('midgard:update', $option1);
-                        $_MIDCOM->auth->require_do('midgard:update', $option2);
+                        $option1->require_do('midgard:update');
+                        $option2->require_do('midgard:update');
                         if (   !$option1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, time())
                             || !$option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time())
                             )
@@ -79,8 +79,8 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                     default:
                         throw new midcom_error('Something weird happened (basically we got bogus data)');
                 }
-                $_MIDCOM->auth->require_do('midgard:update', $person1);
-                $_MIDCOM->auth->require_do('midgard:delete', $person2);
+                $person1->require_do('midgard:update');
+                $person2->require_do('midgard:delete');
 
                 // TODO: Merge person2 data to person1 and then delete person2
 
@@ -139,10 +139,10 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 continue;
             }
             // Make sure we actually have enough rights to do this
-            if (   !$_MIDCOM->auth->can_do('midgard:update', $person1)
-                || !$_MIDCOM->auth->can_do('midgard:delete', $person1)
-                || !$_MIDCOM->auth->can_do('midgard:update', $person2)
-                || !$_MIDCOM->auth->can_do('midgard:delete', $person2))
+            if (   !$person1->can_do('midgard:update')
+                || !$person1->can_do('midgard:delete')
+                || !$person2->can_do('midgard:update')
+                || !$person2->can_do('midgard:delete'))
             {
                 debug_add("Insufficient rights to merge these two, continuing to see if we have more");
                 $i++;

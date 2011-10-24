@@ -60,7 +60,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      */
     private function _populate_toolbar()
     {
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (

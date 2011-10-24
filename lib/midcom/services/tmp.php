@@ -80,7 +80,7 @@ class midcom_services_tmp
      */
     function request_object($id)
     {
-        if (! $id)
+        if (!$id)
         {
             debug_add("Invalid argument, may not evaluate to false", MIDCOM_LOG_INFO);
             debug_print_r('Got this argument:', $id);
@@ -88,8 +88,7 @@ class midcom_services_tmp
         }
 
         $tmp = new midcom_core_temporary_object((int) $id);
-        if (   ! $tmp
-            || ! $_MIDCOM->auth->can_do('midgard:owner', $tmp))
+        if (!$tmp->can_do('midgard:owner'))
         {
             debug_add("The current user does not have owner privileges on the temporary object {$id}, denying access.",
                 MIDCOM_LOG_INFO);

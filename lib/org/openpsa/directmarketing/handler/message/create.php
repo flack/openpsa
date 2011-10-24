@@ -79,7 +79,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $data['campaign'] = $this->_master->load_campaign($args[0]);
-        $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);
+        $data['campaign']->require_do('midgard:create');
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 

@@ -128,7 +128,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $this->_get_em();
 
         // Hide details if we're not allowed to see them
-        if (!$_MIDCOM->auth->can_do('org.openpsa.calendar:read', $this))
+        if (!$this->can_do('org.openpsa.calendar:read'))
         {
             // Hide almost all properties
             $properties = $this->get_properties();

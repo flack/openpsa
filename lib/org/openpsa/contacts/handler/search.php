@@ -178,7 +178,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             );
         }
         $root_group = org_openpsa_contacts_interface::find_root_group();
-        if ($_MIDCOM->auth->can_do('midgard:create', $root_group))
+        if ($root_group->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (

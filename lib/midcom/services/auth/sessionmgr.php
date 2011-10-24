@@ -490,13 +490,13 @@ class midcom_services_auth_sessionmgr
      *
      * 'unknown' is returned in cases where you have insufficient permissions.
      *
-     * @param midcom_core_user $user A reference to the user object which has been updated.
+     * @param midcom_core_user $user The user object which has been updated.
      * @return string One of 'online', 'offline' or 'unknown', indicating the current online
      *     state.
      */
-    function is_user_online(&$user)
+    function is_user_online($user)
     {
-        if (! $this->auth->can_do('midcom:isonline', $user->get_storage()))
+        if (!$user->get_storage()->can_do('midcom:isonline'))
         {
             return 'unknown';
         }

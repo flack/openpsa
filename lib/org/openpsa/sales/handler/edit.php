@@ -153,7 +153,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['salesproject'] = $this->_load_salesproject($args[0]);
-        $_MIDCOM->auth->require_do('midgard:update', $this->_salesproject);
+        $this->_salesproject->require_do('midgard:update');
 
         $this->_load_edit_controller();
 

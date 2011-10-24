@@ -158,7 +158,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
     private function _populate_toolbar()
     {
-        if ( $_MIDCOM->auth->can_do('midgard:update', $this->_document))
+        if ($this->_document->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item
             (
@@ -171,7 +171,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
                 )
             );
         }
-        if ( $_MIDCOM->auth->can_do('midgard:delete', $this->_document))
+        if ($this->_document->can_do('midgard:delete'))
         {
             $this->_view_toolbar->add_item
             (

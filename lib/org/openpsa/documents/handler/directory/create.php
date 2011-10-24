@@ -86,7 +86,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_do('midgard:create', $this->_request_data['directory']);
+        $data['directory']->require_do('midgard:create');
 
         $this->_load_create_controller();
 

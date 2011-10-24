@@ -148,7 +148,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
     function populate_toolbar(&$toolbar)
     {
         $enable_creation = false;
-        if (   $_MIDCOM->auth->can_do('midgard:create', $this->wiki[MIDCOM_NAV_OBJECT])
+        if (   $this->wiki[MIDCOM_NAV_OBJECT]->can_do('midgard:create')
             && $this->new_wikipage)
         {
             $enable_creation = true;

@@ -416,7 +416,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
+                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             )
         );
 

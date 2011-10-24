@@ -41,7 +41,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                         try
                         {
                             $member = new midcom_db_member($id);
-                            $_MIDCOM->auth->require_do('midgard:update', $member);
+                            $member->require_do('midgard:update');
                             $member->extra = $title;
                             $update_succeeded = $member->update();
                         }

@@ -68,7 +68,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // 'New event' should always be in toolbar
         $nap = new midcom_helper_nav();
         $this_node = $nap->get_node($nap->get_current_node());
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (
@@ -462,7 +462,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         (
             'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this_node),
         );
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_calendar->free_div_options = array
             (
@@ -550,7 +550,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         (
             'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this_node),
         );
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_calendar->free_div_options = array
             (
@@ -638,7 +638,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $nap = new midcom_helper_nav();
         $this_node = $nap->get_node($nap->get_current_node());
 
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_calendar->reservation_div_options = array
             (
@@ -732,7 +732,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                     MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_request_data['event']),
+                    MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
@@ -743,7 +743,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                     MIDCOM_TOOLBAR_URL => 'event/delete/' . $this->_request_data['event']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $this->_request_data['event']),
+                    MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:delete'),
                 )
             );
             $this->_view_toolbar->add_item
