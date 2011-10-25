@@ -127,7 +127,6 @@ jQuery("#chgrouping_&(grid_id);").change(function()
     var selection = $(this).val();
     if (selection)
     {
-        var old_grouping = &(grid_id);_grouping;
         if (selection == "clear")
         {
             jQuery("#&(grid_id);").jqGrid('groupingRemove', true);
@@ -137,13 +136,8 @@ jQuery("#chgrouping_&(grid_id);").change(function()
         {
             &(grid_id);_grouping = selection;
             jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
-            jQuery("#&(grid_id);").hideCol(&(grid_id);_grouping);
         }
-        if (old_grouping)
-        {
-            jQuery("#&(grid_id);").showCol(old_grouping);
-        }
-	jQuery(window).trigger('resize');
+		jQuery(window).trigger('resize');
     }
 });
 
