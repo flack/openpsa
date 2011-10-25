@@ -92,18 +92,17 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * DM2 creation callback
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba();
-        if ($this->_request_data['task'])
+
+        if ($task = $controller->formmanager->get_value('task'))
+        {
+            $this->_hour_report->task = $task;
+        }
+        else if ($this->_request_data['task'])
         {
             $this->_hour_report->task = $this->_request_data['task'];
-        }
-        else
-        {
-            $controller->formmanager->widgets['task']->sync_type_with_widget($controller->formmanager->get_submit_values());
-            $task = $controller->datamanager->types['task']->convert_to_storage();
-            $this->_hour_report->task = $task;
         }
         if (! $this->_hour_report->create())
         {
@@ -155,14 +154,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             case 'save':
                 $this->_hour_report->modify_hours_by_time_slot();
-                if (count($args) > 1)
-                {
-                    $_MIDCOM->relocate("hours/task/" . $parent->guid . "/");
-                }
-                else
-                {
-                    $_MIDCOM->relocate("hours/edit/{$this->_hour_report->guid}/");
-                }
+                $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
+                $_MIDCOM->relocate("hours/task/" . $task->guid . "/");
                 // This will exit.
 
             case 'cancel':
