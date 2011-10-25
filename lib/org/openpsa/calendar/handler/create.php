@@ -49,7 +49,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_event = new org_openpsa_calendar_event_dba();
         $this->_event->up = $this->_root_event->id;
-        if (! $this->_event->create())
+        if (!$this->_event->create())
         {
             debug_print_r('We operated on this object:', $this->_event);
             throw new midcom_error('Failed to create a new event. Last Midgard error was: ' . midcom_connection::get_error_string());

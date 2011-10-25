@@ -43,7 +43,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
     /**
      * This is what Datamanager calls to actually create a directory
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $topic = new org_openpsa_documents_directory();
         $topic->up = $this->_request_data['directory']->id;

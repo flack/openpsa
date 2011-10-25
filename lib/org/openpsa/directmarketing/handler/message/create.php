@@ -59,7 +59,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_message->campaign = $this->_request_data['campaign']->id;
         $this->_message->orgOpenpsaObtype = $this->_schemadb[$this->_schema]->customdata['org_openpsa_directmarketing_messagetype'];
 
-        if (! $this->_message->create())
+        if (!$this->_message->create())
         {
             debug_print_r('We operated on this object:', $this->_message);
             throw new midcom_error('Failed to create a new message. Last Midgard error was: ' . midcom_connection::get_error_string());

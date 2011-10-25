@@ -76,10 +76,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_product = new org_openpsa_products_product_dba();
 
-        $controller->formmanager->widgets['productGroup']->sync_type_with_widget($controller->formmanager->get_submit_values());
-        $product_group = $controller->datamanager->types['productGroup']->convert_to_storage();
-
-        $this->_request_data['up'] = $product_group;
+        $this->_request_data['up'] = $controller->formmanager->get_value('productGroup');
         $this->_product->productGroup = $this->_request_data['up'];
 
         if (! $this->_product->create())

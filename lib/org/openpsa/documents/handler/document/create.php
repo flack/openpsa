@@ -74,7 +74,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
     /**
      * This is what Datamanager calls to actually create a document
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $document = new org_openpsa_documents_document_dba();
         $document->topic = $this->_request_data['directory']->id;
