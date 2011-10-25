@@ -33,15 +33,23 @@ implements midcom_helper_datamanager2_interfaces_create
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
     }
 
+    public function get_schema_defaults()
+    {
+        $defaults = array();
+        if (   $this->_group
+            && $this->_group->orgOpenpsaObtype >= ORG_OPENPSA_OBTYPE_ORGANIZATION)
+        {
+            $defaults['organizations'] = array($this->_group->id);
+        }
+        return $defaults;
+    }
+
     /**
      * This is what Datamanager calls to actually create a person
      */
     public function & dm2_create_callback(&$datamanager)
     {
         $person = new org_openpsa_contacts_person_dba();
-
-        $person->firstname = "";
-        $person->lastname = "";
 
         if (! $person->create())
         {
