@@ -503,7 +503,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         if (!array_key_exists($task->project, $row_cache['parent']))
         {
             $html = "&nbsp;";
-            $ret['index_parent'] = $html;
+            $row_cache['index_parent'][$task->project] = '';
 
             if ($parent = $task->get_parent())
             {
