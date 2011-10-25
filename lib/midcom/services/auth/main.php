@@ -303,9 +303,19 @@ class midcom_services_auth
     private function _prepare_authentication_drivers()
     {
         $classname = "midcom_services_auth_backend_{$GLOBALS['midcom_config']['auth_backend']}";
+        // dont prepend
+        if (strpos($GLOBALS['midcom_config']['auth_backend'], "_"))
+        {
+            $classname = $GLOBALS['midcom_config']['auth_backend'];
+        }
         $this->_auth_backend = new $classname($this);
 
         $classname = "midcom_services_auth_frontend_{$GLOBALS['midcom_config']['auth_frontend']}";
+        // dont prepend
+        if (strpos($GLOBALS['midcom_config']['auth_frontend'], "_"))
+        {
+            $classname = $GLOBALS['midcom_config']['auth_frontend'];
+        }
         $this->_auth_frontend = new $classname();
     }
 
