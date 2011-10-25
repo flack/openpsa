@@ -902,6 +902,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
         return $exitcode;
     }
+
     /**
      * Use this function to get the values of submitted form without going through
      * a storage backend.
@@ -911,6 +912,22 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function get_submit_values(  )
     {
         return $this->form->getSubmitValues( true );
+    }
+
+    /**
+     * Get the user input for one particular field in the storage format
+     *
+     * @param string $field The field to query
+     */
+    public function get_value($field)
+    {
+        if (!array_key_exists($field, $this->widgets))
+        {
+            debug_add('Widget ' . $field . ' not found in form', MIDCOM_LOG_WARN);
+            return null;
+        }
+        $this->widgets[$field]->sync_type_with_widget($this->get_submit_values());
+        return $this->_types[$field]->convert_to_storage();
     }
 
     /**
