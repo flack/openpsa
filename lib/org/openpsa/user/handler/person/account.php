@@ -135,7 +135,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             throw new midcom_error('Login for user ' . $username . ' failed');
         }
-        //midcom::get('auth')->_sync_user_with_backend();
         midcom::get()->relocate(midcom_connection::get_url('self'));
     }
 
