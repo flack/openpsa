@@ -118,6 +118,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_su($handler_id, array $args, array &$data)
     {
+        if (!$GLOBALS['midcom_config']['auth_allow_trusted'])
+        {
+            throw new midcom_error_forbidden('Trusted logins are disabled by configuration');
+        }
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do($this->_component . ':su');
 
