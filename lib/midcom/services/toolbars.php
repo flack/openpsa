@@ -22,22 +22,20 @@
  *    Metadata controls) into this toolbar, if it is bound to an object. Otherwise,
  *    this toolbar is not touched by MidCOM.
  *
- * It is important to understand, that these default toolbars made available through this
+ * It is important to understand that the default toolbars made available through this
  * service are completely specific to a given request context. If you have a dynamic_load
  * running on a given site, it will have its own set of toolbars for each instance.
  *
- * In addition, components my retrieve a third kind of toolbars, which are not under
+ * In addition, components may retrieve a third kind of toolbars, which are not under
  * the general control of MidCOM, the <i>Object</i> toolbars. They apply to a single
  * database object (like a bound <i>View</i> toolbar). The usage of this kind of
  * toolbars is completely component-specific: It is recommended to use them only for
  * cases where multiple objects are displayed simultaneously. For example, the
  * index page of a Newsticker or Image Gallery might provide them.
  *
- *
- *
  * <b>Implementation notes</b>
  *
- * It has yet to prove if the toolbar system is yet needed for a dynamic_load environments.
+ * It has yet to prove if the toolbar system is needed for a dynamic_load environments.
  * The main reason for this is that dl'ed stuff is often quite tight in space and thus cannot
  * display any toolbars in a sane way. Usually, the administrative tasks will be bound to the
  * main request.
@@ -110,7 +108,7 @@ class midcom_services_toolbars
         }
         else if ($still_initializing)
         {
-            // This is auth service looping because it instantiates classes for magick privileges!
+            // This is auth service looping because it instantiates classes for magic privileges!
             return;
         }
 
@@ -139,7 +137,6 @@ class midcom_services_toolbars
 
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
 
-
             $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
             $this->type = $GLOBALS['midcom_config']['toolbars_type'];
@@ -152,7 +149,6 @@ class midcom_services_toolbars
             {
                 $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});";
             }
-
 
             $_MIDCOM->add_jquery_state_script($script);
         }
@@ -185,7 +181,7 @@ class midcom_services_toolbars
      * @param int $context_id The context to retrieve the node toolbar for, this
      *     defaults to the current context.
      */
-    function get_host_toolbar ($context_id = null)
+    function get_host_toolbar($context_id = null)
     {
         if ($context_id === null)
         {
@@ -207,7 +203,7 @@ class midcom_services_toolbars
      * @param int $context_id The context to retrieve the node toolbar for, this
      *     defaults to the current context.
      */
-    function get_node_toolbar ($context_id = null)
+    function get_node_toolbar($context_id = null)
     {
         if ($context_id === null)
         {
@@ -229,7 +225,7 @@ class midcom_services_toolbars
      * @param int $context_id The context to retrieve the view toolbar for, this
      *     defaults to the current context.
      */
-    function get_view_toolbar ($context_id = null)
+    function get_view_toolbar($context_id = null)
     {
         if ($context_id === null)
         {
@@ -251,7 +247,7 @@ class midcom_services_toolbars
      * @param int $context_id The context to retrieve the help toolbar for, this
      *     defaults to the current context.
      */
-    function get_help_toolbar ($context_id = null)
+    function get_help_toolbar($context_id = null)
     {
         if ($context_id === null)
         {

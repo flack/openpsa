@@ -101,7 +101,6 @@
  * It will be rendered in the toolbar text as either underlining the key or stated in
  * parentheses behind the text.
  *
- *
  * <pre>
  * &lt;ul [class="$class"] [id="$id"]&gt;
  *   &lt;li class="(enabled|disabled)"&gt;
@@ -689,7 +688,7 @@ class midcom_helper_toolbar
                 $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
                 $label = $new_label;
             }
-            elseif ($_MIDCOM->i18n->get_current_language() == 'en')
+            else if ($_MIDCOM->i18n->get_current_language() == 'en')
             {
                 // Try lowercase too
                 $position = strpos($label, $accesskey_lower);
