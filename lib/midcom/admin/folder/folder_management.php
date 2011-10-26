@@ -204,13 +204,13 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
             $style_string = "{$prefix}{$style->name}";
 
             // Hide common unwanted material with heuristics
-            if (preg_match('/(asgard|empty|)/i', $style_string))
+            if (preg_match('/(asgard|empty)/i', $style_string))
             {
                 continue;
             }
 
             $style_array[$style_string] = "{$spacer}{$style->name}";
-            midcom_admin_folder_folder_management::list_styles($style->id, $style_string . '/', $spacer . '&nbsp;&nbsp;');
+            self::list_styles($style->id, $style_string . '/', $spacer . '&nbsp;&nbsp;');
         }
 
         return $style_array;
