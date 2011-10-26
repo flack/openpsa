@@ -19,7 +19,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     (
         'connect_timeout' => 15,
         'timeout' => 30,
-        'ssl_verify_peer' => false
+        'ssl_verify_peer' => false,
+        'follow_redirects' => true
     );
     var $error = '';
     var $basicauth = array
