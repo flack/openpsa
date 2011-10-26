@@ -36,10 +36,16 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if (   $this->_group
-            && $this->_group->orgOpenpsaObtype >= ORG_OPENPSA_OBTYPE_ORGANIZATION)
+        if ($this->_group)
         {
-            $defaults['organizations'] = array($this->_group->id);
+            if ($this->_group->orgOpenpsaObtype >= ORG_OPENPSA_OBTYPE_ORGANIZATION)
+            {
+                $defaults['organizations'] = array($this->_group->id);
+            }
+            else if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+            {
+                $defaults['groups'] = array($this->_group->id);
+            }
         }
         return $defaults;
     }
@@ -90,24 +96,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
                 $indexer->index($data['controller']->datamanager);
 
-                // Add person to group if requested
-                if ($this->_group)
-                {
-                    $member = new midcom_db_member();
-                    $member->uid = $this->_person->id;
-                    $member->gid = $this->_group->id;
-                    $member->create();
-
-                    if (!$member->id)
-                    {
-                        // TODO: Cleanup
-                        throw new midcom_error("Failed adding the person to group #{$this->_group->id}, reason {$member->errstr}");
-                    }
-                }
-
-                // Relocate to group view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate("{$prefix}person/{$this->_person->guid}/");
+                $_MIDCOM->relocate("person/{$this->_person->guid}/");
                 // This will exit
 
             case 'cancel':

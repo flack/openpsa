@@ -211,6 +211,67 @@
                 'id_field' => 'id',
             ),
         ),
+        'groups' => array
+        (
+            'title' => 'groups',
+            'storage' => null,
+            'type' => 'mnrelation',
+            'type_config' => array
+            (
+                'mapping_class_name' => 'midcom_db_member',
+                'master_fieldname' => 'uid',
+                'member_fieldname' => 'gid',
+                'master_is_id' => true,
+                'allow_multiple' => true,
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class' => 'org_openpsa_contacts_group_dba',
+                'component' => 'org.openpsa.contacts',
+                'titlefield' => 'name',
+
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'official',
+                        'name' => 'official',
+                    ),
+                ),
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'orgOpenpsaObtype',
+                        'op'    => '=',
+                        'value' => ORG_OPENPSA_OBTYPE_OTHERGROUP,
+                    ),
+                    array
+                    (
+                        'field' => 'owner',
+                        'op' => 'INTREE',
+                        'value' => org_openpsa_contacts_interface::find_root_group()->id
+                    )
+                ),
+                'searchfields' => array
+                (
+                    'name',
+                    'official',
+                ),
+                'orders' => array
+                (
+                    array('name' => 'ASC'),
+                    array('official' => 'ASC'),
+                ),
+                'id_field' => 'id',
+            ),
+        ),
         'photo' => Array
         (
             'title' => 'photo',

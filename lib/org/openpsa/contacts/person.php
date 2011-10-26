@@ -8,6 +8,7 @@
 
 /**
  * MidCOM wrapped access to org_openpsa_person plus some utility methods
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_person_dba extends midcom_db_person
