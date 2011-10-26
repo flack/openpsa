@@ -41,7 +41,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
 
         $offset = $date->format('N') - 1;
         $date->modify('-' . $offset . ' days');
-        $date->setTime(0, 0, 1);
+        $date->setTime(0, 0, 0);
         $this->_request_data['week_start'] = (int) $date->format('U');
         $date->setTime(23, 59, 59);
         $date->modify('+6 days');
