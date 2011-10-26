@@ -135,7 +135,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
      * - icon string URL to image file
      *
      * @param array $marker Marker array
-     * @return boolean Whether the operation was successfull
+     * @return boolean Whether the operation was successful
      */
     function add_marker($marker)
     {
