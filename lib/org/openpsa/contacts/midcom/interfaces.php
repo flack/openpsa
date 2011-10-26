@@ -262,6 +262,14 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
     private function _get_data_from_url($url)
     {
+        //We have to hang on to the hKit object, because its configuration is done by require_once
+        //and will thus only work for the first instantiation...
+        static $hkit;
+        if (is_null($hkit))
+        {
+            require_once MIDCOM_ROOT . '/external/hkit.php';
+            $hkit = new hKit();
+        }
         $data = array();
 
         // TODO: Error handling
@@ -301,17 +309,13 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             }
         }
 
-        if (class_exists('hkit'))
+        $hcards = @$hkit->getByURL('hcard', $url);
+
+        if (   is_array($hcards)
+            && count($hcards) > 0)
         {
-            // We have the Microformats parsing hKit available, see if the page includes a hCard
-            $hkit = new hKit();
-            $hcards = @$hkit->getByURL('hcard', $url);
-            if (   is_array($hcards)
-                && count($hcards) > 0)
-            {
-                // We have found hCard data here
-                $data['hcards'] = $hcards;
-            }
+            // We have found hCard data here
+            $data['hcards'] = $hcards;
         }
 
         return $data;
@@ -319,6 +323,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
     /**
      * AT handler for fetching Semantic Web data for person or group
+     *
      * @param array $args handler arguments
      * @param object &$handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure
