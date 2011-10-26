@@ -7,9 +7,7 @@
  */
 
 /**
- * org.openpsa.org NAP interface class.
- *
- * NAP is mainly used for toolbar rendering in this component
+ * NAP interface class.
  *
  * @package org.openpsa.contacts
  */

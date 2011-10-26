@@ -755,7 +755,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         @ini_set('max_execution_time', 0);
         if (!$from)
         {
-            $from = 'noreplyaddress@openpsa.org';
+            $from = 'noreplyaddress@openpsa2.org';
         }
         if (!$subject)
         {
@@ -802,7 +802,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         @ini_set('max_execution_time', 0);
         if (!$from)
         {
-            $from = 'noreplyaddress@openpsa.org';
+            $from = 'noreplyaddress@openpsa2.org';
         }
         if (!$subject)
         {

@@ -22,7 +22,7 @@
  * <code>
  * $mail = new org_openpsa_mail();
  *
- * $mail->from = 'noreply@openpsa.org';
+ * $mail->from = 'noreply@openpsa2.org';
  * $mail->subject = $this->_config->get('mail_from');
  * $mail->body = $this->_config->get('mail_body');
  * $mail->to = $this->_person->email;

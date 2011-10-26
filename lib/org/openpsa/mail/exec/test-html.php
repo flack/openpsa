@@ -18,8 +18,8 @@ if (   !isset($_POST['to'])
                         <option value="mail_sendmail">PEAR Mail/Sendmail</option>
                         <option value="mail">PHP mail()</option>
                      </select><br/>
-            From: <input name="from" size=50 type="text" value="noreply@openpsa.org"/><br/>
-            To: <input name="to" size=50 type="text" value="test@nemein.com" /><br/>
+            From: <input name="from" size=50 type="text" value="noreply@openpsa2.org"/><br/>
+            To: <input name="to" size=50 type="text" value="test@openpsa2.org" /><br/>
             Subject: <input name="subject" size=50 type="text" value="Testing o.o.mail with special chars (ÄäÖöÅå€)"/><br/>
             Message HTML:<br/>
             <textarea rows=40 cols=80 name="html_body"><p>Test body with special chars (Ää Öö Åå €)</p>

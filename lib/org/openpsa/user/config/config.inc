@@ -32,7 +32,7 @@ __PASSWORD__',
     'postcode',
 ),
 
-'message_sender' => 'noreply@openpsa.org',
+'message_sender' => 'noreply@openpsa2.org',
 
 'default_password_length' => 8,
 'password_max_age_days' => 30,
