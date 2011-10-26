@@ -16,6 +16,8 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
+    private $_register_prober = false;
+
     function __construct($identifier = null)
     {
         if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
@@ -46,6 +48,17 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function __set($name, $value)
+    {
+        if (   $name == 'homepage'
+            && !empty($value)
+            && $value != $this->homepage)
+        {
+            $this->_url_changed = true;
+        }
+        parent::__set($name, $value);
+    }
+
     public function render_link()
     {
         $siteconfig = new org_openpsa_core_siteconfig();
@@ -73,10 +86,8 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     public function _on_updated()
     {
-        parent::_on_updated();
-        if ($this->homepage)
+        if ($this->_register_prober)
         {
-            // This group has a homepage, register a prober
             $args = array
             (
                 'person' => $this->guid,

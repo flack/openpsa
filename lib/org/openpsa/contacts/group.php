@@ -16,7 +16,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     var $members = array();
     private $_members_loaded = false;
-
+    private $_register_prober = false;
     private $_address_extras = array();
 
     static function new_query_builder()
@@ -32,6 +32,17 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+
+    public function __set($name, $value)
+    {
+        if (   $name == 'homepage'
+            && !empty($value)
+            && $value != $this->homepage)
+        {
+            $this->_register_prober = true;
+        }
+        parent::__set($name, $value);
     }
 
     function get_label()
@@ -145,9 +156,8 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function _on_updated()
     {
-        if ($this->homepage)
+        if ($this->_register_prober)
         {
-            // This group has a homepage, register a prober
             $args = array
             (
                 'group' => $this->guid,
