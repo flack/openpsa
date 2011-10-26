@@ -14,20 +14,6 @@
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Test case for the AT service
-     *
-     * @param array $args handler arguments
-     * @param object &$handler reference to the cron_handler object calling this method.
-     * @return boolean Always true
-     */
-    function at_test($args, &$handler)
-    {
-        $handler->print_error("got args:", $args);
-        debug_print_r("got args:", $args);
-        return true;
-    }
-
-    /**
      * Background message sending AT batch handler
      *
      * @param array $args handler arguments

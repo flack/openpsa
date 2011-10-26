@@ -264,12 +264,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             //register next batch
             $args = array
             (
-                'batch' => $batch+1,
+                'batch' => $batch + 1,
                 'url_base' => $url_base,
             );
             debug_add("Registering batch #{$args['batch']} for {$args['url_base']}");
             $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
-            $atstat = midcom_services_at_interface::register(time()+60, 'org.openpsa.directmarketing', 'background_send_message', $args);
+            $atstat = midcom_services_at_interface::register(time() + 60, 'org.openpsa.directmarketing', 'background_send_message', $args);
             $_MIDCOM->auth->drop_sudo();
             if (!$atstat)
             {

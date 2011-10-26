@@ -250,8 +250,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 );
                 debug_add("---SHOW SEND---".$data['batch_url_base_full'], MIDCOM_LOG_ERROR);
                 $bool = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'background_send_message', $at_handler_arguments);
-                $bool2 = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'test', $at_handler_arguments);
-                debug_add("--- RESULT register:" . $bool . " register2:" . $bool2,  MIDCOM_LOG_ERROR);
+                debug_add("--- RESULT register:" . $bool,  MIDCOM_LOG_ERROR);
                 midcom_show_style('send-start');
                 break;
         }

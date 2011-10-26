@@ -24,9 +24,9 @@
  * - <i>array args</i> contains the arguments used by the method above, passed on to the method
  *   as an array.
  *
- * Example method (from org.openpsa.directmarketing):
+ * Example method:
  * <code>
- *  function at_test($args, &$handler)
+ *  function cron_callback_method($args, &$handler)
  *  {
  *      $handler->print_error('got args:', $args);
  *      debug_print_r('got args:', $args);
@@ -37,9 +37,9 @@
  * Example job registration (for the method above):
  * <code>
  * midcom_services_at_interface::register(
- *   time()+120,
+ *   time() + 120,
  *   'org.openpsa.directmarketing',
- *   'at_test',
+ *   'cron_callback_method',
  *   array
  *   (
  *      'foo' => 'bar',
