@@ -240,7 +240,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function will add an Item to the toolbar.
+     * This function will add an item to the toolbar.
      *
      * Set before to the index of the element before which you want to insert
      * the item or use -1 if you want to append an item. Alternatively,

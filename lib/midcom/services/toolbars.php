@@ -267,7 +267,7 @@ class midcom_services_toolbars
      *
      * @param int $context_id The context ID for whicht the toolbars should be created.
      */
-    function _create_toolbars ($context_id)
+    private function _create_toolbars ($context_id)
     {
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE] =
             new midcom_helper_toolbar
@@ -677,7 +677,7 @@ class midcom_services_toolbars
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "http://trac.midgard-project.org/roadmap",
+                MIDCOM_TOOLBAR_URL => "http://trac.openpsa2.org/roadmap",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('issue tracker', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'midcom.admin.help/applications-development.png',
