@@ -183,15 +183,15 @@ Hours
 ---STRINGEND
 
 ---STRING hours are invoiceable by default
-Hours are invoiceable by default
+Hours are billable by default
 ---STRINGEND
 
 ---STRING invoiceable
-Invoiceable
+Billable
 ---STRINGEND
 
 ---STRING invoiceable tasks
-Invoiceable tasks
+Billable tasks
 ---STRINGEND
 
 ---STRING invoiced

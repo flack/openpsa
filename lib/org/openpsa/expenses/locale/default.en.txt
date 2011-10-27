@@ -51,11 +51,11 @@ Edit Hour Report
 ---STRINGEND
 
 ---STRING invoiceable
-Invoiceable
+Billable
 ---STRINGEND
 
 ---STRING invoiceable reports
-Invoiceable Reports
+Billable Reports
 ---STRINGEND
 
 ---STRING invoiced reports
@@ -119,11 +119,11 @@ Total
 ---STRINGEND
 
 ---STRING uninvoiceable
-Not invoiceable
+Not billable
 ---STRINGEND
 
 ---STRING uninvoiceable reports
-Uninvoiceable Reports
+Unbillable Reports
 ---STRINGEND
 
 ---STRING unset
@@ -147,9 +147,9 @@ Change invoice
 ---STRINGEND
 
 ---STRING mark_invoiceable
-Mark as invoiceable
+Mark as billable
 ---STRINGEND
 
 ---STRING mark_uninvoiceable
-Mark as uninvoiceable
+Mark as unbillable
 ---STRINGEND
