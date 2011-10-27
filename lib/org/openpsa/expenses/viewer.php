@@ -48,8 +48,6 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, $args)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_request_data['schemadb_hours_simple'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours_simple'));
         $task = false;
         if (   $handler == 'list_hours_task'
@@ -57,8 +55,8 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         {
             $task = $args[0];
         }
-        if (   $handler != 'hours_create'
-            && $handler != 'hours_create_task')
+        if (   strpos($handler, 'index') !== false
+            || strpos($handler, 'list') !== false)
         {
             $this->_populate_view_toolbar($task);
         }
