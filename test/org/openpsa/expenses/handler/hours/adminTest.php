@@ -75,7 +75,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         $results = $qb->execute();
         $this->register_objects($results);
         $this->assertEquals(1, sizeof($results));
-        $this->assertEquals('hours/edit/' . $results[0]->guid . '/', $url);
+        $this->assertEquals('hours/task/' . self::$_task->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
     }

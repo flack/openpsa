@@ -7,7 +7,7 @@
  */
 
 /**
- * Hour report create handler
+ * Hour report CRUD handler
  *
  * @package org.openpsa.expenses
  */
