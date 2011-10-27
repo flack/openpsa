@@ -180,7 +180,7 @@
                 (
                     array
                     (
-                        'title' => 'number',
+                        'title' => 'invoice number',
                         'name' => 'number',
                     ),
                 ),
@@ -188,6 +188,7 @@
                 (
                     'number',
                 ),
+                'auto_wildcards' => false,
                 'orders'        => array
                 (
                     array('number'    => 'ASC'),
