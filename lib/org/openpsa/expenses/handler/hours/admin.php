@@ -18,21 +18,21 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      *
      * @var org_openpsa_projects_hour_report_dba
      */
-    private $_hour_report = null;
+    private $_hour_report;
 
     /**
      * The Controller of the report used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
      */
-    private $_controller = null;
+    private $_controller;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
-     * @var Array
+     * @var array
      */
-    private $_schemadb = null;
+    private $_schemadb;
 
     /**
      * The schema to use for the new article.
@@ -44,9 +44,9 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * The defaults to use for the new report.
      *
-     * @var Array
+     * @var array
      */
-    private $_defaults = Array();
+    private $_defaults = array();
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -133,7 +133,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             throw new midcom_error_notfound('The requested schema ' . $args[0] . ' was not found in the schemadb');
         }
-        $this->_schema =& $data['selected_schema'];
+        $this->_schema = $data['selected_schema'];
 
         if (count($args) > 1)
         {
@@ -188,9 +188,9 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * Helper to populate the toolbar
      *
-     * @param mixed &$parent The parent object or false
+     * @param mixed $parent The parent object or false
      */
-    private function _add_toolbar_items(&$parent)
+    private function _add_toolbar_items($parent)
     {
         if (empty($parent->guid))
         {
@@ -250,9 +250,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             case 'save':
                 $this->_hour_report->modify_hours_by_time_slot();
-                // Reindex the article
-                //$indexer = $_MIDCOM->get_service('indexer');
-                //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
             case 'cancel':
                 $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
@@ -289,7 +286,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
@@ -302,11 +298,11 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         if (isset($this->_hour_report->task))
         {
-            $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
+            $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
         }
-        if (!empty($this->_request_data['task']))
+        else if (!empty($this->_request_data['task']))
         {
-            $task = new org_openpsa_projects_task_dba($this->_request_data['task']);
+            $task = org_openpsa_projects_task_dba::get_cached($this->_request_data['task']);
         }
 
         if ($task)
