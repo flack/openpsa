@@ -13,6 +13,19 @@
  */
 class org_openpsa_expenses_interface extends midcom_baseclasses_components_interface
 {
+    public function _on_resolve_permalink($topic, $config, $guid)
+    {
+        try
+        {
+            $event = new org_openpsa_projects_hour_report_dba($guid);
+            return "hours/edit/{$guid}/";
+        }
+        catch (midcom_error $e)
+        {
+            return null;
+        }
+    }
+
     /**
      * Support for contacts person merge
      */
