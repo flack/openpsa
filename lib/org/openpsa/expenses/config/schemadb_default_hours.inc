@@ -167,15 +167,6 @@
                 'component'   => 'org.openpsa.invoices',
                 'titlefield'  => 'number',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'sent',
-                        'op'    => '=',
-                        'value' => '0',
-                    ),
-                ),
                 'result_headers' => array
                 (
                     array
