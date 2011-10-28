@@ -60,6 +60,14 @@
     'variable_args' => 2,
 ),
 
+// Handle /csv/<type>
+'csv' => array
+(
+    'handler' => array('org_openpsa_expenses_handler_csv', 'csv'),
+    'fixed_args' => 'csv',
+    'variable_args' => 1,
+),
+
 // Handle /<timestamp>
 'index_timestamp' => array
 (

@@ -18,7 +18,9 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_view_toolbar($task)
     {
-        foreach (array_keys($this->_request_data['schemadb_hours_simple']) as $name)
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
+
+        foreach (array_keys($schemadb) as $name)
         {
             $create_url = "hours/create/{$name}/";
 
@@ -35,7 +37,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb_hours_simple'][$name]->description)
+                        $this->_l10n->get($schemadb[$name]->description)
                     ),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                 )
@@ -48,7 +50,6 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, $args)
     {
-        $this->_request_data['schemadb_hours_simple'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours_simple'));
         $task = false;
         if (   $handler == 'list_hours_task'
             || $handler == 'list_hours_task_all')

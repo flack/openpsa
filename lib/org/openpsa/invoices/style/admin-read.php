@@ -13,6 +13,7 @@ catch (midcom_error $e)
 
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
+$expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 ?>
     <div class="sidebar">
@@ -259,7 +260,7 @@ jQuery("#&(grid_id);").jqGrid({
 </script>
 
 <?php
-    echo "<form method=\"post\" action=\"" . $projects_url . "csv/hours/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
+    echo "<form method=\"post\" action=\"" . $expenses_url . "csv/hour_report/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
     echo "    <input type=\"hidden\" id=\"csvdata\" name=\"org_openpsa_core_csvexport\" value=\"\" />";
     foreach ($guids as $guid)
     {
