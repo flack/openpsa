@@ -9,7 +9,7 @@
 /**
  * The Cron handler of the AT service, when executed it checks the database for entries
  * that need to be run, then loads their relevant components and calls the interface
- * class statically for the defined method.
+ * class for the defined method.
  *
  * @package midcom.services.at
  */
@@ -22,7 +22,6 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
      */
     public function _on_execute()
     {
-        debug_add('called');
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());
         $qb->begin_group('OR');
@@ -40,7 +39,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             debug_add('Got empty resultset, exiting');
             return;
         }
-        debug_add('Processing results');
+
         foreach ($qbret as $entry)
         {
             debug_add("Processing entry #{$entry->id}\n");
@@ -56,7 +55,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $method = $entry->method;
             if (!is_callable(array($interface, $method)))
             {
-                $error = "\$interface->{$method}() is not callable()";
+                $error = "\$interface->{$method}() is not callable";
                 $this->print_error($error);
                 debug_add($error, MIDCOM_LOG_ERROR);
                 debug_add('$interface is ' . get_class($interface));
@@ -90,8 +89,6 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
                 $_MIDCOM->auth->drop_sudo();
             }
         }
-        debug_add('Done');
-        return;
     }
 }
 ?>
