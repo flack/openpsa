@@ -412,7 +412,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('argumentsstore', '=', serialize($args));
-        $qb->add_constraint('status', '=', MIDCOM_SERVICES_AT_STATUS_SCHEDULED);
+        $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
         $results = $qb->execute();
         if (sizeof($results) > 0)
         {

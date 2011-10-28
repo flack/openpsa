@@ -36,7 +36,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
         //$this->register_object($entry);
 
         $this->assertEquals($args, $entry->arguments);
-        $this->assertEquals(MIDCOM_SERVICES_AT_STATUS_SCHEDULED, $entry->status);
+        $this->assertEquals(midcom_services_at_entry_dba::SCHEDULED, $entry->status);
 
         $args['arg2'] = 11;
         $entry->arguments = $args;

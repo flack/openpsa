@@ -211,7 +211,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 if (isset($entries[0]))
                 {
                     $toolbar .= "<p>" . sprintf($this->_l10n->get('next invoice will be generated on %s'), strftime('%x', $entries[0]->start));
-                    if (   $entries[0]->status == MIDCOM_SERVICES_AT_STATUS_SCHEDULED
+                    if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
                     {
                         $toolbar .= ' <input type="hidden" name="at_entry" value="' . $entries[0]->guid . "\" />\n";

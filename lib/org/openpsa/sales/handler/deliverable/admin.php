@@ -150,8 +150,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     private function _modify_schema()
     {
-        $_MIDCOM->load_library('midcom.services.at');
-
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);

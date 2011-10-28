@@ -8,12 +8,17 @@
 
 /**
  * MidCOM wrapped class for access to the at-job database entries
+ *
  * @package midcom.services.at
  */
 class midcom_services_at_entry_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
+
+    const SCHEDULED = 100;
+    const RUNNING = 110;
+    const FAILED = 120;
 
     /**
      * Unserialized form of argumentsstore
@@ -64,7 +69,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     {
         if (!$this->status)
         {
-            $this->status = MIDCOM_SERVICES_AT_STATUS_SCHEDULED;
+            $this->status = self::SCHEDULED;
         }
         if (!$this->host)
         {

@@ -72,13 +72,13 @@ catch (midcom_error $e)
                 echo "            <td>";
                 switch ($entry->status)
                 {
-                    case MIDCOM_SERVICES_AT_STATUS_SCHEDULED:
+                    case midcom_services_at_entry_dba::SCHEDULED:
                         echo $_MIDCOM->i18n->get_string('scheduled', 'midcom.services.at');
                         break;
-                    case MIDCOM_SERVICES_AT_STATUS_RUNNING:
+                    case midcom_services_at_entry_dba::RUNNING:
                         echo $_MIDCOM->i18n->get_string('running', 'midcom.services.at');
                         break;
-                    case MIDCOM_SERVICES_AT_STATUS_FAILED:
+                    case midcom_services_at_entry_dba::FAILED:
                         echo $_MIDCOM->i18n->get_string('failed', 'midcom.services.at');
                         break;
                 }

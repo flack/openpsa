@@ -181,8 +181,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function get_at_entries()
     {
-        $_MIDCOM->load_library('midcom.services.at');
-
         $mc = new org_openpsa_relatedto_collector($this->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_constraint('method', '=', 'new_subscription_cycle');
         $at_entries = $mc->get_related_objects();

@@ -162,7 +162,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
             (
                 'group' => $this->guid,
             );
-            $_MIDCOM->load_library('midcom.services.at');
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
     }
