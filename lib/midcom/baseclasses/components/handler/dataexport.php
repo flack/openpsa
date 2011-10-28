@@ -40,6 +40,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     var $_objects = array();
 
+    private $_totals = array();
+
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -229,7 +231,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         $i = 0;
         $datamanager =& $this->_datamanager;
-        $totals = array();
 
         foreach ($datamanager->schema->field_order as $name)
         {
@@ -238,7 +239,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             if ($this->include_totals
                 && $type == 'number')
             {
-                $totals[$name] = 0;
+                $this->_totals[$name] = 0;
             }
             $title = $_MIDCOM->i18n->get_string($title, $this->_component);
             $i++;
@@ -268,7 +269,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 }
                 if ($type == 'number')
                 {
-                    $value = $totals[$name];
+                    $value = $this->_totals[$name];
                 }
 
                 echo $this->_encode_csv($value, true, $last);
@@ -305,7 +306,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 if ($this->include_totals
                     && $typename == 'number')
                 {
-                    $totals[$fieldname] += $data;
+                    $this->_totals[$fieldname] += $data;
                 }
                 $i++;
                 if ($i < count($this->_datamanager->schema->field_order))
