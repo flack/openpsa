@@ -63,18 +63,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 $customer = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
                 $this->_populate_schema_contacts_for_customer($customer);
             }
-
-            if ($this->_object->sent)
-            {
-                $fields['sent']['hidden'] = false;
-                $fields['sent']['readonly'] = false;
-            }
-
-            if ($this->_object->paid)
-            {
-                $fields['paid']['hidden'] = false;
-                $fields['paid']['readonly'] = false;
-            }
         }
         else
         {
@@ -116,6 +104,11 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if (!empty($this->_object->sent))
         {
             $fields['due']['hidden'] = false;
+            $fields['sent']['hidden'] = false;
+        }
+        if (!empty($this->_object->paid))
+        {
+            $fields['paid']['hidden'] = false;
         }
     }
 

@@ -178,6 +178,22 @@
             ),
             'widget'    => 'select',
         ),
+        'sent' => array
+        (
+            'title' => 'sent',
+            'storage'    => 'sent',
+            'type'    => 'date',
+            'type_config' => array
+            (
+                'storage_type' => 'UNIXTIME',
+            ),
+            'widget'    => 'jsdate',
+            'widget_config' => array
+            (
+                'show_time' => false
+            ),
+            'hidden'    => true,
+        ),
         'due' => array
         (
             'title' => 'due',
@@ -194,23 +210,6 @@
             ),
             'hidden' => true
         ),
-        'sent' => array
-        (
-            'title' => 'sent',
-            'storage'    => 'sent',
-            'type'    => 'date',
-            'type_config' => array
-            (
-                'storage_type' => 'UNIXTIME',
-            ),
-            'widget'    => 'jsdate',
-            'widget_config' => array
-            (
-                'show_time' => false
-            ),
-            'readonly'    => true,
-            'hidden'    => true,
-        ),
         'paid' => array
         (
             'title' => 'paid date',
@@ -225,7 +224,6 @@
             (
                 'show_time' => false
             ),
-            'readonly'    => true,
             'hidden'    => true,
         ),
         'pdf_file' => array
