@@ -20,12 +20,6 @@
                  ),
             ),
             'widget' => 'select',
-
-            'start_fieldset' => array
-            (
-                'title' => 'person_fieldset',
-                'css_group' => 'area meta',
-            ),
         ),
         'title' => array
         (
@@ -90,14 +84,12 @@
         ),
         'email' => array
         (
-            //REQUIRED COMPONENT
-            'required' => true,
-
             'title'    => 'email',
             'storage'  => 'email',
             'type'     => 'text',
             'widget'   => 'text',
             'validation' => 'email',
+            'required' => true,
         ),
         'workphone' => array
         (
@@ -144,17 +136,6 @@
             'type'     => 'text',
             'widget'   => 'text',
             'validation' => 'email',
-        ),
-        'person_notes' => array
-        (
-            'title' => 'notes',
-            'storage' => 'extra',
-            'type' => 'text',
-            'type_config' => array
-            (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
         ),
         'organizations' => array
         (
@@ -288,9 +269,22 @@
                 ),
             ),
             'widget' => 'photo',
+            'widget_config' => array
+            (
+                'show_title' => false
+            ),
             'index_method' => 'noindex',
-
-            'end_fieldset' => '',
+        ),
+        'person_notes' => array
+        (
+            'title' => 'notes',
+            'storage' => 'extra',
+            'type' => 'text',
+            'type_config' => array
+            (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
         ),
     )
 ),
