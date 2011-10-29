@@ -35,11 +35,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private $_person_user;
 
     /**
-     * The Controller of the contact used for editing
+     * The Datamanager of the contact
      *
-     * @var midcom_helper_datamanager2_controller_simple
+     * @var midcom_helper_datamanager2_datamanager
      */
-    private $_controller = null;
+    private $_datamanager = null;
 
     public function _on_initialize()
     {
@@ -53,24 +53,16 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private function _prepare_request_data()
     {
         $this->_request_data['person'] = $this->_contact;
-        $this->_request_data['controller'] = $this->_controller;
+        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['person_user'] = $this->_person_user;
     }
 
-    private function _load_controller()
+    private function _load_datamanager()
     {
         $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
-        $this->_controller->schemadb = $schemadb_person;
-        $this->_controller->set_storage($this->_contact, $this->_schema);
-        $this->_controller->process_ajax();
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb_person);
 
-        $this->_modify_schema();
-    }
-
-    private function _modify_schema()
-    {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $owner_guid = $siteconfig->get_my_company_guid();
         if ($owner_guid)
@@ -84,6 +76,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 $this->_schema = 'employee';
             }
         }
+        $this->_datamanager->set_schema($this->_schema);
+        $this->_datamanager->set_storage($this->_contact);
     }
 
     /**
@@ -97,8 +91,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
 
-        $this->_prepare_request_data();
-        $this->_load_controller();
+        $this->_load_datamanager();
 
         $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
         if ($data['person_rss_url'])
@@ -115,13 +108,14 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 )
             );
         }
-        // This handler uses Ajax, include the javascript
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        $this->_prepare_request_data();
+
         //enable ui_tab
         org_openpsa_widgets_ui::enable_ui_tab();
 
         $this->_populate_toolbar($handler_id);
-        $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
+
+        $_MIDCOM->bind_view_to_object($this->_contact, $this->_datamanager->schema_name);
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
         $_MIDCOM->set_pagetitle($this->_contact->name);
@@ -238,9 +232,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     public function _show_view($handler_id, array &$data)
     {
-        // For AJAX handling it is the controller that renders everything
-        $data['contact_view'] = $this->_controller->get_content_html();
-        $data['datamanager'] =& $this->_controller->datamanager;
+        $data['contact_view'] = $this->_datamanager->get_content_html();
 
         midcom_show_style('show-person');
     }
