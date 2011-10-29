@@ -18,21 +18,22 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     private $_register_prober = false;
 
-    function __construct($identifier = null)
+    public function __construct($identifier = null)
     {
-        if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+        if (   $GLOBALS['midcom_config']['person_class'] != 'midgard_person'
+            && $GLOBALS['midcom_config']['person_class'] != 'openpsa_person')
         {
             $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
         }
         parent::__construct($identifier);
     }
 
-    static function new_query_builder()
+    public static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
 
-    static function new_collector($domain, $value)
+    public static function new_collector($domain, $value)
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
@@ -43,7 +44,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
      * @param string $src GUID of person (ids work but are discouraged)
      * @return org_openpsa_contacts_person_dba reference to device object or false
      */
-    static function &get_cached($src)
+    public static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }

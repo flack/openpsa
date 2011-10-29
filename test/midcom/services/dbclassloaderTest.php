@@ -58,7 +58,7 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
 
     public function providerGet_midcom_class_name_for_mgdschema_object()
     {
-        return array
+        $ret = array
         (
             array
             (
@@ -66,6 +66,15 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
                 'org_openpsa_projects_task_dba'
             )
         );
+        if (class_exists('openpsa_person'))
+        {
+            $ret[] = array
+            (
+                new openpsa_person,
+                'midcom_db_person'
+            );
+        }
+        return $ret;
     }
 }
 ?>

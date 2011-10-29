@@ -68,7 +68,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
                 $data['member'] = new org_openpsa_directmarketing_campaign_member_dba();
                 $data['member']->person = $data['person']->id;
                 $data['member']->campaign = $data['message']->campaign;
-                $data['member']->guid = 'dummy';
             }
             else
             {

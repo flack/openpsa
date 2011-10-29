@@ -108,7 +108,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
      * Substitutes magic strings in content with values from the membership
      * and/or the person.
      */
-    function personalize_message($content, $message_type=-1, &$person=false, $node=false)
+    function personalize_message($content, $message_type=-1, &$person = false, $node = false)
     {
         if (!$node)
         {
