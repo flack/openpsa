@@ -18,6 +18,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_view_toolbar($task)
     {
+        midcom::get('componentloader')->load('org.openpsa.projects');
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
 
         foreach (array_keys($schemadb) as $name)
