@@ -8,6 +8,7 @@
 
 /**
  * The Grand Unified Reflector
+ *
  * @package midcom.helper.reflector
  */
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
@@ -39,15 +40,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (is_object($src))
         {
             $original_class = get_class($src);
-
-            // TODO: This should be redundant, it's only used to the the mgdschema_class, which is overwritten later by the resolve_baseclass -method
-            if (!isset($src->__mgdschema_class_name__))
-            {
-                $converted = $_MIDCOM->dbfactory->convert_midgard_to_midcom($src);
-                $src = $converted;
-                $this->mgdschema_class = $src->__mgdschema_class_name__;
-                unset($converted);
-            }
         }
         else
         {
@@ -55,7 +47,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Resolve root class name
-        $this->mgdschema_class = midcom_helper_reflector::resolve_baseclass($original_class);
+        $this->mgdschema_class = self::resolve_baseclass($original_class);
 
         // Could not resolve root class name
         if (empty($this->mgdschema_class))
@@ -70,18 +62,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return;
         }
         $this->_mgd_reflector = new midgard_reflection_property($this->mgdschema_class);
-        if (!$this->_mgd_reflector)
-        {
-            debug_add("Could not instantiate midgard_mgd_reflection_property for {$this->mgdschema_class}", MIDCOM_LOG_ERROR);
-            return;
-        }
 
         // Instantiate dummy object
-        $this->_dummy_object = new $this->mgdschema_class();
-        if (!$this->_dummy_object)
-        {
-            debug_add("Could not instantiate dummy object for {$this->mgdschema_class}", MIDCOM_LOG_ERROR);
-        }
+        $this->_dummy_object = new $this->mgdschema_class;
     }
 
     public static function &get($src)
@@ -158,6 +141,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $use_classname = $this->mgdschema_class;
 
         $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+
         if (!empty($midcom_dba_classname))
         {
             $use_classname = $midcom_dba_classname;
@@ -168,7 +152,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $label = $component_l10n->get($use_classname);
         if ($label == $use_classname)
         {
-            // Class string not localized, try Bergies way to pretty-print
+            // Class string not localized, try Bergie's way to pretty-print
             $classname_parts = explode('_', $use_classname);
             if (count($classname_parts) >= 3)
             {
@@ -371,7 +355,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         $object_class = get_class($obj);
-        $object_baseclass = midcom_helper_reflector::resolve_baseclass($obj);
+        $object_baseclass = self::resolve_baseclass($obj);
         switch(true)
         {
             // object knows it's icon, how handy!
@@ -700,17 +684,17 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function is_same_class($class_one, $class_two)
     {
-        $one = midcom_helper_reflector::resolve_baseclass($class_one);
-        $two = midcom_helper_reflector::resolve_baseclass($class_two);
+        $one = self::resolve_baseclass($class_one);
+        $two = self::resolve_baseclass($class_two);
         if ($one == $two)
         {
             return true;
         }
-        if (midcom_helper_reflector::class_rewrite($one) == $two)
+        if (self::class_rewrite($one) == $two)
         {
             return true;
         }
-        if ($one == midcom_helper_reflector::class_rewrite($two))
+        if ($one == self::class_rewrite($two))
         {
             return true;
         }
@@ -800,27 +784,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $parent_class = $classname;
         }
 
-        // Then traverse class tree
-        do
-        {
-            $cached[$classname] = $parent_class;
-            $parent_class = get_parent_class($cached[$classname]);
-            if (   empty($parent_class)
-                || $parent_class == 'midgard_object'
-                || $parent_class == 'MidgardObject')
-            {
-                break;
-            }
-        }
-        while ($parent_class !== false);
+        $cached[$classname] = $parent_class;
 
-        // Avoid notice in case things went wrong
-        if (isset($cached[$classname]))
-        {
-            return $cached[$classname];
-        }
-
-        return false;
+        return $cached[$classname];
     }
 
     /**
@@ -885,7 +851,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         try
         {
-            $resolver = midcom_helper_reflector::get($object);
+            $resolver = self::get($object);
             return $resolver->get_name_property_nonstatic($object);
         }
         catch (midcom_error $e)
@@ -934,7 +900,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_title_property($object)
     {
-        $resolver = midcom_helper_reflector::get($object);
+        $resolver = self::get($object);
         return $resolver->get_title_property_nonstatic($object);
     }
 
