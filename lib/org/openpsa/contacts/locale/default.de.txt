@@ -55,7 +55,7 @@ Wählen Sie, welche Person beibehalten werden soll. Sie können später auch bei
 ---STRINGEND
 
 ---STRING city
-Stadt
+Ort
 ---STRINGEND
 
 ---STRING client
