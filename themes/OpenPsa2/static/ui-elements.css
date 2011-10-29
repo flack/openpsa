@@ -205,27 +205,48 @@ div.area ul.comments li div.mobile {
 
 
 /* Datamanager-generated view handling*/
-div.midcom_helper_datamanager2_view,
-div.fieldset {
+div.midcom_helper_datamanager2_view
+{
     margin-bottom: 1em;
     display: table;
 }
-div.midcom_helper_datamanager2_view div.field {
+div.fieldset
+{
+    margin-bottom: 1em;
+    display: table-row-group;
+}
+#content-text div.fieldset h2
+{
+    display: table-caption;
+    font-size: 1.2em;
+}
+div.midcom_helper_datamanager2_view div.field
+{
     margin-bottom: 1em;
     display: table-row;
 }
-div.midcom_helper_datamanager2_view div.field > div{
+div.midcom_helper_datamanager2_view div.field > div
+{
     display: table-cell;
     border-bottom: 1px solid white;
     padding-top: 2px;
     padding-left: 5px
 }
-div.midcom_helper_datamanager2_view div.field:hover > div {
-    border-bottom: 1px solid #999;
+div.midcom_helper_datamanager2_view div.field:hover > div
+{
+    border-bottom: 1px solid #bbb;
+}
+
+div.midcom_helper_datamanager2_view div.title
+{
+    text-align: right;
+    font-weight: bold;
+    padding: .1em .3em .2em 0;
 }
 
 /* Ajax handling */
-input.ajax_editable, select.ajax_editable {
+input.ajax_editable, select.ajax_editable
+{
     border: 1px solid transparent;
     background-color: transparent;
     background-position: right;
@@ -239,12 +260,11 @@ select.ajax_editable option {
 form.datamanager2
 {
     margin-bottom: 5em;
-    display: table;
 }
 
 form.datamanager2 .form
 {
-    display: table-row-group;
+    display: table;
 }
 
 form.datamanager2 .form fieldset.fieldset
@@ -257,6 +277,7 @@ form.datamanager2 .form fieldset.fieldset
     background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(32%,#F9F9F9), color-stop(96%,#F9F9F8), color-stop(100%,#FCFCFC));
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
+    display: table-row-group;
 }
 
 form.datamanager2 .form fieldset.fieldset:hover
@@ -268,7 +289,8 @@ form.datamanager2 .form fieldset.fieldset:hover
 
 form.datamanager2 .form fieldset.fieldset legend
 {
-    font-size: 1.1em
+    font-size: 1.1em;
+    display: table-caption
 }
 
 form.datamanager2 .element
