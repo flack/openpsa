@@ -304,7 +304,7 @@ p
     -webkit-border-radius: 6px;
     border-radius: 6px;
     padding: 2px 6px;
-    margin-bottom: 0.5em
+    margin-bottom: 0.5em;
 }
 
 #content .object_edit .element
@@ -321,6 +321,12 @@ p
     font-size: 100%;
     padding: 0.3em 0.1em;
     display: block;
+    font-weight: bold
+}
+
+#content .object_view .value
+{
+    min-height: 1em
 }
 
 #content .object_edit label
