@@ -573,8 +573,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             }
 
             echo "<div class=\"field\">\n";
-            echo '<div class="title" style="font-weight: bold;">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
-            echo '<div class="value" style="margin-left: 5em; min-height: 1em;">';
+            echo '<div class="title">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
+            echo '<div class="value">';
 
             if (is_null($this->formmanager))
             {
