@@ -228,13 +228,13 @@ class midcom_core_account
 
         try
         {
-            $this->_user->create();
+            $stat = $this->_user->create();
         }
         catch (midgard_error_exception $e)
         {
             return false;
         }
-        return true;
+        return $stat;
     }
 
     private function _update()
