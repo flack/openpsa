@@ -805,7 +805,6 @@ class midcom_helper_metadata
     /**
      * Check if the requested object is locked
      *
-     * @static
      * @param mixed &$object    MgdSchema object
      * @return boolean          True if the object is locked, false if it isn't
      */

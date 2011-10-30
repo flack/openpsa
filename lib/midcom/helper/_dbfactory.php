@@ -81,15 +81,11 @@ class midcom_helper__dbfactory
      * This function will determine the correct type of midgard_collector that
      * has to be created. It will also call the _on_prepare_new_collector event handler.
      *
-     * Since this is to be called statically, it will take a class name, not an instance
-     * as argument.
-     *
      * @param string $classname The name of the class for which you want to create a collector.
      * @param string $domain The domain property of the collector instance
      * @param mixed $value Value match for the collector instance
      * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
-     * @static
      */
     function new_collector($classname, $domain, $value)
     {
@@ -102,13 +98,9 @@ class midcom_helper__dbfactory
      * This function will determine the correct type of midgard_query_builder that
      * has to be created. It will also call the _on_prepare_new_query_builder event handler.
      *
-     * Since this is to be called statically, it will take a class name, not an instance
-     * as argument.
-     *
      * @param string $classname The name of the class for which you want to create a query builder.
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
-     * @static
      */
     function new_query_builder($classname)
     {

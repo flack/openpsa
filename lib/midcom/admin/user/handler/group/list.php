@@ -202,7 +202,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             {
                 // Prevent moving owner to any of its children
                 $data['disabled'] = false;
-                if (midcom_admin_user_handler_group_list::belongs_to($data['id'], $data['group']->id))
+                if (self::belongs_to($data['id'], $data['group']->id))
                 {
                     $data['disabled'] = true;
                 }
@@ -222,11 +222,10 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Internal helper to check if the requested group belongs to the haystack
      *
-     * @static
      * @param int $id
      * @param int $owner
      */
-    public function belongs_to($id, $owner)
+    public static function belongs_to($id, $owner)
     {
         do
         {

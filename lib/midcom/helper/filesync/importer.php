@@ -37,9 +37,8 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
      *
      * @param string $type type
      * @return midcom_helper_filesync_importer A reference to the newly created importer instance.
-     * @static
      */
-    static public function & create($type)
+    public static function & create($type)
     {
         $classname = "midcom_helper_filesync_importer_{$type}";
         if (!class_exists($classname))

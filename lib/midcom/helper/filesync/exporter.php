@@ -99,7 +99,6 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
      *
      * @param string $type type
      * @return midcom_helper_filesync_exporter A reference to the newly created exporter instance.
-     * @static
      */
     public static function & create($type)
     {

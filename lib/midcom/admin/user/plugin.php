@@ -26,10 +26,9 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
     /**
      * Static method for generating one password
      *
-     * @static
      * @param int $length
      */
-    public function generate_password($length = 8, $no_similars = true, $strong = true)
+    public static function generate_password($length = 8, $no_similars = true, $strong = true)
     {
         $similars = array
         (

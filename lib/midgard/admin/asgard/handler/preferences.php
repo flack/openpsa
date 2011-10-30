@@ -133,11 +133,9 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * Static method for getting the languages, but
-     *
-     * @static
+     * Static method for getting the languages
      */
-    public function get_languages()
+    public static function get_languages()
     {
         $lang_str = $_MIDCOM->i18n->get_current_language();
         $languages = $_MIDCOM->i18n->list_languages();
