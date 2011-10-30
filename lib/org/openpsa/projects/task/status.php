@@ -39,10 +39,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         parent::__construct($id);
         if (!$this->id)
         {
-            if (is_object($this))
-            {
-                $this->timestamp = $this->gmtime();
-            }
+            $this->timestamp = $this->gmtime();
         }
     }
 
