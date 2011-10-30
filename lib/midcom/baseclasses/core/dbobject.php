@@ -1136,7 +1136,7 @@ class midcom_baseclasses_core_dbobject
         if (   $object->id != 0
             && $object->action != 'delete')
         {
-            if (!$object->can_do('midgard:read', $object))
+            if (!$object->can_do('midgard:read'))
             {
                 self::_clear_object($object);
                 return false;
@@ -1517,7 +1517,7 @@ class midcom_baseclasses_core_dbobject
     {
         if (! $object->guid)
         {
-            debug_add('Cannot set parameters on a non-persistant object.', MIDCOM_LOG_WARN);
+            debug_add('Cannot delete parameters on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
         }
         if (   empty($domain)
@@ -1531,8 +1531,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   ! $object->can_do('midgard:update', $object)
-            || ! $object->can_do('midgard:parameters', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:parameters'))
         {
             debug_add("Failed to delete parameters, midgard:update or midgard:parameters on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
