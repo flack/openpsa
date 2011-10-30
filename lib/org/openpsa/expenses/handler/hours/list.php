@@ -31,16 +31,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private $tasks = array();
 
     /**
-     * Prepare a paged query builder for listing hour reports
-     */
-    function &_prepare_qb()
-    {
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $this->_request_data['qb'] =& $qb;
-        return $qb;
-    }
-
-    /**
      * The handler for the list view
      *
      * @param mixed $handler_id the array key from the request array
@@ -52,14 +42,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $_MIDCOM->auth->require_valid_user();
 
         // List hours
-        $qb = $this->_prepare_qb();
+        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
 
         $mode = 'full';
 
-        $filter_array = array
-        (
-            "person"
-        );
         //url for batch_handler
         $this->_request_data['action_target_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
 
@@ -110,6 +96,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         $data['mode'] = $mode;
         $data['tasks'] = $this->tasks;
+        $data['qb'] = $qb;
 
         org_openpsa_widgets_grid::add_head_elements();
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();

@@ -25,18 +25,13 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
      *
      * @param integer $task_id ID of an org_openpsa_projects_task_dba object
      * @param string $list Key of the task list
-     * @return boolean
      */
     private function _add_task_to_list($task_id, $list = 'current')
     {
-        if (!$task_id)
-        {
-            return false;
-        }
         // Ensure the requested list is available
         if (!array_key_exists($list, $this->_request_data['tasks']))
         {
-            $this->_request_data['tasks'][$list] = Array();
+            $this->_request_data['tasks'][$list] = array();
         }
 
         // Instantiate each task only once
@@ -49,14 +44,14 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             catch (midcom_error $e)
             {
                 $e->log();
-                return false;
+                return;
             }
         }
 
         // Only accept tasks to this list, projects need not apply
         if ($this->_task_cache[$task_id]->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_TASK)
         {
-            return false;
+            return;
         }
 
         // Add task to a list only once
@@ -64,7 +59,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             $this->_request_data['tasks'][$list][$task_id] = $this->_task_cache[$task_id];
         }
-        return true;
     }
 
     /**

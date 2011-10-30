@@ -142,7 +142,6 @@ class org_openpsa_core_queryfilter
             echo '<div class="org_openpsa_filter_widget">';
             echo '<form id="' . $filter->name . '_filter" class="filter" action="' . $url . '" method="post" style="display:inline">';
 
-
             $filter->render();
             echo "</div>\n";
         }

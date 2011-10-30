@@ -162,7 +162,6 @@ class org_openpsa_core_filter
         return $this->_config[$key];
     }
 
-
     /**
      * Renderer for 'datepicker' mode
      *
@@ -226,8 +225,7 @@ class org_openpsa_core_filter
             {
                 echo "selected=\"selected\"";
             }
-            echo '>' . $option['title'];
-            echo "\n</option>\n";
+            echo '>' . $option['title'] . "</option>\n";
         }
         echo "\n</select>\n";
 
