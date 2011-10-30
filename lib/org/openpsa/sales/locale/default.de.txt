@@ -243,6 +243,10 @@ pro %s
 pro Einheit
 ---STRINGEND
 
+---STRING planned units
+Geplante Stückzahl
+---STRINGEND
+
 ---STRING plan
 Plan
 ---STRINGEND
