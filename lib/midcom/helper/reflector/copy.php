@@ -126,13 +126,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public $new_root_object = null;
 
     /**
-     * Reflectors for different MgdSchema object types
-     *
-     * @var array         class_name => midcom_helper_reflector
-     */
-    private $reflectors = array();
-
-    /**
      * Properties for each encountered MgdSchema object
      *
      * @var array         class_name => array of properties
@@ -211,22 +204,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
 
-        if (isset($this->parent_properties[$mgdschema_class]))
-        {
-            return $this->parent_properties[$mgdschema_class];
-        }
-
-        if (!isset($this->reflectors[$mgdschema_class]))
-        {
-            $this->reflectors[$mgdschema_class] = new midcom_helper_reflector($mgdschema_class);
-        }
-
         // Get the parent property
         $properties = self::get_target_properties($object);
-        $parent_property = $properties['parent'];
-        $this->parent_properties[$mgdschema_class] = $parent_property;
-
-        return $parent_property;
+        return $properties['parent'];
     }
 
     /**
