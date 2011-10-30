@@ -48,12 +48,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             }
         }
 
-        // Only accept tasks to this list, projects need not apply
-        if ($this->_task_cache[$task_id]->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_TASK)
-        {
-            return;
-        }
-
         // Add task to a list only once
         if (!array_key_exists($task_id, $this->_request_data['tasks'][$list]))
         {
