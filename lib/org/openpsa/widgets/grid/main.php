@@ -182,13 +182,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     public function remove_column($name)
     {
         if (   empty($name)
-            || emtpy($this->_columns[$name]))
+            || !array_key_exists($name, $this->_columns))
         {
             throw new midcom_error('Invalid column name ' . $name);
         }
         if ($this->_columns[$name]['separate_index'])
         {
-            $this->_columns[$name . '_index'];
+            unset($this->_columns[$name . '_index']);
         }
         unset($this->_columns[$name]);
     }
