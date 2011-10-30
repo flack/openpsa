@@ -180,6 +180,12 @@ form.datamanager2 div.form_toolbar input.delete
     background-image: url('../stock-icons/16x16/trash.png');
 }
 
+form.datamanager2 div.form_toolbar input.preview
+{
+    padding-left: 18px;
+    background-image: url('../stock-icons/16x16/view.png');
+}
+
 /* Checkbox display */
 form.datamanager2 .element_checkbox label,
 form.datamanager2 .element_checkbox .input
