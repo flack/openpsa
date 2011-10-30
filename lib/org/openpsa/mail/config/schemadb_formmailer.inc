@@ -10,7 +10,7 @@
             'type'     => 'text',
             'widget'   => 'text',
         ),
-        'recipient' => array
+        'message' => array
         (
             'title'    => 'message',
             'type'     => 'text',
