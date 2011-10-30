@@ -84,13 +84,27 @@ class org_openpsa_core_filter
 
     private function _apply_timeframe_constraints($query)
     {
-        if (!empty($this->_selection['from']))
+        if (is_string($this->_config['fieldname']))
         {
-            $query->add_constraint($this->_config['fieldname'], '>=', strtotime($this->_selection['from']));
+            if (!empty($this->_selection['from']))
+            {
+                $query->add_constraint($this->_config['fieldname'], '>=', strtotime($this->_selection['from']));
+            }
+            if (!empty($this->_selection['to']))
+            {
+                $query->add_constraint($this->_config['fieldname'], '<=', strtotime($this->_selection['to']));
+            }
         }
-        if (!empty($this->_selection['to']))
+        else
         {
-            $query->add_constraint($this->_config['fieldname'], '<=', strtotime($this->_selection['to']));
+            if (!empty($this->_selection['to']))
+            {
+                $query->add_constraint($this->_config['fieldname']['start'], '<=', strtotime($this->_selection['to']));
+            }
+            if (!empty($this->_selection['from']))
+            {
+                $query->add_constraint($this->_config['fieldname']['end'], '>=', strtotime($this->_selection['from']));
+            }
         }
     }
 
