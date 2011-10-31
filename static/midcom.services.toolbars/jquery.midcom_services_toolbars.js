@@ -31,7 +31,6 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         visible: true,
         create_root: false,
         debug: false,
-        enable_memory: false,
         class_name: 'midcom_services_toolbars_fancy',
         show_logos: true,
         allow_auto_create: false
@@ -102,10 +101,7 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
     debug('root_element: '+root_element, 'info');
     
     var menu_items = with_items || Array();
-    
-    var client_memory = null;
 
-    //ad-hoc cookie implementation that simulates the prototype-based client_memory behavior
     if (document.cookie)
     {
         var cookie_array = document.cookie.split(';');
@@ -152,24 +148,30 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
     }
     
     
-    var default_position = get_default_position(root_element);
+    var default_position = get_default_position(root_element),
+    posX = default_position.x + 'px',
+    posY = default_position.y + 'px';
 
     if (memorized_position != null)
     {
         debug("memorized_position.x: " + memorized_position.x);
         debug("memorized_position.y: " + memorized_position.y);
-        var posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x) + 'px';
-        var posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y) + 'px';
+        posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x) + 'px';
+        posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y) + 'px';
     }
     else
     {
-        var posX = default_position.x + 'px';
-        var posY = default_position.y + 'px';
+        jQuery.get(
+            MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php',
+            {
+                'position_x': default_position.x,
+                'position_y': default_position.y
+            }
+        );
     }
     
-    debug('posX: '+posX);
-    debug('posY: '+posY);
-    
+    debug('posX: ' + posX);
+    debug('posY: ' + posY);
     debug('Initializing Finished', 'info');
     
     enable_toolbar();
@@ -308,11 +310,6 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         
         var pos = { x: new_pos.left,
                     y: new_pos.top };
-
-        if (settings.memory)
-        {
-            client_memory.write("position",protoToolkit.toJSON(pos));
-        }
 
         jQuery.get(
             MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php',
