@@ -16,14 +16,6 @@
 class midcom_admin_folder_handler_order extends midcom_baseclasses_components_handler
 {
     /**
-     * Constructor method
-     */
-    public function __construct()
-    {
-        $_MIDCOM->componentloader->load('midcom.helper.reflector');
-    }
-
-    /**
      * This function will set the score.
      *
      * @return boolean Indicating success
@@ -120,7 +112,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         if (!$metadata->set('score', $object->metadata->score))
         {
             // Show an error message on an update failure
-            $_MIDCOM->load_library('midcom.helper.reflector');
             $reflector =& midcom_helper_reflector::get($object);
             $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
