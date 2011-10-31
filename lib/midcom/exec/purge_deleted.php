@@ -32,7 +32,6 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
     echo "<h2>Processing class {$mgdschema}</h2>";
     flush();
 
-    $offset = 0;
     $total = 0;
     $purged = 0;
     do
@@ -42,8 +41,6 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
         $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
         $qb->include_deleted();
         $qb->set_limit($chunk_size);
-        $qb->set_offset($offset);
-        $offset += $chunk_size;
         $objects = $qb->execute();
         unset($qb);
         if (!is_array($objects))
