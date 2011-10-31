@@ -7,6 +7,7 @@
     'org_openpsa_person' => 'org_openpsa_contacts_person_dba',
     'org_openpsa_role' => 'org_openpsa_contacts_role_dba',
     'org_openpsa_contacts_list' => 'org_openpsa_contacts_list_dba',
+    'org_openpsa_member' => 'org_openpsa_contacts_member_dba',
 ),
 'version' => '9.0beta1+git',
 'state' => 'stable',
