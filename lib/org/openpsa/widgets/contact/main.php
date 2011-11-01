@@ -389,7 +389,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         }
 
         $mc = org_openpsa_contacts_member_dba::new_collector('uid', $this->contact_details['id']);
-        $mc->add_constraint('gid.orgOpenpsaObtype', '<', ORG_OPENPSA_OBTYPE_ORGANIZATION);
+        $mc->add_constraint('gid.orgOpenpsaObtype', '>=', ORG_OPENPSA_OBTYPE_ORGANIZATION);
         $mc->add_value_property('gid');
         $mc->add_value_property('extra');
         $mc->execute();
