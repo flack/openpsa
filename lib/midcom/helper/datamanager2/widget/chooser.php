@@ -97,7 +97,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     var $clever_class = null;
 
     /**
-     * Associative array of constraints (besides the search term), always AND
+     * Array of constraints (besides the search term), always AND
+     *
+     * Attention: If the type defines constraints, they always take precedence
      *
      * Example:
      * <code>
@@ -386,6 +388,11 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             debug_add("Warning, the field {$this->name} does not have searchfields defined, it can never return results.",
                 MIDCOM_LOG_WARN);
             return false;
+        }
+
+        if (!empty($this->_type->constraints))
+        {
+            $this->constraints = $this->_type->constraints;
         }
 
         $_MIDCOM->enable_jquery();
