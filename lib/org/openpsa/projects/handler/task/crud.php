@@ -318,7 +318,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         );
         $mc = new org_openpsa_relatedto_collector($this->_object->guid, 'org_openpsa_calendar_event_dba');
         $mc->add_value_property('status');
-        $mc->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         // TODO: fromClass too?
         $mc->execute();
 
@@ -334,7 +334,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 continue;
             }
 
-            if ($mc->get_subkey($guid, 'status') == ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED)
+            if ($mc->get_subkey($guid, 'status') == org_openpsa_relatedto_dba::CONFIRMED)
             {
                 $bookings['confirmed'][] = $booking;
                 $task_booked_time += ($booking->end - $booking->start) / 3600;

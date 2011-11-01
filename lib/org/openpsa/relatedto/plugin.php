@@ -37,11 +37,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             return false;
         }
 
-        $_MIDCOM->componentloader->load('org.openpsa.relatedto');
-
         if (!$status)
         {
-            $status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
+            $status = org_openpsa_relatedto_dba::CONFIRMED;
         }
 
         $rel = new org_openpsa_relatedto_dba();
@@ -252,7 +250,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $related_to->toClass = get_class($bind_object);
         $related_to->toComponent = $calling_component;
         $related_to->fromComponent = $button_component;
-        $related_to->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
+        $related_to->status = org_openpsa_relatedto_dba::CONFIRMED;
 
         return $related_to;
     }

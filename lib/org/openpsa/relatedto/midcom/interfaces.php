@@ -20,15 +20,6 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         $this->_autoload_files = array('dba.php');
     }
 
-    public function _on_initialize()
-    {
-        define('ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED', 100);
-        define('ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED', 120);
-        define('ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED', 130);
-
-        return true;
-    }
-
     public function _on_watched_dba_create($object)
     {
         $ret = array();
