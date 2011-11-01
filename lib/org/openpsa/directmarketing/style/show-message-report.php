@@ -59,7 +59,7 @@ else
         if (   isset($report['link_data']['segments'])
             && is_array($report['link_data']['segments']))
         {
-            foreach($report['link_data']['segments'] as $segment => $segment_data)
+            foreach ($report['link_data']['segments'] as $segment => $segment_data)
             {
                 unset($data['use_link_data']);
                 $data['use_link_data'] =& $segment_data;

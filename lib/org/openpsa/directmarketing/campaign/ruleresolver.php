@@ -147,14 +147,15 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->_result_mc->execute();
         $results = $this->_result_mc->list_keys();
         $ret = array();
-        foreach($results as $key => $value)
+        foreach ($results as $key => $value)
         {
-            $ret[$this->_result_mc->get_subkey($key, 'id')] = array(
+            $ret[$this->_result_mc->get_subkey($key, 'id')] = array
+            (
                 'lastname' => $this->_result_mc->get_subkey($key, 'lastname'),
                 'firstname' => $this->_result_mc->get_subkey($key, 'firstname'),
                 'email' => $this->_result_mc->get_subkey($key, 'email'),
                 'guid' => $key,
-                );
+            );
         }
 
         return $ret;
@@ -176,10 +177,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         }
 
         if (   $match_class
-            && (
-                $group['class'] != $match_class
-                )
-            )
+            && $group['class'] != $match_class)
         {
             debug_add("{$group['class']} != {$match_class}, unmatched classes where match required", MIDCOM_LOG_ERROR);
             return false;
@@ -320,7 +318,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $mc_group->execute();
         $keys = $mc_group->list_keys();
-        foreach( $keys as $key => $value)
+        foreach ($keys as $key => $value)
         {
             // get user-id
             $group_member[] = $mc_group->get_subkey($key, 'uid');
@@ -440,7 +438,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $keys = $mc_misc->list_keys();
 
-        foreach( $keys as $key => $value)
+        foreach ($keys as $key => $value)
         {
             // get user-id
             $persons[] = $mc_misc->get_subkey($key, $person_property);

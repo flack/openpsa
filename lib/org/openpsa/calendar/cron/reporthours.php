@@ -84,7 +84,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $seen_tasks = array();
         // keyed by guid
         $event_links = array();
-        foreach($eventmembers as $member)
+        foreach ($eventmembers as $member)
         {
             // Bulletproofing: prevent duplicating hour reports
             $member->hoursReported = time();
@@ -121,7 +121,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 continue;
             }
 
-            foreach($links as $link)
+            foreach ($links as $link)
             {
                 //Avoid multiple loads of same task
                 if (!isset($seen_tasks[$link->toGuid]))

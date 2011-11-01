@@ -326,13 +326,13 @@ END;
         {
             $info = $this->_type->images[$identifier]['main'];
         }
-        elseif (isset($this->_type->images[$identifier]['original']))
+        else if (isset($this->_type->images[$identifier]['original']))
         {
             $info = $this->_type->images[$identifier]['original'];
         }
         else
         {
-            foreach($this->_type->images[$identifier] as $data)
+            foreach ($this->_type->images[$identifier] as $data)
             {
                 $info = $data;
                 break;
@@ -340,7 +340,6 @@ END;
         }
         if (   !isset($info['object'])
             || !is_object($info['object'])
-            || !isset($info['object']->guid)
             || empty($info['object']->guid))
         {
             //Panic, broken identifier

@@ -212,7 +212,7 @@ class midcom_helper_reflector_nameresolver
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach($root_classes as $classname)
+            foreach ($root_classes as $classname)
             {
                 if ($_MIDCOM->dbfactory->is_a($this->_object, $classname))
                 {
@@ -551,7 +551,7 @@ class midcom_helper_reflector_nameresolver
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach($root_classes as $schema_type)
+            foreach ($root_classes as $schema_type)
             {
                 if ($_MIDCOM->dbfactory->is_a($this->_object, $schema_type))
                 {
@@ -569,7 +569,7 @@ class midcom_helper_reflector_nameresolver
             else
             {
                 // TODO: Refactor to reduce duplicate code with _name_is_unique_check_roots
-                foreach($root_classes as $schema_type)
+                foreach ($root_classes as $schema_type)
                 {
                     $dummy = new $schema_type();
                     $child_name_property = midcom_helper_reflector::get_name_property($dummy);

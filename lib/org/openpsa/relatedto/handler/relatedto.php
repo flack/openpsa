@@ -300,7 +300,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         midcom_show_style('relatedto_list_top');
 
-        foreach($this->_links[$direction] as $linkdata)
+        foreach ($this->_links[$direction] as $linkdata)
         {
             $this->_render_line($linkdata['link'], $linkdata['other_obj']);
         }

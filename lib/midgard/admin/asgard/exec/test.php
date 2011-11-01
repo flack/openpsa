@@ -59,7 +59,7 @@ echo "</pre>\n";
 
 
 echo "<hr/>\nroot objects per type<br/>\n";
-foreach($root_types as $schema_type)
+foreach ($root_types as $schema_type)
 {
     $ref = midcom_helper_reflector_tree::get($schema_type);
     $count = $ref->count_root_objects();

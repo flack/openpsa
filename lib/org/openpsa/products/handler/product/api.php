@@ -225,7 +225,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error("Failed to initialize DM2 for product: {$errstr}");
         }
 
-        foreach($this->_datamanager->types as $key => $type)
+        foreach ($this->_datamanager->types as $key => $type)
         {
             if (isset($_POST[$key]))
             {
@@ -260,7 +260,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error( 'Failed to initialize DM2 for product: ' . midcom_connection::get_error_string());
         }
 
-        foreach($this->_datamanager->types as $key => $type)
+        foreach ($this->_datamanager->types as $key => $type)
         {
             if (isset($_POST[$key]))
             {

@@ -935,7 +935,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if ($this->attachments_info)
         {
             $result .= "<ul>\n";
-            foreach($this->attachments_info as $identifier => $info)
+            foreach ($this->attachments_info as $identifier => $info)
             {
                 if (   $info['description']
                     && $info['description'] != $info['filename'])

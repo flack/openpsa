@@ -14,7 +14,7 @@ echo "<p>" . count($atts) . " attachments to process...</p>\n";
 
 foreach ($atts as $att)
 {
-    $att->file_to_cache();;
+    $att->file_to_cache();
 }
 
 echo "<p>DONE</p>\n";

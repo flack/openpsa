@@ -43,7 +43,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         {
             $relatedto_arr = org_openpsa_relatedto_plugin::get2relatedto();
         }
-        foreach($relatedto_arr as $k => $rel)
+        foreach ($relatedto_arr as $k => $rel)
         {
             $ret[$k] = array ('stat' => false, 'method' => false, 'obj' => false);
             $rel->fromClass = get_class($object);
@@ -133,7 +133,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         // TODO: Check for duplicates and remove those (also from the links array...)
 
         // Save updates to remaining links
-        foreach($links as $link)
+        foreach ($links as $link)
         {
             if (!$link->update())
             {

@@ -729,7 +729,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                             // We have parsed some contact info.
 
                             // Convert fields from latin-1 to MidCOM charset (usually utf-8)
-                            foreach($contact as $type => $fields)
+                            foreach ($contact as $type => $fields)
                             {
                                 foreach ($fields as $key => $value)
                                 {

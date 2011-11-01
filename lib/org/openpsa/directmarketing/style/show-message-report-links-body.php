@@ -27,7 +27,7 @@ $body_class = " class='{$data['body_class']}'";
 <?php       }
             $total = 0;
 
-            foreach($link_data['counts'] as $target => $count)
+            foreach ($link_data['counts'] as $target => $count)
             {
                 $total += $count['total'];
                 $of_clicks = $link_data['percentages']['of_links'][$target]['total'];

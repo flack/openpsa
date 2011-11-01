@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for clearing tokens from old send receipts
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_components_cron_handler
@@ -34,7 +35,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');
         $qb->add_order('name', 'ASC');
         $results = @$qb->execute();
-        foreach($results as $param)
+        foreach ($results as $param)
         {
             try
             {
@@ -43,8 +44,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
             catch (midcom_error $e)
             {
                 debug_add("GUID {$param->name} points to nonexistent person, removing possible duplicate mark", MIDCOM_LOG_INFO);
-                $stat = $param->delete();
-                if (!$stat)
+                if (!$param->delete())
                 {
                     debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }

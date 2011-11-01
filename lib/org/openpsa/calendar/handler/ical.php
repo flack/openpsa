@@ -42,7 +42,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $members = $qb->execute();
         if (is_array($members))
         {
-            foreach($members as $member)
+            foreach ($members as $member)
             {
                 $this->_request_data['events'][] = new org_openpsa_calendar_event_dba($member->eid);
             }

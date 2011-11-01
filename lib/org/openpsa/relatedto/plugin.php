@@ -96,7 +96,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         foreach ($_REQUEST['org_openpsa_relatedto'] as $rel_array)
         {
             $rel = new org_openpsa_relatedto_dba();
-            foreach($rel_array as $k => $v)
+            foreach ($rel_array as $k => $v)
             {
                 $rel->$k = $v;
             }

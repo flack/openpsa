@@ -330,7 +330,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
     private function _load_field_default($name, $config)
     {
-        $field_default = $this->widgets[$name]->get_default();;
+        $field_default = $this->widgets[$name]->get_default();
         if (   null === $field_default
             && !empty($config['default']))
         {

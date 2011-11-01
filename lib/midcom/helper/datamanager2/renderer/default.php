@@ -271,7 +271,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         if (is_array($label))
         {
-            foreach($label as $key => $text)
+            foreach ($label as $key => $text)
             {
                 $key  = is_int($key) ? $key + 2 : $key;
                 $html = str_replace("{label_{$key}}", $text, $html);

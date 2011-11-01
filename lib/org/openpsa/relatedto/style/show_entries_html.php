@@ -7,11 +7,11 @@
     <?php
     //add static data to jqgrid if wanted
     $start = true;
-    if ( !array_key_exists('dynamic_load', $data)
+    if (    !array_key_exists('dynamic_load', $data)
          && array_key_exists('entries', $data))
     {
         $rows = array();
-        foreach($data['entries'] as $entry)
+        foreach ($data['entries'] as $entry)
         {
             $row = array
             (

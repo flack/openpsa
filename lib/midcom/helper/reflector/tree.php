@@ -919,7 +919,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         if (!empty($root_exceptions_forceroot))
         {
-            foreach($root_exceptions_forceroot as $schema_type)
+            foreach ($root_exceptions_forceroot as $schema_type)
             {
                 if (!class_exists($schema_type))
                 {
