@@ -292,7 +292,7 @@ class midcom_application
      * cannot be used within code-init or during the output phase of another
      * component.
      *
-     * Example code, executed on a sites Homepage, it will load the news listing from
+     * Example code, executed on a site's homepage, it will load the news listing from
      * the given URL and display it using a substyle of the node style that is assigned
      * to the loaded one:
      *
@@ -300,32 +300,6 @@ class midcom_application
      * $blog = '/blog/latest/3/';
      * $substyle = 'homepage';
      * $_MIDCOM->dynamic_load("/midcom-substyle-{$substyle}/{$blog}");
-     * </code>
-     *
-     * <B>Danger, Will Robinson:</b>
-     *
-     * Be aware, that the call to another component will most certainly overwrite global
-     * variables that you are currently using. A common mistake is this:
-     *
-     * <code>
-     * global $view;
-     * $_MIDCOM->dynamic_load($view['url1']);
-     * // You will most probably fail, could even loop infinitely!
-     * $_MIDCOM->dynamic_load($view['url2']);
-     * </code>
-     *
-     * The reason why this usually fails is, that the $view you have been using during
-     * the first call was overwritten by the other component during it, $view['url2']
-     * is now empty. If you are now on the homepage, the homepage would start loading
-     * itself again and again.
-     *
-     * Therefore, be sure to save the variables locally (remember, the style invocation
-     * is in function context):
-     *
-     * <code>
-     * $view = $GLOBALS['view'];
-     * $_MIDCOM->dynamic_load($view['url1']);
-     * $_MIDCOM->dynamic_load($view['url2']);
      * </code>
      *
      * Results of dynamic_loads are cached, by default with the system cache strategy
