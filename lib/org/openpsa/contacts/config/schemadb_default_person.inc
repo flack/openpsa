@@ -148,7 +148,6 @@
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -203,7 +202,6 @@
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array

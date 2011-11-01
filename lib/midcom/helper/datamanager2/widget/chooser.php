@@ -27,8 +27,6 @@
  *     'type' => 'select',
  *     'type_config' => array
  *     (
- *          'require_corresponding_option' => false,
- *          'allow_multiple' => true,
  *          'multiple_storagemode' => 'array',
  *     ),
  *     'widget' => 'chooser',
@@ -47,8 +45,6 @@
  *      'type' => 'select',
  *      'type_config' => array
  *      (
- *           'require_corresponding_option' => false,
- *           'allow_multiple' => true,
  *           'multiple_storagemode' => 'array',
  *      ),
  *      'widget' => 'chooser',
