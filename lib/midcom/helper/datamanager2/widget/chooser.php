@@ -330,8 +330,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     public function _on_initialize()
     {
-        if (   !is_a($this->_type, 'midcom_helper_datamanager2_type_select')
-            && !is_a($this->_type, 'midcom_helper_datamanager2_type_mnrelation'))
+        if (!is_a($this->_type, 'midcom_helper_datamanager2_type_select'))
         {
             debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the chooser widget with it.",
                 MIDCOM_LOG_WARN);
@@ -1283,7 +1282,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return;
         }
 
-        $real_results =& $results["{$this->_element_id}_selections"];
+        $real_results = $results["{$this->_element_id}_selections"];
         if (is_array($real_results))
         {
             foreach ($real_results as $key => $value)

@@ -49,7 +49,6 @@
  *
  * This type should be set to a null storage location
  *
- *
  * <b>Available configuration options:</b>
  *
  * - <i>string mapping_class_name:</i> Mandatory option. Holds the name of the DBA
@@ -105,12 +104,11 @@
 class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanager2_type_select
 {
     /**
-     * Mandatory option. Holds the name of the DBA
-     * class used for the mapping code. The class must satisfy the above rules.
+     * Mandatory option. Holds the name of the DBA class used for the mapping code
      *
      * @var string
      */
-    public $mapping_class_name = null;
+    public $mapping_class_name;
 
     /**
      * Mandatory option. Holds the fieldname containing
@@ -118,7 +116,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    public $master_fieldname = null;
+    public $master_fieldname;
 
     /**
      * Mandatory option. Holds the fieldname containing
@@ -126,7 +124,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    public $member_fieldname = null;
+    public $member_fieldname;
 
     /**
      * Set this to true if you want the ID instead of the GUID
@@ -142,7 +140,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    public $member_limit_like = null;
+    public $member_limit_like;
 
     /**
      * Set this to false to use with chooser, this skips making sure the key exists in option list
@@ -160,7 +158,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    var $_member_limit_regex = null;
+    private $_member_limit_regex = null;
 
     /**
      * This is a QB resultset of all membership objects currently constructed. It is indexed
@@ -228,7 +226,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             );
         }
 
-        if (! class_exists($this->mapping_class_name))
+        if (!class_exists($this->mapping_class_name))
         {
             throw new midcom_error("The mapping class {$this->mapping_class_name} does not exist.");
         }
@@ -242,9 +240,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * the master object, depending on the $master_is_id member.
      *
      * @var string Foreign key for the master field in the mapping table.
-     * @access protected
      */
-    function _get_master_foreign_key()
+    private function _get_master_foreign_key()
     {
         if ($this->master_is_id)
         {
@@ -278,7 +275,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * Loads all membership records from the database. May only be called if a storage object is
      * defined.
      */
-    function _load_membership_objects()
+    private function _load_membership_objects()
     {
         $qb = $_MIDCOM->dbfactory->new_query_builder($this->mapping_class_name);
         $qb->add_constraint($this->master_fieldname, '=', $this->_get_master_foreign_key());
@@ -348,11 +345,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         foreach ($this->_membership_objects as $member)
         {
             $key = $member->{$this->member_fieldname};
-            if ($this->key_exists($key))
-            {
-                $this->selection[] = $key;
-            }
-            else if (!$this->require_corresponding_option)
+            if (   !$this->require_corresponding_option
+                || $this->key_exists($key))
             {
                 $this->selection[] = $key;
             }
@@ -370,10 +364,9 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     function convert_to_storage()
     {
-        if (! $this->storage->object)
+        if (!$this->storage->object)
         {
             // That's all folks, no storage object, thus we cannot continue.
-            // We log a warning here (as opposed to convert_from_storage).
             debug_add("Tried to save the membership info for field {$this->name}, but no storage object was set. Ignoring silently.",
                 MIDCOM_LOG_WARN);
             return;
@@ -382,7 +375,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         $this->_update_member_limit_regex();
 
         // Build a reverse lookup map for the existing membership objects.
-        // We map keys to _membership_object indexes.
+        // We map keys to _membership_objects indexes.
         // If we have duplicate keys, the latter will overwrite the former, leaving the dupe for deletion.
         $existing_members = Array();
         foreach ($this->_membership_objects as $index => $member)
