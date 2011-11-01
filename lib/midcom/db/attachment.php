@@ -9,14 +9,7 @@
 /**
  * MidCOM level replacement for the Midgard Attachment record with framework support.
  *
- * Note, as with all MidCOM DB layer objects, you should not use the GetBy*
- * operations directly, instead, you have to use the constructor's $id parameter.
- *
- * Also, all QueryBuilder operations need to be done by the factory class
- * obtainable as midcom_application::dbfactory.
- *
  * @package midcom.db
- * @see midcom_services_dbclassloader
  */
 class midcom_db_attachment extends midcom_core_dbaobject
 {
@@ -246,6 +239,50 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $filename = "{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}/{$attachment->guid}_{$attachment->name}";
 
         return $filename;
+    }
+
+    public static function get_url($attachment)
+    {
+        if (is_string($attachment))
+        {
+            $guid = $attachment;
+            $mc = self::new_collector('guid', $guid);
+            $name = array_pop($mc->get_values('name'));
+        }
+        else if (is_a($attachment, 'midcom_db_attachment'))
+        {
+            $guid = $attachment->guid;
+            $name = $attachment->name;
+        }
+        else
+        {
+            throw new midcom_error('Invalid attachment identifier');
+        }
+
+        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
+        {
+            $subdir = substr($guid, 0, 1);
+
+            if (file_exists($GLOBALS['midcom_config']['attachment_cache_root'] . '/' . $subdir . '/' . $guid . '_' . $name))
+            {
+                return  $GLOBALS['midcom_config']['attachment_cache_url'] . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
+            }
+        }
+
+        if (is_object($attachment))
+        {
+            $nap = new midcom_helper_nav();
+            $parent = $nap->resolve_guid($attachment->parentguid);
+            if (   is_array($parent)
+                && $parent[MIDCOM_NAV_TYPE] == 'node')
+            {
+                //Serve from topic
+                return midcom_connection::get_url('self') . $parent[MIDCOM_NAV_RELATIVEURL] . urlencode($name);
+            }
+        }
+
+        // Use regular MidCOM attachment server
+        return $GLOBALS['midcom_config']['midcom_site_url'] . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($name);
     }
 
     function file_to_cache()
