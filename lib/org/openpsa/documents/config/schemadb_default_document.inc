@@ -85,7 +85,6 @@
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array(),
                 'searchfields'  => array
                 (
                     'firstname',

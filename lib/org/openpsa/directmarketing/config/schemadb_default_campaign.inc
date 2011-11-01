@@ -55,6 +55,15 @@
                 (
                     'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_member_dba::TESTER,
                 ),
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'email',
+                        'op' => '<>',
+                        'value' => '',
+                    ),
+                ),
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -82,15 +91,6 @@
                     (
                         'name' => 'username',
                         'title' => 'username',
-                    ),
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'email',
-                        'op' => '<>',
-                        'value' => '',
                     ),
                 ),
                 'searchfields' => array

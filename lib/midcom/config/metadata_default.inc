@@ -260,9 +260,6 @@
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'constraints' => array
-                (
-                ),
                 'searchfields' => array
                 (
                     'firstname',
@@ -310,9 +307,6 @@
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'constraints' => array
-                (
-                ),
                 'searchfields' => array
                 (
                     'firstname',
@@ -384,9 +378,6 @@
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'constraints' => array
-                (
-                ),
                 'searchfields' => array
                 (
                     'firstname',
@@ -435,9 +426,6 @@
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'constraints' => array
-                (
-                ),
                 'searchfields' => array
                 (
                     'firstname',

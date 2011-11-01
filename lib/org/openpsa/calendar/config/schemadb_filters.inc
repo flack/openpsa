@@ -92,7 +92,6 @@
                     'title',
                     'location',
                 ),
-                'constraints' => array(),
                 'searchfields' => array
                 (
                     'title',

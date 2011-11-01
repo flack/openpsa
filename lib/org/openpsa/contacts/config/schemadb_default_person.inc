@@ -144,10 +144,19 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'midcom_db_member',
+                'mapping_class_name' => 'org_openpsa_contacts_member_dba',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'orgOpenpsaObtype',
+                        'op'    => '>=',
+                        'value' => ORG_OPENPSA_OBTYPE_ORGANIZATION,
+                    ),
+                ),
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -167,15 +176,6 @@
                     (
                         'title' => 'official',
                         'name' => 'official',
-                    ),
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'orgOpenpsaObtype',
-                        'op'    => '>=',
-                        'value' => ORG_OPENPSA_OBTYPE_ORGANIZATION,
                     ),
                 ),
                 'searchfields' => array
@@ -198,10 +198,25 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'midcom_db_member',
+                'mapping_class_name' => 'org_openpsa_contacts_member_dba',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'orgOpenpsaObtype',
+                        'op'    => '=',
+                        'value' => ORG_OPENPSA_OBTYPE_OTHERGROUP,
+                    ),
+                    array
+                    (
+                        'field' => 'owner',
+                        'op' => 'INTREE',
+                        'value' => org_openpsa_contacts_interface::find_root_group()->id
+                    )
+                ),
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -222,21 +237,6 @@
                         'title' => 'official',
                         'name' => 'official',
                     ),
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'orgOpenpsaObtype',
-                        'op'    => '=',
-                        'value' => ORG_OPENPSA_OBTYPE_OTHERGROUP,
-                    ),
-                    array
-                    (
-                        'field' => 'owner',
-                        'op' => 'INTREE',
-                        'value' => org_openpsa_contacts_interface::find_root_group()->id
-                    )
                 ),
                 'searchfields' => array
                 (

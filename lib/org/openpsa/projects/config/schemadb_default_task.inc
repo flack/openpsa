@@ -124,7 +124,6 @@
                 'component'   => 'org.openpsa.sales',
                 'titlefield'  => 'deliverable_html',
                 'id_field'     => 'id',
-                'constraints' => array(),
                 'searchfields'  => array
                 (
                     'title',
