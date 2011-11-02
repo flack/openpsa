@@ -1288,9 +1288,14 @@ class midcom_application
         }
         else
         {
-            midcom::get('componentloader')->load($component);
+            $componentloader = midcom::get('componentloader');
+            if (!$componentloader->is_installed($component))
+            {
+                throw new midcom_error_notfound('The requested component is not installed');
+            }
+            $componentloader->load($component);
             $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-            $path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . '/exec/';
+            $path = MIDCOM_ROOT . $componentloader->path_to_snippetpath($component) . '/exec/';
         }
         $path .= $context->parser->argv[0];
 
