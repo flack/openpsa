@@ -146,7 +146,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$handle)
         {
-            debug_add("Failed to open attachment with mode {$mode}, last Midgard error was:" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add("Failed to open attachment with mode {$mode}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }
 
         $this->_open_handle = $handle;
@@ -411,7 +411,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 $qb->add_constraint('id', '<>', $this->id);
             }
             elseif (   isset($this->guid)
-                && !empty($this->guid))
+                    && !empty($this->guid))
             {
                 // Add this one if and only if we are persistent already.
                 $qb->add_constraint('guid', '<>', $this->guid);
