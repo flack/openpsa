@@ -150,7 +150,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
         $results = $qb->execute();
 
-        foreach($results as $result)
+        foreach ($results as $result)
         {
             $result->delete();
         }

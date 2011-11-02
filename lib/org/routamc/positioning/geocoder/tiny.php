@@ -45,7 +45,7 @@ class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geoc
                 unset($location['country']);
             }
         }
-        foreach($field_order as $field)
+        foreach ($field_order as $field)
         {
             if (   isset($location[$field])
                 && trim($location[$field]) !== '')
@@ -81,7 +81,7 @@ class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geoc
         }
         $position['latitude'] = (float) $coordinate_matches[1];
         $position['longitude'] = (float) $coordinate_matches[2];
-        
+
         return array($position);
     }
 

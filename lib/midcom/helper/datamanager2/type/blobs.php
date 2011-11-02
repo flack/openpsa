@@ -265,40 +265,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $info['filename'] = $att->name;
         $info['description'] = $att->title;
         $info['mimetype'] = $att->mimetype;
-        $name = urlencode($att->name);
-
-        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
-        {
-            $subdir = substr($att->guid, 0, 1);
-            if (file_exists("{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}/{$att->guid}_{$att->name}"))
-            {
-                // Attachment coming from the cache URL
-                $info['url'] = "{$GLOBALS['midcom_config']['attachment_cache_url']}/{$subdir}/{$att->guid}_{$att->name}";
-            }
-        }
-
-        if (!isset($info['url']))
-        {
-            // Uncached attachment served straight out of MidCOM
-            if (   $this->storage->object
-                && is_a($this->storage->object, 'midcom_db_topic'))
-            {
-                // Topic attachment, try to generate "clean" URL
-                $nap = new midcom_helper_nav();
-                $parent = $nap->resolve_guid($att->parentguid);
-                if (   is_array($parent)
-                    && $parent[MIDCOM_NAV_TYPE] == 'node')
-                {
-                    $info['url'] = midcom_connection::get_url('self') . $parent[MIDCOM_NAV_RELATIVEURL] . $name;
-                }
-            }
-        }
-
-        if (!isset($info['url']))
-        {
-            // Use regular MidCOM attachment server
-            $info['url'] = "{$this->attachment_server_url}{$att->guid}/{$name}";
-        }
+        $info['url'] = midcom_db_attachment::get_url($att);
 
         $info['id'] = $att->id;
         $info['guid'] = $att->guid;
@@ -935,7 +902,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if ($this->attachments_info)
         {
             $result .= "<ul>\n";
-            foreach($this->attachments_info as $identifier => $info)
+            foreach ($this->attachments_info as $identifier => $info)
             {
                 if (   $info['description']
                     && $info['description'] != $info['filename'])

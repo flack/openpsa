@@ -52,7 +52,7 @@ else
         var_dump($mail->headers);
         echo "</pre>\n";
         echo "List of attachments\n<ol>\n";
-        foreach($mail->attachments as $data)
+        foreach ($mail->attachments as $data)
         {
             $len = strlen($data['content']);
             echo "<li><tt>{$data['name']}</tt> is of type <tt>{$data['mimetype']}</tt> and {$len} bytes in size</li>\n";

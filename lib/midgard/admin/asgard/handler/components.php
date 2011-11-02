@@ -82,7 +82,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_request_data['components'] = array();
         $this->_request_data['libraries'] = array();
 
-        foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
+        foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
         {
             if (!array_key_exists('package.xml', $manifest->_raw_data))
             {

@@ -412,7 +412,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
         $tags_exploded = explode(',', $macro_content);
         $tags = array();
-        foreach($tags_exploded as $tagname)
+        foreach ($tags_exploded as $tagname)
         {
             if (empty($tagname))
             {

@@ -144,7 +144,7 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
         else
         {
             $selection = Array();
-            foreach($this->selection as $item)
+            foreach ($this->selection as $item)
             {
                 $selection[] = $this->get_name_for_key($item);
             }

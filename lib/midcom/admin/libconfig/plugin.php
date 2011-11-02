@@ -32,7 +32,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
     {
         $libs = array();
 
-        foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
+        foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
         {
             if (!array_key_exists('package.xml', $manifest->_raw_data))
             {

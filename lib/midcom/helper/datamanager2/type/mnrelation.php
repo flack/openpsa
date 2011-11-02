@@ -31,16 +31,13 @@
  * corresponding widget.
  *
  * An additional option allows you to limit the "visible" member key space: You specify
- * a SQL LIKE compatible expression. When updating members, only member records matching
- * this constraint will be taken into account. This is quite useful in case you want to
- * split up a single selection into multiple "categories" for better usability. This
- * constraint is taken into account even when saving new keys so that all load and save
+ * query constraints. When updating members, only member records matching
+ * these constraints will be taken into account. This is quite useful in case you want to
+ * split up a single selection into multiple "categories" for better usability. The
+ * constraints are taken into account even when saving new keys so that all load and save
  * stays symmetrical. If you use this feature to separate multiple key namespaces from
  * each other, make sure that the various types do not overlap, otherwise one type will
  * overwrite the assignments of the other.
- *
- * Quick SQL LIKE cheatsheet: '%' matches any number of characters, even zero characters,
- * '_' matches exactly one character.
  *
  * When starting up, the type will only validate the existence of the mapping class. The
  * members specified will not be checked for performance reasons. In case something
@@ -48,7 +45,6 @@
  * will be silently ignored (and thus saving won't work).
  *
  * This type should be set to a null storage location
- *
  *
  * <b>Available configuration options:</b>
  *
@@ -60,7 +56,7 @@
  *   the membership keys in the mapping table.
  * - <i>boolean master_is_id:</i> Set this to true if you want the ID instead of the GUID
  *   to be used for mapping purposes. Defaults to false.
- * - <i>string member_limit_like:</i> This SQL LIKE compatible constraint limits the
+ * - <i>array constraints:</i> These constraints limit the
  *   number of valid member keys if set (see above). It defaults to null meaning no limit.
  * - <i>Array options:</i> The allowed option listing, a key/value map. Only the keys
  *   are stored in the storage location, using serialized storage. If you set this to
@@ -105,12 +101,11 @@
 class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanager2_type_select
 {
     /**
-     * Mandatory option. Holds the name of the DBA
-     * class used for the mapping code. The class must satisfy the above rules.
+     * Mandatory option. Holds the name of the DBA class used for the mapping code
      *
      * @var string
      */
-    public $mapping_class_name = null;
+    public $mapping_class_name;
 
     /**
      * Mandatory option. Holds the fieldname containing
@@ -118,7 +113,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    public $master_fieldname = null;
+    public $master_fieldname;
 
     /**
      * Mandatory option. Holds the fieldname containing
@@ -126,7 +121,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var string
      */
-    public $member_fieldname = null;
+    public $member_fieldname;
 
     /**
      * Set this to true if you want the ID instead of the GUID
@@ -137,12 +132,24 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     public $master_is_id = false;
 
     /**
-     * This SQL LIKE compatible constraint limits the number of valid member keys if set
-     * (see class introduction).
+     * Array of constraints, always AND
      *
-     * @var string
+     * Example:
+     * <code>
+     *     'constraints' => array
+     *     (
+     *         array
+     *         (
+     *             'field' => 'username',
+     *             'op' => '<>',
+     *             'value' => '',
+     *         ),
+     *     ),
+     * </code>
+     *
+     * @var array
      */
-    public $member_limit_like = null;
+    public $constraints = array();
 
     /**
      * Set this to false to use with chooser, this skips making sure the key exists in option list
@@ -154,21 +161,12 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     public $require_corresponding_option = false;
 
     /**
-     * This is a regular expression pattern constructed from $member_limit_like to verify
-     * active records against the regex. Tied to $member_limit_like and only valid during
-     * convert_to_storage.
-     *
-     * @var string
-     */
-    var $_member_limit_regex = null;
-
-    /**
      * This is a QB resultset of all membership objects currently constructed. It is indexed
      * by membership record guid. It will be populated during startup, when the stored data is
      * loaded. During save, this list will be used to determine the objects that have to be
      * deleted.
      *
-     * Only objects matching the member_limit_regex will be memorized.
+     * Only objects matching the constraints will be memorized.
      *
      * @var Array
      */
@@ -228,7 +226,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             );
         }
 
-        if (! class_exists($this->mapping_class_name))
+        if (!class_exists($this->mapping_class_name))
         {
             throw new midcom_error("The mapping class {$this->mapping_class_name} does not exist.");
         }
@@ -242,9 +240,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * the master object, depending on the $master_is_id member.
      *
      * @var string Foreign key for the master field in the mapping table.
-     * @access protected
      */
-    function _get_master_foreign_key()
+    private function _get_master_foreign_key()
     {
         if ($this->master_is_id)
         {
@@ -257,28 +254,10 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     }
 
     /**
-     * Synchronizes the member list regex with the given LIKE query.
-     */
-    private function _update_member_limit_regex()
-    {
-        if ($this->member_limit_like)
-        {
-            $this->_member_limit_regex =
-                '/^' .
-                str_replace(Array('%', '_'), Array('.*', '.'), $this->member_limit_like) .
-                '$/';
-        }
-        else
-        {
-            $this->_member_limit_regex = null;
-        }
-    }
-
-    /**
      * Loads all membership records from the database. May only be called if a storage object is
      * defined.
      */
-    function _load_membership_objects()
+    private function _load_membership_objects()
     {
         $qb = $_MIDCOM->dbfactory->new_query_builder($this->mapping_class_name);
         $qb->add_constraint($this->master_fieldname, '=', $this->_get_master_foreign_key());
@@ -290,9 +269,9 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             $qb->add_order('metadata.score', $order);
         }
 
-        if ($this->member_limit_like)
+        foreach ($this->constraints as $constraint)
         {
-            $qb->add_constraint($this->member_fieldname, 'LIKE', $this->member_limit_like);
+            $qb->add_constraint($this->member_fieldname . '.' . $constraint['field'], $constraint['op'], $constraint['value']);
         }
 
         if (!empty($this->additional_fields))
@@ -348,11 +327,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         foreach ($this->_membership_objects as $member)
         {
             $key = $member->{$this->member_fieldname};
-            if ($this->key_exists($key))
-            {
-                $this->selection[] = $key;
-            }
-            else if (!$this->require_corresponding_option)
+            if (   !$this->require_corresponding_option
+                || $this->key_exists($key))
             {
                 $this->selection[] = $key;
             }
@@ -370,19 +346,16 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     function convert_to_storage()
     {
-        if (! $this->storage->object)
+        if (!$this->storage->object)
         {
             // That's all folks, no storage object, thus we cannot continue.
-            // We log a warning here (as opposed to convert_from_storage).
             debug_add("Tried to save the membership info for field {$this->name}, but no storage object was set. Ignoring silently.",
                 MIDCOM_LOG_WARN);
             return;
         }
 
-        $this->_update_member_limit_regex();
-
         // Build a reverse lookup map for the existing membership objects.
-        // We map keys to _membership_object indexes.
+        // We map keys to _membership_objects indexes.
         // If we have duplicate keys, the latter will overwrite the former, leaving the dupe for deletion.
         $existing_members = Array();
         foreach ($this->_membership_objects as $index => $member)
@@ -435,15 +408,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
         foreach ($this->selection as $key)
         {
-            // Validation
-            if (   $this->member_limit_like
-                && ! preg_match($this->_member_limit_regex, $key))
-            {
-                debug_add("The key {$key} does not match the LIKE constraint {$this->member_limit_like}, skipping it.",
-                    MIDCOM_LOG_INFO);
-                debug_add("Used Regex: {$this->_member_limit_regex}");
-                continue;
-            }
+            //TODO: Ideally, selections not matching the constraints should be filtered out, but
+            //for now, we trust the componant author to correctly configure their stuff
 
             // Do we have this key already? If yes, move it to the new list, otherwise create it.
             if (array_key_exists($key, $existing_members))

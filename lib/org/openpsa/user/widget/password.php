@@ -55,7 +55,7 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
         $strings = json_encode($strings);
 
         $password_rules = '';
-    	foreach($this->_config->get('password_score_rules') as $rule)
+    	foreach ($this->_config->get('password_score_rules') as $rule)
         {
             $password_rules .= " if (password.match(" . $rule['match'] . ")){ score += " . $rule['score'] . ";}";
         }

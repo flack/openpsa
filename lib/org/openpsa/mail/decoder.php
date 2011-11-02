@@ -69,7 +69,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         $this->_message = $message;
 
         $this->headers['User-Agent'] = 'Midgard/' . substr(mgd_version(), 0, 4);
-        $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
+        $this->headers['X-Originating-Ip'] = '[' . $_SERVER['REMOTE_ADDR'] . ']';
 
         $this->encoding = $this->_i18n->get_current_charset();
 
@@ -310,7 +310,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         if (is_array($data))
         {
             debug_add('Given data is an array, iterating trough it');
-            foreach($data as $k => $v)
+            foreach ($data as $k => $v)
             {
                 debug_add("Recursing key {$k}");
                 $data[$k] = $this->_charset_convert($v, $given_encoding);

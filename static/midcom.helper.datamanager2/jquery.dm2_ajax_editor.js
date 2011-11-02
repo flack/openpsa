@@ -334,16 +334,30 @@
                 var self = this;
 
                 this.form.set_state(this.state.current);
-
                 $.each($('.'+this.identifier), function(i)
                 {
                     var field = $(this);
                     var id = field.attr('id');
                     var name = id.replace(self.identifier+'_', '');
+			
+		    var child = jQuery(field).children('input');
+		    var child_name = null;
+		    //resolve the post name by the input-field...
+		    if (child.length > 0)
+		    {
+			    child_name = child.attr('id');
+			    child_name = child_name.replace(self.identifier + '_qf_', '');
+		    }
+		    else
+		    {
+			    child_name = name;
+		    }
                     var value = self._get_field_input_value(field);
-
+			
                     if (value !== null) {
+			//if names should differ we will send it double to be sure the datamanager etc. gets it right
                         self.form.set_value(name, value);
+			self.form.set_value(child_name, value);
                     }
                 });
 
@@ -359,7 +373,18 @@
                 var input_id = this.identifier + '_qf_' + name;
 
                 var input = $('#'+input_id);
-                if (! input) {
+
+		//in case the input-element is somehow different named, check if there is an input inside
+		if (input.length < 1)
+		{
+			var input_child = $(field).children('input');
+			if (input_child.length > 0)
+			{
+				input = input_child;
+			}
+		}
+
+                if ( input.length < 1) {
                     return null;
                 }
 
@@ -379,7 +404,6 @@
                 if (value === null) {
                     value = input.val();
                 }
-
                 return value;
             },
             _fields_from_form: function()
@@ -885,7 +909,6 @@
             set_value: function(field_name, value)
             {
                 $.dm2.ajax_editor.debug("set value for "+field_name+": "+value);
-                
                 this.values[field_name] = value;
             },
             get_value: function(field_name)
@@ -901,6 +924,7 @@
 
                 var self = this;
                 var editor = $.dm2.ajax_editor.get_instance(this.identifier);
+
                 $.ajax({
                     global: false,
                     type: 'POST',

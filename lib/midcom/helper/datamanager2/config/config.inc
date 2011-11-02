@@ -121,7 +121,6 @@
                 'name' => 'email',
             ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'firstname',
@@ -151,7 +150,6 @@
                 'name' => 'title',
             ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'title',
@@ -175,7 +173,6 @@
                 'name' => 'title',
             ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'title'
@@ -204,7 +201,6 @@
                 'name' => 'component',
             ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'extra',
@@ -235,7 +231,6 @@
                 'name' => 'official',
             ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'name',
@@ -276,7 +271,6 @@
                 'name' => 'location',
             ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'title',
@@ -296,7 +290,6 @@
         'component'   => 'org.openpsa.projects',
         'titlefield'  => 'title',
         'id_field'     => 'id',
-        'constraints' => array(),
         'result_headers' => array
         (
             array

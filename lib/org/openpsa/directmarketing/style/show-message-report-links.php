@@ -1,12 +1,12 @@
 <?php
-$l10n =& $data['l10n'];
+$l10n = $data['l10n'];
 $report =& $data['report'];
 $link_data =& $data['use_link_data'];
 if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
 }
-$form_suffix =& $data['form_suffix'];
+$form_suffix = $data['form_suffix'];
 ?>
 <form method="post">
     <table class="link_statistics" id="org_openpsa_directmarketing_messagelinks&(form_suffix);">
@@ -20,7 +20,7 @@ $form_suffix =& $data['form_suffix'];
         </tr>
         <?php
             $total = 0;
-            foreach($link_data['counts'] as $target => $count)
+            foreach ($link_data['counts'] as $target => $count)
             {
                 $total += $count;
                 $of_clicks = $link_data['percentages']['of_links'][$target];

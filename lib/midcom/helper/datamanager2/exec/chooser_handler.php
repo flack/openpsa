@@ -179,7 +179,7 @@ else
         reset($orders);
         foreach ($orders as $data)
         {
-            foreach($data as $field => $order)
+            foreach ($data as $field => $order)
             {
                 debug_add("adding order: {$field}, {$order}");
                 $qb->add_order($field, $order);

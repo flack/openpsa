@@ -124,7 +124,6 @@
                 'component'   => 'org.openpsa.sales',
                 'titlefield'  => 'deliverable_html',
                 'id_field'     => 'id',
-                'constraints' => array(),
                 'searchfields'  => array
                 (
                     'title',
@@ -220,7 +219,6 @@
                 'master_fieldname' => 'task',
                 'member_fieldname' => 'person',
                 'master_is_id' => true,
-                'allow_multiple' => true,
                 'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
             ),
             'widget' => 'chooser',
@@ -282,7 +280,6 @@
                 'master_fieldname' => 'task',
                 'member_fieldname' => 'person',
                 'master_is_id' => true,
-                'allow_multiple' => true,
                 'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
             ),
             'widget' => 'chooser',

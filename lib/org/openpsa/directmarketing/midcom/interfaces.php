@@ -267,7 +267,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             debug_add('QB Error / receipts', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($receipts as $receipt)
+        foreach ($receipts as $receipt)
         {
             debug_add("Transferred message_receipt #{$receipt->id} to person #{$person1->id} (from #{$receipt->person})", MIDCOM_LOG_INFO);
             $receipt->person = $person1->id;
@@ -289,7 +289,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             debug_add('QB Error / links', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($logs as $log)
+        foreach ($logs as $log)
         {
             debug_add("Transferred link_log #{$log->id} to person #{$person1->id} (from #{$log->person})", MIDCOM_LOG_INFO);
             $log->person = $person1->id;
@@ -310,7 +310,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             'org_openpsa_directmarketing_campaign_messagereceipt_dba',
             'org_openpsa_directmarketing_link_log_dba',
         );
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             // TODO: 1.8 metadata format support
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);

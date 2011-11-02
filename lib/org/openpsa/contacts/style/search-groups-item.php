@@ -1,36 +1,31 @@
 <?php
-global $view_group;
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
-$view_group_name = $view_group->official;
-if ($view_group_name == '')
-{
-    $view_group_name = $view_group->name;
-}
+$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$link = $prefix . 'group/' . $data['group']->guid . '/';
+$view_group_name = $data['group']->get_label();
 ?>
 <div class="vcard">
     <div class="organization-name">
-        <a href="&(node[MIDCOM_NAV_FULLURL]);group/&(view_group.guid);/">&(view_group_name);</a>
+        <a href="&(link);">&(view_group_name);</a>
     </div>
     <ul>
         <?php
-        if ($view_group->phone)
+        if ($data['group']->phone)
         {
-            echo "<li class=\"tel work\">{$view_group->phone}</li>\n";
+            echo "<li class=\"tel work\">{$data['group']->phone}</li>\n";
         }
 
-        if ($view_group->postalStreet)
+        if ($data['group']->postalStreet)
         {
-            echo "<li>{$view_group->postalStreet}, {$view_group->postalCity}</li>\n";
+            echo "<li>{$data['group']->postalStreet}, {$data['group']->postalCity}</li>\n";
         }
-        else if ($view_group->street)
+        else if ($data['group']->street)
         {
-            echo "<li>{$view_group->street}, {$view_group->city}</li>\n";
+            echo "<li>{$data['group']->street}, {$data['group']->city}</li>\n";
         }
 
-        if ($view_group->homepage)
+        if ($data['group']->homepage)
         {
-            echo "<li class=\"url\"><a href=\"{$view_group->homepage}\">{$view_group->homepage}</a></li>\n";
+            echo "<li class=\"url\"><a href=\"{$data['group']->homepage}\">{$data['group']->homepage}</a></li>\n";
         }
         ?>
     </ul>

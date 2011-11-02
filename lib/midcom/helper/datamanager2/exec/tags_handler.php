@@ -97,7 +97,7 @@ if ($mode == 'object')
 
     $tags = net_nemein_tag_handler::get_object_tags($object);
 
-    foreach($tags as $name => $link)
+    foreach ($tags as $name => $link)
     {
         $data = array
         (

@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for updating members of all (not-archived) smart campaigns
+ *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_components_cron_handler
@@ -34,8 +35,8 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         {
             return;
         }
-        $i=1;
-        foreach($ret as $campaign)
+        $i = 1;
+        foreach ($ret as $campaign)
         {
             $next_time = time()+(($i++)*60);
             debug_add("Scheduling member update for campaign #{$campaign->id} ({$campaign->title}) to happen on " . date('Y-m-d H:i:s', $next_time));

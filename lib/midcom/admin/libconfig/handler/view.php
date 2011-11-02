@@ -103,7 +103,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
 
         midcom_show_style('midcom-admin-libs-view-header');
         $data['even'] = false;
-        foreach($data['config']->_global as $key => $value)
+        foreach ($data['config']->_global as $key => $value)
         {
             $data['key'] = $_MIDCOM->i18n->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
@@ -118,14 +118,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             }
 
             midcom_show_style('midcom-admin-libs-view-item');
-            if (!$data['even'])
-            {
-                $data['even'] = true;
-            }
-            else
-            {
-                $data['even'] = false;
-            }
+            $data['even'] = !$data['even'];
         }
         midcom_show_style('midcom-admin-libs-view-footer');
         midgard_admin_asgard_plugin::asgard_footer();

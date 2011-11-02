@@ -112,7 +112,7 @@ class org_openpsa_mail_message
         {
             if ($mime_header === false)
             {
-                $this->_headers['Mime-version'] = '1.0';
+                $this->_headers['MIME-Version'] = '1.0';
             }
             else
             {

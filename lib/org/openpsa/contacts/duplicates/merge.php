@@ -197,10 +197,9 @@ class org_openpsa_contacts_duplicates_merge
         // Get all instances of given class where metadata fields link to person2
         $qb = call_user_func(array($class, 'new_query_builder'));
         $qb->begin_group('OR');
-        foreach($metadata_fields as $field => $link_property)
+        foreach ($metadata_fields as $field => $link_property)
         {
             if (   empty($link_property)
-                || !isset($person2->$link_property)
                 || empty($person2->$link_property))
             {
                 debug_print_r("Problem with link_property on field {$field}, skipping. metadata_fields:", $metadata_fields, MIDCOM_LOG_WARN);
@@ -231,7 +230,7 @@ class org_openpsa_contacts_duplicates_merge
         foreach ($objects as $object)
         {
             $changed = false;
-            foreach($metadata_fields as $field => $link_property)
+            foreach ($metadata_fields as $field => $link_property)
             {
                 if ($object->metadata->$field == $person2->$link_property)
                 {

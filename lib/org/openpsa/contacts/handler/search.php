@@ -222,9 +222,9 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             if (count($this->_groups) > 0)
             {
                 midcom_show_style('search-groups-header');
-                foreach($this->_groups as $group)
+                foreach ($this->_groups as $group)
                 {
-                    $GLOBALS['view_group'] = $group;
+                    $data['group'] = $group;
                     midcom_show_style('search-groups-item');
                 }
                 midcom_show_style('search-groups-footer');
@@ -233,9 +233,9 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             if (count($this->_persons) > 0)
             {
                 midcom_show_style('search-persons-header');
-                foreach($this->_persons as $person)
+                foreach ($this->_persons as $person)
                 {
-                    $GLOBALS['view_person'] = $person;
+                    $data['person'] = $person;
                     midcom_show_style('search-persons-item');
                 }
                 midcom_show_style('search-persons-footer');

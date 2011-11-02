@@ -51,7 +51,8 @@ class org_openpsa_helpers_list
 
         $mc = midcom_db_member::new_collector('metadata.deleted', false);
         $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
-
+        /* Skip magic groups */
+        $mc->add_constraint('gid.name', 'NOT LIKE', '__%');
         $memberships = $mc->get_values('gid');
         if (empty($memberships))
         {
@@ -60,7 +61,7 @@ class org_openpsa_helpers_list
 
         foreach ($memberships as $gid)
         {
-            if (isset($seen[$gid])
+            if (   isset($seen[$gid])
                 && $seen[$gid] == true)
             {
                 continue;
@@ -68,11 +69,6 @@ class org_openpsa_helpers_list
             try
             {
                 $company = new org_openpsa_contacts_group_dba($gid);
-                /* Skip magic groups */
-                if (preg_match('/^__/', $company->name))
-                {
-                    continue;
-                }
             }
             catch (midcom_error $e)
             {

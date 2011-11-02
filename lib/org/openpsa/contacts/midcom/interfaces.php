@@ -212,7 +212,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
         );
 
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)
@@ -230,15 +230,14 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             'guid' => true,
         );
         $changed = false;
-        foreach($person2 as $property => $value)
+        foreach ($person2 as $property => $value)
         {
             // Copy only simple properties not marked to be skipped missing from person1
             if (   empty($person2->$property)
                 || !empty($person1->$property)
                 || isset($skip_properties[$property])
                 || is_array($value)
-                || is_object($value)
-                )
+                || is_object($value))
             {
                 continue;
             }

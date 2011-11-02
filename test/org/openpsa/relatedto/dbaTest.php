@@ -26,12 +26,12 @@ class org_openpsa_relatedto_dbaTest extends openpsa_testcase
         $_MIDCOM->auth->request_sudo('org.openpsa.relatedto');
         $stat = $relatedto->create();
         $this->assertTrue($stat);
-        $this->assertEquals($relatedto->status, ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED);
+        $this->assertEquals($relatedto->status, org_openpsa_relatedto_dba::SUSPECTED);
 
-        $relatedto->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
+        $relatedto->status = org_openpsa_relatedto_dba::CONFIRMED;
         $stat = $relatedto->update();
         $this->assertTrue($stat);
-        $this->assertEquals($relatedto->status, ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
+        $this->assertEquals($relatedto->status, org_openpsa_relatedto_dba::CONFIRMED);
 
         $stat = $relatedto->delete();
         $this->assertTrue($stat);

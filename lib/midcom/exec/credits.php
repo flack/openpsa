@@ -8,7 +8,7 @@ $_MIDCOM->auth->require_valid_user();
 
 $developers = array();
 
-foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
+foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
 {
     if (!array_key_exists('package.xml', $manifest->_raw_data))
     {
@@ -141,7 +141,7 @@ reset($developers);
                 </thead>-->
                 <tbody>
                     <?php
-                    foreach($developers as $name => $details)
+                    foreach ($developers as $name => $details)
                     {
                         $person_label  = "<div class=\"vcard\">\n";
                         $person_label .= "    <h2><a href=\"http://www.midgard-project.org/community/account/view/{$details['username']}/\" class=\"url fn\">{$details['name']}</a></h2>\n";

@@ -370,7 +370,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 // Find a delimiter not part of the constraint value (the SQL wildcard will be rewritten so % CAN be used as delimiter)
                 $delimiters = array('/', '#', '%', '|', '_');
                 $contraint_test_value = str_replace('%', '', $constraint['value']);
-                foreach($delimiters as $delimiter)
+                foreach ($delimiters as $delimiter)
                 {
                     if (!strstr($contraint_test_value, $delimiter))
                     {

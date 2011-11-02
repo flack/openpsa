@@ -414,7 +414,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 continue;
             }
-            foreach($this->images[$images_identifier] as $info)
+            foreach ($this->images[$images_identifier] as $info)
             {
                 if ($info['object']->title === $title)
                 {
@@ -468,7 +468,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                     }
                     if (   !isset($main['object'])
                         || !is_object($main['object'])
-                        || !isset($main['object']->guid)
                         || empty($main['object']->guid))
                     {
                         //Panic, broken identifier
@@ -806,7 +805,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             debug_add("identifier '{$identifier}' not found in \$this->images", MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($this->images[$images_identifier] as $sub_identifier => $info)
+        foreach ($this->images[$images_identifier] as $sub_identifier => $info)
         {
             if ($sub_identifier === 'original')
             {

@@ -160,7 +160,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $mc->add_value_property('fromClass');
         $mc->add_value_property('fromComponent');
         $mc->add_value_property('status');
-        $mc->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $mc->execute();
         $links = $mc->list_keys();
         if (!is_array($links))
@@ -212,7 +212,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $mc->add_value_property('toClass');
         $mc->add_value_property('toComponent');
         $mc->add_value_property('status');
-        $mc->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $mc->execute();
         $links = $mc->list_keys();
         if (!is_array($links))
@@ -300,7 +300,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         midcom_show_style('relatedto_list_top');
 
-        foreach($this->_links[$direction] as $linkdata)
+        foreach ($this->_links[$direction] as $linkdata)
         {
             $this->_render_line($linkdata['link'], $linkdata['other_obj']);
         }
@@ -528,7 +528,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $qb->add_constraint('toClass', '=', 'midcom_db_person');
             $qb->add_constraint('toClass', '=', 'org_openpsa_contacts_person_dba');
         $qb->end_group();
-        $qb->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $qb->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $recipients = $qb->execute();
         echo "                    <li class=\"members\">" . $_MIDCOM->i18n->get_string('recipients', 'net.nemein.wiki') . ": ";
         foreach ($recipients as $recipient_link)
@@ -750,7 +750,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 break;
         }
 
-        if ($link['status'] == ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED)
+        if ($link['status'] == org_openpsa_relatedto_dba::SUSPECTED)
         {
             $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    <span id=\"org_openpsa_relatedto_toolbar_confirmdeny_{$link['guid']}\">\n";
@@ -796,12 +796,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         switch ($this->_mode)
         {
             case 'deny':
-                $this->_object->status = ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED;
+                $this->_object->status = org_openpsa_relatedto_dba::NOTRELATED;
                 $stat = $this->_object->update();
                 $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
                 //this will exit()
             case 'confirm':
-                $this->_object->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
+                $this->_object->status = org_openpsa_relatedto_dba::CONFIRMED;
                 $stat = $this->_object->update();
                 $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
                 //this will exit()

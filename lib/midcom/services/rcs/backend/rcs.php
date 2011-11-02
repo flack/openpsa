@@ -269,7 +269,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $revs = $this->list_history();
         $i = 0;
         $revisions = array();
-        foreach($revs as $id => $desc)
+        foreach ($revs as $id => $desc)
         {
             $revisions[$i] = $id;
             $i++;

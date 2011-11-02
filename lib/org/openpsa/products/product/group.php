@@ -127,7 +127,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         {
             $mc->add_value_property($keyproperty);
         }
-        foreach($label_fields as $fieldname)
+        foreach ($label_fields as $fieldname)
         {
             if (   $fieldname == 'id'
                 || $fieldname == $keyproperty)
@@ -147,7 +147,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         $mc->add_order('title');
         $mc->execute();
         $mc_keys = $mc->list_keys();
-        foreach($mc_keys as $mc_key => $dummy)
+        foreach ($mc_keys as $mc_key => $dummy)
         {
             $id = $mc->get_subkey($mc_key, 'id');
             $key = $mc->get_subkey($mc_key, $keyproperty);

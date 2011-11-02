@@ -225,7 +225,7 @@ class net_nemein_wiki_moinmoin_importer
         // Handle $this->add_object_parameters
         if (!empty($this->add_object_parameters))
         {
-            foreach($this->add_object_parameters as $param)
+            foreach ($this->add_object_parameters as $param)
             {
                 $wikipage->set_parameter($param['domain'], $param['name'], $param['value']);
             }
@@ -242,7 +242,7 @@ class net_nemein_wiki_moinmoin_importer
         if (preg_match_all('/\(([0-9a-f]{2,4})\)/', $title, $encoded_matches))
         {
             $seen = array();
-            foreach($encoded_matches[1] as $key => $hex)
+            foreach ($encoded_matches[1] as $key => $hex)
             {
                 if (isset($seen[$hex]))
                 {
@@ -788,7 +788,7 @@ class net_nemein_wiki_moinmoin_importer
     {
         $rendered = "<table>\n    <thead>\n        <tr>\n";
         $pad = '            ';
-        foreach($columns_array as $column => $num)
+        foreach ($columns_array as $column => $num)
         {
             if (isset($table_data[0][$num]))
             {
@@ -812,7 +812,7 @@ class net_nemein_wiki_moinmoin_importer
         foreach ($table_data as $row => $cells)
         {
             $rendered .= "        <tr>\n";
-            foreach($columns_array as $column => $num)
+            foreach ($columns_array as $column => $num)
             {
                 if (isset($cells[$num]))
                 {
@@ -843,7 +843,7 @@ class net_nemein_wiki_moinmoin_importer
         $heading_row1 = '';
         $heading_row2 = '';
         $columns = count($columns_array)-1;
-        foreach($columns_array as $column => $num)
+        foreach ($columns_array as $column => $num)
         {
             if (isset($table_data[0][$num]))
             {
@@ -867,7 +867,7 @@ class net_nemein_wiki_moinmoin_importer
         // Render rest of rows
         foreach ($table_data as $cells)
         {
-            foreach($columns_array as $column => $num)
+            foreach ($columns_array as $column => $num)
             {
                 if (isset($cells[$num]))
                 {

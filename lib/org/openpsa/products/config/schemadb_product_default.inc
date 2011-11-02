@@ -141,9 +141,6 @@
                 'component'   => 'midgard.admin.asgard',
                 'titlefield'  => 'official',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                ),
                 'result_headers' => array
                 (
                     array('name' => 'name', 'title' => 'name'),

@@ -305,7 +305,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / status', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($receipts as $receipt)
+        foreach ($receipts as $receipt)
         {
             debug_add("Transferred task_status #{$receipt->id} to person #{$person1->id} (from #{$receipt->person})", MIDCOM_LOG_INFO);
             $receipt->targetPerson = $person1->id;
@@ -327,7 +327,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / hours', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($logs as $log)
+        foreach ($logs as $log)
         {
             debug_add("Transferred hour_report #{$log->id} to person #{$person1->id} (from #{$log->person})", MIDCOM_LOG_INFO);
             $log->person = $person1->id;
@@ -349,7 +349,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / tasks', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($tasks as $task)
+        foreach ($tasks as $task)
         {
             debug_add("Transferred task #{$task->id} to person #{$person1->id} (from #{$task->person})", MIDCOM_LOG_INFO);
             $task->manager = $person1->id;
@@ -376,7 +376,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
         );
 
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)

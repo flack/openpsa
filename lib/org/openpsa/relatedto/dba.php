@@ -16,6 +16,10 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_relatedto';
 
+    const SUSPECTED = 100;
+    const CONFIRMED = 120;
+    const NOTRELATED =130;
+
     public function __construct($id = null)
     {
         $this->_use_rcs = false;
@@ -42,7 +46,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     {
         if (!$this->status)
         {
-            $this->status = ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED;
+            $this->status = self::SUSPECTED;
         }
         //PONDER: Should we call check_db() here and prevent creation of multiple very similar links ??
         return true;
@@ -52,7 +56,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     {
         if (!$this->status)
         {
-            $this->status = ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED;
+            $this->status = self::SUSPECTED;
         }
     }
 
@@ -60,11 +64,10 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     {
         if (!$this->status)
         {
-            $this->status = ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED;
+            $this->status = self::SUSPECTED;
         }
         return true;
     }
-
 
     /**
      * Check database for essentially same relatedto object and returns GUID if found

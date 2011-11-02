@@ -84,7 +84,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $seen_tasks = array();
         // keyed by guid
         $event_links = array();
-        foreach($eventmembers as $member)
+        foreach ($eventmembers as $member)
         {
             // Bulletproofing: prevent duplicating hour reports
             $member->hoursReported = time();
@@ -110,7 +110,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
                 $qb2->add_constraint('toComponent', '=', 'org.openpsa.projects');
                 $qb2->add_constraint('toClass', '=', 'org_openpsa_projects_task_dba');
-                $qb2->add_constraint('status', '=', ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
+                $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
                 $event_links[$event->guid] = $qb2->execute();
             }
             $links =& $event_links[$event->guid];
@@ -121,7 +121,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 continue;
             }
 
-            foreach($links as $link)
+            foreach ($links as $link)
             {
                 //Avoid multiple loads of same task
                 if (!isset($seen_tasks[$link->toGuid]))

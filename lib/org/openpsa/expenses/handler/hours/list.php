@@ -204,7 +204,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                     $data['action_options']['mark_uninvoiceable'] = array('label' => $this->_l10n->get('mark_uninvoiceable'));
                     break;
                 case 'uninvoiceable':
-                    $data['action_options']['mark_invoiceable'] =  array('label' => $this->_l10n->get('mark_invoiceable'));;
+                    $data['action_options']['mark_invoiceable'] =  array('label' => $this->_l10n->get('mark_invoiceable'));
                     break;
             }
             $data['reports'] = $reports;
