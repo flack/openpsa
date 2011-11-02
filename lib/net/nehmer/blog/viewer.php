@@ -304,7 +304,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $topic = new midcom_db_topic($topic);
         }
 
-        // Don't index directly, that would loose a reference due to limitations
+        // Don't index directly, that would lose a reference due to limitations
         // of the index() method. Needs fixes there.
 
         $nav = new midcom_helper_nav();

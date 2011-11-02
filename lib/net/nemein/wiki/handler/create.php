@@ -16,6 +16,7 @@ implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Wiki word we're creating page for
+     *
      * @var string
      */
     private $_wikiword = '';
