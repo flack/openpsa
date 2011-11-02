@@ -43,7 +43,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'group/create/organization/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+                MIDCOM_TOOLBAR_ENABLED => org_openpsa_contacts_interface::find_root_group()->can_do('midgard:create'),
             )
         );
 

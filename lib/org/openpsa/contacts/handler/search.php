@@ -165,31 +165,38 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             }
         }
 
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
-        {
-            $this->_view_toolbar->add_item
+        $this->_view_toolbar->add_item
+        (
+            array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "person/create/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                )
-            );
-        }
-        $root_group = org_openpsa_contacts_interface::find_root_group();
-        if ($root_group->can_do('midgard:create'))
-        {
-            $this->_view_toolbar->add_item
+                MIDCOM_TOOLBAR_URL => 'person/create/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+            )
+        );
+
+        $this->_view_toolbar->add_item
+        (
+            array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'group/create/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                )
-            );
-        }
+                MIDCOM_TOOLBAR_URL => 'group/create/organization/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_ENABLED => org_openpsa_contacts_interface::find_root_group()->can_do('midgard:create'),
+            )
+        );
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'group/create/group/',
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+            )
+        );
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('search'));
         $this->add_breadcrumb("", $this->_l10n->get('search'));
