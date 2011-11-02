@@ -282,7 +282,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         // Use regular MidCOM attachment server
-        return $GLOBALS['midcom_config']['midcom_site_url'] . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($name);
+        return midcom_connection::get_url('self') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($name);
     }
 
     function file_to_cache()

@@ -12,6 +12,7 @@ if (array_key_exists('popup_title', $data))
     <head>
     <title><?php echo htmlspecialchars($title); ?></title>
     <?php
+    $_MIDCOM->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'media' => 'all'));
     $_MIDCOM->print_head_elements();
     ?>
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/legacy.css" />

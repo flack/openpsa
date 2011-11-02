@@ -370,6 +370,11 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return false;
         }
 
+        if (!empty($this->_type->constraints))
+        {
+            $this->constraints = $this->_type->constraints;
+        }
+
         if (!$this->_check_class())
         {
             debug_add("Warning, cannot load class {$this->class} for field {$this->name}.",
@@ -388,11 +393,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             debug_add("Warning, the field {$this->name} does not have searchfields defined, it can never return results.",
                 MIDCOM_LOG_WARN);
             return false;
-        }
-
-        if (!empty($this->_type->constraints))
-        {
-            $this->constraints = $this->_type->constraints;
         }
 
         $_MIDCOM->enable_jquery();
@@ -586,30 +586,16 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $this->result_headers[] = $header_data;
             }
         }
-        if (   is_null($this->generate_path_for)
-            && isset($class['generate_path_for']))
+
+        $config_fields = array('generate_path_for', 'constraints', 'searchfields', 'orders', 'reflector_key', 'id_field');
+
+        foreach ($config_fields as $field)
         {
-            $this->generate_path_for = $class['generate_path_for'];
-        }
-        if (empty($this->constraints))
-        {
-            $this->constraints = $class['constraints'];
-        }
-        if (empty($this->searchfields))
-        {
-            $this->searchfields = $class['searchfields'];
-        }
-        if (empty($this->orders))
-        {
-            $this->orders = $class['orders'];
-        }
-        if (isset($class['reflector_key']))
-        {
-            $this->reflector_key = $class['reflector_key'];
-        }
-        if (isset($class['id_field']))
-        {
-            $this->id_field = $class['id_field'];
+            if (   isset($class[$field])
+                && empty($this->$field))
+            {
+                $this->$field = $class[$field];
+            }
         }
     }
 
