@@ -244,13 +244,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         if ($data['current_page'] > 1)
         {
             $previous = $data['current_page'] - 1;
-            echo "\n<a class=\"previous_page\" href=" . $this->_get_query_string($page_var, $previous) . " rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
+            echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
         if ($data['current_page'] < $data['page_count'])
         {
             $next = $data['current_page'] + 1;
-            echo "\n<a class=\"next_page\" href=" . $this->_get_query_string($page_var, $next) . " rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
+            echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
         }
 
         echo "\n</div>\n";
@@ -301,9 +301,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             $previous = $data['current_page'] - 1;
             if ($previous != 1)
             {
-                echo "\n<a class=\"first_page\" href=" . $this->_get_query_string($page_var, 1) . " rel=\"prev\">" . $this->_l10n->get('first') . "</a>";
+                echo "\n<a class=\"first_page\" href=\"" . $this->_get_query_string($page_var, 1) . "\" rel=\"prev\">" . $this->_l10n->get('first') . "</a>";
             }
-            echo "\n<a class=\"previous_page\" href=" . $this->_get_query_string($page_var, $previous) . " rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
+            echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
 
@@ -318,17 +318,17 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 echo "\n<span class=\"current_page\">{$page}</span>";
                 continue;
             }
-            echo "\n<a class=\"select_page\" href=" . $this->_get_query_string($page_var, $page) . ">{$page}</a>";
+            echo "\n<a class=\"select_page\" href=\"" . $this->_get_query_string($page_var, $page) . "\">{$page}</a>";
         }
 
         if ($data['current_page'] < $data['page_count'])
         {
             $next = $data['current_page'] + 1;
-            echo "\n<a class=\"next_page\" href=" . $this->_get_query_string($page_var, $next) . " rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
+            echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
 
             if ($next != $data['page_count'])
             {
-                echo "\n<a class=\"last_page\" href=" . $this->_get_query_string($page_var, $data['page_count']) . " rel=\"next\">" . $this->_l10n->get('last') . "</a>";
+                echo "\n<a class=\"last_page\" href=\"" . $this->_get_query_string($page_var, $data['page_count']) . "\" rel=\"next\">" . $this->_l10n->get('last') . "</a>";
             }
         }
 
