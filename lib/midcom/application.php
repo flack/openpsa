@@ -619,8 +619,7 @@ class midcom_application
                         {
                             $redirect_to = '';
                         }
-                        if (   isset($_SERVER['QUERY_STRING'])
-                            && !empty($_SERVER['QUERY_STRING']))
+                        if (!empty($_SERVER['QUERY_STRING']))
                         {
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
@@ -646,8 +645,7 @@ class midcom_application
                         {
                             $redirect_to = '';
                         }
-                        if (   isset($_SERVER['QUERY_STRING'])
-                            && !empty($_SERVER['QUERY_STRING']))
+                        if (!empty($_SERVER['QUERY_STRING']))
                         {
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
