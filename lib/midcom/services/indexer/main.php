@@ -231,7 +231,7 @@ class midcom_services_indexer
      * @return Array An array of documents matching the query, or false on a failure.
      * @todo Refactor into multiple methods
      */
-    function query($query, $filter = null)
+    function query($query, midcom_services_indexer_filter $filter = null)
     {
         if ($this->_disabled)
         {

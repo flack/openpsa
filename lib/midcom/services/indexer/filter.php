@@ -13,11 +13,10 @@
  * the filter. In essence, this is a limited version of the range query facility
  * supported by Lucene.
  *
- * @abstract Abstract indexer filter class
  * @package midcom.services
  * @see midcom_services_indexer
  */
-class midcom_services_indexer_filter
+abstract class midcom_services_indexer_filter
 {
     /**
      * This variable is set by the subclass constructors and indicates
@@ -50,9 +49,16 @@ class midcom_services_indexer_filter
      *
      * @return string
      */
-    function get_field()
+    public function get_field()
     {
         return $this->_field;
     }
+
+    /**
+     * Returns the filter's string representation
+     *
+     * @return string The string to append to the query
+     */
+    abstract public function get_query_string();
 }
 ?>
