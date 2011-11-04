@@ -30,9 +30,8 @@ abstract class midcom_services_indexer_filter
      * The name of the field that should be restricted.
      *
      * @var string
-     * @access protected
      */
-    var $_field = '';
+    protected $_field = '';
 
     /**
      * Initialize the class.
