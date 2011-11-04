@@ -288,7 +288,6 @@ class midcom_services_indexer_document
         $this->_i18n = $_MIDCOM->get_service('i18n');
     }
 
-
     /**
      * Returns the contents of the field name or false on failure.
      *
@@ -412,7 +411,7 @@ class midcom_services_indexer_document
      */
     public function add_unstored($name, $content)
     {
-        $this->_add_field($name, 'unstored', $content);
+        $this->_add_field($name, 'unstored', $this->html2text($content));
     }
 
     /**
@@ -423,7 +422,7 @@ class midcom_services_indexer_document
      */
     public function add_text($name, $content)
     {
-        $this->_add_field($name, 'text', $content);
+        $this->_add_field($name, 'text', $this->html2text($content));
     }
 
     /**
@@ -542,9 +541,8 @@ class midcom_services_indexer_document
      * @param string $type The field's type.
      * @param string $content The field's content.
      * @param boolean $is_utf8 Set this to true explicitly, to override charset conversion and assume $content is UTF-8 already.
-     * @access protected
      */
-    function _add_field($name, $type, $content, $is_utf8 = false)
+    protected function _add_field($name, $type, $content, $is_utf8 = false)
     {
         $this->_fields[$name] = Array
         (
@@ -605,8 +603,6 @@ class midcom_services_indexer_document
      *
      * Don't replace with an empty string but with a space, so that constructs like
      * <li>torben</li><li>nehmer</li> are recognized correctly.
-     * While this might result in double-spaces between words, this is better then
-     * losing the word boundaries entirely.
      *
      * @param string $text The text to convert to text
      * @return string The converted text.
@@ -625,27 +621,6 @@ class midcom_services_indexer_document
         );
         $result = $this->_i18n->html_entity_decode(preg_replace($search, $replace, $text));
         return trim(preg_replace('/\s+/s', ' ', $result));
-    }
-
-    /**
-     * Returns a textual representation of the specified datamanager2
-     * field.
-     *
-     * Actual behavior is dependent on the datatype. The system uses
-     * the type's built-in html conversion callbacks
-     *
-     * Text fields run through the html2text converter of the document
-     * base class.
-     *
-     * @param midcom_helper_datamanager2_datamanager &$datamanager A
-     *     reference to the datamanager2 instance.
-     * @param string $name The name of the field that should be queried
-     * @return string The textual representation of the field.
-     * @see midcom_services_indexer_document::html2text()
-     */
-    function datamanager2_get_text_representation(&$datamanager, $name)
-    {
-        return $this->html2text($datamanager->types[$name]->convert_to_html());
     }
 
     /**

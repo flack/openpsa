@@ -261,7 +261,6 @@ class midcom_services_indexer
         foreach ($result_raw as $document)
         {
             $document->fields_to_members();
-
             /**
              * FIXME: Rethink program flow and especially take into account that not all documents are
              * created by midcom or even served by midgard
@@ -273,8 +272,7 @@ class midcom_services_indexer
             // topic instead.
 
             // Try to check topic only if the guid is actually set
-            if (   isset($document->topic_guid)
-                && !empty($document->topic_guid))
+            if (!empty($document->topic_guid))
             {
                 try
                 {
