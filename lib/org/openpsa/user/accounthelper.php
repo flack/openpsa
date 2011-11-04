@@ -18,14 +18,14 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @var midcom_db_person
      */
-    private $_person;
+    protected $_person;
 
     /**
      * The account we're working on
      *
      * @var midcom_core_account
      */
-    private $_account;
+    protected $_account;
 
     public $errstr;
 
@@ -44,7 +44,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @param string password: leave blank for auto generated
      */
-    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail)
+    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false, $auto_relocate = true)
     {
         //quick validation
         if (empty($person_guid))
@@ -138,10 +138,22 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
         }
 
-        // Relocate to group view
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $_MIDCOM->relocate("{$prefix}view/{$this->_person->guid}/");
-        // This will exit
+        if ($auto_relocate)
+        {
+            // Relocate to group view
+            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $_MIDCOM->relocate("{$prefix}view/{$this->_person->guid}/");
+            // This will exit
+        }
+        else
+        {
+            if (!empty($this->errstr))
+            {
+                throw new midcom_error('Could not create account: ' . $this->errstr);
+                exit;
+            }
+            return true;
+        }
     }
 
     /**
@@ -310,6 +322,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 $score += $rule['score'];
             }
         }
+
         if ($score <= $this->_config->get('min_password_score'))
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
