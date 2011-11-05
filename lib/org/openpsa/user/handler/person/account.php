@@ -78,7 +78,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         org_openpsa_helpers::dm2_savecancel($this);
     }
 
-
     public function load_schemadb()
     {
         $handler = $this->_request_data["handler_id"];

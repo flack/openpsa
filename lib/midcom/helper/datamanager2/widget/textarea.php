@@ -138,6 +138,14 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
             $errormsg = sprintf($this->_l10n->get('type text: value is longer then %d characters'), $this->maxlength);
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
+        if (!empty($this->_type->forbidden_patterns))
+        {
+            $this->_form->addFormRule(Array(&$this->_type, 'validate_forbidden_patterns'));
+        }
+        if (!empty($this->_type->allowed_patterns))
+        {
+            $this->_form->addFormRule(Array(&$this->_type, 'validate_allowed_patterns'));
+        }
     }
 
     function get_default()
