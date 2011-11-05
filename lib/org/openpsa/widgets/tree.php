@@ -70,6 +70,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
      */
     public function __construct($classname, $parent_field)
     {
+        parent::__construct();
         $this->_object_class = $classname;
         $this->_parent_field = $parent_field;
 
