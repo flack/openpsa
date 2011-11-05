@@ -355,11 +355,11 @@ class midcom_services__i18n_l10n
         }
 
         ksort($stringtable, SORT_STRING);
-        $this->_stringdb[$lang] = $stringtable;
+        $this->_stringdb[$lang] = array_merge($this->_stringdb[$lang], $stringtable);
 
         if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
         {
-            $_MIDCOM->cache->memcache->put('L10N', $filename, $stringtable);
+            $_MIDCOM->cache->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
         }
     }
 
