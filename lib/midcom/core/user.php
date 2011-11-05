@@ -196,10 +196,9 @@ class midcom_core_user
         }
         else if (is_numeric($id))
         {
-            $this->_storage = new $person_class();
             try
             {
-                $this->_storage->get_by_id($id);
+                $this->_storage = new $person_class($id);
             }
             catch (midgard_error_exception $e)
             {
@@ -220,11 +219,11 @@ class midcom_core_user
         }
 
         if (   !is_object($this->_storage)
-            || !isset($this->_storage->guid))
+            || empty($this->_storage->guid))
         {
             debug_print_r('Passed argument was:', $id);
             debug_print_r('_storage is:', $this->_storage);
-            throw new midcom_error('Tried to load a midcom_core_user, _storage is not an object (has no username property)');
+            throw new midcom_error('Tried to load a midcom_core_user, _storage is not an object');
         }
 
         $this->username = $this->_storage->username;
@@ -263,10 +262,9 @@ class midcom_core_user
 
         if (mgd_is_guid($id))
         {
-            $this->_storage = new $person_class();
             try
             {
-                $this->_storage->get_by_guid($id);
+                $this->_storage = new $person_class($id);
             }
             catch (midgard_error_exception $e)
             {
