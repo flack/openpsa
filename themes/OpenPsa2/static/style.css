@@ -603,3 +603,14 @@ input#org_openpsa_search_query
     position: absolute;
     z-index: 101;
 }
+
+.midcom_helper_search_result h3
+{
+	margin-bottom: .5em;
+}
+
+.midcom_helper_search_result_metadata
+{
+    color: #666;
+	margin-top: .5em
+}
