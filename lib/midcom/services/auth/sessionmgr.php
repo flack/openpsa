@@ -424,21 +424,25 @@ class midcom_services_auth_sessionmgr
      * This function is called by the framework whenever a user's password is updated. It will
      * synchronize all active login sessions of that user to the new password.
      *
-     * Access to this function is restricted to midcom_core_user.
+     * Access to this function is restricted to midcom_core_account.
      *
      * @param midcom_core_user $user A reference to the user object which has been updated.
      * @param string $new The new password (plain text).
      */
     function _update_user_password(&$user, $new)
     {
+        if (empty($new))
+        {
+            return;
+        }
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
 
-        if (! $result)
+        if (empty($result))
         {
             // No login sessions found
-            return true;
+            return;
         }
 
         foreach ($result as $session)
@@ -452,13 +456,17 @@ class midcom_services_auth_sessionmgr
      * This function is called by the framework whenever a user's username is updated. It will
      * synchronize all active login sessions of that user to the new username.
      *
-     * Access to this function is restricted to midcom_core_user.
+     * Access to this function is restricted to midcom_core_account.
      *
      * @param midcom_core_user $user A reference to the user object which has been updated.
      * @param string $new The new username.
      */
     function _update_user_username(&$user, $new)
     {
+        if (empty($new))
+        {
+            return;
+        }
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
@@ -473,6 +481,22 @@ class midcom_services_auth_sessionmgr
         {
             $session->username = $new;
             $session->update();
+        }
+    }
+
+    public function _delete_user_sessions(midcom_core_user $user)
+    {
+        // Delete login sessions
+        $qb = new midgard_query_builder('midcom_core_login_session_db');
+        $qb->add_constraint('userid', '=', $user->id);
+        $result = @$qb->execute();
+        if ($result)
+        {
+            foreach ($result as $entry)
+            {
+                debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
+                $entry->delete();
+            }
         }
     }
 

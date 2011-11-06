@@ -62,6 +62,7 @@ class midcom_core_account
 
     public function save()
     {
+        $this->_person->require_do('midgard:update');
         if (!$this->_is_username_unique())
         {
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('username already exists', 'org.openpsa.contacts'), 'error');
@@ -78,8 +79,21 @@ class midcom_core_account
         }
     }
 
+    /**
+     * Deletes the current user account.
+     *
+     * This will cleanup all information associated with
+     * the user that is managed by the core (like login sessions and privilege records).
+     *
+     * This call requires the delete privilege on the person object, this is enforced using
+     * require_do.
+     *
+     * @return boolean Indicating success.
+     */
     public function delete()
     {
+        $this->_person->require_do('midgard:delete');
+        $stat = false;
         if ($this->_midgard2)
         {
             // Ratatoskr
@@ -87,18 +101,38 @@ class midcom_core_account
             {
                 return false;
             }
-            return $this->_user->delete();
+            $stat = $this->_user->delete();
         }
         else
         {
             $this->_person->password = '';
             $this->_person->username = '';
-            return $this->_person->update();
+            $stat = $this->_person->update();
         }
+        if (!$stat)
+        {
+            return false;
+        }
+        $user = new midcom_core_user($this->_person);
+        midcom::get('auth')->sessionmgr->_delete_user_sessions($user);
+
+        // Delete all ACL records which have the user as assignee
+        $qb = new midgard_query_builder('midcom_core_privilege_db');
+        $qb->add_constraint('assignee', '=', $user->id);
+        if ($result = @$qb->execute())
+        {
+            foreach ($result as $entry)
+            {
+                debug_add("Deleting privilege {$entry->privilegename} ID {$entry->id} on {$entry->objectguid}");
+                $entry->delete();
+            }
+        }
+        return true;
     }
 
     public function set_username($username)
     {
+        $this->_old_username = $this->get_username();
         if ($this->_midgard2)
         {
             $this->_user->login = $username;
@@ -121,6 +155,7 @@ class midcom_core_account
         {
             $password = midcom_connection::prepare_password($password);
         }
+        $this->_old_password = $this->get_password();
         if ($this->_midgard2)
         {
             $this->_user->password = $password;
@@ -239,27 +274,54 @@ class midcom_core_account
 
     private function _update()
     {
+        $stat = false;
+        $new_username = $this->get_username();
+        $new_password = $this->get_password();
+
         if ($this->_midgard2)
         {
-            $this->_user->login = $this->get_username();
-            $this->_user->password = $this->get_password();
+            $this->_user->login = $new_username;
+            $this->_user->password = $new_password;
             try
             {
-                $this->_user->update();
+                $stat = $this->_user->update();
             }
             catch (midgard_error_exception $e)
             {
-                return false;
+                $e->log();
             }
-            return true;
         }
         else
         {
             // Ragnaroek
-            $this->_person->username = $this->get_username();
-            $this->_person->password = $this->get_password();
-            return $this->_person->update();
+            $this->_person->username = $new_username;
+            $this->_person->password = $new_password;
+            $stat = $this->_person->update();
         }
+        if (!$stat)
+        {
+            return false;
+        }
+
+        $user = new midcom_core_user($this->_person);
+
+        if (   !empty($this->_old_password)
+            && $this->_old_password !== $new_password)
+        {
+            midcom::get('auth')->sessionmgr->_update_user_password($user, $new_password);
+        }
+        if (   !empty($this->_old_username)
+            && $this->_old_username !== $new_username)
+        {
+            midcom::get('auth')->sessionmgr->_update_user_username($user, $new_username);
+            if (!$history = @unserialize($this->_person->get_parameter('midcom', 'username_history')))
+            {
+                $history = array();
+            }
+            $history[time()] = array('old' => $this->_old_username, 'new' => $new_username);
+            $this->_person->set_parameter('midcom', 'username_history', serialize($history));
+        }
+        return true;
     }
 
     private function _get_user()
