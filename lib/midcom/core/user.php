@@ -310,16 +310,6 @@ class midcom_core_user
     }
 
     /**
-     * Return a list of privileges assigned directly to the user.
-     *
-     * @return Array A list of midcom_core_privilege records.
-     */
-    private function _get_privileges()
-    {
-        return midcom_core_privilege::get_self_privileges($this->guid);
-    }
-
-    /**
      * Returns the complete privilege set assigned to this user, taking all
      * parent groups into account.
      *
@@ -454,7 +444,7 @@ class midcom_core_user
     {
         static $cache = Array();
 
-        if (! array_key_exists($this->id, $cache))
+        if (!array_key_exists($this->id, $cache))
         {
             debug_add("Loading privileges for user {$this->name} ({$this->id})");
 
@@ -476,7 +466,7 @@ class midcom_core_user
             }
 
             // Finally, apply our own privilege set to the one we got from the group
-            $this->_merge_privileges($this->_get_privileges());
+            $this->_merge_privileges(midcom_core_privilege::get_self_privileges($this->guid));
             $cache[$this->id]['direct'] = $this->_privileges;
             $cache[$this->id]['class'] = $this->_per_class_privileges;
         }

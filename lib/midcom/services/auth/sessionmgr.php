@@ -11,11 +11,11 @@
  * DB I/O.
  *
  * Normally, you should not have to work with this class unless you are either
- * writing an authentication front- or backends, or a component which includes online
+ * writing an authentication front or back end, or a component which includes online
  * status notifications and the like.
  *
  * The single instance of this class can be accessed as
- * $this->auth->sessionmgr.
+ * midcom::get('auth')->sessionmgr.
  *
  * <b>Checking whether a user is online</b>
  *
@@ -24,7 +24,6 @@
  *
  * @package midcom.services
  */
-
 class midcom_services_auth_sessionmgr
 {
     /**
@@ -187,7 +186,7 @@ class midcom_services_auth_sessionmgr
      * session is found, its ID is returned again, you can from now on use this as
      * a token for authentication.
      *
-     * This code will implicitly clean up all stale or old sessions for the current
+     * This code will implicitly clean up stale sessions for the current
      * user.
      *
      * @param string $sessionid The Session ID to check for.
@@ -218,6 +217,7 @@ class midcom_services_auth_sessionmgr
 
         if ($session->timestamp < $timed_out)
         {
+            $session->delete();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -236,7 +236,7 @@ class midcom_services_auth_sessionmgr
             $session->timestamp = time();
             try
             {
-                if (! $session->update())
+                if (!$session->update())
                 {
                     debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 }
