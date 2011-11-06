@@ -155,7 +155,7 @@ class midcom_services_auth_sessionmgr
         $user = $this->auth->get_user($this->person);
         if (!$user)
         {
-            debug_add("Failed to create a new login session: User ID {$_MIDCOM['user']} is invalid.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to create a new login session: User ID {$username} is invalid.", MIDCOM_LOG_ERROR);
             return false;
         }
 
