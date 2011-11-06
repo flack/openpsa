@@ -460,7 +460,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         $account->set_password($this->_person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
         $account->save();
-        $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
+        $this->_person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
     }
 
     /**

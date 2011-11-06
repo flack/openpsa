@@ -53,13 +53,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             }
         }
 
-        // Save the object
-        if (!$this->_datamanager->save())
-        {
-            return false;
-        }
-
-        return true;
+        return $this->_datamanager->save();
     }
 
     /**
