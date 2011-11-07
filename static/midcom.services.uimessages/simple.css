@@ -1,6 +1,6 @@
 /**
  * Styles for ui messages without javascript
-**/
+ */
 
 div.midcom_services_uimessages_holder
 {
@@ -12,6 +12,7 @@ div.midcom_services_uimessages_holder
 div.midcom_services_uimessages_message
 {
     margin: 10px 0 10px 0;
+    padding: 5px
 }
 div.msu_info
 {
