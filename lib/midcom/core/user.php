@@ -228,13 +228,8 @@ class midcom_core_user
 
         $this->username = $this->_storage->username;
         $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");
-        if (empty($this->name))
-        {
-            $this->name = $this->username;
-        }
-
         $this->rname = trim("{$this->_storage->lastname}, {$this->_storage->firstname}");
-        if ($this->name == '')
+        if (empty($this->name))
         {
             $this->name = $this->username;
             $this->rname = $this->username;
