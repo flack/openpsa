@@ -227,16 +227,12 @@ class midcom_services_uimessages
      *
      * @param boolean $show Show simple HTML
      */
-    function show($show_simple_also = false)
+    function show($show_simple = false)
     {
-        if ($show_simple_also)
+        if (   $show_simple
+            || !$_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
             $this->show_simple();
-        }
-
-        // No privileges for showing the AJAX user interface messages
-        if (!$_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
-        {
             return;
         }
 
