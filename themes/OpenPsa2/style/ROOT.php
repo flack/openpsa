@@ -82,14 +82,15 @@ echo "<?xml version=\"1.0\"?>\n";
               <div id="org_openpsa_messagearea">
               </div>
               <div id="content-text">
+                  <?php
+                  //Display any UI messages added to stack on PHP level
+                  $_MIDCOM->uimessages->show();
+                  ?>
                   <(content)>
               </div>
           </div>
        </div>
-<?php
-//Display any UI messages added to stack on PHP level
-$_MIDCOM->uimessages->show();
-?>
+
     <script type="text/javascript">
     //This has to be timed with the jqgrid resizers
     org_openpsa_layout.resize_content('#content-text');
