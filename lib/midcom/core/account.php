@@ -41,6 +41,15 @@ class midcom_core_account
      */
     private static $_instances = array();
 
+    /**
+     * Change tracking variables
+     *
+     * @var string
+     */
+    private $_new_password;
+    private $_old_password;
+    private $_old_username;
+
     public function __construct(midcom_db_person &$person)
     {
         $this->_person =& $person;
@@ -151,11 +160,12 @@ class midcom_core_account
      */
     public function set_password($password, $encode = true)
     {
+        $this->_new_password = $password;
+        $this->_old_password = $this->get_password();
         if ($encode)
         {
             $password = midcom_connection::prepare_password($password);
         }
-        $this->_old_password = $this->get_password();
         if ($this->_midgard2)
         {
             $this->_user->password = $password;
@@ -308,7 +318,7 @@ class midcom_core_account
         if (   !empty($this->_old_password)
             && $this->_old_password !== $new_password)
         {
-            midcom::get('auth')->sessionmgr->_update_user_password($user, $new_password);
+            midcom::get('auth')->sessionmgr->_update_user_password($user, $this->_new_password);
         }
         if (   !empty($this->_old_username)
             && $this->_old_username !== $new_username)
