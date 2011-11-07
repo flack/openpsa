@@ -42,7 +42,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $date->modify('-' . $offset . ' days');
         $data['week_start'] = (int) $date->format('U');
 
-        $date->modify('+7 days');
+        $date->modify('+7 days -1 second');
         $data['week_end'] = (int) $date->format('U');
 
         $date->modify('+1 day');
@@ -58,7 +58,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $hours_mc->add_value_property('person');
 
         $this->_master->add_list_filter($hours_mc);
-
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);
         $hours_mc->add_order('task');
