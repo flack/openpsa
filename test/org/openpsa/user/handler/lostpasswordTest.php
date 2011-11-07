@@ -23,6 +23,21 @@ class org_openpsa_user_handler_lostpasswordTest extends openpsa_testcase
     {
         $data = $this->run_handler('org.openpsa.user', array('lostpassword'));
         $this->assertEquals('lostpassword', $data['handler_id']);
+
+        $user = self::create_user();
+        $account = new midcom_core_account($user);
+        $old_password = $account->get_password();
+        $formdata = array
+        (
+            'username' => $account->get_username()
+        );
+        $this->set_dm2_formdata($data['controller'], $formdata);
+        $data = $this->run_handler('org.openpsa.user', array('lostpassword'));
+
+        $user->refresh();
+        $account = new midcom_core_account($user);
+        $this->assertEquals('lostpassword', $data['handler_id']);
+        $this->assertNotEquals($old_password, $account->get_password());
     }
 }
 ?>
