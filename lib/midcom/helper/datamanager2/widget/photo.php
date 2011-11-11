@@ -22,7 +22,18 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
     function on_submit($results)
     {
         // TODO: refactor these checks to separate methods
-        if (array_key_exists("{$this->name}_rotate", $results))
+        if (array_key_exists("{$this->name}_delete", $results))
+        {
+            if (! $this->_type->delete_all_attachments())
+            {
+                debug_add("Failed to delete all attached old images on the field {$this->name}.",
+                MIDCOM_LOG_ERROR);
+            }
+
+            // Adapt the form:
+            $this->_cast_formgroup_to_replacedelete();
+        }
+        else if (array_key_exists("{$this->name}_rotate", $results))
         {
             // The direction is the key (since the value is the point clicked on the image input)
             list ($direction, $dummy) = each($results["{$this->name}_rotate"]);
@@ -137,6 +148,18 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
+        $attributes = Array
+        (
+            'id'    => "{$this->_namespace}{$this->name}_upload_button",
+        );
+        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
+
+        // Add the Delete button
+        $attributes = Array
+        (
+            'id'    => "{$this->_namespace}{$this->name}_delete_button",
+        );
+        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
