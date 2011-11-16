@@ -359,8 +359,7 @@ class midcom_core_account
             $result = $qs->list_objects();
             if (sizeof($result) != 1)
             {
-                $tmp = new midgard_user();
-                return $tmp;
+                return new midgard_user();
             }
             return $result[0];
         }

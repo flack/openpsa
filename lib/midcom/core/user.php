@@ -218,12 +218,11 @@ class midcom_core_user
             throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
         }
 
-        if (   !is_object($this->_storage)
-            || empty($this->_storage->guid))
+        if (empty($this->_storage->guid))
         {
             debug_print_r('Passed argument was:', $id);
             debug_print_r('_storage is:', $this->_storage);
-            throw new midcom_error('Tried to load a midcom_core_user, _storage is not an object');
+            throw new midcom_error('storage GUID is not set');
         }
 
         $this->username = $this->_storage->username;
