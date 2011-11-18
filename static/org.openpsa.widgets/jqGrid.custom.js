@@ -197,7 +197,8 @@ var org_openpsa_grid_resize =
                     content_height = 100;
                 }
 
-                if (grid_body.jqGrid('getGridParam', 'gridstate') == 'visible')
+                if (   grid_body.jqGrid('getGridParam', 'gridstate') == 'visible'
+                    && $(this).is(':visible'))
                 {
                     grid_heights[grid_body.attr('id')] = content_height;
                     grids_content_height += content_height;
