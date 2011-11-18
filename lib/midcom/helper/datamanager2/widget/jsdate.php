@@ -375,7 +375,7 @@ EOT;
         $empty_date = "0000-00-00 00:00:00";
 
         // Could not find any input
-        if (!isset($results[$this->name . '_date']))
+        if (empty($results[$this->name . '_date']))
         {
             return $empty_date;
         }
@@ -393,7 +393,7 @@ EOT;
 
             $input .= ' ' . $hours . ':' . $minutes . ':';
             // If we have hidden seconds, we need to change format to save those seconds
-            $this->format = 'Y-m-d H:i:s';
+            $this->format = '%Y-%m-%d %H:%M:%S';
             if ($this->hide_seconds)
             {
                 $input .= '00';
