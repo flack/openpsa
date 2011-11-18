@@ -29,9 +29,10 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     /**
      * AJAX controller initialization. Loads required Javascript libraries and connects to the parent class initialization.
      *
+     * @param string $identifier The form identifier
      * @return boolean Indicating success.
      */
-    function initialize()
+    function initialize($identifier = null)
     {
         parent::initialize();
 
@@ -43,6 +44,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
         }
+        $this->form_identifier .= $identifier;
 
         return true;
     }

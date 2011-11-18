@@ -23,11 +23,12 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
     /**
      * Check if a schema has been set
      *
+     * @param string $identifier The form identifier
      * @return boolean Indicating success.
      */
-    function initialize()
+    function initialize($identifier = null)
     {
-        parent::initialize();
+        parent::initialize($identifier);
 
         if (count($this->schemadb) == 0)
         {
@@ -40,7 +41,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager($this->datamanager->schema, $this->datamanager->types);
 
-        return $this->formmanager->initialize();
+        return $this->formmanager->initialize($identifier);
     }
 
     /**
