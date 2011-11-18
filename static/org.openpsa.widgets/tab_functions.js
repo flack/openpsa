@@ -13,31 +13,34 @@ var org_openpsa_widgets_tabs =
               {
                   dataFilter: org_openpsa_widgets_tabs.load_head_elements
               },
-              load: function(){$(window).trigger('resize');},
-              show: function(){$(window).trigger('resize');}
+              load: function()
+              {
+                  $(window).trigger('resize');
+              },
+              show: function(event, ui)
+              {
+                  var url = $(ui.tab).attr('href');
+                  url = url.replace(/^.*#/, '');
+                  $.history.load(url);
+
+                  $(window).trigger('resize');
+              }
         });
 
-        $.history.init(function(url)
+        $.history.init(org_openpsa_widgets_tabs.history_loader);
+    },
+    history_loader: function(url)
+    {
+        var tab_id = 0;
+        if (url != '')
         {
-            var tab_id = 0;
-            if (url != '')
-            {
-                tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
-            }
+            tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
+        }
 
-            if ($('#tabs').tabs('option', 'selected') != tab_id)
-            {
-                $('#tabs').tabs('select', tab_id);
-            }
-        });
-
-        $('#tabs a.tabs_link').bind('click', function(event)
+        if ($('#tabs').tabs('option', 'selected') != tab_id)
         {
-            var url = $(this).attr('href');
-            url = url.replace(/^.*#/, '');
-            $.history.load(url);
-            return true;
-        });
+            $('#tabs').tabs('select', tab_id);
+        }
     },
     bind_events: function()
     {
