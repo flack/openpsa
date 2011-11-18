@@ -147,45 +147,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 $(document).ready(
     function()
     {
-        $('.ui-state-active a').live('mouseup', function(event)
-        {
-            if (event.which != 1)
-            {
-                return;
-            }
-            var url = $.data(event.currentTarget, 'href.tabs').replace(/\/{$uipage}\//, '/');
-            location.href = url;
-        });
-        $('#tabs a').live('click', function(event){intercept_clicks(event)});
-
-        var tabs = $('#tabs').tabs({
-              cache: true,
-              spinner: '{$wait}...',
-              load: function(){\$(window).trigger('resize');},
-              show: function(){\$(window).trigger('resize');}
-        });
-
-        $.history.init(function(url)
-        {
-            var tab_id = 0;
-            if (url != '')
-            {
-                tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
-            }
-
-            if ($('#tabs').tabs('option', 'selected') != tab_id)
-            {
-                $('#tabs').tabs('select', tab_id);
-            }
-        });
-
-        $('#tabs a.tabs_link').bind('click', function(event)
-        {
-            var url = $(this).attr('href');
-            url = url.replace(/^.*#/, '');
-            $.history.load(url);
-            return true;
-        });
+        org_openpsa_widgets_tabs.initialize('{$uipage}', '{$wait}...');
     }
 );
 </script>
