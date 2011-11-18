@@ -4,7 +4,7 @@ var org_openpsa_widgets_tabs =
     form_append: "&midcom_helper_datamanager2_cancel=Cancel",
     initialize: function(uiprefix, spinner)
     {
-        org_openpsa_widgets_tabs.bind_events();
+        org_openpsa_widgets_tabs.bind_events(uiprefix);
 
         var tabs = $('#tabs').tabs({
               cache: true,
@@ -22,7 +22,6 @@ var org_openpsa_widgets_tabs =
                   var url = $(ui.tab).attr('href');
                   url = url.replace(/^.*#/, '');
                   $.history.load(url);
-
                   $(window).trigger('resize');
               }
         });
@@ -42,10 +41,10 @@ var org_openpsa_widgets_tabs =
             $('#tabs').tabs('select', tab_id);
         }
     },
-    bind_events: function()
+    bind_events: function(uiprefix)
     {
         $('#tabs')
-            .delegate('.ui-state-active a', 'mouseup', function(event)
+            .delegate('.ui-state-active a', 'mousedown', function(event)
             {
                 if (event.which != 1)
                 {
@@ -54,7 +53,7 @@ var org_openpsa_widgets_tabs =
                 var url = $.data(event.currentTarget, 'href.tabs').replace(new RegExp('/' + uiprefix + '/'), '/');
                 location.href = url;
             })
-            .delegate('a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event)})
+            .delegate('.ui-tabs-panel a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event)})
 
             //bind click functions so the request can pass if it should saved or cancelled
             .delegate('input[type=submit]:not(.tab_escape)', 'click', function(event)
