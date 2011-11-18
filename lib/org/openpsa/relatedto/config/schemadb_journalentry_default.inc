@@ -10,6 +10,7 @@
             'storage' => 'title',
             'type' => 'text',
             'widget'  => 'text',
+            'required' => true
         ),
         'text' => Array
         (
