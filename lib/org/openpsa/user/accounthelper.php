@@ -239,7 +239,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * Function to add current password to parameter old passwords - does not update()
      */
-    private function _save_old_password()
+    protected function _save_old_password()
     {
         $max_old_passwords = $this->_config->get('max_old_passwords');
         if ($max_old_passwords < 1)
@@ -264,7 +264,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return array - Array with old passwords - empty if there aren't any old passwords
      */
-    private function _get_old_passwords()
+    protected function _get_old_passwords()
     {
         $old_passwords_string = $this->_person->get_parameter("org_openpsa_user_password", "old_passwords");
         if (!empty($old_passwords_string))
@@ -337,7 +337,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $password contains password to check
      * @return string - string without repetitions
      */
-    private function _check_repetition($plen, $password)
+    protected function _check_repetition($plen, $password)
     {
         $result = "";
         for ($i = 0; $i < strlen($password); $i++)
@@ -527,7 +527,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return (!empty($block_param));
     }
 
-    private static function _get_person_by_formdata($data)
+    protected static function _get_person_by_formdata($data)
     {
         if (   empty($data['username'])
             || empty($data['password']))
