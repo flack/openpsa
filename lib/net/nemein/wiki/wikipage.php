@@ -170,8 +170,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             return;
         }
 
-        $_MIDCOM->load_library('org.openpsa.notifications');
-
         // Construct the message
         $message = array();
         $user_string = $_MIDCOM->i18n->get_string('anonymous', 'net.nemein.wiki');

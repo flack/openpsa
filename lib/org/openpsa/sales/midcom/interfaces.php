@@ -309,8 +309,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             'content' => $content,
         );
 
-        $_MIDCOM->load_library('org.openpsa.notifications');
-
         return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);
     }
 }

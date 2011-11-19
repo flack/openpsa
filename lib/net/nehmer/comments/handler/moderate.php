@@ -73,7 +73,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                     && $moderators)
                 {
                     // Prepare notification message
-                    $_MIDCOM->load_library('org.openpsa.notifications');
                     $message = array();
                     $message['title'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
                     $message['content'] = '';
