@@ -915,10 +915,6 @@ class midcom_services_auth
         if (isset($param->id))
         {
             $id = $param->id;
-            if (is_a($param, 'midcom_db_person'))
-            {
-                $param = $param->__object;
-            }
         }
         else if (   !is_string($id)
                  && !is_integer($id))
@@ -931,6 +927,10 @@ class midcom_services_auth
         {
             try
             {
+                if (is_a($param, 'midcom_db_person'))
+                {
+                    $param = $param->__object;
+                }
                 $this->_user_cache[$id] = new midcom_core_user($param);
             }
             catch (midcom_error $e)
