@@ -154,7 +154,15 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         // Prepare notification to sales project owner
         $message = array();
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-        $owner = midcom_db_person::get_cached($salesproject->owner);
+        try
+        {
+            $owner = midcom_db_person::get_cached($salesproject->owner);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return;
+        }
         $customer = $salesproject->get_customer();
 
         if (is_null($next_run))
