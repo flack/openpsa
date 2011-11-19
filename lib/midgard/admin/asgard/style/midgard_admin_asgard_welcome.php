@@ -277,6 +277,10 @@ else
             }
 
             $title = htmlspecialchars($reflectors[$class]->get_object_label($object));
+            if (empty($title))
+            {
+                $title = $object->guid;
+            }
 
             echo "        <tr>\n";
             echo "            <td class=\"icon\">" . $reflectors[$class]->get_object_icon($object) . "</td>\n";
