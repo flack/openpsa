@@ -80,9 +80,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     public function __construct($rules = false)
     {
-        // Make sure all supported classes are loaded
-        $_MIDCOM->componentloader->load_graceful('org.maemo.devcodes');
-
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
         $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
         if ($rules)
@@ -257,12 +254,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 case 'org_openpsa_link_log':
                     $this->add_misc_rule($rule, $class, 'person');
                     break;
-                case 'org_maemo_devcodes_application':
-                    $this->add_misc_rule($rule, $class, 'applicant');
-                    break;
-                case 'org_maemo_devcodes_code':
-                    $this->add_misc_rule($rule, $class, 'recipient');
-                    break;
 
                 default:
                     debug_add("class " . $class . " not supported", MIDCOM_LOG_WARN);
@@ -382,14 +373,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_message_receipt'):
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_link_log'):
                     $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->person);
-                    $this->add_person_rule($person_rule);
-                    break;
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_maemo_devcodes_application'):
-                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->applicant);
-                    $this->add_person_rule($person_rule);
-                    break;
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_maemo_devcodes_code'):
-                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->recipient);
                     $this->add_person_rule($person_rule);
                     break;
 
