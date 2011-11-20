@@ -389,3 +389,8 @@ The current pdf-file was manually uploaded. So shall it really be replaced ?
 ---STRING create pdf for invoice
 Create PDF for invoice
 ---STRINGEND
+
+---STRING pdf created
+PDF file created successfully 
+---STRINGEND
+

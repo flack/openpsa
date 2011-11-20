@@ -393,3 +393,7 @@ Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich er
 ---STRING create pdf for invoice
 Erstelle PDF für Rechnung
 ---STRINGEND
+
+---STRING pdf created
+PDF-Datei wurde erfolgreich erzeugt 
+---STRINGEND

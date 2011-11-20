@@ -75,22 +75,9 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         }
         if ($this->_update_attachment)
         {
-            $this->_request_data['invoice'] = $this->_invoice;
-            // set customer
-            if ($this->_invoice->customer)
-            {
-                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_invoice->customer);
-            }
-            try
-            {
-                $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_invoice->customerContact);
-            }
-            catch (midcom_error $e)
-            {
-                $this->_request_data['customer_contact'] = false;
-            }
-            $this->_request_data['billing_data'] = $this->_invoice->get_billing_data();
-            $_MIDCOM->skip_page_style = true;
+            self::render_and_attach_pdf($this->_invoice);
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
+            $_MIDCOM->relocate($this->_request_data["invoice_url"]);
         }
     }
 
@@ -101,16 +88,8 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
      */
     public function _show_pdf($handler_id, array &$data)
     {
-        if ($this->_update_attachment)
-        {
-            self::render_and_attach_pdf($this->_invoice);
-            $_MIDCOM->relocate($this->_request_data["invoice_url"]);
-        }
         // if attachment was manually uploaded show confirm if file should be replaced
-        else
-        {
-            midcom_show_style('show-confirm');
-        }
+        midcom_show_style('show-confirm');
     }
 
     public static function render_and_attach_pdf(org_openpsa_invoices_invoice_dba $invoice)
