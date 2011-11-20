@@ -57,10 +57,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
                 foreach ($this->_datamanager->types['pdf_file']->attachments as $attachment)
                 {
                     $parameters = $attachment->list_parameters();
+
                     // check if auto generated parameter is same as md5 in current-file
                     // if not the file was manually uploaded
                     if (   array_key_exists('org.openpsa.invoices', $parameters)
-                        && (array_key_exists('auto_generated', $parameters['org.openpsa.invoices'])))
+                        && array_key_exists('auto_generated', $parameters['org.openpsa.invoices']))
                     {
                         $blob = new midgard_blob($attachment->__object);
                         // check if md5 sum equals the one saved in auto_generated
@@ -161,6 +162,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
 
         // set parameter for datamanager to find the pdf
         $invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid);
+        $attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file));
     }
 }
 ?>
