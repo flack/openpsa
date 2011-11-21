@@ -1813,7 +1813,7 @@ class midcom_baseclasses_core_dbobject
     {
         if (! $object->id)
         {
-            debug_add('Cannot retrieve attachments on a non-persistant object.', MIDCOM_LOG_WARN);
+            debug_add('Cannot create attachments on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
         }
 

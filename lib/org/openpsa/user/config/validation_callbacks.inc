@@ -1,4 +1,32 @@
 <?php
+function validate_edit_form($fields)
+{
+    $result = is_username_available($fields);
+    if (is_array($result))
+    {
+        return $result;
+    }
+    return verify_existing_password($fields);
+}
+
+function verify_existing_password($fields)
+{
+    if (midcom::get('auth')->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
+    {
+        //User has the necessary rights, so we're good
+        return true;
+    }
+
+    if (!midcom_connection::login($fields["username"], $fields["current_password"]))
+    {
+        return array
+        (
+            'current_password' => midcom::get('i18n')->get_string("wrong current password", "org.openpsa.user")
+        );
+    }
+    return true;
+}
+
 function is_username_available($fields)
 {
     $result = array();

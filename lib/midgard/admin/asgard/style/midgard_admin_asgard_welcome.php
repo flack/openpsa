@@ -115,7 +115,6 @@ $revised_after_choices[$date] = $_MIDCOM->i18n->get_string('1 month', 'midgard.a
 <?php
 if (count($data['revised']) > 0)
 {
-    $revisors = array();
     echo "    <form name=\"latest_objects_mass_action\" method=\"post\">";
     echo "<table class=\"results table_widget\" id =\"batch_process\">\n";
     echo "    <thead>\n";
@@ -163,10 +162,14 @@ if (count($data['revised']) > 0)
         {
             $title = '[' . $_MIDCOM->i18n->get_string('no title', 'midgard.admin.asgard') . ']';
         }
-
-        if (!isset($revisors[$object->metadata->revisor]))
+        $revisor = $_MIDCOM->auth->get_user($object->metadata->revisor);
+        if (empty($revsior))
         {
-            $revisors[$object->metadata->revisor] = $_MIDCOM->auth->get_user($object->metadata->revisor);
+            $revisor_name = $data['l10n_midcom']->get('unknown');
+        }
+        else
+        {
+            $revisor_name = $revisor->name;
         }
 
         echo "        <tr>\n";
@@ -188,7 +191,7 @@ if (count($data['revised']) > 0)
         }
 
         echo "            <td class=\"revised\">" . strftime('%x %X', $object->metadata->revised) . "</td>\n";
-        echo "            <td class=\"revisor\">{$revisors[$object->metadata->revisor]->name}</td>\n";
+        echo "            <td class=\"revisor\">{$revisor_name}</td>\n";
         echo "            <td class=\"approved\">{$approved_str}</td>\n";
         echo "            <td class=\"revision\">{$object->metadata->revision}</td>\n";
         echo "        </tr>\n";
@@ -277,6 +280,10 @@ else
             }
 
             $title = htmlspecialchars($reflectors[$class]->get_object_label($object));
+            if (empty($title))
+            {
+                $title = $object->guid;
+            }
 
             echo "        <tr>\n";
             echo "            <td class=\"icon\">" . $reflectors[$class]->get_object_icon($object) . "</td>\n";

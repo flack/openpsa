@@ -196,10 +196,9 @@ class midcom_core_user
         }
         else if (is_numeric($id))
         {
-            $this->_storage = new $person_class();
             try
             {
-                $this->_storage->get_by_id($id);
+                $this->_storage = new $person_class($id);
             }
             catch (midgard_error_exception $e)
             {
@@ -219,23 +218,17 @@ class midcom_core_user
             throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
         }
 
-        if (   !is_object($this->_storage)
-            || !isset($this->_storage->guid))
+        if (empty($this->_storage->guid))
         {
             debug_print_r('Passed argument was:', $id);
             debug_print_r('_storage is:', $this->_storage);
-            throw new midcom_error('Tried to load a midcom_core_user, _storage is not an object (has no username property)');
+            throw new midcom_error('storage GUID is not set');
         }
 
         $this->username = $this->_storage->username;
         $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");
-        if (empty($this->name))
-        {
-            $this->name = $this->username;
-        }
-
         $this->rname = trim("{$this->_storage->lastname}, {$this->_storage->firstname}");
-        if ($this->name == '')
+        if (empty($this->name))
         {
             $this->name = $this->username;
             $this->rname = $this->username;
@@ -263,10 +256,9 @@ class midcom_core_user
 
         if (mgd_is_guid($id))
         {
-            $this->_storage = new $person_class();
             try
             {
-                $this->_storage->get_by_guid($id);
+                $this->_storage = new $person_class($id);
             }
             catch (midgard_error_exception $e)
             {
@@ -309,16 +301,6 @@ class midcom_core_user
             $this->_load_all_groups();
         }
         return $this->_all_groups;
-    }
-
-    /**
-     * Return a list of privileges assigned directly to the user.
-     *
-     * @return Array A list of midcom_core_privilege records.
-     */
-    private function _get_privileges()
-    {
-        return midcom_core_privilege::get_self_privileges($this->guid);
     }
 
     /**
@@ -456,7 +438,7 @@ class midcom_core_user
     {
         static $cache = Array();
 
-        if (! array_key_exists($this->id, $cache))
+        if (!array_key_exists($this->id, $cache))
         {
             debug_add("Loading privileges for user {$this->name} ({$this->id})");
 
@@ -478,7 +460,7 @@ class midcom_core_user
             }
 
             // Finally, apply our own privilege set to the one we got from the group
-            $this->_merge_privileges($this->_get_privileges());
+            $this->_merge_privileges(midcom_core_privilege::get_self_privileges($this->guid));
             $cache[$this->id]['direct'] = $this->_privileges;
             $cache[$this->id]['class'] = $this->_per_class_privileges;
         }
@@ -598,97 +580,6 @@ class midcom_core_user
     }
 
     /**
-     * Updates the password to the new one. This requires update privileges on the
-     * person storage object.
-     *
-     * It changes the internal storage object. If you want to make further modifications
-     * to the account, you <i>must call get_storage</i> again after the execution of this
-     * call, otherwise your subsequent updates will overwrite the password again.
-     *
-     * @param string $new The new clear text password to set.
-     * @param boolean $crypted Set this to true if you want to store a crypted password (the default),
-     *     false if you want to use a plain text password.
-     * @return boolean Indicating success.
-     */
-    function update_password($new, $crypted = true)
-    {
-        $person = $this->get_storage();
-        if (!$person->can_do('midgard:update'))
-        {
-            debug_add('Cannot update password, insufficient privileges.', MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        if ($crypted)
-        {
-            $salt = chr(rand(32, 125)) . chr(rand(32, 125));
-            $password = crypt($new, $salt);
-        }
-        else
-        {
-            $password = "**{$new}";
-        }
-
-        $person->password = $password;
-        if (! $person->update())
-        {
-            debug_add('Cannot update password, failed to update the record: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $_MIDCOM->auth->sessionmgr->_update_user_password($this, $new);
-
-        return true;
-    }
-
-    /**
-     * Updates the username to the new one. This requires update privileges on the
-     * person storage object.
-     *
-     * It changes the internal storage object. If you want to make further modifications
-     * to the account, you <i>must call get_storage</i> again after the execution of this
-     * call, otherwise your subsequent updates will overwrite the password again.
-     *
-     * @param string $new The new username to set.
-     * @return boolean Indicating success.
-     */
-    function update_username($new)
-    {
-        $person = $this->get_storage();
-        if (   !$person->can_do('midgard:update')
-            || !$person->can_do('midgard:parameters'))
-        {
-            debug_add('Cannot update username, insufficient privileges.', MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        // First, update the username and login session, keep track of the old
-        // name for a later update of the username history.
-        $old_name = $person->username;
-        $person->username = $new;
-        if (! $person->update())
-        {
-            debug_add('Cannot update username, failed to update the record: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $_MIDCOM->auth->sessionmgr->_update_user_username($this, $new);
-
-        // Update the history, ignore failed unserialization, this means that no
-        // history is present yet. Thus we should be fine as we handle that case
-        // with a fresh history.
-        $history = @unserialize($person->get_parameter('midcom', 'username_history'));
-        if (! $history)
-        {
-            $history = Array();
-        }
-        $history[time()] = Array('old' => $old_name, 'new' => $new);
-        $person->set_parameter('midcom', 'username_history', serialize($history));
-
-        return true;
-    }
-
-    /**
      * This is a shortcut for the method midcom_services_auth_sessionmgr::is_user_online().
      * The documentation at that function takes priority over the copy here.
      *
@@ -746,54 +637,22 @@ class midcom_core_user
     }
 
     /**
-     * Deletes the current user account.
-     *
-     * This will cleanup all information associated with
-     * the user that is managed by the core (like login sessions and privilege records).
-     *
-     * This call requires the delete privilege on the storage object, this is enforced using
-     * require_do.
+     * Deletes the current user account and the person record.
      *
      * @return boolean Indicating success.
      */
     function delete()
     {
         $person = $this->get_storage();
-        $person->require_do('midgard:delete');
+        $account = new midom_core_account($person);
 
-        if (! $person->delete())
+        if (!$account->delete())
         {
-            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add('Failed to delete the account, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
 
-        // Delete login sessions
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('userid', '=', $this->id);
-        $result = @$qb->execute();
-        if ($result)
-        {
-            foreach ($result as $entry)
-            {
-                debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
-                $entry->delete();
-            }
-        }
-
-        // Delete all ACL records which have the user as assignee
-        $qb = new midgard_query_builder('midcom_core_privilege_db');
-        $qb->add_constraint('assignee', '=', $this->id);
-        $result = @$qb->execute();
-        if ($result)
-        {
-            foreach ($result as $entry)
-            {
-                debug_add("Deleting privilege {$entry->privilegename} ID {$entry->id} on {$entry->objectguid}");
-                $entry->delete();
-            }
-        }
-
-        return true;
+        return $person->delete();
     }
 }
 ?>

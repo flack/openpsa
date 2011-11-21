@@ -1,128 +1,177 @@
-var current_ui = null;
-
-//need this to append to the sent data if the form was saved or cancelled
-if ( form_append === undefined)
+var org_openpsa_widgets_tabs =
 {
-    var form_append = "&midcom_helper_datamanager2_cancel=Cancel";
-}
-
-//check if array is already present to indicate if js/css-file was loaded already
-if (added_js_files == undefined)
-{
-    var added_js_files = {};
-    var added_css_files = {};
-}
-
-function intercept_clicks(event)
-{
-    if ($(event.currentTarget).attr('onclick'))
+    loaded_scripts: [],
+    form_append: "&midcom_helper_datamanager2_cancel=Cancel",
+    initialize: function(uiprefix, spinner)
     {
-        return true;
-    }
+        org_openpsa_widgets_tabs.bind_events(uiprefix);
 
-    var href = $(event.currentTarget).attr('href');
+        var tabs = $('#tabs').tabs({
+              cache: true,
+              spinner: spinner,
+              ajaxOptions:
+              {
+                  dataFilter: org_openpsa_widgets_tabs.load_head_elements
+              },
+              load: function()
+              {
+                  $(window).trigger('resize');
+              },
+              show: function(event, ui)
+              {
+                  var url = $(ui.tab).attr('href');
+                  url = url.replace(/^.*#/, '');
+                  $.history.load(url);
+                  $(window).trigger('resize');
+              }
+        });
 
-    if (!href.match(/\/uitab\//))
+        $.history.init(org_openpsa_widgets_tabs.history_loader);
+    },
+    history_loader: function(url)
     {
-        return true;
-    }
-    //for now, only links to plugins will be displayed inside the tab
-    if (   !href.match(/\/__mfa\/org\.openpsa/)
-        || $(event.currentTarget).hasClass('tab_escape'))
-    {
-        location.href = href.replace(/\/uitab\/+/, '/');
-        event.preventDefault();
-        return false;
-    }
-
-    if (href.slice(href.length - 1, href.length) != '#')
-    {
-        jQuery(":not(.ui-tabs-hide) > .tab_div").load(href);
-
-        event.preventDefault();
-        return false;
-    }
-}
-
-//function to add the passed javascript elements
-function parse_js(javascripts)
-{
-    $.each(javascripts, function(index, jscall)
-    {
-        if (   typeof jscall.url !== 'undefined'
-            && $('script[src="' + jscall.url + '"]').length == 0)
+        var tab_id = 0;
+        if (url != '')
         {
-            $("head").append('<script type="text/javascript" src="' + jscall.url + '"></script>');
+            tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
         }
-        else
+
+        if ($('#tabs').tabs('option', 'selected') != tab_id)
         {
-            $('head').append('<script type="text/javascript">' + jscall.content + '</script>');
+            $('#tabs').tabs('select', tab_id);
         }
-    });
-}
-//function to add the passed css_tags
-function parse_css(css_tags)
-{
-    var insertion_point = $('link[rel="stylesheet"]:first');
-    $.each(css_tags, function(index, data)
+    },
+    bind_events: function(uiprefix)
     {
-        if (   typeof data.type === 'undefined'
-            || typeof data.href === 'undefined'
-            || data.type !== 'text/css')
-        {
-            return;
-        }
-        if ($('link[href="' + data.href + '"]').length != 0)
-        {
-            insertion_point = $('link[href="' + data.href + '"]');
-        }
-        else
-        {
-            var tag = '<link';
-            $.each(data, function(key, value)
+        $('#tabs')
+            .delegate('.ui-state-active a', 'mousedown', function(event)
             {
-                tag += ' ' + key + '="' + value + '"';
+                if (event.which != 1)
+                {
+                    return;
+                }
+                var url = $.data(event.currentTarget, 'href.tabs').replace(new RegExp('/' + uiprefix + '/'), '/');
+                location.href = url;
+            })
+            .delegate('.ui-tabs-panel a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event)})
+
+            //bind click functions so the request can pass if it should saved or cancelled
+            .delegate('input[type=submit]:not(.tab_escape)', 'click', function(event)
+            {
+                org_openpsa_widgets_tabs.form_append = "&" + $(event.currentTarget).attr('name') + "=" + $(event.currentTarget).attr('value');
+                return true;
+            })
+
+            //since this is loaded in a tab - change the submit-function of
+            // an occuring form - so the result will be loaded in the tab also
+            .delegate('form:not(.tab_escape)', "submit", function(event)
+            {
+                if ($(event.currentTarget).attr('onsubmit'))
+                {
+                    return;
+                }
+                var send_data = $(this).serialize() + org_openpsa_widgets_tabs.form_append;
+
+                $.ajax(
+                {
+                    data: send_data,
+                    dataFilter: org_openpsa_widgets_tabs.load_head_elements,
+                    type: $(this).attr("method"),
+                    url: $(this).attr("action"),
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        $(":not(.ui-tabs-hide) > .tab_div").html(data);
+                    }
+                });
+                return false;
             });
-            tag += ' />';
-            insertion_point.after(tag);
-            insertion_point = insertion_point.next();
-        }
-    });
-}
-
-function modify_content()
-{
-    //bind click functions so the request can pass if it should saved or cancelled
-    $("#tabs input[type=submit]:not(.tab_escape)").bind('click', function(event)
+    },
+    load_head_elements: function(data, type)
     {
-        form_append = "&" + $(event.currentTarget).attr('name') + "=" + $(event.currentTarget).attr('value');
-        return true;
-    });
+        var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/;
+        regex.exec(data);
+        var head_elements = $.parseJSON(RegExp.$1),
+        data = data.substr((RegExp.$1.length + 31));
 
-    //since this is loaded in a tab - change the submit-function of
-    // an occuring form - so the result will be loaded in the tab also
-    $("#tabs form:not(.tab_escape)").live("submit", function(event)
-    {
-        if ($(event.currentTarget).attr('onsubmit'))
+        $.each(head_elements.head_js, function(index, jscall)
         {
-            return;
-        }
-        var send_data = $(this).serialize() + form_append;
-
-        jQuery.ajax(
-        {
-            data: send_data,
-            type: $(this).attr("method"),
-            url: $(this).attr("action"),
-            success: function(response)
+            if (   typeof jscall.url !== 'undefined'
+                && $('script[src="' + jscall.url + '"]').length == 0
+                && $.inArray(jscall.url, org_openpsa_widgets_tabs.loaded_scripts) == -1)
             {
-                //write into the visible panel
-                $(".ui-tabs-panel:not(.ui-tabs-hide) > .tab_div").replaceWith(response);
-
-                //we have to rebind the click-events so they'll be loaded in the tabs (live() sometimes fails)
-                $(".ui-tabs-panel:not(.ui-tabs-hide) > .tab_div a").bind('click', function(event){intercept_clicks(event);})
+                org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
+                $('head').append('<script type="text/javascript" src="' + jscall.url + '"></script>');
+            }
+            else if (   typeof jscall.content !== 'undefined'
+                     && jscall.content.length > 0)
+            {
+                $('<script type="text/javascript">' + jscall.content + '</script>');
             }
         });
-        return false;
-    });
+
+        var insertion_point = $('link[rel="stylesheet"]:first');
+        $.each(head_elements.head_css, function(index, data)
+        {
+            if (   typeof data.type === 'undefined'
+                || typeof data.href === 'undefined'
+                || data.type !== 'text/css')
+            {
+                return;
+            }
+            if ($('link[href="' + data.href + '"]').length != 0)
+            {
+                insertion_point = $('link[href="' + data.href + '"]');
+            }
+            else
+            {
+                var tag = '<link';
+                $.each(data, function(key, value)
+                {
+                    tag += ' ' + key + '="' + value + '"';
+                });
+                tag += ' />';
+                insertion_point.after(tag);
+                insertion_point = insertion_point.next();
+            }
+        });
+
+        return data;
+    },
+    intercept_clicks: function(event)
+    {
+        if ($(event.currentTarget).attr('onclick'))
+        {
+            return true;
+        }
+
+        var href = $(event.currentTarget).attr('href');
+
+        if (!href.match(/\/uitab\//))
+        {
+            return true;
+        }
+        //for now, only links to plugins will be displayed inside the tab
+        if (   !href.match(/\/__mfa\/org\.openpsa/)
+            || $(event.currentTarget).hasClass('tab_escape'))
+        {
+            location.href = href.replace(/\/uitab\/+/, '/');
+            event.preventDefault();
+            return false;
+        }
+
+        if (href.slice(href.length - 1, href.length) != '#')
+        {
+            $.ajax({
+                url: href,
+                dataFilter: org_openpsa_widgets_tabs.load_head_elements,
+                success: function(data, textStatus, jqXHR)
+                {
+                    $(":not(.ui-tabs-hide) > .tab_div").html(data);
+                }
+            });
+
+            event.preventDefault();
+            return false;
+        }
+    }
 }

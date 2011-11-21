@@ -152,7 +152,17 @@ class midcom_connection
                 $sitegroup = new midgard_sitegroup($_MIDGARD['sitegroup']);
                 $sg_name = $sitegroup->name;
             }
-            return midgard_user::auth($username, $password, $sg_name, $trusted);
+            $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
+            if (   !$stat
+                && $GLOBALS['midcom_config']['auth_type'] == 'Plaintext'
+                && strlen($password) > 11)
+            {
+                //mgd1 has the password field defined with length 13, but it doesn't complain
+                //when saving a longer password, it just sometimes shortens it, so we try the
+                //shortened version here (we cut at 11 because the first two characters are **)
+                $stat = midgard_user::auth($username, substr($password, 0, 11), $sg_name, $trusted);
+            }
+            return $stat;
         }
     }
 

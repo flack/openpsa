@@ -55,6 +55,38 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         echo "</div>\n";
     }
 
+    public function get_label()
+    {
+        $label = midcom::get('i18n')->get_l10n('org.openpsa.invoices')->get('billing data') . ' (';
+        if ($contact = $this->get_contact())
+        {
+            $label .= $contact->get_label() . ')';
+        }
+        else
+        {
+            $label .= $this->linkGuid . ')';
+        }
+        return $label;
+    }
+
+    /**
+     * get the contact object
+     *
+     * @return mixed The contact object or false
+     */
+    public function get_contact()
+    {
+        try
+        {
+            return midcom::get('dbfactory')->get_object_by_guid($this->linkGuid);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
+            return false;
+        }
+    }
+
     /**
      * Function to add the address of the contact(person/group) to the billing_data
      * if the flag useContactAddress is set
@@ -63,16 +95,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     {
         if ($this->useContactAddress && !empty($this->linkGuid))
         {
-            //get the contact object
-            try
-            {
-                $contact = $_MIDCOM->dbfactory->get_object_by_guid($this->linkGuid);
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
-                return false;
-            }
+            $contact = $this->get_contact();
             switch (true)
             {
                 case is_a($contact, 'org_openpsa_contacts_person_dba'):

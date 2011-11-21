@@ -68,7 +68,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['formmanager'] =& $this->_controller->formmanager;
+        $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['processing_msg'] = $this->_processing_msg;
         $this->_request_data['processing_msg_raw'] = $this->_processing_msg_raw;
     }
@@ -133,20 +133,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $_MIDCOM->auth->drop_sudo();
             throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
         }
-
-        $user = new midcom_core_user($results[0]);
+        $person = $results[0];
+        $account = new midcom_core_account($person);
 
         // Generate a random password
         $length = max(8, $this->_config->get('password_minlength'));
         $password = org_openpsa_user_accounthelper::generate_password($length);
-
-        if (! $user->update_password($password, false))
+        $account->set_password($password, false);
+        if (!$account->save())
         {
             $_MIDCOM->auth->drop_sudo();
             throw new midcom_error("Could not update the password: " . midcom_connection::get_error_string());
         }
-
-        $person = $user->get_storage();
 
         $_MIDCOM->auth->drop_sudo();
 

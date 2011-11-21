@@ -154,7 +154,15 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         // Prepare notification to sales project owner
         $message = array();
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-        $owner = midcom_db_person::get_cached($salesproject->owner);
+        try
+        {
+            $owner = midcom_db_person::get_cached($salesproject->owner);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return;
+        }
         $customer = $salesproject->get_customer();
 
         if (is_null($next_run))
@@ -210,7 +218,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
 
         // Send the message out
-        $_MIDCOM->load_library('org.openpsa.notifications');
         org_openpsa_notifications::notify('org.openpsa.sales:new_subscription_cycle', $owner->guid, $message);
     }
 

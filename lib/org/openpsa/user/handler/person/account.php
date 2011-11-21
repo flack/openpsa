@@ -78,7 +78,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         org_openpsa_helpers::dm2_savecancel($this);
     }
 
-
     public function load_schemadb()
     {
         $handler = $this->_request_data["handler_id"];
@@ -173,7 +172,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case 'save':
                 if (!$this->_update_account($formmanager->_types))
                 {
-                    $_MIDCOM->relocate("account/edit/" . $this->_person->guid . "/");
+                    break;
                 }
                 //Fall-through
 
@@ -206,39 +205,21 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $stat = false;
 
-        //check user auth if current user is not admin
-        if (!midcom::get('auth')->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
+        $password = null;
+        //new password?
+        if (!empty($fields["new_password"]->value))
         {
-            //user auth
-            $check_user = midcom_connection::login($this->_account->get_username(), $fields["current_password"]->value);
+            $password = $fields["new_password"]->value;
         }
-        else
-        {
-            $check_user = true;
-        }
+        $accounthelper = new org_openpsa_user_accounthelper($this->_person);
 
-        if (!$check_user)
+        // Update account
+        $stat = $accounthelper->set_account($fields["username"]->value, $password);
+        if (   !$stat
+            && midcom_connection::get_error() != MGD_ERR_OK)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("wrong current password"), 'error');
-        }
-        //auth ok
-        else
-        {
-            $password = null;
-            //new password?
-            if (!empty($fields["new_password"]->value))
-            {
-                $password = $fields["new_password"]->value;
-            }
-            $accounthelper = new org_openpsa_user_accounthelper($this->_person);
-
-            // Update account
-            $stat = $accounthelper->set_account($fields["username"]->value, $password);
-            if (!$stat)
-            {
-                // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
-            }
+            // Failure, give a message
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
         }
 
         return $stat;

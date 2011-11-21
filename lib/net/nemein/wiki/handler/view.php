@@ -360,7 +360,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         midcom_show_style('view-wikipage');
     }
 
-
     private function _toc_prefix($level)
     {
         $prefix = '';
@@ -449,7 +448,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         return $content;
     }
-
 
     /**
      * @param mixed $handler_id The ID of the handler.

@@ -138,18 +138,11 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
      * @return Array An array of documents matching the query, or false on a failure.
      */
-    public function query($query, $filter)
+    public function query($query, midcom_services_indexer_filter $filter = null)
     {
         if ($filter !== null)
         {
-            if ($filter->type == 'datefilter')
-            {
-                $format = "Y-m-dTH:i:s"  ; //1995-12-31T23:59:59Z
-                $query .= sprintf(" AND %s:[%s TO %s]",
-                                    $filter->get_field(),
-                                    gmdate($format, $filter->get_start()) . "Z",
-                                    gmdate($format, ($filter->get_end() == 0 ) ? time() : $filter->get_end()) . "Z");
-            }
+            $query .= ' AND ' . $filter->get_query_string();
         }
 
         $url = "http://{$GLOBALS['midcom_config']['indexer_xmltcp_host']}:{$GLOBALS['midcom_config']['indexer_xmltcp_port']}/solr/select";
@@ -328,11 +321,9 @@ class midcom_services_indexer_solrDocumentFactory
         $this->reset();
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
-        $element = $this->xml->createElement('delete');
-        $this->xml->documentElement->appendChild($element);
-        $query = $this->xml->createElement('delete');
-        $element->appendChild($query);
-        $query->nodeValue = "id:[ *TO* ]";
+        $query = $this->xml->createElement('query');
+        $this->xml->documentElement->appendChild($query);
+        $query->nodeValue = "id:[ * TO * ]";
         if (!empty($this->_index_name))
         {
             $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';

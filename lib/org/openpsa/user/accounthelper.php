@@ -18,14 +18,14 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @var midcom_db_person
      */
-    private $_person;
+    protected $_person;
 
     /**
      * The account we're working on
      *
      * @var midcom_core_account
      */
-    private $_account;
+    protected $_account;
 
     public $errstr;
 
@@ -44,7 +44,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @param string password: leave blank for auto generated
      */
-    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail)
+    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false, $auto_relocate = true)
     {
         //quick validation
         if (empty($person_guid))
@@ -138,10 +138,21 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
         }
 
-        // Relocate to group view
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $_MIDCOM->relocate("{$prefix}view/{$this->_person->guid}/");
-        // This will exit
+        if ($auto_relocate)
+        {
+            // Relocate to group view
+            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $_MIDCOM->relocate("{$prefix}view/{$this->_person->guid}/");
+            // This will exit
+        }
+        else
+        {
+            if (!empty($this->errstr))
+            {
+                throw new midcom_error('Could not create account: ' . $this->errstr);
+            }
+            return true;
+        }
     }
 
     /**
@@ -228,7 +239,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * Function to add current password to parameter old passwords - does not update()
      */
-    private function _save_old_password()
+    protected function _save_old_password()
     {
         $max_old_passwords = $this->_config->get('max_old_passwords');
         if ($max_old_passwords < 1)
@@ -253,7 +264,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return array - Array with old passwords - empty if there aren't any old passwords
      */
-    private function _get_old_passwords()
+    protected function _get_old_passwords()
     {
         $old_passwords_string = $this->_person->get_parameter("org_openpsa_user_password", "old_passwords");
         if (!empty($old_passwords_string))
@@ -310,6 +321,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 $score += $rule['score'];
             }
         }
+
         if ($score <= $this->_config->get('min_password_score'))
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
@@ -325,7 +337,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $password contains password to check
      * @return string - string without repetitions
      */
-    private function _check_repetition($plen, $password)
+    protected function _check_repetition($plen, $password)
     {
         $result = "";
         for ($i = 0; $i < strlen($password); $i++)
@@ -448,7 +460,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         $account->set_password($this->_person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
         $account->save();
-        $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
+        $this->_person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
     }
 
     /**
@@ -515,7 +527,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return (!empty($block_param));
     }
 
-    private static function _get_person_by_formdata($data)
+    protected static function _get_person_by_formdata($data)
     {
         if (   empty($data['username'])
             || empty($data['password']))

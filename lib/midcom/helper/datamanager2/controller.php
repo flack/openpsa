@@ -84,9 +84,10 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     /**
      * Empty default implementation, this calls won't do much.
      *
+     * @param string $identifier The form identifier
      * @return boolean Indicating success.
      */
-    function initialize()
+    function initialize($identifier = null)
     {
         if (is_null($this->lock_timeout))
         {

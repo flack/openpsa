@@ -14,22 +14,20 @@
  */
 class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
 {
-    public static $instance;
-    public static $params;
-    public static $recipients;
-    public static $headers;
-    public static $body;
+    public static $mails = array();
+    private $_index;
 
     public function __construct(array $params)
     {
-        self::$params = $params;
+        $this->_index = sizeof(self::$mails);
+        self::$mails[$this->_index] = array('params' => $params);
     }
 
     public function mail($recipients, array $headers, $body)
     {
-        self::$recipients = $recipients;
-        self::$headers = $headers;
-        self::$body = $body;
+        self::$mails[$this->_index ]['recipients'] = $recipients;
+        self::$mails[$this->_index ]['headers'] = $headers;
+        self::$mails[$this->_index ]['body'] = $body;
         return true;
     }
 }

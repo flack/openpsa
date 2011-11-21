@@ -11,11 +11,11 @@
  * DB I/O.
  *
  * Normally, you should not have to work with this class unless you are either
- * writing an authentication front- or backends, or a component which includes online
+ * writing an authentication front or back end, or a component which includes online
  * status notifications and the like.
  *
  * The single instance of this class can be accessed as
- * $this->auth->sessionmgr.
+ * midcom::get('auth')->sessionmgr.
  *
  * <b>Checking whether a user is online</b>
  *
@@ -24,7 +24,6 @@
  *
  * @package midcom.services
  */
-
 class midcom_services_auth_sessionmgr
 {
     /**
@@ -96,8 +95,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $user = $this->auth->get_user($this->person);
-        if (!$user)
+        if (!$user = $this->auth->get_user($this->person))
         {
             debug_add("Failed to create a new login session: User ID " . midcom_connection::get_user() . " is invalid.", MIDCOM_LOG_ERROR);
             return false;
@@ -152,10 +150,9 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $user = $this->auth->get_user($this->person);
-        if (!$user)
+        if (!$user = $this->auth->get_user($this->person))
         {
-            debug_add("Failed to create a new login session: User ID {$_MIDCOM['user']} is invalid.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to create a new login session: User ID {$username} is invalid.", MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -171,9 +168,6 @@ class midcom_services_auth_sessionmgr
             debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-
-        // WORKAROUND for #72 Auto-populate the GUID as the core does not do this yet.
-        $session->get_by_id($session->id);
 
         $result = array
         (
@@ -192,7 +186,7 @@ class midcom_services_auth_sessionmgr
      * session is found, its ID is returned again, you can from now on use this as
      * a token for authentication.
      *
-     * This code will implicitly clean up all stale or old sessions for the current
+     * This code will implicitly clean up stale sessions for the current
      * user.
      *
      * @param string $sessionid The Session ID to check for.
@@ -223,6 +217,7 @@ class midcom_services_auth_sessionmgr
 
         if ($session->timestamp < $timed_out)
         {
+            $session->delete();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -241,7 +236,7 @@ class midcom_services_auth_sessionmgr
             $session->timestamp = time();
             try
             {
-                if (! $session->update())
+                if (!$session->update())
                 {
                     debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 }
@@ -272,21 +267,7 @@ class midcom_services_auth_sessionmgr
         }
         $this->user = midcom_connection::login($username, $password);
 
-        if (!$this->user)
-        {
-            debug_add("Failed to authenticate to the given username & password: ".midcom_connection::get_error_string(),
-                MIDCOM_LOG_INFO);
-            return false;
-        }
-        $this->person = $this->user->get_person();
-        $person_class = new $GLOBALS['midcom_config']['person_class'];
-        if (get_class($this->person) != $person_class)
-        {
-            // Cast the person object to correct person class
-            $this->person = new $person_class($this->person->guid);
-            $this->person->username = $username;
-        }
-        return true;
+        return $this->_load_person($username);
     }
 
     /**
@@ -305,14 +286,26 @@ class midcom_services_auth_sessionmgr
 
         $this->user = midcom_connection::login($username, '', true);
 
+        return $this->_load_person($username);
+    }
+
+    private function _load_person($username)
+    {
         if (!$this->user)
         {
-            debug_add("Failed to authenticate to the given username: ".midcom_connection::get_error_string(),
-                MIDCOM_LOG_INFO);
+            debug_add("Failed to authenticate the given user: ". midcom_connection::get_error_string(),
+            MIDCOM_LOG_INFO);
             return false;
         }
-        $this->person = $this->user->get_person();
 
+        $this->person = $this->user->get_person();
+        $person_class = new $GLOBALS['midcom_config']['person_class'];
+        if (get_class($this->person) != $person_class)
+        {
+            // Cast the person object to correct person class
+            $this->person = new $person_class($this->person->guid);
+            $this->person->username = $username;
+        }
         return true;
     }
 
@@ -431,21 +424,25 @@ class midcom_services_auth_sessionmgr
      * This function is called by the framework whenever a user's password is updated. It will
      * synchronize all active login sessions of that user to the new password.
      *
-     * Access to this function is restricted to midcom_core_user.
+     * Access to this function is restricted to midcom_core_account.
      *
      * @param midcom_core_user $user A reference to the user object which has been updated.
      * @param string $new The new password (plain text).
      */
     function _update_user_password(&$user, $new)
     {
+        if (empty($new))
+        {
+            return;
+        }
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
 
-        if (! $result)
+        if (empty($result))
         {
             // No login sessions found
-            return true;
+            return;
         }
 
         foreach ($result as $session)
@@ -459,13 +456,17 @@ class midcom_services_auth_sessionmgr
      * This function is called by the framework whenever a user's username is updated. It will
      * synchronize all active login sessions of that user to the new username.
      *
-     * Access to this function is restricted to midcom_core_user.
+     * Access to this function is restricted to midcom_core_account.
      *
      * @param midcom_core_user $user A reference to the user object which has been updated.
      * @param string $new The new username.
      */
     function _update_user_username(&$user, $new)
     {
+        if (empty($new))
+        {
+            return;
+        }
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
@@ -480,6 +481,22 @@ class midcom_services_auth_sessionmgr
         {
             $session->username = $new;
             $session->update();
+        }
+    }
+
+    public function _delete_user_sessions(midcom_core_user $user)
+    {
+        // Delete login sessions
+        $qb = new midgard_query_builder('midcom_core_login_session_db');
+        $qb->add_constraint('userid', '=', $user->id);
+        $result = @$qb->execute();
+        if ($result)
+        {
+            foreach ($result as $entry)
+            {
+                debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
+                $entry->delete();
+            }
         }
     }
 

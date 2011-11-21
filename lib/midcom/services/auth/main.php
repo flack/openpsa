@@ -903,7 +903,6 @@ class midcom_services_auth
      */
     function get_user($id)
     {
-        $object = null;
         if (is_double($id))
         {
             // This is some crazy workaround for cases where the ID passed is a double
@@ -911,46 +910,28 @@ class midcom_services_auth
             // whatever reason, evaluates to true for that object...
             $id = (int) $id;
         }
-        else if (is_object($id))
-        {
-            if (is_a($id, 'midcom_db_person'))
-            {
-                $id = $id->id;
-                $object = null;
-            }
-            elseif (is_a($id, $GLOBALS['midcom_config']['person_class']))
-            {
-                $object = $id;
-                $id = $object->id;
-            }
-            else
-            {
-                debug_print_type('The passed argument was an object of an unsupported type:', $id, MIDCOM_LOG_WARN);
-                debug_print_r('Complete object dump:', $id);
+        $param = $id;
 
-                return false;
-            }
+        if (isset($param->id))
+        {
+            $id = $param->id;
         }
-        else if (   ! is_string($id)
-                 && ! is_integer($id))
+        else if (   !is_string($id)
+                 && !is_integer($id))
         {
-            debug_print_type('The passed argument was an object of an unsupported type:', $id, MIDCOM_LOG_WARN);
-            debug_print_r('Complete object dump:', $id);
-
+            debug_print_type('The passed argument was an object of an unsupported type:', $param, MIDCOM_LOG_WARN);
+            debug_print_r('Complete object dump:', $param);
             return false;
         }
-        if (! array_key_exists($id, $this->_user_cache))
+        if (!array_key_exists($id, $this->_user_cache))
         {
             try
             {
-                if (is_null($object))
+                if (is_a($param, 'midcom_db_person'))
                 {
-                    $this->_user_cache[$id] = new midcom_core_user($id);
+                    $param = $param->__object;
                 }
-                else
-                {
-                    $this->_user_cache[$id] = new midcom_core_user($object);
-                }
+                $this->_user_cache[$id] = new midcom_core_user($param);
             }
             catch (midcom_error $e)
             {

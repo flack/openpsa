@@ -80,6 +80,7 @@
 'skip_in_filter' => array
 (
     'midgard_parameter',
+    'midcom_helper_activitystream_activity',
     'midcom_core_privilege_db',
     'midcom_services_at_entry_db',
     'midgard_language',

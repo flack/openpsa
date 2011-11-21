@@ -174,19 +174,19 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                     break;
 
                 case 'abstract':
-                    $this->abstract = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+                    $this->abstract = $this->_datamanager->types[$name]->convert_to_html();
                     break;
 
                 case 'content':
-                    $this->content .= $this->datamanager2_get_text_representation($this->_datamanager, $name) . "\n";
+                    $this->content .= $this->_datamanager->types[$name]->convert_to_html() . "\n";
                     break;
 
                 case 'title':
-                    $this->title = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+                    $this->title = $this->_datamanager->types[$name]->convert_to_html();
                     break;
 
                 case 'author':
-                    $this->author = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+                    $this->author = $this->_datamanager->types[$name]->convert_to_html();
                     break;
 
                 case 'date':
@@ -211,8 +211,9 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                 case 'unindexed':
                 case 'text':
                 case 'keyword':
-                    $data = $this->datamanager2_get_text_representation($this->_datamanager, $name);
-                    $this->_add_field($name, $field['index_method'], $data);
+                    $data = $this->_datamanager->types[$name]->convert_to_html();
+                    $function = 'add_' . $field['index_method'];
+                    $this->$function($name, $data);
                     if ($field['index_merge_with_content'])
                     {
                         $this->content .= $data . "\n";
@@ -229,13 +230,14 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
 
         if ($this->abstract == '')
         {
-            if (strlen($this->content) > 200)
+            $abstract = $this->html2text($this->content);
+            if (strlen($abstract) > 200)
             {
-                $this->abstract = substr($this->content, 0, 200) . ' ...';
+                $this->abstract = substr($abstract, 0, 200) . ' ...';
             }
             else
             {
-                $this->abstract = $this->content;
+                $this->abstract = $abstract;
             }
         }
 
@@ -270,7 +272,7 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
         }
         else
         {
-            $string = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+            $string = $this->_datamanager->types[$name]->convert_to_html();
             $timestamp = strtotime($string);
             if ($timestamp === -1)
             {
@@ -293,19 +295,19 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
         switch ($name)
         {
             case 'abstract':
-                $this->abstract = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+                $this->abstract = $this->_datamanager->types[$name]->convert_to_html();
                 break;
 
             case 'title':
-                $this->title = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+                $this->title = $this->_datamanager->types[$name]->convert_to_html();
                 break;
 
             case 'author':
-                $this->author = $this->datamanager2_get_text_representation($this->_datamanager, $name);
+                $this->author = $this->_datamanager->types[$name]->convert_to_html();
                 break;
 
             default:
-                $this->content .= $this->datamanager2_get_text_representation($this->_datamanager, $name) . "\n";
+                $this->content .= $this->_datamanager->types[$name]->convert_to_html() . "\n";
                 break;
         }
     }

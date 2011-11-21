@@ -33,7 +33,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     /**
      * The path for which the cookie should be set
      */
-    private $_cookie_path;
+    protected $_cookie_path;
 
     /**
      * Read the configuration

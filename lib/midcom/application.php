@@ -619,8 +619,7 @@ class midcom_application
                         {
                             $redirect_to = '';
                         }
-                        if (   isset($_SERVER['QUERY_STRING'])
-                            && !empty($_SERVER['QUERY_STRING']))
+                        if (!empty($_SERVER['QUERY_STRING']))
                         {
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
@@ -646,8 +645,7 @@ class midcom_application
                         {
                             $redirect_to = '';
                         }
-                        if (   isset($_SERVER['QUERY_STRING'])
-                            && !empty($_SERVER['QUERY_STRING']))
+                        if (!empty($_SERVER['QUERY_STRING']))
                         {
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
@@ -1288,9 +1286,14 @@ class midcom_application
         }
         else
         {
-            midcom::get('componentloader')->load($component);
+            $componentloader = midcom::get('componentloader');
+            if (!$componentloader->is_installed($component))
+            {
+                throw new midcom_error_notfound('The requested component is not installed');
+            }
+            $componentloader->load($component);
             $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-            $path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . '/exec/';
+            $path = MIDCOM_ROOT . $componentloader->path_to_snippetpath($component) . '/exec/';
         }
         $path .= $context->parser->argv[0];
 

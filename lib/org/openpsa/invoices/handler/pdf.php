@@ -36,12 +36,15 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         $this->_request_data['invoice_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "/invoice/" . $this->_invoice->guid . "/";
 
         //check for manually uploaded pdf-file & if user wants to replace it
-        $this->_update_attachment = true;
         if (array_key_exists('cancel', $_POST))
         {
             $_MIDCOM->relocate($this->_request_data['invoice_url']);
         }
-        if (!array_key_exists('save', $_POST))
+        else if (array_key_exists('save', $_POST))
+        {
+            $this->_update_attachment = true;
+        }
+        else
         {
             // load schema & datamanager to get attachment
             $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
@@ -53,18 +56,17 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             }
             if (!empty($this->_datamanager->types['pdf_file']->attachments))
             {
-                $this->_update_attachment = false;
                 foreach ($this->_datamanager->types['pdf_file']->attachments as $attachment)
                 {
-                    $parameters = $attachment->list_parameters();
+                    $checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated');
+
                     // check if auto generated parameter is same as md5 in current-file
                     // if not the file was manually uploaded
-                    if (   array_key_exists('org.openpsa.invoices', $parameters)
-                        && (array_key_exists('auto_generated', $parameters['org.openpsa.invoices'])))
+                    if ($checksum)
                     {
                         $blob = new midgard_blob($attachment->__object);
                         // check if md5 sum equals the one saved in auto_generated
-                        if ($parameters['org.openpsa.invoices']['auto_generated'] == md5_file($blob->get_path()))
+                        if ($checksum== md5_file($blob->get_path()))
                         {
                             $this->_update_attachment = true;
                         }
@@ -74,22 +76,10 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         }
         if ($this->_update_attachment)
         {
-            $this->_request_data['invoice'] = $this->_invoice;
-            // set customer
-            if ($this->_invoice->customer)
-            {
-                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_invoice->customer);
-            }
-            try
-            {
-                $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_invoice->customerContact);
-            }
-            catch (midcom_error $e)
-            {
-                $this->_request_data['customer_contact'] = false;
-            }
             $this->_request_data['billing_data'] = $this->_invoice->get_billing_data();
-            $_MIDCOM->skip_page_style = true;
+            self::render_and_attach_pdf($this->_invoice);
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
+            $_MIDCOM->relocate($this->_request_data["invoice_url"]);
         }
     }
 
@@ -100,16 +90,8 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
      */
     public function _show_pdf($handler_id, array &$data)
     {
-        if ($this->_update_attachment)
-        {
-            self::render_and_attach_pdf($this->_invoice);
-            $_MIDCOM->relocate($this->_request_data["invoice_url"]);
-        }
         // if attachment was manually uploaded show confirm if file should be replaced
-        else
-        {
-            midcom_show_style('show-confirm');
-        }
+        midcom_show_style('show-confirm');
     }
 
     public static function render_and_attach_pdf(org_openpsa_invoices_invoice_dba $invoice)
@@ -121,6 +103,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         }
         // renders the pdf and attaches it to the invoice
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+        if (!class_exists($client_class))
+        {
+            debug_add('Could not find PDF renderer, aborting silently', MIDCOM_LOG_INFO);
+            return false;
+        }
         $pdf_builder = new $client_class($invoice);
 
         // tmp filename
@@ -161,6 +148,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
 
         // set parameter for datamanager to find the pdf
         $invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid);
+        $attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file));
     }
 }
 ?>

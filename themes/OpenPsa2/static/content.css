@@ -3,14 +3,11 @@ body
     font-family: 'Lucida Grande', 'Lucida Sans', 'Arial', sans-serif
 }
 
-#content-text div.main
-{
-    margin-right: 32%;
-}
-
+#content-text div.main,
 #content-text > div.main
 {
-    margin-right: 32%;
+    margin-right: 30%;
+    padding-right: 1em
 }
 
 #content-text div.sidebar
