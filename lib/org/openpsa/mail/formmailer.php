@@ -50,6 +50,13 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
      */
     public $body;
 
+    /**
+     * Email subject template
+     *
+     * @var string
+     */
+    public $subject;
+
     public function __construct($schemadb = null)
     {
         parent::__construct();
@@ -93,6 +100,10 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         if (!empty($values['subject']))
         {
             $mail->subject = $values['subject'];
+        }
+        else if (!empty($this->subject))
+        {
+            $mail->subject = $this->subject;
         }
         else
         {
