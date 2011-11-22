@@ -290,9 +290,10 @@ class midcom_services_uimessages
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            foreach ($this->_message_stack as $message)
+            foreach ($this->_message_stack as $id => $message)
             {
                 $this->_render_message($message);
+                unset($this->_message_stack[$id]);
             }
 
             echo "</div>\n";
