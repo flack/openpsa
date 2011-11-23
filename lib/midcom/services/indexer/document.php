@@ -553,48 +553,6 @@ class midcom_services_indexer_document
     }
 
     /**
-     * Debugging helper, which will dump the documents contents to the
-     * log file using the indicated log level. It will check the log-level
-     * explicitly for performance reasons.
-     *
-     * Note: print_r'ing the entire document might not be an option, as subclasses
-     * contain reference to non-dumpable object like the datamanager.
-     *
-     * @param string $message The log message for the dump
-     * @param int $loglevel The log level
-     */
-    function dump($message, $loglevel = MIDCOM_LOG_DEBUG)
-    {
-        if (midcom::get('debug')->get_loglevel() < $loglevel)
-        {
-            return;
-        }
-
-        debug_add($message, $loglevel);
-
-        debug_add("Author: {$this->author}", $loglevel);
-        debug_add("Component: {$this->component}", $loglevel);
-        debug_add("Created: " . strftime('%x %X', $this->created), $loglevel);
-        debug_add("Creator: " . (! is_object($this->creator) ? 'none' : $this->creator->name), $loglevel);
-        debug_add("Document URL: {$this->document_url}", $loglevel);
-        debug_add("Edited: " . strftime('%x %X', $this->edited), $loglevel);
-        debug_add("Editor: " . (! is_object($this->editor) ? 'none' : $this->editor->name), $loglevel);
-        debug_add("RI: {$this->RI}", $loglevel);
-        debug_add("Language: {$this->lang}", $loglevel);
-        debug_add("Score: {$this->score}", $loglevel);
-        debug_add("Source: {$this->source}", $loglevel);
-        debug_add("Title: {$this->title}", $loglevel);
-        debug_add("Topic GUID: {$this->topic_guid}", $loglevel);
-        debug_add("Type: {$this->type}", $loglevel);
-        debug_add("Security: {$this->security}", $loglevel);
-
-        debug_print_r('Abstract:', $this->abstract, $loglevel);
-        debug_print_r('Content:', $this->content, $loglevel);
-
-        debug_print_r('Additional fields:', $this->_fields, $loglevel);
-    }
-
-    /**
      * This is a small helper that converts HTML to plain text (relatively simple):
      *
      * Basically, JavaScript blocks and
