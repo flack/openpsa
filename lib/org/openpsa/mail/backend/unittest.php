@@ -25,9 +25,9 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
 
     public function mail($recipients, array $headers, $body)
     {
-        self::$mails[$this->_index ]['recipients'] = $recipients;
-        self::$mails[$this->_index ]['headers'] = $headers;
-        self::$mails[$this->_index ]['body'] = $body;
+        self::$mails[$this->_index]['recipients'] = $recipients;
+        self::$mails[$this->_index]['headers'] = $headers;
+        self::$mails[$this->_index]['body'] = $body;
         return true;
     }
 }
