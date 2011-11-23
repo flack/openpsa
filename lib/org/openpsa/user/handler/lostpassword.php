@@ -139,7 +139,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         // Generate a random password
         $length = max(8, $this->_config->get('password_minlength'));
         $password = org_openpsa_user_accounthelper::generate_password($length);
-        $account->set_password($password, false);
+        $account->set_password($password);
         if (!$account->save())
         {
             $_MIDCOM->auth->drop_sudo();
