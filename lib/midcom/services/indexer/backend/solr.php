@@ -388,7 +388,14 @@ class midcom_services_indexer_solrRequest
             return false;
         }
 
-        $this->request->setBody('<commit/>');
+        if ($optimize)
+        {
+            $this->request->setBody('<optimize/>');
+        }
+        else
+        {
+            $this->request->setBody('<commit/>');
+        }
 
         if (!$this->_send_request())
         {
