@@ -199,7 +199,11 @@ class midcom_connection
             switch ($GLOBALS['midcom_config']['auth_type'])
             {
                 case 'Plaintext':
-                    $password = '**' . $password;
+                    //do not add the ** for empty passwords - in case it was set to empty do disable account
+                    if (!empty($password))
+                    {
+                        $password = '**' . $password;
+                    }
                     break;
                 case 'Legacy':
                     /*
