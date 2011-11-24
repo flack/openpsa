@@ -307,9 +307,13 @@ class midcom_services_indexer_solrDocumentFactory
     {
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
-        $id_element = $this->xml->createElement('id');
-        $this->xml->documentElement->appendChild($id_element);
-        $id_element->nodeValue = $id;
+        $query = $this->xml->createElement('query');
+        $this->xml->documentElement->appendChild($query);
+        $query->nodeValue = 'RI:' . $id . '*';
+        if (!empty($this->_index_name))
+        {
+            $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
+        }
     }
 
     /**

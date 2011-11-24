@@ -160,6 +160,7 @@ class midcom_services_indexer
 
     /**
      * Removes the document(s) with the given resource identifier(s) from the index.
+     * Using GUIDs instead of RIs will delete all language versions
      *
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
