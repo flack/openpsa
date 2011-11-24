@@ -199,7 +199,7 @@ class midcom_services_indexer
      *
      * @return boolean Indicating success.
      */
-    function delete_all()
+    function delete_all($constraint = '')
     {
         if ($this->_disabled)
         {
@@ -208,7 +208,7 @@ class midcom_services_indexer
 
         try
         {
-            return $this->_backend->delete_all();
+            return $this->_backend->delete_all($constraint);
         }
         catch (Exception $e)
         {

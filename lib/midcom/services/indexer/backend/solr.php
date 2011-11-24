@@ -125,9 +125,9 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * NB: It is probably better to just stop the indexer and delete the data/index directory!
      * @return boolean Indicating success.
      */
-    function delete_all()
+    function delete_all($constraint)
     {
-        $this->factory->delete_all();
+        $this->factory->delete_all($constraint);
         return $this->request->execute(true);
     }
 
@@ -320,7 +320,7 @@ class midcom_services_indexer_solrDocumentFactory
      * Deletes all elements with the id defined
      * (this should be all midgard documents)
      */
-    public function delete_all()
+    public function delete_all($constraint)
     {
         $this->reset();
         $root = $this->xml->createElement('delete');
@@ -328,6 +328,10 @@ class midcom_services_indexer_solrDocumentFactory
         $query = $this->xml->createElement('query');
         $this->xml->documentElement->appendChild($query);
         $query->nodeValue = "id:[ * TO * ]";
+        if (!empty($constraint))
+        {
+            $query->nodeValue .= ' AND ' . $constraint;
+        }
         if (!empty($this->_index_name))
         {
             $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
