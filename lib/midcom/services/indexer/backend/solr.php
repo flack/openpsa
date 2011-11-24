@@ -120,15 +120,14 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     }
 
     /**
-     * Clear the index completely.
-     * This will drop the current index.
-     * NB: It is probably better to just stop the indexer and delete the data/index directory!
+     * Clear the index completely or by constraint.
+	 *
      * @return boolean Indicating success.
      */
     function delete_all($constraint)
     {
         $this->factory->delete_all($constraint);
-        return $this->request->execute(true);
+        return $this->request->execute(empty($constraint));
     }
 
     /**
