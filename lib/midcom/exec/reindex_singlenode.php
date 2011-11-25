@@ -83,36 +83,19 @@ if (is_null($interface))
     throw new midcom_error($msg);
 }
 
+echo "Dropping existing documents in node... ";
+flush();
 
-// Query all documents where __TOPIC_GUID is this topic and delete them (ie, drop only this topic from index)
-$existing_documents = $indexer->query("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}");
-if ($existing_documents === false)
+if (!$indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}"))
 {
-    $msg = "Query '__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}' returned false, indicating problem with indexer";
-    throw new midcom_error($msg);
+    debug_add("Failed to remove documents from index", MIDCOM_LOG_WARN);
 }
-
-if (   is_array($existing_documents)
-    && !empty($existing_documents))
+else
 {
-    echo "Dropping existing documents in node... ";
-    flush();
-    $RIs = array();
-    foreach ($existing_documents as $document)
-    {
-        $RIs[] = $document->RI;
-    }
-    if (!$indexer->delete($RIs))
-    {
-        debug_add("Failed to remove documents from index", MIDCOM_LOG_WARN);
-    }
-    else
-    {
-        debug_add("Removed documents from index", MIDCOM_LOG_INFO);
-    }
-    echo "Done\n";
-    flush();
+    debug_add("Removed documents from index", MIDCOM_LOG_INFO);
 }
+echo "Done\n";
+flush();
 
 $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
 if (is_a($stat, 'midcom_services_indexer_client'))

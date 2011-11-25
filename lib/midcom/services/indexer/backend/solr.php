@@ -120,15 +120,14 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     }
 
     /**
-     * Clear the index completely.
-     * This will drop the current index.
-     * NB: It is probably better to just stop the indexer and delete the data/index directory!
+     * Clear the index completely or by constraint.
+	 *
      * @return boolean Indicating success.
      */
-    function delete_all()
+    function delete_all($constraint)
     {
-        $this->factory->delete_all();
-        return $this->request->execute(true);
+        $this->factory->delete_all($constraint);
+        return $this->request->execute(empty($constraint));
     }
 
     /**
@@ -307,16 +306,20 @@ class midcom_services_indexer_solrDocumentFactory
     {
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
-        $id_element = $this->xml->createElement('id');
-        $this->xml->documentElement->appendChild($id_element);
-        $id_element->nodeValue = $id;
+        $query = $this->xml->createElement('query');
+        $this->xml->documentElement->appendChild($query);
+        $query->nodeValue = 'RI:' . $id . '*';
+        if (!empty($this->_index_name))
+        {
+            $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
+        }
     }
 
     /**
      * Deletes all elements with the id defined
      * (this should be all midgard documents)
      */
-    public function delete_all()
+    public function delete_all($constraint)
     {
         $this->reset();
         $root = $this->xml->createElement('delete');
@@ -324,6 +327,10 @@ class midcom_services_indexer_solrDocumentFactory
         $query = $this->xml->createElement('query');
         $this->xml->documentElement->appendChild($query);
         $query->nodeValue = "id:[ * TO * ]";
+        if (!empty($constraint))
+        {
+            $query->nodeValue .= ' AND ' . $constraint;
+        }
         if (!empty($this->_index_name))
         {
             $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
@@ -388,7 +395,14 @@ class midcom_services_indexer_solrRequest
             return false;
         }
 
-        $this->request->setBody('<commit/>');
+        if ($optimize)
+        {
+            $this->request->setBody('<optimize/>');
+        }
+        else
+        {
+            $this->request->setBody('<commit/>');
+        }
 
         if (!$this->_send_request())
         {

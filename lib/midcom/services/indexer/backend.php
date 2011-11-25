@@ -31,13 +31,14 @@ interface midcom_services_indexer_backend
     public function delete($RIs);
 
     /**
-     * Clear the index completely.
+     * Clear the index completely or drop documents matching a query.
      *
      * This will drop the current index.
      *
+     * @param Optional query constraint
      * @return boolean Indicating success.
      */
-    public function delete_all();
+    public function delete_all($constraint);
 
     /**
      * Query the index and, if set, restrict the query by a given filter.

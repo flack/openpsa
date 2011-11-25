@@ -160,6 +160,7 @@ class midcom_services_indexer
 
     /**
      * Removes the document(s) with the given resource identifier(s) from the index.
+     * Using GUIDs instead of RIs will delete all language versions
      *
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
@@ -198,7 +199,7 @@ class midcom_services_indexer
      *
      * @return boolean Indicating success.
      */
-    function delete_all()
+    function delete_all($constraint = '')
     {
         if ($this->_disabled)
         {
@@ -207,7 +208,7 @@ class midcom_services_indexer
 
         try
         {
-            return $this->_backend->delete_all();
+            return $this->_backend->delete_all($constraint);
         }
         catch (Exception $e)
         {
