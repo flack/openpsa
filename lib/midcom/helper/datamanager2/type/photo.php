@@ -47,10 +47,14 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             // Copy archival as original
             $src = $this->attachments['archival']->open('r');
         }
-        else
+        else if (array_key_exists('main', $this->attachments))
         {
             // Copy main as original
             $src = $this->attachments['main']->open('r');
+        }
+        else
+        {
+            return false;
         }
         // Create tmp file and copy by handles
         $this->_original_tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_photo");
