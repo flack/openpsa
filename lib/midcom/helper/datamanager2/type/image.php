@@ -9,7 +9,7 @@
 /**
  * Datamanager 2 Image type.
  *
- * This type encapsulates a sinlge uploaded image along with an optional number of
+ * This type encapsulates a single uploaded image along with an optional number of
  * derived images like thumbnails. Both the main image and the derived thumbnails
  * will be run through a defined filter chain. The originally uploaded file can be
  * kept optionally.

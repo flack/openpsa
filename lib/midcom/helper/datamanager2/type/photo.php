@@ -245,14 +245,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
                                      false);
     }
 
-    /**
-     * a wrapper for set_image
-     */
-    function set_photo($filename, $tmpname, $title, $autodelete = true)
-    {
-        return $this->set_image($filename, $tmpname, $title, $autodelete);
-    }
-
     function convert_to_html()
     {
         $img = false;
