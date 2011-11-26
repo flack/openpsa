@@ -690,8 +690,10 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             // the method will log errors and raise uimessages as needed
             return false;
         }
+        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, false);
 
         $handle = @fopen($tmpname, 'r');
+
         if (! $handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
@@ -704,7 +706,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         if (! $this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, true, $tmpname))
         {
-            fclose($handle);
             debug_add('Failed to create attachment, see above for details.');
             return false;
         }
