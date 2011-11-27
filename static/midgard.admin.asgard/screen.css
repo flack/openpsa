@@ -28,6 +28,7 @@ p
   position: absolute;
   min-height: 100%;
   z-index: 2;
+  width: 100%;
 }
 
 * html #container-wrapper
