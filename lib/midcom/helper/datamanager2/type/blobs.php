@@ -25,10 +25,7 @@
  *
  * <b>Available configuration options:</b>
  *
- * - <b>string attachment_server_url:</b> This is the base URL used for attachment serving.
- *   It defaults to the global MidCOM attachment handler at the sites root. When constructing
- *   Attachment Info blocks, this URL is completed using "{$baseurl}{$guid}/{$filename}".
- * - boolean sortable Should the attachments list be sortable. True if the sorting should
+ * - <b>boolean sortable:</b> Should the attachments list be sortable. True if the sorting should
  *   be turned on, false if they should be sorted alphabetically.
  *
  * @package midcom.helper.datamanager2
@@ -46,17 +43,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @var Array
      */
     public $attachments = Array();
-
-    /**
-     * This is the base URL used for attachment serving.
-     *
-     * It defaults to the global MidCOM attachment handler at the sites root.
-     * When constructing Attachment Info blocks, this URL is completed using
-     * "{$baseurl}{$guid}/{$filename}".
-     *
-     * @var string
-     */
-    public $attachment_server_url = null;
 
     /**
      * This member is populated and synchronized with all known changes to the
@@ -111,19 +97,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     public $_sorted_list = array();
 
     /**
-     * Set the base URL accordingly
-     *
-     * this requires midcom_config access and is thus not possible using class member initializers.
-     */
-    public function _on_configuring($config)
-    {
-        parent::_on_configuring($config);
-
-        $this->attachment_server_url =
-            "{$GLOBALS['midcom_config']['midcom_site_url']}midcom-serveattachmentguid-";
-    }
-
-    /**
      * This function loads all known attachments from the storage object.
      *
      * It will leave the field empty in case the storage object is null.
@@ -173,10 +146,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * It has to be called after each attachment operation. It uses a
      * user-defined ordering function for each of the two arrays to be sorted:
      * sort_attachments_cmp() and _sort_attachments_info_callback().
-     *
-     * @access protected
      */
-    function _sort_attachments()
+    protected function _sort_attachments()
     {
         // Sortable attachments should be already sorted in the correct order
 
@@ -231,7 +202,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param string $identifier The identifier of the attachment to load.
      * @param string $guid The guid of the attachment to load.
      */
-    function _load_attachment($identifier, $guid)
+    private function _load_attachment($identifier, $guid)
     {
         try
         {
@@ -253,9 +224,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * identifier.
      *
      * @param mixed $identifier The identifier of the attachment to update
-     * @access protected
      */
-    function _update_attachment_info($identifier)
+    protected function _update_attachment_info($identifier)
     {
         // Shortcuts
         $att = $this->attachments[$identifier];
@@ -291,7 +261,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param &$info Information array
      * @param midcom_db_attachment $att Attachment to update information from
      */
-    function _update_attachment_info_additional(&$info, $att)
+    private function _update_attachment_info_additional(&$info, $att)
     {
         $info['size_x'] = $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_x');
         $info['size_y'] = $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_y');
@@ -311,7 +281,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * This function synchronizes the attachment listing parameter of this field with the
      * current attachment state.
      */
-    function _save_attachment_listing()
+    private function _save_attachment_listing()
     {
         // Data that will be stored
         $data = array();
@@ -435,7 +405,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param string $identifier Attachment identifier
      * @param string $filename Original file name
      */
-    function _set_attachment_info_additional($identifier, $filename)
+    protected function _set_attachment_info_additional($identifier, $filename)
     {
         $data = @getimagesize($filename);
         if ($data)
@@ -443,36 +413,10 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             $this->attachments[$identifier]->parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
             $this->attachments[$identifier]->parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
             $this->attachments[$identifier]->parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
-            if (! $this->attachments[$identifier]->mimetype)
+            if (!$this->attachments[$identifier]->mimetype)
             {
-                switch ($data[2])
-                {
-                    case 1:
-                        $this->attachments[$identifier]->mimetype = 'image/gif';
-                        $this->attachments[$identifier]->update();
-                        break;
-
-                    case 2:
-                        $this->attachments[$identifier]->mimetype = 'image/jpeg';
-                        $this->attachments[$identifier]->update();
-                        break;
-
-                    case 3:
-                        $this->attachments[$identifier]->mimetype = 'image/png';
-                        $this->attachments[$identifier]->update();
-                        break;
-
-                    case 6:
-                        $this->attachments[$identifier]->mimetype = 'image/bmp';
-                        $this->attachments[$identifier]->update();
-                        break;
-
-                    case 7:
-                    case 8:
-                        $this->attachments[$identifier]->mimetype = 'image/tiff';
-                        $this->attachments[$identifier]->update();
-                        break;
-                }
+                $this->attachments[$identifier]->mimetype = image_type_to_mime_type($data[2]);
+                $this->attachments[$identifier]->update();
             }
         }
     }
@@ -571,65 +515,18 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $attachment->name = $filename;
         $attachment->parentguid = $this->storage->object->guid;
 
-        $_MIDCOM->componentloader->load('midcom.helper.reflector');
         $resolver = new midcom_helper_reflector_nameresolver($attachment);
-        if ($resolver->name_is_unique())
+        if (!$resolver->name_is_unique())
         {
-            return $filename;
-        }
-        debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
-
-        $ext_regex = '/^(.*)(\..*?)$/';
-        if (preg_match($ext_regex, $filename, $ext_matches))
-        {
-            $name_woext = $ext_matches[1];
-            $ext = $ext_matches[2];
-            unset($ext_matches);
-        }
-        else
-        {
-            $name_woext = $filename;
+            debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
             $ext = '';
-        }
-        unset($ext_regex);
-        if (preg_match('/(.*?)-([0-9]{3,})$/', $name_woext, $name_matches))
-        {
-            // Name already has i and base parts, split them.
-            $i = (int)$name_matches[2];
-            $base_name = (string)$name_matches[1];
-            unset($name_matches);
-        }
-        else
-        {
-            // Defaults
-            $i = 1;
-            $base_name = $name_woext;
-        }
-        $d = 100;
-        do
-        {
-            if ($i > 1)
+            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches))
             {
-                // Start suffixes from -002
-                $attachment->name = $base_name . sprintf('-%03d', $i) . $ext;
+                $ext = $ext_matches[2];
             }
-
-            debug_add("Trying with name '{$attachment->name}'");
-
-            // Handle the decrementer
-            --$d;
-            if ($d < 1)
-            {
-                // Decrementer undeflowed
-                debug_add("Maximum number of name tries exceeded, current name was: " . $attachment->name, MIDCOM_LOG_ERROR);
-                return false;
-            }
-            // and the incrementer
-            ++$i;
+            $filename = $resolver->generate_unique_name('name', $ext);
         }
-        while (!$resolver->name_is_unique());
-        unset($i, $d);
-        return $attachment->name;
+        return $filename;
     }
 
     /**
@@ -733,7 +630,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param string $identifier identifier of the attachment
      * @param midgard_attachment &$attachment reference to the attachment object to operare on.
      */
-    function _store_att_map_parameters($identifier, &$attachment)
+    protected function _store_att_map_parameters($identifier, &$attachment)
     {
         $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'fieldname', $this->name);
         $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'identifier', $identifier);
@@ -922,20 +819,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
-     * Internal helper function, determines the mime-type of the specified file.
-     *
-     * The call uses the "file" utility which must be present for this type to work.
-     *
-     * @param string $filename The file to scan
-     * @return string The autodetected mime-type
-     */
-    function _get_mimetype($filename)
-    {
-        return exec("{$GLOBALS['midcom_config']['utility_file']} -ib {$filename} 2>/dev/null");
-    }
-
-
-    /**
      * Rewrite a filename to URL safe form
      *
      * @param string $filename file name to rewrite
@@ -1104,7 +987,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                     $index_attachment = false;
                 }
             }
-            if($index_attachment)
+            if ($index_attachment)
             {
                 $document = new midcom_services_indexer_document_attachment($attachment, $this->storage->object);
                 $indexer = $_MIDCOM->get_service('indexer');

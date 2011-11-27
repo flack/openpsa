@@ -377,10 +377,11 @@ class midcom_helper_reflector_nameresolver
      * number to it (before this we make some educated guesses about a
      * good starting value)
      *
-     * @param srting $title_property, property of the object to use at title, if null will be reflected (see  midcom_helper_reflector::get_object_title())
+     * @param string $title_property, property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
+     * @param string $extension The file extension, when working with attachments
      * @return string string usable as name or boolean false on critical failures
      */
-    public function generate_unique_name($title_property = null)
+    public function generate_unique_name($title_property = null, $extension = '')
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();
@@ -420,7 +421,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // incrementer, the number to add as suffix and the base name. see _generate_unique_name_resolve_i()
-        list ($i, $base_name) = $this->_generate_unique_name_resolve_i($current_name);
+        list ($i, $base_name) = $this->_generate_unique_name_resolve_i($current_name, $extension);
 
         $this->_object->name = $base_name;
         // decrementer, do not try more than this many times (the incrementer can raise above this if we start high enough.
@@ -432,7 +433,7 @@ class midcom_helper_reflector_nameresolver
             if ($i > 1)
             {
                 // Start suffixes from -002
-                $this->_object->{$name_prop} = $base_name . sprintf('-%03d', $i);
+                $this->_object->{$name_prop} = $base_name . sprintf('-%03d', $i) . $extension;
             }
 
             // Handle the decrementer
@@ -464,11 +465,12 @@ class midcom_helper_reflector_nameresolver
      *
      * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      * @param string $current_name the "current name" of the object (might not be the actual name value see the title logic in generate_unique_name())
+     * @param string $extension The file extension, when working with attachments
      * @return array first key is the resolved $i second is the $base_name, which is $current_name without numeric suffix
      */
-    private function _generate_unique_name_resolve_i($current_name)
+    private function _generate_unique_name_resolve_i($current_name, $extension)
     {
-        if (preg_match('/(.*?)-([0-9]{3,})$/', $current_name, $name_matches))
+        if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $current_name, $name_matches))
         {
             // Name already has i and base parts, split them.
             $i = (int)$name_matches[2];
@@ -487,7 +489,6 @@ class midcom_helper_reflector_nameresolver
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         // TODO: Refactor to reduce duplicate code with _name_is_unique_check_siblings
         if (   $parent
-            && isset($parent->guid)
             && !empty($parent->guid))
         {
             // We have parent, check siblings
@@ -513,10 +514,9 @@ class midcom_helper_reflector_nameresolver
                 {
                     continue;
                 }
-                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%");
+                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
                 // Do not include current object in results, this is the easiest way
-                if (   isset($this->_object->guid)
-                    || !empty($this->_object->guid))
+                if (!empty($this->_object->guid))
                 {
                     $qb->add_constraint('guid', '<>', $this->_object->guid);
                 }
@@ -526,12 +526,12 @@ class midcom_helper_reflector_nameresolver
                 $siblings = $qb->execute();
                 if (empty($siblings))
                 {
-                    // we dont' care about fatal qb errors here
+                    // we don't care about fatal qb errors here
                     continue;
                 }
                 $sibling = $siblings[0];
                 $sibling_name = $sibling->{$child_name_property};
-                if (preg_match('/(.*?)-([0-9]{3,})$/', $sibling_name, $name_matches))
+                if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $sibling_name, $name_matches))
                 {
                     // Name already has i and base parts, split them.
                     $sibling_i = (int)$name_matches[2];
@@ -587,10 +587,9 @@ class midcom_helper_reflector_nameresolver
                         continue;
                     }
                     unset($deleted);
-                    $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%");
+                    $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
                     // Do not include current object in results, this is the easiest way
-                    if (   isset($this->_object->guid)
-                        || !empty($this->_object->guid))
+                    if (!empty($this->_object->guid))
                     {
                         $qb->add_constraint('guid', '<>', $this->_object->guid);
                     }
@@ -605,7 +604,7 @@ class midcom_helper_reflector_nameresolver
                     }
                     $sibling = $siblings[0];
                     $sibling_name = $sibling->{$child_name_property};
-                    if (preg_match('/(.*?)-([0-9]{3,})$/', $sibling_name, $name_matches))
+                    if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $sibling_name, $name_matches))
                     {
                         // Name already has i and base parts, split them.
                         $sibling_i = (int)$name_matches[2];

@@ -74,7 +74,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         fclose($dst);
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         return true;
     }
 
@@ -140,7 +140,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         $this->title = $title;
         $this->_filename = $filename;
         $this->_original_tmpname = $tmpname;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         $this->_filter = new midcom_helper_imagefilter();
 
         if (array_key_exists('archival', $this->_pending_attachments))
@@ -244,7 +244,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         return $this->add_attachment($identifier,
                                      "{$identifier}_{$this->_filename}",
                                      $this->title,
-                                     $this->_get_mimetype($this->_original_tmpname),
+                                     midcom_helper_misc::get_mimetype($this->_original_tmpname),
                                      $this->_original_tmpname,
                                      false);
     }

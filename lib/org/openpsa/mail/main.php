@@ -456,10 +456,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private function _get_mimetype($content, $name = 'unknown')
     {
-        if (!function_exists('mime_content_type'))
-        {
-            return false;
-        }
         $filename = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'org_openpsa_mail_') . "_{$name}";
         $fp = fopen($filename, 'w');
         if (!$fp)
@@ -468,10 +464,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             unlink($filename);
             return false;
         }
-        //fwrite($fp, $content, strlen($content));
         fwrite($fp, $content);
         fclose($fp);
-        $mimetype = mime_content_type($filename);
+        $mimetype = midcom_helper_misc::get_mimetype($filename);
         unlink($filename);
 
         return $mimetype;
