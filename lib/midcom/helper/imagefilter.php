@@ -29,9 +29,8 @@ class midcom_helper_imagefilter
      * The file currently being processed.
      *
      * @var string
-     * @access private
      */
-    var $_filename = null;
+    private $_filename = null;
 
     /**
      * The quality to use for JPEG manipulation, this is not
@@ -40,9 +39,8 @@ class midcom_helper_imagefilter
      * Stored as a valid imagemagick option, defaults to '-quality 90' right now.
      *
      * @var string
-     * @access private
      */
-    var $_quality = "-quality 90";
+    private $_quality = "-quality 90";
 
     public static function imagemagick_available()
     {
@@ -65,7 +63,7 @@ class midcom_helper_imagefilter
         return $return;
     }
 
-    function _jpegtran_available()
+    private function _jpegtran_available()
     {
         static $return = -1;
         if ($return !== -1)
@@ -303,7 +301,7 @@ class midcom_helper_imagefilter
      * Returns the name of a temporary file to be used to write
      * the transformed image to. Has to be managed by the callee.
      */
-    function _get_tempfile()
+    private function _get_tempfile()
     {
         return tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_imagefilter");
     }
@@ -312,7 +310,7 @@ class midcom_helper_imagefilter
      * This will replace the original file with the processed copy
      * of $tmpfile, deleting the temporary file afterwards.
      */
-    function _process_tempfile($tmpname)
+    private function _process_tempfile($tmpname)
     {
         $src = fopen($tmpname, "r");
         $dst = fopen($this->_filename, "w+");
@@ -373,7 +371,7 @@ class midcom_helper_imagefilter
      * @param float $gamma Gamma adjustment value.
      * @return boolean true on success.
      */
-    function gamma($gamma)
+    public function gamma($gamma)
     {
         $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -gamma "
             . escapeshellarg($gamma) . " " . escapeshellarg($this->_filename);
@@ -406,7 +404,7 @@ class midcom_helper_imagefilter
      * @param string $format The format to convert to. This must be a valid conversion targed
      *     recognized by Imagemagick, it defaults to 'jpg'.
      */
-    function convert($format = 'jpg')
+    public function convert($format = 'jpg')
     {
         $tempfile = $this->_get_tempfile();
 
@@ -440,7 +438,7 @@ class midcom_helper_imagefilter
      *
      * @return boolean true on success.
      */
-    function exifrotate()
+    public function exifrotate()
     {
         if (! function_exists("read_exif_data"))
         {
@@ -556,7 +554,7 @@ class midcom_helper_imagefilter
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
      * @return boolean true on success.
      */
-    function rotate($rotate)
+    public function rotate($rotate)
     {
         // Do some normalizing on the argument
         while ($rotate < 0)
@@ -633,7 +631,7 @@ class midcom_helper_imagefilter
      * @param int $y Height
      * @return boolean true on success.
      */
-    function rescale($x, $y)
+    public function rescale($x, $y)
     {
         if ($x == 0 && $y == 0)
         {
@@ -687,7 +685,7 @@ class midcom_helper_imagefilter
      * @param int $x Width
      * @return boolean true on success.
      */
-    function squarethumb($x, $gravity = 'center')
+    public function squarethumb($x, $gravity = 'center')
     {
         return $this->crop($x, $x, $gravity);
     }
@@ -712,7 +710,7 @@ class midcom_helper_imagefilter
         }
         else
         {
-            // If image data was not available, try to get it with idenfity program
+            // If image data was not available, try to get it with identify program
             $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}identify -verbose {$this->_filename}";
             exec($cmd, $output, $exit_code);
 
