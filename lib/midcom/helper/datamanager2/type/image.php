@@ -9,7 +9,7 @@
 /**
  * Datamanager 2 Image type.
  *
- * This type encapsulates a sinlge uploaded image along with an optional number of
+ * This type encapsulates a single uploaded image along with an optional number of
  * derived images like thumbnails. Both the main image and the derived thumbnails
  * will be run through a defined filter chain. The originally uploaded file can be
  * kept optionally.
@@ -364,7 +364,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         fclose($dst);
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         return true;
     }
 
@@ -603,7 +603,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         $this->title = $title;
         $this->_filename = $filename;
         $this->_original_tmpname = $tmpname;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         $this->_filter = new midcom_helper_imagefilter();
 
         // 1st step: original image storage and auto-conversion..
@@ -744,7 +744,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             return $this->update_attachment($blob_identifier,
                                             "{$identifier}_{$this->_filename}",
                                             $title,
-                                            $this->_get_mimetype($this->_current_tmpname),
+                                            midcom_helper_misc::get_mimetype($this->_current_tmpname),
                                             $this->_current_tmpname,
                                             false);
         }
@@ -755,7 +755,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         return $this->add_attachment($blob_identifier,
                                      "{$identifier}_{$this->_filename}",
                                      $title,
-                                     $this->_get_mimetype($this->_current_tmpname),
+                                     midcom_helper_misc::get_mimetype($this->_current_tmpname),
                                      $this->_current_tmpname,
                                      false);
     }

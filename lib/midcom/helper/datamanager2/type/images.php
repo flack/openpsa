@@ -512,7 +512,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * This saves a map of attachment identifiers to image identifier/name pairs.
      * It is updated accordingly on all save operations and complements the base
-     * types _save_attachment_listing. It is stored to have a safe way of loading
+     * type's _save_attachment_listing. It is stored to have a safe way of loading
      * the images (heuristics could not be safe enough when subtypes create
      * non-md5 based identifiers).
      */
@@ -640,15 +640,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     function _sort_attachments()
     {
         parent::_sort_attachments();
-
-        // Attachments are stored in manually set order
-        /**
-         * Commented out, the sort routines take score into account, no reason to trust saving order
-        if ($this->sortable)
-        {
-            return;
-        }
-         */
 
         uasort($this->images,
             array('midcom_helper_datamanager2_type_images', '_sort_images_callback'));
