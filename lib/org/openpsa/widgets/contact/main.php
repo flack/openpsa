@@ -314,7 +314,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         echo "</div>\n";
 
         // Contact information sequence
-        echo "<ul>\n";
+        echo "<ul class=\"contact_information\">\n";
         if ($this->extra_html)
         {
             echo $this->extra_html;
@@ -328,12 +328,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         if (array_key_exists('email', $this->contact_details))
         {
-            echo "<li class=\"email\"><a href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
+            echo "<li class=\"email\"><a title=\"{$this->contact_details['email']}\" href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
         }
 
         if (array_key_exists('homepage', $this->contact_details))
         {
-            echo "<li class=\"url\"><a href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
+            echo "<li class=\"url\"><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
         }
 
         if (array_key_exists('skype', $this->contact_details))
