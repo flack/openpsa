@@ -207,12 +207,12 @@ class midcom_core_account
     {
         if (method_exists('midgard_user', 'login'))
         {
-            // use querybuilder as collector returns no results?!
-            $qb = new midgard_query_builder('midgard_user');
-            $qb->add_constraint('login', $operator, $value);
-            $qb->add_constraint('authtype', '=', $GLOBALS['midcom_config']['auth_type']);
+            $mc = new midgard_collector('midgard_user', 'authtype', $GLOBALS['midcom_config']['auth_type']);
+            $mc->set_key_property('person');
+            $mc->add_constraint('login', $operator, $value);
+            $mc->execute();
+            $user_results = $mc->list_keys();
 
-            $user_results = $qb->execute();
             if (count($user_results) < 1)
             {
                 // make sure we don't return any results if no midgard_user entry was found
@@ -220,12 +220,7 @@ class midcom_core_account
             }
             else
             {
-                $person_guids = array();
-                foreach ($user_results as $user)
-                {
-                    $person_guids[] = $user->person;
-                }
-                $query->add_constraint('guid', 'IN', array_values($person_guids));
+                $query->add_constraint('guid', 'IN', array_keys($user_results));
             }
         }
         else
