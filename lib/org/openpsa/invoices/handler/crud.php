@@ -280,21 +280,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             org_openpsa_helpers::dm2_savecancel($this, 'delete');
         }
-        //check if save-pdf should be shown in toolbar & if invoice is unsent
-        if (   $this->_config->get('invoice_pdfbuilder_class')
-            && isset($this->_object)
-            && empty($this->_object->sent))
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf for invoice'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                )
-            );
-        }
 
         if ($this->_mode == 'read')
         {
@@ -313,6 +298,17 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            )
+        );
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "invoice/delete/{$this->_object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:delete'),
             )
         );
 
@@ -335,7 +331,18 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                     MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 )
             );
-
+            if ($this->_config->get('invoice_pdfbuilder_class'))
+            {
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+                    )
+                );
+            }
             // sending per email enabled in billing data?
             $billing_data = $this->_object->get_billing_data();
             if (intval($billing_data->sendingoption) == 2)
@@ -380,17 +387,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 )
             );
         }
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/delete/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:delete'),
-            )
-        );
 
         $this->_view_toolbar->add_item
         (
