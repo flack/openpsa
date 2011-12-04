@@ -6,24 +6,24 @@ var org_openpsa_widgets_tabs =
     {
         org_openpsa_widgets_tabs.bind_events(uiprefix);
 
-        var tabs = $('#tabs').tabs({
-              cache: true,
-              spinner: spinner,
-              ajaxOptions:
-              {
-                  dataFilter: org_openpsa_widgets_tabs.load_head_elements
-              },
-              load: function()
-              {
-                  $(window).trigger('resize');
-              },
-              show: function(event, ui)
-              {
-                  var url = $(ui.tab).attr('href');
-                  url = url.replace(/^.*#/, '');
-                  $.history.load(url);
-                  $(window).trigger('resize');
-              }
+        $('#tabs').tabs({
+            cache: true,
+            spinner: spinner,
+            ajaxOptions:
+            {
+                dataFilter: org_openpsa_widgets_tabs.load_head_elements
+            },
+            load: function()
+            {
+                $(window).trigger('resize');
+            },
+            show: function(event, ui)
+            {
+                var url = $(ui.tab).attr('href');
+                url = url.replace(/^.*#/, '');
+                $.history.load(url);
+                $(window).trigger('resize');
+            }
         });
 
         $.history.init(org_openpsa_widgets_tabs.history_loader);
@@ -88,9 +88,9 @@ var org_openpsa_widgets_tabs =
     },
     load_head_elements: function(data, type)
     {
-        var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/,
-        head_elements = $.parseJSON(RegExp.$1);
+        var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/;
         regex.exec(data);
+        var head_elements = $.parseJSON(RegExp.$1);
         data = data.substr((RegExp.$1.length + 31));
 
         $.each(head_elements.head_js, function(index, jscall)
