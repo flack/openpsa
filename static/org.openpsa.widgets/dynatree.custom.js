@@ -80,4 +80,4 @@ var org_openpsa_tree =
         
         tree.height(container_height - (content_height - tree.height()));
     }
-}
+};

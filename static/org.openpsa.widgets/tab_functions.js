@@ -31,7 +31,7 @@ var org_openpsa_widgets_tabs =
     history_loader: function(url)
     {
         var tab_id = 0;
-        if (url != '')
+        if (url !== '')
         {
             tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
         }
@@ -46,14 +46,14 @@ var org_openpsa_widgets_tabs =
         $('#tabs')
             .delegate('.ui-state-active a', 'mousedown', function(event)
             {
-                if (event.which != 1)
+                if (event.which !== 1)
                 {
                     return;
                 }
                 var url = $.data(event.currentTarget, 'href.tabs').replace(new RegExp('/' + uiprefix + '/'), '/');
                 location.href = url;
             })
-            .delegate('.ui-tabs-panel a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event)})
+            .delegate('.ui-tabs-panel a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event);})
 
             //bind click functions so the request can pass if it should saved or cancelled
             .delegate('input[type=submit]:not(.tab_escape)', 'click', function(event)
@@ -63,7 +63,7 @@ var org_openpsa_widgets_tabs =
             })
 
             //since this is loaded in a tab - change the submit-function of
-            // an occuring form - so the result will be loaded in the tab also
+            // an occurring form - so the result will be loaded in the tab also
             .delegate('form:not(.tab_escape)', "submit", function(event)
             {
                 if ($(event.currentTarget).attr('onsubmit'))
@@ -88,16 +88,16 @@ var org_openpsa_widgets_tabs =
     },
     load_head_elements: function(data, type)
     {
-        var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/;
+        var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/,
+        head_elements = $.parseJSON(RegExp.$1);
         regex.exec(data);
-        var head_elements = $.parseJSON(RegExp.$1),
         data = data.substr((RegExp.$1.length + 31));
 
         $.each(head_elements.head_js, function(index, jscall)
         {
             if (   typeof jscall.url !== 'undefined'
-                && $('script[src="' + jscall.url + '"]').length == 0
-                && $.inArray(jscall.url, org_openpsa_widgets_tabs.loaded_scripts) == -1)
+                && $('script[src="' + jscall.url + '"]').length === 0
+                && $.inArray(jscall.url, org_openpsa_widgets_tabs.loaded_scripts) === -1)
             {
                 org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
                 $('head').append('<script type="text/javascript" src="' + jscall.url + '"></script>');
@@ -118,7 +118,7 @@ var org_openpsa_widgets_tabs =
             {
                 return;
             }
-            if ($('link[href="' + data.href + '"]').length != 0)
+            if ($('link[href="' + data.href + '"]').length !== 0)
             {
                 insertion_point = $('link[href="' + data.href + '"]');
             }
@@ -174,4 +174,4 @@ var org_openpsa_widgets_tabs =
             return false;
         }
     }
-}
+};
