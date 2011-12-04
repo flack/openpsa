@@ -541,7 +541,7 @@ input#org_openpsa_search_query
 {
   position: absolute;
   right: 0;
-  top: 6px;
+  top: 4px;
   width: auto;
   height: auto;
   z-index: 10;
