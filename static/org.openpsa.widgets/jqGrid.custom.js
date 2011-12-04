@@ -29,7 +29,7 @@ var org_openpsa_grid_resize =
     {
         $('table.ui-jqgrid-btable').jqGrid('setGridParam', {onHeaderClick: function(gridstate)
         {
-            $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate == 'visible');
+            $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate === 'visible');
             $(window).trigger('resize');
         }});
 
@@ -75,8 +75,7 @@ var org_openpsa_grid_resize =
     {
         $(items).each(function()
         {
-            var maximize_button = $('<a role="link" class="ui-jqgrid-titlebar-maximize HeaderButton" style="right: 20px;"><span class="ui-icon ui-icon-circle-zoomin"></span></a>');
-            maximize_button
+            $('<a role="link" class="ui-jqgrid-titlebar-maximize HeaderButton" style="right: 20px;"><span class="ui-icon ui-icon-circle-zoomin"></span></a>')
                 .bind('click', function()
                 {
                     var container = $(this).closest('.ui-jqgrid').parent();
@@ -106,8 +105,7 @@ var org_openpsa_grid_resize =
                     {
                         $(this).addClass('ui-state-active');
                         $(org_openpsa_grid_resize.containment).scrollTop(0);
-                        var placeholder = $('<div id="maximized_placeholder"></div>')
-                        placeholder
+                        $('<div id="maximized_placeholder"></div>')
                             .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())
                             .insertAfter(container);
                         container
@@ -126,9 +124,8 @@ var org_openpsa_grid_resize =
                 .bind('mouseleave', function()
                 {
                     $(this).removeClass('ui-state-hover');
-                });
-
-            $(this).prepend(maximize_button);
+                })
+                .prependTo($(this));
         });
     },
     fill_width: function(items)
@@ -147,7 +144,7 @@ var org_openpsa_grid_resize =
         {
             var id = $(this).attr('id');
 
-            var panel = jQuery("#gbox_" + id).closest('.ui-tabs-panel');
+            var panel = $("#gbox_" + id).closest('.ui-tabs-panel');
             if (   panel.length > 0
                 && panel.hasClass('ui-tabs-hide'))
             {
@@ -155,7 +152,7 @@ var org_openpsa_grid_resize =
             }
             try
             {
-                jQuery("#" + id).jqGrid().setGridWidth(new_width);
+                $("#" + id).jqGrid().setGridWidth(new_width);
             }
             catch(e){}
         });
@@ -174,7 +171,7 @@ var org_openpsa_grid_resize =
         grid_heights = {},
         minimum_height = 21;
 
-        if ($('#org_openpsa_resize_marker_end').length == 0)
+        if ($('#org_openpsa_resize_marker_end').length === 0)
         {
             $(org_openpsa_grid_resize.containment)
                 .append('<div id="org_openpsa_resize_marker_end"></div>')
@@ -189,15 +186,15 @@ var org_openpsa_grid_resize =
             {
                 var grid_height = grid_body.parent().parent().height(),
                 content_height = grid_body.outerHeight();
-                if (    content_height == 0
+                if (    content_height === 0
                     && (   grid_body.jqGrid('getGridParam', 'datatype') !== 'local'
-                        || (   grid_body.jqGrid('getGridParam', 'treeGrid') === true)
-                            && grid_body.jqGrid('getGridParam', 'treedatatype') !== 'local'))
+                        || (   grid_body.jqGrid('getGridParam', 'treeGrid') === true
+                            && grid_body.jqGrid('getGridParam', 'treedatatype') !== 'local')))
                 {
                     content_height = 100;
                 }
 
-                if (   grid_body.jqGrid('getGridParam', 'gridstate') == 'visible'
+                if (   grid_body.jqGrid('getGridParam', 'gridstate') === 'visible'
                     && $(this).is(':visible'))
                 {
                     grid_heights[grid_body.attr('id')] = content_height;
@@ -210,7 +207,7 @@ var org_openpsa_grid_resize =
 
         var available_space = container_height - container_nongrid_height;
 
-        if (   grids_content_height == 0
+        if (   grids_content_height === 0
             || available_space <= minimum_height * visible_grids)
         {
             return;
@@ -221,7 +218,7 @@ var org_openpsa_grid_resize =
         {
             $.each(grid_heights, function(grid_id, content_height)
             {
-                set_param(grid_id, content_height)
+                set_param(grid_id, content_height);
             });
             return;
         }
@@ -233,7 +230,7 @@ var org_openpsa_grid_resize =
             {
                 available_space -= minimum_height;
                 grids_content_height -= content_height;
-                set_param(grid_id, minimum_height)
+                set_param(grid_id, minimum_height);
                 delete grid_heights[grid_id];
             }
         });
@@ -241,12 +238,12 @@ var org_openpsa_grid_resize =
         $.each(grid_heights, function(grid_id, content_height)
         {
             var new_height = Math.round(available_space * (content_height / grids_content_height));
-            set_param(grid_id, new_height)
+            set_param(grid_id, new_height);
         });
 
         function set_param(grid_id, value)
         {
-            if ($("#" + grid_id).parent().parent().height() == value)
+            if ($("#" + grid_id).parent().parent().height() === value)
             {
                 return;
             }
@@ -285,9 +282,9 @@ var org_openpsa_grid_editable =
 
     enable_inline: function (grid_id, custom_options)
     {
-        var lastsel;
+        var lastsel,
         self = this;
-        self.options = jQuery.extend({}, custom_options, self.options);
+        self.options = $.extend({}, custom_options, self.options);
 
         self.grid_id = grid_id;
         $('#' + grid_id).jqGrid('setGridParam',
@@ -320,7 +317,7 @@ var org_openpsa_grid_editable =
     },
     editRow: function(id)
     {
-        $('#' + self.grid_id).jqGrid('editRow', id, self.options);
+        $('#' + this.grid_id).jqGrid('editRow', id, this.options);
         $('#edit_button_' + id).addClass('hidden');
         $('#save_button_' + id).removeClass('hidden');
         $('#cancel_button_' + id).removeClass('hidden')
@@ -328,26 +325,27 @@ var org_openpsa_grid_editable =
     },
     saveRow: function(id)
     {
-        $('#' + self.grid_id).jqGrid('saveRow', id, self.options);
+        $('#' + this.grid_id).jqGrid('saveRow', id, this.options);
         $('#edit_button_' + id).removeClass('hidden');
         this.after_restore(id);
     },
     restoreRow: function(id)
     {
-        $('#' + self.grid_id).jqGrid('restoreRow', id, self.options);
+        $('#' + this.grid_id).jqGrid('restoreRow', id, this.options);
         $('#edit_button_' + id).removeClass('hidden');
         this.after_restore(id);
     },
     deleteRow: function(id)
     {
-        var edit_url = $('#' + self.grid_id).jqGrid('getGridParam', 'editurl')
-        rowdata = $('#' + self.grid_id).jqGrid('getRowData', id),
+        var edit_url = $('#' + this.grid_id).jqGrid('getGridParam', 'editurl'),
+        rowdata = $('#' + this.grid_id).jqGrid('getRowData', id),
+        self = this;
         rowdata.oper = 'del';
 
         $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
         {
             $('#' + self.grid_id).jqGrid('delRowData', id);
-            if (   typeof self.options.aftersavefunc != 'undefined'
+            if (   typeof self.options.aftersavefunc !== 'undefined'
                 && $.isFunction(self.options.aftersavefunc))
             {
                 self.options.aftersavefunc(0, []);
@@ -361,15 +359,18 @@ var org_openpsa_grid_editable =
     },
     add_inline_controls: function()
     {
-        var rowids = jQuery("#" + self.grid_id).jqGrid('getDataIDs');
-        for (var i = 0; i < rowids.length; i++)
+        var rowids = $("#" + this.grid_id).jqGrid('getDataIDs'),
+        self = this,
+        i, current_rowid;
+
+        for (i = 0; i < rowids.length; i++)
         {
-            var current_rowid = rowids[i];
-            be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />";
-            bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />";
-            bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />";
+            current_rowid = rowids[i];
+            var be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />",
+            bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
+            bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
             bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
-            $("#" + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
+            $("#" + this.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
         }
 
         $(".row_edit").live('click', function()
@@ -393,7 +394,6 @@ var org_openpsa_grid_editable =
             self.restoreRow(id);
         });
     }
-
 };
 
 var org_openpsa_export_csv =
@@ -412,23 +412,22 @@ var org_openpsa_export_csv =
     },
     prepare_data: function(id)
     {
-        var config = this.configs[id];
-        var rows = jQuery('#' + config.id).jqGrid('getRowData');
-
-        var data = '';
-
-        for (var field in config.fields)
+        var config = this.configs[id],
+        rows = $('#' + config.id).jqGrid('getRowData'),
+        field, i,
+        data = '';
+        for (field in config.fields)
         {
             data += this.trim(config.fields[field]) + this.separator;
         }
 
         data += '\n';
 
-        for (var i = 0; i < rows.length; i++)
+        for (i = 0; i < rows.length; i++)
         {
             for (field in config.fields)
             {
-                if (typeof rows[i][field] != 'undefined')
+                if (typeof rows[i][field] !== 'undefined')
                 {
                     data += this.trim(rows[i][field]) + this.separator;
                 }
@@ -451,16 +450,16 @@ var org_openpsa_batch_processing =
 {
     initialize: function(config)
     {
-        var widgets_to_add = [];
+        var widgets_to_add = [],
         //build action form and associated widgets
-        var action_select = '<div class="action_select_div" id="' + config.id + '_batch" style="display: none;">';
+        action_select = '<div class="action_select_div" id="' + config.id + '_batch" style="display: none;">';
         action_select += '<input type="hidden" name="batch_grid_id" value="' + config.id + '" />';
         action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
 
         $.each(config.options, function(key, values)
         {
             action_select += '<option value="' + key + '" >' + values.label + '</option>';
-            if (typeof values.widget_config != 'undefined')
+            if (typeof values.widget_config !== 'undefined')
             {
                 var widget_id = config.id + '__' + key;
                 widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: values.widget_config});
@@ -488,7 +487,7 @@ var org_openpsa_batch_processing =
         {
             onSelectRow: function(id)
             {
-                if ($('#' + config.id).jqGrid('getGridParam', 'selarrrow').length == 0)
+                if ($('#' + config.id).jqGrid('getGridParam', 'selarrrow').length === 0)
                 {
                     $('#' + config.id + '_batch').hide();
                 }
@@ -519,8 +518,8 @@ var org_openpsa_batch_processing =
             s = $("#" + config.id).jqGrid('getGridParam', 'selarrrow');
             for (i = 0; i < s.length; i++)
             {
-                jQuery('<input type="hidden" name="entries[' + s[i] + ']" value="On" />').appendTo('#form_' + config.id);
+                $('<input type="hidden" name="entries[' + s[i] + ']" value="On" />').appendTo('#form_' + config.id);
             }
         });
     }
-}
+};
