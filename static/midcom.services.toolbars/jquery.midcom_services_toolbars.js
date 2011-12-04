@@ -149,15 +149,15 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
     
     
     var default_position = get_default_position(root_element),
-    posX = default_position.x + 'px',
-    posY = default_position.y + 'px';
+    posX = default_position.x,
+    posY = default_position.y;
 
     if (memorized_position != null)
     {
         debug("memorized_position.x: " + memorized_position.x);
         debug("memorized_position.y: " + memorized_position.y);
-        posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x) + 'px';
-        posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y) + 'px';
+        posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x);
+        posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y);
     }
     else
     {
@@ -206,7 +206,7 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
 
         jQuery(root).append(item_holder);
         
-        if (   type_configs[settings.type].draggable)
+        if (type_configs[settings.type].draggable)
         {
             jQuery(root).append(
                 jQuery('<div>').addClass('dragbar')
@@ -224,17 +224,14 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         if (type_configs[settings.type].width > 0)
         {
             root_element.css({ width: type_configs[settings.type].width });
-        }        
-        root_element.css({ left: posX, top: posY });
-        
-        // if (jQuery.browser.safari)
-        // {
-        //     root_element.css({ position: 'fixed' });
-        // }
-        // if (jQuery.browser.ie)
-        // {
-        root_element.css({ position: 'absolute' });
-        // }
+        }
+
+        if (Math.ceil(posX) + root_element.width() > $(window).width())
+        {
+            posX = $(window).width() - (root_element.width() + 4);
+        }
+
+        root_element.css({ left: posX + 'px', top: posY + 'px', position: 'absolute', width: root_element.width() + 'px'});
         
         jQuery('div.item', item_holder).each(function(i,n){
             debug("i: "+i+" n: "+n);
@@ -263,11 +260,12 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
             
         });
 
-        if (   type_configs[settings.type].draggable)
+        if (type_configs[settings.type].draggable)
         {
             root_element.draggable({
                 stop: function(e){save_position(e);},
-                handle: '.dragbar'
+                handle: '.dragbar',
+                containment: 'window'
             });
             root_element.css({ cursor: 'default' });
         }
@@ -281,21 +279,13 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         if (jQuery.browser.msie && jQuery.browser.version < 8)
         {
             var width = 0;
-	    root_element.children().each(function(){
-	        width += jQuery(this).width();
+            root_element.children().each(function()
+            {
+                width += jQuery(this).width();
             });
             root_element.width(width + 30);
         }
         debug('enable_toolbar finished', 'info');
-        
-        init_auto_move();
-    }
-    
-    function init_auto_move()
-    {
-        // jQuery('window').bind('scroll', function(e){
-        //     console.log("Body scroll");
-        // });
     }
     
     function save_position(event)
