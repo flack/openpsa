@@ -64,50 +64,84 @@ var org_openpsa_layout =
 {
     clip_toolbar: function()
     {
-        var dropdown = '',
-        positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position(),
+        var container = $('#toolbar_dropdown').length > 0 ? $('#toolbar_dropdown') : $('<li class="enabled submenu"><a><img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/preferences-desktop.png"/> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
+            .attr('id', 'toolbar_dropdown')
+            .data('event_attached', false)
+            .mouseover(function()
+            {
+                var self = $(this);
+                if (self.data('timeout'))
+                {
+                    clearTimeout(self.data('timeout'));
+                    self.removeData('timeout');
+                    return;
+                }
+                self.addClass('expanded');
+            })
+            .mouseout(function()
+            {
+                var self = $(this);
+                self.data('timeout', setTimeout(function()
+                {
+                    self.removeClass('expanded');
+                    self.removeData('timeout');
+                }, 500));
+            })
+            .css('display', 'none')
+            .appendTo('#org_openpsa_toolbar > ul.view_toolbar'),
+        dropdown = container.find('ul.midcom_toolbar'),
         toolbarWidth = $('#org_openpsa_toolbar').width(),
+        lastchild = $('#org_openpsa_toolbar .view_toolbar li:last-child'),
+        positionLast = lastchild.length > 0 ? (lastchild.position().left + lastchild.width()) : 0,
         over = false;
 
-        if (positionLast && positionLast.left > toolbarWidth)
+        $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function()
         {
-            var container = $('<div></div>')
-                .attr('id', 'toolbar_dropdown')
-                .mouseover(function()
-                {
-                    var self = $(this);
-                    if (self.data('timeout'))
-                    {
-                        clearTimeout(self.data('timeout'));
-                        self.removeData('timeout');
-                        return;
-                    }
-                    self.addClass('expanded');
-                })
-                .mouseout(function()
-                {
-                    var self = $(this);
-                    self.data('timeout', setTimeout(function()
-                    {
-                        self.removeClass('expanded');
-                        self.removeData('timeout');
-                    }, 500));
-                })
-                .appendTo('#org_openpsa_toolbar');
-            dropdown = $('<ul></ul>').addClass('midcom_toolbar').appendTo(container);
-        }
-
-        $('#org_openpsa_toolbar .view_toolbar li').each(function(index)
-        {
-            if (!over && $(this).position().left + $(this).width() > toolbarWidth)
+            if (!over && ($(this).position().left + $(this).width() + container.width()) > toolbarWidth)
             {
                 over = true;
             }
             if (over)
             {
-                $(this).detach().appendTo(dropdown);
+                dropdown.prepend($(this).detach());
             }
         });
+        if (!over)
+        {
+            dropdown.children('li:not(#toolbar_dropdown)').each(function()
+            {
+                var item = $(this)
+                    .clone()
+                    .css('visibility', 'hidden')
+                    .insertBefore(container);
+                positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position().left + $('#org_openpsa_toolbar .view_toolbar li:last-child').width();
+
+                if (positionLast < toolbarWidth)
+                {
+                    $(this).remove();
+                    item.css('visibility', 'visible');
+                }
+                else
+                {
+                    item.remove();
+                    return false;
+                }
+            });
+        }
+
+        if (dropdown.children('li').length > 0)
+        {
+            container.css('display', 'inline-block');
+        }
+        else
+        {
+            container.css('display', 'none');
+        }
+        if (!container.data('event_attached'))
+        {
+            $(window).resize(function(){org_openpsa_layout.clip_toolbar();});
+            container.data('event_attached', true);
+        }
     },
 
     resize_content: function(containment, margin_bottom)
