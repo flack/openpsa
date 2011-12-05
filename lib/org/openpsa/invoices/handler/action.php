@@ -90,6 +90,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $customerCard = org_openpsa_widgets_contact::get($invoice->customerContact);
         $contactDetails = $customerCard->contact_details;
         $invoice_label = $invoice->get_label();
+        $invoice_date = $invoice->get_date();
 
         // generate pdf, only if not existing yet
         $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
@@ -104,6 +105,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $mail->parameters = array
         (
             "INVOICE_LABEL" => $invoice_label,
+            "INVOICE_DATE" => $invoice_date,
             "FIRSTNAME" => $contactDetails["firstname"],
             "LASTNAME" => $contactDetails["lastname"]
         );
