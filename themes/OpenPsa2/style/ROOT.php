@@ -38,7 +38,7 @@ echo "<?xml version=\"1.0\"?>\n";
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
         org_openpsa_widgets_ui::add_head_elements();
         $_MIDCOM->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
-
+        $_MIDCOM->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get('i18n')->get_l10n('org.openpsa.widgets')->get('more') . "';");
         $_MIDCOM->print_head_elements();
 
         if ($pref_found)

@@ -7,7 +7,8 @@ var org_openpsa_jsqueue =
     },
     execute: function()
     {
-        for (var i = 0; i < this.actions.length; i++)
+        var i;
+        for (i = 0; i < this.actions.length; i++)
         {
             this.actions[i]();
         }
@@ -56,54 +57,91 @@ var org_openpsa_resizers =
             callback(resizing);
         });
     }
-}
+};
 org_openpsa_resizers.bind_events();
 
 var org_openpsa_layout =
 {
     clip_toolbar: function()
     {
-        var dropdown = '';
-        var positionLast = jQuery('#org_openpsa_toolbar .view_toolbar li:last-child').position();
-        var toolbarWidth = jQuery('#org_openpsa_toolbar').width();
-
-        if (positionLast && positionLast.left > toolbarWidth)
-        {
-            var container = jQuery('<div></div>')
-                .attr('id', 'toolbar_dropdown')
-                .mouseover(function()
+        var container = $('#toolbar_dropdown').length > 0 ? $('#toolbar_dropdown') : $('<li class="enabled submenu"><a><img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/preferences-desktop.png"/> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
+            .attr('id', 'toolbar_dropdown')
+            .data('event_attached', false)
+            .mouseover(function()
+            {
+                var self = $(this);
+                if (self.data('timeout'))
                 {
-                    var self = jQuery(this);
-                    if (self.data('timeout'))
-                    {
-                        clearTimeout(self.data('timeout'));
-                        self.removeData('timeout');
-                        return;
-                    }
-                    self.addClass('expanded');
-                })
-                .mouseout(function()
+                    clearTimeout(self.data('timeout'));
+                    self.removeData('timeout');
+                    return;
+                }
+                self.addClass('expanded');
+            })
+            .mouseout(function()
+            {
+                var self = $(this);
+                self.data('timeout', setTimeout(function()
                 {
-                    var self = jQuery(this);
-                    self.data('timeout', setTimeout(function(){self.removeClass('expanded');self.removeData('timeout')}, 500));
-                })
-                .appendTo('#org_openpsa_toolbar');
-            dropdown = jQuery('<ul></ul>').addClass('midcom_toolbar').appendTo(container);
-        }
+                    self.removeClass('expanded');
+                    self.removeData('timeout');
+                }, 500));
+            })
+            .css('display', 'none')
+            .appendTo('#org_openpsa_toolbar > ul.view_toolbar'),
+        dropdown = container.find('ul.midcom_toolbar'),
+        toolbarWidth = $('#org_openpsa_toolbar').width(),
+        lastchild = $('#org_openpsa_toolbar .view_toolbar li:last-child'),
+        positionLast = lastchild.length > 0 ? (lastchild.position().left + lastchild.width()) : 0,
+        over = false;
 
-        var over = false;
-
-        jQuery('#org_openpsa_toolbar .view_toolbar li').each(function(index)
+        $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function()
         {
-            if (!over && jQuery(this).position().left + jQuery(this).width() > toolbarWidth)
+            if (!over && ($(this).position().left + $(this).width() + container.width()) > toolbarWidth)
             {
                 over = true;
             }
             if (over)
             {
-                jQuery(this).detach().appendTo(dropdown);
+                dropdown.prepend($(this).detach());
             }
         });
+        if (!over)
+        {
+            dropdown.children('li:not(#toolbar_dropdown)').each(function()
+            {
+                var item = $(this)
+                    .clone()
+                    .css('visibility', 'hidden')
+                    .insertBefore(container);
+                positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position().left + $('#org_openpsa_toolbar .view_toolbar li:last-child').width();
+
+                if (positionLast < toolbarWidth)
+                {
+                    $(this).remove();
+                    item.css('visibility', 'visible');
+                }
+                else
+                {
+                    item.remove();
+                    return false;
+                }
+            });
+        }
+
+        if (dropdown.children('li').length > 0)
+        {
+            container.css('display', 'inline-block');
+        }
+        else
+        {
+            container.css('display', 'none');
+        }
+        if (!container.data('event_attached'))
+        {
+            $(window).resize(function(){org_openpsa_layout.clip_toolbar();});
+            container.data('event_attached', true);
+        }
     },
 
     resize_content: function(containment, margin_bottom)
@@ -115,114 +153,109 @@ var org_openpsa_layout =
         org_openpsa_resizers.prepend_handler('content', function()
         {
             var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height() + margin_bottom));
-            jQuery(containment).css('height', content_height + 'px');
+            $(containment).css('height', content_height + 'px');
         });
     },
 
     add_splitter: function()
     {
-        jQuery('<div></div>')
+        $('<div></div>')
             .attr('id', 'template_openpsa2_resizer')
-            .css('left', jQuery('#leftframe').width())
+            .css('left', $('#leftframe').width())
             .mouseover(function()
             {
-                jQuery(this).addClass('hover');
+                $(this).addClass('hover');
             })
             .mouseout(function()
             {
-                jQuery(this).removeClass('hover');
+                $(this).removeClass('hover');
             })
             .appendTo('#container');
 
-        jQuery('#template_openpsa2_resizer').draggable({
+        $('#template_openpsa2_resizer').draggable({
             axis: 'axis-x',
             containment: 'window',
             stop: function()
             {
-                var offset = jQuery(this).offset().left;
+                var offset = Math.max($(this).offset().left, 0),
+                navigation_width = offset,
+                content_margin_left = offset + 2;
 
-                if (offset < 0)
-                {
-                    offset = 0;
-                }
+                $('#leftframe').css('width', navigation_width + 'px');
+                $('#content').css('margin-left', content_margin_left + 'px');
 
-                var navigation_width = offset;
-                var content_margin_left = offset + 2;
-
-                jQuery('#leftframe').css('width', navigation_width + 'px');
-                jQuery('#content').css('margin-left', content_margin_left + 'px');
-
-                jQuery.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
+                $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
                 org_openpsa_resizers.process_queue();
             }
-            });
+        });
     },
 
     initialize_search: function(providers, current)
     {
-        if (   typeof providers != 'object'
-            || providers.length == 0)
+        if (   typeof providers !== 'object'
+            || providers.length === 0)
         {
             return;
         }
 
-        var field = jQuery('#org_openpsa_search_query');
+        var field = $('#org_openpsa_search_query'),
+        current_provider,
+        selector = $('<ul id="org_openpsa_search_providers"></ul>'),
+        li_class = '',
+        i;
 
-        var current_provider,
-        selector = jQuery('<ul id="org_openpsa_search_providers"></ul>');
-
-        if (    typeof current != 'string'
-             || current == '')
+        if (    typeof current !== 'string'
+             || current === '')
         {
             current = providers[0].identifier;
         }
 
-        var li_class = '';
-        for (var i = 0; i < providers.length; i++)
+        for (i = 0; i < providers.length; i++)
         {
             li_class = 'provider';
-            if (current == providers[i].identifier)
+            if (current === providers[i].identifier)
             {
                 current_provider = providers[i];
                 li_class += ' current';
             }
 
-            jQuery('<li class="' + li_class + '">' + providers[i].helptext + '</li>')
+            $('<li class="' + li_class + '">' + providers[i].helptext + '</li>')
                 .data('provider', providers[i])
                 .click(function(event)
                 {
-                    var target = jQuery(event.target),
-                    query = jQuery('#org_openpsa_search_query');
+                    var target = $(event.target),
+                    query = $('#org_openpsa_search_query');
 
-                    jQuery('#org_openpsa_search_providers .current').removeClass('current');
+                    $('#org_openpsa_search_providers .current').removeClass('current');
                     target.addClass('current');
-                    jQuery('#org_openpsa_search_form').attr('action', target.data('provider').url);
-                    jQuery('#org_openpsa_search_trigger').click();
+                    $('#org_openpsa_search_form').attr('action', target.data('provider').url);
+                    $('#org_openpsa_search_trigger').click();
 
-                    if (query.data('helptext') == query.val())
+                    if (query.data('helptext') === query.val())
                     {
-                        query.val(target.data('provider').helptext)
+                        query.val(target.data('provider').helptext);
                     }
                     query.data('helptext', target.data('provider').helptext)
                         .focus();
 
-                    jQuery.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: target.data('provider').identifier});
+                    $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: target.data('provider').identifier});
                 })
                 .mouseover(function()
                 {
-                    jQuery(this).addClass('hover');
+                    $(this).addClass('hover');
                 })
                 .mouseout(function()
                 {
-                    jQuery(this).removeClass('hover');
+                    $(this).removeClass('hover');
                 })
                 .appendTo(selector);
         }
 
-        jQuery('#org_openpsa_search_form').attr('action', current_provider.url);
+        $('#org_openpsa_search_form').attr('action', current_provider.url);
 
         var search = location.search.replace(/^.*?[\?|&]query=([^&]*).*/, '$1');
-        if (search != '' && search != location.search)
+        if (   search !== ''
+            && search !== location.search)
         {
             field.val(decodeURI(search));
         }
@@ -236,11 +269,11 @@ var org_openpsa_layout =
         if (providers.length > 1)
         {
             selector.insertBefore(field);
-            jQuery('<div id="org_openpsa_search_trigger"></div>')
+            $('<div id="org_openpsa_search_trigger"></div>')
                 .click(function()
                 {
-                    jQuery('#org_openpsa_search_providers').toggle();
-                    jQuery(this).toggleClass('focused');
+                    $('#org_openpsa_search_providers').toggle();
+                    $(this).toggleClass('focused');
                 })
                 .insertBefore(field);
         }
@@ -249,7 +282,7 @@ var org_openpsa_layout =
         .bind('focus', function()
         {
             field.addClass('focused');
-            if (field.data('helptext') == field.val())
+            if (field.data('helptext') === field.val())
             {
                 field.val('');
             }
@@ -257,7 +290,8 @@ var org_openpsa_layout =
         .bind('blur', function()
         {
             field.removeClass('focused');
-            if (!field.val() && field.data('helptext'))
+            if (   !field.val()
+                && field.data('helptext'))
             {
                 field.val(field.data('helptext'));
             }
@@ -265,23 +299,23 @@ var org_openpsa_layout =
     },
     bind_admin_toolbar_loader: function()
     {
-        jQuery('#org_openpsa_toolbar_trigger').bind('click', function(e)
+        $('#org_openpsa_toolbar_trigger').bind('click', function(e)
         {
-            if (jQuery('#org_openpsa_toolbar_trigger').hasClass('active'))
+            if ($('#org_openpsa_toolbar_trigger').hasClass('active'))
             {
-                jQuery('body div.midcom_services_toolbars_fancy').hide();
-                jQuery('#org_openpsa_toolbar_trigger').removeClass('active');
-                jQuery('#org_openpsa_toolbar_trigger').addClass('inactive');
+                $('body div.midcom_services_toolbars_fancy').hide();
+                $('#org_openpsa_toolbar_trigger').removeClass('active');
+                $('#org_openpsa_toolbar_trigger').addClass('inactive');
             }
-            else if (jQuery('#org_openpsa_toolbar_trigger').hasClass('inactive'))
+            else if ($('#org_openpsa_toolbar_trigger').hasClass('inactive'))
             {
-                jQuery('body div.midcom_services_toolbars_fancy').show();
-                jQuery('#org_openpsa_toolbar_trigger').removeClass('inactive');
-                jQuery('#org_openpsa_toolbar_trigger').addClass('active');
+                $('body div.midcom_services_toolbars_fancy').show();
+                $('#org_openpsa_toolbar_trigger').removeClass('inactive');
+                $('#org_openpsa_toolbar_trigger').addClass('active');
             }
             else
             {
-                if (typeof document.createStyleSheet == 'object')
+                if (typeof document.createStyleSheet === 'object')
                 {
                     //Compatibility for IE
                     document.createStyleSheet(MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css');
@@ -289,17 +323,17 @@ var org_openpsa_layout =
                 else
                 {
                     var head = document.getElementsByTagName('head')[0];
-                    jQuery(document.createElement('link')).attr({
+                    $(document.createElement('link')).attr({
                         type: 'text/css',
                         href: MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css',
                         rel: 'stylesheet',
                         media: 'screen, projection'
                     }).appendTo(head);
                 }
-                jQuery.getScript(MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js', function(){
-                    jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
+                $.getScript(MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js', function(){
+                    $('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
                 });
-                jQuery('#org_openpsa_toolbar_trigger').addClass('active');
+                $('#org_openpsa_toolbar_trigger').addClass('active');
             }
         });
     }

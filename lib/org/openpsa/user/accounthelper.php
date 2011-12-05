@@ -552,20 +552,25 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * Helper function to record failed login attempts and disable account is necessary
      *
      * @param array $data The login data sent by the client
+     * @param string $component the component we take the config values from
      */
-    public static function check_login_attempts($data)
+    public static function check_login_attempts($data, $component = null)
     {
         $person = self::_get_person_by_formdata($data);
         if (!$person)
         {
             return;
         }
-        //max-attempts allowed & timeframe
-        $max_attempts = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config')->get('max_password_attempts');
-        $timeframe = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config')->get('password_block_timeframe_min');
+        if (is_null($component))
+        {
+            $component = "org.openpsa.user";
+        }
 
-        if (   $max_attempts == 0
-            || $timeframe == 0)
+        //max-attempts allowed & timeframe
+        $max_attempts = midcom_baseclasses_components_configuration::get($component, 'config')->get('max_password_attempts');
+        $timeframe = midcom_baseclasses_components_configuration::get($component, 'config')->get('password_block_timeframe_min');
+
+        if ( $max_attempts == 0 || $timeframe == 0 )
         {
             return;
         }

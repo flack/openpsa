@@ -235,7 +235,7 @@ Bezahlt am %s
 ---STRINGEND
 
 ---STRING pdf file
-PDF Datei
+PDF-Datei
 ---STRINGEND
 
 ---STRING price
@@ -390,8 +390,8 @@ Keine Beschreibung angegeben
 Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich ersetzt werden?
 ---STRINGEND
 
----STRING create pdf for invoice
-Erstelle PDF für Rechnung
+---STRING create pdf
+PDF erzeugen
 ---STRINGEND
 
 ---STRING pdf created

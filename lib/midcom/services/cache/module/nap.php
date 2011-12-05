@@ -166,7 +166,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             {
                 $parent_entry_from_object = $nav->resolve_guid($parent->guid);
 
-                if (    $parent_entry_from_object
+                if (    !empty($parent_entry_from_object[MIDCOM_NAV_ID])
                      && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID])
                 {
                     unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
@@ -196,8 +196,15 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         {
             return false;
         }
+        $lang_id = midcom::get('i18n')->get_current_language();
+        $result = $this->_cache->get("{$this->_prefix}-{$key}");
+        if (   !is_array($result)
+            || !isset($result[$lang_id]))
+        {
+            return false;
+        }
 
-        return $this->_cache->get("{$this->_prefix}-{$key}");
+        return $result[$lang_id];
     }
 
     /**
@@ -216,14 +223,15 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return $result;
         }
 
+        $lang_id = midcom::get('i18n')->get_current_language();
         $result = $this->_cache->get("{$this->_prefix}-{$key}");
-        if (   null === $result
-            || false === $result)
+        if (   !is_array($result)
+            || !isset($result[$lang_id]))
         {
             return false;
         }
 
-        return $result;
+        return $result[$lang_id];
     }
 
 
@@ -240,7 +248,15 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return false;
         }
 
-        return $this->_cache->exists("{$this->_prefix}-{$key}");
+        $lang_id = midcom::get('i18n')->get_current_language();
+        $result = $this->_cache->get("{$this->_prefix}-{$key}");
+        if (   !is_array($result)
+            || !isset($result[$lang_id]))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -257,8 +273,18 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return;
         }
 
-        $this->_cache->put("{$this->_prefix}-{$key}", $data, $timeout);
-        $this->_cache->put($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $data, $timeout);
+        $lang_id = midcom::get('i18n')->get_current_language();
+        $result = $this->_cache->get("{$this->_prefix}-{$key}");
+        if (!is_array($result))
+        {
+            $result = array($lang_id => $data);
+        }
+        else
+        {
+            $result[$lang_id] = $data;
+        }
+        $this->_cache->put("{$this->_prefix}-{$key}", $result, $timeout);
+        $this->_cache->put($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $result, $timeout);
     }
 
     /**
@@ -275,7 +301,17 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return;
         }
 
-        $this->_cache->put($this->_prefix . '-' . $guid, $data, $timeout);
+        $lang_id = midcom::get('i18n')->get_current_language();
+        $result = $this->_cache->get("{$this->_prefix}-{$guid}");
+        if (!is_array($result))
+        {
+            $result = array($lang_id => $data);
+        }
+        else
+        {
+            $result[$lang_id] = $data;
+        }
+        $this->_cache->put($this->_prefix . '-' . $guid, $result, $timeout);
     }
 
     /**
@@ -291,7 +327,14 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return;
         }
 
-        return $this->_cache->get($this->_prefix . '-' . $guid, $timeout);
+        $lang_id = midcom::get('i18n')->get_current_language();
+        $result = $this->_cache->get("{$this->_prefix}-{$guid}");
+        if (   !is_array($result)
+            || !isset($result[$lang_id]))
+        {
+            return false;
+        }
+        return $result[$lang_id];
     }
 
     /**
@@ -308,7 +351,17 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             return;
         }
 
-        $this->_cache->put("{$this->_prefix}-{$key}", $data, $timeout);
+        $lang_id = midcom::get('i18n')->get_current_language();
+        $result = $this->_cache->get("{$this->_prefix}-{$key}");
+        if (!is_array($result))
+        {
+            $result = array($lang_id => $data);
+        }
+        else
+        {
+            $result[$lang_id] = $data;
+        }
+        $this->_cache->put("{$this->_prefix}-{$key}", $result, $timeout);
     }
 }
 ?>

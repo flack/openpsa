@@ -31,7 +31,7 @@
  * the cache: The current User ID, the current language and the request's URL.
  *
  * Only on a complete match a cached page is displayed, which should take care of any
- * permission check done on the page. When you change the permissions of users, you
+ * permission checks done on the page. When you change the permissions of users, you
  * need to manually invalidate the cache though, as MidCOM currently cannot detect
  * changes like this (of course, this is true if and only if you are not using a
  * MidCOM to change permissions).
@@ -49,7 +49,7 @@
  *
  * This module is the first cache module which is initialized, and it will be the
  * last one in the shutdown sequence. Its startup code will exit with _midcom_stop_request() in case of
- * a cache hit, and it will enclose the entire request using PHPs output buffering.
+ * a cache hit, and it will enclose the entire request using PHP's output buffering.
  *
  * <b>Module configuration (see also midcom_config.php)</b>
  *
@@ -130,7 +130,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
 
     /**
-     * Set this to true, if you want to inhibit storage of the generated pages in
+     * Set this to true if you want to inhibit storage of the generated pages in
      * the cache database. All other headers will be created as usual though, so
      * 304 processing will kick in for example.
      *
@@ -140,7 +140,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public $_uncached = false;
 
     /**
-     * controls cache headers strategy
+     * Controls cache headers strategy
      * 'no-cache' activates no-cache mode that actively tries to circumvent all caching
      * 'revalidate' is the default which sets must-revalidate and expiry to current time
      * 'public' and 'private' enable caching with the cache-control header of the same name, default expiry timestamps are generated using the default_lifetime
@@ -150,7 +150,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_headers_strategy = 'revalidate';
 
     /**
-     * controls cache headers strategy for authenticated users, needed because some proxies store cookies too
+     * Controls cache headers strategy for authenticated users, needed because some proxies store cookies, too,
      * making a horrible mess when used by mix of authenticated and non-authenticated users
      *
      * @see $_headers_strategy
@@ -160,7 +160,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     /**
      * Default lifetime of page for public/private headers strategy
-     * When generating default expires header this is added to time().
+     * When generating the default expires header this is added to time().
      *
      * @var int
      */

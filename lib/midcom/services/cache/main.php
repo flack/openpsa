@@ -8,9 +8,9 @@
 
 /**
  * This class is the central access point for all registered caching services. Currently
- * this includes the NAP, Metadata and Page cache databases.
+ * this includes the NAP, Memcache, Content and PHPscripts cache databases.
  *
- * The system is two fold:
+ * The system is twofold:
  *
  * There are cache backends, which are responsible for the actual storage and retrieval of
  * cache information, and cache modules, which provide caching services to the application

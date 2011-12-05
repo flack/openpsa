@@ -78,12 +78,19 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     {
         try
         {
-            return midcom::get('dbfactory')->get_object_by_guid($this->linkGuid);
+            return new org_openpsa_contacts_person_dba($this->linkGuid);
         }
         catch (midcom_error $e)
         {
-            debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
-            return false;
+            try
+            {
+                return new org_openpsa_contacts_group_dba($this->linkGuid);
+            }
+            catch (midcom_error $e)
+            {
+                debug_add("Failed to load contact with GUID: " . $this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
+                return false;
+            }
         }
     }
 
