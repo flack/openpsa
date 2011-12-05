@@ -43,16 +43,16 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         {
             if ($invoice->due > time())
             {
-                echo sprintf($data['l10n']->get('due on %s'), strftime("%x", $invoice->due));
+                echo sprintf($data['l10n']->get('due on %s'), date($data['l10n_midcom']->get('short date'), $invoice->due));
             }
             else
             {
-                echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), strftime("%x", $invoice->due)) . '</span>';
+                echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), date($data['l10n_midcom']->get('short date'), $invoice->due)) . '</span>';
             }
         }
         else
         {
-            echo sprintf($data['l10n']->get('paid on %s'), strftime("%x", $invoice->paid));
+            echo sprintf($data['l10n']->get('paid on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
         }
     }
     echo "</p>\n";
@@ -61,7 +61,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         && !$invoice->paid)
     {
         echo "<p><strong>" . $data['l10n']->get('sent date') . ": </strong>\n";
-        echo strftime("%x", $invoice->sent) . "</p>\n";
+        echo date($data['l10n_midcom']->get('short date'), $invoice->sent) . "</p>\n";
     }
     if ($invoice->owner)
     {
@@ -80,7 +80,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     if ($invoice->date > 0)
     { ?>
         <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
-        <?php echo strftime("%x", $invoice->date); ?></p>
+        <?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></p>
     <?php } ?>
 
     <p><strong><?php echo $_MIDCOM->i18n->get_string('description', 'midcom');?>: </strong></p>
@@ -197,7 +197,7 @@ if (    isset($data['sorted_reports'])
 
         $row['id'] = $report->id;
         $row['index_date'] = $report->date;
-        $row['date'] = strftime('%x', $report->date);
+        $row['date'] = date($data['l10n_midcom']->get('short date'), $report->date);
         $row['index_reporter'] = $reporter->rname;
         $row['reporter'] = $reporter_card->show_inline();
         $row['hours'] = $report->hours;
