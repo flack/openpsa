@@ -141,7 +141,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     function get_date()
     {
-        return strftime('%x', $this->date);
+        return strftime($this->_l10n_midcom->get('short date'), $this->date);
     }
 
     public function _on_creating()
