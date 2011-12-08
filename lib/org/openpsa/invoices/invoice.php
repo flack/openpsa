@@ -136,14 +136,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return 'number';
     }
 
-    /**
-     * Human readable invoice date rapresentation, based on locale
-     */
-    function get_date()
-    {
-        return strftime($this->_l10n_midcom->get('short date'), $this->date);
-    }
-
     public function _on_creating()
     {
         $this->_pre_write_operations();
