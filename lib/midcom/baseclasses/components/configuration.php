@@ -110,23 +110,22 @@ class midcom_baseclasses_components_configuration
         {
             $data = array_merge($data, $component_data);
         }
-        $config = new midcom_helper_configuration($data);
 
         // Go for the sitewide default
-        $data = self::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
-        if ($data !== false)
+        $fs_data = self::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
+        if ($fs_data !== false)
         {
-            $config->store($data, false);
+            $data = array_merge($data, $fs_data);
         }
 
         // Finally, check the sitegroup config
-        $data = self::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
-        if ($data !== false)
+        $sn_data = self::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
+        if ($sn_data !== false)
         {
-            $config->store($data, false);
+            $data = array_merge($data, $sn_data);
         }
 
-        self::$_data[$component]['config'] = $config;
+        self::$_data[$component]['config'] = new midcom_helper_configuration($data);
     }
 
     private static function _load_routes($component)
