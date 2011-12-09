@@ -2,7 +2,6 @@
 (
     'name'        => 'config',
     'description' => 'Default Configuration Schema', /* This is a topic */
-    'locktimeout' => 0, /* Don't lock this, we display the edit view always */
     'fields'      => array
     (
         /* invoice settings */
@@ -104,8 +103,8 @@
              ),
             'widget' => 'text',
             'end_fieldset' => '',
-        ),        
-        
+        ),
+
         /* Schema settings */
         'schemadb' => array
         (
@@ -119,7 +118,7 @@
              ),
             'widget' => 'text',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'advanced schema and data settings',
             ),
             'end_fieldset' => '',

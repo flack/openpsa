@@ -2,7 +2,6 @@
 (
     'name' => 'config',
     'description' => 'Default Configuration Schema', /* This is a topic */
-    'locktimeout' => 0, /* Don't lock this, we display the edit view always */
     'fields' => array
     (
         /* view settings */
@@ -109,7 +108,7 @@
             'default' => 120,
             'end_fieldset' => '',
         ),
-        
+
         /* Schema settings */
         'schemadb' => array
         (
@@ -123,7 +122,7 @@
                 'name' => 'schemadb'
             ),
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'advanced schema and data settings',
             ),
         ),
@@ -135,7 +134,7 @@
             (
                 'options' => array
                 (
-                    1 => 'yes',            
+                    1 => 'yes',
                     0 => 'no',
                 ),
             ),
@@ -146,7 +145,7 @@
                 'domain' => 'org.openpsa.calendar',
                 'name' => 'always_show_group'
             ),
-        ), 
+        ),
 
         'always_show_self' => array
         (
@@ -156,7 +155,7 @@
             (
                 'options' => array
                 (
-                    1 => 'yes',            
+                    1 => 'yes',
                     0 => 'no',
                 ),
             ),
@@ -167,7 +166,7 @@
                 'name' => 'always_show_self'
             ),
             'widget' => 'radiocheckselect',
-        ),         
+        ),
 
         'event_label' => array
         (
