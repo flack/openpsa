@@ -443,6 +443,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return $this->_account->save();
     }
 
+     /**
+     * Function to delete account
+     *
+     * @return boolean indicates success
+     */
+    public function delete_account()
+    {
+        $this->_account = midcom_core_account::get($this->_person);
+        return $this->_account->delete();
+    }
+
     /**
      * Reopen a blocked account.
      *
