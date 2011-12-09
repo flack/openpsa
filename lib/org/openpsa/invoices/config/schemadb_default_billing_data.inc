@@ -153,7 +153,6 @@
                 ),
             ),
             'widget'      => 'radiocheckselect',
-            'end_fieldset' => '',
         ),
     	'remarks' => array
         (
