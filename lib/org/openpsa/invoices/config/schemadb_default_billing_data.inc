@@ -154,7 +154,14 @@
             ),
             'widget'      => 'radiocheckselect',
             'end_fieldset' => '',
-
+        ),
+    	'remarks' => array
+        (
+            'title'    => 'remarks',
+            'storage'  => 'remarks',
+            'type'     => 'text',
+            'widget'   => 'textarea',
+			'end_fieldset' => '',
         ),
     )
 ),

@@ -68,6 +68,7 @@
         <property name="due" type="unsigned integer" />
         
         <property name="sendingoption" type="integer" />
+        <property name="remarks" type="text" />
 
         <property name="useContactAddress" type="boolean" />
         <!-- guid of the object the billing data belongs to -->

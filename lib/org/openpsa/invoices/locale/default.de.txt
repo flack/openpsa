@@ -246,6 +246,10 @@ Preis
 Projekt-Abrechnung
 ---STRINGEND
 
+---STRING remarks
+Anmerkungen
+---STRINGEND
+
 ---STRING quantity
 Menge
 ---STRINGEND

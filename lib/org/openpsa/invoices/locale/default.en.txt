@@ -274,6 +274,10 @@ Quantity
 Recently paid invoices
 ---STRINGEND
 
+---STRING remarks
+Remarks
+---STRINGEND
+
 ---STRING scheduled
 Scheduled
 ---STRINGEND
