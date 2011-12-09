@@ -167,6 +167,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
                 $parent_entry_from_object = $nav->resolve_guid($parent->guid);
 
                 if (    !empty($parent_entry_from_object[MIDCOM_NAV_ID])
+                     && !empty($parent_entry[MIDCOM_NAV_ID])
                      && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID])
                 {
                     unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
