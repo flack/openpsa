@@ -351,7 +351,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => "invoice/process/send_by_mail/{$this->_object->guid}/",
+                        MIDCOM_TOOLBAR_URL => "invoice/process/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
                         MIDCOM_TOOLBAR_POST => true,
