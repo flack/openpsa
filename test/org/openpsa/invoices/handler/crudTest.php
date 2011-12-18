@@ -70,15 +70,5 @@ class org_openpsa_invoices_handler_crudTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
-
-    public function testHandler_pdf()
-    {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
-
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'pdf', self::$_invoice->guid));
-        $this->assertEquals('create_pdf', $data['handler_id']);
-
-        midcom::get('auth')->drop_sudo();
-    }
 }
 ?>
