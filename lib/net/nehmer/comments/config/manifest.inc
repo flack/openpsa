@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.comments',
-'version' => '9.0beta1+git',
+'version' => '9.0beta2',
 'icon' => 'stock-icons/16x16/stock-discussion.png',
 'class_mapping' => array
 (
