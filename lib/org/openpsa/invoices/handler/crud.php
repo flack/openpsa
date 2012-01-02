@@ -357,7 +357,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
                         (
-                            'action' => 'mark_sent',
+                            'action' => 'send_by_mail',
                             'id' => $this->_object->id,
                             'relocate' => true
                         ),
