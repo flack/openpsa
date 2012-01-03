@@ -78,9 +78,17 @@ div.org_openpsa_invoices table button.yes
     border-bottom-width:1px;
 }
 
+.org_openpsa_helpers_fileinfo
+{
+    display: inline-block;
+    position: relative;
+    padding-right: 1em
+}
+
 .org_openpsa_helpers_fileinfo .icon
 {
-    float: left;
+    position: absolute;
+    left: 0;
 }
 
 .org_openpsa_helpers_fileinfo .icon img
