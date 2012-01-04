@@ -126,6 +126,10 @@ Rechnung %s wurde erstellt
 Rechnungsdaten
 ---STRINGEND
 
+---STRING invoice has already been sent. should it be replaced?
+Diese Rechnung wurde bereits verschickt. Soll die Datei trotzdem neu erzeugt werden?
+---STRINGEND
+
 ---STRING invoice items
 Rechnungspositionen
 ---STRINGEND
