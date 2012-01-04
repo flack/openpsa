@@ -74,20 +74,27 @@
     'variable_args' => 1,
 ),
 
-// Match /group/<GUID>/<action>
-'group_action' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_group_action', 'action'),
-    'fixed_args' => 'group',
-    'variable_args' => 2,
-),
-
 // Match /group/<GUID>
 'group_view' => array
 (
     'handler' => array('org_openpsa_contacts_handler_group_view', 'view'),
     'fixed_args' => 'group',
     'variable_args' => 1,
+),
+// Match /group/json/<GUID>
+'group_view_json' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_group_view', 'json'),
+    'fixed_args' => array('group', 'json'),
+    'variable_args' => 1,
+),
+
+// Match /group/<GUID>/<action>
+'group_action' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_group_action', 'action'),
+    'fixed_args' => 'group',
+    'variable_args' => 2,
 ),
 
 // Match /person/create/GroupGUID
