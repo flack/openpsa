@@ -46,6 +46,8 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         }
         else
         {
+            $data['confirmation_message'] = 'current pdf file was manually uploaded shall it be replaced ?';
+
             // load schema & datamanager to get attachment
             $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
             $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
@@ -54,7 +56,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             {
                 throw new midcom_error("Failed to create a DM2 instance for object {$this->_invoice->guid}.");
             }
-            if (!empty($this->_datamanager->types['pdf_file']->attachments))
+            if ($this->_invoice->sent)
+            {
+                $data['confirmation_message'] = 'invoice has already been sent. should it be replaced?';
+            }
+            else if (!empty($this->_datamanager->types['pdf_file']->attachments))
             {
                 foreach ($this->_datamanager->types['pdf_file']->attachments as $attachment)
                 {

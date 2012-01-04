@@ -134,6 +134,10 @@ Invoice %s created
 Invoice data
 ---STRINGEND
 
+---STRING invoice has already been sent. should it be replaced?
+This invoice has already been sent. Should the file be regenerated anyways?
+---STRINGEND
+
 ---STRING invoice items
 Invoice items
 ---STRINGEND

@@ -312,6 +312,17 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             )
         );
 
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "invoice/items/{$this->_object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
+            )
+        );
+
         if (!$this->_object->sent)
         {
             $this->_view_toolbar->add_item
@@ -331,18 +342,39 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                     MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 )
             );
-            if ($this->_config->get('invoice_pdfbuilder_class'))
-            {
-                $this->_view_toolbar->add_item
+        }
+        else if (!$this->_object->paid)
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
                 (
-                    array
+                    MIDCOM_TOOLBAR_URL => "invoice/process/mark_paid/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
+                    MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
                     (
-                        MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                    )
-                );
-            }
+                        'action' => 'mark_sent',
+                        'id' => $this->_object->id,
+                        'relocate' => true
+                    ),
+                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
+                )
+            );
+        }
+        if (   !$this->_object->paid
+            && $this->_config->get('invoice_pdfbuilder_class'))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+                )
+            );
             // sending per email enabled in billing data?
             $billing_data = $this->_object->get_billing_data();
             if (intval($billing_data->sendingoption) == 2)
@@ -365,39 +397,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                     )
                 );
             }
-
         }
-        else if (!$this->_object->paid)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "invoice/process/mark_paid/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
-                        'action' => 'mark_sent',
-                        'id' => $this->_object->id,
-                        'relocate' => true
-                    ),
-                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-                )
-            );
-        }
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/items/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            )
-        );
 
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/');
