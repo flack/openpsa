@@ -467,10 +467,6 @@ class midcom_services_auth
             return false;
         }
 
-if ($domain != "midcom.helper.nav")
-{
-    debug_print_function_stack($domain);
-}
         $this->_component_sudo++;
 
         debug_add("Entered SUDO mode for domain {$domain}.", MIDCOM_LOG_INFO);
