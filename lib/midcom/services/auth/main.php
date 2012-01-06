@@ -467,6 +467,10 @@ class midcom_services_auth
             return false;
         }
 
+if ($domain != "midcom.helper.nav")
+{
+    debug_print_function_stack($domain);
+}
         $this->_component_sudo++;
 
         debug_add("Entered SUDO mode for domain {$domain}.", MIDCOM_LOG_INFO);
@@ -563,7 +567,7 @@ class midcom_services_auth
                 $string = $_MIDCOM->i18n->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
-            $this->access_denied($message);
+            throw new midcom_error_forbidden($message);
             // This will exit.
         }
     }
@@ -595,7 +599,7 @@ class midcom_services_auth
                 $string = $_MIDCOM->i18n->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
-            $this->access_denied($message);
+            throw new midcom_error_forbidden($message);
             // This will exit.
         }
     }
@@ -631,7 +635,7 @@ class midcom_services_auth
                 }
             }
 
-            $this->access_denied($message);
+            throw new midcom_error_forbidden($message);
             // This will exit.
         }
     }
@@ -649,10 +653,11 @@ class midcom_services_auth
         {
             $message = $_MIDCOM->i18n->get_string('access denied: admin level privileges required', 'midcom');
         }
+
         if (   ! $this->admin
             && ! $this->_component_sudo)
         {
-            $this->access_denied($message);
+            throw new midcom_error_forbidden($message);
             // This will exit.
         }
     }
@@ -1091,110 +1096,14 @@ class midcom_services_auth
         session_destroy();
     }
 
-    function _generate_http_response()
+    private function _generate_http_response()
     {
-        if (_midcom_headers_sent())
+        if ($GLOBALS['midcom_config']['auth_login_form_httpcode'] == 200)
         {
-            // We have sent output to browser already, skip setting headers
-            return false;
+            _midcom_header('HTTP/1.0 200 OK');
+            return;
         }
-
-        switch ($GLOBALS['midcom_config']['auth_login_form_httpcode'])
-        {
-            case 200:
-                _midcom_header('HTTP/1.0 200 OK');
-                break;
-
-            case 403:
-            default:
-                _midcom_header('HTTP/1.0 403 Forbidden');
-                break;
-        }
-    }
-
-    /**
-     * This is called by throw new midcom_error_forbidden(...) if and only if
-     * the headers have not yet been sent. It will display the error message and appends the
-     * login form below it.
-     *
-     * The function will clear any existing output buffer, and the sent page will have the
-     * 403 - Forbidden HTTP Status. The login will relocate to the same URL, so it should
-     * be mostly transparent.
-     *
-     * The login message shown depends on the current state:
-     * - If an authentication attempt was done but failed, an appropriated wrong user/password
-     *   message is shown.
-     * - If the user is authenticated, a note that he might have to switch to a user with more
-     *   privileges is shown.
-     * - Otherwise, no message is shown.
-     *
-     * This function will exit() unconditionally.
-     *
-     * If the style element <i>midcom_services_auth_access_denied</i> is defined, it will be shown
-     * instead of the default error page. The following variables will be available in the local
-     * scope:
-     *
-     * $title contains the localized title of the page, based on the 'access denied' string ID of
-     * the main MidCOM L10n DB. $message will contain the notification what went wrong and
-     * $login_warning will notify the user of a failed login. The latter will either be empty
-     * or enclosed in a paragraph with the CSS ID 'login_warning'.
-     *
-     * @link http://www.midgard-project.org/midcom-permalink-c5e99db3cfbb779f1108eff19d262a7c further information about how to style these elements.
-     * @param string $message The message to show to the user.
-     */
-    function access_denied($message)
-    {
-        debug_print_function_stack("access_denied was called from here:");
-
-        // Determine login message
-        $login_warning = '';
-        if (! is_null($this->user))
-        {
-            // The user has insufficient privileges
-            $login_warning = $_MIDCOM->i18n->get_string('login message - insufficient privileges', 'midcom');
-        }
-        else if ($this->auth_credentials_found)
-        {
-            $login_warning = $_MIDCOM->i18n->get_string('login message - user or password wrong', 'midcom');
-        }
-
-        if (   isset($_MIDGARD['config']['ragnaland'])
-            && $_MIDGARD['config']['ragnaland'])
-        {
-            // We're running under Ragnaland, delegate logins to Midgard MVC
-            throw new midgardmvc_exception_unauthorized($login_warning);
-        }
-
-        $title = $_MIDCOM->i18n->get_string('access denied', 'midcom');
-
-        // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
-        // an error page at this point (dynamic_load from site style? Code in Site Style, something
-        // like that)
-        if (_midcom_headers_sent())
-        {
-            debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
-            echo "<br />{$title}: {$login_warning}";
-            $_MIDCOM->finish();
-            debug_add("Emergency Error Message output finished, exiting now");
-            _midcom_stop_request();
-        }
-
-        // Drop any output buffer first.
-        $_MIDCOM->cache->content->disable_ob();
-
-        $this->_generate_http_response();
-
-        $_MIDCOM->cache->content->no_cache();
-
-        $_MIDCOM->style->data['midcom_services_auth_access_denied_message'] = $message;
-        $_MIDCOM->style->data['midcom_services_auth_access_denied_title'] = $title;
-        $_MIDCOM->style->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
-
-        $_MIDCOM->style->show_midcom('midcom_services_auth_access_denied');
-
-        $_MIDCOM->finish();
-        debug_add("Error Page output finished, exiting now");
-        _midcom_stop_request();
+        _midcom_header('HTTP/1.0 403 Forbidden');
     }
 
     /**
@@ -1238,13 +1147,6 @@ class midcom_services_auth
         $_MIDCOM->cache->content->no_cache();
 
         $title = $_MIDCOM->i18n->get_string('login', 'midcom');
-
-        if (   isset($_MIDGARD['config']['ragnaland'])
-            && $_MIDGARD['config']['ragnaland'])
-        {
-            // We're running under Ragnaland, delegate logins to Midgard MVC
-            throw new midgardmvc_exception_unauthorized($title);
-        }
 
         // Determine login warning so that wrong user/pass is shown.
         $login_warning = '';
