@@ -64,6 +64,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result = $qb->execute();
             if (sizeof($result) == 1)
             {
+                midcom::get('auth')->drop_sudo();
                 return $result[0];
             }
 
