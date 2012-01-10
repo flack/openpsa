@@ -135,6 +135,13 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_REQUEST = $_POST;
     }
 
+    public function set_get_data($get_data)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET = $get_data;
+        $_REQUEST = $_GET;
+    }
+
     public function set_dm2_formdata($controller, $formdata)
     {
         $formname = substr($controller->formmanager->namespace, 0, -1);
