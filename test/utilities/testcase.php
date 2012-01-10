@@ -128,6 +128,13 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $output;
     }
 
+    public function set_post_data($post_data)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $post_data;
+        $_REQUEST = $_POST;
+    }
+
     public function set_dm2_formdata($controller, $formdata)
     {
         $formname = substr($controller->formmanager->namespace, 0, -1);
