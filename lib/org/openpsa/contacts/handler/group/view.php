@@ -278,7 +278,14 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     {
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
         $member_ids = array_keys($this->_request_data['group']->get_members());
-        $qb->add_constraint('id', 'IN', $member_ids);
+        if (count($member_ids))
+        {
+            $qb->add_constraint('id', 'IN', $member_ids);
+        }
+        else
+        {
+            $qb->add_constraint('id', '=', 0);
+        }
 
         if (!is_null($field))
         {

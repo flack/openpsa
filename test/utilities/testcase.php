@@ -64,6 +64,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result = $qb->execute();
             if (sizeof($result) == 1)
             {
+                midcom::get('auth')->drop_sudo();
                 return $result[0];
             }
 
@@ -125,6 +126,20 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         ob_end_clean();
         midcom::get('style')->leave_context();
         return $output;
+    }
+
+    public function set_post_data($post_data)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $post_data;
+        $_REQUEST = $_POST;
+    }
+
+    public function set_get_data($get_data)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET = $get_data;
+        $_REQUEST = $_GET;
     }
 
     public function set_dm2_formdata($controller, $formdata)
