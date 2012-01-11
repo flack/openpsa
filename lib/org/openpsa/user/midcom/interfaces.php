@@ -30,21 +30,23 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
             $msg = 'Person with guid #' . $args['guid'] . ' does not exist';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
+            $_MIDCOM->auth->drop_sudo();
             return false;
         }
         $accounthelper = new org_openpsa_user_accounthelper($person);
         try
         {
             $accounthelper->reopen_account();
-            $_MIDCOM->auth->drop_sudo();
         }
         catch (midcom_error $e)
         {
             $_MIDCOM->auth->drop_sudo();
             $e->log();
             $handler->print_error($e->getMessage());
+            $_MIDCOM->auth->drop_sudo();
             return false;
         }
+        $_MIDCOM->auth->drop_sudo();
         return true;
     }
 }
