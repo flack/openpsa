@@ -82,7 +82,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $result = $this->rcs_update($object, $update_string);
 
         // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
-        if ($result > 0 )
+        if ($result > 0)
         {
             return false;
         }
@@ -288,9 +288,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         {
             return array();
         }
-        $filepath = $this->_generate_rcs_filename($this->_guid);
 
-        return $this->rcs_gethistory($filepath);
+        if (is_null($this->_history))
+        {
+            $filepath = $this->_generate_rcs_filename($this->_guid);
+            $this->_history = $this->rcs_gethistory($filepath);
+        }
+
+        return $this->_history;
     }
 
     /* it is debatable to move this into the object when it resides nicely in a libary... */
@@ -355,12 +360,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     /**
      * Get a list of the object's history
+     *
      * @param string objectid (usually the guid)
      * @return array list of revisions and revision comment.
      */
     private function rcs_gethistory($what)
     {
         $history = $this->rcs_exec('rlog "' . $what . ',v"');
+
         $revisions = array();
         $lines = explode("\n", $history);
 
@@ -638,10 +645,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_comment($revision)
     {
-        if (is_null($this->_history))
-        {
-            $this->_history = $this->list_history();
-        }
+        $this->list_history();
         return $this->_history[$revision];
     }
 

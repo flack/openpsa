@@ -254,7 +254,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     public function _show_history()
     {
         $this->_request_data['history'] = $this->_backend->list_history();
-        $this->_request_data['guid']    = $this->_guid;
+        $this->_request_data['guid'] = $this->_guid;
         midcom_show_style('bergfald-rcs-history');
     }
 
