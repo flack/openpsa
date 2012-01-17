@@ -174,6 +174,20 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $this->assertTrue(false, 'Form did not relocate');
     }
 
+    /**
+     * same logic as submit_dm2_form, but this method does not expect a relocate
+     */
+    public function submit_dm2_no_relocate_form($controller_key, $formdata, $component, $args = array())
+    {
+        $data = $this->run_handler($component, $args);
+        $this->set_dm2_formdata($data[$controller_key], $formdata);
+        $data = $this->run_handler($component, $args);
+
+        $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
+
+        return $data;
+    }
+
     public function run_relocate_handler($component, array $args = array())
     {
         $url = null;
@@ -256,6 +270,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
+    public static function create_persisted_object($classname, $data = array())
+    {
+        return self::_create_object($classname, $data);
+    }
+
     public static function delete_linked_objects($classname, $link_field, $id)
     {
         $_MIDCOM->auth->request_sudo('midcom.core');
@@ -280,6 +299,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         if (!empty($_POST))
         {
             $_POST = array();
+        }
+        if (!empty($_GET))
+        {
+            $_GET = array();
         }
         if (!empty($_REQUEST))
         {
