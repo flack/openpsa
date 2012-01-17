@@ -357,6 +357,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      */
     public function renderHidden(&$element)
     {
+        $this->_extract_helptext($element);
         $this->_hidden_html .= $element->toHtml() . "\n";
     }
 

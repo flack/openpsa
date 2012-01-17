@@ -949,7 +949,10 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
         $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
         $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
-        $qb->add_constraint($this->link_row_property, 'NOT IN', $current_selection);
+        if (count($current_selection))
+        {
+            $qb->add_constraint($this->link_row_property, 'NOT IN', $current_selection);
+        }
         $links_todelete = $qb->execute();
         foreach ($links_todelete as $link_object)
         {
