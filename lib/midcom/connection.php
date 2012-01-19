@@ -118,8 +118,12 @@ class midcom_connection
             (
                 'login' => $username,
                 'authtype' => $GLOBALS['midcom_config']['auth_type'],
-                'password' => self::prepare_password($password)
             );
+
+            if (!$trusted)
+            {
+                $login_tokens['password'] = self::prepare_password($password);
+            }
 
             try
             {
