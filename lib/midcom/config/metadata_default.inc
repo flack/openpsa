@@ -240,6 +240,10 @@
                 'title' => 'internal metadata',
             ),
             'widget' => 'jsdate',
+            'widget_config' => array
+            (
+                'hide_seconds' => false
+            ),
             'readonly' => true,
         ),
         'creator' => array
@@ -286,6 +290,10 @@
                 'storage_type' => 'UNIXTIME',
             ),
             'widget' => 'jsdate',
+            'widget_config' => array
+            (
+                'hide_seconds' => false
+            ),
             'readonly' => true,
         ),
         'revisor' => array
