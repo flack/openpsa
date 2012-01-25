@@ -76,7 +76,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_order('number', 'DESC');
         $qb->set_limit(1);
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $last_invoice = $qb->execute_unchecked();
+        midcom::get('auth')->drop_sudo();
         if (count($last_invoice) == 0)
         {
             $previous = 0;
