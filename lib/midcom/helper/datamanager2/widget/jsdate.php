@@ -197,7 +197,7 @@ EOT;
 
         $elements = $this->_create_elements();
 
-        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
+        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', ''), false);
 
         if ($this->_field['required'])
         {
