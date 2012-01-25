@@ -32,7 +32,6 @@
  * @todo add support for schemas.
  * @package midgard.admin.asgard
  */
-
 class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_components_handler
 {
     /**
@@ -155,6 +154,16 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             $last = $keys[0];
         }
 
+        $current = '';
+        if (isset($this->_request_data['args'][2]))
+        {
+            $current = $this->_request_data['args'][2];
+        }
+        else if (isset($this->_request_data['args'][1]))
+        {
+            $current = $this->_request_data['args'][1];
+        }
+
         $this->_request_data['rcs_toolbar'] = new midcom_helper_toolbar();
         $this->_request_data['rcs_toolbar_2'] = new midcom_helper_toolbar();
 
@@ -167,17 +176,23 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$first}",
                     MIDCOM_TOOLBAR_LABEL => $first,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start.png',
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
                 )
             );
         }
 
-        if (isset($this->_request_data['args'][1]))
+        if (!empty($current))
         {
-            $previous = $this->_backend->get_prev_version($this->_request_data['args'][1]);
-
+            $previous = $this->_backend->get_prev_version($current);
             if (!$previous)
             {
-                $previous = $this->_request_data['args'][1];
+                $previous = $first;
+            }
+
+            $next = $this->_backend->get_next_version($current);
+            if (!$next)
+            {
+                $next = $last;
             }
 
             $this->_request_data['rcs_toolbar']->add_item
@@ -187,34 +202,20 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$previous}",
                     MIDCOM_TOOLBAR_LABEL => $previous,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/previous.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($this->_request_data['args'][1] !== $first) ? true : false,
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
                 )
             );
-
-            // Previous
-            $previous = $this->_backend->get_prev_version($this->_request_data['args'][1]);
 
             $this->_request_data['rcs_toolbar']->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$previous}/{$this->_request_data['args'][1]}/",
+                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$previous}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-previous.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($this->_request_data['args'][1] !== $first) ? true : false,
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first) ? true : false,
                 )
             );
-
-            if (isset($this->_request_data['args'][2]))
-            {
-                $current = $this->_request_data['args'][2];
-                $next = $this->_backend->get_next_version($this->_request_data['args'][2]);
-            }
-            else
-            {
-                $current = $this->_request_data['args'][1];
-                $next = $this->_backend->get_next_version($this->_request_data['args'][1]);
-            }
 
             $this->_request_data['rcs_toolbar']->add_item
             (
@@ -234,18 +235,9 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$next}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-next.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($next !== $last) ? true : false,
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
                 )
             );
-
-            if (isset($this->_request_data['args'][2]))
-            {
-                $next = $this->_backend->get_next_version($this->_request_data['args'][2]);
-            }
-            else
-            {
-                $next = $this->_backend->get_next_version($this->_request_data['args'][1]);
-            }
 
             $this->_request_data['rcs_toolbar']->add_item
             (
@@ -254,7 +246,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$next}",
                     MIDCOM_TOOLBAR_LABEL => $next,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/forward.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($this->_request_data['args'][1] !== $last) ? true : false,
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
                 )
             );
         }
@@ -268,6 +260,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$last}",
                     MIDCOM_TOOLBAR_LABEL => $last,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/finish.png',
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
                 )
             );
         }
@@ -292,7 +285,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/restore/{$this->_guid}/{$current}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last) ? true : false,
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
                 )
             );
         }
