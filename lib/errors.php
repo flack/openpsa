@@ -378,10 +378,10 @@ class midcom_exception_handler
 
         if ($this->_exception)
         {
-            return $this->_exception->getTraceAsString();
+            $stack = $this->_exception->getTrace();
         }
 
-        if (MIDCOM_XDEBUG)
+        else if (MIDCOM_XDEBUG)
         {
             $stack = xdebug_get_function_stack();
         }
@@ -390,24 +390,35 @@ class midcom_exception_handler
             $stack = array_reverse(debug_backtrace(false));
         }
 
-        $stacktrace .= "Stacktrace:\n";
+        $stacktrace = array();
         foreach ($stack as $number => $frame)
         {
-            $stacktrace .= $number + 1;
-            $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
+            $line = $number + 1;
+            $file = str_replace(MIDCOM_ROOT, '[midcom_root]', $frame['file']);
+            $line .= ": {$file}:{$frame['line']}  ";
+
             if (array_key_exists('class', $frame))
             {
-                $stacktrace .= "{$frame['class']}::{$frame['function']}";
+                $line .= $frame['class'];
+                if (array_key_exists('type', $frame))
+                {
+                    $line .= $frame['type'];
+                }
+                else
+                {
+                    $line .= '::';
+                }
+                $line .= $frame['function'];
             }
             else if (array_key_exists('function', $frame))
             {
-                $stacktrace .= $frame['function'];
+                $line .= $frame['function'];
             }
             else
             {
-                $stacktrace .= 'require, include or eval';
+                $line .= 'require, include or eval';
             }
-            $stacktrace .= "\n";
+            $stacktrace[] = $line;
         }
 
         unset($stack);

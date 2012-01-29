@@ -41,7 +41,7 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 $stacktrace = $this->data['error_handler']->get_function_stack();
 if (!empty($stacktrace))
 {
-    echo "<pre>{$stacktrace}</pre>\n";
+    echo "<pre>Stacktrace:\n" . implode("\n", $stacktrace) . "</pre>\n";
 }
 ?>
 </body>
