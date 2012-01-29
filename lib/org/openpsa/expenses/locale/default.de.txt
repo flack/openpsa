@@ -66,10 +66,6 @@ Folgewoche
 Ausgaben-Verwaltung
 ---STRINGEND
 
----STRING person
-Person
----STRINGEND
-
 ---STRING previous week
 vorherige Woche
 ---STRINGEND

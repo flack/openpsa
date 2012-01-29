@@ -64,10 +64,11 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $hours_mc->add_order('date');
         $hours_mc->execute();
 
-        $data['tasks'] = $this->_get_sorted_reports($hours_mc);
+        $data['rows'] = $this->_get_sorted_reports($hours_mc);
 
         $this->_populate_toolbar($previous_week, $next_week);
 
+        org_openpsa_widgets_grid::add_head_elements();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/expenses.css");
 
         $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
@@ -114,8 +115,9 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     private function _get_sorted_reports($hours_mc)
     {
-        $tasks = array();
+        $reports = array();
         $hours = $hours_mc->list_keys();
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($hours as $guid => $empty)
         {
@@ -129,37 +131,41 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                 // Task couldn't be loaded, probably because of ACL
                 continue;
             }
-            $date = $hours_mc->get_subkey($guid, 'date');
-            $report_hours = $hours_mc->get_subkey($guid, 'hours');
             $person = $hours_mc->get_subkey($guid, 'person');
-            if (!isset($tasks[$task_id]))
-            {
-                $tasks[$task_id] = array
-                (
-                    'persons' => array(),
-                    'task_object' => $task,
-                );
-            }
-            if (!isset($tasks[$task_id]['persons'][$person]))
-            {
-                $tasks[$task_id]['persons'][$person] = array();
-            }
+            $date = $hours_mc->get_subkey($guid, 'date');
 
             $date_identifier = date('Y-m-d', $date);
-            if (!isset($tasks[$task_id][$date_identifier]))
+            $row_identifier = $task->id . '-' .  $person;
+
+            if (!isset($reports[$row_identifier]))
             {
-                $tasks[$task_id][$date_identifier] = 0;
+                $reports[$row_identifier] = array
+                (
+                    $date_identifier => 0,
+                    'task' => "<a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a>",
+                    'task_index' => $task->get_label()
+                );
+
+                try
+                {
+                    $person = org_openpsa_contacts_person_dba::get_cached($person);
+                    $reports[$row_identifier]['person'] = $person->name;
+                }
+                catch (midcom_error $e)
+                {
+                    $reports[$row_identifier]['person'] = $this->_l10n->get('no person');
+                }
             }
 
-            if (!isset($tasks[$task_id]['persons'][$person][$date_identifier]))
+            if (!isset($reports[$row_identifier][$date_identifier]))
             {
-                $tasks[$task_id]['persons'][$person][$date_identifier] = 0;
+                $reports[$row_identifier][$date_identifier] = 0;
             }
 
-            $tasks[$task_id][$date_identifier] += $report_hours;
-            $tasks[$task_id]['persons'][$person][$date_identifier] += $report_hours;
+            $reports[$row_identifier][$date_identifier] += $hours_mc->get_subkey($guid, 'hours');
         }
-        return $tasks;
+
+        return array_values($reports);
     }
 
     /**
