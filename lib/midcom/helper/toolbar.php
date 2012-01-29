@@ -797,7 +797,7 @@ class midcom_helper_toolbar
         if ($item[MIDCOM_TOOLBAR_ENABLED])
         {
             $output .= "  <form method=\"post\" action=\"{$item[MIDCOM_TOOLBAR_URL]}\">\n";
-            $output .= "    <button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
+            $output .= "    <div><button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
 
             if ( count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0 )
             {
@@ -838,7 +838,7 @@ class midcom_helper_toolbar
                     $output .= "    <input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>\n";
                 }
             }
-            $output .= "  </form>\n";
+            $output .= "  </div></form>\n";
         }
 
         if (   array_key_exists(MIDCOM_TOOLBAR_SUBMENU, $item)
