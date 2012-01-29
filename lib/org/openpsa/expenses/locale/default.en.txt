@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING apply
-apply
----STRINGEND
-
 ---STRING date
 Date
 ---STRINGEND
@@ -20,10 +16,6 @@ Description
 
 ---STRING expenses in week %s
 Expenses in week %s
----STRINGEND
-
----STRING filter error
-Filter error
 ---STRINGEND
 
 ---STRING hour report
@@ -74,14 +66,6 @@ Hour reports for Task %s
 next week
 ---STRINGEND
 
----STRING no filter available
-There is no filter available
----STRINGEND
-
----STRING no filter available for %s
-There is no filter available for %s
----STRINGEND
-
 ---STRING org.openpsa.expenses
 Expense tracking
 ---STRINGEND
@@ -106,10 +90,6 @@ Show task "%s"
 Task
 ---STRINGEND
 
----STRING the handed filter for %s could not be set as parameter
-The handed filter for %s could not be set as parameter
----STRINGEND
-
 ---STRING timeframe
 Timeframe
 ---STRINGEND
@@ -124,10 +104,6 @@ Not billable
 
 ---STRING uninvoiceable reports
 Unbillable Reports
----STRINGEND
-
----STRING unset
-unset
 ---STRINGEND
 
 ---STRING invoice

@@ -106,32 +106,8 @@ Nicht abrechenbare Stundenberichte
 Stundenbericht löschen
 ---STRINGEND
 
----STRING no filter available
-Es ist kein Filter verfügbar
----STRINGEND
-
----STRING no filter available for %s
-Der Filter für %s ist nicht verfügbar
----STRINGEND
-
----STRING filter error
-Filter Fehler
----STRINGEND
-
----STRING the handed filter for %s could not be set as parameter
-Der übergebene Filter für %s konnte nicht als Parameter gespeichert werden
----STRINGEND
-
----STRING unset
-zurücksetzen
----STRINGEND
-
 ---STRING person
 Person
----STRINGEND
-
----STRING apply
-anwenden
 ---STRINGEND
 
 ---STRING invoice

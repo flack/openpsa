@@ -6,12 +6,20 @@
 Aggregiert
 ---STRINGEND
 
+---STRING apply
+anwenden
+---STRINGEND
+
 ---STRING confirm delete
 Löschen bestätigen
 ---STRINGEND
 
 ---STRING download as CSV
 Als CSV herunterladen
+---STRINGEND
+
+---STRING filter error
+Filter-Fehler
 ---STRINGEND
 
 ---STRING group by
@@ -36,6 +44,14 @@ Privat
 
 ---STRING public
 Öffentlich
+---STRINGEND
+
+---STRING the handed filter for %s could not be set as parameter
+Der übergebene Filter für %s konnte nicht als Parameter gespeichert werden
+---STRINGEND
+
+---STRING unset
+zurücksetzen
 ---STRINGEND
 
 ---STRING use the buttons below or in toolbar
