@@ -185,7 +185,7 @@ var org_openpsa_layout =
                 $('#content').css('margin-left', content_margin_left + 'px');
 
                 $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
-                org_openpsa_resizers.process_queue();
+                $(window).trigger('resize');
             }
         });
     },
