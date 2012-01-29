@@ -142,6 +142,10 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         {
             $value = 'false';
         }
+        else if (is_array($value))
+        {
+            $value = json_encode($value);
+        }
         $this->_options[$key] = $value;
         return $this;
     }
