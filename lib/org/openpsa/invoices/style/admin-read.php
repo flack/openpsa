@@ -109,6 +109,20 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         </th>
         </tr>
         </thead>
+        <tfoot>
+           <tr>
+              <td><?php echo $data['l10n']->get('sum excluding vat'); ?>:</td>
+              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number($invoice->sum); ?></td>
+           </tr>
+           <tr class="secondary">
+              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']);):</td>
+              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number(($invoice->sum / 100) * $invoice->vat); ?></td>
+           </tr>
+           <tr class="primary">
+              <td><?php echo $data['l10n']->get('sum including vat'); ?>:</td>
+              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum); ?></td>
+           </tr>
+        </tfoot>
         <tbody>
         <?php
         $invoice_sum = 0;
@@ -121,25 +135,12 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->pricePerUnit) . "</td>";
             echo "<td class='numeric'>" . $item->units . "</td>";
             echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->units * $item->pricePerUnit) . "</td>";
-            echo "</tr>";
+            echo "</tr>\n";
             $invoice_sum += $item->units * $item->pricePerUnit;
         }
         ?>
         </tbody>
-          <tfoot>
-           <tr>
-              <td><?php echo $data['l10n']->get('sum excluding vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number($invoice_sum); ?></td>
-           </tr>
-           <tr class="secondary">
-              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']);):</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number(($invoice_sum / 100) * $invoice->vat); ?></td>
-           </tr>
-           <tr class="primary">
-              <td><?php echo $data['l10n']->get('sum including vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number((($invoice_sum / 100) * $invoice->vat) + $invoice_sum); ?></td>
-           </tr>
-           </tfoot>
+
         </table>
         <?php
     }
