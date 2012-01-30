@@ -112,6 +112,11 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_add('rules[classes] is not an array', MIDCOM_LOG_ERROR);
             return false;
         }
+        if (!array_key_exists('groups', $rules))
+        {
+            debug_add('rules[groups] is not defined', MIDCOM_LOG_ERROR);
+            return false;
+        }
         //start with first group
         $this->_result_mc->begin_group(strtoupper($rules['groups']));
         reset ($rules['classes']);
