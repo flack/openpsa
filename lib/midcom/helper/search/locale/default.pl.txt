@@ -67,11 +67,8 @@ Podpowiedź
 ---STRINGEND
 
 ---STRING search hints lucene
-Grupuj zapytanie używając cudzysłowia ("ta fraza").<br /> Możesz używać operatorów logicznych AND, OR oraz NOT (dużymi literami).<br /> Zobacz stronę <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> po dalsze wskazówki.
----STRINGEND
-
----STRING search hints plucene
-Grupuj zapytanie używając cudzysłowia ("ta fraza").<br /> Możesz używać operatorów logicznych AND, OR oraz NOT (dużymi literami).<br /> Zobacz strony <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> i <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a> po dalsze wskazówki.
+Grupuj zapytanie używając cudzysłowia ("ta fraza").<br />
+Możesz używać operatorów logicznych AND, OR oraz NOT (dużymi literami).
 ---STRINGEND
 
 ---STRING search results

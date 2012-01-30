@@ -72,8 +72,7 @@ Hakuohjeet
 
 ---STRING search hints lucene
 Ryhmittele hakusanat käyttäen lainausmerkkejä ("minun hakuni").<br />
-Voit käyttää hakurajoittimia AND, OR ja NOT joiden täytyy olla isoilla kirjaimilla.<br />
-Lisää hakuohjeita löydät <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucenen hakuohjeista</a>.
+Voit käyttää hakurajoittimia AND, OR ja NOT joiden täytyy olla isoilla kirjaimilla.
 ---STRINGEND
 
 ---STRING search results
@@ -111,10 +110,3 @@ Kuusi kuukautta
 ---STRING your query returned no results
 Hakusi ei tuottanut tuloksia.
 ---STRINGEND
-
----STRING search hints plucene
-Ryhmittele termejä käyttäen lainausmerkkejä ("minun hakusanani").<br />
-Voit käyttää operaattoreita AND, OR ja NOT (isoilla kirjoitettuna).<br />
-Katso <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a> ja <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a>, jos haluat lisätietoja.
----STRINGEND
-
