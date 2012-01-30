@@ -230,7 +230,7 @@ class org_openpsa_core_filter
      */
     private function _render_multiselect(array $options)
     {
-        echo '<select id="select_' . $this->name . '" name="' . $this->name . '[]" multiple="multiple" >';
+        echo '<select id="select_' . $this->name . '" name="' . $this->name . '[]" size="1" multiple="multiple" >';
 
         foreach ($options as $option)
         {
@@ -252,8 +252,8 @@ class org_openpsa_core_filter
         );
 
         echo '<script type="text/javascript">';
-        echo "\$(document).ready(function()\n{\n\n$('#select_" . $this->name . "').dropdownchecklist(\n";
-        echo json_encode($config) . " );\n});\n";
+        echo "\$('#select_" . $this->name . "').dropdownchecklist(\n";
+        echo json_encode($config) . " );\n";
         echo "\n</script>\n";
     }
 
