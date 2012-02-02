@@ -28,11 +28,25 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     private $_persons = array();
 
     /**
-     * The query string
+     * The search string as entered by the user
      *
      * @var string
      */
-    private $_query_string = null;
+    private $_query_string;
+
+    /**
+     * The search string, prepared for querying
+     *
+     * @var string
+     */
+    private $_query_string_processed;
+
+    /**
+     * The wildcard to wrap around the query terms, if any
+     *
+     * @var string
+     */
+    private $_wildcard_template = '__TERM__';
 
     /**
      * The query to run
@@ -62,32 +76,29 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
         $this->_query_string = trim($_GET['query']);
         //Convert asterisks to correct wildcard
-        $search = str_replace('*', '%', $this->_query_string);
+        $this->_query_string_processed = str_replace('*', '%', $this->_query_string);
 
-        $this->_query = explode(' ', $search);
+        $this->_query = explode(' ', $this->_query_string_processed);
 
         // Handle automatic wildcards
         $auto_wildcards = $this->_config->get('auto_wildcards');
         if (   $auto_wildcards
-            && strpos($search, '%') === false)
+            && strpos($this->_query_string_processed, '%') === false)
         {
-            foreach ($this->_query as $i => $term)
+            switch ($auto_wildcards)
             {
-                switch ($auto_wildcards)
-                {
-                    case 'both':
-                        $this->_query[$i] = '%' . $term . '%';
-                        break;
-                    case 'start':
-                        $this->_query[$i] = '%' . $term;
-                        break;
-                    case 'end':
-                        $this->_query[$i] = $term . '%';
-                        break;
-                    default:
-                        debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
-                        break;
-                }
+                case 'both':
+                    $this->_wildcard_template = '%__TERM__%';
+                    break;
+                case 'start':
+                    $this->_wildcard_template = '%__TERM__';
+                    break;
+                case 'end':
+                    $this->_wildcard_template = '__TERM__%';
+                    break;
+                default:
+                    debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
+                    break;
             }
         }
     }
@@ -291,21 +302,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
 
         $qb_org = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb_org->begin_group('AND');
-        foreach ($this->_query as $term)
-        {
-            $qb_org->begin_group('OR');
-            foreach ($org_fields as $field)
-            {
-                if (empty($field))
-                {
-                    continue;
-                }
-                $qb_org->add_constraint($field, 'LIKE', $term);
-            }
-            $qb_org->end_group();
-        }
-        $qb_org->end_group();
+        $this->_apply_constrains($qb_org, $org_fields);
 
         $this->_groups = $qb_org->execute();
     }
@@ -328,24 +325,46 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             {
                 throw new midcom_error( 'Invalid person search configuration');
             }
+        }
+        $this->_apply_constrains($qb, $person_fields);
 
-            $qb->begin_group('AND');
-            foreach ($this->_query as $term)
+        $this->_persons = $qb->execute();
+    }
+
+    private function _apply_constraints(midcom_core_query &$qb, array $fields)
+    {
+        if (sizeof($this->_query) > 1)
+        {
+            //if we have more than one token in the query, we try to match the entire string as well
+            $qb->begin_group('OR');
+            foreach ($fields as $field)
             {
-                $qb->begin_group('OR');
-                foreach ($person_fields as $field)
+                if (empty($field))
                 {
-                    if (empty($field))
-                    {
-                        continue;
-                    }
-                    $qb->add_constraint($field, 'LIKE', $term);
+                    continue;
                 }
-                $qb->end_group();
+                $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $this->_query_string_processed, $this->_wildcard_template));
+            }
+        }
+        $qb->begin_group('AND');
+        foreach ($this->_query as $term)
+        {
+            $qb->begin_group('OR');
+            foreach ($fields as $field)
+            {
+                if (empty($field))
+                {
+                    continue;
+                }
+                $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $term, $this->_wildcard_template));
             }
             $qb->end_group();
         }
-        $this->_persons = $qb->execute();
+        $qb->end_group();
+        if (sizeof($this->_query) > 1)
+        {
+            $qb->end_group();
+        }
     }
 }
 ?>
