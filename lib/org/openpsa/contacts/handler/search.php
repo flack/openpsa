@@ -64,28 +64,32 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         //Convert asterisks to correct wildcard
         $search = str_replace('*', '%', $this->_query_string);
 
+        $this->_query = explode(' ', $search);
+
         // Handle automatic wildcards
         $auto_wildcards = $this->_config->get('auto_wildcards');
         if (   $auto_wildcards
             && strpos($search, '%') === false)
         {
-            switch ($auto_wildcards)
+            foreach ($this->_query as $i => $term)
             {
-                case 'both':
-                    $search = "%{$search}%";
-                    break;
-                case 'start':
-                    $search = "%{$search}";
-                    break;
-                case 'end':
-                    $search = "{$search}%";
-                    break;
-                default:
-                    debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
-                    break;
+                switch ($auto_wildcards)
+                {
+                    case 'both':
+                        $this->_query[$i] = '%' . $term . '%';
+                        break;
+                    case 'start':
+                        $this->_query[$i] = '%' . $term;
+                        break;
+                    case 'end':
+                        $this->_query[$i] = $term . '%';
+                        break;
+                    default:
+                        debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
+                        break;
+                }
             }
         }
-        $this->_query = explode(' ', $search);
     }
 
     /**
