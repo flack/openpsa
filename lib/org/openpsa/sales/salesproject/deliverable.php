@@ -191,8 +191,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     function calculate_price($update = true)
     {
         $calculator_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
-        $calculator = new $calculator_class($this);
-        $calculator->run();
+        $calculator = new $calculator_class();
+        $calculator->run($this);
         $cost = $calculator->get_cost();
         $price = $calculator->get_price();
         if (   $price != $this->price

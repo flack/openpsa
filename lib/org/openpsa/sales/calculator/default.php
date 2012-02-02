@@ -35,18 +35,12 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     private $_price = 0;
 
     /**
-     * Constructor
-     */
-    public function __construct(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
-    {
-        $this->_deliverable = $deliverable;
-    }
-
-    /**
      * Perform the cost/price calculation
      */
-    public function run()
+    public function run(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
+        $this->_deliverable = $deliverable;
+
         if (   $this->_deliverable->invoiceByActualUnits
             || $this->_deliverable->plannedUnits == 0)
         {
@@ -167,5 +161,32 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         }
         return $qb->execute();
     }
+
+    /**
+     * Returns identifier number for next invoice
+     *
+     * @return int invoice number
+     */
+    public function generate_invoice_number()
+    {
+        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb->add_order('number', 'DESC');
+        $qb->set_limit(1);
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        $last_invoice = $qb->execute_unchecked();
+        midcom::get('auth')->drop_sudo();
+
+        if (count($last_invoice) == 0)
+        {
+            $previous = 0;
+        }
+        else
+        {
+            $previous = $last_invoice[0]->number;
+        }
+
+        return $previous + 1;
+    }
 }
+
 ?>

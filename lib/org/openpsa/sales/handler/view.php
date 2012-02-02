@@ -238,8 +238,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         {
             //not invoiced yet
             $client_class = $this->_config->get('calculator');
-            $client = new $client_class($deliverable);
-            $client->run();
+            $client = new $client_class();
+            $client->run($deliverable);
 
             if ($client->get_price() > 0)
             {

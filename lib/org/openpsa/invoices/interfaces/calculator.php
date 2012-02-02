@@ -14,14 +14,9 @@
 interface org_openpsa_invoices_interfaces_calculator
 {
     /**
-     * Constructor
-     */
-    public function __construct(org_openpsa_sales_salesproject_deliverable_dba $deliverable);
-
-    /**
      * Perform the cost/price calculation
      */
-    public function run();
+    public function run(org_openpsa_sales_salesproject_deliverable_dba $deliverable);
 
     /**
      * Returns the calculated cost
@@ -44,5 +39,13 @@ interface org_openpsa_invoices_interfaces_calculator
      * @return array
      */
     public function get_invoice_items(org_openpsa_invoices_invoice_dba $invoice);
+
+    /**
+     * Returns identifier number for next invoice
+     *
+     * @return int invoice number
+     */
+    public function generate_invoice_number();
 }
+
 ?>

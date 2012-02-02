@@ -70,26 +70,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return false;
     }
 
-    function generate_invoice_number()
-    {
-        // TODO: Make configurable
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->add_order('number', 'DESC');
-        $qb->set_limit(1);
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
-        $last_invoice = $qb->execute_unchecked();
-        midcom::get('auth')->drop_sudo();
-        if (count($last_invoice) == 0)
-        {
-            $previous = 0;
-        }
-        else
-        {
-            $previous = $last_invoice[0]->number;
-        }
-        return $previous + 1;
-    }
-
     /**
      * Generate "Send invoice" task
      */
@@ -446,6 +426,13 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         }
 
         return $invoice_item;
+    }
+
+    function generate_invoice_number()
+    {
+        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
+        $calculator = new $client_class;
+        return $calculator->generate_invoice_number();
     }
 }
 ?>

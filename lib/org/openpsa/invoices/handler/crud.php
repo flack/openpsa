@@ -202,7 +202,10 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
 
         // Generate invoice number
-        $this->_defaults['number'] = org_openpsa_invoices_invoice_dba::generate_invoice_number();
+        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
+        $calculator = new $client_class;
+        $this->_defaults['number'] = $calculator->generate_invoice_number();
+
         $this->_defaults['owner'] = midcom_connection::get_user();
     }
 

@@ -34,8 +34,8 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $this->_deliverable = $deliverable;
         // Recalculate price to catch possible unit changes
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
-        $client = new $client_class($this->_deliverable);
-        $client->run();
+        $client = new $client_class();
+        $client->run($this->_deliverable);
 
         $this_cycle_amount = $client->get_price();
 
@@ -117,7 +117,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->customer = $salesproject->customer;
         $invoice->customerContact = $salesproject->customerContact;
-        $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
+        $invoice->number = $invoice->generate_invoice_number();
         $invoice->owner = $salesproject->owner;
         $invoice->vat = $invoice->get_default_vat();
 

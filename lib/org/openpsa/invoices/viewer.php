@@ -96,6 +96,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 );
             }
         }
+
         if (($object->number + 1) < $object->generate_invoice_number())
         {
             $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
