@@ -302,7 +302,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
 
         $qb_org = org_openpsa_contacts_group_dba::new_query_builder();
-        $this->_apply_constrains($qb_org, $org_fields);
+        $this->_apply_constraints($qb_org, $org_fields);
 
         $this->_groups = $qb_org->execute();
     }
@@ -326,7 +326,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 throw new midcom_error( 'Invalid person search configuration');
             }
         }
-        $this->_apply_constrains($qb, $person_fields);
+        $this->_apply_constraints($qb, $person_fields);
 
         $this->_persons = $qb->execute();
     }
