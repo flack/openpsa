@@ -428,7 +428,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return $invoice_item;
     }
 
-    function generate_invoice_number()
+    public function generate_invoice_number()
     {
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $calculator = new $client_class;
