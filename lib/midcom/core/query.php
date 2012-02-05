@@ -65,7 +65,7 @@ abstract class midcom_core_query
     protected $_orders = array();
 
     /**
-     * This private helper holds the type that the application expects to retrieve
+     * This helper holds the type that the application expects to retrieve
      * from this instance.
      *
      * @var string
