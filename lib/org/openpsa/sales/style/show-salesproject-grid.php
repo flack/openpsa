@@ -113,7 +113,7 @@ foreach ($data['salesprojects'] as $salesproject)
 <div class="org_openpsa_sales full-width fill-height <?php echo $data['mode']; ?>">
 
 <?php
-$grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis title"', 'string');
+$grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis"', 'string');
 if ($data['mode'] != 'customer')
 {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
@@ -131,7 +131,16 @@ $grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "ri
 ->set_column('next_action', $data['l10n']->get('next action'), 'width: 75, align: "center", classes: "ui-ellipsis"');
 
 $grid->set_option('scroll', 1)
-->set_option('loadonce', true);
+->set_option('loadonce', true)
+->set_option('sortname', 'index_title')
+->set_option('grouping', true)
+->set_option('groupingView', array
+(
+    'groupField' => array('customer'),
+    'groupColumnShow' => array(false),
+    'groupText' => array('<strong>{0}</strong> ({1})'),
+    'groupOrder' => array('asc'),
+));
 
 $grid->render($rows);
 ?>

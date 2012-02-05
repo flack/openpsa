@@ -263,7 +263,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($this->_output_mode != 'html')
         {
             $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
-            $this->qb_journal_entries->add_order('followUp', 'DESC');
+            $this->qb_journal_entries->add_order('followUp');
             $this->_prepare_journal_query();
 
             //show the corresponding object of the entry

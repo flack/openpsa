@@ -55,7 +55,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            $action .= strftime('%x', $invoice->paid);
+            $action .= strftime('%Y-%m-%d', $invoice->paid);
         }
 
         // generate next action buttons

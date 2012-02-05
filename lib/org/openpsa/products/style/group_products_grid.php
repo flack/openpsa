@@ -73,6 +73,7 @@ jQuery("#&(grid_id);").jqGrid({
       ],
       loadonce: true,
       rowNum: <?php echo sizeof($entries); ?>,
+      sortname: 'index_title'
 });
 </script>
 

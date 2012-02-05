@@ -25,14 +25,7 @@
             $link_html .= "<span >" . $entry->title . "</span></a>";
             $row['name'] = $link_html;
 
-            if ($entry->followUp == 0)
-            {
-                $row['remind_date'] = 'none';
-            }
-            else
-            {
-                $row['remind_date'] = date('d.m.Y', $entry->followUp);
-            }
+            $row['date'] = date('Y-m-d', $entry->metadata->created);
 
             try
             {
@@ -87,8 +80,7 @@
                   echo "'index_name',";
                   echo "'" . $_MIDCOM->i18n->get_string('entry title', 'org.openpsa.relatedto') ."',";
                   echo "'" . $_MIDCOM->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
-                  echo "'index_date',";
-                  echo "'" . $_MIDCOM->i18n->get_string('followUp', 'org.openpsa.relatedto') . "',";
+                  echo "'" . $_MIDCOM->i18n->get_string('entry created', 'org.openpsa.relatedto') . "',";
                   echo "'index_creator', '" . $_MIDCOM->i18n->get_string('creator', 'midcom') . "',";
                   echo "'" . $_MIDCOM->i18n->get_string('status', 'org.openpsa.relatedto') . "'";
                   ?>
@@ -98,9 +90,8 @@
                   {name:'index_name',index:'index_name', hidden:true},
                   {name:'name', index: 'index_name' , width: 100 },
                   {name:'description',index: 'description' },
-                  {name:'index_date', index: 'index_date', sorttype: "integer", hidden:true },
-                  {name:'remind_date', index:'index_date', align: 'center', width: 110, fixed: true},
-                  {name:'index_creator', index: 'index_creator', hidden:true},
+                  {name:'date', index: 'date', align: 'center', width: 125, formatter: 'date', fixed: true},
+                  {name:'index_creator', index: 'index_creator', hidden: true},
                   {name:'creator', index: 'index_creator' , width: 150, fixed: true},
                   {name:'closed',index:'closed', width: 60, fixed: true }
         ],
@@ -113,7 +104,9 @@
             }
         },
         pager : "#p_journal_entry_grid",
-        loadonce: true
+        loadonce: true,
+        sortname: 'date',
+        sortorder: 'desc'
     });
 
 </script>

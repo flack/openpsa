@@ -49,9 +49,14 @@ if ($data['list_type'] != 'paid')
 }
 else
 {
-    $grid->set_column('action', $data['l10n']->get('paid date'), 'width: 80, align: "center"');
+    $grid->set_column('action', $data['l10n']->get('paid date'), 'width: 80, align: "center", formatter: "date"');
 }
-if ($data['list_type'] != 'unsent')
+if ($data['list_type'] == 'paid')
+{
+    $grid->set_option('sortname', 'action');
+    $grid->set_option('sortorder', 'desc');
+}
+else if ($data['list_type'] != 'unsent')
 {
     $grid->set_option('sortname', 'due');
 }

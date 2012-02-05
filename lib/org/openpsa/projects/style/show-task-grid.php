@@ -43,10 +43,8 @@ foreach ($data['tasks'] as $task)
     $row['index_manager'] = preg_replace('/<span.*?class="uid".*?>.*?<\/span>/', '', $row['manager']);
     $row['index_manager'] = strip_tags($row['index_manager']);
 
-    $row['index_start'] = $task->start;
-    $row['start'] = strftime('%x', $task->start);
-    $row['index_end'] = $task->end;
-    $row['end'] = strftime('%x', $task->end);
+    $row['start'] = strftime('%Y-%m-%d', $task->start);
+    $row['end'] = strftime('%Y-%m-%d', $task->end);
     $row['index_reported'] = $task->reportedHours;
     $row['reported'] = round($task->reportedHours, 2);
     if ($task->plannedHours > 0)
@@ -80,8 +78,8 @@ jQuery("#&(grid_id);").jqGrid({
                  echo '"index_project", "' . $data['l10n']->get('project') . '",';
                  echo '"index_customer", "' . $data['l10n']->get('customer') . '",';
                  echo '"index_manager", "' . $data['l10n']->get('manager') . '",';
-                 echo '"index_start", "' . $data['l10n']->get('start') . '",';
-                 echo '"index_end", "' . $data['l10n']->get('end') . '",';
+                 echo '"' . $data['l10n']->get('start') . '",';
+                 echo '"' . $data['l10n']->get('end') . '",';
                  echo '"index_reported", "' . $data['l10n']->get('reported') . '"';
                 ?>],
       colModel:[
@@ -96,10 +94,8 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'customer', index: 'index_customer', width: 55, classes: 'ui-ellipsis'},
           {name:'index_manager', index: 'index_manager', hidden: true },
           {name:'manager', index: 'index_manager', width: 70, classes: 'ui-ellipsis'},
-          {name:'index_start', index: 'index_start', sorttype: "integer", hidden: true },
-          {name:'start', index: 'index_start', width: 75, align: 'center', fixed: true},
-          {name:'index_end', index: 'index_end', sorttype: "integer", hidden: true },
-          {name:'end', index: 'index_end', width: 75, align: 'center', fixed: true},
+          {name:'start', index: 'start', width: 75, formatter: 'date', align: 'center', fixed: true},
+          {name:'end', index: 'end', width: 75, formatter: 'date', align: 'center', fixed: true},
           {name:'index_reported', index: 'index_reported', sorttype: 'float', hidden:true},
           {name:'reported', index: 'index_reported', width: 50, align: 'right', summaryType:'sum'}
       ],
@@ -107,6 +103,7 @@ jQuery("#&(grid_id);").jqGrid({
       footerrow: true,
       rowNum: <?php echo sizeof($rows); ?>,
       scroll: 1,
+      sortname: 'end',
       grouping: true,
       groupingView: {
           groupField: ['project'],

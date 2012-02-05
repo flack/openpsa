@@ -2,11 +2,12 @@
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $grid = $data['grid'];
-$grid->set_option('scroll', 1);
-$grid->set_option('rowNum', 30);
-$grid->set_option('height', 600);
-$grid->set_option('viewrecords', true);
-$grid->set_option('url', $prefix . 'json/');
+$grid->set_option('scroll', 1)
+    ->set_option('rowNum', 30)
+    ->set_option('height', 600)
+    ->set_option('viewrecords', true)
+    ->set_option('url', $prefix . 'json/')
+    ->set_option('sortname', 'index_lastname');
 
 $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
     ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')

@@ -19,8 +19,7 @@ foreach ($reports['reports'] as $report)
     }
 
     $entry['id'] = $report->id;
-    $entry['index_date'] = $report->date;
-    $entry['date'] = strftime('%x', $report->date);
+    $entry['date'] = strftime('%Y-%m-%d', $report->date);
 
     if ($data['mode'] != 'simple')
     {
@@ -56,7 +55,7 @@ $footer_data = array
 jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
-      colNames: ['id', 'index_date', <?php
+      colNames: ['id', <?php
                  echo '"' . $data['l10n']->get('date') . '",';
                  echo '"' . $data['l10n']->get('person') . '",';
                  if ($data['mode'] != 'simple')
@@ -68,8 +67,7 @@ jQuery("#&(grid_id);").jqGrid({
       ?>],
       colModel:[
           {name:'id', index:'id', hidden: true, key: true},
-          {name:'index_date',index:'index_date', sorttype: "integer", hidden: true},
-          {name:'date', index: 'index_date', width: 80, align: 'center', fixed: true},
+          {name:'date', index: 'date', width: 80, align: 'center', formatter: 'date', fixed: true},
           {name:'reporter', index: 'reporter', width: 80, classes: 'ui-ellipsis'},
           <?php if ($data['mode'] != 'simple')
           { ?>
@@ -80,6 +78,8 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'index_description', index: 'index_description', hidden: true},
           {name:'description', index: 'index_description', width: 250, classes: 'ui-ellipsis'}
        ],
+       sortname: 'date',
+       sortorder: 'desc',
        pager: "#p_&(grid_id);",
        loadonce: true,
        caption: "&(data['subheading']:h);",

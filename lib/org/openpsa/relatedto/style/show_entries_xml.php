@@ -33,14 +33,13 @@ foreach ($data['entries'] as $entry)
         ?>
         <cell><![CDATA[&(entry.text:h);]]></cell>
         <?php
-        echo "<cell>" . $entry->followUp . "</cell>";
         if($entry->followUp == 0)
         {
             echo "<cell>none</cell>";
         }
         else
         {
-            echo "<cell>" . date('d.m.Y', $entry->followUp) . "</cell>";
+            echo "<cell>" . date('Y-m-d', $entry->followUp) . "</cell>";
         }
         if ($data['show_object'])
         {

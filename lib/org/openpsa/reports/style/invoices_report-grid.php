@@ -10,6 +10,21 @@ $footer_data = array
     'sum' => 0,
     'vat_sum' => 0
 );
+$sortname = 'index_number';
+$sortorder = 'asc';
+
+if ($data['table_class'] == 'paid')
+{
+    $sortorder = 'desc';
+}
+if ($data['table_class'] != 'unsent')
+{
+    $sortname = 'date';
+}
+else
+{
+    $sortname = 'index_number';
+}
 
 foreach ($data['invoices'] as $invoice)
 {
@@ -56,10 +71,10 @@ foreach ($data['invoices'] as $invoice)
         $entry['owner'] = '';
         $e->log();
     }
-    $entry['index_date'] = $invoice->{$data['date_field']};
+
     if ($invoice->{$data['date_field']} > 0)
     {
-        $entry['date'] = strftime('%x', $invoice->{$data['date_field']});
+        $entry['date'] = strftime('%Y-%m-%d', $invoice->{$data['date_field']});
     }
     else
     {
@@ -122,7 +137,7 @@ jQuery("#&(grid_id);").jqGrid({
       data: &(grid_id);_entries,
       colNames: ['id', 'index_number', <?php
                  echo '"' . $_MIDCOM->i18n->get_string('invoice number', 'org.openpsa.invoices') . '", "owner",';
-                 echo '"index_date", "' . $_MIDCOM->i18n->get_string($data['date_field'], 'org.openpsa.invoices') . '",';
+                 echo '"' . $_MIDCOM->i18n->get_string($data['date_field'], 'org.openpsa.invoices') . '",';
                  echo '"index_customer", "' . $_MIDCOM->i18n->get_string('customer', 'org.openpsa.invoices') . '",';
                  echo '"index_contact", "' . $_MIDCOM->i18n->get_string('customer contact', 'org.openpsa.invoices') . '",';
                  echo '"' . $_MIDCOM->i18n->get_string('sum excluding vat', 'org.openpsa.invoices') . '",';
@@ -134,8 +149,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'index_number',index:'index_number', hidden:true},
           {name:'number', index: 'index_number'},
           {name:'owner', index: 'owner'},
-          {name:'index_date', index: 'index_date', sorttype: "integer", hidden:true },
-          {name:'date', index: 'index_date', width: 80, fixed: true, align: 'center'},
+          {name:'date', index: 'date', width: 80, fixed: true, formatter: 'date', align: 'center'},
           {name:'index_customer', index: 'index_customer', hidden:true },
           {name:'customer', index: 'index_customer', width: 100},
           {name:'index_contact', index: 'index_contact', hidden:true },
@@ -157,7 +171,9 @@ jQuery("#&(grid_id);").jqGrid({
           groupOrder: ['asc'],
           groupSummary : [true],
           showSummaryOnHide: true
-       }
+       },
+	  sortname: '&(sortname);',
+	  sortorder: '&(sortorder);'
 });
 
 jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
