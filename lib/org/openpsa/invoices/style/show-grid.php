@@ -51,7 +51,14 @@ else
 {
     $grid->set_column('action', $data['l10n']->get('paid date'), 'width: 80, align: "center"');
 }
-
+if ($data['list_type'] != 'unsent')
+{
+    $grid->set_option('sortname', 'due');
+}
+else
+{
+    $grid->set_option('sortname', 'index_number');
+}
 $grid->set_footer_data($footer_data);
 ?>
 

@@ -38,6 +38,8 @@ $grid->set_option('viewrecords', true);
 $grid->set_option('url', $prefix . 'list/json/' . $data['list_type'] . '/');
 $grid->set_option('caption', $data['list_label']);
 $grid->set_option('footerrow', true);
+$grid->set_option('sortname', 'action');
+$grid->set_option('sortorder', 'desc');
 $grid->set_option('loadComplete', 'calculate_total', false);
 
 $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
