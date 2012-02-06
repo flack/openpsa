@@ -57,7 +57,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     {
         if ($this->person)
         {
-            $person = new midcom_db_person($this->person);
+            $person = new org_openpsa_contacts_person_dba($this->person);
             return $person->name;
         }
         return "member #{$this->id}";
@@ -175,7 +175,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         return $content;
     }
 
-    function get_unsubscribe_url($node=false, $person=false)
+    function get_unsubscribe_url($node = false, $person = false)
     {
         if (!$node)
         {

@@ -301,7 +301,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $results_person_map[$member->person] = $k;
         }
         //Get receipts for our persons if any
-        if (count($results_persons)>0)
+        if (count($results_persons) > 0)
         {
             // FIXME: Rewrite for collector
             $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt');
@@ -505,7 +505,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     private function _sanity_check_person(&$person, &$member)
     {
         if (   !$person
-            || !isset($person->guid)
             || empty($person->guid))
         {
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");

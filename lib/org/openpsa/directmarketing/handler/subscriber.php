@@ -24,7 +24,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
         {
-            $this->_request_data['person'] = new midcom_db_person($args[0]);
+            $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
             if (array_key_exists('add_to_campaign', $_POST))
             {

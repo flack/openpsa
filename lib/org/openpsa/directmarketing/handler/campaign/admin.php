@@ -182,7 +182,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             //resolve rules
             $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
             $solver->resolve($tmp_array);
-            $rule_persons =  $solver->execute();
+            $rule_persons = $solver->execute();
 
 
             //if it's not preview update campaign & Schedule background members refresh'

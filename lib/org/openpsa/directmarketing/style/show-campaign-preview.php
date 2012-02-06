@@ -18,12 +18,10 @@
 </thead>
 <tbody>
 
-
-
 <?php
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-$url = $url."person/";
+$url = $url . "person/";
 $even = 'even';
 $target = "class='target_blank'";
 

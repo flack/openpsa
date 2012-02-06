@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             {
                 try
                 {
-                    $person = midcom_db_person::get_cached($link->person);
+                    $person = org_openpsa_contacts_person_dba::get_cached($link->person);
                     $segment = $person->parameter('org.openpsa.directmarketing.segments', $segmentation_param);
                 }
                 catch (midcom_error $e){}
@@ -230,7 +230,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                     (
                         'comment' => $this->_l10n->get('segment limits'),
                         'type' => 'AND',
-                        'class' => 'midcom_db_person',
+                        'class' => 'org_openpsa_contacts_person_dba',
                         'rules' => array
                         (
                             array
