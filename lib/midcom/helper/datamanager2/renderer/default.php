@@ -346,6 +346,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         }
         else
         {
+            $this->_extract_helptext($element);
             $this->_group_elements[] = $element->toHtml();
         }
     }
