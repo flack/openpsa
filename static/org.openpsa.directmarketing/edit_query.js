@@ -8,14 +8,15 @@ var zero_group_id = "";
 
 function count(array)
 {
-var c = 0;
-for(i in array) // in returns key, not object
-if(array[i] != undefined && array[i] != null)
-{
-    c++;
-}
-return c;
-
+    var c = 0;
+    for (i in array)
+    {// in returns key, not object
+        if (array[i] != undefined && array[i] != null)
+        {
+            c++;
+        }
+    }
+    return c;
 }
 
 // adds hover effect to group
@@ -38,7 +39,7 @@ function group_hover()
 
 function send_preview()
 {
-    var loading = "<img style='text-align:center;' src='"+MIDCOM_STATIC_URL+"/midcom.helper.datamanager2/ajax-loading.gif'/>"
+    var loading = "<img style='text-align:center;' src='" + MIDCOM_STATIC_URL + "/midcom.helper.datamanager2/ajax-loading.gif'/>"
     jQuery("#preview_persons").css("text-align" , "center");
     jQuery("#preview_persons").html(loading);
     get_rules_array(zero_group_id);
@@ -86,13 +87,10 @@ function remove_rule()
     count_child_rules = count(groups[this.parent].child_rules);
     count_child_groups = count(groups[this.parent].child_groups);
 
-    if(jQuery("#"+this.id).children(".add_row").length > 0)
+    if (jQuery("#"+this.id).children(".add_row").length > 0)
     {
-        //jQuery("#"+this.id).children(".add_row").remove();
-        //add_button = "<input id =\""+this.id+"_add\" type=\"image\" src=\"/midcom-static/stock-icons/16x16/list-add.png\" class=\"button add_row\" onclick=\"jQuery(this).remove();groups['"+this.parent+"'].add_rule(); return false;\" />";
-        add_button = "<img id =\""+this.id+"_add\" src=\"/midcom-static/stock-icons/16x16/list-add.png\" class=\"button add_row\" onclick=\"jQuery(this).remove();groups['"+this.parent+"'].add_rule(); return false;\" />";
+        add_button = "<img id =\""+this.id+"_add\" src=\"/" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-add.png\" class=\"button add_row\" onclick=\"jQuery(this).remove();groups['"+this.parent+"'].add_rule(); return false;\" />";
         jQuery("#"+this.id).prev(".rule").append(add_button);
-        //jQuery("#"+this.id).
     }
     groups[this.parent].child_rules[this.id] = null ;
 
@@ -107,12 +105,11 @@ function remove_rule()
         jQuery("#"+this.id).next(".rule").removeClass("notop");
     }
 
-    //jQuery("#"+this.id+"_add").remove();
     jQuery("#"+this.id).remove();
     rules[String(this.id)] = null;
     delete(rules[String(this.id)]);
     //check if this was last rule
-    if(count_child_rules == 1)
+    if (count_child_rules == 1)
     {
         if(this.parent != zero_group_id && count_child_groups == 0)
         {
@@ -349,32 +346,30 @@ function rule(parent , id)
 
 function render_group(selected)
 {
-   parent_field = "<input type=\"hidden\" name=\""+this.id+"[parent]\" value=\""+this.parent+"\"/>";
-   //rule_button = "<input type=\"button\" value=\""+org_openpsa_directmarketing_edit_query_l10n_map['add_rule']+"\" onclick=\"groups['"+this.id+"'].add_rule(false);\">";
-   group_button = "<br /> <input id=\""+this.id+"_add_group\" class=\"add_group\" type=\"button\" value=\""+org_openpsa_directmarketing_edit_query_l10n_map['add_group']+"\" onclick=\"groups['"+this.id+"'].add_group(false);\">";
-   // no remove for first group
-   group_remove_button = "";
-   if(this.id != "org_openpsa_directmarketing_rules_editor_container_group_0")
-   {
-       group_remove_button = "<input id=\""+this.id+"_remove_group\" class=\"remove_group\" type=\"button\" value=\""+org_openpsa_directmarketing_edit_query_l10n_map['remove_group']+"\" onclick=\"groups['"+this.id+"'].remove();\">";
-   }
-   group_select = "<select class=\"groupselect\" name=\""+this.id+"[group]\" id=\""+this.id+"_select\">";
-        jQuery.each(org_openpsa_directmarketing_group_select_map, function(key, value)
+    parent_field = "<input type=\"hidden\" name=\""+this.id+"[parent]\" value=\""+this.parent+"\"/>";
+    //rule_button = "<input type=\"button\" value=\""+org_openpsa_directmarketing_edit_query_l10n_map['add_rule']+"\" onclick=\"groups['"+this.id+"'].add_rule(false);\">";
+    group_button = "<br /> <input id=\""+this.id+"_add_group\" class=\"add_group\" type=\"button\" value=\""+org_openpsa_directmarketing_edit_query_l10n_map['add_group']+"\" onclick=\"groups['"+this.id+"'].add_group(false);\">";
+    // no remove for first group
+    group_remove_button = "";
+    if(this.id != "org_openpsa_directmarketing_rules_editor_container_group_0")
+    {
+        group_remove_button = "<input id=\""+this.id+"_remove_group\" class=\"remove_group\" type=\"button\" value=\""+org_openpsa_directmarketing_edit_query_l10n_map['remove_group']+"\" onclick=\"groups['"+this.id+"'].remove();\">";
+    }
+    group_select = "<select class=\"groupselect\" name=\""+this.id+"[group]\" id=\""+this.id+"_select\">";
+    jQuery.each(org_openpsa_directmarketing_group_select_map, function(key, value)
+    {
+        //check for selected
+        if(key == selected)
         {
-            //check for selected
-            if(key == selected)
-            {
-                group_select += '<option selected="selected" value="' + key + '">' + value + '</option>';
-            }
-            else
-            {
-                group_select += '<option value="' + key + '">' + value + '</option>';
-            }
-        });
-        group_select += '</select>';
+            group_select += '<option selected="selected" value="' + key + '">' + value + '</option>';
+        }
+        else
+        {
+            group_select += '<option value="' + key + '">' + value + '</option>';
+        }
+    });
+    group_select += '</select>';
     content_group ="<div id='"+this.id+"' class='group'>";
-    //content_group += rule_button;
-    //content_group += group_select;
     content_group += group_remove_button;
     content_group += group_select;
 
@@ -392,7 +387,6 @@ function render_group(selected)
         jQuery("#"+this.parent).append(content_group);
     }
 
-
     // distance between groups & rules
     if(jQuery("#"+this.id).prev(".rule").length > 0 )
     {
@@ -404,11 +398,12 @@ function render_group(selected)
     {
         jQuery("#"+this.id).prev(".group").addClass("nobottom");
     }
-    
 }
-/* adds rule
-* @param selected - the selected OBJECT
-*/
+
+/** 
+ * adds rule
+ * @param selected - the selected OBJECT
+ */
 function add_rule(selected)
 {
     this.count_rules = this.count_rules + 1;
@@ -417,21 +412,22 @@ function add_rule(selected)
     rules[index].render(selected);
     this.child_rules[index] = rules[index].id;
 
-    if(jQuery("#"+index).prev().children(".remove_row").length < 1)
+    if (jQuery("#"+index).prev().children(".remove_row").length < 1)
     {
-        //remove_button = "<input type=\"image\" src=\"/midcom-static/stock-icons/16x16/list-remove.png\" class=\"button remove_row\" onclick=\"rules['"+index+"'].remove(); return false;\" />";
-        remove_button = "<img  src=\"/midcom-static/stock-icons/16x16/list-remove.png\"  class=\"button remove_row\" onclick=\"rules['"+index+"'].remove(); return false;\" />";
+        remove_button = "<img  src=\"/" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-remove.png\"  class=\"button remove_row\" onclick=\"rules['"+index+"'].remove(); return false;\" />";
 
     }
-    if(jQuery("#"+index).prev().children(".add_row").length > 0)
+    if (jQuery("#"+index).prev().children(".add_row").length > 0)
     {
         jQuery("#"+index).prev().children(".add_row").remove();
     }
     return index;
 }
-/* adds group
-* @param selected - the selected relational operator
-*/
+
+/**
+ * adds group
+ * @param selected - the selected relational operator
+ */
 function add_group(selected)
 {
     this.count_groups = this.count_groups +1;
@@ -462,10 +458,11 @@ function group(parent , number)
     this.child_groups = new Array();
     this.child_rules = new Array();
 }
-/* function to setup first group
-*@param id - contains string to build name of the first group
-*@param selected - array with type of group -> AND or OR
-*/
+/** 
+ * function to setup first group
+ *@param id - contains string to build name of the first group
+ *@param selected - array with type of group -> AND or OR
+ */
 function first_group(id , selected)
 {
     var index = String(id+"_group_"+0);
@@ -493,13 +490,13 @@ function get_rules_array(parent_id)
 
 }
 
-// function to gather rules for group
-/*
-*   parent_id - id to check for childs
-    TODO: check for remove of first & id
-*   first - bool if this is the first group ( not needed anymore !?)
-*   id - also not needed anymore ?
-*/
+/**
+ * function to gather rules for group
+ *   parent_id - id to check for childs
+ *   TODO: check for remove of first & id
+ *   first - bool if this is the first group ( not needed anymore !?)
+ *   id - also not needed anymore ?
+ */
 function get_rules_groups(parent_id , first , group_start)
 {
     var result = "";
@@ -518,14 +515,14 @@ function get_rules_groups(parent_id , first , group_start)
         }
     }
     i_rule = i_group +1 ;
-    for(var _key in groups[parent_id].child_rules)
+    for (var _key in groups[parent_id].child_rules)
     {
         index = groups[parent_id].child_rules[_key];
         object = jQuery("#"+index+"_object").val();
-        if(object != undefined && object != "")
+        if (object != undefined && object != "")
         {
             // parameters must be handled differently
-            if(object == 'generic_parameters')
+            if (object == 'generic_parameters')
             {
                 domain  = jQuery("#"+index+"_parameter_domain").val();
                 name = jQuery("#"+index+"_parameter_name").val();
@@ -585,10 +582,11 @@ function get_rules_groups(parent_id , first , group_start)
     }
 }
 
-/* function to set passed rules (passed by get_old_rules->show-campaign-edit_query.php)
-* @param parent - parent where the rules should be added
-* @param rules_array - array containing the rules
-*/
+/** 
+ * function to set passed rules (passed by get_old_rules->show-campaign-edit_query.php)
+ * @param parent - parent where the rules should be added
+ * @param rules_array - array containing the rules
+ */
 function get_child_rules(parent , rules_array)
 {
     for ( var key in rules_array)
