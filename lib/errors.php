@@ -34,7 +34,7 @@ class midcom_exception_handler
         _midcom_header('HTTP/1.0 403 Forbidden');
     }
 
-  /**
+    /**
      * This is called by throw new midcom_error_forbidden(...) if and only if
      * the headers have not yet been sent. It will display the error message and appends the
      * login form below it.
@@ -364,7 +364,7 @@ class midcom_exception_handler
 
         $stacktrace = $this->get_function_stack();
 
-        $mail->body .= "\n{$stacktrace}";
+        $mail->body .= "\n" . implode("\n", $stacktrace);
 
         if (!$mail->send())
         {
