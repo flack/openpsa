@@ -295,11 +295,11 @@ var org_openpsa_grid_editable =
             return [true, return_values, return_values.id];
         }
     },
-    toggle: function(id, state)
+    toggle: function(id, edit_mode)
     {
-        $('#save_button_' + id).toggleClass('hidden', edit_mode);
-        $('#cancel_button_' + id).toggleClass('hidden', edit_mode);
-        $('#edit_button_' + id).toggleClass('hidden', !edit_mode);
+        $('#save_button_' + id).toggleClass('hidden', !edit_mode);
+        $('#cancel_button_' + id).toggleClass('hidden', !edit_mode);
+        $('#edit_button_' + id).toggleClass('hidden', edit_mode);
     },
 
     enable_inline: function (grid_id, custom_options)
