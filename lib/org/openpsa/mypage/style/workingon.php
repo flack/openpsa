@@ -47,14 +47,14 @@ if (!is_null($workingon->task))
     </script>
     </div>
 
-    <textarea id="working_description" name="description">&(workingon.description);</textarea>
+    <textarea id="working_description" name="description" rows="3" cols="40">&(workingon.description);</textarea>
     <div id="working_invoiceable_div" >
     <label for="working_invoiceable">
       <input type="checkbox" name="working_invoiceable" <?php echo $checked;?> id="working_invoiceable"/><?php echo $data['l10n']->get('invoiceable'); ?>
     </label>
     </div>
 
-    </p>
+    <div class="controls">
     <div class="calculator" id="org_openpsa_mypage_workingon_time">
     </div>
     <?php
@@ -70,7 +70,7 @@ if (!is_null($workingon->task))
     <?php } ?>
       <input type="button" id="org_openpsa_mypage_workingon_stop" value="<?php echo $data['l10n']->get('stop'); ?>"/>
       <input type="button" id="org_openpsa_mypage_workingon_start" value="<?php echo $data['l10n']->get('start'); ?>"/>
-
+    </div>
 </div>
 <div id="org_openpsa_mypage_workingon_loading">
 <img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/ajax-loading.gif" alt="loading" />

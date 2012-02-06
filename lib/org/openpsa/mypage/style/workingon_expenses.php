@@ -49,11 +49,11 @@ if (count($data['hours']) > 0)
     echo "        </td>\n";
     echo "    </tr>\n";
     echo "</table>\n";
-    echo "<form action=\"{$data['expenses_url']}\" method='post'>";
+    echo "<form action=\"{$data['expenses_url']}\" method='post'><div>";
     $current_user = $_MIDCOM->auth->user->get_storage();
     echo "<input type=\"hidden\" name=\"person[]\" value=\"{$current_user->id}\" />";
     echo "<input type=\"submit\" value=\"".sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2))."\" />";
-    echo "</form>";
+    echo "</div></form>";
 }
 else
 {
