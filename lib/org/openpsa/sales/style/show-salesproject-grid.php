@@ -132,11 +132,11 @@ $grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "ri
 
 $grid->set_option('scroll', 1)
 ->set_option('loadonce', true)
-->set_option('sortname', 'index_title')
-->set_option('grouping', true);
+->set_option('sortname', 'index_title');
 if ($data['mode'] != 'customer')
 {
-    $grid->set_option('groupingView', array
+    $grid->set_option('grouping', true)
+    ->set_option('groupingView', array
     (
         'groupField' => array('customer'),
         'groupColumnShow' => array(false),
