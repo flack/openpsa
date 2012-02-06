@@ -97,14 +97,13 @@ foreach ($properties_map as $class => $properties)
 <h2><?php echo $data['l10n']->get('rules wizard'); ?></h2>
 
 <div class="wide">
-    <form name="org_openpsa_directmarketing_rules_editor" id="org_openpsa_directmarketing_rules_editor" enctype="multipart/form-data" method="post" onsubmit="return get_rules_array(zero_group_id);" class="datamanager2 org_openpsa_directmarketing_edit_query">
+    <form name="org_openpsa_directmarketing_rules_editor" id="org_openpsa_directmarketing_rules_editor" enctype="multipart/form-data" method="post" action="" onsubmit="return get_rules_array(zero_group_id);" class="datamanager2 org_openpsa_directmarketing_edit_query">
 
 
 <textarea class="longtext" cols="50" rows="25" name="midcom_helper_datamanager2_dummy_field_rules" id="midcom_helper_datamanager2_dummy_field_rules" style="display: none;">
 </textarea>
 
-    <fieldset class="anyalll">
-    <div id="org_openpsa_directmarketing_rules_editor_container" name="org_openpsa_directmarketing_rules_editor_container">
+    <div id="org_openpsa_directmarketing_rules_editor_container">
     </div>
         <div class="form_toolbar" id="org_openpsa_directmarketing_rules_editor_form_toolbar">
             <input name="midcom_helper_datamanager2_save" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />

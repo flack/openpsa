@@ -315,11 +315,9 @@ function render_rule(selected)
     jQuery("#"+this.id).append(object_select);
     html = "";
 
-    //html += "<input type=\"image\" src=\"/midcom-static/stock-icons/16x16/list-remove.png\" class=\"button remove_row\" onclick=\"rules['"+this.id+"'].remove(); return false;\" />";
-    html += "<img  src=\"/midcom-static/stock-icons/16x16/list-remove.png\"  class=\"button remove_row\" onclick=\"rules['"+this.id+"'].remove(); return false;\" />";
+    html += "<img src=\"" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-remove.png\"  class=\"button remove_row\" onclick=\"rules['"+this.id+"'].remove(); return false;\" />";
 
-    //html += "<input id =\""+this.id+"_add\" type=\"image\" src=\"/midcom-static/stock-icons/16x16/list-add.png\" class=\"button add_row\" onclick=\"jQuery(this).remove();groups['"+this.parent+"'].add_rule(); return false;\" />";
-    html += "<img  id =\""+this.id+"_add\" type=\"image\" src=\"/midcom-static/stock-icons/16x16/list-add.png\"  class=\"button add_row\" onclick=\"jQuery(this).remove();groups['"+this.parent+"'].add_rule(); return false;\" />";
+    html += "<img id =\"" + this.id + "_add\" type=\"image\" src=\"" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-add.png\"  class=\"button add_row\" onclick=\"jQuery(this).remove();groups['"+this.parent+"'].add_rule(); return false;\" />";
     html += parent_field;
     jQuery("#"+this.id).append(html);
 
