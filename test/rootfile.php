@@ -70,7 +70,7 @@ if (extension_loaded('midgard2'))
         $config->dbtype = 'SQLite';
         $config->database = 'openpsa_test';
         $config->blobdir = OPENPSA_TEST_ROOT . '__output/blobs';
-        $config->logfile = OPENPSA_TEST_ROOT . '__output/midgard2.log';
+        $config->logfilename = OPENPSA_TEST_ROOT . '__output/midgard2.log';
         $config->tablecreate = true;
         $config->tableupdate = true;
         $config->loglevel = 'critical';
