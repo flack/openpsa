@@ -345,8 +345,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 {
                     $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
                 }
-                $item->units = (float) $_POST['quantity'];
-                $item->pricePerUnit = (float) $_POST['price'];
+                $item->units = (float) str_replace(',', '.', $_POST['quantity']);
+                $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
                 $item->description = $_POST['description'];
                 if (!$item->update())
                 {
