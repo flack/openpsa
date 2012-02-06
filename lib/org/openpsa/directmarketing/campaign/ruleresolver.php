@@ -77,7 +77,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     private $_rules = null; //Copy of rules as received
     private $_result_mc = null; // Contact-qb containing results
 
-
     public function __construct($rules = false)
     {
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
@@ -433,6 +432,69 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         }
 
         $this->_result_mc->add_constraint('id', $constraint_match, $persons);
+    }
+
+    /**
+     * List object's properties for JS rule builder
+     *
+     * PONDER: Should we support schema somehow (only for non-parameter keys), this would practically require manual parsing...
+     *
+     * @param midcom_core_dbaobject $object
+     * @param midcom_services_i18n_l10n $l10n
+     */
+    public static function list_object_properties(&$object, &$l10n)
+    {
+        // These are internal to midgard and/or not valid QB constraints
+        $skip_properties = array();
+        // These will be deprecated soon
+        $skip_properties[] = 'orgOpenpsaAccesstype';
+        $skip_properties[] = 'orgOpenpsaWgtype';
+
+        if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_person'))
+        {
+            // The info field is a special case
+            $skip_properties[] = 'info';
+            // These legacy fields are rarely used
+            $skip_properties[] = 'topic';
+            $skip_properties[] = 'subtopic';
+            $skip_properties[] = 'office';
+            // This makes very little sense as a constraint
+            $skip_properties[] = 'img';
+            // Duh
+            $skip_properties[] = 'password';
+        }
+        if ($_MIDCOM->dbfactory->is_a($object, 'midgard_member'))
+        {
+            // The info field is a special case
+            $skip_properties[] = 'info';
+        }
+        // Skip metadata for now
+        $skip_properties[] = 'metadata';
+        $ret = array();
+        while (list ($property, $value) = each($object))
+        {
+            if (   preg_match('/^_/', $property)
+                || in_array($property, $skip_properties))
+            {
+                // Skip private or otherwise invalid properties
+                continue;
+            }
+            if (   is_object($value)
+                && !is_a($value, 'midgard_datetime'))
+            {
+                while (list ($property2, $value2) = each($value))
+                {
+                    $prop_merged = "{$property}.{$property2}";
+                    $ret[$prop_merged] = $l10n->get("property:{$prop_merged}");
+                }
+            }
+            else
+            {
+                $ret[$property] = $l10n->get("property:{$property}");
+            }
+        }
+        asort($ret);
+        return $ret;
     }
 }
 ?>
