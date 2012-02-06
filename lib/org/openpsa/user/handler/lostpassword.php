@@ -120,7 +120,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $qb = midcom_db_person::new_query_builder();
         if (array_key_exists('username', $this->_controller->datamanager->types))
         {
-            $qb->add_constraint('username', '=', $this->_controller->datamanager->types['username']->value);
+            $user = midcom::get('auth')->get_user_by_name($this->_controller->datamanager->types['username']->value);
+            if (!$user)
+            {
+                $_MIDCOM->auth->drop_sudo();
+                throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
+            }
+            $qb->add_constraint('guid', '=', $user->guid);
         }
         if (array_key_exists('email', $this->_controller->datamanager->types))
         {
