@@ -364,6 +364,13 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             default:
                 throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
         }
+        $data['saved_values'] = array
+        (
+            'id' => $item->id,
+            'quantity' => $item->units,
+            'price' => $item->pricePerUnit,
+            'description' => $item->description
+        );
     }
 
     private function _verify_post_data()

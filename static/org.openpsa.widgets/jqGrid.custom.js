@@ -274,18 +274,39 @@ var org_openpsa_grid_editable =
 {
     grid_id: '',
     last_added_row: 0,
-    options:
+    default_options:
     {
         keys: true,
-        afterrestorefunc: this.after_restore
+        afterrestorefunc: function(id)
+        {
+            org_openpsa_grid_editable.toggle(id, false);
+        },
+        aftersavefunc: function(id)
+        {
+            org_openpsa_grid_editable.toggle(id, false);
+        },
+        oneditfunc: function(id)
+        {
+            org_openpsa_grid_editable.toggle(id, true);
+        },
+        successfunc: function(data)
+        {
+            var return_values = $.parseJSON(data.responseText);
+            return [true, return_values, return_values.id];
+        }
+    },
+    toggle: function(id, state)
+    {
+        $('#save_button_' + id).toggleClass('hidden', edit_mode);
+        $('#cancel_button_' + id).toggleClass('hidden', edit_mode);
+        $('#edit_button_' + id).toggleClass('hidden', !edit_mode);
     },
 
     enable_inline: function (grid_id, custom_options)
     {
         var lastsel,
         self = this;
-        self.options = $.extend({}, custom_options, self.options);
-
+        self.options = $.extend({}, self.default_options, custom_options);
         self.grid_id = grid_id;
         $('#' + grid_id).jqGrid('setGridParam',
         {
@@ -318,22 +339,15 @@ var org_openpsa_grid_editable =
     editRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('editRow', id, this.options);
-        $('#edit_button_' + id).addClass('hidden');
-        $('#save_button_' + id).removeClass('hidden');
-        $('#cancel_button_' + id).removeClass('hidden')
-            .closest("tr").find('input[type="text"]:first:visible').focus();
+        $('#cancel_button_' + id).closest("tr").find('input[type="text"]:first:visible').focus();
     },
     saveRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('saveRow', id, this.options);
-        $('#edit_button_' + id).removeClass('hidden');
-        this.after_restore(id);
     },
     restoreRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('restoreRow', id, this.options);
-        $('#edit_button_' + id).removeClass('hidden');
-        this.after_restore(id);
     },
     deleteRow: function(id)
     {
@@ -351,11 +365,6 @@ var org_openpsa_grid_editable =
                 self.options.aftersavefunc(0, []);
             }
         });
-    },
-    after_restore: function(id)
-    {
-        $('#save_button_' + id).addClass('hidden');
-        $('#cancel_button_' + id).addClass('hidden');
     },
     add_inline_controls: function()
     {

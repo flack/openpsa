@@ -37,6 +37,7 @@ org_openpsa_grid_editable.enable_inline("<?php echo $grid->get_identifier(); ?>"
             total += parseFloat(grid.jqGrid('getCell', rows[i].id, 6));
         }
         grid.jqGrid("footerData", "set", {sum: total});
+        org_openpsa_grid_editable.toggle(rowid, false);
     }
 });
 </script>
