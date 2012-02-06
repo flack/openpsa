@@ -346,6 +346,7 @@ class midcom_helper__dbfactory
                         return null;
                     }
                 }
+
                 $parent_guid = $the_object->get_parent_guid_uncached();
             }
 
@@ -363,13 +364,13 @@ class midcom_helper__dbfactory
             }
         }
 
-        // Remember this so we don't need to get it again
-        $cached_parent_guids[$object_guid] = $parent_guid;
-
         if (!mgd_is_guid($parent_guid))
         {
-            return null;
+            $parent_guid = null;
         }
+
+        // Remember this so we don't need to get it again
+        $cached_parent_guids[$object_guid] = $parent_guid;
 
         return $parent_guid;
     }
