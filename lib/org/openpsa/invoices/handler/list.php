@@ -205,8 +205,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_dashboard($handler_id, array &$data)
     {
-        $this->_request_data['header-size'] = 2;
-
         $this->_show_unsent();
         $this->_show_overdue();
         $this->_show_open();
@@ -426,8 +424,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_customer($handler_id, array &$data)
     {
-        $this->_request_data['header-size'] = 2;
-
         $this->_show_unsent();
         $this->_show_overdue();
         $this->_show_open();
@@ -498,7 +494,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_deliverable($handler_id, array &$data)
     {
-        $this->_request_data['header-size'] = 4;
         $this->_show_invoice_list();
     }
 
