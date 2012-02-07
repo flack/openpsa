@@ -21,11 +21,18 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     private $_identifier;
 
     /**
-     * The grid's options
+     * The grid's options (converted for use in JS constructor)
      *
      * @var array
      */
     private $_options = array();
+
+    /**
+     * The grid's options as passed in PHP
+     *
+     * @var array
+     */
+    private $_raw_options = array();
 
     /**
      * The grid's columns
@@ -55,6 +62,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      * @var array
      */
     private $_footer_data;
+
+    /**
+     * The data provider, if any
+     *
+     * @var org_openpsa_widgets_grid_provider
+     */
+    private $_provider;
 
     /**
      * function that loads the necessary javascript & css files for jqgrid
@@ -110,6 +124,17 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         self::add_head_elements();
     }
 
+    public function set_provider(org_openpsa_widgets_grid_provider $provider)
+    {
+        $this->_provider = $provider;
+        $this->_provider->set_grid($this);
+    }
+
+    public function get_provider()
+    {
+        return $this->_provider;
+    }
+
     /**
      * Returns the grid's ID
      *
@@ -129,6 +154,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      */
     public function set_option($key, $value, $autoquote_string = true)
     {
+        $this->_raw_options[$key] = $value;
         if (   $autoquote_string
             && is_string($value))
         {
@@ -148,6 +174,15 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         }
         $this->_options[$key] = $value;
         return $this;
+    }
+
+    public function get_option($key)
+    {
+        if (empty($this->_raw_options[$key]))
+        {
+            return null;
+        }
+        return $this->_raw_options[$key];
     }
 
     /**
@@ -216,7 +251,15 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         echo '<table id="' . $this->_identifier . '"></table>';
         echo '<div id="p_' . $this->_identifier . '"></div>';
         echo '<script type="text/javascript">//<![CDATA[' . "\n";
-        if (is_array($entries))
+        if (null !== $this->_provider)
+        {
+            if (is_array($entries))
+            {
+                $this->_provider->set_rows($entries);
+            }
+            $this->_provider->setup_grid();
+        }
+        else if (is_array($entries))
         {
             echo "var " . $this->_identifier . '_entries = ' . json_encode($entries) . "\n";
             $this->set_option('data', $this->_identifier . '_entries', false);

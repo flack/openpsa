@@ -62,14 +62,34 @@ class org_openpsa_widgets_grid_provider
      */
     private $_sort_direction;
 
+    /**
+     * The grid we're working with
+     *
+     * @var org_openpsa_widgets_grid
+     */
+    private $_grid;
+
+    /**
+     * The midcom query object
+     *
+     * @var midcom_core_query
+     */
+    private $_query;
+
     public function __construct(org_openpsa_widgets_grid_provider_client $client)
     {
         $this->_client = $client;
     }
 
+    public function set_grid(org_openpsa_widgets_grid &$grid)
+    {
+        $this->_grid =& $grid;
+    }
+
     public function set_rows(array $rows)
     {
         $this->_rows = $rows;
+        $this->_total_rows = count($this->_rows);
     }
 
     public function get_rows()
@@ -81,13 +101,70 @@ class org_openpsa_widgets_grid_provider
         return $this->_rows;
     }
 
+    public function count_rows()
+    {
+        if (is_null($this->_total_rows))
+        {
+            $qb = $this->_prepare_query();
+            $this->_total_rows = $qb->count();
+        }
+        return $this->_total_rows;
+    }
+
+    public function setup_grid()
+    {
+        if ($this->_get_grid_option('datatype', 'json') == 'local')
+        {
+            $this->render();
+            $this->_grid->set_option('data', $this->_grid->get_identifier() . '_entries', false);
+            if (null === $this->_get_grid_option('rowNum'))
+            {
+                $this->_grid->set_option('rowNum', $this->count_rows());
+            }
+        }
+    }
+
     public function render()
     {
         if (is_null($this->_rows))
         {
             $this->_get_rows();
         }
-        else if (is_null($this->_total_rows))
+
+        switch ($this->_get_grid_option('datatype', 'json'))
+        {
+            case 'json':
+                $this->_render_json();
+                break;
+            case 'local':
+                $this->_render_local();
+                break;
+            default:
+                debug_add('Datatype ' . $this->_get_grid_option('datatype', 'json') . ' is not supported', MIDCOM_LOG_ERROR);
+                throw new midcom_error('Unsupported datatype');
+        }
+    }
+
+    private function _get_grid_option($key, $default = null)
+    {
+        if (empty($this->_grid))
+        {
+            return $default;
+        }
+        else
+        {
+            return $this->_grid->get_option($key);
+        }
+    }
+
+    private function _render_local()
+    {
+        echo "var " . $this->_grid->get_identifier() . '_entries = ' .  json_encode($this->_rows) . ";\n";
+    }
+
+    private function _render_json()
+    {
+        if (is_null($this->_total_rows))
         {
             $this->_total_rows = count($this->_rows);
         }
@@ -122,14 +199,26 @@ class org_openpsa_widgets_grid_provider
         }
     }
 
+    private function _prepare_query()
+    {
+        if (is_null($this->_query))
+        {
+            if ($this->_get_grid_option('datatype', 'json') == 'json')
+            {
+                $this->_parse_query($_GET);
+            }
+
+            $this->_query = $this->_client->get_qb($this->_sort_field, $this->_sort_direction);
+        }
+        return $this->_query;
+    }
+
     private function _get_rows()
     {
-        $this->_parse_query($_GET);
-        $this->_rows = array();
-
-        $qb = $this->_client->get_qb($this->_sort_field, $this->_sort_direction);
+        $qb = $this->_prepare_query();
 
         $this->_total_rows = $qb->count();
+        $this->_rows = array();
 
         if (!empty($this->_results_per_page))
         {
