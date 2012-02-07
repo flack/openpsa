@@ -111,6 +111,20 @@ class org_openpsa_widgets_grid_provider
         return $this->_total_rows;
     }
 
+    public function get_column_total($column)
+    {
+        $ret = 0;
+        $rows = $this->get_rows();
+        foreach ($rows as $row)
+        {
+            if (array_key_exists($column, $row))
+            {
+                $ret += $row[$column];
+            }
+        }
+        return $ret;
+    }
+
     public function setup_grid()
     {
         if ($this->_get_grid_option('datatype', 'json') == 'local')
@@ -126,11 +140,6 @@ class org_openpsa_widgets_grid_provider
 
     public function render()
     {
-        if (is_null($this->_rows))
-        {
-            $this->_get_rows();
-        }
-
         switch ($this->_get_grid_option('datatype', 'json'))
         {
             case 'json':
@@ -159,14 +168,15 @@ class org_openpsa_widgets_grid_provider
 
     private function _render_local()
     {
-        echo "var " . $this->_grid->get_identifier() . '_entries = ' .  json_encode($this->_rows) . ";\n";
+        echo "var " . $this->_grid->get_identifier() . '_entries = ' .  json_encode($this->get_rows()) . ";\n";
     }
 
     private function _render_json()
     {
+        $rows = $this->get_rows();
         if (is_null($this->_total_rows))
         {
-            $this->_total_rows = count($this->_rows);
+            $this->_total_rows = count($rows);
         }
 
         $response = array
@@ -174,7 +184,7 @@ class org_openpsa_widgets_grid_provider
             'total' => ceil($this->_total_rows / $this->_results_per_page),
             'page' => ($this->_offset / $this->_results_per_page) + 1,
             'records' => $this->_total_rows,
-            'rows' => $this->_rows
+            'rows' => $rows
         );
         $_MIDCOM->cache->content->content_type('application/json');
         $_MIDCOM->header('Content-type: application/json; charset=UTF-8');

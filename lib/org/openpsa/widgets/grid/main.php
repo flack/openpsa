@@ -61,7 +61,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $_footer_data;
+    private $_footer_data = array();
 
     /**
      * The data provider, if any
@@ -235,11 +235,19 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     /**
      * Set the grid's footer data
      *
-     * @param array $data The data to set
+     * @param mixed $data The data to set as array or the column name
+     * @param mixed $value The value, if setting individual columns
      */
-    public function set_footer_data(array $data)
+    public function set_footer_data($data, $value = null)
     {
-        $this->_footer_data = $data;
+        if (null == $value)
+        {
+            $this->_footer_data = $data;
+        }
+        else
+        {
+            $this->_footer_data[$data] = $value;
+        }
         $this->set_option('footerrow', true);
     }
 
@@ -296,7 +304,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             echo "\n";
         }
         echo "});\n";
-        if (is_array($this->_footer_data))
+        if ($this->get_option('footerrow'))
         {
             echo 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ");\n";
         }
