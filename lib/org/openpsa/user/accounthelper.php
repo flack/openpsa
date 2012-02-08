@@ -18,7 +18,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @var midcom_db_person
      */
-    protected $_person;
+    protected static $_person;
 
     /**
      * The account we're working on
@@ -527,14 +527,23 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * Helper to determine if an account is blocked based on form data
      * sent by client
      */
-    public static function is_blocked($data)
+    public static function is_blocked($data = null)
     {
-        $person = self::_get_person_by_formdata($data);
-        if (!$person)
+        if ($data)
+        {
+            $person = self::_get_person_by_formdata($data);
+        }
+        elseif (self::$_person)
+        {
+            $person = self::$_person;
+        }
+        else
         {
             return false;
         }
+
         $block_param = $person->get_parameter("org_openpsa_user_blocked_account", "account_password");
+
         return (!empty($block_param));
     }
 

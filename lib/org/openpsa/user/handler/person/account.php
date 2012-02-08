@@ -159,8 +159,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // Account needs to be created first, relocate
             $_MIDCOM->relocate("account/create/" . $this->_person->guid . "/");
         }
-        //if there is no pasword set, show ui-message for info
-        if (!$this->_account->get_password())
+
+        // if there is no password set (due to block), show ui-message for info
+        $midcom_person = midcom_db_person::get_cached($this->_person->id);
+        $account_helper = new org_openpsa_user_accounthelper($midcom_person);
+        if ($account_helper->is_blocked())
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
         }
