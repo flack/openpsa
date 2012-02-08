@@ -1202,7 +1202,6 @@ class midcom_application
         $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
         $this->header("Content-Length: " . $stats[7]);
         $this->header("Content-Description: {$attachment->title}");
-        $cache->content->register_sent_header("Content-Description: {$attachment->title}");
 
         // PONDER: Support ranges ("continue download") somehow ?
         $this->header("Accept-Ranges: none");
