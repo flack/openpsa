@@ -70,6 +70,6 @@ if (! is_resource($image))
 }
 
 // Render the Captcha
-header('Content-Type: image/png');
+_midcom_header('Content-Type: image/png');
 imagepng($image);
 ?>

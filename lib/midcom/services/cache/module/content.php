@@ -666,10 +666,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $this->_live_mode = true;
-        $this->_no_cache = true;
-        _midcom_header("Cache-Control: no-store, no-cache, must-revalidate");
-        _midcom_header("Cache-Control: post-check=0, pre-check=0", false);
-        _midcom_header("Pragma: no-cache");
+        $this->no_cache();
 
         if ($this->_obrunning)
         {
@@ -1180,7 +1177,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (! $ranges)
         {
             $header = "Accept-Ranges: none";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
         if (! $size)
@@ -1196,7 +1193,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                     break;
                 default:
                     $header = "Content-Length: " . ob_get_length();
-                    header ($header);
+                    _midcom_header($header);
                     $this->_sent_headers[] = $header;
                     break;
             }
@@ -1222,7 +1219,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
 
             $header = "Last-Modified: " . gmdate('D, d M Y H:i:s', $time) . ' GMT';
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
             $this->_last_modified = $time;
         }
@@ -1293,7 +1290,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $strategy = (string)$this->_headers_strategy_authenticated;
                 $default_lifetime = (int)$this->_default_lifetime_authenticated;
             }
-            switch($strategy)
+            switch ($strategy)
             {
                 // included in case _headers_strategy_authenticated sets this
                 case 'no-cache':
@@ -1331,19 +1328,19 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($cache_control !== false)
         {
             $header = "Cache-Control: {$cache_control}";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
         if ($pragma !== false)
         {
             $header = "Pragma: {$pragma}";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
         if ($expires !== false)
         {
             $header = "Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
     }
