@@ -18,7 +18,7 @@ if (isset($_POST['org_openpsa_export_csv_filename']))
     $filename = str_replace(' ', '_', $filename);
 }
 
-header ('Content-type: application/csv; charset=utf-8');
-header('Content-Disposition: attachment;Filename=' . $filename);
+_midcom_header('Content-type: application/csv; charset=utf-8');
+_midcom_header('Content-Disposition: attachment;Filename=' . $filename);
 echo $_POST['org_openpsa_export_csv_data'];
 ?>
