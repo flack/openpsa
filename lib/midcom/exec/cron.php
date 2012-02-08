@@ -20,7 +20,7 @@ else
 
 $_MIDCOM->cache->content->enable_live_mode();
 
-header('Content-Type: text/plain');
+_midcom_header('Content-Type: text/plain');
 
 // Ensure cron doesn't timeout
 @ini_set('max_execution_time', 0);
