@@ -563,6 +563,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function check_login_attempts($component = null)
     {
+        $stat = true;
         if (is_null($component))
         {
             $component = "org.openpsa.user";
@@ -575,7 +576,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         if (   $max_attempts == 0
             || $timeframe == 0)
         {
-            return true;
+            return $stat;
         }
 
         $_MIDCOM->auth->request_sudo('org.openpsa.user');
@@ -603,13 +604,13 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             && $attempts[$max_attempts-1] >= (time() - ($timeframe * 60)))
         {
             $this->disable_account();
-            return false;
+            $stat = false;
         }
 
         $attempts = serialize($attempts);
         $this->_person->set_parameter("org_openpsa_user_password", "attempts", $attempts);
         $_MIDCOM->auth->drop_sudo();
-        return true;
+        return $stat;
     }
 }
 ?>
