@@ -30,7 +30,7 @@ class org_openpsa_mail_message
 
     public function __construct($to, array $headers, $encoding)
     {
-        $this->_to = $to;
+        $this->_to = $this->_encode_address_field($to);
         $this->_headers = $headers;
         $this->_encoding = $encoding;
     }
@@ -91,7 +91,8 @@ class org_openpsa_mail_message
                 $this->_headers[$header] = $this->_encode_quoted_printable($value);
             }
             else if (   strtolower($header) == 'from'
-                     || strtolower($header) == 'reply-to')
+                     || strtolower($header) == 'reply-to'
+                     || strtolower($header) == 'to')
             {
                 $this->_headers[$header] = $this->_encode_address_field($value);
             }
