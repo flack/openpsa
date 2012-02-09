@@ -289,7 +289,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $this->_list_type = $type;
 
-        $provider = new org_openpsa_widgets_grid_provider($this);
+        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
         if ($provider->count_rows() == 0)
         {
             return;
@@ -303,8 +303,7 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_request_data['totals']['deliverable'] = 0;
         }
 
-        $this->_request_data['grid'] = new org_openpsa_widgets_grid($grid_id, 'local');
-        $this->_request_data['grid']->set_provider($provider);
+        $this->_request_data['grid'] = $provider->get_grid($grid_id);
         $this->_request_data['list_type'] = $this->_list_type;
         $this->_request_data['customer'] = $this->_customer;
 

@@ -71,6 +71,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     private $_provider;
 
     /**
+     * Javascript code that should be prepended to the widget constructor
+     *
+     * @var string
+     */
+    private $_prepend_js;
+
+    /**
      * function that loads the necessary javascript & css files for jqgrid
      */
     public static function add_head_elements()
@@ -127,7 +134,6 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     public function set_provider(org_openpsa_widgets_grid_provider $provider)
     {
         $this->_provider = $provider;
-        $this->_provider->set_grid($this);
     }
 
     public function get_provider()
@@ -252,6 +258,16 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     }
 
     /**
+     * Add Javascript code that should be run before the widget constructor
+     *
+     * @param string $string
+     */
+    public function prepend_js($string)
+    {
+        $this->_prepend_js .= $string . "\n";
+    }
+
+    /**
      * Renders the grid as HTML
      */
     public function render($entries = false)
@@ -276,6 +292,8 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
                 $this->set_option('rowNum', sizeof($entries));
             }
         }
+
+        echo $this->_prepend_js;
 
         echo 'jQuery("#' . $this->_identifier . '").jqGrid({';
 
