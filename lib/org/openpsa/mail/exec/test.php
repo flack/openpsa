@@ -41,6 +41,10 @@ else
     $ret = $mail->send();
 
     echo "mail->send returned {$ret}<br>\n";
+    if (!$ret)
+    {
+        echo $mail->get_error_message();
+    }
 }
 
 echo "</p>\n";
