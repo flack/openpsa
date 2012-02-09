@@ -159,7 +159,7 @@ var org_openpsa_widgets_tabs =
             return false;
         }
 
-        if (href.slice(href.length - 1, href.length) != '#')
+        if (href.slice(href.length - 1, href.length) !== '#')
         {
             $.ajax({
                 url: href,

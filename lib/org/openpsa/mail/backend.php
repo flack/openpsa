@@ -78,6 +78,12 @@ abstract class org_openpsa_mail_backend
         {
             $this->error = $ret;
         }
+        else if (   is_object($ret)
+                 && is_a($ret, 'PEAR_Error'))
+        {
+            $this->error = $ret->getMessage();
+            $ret = false;
+        }
         else
         {
             $this->error = false;

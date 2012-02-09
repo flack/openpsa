@@ -88,7 +88,12 @@ class org_openpsa_mail_message
             else if (strtolower($header) == 'subject')
             {
                 // Encode subject (if necessary)
-                $this->_headers[$header] = $this->_encode_subject($value);
+                $this->_headers[$header] = $this->_encode_quoted_printable($value);
+            }
+            else if (   strtolower($header) == 'from'
+                     || strtolower($header) == 'reply-to')
+            {
+                $this->_headers[$header] = $this->_encode_address_field($value);
             }
 
             if (is_array($value))
@@ -207,9 +212,30 @@ class org_openpsa_mail_message
     }
 
     /**
-     * Quoted-Printable encoding for message subject if necessary
+     * Helper function to work around a problem where some PEAR mail backends (or versions)
+     * trip over special characters in addresses
+     *
+     * @param string $value The value to encode
+     * @return string the encoded value
      */
-    private function _encode_subject($subject)
+    private function _encode_address_field($value)
+    {
+        if (strpos($value, '<'))
+        {
+            $name = substr($value, 0, strpos($value, '<'));
+            $address = substr($value, strpos($value, '<') + 1);
+            $address = substr($address, 0, strlen($address) - 1);
+            $value = $this->_encode_quoted_printable($name) . ' <' . $address . '>';
+        }
+        return $value;
+    }
+
+    /**
+     * Quoted-Printable encoding for message headers if necessary
+     *
+     * @todo See if this can be replaced by quoted_printable_encode once we go to 5.3
+     */
+    private function _encode_quoted_printable($subject)
     {
         preg_match_all("/[^\x21-\x39\x41-\x7e]/", $subject, $matches);
         if (   count ($matches[0]) > 0
