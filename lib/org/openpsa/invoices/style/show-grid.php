@@ -14,7 +14,7 @@ else if ($data['list_type'] == 'paid')
 $footer_data = array
 (
     'customer' => $data['l10n']->get('totals'),
-    'sum' => org_openpsa_helpers::format_number($data['totals']['totals'])
+    'sum' => org_openpsa_helpers::format_number($grid->get_provider()->get_column_total('index_sum'))
 );
 
 $grid->set_option('loadonce', true);
@@ -68,7 +68,7 @@ $grid->set_footer_data($footer_data);
 ?>
 
 <div class="org_openpsa_invoices <?php echo $classes ?> full-width crop-height">
-<?php $grid->render($data['entries']); ?>
+<?php $grid->render(); ?>
 </div>
 
 <script type="text/javascript">
