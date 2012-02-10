@@ -31,6 +31,11 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     private $_cookie_id = 'midcom_services_auth_backend_simple-';
 
     /**
+     * Whether or not the cookie should be marked as secure
+     */
+    private $_secure_cookie = false;
+
+    /**
      * The path for which the cookie should be set
      */
     protected $_cookie_path;
@@ -46,6 +51,12 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         if ($this->_cookie_path == 'auto')
         {
             $this->_cookie_path = midcom_connection::get_url('self');
+        }
+
+        if (   !empty($_SERVER['HTTPS'])
+            && $GLOBALS['midcom_config']['auth_backend_simple_cookie_secure'])
+        {
+            $this->_secure_cookie = true;
         }
 
         parent::__construct($auth);
@@ -121,22 +132,19 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      */
     private function _set_cookie()
     {
-        $secure_cookie = false;
-        if (   isset($_SERVER['HTTPS'])
-            && !empty($_SERVER['HTTPS'])
-            && $GLOBALS['midcom_config']['auth_backend_simple_cookie_secure'])
-        {
-            $secure_cookie = true;
-        }
-        _midcom_setcookie
+        $stat = _midcom_setcookie
         (
             $this->_cookie_id,
             "{$this->session_id}-{$this->user->id}",
             0,
             $this->_cookie_path,
             $GLOBALS['midcom_config']['auth_backend_simple_cookie_domain'],
-            $secure_cookie
+            $this->_secure_cookie
         );
+        if (!$stat)
+        {
+            debug_add('Failed to set auth cookie, it seems that output has already started', MIDCOM_LOG_WARN);
+        }
     }
 
     /**
@@ -145,14 +153,19 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      */
     private function _delete_cookie()
     {
-        _midcom_setcookie
+        $stat = _midcom_setcookie
         (
             $this->_cookie_id,
             false,
-            0,
+            time() - 3600,
             $this->_cookie_path,
-            $GLOBALS['midcom_config']['auth_backend_simple_cookie_domain']
+            $GLOBALS['midcom_config']['auth_backend_simple_cookie_domain'],
+            $this->_secure_cookie
         );
+        if (!$stat)
+        {
+            debug_add('Failed to delete auth cookie, it seems that output has already started', MIDCOM_LOG_WARN);
+        }
     }
 
     public function _on_login_session_created()
