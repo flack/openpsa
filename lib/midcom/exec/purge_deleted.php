@@ -7,7 +7,7 @@ $chunk_size = 1000;
 
 if (!isset($_GET['days']))
 {
-    $grace_days = 25;
+    $grace_days = $GLOBALS['midcom_config']['cron_purge_deleted_after'];
 }
 else
 {
