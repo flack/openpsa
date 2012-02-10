@@ -270,7 +270,7 @@
                 (
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
-                    'name' => 'ajax_enable',
+                    'name' => 'enable_ajax_editing',
                 ),
                 'type' => 'select',
                 'type_config' => array
