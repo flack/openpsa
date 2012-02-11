@@ -221,6 +221,10 @@ class org_openpsa_mail_message
      */
     private function _encode_address_field($value)
     {
+        if (is_array($value))
+        {
+            return array_map(array($this, '_encode_address_field'), $value);
+        }
         if (strpos($value, '<'))
         {
             $name = substr($value, 0, strpos($value, '<'));
