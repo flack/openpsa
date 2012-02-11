@@ -262,7 +262,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     {
         if (!is_object($this->_backend))
         {
-            debug_add('no backend object available, aborting');
+            debug_add('no backend object available, aborting', MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -272,7 +272,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $ret = $this->_backend->send($message);
         if ($ret !== true)
         {
-            debug_add($this->_backend->get_error_message());
+            debug_add('Mail sending failed: ' . $this->_backend->get_error_message(), MIDCOM_LOG_ERROR);
         }
         return $ret;
     }
