@@ -19,13 +19,13 @@ dm2AjaxEditor.prototype = {
         this.wideMode = wideMode;
         
         // Temporary storage for form values
-        this.formValues = new Object();
+        this.formValues = {};
         
         // Dimensions of the AJAX fields
-        this.fieldDimensions = new Object();
+        this.fieldDimensions = {};
 
         // Dimensions of the whole editable area
-        this.formDimensions = new Object();
+        this.formDimensions = {};
         this.emptyDimensions();
                 
         this.blinder = false;
@@ -50,8 +50,8 @@ dm2AjaxEditor.prototype = {
     enableCreation: function()
     {
         this.formArea.style.display = 'none';
-        button = $(this.formId + '_button');
-        if (!button)
+        var button = $(this.formId + '_button');
+        if (button.length === 0)
         {
             return;
         }
@@ -69,7 +69,7 @@ dm2AjaxEditor.prototype = {
         }
         //Effect.Appear(area);
         this.cloneCreationFields();
-        if (this.formArea.tagName == 'div')
+        if (this.formArea.tagName === 'div')
         {
             this.formArea.style.display = 'block';
         }
@@ -81,30 +81,16 @@ dm2AjaxEditor.prototype = {
         this.makeEditable();
         this.fetchFields();
     },
-    
-    /**
-     * Get elements in tree by certain class name
-    getElementsByClassName: function(class, parent)
-    {
-        var elementsArray = [];
-        var regExp = new RegExp('\\b' + class + '\\b');
-        elements = parent.getElementsByTagName("*");
-        for (i = 0; i < elements.length; i++)
-        {
-            if (regExp.test(elements[i].className))
-            {
-                elementsArray.push(elements[i]);
-            }
-        }
-        return elementsArray;
-    },*/
-    
+
     /**
      * Clone the creation form into reserve
      */
     cloneCreationFields: function()
     {
-        var newArea = this.formArea.cloneNode(true);
+        var newArea = this.formArea.cloneNode(true),
+        id,
+        editableFields,
+        i;
         
         // We rename the new area as a "holding" area
         newArea.id = this.reserveIdentifier + '_area';
@@ -118,7 +104,7 @@ dm2AjaxEditor.prototype = {
         }
         try
         {
-            this.formArea.parentNode.appendChild(newArea, button);
+            this.formArea.parentNode.appendChild(newArea);
         }
         catch (error)
         {
@@ -134,8 +120,8 @@ dm2AjaxEditor.prototype = {
     {
         // Change the current creation form into editing form IDs
         this.formArea.id = newIdentifier + '_area'; 
-        editableFields = document.getElementsByClassName(this.formId);
-        for (i = 0; i < editableFields.length; i++) 
+        var editableFields = document.getElementsByClassName(this.formId);
+        for (var i = 0; i < editableFields.length; i++) 
         {
             id = editableFields[i].getAttribute('id');
             editableFields[i].className = newIdentifier;
@@ -146,7 +132,7 @@ dm2AjaxEditor.prototype = {
         eval("var dm2AjaxEditor_" + newIdentifier + " = new dm2AjaxEditor('" + newIdentifier + "', false, " + this.windowMode + ");");
 
         // Change the reserve form into a creation form
-        reserveArea = $(this.reserveIdentifier + '_area');
+        var reserveArea = $(this.reserveIdentifier + '_area');
         reserveArea.id = this.formId + '_area'; 
         editableFields = document.getElementsByClassName(this.reserveIdentifier);
         for (i = 0; i < editableFields.length; i++) 
