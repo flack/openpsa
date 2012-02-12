@@ -143,7 +143,7 @@ var org_openpsa_grid_resize =
         $.each(items, function(index, item)
         {
             //calculate for each item separately to take care of floating neighbors
-            new_width = item.width() - 12;
+            new_width = $(item).width() - 12;
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
             {
                 var id = $(this).attr('id')
