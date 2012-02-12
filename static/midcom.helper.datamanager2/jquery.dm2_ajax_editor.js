@@ -134,7 +134,7 @@
         },
         methods: {
             config: null,
-            identifier: 'midcom_helper_datamanager2_controller_ajax',
+            identifier: 'dm2_ajax',
             className: 'base',
             fields: null,
             form: null,

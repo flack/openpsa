@@ -408,7 +408,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             foreach (array_keys($this->_schemadb) as $name)
             {
                 $this->_creation_controllers[$name] = midcom_helper_datamanager2_controller::create('create');
-                $this->_creation_controllers[$name]->form_identifier = "midcom_helper_datamanager2_controller_create_{$this->name}_{$this->storage->object->guid}_{$name}";
+                $this->_creation_controllers[$name]->form_identifier = "create_{$this->name}_{$name}";
                 $this->_creation_controllers[$name]->ajax_mode = true;
                 $this->_creation_controllers[$name]->ajax_options = Array();
                 if ($this->window_mode)
@@ -458,6 +458,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             // Add default values to fields
             $item_html = array();
             $form_identifier = $this->_creation_controllers[$name]->form_identifier;
+
             foreach ($this->_schemadb[$name]->fields as $fieldname => $definition)
             {
                 $item_html[$fieldname] = "<span class=\"{$form_identifier}\" id=\"{$form_identifier}_{$fieldname}\">&lt;{$fieldname}&gt;</span>";

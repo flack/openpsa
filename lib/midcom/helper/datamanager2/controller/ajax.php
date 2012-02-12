@@ -44,6 +44,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
         }
+
         $this->form_identifier .= $identifier;
 
         return true;
@@ -109,7 +110,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     {
         $state = 'view';
 
-        $this->form_identifier = "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}";
+        $this->form_identifier = "dm2_ajax_{$this->datamanager->storage->object->guid}";
 
         if (!$this->_is_ajax_editable())
         {

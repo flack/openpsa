@@ -172,6 +172,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         $this->datamanager->set_storage($storage);
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
+
         if ($this->ajax_mode)
         {
             $this->process_ajax();
@@ -191,7 +192,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     {
         $state = 'view';
 
-        $this->form_identifier = "midcom_helper_datamanager2_controller_ajax_composite_{$this->form_identifier}";
+        $this->form_identifier = "dm2_composite_{$this->form_identifier}";
 
         $_MIDCOM->enable_jquery();
 
