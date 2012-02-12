@@ -134,27 +134,31 @@ var org_openpsa_grid_resize =
         {
             return;
         }
-        var new_width = items.filter(':visible').width() - 12;
+        var new_width;
 
         if (items.hasClass('ui-jqgrid-maximized'))
         {
             new_width = $(org_openpsa_grid_resize.containment).attr('clientWidth') - 20;
         }
-        $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
+        $.each(items, function(index, item)
         {
-            var id = $(this).attr('id');
-
-            var panel = $("#gbox_" + id).closest('.ui-tabs-panel');
-            if (   panel.length > 0
-                && panel.hasClass('ui-tabs-hide'))
+            //calculate for each item separately to take care of floating neighbors
+            new_width = item.width() - 12;
+            $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
             {
-                return;
-            }
-            try
-            {
-                $("#" + id).jqGrid().setGridWidth(new_width);
-            }
+                var id = $(this).attr('id')
+                panel = $("#gbox_" + id).closest('.ui-tabs-panel');
+                if (   panel.length > 0
+                    && panel.hasClass('ui-tabs-hide'))
+                {
+                    return;
+                }
+                try
+                {
+                    $("#" + id).jqGrid().setGridWidth(new_width);
+                }
             catch(e){}
+        });
         });
     },
     set_height: function(items, mode)
