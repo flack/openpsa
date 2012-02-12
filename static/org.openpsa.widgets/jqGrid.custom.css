@@ -1,0 +1,29 @@
+.ui-jqgrid-maximized
+{
+    position: absolute;
+    z-index: 20
+}
+.ui-jqgrid-maximized-background
+{
+    display: none;
+}
+
+.ui-jqgrid .HeaderButton
+{
+    height: 18px;
+    margin: -10px 0 0;
+    padding: 1px;
+    position: absolute;
+    top: 50%;
+    width: 19px;
+}
+.ui-jqgrid .HeaderButton:hover
+{
+    padding: 1px;
+}
+.ui-jqgrid .HeaderButton span
+{
+    display: block;
+    margin: 1px;
+    cursor: pointer
+}
