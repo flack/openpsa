@@ -197,8 +197,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
         // Add the required JavaScript
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.metadata.js');
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
 
@@ -209,7 +207,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         {
             $mode = 'wide';
         }
-        elseif ($this->window_mode)
+        else if ($this->window_mode)
         {
             $mode = 'window';
         }

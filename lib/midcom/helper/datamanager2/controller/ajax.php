@@ -119,8 +119,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         $_MIDCOM->enable_jquery();
 
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.metadata.js');
 
         $config = $this->_generate_editor_config();
 
