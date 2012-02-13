@@ -285,7 +285,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             }
             else
             {
-                $this->_provider = new org_openpsa_widgets_grid_provider($entries);
+                $this->_provider = new org_openpsa_widgets_grid_provider($entries, $this->get_option('datatype'));
                 $this->_provider->set_grid($this);
             }
         }

@@ -85,6 +85,7 @@ class org_openpsa_widgets_grid_provider
 
     public function __construct($source, $datatype = 'json')
     {
+        $this->_datatype = $datatype;
         if (is_a($source, 'org_openpsa_widgets_grid_provider_client'))
         {
             $this->_client = $source;
@@ -97,7 +98,6 @@ class org_openpsa_widgets_grid_provider
         {
             throw new midcom_error('Unknown source type');
         }
-        $this->_datatype = $datatype;
     }
 
     /**
