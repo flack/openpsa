@@ -169,9 +169,11 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
 
         $qb->begin_group('OR');
-            //Get active tasks where user is a resource
-            $qb->add_constraint('id', 'IN', $resource_tasks);
-
+            if (!empty($resource_tasks))
+            {
+                //Get active tasks where user is a resource
+                $qb->add_constraint('id', 'IN', $resource_tasks);
+            }
             //Get relevant tasks where user is manager
             $qb->begin_group('AND');
                 $qb->add_constraint('manager', '=', midcom_connection::get_user());
