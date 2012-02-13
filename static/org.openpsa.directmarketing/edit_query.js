@@ -360,7 +360,7 @@ function render_group(selected)
     group_button = "<br /> <input id=\"" + this.id + "_add_group\" class=\"add_group\" type=\"button\" value=\"" + org_openpsa_directmarketing_edit_query_l10n_map.add_group + "\" onclick=\"groups['" + this.id + "'].add_group(false);\">",
     // no remove for first group
     group_remove_button = "";
-    if (this.id !== "org_openpsa_directmarketing_rules_editor_container_group_0")
+    if (this.id !== "dirmar_rules_editor_container_group_0")
     {
         group_remove_button = "<input id=\"" + this.id + "_remove_group\" class=\"remove_group\" type=\"button\" value=\"" + org_openpsa_directmarketing_edit_query_l10n_map.remove_group + "\" onclick=\"groups['" + this.id + "'].remove();\">";
     }
@@ -385,7 +385,7 @@ function render_group(selected)
     content_group += group_button;
     content_group += parent_field;
     content_group +="</div>";
-    if (this.id !== "org_openpsa_directmarketing_rules_editor_container_group_0")
+    if (this.id !== "dirmar_rules_editor_container_group_0")
     {
         $("#" + this.parent + "_add_group").before(content_group);
         this.hover();

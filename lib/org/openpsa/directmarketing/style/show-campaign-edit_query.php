@@ -103,7 +103,7 @@ foreach ($properties_map as $class => $properties)
 <textarea class="longtext" cols="50" rows="25" name="midcom_helper_datamanager2_dummy_field_rules" id="midcom_helper_datamanager2_dummy_field_rules" style="display: none;">
 </textarea>
 
-    <div id="org_openpsa_directmarketing_rules_editor_container">
+    <div id="dirmar_rules_editor_container">
     </div>
         <div class="form_toolbar" id="org_openpsa_directmarketing_rules_editor_form_toolbar">
             <input name="midcom_helper_datamanager2_save" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
@@ -115,7 +115,7 @@ foreach ($properties_map as $class => $properties)
         //function to display rules given of php
         function get_old_rules()
         {
-            var group_id = first_group("org_openpsa_directmarketing_rules_editor_container" ,<?php
+            var group_id = first_group("dirmar_rules_editor_container" ,<?php
             // pass type of first rule_group to javascript, if there is one
             if (count($current_rules) > 0 )
             {
