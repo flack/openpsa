@@ -64,7 +64,6 @@ implements org_openpsa_widgets_grid_provider_client
         {
             case 'paid':
                 $qb->add_constraint('paid', '>', 0);
-                $qb->add_order('paid', 'DESC');
                 break;
             case 'unsent':
                 $qb->add_constraint('sent', '=', 0);
@@ -73,13 +72,11 @@ implements org_openpsa_widgets_grid_provider_client
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
                 $qb->add_constraint('due', '<=', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
-                $qb->add_order('due');
                 break;
             case 'open':
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
                 $qb->add_constraint('due', '>', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
-                $qb->add_order('due');
                 break;
         }
 
