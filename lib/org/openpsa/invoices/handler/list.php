@@ -242,7 +242,10 @@ implements org_openpsa_widgets_grid_provider_client
     private function _show_recent()
     {
         $this->_request_data['list_type'] = 'paid';
-        $this->_request_data['grid'] = new org_openpsa_widgets_grid('paid_invoices_grid', 'json');
+        $provider = new org_openpsa_widgets_grid_provider($this);
+        $provider->add_order('action', 'DESC');
+
+        $this->_request_data['grid'] = $provider->get_grid('paid_invoices_grid');
         $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
 
         midcom_show_style('show-grid-ajax');
