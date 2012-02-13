@@ -461,12 +461,7 @@ class midcom_services__i18n_l10n
 
         $this->_check_for_language($language);
 
-        if (   !array_key_exists($language, $this->_stringdb)
-            || !array_key_exists($string, $this->_stringdb[$language]))
-        {
-            return false;
-        }
-        return true;
+        return isset($this->_stringdb[$language][$string]);
     }
 
     /**
