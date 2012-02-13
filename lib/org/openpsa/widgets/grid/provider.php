@@ -89,6 +89,20 @@ class org_openpsa_widgets_grid_provider
         $this->_datatype = $datatype;
     }
 
+    /**
+     * Adds an initial order to the resultset.
+     *
+     * This can be overwritten by GET parameters
+     *
+     * @param string $field The column name
+     * @param string $direction The sort direction
+     */
+    public function add_order($field, $direction = 'ASC')
+    {
+        $this->_sort_field = $field;
+        $this->_sort_direction = $direction;
+    }
+
     public function set_grid(org_openpsa_widgets_grid &$grid)
     {
         $this->_grid =& $grid;
@@ -102,6 +116,11 @@ class org_openpsa_widgets_grid_provider
         {
             $this->_grid = new org_openpsa_widgets_grid($identifier, $this->_datatype);
             $this->_grid->set_provider($this);
+            if (!empty($this->_sort_field))
+            {
+                $this->_grid->set_option('sortname', $this->_sort_field);
+                $this->_grid->set_option('sortorder', strtolower($this->_sort_direction));
+            }
         }
         return $this->_grid;
     }

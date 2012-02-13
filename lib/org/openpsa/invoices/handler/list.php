@@ -294,7 +294,19 @@ implements org_openpsa_widgets_grid_provider_client
         {
             return;
         }
-
+        switch ($this->_list_type)
+        {
+            case 'paid':
+                $provider->add_order('paid', 'DESC');
+                break;
+            case 'unsent':
+                $provider->add_order('index_number');
+                break;
+            case 'overdue':
+            case 'open':
+                $provider->add_order('due');
+                break;
+        }
         $grid_id = $type . '_invoices_grid';
 
         if ($this->_deliverable)
