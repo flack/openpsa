@@ -18,6 +18,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     public function _on_initialize()
     {
         org_openpsa_widgets_contact::add_head_elements();
+        $this->_request_data['tasks'] = Array();
     }
 
     /**
@@ -63,7 +64,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        $this->_request_data['tasks'] = Array();
 
         if (isset($args[1]))
         {
@@ -76,177 +76,136 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         //get possible priorities from schema
         $this->_get_priorities();
 
-        if (count($args) > 0)
+        switch ($args[0])
         {
-            switch ($args[0])
-            {
-                //for json no style is needed
-                case 'all':
-                    $this->_prepare_output();
-                    org_openpsa_widgets_grid::add_head_elements();
-                    $this->_handler_list_all($args);
-                    break;
-                case 'project':
-                    $this->_prepare_output();
+            //for json no style is needed
+            case 'all':
+                $this->_prepare_output();
+                org_openpsa_widgets_grid::add_head_elements();
+                $this->_handler_list_all($args);
+                break;
+            case 'project':
+                $this->_prepare_output();
 
-                    $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+                $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-                    $this->_handler_list_project($args);
-                    break;
-                case 'json':
-                    $this->_handler_list_project($args);
-                    //form of tasks has to be changed for json
-                    $this->_change_tasks_for_json();
-                    $_MIDCOM->skip_page_style = true;
-                    $this->_request_data['view'] = 'json';
-                    break;
-                default:
-                    throw new midcom_error('Invalid argument ' . $args[0]);
-            }
-        }
-        else
-        {
-            $this->_handler_list_user();
+                $this->_handler_list_project($args);
+                break;
+            case 'json':
+                $this->_handler_list_project($args);
+                //form of tasks has to be changed for json
+                $this->_change_tasks_for_json();
+                $_MIDCOM->skip_page_style = true;
+                $this->_request_data['view'] = 'json';
+                break;
+            default:
+                throw new midcom_error('Invalid argument ' . $args[0]);
         }
     }
 
-    private function _handler_list_user()
+    private function _get_status_type(org_openpsa_projects_task_dba $task)
     {
-        // Query user's current tasks
+        $type = 'unknown';
+        switch ($task->status)
+        {
+            case org_openpsa_projects_task_status_dba::PROPOSED:
+                if ($task->manager != midcom_connection::get_user())
+                {
+                    $type = 'proposed';
+                }
+                else
+                {
+                    $type = 'pending_accept';
+                }
+                break;
+            case org_openpsa_projects_task_status_dba::STARTED:
+            case org_openpsa_projects_task_status_dba::REOPENED:
+            case org_openpsa_projects_task_status_dba::ACCEPTED:
+                $type = 'current';
+                break;
+            case org_openpsa_projects_task_status_dba::DECLINED:
+                $type = 'declined';
+                break;
+            case org_openpsa_projects_task_status_dba::COMPLETED:
+                if ($task->manager != midcom_connection::get_user())
+                {
+                    $type = 'completed';
+                }
+                else
+                {
+                    $type = 'pending_approve';
+                }
+                break;
+        }
+
+        return $type;
+    }
+
+    public function _handler_list_user($handler_id, array $args, array &$data)
+    {
+        $_MIDCOM->auth->require_valid_user();
+
         $this->_request_data['view'] = 'my_tasks';
 
-        // Tasks proposed to the user
+        //get possible priorities from schema
+        $this->_get_priorities();
+
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
-        $mc->add_order('task.priority', 'ASC');
-        $tasks = $mc->get_values('task');
 
-        if (!empty($tasks))
-        {
-            foreach ($tasks as $task)
-            {
-                $this->_add_task_to_list($task, 'proposed');
-            }
-        }
-
-        // Tasks user has under work
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-        $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->begin_group('OR');
-            $mc->begin_group('AND');
-                $mc->add_constraint('task.status', '>=', org_openpsa_projects_task_status_dba::STARTED);
-                $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-            $mc->end_group();
+            $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
             $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::ACCEPTED);
+            $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::STARTED);
+            $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::REOPENED);
+            $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->end_group();
-        $mc->add_order('task.priority', 'ASC');
-        $tasks = $mc->get_values('task');
 
-        if (!empty($tasks))
-        {
-            foreach ($tasks as $task)
-            {
-                $this->_add_task_to_list($task, 'current');
-            }
-        }
+        $resource_tasks = $mc->get_values('task');
+        //var_dump($resource_tasks);
 
-        // Tasks completed by user and pending approval
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-        $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
-        $mc->add_order('task.priority', 'ASC');
-        $tasks = $mc->get_values('task');
-
-        if (!empty($tasks))
-        {
-            foreach ($tasks as $task)
-            {
-                $this->_add_task_to_list($task, 'completed');
-            }
-        }
-
-        // Tasks user is manager of that are pending acceptance
         $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
+
+        $qb->begin_group('OR');
+            //Get active tasks where user is a resource
+            $qb->add_constraint('id', 'IN', $resource_tasks);
+
+            //Get relevant tasks where user is manager
+            $qb->begin_group('AND');
+                $qb->add_constraint('manager', '=', midcom_connection::get_user());
+
+                $qb->begin_group('OR');
+                    $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
+                    $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::DECLINED);
+                    $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
+                    $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::ONHOLD);
+                $qb->end_group();
+            $qb->end_group();
+        $qb->end_group();
+
+        $qb->add_order('priority', 'ASC');
+        $tasks = $qb->execute();
+
+        $qb->add_constraint('manager', '=', midcom_connection::get_user());
+
+        $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
+        $qb->begin_group('OR');
         $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', midcom_connection::get_user());
-        $qb->add_order('priority', 'ASC');
-        $ret = $qb->execute();
-
-        if (count($ret) > 0)
-        {
-            foreach ($ret as $task)
-            {
-                if (!isset($this->_task_cache[$task->id]))
-                {
-                    $this->_task_cache[$task->id] = $task;
-                }
-                $this->_add_task_to_list($task->id, 'pending_accept');
-            }
-        }
-
-        // Tasks user is manager of that are have been declined by all resources
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::DECLINED);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', midcom_connection::get_user());
-        $qb->add_order('priority', 'ASC');
-        $ret = $qb->execute();
-
-        if (count($ret) > 0)
-        {
-            foreach ($ret as $task)
-            {
-                if (!isset($this->_task_cache[$task->id]))
-                {
-                    $this->_task_cache[$task->id] = $task;
-                }
-                $this->_add_task_to_list($task->id, 'declined');
-            }
-        }
-
-        // Tasks user is manager of that are pending approval
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', midcom_connection::get_user());
-        $qb->add_order('priority', 'ASC');
-        $ret = $qb->execute();
-
-        if (count($ret) > 0)
-        {
-            foreach ($ret as $task)
-            {
-                if (!isset($this->_task_cache[$task->id]))
-                {
-                    $this->_task_cache[$task->id] = $task;
-                }
-                $this->_add_task_to_list($task->id, 'pending_approve');
-            }
-        }
-
-        // Tasks user is manager of that are on hold
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::ONHOLD);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', midcom_connection::get_user());
-        $qb->add_order('priority', 'ASC');
-        $ret = $qb->execute();
+        $qb->end_group();
 
-        if (count($ret) > 0)
+        foreach ($tasks as $task)
         {
-            foreach ($ret as $task)
+            if (!isset($this->_task_cache[$task->id]))
             {
-                if (!isset($this->_task_cache[$task->id]))
-                {
-                    $this->_task_cache[$task->id] = $task;
-                }
-                $this->_add_task_to_list($task->id, 'onhold');
+                $this->_task_cache[$task->id] = $task;
             }
+            $this->_add_task_to_list($task->id, $this->_get_status_type($task));
         }
     }
 
@@ -325,8 +284,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         if (   !isset($args[1])
             || empty($args[1]))
         {
+            $this->_request_data['view_identifier'] = 'open';
             $args[1] = 'open';
         }
+
         switch ($args[1])
         {
             case 'agreement':
@@ -439,6 +400,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 break;
             default:
                 midcom_show_style("show-priority-filter");
+
                 if (count($this->_request_data['tasks']) > 0)
                 {
                     midcom_show_style("show-tasks-header");
@@ -475,6 +437,16 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 }
                 break;
         }
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_list_user($handler_id, array &$data)
+    {
+        $this->_show_list($handler_id, $data);
     }
 
     /**

@@ -55,9 +55,9 @@
     'variable_args' => 1,
 ),
 // Match /task/list/
-'task-list' => array
+'task-list-user' => array
 (
-    'handler' => array('org_openpsa_projects_handler_task_list', 'list'),
+    'handler' => array('org_openpsa_projects_handler_task_list', 'list_user'),
     'fixed_args' => array('task', 'list'),
 ),
 
