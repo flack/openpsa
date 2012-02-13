@@ -276,23 +276,21 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         echo '<table id="' . $this->_identifier . '"></table>';
         echo '<div id="p_' . $this->_identifier . '"></div>';
         echo '<script type="text/javascript">//<![CDATA[' . "\n";
-        if (null !== $this->_provider)
+
+        if (is_array($entries))
         {
-            if (is_array($entries))
+            if (null !== $this->_provider)
             {
                 $this->_provider->set_rows($entries);
             }
-            $this->_provider->setup_grid();
-        }
-        else if (is_array($entries))
-        {
-            echo "var " . $this->_identifier . '_entries = ' . json_encode($entries) . "\n";
-            $this->set_option('data', $this->_identifier . '_entries', false);
-            if (!array_key_exists('rowNum', $this->_options))
+            else
             {
-                $this->set_option('rowNum', sizeof($entries));
+                $this->_provider = new org_openpsa_widgets_grid_provider($entries);
+                $this->_provider->set_grid($this);
             }
         }
+
+        $this->_provider->setup_grid();
 
         echo $this->_prepend_js;
 
