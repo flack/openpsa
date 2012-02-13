@@ -33,7 +33,7 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'list'));
-        $this->assertEquals('task-list', $data['handler_id']);
+        $this->assertEquals('task-list-user', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();
     }
