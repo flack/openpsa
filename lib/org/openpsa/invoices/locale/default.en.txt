@@ -330,6 +330,10 @@ There is no invoice with number %s
 Totals
 ---STRINGEND
 
+---STRING unable to deliver mail: %s
+Unable to deliver mail: %s
+---STRINGEND
+
 ---STRING unsent
 Unsent
 ---STRINGEND

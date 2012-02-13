@@ -152,7 +152,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         if (!$mail->send())
         {
-            throw new midcom_error("Unable to deliver mail: " . $mail->get_error_message());
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message());
+            return false;
         }
         else
         {

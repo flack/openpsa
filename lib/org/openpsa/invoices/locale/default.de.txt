@@ -298,6 +298,10 @@ Netto-Betrag
 Gesamtsumme
 ---STRINGEND
 
+---STRING unable to deliver mail: %s
+E-Mail konnte nicht verschickt werden: %s
+---STRINGEND
+
 ---STRING unsent
 Unverschickt
 ---STRINGEND

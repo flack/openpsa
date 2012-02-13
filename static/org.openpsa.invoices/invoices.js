@@ -63,7 +63,7 @@ function process_invoice(button, action)
         var parsed = jQuery.parseJSON(data);
         if (parsed.success === false)
         {
-            //TODO: Error reporting
+            $.midcom_services_uimessage_add(parsed.message);
             return;
         }
         var old_grid = button.closest('.ui-jqgrid-btable'),
@@ -92,7 +92,7 @@ function process_invoice(button, action)
             new_grid.trigger('reloadGrid');
         }
         $(window).trigger('resize');
-        jQuery.midcom_services_uimessage_add(parsed.message);
+        $.midcom_services_uimessage_add(parsed.message);
     });
 }
 
