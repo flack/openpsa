@@ -53,14 +53,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             // Figure correct MidCOM DBA class to use and get midcom QB
             $qb = false;
-            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
             if (empty($midcom_dba_classname))
             {
                 debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
                 $x = false;
                 return $x;
             }
-            if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 $x = false;
@@ -427,10 +427,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $ref =& $this->_mgd_reflector;
         $target_class = $ref->get_link_name($property);
         $dummy_object = new $target_class();
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (!empty($midcom_dba_classname))
         {
-            if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 return false;
@@ -543,14 +543,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb = false;
 
             // Figure correct MidCOM DBA class to use and get midcom QB
-            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
+            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (empty($midcom_dba_classname))
             {
                 debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
                 return $qb;
             }
 
-            if (!$_MIDCOM->dbclassloader->load_component_for_class($midcom_dba_classname))
+            if (!midcom::get('dbclassloader')->load_component_for_class($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 return $qb;
@@ -900,7 +900,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 continue;
             }
 
-            $dba_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
+            $dba_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (!$dba_class)
             {
                 // Not a MidCOM DBA object, skip

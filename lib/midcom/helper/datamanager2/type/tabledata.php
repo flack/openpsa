@@ -877,7 +877,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
     private function _store_links()
     {
-        $mgdschema_classname = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class($this->link_class);
+        $mgdschema_classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($this->link_class);
         $ref = new midgard_reflection_property($mgdschema_classname);
 
         $type_map = Array();

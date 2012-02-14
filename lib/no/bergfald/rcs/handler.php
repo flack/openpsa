@@ -225,6 +225,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
         $_MIDCOM->bind_view_to_object($this->_object);
     }
+
     /**
      * Show the changes done to the object
      *

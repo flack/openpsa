@@ -377,7 +377,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     final public function __construct($topic, $config)
     {
-        if (! $_MIDCOM->dbclassloader->is_midcom_db_object($topic))
+        if (! midcom::get('dbclassloader')->is_midcom_db_object($topic))
         {
             $this->_topic = midcom::get('dbfactory')->convert_midgard_to_midcom($topic);
         }

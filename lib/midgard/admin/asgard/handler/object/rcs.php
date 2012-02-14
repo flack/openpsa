@@ -373,6 +373,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         $_MIDCOM->bind_view_to_object($this->_object);
     }
+
     /**
      * Show the changes done to the object
      *

@@ -97,7 +97,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             return self::$_cache['l10n'][$this->mgdschema_class];
         }
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
         if (empty($midcom_dba_classname))
         {
             // Could not resolve MidCOM DBA class name, fallback early to our own l10n
@@ -106,7 +106,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $this->_l10n;
         }
 
-        $component = $_MIDCOM->dbclassloader->get_component_for_class($midcom_dba_classname);
+        $component = midcom::get('dbclassloader')->get_component_for_class($midcom_dba_classname);
         if (!$component)
         {
             debug_add("Could not resolve component for DBA class {$midcom_dba_classname}, using our own l10n", MIDCOM_LOG_INFO);
@@ -140,7 +140,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
 
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
 
         if (!empty($midcom_dba_classname))
         {
@@ -181,7 +181,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_label_property()
     {
-        $midcom_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
+        $midcom_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
         if ($midcom_class)
         {
             $obj = new $midcom_class;
@@ -453,7 +453,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $obj =& $this->_dummy_object;
 
         // Get property list and start checking (or abort on error)
-        if ($_MIDCOM->dbclassloader->is_midcom_db_object($obj))
+        if (midcom::get('dbclassloader')->is_midcom_db_object($obj))
         {
             $properties = $obj->get_object_vars();
         }

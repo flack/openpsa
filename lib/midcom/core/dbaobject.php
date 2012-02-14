@@ -528,7 +528,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     public static function new_reflection_property()
     {
         // TODO: This will work only in PHP 5.3 thanks to late static binding
-        $classname = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class(__CLASS__);
+        $classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class(__CLASS__);
         return call_user_func(array($classname, 'new_reflection_property'));
     }
 
@@ -651,7 +651,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     {
         static $parent_mapping = array();
 
-        $class_name = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
+        $class_name = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($class_name);
         $reflector = new midgard_reflection_property($class_name);
         $up_property = midgard_object_class::get_property_up($class_name);
         if (!empty($up_property))

@@ -34,7 +34,7 @@ if (count($data['mgdschemas']) > 0)
                 }
                 else
                 {
-                    $linked_component = $_MIDCOM->dbclassloader->get_component_for_class($val['link_name']);
+                    $linked_component = midcom::get('dbclassloader')->get_component_for_class($val['link_name']);
                 }
                 if ($linked_component)
                 {

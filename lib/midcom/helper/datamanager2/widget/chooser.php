@@ -678,8 +678,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             }
         }
 
-        $this->class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($matching_type);
-        $this->component = $_MIDCOM->dbclassloader->get_component_for_class($matching_type);
+        $this->class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($matching_type);
+        $this->component = midcom::get('dbclassloader')->get_component_for_class($matching_type);
 
         if (empty($this->constraints))
         {

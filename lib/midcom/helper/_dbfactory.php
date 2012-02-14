@@ -128,11 +128,11 @@ class midcom_helper__dbfactory
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
         }
 
-        if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
+        if (midcom::get('dbclassloader')->is_mgdschema_object($object))
         {
-            $classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
+            $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
 
-            if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($classname))
+            if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($classname))
             {
                 throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
             }
@@ -402,7 +402,7 @@ class midcom_helper__dbfactory
             midcom::get('componentloader')->load('midcom.helper.replicator');
         }
 
-        if (!$_MIDCOM->dbclassloader->is_mgdschema_object($unserialized_object))
+        if (!midcom::get('dbclassloader')->is_mgdschema_object($unserialized_object))
         {
             debug_add("Unserialized object " . get_class($unserialized_object) . " is not recognized as supported MgdSchema class.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ERROR);
@@ -410,8 +410,8 @@ class midcom_helper__dbfactory
         }
 
         // Load the required component for DBA class
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($unserialized_object);
-        if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($unserialized_object);
+        if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot import.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ERROR);

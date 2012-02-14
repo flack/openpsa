@@ -355,7 +355,7 @@ class midcom_services_auth
         //otherwise, we assume (hope) that it's a midgard object
         else
         {
-            $content_object_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($content_object);
+            $content_object_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($content_object);
         }
 
         return $this->acl->can_do_byguid($privilege, $content_object->guid, $content_object_class, $user_id);

@@ -228,7 +228,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     private function _add_virtual_files($files, $component)
     {
         // Schemas
-        $this->_request_data['mgdschemas'] = $_MIDCOM->dbclassloader->get_component_classes($component);
+        $this->_request_data['mgdschemas'] = midcom::get('dbclassloader')->get_component_classes($component);
         if (count($this->_request_data['mgdschemas']))
         {
             $files['mgdschemas'] = array

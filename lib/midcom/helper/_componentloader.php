@@ -255,7 +255,7 @@ class midcom_helper__componentloader
             return false;
         }
 
-        $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
+        midcom::get('dbclassloader')->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
         $init_class =& $this->_interface_classes[$path];
         if ($init_class->initialize($path) == false)
