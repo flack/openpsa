@@ -204,9 +204,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         //first, try if there is a direct translation
-        if ($mimetype != $_MIDCOM->i18n->get_string($mimetype, 'org.openpsa.documents'))
+        if ($mimetype != midcom::get('i18n')->get_string($mimetype, 'org.openpsa.documents'))
         {
-            return ($_MIDCOM->i18n->get_string($mimetype, 'org.openpsa.documents'));
+            return (midcom::get('i18n')->get_string($mimetype, 'org.openpsa.documents'));
         }
 
         //if nothing is found, do some heuristics
@@ -253,7 +253,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             $subtype = strtoupper($subtype);
         }
 
-        return sprintf($_MIDCOM->i18n->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
+        return sprintf(midcom::get('i18n')->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
     }
 
     function backup_version()

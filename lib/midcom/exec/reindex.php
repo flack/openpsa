@@ -63,7 +63,7 @@ switch($_SERVER['SERVER_PORT'])
 }
 
 //check if language is passed - if not take the current-one
-$language = $_MIDCOM->i18n->get_current_language();
+$language = midcom::get('i18n')->get_current_language();
 if (isset($_REQUEST['language']))
 {
     $language = $_REQUEST['language'];

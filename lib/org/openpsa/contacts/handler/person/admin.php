@@ -260,7 +260,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
             // Update the index
             $indexer = $_MIDCOM->get_service('indexer');
-            $indexer->delete($this->_contact->guid . '_' . $_MIDCOM->i18n->get_content_language());
+            $indexer->delete($this->_contact->guid . '_' . midcom::get('i18n')->get_content_language());
 
             // Delete ok, relocating to welcome.
             $_MIDCOM->relocate('');

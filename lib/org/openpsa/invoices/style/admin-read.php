@@ -83,7 +83,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></p>
     <?php } ?>
 
-    <p><strong><?php echo $_MIDCOM->i18n->get_string('description', 'midcom');?>: </strong></p>
+    <p><strong><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </strong></p>
     <pre class="description">
           &(view['description']);
     </pre>
@@ -96,7 +96,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <thead>
         <tr>
         <th>
-        <?php echo $_MIDCOM->i18n->get_string('description', 'midcom'); ?>
+        <?php echo midcom::get('i18n')->get_string('description', 'midcom'); ?>
         </th>
         <th class='numeric'>
         <?php echo $data['l10n']->get('price'); ?>
@@ -225,13 +225,13 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', <?php
-                 echo '"index_date", "' .  $_MIDCOM->i18n->get_string('date', 'org.openpsa.projects') . '",';
+                 echo '"index_date", "' .  midcom::get('i18n')->get_string('date', 'org.openpsa.projects') . '",';
 
-                 echo '"index_reporter", "' .  $_MIDCOM->i18n->get_string('reporter', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('hours', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('description', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('approved', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects') . '"';
+                 echo '"index_reporter", "' .  midcom::get('i18n')->get_string('reporter', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('hours', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('description', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('approved', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('task', 'org.openpsa.projects') . '"';
                 ?>],
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
@@ -272,7 +272,7 @@ jQuery("#&(grid_id);").jqGrid({
         echo "    <input type=\"hidden\" name=\"guids[]\" value=\"" . $guid . "\" />\n";
     }
     echo "    <input type=\"hidden\" name=\"order[date]\" value=\"ASC\" />\n";
-    echo "    <input class=\"button\" type=\"submit\" value=\"" . $_MIDCOM->i18n->get_string('download as CSV', 'org.openpsa.core') . "\" />\n";
+    echo "    <input class=\"button\" type=\"submit\" value=\"" . midcom::get('i18n')->get_string('download as CSV', 'org.openpsa.core') . "\" />\n";
     echo "</form>\n";
 }
 ?>

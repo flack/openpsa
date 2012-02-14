@@ -234,7 +234,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         $options = array
         (
-            'none' => array('label' => $_MIDCOM->i18n->get_string("choose action", "midcom.admin.user")),
+            'none' => array('label' => midcom::get('i18n')->get_string("choose action", "midcom.admin.user")),
             'change_task' => array
             (
                 'label' => $this->_l10n->get('change_task'),

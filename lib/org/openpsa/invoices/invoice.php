@@ -91,13 +91,13 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $task->manager = midcom_connection::get_user();
         // TODO: Connect the customer as the contact?
         $task->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_TASK;
-        $task->title = sprintf($_MIDCOM->i18n->get_string('send invoice %s', 'org.openpsa.invoices'), sprintf($config->get('invoice_number_format'), sprintf($config->get('invoice_number_format'), $this->number)));
+        $task->title = sprintf(midcom::get('i18n')->get_string('send invoice %s', 'org.openpsa.invoices'), sprintf($config->get('invoice_number_format'), sprintf($config->get('invoice_number_format'), $this->number)));
         // TODO: Store link to invoice into description
         $task->end = time() + 24 * 3600;
         if ($task->create())
         {
             org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $this, 'org.openpsa.invoices');
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf($_MIDCOM->i18n->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name), 'ok');
+            $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf(midcom::get('i18n')->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name), 'ok');
         }
     }
 

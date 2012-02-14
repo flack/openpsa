@@ -57,7 +57,7 @@ if (count($data['hours']) > 0)
 }
 else
 {
-    echo "<p><a href=\"{$data['expenses_url']}\">" . $_MIDCOM->i18n->get_string('report hours', 'org.openpsa.expenses') . "</a></p>\n";
+    echo "<p><a href=\"{$data['expenses_url']}\">" . midcom::get('i18n')->get_string('report hours', 'org.openpsa.expenses') . "</a></p>\n";
 }
 ?>
 </div>

@@ -90,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->add_breadcrumb
             (
                 $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
-                $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto')
+                midcom::get('i18n')->get_string('view related information', 'org.openpsa.relatedto')
             );
             $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
         }
@@ -116,7 +116,7 @@ implements midcom_helper_datamanager2_interfaces_create
             array
             (
                 MIDCOM_TOOLBAR_URL => $this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('add journal entry', 'org.openpsa.relatedto'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('add journal entry', 'org.openpsa.relatedto'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
             )
         );

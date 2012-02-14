@@ -42,11 +42,11 @@
 
             if ($entry->closed)
             {
-                $row['closed'] = $_MIDCOM->i18n->get_string('finished', 'org.openpsa.relatedto');
+                $row['closed'] = midcom::get('i18n')->get_string('finished', 'org.openpsa.relatedto');
             }
             else
             {
-                $row['closed'] = $_MIDCOM->i18n->get_string('open', 'org.openpsa.relatedto');
+                $row['closed'] = midcom::get('i18n')->get_string('open', 'org.openpsa.relatedto');
             }
             $rows[] = $row;
         }
@@ -78,11 +78,11 @@
                   <?php
                   //index is needed for sorting
                   echo "'index_name',";
-                  echo "'" . $_MIDCOM->i18n->get_string('entry title', 'org.openpsa.relatedto') ."',";
-                  echo "'" . $_MIDCOM->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
-                  echo "'" . $_MIDCOM->i18n->get_string('entry created', 'org.openpsa.relatedto') . "',";
-                  echo "'index_creator', '" . $_MIDCOM->i18n->get_string('creator', 'midcom') . "',";
-                  echo "'" . $_MIDCOM->i18n->get_string('status', 'org.openpsa.relatedto') . "'";
+                  echo "'" . midcom::get('i18n')->get_string('entry title', 'org.openpsa.relatedto') ."',";
+                  echo "'" . midcom::get('i18n')->get_string('entry text', 'org.openpsa.relatedto') . "',";
+                  echo "'" . midcom::get('i18n')->get_string('entry created', 'org.openpsa.relatedto') . "',";
+                  echo "'index_creator', '" . midcom::get('i18n')->get_string('creator', 'midcom') . "',";
+                  echo "'" . midcom::get('i18n')->get_string('status', 'org.openpsa.relatedto') . "'";
                   ?>
         ],
         colModel:[

@@ -45,7 +45,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             {
                 $providers[] = array
                 (
-                    'helptext' => $_MIDCOM->i18n->get_string('search title', $component),
+                    'helptext' => midcom::get('i18n')->get_string('search title', $component),
                     'url' => $node_url . $route,
                     'identifier' => $component
                 );
@@ -122,12 +122,12 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $tabdata[] = array
             (
                'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
-               'title' => $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
+               'title' => midcom::get('i18n')->get_string('journal entries', 'org.openpsa.relatedto'),
             );
             $tabdata[] = array
             (
                'url' => '__mfa/org.openpsa.relatedto/render/' . $guid . '/both/',
-               'title' => $_MIDCOM->i18n->get_string('related objects', 'org.openpsa.relatedto'),
+               'title' => midcom::get('i18n')->get_string('related objects', 'org.openpsa.relatedto'),
             );
         }
 
@@ -140,7 +140,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         echo "\n</ul>\n";
         echo "</div>\n";
 
-        $wait = $_MIDCOM->i18n->get_string('loading', 'org.openpsa.widgets');
+        $wait = midcom::get('i18n')->get_string('loading', 'org.openpsa.widgets');
 
         echo <<<JSINIT
 <script type="text/javascript">

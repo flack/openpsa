@@ -49,7 +49,7 @@ foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
             if (   array_key_exists('active', $details)
                 && $details['active'] == 'no')
             {
-                $details['role'] = sprintf($_MIDCOM->i18n->get_string('not active %s', 'midcom'), $_MIDCOM->i18n->get_string($details['role'], 'midcom'));
+                $details['role'] = sprintf(midcom::get('i18n')->get_string('not active %s', 'midcom'), midcom::get('i18n')->get_string($details['role'], 'midcom'));
             }
 
             $developers[$identifier]['roles'][$details['role']][$package_type][$name] = $manifest->get_name_translated($name);
@@ -165,7 +165,7 @@ reset($developers);
                                         ?>
                                         <dt>
                                             <?php
-                                            echo sprintf($_MIDCOM->i18n->get_string('%s of packages of type %s', 'midcom'), $_MIDCOM->i18n->get_string($role, 'midcom'), $_MIDCOM->i18n->get_string($package_type, 'midcom'));
+                                            echo sprintf(midcom::get('i18n')->get_string('%s of packages of type %s', 'midcom'), midcom::get('i18n')->get_string($role, 'midcom'), midcom::get('i18n')->get_string($package_type, 'midcom'));
                                             ?>
                                         </dt>
                                         <dd>

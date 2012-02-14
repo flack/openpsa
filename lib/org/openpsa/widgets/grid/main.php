@@ -97,7 +97,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
         //needed js/css-files for jqgrid
         $lang = "en";
-        $language = $_MIDCOM->i18n->get_current_language();
+        $language = midcom::get('i18n')->get_current_language();
         if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'js/i18n/grid.locale-' . $language . '.js'))
         {
             $lang = $language;

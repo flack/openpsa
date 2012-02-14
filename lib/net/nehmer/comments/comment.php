@@ -627,14 +627,14 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
         else
         {
-            $user_string = "{$this->author} (" . $_MIDCOM->i18n->get_string('anonymous', 'midcom') . ")";
+            $user_string = "{$this->author} (" . midcom::get('i18n')->get_string('anonymous', 'midcom') . ")";
         }
 
-        $message['title'] = sprintf($_MIDCOM->i18n->get_string('page %s has been commented by %s', 'net.nehmer.comments'), $parent_title, $user_string);
+        $message['title'] = sprintf(midcom::get('i18n')->get_string('page %s has been commented by %s', 'net.nehmer.comments'), $parent_title, $user_string);
 
         $message['content']  = "{$this->title}\n";
         $message['content'] .= "{$this->content}\n\n";
-        $message['content'] .= $_MIDCOM->i18n->get_string('link to page', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
         $message['content'] .= $_MIDCOM->permalinks->create_permalink($this->objectguid);
 
         $message['abstract'] = $message['title'];

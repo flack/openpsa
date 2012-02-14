@@ -370,7 +370,7 @@ implements org_openpsa_widgets_grid_provider_client
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "billingdata/" . $billing_data_url,
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit billingdata', 'org.openpsa.contacts'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_customer->can_do('midgard:update'),
                 )

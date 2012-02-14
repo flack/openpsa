@@ -577,7 +577,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             {
                 if ($this->component)
                 {
-                    $header_data['title'] = $_MIDCOM->i18n->get_string($header_data['title'], $this->component);
+                    $header_data['title'] = midcom::get('i18n')->get_string($header_data['title'], $this->component);
                 }
                 else
                 {
@@ -776,7 +776,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $header_count = count($this->result_headers);
         foreach ($this->result_headers as $k => $header_item)
         {
-            $header_title = $_MIDCOM->i18n->get_string($_MIDCOM->i18n->get_string($header_item['title'], $this->component), 'midcom');
+            $header_title = midcom::get('i18n')->get_string(midcom::get('i18n')->get_string($header_item['title'], $this->component), 'midcom');
 
             $headers[] = array
             (
@@ -925,19 +925,19 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (   !empty($this->reflector_key)
             && !$this->result_headers)
         {
-            $title = $_MIDCOM->i18n->get_string('Label', 'midcom');
+            $title = midcom::get('i18n')->get_string('Label', 'midcom');
             $this->_static_items_html .= "            <th class=\"label\">{$title}&nbsp;</th>\n";
         }
         else
         {
             foreach ($this->result_headers as $header_item)
             {
-                $header_title = $_MIDCOM->i18n->get_string($_MIDCOM->i18n->get_string($header_item['title'], $this->component), 'midcom');
+                $header_title = midcom::get('i18n')->get_string(midcom::get('i18n')->get_string($header_item['title'], $this->component), 'midcom');
                 $this->_static_items_html .= "            <th class=\"{$header_item['name']}\">{$header_title}&nbsp;</th>\n";
             }
         }
 
-        $title = $_MIDCOM->i18n->get_string('Selected', 'midcom.helper.datamanager2');
+        $title = midcom::get('i18n')->get_string('Selected', 'midcom.helper.datamanager2');
         $this->_static_items_html .= "            <th class=\"selected\">{$title}&nbsp;</th>\n";
         $this->_static_items_html .= "        </tr>\n";
         $this->_static_items_html .= "    </thead>\n";
@@ -1055,7 +1055,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !$this->result_headers)
         {
             $value = @$object->get_label();
-            $title = $_MIDCOM->i18n->get_string('label', 'midcom');
+            $title = midcom::get('i18n')->get_string('label', 'midcom');
             $this->_static_items_html .= "<td class=\"label\">{$value}&nbsp;</td>\n";
         }
         else

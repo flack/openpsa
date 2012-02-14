@@ -37,7 +37,7 @@ $node = $nap->get_node($nap->get_current_node());
             $tabs[] = array
             (
                 'url' => $invoices_url . "list/customer/all/{$data['person']->guid}/",
-                'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
+                'title' => midcom::get('i18n')->get_string('invoices', 'org.openpsa.invoices'),
             );
         }
     }
@@ -51,7 +51,7 @@ $node = $nap->get_node($nap->get_current_node());
             $tabs[] = array
             (
                 'url' => $sales_url . "list/customer/{$data['person']->guid}/",
-                'title' => $_MIDCOM->i18n->get_string('salesprojects', 'org.openpsa.sales'),
+                'title' => midcom::get('i18n')->get_string('salesprojects', 'org.openpsa.sales'),
             );
         }
         }

@@ -119,7 +119,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                     'captcha',
                     array
                     (
-                        'title' => $_MIDCOM->i18n->get_string('captcha field title', 'midcom'),
+                        'title' => midcom::get('i18n')->get_string('captcha field title', 'midcom'),
                         'storage' => null,
                         'type' => 'captcha',
                         'widget' => 'captcha',

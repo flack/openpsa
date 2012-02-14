@@ -90,11 +90,11 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         try
         {
             $actor = new midcom_core_user($activity->actor);
-            return sprintf($_MIDCOM->i18n->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
+            return sprintf(midcom::get('i18n')->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
         }
         catch (midcom_error $e)
         {
-            return sprintf($_MIDCOM->i18n->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
+            return sprintf(midcom::get('i18n')->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
         }
     }
 

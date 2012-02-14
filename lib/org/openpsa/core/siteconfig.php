@@ -250,8 +250,8 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             {
                 $_MIDCOM->uimessages->add
                 (
-                    $_MIDCOM->i18n->get_string('org.openpsa.core', 'org.openpsa.core'),
-                    $_MIDCOM->i18n->get_string('owner organization couldnt be found', 'org.openpsa.core'),
+                    midcom::get('i18n')->get_string('org.openpsa.core', 'org.openpsa.core'),
+                    midcom::get('i18n')->get_string('owner organization couldnt be found', 'org.openpsa.core'),
                     'error'
                 );
             }

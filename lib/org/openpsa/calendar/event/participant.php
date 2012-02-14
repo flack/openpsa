@@ -52,7 +52,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     //TODO: Rewrite
     function notify($type = 'update', $event = false, $nl = "\n")
     {
-        $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
         $recipient = $this->get_person_obj();
 
         if (!$recipient)

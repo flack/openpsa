@@ -172,27 +172,27 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         // Construct the message
         $message = array();
-        $user_string = $_MIDCOM->i18n->get_string('anonymous', 'net.nemein.wiki');
+        $user_string = midcom::get('i18n')->get_string('anonymous', 'net.nemein.wiki');
         if (midcom::get('auth')->user)
         {
             $user = midcom::get('auth')->user->get_storage();
             $user_string = $user->name;
         }
         // Title for long notifications
-        $message['title'] = sprintf($_MIDCOM->i18n->get_string('page %s has been updated by %s', 'net.nemein.wiki'), $this->title, $user_string);
+        $message['title'] = sprintf(midcom::get('i18n')->get_string('page %s has been updated by %s', 'net.nemein.wiki'), $this->title, $user_string);
         // Content for long notifications
         $message['content']  = "{$message['title']}\n\n";
 
         // TODO: Get RCS diff here
-        $message['content'] .= $_MIDCOM->i18n->get_string('page modifications', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get('i18n')->get_string('page modifications', 'net.nemein.wiki') . ":\n";
         $message['content'] .= "\n{$diff}\n\n";
 
-        $message['content'] .= $_MIDCOM->i18n->get_string('link to page', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
         $message['content'] .= $_MIDCOM->permalinks->create_permalink($this->guid);
 
         // Content for short notifications
         $topic = new midcom_db_topic($this->topic);
-        $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('page %s has been updated by %s in wiki %s', 'net.nemein.wiki'), $this->title, $user_string, $topic->extra);
+        $message['abstract'] = sprintf(midcom::get('i18n')->get_string('page %s has been updated by %s in wiki %s', 'net.nemein.wiki'), $this->title, $user_string, $topic->extra);
 
         debug_add("Processing list of Wiki subscribers");
 
@@ -535,11 +535,11 @@ class net_nemein_wiki_wikipage extends midcom_db_article
                     && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
                 {
                     $wikilink = rawurlencode($wikilink);
-                    return "<a href=\"{$folder[MIDCOM_NAV_FULLURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . $_MIDCOM->i18n->get_string('click to create', 'net.nemein.wiki') . "\">{$text}</a>{$after}";
+                    return "<a href=\"{$folder[MIDCOM_NAV_FULLURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . midcom::get('i18n')->get_string('click to create', 'net.nemein.wiki') . "\">{$text}</a>{$after}";
                 }
                 else
                 {
-                    return "<span class=\"wiki_missing_nouser\" title=\"" . $_MIDCOM->i18n->get_string('login to create', 'net.nemein.wiki') . "\">{$text}</span>{$after}";
+                    return "<span class=\"wiki_missing_nouser\" title=\"" . midcom::get('i18n')->get_string('login to create', 'net.nemein.wiki') . "\">{$text}</span>{$after}";
                 }
             }
 

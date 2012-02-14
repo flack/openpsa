@@ -32,11 +32,11 @@ $grid->set_option('footerrow', true)
 <div class="area">
     <?php
     $data['qf']->render();
-    echo $_MIDCOM->i18n->get_string('group by', 'org.openpsa.core') . ': ';
+    echo midcom::get('i18n')->get_string('group by', 'org.openpsa.core') . ': ';
     echo '<select id="chgrouping_' . $grid_id . '">';
     echo '<option value="task">' . $data['l10n']->get('task') . "</option>\n";
     echo '<option value="person">' . $data['l10n']->get('person') . "</option>\n";
-    echo '<option value="clear">' . $_MIDCOM->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
+    echo '<option value="clear">' . midcom::get('i18n')->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
     echo '</select>';
     ?>
 </div>

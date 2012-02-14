@@ -319,7 +319,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $article->extra1 = "|{$feed_category}|";
 
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-        $article->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
+        $article->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
 
         // Handle categories provided in the feed
         if (isset($item['category']))
@@ -483,7 +483,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
             if ($node_lang_code != '')
             {
-                $lang_id = $_MIDCOM->i18n->code_to_id($node_lang_code);
+                $lang_id = midcom::get('i18n')->code_to_id($node_lang_code);
                 $article->lang = $lang_id;
             }
             $article->allow_name_catenate = true;
@@ -602,7 +602,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             // This item has been imported already earlier. Update
             $event = $events[0];
             $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-            $event->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
+            $event->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
             $event->allow_name_catenate = true;
             if (empty($event->name))
             {
@@ -635,13 +635,13 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
             if ($node_lang_code != '')
             {
-                $lang_id = $_MIDCOM->i18n->code_to_id($node_lang_code);
+                $lang_id = midcom::get('i18n')->code_to_id($node_lang_code);
                 $event->lang = $lang_id;
             }
             $event->allow_name_catenate = true;
             $event->title = (string)$item['title'];
             $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-            $event->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
+            $event->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
 
             $resolver = new midcom_helper_reflector_nameresolver($event);
             $event->name = $resolver->generate_unique_name();
@@ -1053,7 +1053,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         if (   !isset($item['title'])
             || !$item['title'])
         {
-            $item['title'] = $_MIDCOM->i18n->get_string('untitled', 'net.nemein.rss');
+            $item['title'] = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
 
             $item_date = $item['date_timestamp'];
 

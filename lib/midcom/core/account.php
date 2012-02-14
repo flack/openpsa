@@ -74,7 +74,7 @@ class midcom_core_account
         $this->_person->require_do('midgard:update');
         if (!$this->_is_username_unique())
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('username already exists', 'org.openpsa.contacts'), 'error');
+            $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), midcom::get('i18n')->get_string('username already exists', 'org.openpsa.contacts'), 'error');
             return false;
         }
 

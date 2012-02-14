@@ -149,8 +149,8 @@ class midcom_services__i18n_l10n
         $this->_library = $path;
         $this->_component_name = $library;
 
-        $this->_language_db = $_MIDCOM->i18n->get_language_db();
-        $this->_fallback_language = $_MIDCOM->i18n->get_fallback_language();
+        $this->_language_db = midcom::get('i18n')->get_language_db();
+        $this->_fallback_language = midcom::get('i18n')->get_fallback_language();
 
         if (!isset(self::$_localedb[$this->_library]))
         {
@@ -159,8 +159,8 @@ class midcom_services__i18n_l10n
 
         $this->_stringdb =& self::$_localedb[$this->_library];
 
-        $this->set_language($_MIDCOM->i18n->get_current_language());
-        $this->set_charset($_MIDCOM->i18n->get_current_charset());
+        $this->set_language(midcom::get('i18n')->get_current_language());
+        $this->set_charset(midcom::get('i18n')->get_current_charset());
     }
 
     /**
@@ -514,7 +514,7 @@ class midcom_services__i18n_l10n
             }
         }
 
-        return $_MIDCOM->i18n->convert_from_utf8($this->_stringdb[$language][$string]);
+        return midcom::get('i18n')->convert_from_utf8($this->_stringdb[$language][$string]);
     }
 
     /**

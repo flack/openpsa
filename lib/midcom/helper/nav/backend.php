@@ -748,7 +748,7 @@ class midcom_helper_nav_backend
             // complete NAV_NAMES where necessary
             if (trim($leaf[MIDCOM_NAV_NAME]) == '')
             {
-                $leaf[MIDCOM_NAV_NAME] = $_MIDCOM->i18n->get_string('unknown', 'midcom');
+                $leaf[MIDCOM_NAV_NAME] = midcom::get('i18n')->get_string('unknown', 'midcom');
             }
 
             // Some basic information

@@ -240,8 +240,8 @@ class org_openpsa_helpers
 
         if (is_null($localeconv))
         {
-            $language = $_MIDCOM->i18n->get_current_language();
-            $language_db = $_MIDCOM->i18n->get_language_db();
+            $language = midcom::get('i18n')->get_current_language();
+            $language_db = midcom::get('i18n')->get_language_db();
             setlocale(LC_ALL, $language_db[$language]['locale']);
 
             $localeconv = localeconv();

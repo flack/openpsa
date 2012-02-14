@@ -517,7 +517,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                 || ($cardname != 'visiting'
                     && !$inherited_cards_only))
             {
-                echo '<div style="text-align:center"><em>' . $_MIDCOM->i18n->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
+                echo '<div style="text-align:center"><em>' . midcom::get('i18n')->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
             }
             echo "<strong>\n";
             if ($parent_name)

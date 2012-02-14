@@ -73,14 +73,14 @@ class midcom_exception_handler
         if (! is_null($this->user))
         {
             // The user has insufficient privileges
-            $login_warning = $_MIDCOM->i18n->get_string('login message - insufficient privileges', 'midcom');
+            $login_warning = midcom::get('i18n')->get_string('login message - insufficient privileges', 'midcom');
         }
         else if ($this->auth_credentials_found)
         {
-            $login_warning = $_MIDCOM->i18n->get_string('login message - user or password wrong', 'midcom');
+            $login_warning = midcom::get('i18n')->get_string('login message - user or password wrong', 'midcom');
         }
 
-        $title = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+        $title = midcom::get('i18n')->get_string('access denied', 'midcom');
 
         // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
         // an error page at this point (dynamic_load from site style? Code in Site Style, something
@@ -473,7 +473,7 @@ class midcom_error_forbidden extends midcom_error
     {
         if (is_null($message))
         {
-            $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+            $message = midcom::get('i18n')->get_string('access denied', 'midcom');
         }
         parent::__construct($message, $code);
     }
@@ -507,7 +507,7 @@ class midcom_error_midgard extends midcom_error
             else if ($last_error == MGD_ERR_ACCESS_DENIED)
             {
                 $code = MIDCOM_ERRFORBIDDEN;
-                $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+                $message = midcom::get('i18n')->get_string('access denied', 'midcom');
             }
             else if ($last_error == MGD_ERR_OBJECT_DELETED)
             {

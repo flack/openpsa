@@ -48,11 +48,11 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 <?php
                     //index is needed for sorting
                     echo "'index_name',";
-                    echo "'" . $_MIDCOM->i18n->get_string('entry title', 'org.openpsa.relatedto') ."',";
-                    echo "'" . $_MIDCOM->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
-                    echo "'" . $_MIDCOM->i18n->get_string('followUp', 'org.openpsa.relatedto') . "',";
+                    echo "'" . midcom::get('i18n')->get_string('entry title', 'org.openpsa.relatedto') ."',";
+                    echo "'" . midcom::get('i18n')->get_string('entry text', 'org.openpsa.relatedto') . "',";
+                    echo "'" . midcom::get('i18n')->get_string('followUp', 'org.openpsa.relatedto') . "',";
                     echo "'index_object',";
-                    echo "'" . $_MIDCOM->i18n->get_string('linked object', 'org.openpsa.relatedto') . "'";
+                    echo "'" . midcom::get('i18n')->get_string('linked object', 'org.openpsa.relatedto') . "'";
                 ?>
                 ],
                 colModel:[
@@ -66,7 +66,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                  ],
                 rownumbers: false,
                 loadonce: true,
-                caption: "<?php echo $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto');?>",
+                caption: "<?php echo midcom::get('i18n')->get_string('journal entries', 'org.openpsa.relatedto');?>",
                 sortname: 'remind_date'
              });
         </script>

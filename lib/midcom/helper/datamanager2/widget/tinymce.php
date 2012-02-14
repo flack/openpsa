@@ -157,7 +157,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         }
 
 
-        $language = $_MIDCOM->i18n->get_current_language();
+        $language = midcom::get('i18n')->get_current_language();
         // fix to use the correct langcode for norwegian.
         if ($language == 'no')
         {

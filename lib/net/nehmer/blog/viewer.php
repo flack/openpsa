@@ -128,7 +128,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 array
                 (
                     MIDCOM_TOOLBAR_URL => 'feeds/subscribe/',
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('subscribe feeds', 'net.nemein.rss'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('subscribe feeds', 'net.nemein.rss'),
                     MIDCOM_TOOLBAR_ICON => 'net.nemein.rss/rss-16.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
                 )
@@ -138,7 +138,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 array
                 (
                     MIDCOM_TOOLBAR_URL => 'feeds/list/',
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage feeds', 'net.nemein.rss'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('manage feeds', 'net.nemein.rss'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
                 )
@@ -148,7 +148,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "feeds/fetch/all",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('refresh all feeds', 'net.nemein.rss'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('refresh all feeds', 'net.nemein.rss'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
                 )

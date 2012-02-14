@@ -733,7 +733,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                             {
                                 foreach ($fields as $key => $value)
                                 {
-                                    $contact[$type][$key] = iconv('ISO-8859-1', $_MIDCOM->i18n->get_current_charset(), $value);
+                                    $contact[$type][$key] = iconv('ISO-8859-1', midcom::get('i18n')->get_current_charset(), $value);
                                 }
                             }
 

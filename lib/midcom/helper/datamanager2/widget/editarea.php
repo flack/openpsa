@@ -101,7 +101,7 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
         $this->_form->applyFilter($this->name, 'trim');
 
         $ea_lang = "en";
-        $language = $_MIDCOM->i18n->get_current_language();
+        $language = midcom::get('i18n')->get_current_language();
         if (file_exists(MIDCOM_STATIC_ROOT . '/midcom.helper.datamanager2/edit_area/langs/' . $language . '.js'))
         {
             $ea_lang = $language;

@@ -119,7 +119,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $class_label = $ref->get_class_label();
         $object_label = $ref->get_object_label($this->_object);
 
-        $relatedto_button_settings['wikinote']['wikiword'] = sprintf($_MIDCOM->i18n->get_string('notes for %s %s on %s', 'org.openpsa.relatedto'), $class_label, $object_label, strftime('%x %H:%M'));
+        $relatedto_button_settings['wikinote']['wikiword'] = sprintf(midcom::get('i18n')->get_string('notes for %s %s on %s', 'org.openpsa.relatedto'), $class_label, $object_label, strftime('%x %H:%M'));
 
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_object, $this->_request_data['topic']->component, $relatedto_button_settings);
 
@@ -499,7 +499,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         // Time
         echo '                    <li class="time">' . strftime('%x', $other_obj->metadata->created) . "</li>\n";
         // Author
-        echo "                    <li class=\"members\">" . $_MIDCOM->i18n->get_string('sender', 'net.nemein.wiki') . ": ";
+        echo "                    <li class=\"members\">" . midcom::get('i18n')->get_string('sender', 'net.nemein.wiki') . ": ";
         $author_card = org_openpsa_widgets_contact::get($other_obj->metadata->creator);
         echo $author_card->show_inline()." ";
         echo "                    </li>\n";
@@ -530,7 +530,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $qb->end_group();
         $qb->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $recipients = $qb->execute();
-        echo "                    <li class=\"members\">" . $_MIDCOM->i18n->get_string('recipients', 'net.nemein.wiki') . ": ";
+        echo "                    <li class=\"members\">" . midcom::get('i18n')->get_string('recipients', 'net.nemein.wiki') . ": ";
         foreach ($recipients as $recipient_link)
         {
             try
@@ -688,7 +688,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
 
-        $title = $_MIDCOM->i18n->get_string('invoice', 'org.openpsa.invoices') . ' ' . $other_obj->get_label();
+        $title = midcom::get('i18n')->get_string('invoice', 'org.openpsa.invoices') . ' ' . $other_obj->get_label();
 
         if ($invoices_url)
         {
@@ -746,7 +746,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             case 'net.nemein.wiki':
             case 'org.openpsa.calendar':
-                echo "<li><input type=\"button\" class=\"button\" id=\"org_openpsa_relatedto_details_button_{$other_obj->guid}\" onclick=\"ooToggleRelatedInfoDisplay('{$other_obj->guid}');\" class=\"info\" value=\"" . $_MIDCOM->i18n->get_string('details', 'org.openpsa.relatedto') . "\" /></li>\n";
+                echo "<li><input type=\"button\" class=\"button\" id=\"org_openpsa_relatedto_details_button_{$other_obj->guid}\" onclick=\"ooToggleRelatedInfoDisplay('{$other_obj->guid}');\" class=\"info\" value=\"" . midcom::get('i18n')->get_string('details', 'org.openpsa.relatedto') . "\" /></li>\n";
                 break;
         }
 
@@ -754,12 +754,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    <span id=\"org_openpsa_relatedto_toolbar_confirmdeny_{$link['guid']}\">\n";
-            echo "        <li id=\"org_openpsa_relatedto_toolbar_confirm_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . $_MIDCOM->i18n->get_string('confirm relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'confirm', '{$link['guid']}');\" /></li>\n";
-            echo "        <li id=\"org_openpsa_relatedto_toolbar_deny_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . $_MIDCOM->i18n->get_string('deny relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'deny', '{$link['guid']}');\" /><li>\n";
+            echo "        <li id=\"org_openpsa_relatedto_toolbar_confirm_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . midcom::get('i18n')->get_string('confirm relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'confirm', '{$link['guid']}');\" /></li>\n";
+            echo "        <li id=\"org_openpsa_relatedto_toolbar_deny_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . midcom::get('i18n')->get_string('deny relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'deny', '{$link['guid']}');\" /><li>\n";
             echo "    </span>\n";
         }
 
-        echo '<li><input type="button" class="button delete" id="org_openpsa_relatedto_delete-' . $link['guid'] . '" value="' . $_MIDCOM->i18n->get_string('delete relation', 'org.openpsa.relatedto') . '" /></li>';
+        echo '<li><input type="button" class="button delete" id="org_openpsa_relatedto_delete-' . $link['guid'] . '" value="' . midcom::get('i18n')->get_string('delete relation', 'org.openpsa.relatedto') . '" /></li>';
 
         echo "</ul>\n";
     }

@@ -109,7 +109,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
 
         // Check for empty title in existing events
         if (   $this->id
@@ -677,7 +677,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     function details_text($display_title = true, $member = false, $nl = "\n")
     {
-        $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
         $str = '';
         if ($display_title)
         {

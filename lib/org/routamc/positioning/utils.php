@@ -182,7 +182,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             else
             {
                 $bearing = org_routamc_positioning_utils::get_bearing($city_coordinates, $coordinates);
-                $city_string = sprintf($_MIDCOM->i18n->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
+                $city_string = sprintf(midcom::get('i18n')->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
             }
         }
         return $city_string;
@@ -245,7 +245,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             else
             {
                 $bearing = org_routamc_positioning_utils::get_bearing($city_coordinates, $coordinates);
-                $city_string .= sprintf($_MIDCOM->i18n->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, $city_label);
+                $city_string .= sprintf(midcom::get('i18n')->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, $city_label);
             }
 
             $city_string .= "</span>";

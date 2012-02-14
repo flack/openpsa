@@ -69,9 +69,9 @@ $addresses = array();
     if (array_key_exists('billing_data', $data))
     {
         echo "<h2>" . $data['l10n']->get('invoice defaults') . "</h2>\n";
-        echo "<div><strong>" . $_MIDCOM->i18n->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
+        echo "<div><strong>" . midcom::get('i18n')->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->vat . " %</div>\n";
-        echo "<div><strong>" . $_MIDCOM->i18n->get_string('payment target', 'org.openpsa.invoices') . ": </strong>";
+        echo "<div><strong>" . midcom::get('i18n')->get_string('payment target', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->due . "</div>\n";
         $data['billing_data']->render_address();
     }
@@ -91,7 +91,7 @@ $addresses = array();
             $tabs[] = array
             (
                 'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
-                'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
+                'title' => midcom::get('i18n')->get_string('invoices', 'org.openpsa.invoices'),
             );
         }
         $sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales');
@@ -100,7 +100,7 @@ $addresses = array();
             $tabs[] = array
             (
                 'url' => $sales_url . "list/customer/{$data['group']->guid}/",
-                'title' => $_MIDCOM->i18n->get_string('salesprojects', 'org.openpsa.sales'),
+                'title' => midcom::get('i18n')->get_string('salesprojects', 'org.openpsa.sales'),
             );
         }
     }

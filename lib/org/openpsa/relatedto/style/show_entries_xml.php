@@ -50,11 +50,11 @@ foreach ($data['entries'] as $entry)
         {
             if ($entry->closed)
             {
-                echo "<cell>" . $_MIDCOM->i18n->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
+                echo "<cell>" . midcom::get('i18n')->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
             }
             else
             {
-                echo "<cell>" . $_MIDCOM->i18n->get_string('open', 'org.openpsa.relatedto') . "</cell>";
+                echo "<cell>" . midcom::get('i18n')->get_string('open', 'org.openpsa.relatedto') . "</cell>";
             }
         }
 

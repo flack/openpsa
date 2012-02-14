@@ -64,7 +64,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $data['wiki_tools']->add_item(
             array
             (
-                MIDCOM_TOOLBAR_URL => 'http://' . $_MIDCOM->i18n->get_current_language() . '.wikipedia.org/wiki/' . rawurlencode($data['wikiword']),
+                MIDCOM_TOOLBAR_URL => 'http://' . midcom::get('i18n')->get_current_language() . '.wikipedia.org/wiki/' . rawurlencode($data['wikiword']),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('look for %s in wikipedia'), $data['wikiword']),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
                 MIDCOM_TOOLBAR_OPTIONS => array

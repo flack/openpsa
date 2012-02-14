@@ -219,7 +219,7 @@ class midcom_helper_toolbar
 
         if (is_null($label))
         {
-            $label = $_MIDCOM->i18n->get_string('help', 'midcom.admin.help');
+            $label = midcom::get('i18n')->get_string('help', 'midcom.admin.help');
         }
 
         $this->add_item
@@ -688,7 +688,7 @@ class midcom_helper_toolbar
                 $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
                 $label = $new_label;
             }
-            else if ($_MIDCOM->i18n->get_current_language() == 'en')
+            else if (midcom::get('i18n')->get_current_language() == 'en')
             {
                 // Try lowercase too
                 $position = strpos($label, $accesskey_lower);

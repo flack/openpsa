@@ -92,12 +92,12 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             {
                 if (!$metadata->unlock())
                 {
-                    $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf($_MIDCOM->i18n->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_connection::get_error_string()), 'error');
+                    $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf(midcom::get('i18n')->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_connection::get_error_string()), 'error');
                 }
             }
             else
             {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), $_MIDCOM->i18n->get_string('permission denied', 'midcom'), 'error');
+                $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), midcom::get('i18n')->get_string('permission denied', 'midcom'), 'error');
             }
 
             // Make sure we have CSS loaded
@@ -151,7 +151,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             }
 
             debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
-            $dm2_label = $_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
+            $dm2_label = midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
 
             foreach ($this->datamanager->validation_errors as $name => $message)
             {
@@ -167,7 +167,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                 $_MIDCOM->uimessages->add
                 (
                     $dm2_label,
-                    sprintf($_MIDCOM->i18n->get_string('validation failed for field %s: %s', 'midcom.helper.datamanager2'), $label, $message),
+                    sprintf(midcom::get('i18n')->get_string('validation failed for field %s: %s', 'midcom.helper.datamanager2'), $label, $message),
                     'error'
                 );
             }

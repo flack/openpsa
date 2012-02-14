@@ -109,7 +109,7 @@ class org_openpsa_mypage_workingon
             // Generate a message
             if ($description == "")
             {
-                $description = sprintf($_MIDCOM->i18n->get_string('worked from %s to %s', 'org.openpsa.mypage'), strftime('%x %X', $this->start), strftime('%x %X', time()));
+                $description = sprintf(midcom::get('i18n')->get_string('worked from %s to %s', 'org.openpsa.mypage'), strftime('%x %X', $this->start), strftime('%x %X', time()));
             }
 
             // Do the actual report
@@ -156,12 +156,12 @@ class org_openpsa_mypage_workingon
         $stat = $hour_report->create();
         if (!$stat)
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf($_MIDCOM->i18n->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
+            $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get('i18n')->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
             return false;
         }
         //apply minimum_time_slot
         $hour_report->modify_hours_by_time_slot();
-        $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf($_MIDCOM->i18n->get_string('successfully reported %d hours to task %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title), 'ok');
+        $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get('i18n')->get_string('successfully reported %d hours to task %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title), 'ok');
         return true;
     }
 }

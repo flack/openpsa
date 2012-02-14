@@ -78,7 +78,7 @@ class net_nemein_wiki_moinmoin_importer
         $this->resolver = new net_nemein_wiki_wikipage();
         $this->_schemadb['default'] = new midcom_helper_datamanager2_schema($schemadb_path, 'default');
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('net.nemein.wiki');
+        $this->_l10n = midcom::get('i18n')->get_l10n('net.nemein.wiki');
     }
 
     function import_file($title, $revision_path)

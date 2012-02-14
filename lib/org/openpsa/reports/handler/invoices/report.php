@@ -241,7 +241,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
         $data['table_class'] = $type;
-        $data['table_title'] = $_MIDCOM->i18n->get_string($type . ' invoices', 'org.openpsa.invoices');
+        $data['table_title'] = midcom::get('i18n')->get_string($type . ' invoices', 'org.openpsa.invoices');
 
         $data['invoices'] = $invoices;
 

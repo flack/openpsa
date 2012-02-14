@@ -400,7 +400,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             $l10n_name = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         }
-        $this->_l10n_schema = $_MIDCOM->i18n->get_l10n($l10n_name);
+        $this->_l10n_schema = midcom::get('i18n')->get_l10n($l10n_name);
 
         if (array_key_exists('operations', $this->_raw_schema))
         {
@@ -444,7 +444,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     {
                         if (!$prepended)
                         {
-                            $field['static_prepend'] = "<h3 style='clear: left;'>" . $_MIDCOM->i18n->get_string('metadata', 'midcom') . "</h3>\n" . $field['static_prepend'];
+                            $field['static_prepend'] = "<h3 style='clear: left;'>" . midcom::get('i18n')->get_string('metadata', 'midcom') . "</h3>\n" . $field['static_prepend'];
                             $prepended = true;
                         }
                         $this->append_field($name, $field);

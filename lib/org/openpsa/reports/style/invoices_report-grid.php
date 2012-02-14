@@ -136,13 +136,13 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', 'index_number', <?php
-                 echo '"' . $_MIDCOM->i18n->get_string('invoice number', 'org.openpsa.invoices') . '", "owner",';
-                 echo '"' . $_MIDCOM->i18n->get_string($data['date_field'], 'org.openpsa.invoices') . '",';
-                 echo '"index_customer", "' . $_MIDCOM->i18n->get_string('customer', 'org.openpsa.invoices') . '",';
-                 echo '"index_contact", "' . $_MIDCOM->i18n->get_string('customer contact', 'org.openpsa.invoices') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('sum excluding vat', 'org.openpsa.invoices') . '",';
-                 echo '"index_vat", "' . $_MIDCOM->i18n->get_string('vat', 'org.openpsa.invoices') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('vat sum', 'org.openpsa.invoices') . '"';
+                 echo '"' . midcom::get('i18n')->get_string('invoice number', 'org.openpsa.invoices') . '", "owner",';
+                 echo '"' . midcom::get('i18n')->get_string($data['date_field'], 'org.openpsa.invoices') . '",';
+                 echo '"index_customer", "' . midcom::get('i18n')->get_string('customer', 'org.openpsa.invoices') . '",';
+                 echo '"index_contact", "' . midcom::get('i18n')->get_string('customer contact', 'org.openpsa.invoices') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('sum excluding vat', 'org.openpsa.invoices') . '",';
+                 echo '"index_vat", "' . midcom::get('i18n')->get_string('vat', 'org.openpsa.invoices') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('vat sum', 'org.openpsa.invoices') . '"';
       ?>],
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
@@ -190,7 +190,7 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 <form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-org.openpsa.core/csv_export.php">
 <input id="&(grid_id);_csvdata" type="hidden" value="" name="org_openpsa_export_csv_data" />
 <input type="hidden" value="&(filename);.csv" name="org_openpsa_export_csv_filename" />
-<input class="button" type="submit" value="<?php echo $_MIDCOM->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
+<input class="button" type="submit" value="<?php echo midcom::get('i18n')->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
 
 <script type="text/javascript">
@@ -198,14 +198,14 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 org_openpsa_export_csv.add({
       id: '&(grid_id);',
       fields: {
-          index_number: '<?php echo $_MIDCOM->i18n->get_string('invoice number', 'org.openpsa.invoices'); ?>',
+          index_number: '<?php echo midcom::get('i18n')->get_string('invoice number', 'org.openpsa.invoices'); ?>',
           date: '<?php echo $data['l10n_midcom']->get('date'); ?>',
           owner: '<?php echo $data['l10n_midcom']->get('owner'); ?>',
-          index_customer: '<?php echo $_MIDCOM->i18n->get_string('customer', 'org.openpsa.invoices'); ?>',
-          index_contact: '<?php echo $_MIDCOM->i18n->get_string('customer contact', 'org.openpsa.invoices'); ?>',
-          sum: '<?php echo $_MIDCOM->i18n->get_string('sum excluding vat', 'org.openpsa.invoices'); ?>',
-          vat: '<?php echo $_MIDCOM->i18n->get_string('vat', 'org.openpsa.invoices'); ?>',
-          vat_sum: '<?php echo $_MIDCOM->i18n->get_string('vat sum', 'org.openpsa.invoices'); ?>'
+          index_customer: '<?php echo midcom::get('i18n')->get_string('customer', 'org.openpsa.invoices'); ?>',
+          index_contact: '<?php echo midcom::get('i18n')->get_string('customer contact', 'org.openpsa.invoices'); ?>',
+          sum: '<?php echo midcom::get('i18n')->get_string('sum excluding vat', 'org.openpsa.invoices'); ?>',
+          vat: '<?php echo midcom::get('i18n')->get_string('vat', 'org.openpsa.invoices'); ?>',
+          vat_sum: '<?php echo midcom::get('i18n')->get_string('vat sum', 'org.openpsa.invoices'); ?>'
         }
 });
 

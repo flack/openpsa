@@ -90,7 +90,7 @@ class midcom_services_toolbars
     public function __construct()
     {
         // Default label for the "Page" toolbar
-        $this->_view_toolbar_label = $_MIDCOM->i18n->get_string('page', 'midcom');
+        $this->_view_toolbar_label = midcom::get('i18n')->get_string('page', 'midcom');
 
         // FIXME: initialize() should be called by the callee, not here in constructor
         $this->initialize();
@@ -350,7 +350,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/edit/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit folder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit folder', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'g',
                 )
@@ -361,7 +361,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$urltopic->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit folder metadata', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit folder metadata', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                 )
             );
@@ -378,7 +378,7 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$urltopic->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move', 'midcom.admin.folder'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move', 'midcom.admin.folder'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                     )
                 );
@@ -393,7 +393,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('order navigation', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('order navigation', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/topic-score.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'o',
                 )
@@ -404,7 +404,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$topic->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 )
@@ -429,8 +429,8 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('unapprove topic', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('approved', 'midcom'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('unapprove topic', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('approved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => $icon,
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
@@ -455,8 +455,8 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('approve topic', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('unapproved', 'midcom'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('approve topic', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('unapproved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => $icon,
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
@@ -497,7 +497,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $styleeditor_url,
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit layout template', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit layout template', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/text-x-generic-template.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 't',
                     MIDCOM_TOOLBAR_ENABLED => $enabled,
@@ -513,7 +513,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/create/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create subfolder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create subfolder', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'f',
                 )
@@ -526,7 +526,7 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/createlink/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create folder link', 'midcom.admin.folder'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create folder link', 'midcom.admin.folder'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
                         MIDCOM_TOOLBAR_ACCESSKEY => 'f',
                     )
@@ -541,7 +541,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/delete/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('delete folder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('delete folder', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     // for terminate d is used by everyone to go to the location bar
                 )
@@ -577,7 +577,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('logout', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('logout', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'l',
                 )
@@ -589,7 +589,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'a',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
@@ -603,7 +603,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('invalidate cache', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('invalidate cache', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 )
             );
@@ -613,7 +613,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('test settings', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('test settings', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
                 )
             );
@@ -647,7 +647,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/help/{$calling_componentname}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('component help', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('component help', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
@@ -658,7 +658,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "http://www.midgard-project.org/documentation/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('online documentation', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('online documentation', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_internet.png',
             )
@@ -668,7 +668,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "http://www.midgard-project.org/discussion/user-forum/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('user forum', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user forum', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
             )
@@ -678,7 +678,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "http://trac.openpsa2.org/roadmap",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('issue tracker', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('issue tracker', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'midcom.admin.help/applications-development.png',
             )
@@ -688,7 +688,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/about.php",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('about midgard', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('about midgard', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/logos/midgard-16x16.png',
             )
@@ -745,8 +745,8 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/unapprove/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('unapprove', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('approved', 'midcom'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('unapprove', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('approved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/page-approved.png',
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
@@ -765,8 +765,8 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/approve/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('approve', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('unapproved', 'midcom'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('approve', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('unapproved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/page-notapproved.png',
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
@@ -787,7 +787,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/metadata/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit metadata', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit metadata', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'm',
                 )
@@ -797,7 +797,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/move/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                     MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
                 )
@@ -807,7 +807,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 )
@@ -823,7 +823,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "{$prefix}__ais/rcs/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('show history', 'no.bergfald.rcs'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('show history', 'no.bergfald.rcs'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'v',
                 )

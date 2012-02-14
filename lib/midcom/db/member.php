@@ -48,7 +48,7 @@ class midcom_db_member extends midcom_core_dbaobject
     {
         $person = new midcom_db_person($this->uid);
         $grp = new midcom_db_group($this->gid);
-        return sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
+        return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
     }
 
     /**
@@ -161,11 +161,11 @@ class midcom_db_member extends midcom_core_dbaobject
             && isset(midcom::get('auth')->user->guid)
             && $actor->guid == midcom::get('auth')->user->guid)
         {
-            $this->summary = sprintf($_MIDCOM->i18n->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);
+            $this->summary = sprintf(midcom::get('i18n')->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);
         }
         else
         {
-            $this->summary = sprintf($_MIDCOM->i18n->get_string('%s was added to group %s', 'midcom'), $actor->name, $target->official);
+            $this->summary = sprintf(midcom::get('i18n')->get_string('%s was added to group %s', 'midcom'), $actor->name, $target->official);
         }
         $activity->create();
 
@@ -204,11 +204,11 @@ class midcom_db_member extends midcom_core_dbaobject
         if (    midcom::get('auth')->is_valid_user()
              && $actor->guid == midcom::get('auth')->user->guid)
         {
-            $activity->summary = sprintf($_MIDCOM->i18n->get_string('%s left group %s', 'midcom'), $actor->name, $target->official);
+            $activity->summary = sprintf(midcom::get('i18n')->get_string('%s left group %s', 'midcom'), $actor->name, $target->official);
         }
         else
         {
-            $activity->summary = sprintf($_MIDCOM->i18n->get_string('%s was removed from group %s', 'midcom'), $actor->name, $target->official);
+            $activity->summary = sprintf(midcom::get('i18n')->get_string('%s was removed from group %s', 'midcom'), $actor->name, $target->official);
         }
         $activity->create();
 

@@ -74,18 +74,18 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             case '____ais-imagepopup-list_folder_noobject':
             case '____ais-imagepopup-list_folder':
                 $data['list_type'] = 'folder';
-                $data['list_title'] = $_MIDCOM->i18n->get_string('folder attachments', 'midcom.helper.imagepopup');
+                $data['list_title'] = midcom::get('i18n')->get_string('folder attachments', 'midcom.helper.imagepopup');
                 break;
 
             case '____ais-imagepopup-list_object':
                 $data['list_type'] = 'page';
-                $data['list_title'] = $_MIDCOM->i18n->get_string('page attachments', 'midcom.helper.imagepopup');
+                $data['list_title'] = midcom::get('i18n')->get_string('page attachments', 'midcom.helper.imagepopup');
                 break;
 
             case '____ais-imagepopup-list_unified_noobject':
             case '____ais-imagepopup-list_unified':
                 $data['list_type'] = 'unified';
-                $data['list_title'] = $_MIDCOM->i18n->get_string('unified search', 'midcom.helper.imagepopup');
+                $data['list_title'] = midcom::get('i18n')->get_string('unified search', 'midcom.helper.imagepopup');
                 $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
                 break;
         }
@@ -240,7 +240,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             // No image fields natively in the schema, add one
             $schema['fields']['midcom_helper_imagepopup_images'] = Array
             (
-                'title' => $_MIDCOM->i18n->get_string('images', 'midcom.helper.imagepopup'),
+                'title' => midcom::get('i18n')->get_string('images', 'midcom.helper.imagepopup'),
                 'storage' => null,
                 'type' => 'images',
                 'widget' => 'images',
@@ -252,7 +252,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
             $schema['fields']['midcom_helper_imagepopup_files'] = Array
             (
-                'title' => $_MIDCOM->i18n->get_string('files', 'midcom.helper.imagepopup'),
+                'title' => midcom::get('i18n')->get_string('files', 'midcom.helper.imagepopup'),
                 'storage' => null,
                 'type' => 'blobs',
                 'widget' => 'downloads',

@@ -42,7 +42,7 @@ if (   !isset($_REQUEST['nodeid'])
 //check if language is passed & set language if needed
 if (isset($_REQUEST['language']))
 {
-    $_MIDCOM->i18n->set_language($_REQUEST['language']);
+    midcom::get('i18n')->set_language($_REQUEST['language']);
 }
 
 debug_add('Disabling script abort through client.');
