@@ -76,7 +76,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
 
         // Add style sheet
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');

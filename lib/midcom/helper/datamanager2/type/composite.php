@@ -472,11 +472,11 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             );
             $_MIDCOM->set_custom_context_data('midcom_helper_datamanager2_widget_composite', $request_data);
             echo "<{$this->area_element} id=\"{$form_identifier}_area\" class=\"temporary_item\" style=\"display: none;\">\n";
-            $_MIDCOM->style->show("_dm2_composite_{$this->style_element_name}_item");
+            midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_item");
             echo "</{$this->area_element}>\n";
         }
 
-        $_MIDCOM->style->show("_dm2_composite_{$this->style_element_name}_footer");
+        midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_footer");
 
         foreach (array_keys($this->_schemadb) as $name)
         {
@@ -516,7 +516,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
         );
 
         $_MIDCOM->set_custom_context_data('midcom_helper_datamanager2_widget_composite', $request_data);
-        $_MIDCOM->style->show("_dm2_composite_{$this->style_element_name}_header");
+        midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_header");
 
         $item_count = 0;
         foreach ($this->objects as $identifier => $object)
@@ -532,14 +532,14 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
 
             $_MIDCOM->set_custom_context_data('midcom_helper_datamanager2_widget_composite', $request_data);
             echo "<{$this->area_element} id=\"{$this->_controllers[$identifier]->form_identifier}_area\">\n";
-            $_MIDCOM->style->show("_dm2_composite_{$this->style_element_name}_item");
+            midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_item");
             echo "</{$this->area_element}>\n";
         }
 
         //If creation data was added, the footer is already spliced in
         if (!$this->add_creation_data())
         {
-            $_MIDCOM->style->show("_dm2_composite_{$this->style_element_name}_footer");
+            midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_footer");
         }
 
         $results = ob_get_contents();

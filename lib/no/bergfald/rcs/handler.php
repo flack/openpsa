@@ -243,7 +243,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_view_toolbar->hide_item("__ais/rcs/{$this->_guid}/");
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('no.bergfald.rcs');
+        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         $this->_prepare_breadcrumb();
 
@@ -289,7 +289,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_load_object();
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('no.bergfald.rcs');
+        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         if (   !$this->_backend->version_exists($args[1])
             || !$this->_backend->version_exists($args[2]) )
@@ -356,7 +356,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_args = $args;
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('no.bergfald.rcs');
+        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         $revision = $args[1];
 
@@ -401,7 +401,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         // TODO: set another privilege for restoring?
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('no.bergfald.rcs');
+        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         $this->_prepare_toolbars($args[1]);
 

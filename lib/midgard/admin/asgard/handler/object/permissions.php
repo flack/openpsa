@@ -66,7 +66,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _on_initialize()
     {
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
+        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');

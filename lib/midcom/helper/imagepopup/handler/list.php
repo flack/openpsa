@@ -109,7 +109,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.helper.imagepopup');
+        midcom::get('style')->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
     private function _create_controller(&$data)

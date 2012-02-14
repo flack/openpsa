@@ -44,7 +44,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _on_initialize()
     {
         // doing this here as this component most probably will not be called by itself.
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.help');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.help');
     }
 
     static function check_component($component)

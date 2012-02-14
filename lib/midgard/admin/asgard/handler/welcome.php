@@ -26,7 +26,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     public function _on_initialize()
     {
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
+        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');

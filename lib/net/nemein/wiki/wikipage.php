@@ -309,7 +309,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         // Return from the DLd context into the correct context
         // FIXME: Why doesn't dynamic_load do this by itself?
-        $_MIDCOM->style->enter_context($oldcontext);
+        midcom::get('style')->enter_context($oldcontext);
 
         return "{$content}{$after}";
     }

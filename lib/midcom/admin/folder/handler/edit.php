@@ -217,7 +217,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $help_toolbar->add_help_item('edit_folder', 'midcom.admin.folder', null, null, 1);
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
     }
@@ -396,7 +396,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     {
         if (isset($GLOBALS['midcom_style_inherited']))
         {
-            $up = $_MIDCOM->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
+            $up = midcom::get('style')->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
             debug_add("Style inherited from {$GLOBALS['midcom_style_inherited']}");
         }
         else
@@ -419,7 +419,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         debug_print_r('New style created', $style);
 
-        return $_MIDCOM->style->get_style_path_from_id($style->id);
+        return midcom::get('style')->get_style_path_from_id($style->id);
     }
 
     /**

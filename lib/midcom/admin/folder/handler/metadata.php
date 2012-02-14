@@ -143,7 +143,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $help_toolbar->add_help_item('edit_metadata', 'midcom.admin.folder', null, null, 1);
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
     }
 
     /**

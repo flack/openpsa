@@ -86,8 +86,8 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
         }
 
         // Find the element we're looking for
-        $style_path = $_MIDCOM->style->get_style_path_from_id($data['object']->style);
-        $style_elements = $_MIDCOM->style->get_style_elements_and_nodes($style_path);
+        $style_path = midcom::get('style')->get_style_path_from_id($data['object']->style);
+        $style_elements = midcom::get('style')->get_style_elements_and_nodes($style_path);
         $element_path = null;
         $element_component = null;
         foreach ($style_elements['elements'] as $component => $elements)
@@ -120,9 +120,9 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
      */
     public static function get_help_style_elementnames(midcom_db_style $style)
     {
-        $style_path = $_MIDCOM->style->get_style_path_from_id($style->id);
+        $style_path = midcom::get('style')->get_style_path_from_id($style->id);
         $data = $_MIDCOM->get_custom_context_data('request_data');
-        $data['help_style_elementnames'] = $_MIDCOM->style->get_style_elements_and_nodes($style_path);
+        $data['help_style_elementnames'] = midcom::get('style')->get_style_elements_and_nodes($style_path);
         $_MIDCOM->set_custom_context_data('request_data', $data);
         return 'style_elementnames';
     }

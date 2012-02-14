@@ -65,7 +65,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         {
             $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
             // FIXME: This is a rather ugly hack
-            $_MIDCOM->style->enter_context(0);
+            midcom::get('style')->enter_context(0);
         }
         ?>
     </div>
@@ -76,7 +76,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         {
             $_MIDCOM->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
             // FIXME: This is a rather ugly hack
-            $_MIDCOM->style->enter_context(0);
+            midcom::get('style')->enter_context(0);
         }
         ?>
     </div>

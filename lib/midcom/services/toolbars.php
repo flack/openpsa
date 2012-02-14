@@ -476,7 +476,7 @@ class midcom_services_toolbars
             $styleeditor_url = '';
             if ($topic->style != '')
             {
-                $style_id = $_MIDCOM->style->get_style_id_from_path($topic->style);
+                $style_id = midcom::get('style')->get_style_id_from_path($topic->style);
                 if ($style_id)
                 {
                     try

@@ -37,7 +37,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
         $this->_anchor_prefix = $this->_request_data['plugin_anchorprefix'];
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
 
         $this->_request_data['folder'] = $this->_topic;
 

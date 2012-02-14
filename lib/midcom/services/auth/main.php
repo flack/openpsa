@@ -1153,10 +1153,10 @@ class midcom_services_auth
         }
 
         // Pass our local but very useful variables on to the style element
-        $_MIDCOM->style->data['midcom_services_auth_show_login_page_title'] = $title;
-        $_MIDCOM->style->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
+        midcom::get('style')->data['midcom_services_auth_show_login_page_title'] = $title;
+        midcom::get('style')->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
 
-        $_MIDCOM->style->show_midcom('midcom_services_auth_login_page');
+        midcom::get('style')->show_midcom('midcom_services_auth_login_page');
 
         $_MIDCOM->finish();
         _midcom_stop_request();

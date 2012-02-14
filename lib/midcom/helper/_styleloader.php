@@ -444,7 +444,7 @@ class midcom_helper__styleloader
             return $results;
         }
 
-        $style_nodes = $_MIDCOM->style->get_nodes_using_style($style);
+        $style_nodes = midcom::get('style')->get_nodes_using_style($style);
 
         foreach ($style_nodes as $node)
         {
@@ -459,7 +459,7 @@ class midcom_helper__styleloader
         foreach ($results['nodes'] as $component => $nodes)
         {
             // Get the list of style elements for the component
-            $results['elements'][$component] = $_MIDCOM->style->get_component_default_elements($component);
+            $results['elements'][$component] = midcom::get('style')->get_component_default_elements($component);
 
             // Arrange elements in alphabetical order
             ksort($results['elements'][$component]);
@@ -999,6 +999,6 @@ class midcom_helper__styleloader
  */
 function midcom_show_style($param)
 {
-    return $_MIDCOM->style->show($param);
+    return midcom::get('style')->show($param);
 }
 ?>

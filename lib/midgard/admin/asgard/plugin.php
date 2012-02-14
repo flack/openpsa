@@ -51,8 +51,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
 
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->style->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
+        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
+        midcom::get('style')->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
     }
 
     public static function get_type_label($type)

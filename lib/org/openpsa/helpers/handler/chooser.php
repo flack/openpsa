@@ -52,7 +52,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function __construct()
     {
         parent::__construct();
-        $_MIDCOM->style->prepend_component_styledir('org.openpsa.helpers');
+        midcom::get('style')->prepend_component_styledir('org.openpsa.helpers');
     }
 
     /**

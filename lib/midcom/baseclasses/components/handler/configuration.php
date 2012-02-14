@@ -152,9 +152,9 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_config($handler_id, array &$data)
     {
-        $_MIDCOM->style->data['controller'] =& $this->_controller;
-        $_MIDCOM->style->data['title'] = $data['title'];
-        $_MIDCOM->style->show_midcom('dm2_config');
+        midcom::get('style')->data['controller'] =& $this->_controller;
+        midcom::get('style')->data['title'] = $data['title'];
+        midcom::get('style')->show_midcom('dm2_config');
     }
 
     /**
@@ -220,11 +220,11 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom::get()->disable_limits();
 
-        $_MIDCOM->style->data['title'] = $data['title'];
-        $_MIDCOM->style->data['objects'] = $this->_load_objects();
-        $_MIDCOM->style->data['datamanagers'] = $data['datamanagers'];
+        midcom::get('style')->data['title'] = $data['title'];
+        midcom::get('style')->data['objects'] = $this->_load_objects();
+        midcom::get('style')->data['datamanagers'] = $data['datamanagers'];
 
-        $_MIDCOM->style->show_midcom('dm2_config_recreate');
+        midcom::get('style')->show_midcom('dm2_config_recreate');
     }
 }
 ?>

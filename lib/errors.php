@@ -101,11 +101,11 @@ class midcom_exception_handler
 
         midcom::get('cache')->content->no_cache();
 
-        $_MIDCOM->style->data['midcom_services_auth_access_denied_message'] = $message;
-        $_MIDCOM->style->data['midcom_services_auth_access_denied_title'] = $title;
-        $_MIDCOM->style->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
+        midcom::get('style')->data['midcom_services_auth_access_denied_message'] = $message;
+        midcom::get('style')->data['midcom_services_auth_access_denied_title'] = $title;
+        midcom::get('style')->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
 
-        $_MIDCOM->style->show_midcom('midcom_services_auth_access_denied');
+        midcom::get('style')->show_midcom('midcom_services_auth_access_denied');
 
         $_MIDCOM->finish();
         debug_add("Error Page output finished, exiting now");
@@ -251,14 +251,7 @@ class midcom_exception_handler
         _midcom_header ($header);
         _midcom_header ('Content-Type: text/html');
 
-        if (isset($_MIDCOM->style))
-        {
-            $style = $_MIDCOM->style;
-        }
-        else
-        {
-            $style = new midcom_helper__styleloader();
-        }
+        $style = midcom::get('style');
 
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
