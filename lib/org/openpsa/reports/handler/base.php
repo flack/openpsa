@@ -245,7 +245,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if (!preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style']))
         {
             debug_add("appending '{$this->_request_data['query_data']['style']}' to substyle path");
-            $_MIDCOM->substyle_append($this->_request_data['query_data']['style']);
+            midcom::get('style')->append_substyle($this->_request_data['query_data']['style']);
         }
 
         //TODO: Check if we're inside DL if so do not force mimetype

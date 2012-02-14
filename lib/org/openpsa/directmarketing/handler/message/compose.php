@@ -88,7 +88,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             && !preg_match('/^builtin:/', $data['message_array']['substyle']))
         {
             debug_add("Appending substyle {$data['message_array']['substyle']}");
-            $_MIDCOM->substyle_append($data['message_array']['substyle']);
+            midcom::get('style')->append_substyle($data['message_array']['substyle']);
         }
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         $_MIDCOM->skip_page_style = true;
