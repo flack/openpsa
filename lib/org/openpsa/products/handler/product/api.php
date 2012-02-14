@@ -32,7 +32,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         //Content-Type
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         $this->_load_datamanager();
         $_MIDCOM->load_library('midcom.helper.xml');
@@ -119,7 +119,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error("Product {$args[0]} could not be loaded with Datamanager.");
         }
 
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
     }
 
     /**
@@ -167,7 +167,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
                 }
             }
         }
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
 
         $qb->add_order('code');
         $qb->add_order('title');

@@ -153,7 +153,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
 
         // These pages need no caching
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         // Custom styles
         $this->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css');

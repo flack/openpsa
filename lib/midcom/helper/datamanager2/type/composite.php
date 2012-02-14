@@ -372,7 +372,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             case 'view':
                 break;
             case 'ajax_delete':
-                $_MIDCOM->cache->content->content_type('text/xml');
+                midcom::get('cache')->content->content_type('text/xml');
                 $_MIDCOM->header('Content-type: text/xml; charset=utf-8');
                 echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' . "\n";
                 echo "<deletion id=\"{$identifier}\">\n";

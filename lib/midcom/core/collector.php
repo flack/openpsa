@@ -210,7 +210,7 @@ class midcom_core_collector extends midcom_core_query
             }
 
             // Register the GUID as loaded in this request
-            $_MIDCOM->cache->content->register($object_guid);
+            midcom::get('cache')->content->register($object_guid);
 
             $newresult[$object_guid] = array();
         }

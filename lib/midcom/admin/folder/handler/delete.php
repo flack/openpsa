@@ -204,7 +204,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         }
 
         // Invalidate everything since we operate recursive here.
-        $_MIDCOM->cache->invalidate_all();
+        midcom::get('cache')->invalidate_all();
 
         return true;
     }

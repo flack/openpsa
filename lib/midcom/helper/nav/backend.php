@@ -190,7 +190,7 @@ class midcom_helper_nav_backend
         $tmp = $_MIDCOM->get_context_data($context, MIDCOM_CONTEXT_ROOTTOPIC);
         $this->_root = $tmp->id;
 
-        $this->_nap_cache = $_MIDCOM->cache->nap;
+        $this->_nap_cache = midcom::get('cache')->nap;
 
         $this->_loader = $_MIDCOM->get_component_loader();
 

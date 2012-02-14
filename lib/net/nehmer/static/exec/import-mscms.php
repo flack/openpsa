@@ -1,7 +1,7 @@
 <?php
 midcom::get('auth')->require_admin_user();
 // Get us to full live mode
-$_MIDCOM->cache->content->enable_live_mode();
+midcom::get('cache')->content->enable_live_mode();
 
 midcom::get()->disable_limits();
 

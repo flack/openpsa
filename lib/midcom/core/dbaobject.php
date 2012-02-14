@@ -492,7 +492,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
         {
             return true;
         }
-        $_MIDCOM->cache->invalidate($this->guid);
+        midcom::get('cache')->invalidate($this->guid);
         $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
         return $this->__object->approve();
     }
@@ -502,7 +502,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
         {
             return true;
         }
-        $_MIDCOM->cache->invalidate($this->guid);
+        midcom::get('cache')->invalidate($this->guid);
         $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
         return $this->__object->unapprove();
     }

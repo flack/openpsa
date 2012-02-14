@@ -41,7 +41,7 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
      */
     function display_form($form_identifier = 'ajax')
     {
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
         $_MIDCOM->header('Content-type: text/xml; charset=utf-8');
         echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' . "\n";
 
@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
      */
     function display_view($form_identifier = 'ajax', $new_form_identifier = null)
     {
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
         $_MIDCOM->header('Content-type: text/xml; charset=utf-8');
         echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' . "\n";
 

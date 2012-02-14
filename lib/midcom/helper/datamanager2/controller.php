@@ -239,7 +239,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             if ($metadata->is_locked())
             {
                 // Drop us to uncached state when locked
-                $_MIDCOM->cache->content->uncached();
+                midcom::get('cache')->content->uncached();
                 $this->show_unlock();
                 return;
             }

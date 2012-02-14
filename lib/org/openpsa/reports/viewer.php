@@ -95,7 +95,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
     }
 
     /**
@@ -129,7 +129,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 
         //We're outputting CSV
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('application/csv');
+        midcom::get('cache')->content->content_type('application/csv');
     }
 
     /**

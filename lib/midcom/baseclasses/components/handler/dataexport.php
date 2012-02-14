@@ -111,8 +111,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $_MIDCOM->skip_page_style = true;
 
         // FIXME: Use global configuration
-        //$_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
-        $_MIDCOM->cache->content->content_type('application/csv');
+        //midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
+        midcom::get('cache')->content->content_type('application/csv');
         _midcom_header('Content-Disposition: filename=' . $data['filename']);
     }
 
@@ -220,7 +220,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     public function _show_csv($handler_id, array &$data)
     {
         // Make real sure we're dumping data live
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
         while(@ob_end_flush());
 
         // Dump headers

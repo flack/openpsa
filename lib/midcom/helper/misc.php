@@ -96,7 +96,7 @@ class midcom_helper_misc
                 $cached_snippets[$path] = null;
                 return null;
             }
-            $_MIDCOM->cache->content->register($snippet->guid);
+            midcom::get('cache')->content->register($snippet->guid);
             $data = $snippet->code;
         }
         $cached_snippets[$path] = $data;

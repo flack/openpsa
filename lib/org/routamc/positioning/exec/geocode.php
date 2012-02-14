@@ -23,7 +23,7 @@ if (   isset($_GET['options'])
 {
     foreach ($_GET['options'] as $key => $value)
     {
-        $options[$key] = $value;        
+        $options[$key] = $value;
     }
 }
 
@@ -66,7 +66,7 @@ if (is_null($positions))
     $error_str = 'unknown';
     if (isset($geocoder->error))
     {
-        $error_str = $geocoder->error;        
+        $error_str = $geocoder->error;
     }
 
     $_MIDCOM->header('HTTP/1.0 500 Server Error');
@@ -76,7 +76,7 @@ if (is_null($positions))
     // This will exit
 }
 
-$_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
+midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
 $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
 
 echo "<results>\n";
@@ -96,9 +96,9 @@ foreach ($positions as $position)
         }
         else
         {
-            echo "        <{$key}>{$value}</{$key}>\n";            
+            echo "        <{$key}>{$value}</{$key}>\n";
         }
-    }    
+    }
     echo "    </position>\n";
 }
 echo "</results>\n";

@@ -2,7 +2,7 @@
 midcom::get('auth')->require_admin_user();
 
 // Ensure this is not buffered
-$_MIDCOM->cache->content->enable_live_mode();
+midcom::get('cache')->content->enable_live_mode();
 while(@ob_end_flush())
 
 midcom::get()->disable_limits();

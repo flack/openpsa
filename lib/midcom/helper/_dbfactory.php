@@ -313,7 +313,7 @@ class midcom_helper__dbfactory
                 return $cached_parent_guids[$object_guid];
             }
 
-            $parent_guid = $_MIDCOM->cache->memcache->lookup_parent_guid($object_guid);
+            $parent_guid = midcom::get('cache')->memcache->lookup_parent_guid($object_guid);
         }
         else if ($the_object === null)
         {
@@ -360,7 +360,7 @@ class midcom_helper__dbfactory
 
             if (mgd_is_guid($object_guid))
             {
-                $_MIDCOM->cache->memcache->update_parent_guid($object_guid, $parent_guid);
+                midcom::get('cache')->memcache->update_parent_guid($object_guid, $parent_guid);
             }
         }
 

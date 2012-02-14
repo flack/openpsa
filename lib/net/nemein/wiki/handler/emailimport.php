@@ -22,7 +22,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
     {
         //Content-Type
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get('cache')->content->content_type('text/plain');
 
         //Make sure we have the components we use and the Mail_mimeDecode package
         if (!$_MIDCOM->load_library('org.openpsa.mail'))

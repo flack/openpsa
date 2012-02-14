@@ -72,7 +72,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         midcom::get('auth')->request_sudo();
         debug_add('Forcing content type: text/plain');
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get('cache')->content->content_type('text/plain');
         $composed = $this->_prepare_send($data);
         $data['message_obj']->test_mode = false;
         $data['message_obj']->send_output = false;
@@ -108,7 +108,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         ini_set('log_errors', $le_backup);
         //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
         debug_add('Forcing content type: text/html');
-        $_MIDCOM->cache->content->content_type('text/html');
+        midcom::get('cache')->content->content_type('text/html');
 
         //PONDER: Should we leave these entirely for the methods to parse from the array ?
         $data['compose_subject'] = '';

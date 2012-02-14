@@ -25,7 +25,7 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
         $data['nap'] = new midcom_helper_nav();
         $data['node'] = $data['nap']->get_node($this->_topic->id);
 
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
 
         $_MIDCOM->skip_page_style = true;

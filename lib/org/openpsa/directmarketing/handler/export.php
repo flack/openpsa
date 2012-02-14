@@ -154,7 +154,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $this->_load_datamanagers();
         $this->_init_csv_variables();
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
+        midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
     }
 
     private function _process_member($member)
@@ -292,7 +292,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     public function _show_csv($handler_id, array &$data)
     {
         // Make absolutely sure we're in live output
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
         while(@ob_end_flush());
 
         $object_types = array('person', 'campaign_member', 'organization', 'organization_member');

@@ -50,7 +50,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             $this->_positioning = true;
         }
 
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
     }
 
     /**
@@ -690,7 +690,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     {
         //Content-Type
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
     }
 
     /**
@@ -718,8 +718,8 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         //Content-Type
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->no_cache();
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->no_cache();
+        midcom::get('cache')->content->content_type('text/xml');
 
         $this->_load_datamanager();
 

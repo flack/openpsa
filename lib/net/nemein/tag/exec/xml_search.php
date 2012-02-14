@@ -12,7 +12,7 @@
 $encoding = 'UTF-8';
 
 // Common headers
-$_MIDCOM->cache->content->content_type('text/xml');
+midcom::get('cache')->content->content_type('text/xml');
 $_MIDCOM->header('Content-type: text/xml; charset=' . $encoding);
 echo '<?xml version="1.0" encoding="' . $encoding . '" standalone="yes"?>' . "\n";
 echo "<response>\n";

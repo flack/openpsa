@@ -265,7 +265,7 @@ class midcom_helper__styleloader
             foreach ($styles as $style_guid => $value)
             {
                 $current_style = $mc->get_subkey($style_guid, 'id');
-                $_MIDCOM->cache->content->register($style_guid);
+                midcom::get('cache')->content->register($style_guid);
             }
         }
 
@@ -398,7 +398,7 @@ class midcom_helper__styleloader
             foreach ($elements as $element_guid => $value)
             {
                 $value = $element_mc->get_subkey($element_guid, 'value');
-                $_MIDCOM->cache->content->register($element_guid);
+                midcom::get('cache')->content->register($element_guid);
                 $cached[$id][$name] = $value;
                 return $value;
             }
@@ -414,7 +414,7 @@ class midcom_helper__styleloader
         foreach ($styles as $style_guid => $value)
         {
             // FIXME: Should we register this also in the other case
-            $_MIDCOM->cache->content->register($style_guid);
+            midcom::get('cache')->content->register($style_guid);
 
             $up = $style_mc->get_subkey($style_guid, 'up');
             if (   $up
@@ -688,9 +688,9 @@ class midcom_helper__styleloader
             // Cache style elements
             $instance_id = $path;
 
-            if ($_MIDCOM->cache->memcache->exists('style', $instance_id))
+            if (midcom::get('cache')->memcache->exists('style', $instance_id))
             {
-                eval('?>' . $_MIDCOM->cache->memcache->get('style', $instance_id));
+                eval('?>' . midcom::get('cache')->memcache->get('style', $instance_id));
                 return;
             }
         }
@@ -713,7 +713,7 @@ class midcom_helper__styleloader
         if ($instance_id)
         {
             // This element will be cached after display (if no errors occured)
-            $_MIDCOM->cache->memcache->put('style', $instance_id, $preparsed);
+            midcom::get('cache')->memcache->put('style', $instance_id, $preparsed);
         }
     }
 

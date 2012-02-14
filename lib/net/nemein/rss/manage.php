@@ -28,7 +28,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      */
     public function _handler_opml($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
 
         $_MIDCOM->skip_page_style = true;
@@ -341,7 +341,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     public function _handler_fetch($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
 
         //Disable limits
         @ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);

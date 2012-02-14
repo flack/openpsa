@@ -212,7 +212,7 @@ class midcom_services__i18n_l10n
 
         if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
         {
-            $stringtable = $_MIDCOM->cache->memcache->get('L10N', $filename);
+            $stringtable = midcom::get('cache')->memcache->get('L10N', $filename);
             if (is_array($stringtable))
             {
                 $this->_stringdb[$lang] = $stringtable;
@@ -359,7 +359,7 @@ class midcom_services__i18n_l10n
 
         if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
         {
-            $_MIDCOM->cache->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
+            midcom::get('cache')->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
         }
     }
 

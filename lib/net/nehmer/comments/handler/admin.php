@@ -167,7 +167,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
             }
 
-            $_MIDCOM->cache->invalidate($comment->objectguid);
+            midcom::get('cache')->invalidate($comment->objectguid);
             $this->_relocate_to_self();
         }
     }

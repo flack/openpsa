@@ -22,7 +22,7 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         $this->_request_data['enable_versioning'] = $this->_config->get('enable_versioning');
 
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         org_openpsa_widgets_grid::add_head_elements();
         org_openpsa_widgets_ui::enable_dynatree();

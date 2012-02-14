@@ -39,7 +39,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     public function _handler_trash($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_admin_user();
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         $data['view_title'] = $this->_l10n->get('trash');
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -87,7 +87,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     public function _handler_trash_type($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_admin_user();
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         $this->type = $args[0];
 

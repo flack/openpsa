@@ -214,7 +214,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             if (   isset($doc->source)
                 && mgd_is_guid($doc->source))
             {
-                $_MIDCOM->cache->content->register($doc->source);
+                midcom::get('cache')->content->register($doc->source);
             }
             */
             $result[] = $doc;

@@ -776,7 +776,7 @@ class midcom_core_privilege
      */
     private function _invalidate_cache()
     {
-        $_MIDCOM->cache->invalidate($this->objectguid);
+        midcom::get('cache')->invalidate($this->objectguid);
     }
 
     /**

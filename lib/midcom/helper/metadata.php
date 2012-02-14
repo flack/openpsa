@@ -460,7 +460,7 @@ class midcom_helper_metadata
         // Just be intelligent here :)
         if (!empty($this->guid))
         {
-            $_MIDCOM->cache->invalidate($this->guid);
+            midcom::get('cache')->invalidate($this->guid);
         }
     }
 

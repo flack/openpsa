@@ -1136,11 +1136,11 @@ class midcom_services_auth
     function show_login_page()
     {
         // Drop any output buffer first
-        $_MIDCOM->cache->content->disable_ob();
+        midcom::get('cache')->content->disable_ob();
 
         $this->_generate_http_response();
 
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         $title = $_MIDCOM->i18n->get_string('login', 'midcom');
 

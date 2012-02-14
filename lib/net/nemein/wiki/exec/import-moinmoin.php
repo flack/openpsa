@@ -55,7 +55,7 @@ $wiki_root = $_REQUEST['wiki_root'];
 $root_topic = midcom::get('dbfactory')->get_object_by_guid($_REQUEST['root_topic_guid']);
 $import_revisions = $_REQUEST['import_revisions'];
 
-$_MIDCOM->cache->content->enable_live_mode();
+midcom::get('cache')->content->enable_live_mode();
 while(@ob_end_flush());
 midcom::get()->disable_limits();
 

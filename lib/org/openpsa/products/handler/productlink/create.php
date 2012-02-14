@@ -123,7 +123,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->cache->invalidate($this->_productlink->guid);
+                midcom::get('cache')->invalidate($this->_productlink->guid);
 
                 $_MIDCOM->relocate("productlink/{$this->_productlink->guid}/");
                 // This will exit.

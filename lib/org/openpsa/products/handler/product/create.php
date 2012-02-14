@@ -132,7 +132,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
 
-                $_MIDCOM->cache->invalidate($this->_product->guid);
+                midcom::get('cache')->invalidate($this->_product->guid);
 
                 $_MIDCOM->relocate("product/{$this->_product->guid}/");
                 // This will exit.

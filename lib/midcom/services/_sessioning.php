@@ -188,7 +188,7 @@ class midcom_services__sessioning
         {
             if (!$no_cache)
             {
-                $_MIDCOM->cache->content->no_cache();
+                midcom::get('cache')->content->no_cache();
                 $no_cache = true;
             }
             return $this->_get_helper($domain, $key);
@@ -245,7 +245,7 @@ class midcom_services__sessioning
         static $no_cache = false;
         if (!$no_cache)
         {
-            $_MIDCOM->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
             $no_cache = true;
         }
         $_SESSION["midcom_session_data"][$domain][$key] = serialize($value);

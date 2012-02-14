@@ -21,7 +21,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
     }
 
     /**

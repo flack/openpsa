@@ -433,13 +433,13 @@ class midcom_helper__componentloader
      */
     function load_all_manifests()
     {
-        $manifests = $_MIDCOM->cache->memcache->get('MISC', 'midcom.componentloader.manifests');
+        $manifests = midcom::get('cache')->memcache->get('MISC', 'midcom.componentloader.manifests');
 
         if (! is_array($manifests))
         {
             debug_add('Cache miss, generating component manifest cache now.');
             $manifests = $this->_get_manifests();
-            $_MIDCOM->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
+            midcom::get('cache')->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
 
         foreach ($manifests as $manifest)

@@ -107,14 +107,14 @@ class midcom_baseclasses_core_dbobject
 
         $object->_on_updated();
 
-        $_MIDCOM->cache->invalidate($object->guid);
+        midcom::get('cache')->invalidate($object->guid);
 
         if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
         {
             $atts = $object->list_attachments();
             foreach ($atts as $att)
             {
-                $_MIDCOM->cache->invalidate($att->guid);
+                midcom::get('cache')->invalidate($att->guid);
                 $att->update_cache();
             }
         }
@@ -420,7 +420,7 @@ class midcom_baseclasses_core_dbobject
             && $parent->guid)
         {
             // Invalidate parent from cache so content caches have chance to react
-            $_MIDCOM->cache->invalidate($parent->guid);
+            midcom::get('cache')->invalidate($parent->guid);
         }
 
         // Invalidate Midgard pagecache if we touched style/page element
@@ -569,7 +569,7 @@ class midcom_baseclasses_core_dbobject
             $rcs->update($object, $object->get_rcs_message());
         }
 
-        $_MIDCOM->cache->invalidate($object->guid);
+        midcom::get('cache')->invalidate($object->guid);
 
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
@@ -632,7 +632,7 @@ class midcom_baseclasses_core_dbobject
                     && $parent->guid)
                 {
                     // Invalidate parent from cache so content caches have chance to react
-                    $_MIDCOM->cache->invalidate($parent->guid);
+                    midcom::get('cache')->invalidate($parent->guid);
                 }
 
                 // Invalidate Midgard pagecache if we touched style/page element
@@ -1003,9 +1003,9 @@ class midcom_baseclasses_core_dbobject
         $object->_on_loaded();
 
         // Register the GUID as loaded in this request
-        if (isset($_MIDCOM->cache->content))
+        if (isset(midcom::get('cache')->content))
         {
-            $_MIDCOM->cache->content->register($object->guid);
+            midcom::get('cache')->content->register($object->guid);
         }
 
         return true;

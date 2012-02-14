@@ -21,7 +21,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         if ($handler != 'mycontacts_xml')
         {

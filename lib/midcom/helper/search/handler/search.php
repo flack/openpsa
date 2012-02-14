@@ -194,7 +194,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         if ($count == 0)
         {
-            $_MIDCOM->cache->content->uncached();
+            midcom::get('cache')->content->uncached();
         }
 
         if ($count > 0)
@@ -223,7 +223,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
                     // Non-Midgard results don't need to go through cache registration
                     continue;
                 }
-                $_MIDCOM->cache->content->register($doc->source);
+                midcom::get('cache')->content->register($doc->source);
             }
             reset($this->_request_data['result']);
         }
@@ -336,7 +336,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_opensearchdescription($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->cache->content->content_type("application/opensearchdescription+xml");
+        midcom::get('cache')->content->content_type("application/opensearchdescription+xml");
         $_MIDCOM->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
         $_MIDCOM->skip_page_style = true;
     }

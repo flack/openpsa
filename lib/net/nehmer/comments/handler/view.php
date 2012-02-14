@@ -240,7 +240,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
 
         $this->_objectguid = $args[0];
-        $_MIDCOM->cache->content->register($this->_objectguid);
+        midcom::get('cache')->content->register($this->_objectguid);
 
         if ($handler_id == 'view-comments-nonempty')
         {
@@ -322,7 +322,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                                        "Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
             }
 
-            $_MIDCOM->cache->invalidate($comment->objectguid);
+            midcom::get('cache')->invalidate($comment->objectguid);
             $this->_relocate_to_self();
         }
     }
@@ -344,7 +344,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 // Check against comment spam
                 $this->_new_comment->check_spam($this->_config);
 
-                $_MIDCOM->cache->invalidate($this->_objectguid);
+                midcom::get('cache')->invalidate($this->_objectguid);
                 // Fall-through intentional
 
             case 'cancel':

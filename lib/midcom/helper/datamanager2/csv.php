@@ -189,7 +189,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
     function convert_list_to_stdout(&$list)
     {
         _midcom_header('Content-Type: text/plain');
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
 
         echo $this->get_header_line();
         foreach ($list as $id => $copy)

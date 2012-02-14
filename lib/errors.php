@@ -95,11 +95,11 @@ class midcom_exception_handler
         }
 
         // Drop any output buffer first.
-        $_MIDCOM->cache->content->disable_ob();
+        midcom::get('cache')->content->disable_ob();
 
         $this->_generate_http_response();
 
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         $_MIDCOM->style->data['midcom_services_auth_access_denied_message'] = $message;
         $_MIDCOM->style->data['midcom_services_auth_access_denied_title'] = $title;
@@ -272,7 +272,7 @@ class midcom_exception_handler
         }
 
         debug_add("Error Page output finished, exiting now");
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
         $_MIDCOM->finish();
         _midcom_stop_request();
     }

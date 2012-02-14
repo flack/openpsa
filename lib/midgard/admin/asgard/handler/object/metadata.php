@@ -123,7 +123,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 //$indexer = $_MIDCOM->get_service('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
-                $_MIDCOM->cache->invalidate($this->_object->guid);
+                midcom::get('cache')->invalidate($this->_object->guid);
                 $_MIDCOM->relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
                 // This will exit.
 

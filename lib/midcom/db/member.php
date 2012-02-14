@@ -96,7 +96,7 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             return;
         }
-        $_MIDCOM->cache->invalidate($person->guid);
+        midcom::get('cache')->invalidate($person->guid);
     }
 
     public function _on_creating()

@@ -617,11 +617,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Check whether this request should not be cached by default:
         if ($this->_handler['no_cache'] == true)
         {
-            $_MIDCOM->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
         }
         if ($this->_handler['expires'] >= 0)
         {
-            $_MIDCOM->cache->content->expires($this->_handler['expires']);
+            midcom::get('cache')->content->expires($this->_handler['expires']);
         }
 
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);

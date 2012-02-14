@@ -239,7 +239,7 @@ class org_openpsa_widgets_grid_provider
             'records' => $this->_total_rows,
             'rows' => $rows
         );
-        $_MIDCOM->cache->content->content_type('application/json');
+        midcom::get('cache')->content->content_type('application/json');
         $_MIDCOM->header('Content-type: application/json; charset=UTF-8');
 
         echo json_encode($response);
