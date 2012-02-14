@@ -248,7 +248,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
         if (!is_null($coordinates))
         {
             // ICBM tag as defined by http://geourl.org/
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (

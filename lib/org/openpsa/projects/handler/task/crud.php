@@ -117,7 +117,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 break;
         }
 
-        $_MIDCOM->set_pagetitle($view_title);
+        midcom::get('head')->set_pagetitle($view_title);
     }
 
     /**
@@ -282,7 +282,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
         //need js for chooser-widgets for list of hour - because of dynamic load loading is needed here
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css");
 
         if ($handler_id == 'task_view')

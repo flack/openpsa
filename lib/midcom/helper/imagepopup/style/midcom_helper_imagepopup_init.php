@@ -8,7 +8,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <head>
         <title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title>
         <?php
-        echo $_MIDCOM->print_head_elements();
+        echo midcom::get('head')->print_head_elements();
         ?>
     </head>
-    <body <?php $_MIDCOM->print_jsonload(); ?>>
+    <body <?php midcom::get('head')->print_jsonload(); ?>>

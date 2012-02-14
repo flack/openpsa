@@ -160,8 +160,8 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _prepare_output($mode)
     {
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . " %s"), $this->_l10n->get("billing data")));
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . " %s"), $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();
 

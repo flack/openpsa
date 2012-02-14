@@ -142,8 +142,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
             )
         );
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
 
@@ -378,7 +378,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         );
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
+        midcom::get('head')->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -447,7 +447,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             )
         );
 
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
+        midcom::get('head')->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }

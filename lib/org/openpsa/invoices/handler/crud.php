@@ -469,7 +469,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 break;
         }
 
-        $_MIDCOM->set_pagetitle($view_title);
+        midcom::get('head')->set_pagetitle($view_title);
     }
 
     function _prepare_request_data()

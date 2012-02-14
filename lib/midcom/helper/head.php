@@ -376,7 +376,7 @@ class midcom_helper_head
      *
      * <code>
      * <HTML>
-     *     <BODY <?php $_MIDCOM->print_jsonload();?>>
+     *     <BODY <?php midcom::get('head')->print_jsonload();?>>
      *            <!-- your actual body -->
      *     </BODY>
      * </HTML>

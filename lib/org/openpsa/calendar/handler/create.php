@@ -94,8 +94,8 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
-                $_MIDCOM->add_jsonload('window.opener.location.reload();');
-                $_MIDCOM->add_jsonload('window.close();');
+                midcom::get('head')->add_jsonload('window.opener.location.reload();');
+                midcom::get('head')->add_jsonload('window.close();');
                 break;
         }
 

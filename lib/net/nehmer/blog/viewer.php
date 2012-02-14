@@ -60,7 +60,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         if ($this->_config->get('rss_enable'))
         {
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (
@@ -70,7 +70,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                     'href'  => $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
                 )
             );
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (
@@ -83,7 +83,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
 
         // RSD (Really Simple Discoverability) autodetection
-        $_MIDCOM->add_link_head
+        midcom::get('head')->add_link_head
         (
             array
             (

@@ -18,7 +18,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         // Add machine-readable RSS link
-        $_MIDCOM->add_link_head
+        midcom::get('head')->add_link_head
         (
             array
             (

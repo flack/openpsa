@@ -229,7 +229,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             {
                 foreach ($feeds as $title => $url)
                 {
-                    $_MIDCOM->add_link_head
+                    midcom::get('head')->add_link_head
                     (
                         array
                         (
@@ -244,7 +244,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (

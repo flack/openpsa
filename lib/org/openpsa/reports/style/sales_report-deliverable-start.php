@@ -19,6 +19,6 @@ if (   !array_key_exists('title', $report)
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/common.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.sales/sales.css" />
         <script type="text/javascript" src="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/table2csv.js"></script>
-        <?php $_MIDCOM->print_head_elements(); ?>
+        <?php midcom::get('head')->print_head_elements(); ?>
     </head>
     <body>

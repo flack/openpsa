@@ -122,11 +122,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $this->service = 'geonames';
         }
 
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/position_widget.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.css');
-        $_MIDCOM->add_link_head
+        midcom::get('head')->add_link_head
         (
             array
             (
@@ -138,8 +138,8 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             )
         );
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
 
         $this->_element_id = "{$this->_namespace}{$this->name}_position_widget";
 
@@ -152,7 +152,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }";
 
         $script = "jQuery('#{$this->_element_id }').tabs({$config});\n";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
 
         $this->_get_country_list();
         $this->_init_widgets_js_options();
@@ -422,7 +422,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $script = "init_position_widget('{$this->_element_id}', mapstraction_{$this->_element_id}_map, {$this->js_options_str});";
         $script = "jQuery('#{$this->_element_id}').dm2_position_widget(mapstraction_{$this->_element_id}_map, {$this->js_options_str});";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
     }
 
     function _add_coordinates_method_elements()
@@ -588,7 +588,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             && !empty($lon))
         {
             $script = "jQuery('#{$this->_element_id}').dm2_pw_init_current_pos({$lat},{$lon});";
-            $_MIDCOM->add_jquery_state_script($script);
+            midcom::get('head')->add_jquery_state_script($script);
         }
 
         return Array

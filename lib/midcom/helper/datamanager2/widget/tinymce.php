@@ -131,11 +131,11 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $prefix = $this->_config->get('tinymce_url');
         if ($this->_config->get('tinymce_use_compressor'))
         {
-            $_MIDCOM->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
+            midcom::get('head')->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
         }
         else
         {
-            $_MIDCOM->add_jsfile("{$prefix}/tiny_mce.js", true);
+            midcom::get('head')->add_jsfile("{$prefix}/tiny_mce.js", true);
         }
     }
 
@@ -195,7 +195,7 @@ disk_cache : true,
 debug : false
 });
 EOT;
-            $_MIDCOM->add_jscript($script_gz);
+            midcom::get('head')->add_jscript($script_gz);
         }
 
         // Compute the final script:
@@ -215,7 +215,7 @@ browsers : "msie,gecko,opera,safari"
 });
 EOT;
 
-        $_MIDCOM->add_jscript($script);
+        midcom::get('head')->add_jscript($script);
     }
 
     /**

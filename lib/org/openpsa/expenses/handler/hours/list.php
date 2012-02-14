@@ -102,7 +102,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->add_breadcrumb('', $data['breadcrumb_title']);
     }
 

@@ -121,7 +121,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 break;
         }
 
-        $_MIDCOM->set_pagetitle($view_title);
+        midcom::get('head')->set_pagetitle($view_title);
     }
 
     /**

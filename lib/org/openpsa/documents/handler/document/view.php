@@ -213,7 +213,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_request_data['document_dm'] =& $this->_datamanager;
         $this->_request_data['document'] =& $this->_document;
 
-        $_MIDCOM->set_pagetitle($this->_document->title);
+        midcom::get('head')->set_pagetitle($this->_document->title);
 
         if ($this->_document->nextVersion == 0)
         {

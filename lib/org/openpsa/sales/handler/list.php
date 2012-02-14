@@ -72,7 +72,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         // TODO: Filtering
 
         $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_salesprojects_grid', 'local');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
 
         $this->add_breadcrumb("", $data['list_title']);
     }

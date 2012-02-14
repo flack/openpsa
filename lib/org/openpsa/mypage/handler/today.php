@@ -75,12 +75,12 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->_populate_toolbar();
 
         $data['title'] = strftime($data['requested_time']);
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Add the JS file for workingon widget
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/jQuery/jquery.epiclock.min.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/jQuery/jquery.epiclock.min.js");
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");

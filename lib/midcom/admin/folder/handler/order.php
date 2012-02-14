@@ -142,15 +142,15 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     public function _handler_order($handler_id, array $args, array &$data)
     {
         // jQuery sorting
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
 
         // These pages need no caching
         midcom::get('cache')->content->no_cache();
@@ -177,7 +177,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $folder_title = $data['folder']->name;
         }
         $data['title'] = sprintf(midcom::get('i18n')->get_string('order navigation in folder %s', 'midcom.admin.folder'), $folder_title);
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
         $help_toolbar = midcom::get('toolbars')->get_help_toolbar();

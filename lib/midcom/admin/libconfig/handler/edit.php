@@ -160,7 +160,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['controller'] =& $this->_controller;
 
         $this->_update_breadcrumb();
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _save_configuration()

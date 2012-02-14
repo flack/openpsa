@@ -94,7 +94,7 @@ abstract class midcom_baseclasses_components_base
      */
     public function add_stylesheet($url, $media = false)
     {
-        $_MIDCOM->add_stylesheet($url, $media);
+        midcom::get('head')->add_stylesheet($url, $media);
     }
 }
 ?>

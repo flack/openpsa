@@ -77,9 +77,9 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.projects/frontpage.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.projects/frontpage.js');
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get('current projects'));
+        midcom::get('head')->set_pagetitle($this->_l10n->get('current projects'));
     }
 
     /**

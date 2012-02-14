@@ -186,7 +186,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_message->title);
+        midcom::get('head')->set_pagetitle($this->_message->title);
         $_MIDCOM->bind_view_to_object($this->_message, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -243,7 +243,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_message->title);
+        midcom::get('head')->set_pagetitle($this->_message->title);
         $_MIDCOM->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -316,7 +316,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 // This will exit
         }
 
-        $_MIDCOM->set_pagetitle($this->_message->title);
+        midcom::get('head')->set_pagetitle($this->_message->title);
         $_MIDCOM->bind_view_to_object($this->_message);
         $this->_update_breadcrumb_line($handler_id);
     }

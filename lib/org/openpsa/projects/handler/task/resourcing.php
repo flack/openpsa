@@ -61,7 +61,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         org_openpsa_widgets_calendar::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.projects/projectbroker.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.projects/projectbroker.js");
     }
 
     /**
@@ -141,7 +141,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_task->title);
+        midcom::get('head')->set_pagetitle($this->_task->title);
         $_MIDCOM->bind_view_to_object($this->_task);
 
         org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);

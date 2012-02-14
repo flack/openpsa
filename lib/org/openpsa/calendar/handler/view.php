@@ -126,12 +126,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         }
 
         midcom_helper_datamanager2_widget_jsdate::add_head_elements();
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
 
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $default_date = date('Y-m-d', $this->_selected_time);
 
-        $_MIDCOM->add_jscript('
+        midcom::get('head')->add_jscript('
 var org_openpsa_calendar_default_date = "' . $default_date . '",
 org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         ');
@@ -719,7 +719,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         // Reload parent if needed
         if (array_key_exists('reload', $_GET))
         {
-            $_MIDCOM->add_jsonload('window.opener.location.reload();');
+            midcom::get('head')->add_jsonload('window.opener.location.reload();');
         }
 
         // Add toolbar items

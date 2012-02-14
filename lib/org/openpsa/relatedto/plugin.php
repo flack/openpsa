@@ -196,10 +196,10 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      */
     static function add_header_files()
     {
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
 
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
+        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
     }
 
     static function add_button(&$toolbar, $guid, $mode = 'both')

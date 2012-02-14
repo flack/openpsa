@@ -18,7 +18,7 @@ if (   !array_key_exists('title', $report)
         <title>OpenPSA - &(report['title']);</title>
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/common.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.invoices/invoices.css" />
-        <?php $_MIDCOM->print_head_elements(); ?>
+        <?php midcom::get('head')->print_head_elements(); ?>
         <script type="text/javascript">
 //copied from templates/OpenPsa2/ui.js, should be moved to a better place at some point...
 var org_openpsa_jsqueue = {

@@ -103,7 +103,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $ref = new midcom_helper_reflector($this->_group);
         $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
 

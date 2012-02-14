@@ -68,7 +68,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         // Set page title
         $data['title'] = sprintf(midcom::get('i18n')->get_string('delete folder %s', 'midcom.admin.folder'), $data['topic']->extra);
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
         $help_toolbar = midcom::get('toolbars')->get_help_toolbar();

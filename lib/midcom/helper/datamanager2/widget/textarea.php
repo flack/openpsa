@@ -203,7 +203,7 @@ function expandArea(evt, textAreaId) {
     }
 }
 EOT;
-        $_MIDCOM->add_jscript($script);
+        midcom::get('head')->add_jscript($script);
     }
 }
 ?>

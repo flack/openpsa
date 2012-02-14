@@ -21,8 +21,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
@@ -42,7 +42,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         midcom::get('cache')->content->no_cache();
 
         $data['view_title'] = $this->_l10n->get('trash');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['types'] = array();
         foreach (midcom_connection::get_schema_types() as $type)
@@ -92,7 +92,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $this->type = $args[0];
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $dummy = new $this->type;
         $data['midcom_dba_classname'] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);

@@ -218,7 +218,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 break;
         }
 
-        $_MIDCOM->set_pagetitle($view_title);
+        midcom::get('head')->set_pagetitle($view_title);
     }
 
     /**

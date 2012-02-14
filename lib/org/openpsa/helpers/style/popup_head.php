@@ -1,4 +1,4 @@
-<?php 
+<?php
 //This is a fallback element normally overwritten by the one in the template
 echo "<?xml version=\"1.0\"?>\n";
 ?>
@@ -7,7 +7,7 @@ echo "<?xml version=\"1.0\"?>\n";
     <head>
         <title></title>
         <?php
-        $_MIDCOM->print_head_elements();
+        midcom::get('head')->print_head_elements();
         ?>
     </head>
     <body>

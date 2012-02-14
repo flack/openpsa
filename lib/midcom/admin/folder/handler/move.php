@@ -73,7 +73,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $this->add_breadcrumb("__ais/folder/move/{$this->_object->guid}/", $this->_l10n->get('move'));
 
         $data['title'] = sprintf(midcom::get('i18n')->get_string('move %s', 'midcom.admin.folder'), $object_label);
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Ensure we get the correct styles
         midcom::get('style')->prepend_component_styledir('midcom.admin.folder');

@@ -136,7 +136,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $this->add_breadcrumb("__ais/folder/metadata/{$this->_object->guid}/", $this->_l10n->get('edit metadata'));
 
         $data['title'] = sprintf(midcom::get('i18n')->get_string('edit metadata of %s', 'midcom.admin.folder'), $object_label);
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
         $help_toolbar = midcom::get('toolbars')->get_help_toolbar();

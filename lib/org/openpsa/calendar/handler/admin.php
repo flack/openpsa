@@ -67,8 +67,8 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
                 $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
-                $_MIDCOM->add_jsonload('window.opener.location.reload();');
-                $_MIDCOM->add_jsonload('window.close();');
+                midcom::get('head')->add_jsonload('window.opener.location.reload();');
+                midcom::get('head')->add_jsonload('window.close();');
                 // This will _midcom_stop_request(well, in a way...)
         }
 
@@ -119,8 +119,8 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         {
             $this->_request_data['delete_succeeded'] = true;
             $this->_event->delete();
-            $_MIDCOM->add_jsonload('window.opener.location.reload();');
-            $_MIDCOM->add_jsonload('window.close();');
+            midcom::get('head')->add_jsonload('window.opener.location.reload();');
+            midcom::get('head')->add_jsonload('window.close();');
         }
         $this->_request_data['event'] =& $this->_event;
     }

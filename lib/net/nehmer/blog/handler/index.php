@@ -176,7 +176,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         // Add RSS feed to headers
         if ($this->_config->get('rss_enable'))
         {
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (

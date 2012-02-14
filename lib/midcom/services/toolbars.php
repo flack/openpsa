@@ -128,16 +128,16 @@ class midcom_services_toolbars
 
         if (midcom::get('auth')->can_user_do('midcom:ajax', null, $this))
         {
-            $_MIDCOM->enable_jquery();
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            midcom::get('head')->enable_jquery();
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
+            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
 
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
 
-            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
+            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
             $this->type = $GLOBALS['midcom_config']['toolbars_type'];
 
@@ -150,11 +150,11 @@ class midcom_services_toolbars
                 $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});";
             }
 
-            $_MIDCOM->add_jquery_state_script($script);
+            midcom::get('head')->add_jquery_state_script($script);
         }
         else
         {
-            $_MIDCOM->add_stylesheet($GLOBALS['midcom_config']['toolbars_simple_css_path'], 'screen');
+            midcom::get('head')->add_stylesheet($GLOBALS['midcom_config']['toolbars_simple_css_path'], 'screen');
 
             $this->type = 'normal';
         }

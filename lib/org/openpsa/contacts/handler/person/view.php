@@ -97,7 +97,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if ($data['person_rss_url'])
         {
             // We've autoprobed that this contact has a RSS feed available, link it
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (

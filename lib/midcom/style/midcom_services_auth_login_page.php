@@ -2,7 +2,7 @@
 $title = $this->data['midcom_services_auth_show_login_page_title'];
 $login_warning = $this->data['midcom_services_auth_show_login_page_login_warning'];
 
-$_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -10,7 +10,7 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title><?php echo $title; ?></title>
-        <?php echo $_MIDCOM->print_head_elements(); ?>
+        <?php echo midcom::get('head')->print_head_elements(); ?>
     </head>
 
     <body onload="self.focus();document.midcom_services_auth_frontend_form.username.focus();">

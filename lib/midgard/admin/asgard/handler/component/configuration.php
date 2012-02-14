@@ -221,7 +221,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['view_title'] = sprintf($this->_l10n->get('configuration for %s'), $data['name']);
         $this->_prepare_toolbar($handler_id);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumbs($handler_id);
     }
 
@@ -513,7 +513,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $this->_prepare_breadcrumbs($handler_id);
         }
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _save_configuration($data)

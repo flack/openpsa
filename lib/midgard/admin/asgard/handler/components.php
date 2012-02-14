@@ -117,7 +117,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $data['view_title'] = midcom::get('i18n')->get_string('components', 'midgard.admin.asgard');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_list_components();
 
@@ -186,7 +186,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $data['component_dependencies'] = midcom::get('componentloader')->get_component_dependencies($data['component']);
 
         $data['view_title'] = $data['component_data']['title'];
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['asgard_toolbar']->add_item
         (

@@ -184,7 +184,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
         midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
@@ -265,7 +265,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
         midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 

@@ -144,7 +144,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $this->_prepare_request_data();
 
         $data['view_title'] = $this->_l10n->get('asgard');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         if (isset($_POST['execute_mass_action']))
         {
@@ -194,8 +194,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         // {
         //     $data['revised_after'] = date('Y-m-d H:i:s\Z', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
         // }
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
 
         $this->_populate_toolbar();

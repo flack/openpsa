@@ -141,7 +141,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $data['redirection_url'] = $data['url'];
             $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (

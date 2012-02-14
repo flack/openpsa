@@ -181,7 +181,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         org_openpsa_helpers::dm2_savecancel($this);
 
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_update_breadcrumb_line($data['view_title']);
     }
 
@@ -281,7 +281,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get($handler_id));
+        midcom::get('head')->set_pagetitle($this->_l10n->get($handler_id));
 
         $this->_update_breadcrumb_line($handler_id);
     }

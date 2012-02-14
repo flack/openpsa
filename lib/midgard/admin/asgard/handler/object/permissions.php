@@ -84,9 +84,9 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = 'midcom:approve';
         }
 
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
         $script = "function submit_privileges(form){jQuery('#submit_action',form).attr({name: 'midcom_helper_datamanager2_add', value: 'add'});form.submit();};function applyRowClasses(){jQuery('.maa_permissions_items tr.maa_permissions_rows_row:odd').addClass('odd');jQuery('.maa_permissions_items tr.maa_permissions_rows_row:even').addClass('even');};";
-        $_MIDCOM->add_jscript($script);
+        midcom::get('head')->add_jscript($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/permissions/layout.css');
     }
@@ -325,7 +325,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $script = "
             applyRowClasses();
         ";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
 
         // Load possible additional component privileges
         $this->_load_component_privileges();
@@ -585,7 +585,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\">";
                 $actions .= "</div>";
 
-                $_MIDCOM->add_jquery_state_script("jQuery('#privilege_row_{$key}').privilege_actions('{$key}');");
+                midcom::get('head')->add_jquery_state_script("jQuery('#privilege_row_{$key}').privilege_actions('{$key}');");
 
                 $html = "      <td class=\"row_value row_actions\">{$actions}</td>\n";
 

@@ -1,6 +1,6 @@
 <?php
 echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
-$_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 
 $title = 'MidCOM Developers';
 
@@ -65,7 +65,7 @@ reset($developers);
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>Midgard CMS - <?php echo $title; ?></title>
-        <?php echo $_MIDCOM->print_head_elements(); ?>
+        <?php echo midcom::get('head')->print_head_elements(); ?>
         <style type="text/css">
             <!--
             table.dev

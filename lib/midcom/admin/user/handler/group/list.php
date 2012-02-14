@@ -77,7 +77,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('move %s'), $data['group']->official);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb($handler_id);
     }
@@ -120,7 +120,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
         $data['view_title'] = midcom::get('i18n')->get_string('groups', 'midcom.admin.user');
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb($handler_id);
     }

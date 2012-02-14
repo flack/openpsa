@@ -175,7 +175,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         }
         else
         {
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/mapstraction.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/mapstraction.js');
         }
 
         // TODO: We can remove this once mapstraction does the includes by itself
@@ -188,7 +188,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
                 }
                 else
                 {
-                    $_MIDCOM->add_jsfile('http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js');
+                    midcom::get('head')->add_jsfile('http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js');
                 }
                 break;
             case 'openlayers':
@@ -198,7 +198,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
                 }
                 else
                 {
-                    $_MIDCOM->add_jsfile('http://www.openlayers.org/api/OpenLayers.js');
+                    midcom::get('head')->add_jsfile('http://www.openlayers.org/api/OpenLayers.js');
                 }
                 break;
             case 'openstreetmap':
@@ -210,7 +210,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
                 }
                 else
                 {
-                    $_MIDCOM->add_jsfile("http://maps.google.com/maps?file=api&amp;v=2&amp;key={$this->api_key}");
+                    midcom::get('head')->add_jsfile("http://maps.google.com/maps?file=api&amp;v=2&amp;key={$this->api_key}");
                 }
                 break;
         }
@@ -289,7 +289,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
 
         if (!$echo_output)
         {
-            $_MIDCOM->add_jquery_state_script($script);
+            midcom::get('head')->add_jquery_state_script($script);
             return $html;
         }
 

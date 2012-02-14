@@ -88,7 +88,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
 
         $this->_update_breadcrumb($data['name']);
         $this->_prepare_toolbar($data);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     /**

@@ -33,7 +33,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         parent::__construct();
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
         if (defined('MGD_TYPE_NONE'))
         {
             $this->mgdtypes[MGD_TYPE_NONE] = 'none';
@@ -614,7 +614,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $_MIDCOM->skip_page_style = true;
 
         $data['view_title'] = midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_list_components();
 
@@ -671,7 +671,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $_MIDCOM->skip_page_style = true;
 
         $data['view_title'] = sprintf(midcom::get('i18n')->get_string('help for %s', 'midcom.admin.help'), midcom::get('i18n')->get_string($data['component'], $data['component']));
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['help_files'] = $this->list_files($data['component']);
         $data['html'] = $this->get_help_contents('index', $data['component']);
@@ -735,7 +735,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             self::get_help_title($data['help_id'], $data['component']),
             midcom::get('i18n')->get_string($data['component'], $data['component'])
         );
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumb($handler_id);
     }
 

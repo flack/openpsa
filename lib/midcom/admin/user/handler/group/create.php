@@ -74,7 +74,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['view_title'] = midcom::get('i18n')->get_string('create group', 'midcom.admin.user');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/create/", $data['view_title']);

@@ -128,13 +128,13 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         if ($this->_type->sortable)
         {
             // Enable jQuery
-            $_MIDCOM->enable_jquery();
+            midcom::get('head')->enable_jquery();
 
             // Add the JavaScript file to aid in sorting, if requested for
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
 
             // Configuration options
-            $_MIDCOM->add_jscript("
+            midcom::get('head')->add_jscript("
                 jQuery(document).ready(function()
                 {
                     jQuery('#{$this->_namespace}{$this->name}')
@@ -153,9 +153,9 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             $this->show_progressbar = true;
             $this->progress_id = uniqid("");
             // js Progressbar
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.progressbar/js/jquery.progressbar.js');
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.progressbar/js/progress.functions.js');
-            $_MIDCOM->add_jscript
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.progressbar/js/jquery.progressbar.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.progressbar/js/progress.functions.js');
+            midcom::get('head')->add_jscript
             (
                 "$(document).ready(function() {".
                     "$(\".progressbar\").progressBar(".

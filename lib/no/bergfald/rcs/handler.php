@@ -248,7 +248,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_prepare_breadcrumb();
 
         $data['view_title'] = sprintf($this->_l10n->get('revision history of %s'), $this->_resolve_object_title());
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
     }
 
     public function _show_history()
@@ -324,7 +324,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_request_data['guid'] = $args[0];
 
         $this->_request_data['view_title'] = sprintf(midcom::get('i18n')->get_string('changes done in revision %s to %s', 'no.bergfald.rcs'), $this->_request_data['latest_revision'], $this->_resolve_object_title());
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_breadcrumb();
         $this->add_breadcrumb
@@ -367,7 +367,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_view_toolbar->hide_item("__ais/rcs/preview/{$this->_guid}/{$revision}/");
 
         $this->_request_data['view_title'] = sprintf(midcom::get('i18n')->get_string('viewing version %s of %s', 'no.bergfald.rcs'), $revision, $this->_resolve_object_title());
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_breadcrumb();
         $this->add_breadcrumb

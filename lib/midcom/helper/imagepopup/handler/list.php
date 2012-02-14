@@ -91,7 +91,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         }
         $this->_list_type = $data['list_type'];
 
-        $_MIDCOM->set_pagetitle($data['list_title']);
+        midcom::get('head')->set_pagetitle($data['list_title']);
 
         if ($data['list_type'] != 'unified')
         {
@@ -105,8 +105,8 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             }
         }
 
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
 
         // Ensure we get the correct styles
         midcom::get('style')->prepend_component_styledir('midcom.helper.imagepopup');
@@ -133,12 +133,12 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         switch ($this->_controller->process_form())
         {
             case 'cancel':
-                $_MIDCOM->add_jsonload("window.close();");
+                midcom::get('head')->add_jsonload("window.close();");
                 break;
         }
 
-        $_MIDCOM->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_images_image').dm2ImagePopupConvert()");
-        $_MIDCOM->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
+        midcom::get('head')->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_images_image').dm2ImagePopupConvert()");
+        midcom::get('head')->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
     }
 
     private function _run_search(&$data)
@@ -153,7 +153,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         $this->_search_results = $qb->execute();
 
-        $_MIDCOM->add_jsonload("jQuery('.midcom_helper_imagepopup_search_result_item').dm2ImagePopupConvert();");
+        midcom::get('head')->add_jsonload("jQuery('.midcom_helper_imagepopup_search_result_item').dm2ImagePopupConvert();");
     }
 
     public function _show_list()

@@ -45,8 +45,8 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         midcom::get('cache')->content->no_cache();
 
         // This component uses Ajax, include the handler javascripts
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/messages.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/messages.js");
 
         $this->_populate_node_toolbar();
     }

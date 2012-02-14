@@ -176,7 +176,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         if ($this->_page->can_do('midgard:update'))
         {
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (

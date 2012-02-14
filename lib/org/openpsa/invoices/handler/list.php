@@ -220,7 +220,7 @@ implements org_openpsa_widgets_grid_provider_client
                 )
             );
         }
-        $_MIDCOM->set_pagetitle($this->_l10n->get('dashboard'));
+        midcom::get('head')->set_pagetitle($this->_l10n->get('dashboard'));
     }
 
     /**
@@ -392,7 +392,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $title = sprintf($this->_l10n->get('all invoices for customer %s'), $this->_request_data['customer']->get_label());
 
-        $_MIDCOM->set_pagetitle($title);
+        midcom::get('head')->set_pagetitle($title);
 
         $this->add_breadcrumb("", $title);
     }
@@ -445,7 +445,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $data['deliverable']->title);
-        $_MIDCOM->set_pagetitle($title);
+        midcom::get('head')->set_pagetitle($title);
         $this->add_breadcrumb("", $title);
     }
 

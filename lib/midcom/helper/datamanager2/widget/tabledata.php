@@ -32,9 +32,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     public function _on_initialize()
     {
         // Enable jQuery. This will not work without
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
 
         // Default values
         $sortable_rows = 'false';
@@ -63,7 +63,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         $preserve_columns = '|' . implode('|,|', array_keys($this->_type->columns)) . '|';
 
         // Configuration options
-        $_MIDCOM->add_jscript("
+        midcom::get('head')->add_jscript("
             jQuery(document).ready(function()
             {
                 jQuery('#midcom_helper_datamanager2_{$this->_type->name}_widget_tabledata')

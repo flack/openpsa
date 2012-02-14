@@ -4,7 +4,7 @@
     <head>
         <title><(title)> - <?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title>
          <?php
-         $_MIDCOM->print_head_elements();
+         midcom::get('head')->print_head_elements();
          ?>
     </head>
     <body>

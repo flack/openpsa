@@ -257,7 +257,7 @@ class midcom_services_metadata
         $request_metadata = $_MIDCOM->get_26_request_metadata();
 
         // HTML generator information
-        $_MIDCOM->add_meta_head
+        midcom::get('head')->add_meta_head
         (
             array
             (
@@ -267,7 +267,7 @@ class midcom_services_metadata
         );
 
         // PermaLink into machine-detectable format
-        $_MIDCOM->add_link_head
+        midcom::get('head')->add_link_head
         (
             array
             (
@@ -279,7 +279,7 @@ class midcom_services_metadata
         // Last revision time for the entire page
         if ($request_metadata['lastmodified'])
         {
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (
@@ -310,7 +310,7 @@ class midcom_services_metadata
                             break;
                     }
 
-                    $_MIDCOM->add_meta_head
+                    midcom::get('head')->add_meta_head
                     (
                         array
                         (
@@ -347,7 +347,7 @@ class midcom_services_metadata
         {
             $request_metadata = $_MIDCOM->get_26_request_metadata();
 
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (
@@ -355,7 +355,7 @@ class midcom_services_metadata
                     'content' => $opengraph_type,
                 )
             );
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (
@@ -363,7 +363,7 @@ class midcom_services_metadata
                     'content' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE),
                 )
             );
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (
@@ -371,7 +371,7 @@ class midcom_services_metadata
                     'content' => $request_metadata['permalink'],
                 )
             );
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (
@@ -379,7 +379,7 @@ class midcom_services_metadata
                     'content' => '',
                 )
             );
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (

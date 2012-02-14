@@ -985,7 +985,7 @@ class midcom_helper__styleloader
         foreach ($attachments as $filename)
         {
             // TODO: Support media types
-            $_MIDCOM->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
+            midcom::get('head')->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
         }
 
         $called = true;

@@ -73,7 +73,7 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
 
         if ($this->editarea_enabled)
         {
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');
         }
 
         return true;
@@ -107,7 +107,7 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
             $ea_lang = $language;
         }
 
-        $_MIDCOM->add_jscript("
+        midcom::get('head')->add_jscript("
             editAreaLoader.init({
                 id : '" . $attributes['id'] . "',
                 syntax: 'php',

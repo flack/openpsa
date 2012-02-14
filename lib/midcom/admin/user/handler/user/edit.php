@@ -96,12 +96,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_toolbar($data, $handler_id);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
 
         // Add jQuery Form handling for generating passwords with AJAX
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
 
         // Manually check the username to prevent duplicates
         if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
