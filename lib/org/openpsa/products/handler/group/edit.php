@@ -107,12 +107,12 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
                 if ($this->_config->get('index_groups'))
                 {
                     // Index the group
-                    $indexer = $_MIDCOM->get_service('indexer');
+                    $indexer = midcom::get('indexer');
                     org_openpsa_products_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 }
                 midcom::get('cache')->invalidate($this->_topic->guid);
             case 'cancel':
-                $_MIDCOM->relocate("{$this->_group->guid}/");
+                midcom::get()->relocate("{$this->_group->guid}/");
                 // This will exit.
         }
 

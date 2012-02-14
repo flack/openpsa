@@ -46,7 +46,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Redirect to next interviewee
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "next/{$data['campaign']->guid}/");
+                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "next/{$data['campaign']->guid}/");
                 // This will exit.
 
             case 'cancel':
@@ -54,7 +54,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $this->_member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
                 $this->_member->update();
 
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$data['campaign']->guid}/");
+                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$data['campaign']->guid}/");
                 // This will exit.
         }
     }

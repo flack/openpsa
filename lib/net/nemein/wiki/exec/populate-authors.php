@@ -1,7 +1,7 @@
 <?php
 midcom::get('auth')->require_admin_user();
 
-$rcs = $_MIDCOM->get_service('rcs');
+$rcs = midcom::get('rcs');
 $qb = midcom_db_article::new_query_builder();
 // TODO: Add this when wiki inserts all contributors to authors array
 // $qb->add_constraint('metadata.authors', 'LIKE', "%|{$guid}|%");

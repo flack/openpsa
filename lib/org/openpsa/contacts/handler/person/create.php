@@ -96,11 +96,11 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
                 $indexer->index($data['controller']->datamanager);
 
-                $_MIDCOM->relocate("person/{$this->_person->guid}/");
+                midcom::get()->relocate("person/{$this->_person->guid}/");
                 // This will exit
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit
         }
 

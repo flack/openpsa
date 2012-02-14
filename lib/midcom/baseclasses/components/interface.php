@@ -442,7 +442,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function reindex($topic)
     {
-        return $this->_on_reindex($topic, $this->get_config_for_topic($topic), $_MIDCOM->get_service('indexer'));
+        return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get('indexer'));
     }
 
     /**

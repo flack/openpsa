@@ -99,7 +99,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 break;
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit.
         }
         $this->_prepare_request_data();

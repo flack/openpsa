@@ -153,7 +153,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // In addition, give component configuration privileges if we're in topic
-        if ($_MIDCOM->dbfactory->is_a($this->_object, 'midgard_topic'))
+        if (midcom::get('dbfactory')->is_a($this->_object, 'midgard_topic'))
         {
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
             $this->_privileges[] = 'midcom.admin.folder:template_management';
@@ -318,7 +318,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:privileges');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
@@ -338,7 +338,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             && $_POST['add_assignee'])
         {
             $this->_object->set_privilege('midgard:read', $_POST['add_assignee']);
-            $_MIDCOM->relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
+            midcom::get()->relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
         }
 
         switch ($this->_controller->process_form())
@@ -346,7 +346,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 //Fall-through
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
+                midcom::get()->relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
                 // This will exit.
         }
 

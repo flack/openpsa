@@ -34,7 +34,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $qb->add_order('metadata.revised', 'DESC');
         $result = $qb->execute();
 
-        $rcs = $_MIDCOM->get_service('rcs');
+        $rcs = midcom::get('rcs');
 
         foreach ($result as $page)
         {

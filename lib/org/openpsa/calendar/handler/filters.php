@@ -91,7 +91,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 {
                     $url = '';
                 }
-                $_MIDCOM->relocate($url);
+                midcom::get()->relocate($url);
                 // This will exit
         }
 

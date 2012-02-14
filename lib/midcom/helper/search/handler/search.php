@@ -57,7 +57,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         if (   ! array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
             && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
         {
-            $i18n = $_MIDCOM->get_service('i18n');
+            $i18n = midcom::get('i18n');
             $l10n = $i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
             $this->_request_data['components'][$node[MIDCOM_NAV_COMPONENT]] = $l10n->get($node[MIDCOM_NAV_COMPONENT]);
         }
@@ -133,7 +133,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         switch ($data['type'])
         {
             case 'basic':
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $final_query = $data['query'];
                 debug_add("Final query: {$final_query}");
                 $result = $indexer->query($final_query);
@@ -240,9 +240,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
             if ($this->_request_data['type'] == 'basic')
             {
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
             }
-            $_MIDCOM->relocate('advanced/');
+            midcom::get()->relocate('advanced/');
         }
         $defaults = array
         (
@@ -304,7 +304,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         debug_add("Final query: {$final_query}");
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
 
         return $indexer->query($final_query, $filter);
     }

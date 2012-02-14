@@ -57,7 +57,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
     {
         midcom::get('auth')->require_valid_user();
         // Instantiate indexer
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
 
         $start = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
         $query = '__TOPIC_URL:"' . $_MIDCOM->get_host_name() . '*"';

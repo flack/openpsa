@@ -147,7 +147,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 $this->_article = new midcom_db_article($this->_link->article);
-                $_MIDCOM->relocate("{$this->_article->name}/");
+                midcom::get()->relocate("{$this->_article->name}/");
                 // This will exit
 
             case 'cancel':
@@ -164,7 +164,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     try
                     {
                         $article = new midcom_db_article($_GET['article']);
-                        $_MIDCOM->relocate("{$prefix}{$article->name}/");
+                        midcom::get()->relocate("{$prefix}{$article->name}/");
                     }
                     catch (midcom_error $e)
                     {
@@ -172,7 +172,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                 }
 
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit
         }
 
@@ -239,11 +239,11 @@ implements midcom_helper_datamanager2_interfaces_create
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))
             {
-                $_MIDCOM->relocate("view/{$this->_article->name}/");
+                midcom::get()->relocate("view/{$this->_article->name}/");
             }
             else
             {
-                $_MIDCOM->relocate("{$this->_article->name}/");
+                midcom::get()->relocate("{$this->_article->name}/");
             }
             // This will exit
         }
@@ -257,7 +257,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($this->_link->delete())
         {
             midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit
         }
         else

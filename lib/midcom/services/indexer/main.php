@@ -240,7 +240,7 @@ class midcom_services_indexer
         }
 
         // Do charset translations
-        $i18n = $_MIDCOM->get_service('i18n');
+        $i18n = midcom::get('i18n');
         $query = $i18n->convert_to_utf8($query);
 
         try

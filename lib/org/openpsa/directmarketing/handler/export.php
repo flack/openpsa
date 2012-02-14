@@ -123,7 +123,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             debug_add('Filename part not specified in URL, generating');
             //We do not have filename in URL, generate one and redirect
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
-            $_MIDCOM->relocate("campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
+            midcom::get()->relocate("campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
             // This will exit
         }
         midcom::get()->disable_limits();

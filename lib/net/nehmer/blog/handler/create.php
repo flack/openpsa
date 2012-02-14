@@ -170,12 +170,12 @@ implements midcom_helper_datamanager2_interfaces_create
                     $this->_article->update();
                 }
                 // Index the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nehmer_blog_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
                 // *** FALL THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit.
         }
 

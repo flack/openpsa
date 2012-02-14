@@ -252,7 +252,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -264,7 +264,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
         else
         {
-            $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+            midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
 
         $this->_list_files();
@@ -304,7 +304,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -327,7 +327,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         {
             if ($filename != $data['filename'])
             {
-                $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+                midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
             }
         }
 
@@ -395,7 +395,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -413,7 +413,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         if (isset($_POST['f_cancel']))
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('delete cancelled', 'midgard.admin.asgard'));
-            $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
+            midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
             // This will exit
         }
 
@@ -422,7 +422,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             if ($this->_file->delete())
             {
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('file %s deleted', 'midgard.admin.asgard'), $data['filename']));
-                $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
+                midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
                 // This will exit
             }
         }

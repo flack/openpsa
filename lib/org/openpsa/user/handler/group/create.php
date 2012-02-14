@@ -45,10 +45,10 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
-                $_MIDCOM->relocate('group/' . $this->_group->guid);
+                midcom::get()->relocate('group/' . $this->_group->guid);
 
             case 'cancel':
-                $_MIDCOM->relocate('groups/');
+                midcom::get()->relocate('groups/');
                 // This will exit.
         }
 

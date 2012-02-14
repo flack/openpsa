@@ -405,7 +405,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_object->_recalculate_invoice_items();
 
-        $_MIDCOM->relocate("invoice/items/" . $this->_object->guid . "/");
+        midcom::get()->relocate("invoice/items/" . $this->_object->guid . "/");
     }
 
     private function _prepare_output()

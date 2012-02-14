@@ -130,13 +130,13 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     // TODO: error handling
                 }
             }
-            $_MIDCOM->relocate("task/{$this->_task->guid}/");
+            midcom::get()->relocate("task/{$this->_task->guid}/");
             // This will exit.
         }
         else if (   array_key_exists('cancel', $_POST)
                 && $_POST['cancel'])
         {
-            $_MIDCOM->relocate("task/{$this->_task->guid}/");
+            midcom::get()->relocate("task/{$this->_task->guid}/");
             // This will exit.
         }
 

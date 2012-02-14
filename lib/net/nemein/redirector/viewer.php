@@ -89,7 +89,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             if (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection'))
             {
-                $_MIDCOM->relocate("{$this->_topic->name}/edit/{$args[0]}/");
+                midcom::get()->relocate("{$this->_topic->name}/edit/{$args[0]}/");
             }
 
             foreach ($results as $guid => $array)
@@ -105,7 +105,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 $code = $this->_config->get('redirection_code');
             }
 
-            $_MIDCOM->relocate($url, $code);
+            midcom::get()->relocate($url, $code);
             // This will exit
         }
 
@@ -128,7 +128,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 && !$this->_config->get('admin_redirection')))
         {
             // No type set, redirect to config
-            $_MIDCOM->relocate("{$prefix}config/");
+            midcom::get()->relocate("{$prefix}config/");
             // This will exit
         }
 
@@ -152,7 +152,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            $_MIDCOM->relocate($data['url'], $this->_config->get('redirection_code'));
+            midcom::get()->relocate($data['url'], $this->_config->get('redirection_code'));
             // This will exit
         }
     }

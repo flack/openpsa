@@ -233,7 +233,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         if ($this->_request_data['token'] === 'dummy')
         {
             $_MIDCOM->skip_page_style = true;
-            $_MIDCOM->relocate($this->_request_data['target']);
+            midcom::get()->relocate($this->_request_data['target']);
             //This will exit
         }
 
@@ -254,7 +254,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
         midcom::get('auth')->drop_sudo();
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->relocate($this->_request_data['target']);
+        midcom::get()->relocate($this->_request_data['target']);
         //This will exit
     }
 

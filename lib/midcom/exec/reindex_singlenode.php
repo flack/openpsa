@@ -52,7 +52,7 @@ debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config'
 ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
 
 $loader = $_MIDCOM->get_component_loader();
-$indexer = $_MIDCOM->get_service('indexer');
+$indexer = midcom::get('indexer');
 
 $nap = new midcom_helper_nav();
 $nodeid = $_REQUEST['nodeid'];

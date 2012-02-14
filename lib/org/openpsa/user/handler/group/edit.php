@@ -49,7 +49,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // Fall-through
 
             case 'cancel':
-                $_MIDCOM->relocate('group/' . $this->_group->guid . '/');
+                midcom::get()->relocate('group/' . $this->_group->guid . '/');
                 // This will exit.
         }
 

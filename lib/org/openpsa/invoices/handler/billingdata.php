@@ -196,7 +196,7 @@ implements midcom_helper_datamanager2_interfaces_create
                         $relocate = midcom::get('permalinks')->create_permalink($this->_linked_object->guid);
                         break;
                 }
-                $_MIDCOM->relocate($relocate);
+                midcom::get()->relocate($relocate);
                 // This will exit.
         }
     }

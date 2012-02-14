@@ -59,7 +59,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
         if (org_openpsa_calendar_interface::find_root_event())
         {
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
         }
     }
 
@@ -80,18 +80,18 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         switch($this->_config->get('start_view'))
         {
             case 'day':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . 'day/' . date('Y-m-d', $selected_time) . '/');
                 // This will exit()
             break;
             case 'month':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . 'month/' . date('Y-m-d', $selected_time) . '/');
                 // This will exit()
                 break;
             default:
             case 'week':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . 'week/' . date('Y-m-d', $selected_time) . '/');
                 // This will exit()
                 break;

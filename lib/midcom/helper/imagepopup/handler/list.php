@@ -45,15 +45,15 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         {
             if ($handler_id == '____ais-imagepopup-list_object')
             {
-                $_MIDCOM->relocate('__ais/imagepopup/folder/default/');
+                midcom::get()->relocate('__ais/imagepopup/folder/default/');
             }
             elseif ($handler_id =='____ais-imagepopup-list_folder')
             {
-                $_MIDCOM->relocate('__ais/imagepopup/folder/default/');
+                midcom::get()->relocate('__ais/imagepopup/folder/default/');
             }
             elseif ($handler_id =='____ais-imagepopup-list_unified')
             {
-                $_MIDCOM->relocate('__ais/imagepopup/unified/default/');
+                midcom::get()->relocate('__ais/imagepopup/unified/default/');
             }
         }
 
@@ -201,7 +201,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             $key = "{$this->_request_data['schema_name']}{$this->_request_data['folder']->guid}";
         }
 
-        $session = $_MIDCOM->get_service('session');
+        $session = midcom::get('session');
 
         if ($session->exists('midcom.helper.datamanager2', $key))
         {

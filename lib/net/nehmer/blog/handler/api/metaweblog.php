@@ -234,7 +234,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         // TODO: Map the publish property to approval
 
         // Index the article
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         net_nehmer_blog_viewer::index($this->_datamanager, $indexer, $this->_content_topic);
 
         return new XML_RPC_Response(new XML_RPC_Value($article->guid, 'string'));
@@ -413,7 +413,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         // TODO: Map the publish property to approval
 
         // Index the article
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         net_nehmer_blog_viewer::index($this->_datamanager, $indexer, $this->_content_topic);
 
         return new XML_RPC_Response(new XML_RPC_Value($article->guid, 'string'));
@@ -630,7 +630,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
 
         // Update the index
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         $indexer->delete($article->guid);
 
         return new XML_RPC_Response(new XML_RPC_Value(true, 'boolean'));

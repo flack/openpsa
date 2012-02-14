@@ -150,7 +150,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 {
                     // Last parent is not this topic, redirect there
                     $wikiword_url = rawurlencode($resolved['remaining_path']);
-                    $_MIDCOM->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
+                    midcom::get()->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
                     // This will exit()
                 }
                 break;
@@ -236,16 +236,16 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Reindex the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nemein_wiki_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
                 midcom::get('uimessages')->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
 
-                $_MIDCOM->relocate("{$this->_page->name}/");
+                midcom::get()->relocate("{$this->_page->name}/");
                 // This will exit.
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit.
         }
 

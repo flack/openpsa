@@ -101,7 +101,7 @@ class midcom_baseclasses_core_dbobject
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
-            $rcs = $_MIDCOM->get_service('rcs');
+            $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
 
@@ -411,7 +411,7 @@ class midcom_baseclasses_core_dbobject
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
-            $rcs = $_MIDCOM->get_service('rcs');
+            $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
 
@@ -565,7 +565,7 @@ class midcom_baseclasses_core_dbobject
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
-            $rcs = $_MIDCOM->get_service('rcs');
+            $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
 

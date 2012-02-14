@@ -151,7 +151,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
+            midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
             // This will exit()
         }
 
@@ -200,7 +200,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 $this->_campaign->schedule_update_smart_campaign_members();
 
                 //Save ok, relocate
-                $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
+                midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
                 // This will exit()
             }
             //set data for preview & skip page_style because of javascript call
@@ -251,7 +251,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         if (   isset($_POST['midcom_helper_datamanager2_cancel'])
             && !empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
             // This will exit()
         }
@@ -309,7 +309,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $this->_request_data['campaign']->schedule_update_smart_campaign_members();
 
             //Save ok, relocate
-            $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
             // This will exit()
         }
@@ -353,13 +353,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         {
             case 'save':
                 // Reindex the campaign
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
+                midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
                 // This will exit.
         }
 
@@ -416,18 +416,18 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_campaign->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit.
         }
 
         if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
+            midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
             // This will exit()
         }
 

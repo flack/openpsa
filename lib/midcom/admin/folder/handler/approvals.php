@@ -59,7 +59,7 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
             $metadata->unapprove();
         }
 
-        $_MIDCOM->relocate($_REQUEST['return_to']);
+        midcom::get()->relocate($_REQUEST['return_to']);
         // This will exit.
     }
 }

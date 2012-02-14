@@ -42,7 +42,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         if (array_key_exists('f_cancel', $_REQUEST))
         {
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit.
         }
 
@@ -53,7 +53,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
             if ($this->_process_delete_form())
             {
-                $_MIDCOM->relocate($upper_node[MIDCOM_NAV_FULLURL]);
+                midcom::get()->relocate($upper_node[MIDCOM_NAV_FULLURL]);
                 // This will exit.
             }
         }
@@ -135,7 +135,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         // them deleted too.
         //
         // Again we keep an eye on the script timeout.
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         foreach ($guids as $guid)
         {
             set_time_limit(60);

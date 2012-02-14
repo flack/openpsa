@@ -77,7 +77,7 @@ class midgard_admin_asgard_schemadb
             $type = get_class($this->_object);
             if (!$_MIDCOM->dbclassloader->is_midcom_db_object($type))
             {
-                $this->_object = $_MIDCOM->dbfactory->convert_midgard_to_midcom($this->_object);
+                $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
             }
             $type_fields = $this->_object->get_properties();
         }
@@ -159,7 +159,7 @@ class midgard_admin_asgard_schemadb
                     }
 
                     // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
-                    if ($_MIDCOM->dbfactory->is_a($this->_object, $type))
+                    if (midcom::get('dbfactory')->is_a($this->_object, $type))
                     {
                         $name_obj = $this->_object;
                     }
@@ -453,7 +453,7 @@ class midgard_admin_asgard_schemadb
         $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
         foreach ($allow_unclean_name_types as $allow_unclean_name_types_type)
         {
-            if ($_MIDCOM->dbfactory->is_a($name_obj, $allow_unclean_name_types_type))
+            if (midcom::get('dbfactory')->is_a($name_obj, $allow_unclean_name_types_type))
             {
                 $type_urlname_config['allow_unclean'] = true;
                 break;

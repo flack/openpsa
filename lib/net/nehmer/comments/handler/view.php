@@ -396,13 +396,13 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     }
 
     /**
-     * This is a shortcut for $_MIDCOM->relocate which relocates to the very same page we
+     * This is a shortcut for midcom::get()->relocate which relocates to the very same page we
      * are viewing right now, including all GET parameters we had in the original request.
      * We do this by taking the $_SERVER['REQUEST_URI'] variable.
      */
     function _relocate_to_self()
     {
-        $_MIDCOM->relocate($_SERVER['REQUEST_URI']);
+        midcom::get()->relocate($_SERVER['REQUEST_URI']);
         // This will exit.
     }
 

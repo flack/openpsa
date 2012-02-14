@@ -285,7 +285,7 @@ class midcom_services_indexer_document
      */
     public function __construct()
     {
-        $this->_i18n = $_MIDCOM->get_service('i18n');
+        $this->_i18n = midcom::get('i18n');
     }
 
     /**

@@ -173,13 +173,13 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         {
             case 'save':
                 // Reindex the message
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate("message/{$this->_message->guid}/");
+                midcom::get()->relocate("message/{$this->_message->guid}/");
                 // This will exit.
         }
 
@@ -227,18 +227,18 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_message->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate("campaign/{$data['campaign']->guid}/");
+            midcom::get()->relocate("campaign/{$data['campaign']->guid}/");
             // This will exit.
         }
 
         if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("message/{$this->_message->guid}/");
+            midcom::get()->relocate("message/{$this->_message->guid}/");
             // This will exit()
         }
 
@@ -312,7 +312,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 // Fall through
 
             case 'cancel':
-                $_MIDCOM->relocate("message/{$guid}/");
+                midcom::get()->relocate("message/{$guid}/");
                 // This will exit
         }
 

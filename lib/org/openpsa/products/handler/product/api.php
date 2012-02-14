@@ -299,7 +299,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         }
 
         // Update the index
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         $indexer->delete($this->_product->guid);
 
         $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product deleted: ' . midcom_connection::get_error_string());

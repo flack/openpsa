@@ -50,7 +50,7 @@ $nap = new midcom_helper_nav();
 $nodes = Array();
 $nodeid = $nap->get_root_node();
 $loader = $_MIDCOM->get_component_loader();
-$indexer = $_MIDCOM->get_service('indexer');
+$indexer = midcom::get('indexer');
 
 echo "Dropping the index...\n";
 $indexer->delete_all();

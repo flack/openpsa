@@ -133,21 +133,21 @@ implements midcom_helper_datamanager2_interfaces_create
                 if ($this->_config->get('index_groups'))
                 {
                     // Index the group
-                    $indexer = $_MIDCOM->get_service('indexer');
+                    $indexer = midcom::get('indexer');
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
                 midcom::get('cache')->invalidate($this->_topic->guid);
-                $_MIDCOM->relocate("{$this->_group->guid}/");
+                midcom::get()->relocate("{$this->_group->guid}/");
                 // This will exit.
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    $_MIDCOM->relocate('');
+                    midcom::get()->relocate('');
                 }
                 else
                 {
-                    $_MIDCOM->relocate("{$this->_request_data['up']}/");
+                    midcom::get()->relocate("{$this->_request_data['up']}/");
                 }
                 // This will exit.
         }

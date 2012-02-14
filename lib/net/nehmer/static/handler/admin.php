@@ -197,7 +197,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             if (   $node
                 && isset($node[MIDCOM_NAV_FULLURL]))
             {
-                $_MIDCOM->relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
+                midcom::get()->relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
                 // This will exit
             }
             throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
@@ -211,16 +211,16 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         {
             case 'save':
                 // Reindex the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nehmer_static_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
                 // *** FALL-THROUGH ***
 
             case 'cancel':
                 if ($this->_article->name == 'index')
                 {
-                    $_MIDCOM->relocate('');
+                    midcom::get()->relocate('');
                 }
-                $_MIDCOM->relocate("{$this->_article->name}/");
+                midcom::get()->relocate("{$this->_article->name}/");
                 // This will exit.
         }
 
@@ -294,11 +294,11 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))
             {
-                $_MIDCOM->relocate("view/{$this->_article->name}/");
+                midcom::get()->relocate("view/{$this->_article->name}/");
             }
             else
             {
-                $_MIDCOM->relocate("{$this->_article->name}/");
+                midcom::get()->relocate("{$this->_article->name}/");
             }
             // This will exit
         }
@@ -312,7 +312,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         if ($this->_link->delete())
         {
             midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit
         }
         else
@@ -358,7 +358,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_content_topic->id)
         {
-            $_MIDCOM->relocate("delete/link/{$args[0]}/");
+            midcom::get()->relocate("delete/link/{$args[0]}/");
             // This will exit
         }
         $this->_article->require_do('midgard:delete');
@@ -386,18 +386,18 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             midcom::get('auth')->drop_sudo();
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_article->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit.
         }
 
         if (array_key_exists('net_nehmer_static_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("{$this->_article->name}/");
+            midcom::get()->relocate("{$this->_article->name}/");
             // This will exit()
         }
 

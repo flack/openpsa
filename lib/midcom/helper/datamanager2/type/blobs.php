@@ -990,7 +990,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if ($index_attachment)
             {
                 $document = new midcom_services_indexer_document_attachment($attachment, $this->storage->object);
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->index($document);
             }
         }

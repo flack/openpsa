@@ -268,7 +268,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 if ($index_qb->count_unchecked() == 0)
                 {
                     $schemas = array_keys($this->_request_data['schemadb']);
-                    $_MIDCOM->relocate("createindex/{$schemas[0]}/");
+                    midcom::get()->relocate("createindex/{$schemas[0]}/");
                     // This will exit.
                 }
             }

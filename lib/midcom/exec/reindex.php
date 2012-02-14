@@ -88,7 +88,7 @@ $nap = new midcom_helper_nav();
 $nodes = Array();
 $nodeid = $nap->get_root_node();
 $loader = $_MIDCOM->get_component_loader();
-$indexer = $_MIDCOM->get_service('indexer');
+$indexer = midcom::get('indexer');
 
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nodeid);

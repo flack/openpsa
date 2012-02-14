@@ -28,7 +28,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         if (count($result) > 0)
         {
             // This wiki page actually exists, so go there as "Permanent Redirect"
-            $_MIDCOM->relocate("{$result[0]->name}/", 301);
+            midcom::get()->relocate("{$result[0]->name}/", 301);
         }
 
         // This is a custom "not found" page, send appropriate headers to prevent indexing

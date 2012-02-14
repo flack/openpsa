@@ -222,7 +222,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // Load the RCS handler
-        $rcs = $_MIDCOM->get_service('rcs');
+        $rcs = midcom::get('rcs');
         $rcs_handler = $rcs->load_handler($this);
         if (!$rcs_handler)
         {

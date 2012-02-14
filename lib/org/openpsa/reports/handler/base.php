@@ -164,11 +164,11 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             case 'save':
                 // Relocate to report view
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . "/");
+                midcom::get()->relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . "/");
                 //this will exit
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit
         }
 
@@ -225,7 +225,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             }
             $filename .= $this->_request_data['query']->extension;
 
-            $_MIDCOM->relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
+            midcom::get()->relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
             //this will exit
         }
         $this->_request_data['filename'] = $args[1];

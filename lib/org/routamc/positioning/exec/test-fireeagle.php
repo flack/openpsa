@@ -64,7 +64,7 @@ if (   !$access_key
         $user->set_parameter('net.yahoo.fireeagle', 'access_key', $access_token['oauth_token']);
         $user->set_parameter('net.yahoo.fireeagle', 'access_secret', $access_token['oauth_token_secret']);
 
-        $_MIDCOM->relocate($_SERVER['SCRIPT_NAME']);
+        midcom::get()->relocate($_SERVER['SCRIPT_NAME']);
         // This will exit
     }
 

@@ -92,11 +92,11 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
             if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . $fname);
+                midcom::get()->relocate(midcom_connection::get_url('uri') . $fname);
             }
             else
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "/{$fname}");
+                midcom::get()->relocate(midcom_connection::get_url('uri') . "/{$fname}");
             }
             // This will exit
         }

@@ -124,7 +124,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     public function _index_object(&$dm)
     {
         return;
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         $topic =& $this->_content_topic;
 
         $nav = new midcom_helper_nav();
@@ -435,18 +435,18 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
             case 'save':
                 $this->_index_object($this->_controller->datamanager);
 
-                $_MIDCOM->relocate($this->_get_object_url());
+                midcom::get()->relocate($this->_get_object_url());
                 // This will exit.
             case 'cancel':
                 // Redirect to parent page, if any.
                 if ($this->_parent)
                 {
-                    $_MIDCOM->relocate(midcom::get('permalinks')->resolve_permalink($this->_parent->guid));
+                    midcom::get()->relocate(midcom::get('permalinks')->resolve_permalink($this->_parent->guid));
                 }
                 // If nothing helps, try the topic's front page
                 else
                 {
-                    $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
                     // This will exit.
                 }
         }
@@ -567,7 +567,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
             case 'cancel':
                 // Redirect to view page.
-                $_MIDCOM->relocate($this->_get_object_url());
+                midcom::get()->relocate($this->_get_object_url());
                 // This will exit.
         }
 
@@ -632,17 +632,17 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 }
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_object->guid);
 
                 // Show user interface message
                 // midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
                 // Delete ok, relocating to welcome.
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit.
             case 'cancel':
-                $_MIDCOM->relocate($this->_get_object_url());
+                midcom::get()->relocate($this->_get_object_url());
         }
 
         $this->_prepare_request_data();

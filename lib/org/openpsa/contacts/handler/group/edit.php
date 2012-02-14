@@ -84,7 +84,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
             case 'cancel':
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate($prefix . "group/" . $this->_group->guid . "/");
+                midcom::get()->relocate($prefix . "group/" . $this->_group->guid . "/");
                 // This will exit.
         }
 

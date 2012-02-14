@@ -55,7 +55,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $this->_master->create_account($this->_person, $data["controller"]->formmanager);
 
             case 'cancel':
-                $_MIDCOM->relocate('view/' . $this->_person->guid . '/');
+                midcom::get()->relocate('view/' . $this->_person->guid . '/');
         }
 
         if ($this->_person->email)
@@ -157,7 +157,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (!$this->_account->get_username())
         {
             // Account needs to be created first, relocate
-            $_MIDCOM->relocate("account/create/" . $this->_person->guid . "/");
+            midcom::get()->relocate("account/create/" . $this->_person->guid . "/");
         }
 
         // if there is no password set (due to block), show ui-message for info
@@ -180,7 +180,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 //Fall-through
 
             case 'cancel':
-                $_MIDCOM->relocate("view/" . $this->_person->guid . "/");
+                midcom::get()->relocate("view/" . $this->_person->guid . "/");
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
@@ -247,7 +247,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (!$this->_account->get_username())
         {
             // Account needs to be created first, relocate
-            $_MIDCOM->relocate("view/" . $this->_person->guid . "/");
+            midcom::get()->relocate("view/" . $this->_person->guid . "/");
         }
 
         $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
@@ -261,7 +261,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 }
                 //Fall-through
             case 'cancel':
-                $_MIDCOM->relocate('view/' . $this->_person->guid . "/");
+                midcom::get()->relocate('view/' . $this->_person->guid . "/");
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");

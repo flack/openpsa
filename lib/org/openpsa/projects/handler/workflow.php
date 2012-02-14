@@ -73,7 +73,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             //Cannot redirect, throw error
         }
-        $_MIDCOM->relocate($this->_request_data['redirect_to']);
+        midcom::get()->relocate($this->_request_data['redirect_to']);
         //This will exit
     }
 

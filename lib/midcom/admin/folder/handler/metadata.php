@@ -117,7 +117,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
             case 'save':
                 midcom::get('cache')->invalidate($this->_object->guid);
             case 'cancel':
-                $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
+                midcom::get()->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
                 // This will exit
         }
 

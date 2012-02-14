@@ -128,7 +128,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
         if(!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
-            $_MIDCOM->relocate('/');
+            midcom::get()->relocate('/');
         }
         $this->_request_data['topic'] = $this->_topic;
     }
@@ -173,13 +173,13 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     }
 
     /**
-     * This is a shortcut for $_MIDCOM->relocate which relocates to the very same page we
+     * This is a shortcut for midcom::get()->relocate which relocates to the very same page we
      * are viewing right now, including all GET parameters we had in the original request.
      * We do this by taking the $_SERVER['REQUEST_URI'] variable.
      */
     function _relocate_to_self()
     {
-        $_MIDCOM->relocate($_SERVER['REQUEST_URI']);
+        midcom::get()->relocate($_SERVER['REQUEST_URI']);
         // This will exit.
     }
 
@@ -196,7 +196,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
         if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
-            $_MIDCOM->relocate('/');
+            midcom::get()->relocate('/');
         }
 
         // This might exit.

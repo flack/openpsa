@@ -703,7 +703,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         // Seems we do not need this anymore, but return key still
         return $key;
 
-        $session = $_MIDCOM->get_service('session');
+        $session = midcom::get('session');
         $session->set('midcom.helper.datamanager2', $key, $this->_raw_schema);
         return $key;
     }

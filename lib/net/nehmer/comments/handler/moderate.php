@@ -104,7 +104,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 }
                 if (isset($_POST['return_url']))
                 {
-                    $_MIDCOM->relocate($_POST['return_url']);
+                    midcom::get()->relocate($_POST['return_url']);
                     // This will exit.
                 }
                 break;
@@ -115,7 +115,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 $this->_comment->confirm_abuse();
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_comment->guid);
 
                 break;
@@ -126,7 +126,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 $this->_comment->confirm_junk();
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_comment->guid);
 
                 break;
@@ -138,11 +138,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
                 if (isset($_POST['return_url']))
                 {
-                    $_MIDCOM->relocate($_POST['return_url']);
+                    midcom::get()->relocate($_POST['return_url']);
                     // This will exit.
                 }
 
-                $_MIDCOM->relocate("read/{$this->_comment->guid}/");
+                midcom::get()->relocate("read/{$this->_comment->guid}/");
                 // This will exit
         }
         if ($this->_comment->_sudo_requested)
@@ -154,11 +154,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
         if (isset($_POST['return_url']))
         {
-            $_MIDCOM->relocate($_POST['return_url']);
+            midcom::get()->relocate($_POST['return_url']);
             // This will exit.
         }
 
-        $_MIDCOM->relocate('');
+        midcom::get()->relocate('');
         // This will exit.
     }
 }

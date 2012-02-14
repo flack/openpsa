@@ -53,10 +53,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
                 $this->_master->create_account($this->_person, $data["controller"]->formmanager);
 
-                $_MIDCOM->relocate('view/' . $this->_person->guid . '/');
+                midcom::get()->relocate('view/' . $this->_person->guid . '/');
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit.
         }
 

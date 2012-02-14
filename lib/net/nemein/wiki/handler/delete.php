@@ -58,10 +58,10 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
                 midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s deleted'), $wikiword), 'ok');
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_page->guid);
 
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
             }
             else
             {

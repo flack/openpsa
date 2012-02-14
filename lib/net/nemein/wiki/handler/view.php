@@ -245,10 +245,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             if (count($result) > 0)
             {
                 // This wiki page actually exists, so go there as "Permanent Redirect"
-                $_MIDCOM->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
+                midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
             }
         }
-        $_MIDCOM->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
+        midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
         // This will exit
     }
 
@@ -297,17 +297,17 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 // No matching redirection page found, relocate to editing
                 // TODO: Add UI message
-                $_MIDCOM->relocate("edit/{$this->_page->name}/");
+                midcom::get()->relocate("edit/{$this->_page->name}/");
                 // This will exit
             }
 
             if ($result[0]->topic == $this->_topic->id)
             {
-                $_MIDCOM->relocate("{$result[0]->name}/");
+                midcom::get()->relocate("{$result[0]->name}/");
             }
             else
             {
-                $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
+                midcom::get()->relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
             }
         }
 
@@ -580,9 +580,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         // Redirect to editing
         if ($this->_page->name == 'index')
         {
-            $_MIDCOM->relocate("");
+            midcom::get()->relocate("");
         }
-        $_MIDCOM->relocate("{$this->_page->name}/");
+        midcom::get()->relocate("{$this->_page->name}/");
         // This will exit
     }
 

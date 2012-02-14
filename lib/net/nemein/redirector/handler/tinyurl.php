@@ -126,7 +126,7 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->relocate("edit/{$this->_tinyurl->name}");
+                midcom::get()->relocate("edit/{$this->_tinyurl->name}");
                 // This will exit
         }
 
@@ -181,7 +181,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 // Fall through
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
         }
 
         // Set the request data

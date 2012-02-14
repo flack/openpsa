@@ -116,7 +116,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     private function _load_object()
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($this->_guid);
 
         if (   !$GLOBALS['midcom_config']['midcom_services_rcs_enable']
             || !$this->_object->_use_rcs)
@@ -125,7 +125,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         }
 
         // Load RCS service from core.
-        $rcs = $_MIDCOM->get_service('rcs');
+        $rcs = midcom::get('rcs');
         $this->_backend = $rcs->load_handler($this->_object);
 
         if (get_class($this->_object) != 'midcom_db_topic')
@@ -407,7 +407,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                 }
 
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate("{$prefix}__mfa/asgard/object/rcs/diff/{$args[0]}/{$first}/{$last}/");
+                midcom::get()->relocate("{$prefix}__mfa/asgard/object/rcs/diff/{$args[0]}/{$first}/{$last}/");
                 // This will exit
             }
         }
@@ -604,7 +604,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             && $this->_backend->restore_to_revision($args[1]))
         {
             midcom::get('uimessages')->add($this->_l10n->get('no.bergfald.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
-            $_MIDCOM->relocate("__mfa/asgard/object/view/{$this->_guid}/");
+            midcom::get()->relocate("__mfa/asgard/object/view/{$this->_guid}/");
         }
         else
         {

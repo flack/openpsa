@@ -31,7 +31,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         if (isset($_POST['f_cancel']))
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.admin.folder'), midcom::get('i18n')->get_string('cancelled'));
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit
         }
 
@@ -70,7 +70,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         if ($success)
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.admin.folder'), midcom::get('i18n')->get_string('order saved'));
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit
         }
     }

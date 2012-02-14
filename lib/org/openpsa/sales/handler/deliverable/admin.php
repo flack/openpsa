@@ -237,13 +237,13 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $this->_master->process_notify_date($formdata, $this->_deliverable);
 
                 // Reindex the deliverable
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_sales_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate("deliverable/{$this->_deliverable->guid}/");
+                midcom::get()->relocate("deliverable/{$this->_deliverable->guid}/");
                 // This will exit.
         }
 
@@ -298,18 +298,18 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_deliverable->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit.
         }
 
         if (array_key_exists('org_openpsa_sales_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("deliverable/{$this->_deliverable->guid}/");
+            midcom::get()->relocate("deliverable/{$this->_deliverable->guid}/");
             // This will exit()
         }
 

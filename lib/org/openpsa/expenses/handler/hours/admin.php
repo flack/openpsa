@@ -155,17 +155,17 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             case 'save':
                 $this->_hour_report->modify_hours_by_time_slot();
                 $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
-                $_MIDCOM->relocate("hours/task/" . $task->guid . "/");
+                midcom::get()->relocate("hours/task/" . $task->guid . "/");
                 // This will exit.
 
             case 'cancel':
                 if (count($args) > 1)
                 {
-                    $_MIDCOM->relocate("hours/task/" . $parent->guid . "/");
+                    midcom::get()->relocate("hours/task/" . $parent->guid . "/");
                 }
                 else
                 {
-                    $_MIDCOM->relocate('');
+                    midcom::get()->relocate('');
                 }
                 // This will exit.
         }
@@ -253,7 +253,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 // *** FALL-THROUGH ***
             case 'cancel':
                 $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
-                $_MIDCOM->relocate("hours/task/" . $task->guid . "/");
+                midcom::get()->relocate("hours/task/" . $task->guid . "/");
                 // This will exit.
         }
 
@@ -344,14 +344,14 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             }
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit.
         }
 
         if (array_key_exists('org_openpsa_expenses_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate('');
+            midcom::get()->relocate('');
             // This will exit()
         }
 
@@ -438,7 +438,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             debug_print_r('No reports passed to action handler', $_POST);
         }
 
-        $_MIDCOM->relocate($relocate);
+        midcom::get()->relocate($relocate);
     }
 
     private function _get_autocomplete_selection()

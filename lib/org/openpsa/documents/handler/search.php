@@ -38,7 +38,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             $node = $nap->get_node($nap->get_current_node());
 
             // Instantiate indexer
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
 
             // Add the search parameters
             $query = $_GET['query'];

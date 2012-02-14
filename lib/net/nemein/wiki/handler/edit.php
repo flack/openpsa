@@ -92,18 +92,18 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 break;
             case 'save':
                 // Reindex the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
                 midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
                 // *** FALL-THROUGH ***
             case 'cancel':
                 if ($this->_page->name == 'index')
                 {
-                    $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
                 }
                 else
                 {
-                    $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
+                    midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
                 }
                 // This will exit.
         }
@@ -242,7 +242,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_page->parameter('midcom.helper.datamanager2', 'schema_name', $_POST['change_to']);
 
         // Redirect to editing
-        $_MIDCOM->relocate("edit/{$this->_page->name}/");
+        midcom::get()->relocate("edit/{$this->_page->name}/");
         // This will exit
     }
 }

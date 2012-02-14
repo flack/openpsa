@@ -187,18 +187,18 @@ implements midcom_helper_datamanager2_interfaces_create
                 }
 
                 // Index the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nehmer_static_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
                 if ($this->_article->name === 'index')
                 {
-                    $_MIDCOM->relocate('');
+                    midcom::get()->relocate('');
                     // This will exit.
                 }
-                $_MIDCOM->relocate("{$this->_article->name}/");
+                midcom::get()->relocate("{$this->_article->name}/");
                 // This will exit.
 
             case 'cancel':
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit.
         }
 

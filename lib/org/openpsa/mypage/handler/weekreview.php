@@ -26,7 +26,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
         $date = date('Y-m-d');
-        $_MIDCOM->relocate("weekreview/{$date}/");
+        midcom::get()->relocate("weekreview/{$date}/");
     }
 
     private function _populate_toolbar()

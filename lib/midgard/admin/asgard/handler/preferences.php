@@ -99,12 +99,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('preferences saved', 'midgard.admin.asgard'));
-                $_MIDCOM->relocate($return_page);
+                midcom::get()->relocate($return_page);
                 // This will exit
                 break;
             case 'cancel':
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
-                $_MIDCOM->relocate($return_page);
+                midcom::get()->relocate($return_page);
                 // This will exit
                 break;
         }

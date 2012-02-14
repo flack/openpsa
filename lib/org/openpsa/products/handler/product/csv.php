@@ -39,11 +39,11 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $schemaname = $_POST['org_openpsa_products_export_schema'];
             if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
+                midcom::get()->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
             }
             else
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "/{$schemaname}");
+                midcom::get()->relocate(midcom_connection::get_url('uri') . "/{$schemaname}");
             }
             // This will exit
         }

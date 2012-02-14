@@ -50,17 +50,17 @@ implements midcom_helper_datamanager2_interfaces_view
             if ($delete_succeeded)
             {
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_person->guid);
 
-                $_MIDCOM->relocate('');
+                midcom::get()->relocate('');
                 // This will exit
             }
             else
             {
                 // Failure, give a message
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
-                $_MIDCOM->relocate('view/' . $this->_person->guid . '/');
+                midcom::get()->relocate('view/' . $this->_person->guid . '/');
                 // This will exit
             }
         }

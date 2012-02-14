@@ -109,10 +109,10 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      */
     private function _load_object()
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($this->_guid);
 
         // Get RCS handler from core
-        $rcs = $_MIDCOM->get_service('rcs');
+        $rcs = midcom::get('rcs');
         $this->_backend = $rcs->load_handler($this->_object);
 
         if (get_class($this->_object) != 'midcom_db_topic')
@@ -409,7 +409,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             && $this->_backend->restore_to_revision($args[1]))
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('no.bergfald.rcs', 'no.bergfald.rcs'), sprintf(midcom::get('i18n')->get_string('restore to version %s successful', 'no.bergfald.rcs'), $args[1]), 'ok');
-            $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
+            midcom::get()->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
         else
         {

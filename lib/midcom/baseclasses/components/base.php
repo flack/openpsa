@@ -47,7 +47,7 @@ abstract class midcom_baseclasses_components_base
         switch ($field)
         {
             case '_i18n':
-                $instance = $_MIDCOM->get_service('i18n');
+                $instance = midcom::get('i18n');
                 break;
             case '_l10n':
                 $instance = midcom::get('i18n')->get_l10n($this->_component);

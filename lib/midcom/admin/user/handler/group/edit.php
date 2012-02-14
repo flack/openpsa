@@ -90,11 +90,11 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 // Show confirmation for the group
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
-                $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
+                midcom::get()->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
                 // This will exit.
 
             case 'cancel':
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
+                midcom::get()->relocate('__mfa/asgard_midcom.admin.user/');
                 // This will exit.
         }
 

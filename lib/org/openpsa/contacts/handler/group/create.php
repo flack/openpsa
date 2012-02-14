@@ -128,17 +128,17 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer->index($data['controller']->datamanager);
 
                 // Relocate to group view
-                $_MIDCOM->relocate("group/" . $this->_group->guid . "/");
+                midcom::get()->relocate("group/" . $this->_group->guid . "/");
                 // This will exit
 
             case 'cancel':
                 if ($this->_parent_group)
                 {
-                    $_MIDCOM->relocate("group/" . $this->_parent_group->guid . "/");
+                    midcom::get()->relocate("group/" . $this->_parent_group->guid . "/");
                 }
                 else
                 {
-                    $_MIDCOM->relocate('');
+                    midcom::get()->relocate('');
                 }
         }
 

@@ -151,7 +151,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 //relocate to relatedto-renders
                 $add_url = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
                 $add_url .= $this->_current_object->guid . "/html/";
-                $_MIDCOM->relocate($add_url);
+                midcom::get()->relocate($add_url);
                 // This will exit.
         }
 
@@ -190,7 +190,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $add_url = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/reminder/";
         $add_url = $add_url . $this->_current_object->guid . "/";
 
-        $_MIDCOM->relocate($add_url);
+        midcom::get()->relocate($add_url);
     }
 
     public function load_schemadb()
@@ -213,7 +213,7 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'save':
             case 'cancel':
                 $url_prefix = $url_prefix . $this->_current_object->guid . "/html/";
-                $_MIDCOM->relocate($url_prefix);
+                midcom::get()->relocate($url_prefix);
                 // This will exit.
         }
 
@@ -250,7 +250,7 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
 
-        $_MIDCOM->relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
+        midcom::get()->relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
     }
 
     public function _handler_list($handler_id , $args , &$data)

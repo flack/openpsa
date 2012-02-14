@@ -121,7 +121,7 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($this->_dbaclass)
         {
             case 'org_openpsa_contacts_person_dba':
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_node[MIDCOM_NAV_OBJECT]);
                 break;
             default:

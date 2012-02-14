@@ -227,7 +227,7 @@ class midcom_services_auth
         {
             if (isset($_MIDCOM))
             {
-                $_MIDCOM->relocate($_REQUEST['midcom_services_auth_login_success_url']);
+                midcom::get()->relocate($_REQUEST['midcom_services_auth_login_success_url']);
             }
             else
             {

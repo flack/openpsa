@@ -64,14 +64,14 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     {
         try
         {
-            $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            $this->_object = midcom::get('dbfactory')->get_object_by_guid($guid);
         }
         catch (midcom_error $e)
         {
             if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
             {
                 $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
-                $_MIDCOM->relocate($relocate);
+                midcom::get()->relocate($relocate);
             }
 
             throw $e;
@@ -126,7 +126,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     public function _handler_open($handler_id, array $args, array &$data)
     {
         $page_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $_MIDCOM->relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
+        midcom::get()->relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
     }
 
     /**
@@ -228,13 +228,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 }
 
                 // Reindex the object
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                $_MIDCOM->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
+                midcom::get()->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
                 // This will exit.
 
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
+                midcom::get()->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
                 // This will exit.
             case 'edit':
                 $qf =& $this->_controller->formmanager->form;
@@ -367,7 +367,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
         else
         {
-            $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
+            $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[1]);
             $this->_object->require_do('midgard:create');
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
@@ -441,7 +441,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 }
 
                 // Reindex the object
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
                 $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
@@ -449,7 +449,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
                     $redirect_url = str_replace('//', '/', "__mfa/asgard/object/edit/{$this->_new_object->guid}/");
-                    $_MIDCOM->relocate($redirect_url);
+                    midcom::get()->relocate($redirect_url);
                     // This will exit.
                 }
                 break;
@@ -467,7 +467,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
-                    $_MIDCOM->relocate("__mfa/asgard/{$objecturl}/");
+                    midcom::get()->relocate("__mfa/asgard/{$objecturl}/");
                     // This will exit.
                 }
         }
@@ -604,23 +604,23 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_object->guid);
 
             if ($parent)
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
+                midcom::get()->relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
                 // This will exit()
             }
 
-            $_MIDCOM->relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
+            midcom::get()->relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
             // This will exit.
         }
 
         if (array_key_exists('midgard_admin_asgard_deletecancel', $_REQUEST))
         {
             // Redirect to default object mode page.
-            $_MIDCOM->relocate($cancel_url);
+            midcom::get()->relocate($cancel_url);
             // This will exit()
         }
 
@@ -712,11 +712,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             case 'save':
                 $new_object = $this->_process_copy($target);
                 // Relocate to the newly created object
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
+                midcom::get()->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
                 break;
 
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
+                midcom::get()->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
         }
 
         // Add Thickbox

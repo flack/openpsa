@@ -97,13 +97,13 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Index the message
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
-                $_MIDCOM->relocate("message/{$this->_message->guid}/");
+                midcom::get()->relocate("message/{$this->_message->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate("campaign/{$data['campaign']->guid}/");
+                midcom::get()->relocate("campaign/{$data['campaign']->guid}/");
                 // This will exit.
         }
 
