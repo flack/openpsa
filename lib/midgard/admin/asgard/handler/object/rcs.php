@@ -144,7 +144,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     private function _rcs_toolbar($args = null)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $keys = array_keys($this->_backend->list_history());
 
@@ -406,7 +406,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     $last = $_REQUEST['compare'][0];
                 }
 
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 midcom::get()->relocate("{$prefix}__mfa/asgard/object/rcs/diff/{$args[0]}/{$first}/{$last}/");
                 // This will exit
             }

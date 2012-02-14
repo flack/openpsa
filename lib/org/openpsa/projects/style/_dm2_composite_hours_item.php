@@ -1,7 +1,7 @@
 <?php
 $view_data =& $_MIDCOM->get_custom_context_data('midcom_helper_datamanager2_widget_composite');
 $view = $view_data['item_html'];
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
             <td class="date">&(view['date']:h);</td>
             <td class="hours">&(view['hours']:h);</td>

@@ -61,7 +61,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
                 $indexer = midcom::get('indexer');
                 $indexer->delete($this->_page->guid);
 
-                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
             }
             else
             {

@@ -50,7 +50,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      */
     private function _check_imp_settings()
     {
-        $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
         $current_user_dbobj = midcom::get('auth')->user->get_storage();
 
         if (!is_object($current_user_dbobj))
@@ -242,11 +242,11 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         switch ($controller->process_form())
         {
             case 'save':
-                midcom::get()->relocate( $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                midcom::get()->relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
                 //this will exit
                 break;
             case 'cancel':
-                midcom::get()->relocate( $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                midcom::get()->relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
                 //this will exit
                 break;
         }
@@ -277,7 +277,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_check_imp_settings())
         {
             debug_add("Horde/Imp settings incomplete, redirecting to settings page.");
-            midcom::get()->relocate( $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            midcom::get()->relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                                 . 'settings/');
             //This will exit
         }

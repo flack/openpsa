@@ -118,7 +118,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
                 $indexer->index($this->_controller->datamanager);
 
                 // Relocate to document view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 if ($this->_document->topic != $this->_topic->id)
                 {
                     $nap = new midcom_helper_nav();

@@ -53,7 +53,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $qb->add_order('email');
         $members = $qb->execute();
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $prefix .= 'person/';
 
         foreach ($members as $person)
@@ -311,7 +311,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function get_row(midcom_core_dbaobject $user)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $entry = array();
         $entry['id'] = $user->id;
         $lastname = trim($user->lastname);

@@ -183,7 +183,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     'rel' => 'alternate',
                     'type' => 'application/x-wiki',
                     'title' => $this->_request_data['l10n_midcom']->get('edit'),
-                    'href' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
+                    'href' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
                 )
             );
         }

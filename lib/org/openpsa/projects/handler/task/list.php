@@ -546,7 +546,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
-        $this->_request_data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if ($this->_request_data['view_identifier'] == 'agreement')
         {

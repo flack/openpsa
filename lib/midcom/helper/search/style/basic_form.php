@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 ?>
 <form method='get' name='midcom_helper_search_form' action='&(prefix);result/' class='midcom.helper.search'>

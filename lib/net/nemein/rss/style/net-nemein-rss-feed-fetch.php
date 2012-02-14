@@ -55,7 +55,7 @@ else
         }
         else
         {
-            switch ($_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT))
+            switch (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT))
             {
                 case 'net.nehmer.blog':
                     $local_article = new midcom_db_article($item['local_guid']);

@@ -457,7 +457,7 @@ class midcom_services_auth
 
         if (is_null($domain))
         {
-            $domain = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $domain = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             debug_add("Domain was not supplied, falling back to '{$domain}' which we got from the current component context.");
         }
 

@@ -116,7 +116,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 if ($this->_document->topic != $this->_topic->id)
                 {
                     $nap = new midcom_helper_nav();
@@ -128,7 +128,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 // This will exit()
 
             case 'cancel':
-                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                                    . "document/" . $this->_document->guid . "/");
                 // This will exit()
         }

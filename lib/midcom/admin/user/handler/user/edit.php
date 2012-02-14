@@ -216,7 +216,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $success = true;
 
         // Get the context prefix
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Change every user or continue to next on failure - failures will show UI messages
         foreach ($_POST['midcom_admin_user'] as $id)

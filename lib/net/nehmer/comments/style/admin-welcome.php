@@ -1,6 +1,6 @@
 <?php
 // Available request data: comments, objectguid.
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <?php
 $data['l10n']->show('from below you can choose what kind of comments you like to administrate');

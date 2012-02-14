@@ -175,14 +175,14 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             if (   count($this->_groups) == 1
                 && count($this->_persons) == 0)
             {
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 midcom::get()->relocate($prefix . 'group/' . $this->_groups[0]->guid . '/');
                 //This will exit
             }
             else if (   count($this->_groups) == 0
                      && count($this->_persons) == 1)
             {
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 midcom::get()->relocate($prefix . 'person/' . $this->_persons[0]->guid . '/');
                 //This will exit
             }

@@ -117,7 +117,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         $reports = array();
         $hours = $hours_mc->list_keys();
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($hours as $guid => $empty)
         {

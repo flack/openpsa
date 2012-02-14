@@ -32,7 +32,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         // Symlink support requires that we use actual URL topic object here
-        if ($urltopic = end($_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS)))
+        if ($urltopic = end(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS)))
         {
             $this->_topic = $urltopic;
         }

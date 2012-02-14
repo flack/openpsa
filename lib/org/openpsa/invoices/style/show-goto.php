@@ -1,6 +1,6 @@
 <div class="sidebar">
     <?php
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     ?>
     <div class="area">
         <form method="get" action="<?php echo $prefix;?>goto/">

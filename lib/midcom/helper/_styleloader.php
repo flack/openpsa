@@ -572,7 +572,7 @@ class midcom_helper__styleloader
         $this->_styledirs_count[$current_context] = 1;
         $this->_styledirs[$current_context][0] = $this->_snippetdir;
 
-        $root_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+        $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
 
         if (   $root_topic
             && $root_topic->style)
@@ -758,7 +758,7 @@ class midcom_helper__styleloader
 
         if (isset($_st))
         {
-            $substyle = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_SUBSTYLE);
+            $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
             if (is_string($substyle))
             {
@@ -902,7 +902,7 @@ class midcom_helper__styleloader
         // set new context and topic
         array_unshift($this->_context, $context); // push into context stack
 
-        $this->_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $this->_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Prepare styledir stacks
         if (!isset($this->_styledirs[$context]))
@@ -954,7 +954,7 @@ class midcom_helper__styleloader
 
         // get our topic again
         // FIXME: does this have to be above _getComponentStyle($this->_topic) ??
-        $this->_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $this->_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         $this->_snippetdir = $this->_getComponentSnippetdir($this->_topic);
         return true;

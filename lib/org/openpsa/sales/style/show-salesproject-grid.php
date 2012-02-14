@@ -1,6 +1,6 @@
 <?php
 $grid = $data['grid'];
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $rows = array();
 
 foreach ($data['salesprojects'] as $salesproject)

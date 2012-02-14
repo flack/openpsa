@@ -161,7 +161,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _compute_welcome_data()
     {
         // Helpers
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'archive/';
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'archive/';
 
         // First step of request data: Overall info
         $total_count = 0;
@@ -493,7 +493,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             }
 
             $total_count = count($this->_articles);
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
             foreach ($this->_articles as $article_counter => $article)
             {

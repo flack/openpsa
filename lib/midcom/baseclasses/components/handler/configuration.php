@@ -139,7 +139,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Update the breadcrumb and page title
         $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
 
-        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf(midcom::get('i18n')->get_string('component %s configuration for folder %s', 'midcom'), midcom::get('i18n')->get_string($data['component'], $data['component']), $data['topic']->extra);
         midcom::get('head')->set_pagetitle($data['title']);
     }
@@ -205,7 +205,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Update the breadcrumb and page title
         $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
         $this->add_breadcrumb('config/recreate/', $this->_l10n_midcom->get('recreate images'));
-        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf(midcom::get('i18n')->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
         midcom::get('head')->set_pagetitle($data['title']);
     }

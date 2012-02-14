@@ -46,7 +46,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     {
         $data['group'] = new midcom_db_group($args[0]);
         // Get the prefix
-        $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (isset($_POST['f_cancel']))
         {
@@ -116,7 +116,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     public function _handler_list($handler_id, array $args, array &$data)
     {
         // Get the prefix
-        $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $data['view_title'] = midcom::get('i18n')->get_string('groups', 'midcom.admin.user');
 

@@ -84,7 +84,7 @@
                     (
                         'field' => 'up',
                         'op' => 'INTREE',
-                        'value' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPICID),
+                        'value' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID),
                     ),
                 ),
                 'result_headers' => array

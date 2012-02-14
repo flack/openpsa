@@ -141,7 +141,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         if ($auto_relocate)
         {
             // Relocate to group view
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             midcom::get()->relocate("{$prefix}view/{$this->_person->guid}/");
             // This will exit
         }

@@ -22,7 +22,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 'rel'   => 'search',
                 'type'  => 'application/opensearchdescription+xml',
                 'title' => $this->_topic->extra,
-                'href'  => $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'opensearch.xml',
+                'href'  => $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'opensearch.xml',
             )
         );
     }

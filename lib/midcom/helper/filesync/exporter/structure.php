@@ -68,7 +68,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $structure[$structure_name]['name'] = $structure_name;
         $structure[$structure_name]['title'] = $GLOBALS['midcom_config']['midcom_site_title'];
         // Read the topic data
-        $root_node = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+        $root_node = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         $structure[$structure_name]['root'] = $this->read_node($root_node);
 
         file_put_contents("{$this->root_dir}{$structure_name}.inc", $this->_draw_array($structure));

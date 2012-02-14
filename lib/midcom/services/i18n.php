@@ -391,7 +391,7 @@ class midcom_services_i18n
     {
         if (is_null($component))
         {
-            $component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
 
         $cacheid = "{$component}/{$database}";

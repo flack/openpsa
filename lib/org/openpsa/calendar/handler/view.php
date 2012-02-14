@@ -128,7 +128,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         midcom_helper_datamanager2_widget_jsdate::add_head_elements();
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $default_date = date('Y-m-d', $this->_selected_time);
 
         midcom::get('head')->add_jscript('

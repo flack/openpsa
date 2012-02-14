@@ -202,7 +202,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     private function _process_datamanager (&$datamanager, &$article, &$view)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $filename = "{$article->name}/";
 
         $view[$filename]['article'] = $article;

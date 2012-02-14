@@ -320,14 +320,7 @@ class midcom_services_toolbars
             $toolbar->customdata['midcom_services_toolbars_bound_to_topic'] = true;
         }
 
-        if ($context_id === null)
-        {
-            $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
-        }
-        else
-        {
-            $topic = $_MIDCOM->get_context_data($context_id, MIDCOM_CONTEXT_CONTENTTOPIC);
-        }
+        $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Bullet-proof
         if (   !$topic
@@ -336,7 +329,7 @@ class midcom_services_toolbars
             return false;
         }
 
-        $topics = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS);
+        $topics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
         $urltopic = end($topics);
         if (!$urltopic)
         {
@@ -640,7 +633,7 @@ class midcom_services_toolbars
         {
             $toolbar->customdata['midcom_services_toolbars_bound_to_help'] = true;
         }
-        $calling_componentname = $_MIDCOM->get_context_data($context_id, MIDCOM_CONTEXT_COMPONENT);
+        $calling_componentname = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_COMPONENT);
 
         $toolbar->add_item
         (
@@ -723,7 +716,7 @@ class midcom_services_toolbars
             $toolbar->customdata['midcom_services_toolbars_bound_to_object'] = true;
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (!$prefix)
         {
             debug_add("Toolbar for object {$object->guid} was called before topic prefix was available, skipping global items.", MIDCOM_LOG_WARN);

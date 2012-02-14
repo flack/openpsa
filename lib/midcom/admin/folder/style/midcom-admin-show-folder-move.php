@@ -3,7 +3,7 @@
     <div class="midcom_admin_content_folderlist">
         <ul>
         <?php
-        $root_folder = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+        $root_folder = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
 
         $class = '';
         $selected = '';

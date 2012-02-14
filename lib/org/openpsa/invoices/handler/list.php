@@ -86,7 +86,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $invoice)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $entry = array();
         $number = $invoice->get_label();
         $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";

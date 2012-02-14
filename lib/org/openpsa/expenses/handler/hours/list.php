@@ -47,7 +47,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $mode = 'full';
 
         //url for batch_handler
-        $this->_request_data['action_target_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
+        $this->_request_data['action_target_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
 
         switch ($handler_id)
         {
@@ -131,7 +131,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 'reports' => array(),
             ),
         );
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($hours as $report)
         {

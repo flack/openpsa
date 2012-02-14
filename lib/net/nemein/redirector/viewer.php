@@ -121,7 +121,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (   is_null($this->_config->get('redirection_type'))
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
@@ -246,7 +246,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 // Otherwise fall-through to config
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         return "{$prefix}config/";
     }
 }

@@ -167,7 +167,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $imagepopup_url = '';
         if ($this->use_imagepopup)
         {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $imagepopup_url = "plugin_imagepopup_popupurl: \"{$prefix}__ais/imagepopup/";
 
             if ($this->_type->storage->object)
@@ -363,7 +363,7 @@ EOT;
             else
             {
                 // No object has been created yet. Therefore, we register the schema for the topic GUID
-                $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+                $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
                 $this->_schema->register_to_session($topic->guid);
             }
         }

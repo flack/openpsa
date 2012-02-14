@@ -124,7 +124,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
                 throw new midcom_error('Failed to lock the interviewee');
             }
 
-            midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "interview/{$member->guid}/");
+            midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "interview/{$member->guid}/");
             // This will exit.
         }
     }

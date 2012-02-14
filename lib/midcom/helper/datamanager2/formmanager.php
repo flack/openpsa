@@ -214,7 +214,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         if ($name === null)
         {
-            $name = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
             $name = midcom::get('componentloader')->path_to_prefix($name);
         }
@@ -234,7 +234,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         require_once "HTML/QuickForm.php";
 
-        // TODO: make configurable to get URL from $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI) instead, see #1262
+        // TODO: make configurable to get URL from midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $this->_defaults = array();
         $this->widgets = array();

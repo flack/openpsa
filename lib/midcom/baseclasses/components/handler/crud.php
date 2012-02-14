@@ -446,7 +446,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // If nothing helps, try the topic's front page
                 else
                 {
-                    midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
                     // This will exit.
                 }
         }

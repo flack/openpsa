@@ -67,7 +67,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         }
         else
         {
-            $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+            $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
         }
 
         switch ($this->_output_mode)
@@ -75,7 +75,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
             case 'xml':
                 $current_component = $current_topic->component;
                 $parent_link = "";
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 //check if id of a topic is passed
                 if (isset($_POST['nodeid']))
                 {
@@ -209,7 +209,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     private function _prepare_output()
     {
-        $this->_request_data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         //load js/css for jqgrid
         org_openpsa_widgets_grid::add_head_elements();

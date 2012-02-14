@@ -398,7 +398,7 @@ class midcom_helper_toolbar
             && ! preg_match('|^https?://|', $item[MIDCOM_TOOLBAR_URL]))
         {
             $item[MIDCOM_TOOLBAR_URL] =
-                  $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                  midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . $item[MIDCOM_TOOLBAR_URL];
         }
         return $item;
@@ -560,7 +560,7 @@ class midcom_helper_toolbar
         {
             debug_add("toolbar:update_item_url: We have a relative URL, transforming it...");
             $this->items[$index][MIDCOM_TOOLBAR_URL] =
-                  $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                  midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . $url;
         }
         else

@@ -26,7 +26,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
     {
         if ($parent_id == 0)
         {
-            $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+            $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         }
         else
         {

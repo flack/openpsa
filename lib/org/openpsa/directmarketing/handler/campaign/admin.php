@@ -251,7 +251,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         if (   isset($_POST['midcom_helper_datamanager2_cancel'])
             && !empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
             // This will exit()
         }
@@ -309,7 +309,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $this->_request_data['campaign']->schedule_update_smart_campaign_members();
 
             //Save ok, relocate
-            midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
             // This will exit()
         }

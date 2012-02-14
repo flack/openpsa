@@ -187,7 +187,7 @@ class midcom_helper_nav_backend
      */
     public function __construct($context = 0)
     {
-        $tmp = $_MIDCOM->get_context_data($context, MIDCOM_CONTEXT_ROOTTOPIC);
+        $tmp = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         $this->_root = $tmp->id;
 
         $this->_nap_cache = midcom::get('cache')->nap;
@@ -202,7 +202,7 @@ class midcom_helper_nav_backend
         $up = null;
         $node_path_candidates = array($this->_root);
         $this->_current = $this->_root;
-        foreach ($_MIDCOM->get_context_data($context, MIDCOM_CONTEXT_URLTOPICS) as $topic)
+        foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic)
         {
             $id = $this->_nodeid($topic->id, $up);
             $node_path_candidates[] = $id;

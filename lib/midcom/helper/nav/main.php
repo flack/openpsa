@@ -648,7 +648,7 @@ class midcom_helper_nav
      */
     function get_breadcrumb_data ($id = null)
     {
-        $prefix = $_MIDCOM->get_context_data($this->_contextid, MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get($this->_contextid)->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $result = Array();
 
         if (! $id)

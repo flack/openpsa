@@ -171,12 +171,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->_load_controller();
 
         // Get the content topic prefix
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Store the old name before editing
         $old_name = $this->_topic->name;
         // Symlink support requires that we use actual URL topic object here
-        if ($urltopic = end($_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS)))
+        if ($urltopic = end(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS)))
         {
             $old_name = $urltopic->name;
         }

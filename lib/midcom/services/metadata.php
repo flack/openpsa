@@ -87,14 +87,7 @@ class midcom_services_metadata
      */
     function _create_metadata ($context_id)
     {
-        if ($context_id === null)
-        {
-            $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
-        }
-        else
-        {
-            $topic = $_MIDCOM->get_context_data($context_id, MIDCOM_CONTEXT_CONTENTTOPIC);
-        }
+        $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         if (   !is_object($topic)
             || !isset($topic->id)
@@ -128,11 +121,11 @@ class midcom_services_metadata
         // Append current topic to page class if enabled
         if ($GLOBALS['midcom_config']['page_class_include_component'])
         {
-            $page_class .= ' ' . str_replace('.', '_', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
+            $page_class .= ' ' . str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         }
 
         // Append a custom class from topic to page class
-        $topic_class = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->get_parameter('midcom.services.metadata', 'page_class');
+        $topic_class = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)->get_parameter('midcom.services.metadata', 'page_class');
         if (!empty($topic_class))
         {
             $page_class .= " {$topic_class}";
@@ -360,7 +353,7 @@ class midcom_services_metadata
                 array
                 (
                     'property' => 'og:title',
-                    'content' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE),
+                    'content' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE),
                 )
             );
             midcom::get('head')->add_meta_head
@@ -477,7 +470,7 @@ class midcom_services_metadata
             return '';
         }
 
-        $component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         if (   !$component
             || !midcom::get('componentloader')->is_installed($component)
             || !midcom::get('componentloader')->load_graceful($component))

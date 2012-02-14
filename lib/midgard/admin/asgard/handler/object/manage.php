@@ -70,7 +70,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         {
             if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
             {
-                $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
+                $relocate = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
                 midcom::get()->relocate($relocate);
             }
 
@@ -102,7 +102,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['schemadb'] = $this->_schemadb;
         $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['asgard_prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
+        $this->_request_data['asgard_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
     }
 
     /**
@@ -125,7 +125,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _handler_open($handler_id, array $args, array &$data)
     {
-        $page_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $page_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         midcom::get()->relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
     }
 

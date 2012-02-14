@@ -59,7 +59,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
 
     public function navigation()
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $libs = midcom_admin_libconfig_plugin::get_libraries();
 
         echo '<ul class="midgard_admin_asgard_navigation">';

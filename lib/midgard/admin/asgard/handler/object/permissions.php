@@ -129,7 +129,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
         else
         {
-            $current_manifest = $component_loader->manifests[$_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT)];
+            $current_manifest = $component_loader->manifests[midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)];
         }
 
         foreach ($current_manifest->privileges as $privilege => $default_value)

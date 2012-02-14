@@ -70,7 +70,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     public function __construct($object, &$request_data)
     {
         parent::__construct($object, $request_data);
-        $this->page_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $this->page_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     }
 
     /**

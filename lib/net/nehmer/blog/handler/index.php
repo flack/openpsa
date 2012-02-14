@@ -125,7 +125,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         {
             $this->add_breadcrumb
             (
-                $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX),
+                midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
                 sprintf(midcom::get('i18n')->get_string('page %s', 'org.openpsa.qbpager'), $qb->get_current_page())
             );
         }
@@ -183,7 +183,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",
-                    'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
+                    'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
                 )
             );
         }
@@ -225,7 +225,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         {
             $total_count = count($this->_articles);
             $data['article_count'] = $total_count;
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($this->_articles as $article_counter => $article)
             {
                 if (! $this->_datamanager->autoset_storage($article))

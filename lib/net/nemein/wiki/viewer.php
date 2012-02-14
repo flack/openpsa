@@ -25,7 +25,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
                 'title' => 'Latest changes RSS',
-                'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
+                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
             )
         );
 

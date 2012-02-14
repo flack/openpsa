@@ -398,7 +398,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
         else
         {
-            $l10n_name = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
         $this->_l10n_schema = midcom::get('i18n')->get_l10n($l10n_name);
 

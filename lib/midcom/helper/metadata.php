@@ -230,7 +230,7 @@ class midcom_helper_metadata
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
         $object_schema = $this->__object->get_parameter('midcom.helper.datamanager2', 'schema_name');
-        $component_schema = str_replace('.', '_', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
+        $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         if (   $object_schema == ''
             || !isset($this->_schemadb[$object_schema]))
         {

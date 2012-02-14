@@ -162,7 +162,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             case 'save':
                 // Fall-through intentional
             case 'cancel':
-                midcom::get()->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . "salesproject/" . $this->_salesproject->guid);
         }
         $this->_request_data['controller'] =& $this->_controller;
@@ -212,7 +212,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         {
             case 'save':
                 // Relocate to main view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 midcom::get()->relocate($prefix . "salesproject/edit/" . $this->_salesproject->guid . "/");
                 // This will exit
             case 'cancel':

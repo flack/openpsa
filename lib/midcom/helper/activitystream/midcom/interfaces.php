@@ -66,7 +66,7 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
             $activity->actor = $actor->id;
         }
 
-        $activity->application = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $activity->application = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
 
         if ($activity->create())
         {

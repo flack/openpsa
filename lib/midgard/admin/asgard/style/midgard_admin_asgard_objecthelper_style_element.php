@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="midgard_admin_asgard_objecthelper_help">
     <h3><a href="#"><?php echo sprintf(midcom::get('i18n')->get_string('element %s from component %s', 'midgard.admin.asgard'), $data['object']->name, midcom::get('i18n')->get_string($data['help_style_element']['component'], $data['help_style_element']['component'])); ?></a></h3>

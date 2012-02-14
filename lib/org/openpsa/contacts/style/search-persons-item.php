@@ -1,6 +1,6 @@
 <?php
 // Query the needed data
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 // Display the contact
 $contact = new org_openpsa_widgets_contact($data['person']);

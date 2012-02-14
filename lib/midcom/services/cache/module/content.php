@@ -257,7 +257,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         if (isset($_MIDCOM))
         {
-            $identifier_source .= ';URL=' . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI);
+            $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
         }
         else
         {

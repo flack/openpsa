@@ -11,7 +11,7 @@ else
 }
 
 $records = sizeof($data['directories']) + sizeof($data['documents']);
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 echo "<rows>";
 echo "<page>1</page>";

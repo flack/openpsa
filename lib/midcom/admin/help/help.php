@@ -181,7 +181,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             foreach ($regs[1] as $i => $value)
             {
-                if ($component != $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT))
+                if ($component != midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT))
                 {
                     $text = str_replace($value, "\n\n    __Note:__ documentation part _{$regs[2][$i]}_ from _{$component}_ is unavailable in this MidCOM context.\n\n", $text);
                 }
@@ -361,7 +361,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $data[$request_handler_id] = array();
 
             // Build the dynamic_loadable URI, starting from topic path
-            $data[$request_handler_id]['route'] = str_replace(midcom_connection::get_url('prefix'), '', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+            $data[$request_handler_id]['route'] = str_replace(midcom_connection::get_url('prefix'), '', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
             // Add fixed arguments
             $data[$request_handler_id]['route'] .= implode('/', $request_data['fixed_args']) . '/';
             // Add variable_arguments

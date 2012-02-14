@@ -7,7 +7,7 @@ $view = $data['view_product'];
 <?php
 if ($data['config']->get('enable_productlinks'))
 {
-    $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
     $qb_productlinks = org_openpsa_products_product_link_dba::new_query_builder();
     $qb_productlinks->add_constraint('product', '=', $data['object']->id);

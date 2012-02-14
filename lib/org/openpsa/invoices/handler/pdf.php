@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
     {
         $this->_invoice = new org_openpsa_invoices_invoice_dba($args[0]);
 
-        $this->_request_data['invoice_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/" . $this->_invoice->guid . "/";
+        $this->_request_data['invoice_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/" . $this->_invoice->guid . "/";
 
         //check for manually uploaded pdf-file & if user wants to replace it
         if (array_key_exists('cancel', $_POST))

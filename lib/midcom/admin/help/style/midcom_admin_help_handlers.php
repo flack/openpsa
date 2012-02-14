@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . midcom::get('i18n')->get_string('handlers', 'midcom.admin.help') . "</h1>\n";
 if (count($data['request_switch_info']) > 0)
 {

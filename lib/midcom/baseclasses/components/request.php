@@ -587,7 +587,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         {
             // Prepend the plugin anchor prefix so that it is complete.
             $this->_request_data['plugin_anchorprefix'] =
-            $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
             . $this->_request_data['plugin_anchorprefix'];
         }
         else
