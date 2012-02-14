@@ -196,14 +196,19 @@ class midcom_core_context
      *
      * A complete example can be found with set_custom_context_data.
      *
-     * @param string $component    The component name
      * @param int $key    The requested key
+     * @param string $component    The component name
      * @return mixed      The requested value, which is returned by Reference!
      * @see get_key()
      * @see set_custom_key()
      */
-    public function & get_custom_key($component, $key)
+    public function & get_custom_key($key, $component = null)
     {
+        if (null === $component)
+        {
+            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
+        }
+
         if (   !array_key_exists($component, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA])
             || !array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component]))
         {
@@ -248,18 +253,23 @@ class midcom_core_context
      * class my_component_class_two {
      *        var one;
      *     function my_component_class_two () {
-     *         $this->one =& $_MIDCOM->get_custom_context_data('classone');
+     *         $this->one =& midcom_core_context::get()->get_custom_key('classone');
      *     }
      * }
      * </code>
      *
-     * @param string $component The component associated to the key.
      * @param mixed $key        The key associated to the value.
      * @param mixed &$value    The value to store. (This is stored by-reference!)
+     * @param string $component The component associated to the key.
      * @see get_custom_key()
      */
-    function set_custom_key ($component, $key, &$value)
+    function set_custom_key ($key, &$value, $component = null)
     {
+        if (null === $component)
+        {
+            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
+        }
+
         $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
     }
 

@@ -160,16 +160,15 @@ class midcom_compat_superglobal
      * @param mixed $value    The value to store. (This is stored by-reference!)
      * @param int $contextid    The context to associated this data with (defaults to the current context)
      */
-    function set_custom_context_data ($key, &$value, $contextid = null)
+    function set_custom_context_data($key, &$value, $contextid = null)
     {
         $context = midcom_core_context::get($contextid);
         if (!$context)
         {
             return;
         }
-        $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
 
-        $context->set_custom_key($component, $key, $value);
+        $context->set_custom_key($key, $value);
     }
 
     /**
@@ -198,9 +197,7 @@ class midcom_compat_superglobal
             return $result;
         }
 
-        $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
-
-        return $context->get_custom_key($component, $key);
+        return $context->get_custom_key($key);
     }
 
     /**
