@@ -172,11 +172,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_prepare_request_data();
 
-        if ($this->_hour_report)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
-        }
-
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
