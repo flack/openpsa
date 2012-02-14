@@ -52,50 +52,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             }
             $fields['vat']['type_config']['options'] = $vat_values;
         }
-        if (isset($this->_object->customerContact))
-        {
-            if ($this->_object->customerContact)
-            {
-                $this->_populate_schema_customers_for_contact($this->_object->customerContact);
-            }
-            else if ($this->_object->customer)
-            {
-                $customer = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
-                $this->_populate_schema_contacts_for_customer($customer);
-            }
-        }
-        else
-        {
-            if (array_key_exists('customer', $this->_request_data))
-            {
-                if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba'))
-                {
-                    $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
-                }
-                else
-                {
-                    $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
-                }
-            }
-            else if ($this->_object)
-            {
-                try
-                {
-                    $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
-                    $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
-                }
-                catch (midcom_error $e)
-                {
-                    $fields['customer']['hidden'] = true;
-                    $e->log();
-                }
-            }
-            else
-            {
-                // We don't know company, present customer contact as chooser and hide customer field
-                $fields['customer']['hidden'] = true;
-            }
-        }
 
         if ($this->_config->get('invoice_pdfbuilder_class'))
         {
@@ -109,6 +65,40 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if (!empty($this->_object->paid))
         {
             $fields['paid']['hidden'] = false;
+        }
+
+        if (!empty($this->_object->customerContact))
+        {
+            $this->_populate_schema_customers_for_contact($this->_object->customerContact);
+        }
+        else if (array_key_exists('customer', $this->_request_data))
+        {
+            if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba'))
+            {
+                $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+            }
+            else
+            {
+                $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
+            }
+        }
+        else if ($this->_object)
+        {
+            try
+            {
+                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+                $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+            }
+            catch (midcom_error $e)
+            {
+                $fields['customer']['hidden'] = true;
+                $e->log();
+            }
+        }
+        else
+        {
+            // We don't know company, present customer contact as chooser and hide customer field
+            $fields['customer']['hidden'] = true;
         }
     }
 
