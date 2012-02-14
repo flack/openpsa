@@ -134,7 +134,7 @@ jQuery("#chgrouping_&(grid_id);").change(function()
             &(grid_id);_grouping = selection;
             jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
         }
-		jQuery(window).trigger('resize');
+	jQuery(window).trigger('resize');
     }
 });
 

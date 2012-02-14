@@ -81,7 +81,7 @@ $.each(date_columns, function(index, name)
     day_total = 0;
     $.each(grid.jqGrid('getCol', name), function(i, value)
     {
-		day_total += parseFloat(value || 0);
+	day_total += parseFloat(value || 0);
     });
     totals[name] = day_total;
     day_total = 0;
