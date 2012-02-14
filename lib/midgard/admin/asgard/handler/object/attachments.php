@@ -412,7 +412,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if (isset($_POST['f_cancel']))
         {
-            midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('delete cancelled', 'midgard.admin.asgard'));
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('delete cancelled', 'midgard.admin.asgard'));
             $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
             // This will exit
         }
@@ -421,7 +421,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         {
             if ($this->_file->delete())
             {
-                midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('file %s deleted', 'midgard.admin.asgard'), $data['filename']));
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('file %s deleted', 'midgard.admin.asgard'), $data['filename']));
                 $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
                 // This will exit
             }

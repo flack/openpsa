@@ -363,7 +363,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         {
             midcom::get('auth')->require_user_do('midgard:create', null, $this->_new_type);
 
-            $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
+            $data['view_title'] = sprintf(midcom::get('i18n')->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
         }
         else
         {
@@ -693,7 +693,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Load the schemadb for searching the parent object
         $this->_load_schemadb($target['class'], $target['parent'], true);
         // Change the name for the parent field
-        $this->_schemadb['object']->fields[$target['parent']]['title'] = $_MIDCOM->i18n->get_string('choose the target', 'midgard.admin.asgard');
+        $this->_schemadb['object']->fields[$target['parent']]['title'] = midcom::get('i18n')->get_string('choose the target', 'midgard.admin.asgard');
 
         // Load the nullstorage controller
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
@@ -736,10 +736,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         switch ($handler_id)
         {
             case '____mfa-asgard-object_copy_tree':
-                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s and its descendants', 'midgard.admin.asgard'), $this->_object->$target['label']);
+                $data['page_title'] = sprintf(midcom::get('i18n')->get_string('copy %s and its descendants', 'midgard.admin.asgard'), $this->_object->$target['label']);
                 break;
             default:
-                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s', 'midgard.admin.asgard'), $this->_object->$target['label']);
+                $data['page_title'] = sprintf(midcom::get('i18n')->get_string('copy %s', 'midgard.admin.asgard'), $this->_object->$target['label']);
         }
 
         $data['target'] = $target;

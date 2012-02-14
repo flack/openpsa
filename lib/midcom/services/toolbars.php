@@ -1031,15 +1031,15 @@ class midcom_services_toolbars
         }
 
         echo "        <div id=\"midcom_services_toolbars_topic-folder\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title folder\">". $_MIDCOM->i18n->get_string('folder', 'midcom') . "</span>\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title folder\">". midcom::get('i18n')->get_string('folder', 'midcom') . "</span>\n";
         echo $this->render_node_toolbar();
         echo "        </div>\n";
         echo "        <div id=\"midcom_services_toolbars_topic-host\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title host\">". $_MIDCOM->i18n->get_string('host', 'midcom') . "</span>\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title host\">". midcom::get('i18n')->get_string('host', 'midcom') . "</span>\n";
         echo $this->render_host_toolbar();
         echo "        </div>\n";
         echo "        <div id=\"midcom_services_toolbars_topic-help\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title help\">". $_MIDCOM->i18n->get_string('help', 'midcom.admin.help') . "</span>\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title help\">". midcom::get('i18n')->get_string('help', 'midcom.admin.help') . "</span>\n";
         echo $this->render_help_toolbar();
         echo "        </div>\n";
         echo "    </div>\n";

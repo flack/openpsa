@@ -25,7 +25,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
      */
     private function _update_breadcrumb($name)
     {
-        $label = $_MIDCOM->i18n->get_string($name, $name);
+        $label = midcom::get('i18n')->get_string($name, $name);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $this->_request_data['view_title']);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/view/{$name}", $label);
@@ -38,7 +38,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.libconfig/edit/{$data['name']}",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             )
         );
@@ -105,7 +105,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
         $data['even'] = false;
         foreach ($data['config']->_global as $key => $value)
         {
-            $data['key'] = $_MIDCOM->i18n->get_string($key, $data['name']);
+            $data['key'] = midcom::get('i18n')->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
 
             if (isset($data['config']->_local[$key]))

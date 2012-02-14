@@ -560,7 +560,7 @@ class midcom_services_auth
         {
             if (is_null($message))
             {
-                $string = $_MIDCOM->i18n->get_string('access denied: privilege %s not granted', 'midcom');
+                $string = midcom::get('i18n')->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
             throw new midcom_error_forbidden($message);
@@ -592,7 +592,7 @@ class midcom_services_auth
         {
             if (is_null($message))
             {
-                $string = $_MIDCOM->i18n->get_string('access denied: privilege %s not granted', 'midcom');
+                $string = midcom::get('i18n')->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
             throw new midcom_error_forbidden($message);
@@ -620,7 +620,7 @@ class midcom_services_auth
         {
             if (is_null($message))
             {
-                $string = $_MIDCOM->i18n->get_string('access denied: user is not member of the group %s', 'midcom');
+                $string = midcom::get('i18n')->get_string('access denied: user is not member of the group %s', 'midcom');
                 if (is_object($group))
                 {
                     $message = sprintf($string, $group->name);
@@ -647,7 +647,7 @@ class midcom_services_auth
     {
         if ($message === null)
         {
-            $message = $_MIDCOM->i18n->get_string('access denied: admin level privileges required', 'midcom');
+            $message = midcom::get('i18n')->get_string('access denied: admin level privileges required', 'midcom');
         }
 
         if (   ! $this->admin
@@ -1142,14 +1142,14 @@ class midcom_services_auth
 
         midcom::get('cache')->content->no_cache();
 
-        $title = $_MIDCOM->i18n->get_string('login', 'midcom');
+        $title = midcom::get('i18n')->get_string('login', 'midcom');
 
         // Determine login warning so that wrong user/pass is shown.
         $login_warning = '';
         if (   $this->auth_credentials_found
             && is_null($this->user))
         {
-            $login_warning = $_MIDCOM->i18n->get_string('login message - user or password wrong', 'midcom');
+            $login_warning = midcom::get('i18n')->get_string('login message - user or password wrong', 'midcom');
         }
 
         // Pass our local but very useful variables on to the style element

@@ -1,7 +1,7 @@
 <?php
 $label = $data['label_property'];
 echo "<h2>";
-echo sprintf($_MIDCOM->i18n->get_string('%s trash', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type']));
+echo sprintf(midcom::get('i18n')->get_string('%s trash', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type']));
 echo "</h2>";
 
 $shown = array();
@@ -71,7 +71,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
             else
             {
                 echo "{$prefix}    <tr>\n";
-                echo "{$prefix}        <td class=\"label\" style=\"padding-left: {$child_indent}px\" colspan=\"5\"><a href=\"?show_children[{$object->guid}][{$type}]=1\">" . sprintf($_MIDCOM->i18n->get_string('show %s %s children', 'midgard.admin.asgard'), count($children), midgard_admin_asgard_plugin::get_type_label($type)) . "</a></td>\n";
+                echo "{$prefix}        <td class=\"label\" style=\"padding-left: {$child_indent}px\" colspan=\"5\"><a href=\"?show_children[{$object->guid}][{$type}]=1\">" . sprintf(midcom::get('i18n')->get_string('show %s %s children', 'midgard.admin.asgard'), count($children), midgard_admin_asgard_plugin::get_type_label($type)) . "</a></td>\n";
                 echo "{$prefix}    </tr>\n";
             }
         }
@@ -88,27 +88,27 @@ if ($data['trash'])
     echo "    <thead>\n";
     echo "        <tr>\n";
     echo "            <th>&nbsp;</th>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('title', 'midcom') . "</th>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('deleted on', 'midgard.admin.asgard') . "</th>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('deleted by', 'midgard.admin.asgard') . "</th>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('size', 'midgard.admin.asgard') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('title', 'midcom') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('deleted on', 'midgard.admin.asgard') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('deleted by', 'midgard.admin.asgard') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('size', 'midgard.admin.asgard') . "</th>\n";
     echo "        </tr>\n";
     echo "    </thead>\n";
     echo "    <tfoot>\n";
     echo "            <tr>\n";
     echo "            <td colspan=\"5\">\n";
     echo "                <label for=\"select_all\">\n";
-    echo "                    <input type=\"checkbox\" name=\"select_all\" id=\"select_all\" value=\"\" onclick=\"jQuery(this).check_all('#batch_process tbody');\" />" . $_MIDCOM->i18n->get_string('select all', 'midgard.admin.asgard');
+    echo "                    <input type=\"checkbox\" name=\"select_all\" id=\"select_all\" value=\"\" onclick=\"jQuery(this).check_all('#batch_process tbody');\" />" . midcom::get('i18n')->get_string('select all', 'midgard.admin.asgard');
     echo "                </label>\n";
     echo "                <label for=\"invert_selection\">\n";
-    echo "                    <input type=\"checkbox\" name=\"invert_selection\" id=\"invert_selection\" value=\"\" onclick=\"jQuery(this).invert_selection('#batch_process tbody');\" />" . $_MIDCOM->i18n->get_string('invert selection', 'midgard.admin.asgard');
+    echo "                    <input type=\"checkbox\" name=\"invert_selection\" id=\"invert_selection\" value=\"\" onclick=\"jQuery(this).invert_selection('#batch_process tbody');\" />" . midcom::get('i18n')->get_string('invert selection', 'midgard.admin.asgard');
     echo "                </label>\n";
     echo "            </td>\n";
     echo "        </tr>\n";
     echo "        <tr>\n";
     echo "            <td colspan=\"5\">\n";
-    echo "                <input type=\"submit\" value=\"" . $_MIDCOM->i18n->get_string('undelete', 'midgard.admin.asgard') . "\" />\n";
-    echo "                <input type=\"submit\" name=\"purge\" value=\"" . $_MIDCOM->i18n->get_string('purge', 'midgard.admin.asgard') . "\" />\n";
+    echo "                <input type=\"submit\" value=\"" . midcom::get('i18n')->get_string('undelete', 'midgard.admin.asgard') . "\" />\n";
+    echo "                <input type=\"submit\" name=\"purge\" value=\"" . midcom::get('i18n')->get_string('purge', 'midgard.admin.asgard') . "\" />\n";
     echo "            </td>\n";
     echo "        </tr>\n";
     echo "    </tfoot>\n";
@@ -135,6 +135,6 @@ if ($data['trash'])
 }
 else
 {
-    echo "<p>" . $_MIDCOM->i18n->get_string('trash is empty', 'midgard.admin.asgard') . "</p>\n";
+    echo "<p>" . midcom::get('i18n')->get_string('trash is empty', 'midgard.admin.asgard') . "</p>\n";
 }
 ?>

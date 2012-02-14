@@ -18,7 +18,7 @@
                                 $creator_string = $data['l10n']->get('unknown person');
                             }
                             $created = (int) $view_metadata->get('created');
-                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created)) . "\n";
+                            echo sprintf(midcom::get('i18n')->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created)) . "\n";
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
@@ -35,7 +35,7 @@
                                     $editor_string = $data['l10n']->get('unknown person');
                                 }
 
-                                echo sprintf($_MIDCOM->i18n->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), $editor_string, strftime('%c', $edited), $revision) . "\n";
+                                echo sprintf(midcom::get('i18n')->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), $editor_string, strftime('%c', $edited), $revision) . "\n";
                             }
                         }
                         ?>
@@ -65,7 +65,7 @@
             <span class="copyrights">
                 <img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.services.toolbars/images/midgard-logo.png" alt="(M)" />
                 <strong><?php
-                    echo $_MIDCOM->i18n->get_string('asgard for', 'midgard.admin.asgard');
+                    echo midcom::get('i18n')->get_string('asgard for', 'midgard.admin.asgard');
                     if (extension_loaded('midgard2'))
                     {
                         echo " Midgard2 ";

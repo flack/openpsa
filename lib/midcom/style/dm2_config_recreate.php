@@ -1,6 +1,6 @@
 <?php
 echo "<h1>{$data['title']}</h1>\n";
-echo "<p>" . $_MIDCOM->i18n->get_string('recreating', 'midcom') . "</p>\n";
+echo "<p>" . midcom::get('i18n')->get_string('recreating', 'midcom') . "</p>\n";
 
 echo "<pre>\n";
 foreach ($this->data['objects'] as $object)
@@ -8,18 +8,18 @@ foreach ($this->data['objects'] as $object)
     $type = get_class($object);
     if (!isset($this->data['datamanagers'][$type]))
     {
-        echo sprintf($_MIDCOM->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
+        echo sprintf(midcom::get('i18n')->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
         continue;
     }
 
     if (   !$object->can_do('midgard:update')
         || !$object->can_do('midgard:attachments'))
     {
-        echo sprintf($_MIDCOM->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
+        echo sprintf(midcom::get('i18n')->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
         continue;
     }
 
-    echo sprintf($_MIDCOM->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
+    echo sprintf(midcom::get('i18n')->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
     $this->data['datamanagers'][$type]->autoset_storage($object);
     if (!$this->data['datamanagers'][$type]->recreate())
     {
@@ -32,5 +32,5 @@ foreach ($this->data['objects'] as $object)
 }
 echo "</pre>\n";
 
-echo "<p>" . $_MIDCOM->i18n->get_string('done', 'midcom') . "</p>\n";
+echo "<p>" . midcom::get('i18n')->get_string('done', 'midcom') . "</p>\n";
 ?>

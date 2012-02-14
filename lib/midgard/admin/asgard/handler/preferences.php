@@ -53,11 +53,11 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _process_request_data(&$data)
     {
-        $data['view_title'] = $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard');
+        $data['view_title'] = midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard');
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb('__mfa/asgard/preferences/', $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/preferences/', midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'));
 
         if ($this->_person->guid !== midcom::get('auth')->user->guid)
         {
@@ -98,12 +98,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('preferences saved', 'midgard.admin.asgard'));
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('preferences saved', 'midgard.admin.asgard'));
                 $_MIDCOM->relocate($return_page);
                 // This will exit
                 break;
             case 'cancel':
-                midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
                 $_MIDCOM->relocate($return_page);
                 // This will exit
                 break;
@@ -137,8 +137,8 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public static function get_languages()
     {
-        $lang_str = $_MIDCOM->i18n->get_current_language();
-        $languages = $_MIDCOM->i18n->list_languages();
+        $lang_str = midcom::get('i18n')->get_current_language();
+        $languages = midcom::get('i18n')->list_languages();
 
         if (!array_key_exists($lang_str, $languages))
         {
@@ -184,7 +184,7 @@ implements midcom_helper_datamanager2_interfaces_edit
              if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value))
              {
                  $this->_status = false;
-                 midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string($key, 'midgard.admin.asgard')));
+                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), midcom::get('i18n')->get_string($key, 'midgard.admin.asgard')));
              }
 
              debug_add("Added configuration key-value pair {$key} => {$value}");

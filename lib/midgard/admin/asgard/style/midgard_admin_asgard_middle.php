@@ -27,15 +27,15 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                                 if ($help_file)
                                 {
                                     echo "                                <li>\n";
-                                    echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" class='target_blank' title=\"" . $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
+                                    echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" class='target_blank' title=\"" . midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
                                     echo "                                </li>\n";
                                 }
                                 ?>
                                 <li>
-                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/configuration.png" alt="<?php echo $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'); ?>" /></a>
+                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/configuration.png" alt="<?php echo midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'); ?>" /></a>
                                 </li>
                                 <li>
-                                    <a href="&(prefix);" title="<?php echo $_MIDCOM->i18n->get_string('back to site', 'midgard.admin.asgard'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/gohome.png" alt="<?php echo $_MIDCOM->i18n->get_string('back to site', 'midgard.admin.asgard'); ?>" /></a>
+                                    <a href="&(prefix);" title="<?php echo midcom::get('i18n')->get_string('back to site', 'midgard.admin.asgard'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/gohome.png" alt="<?php echo midcom::get('i18n')->get_string('back to site', 'midgard.admin.asgard'); ?>" /></a>
                                 </li>
                             </ul>
                         </div>

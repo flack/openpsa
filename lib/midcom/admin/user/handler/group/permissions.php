@@ -78,7 +78,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
             $data['objects'][$privilege->objectguid][$privilege->privilegename] = $privilege->value;
         }
 
-        $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('folders of %s', 'midcom.admin.user'), $this->_group->official);
+        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('folders of %s', 'midcom.admin.user'), $this->_group->official);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();

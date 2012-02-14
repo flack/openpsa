@@ -50,10 +50,10 @@ abstract class midcom_baseclasses_components_base
                 $instance = $_MIDCOM->get_service('i18n');
                 break;
             case '_l10n':
-                $instance = $_MIDCOM->i18n->get_l10n($this->_component);
+                $instance = midcom::get('i18n')->get_l10n($this->_component);
                 break;
             case '_l10n_midcom':
-                $instance = $_MIDCOM->i18n->get_l10n('midcom');
+                $instance = midcom::get('i18n')->get_l10n('midcom');
                 break;
             case '_config':
                 $instance = midcom_baseclasses_components_configuration::get($this->_component, 'config');

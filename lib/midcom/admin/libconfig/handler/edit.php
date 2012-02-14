@@ -31,7 +31,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _update_breadcrumb()
     {
-        $label = $_MIDCOM->i18n->get_string($this->_component_name, $this->_component_name);
+        $label = midcom::get('i18n')->get_string($this->_component_name, $this->_component_name);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $this->_request_data['view_title']);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/view/{$name}", $label);

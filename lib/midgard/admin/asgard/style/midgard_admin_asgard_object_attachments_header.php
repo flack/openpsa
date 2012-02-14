@@ -11,11 +11,11 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "<table class=\"attachments table_widget\" id=\"attachment_table\">\n";
             echo "    <thead>\n";
             echo "        <tr>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('title', 'midcom') . "</th>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('revised on', 'midgard.admin.asgard') . "</th>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('revised by', 'midgard.admin.asgard') . "</th>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('size', 'midgard.admin.asgard') . "</th>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('actions', 'midgard.admin.asgard') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('title', 'midcom') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('revised on', 'midgard.admin.asgard') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('revised by', 'midgard.admin.asgard') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('size', 'midgard.admin.asgard') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('actions', 'midgard.admin.asgard') . "</th>\n";
             echo "        </tr>\n";
             echo "    </thead>\n";
             echo "    <tbody>\n";
@@ -35,7 +35,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                     $class = ' class="selected"';
                 }
 
-                $delete_title = sprintf($_MIDCOM->i18n->get_string('delete %s %s', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('attachment', 'midgard.admin.asgard'), $file->name);
+                $delete_title = sprintf(midcom::get('i18n')->get_string('delete %s %s', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('attachment', 'midgard.admin.asgard'), $file->name);
                 echo "<tr>\n";
                 echo "  <td{$class}>\n";
                 echo "    <a href=\"{$prefix}__mfa/asgard/object/attachments/{$data['object']->guid}/{$file->name}/\">\n";
@@ -66,7 +66,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "    <a title=\"{$delete_title}\" href=\"{$prefix}__mfa/asgard/object/attachments/delete/{$data['object']->guid}/{$file->name}/\">\n";
                 echo "      <img alt=\"{$delete_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/trash.png\"/>\n";
                 echo "    </a>\n";
-                $manage_title = $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard');
+                $manage_title = midcom::get('i18n')->get_string('manage object', 'midgard.admin.asgard');
                 echo "    <a title=\"{$manage_title}\" href=\"{$prefix}__mfa/asgard/object/view/{$file->guid}/\">\n";
                 echo "      <img alt=\"{$manage_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/properties.png\"/>\n";
                 echo "    </a>\n";
@@ -89,7 +89,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         }
         else
         {
-            echo "<p>" . $_MIDCOM->i18n->get_string('no files', 'midgard.admin.asgard') . "</p>\n";
+            echo "<p>" . midcom::get('i18n')->get_string('no files', 'midgard.admin.asgard') . "</p>\n";
         }
         ?>
     </div>

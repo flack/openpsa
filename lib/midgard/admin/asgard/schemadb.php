@@ -52,7 +52,7 @@ class midgard_admin_asgard_schemadb
     {
         $this->_object = $object;
         $this->_config = $config;
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
+        $this->_l10n = midcom::get('i18n')->get_l10n('midgard.admin.asgard');
     }
 
     /**
@@ -286,13 +286,13 @@ class midgard_admin_asgard_schemadb
             '_rcs_message',
             array
             (
-                'title'       => $_MIDCOM->i18n->get_string('revision comment', 'midgard.admin.asgard'),
+                'title'       => midcom::get('i18n')->get_string('revision comment', 'midgard.admin.asgard'),
                 'storage'     => '_rcs_message',
                 'type'        => 'text',
                 'widget'      => 'text',
                 'start_fieldset' => array
                 (
-                    'title' => $_MIDCOM->i18n->get_string('revision', 'midgard.admin.asgard'),
+                    'title' => midcom::get('i18n')->get_string('revision', 'midgard.admin.asgard'),
                     'css_group' => 'rcs',
                 ),
                 'end_fieldset' => '',
@@ -488,7 +488,7 @@ class midgard_admin_asgard_schemadb
                 continue;
             }
 
-            $components[$manifest->name] = $_MIDCOM->i18n->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
+            $components[$manifest->name] = midcom::get('i18n')->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
         }
         asort($components);
 

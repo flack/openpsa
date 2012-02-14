@@ -30,7 +30,7 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
                 <?php
                 if ($login_warning == '')
                 {
-                    echo "<div id=\"ok\">" . $_MIDCOM->i18n->get_string('login message - please enter credentials', 'midcom') . "</div>\n";
+                    echo "<div id=\"ok\">" . midcom::get('i18n')->get_string('login message - please enter credentials', 'midcom') . "</div>\n";
                 }
                 else
                 {

@@ -1,5 +1,5 @@
-<h1><?php echo sprintf($_MIDCOM->i18n->get_string('delete file %s', 'midcom.admin.styleeditor'), $data['filename']); ?></h1>
-<p><?php echo sprintf($_MIDCOM->i18n->get_string('confirm delete of file %s', 'midcom.admin.styleeditor'), $data['filename']); ?></p>
+<h1><?php echo sprintf(midcom::get('i18n')->get_string('delete file %s', 'midcom.admin.styleeditor'), $data['filename']); ?></h1>
+<p><?php echo sprintf(midcom::get('i18n')->get_string('confirm delete of file %s', 'midcom.admin.styleeditor'), $data['filename']); ?></p>
 <?php
 if (array_key_exists($data['file']->mimetype, $data['attachment_text_types']))
 {
@@ -18,7 +18,7 @@ if (array_key_exists($data['file']->mimetype, $data['attachment_text_types']))
 ?>
 <form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" class="datamanager2">
     <div class="form_toolbar">
-        <input type="submit" class="delete" name="f_confirm" value="<?php echo $_MIDCOM->i18n->get_string('delete', 'midcom'); ?>" />
-        <input type="submit" class="cancel" name="f_cancel" value="<?php echo $_MIDCOM->i18n->get_string('cancel', 'midcom'); ?>" />
+        <input type="submit" class="delete" name="f_confirm" value="<?php echo midcom::get('i18n')->get_string('delete', 'midcom'); ?>" />
+        <input type="submit" class="cancel" name="f_cancel" value="<?php echo midcom::get('i18n')->get_string('cancel', 'midcom'); ?>" />
     </div>
 </form>

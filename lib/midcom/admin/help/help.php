@@ -105,7 +105,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         if ($language === null)
         {
-            $language = $_MIDCOM->i18n->get_current_language();
+            $language = midcom::get('i18n')->get_current_language();
         }
 
         $file = self::get_documentation_dir($component) . "{$help_id}.{$language}.txt";
@@ -127,7 +127,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     static function get_help_title($help_id, $component)
     {
-        $subject = $_MIDCOM->i18n->get_string("help_" . $help_id, 'midcom.admin.help');
+        $subject = midcom::get('i18n')->get_string("help_" . $help_id, 'midcom.admin.help');
         $path = self::generate_file_path($help_id, $component);
         if (!$path)
         {
@@ -215,7 +215,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                     'index' => array
                     (
                         'path' => '/',
-                        'subject' => $_MIDCOM->i18n->get_string('help_index', 'midcom.admin.help'),
+                        'subject' => midcom::get('i18n')->get_string('help_index', 'midcom.admin.help'),
                         'lang' => 'en',
                     ),
                 ),
@@ -234,7 +234,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['mgdschemas'] = array
             (
                 'path' => '/mgdschemas',
-                'subject' => $_MIDCOM->i18n->get_string('help_mgdschemas', 'midcom.admin.help'),
+                'subject' => midcom::get('i18n')->get_string('help_mgdschemas', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -246,7 +246,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['urlmethods'] = array
             (
                 'path' => '/urlmethods',
-                'subject' => $_MIDCOM->i18n->get_string('help_urlmethods', 'midcom.admin.help'),
+                'subject' => midcom::get('i18n')->get_string('help_urlmethods', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -265,7 +265,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['handlers'] = array
             (
                 'path' => '/handlers',
-                'subject' => $_MIDCOM->i18n->get_string('help_handlers', 'midcom.admin.help'),
+                'subject' => midcom::get('i18n')->get_string('help_handlers', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -277,7 +277,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['dependencies'] = array
             (
                 'path' => '/dependencies',
-                'subject' => $_MIDCOM->i18n->get_string('help_dependencies', 'midcom.admin.help'),
+                'subject' => midcom::get('i18n')->get_string('help_dependencies', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -318,7 +318,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 continue;
             }
 
-            if (   $filename_parts[1] != $_MIDCOM->i18n->get_current_language()
+            if (   $filename_parts[1] != midcom::get('i18n')->get_current_language()
                 && $filename_parts[1] != $GLOBALS['midcom_config']['i18n_fallback_language'])
             {
                 // Wrong language
@@ -494,7 +494,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $component_array = array();
         $component_array['name'] = $name;
-        $component_array['title'] = $_MIDCOM->i18n->get_string($name, $name);
+        $component_array['title'] = midcom::get('i18n')->get_string($name, $name);
         $component_array['icon'] = midcom::get('componentloader')->get_component_icon($name);
 
         if (!isset(midcom::get('componentloader')->manifests[$name]))
@@ -574,7 +574,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $this->add_breadcrumb
             (
                 "__ais/help/{$this->_request_data['component']}/",
-                sprintf($this->_l10n->get('help for %s'), $_MIDCOM->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
+                sprintf($this->_l10n->get('help for %s'), midcom::get('i18n')->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
         }
 
@@ -613,7 +613,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         midcom::get('auth')->require_valid_user();
         $_MIDCOM->skip_page_style = true;
 
-        $data['view_title'] = $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help');
+        $data['view_title'] = midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help');
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_list_components();
@@ -670,7 +670,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
         $_MIDCOM->skip_page_style = true;
 
-        $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('help for %s', 'midcom.admin.help'), $_MIDCOM->i18n->get_string($data['component'], $data['component']));
+        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('help for %s', 'midcom.admin.help'), midcom::get('i18n')->get_string($data['component'], $data['component']));
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $data['help_files'] = $this->list_files($data['component']);
@@ -731,9 +731,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // Table of contents navi
         $data['view_title'] = sprintf
         (
-            $_MIDCOM->i18n->get_string('help for %s in %s', 'midcom.admin.help'),
+            midcom::get('i18n')->get_string('help for %s in %s', 'midcom.admin.help'),
             self::get_help_title($data['help_id'], $data['component']),
-            $_MIDCOM->i18n->get_string($data['component'], $data['component'])
+            midcom::get('i18n')->get_string($data['component'], $data['component'])
         );
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumb($handler_id);

@@ -66,7 +66,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
 
         foreach ($libs as $name => $manifest)
         {
-            $label = $_MIDCOM->i18n->get_string($name, $name);
+            $label = midcom::get('i18n')->get_string($name, $name);
             echo "            <li class=\"status\"><a href=\"{$prefix}__mfa/asgard_midcom.admin.libconfig/view/{$name}/\">{$label}</a></li>\n";
         }
 

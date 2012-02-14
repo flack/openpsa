@@ -101,7 +101,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
             if (array_key_exists('description', $manifest->_raw_data['package.xml']))
             {
-                $description = $_MIDCOM->i18n->get_string($manifest->_raw_data['package.xml']['description'], $manifest->name);
+                $description = midcom::get('i18n')->get_string($manifest->_raw_data['package.xml']['description'], $manifest->name);
             }
             else
             {
@@ -183,10 +183,10 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     {
         static $style_array = array();
 
-        $style_array[''] = $_MIDCOM->i18n->get_string('default', 'midcom.admin.folder');
+        $style_array[''] = midcom::get('i18n')->get_string('default', 'midcom.admin.folder');
 
         // Give an option for creating a new layout template
-        $style_array['__create'] = $_MIDCOM->i18n->get_string('new layout template', 'midcom.admin.folder');
+        $style_array['__create'] = midcom::get('i18n')->get_string('new layout template', 'midcom.admin.folder');
 
         if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
             && $up == 0)

@@ -102,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['controller'] =& $controller;
 
         $ref = new midcom_helper_reflector($this->_group);
-        $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
+        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
@@ -112,7 +112,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/move/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move group', 'midcom.admin.user'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move group', 'midcom.admin.user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
             )
         );
@@ -122,7 +122,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('folders', 'midcom.admin.user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',
             )
         );

@@ -6,10 +6,10 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 <table>
     <thead>
         <?php
-        echo "<th>" . $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user') . "</th>\n";
+        echo "<th>" . midcom::get('i18n')->get_string('folders', 'midcom.admin.user') . "</th>\n";
         foreach ($data['privileges'] as $privilege)
         {
-            echo "<th>" . $_MIDCOM->i18n->get_string($privilege, 'midgard.admin.asgard') . "</th>\n";
+            echo "<th>" . midcom::get('i18n')->get_string($privilege, 'midgard.admin.asgard') . "</th>\n";
         }
         ?>
     </thead>
@@ -43,11 +43,11 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
                 if ($privs[$privilege] == 1)
                 {
-                    echo $_MIDCOM->i18n->get_string('yes', 'midcom');
+                    echo midcom::get('i18n')->get_string('yes', 'midcom');
                 }
                 elseif ($privs[$privilege] == 2)
                 {
-                    echo $_MIDCOM->i18n->get_string('no', 'midcom');
+                    echo midcom::get('i18n')->get_string('no', 'midcom');
                 }
 
                 echo "</td>\n";

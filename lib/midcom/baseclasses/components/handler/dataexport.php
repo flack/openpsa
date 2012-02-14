@@ -241,7 +241,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             {
                 $this->_totals[$name] = 0;
             }
-            $title = $_MIDCOM->i18n->get_string($title, $this->_component);
+            $title = midcom::get('i18n')->get_string($title, $this->_component);
             $i++;
             if ($i < count($datamanager->schema->field_order))
             {

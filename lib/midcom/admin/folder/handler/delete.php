@@ -67,7 +67,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $this->_node_toolbar->hide_item('__ais/folder/delete/');
 
         // Set page title
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('delete folder %s', 'midcom.admin.folder'), $data['topic']->extra);
+        $data['title'] = sprintf(midcom::get('i18n')->get_string('delete folder %s', 'midcom.admin.folder'), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar

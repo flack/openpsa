@@ -212,7 +212,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             if ($privilege->is_magic_assignee())
             {
                 // This is a magic assignee
-                $label = $_MIDCOM->i18n->get_string($privilege->assignee, 'midgard.admin.asgard');
+                $label = midcom::get('i18n')->get_string($privilege->assignee, 'midgard.admin.asgard');
             }
             else
             {
@@ -225,7 +225,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 }
                 else
                 {
-                    $label = $_MIDCOM->i18n->get_string('ghost assignee for '. $privilege->assignee, 'midgard.admin.asgard');
+                    $label = midcom::get('i18n')->get_string('ghost assignee for '. $privilege->assignee, 'midgard.admin.asgard');
                 }
             }
 
@@ -267,18 +267,18 @@ implements midcom_helper_datamanager2_interfaces_edit
                 else
                 {
                     // This is a component-specific privilege, call component to localize it
-                    $privilege_label = $_MIDCOM->i18n->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
+                    $privilege_label = midcom::get('i18n')->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
                 }
 
                 if (! isset($header_items[$privilege_label]))
                 {
-                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $_MIDCOM->i18n->get_string($privilege_label, 'midgard.admin.asgard')) . "</span></th>\n";
+                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", midcom::get('i18n')->get_string($privilege_label, 'midgard.admin.asgard')) . "</span></th>\n";
                 }
 
                 $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(':', '_', str_replace('.', '_', $privilege)), Array
                     (
                         'title' => $privilege_label,
-                        'helptext'    => sprintf($_MIDCOM->i18n->get_string('sets privilege %s', 'midgard.admin.asgard'), $privilege),
+                        'helptext'    => sprintf(midcom::get('i18n')->get_string('sets privilege %s', 'midgard.admin.asgard'), $privilege),
                         'storage' => null,
                         'type' => 'privilege',
                         'type_config' => Array
@@ -356,7 +356,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch (get_class($this->_object))
         {
             case 'midcom_db_topic':
-                $type = $_MIDCOM->i18n->get_string('folder', 'midgard.admin.asgard');
+                $type = midcom::get('i18n')->get_string('folder', 'midgard.admin.asgard');
                 break;
             default:
                 $type_parts = explode('_', get_class($this->_object));

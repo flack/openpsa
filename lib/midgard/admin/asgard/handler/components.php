@@ -28,7 +28,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     {
         $component_array = array();
         $component_array['name'] = $name;
-        $component_array['title'] = $_MIDCOM->i18n->get_string($name, $name);
+        $component_array['title'] = midcom::get('i18n')->get_string($name, $name);
         $component_array['purecode'] = $manifest->purecode;
         $component_array['icon'] = midcom::get('componentloader')->get_component_icon($name);
 
@@ -55,7 +55,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$name}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('component configuration', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             )
         );
@@ -67,7 +67,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/help/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
                 )
             );
@@ -116,7 +116,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $data['view_title'] = $_MIDCOM->i18n->get_string('components', 'midgard.admin.asgard');
+        $data['view_title'] = midcom::get('i18n')->get_string('components', 'midgard.admin.asgard');
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_list_components();
@@ -193,7 +193,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$data['component']}",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('component configuration', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             )
         );

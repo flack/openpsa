@@ -63,7 +63,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
             if ($data['group']->update())
             {
-                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('updated', 'midcom'));
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), midcom::get('i18n')->get_string('updated', 'midcom'));
                 $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
                 // This will exit
             }
@@ -118,7 +118,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         // Get the prefix
         $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        $data['view_title'] = $_MIDCOM->i18n->get_string('groups', 'midcom.admin.user');
+        $data['view_title'] = midcom::get('i18n')->get_string('groups', 'midcom.admin.user');
 
         $_MIDCOM->set_pagetitle($data['view_title']);
 
@@ -194,7 +194,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
             if (!$data['title'])
             {
-                $data['title'] = $_MIDCOM->i18n->get_string('unknown', 'midcom.admin.user');
+                $data['title'] = midcom::get('i18n')->get_string('unknown', 'midcom.admin.user');
             }
 
             // Show the group
