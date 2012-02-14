@@ -49,7 +49,7 @@ ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
 $nap = new midcom_helper_nav();
 $nodes = Array();
 $nodeid = $nap->get_root_node();
-$loader = $_MIDCOM->get_component_loader();
+$loader = midcom::get('componentloader');
 $indexer = midcom::get('indexer');
 
 echo "Dropping the index...\n";

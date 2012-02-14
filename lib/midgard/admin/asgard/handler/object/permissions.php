@@ -106,7 +106,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _load_component_privileges()
     {
-        $component_loader = $_MIDCOM->get_component_loader();
+        $component_loader = midcom::get('componentloader');
 
         // Store temporarily the requested object
         $tmp = $this->_object;

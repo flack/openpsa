@@ -130,7 +130,7 @@ class midcom_baseclasses_components_configuration
 
     private static function _load_routes($component)
     {
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $data = self::read_array_from_file($component_path . '/config/routes.inc');

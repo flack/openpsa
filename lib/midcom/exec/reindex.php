@@ -87,7 +87,7 @@ $start = microtime(true);
 $nap = new midcom_helper_nav();
 $nodes = Array();
 $nodeid = $nap->get_root_node();
-$loader = $_MIDCOM->get_component_loader();
+$loader = midcom::get('componentloader');
 $indexer = midcom::get('indexer');
 
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)

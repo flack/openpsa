@@ -792,7 +792,7 @@ class midcom_helper__styleloader
     private function _getComponentSnippetdir($topic)
     {
         // get component's snippetdir (for default styles)
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         if (   !$topic
             || !$topic->guid)
         {
@@ -834,7 +834,7 @@ class midcom_helper__styleloader
      */
     function append_component_styledir ($component)
     {
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         $path = $loader->path_to_snippetpath($component ) . "/style";
         $this->append_styledir($path);
         return;
@@ -847,7 +847,7 @@ class midcom_helper__styleloader
      */
     function prepend_component_styledir ($component)
     {
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         $path = $loader->path_to_snippetpath($component) . "/style";
         $this->prepend_styledir($path);
     }

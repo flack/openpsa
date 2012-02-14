@@ -192,7 +192,7 @@ class midcom_helper_nav_backend
 
         $this->_nap_cache = midcom::get('cache')->nap;
 
-        $this->_loader = $_MIDCOM->get_component_loader();
+        $this->_loader = midcom::get('componentloader');
 
         if (!midcom::get('auth')->admin)
         {
