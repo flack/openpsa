@@ -1,6 +1,5 @@
 <?php
 // Available request data: comments, objectguid, comment, display_datamanager
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view = $data['display_datamanager']->get_content_html();
 $created = $data['comment']->metadata->published;
 
