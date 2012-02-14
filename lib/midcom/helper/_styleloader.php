@@ -562,7 +562,7 @@ class midcom_helper__styleloader
         $_style = false;
 
         $this->_snippetdir = '/midcom/style';
-        $current_context = $_MIDCOM->get_current_context();
+        $current_context = midcom_core_context::get()->id;
         if (isset($this->_styledirs_count[$current_context]))
         {
             $styledirs_count_backup = $this->_styledirs_count;
@@ -659,9 +659,10 @@ class midcom_helper__styleloader
 
             if (!isset($_style))
             {
-                for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$_MIDCOM->get_current_context()]; $i++)
+                $current_context = midcom_core_context::get()->id;
+                for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$current_context]; $i++)
                 {
-                    $filename = MIDCOM_ROOT . $this->_styledirs[$_MIDCOM->get_current_context()][$i] .  "/{$_element}.php";
+                    $filename = MIDCOM_ROOT . $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
                     if (file_exists($filename))
                     {
                         $_style = file_get_contents($filename);
@@ -822,7 +823,7 @@ class midcom_helper__styleloader
         {
             throw new midcom_error("Style directory $dirname does not exist!");
         }
-        $this->_styledirs_append[$_MIDCOM->get_current_context()][] = $dirname;
+        $this->_styledirs_append[midcom_core_context::get()->id][] = $dirname;
         return true;
     }
 
@@ -865,7 +866,7 @@ class midcom_helper__styleloader
         {
             throw new midcom_error("Style directory {$dirname} does not exist.");
         }
-        $this->_styledirs_prepend[$_MIDCOM->get_current_context()][] = $dirname;
+        $this->_styledirs_prepend[midcom_core_context::get()->id][] = $dirname;
         return true;
     }
 
@@ -878,13 +879,14 @@ class midcom_helper__styleloader
      */
     private function _merge_styledirs ($component_style)
     {
+        $current_context = midcom_core_context::get()->id;
         /* first the prepend styles */
-        $this->_styledirs[$_MIDCOM->get_current_context()] = $this->_styledirs_prepend[$_MIDCOM->get_current_context()];
+        $this->_styledirs[$current_context] = $this->_styledirs_prepend[$current_context];
         /* then the contextstyle */
-        $this->_styledirs[$_MIDCOM->get_current_context()][count($this->_styledirs[$_MIDCOM->get_current_context()])] = $component_style;
+        $this->_styledirs[$current_context][count($this->_styledirs[$current_context])] = $component_style;
 
-        $this->_styledirs[$_MIDCOM->get_current_context()] =  array_merge($this->_styledirs[$_MIDCOM->get_current_context()], $this->_styledirs_append[$_MIDCOM->get_current_context()]);
-        $this->_styledirs_count[$_MIDCOM->get_current_context()] = count($this->_styledirs[$_MIDCOM->get_current_context()]);
+        $this->_styledirs[$current_context] =  array_merge($this->_styledirs[$current_context], $this->_styledirs_append[$current_context]);
+        $this->_styledirs_count[$current_context] = count($this->_styledirs[$current_context]);
     }
 
     /**

@@ -749,7 +749,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $context = $_MIDCOM->get_current_context();
+        $context = midcom_core_context::get()->id;
         if ($context != 0)
         {
             // We're in a dynamic_load, register it for that as well
@@ -954,7 +954,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     {
         $entry_data = array();
         // Construct cache identifiers
-        $context = $_MIDCOM->get_current_context();
+        $context = midcom_core_context::get()->id;
         $request_id = $this->generate_request_identifier($context);
 
         if (!is_null($this->_expires))

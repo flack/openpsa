@@ -47,7 +47,7 @@ class midcom_services_metadata
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_metadata))
@@ -69,7 +69,7 @@ class midcom_services_metadata
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_metadata))
@@ -122,7 +122,7 @@ class midcom_services_metadata
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         // Append current topic to page class if enabled
@@ -151,7 +151,7 @@ class midcom_services_metadata
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (array_key_exists($context_id, $this->_page_classes))
@@ -229,7 +229,7 @@ class midcom_services_metadata
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         $this->_metadata[$context_id][$metadata_type] = midcom_helper_metadata::retrieve($object);
@@ -461,7 +461,7 @@ class midcom_services_metadata
         if (!$object)
         {
             // No object given, use object bound to view
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
             if (   !isset($this->_metadata[$context_id][MIDCOM_METADATA_VIEW])
                 || !$this->_metadata[$context_id][MIDCOM_METADATA_VIEW])
             {

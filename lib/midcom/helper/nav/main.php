@@ -57,7 +57,7 @@ class midcom_helper_nav
     {
         if ($contextid == -1)
         {
-            $contextid = $_MIDCOM->get_current_context();
+            $contextid = midcom_core_context::get()->id;
         }
         $this->_contextid = $contextid;
         $this->_backend = $this->_get_backend();

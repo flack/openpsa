@@ -299,7 +299,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // Start buffering
-        $oldcontext = $_MIDCOM->get_current_context();
+        $oldcontext = midcom_core_context::get();
         ob_start();
         // Load the photo
         $_MIDCOM->dynamic_load("{$node[MIDCOM_NAV_RELATIVEURL]}photo/raw/{$photo->guid}");
@@ -309,7 +309,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         // Return from the DLd context into the correct context
         // FIXME: Why doesn't dynamic_load do this by itself?
-        midcom::get('style')->enter_context($oldcontext);
+        midcom::get('style')->enter_context($oldcontext->id);
 
         return "{$content}{$after}";
     }

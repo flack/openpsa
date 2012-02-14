@@ -343,7 +343,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         // TODO: We're using "private" members here, better expose them through a method
         $handler = midcom::get('componentloader')->get_interface_class($component);
-        $request =& $handler->_context_data[$_MIDCOM->get_current_context()]['handler'];
+        $request =& $handler->_context_data[midcom_core_context::get()->id]['handler'];
         if (!isset($request->_request_switch))
         {
             // No request switch available, skip loading it

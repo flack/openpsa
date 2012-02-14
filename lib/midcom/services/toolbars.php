@@ -185,7 +185,7 @@ class midcom_services_toolbars
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_toolbars))
@@ -207,7 +207,7 @@ class midcom_services_toolbars
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_toolbars))
@@ -229,7 +229,7 @@ class midcom_services_toolbars
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_toolbars))
@@ -251,7 +251,7 @@ class midcom_services_toolbars
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_toolbars))
@@ -848,7 +848,7 @@ class midcom_services_toolbars
     {
         if ($context_id === null)
         {
-            $context_id = $_MIDCOM->get_current_context();
+            $context_id = midcom_core_context::get()->id;
         }
 
         if (! array_key_exists($context_id, $this->_toolbars))
@@ -1001,6 +1001,11 @@ class midcom_services_toolbars
             return;
         }
 
+        if (null === $context_id)
+        {
+            $context_id = midcom_core_context::get()->id;
+        }
+
         $this->_centralized_mode = true;
 
         $enable_drag = false;
@@ -1022,7 +1027,7 @@ class midcom_services_toolbars
         echo "    </div>\n";
         echo "    <div class=\"items\">\n";
 
-        if (count($this->_toolbars[$_MIDCOM->get_current_context()][MIDCOM_TOOLBAR_VIEW]->items) > 0)
+        if (count($this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW]->items) > 0)
         {
             echo "        <div id=\"midcom_services_toolbars_topic-page\" class=\"item\">\n";
             echo "            <span class=\"midcom_services_toolbars_topic_title page\">{$this->_view_toolbar_label}</span>\n";
