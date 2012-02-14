@@ -83,7 +83,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
 
         $_MIDCOM->set_26_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
 
-//        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+//        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
     }
 
     /**

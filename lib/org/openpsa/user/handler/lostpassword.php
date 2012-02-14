@@ -104,7 +104,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         $this->_prepare_request_data();
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get('lost password'));
+        midcom::get('head')->set_pagetitle($this->_l10n->get('lost password'));
     }
 
     /**

@@ -227,7 +227,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
         }
 
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
     }
 
     private function _handle_list_intree($args)

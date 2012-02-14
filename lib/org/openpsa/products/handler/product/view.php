@@ -294,7 +294,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
         $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
 
-        $_MIDCOM->set_pagetitle($title);
+        midcom::get('head')->set_pagetitle($title);
     }
 
     /**

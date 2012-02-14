@@ -147,7 +147,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get("create organization"));
+        midcom::get('head')->set_pagetitle($this->_l10n->get("create organization"));
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_parent_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_type)));

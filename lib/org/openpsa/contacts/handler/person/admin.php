@@ -214,7 +214,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_contact->name);
+        midcom::get('head')->set_pagetitle($this->_contact->name);
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -275,7 +275,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_contact->name);
+        midcom::get('head')->set_pagetitle($this->_contact->name);
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }

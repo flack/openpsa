@@ -190,7 +190,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         $this->_populate_toolbar();
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get('search'));
+        midcom::get('head')->set_pagetitle($this->_l10n->get('search'));
         $this->add_breadcrumb("", $this->_l10n->get('search'));
         $data['query_string'] = $this->_query_string;
     }

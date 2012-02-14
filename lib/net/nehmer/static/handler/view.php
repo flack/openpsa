@@ -222,11 +222,11 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if (   $this->_config->get('folder_in_title')
             && $this->_topic->extra != $this->_article->title)
         {
-            $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+            midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         }
         else
         {
-            $_MIDCOM->set_pagetitle($this->_article->title);
+            midcom::get('head')->set_pagetitle($this->_article->title);
         }
     }
 

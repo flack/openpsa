@@ -159,7 +159,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $_MIDCOM->set_26_request_metadata($this->_product->metadata->revised, $this->_product->guid);
         }
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }

@@ -240,7 +240,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
         $_MIDCOM->bind_view_to_object($this->_group);
 
-        $_MIDCOM->set_pagetitle($this->_group->official);
+        midcom::get('head')->set_pagetitle($this->_group->official);
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
     }

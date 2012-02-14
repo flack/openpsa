@@ -230,7 +230,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
         $this->set_active_leaf($this->_article->id);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -277,7 +277,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -406,7 +406,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $_MIDCOM->substyle_append('admin');
         $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->set_active_leaf($this->_article->id);
         $this->_update_breadcrumb_line($handler_id);
     }

@@ -175,7 +175,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         org_openpsa_sales_viewer::add_breadcrumb_path($data['salesproject'], $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
     }
 
     /**
@@ -221,7 +221,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         }
         $this->_request_data['controller'] =& $this->_controller;
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

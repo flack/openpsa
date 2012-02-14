@@ -85,7 +85,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
         $this->add_breadcrumb("delete/{$this->_page->name}/", $this->_l10n_midcom->get('delete'));
 
-        $_MIDCOM->set_pagetitle($this->_page->title);
+        midcom::get('head')->set_pagetitle($this->_page->title);
     }
 
     /**

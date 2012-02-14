@@ -83,7 +83,7 @@ implements midcom_helper_datamanager2_interfaces_create
             // Get the organization
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
             $this->_group->require_do('midgard:create');
-            $_MIDCOM->set_pagetitle($this->_group->official);
+            midcom::get('head')->set_pagetitle($this->_group->official);
         }
 
         $data['controller'] = $this->get_controller('create');

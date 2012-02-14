@@ -487,7 +487,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             strftime('%B', $this->_selected_time)
         );
 
-        $_MIDCOM->set_pagetitle(strftime("%B %Y", $this->_selected_time));
+        midcom::get('head')->set_pagetitle(strftime("%B %Y", $this->_selected_time));
     }
 
     /**
@@ -575,7 +575,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start))
         );
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
     }
 
     /**
@@ -660,7 +660,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B', $this->_selected_time));
         $this->add_breadcrumb('day/' . date('Y-m-d', $this->_selected_time) . '/', strftime('%x', $this->_selected_time));
 
-        $_MIDCOM->set_pagetitle(strftime("%x", $this->_selected_time));
+        midcom::get('head')->set_pagetitle(strftime("%x", $this->_selected_time));
     }
 
     /**

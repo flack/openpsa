@@ -186,7 +186,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
     }
 

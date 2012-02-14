@@ -69,7 +69,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $this->_request_data['default_username'] = midcom_helper_misc::generate_urlname_from_string($this->_person->firstname) . '.' . midcom_helper_misc::generate_urlname_from_string($this->_person->lastname);
         }
 
-        $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('create account');
@@ -185,7 +185,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         $_MIDCOM->enable_jquery();
-        $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('edit account');
@@ -266,7 +266,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         $_MIDCOM->enable_jquery();
-        $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('delete account');

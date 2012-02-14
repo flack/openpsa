@@ -97,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     . "group/" . $this->_group->guid . "/");
         }
 
-        $_MIDCOM->set_pagetitle($this->_group->official);
+        midcom::get('head')->set_pagetitle($this->_group->official);
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);

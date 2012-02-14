@@ -33,7 +33,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
 
         // This is a custom "not found" page, send appropriate headers to prevent indexing
         $_MIDCOM->header('Not found', 404);
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get('"%s" not found'), $data['wikiword']));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n->get('"%s" not found'), $data['wikiword']));
 
         // TODO: List pages containing the wikiword via indexer
 

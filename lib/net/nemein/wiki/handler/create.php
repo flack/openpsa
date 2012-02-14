@@ -250,7 +250,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('create wikipage %s'), $this->_wikiword);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $data['preview_mode'] = false;
 
         $this->add_breadcrumb

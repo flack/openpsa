@@ -113,7 +113,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         }
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('latest updates in %s'), $this->_topic->extra);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb('latest/', $data['view_title']);
         org_openpsa_widgets_contact::add_head_elements();

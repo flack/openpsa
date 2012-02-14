@@ -467,7 +467,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         $data['view_title'] = $this->_l10n->get('search') . ': ' . $this->_l10n->get($data['schemadb_product'][$data['search_schema']]->description);
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _populate_toolbar()

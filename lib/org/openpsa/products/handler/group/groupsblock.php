@@ -159,7 +159,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             }
         }
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _list_group_products()

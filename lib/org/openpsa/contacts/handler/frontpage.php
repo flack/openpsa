@@ -89,7 +89,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             );
         }
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get("my contacts"));
+        midcom::get('head')->set_pagetitle($this->_l10n->get("my contacts"));
     }
 
     /**

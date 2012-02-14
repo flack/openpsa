@@ -118,7 +118,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_datamanager->schema_name);
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
-        $_MIDCOM->set_pagetitle($this->_contact->name);
+        midcom::get('head')->set_pagetitle($this->_contact->name);
     }
 
     /**
