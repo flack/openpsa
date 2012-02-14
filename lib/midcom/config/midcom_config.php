@@ -256,7 +256,7 @@
  * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_ROOT_URL/midcom.services.toolbars/simple.css
  *   and is used to set the css for the toolbars used with onsite editing.
  * - <b>boolean toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
- *   javascript-floating MidCOM toolbar that users can display with $_MIDCOM->toolbars->show();
+ *   javascript-floating MidCOM toolbar that users can display with midcom::get('toolbars')->show();
  *
  * <b>Utility Programs</b>
  *

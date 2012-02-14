@@ -139,7 +139,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $_MIDCOM->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
-        $help_toolbar = $_MIDCOM->toolbars->get_help_toolbar();
+        $help_toolbar = midcom::get('toolbars')->get_help_toolbar();
         $help_toolbar->add_help_item('edit_metadata', 'midcom.admin.folder', null, null, 1);
 
         // Ensure we get the correct styles

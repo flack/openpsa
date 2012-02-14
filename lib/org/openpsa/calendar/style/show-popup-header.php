@@ -25,7 +25,7 @@ if (array_key_exists('popup_title', $data))
             ?>
             <div id="org_openpsa_toolbar">
                     <?php
-                    $_MIDCOM->toolbars->show_view_toolbar();
+                    midcom::get('toolbars')->show_view_toolbar();
                     ?>
             </div>
             <div id="org_openpsa_messagearea">

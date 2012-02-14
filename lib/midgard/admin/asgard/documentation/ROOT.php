@@ -11,7 +11,7 @@
         <?php
         $_MIDCOM->content();
         midcom::get('uimessages')->show();
-        $_MIDCOM->toolbars->show();
+        midcom::get('toolbars')->show();
         ?>
     </body>
 </html>

@@ -923,7 +923,7 @@ class midcom_helper_toolbar
      */
     function bind_to(&$object)
     {
-        $_MIDCOM->toolbars->bind_toolbar_to_object($this, $object);
+        midcom::get('toolbars')->bind_toolbar_to_object($this, $object);
     }
 }
 ?>

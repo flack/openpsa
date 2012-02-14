@@ -575,10 +575,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // object. Note, if both are equal, we will have two assignments at this
         // point; it shouldn't bother us, it isn't a regular use-case anymore (besides
         // the fact that this is only a very very very minor performance issue).
-        $this->_node_toolbar = $_MIDCOM->toolbars->get_node_toolbar();
-        $this->_view_toolbar = $_MIDCOM->toolbars->get_view_toolbar();
-        $handler->_node_toolbar = $_MIDCOM->toolbars->get_node_toolbar();
-        $handler->_view_toolbar = $_MIDCOM->toolbars->get_view_toolbar();
+        $this->_node_toolbar = midcom::get('toolbars')->get_node_toolbar();
+        $this->_view_toolbar = midcom::get('toolbars')->get_view_toolbar();
+        $handler->_node_toolbar = midcom::get('toolbars')->get_node_toolbar();
+        $handler->_view_toolbar = midcom::get('toolbars')->get_view_toolbar();
 
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
