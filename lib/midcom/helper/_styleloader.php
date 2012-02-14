@@ -681,7 +681,7 @@ class midcom_helper__styleloader
      */
     private function _parse_element($_style, $path)
     {
-        $data =& $_MIDCOM->get_custom_context_data('request_data');
+        $data =& midcom_core_context::get()->get_custom_key('request_data');
         $instance_id = false;
 
         if (in_array('style', $GLOBALS['midcom_config']['cache_module_memcache_data_groups']))

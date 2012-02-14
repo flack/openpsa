@@ -718,7 +718,7 @@ class midcom_helper_nav
             );
         }
 
-        $customdata = $_MIDCOM->get_custom_context_data('midcom.helper.nav.breadcrumb');
+        $customdata = midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
         if (is_array($customdata))
         {
             foreach ($customdata as $key => $entry)

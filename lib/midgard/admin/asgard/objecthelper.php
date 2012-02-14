@@ -74,7 +74,7 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
 
         if ($data['object']->name == 'ROOT')
         {
-            $data = $_MIDCOM->get_custom_context_data('request_data');
+            $data = midcom_core_context::get()->get_custom_key('request_data');
             $element_path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
             $data['help_style_element'] = array
             (
@@ -105,7 +105,7 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
             return;
         }
 
-        $data = $_MIDCOM->get_custom_context_data('request_data');
+        $data = midcom_core_context::get()->get_custom_key('request_data');
         $data['help_style_element'] = array
         (
             'component' => $element_component,
@@ -121,7 +121,7 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
     public static function get_help_style_elementnames(midcom_db_style $style)
     {
         $style_path = midcom::get('style')->get_style_path_from_id($style->id);
-        $data = $_MIDCOM->get_custom_context_data('request_data');
+        $data = midcom_core_context::get()->get_custom_key('request_data');
         $data['help_style_elementnames'] = midcom::get('style')->get_style_elements_and_nodes($style_path);
         $_MIDCOM->set_custom_context_data('request_data', $data);
         return 'style_elementnames';

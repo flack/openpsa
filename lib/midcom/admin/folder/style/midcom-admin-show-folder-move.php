@@ -26,7 +26,7 @@
 
         function midcom_admin_folder_list_folders($up = 0, $tree_disabled = false)
         {
-            $data =& $_MIDCOM->get_custom_context_data('request_data');
+            $data =& midcom_core_context::get()->get_custom_key('request_data');
             if (   is_a($data['object'], 'midcom_db_topic')
                 && $up == $data['object']->id)
             {

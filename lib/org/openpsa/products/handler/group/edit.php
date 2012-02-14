@@ -78,7 +78,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
             MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
         );
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**
