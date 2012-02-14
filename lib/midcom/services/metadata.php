@@ -477,5 +477,61 @@ class midcom_services_metadata
 
         return $interface->get_opengraph_default($object);
     }
+
+    /**
+     * Set the currently known and required Request Metadata: The last modified timestamp and the permalink GUID.
+     *
+     * You may set either of the arguments to null to enforce default usage (based on NAP).
+     *
+     * @param int $lastmodified The date of last modification of this request.
+     * @param string $permalinkguid The GUID used to create a permalink for this request.
+     */
+    function set_request_metadata($lastmodified, $permalinkguid)
+    {
+        if (   is_object($lastmodified)
+            && is_a($lastmodified, 'midgard_datetime'))
+        {
+            // Midgard2 compatibility
+            $lastmodified = $lastmodified->format('U');
+        }
+        $context = midcom_core_context::get();
+
+        $context->set_key(MIDCOM_CONTEXT_LASTMODIFIED, $lastmodified);
+        $context->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $permalinkguid);
+    }
+
+    /**
+     * Get the currently known and required Request Metadata: The last modified timestamp and the permalink GUID.
+     *
+     * @param int $context_id The context from which the request metadata should be retrieved. Omit
+     *     to use the current context.
+     * @return Array An array with the two keys 'lastmodified' and 'permalinkguid' containing the
+     *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
+     *     which contains a ready-made permalink.
+     */
+    public function get_request_metadata($context_id = null)
+    {
+        $context = midcom_core_context::get($context_id);
+        if ($context === false)
+        {
+            return array();
+        }
+        $meta = array
+        (
+            'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
+            'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
+            'permalink' => midcom::get('permalinks')->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
+        );
+
+        if (   is_object($meta['lastmodified'])
+            && is_a($meta['lastmodified'], 'midgard_datetime'))
+        {
+            // Midgard2 compatibility
+            $meta['lastmodified'] = $meta['lastmodified']->format('U');
+        }
+
+        return $meta;
+    }
+
 }
 ?>

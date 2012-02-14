@@ -270,6 +270,51 @@ class midcom_compat_superglobal
     }
 
     /**
+     * This is a temporary transition function used to set the currently known and required
+     * Request Metadata: The last modified timestamp and the permalink GUID.
+     *
+     * <i>Author's note:</i> This function is a temporary solution which is used until the
+     * Request handling code of MidCOM has been rewritten. Hence the _26_ section in its name.
+     * I have decided to put them into their own function instead of letting you access the
+     * corresponding context keys directly. Thus, there is also corresponding getter-function,
+     * which return you the set information here. Just don't worry where it is stored and use
+     * the interface functions.
+     *
+     * You may set either of the arguments to null to enforce default usage (based on NAP).
+     *
+     * @param int $lastmodified The date of last modification of this request.
+     * @param string $permalinkguid The GUID used to create a permalink for this request.
+     * @see get_26_request_metadata()
+     */
+    function set_26_request_metadata($lastmodified, $permalinkguid)
+    {
+        midcom::get('metadata')->set_request_metadata($lastmodified, $permalinkguid);
+    }
+
+    /**
+     * This is a temporary transition function used to get the currently known and required
+     * Request Metadata: The last modified timestamp and the permalink GUID.
+     *
+     * <i>Author's note:</i> This function is a temporary solution which is used until the
+     * Request handling code of MidCOM has been rewritten. Hence the _26_ section in its name.
+     * I have decided to put them into their own function instead of letting you access the
+     * corresponding context keys directly. Thus, there is also corresponding setter-function,
+     * which set the information returned here. Just don't worry where it is stored and use
+     * the interface functions.
+     *
+     * @param int $context_id The context from which the request metadata should be retrieved. Omit
+     *     to use the current context.
+     * @return Array An array with the two keys 'lastmodified' and 'permalinkguid' containing the
+     *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
+     *     which contains a ready-made permalink.
+     * @see set_26_request_metadata()
+     */
+    public function get_26_request_metadata($context_id = null)
+    {
+        return midcom::get('metadata')->get_request_metadata($context_id);
+    }
+
+    /**
      * Sets the page title for the current context.
      *
      * This can be retrieved by accessing the component context key
