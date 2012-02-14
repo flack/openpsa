@@ -302,7 +302,7 @@ class org_openpsa_projects_workflow
 
         if (self::create_status($task, org_openpsa_projects_task_status_dba::CLOSED, 0, $comment))
         {
-            $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('marked task "%s" closed', 'org.openpsa.projects'), $task->title), 'ok');
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('marked task "%s" closed', 'org.openpsa.projects'), $task->title), 'ok');
             if ($task->agreement)
             {
                 $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
@@ -320,7 +320,7 @@ class org_openpsa_projects_workflow
                 }
                 else
                 {
-                    $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('did not mark deliverable "%s" delivered due to other tasks', 'org.openpsa.sales'), $agreement->title), 'info');
+                    midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('did not mark deliverable "%s" delivered due to other tasks', 'org.openpsa.sales'), $agreement->title), 'info');
                 }
             }
             return true;
@@ -397,7 +397,7 @@ class org_openpsa_projects_workflow
         }
 
         // Notify user
-        $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title), 'ok');
+        midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title), 'ok');
         return $hours_marked;
     }
 }

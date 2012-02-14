@@ -298,7 +298,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             $indexer->delete($this->_article->guid);
 
             // Show user interface message
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('article %s deleted'), $title));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('article %s deleted'), $title));
 
             // Delete ok, relocating to welcome.
             $_MIDCOM->relocate('');
@@ -307,7 +307,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         if (array_key_exists('net_nehmer_blog_deletecancel', $_REQUEST))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))

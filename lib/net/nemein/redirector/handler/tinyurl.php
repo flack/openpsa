@@ -177,7 +177,7 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
+                midcom::get('uimessages')->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
                 // Fall through
 
             case 'cancel':

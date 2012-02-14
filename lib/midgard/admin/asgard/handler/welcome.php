@@ -276,7 +276,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 $label = $object->guid;
                 if ($object->delete())
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $label));
+                    midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $label));
                 }
             }
         }
@@ -302,7 +302,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 $label = $object->guid;
                 $metadata = $object->metadata;
                 $metadata->approve();
-                $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $label));
+                midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $label));
             }
         }
     }

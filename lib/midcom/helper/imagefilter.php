@@ -111,7 +111,7 @@ class midcom_helper_imagefilter
         if (!self::imagemagick_available())
         {
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
-            $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
+            midcom::get('uimessages')->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
             return false;
         }
         if (! is_writeable($filename))
@@ -149,7 +149,7 @@ class midcom_helper_imagefilter
             if (! $this->process_command($cmd))
             {
                 debug_add("Execution of {$cmd} failed, aborting now.");
-                $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
+                midcom::get('uimessages')->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
                 return false;
             }
         }

@@ -139,14 +139,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 if ($this->_save_configuration())
                 {
                     mgd_cache_invalidate();
-                    $_MIDCOM->uimessages->add($this->_l10n->get('host configuration'),
+                    midcom::get('uimessages')->add($this->_l10n->get('host configuration'),
                     $this->_l10n->get('settings saved successfully')
                     . $this->_codeinit->id,
                                                 'ok');
                 }
                 else
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('host configuration'),
+                    midcom::get('uimessages')->add($this->_l10n->get('host configuration'),
                       sprintf($this->_l10n->get('failed to save settings, reason %s')),
                                                 'error');
                 }

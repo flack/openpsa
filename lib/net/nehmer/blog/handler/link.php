@@ -234,7 +234,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         if (isset($_POST['f_cancel']))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))
@@ -256,7 +256,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Delete the link
         if ($this->_link->delete())
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
             $_MIDCOM->relocate('');
             // This will exit
         }

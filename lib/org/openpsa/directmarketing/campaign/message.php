@@ -694,7 +694,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             }
             if ($this->send_output)
             {
-                $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf(midcom::get('i18n')->get_string('FAILED to send mail to: %s, reason: %s', 'org.openpsa.directmarketing'), $mail->to, $mail->get_error_message()), 'error');
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf(midcom::get('i18n')->get_string('FAILED to send mail to: %s, reason: %s', 'org.openpsa.directmarketing'), $mail->to, $mail->get_error_message()), 'error');
             }
         }
         unset($mail);
@@ -906,7 +906,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             }
             if ($this->send_output)
             {
-                $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf(midcom::get('i18n')->get_string('FAILED to send SMS to: %s, reason: %s', 'org.openpsa.directmarketing'), $person->handphone, $smsbroker->errstr), 'error');
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf(midcom::get('i18n')->get_string('FAILED to send SMS to: %s, reason: %s', 'org.openpsa.directmarketing'), $person->handphone, $smsbroker->errstr), 'error');
             }
         }
         return $status;

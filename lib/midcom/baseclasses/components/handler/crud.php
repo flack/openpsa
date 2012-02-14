@@ -636,7 +636,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 $indexer->delete($this->_object->guid);
 
                 // Show user interface message
-                // $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
+                // midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
                 // Delete ok, relocating to welcome.
                 $_MIDCOM->relocate('');

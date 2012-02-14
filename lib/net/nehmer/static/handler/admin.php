@@ -289,7 +289,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         if (isset($_POST['f_cancel']))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('delete cancelled'));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))
@@ -311,7 +311,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         // Delete the link
         if ($this->_link->delete())
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
             $_MIDCOM->relocate('');
             // This will exit
         }

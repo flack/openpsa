@@ -30,7 +30,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Form has been handled if cancel has been pressed
         if (isset($_POST['f_cancel']))
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.admin.folder'), $_MIDCOM->i18n->get_string('cancelled'));
+            midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midcom.admin.folder'), $_MIDCOM->i18n->get_string('cancelled'));
             $_MIDCOM->relocate('');
             // This will exit
         }
@@ -69,7 +69,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         if ($success)
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.admin.folder'), $_MIDCOM->i18n->get_string('order saved'));
+            midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midcom.admin.folder'), $_MIDCOM->i18n->get_string('order saved'));
             $_MIDCOM->relocate('');
             // This will exit
         }
@@ -114,7 +114,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             // Show an error message on an update failure
             $reflector =& midcom_helper_reflector::get($object);
             $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
             return false;
         }
 

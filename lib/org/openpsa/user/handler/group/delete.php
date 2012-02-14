@@ -58,7 +58,7 @@ implements midcom_helper_datamanager2_interfaces_view
             else
             {
                 // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
                 $_MIDCOM->relocate($prefix . 'group/' . $this->_group->guid . '/');
                 // This will exit
             }

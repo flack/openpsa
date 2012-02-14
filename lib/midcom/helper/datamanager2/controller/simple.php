@@ -92,12 +92,12 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             {
                 if (!$metadata->unlock())
                 {
-                    $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf(midcom::get('i18n')->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_connection::get_error_string()), 'error');
+                    midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf(midcom::get('i18n')->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_connection::get_error_string()), 'error');
                 }
             }
             else
             {
-                $_MIDCOM->uimessages->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), midcom::get('i18n')->get_string('permission denied', 'midcom'), 'error');
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), midcom::get('i18n')->get_string('permission denied', 'midcom'), 'error');
             }
 
             // Make sure we have CSS loaded
@@ -164,7 +164,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                     $label = $this->formmanager->_schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
                 }
 
-                $_MIDCOM->uimessages->add
+                midcom::get('uimessages')->add
                 (
                     $dm2_label,
                     sprintf(midcom::get('i18n')->get_string('validation failed for field %s: %s', 'midcom.helper.datamanager2'), $label, $message),

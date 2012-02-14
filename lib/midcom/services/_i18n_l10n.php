@@ -177,7 +177,7 @@ class midcom_services__i18n_l10n
             $file = fopen("{$this->_library_filename}.{$lang}.txt", 'w');
             if (!$file)
             {
-                $_MIDCOM->uimessages->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
+                midcom::get('uimessages')->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
                 debug_add("Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", MIDCOM_LOG_ERROR);
                 return false;
             }

@@ -55,7 +55,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             $wikiword = $this->_page->title;
             if ($this->_page->delete())
             {
-                $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s deleted'), $wikiword), 'ok');
+                midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s deleted'), $wikiword), 'ok');
 
                 // Update the index
                 $indexer = $_MIDCOM->get_service('indexer');

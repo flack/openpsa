@@ -228,7 +228,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         $ret = midcom_helper_imagefilter::imagemagick_available();
         if (!$ret && $raise_uimessage)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), 'ImageMagick is required but seems not to be available, image fields may be disabled', 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), 'ImageMagick is required but seems not to be available, image fields may be disabled', 'error');
         }
 
         return $ret;

@@ -221,7 +221,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 else
                 {
                     // Failure, give a message
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
                 }
                 //Fall-through
             case 'cancel':

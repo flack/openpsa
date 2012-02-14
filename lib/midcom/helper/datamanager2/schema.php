@@ -246,7 +246,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     || $schema['extends']['name'] === $schema_name)
                 {
                     $snippet_path = $this->_get_snippet_link($path);
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
 
                     debug_add(sprintf($this->_l10n->get('schema %s:%s extends itself'), $path, $schema_name), MIDCOM_LOG_WARN);
                     continue;
@@ -266,7 +266,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 debug_add(sprintf($this->_l10n->get('extended schema %s:%s was not found'), $path, $schema_name), MIDCOM_LOG_WARN);
 
                 $snippet_path = $this->_get_snippet_link($path);
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
                 continue;
             }
 

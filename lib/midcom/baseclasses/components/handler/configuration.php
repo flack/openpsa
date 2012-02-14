@@ -124,13 +124,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
+                midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
                 $_MIDCOM->relocate('');
                 // This will exit
                 break;
 
             case 'cancel':
-                $_MIDCOM->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
+                midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
                 $_MIDCOM->relocate('');
                 // This will exit
                 break;

@@ -94,7 +94,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 // Reindex the article
                 $indexer = $_MIDCOM->get_service('indexer');
                 net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
-                $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
+                midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
                 // *** FALL-THROUGH ***
             case 'cancel':
                 if ($this->_page->name == 'index')

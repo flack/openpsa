@@ -51,6 +51,6 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
         </div>
     </body>
     <?php
-    $_MIDCOM->uimessages->show();
+    midcom::get('uimessages')->show();
     ?>
 </html>

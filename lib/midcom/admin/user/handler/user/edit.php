@@ -117,7 +117,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // If matches were found, add an error message
                 if ($qb->count() > 0)
                 {
-                    $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'), sprintf($_MIDCOM->i18n->get_string('username %s is already in use', 'midcom.admin.user'), $_REQUEST['username']));
+                    midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'), sprintf($_MIDCOM->i18n->get_string('username %s is already in use', 'midcom.admin.user'), $_REQUEST['username']));
                     unset($_POST['midcom_helper_datamanager2_save']);
                     unset($_REQUEST['midcom_helper_datamanager2_save']);
                 }
@@ -141,7 +141,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Show confirmation for the user
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
                 // This will exit.
 
@@ -227,7 +227,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             catch (midcom_error $e)
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
                 $success = false;
                 continue;
             }
@@ -238,7 +238,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             // Cannot send the email if address is not specified
             if (!$person->email)
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
                 continue;
             }
 
@@ -272,7 +272,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 if (!$person->update())
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url));
+                    midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url));
                     $success = false;
                 }
             }
@@ -285,7 +285,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Show UI message on success
         if ($success)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
         }
     }
 
@@ -320,7 +320,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             if (isset($_POST['f_cancel']))
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
                 $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
                 // This will exit
             }

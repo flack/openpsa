@@ -932,7 +932,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             debug_add("filesize('{$filepath}') returned {$size} which evaluated to zero", MIDCOM_LOG_ERROR);
 
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has zero size'), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has zero size'), 'error');
 
             return false;
         }
@@ -961,7 +961,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             // Scan command returned error (likely infected file);
             debug_add("{$scan_command} returned {$exit_code}, likely file is infected", MIDCOM_LOG_ERROR);
             debug_print_r('scanner_output', $scan_output, MIDCOM_LOG_ERROR);
-            $_MIDCOM->uimessages->add($this->_l10n_midcom->get('midcom.helper.datamanager2'), $this->_l10n->get('virus found in uploaded file'), 'error');
+            midcom::get('uimessages')->add($this->_l10n_midcom->get('midcom.helper.datamanager2'), $this->_l10n->get('virus found in uploaded file'), 'error');
             return false;
         }
         return true;

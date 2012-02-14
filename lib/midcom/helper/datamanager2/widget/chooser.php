@@ -441,7 +441,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 // Storing IDs to parameters is not replication safe
                 debug_add("Field \"{$this->name}\" is set to store to a parameter but links via ID which is not replication-safe, aborting.", MIDCOM_LOG_WARN);
 
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
 
                 return false;
         }
@@ -465,7 +465,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                     // Storing IDs to non-linked fields is not replication safe
                     debug_add("Field \"{$this->name}\" is set to store to property \"{$this->_field['storage']['location']}\" which is not link, making it replication-unsafe, aborting.", MIDCOM_LOG_WARN);
 
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
 
                     return false;
                 }

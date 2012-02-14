@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->uimessages->show();
+midcom::get('uimessages')->show();
 ?>
     </body>
 </html>

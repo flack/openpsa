@@ -98,12 +98,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('preferences saved', 'midgard.admin.asgard'));
+                midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('preferences saved', 'midgard.admin.asgard'));
                 $_MIDCOM->relocate($return_page);
                 // This will exit
                 break;
             case 'cancel':
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
+                midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
                 $_MIDCOM->relocate($return_page);
                 // This will exit
                 break;
@@ -184,7 +184,7 @@ implements midcom_helper_datamanager2_interfaces_edit
              if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value))
              {
                  $this->_status = false;
-                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string($key, 'midgard.admin.asgard')));
+                 midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string($key, 'midgard.admin.asgard')));
              }
 
              debug_add("Added configuration key-value pair {$key} => {$value}");

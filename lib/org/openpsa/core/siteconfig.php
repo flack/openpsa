@@ -100,7 +100,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $this->snippet->update();
         midcom::get('auth')->drop_sudo();
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
+        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
     }
 
     /**
@@ -248,7 +248,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         {
             if (midcom::get('auth')->admin)
             {
-                $_MIDCOM->uimessages->add
+                midcom::get('uimessages')->add
                 (
                     midcom::get('i18n')->get_string('org.openpsa.core', 'org.openpsa.core'),
                     midcom::get('i18n')->get_string('owner organization couldnt be found', 'org.openpsa.core'),

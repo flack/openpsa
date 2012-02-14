@@ -528,7 +528,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         catch (Exception $e)
         {
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
                 $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
                 sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), $e->getMessage()),
@@ -542,7 +542,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
                 $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
                 $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
@@ -554,7 +554,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if ($this->_save_snippet($config))
         {
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
                 $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
                 $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
@@ -563,7 +563,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         else
         {
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
                 $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
                 sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_connection::get_error_string()),

@@ -18,7 +18,7 @@
  * the following call inside the HTML BODY tags of your style:
  *
  * <code>
- * $_MIDCOM->uimessages->show();
+ * midcom::get('uimessages')->show();
  * </code>
  *
  * <b>Adding UI messages to show:</b>
@@ -33,13 +33,13 @@
  * To add a UI message, call the following:
  *
  * <code>
- * $_MIDCOM->uimessages->add($title, $message, $type);
+ * midcom::get('uimessages')->add($title, $message, $type);
  * </code>
  *
  * For example:
  *
  * <code>
- * $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page "%s" added'), $this->_wikiword), 'ok');
+ * midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page "%s" added'), $this->_wikiword), 'ok');
  * </code>
  *
  * <b>Configuration:</b>

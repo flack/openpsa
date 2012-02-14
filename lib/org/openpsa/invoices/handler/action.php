@@ -214,7 +214,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             {
                 if (org_openpsa_projects_workflow::complete($task) && !isset($args["no_redirect"]))
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
                 }
             }
         }

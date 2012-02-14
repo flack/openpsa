@@ -36,7 +36,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 catch (midcom_error $e)
                 {
                     // FIXME: More informative error message
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
                         sprintf(
                             $this->_l10n->get('Failed adding person %s to campaign %s'),
                             "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -57,7 +57,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 $member->create();
                 if ($member->id)
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
                         sprintf(
                             $this->_l10n->get('added person %s to campaign %s'),
                             "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -68,7 +68,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 }
                 else
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
                         sprintf(
                             $this->_l10n->get('Failed adding person %s to campaign %s'),
                             "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",

@@ -130,7 +130,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
              */
             if ($generated_password)
             {
-                $_MIDCOM->uimessages->add(
+                midcom::get('uimessages')->add(
                     $this->_l10n->get('org.openpsa.user'),
                     sprintf($this->_l10n->get("account_creation_success"), $username, $password),
                     'ok'
@@ -220,7 +220,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         //check current password
         if (($this->_account->get_password() == $password))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
             return false;
         }
 
@@ -230,7 +230,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         //check last passwords
         if (in_array($password, $old_passwords))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
             return false;
         }
         return true;
@@ -307,7 +307,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         if ($password_length < $max)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password too short'), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password too short'), 'error');
             return false;
         }
 
@@ -324,7 +324,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         if ($score <= $this->_config->get('min_password_score'))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
             return false;
         }
         return true;

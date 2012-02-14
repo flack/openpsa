@@ -12,7 +12,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 
                     <?php
-                    $_MIDCOM->uimessages->show_simple();
+                    midcom::get('uimessages')->show_simple();
                     ?>
 
                     <div class="page-title">

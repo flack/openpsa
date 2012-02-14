@@ -165,7 +165,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $account_helper = new org_openpsa_user_accounthelper($midcom_person);
         if ($account_helper->is_blocked())
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
         }
         $data['controller'] = $this->get_controller('nullstorage');
         $formmanager = $data["controller"]->formmanager;
@@ -222,7 +222,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             && midcom_connection::get_error() != MGD_ERR_OK)
         {
             // Failure, give a message
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
         }
 
         return $stat;

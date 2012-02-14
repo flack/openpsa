@@ -38,7 +38,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
 
         if (!$invoice->create())
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
             return false;
         }
 
@@ -81,7 +81,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $invoice->generate_invoicing_task($invoice_sender_guid);
         }
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice "%s" created'), $invoice->get_label()), 'ok');
+        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice "%s" created'), $invoice->get_label()), 'ok');
 
         $_MIDCOM->relocate("invoice/edit/{$invoice->guid}/");
             // This will exit
