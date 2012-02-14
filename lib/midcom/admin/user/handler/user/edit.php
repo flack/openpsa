@@ -298,7 +298,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_admin_user();
+        midcom::get('auth')->require_admin_user();
 
         // Set page title and default variables
         $data['view_title'] = $this->_l10n->get('batch generate passwords');

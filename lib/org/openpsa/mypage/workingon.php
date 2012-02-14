@@ -52,8 +52,8 @@ class org_openpsa_mypage_workingon
     {
         if (is_null($person))
         {
-            $_MIDCOM->auth->require_valid_user();
-            $this->person = $_MIDCOM->auth->user->get_storage();
+            midcom::get('auth')->require_valid_user();
+            $this->person = midcom::get('auth')->user->get_storage();
         }
         else
         {
@@ -97,7 +97,7 @@ class org_openpsa_mypage_workingon
     function set($task_guid = '')
     {
         $description = trim($_POST['description']);
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         $invoiceable = false;
         if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true')
         {
@@ -120,7 +120,7 @@ class org_openpsa_mypage_workingon
             // We won't be working on anything from now on. Delete existing parameter
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
 
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return $stat;
         }
 
@@ -133,7 +133,7 @@ class org_openpsa_mypage_workingon
             'start' => gmdate('Y-m-d H:i:s', time())
         );
         $stat = $this->person->set_parameter('org.openpsa.mypage', 'workingon', json_encode($workingon));
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return $stat;
     }
 

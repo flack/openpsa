@@ -31,7 +31,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
         $fields =& $schemadb['default']->fields;
-        $user_object = $_MIDCOM->auth->get_user($this->_person->guid);
+        $user_object = midcom::get('auth')->get_user($this->_person->guid);
 
         $person_object = $user_object->get_storage();
 
@@ -93,7 +93,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_privileges($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Check if we get the person
         $this->_person = new midcom_db_person($args[0]);

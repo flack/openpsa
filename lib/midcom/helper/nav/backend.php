@@ -194,9 +194,9 @@ class midcom_helper_nav_backend
 
         $this->_loader = $_MIDCOM->get_component_loader();
 
-        if (!$_MIDCOM->auth->admin)
+        if (!midcom::get('auth')->admin)
         {
-            $this->_user_id = $_MIDCOM->auth->acl->get_user_id();
+            $this->_user_id = midcom::get('auth')->acl->get_user_id();
         }
 
         $up = null;
@@ -375,7 +375,7 @@ class midcom_helper_nav_backend
 
         if (    !$this->_is_object_visible($nodedata)
              || (   $this->_user_id
-                 && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $nodedata[MIDCOM_NAV_GUID], 'midcom_db_topic', $this->_user_id)))
+                 && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $nodedata[MIDCOM_NAV_GUID], 'midcom_db_topic', $this->_user_id)))
         {
             return MIDCOM_ERRFORBIDDEN;
         }
@@ -426,9 +426,9 @@ class midcom_helper_nav_backend
 
         if (!$nodedata)
         {
-            $_MIDCOM->auth->request_sudo('midcom.helper.nav');
+            midcom::get('auth')->request_sudo('midcom.helper.nav');
             $nodedata = $this->_get_node_from_database($topic_id, $up);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
 
             if (is_null($nodedata))
             {
@@ -624,9 +624,9 @@ class midcom_helper_nav_backend
             debug_add('The leaves have not yet been loaded from the database, we do this now.');
 
             //we always write all the leaves to cache and filter for ACLs after the fact
-            $_MIDCOM->auth->request_sudo('midcom.helper.nav');
+            midcom::get('auth')->request_sudo('midcom.helper.nav');
             $leaves = $this->_get_leaves_from_database($node);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
 
             $this->_write_leaves_to_cache($node, $leaves);
         }
@@ -639,7 +639,7 @@ class midcom_helper_nav_backend
                 && $data[MIDCOM_NAV_GUID])
             {
                 if (    $this->_user_id
-                     && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id))
+                     && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id))
                 {
                     continue;
                 }
@@ -856,9 +856,9 @@ class midcom_helper_nav_backend
         $mc->add_order('metadata.created');
 
         //we always write all the subnodes to cache and filter for ACLs after the fact
-        $_MIDCOM->auth->request_sudo('midcom.helper.nav');
+        midcom::get('auth')->request_sudo('midcom.helper.nav');
         $subnodes = $mc->get_values('id');
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         $cachedata = $this->_nap_cache->get_node($parent_node);
 

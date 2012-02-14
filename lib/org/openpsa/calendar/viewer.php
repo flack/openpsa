@@ -55,7 +55,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_notinitialized($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_admin_user();
+        midcom::get('auth')->require_admin_user();
 
         if (org_openpsa_calendar_interface::find_root_event())
         {
@@ -75,7 +75,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $selected_time = time();
         switch($this->_config->get('start_view'))
         {

@@ -31,9 +31,9 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             if ($this->_topic->parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_node_toolbar->add_item

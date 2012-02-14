@@ -90,7 +90,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 $this->_config->get('schemadb'));
 
             if (   $this->_config->get('use_captcha')
-                || (   ! $_MIDCOM->auth->user
+                || (   ! midcom::get('auth')->user
                     && $this->_config->get('use_captcha_if_anonymous')))
             {
                 $this->_schemadb['comment']->append_field
@@ -124,7 +124,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     function _handler_welcome($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if(!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
@@ -192,7 +192,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     function _handler_moderate($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
@@ -280,8 +280,8 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
                 midcom_show_style('admin-comments-item');
 
-                if (   $_MIDCOM->auth->admin
-                    || (   $_MIDCOM->auth->user
+                if (   midcom::get('auth')->admin
+                    || (   midcom::get('auth')->user
                         && $comment->can_do('midgard:delete')))
                 {
                     midcom_show_style('admin-comments-admintoolbar');

@@ -55,7 +55,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_updates($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         // Instantiate indexer
         $indexer = $_MIDCOM->get_service('indexer');
 

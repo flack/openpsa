@@ -111,7 +111,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 $this->_config->get('schemadb'));
 
             if (   $this->_config->get('use_captcha')
-                || (   ! $_MIDCOM->auth->user
+                || (   ! midcom::get('auth')->user
                     && $this->_config->get('use_captcha_if_anonymous')))
             {
                 $this->_schemadb['comment']->append_field
@@ -144,9 +144,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_load_schemadb();
 
         $defaults = array();
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $defaults['author'] = $_MIDCOM->auth->user->name;
+            $defaults['author'] = midcom::get('auth')->user->name;
         }
 
         $this->_post_controller = midcom_helper_datamanager2_controller::create('create');
@@ -179,10 +179,10 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $this->_new_comment->ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
             $this->_new_comment->status = NET_NEHMER_COMMENTS_NEW_USER;
-            $this->_new_comment->author = $_MIDCOM->auth->user->name;
+            $this->_new_comment->author = midcom::get('auth')->user->name;
         }
         else
         {
@@ -201,7 +201,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
 
         if (   isset($_POST['subscribe'])
-            && $_MIDCOM->auth->user)
+            && midcom::get('auth')->user)
         {
             // User wants to subscribe to receive notifications about this comments thread
 
@@ -209,13 +209,13 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->_objectguid);
 
             // Sudo so we can update the parent object
-            if ($_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+            if (midcom::get('auth')->request_sudo('net.nehmer.comments'))
             {
                 // Save the subscription
-                $parent->set_parameter('net.nehmer.comments:subscription', $_MIDCOM->auth->user->guid, time());
+                $parent->set_parameter('net.nehmer.comments:subscription', midcom::get('auth')->user->guid, time());
 
                 // Return back from the sudo state
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
             }
         }
 
@@ -267,7 +267,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $this->_comments = $this->_comments->execute();
         }
 
-        if (   $_MIDCOM->auth->user
+        if (   midcom::get('auth')->user
             || $this->_config->get('allow_anonymous'))
         {
             $this->_init_post_controller();
@@ -332,8 +332,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     function _process_post()
     {
-        if (   ! $_MIDCOM->auth->user
-            && ! $_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+        if (   ! midcom::get('auth')->user
+            && ! midcom::get('auth')->request_sudo('net.nehmer.comments'))
         {
             throw new midcom_error('We were anonymous but could not acquire SUDO privileges, aborting');
         }
@@ -348,9 +348,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 // Fall-through intentional
 
             case 'cancel':
-                if (! $_MIDCOM->auth->user)
+                if (! midcom::get('auth')->user)
                 {
-                    $_MIDCOM->auth->drop_sudo();
+                    midcom::get('auth')->drop_sudo();
                 }
                 $this->_relocate_to_self();
                 // This will exit();
@@ -425,8 +425,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
                 midcom_show_style('comments-item');
 
-                if (   $_MIDCOM->auth->admin
-                    || (   $_MIDCOM->auth->user
+                if (   midcom::get('auth')->admin
+                    || (   midcom::get('auth')->user
                         && $comment->can_do('midgard:delete')))
                 {
                     midcom_show_style('comments-admintoolbar');
@@ -439,7 +439,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             midcom_show_style('comments-nonefound');
         }
 
-        if (   $_MIDCOM->auth->user
+        if (   midcom::get('auth')->user
             || $this->_config->get('allow_anonymous'))
         {
             midcom_show_style('post-comment');

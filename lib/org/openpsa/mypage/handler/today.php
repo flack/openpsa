@@ -17,7 +17,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     private function _populate_toolbar()
@@ -58,7 +58,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      */
     public function _handler_today($handler_id, array $args, array &$data)
     {
-        $this->user = $_MIDCOM->auth->user->get_storage();
+        $this->user = midcom::get('auth')->user->get_storage();
 
         if ($handler_id == 'today')
         {
@@ -97,7 +97,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
             array(
                 'property' => 'metadata.creator',
                 'operator' => '=',
-                'value' => $_MIDCOM->auth->user->guid,
+                'value' => midcom::get('auth')->user->guid,
             ),
             //only show entries with followUp set and within the next 7 days
             array(

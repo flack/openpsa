@@ -6,7 +6,7 @@ $comment = $data['comment'];
 $creator = $comment->metadata->creator;
 $created = $comment->metadata->created;
 
-$user = $_MIDCOM->auth->get_user($creator);
+$user = midcom::get('auth')->get_user($creator);
 if ($user)
 {
     $username = "{$user->name} ({$user->username})";

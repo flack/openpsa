@@ -112,7 +112,7 @@ class midcom_services_toolbars
             return;
         }
 
-        if (!$_MIDCOM->auth->user)
+        if (!midcom::get('auth')->user)
         {
             // Centralized toolbar is only for registered users
             $still_initializing = false;
@@ -120,13 +120,13 @@ class midcom_services_toolbars
         }
 
         if (   !$GLOBALS['midcom_config']['toolbars_enable_centralized']
-            || !$_MIDCOM->auth->can_user_do('midcom:centralized_toolbar', null, $this))
+            || !midcom::get('auth')->can_user_do('midcom:centralized_toolbar', null, $this))
         {
             $still_initializing = false;
             return;
         }
 
-        if ($_MIDCOM->auth->can_user_do('midcom:ajax', null, $this))
+        if (midcom::get('auth')->can_user_do('midcom:ajax', null, $this))
         {
             $_MIDCOM->enable_jquery();
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
@@ -406,7 +406,7 @@ class midcom_services_toolbars
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$topic->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && $_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 )
             );
         }
@@ -470,7 +470,7 @@ class midcom_services_toolbars
         }
 
         if (   $topic->can_do('midcom.admin.folder:template_management')
-            && $_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
+            && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             $enabled = false;
             $styleeditor_url = '';
@@ -570,7 +570,7 @@ class midcom_services_toolbars
             $toolbar->customdata['midcom_services_toolbars_bound_to_host'] = true;
         }
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
             $toolbar->add_item
             (
@@ -592,7 +592,7 @@ class midcom_services_toolbars
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'a',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
             )
         );
 
@@ -809,7 +809,7 @@ class midcom_services_toolbars
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && $_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 )
             );
         }
@@ -1007,7 +1007,7 @@ class midcom_services_toolbars
         $toolbar_style = "";
         $toolbar_class = "midcom_services_toolbars_simple";
 
-        if ($_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
+        if (midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
         {
             $enable_drag = true;
             $toolbar_class = "midcom_services_toolbars_fancy";

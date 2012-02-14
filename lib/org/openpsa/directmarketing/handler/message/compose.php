@@ -45,7 +45,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      */
     public function _handler_compose($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
@@ -102,7 +102,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             break;
             //TODO: Other content type overrides ?
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

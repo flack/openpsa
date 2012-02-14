@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
 if (   !isset($_REQUEST['root_topic_guid'])
     || empty($_REQUEST['root_topic_guid'])

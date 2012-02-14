@@ -201,7 +201,7 @@ class midcom_core_privilege
             return false;
         }
 
-        return $_MIDCOM->auth->get_assignee($this->assignee);
+        return midcom::get('auth')->get_assignee($this->assignee);
     }
 
     /**
@@ -258,7 +258,7 @@ class midcom_core_privilege
             }
             else
             {
-                $tmp = $_MIDCOM->auth->get_assignee($assignee);
+                $tmp = midcom::get('auth')->get_assignee($assignee);
                 if (! $tmp)
                 {
                     debug_add("Could not resolve the assignee string '{$assignee}', see above for more information.", MIDCOM_LOG_INFO);
@@ -292,7 +292,7 @@ class midcom_core_privilege
     public function validate()
     {
         // 1. Privilege name
-        if (! $_MIDCOM->auth->acl->privilege_exists($this->privilegename))
+        if (! midcom::get('auth')->acl->privilege_exists($this->privilegename))
         {
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
                 MIDCOM_LOG_INFO);
@@ -547,7 +547,7 @@ class midcom_core_privilege
 
         if (count($result) > 1)
         {
-            $_MIDCOM->auth->request_sudo('midcom.core');
+            midcom::get('auth')->request_sudo('midcom.core');
             debug_add('A DB inconsistency has been detected. There is more then one record for privilege specified. Deleting all excess records after the first one!',
                 MIDCOM_LOG_ERROR);
             debug_print_r('Content Object:', $object);
@@ -558,7 +558,7 @@ class midcom_core_privilege
                 $privilege = array_pop($result);
                 $privilege->delete();
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
         else if (count($result) == 0)
         {
@@ -608,7 +608,7 @@ class midcom_core_privilege
                 }
                 else if (strstr($this->__privilege['assignee'], 'group:') !== false)
                 {
-                    $user = $_MIDCOM->auth->get_user($user_id);
+                    $user = midcom::get('auth')->get_user($user_id);
                     if (is_object($user))
                     {
                        return $user->is_in_group($this->__privilege['assignee']);

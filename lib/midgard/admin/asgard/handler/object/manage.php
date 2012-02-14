@@ -141,7 +141,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     {
         $this->_load_object($args[0]);
 
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $this->_prepare_request_data();
 
@@ -195,7 +195,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_object($args[0]);
 
         $this->_object->require_do('midgard:update');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -355,13 +355,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
         $data['new_type_arg'] = $args[0];
 
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['defaults'] = array();
         if (   $handler_id == '____mfa-asgard-object_create_toplevel'
             || $handler_id == '____mfa-asgard-object_create_chooser')
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_new_type);
+            midcom::get('auth')->require_user_do('midgard:create', null, $this->_new_type);
 
             $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
         }
@@ -551,7 +551,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_object($args[0]);
 
         $this->_object->require_do('midgard:delete');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $type = $this->_object->__mgdschema_class_name__;
 
@@ -674,7 +674,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Get the object that will be copied
         $this->_load_object($args[0]);
 
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         static $targets = array();
 

@@ -247,7 +247,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                 $label = $event->$label_field;
                 if ($label_field == 'creator')
                 {
-                    $user = $_MIDCOM->auth->get_user($event->metadata->creator);
+                    $user = midcom::get('auth')->get_user($event->metadata->creator);
                     $label = $user->name;
                 }
 
@@ -279,7 +279,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     private function _populate_calendar_contacts($from, $to)
     {
-        $user = $_MIDCOM->auth->user->get_storage();
+        $user = midcom::get('auth')->user->get_storage();
 
         if (   $this->_config->get('always_show_self')
             || $user->parameter('org_openpsa_calendar_show', $user->guid))
@@ -304,7 +304,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         if ($this->_config->get('always_show_group'))
         {
             // Add this group to display as well
-            $additional_group = & $_MIDCOM->auth->get_group($this->_config->get('always_show_group'));
+            $additional_group = & midcom::get('auth')->get_group($this->_config->get('always_show_group'));
             if ($additional_group)
             {
                 $members = $additional_group->list_members();
@@ -425,7 +425,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     public function _handler_month($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_generate_date($args);
 
         // Instantiate calendar widget
@@ -511,7 +511,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     public function _handler_week($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_generate_date($args);
 
         // Instantiate calendar widget
@@ -601,7 +601,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     public function _handler_day($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_generate_date($args);
 
         // Instantiate calendar widget
@@ -762,9 +762,9 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
 
             $relatedto_button_settings = null;
 
-            if ($_MIDCOM->auth->user)
+            if (midcom::get('auth')->user)
             {
-                $user = $_MIDCOM->auth->user->get_storage();
+                $user = midcom::get('auth')->user->get_storage();
                 $relatedto_button_settings = array
                 (
                     'wikinote'      => array

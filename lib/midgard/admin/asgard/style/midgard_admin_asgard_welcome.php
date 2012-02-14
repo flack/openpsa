@@ -162,7 +162,7 @@ if (count($data['revised']) > 0)
         {
             $title = '[' . $_MIDCOM->i18n->get_string('no title', 'midgard.admin.asgard') . ']';
         }
-        $revisor = $_MIDCOM->auth->get_user($object->metadata->revisor);
+        $revisor = midcom::get('auth')->get_user($object->metadata->revisor);
         if (empty($revsior))
         {
             $revisor_name = $data['l10n_midcom']->get('unknown');

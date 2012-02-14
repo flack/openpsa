@@ -493,7 +493,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         // Handle ACL accordingly
         foreach ($this->participants as $person_id => $selected)
         {
-            $user = $_MIDCOM->auth->get_user($person_id);
+            $user = midcom::get('auth')->get_user($person_id);
 
             // All participants can read and update
             $this->set_privilege('org.openpsa.calendar:read', $user->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -541,7 +541,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $this->_get_em();
         //Remove participants
-        $_MIDCOM->auth->request_sudo('org.openpsa.calendar');
+        midcom::get('auth')->request_sudo('org.openpsa.calendar');
         reset ($this->participants);
         while (list ($id, $bool) = each ($this->participants))
         {
@@ -572,7 +572,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         //Remove event parameters
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         return true;
     }

@@ -299,7 +299,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     private function _pid_to_obj($pid)
     {
-        return $_MIDCOM->auth->get_user($pid);
+        return midcom::get('auth')->get_user($pid);
     }
 
     public function _on_updated()

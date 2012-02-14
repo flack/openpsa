@@ -59,7 +59,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/preferences/', $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'));
 
-        if ($this->_person->guid !== $_MIDCOM->auth->user->guid)
+        if ($this->_person->guid !== midcom::get('auth')->user->guid)
         {
             $this->add_breadcrumb("__mfa/asgard/preferences/{$this->_person->guid}/", $this->_person->name);
         }
@@ -75,7 +75,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_preferences($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -172,7 +172,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters
-        $_MIDCOM->auth->request_sudo('midgard.admin.asgard');
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
 
         foreach ($_POST as $key => $value)
         {
@@ -190,7 +190,7 @@ implements midcom_helper_datamanager2_interfaces_edit
              debug_add("Added configuration key-value pair {$key} => {$value}");
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

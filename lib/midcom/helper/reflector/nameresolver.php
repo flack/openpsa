@@ -185,7 +185,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // Start the magic
-        $_MIDCOM->auth->request_sudo('midcom.helper.reflector');
+        midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         if (   $parent
             && isset($parent->guid)
@@ -201,7 +201,7 @@ class midcom_helper_reflector_nameresolver
             if (!$this->_name_is_unique_check_siblings($sibling_classes, $parent))
             {
                 unset($parent, $parent_resolver, $sibling_classes);
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 return false;
             }
             unset($parent, $parent_resolver, $sibling_classes);
@@ -220,7 +220,7 @@ class midcom_helper_reflector_nameresolver
                     if (!$this->_name_is_unique_check_roots($root_classes))
                     {
                         unset($is_root_class, $root_classes);
-                        $_MIDCOM->auth->drop_sudo();
+                        midcom::get('auth')->drop_sudo();
                         return false;
                     }
                 }
@@ -229,14 +229,14 @@ class midcom_helper_reflector_nameresolver
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
                 unset($is_root_class);
                 return true;
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         // If we get this far we know we don't have name clashes
         return true;
     }
@@ -354,7 +354,7 @@ class midcom_helper_reflector_nameresolver
             // Guard against QB failure
             if ($results === false)
             {
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
@@ -485,7 +485,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // Look for siblings with similar names and see if they have higher i.
-        $_MIDCOM->auth->request_sudo('midcom.helper.reflector');
+        midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         // TODO: Refactor to reduce duplicate code with _name_is_unique_check_siblings
         if (   $parent
@@ -561,7 +561,7 @@ class midcom_helper_reflector_nameresolver
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
                 unset($root_classes, $is_root_class);
                 return array($i, $base_name);
@@ -618,7 +618,7 @@ class midcom_helper_reflector_nameresolver
                 unset($root_classes, $schema_type, $child_name_property, $sibling, $sibling_name);
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         return array($i, $base_name);
     }

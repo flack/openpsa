@@ -18,7 +18,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
     public function _on_execute()
     {
         debug_add('_on_execute called');
-        if (!$_MIDCOM->auth->request_sudo('net.nemein.rss'))
+        if (!midcom::get('auth')->request_sudo('net.nemein.rss'))
         {
             $msg = "Could not get sudo, aborting operation, see error log for details";
             $this->print_error($msg);
@@ -49,7 +49,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
             $items = $fetcher->import();
             debug_add("Imported " . count($items) . " items, set feed refresh time to " . strftime('%x %X', $feed->latestfetch), MIDCOM_LOG_INFO);
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         debug_add('Done');
         return;

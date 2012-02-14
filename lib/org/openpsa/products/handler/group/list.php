@@ -342,8 +342,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
         else
         {
-            $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            $allow_create_group = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            $allow_create_product = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
 
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)

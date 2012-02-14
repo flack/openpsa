@@ -27,7 +27,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.sales/sales.css");
 
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
 

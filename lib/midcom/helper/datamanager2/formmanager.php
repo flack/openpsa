@@ -659,7 +659,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['read_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['read_privilege'])
-                && ! $_MIDCOM->auth->is_group_member($config['read_privilege']['group']))
+                && ! midcom::get('auth')->is_group_member($config['read_privilege']['group']))
             {
                 return false;
             }
@@ -715,7 +715,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['write_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['write_privilege'])
-                && ! $_MIDCOM->auth->is_group_member($config['write_privilege']['group']))
+                && ! midcom::get('auth')->is_group_member($config['write_privilege']['group']))
             {
                 $widget->freeze();
             }

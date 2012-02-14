@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
 $_MIDCOM->load_library('org.openpsa.httplib');
 $http_request = new org_openpsa_httplib();

@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
 // Ensure this is not buffered
 $_MIDCOM->cache->content->enable_live_mode();

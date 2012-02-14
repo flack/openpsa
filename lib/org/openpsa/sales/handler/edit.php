@@ -151,7 +151,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_request_data['salesproject'] = $this->_load_salesproject($args[0]);
         $this->_salesproject->require_do('midgard:update');
 
@@ -195,8 +195,8 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     public function _handler_new($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
+        midcom::get('auth')->require_valid_user();
+        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
         $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
         $this->_defaults['owner'] = midcom_connection::get_user();

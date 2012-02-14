@@ -76,7 +76,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         midcom::get()->disable_limits();
 

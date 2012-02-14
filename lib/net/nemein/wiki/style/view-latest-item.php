@@ -18,7 +18,7 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
         <?php
         if ($history['user'])
         {
-            $user = $_MIDCOM->auth->get_user($history['user']);
+            $user = midcom::get('auth')->get_user($history['user']);
 
             if(is_object($user))
             {

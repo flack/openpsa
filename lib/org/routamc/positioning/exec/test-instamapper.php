@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 $api_key = $user->parameter('org.routamc.positioning:instamapper', 'api_key');
 if (!$api_key)
 {
@@ -14,11 +14,11 @@ if (!$api_key)
     {
         ?>
         <h1>Set your InstaMapper API key</h1>
-        
+
         <p>
         You can get the key from the <a href="http://www.instamapper.com/">InstaMapper</a> site.
         </p>
-        
+
         <form method="post">
             <label>
                 <span>API key</span>

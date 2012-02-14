@@ -310,10 +310,10 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
-        if ($_MIDCOM->auth->request_sudo('net.nehmer.blog'))
+        if (midcom::get('auth')->request_sudo('net.nehmer.blog'))
         {
             $this->_topic->parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
 
         return $comments_node;

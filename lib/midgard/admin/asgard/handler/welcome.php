@@ -94,9 +94,9 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             }
 
             if (   $only_mine
-                && $_MIDCOM->auth->user)
+                && midcom::get('auth')->user)
             {
-                $qb->add_constraint('metadata.authors', 'LIKE', "|{$_MIDCOM->auth->user->guid}|");
+                $qb->add_constraint('metadata.authors', 'LIKE', "|{midcom::get('auth')->user->guid}|");
             }
 
             $qb->add_order('metadata.revision', 'DESC');
@@ -213,7 +213,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             )
         );
 
-        if ($_MIDCOM->auth->admin)
+        if (midcom::get('auth')->admin)
         {
             $this->_request_data['asgard_toolbar']->add_item
             (
@@ -320,7 +320,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
 
-        if ($_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
+        if (midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             midcom_show_style('midgard_admin_asgard_welcome');
         }

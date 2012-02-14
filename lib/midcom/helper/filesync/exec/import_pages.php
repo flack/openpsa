@@ -6,7 +6,7 @@ $ip_sudo = false;
 if ($trusted_ips
     && in_array($_SERVER['REMOTE_ADDR'], $trusted_ips))
 {
-    if (! $_MIDCOM->auth->request_sudo('midcom.helper.filesync'))
+    if (! midcom::get('auth')->request_sudo('midcom.helper.filesync'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -14,7 +14,7 @@ if ($trusted_ips
 }
 else
 {
-    $_MIDCOM->auth->require_admin_user();
+    midcom::get('auth')->require_admin_user();
 }
 $_MIDCOM->cache->content->enable_live_mode();
 $_MIDCOM->header('Content-Type: text/plain');
@@ -23,6 +23,6 @@ $importer->import();
 echo "Import from {$importer->root_dir} completed\n";
 if ($ip_sudo)
 {
-    $_MIDCOM->auth->drop_sudo();
+    midcom::get('auth')->drop_sudo();
 }
 ?>

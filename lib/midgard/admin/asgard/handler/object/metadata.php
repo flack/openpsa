@@ -99,7 +99,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         if (is_a($this->_object, 'midcom_db_topic'))
         {

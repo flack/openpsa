@@ -126,7 +126,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (! $_MIDCOM->auth->request_sudo('midcom'))
+        if (! midcom::get('auth')->request_sudo('midcom'))
         {
             debug_add('Failed to get SUDO privileges, skipping membership deletion silently.', MIDCOM_LOG_ERROR);
             return;
@@ -162,7 +162,7 @@ class midcom_db_person extends midcom_core_dbaobject
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**
@@ -246,7 +246,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     function add_to_group($name)
     {
-        $group = $_MIDCOM->auth->get_midgard_group_by_name($name);
+        $group = midcom::get('auth')->get_midgard_group_by_name($name);
         if (! $group)
         {
             debug_add("Failed to add the person {$this->id} to group {$name}, the group does not exist.", MIDCOM_LOG_WARN);

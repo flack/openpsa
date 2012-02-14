@@ -25,7 +25,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     public function _handler_index ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (isset($args[0]))
         {

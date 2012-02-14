@@ -76,7 +76,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
+        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
 
         $this->_schema = $args[0];
         $this->load_schemadb();

@@ -393,7 +393,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                         $reporter = 'mollom';
                         break;
                     default:
-                        $user = $_MIDCOM->auth->get_user($log_details[0]);
+                        $user = midcom::get('auth')->get_user($log_details[0]);
                         $reporter = $user->name;
                         break;
                 }
@@ -414,9 +414,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         if ($reporter === null)
         {
-            if ($_MIDCOM->auth->user)
+            if (midcom::get('auth')->user)
             {
-                $reporter = $_MIDCOM->auth->user->guid;
+                $reporter = midcom::get('auth')->user->guid;
             }
             else
             {
@@ -496,7 +496,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
             // Get parent object
             $parent_property = $config->get('ratings_cache_to_object_property');
-            $_MIDCOM->auth->request_sudo('net.nehmer.comments');
+            midcom::get('auth')->request_sudo('net.nehmer.comments');
             if ($config->get('ratings_cache_total'))
             {
                 $value = $ratings_total;
@@ -548,7 +548,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                     $parent_object->_use_rcs = true;
                 }
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
     }
 
@@ -620,9 +620,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $parent_title = $ref->get_object_label($parent_object);
 
         // Resolve commenting user
-        if ($_MIDCOM->auth->user)
+        $auth = midcom::get('auth');
+        if ($auth->user)
         {
-            $user_string = "{$_MIDCOM->auth->user->name} ({$_MIDCOM->auth->user->username})";
+            $user_string = "{$auth->user->name} ({$auth->user->username})";
         }
         else
         {

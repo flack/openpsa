@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send_bg($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
 
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
@@ -60,7 +60,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         }
         ignore_user_abort();
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**
@@ -70,7 +70,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _show_send_bg($handler_id, array &$data)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         debug_add('Forcing content type: text/plain');
         $_MIDCOM->cache->content->content_type('text/plain');
         $composed = $this->_prepare_send($data);
@@ -85,7 +85,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         {
             echo "Batch #{$data['batch_number']} DONE\n";
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     private function _prepare_send(&$data)
@@ -175,7 +175,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['message']->campaign);

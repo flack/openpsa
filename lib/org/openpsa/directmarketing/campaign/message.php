@@ -206,9 +206,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     private function _check_campaign_up_to_date()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         $campaign = new org_openpsa_directmarketing_campaign_dba($this->campaign);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         if ($campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
         {
             $campaign->update_smart_campaign_members();
@@ -268,9 +268,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 'url_base' => $url_base,
             );
             debug_add("Registering batch #{$args['batch']} for {$args['url_base']}");
-            $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+            midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
             $atstat = midcom_services_at_interface::register(time() + 60, 'org.openpsa.directmarketing', 'background_send_message', $args);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             if (!$atstat)
             {
                 debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

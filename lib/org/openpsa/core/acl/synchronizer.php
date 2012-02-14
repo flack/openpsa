@@ -34,7 +34,7 @@ class org_openpsa_core_acl_synchronizer
             return false;
         }
 
-        $owner_object = $_MIDCOM->auth->get_assignee($owner_id);
+        $owner_object = midcom::get('auth')->get_assignee($owner_id);
         if (!$owner_object
             || empty($owner_object->id))
         {
@@ -48,7 +48,7 @@ class org_openpsa_core_acl_synchronizer
         {
             foreach ($privileges as $privilege)
             {
-                if (   $privilege->assignee != $_MIDCOM->auth->user->id
+                if (   $privilege->assignee != midcom::get('auth')->user->id
                     && $privilege->assignee != $owner_id)
                 {
                     if (is_array($privilege->assignee))
@@ -78,8 +78,8 @@ class org_openpsa_core_acl_synchronizer
             case ORG_OPENPSA_ACCESSTYPE_PRIVATE:
                 debug_add("Private object, only user can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
-                $object->set_privilege('midgard:owner', $_MIDCOM->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->_set_attachment_permission($object, 'midgard:read', $_MIDCOM->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
+                $object->set_privilege('midgard:owner', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->_set_attachment_permission($object, 'midgard:read', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
             case ORG_OPENPSA_ACCESSTYPE_WGPRIVATE:
                 debug_add("Private object, only workgroup members can read and write");
@@ -94,7 +94,7 @@ class org_openpsa_core_acl_synchronizer
                 $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
 
                 // Process a possible subscribers group
-                $subscriber_group = $_MIDCOM->auth->get_group($owner_id.'subscribers');
+                $subscriber_group = midcom::get('auth')->get_group($owner_id.'subscribers');
                 if ($subscriber_group
                     && !empty($subscriber_group->id))
                 {

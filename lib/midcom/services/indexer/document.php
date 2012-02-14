@@ -727,7 +727,7 @@ class midcom_services_indexer_document
             }
         }
 
-        $author = $_MIDCOM->auth->get_user($id);
+        $author = midcom::get('auth')->get_user($id);
         if (!$author)
         {
             return '';

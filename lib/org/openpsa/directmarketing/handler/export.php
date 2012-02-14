@@ -41,7 +41,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     private function _prepare_handler($args)
     {
         // TODO: Add smarter per-type ACL checks
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);

@@ -4,16 +4,16 @@ $item->descriptionHtmlSyndicated = true;
 $authors = explode('|', substr($data['article']->metadata->authors, 1, -1));
 if ($authors)
 {
-    $author_user = $_MIDCOM->auth->get_user($authors[0]);
+    $author_user = midcom::get('auth')->get_user($authors[0]);
     if ($author_user)
     {
         $author = $author_user->get_storage();
-    
+
         if (empty($author->email))
         {
             $author->email = "webmaster@{$_SERVER['SERVER_NAME']}";
         }
-    
+
         $item->author = trim("{$author->email} ({$author->name})");
     }
 }

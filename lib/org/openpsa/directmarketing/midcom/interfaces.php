@@ -30,7 +30,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             $handler->print_error($msg);
             return false;
         }
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
 
         $batch_url = "{$args['url_base']}/{$args['batch']}/{$args['midcom_services_at_entry_object']->guid}";
         debug_add("batch_url: {$batch_url}");
@@ -40,7 +40,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         $output = ob_get_contents();
         ob_end_clean();
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 
@@ -61,7 +61,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             return false;
         }
 
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         try
         {
             $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
@@ -83,7 +83,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             return false;
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 
@@ -188,12 +188,12 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
                 $sending_url = $directmarketing_node[MIDCOM_NAV_RELATIVEURL]."message/{$message->guid}/send/";
 
                 debug_add("START SEND TO URL {$sending_url}");
-                $_MIDCOM->auth->request_sudo();
+                midcom::get('auth')->request_sudo();
                 ob_start();
                 $_MIDCOM->dynamic_load($sending_url);
                 $output = ob_get_contents();
                 ob_end_clean();
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("END SEND");
             }
             else

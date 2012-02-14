@@ -41,7 +41,7 @@ echo $data['rcs_toolbar']->render();
 
                 if ($history['user'])
                 {
-                    $user = $_MIDCOM->auth->get_user($history['user']);
+                    $user = midcom::get('auth')->get_user($history['user']);
                     if(is_object($user))
                     {
                         $person = $user->get_storage();

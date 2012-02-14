@@ -24,7 +24,7 @@ echo '<?'.'xml version="1.0" encoding="ISO-8859-1"?'.">\n";
             <div id="content">
                 <div id="login">
                     <?php
-                    $_MIDCOM->auth->show_login_form();
+                    midcom::get('auth')->show_login_form();
                     ?>
                     <div class="clear"></div>
                 </div>

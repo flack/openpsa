@@ -91,7 +91,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             case 'sid':
                 return false;
             case 'password':
-                return $_MIDCOM->auth->admin;
+                return midcom::get('auth')->admin;
             default:
                 return true;
         }
@@ -384,7 +384,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     public function _handler_history($handler_id, array $args, array &$data)
     {
         $data['args'] = $args;
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         // Check if the comparison request is valid
         if (isset($_REQUEST['compare']))
@@ -480,7 +480,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public function _handler_diff($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
         $this->_load_object();
 
@@ -545,7 +545,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public function _handler_preview($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
         $data['args'] = $args;
 
@@ -587,7 +587,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public function _handler_restore($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
         $data['args'] = $args;
         $this->_load_object();

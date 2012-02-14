@@ -36,7 +36,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     private function _analyze_message_report(&$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_request_data['report'] = array();
         $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
@@ -387,10 +387,10 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
         );
-        if (   !empty($_MIDCOM->auth->user)
-            && !empty($_MIDCOM->auth->user->guid))
+        if (   !empty(midcom::get('auth')->user)
+            && !empty(midcom::get('auth')->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/{$_MIDCOM->auth->user->guid}/";
+            $preview_url = "message/compose/{$this->_message->guid}/{midcom::get('auth')->user->guid}/";
         }
         else
         {

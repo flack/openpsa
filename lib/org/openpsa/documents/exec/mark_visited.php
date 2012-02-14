@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
 {
@@ -12,7 +12,7 @@ if (!array_key_exists('guid', $_POST))
 }
 
 $document = new org_openpsa_documents_document_dba($_POST['guid']);
-$person = $_MIDCOM->auth->user->get_storage();
+$person = midcom::get('auth')->user->get_storage();
 if ((int) $person->get_parameter('org.openpsa.documents_visited', $document->guid) < (int) $document->metadata->revised)
 {
     $person->set_parameter('org.openpsa.documents_visited', $document->guid, time());

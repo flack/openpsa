@@ -67,7 +67,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_DOCUMENT;
         if (!$this->author)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             $this->author = $user->id;
         }
         return true;
@@ -103,25 +103,25 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         if (   $parent
             && $parent->component == 'org.openpsa.documents')
         {
-            $_MIDCOM->auth->request_sudo('org.openpsa.documents');
+            midcom::get('auth')->request_sudo('org.openpsa.documents');
 
             $parent = new org_openpsa_documents_directory($parent);
             $parent->_use_rcs = false;
             $parent->_use_activitystream = false;
             $parent->update();
 
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
     }
 
     public function get_class()
     {
-        if (   !$_MIDCOM->auth->user
+        if (   !midcom::get('auth')->user
             || empty($this->guid))
         {
             return '';
         }
-        $person = $_MIDCOM->auth->user->get_storage();
+        $person = midcom::get('auth')->user->get_storage();
         $lastvisited = $person->get_parameter('org.openpsa.documents_visited', $this->guid);
 
         if (   $lastvisited

@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 
 // Use the FireEagle PHP library from http://fireeagle.yahoo.net/developer/code/php
 require_once(MIDCOM_ROOT . '/external/fireeagle.php');

@@ -172,7 +172,7 @@ class midcom_application
             else
             {
                 // Fall back to another MidCOM topic so that admin has a chance to fix this
-                $_MIDCOM->auth->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
+                midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
                 $qb = midcom_db_topic::new_query_builder();
                 $qb->add_constraint('up', '=', 0);
                 $qb->add_constraint('component', '<>', '');

@@ -31,9 +31,9 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         $configured_providers = self::get_config_value('search_providers');
         $user_id = false;
 
-        if (!$_MIDCOM->auth->admin)
+        if (!midcom::get('auth')->admin)
         {
-            $user_id = $_MIDCOM->auth->acl->get_user_id();
+            $user_id = midcom::get('auth')->acl->get_user_id();
         }
 
         foreach ($configured_providers as $component => $route)
@@ -41,7 +41,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
                 && (   !$user_id
-                    || $_MIDCOM->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
+                    || midcom::get('auth')->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
             {
                 $providers[] = array
                 (

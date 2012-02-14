@@ -217,7 +217,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             else
             {
                 //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
-                $assignee = $_MIDCOM->auth->get_assignee($privilege->assignee);
+                $assignee = midcom::get('auth')->get_assignee($privilege->assignee);
 
                 if (is_object($assignee))
                 {
@@ -320,7 +320,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:privileges');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $script = "
             applyRowClasses();

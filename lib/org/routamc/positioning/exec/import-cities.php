@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
 // If we import some other database than Geonames this is the place to tune
 // Also, the Geonames dump format may change. See http://download.geonames.org/export/dump/readme.txt

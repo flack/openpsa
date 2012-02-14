@@ -140,7 +140,7 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
-        if (! $_MIDCOM->auth->user)
+        if (! midcom::get('auth')->user)
         {
             debug_add ("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
                 MIDCOM_LOG_INFO);
@@ -150,7 +150,7 @@ class midcom_baseclasses_core_dbobject
         // Circumvent the main privilege class as we need full access here regardless of
         // the actual circumstances.
         $privilege = new midcom_core_privilege_db();
-        $privilege->assignee = $_MIDCOM->auth->user->id;
+        $privilege->assignee = midcom::get('auth')->user->id;
         $privilege->privilegename = 'midgard:owner';
         $privilege->objectguid = $object->guid;
         $privilege->value = MIDCOM_PRIVILEGE_ALLOW;
@@ -178,8 +178,8 @@ class midcom_baseclasses_core_dbobject
             // Attachments are a special case
             if ($_MIDCOM->dbfactory->is_a($object, 'midgard_attachment'))
             {
-                if (   ! $_MIDCOM->auth->can_do('midgard:attachments', $parent)
-                    || ! $_MIDCOM->auth->can_do('midgard:update', $parent))
+                if (   ! midcom::get('auth')->can_do('midgard:attachments', $parent)
+                    || ! midcom::get('auth')->can_do('midgard:update', $parent))
                 {
                     debug_add("Failed to create attachment, update or attachments privilege on the parent " . get_class($parent) . " {$parent->guid} not granted for the current user.",
                         MIDCOM_LOG_ERROR);
@@ -187,8 +187,8 @@ class midcom_baseclasses_core_dbobject
                     return false;
                 }
             }
-            elseif (   ! $_MIDCOM->auth->can_do('midgard:create', $parent)
-                && ! $_MIDCOM->auth->can_user_do('midgard:create', null, get_class($object)))
+            elseif (   ! midcom::get('auth')->can_do('midgard:create', $parent)
+                && ! midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -198,7 +198,7 @@ class midcom_baseclasses_core_dbobject
         }
         else
         {
-            if (! $_MIDCOM->auth->can_user_do('midgard:create', null, get_class($object)))
+            if (! midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
@@ -327,19 +327,19 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   !is_null($_MIDCOM->auth->user)
+        if (   !is_null(midcom::get('auth')->user)
             && is_object($object->metadata))
         {
             // Default the authors to current user
             if (empty($object->metadata->authors))
             {
-                $object->metadata->set('authors', "|{$_MIDCOM->auth->user->guid}|");
+                $object->metadata->set('authors', "|" . midcom::get('auth')->user->guid ."|");
             }
 
             // Default the owner to first group of current user
             if (empty($object->metadata->owner))
             {
-                $first_group = $_MIDCOM->auth->user->get_first_group_guid();
+                $first_group = midcom::get('auth')->user->get_first_group_guid();
                 if ($first_group)
                 {
                     $object->metadata->set('owner', $first_group);
@@ -1657,13 +1657,13 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if ($_MIDCOM->auth->user === null)
+            if (midcom::get('auth')->user === null)
             {
                 $assignee = 'EVERYONE';
             }
             else
             {
-                $assignee = $_MIDCOM->auth->user;
+                $assignee = midcom::get('auth')->user;
             }
         }
 
@@ -1916,13 +1916,13 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if ($_MIDCOM->auth->user === null)
+            if (midcom::get('auth')->user === null)
             {
                 $assignee = 'EVERYONE';
             }
             else
             {
-                $assignee =& $_MIDCOM->auth->user;
+                $assignee =& midcom::get('auth')->user;
             }
         }
 

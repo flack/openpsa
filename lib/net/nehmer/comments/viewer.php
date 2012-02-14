@@ -106,7 +106,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     {
         $toolbar = new midcom_helper_toolbar();
 
-        if (   $_MIDCOM->auth->user
+        if (   midcom::get('auth')->user
             && $comment->status < NET_NEHMER_COMMENTS_MODERATED)
         {
             if (!$comment->can_do('net.nehmer.comments:moderation'))

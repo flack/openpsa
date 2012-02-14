@@ -108,7 +108,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && ! $_MIDCOM->auth->admin)
+            && ! midcom::get('auth')->admin)
         {
             foreach (array_keys($this->_schemadb) as $name)
             {
@@ -378,12 +378,12 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             $qb->add_constraint('article', '=', $this->_article->id);
             $links = $qb->execute_unchecked();
 
-            $_MIDCOM->auth->request_sudo('net.nehmer.static');
+            midcom::get('auth')->request_sudo('net.nehmer.static');
             foreach ($links as $link)
             {
                 $link->delete();
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
 
             // Update the index
             $indexer = $_MIDCOM->get_service('indexer');

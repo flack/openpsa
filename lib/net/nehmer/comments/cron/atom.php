@@ -21,7 +21,7 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
             return;
         }
 
-        if (!$_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+        if (!midcom::get('auth')->request_sudo('net.nehmer.comments'))
         {
             debug_add('Could not get sudo, aborting operation', MIDCOM_LOG_ERROR);
             return;
@@ -80,7 +80,7 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
             } // <-- comments
         } // <-- articles
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         debug_add('Done');
     }

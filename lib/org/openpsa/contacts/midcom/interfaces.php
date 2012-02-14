@@ -83,13 +83,13 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
 
             //Attempt to  auto-initialize the group.
-            $_MIDCOM->auth->request_sudo();
+            midcom::get('auth')->request_sudo();
             $grp = new midcom_db_group();
             $grp->owner = 0;
             $grp->name = $name;
             $grp->official = midcom::get('i18n')->get_l10n('org.openpsa.contacts')->get($name);
             $ret = $grp->create();
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             if (!$ret)
             {
                 throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());

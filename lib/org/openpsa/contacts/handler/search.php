@@ -110,7 +110,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_search_type($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_parse_query();
 
         switch ($args[0])
@@ -157,7 +157,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_search($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_query_mode = 'both';
         $this->_parse_query();
 
@@ -204,7 +204,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => 'person/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
             )
         );
 
@@ -226,7 +226,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => 'group/create/group/',
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
             )
         );
     }

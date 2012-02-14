@@ -25,7 +25,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
                 if (!isset($persons[$file->metadata->revisor]))
                 {
-                    $persons[$file->metadata->revisor] = $_MIDCOM->auth->get_user($file->metadata->revisor);
+                    $persons[$file->metadata->revisor] = midcom::get('auth')->get_user($file->metadata->revisor);
                 }
 
                 $class = '';

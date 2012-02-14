@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
      */
     public function _handler_action($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Check if we get the task
         $task = new org_openpsa_projects_task_dba($args[0]);

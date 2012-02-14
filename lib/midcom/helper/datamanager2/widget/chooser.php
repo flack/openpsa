@@ -1153,7 +1153,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return $this->_object_to_jsdata($results);
         }
 
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
 
         if (!class_exists($this->class))
         {
@@ -1173,7 +1173,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         $results = $qb->execute();
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         if (count($results) == 0)
         {

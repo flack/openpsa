@@ -36,9 +36,9 @@ class org_openpsa_helpers_list
             && !isset($ret[$task->customer]))
         {
             //Make sure we can read the current customer for the name
-            $_MIDCOM->auth->request_sudo();
+            midcom::get('auth')->request_sudo();
             $company = new org_openpsa_contacts_group_dba($task->customer);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             $seen[$company->id] = true;
             self::task_groups_put($ret, $mode, $company);
         }
@@ -153,15 +153,15 @@ class org_openpsa_helpers_list
         if (!array_key_exists($array_name, $GLOBALS))
         {
             $GLOBALS[$array_name] = array();
-            if ($_MIDCOM->auth->user)
+            if (midcom::get('auth')->user)
             {
                 if ($add_me == 'first')
                 {
                     //TODO: Localization
-                    $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
+                    $GLOBALS[$array_name][midcom::get('auth')->user->id] = 'me';
                 }
 
-                $users_groups = $_MIDCOM->auth->user->list_memberships();
+                $users_groups = midcom::get('auth')->user->list_memberships();
                 foreach ($users_groups as $key => $vgroup)
                 {
                     if (is_object($vgroup))
@@ -193,7 +193,7 @@ class org_openpsa_helpers_list
                 if ($add_me == 'last')
                 {
                     //TODO: Localization
-                    $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
+                    $GLOBALS[$array_name][midcom::get('auth')->user->id] = 'me';
                 }
             }
         }

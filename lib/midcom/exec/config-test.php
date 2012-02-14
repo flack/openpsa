@@ -3,7 +3,7 @@ if (! exec ('which which'))
 {
     _midcom_stop_request("The 'which' utility cannot be found. It is required for configuration-testing. Aborting.");
 }
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 ?>
 <html>
 <head><title>Configuration Test</title></head>

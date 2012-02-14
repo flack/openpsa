@@ -38,7 +38,7 @@ implements midcom_helper_datamanager2_interfaces_view
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_person = new midcom_db_person($args[0]);
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_person);

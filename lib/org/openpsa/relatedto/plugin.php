@@ -341,7 +341,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}task/new/?" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
+                            MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
                             MIDCOM_TOOLBAR_OPTIONS  => array
                             (
                                 //PONDER: Open in new window or not??

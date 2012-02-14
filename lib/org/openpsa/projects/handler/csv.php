@@ -34,7 +34,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
 
     function _load_data($handler_id, &$args, &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         if (   empty($_POST['guids'])
             || !is_array($_POST['guids']))
         {

@@ -34,7 +34,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
      */
     public function _handler_view ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
 
@@ -93,9 +93,9 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             )
         );
 
-        if (!empty($_MIDCOM->auth->user->guid))
+        if (!empty(midcom::get('auth')->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/{$_MIDCOM->auth->user->guid}/";
+            $preview_url = "message/compose/{$this->_message->guid}/{midcom::get('auth')->user->guid}/";
         }
         else
         {

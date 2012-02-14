@@ -51,7 +51,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     private function _check_imp_settings()
     {
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
-        $current_user_dbobj = $_MIDCOM->auth->user->get_storage();
+        $current_user_dbobj = midcom::get('auth')->user->get_storage();
 
         if (!is_object($current_user_dbobj))
         {
@@ -101,7 +101,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $formData = false;
         $nextUri = false;
@@ -202,7 +202,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_settings($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_check_imp_settings();
 
@@ -230,7 +230,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         $controller->schemadb =& $schemadb;
 
         // Load the person record into DM
-        $person_record = $_MIDCOM->auth->user->get_storage();
+        $person_record = midcom::get('auth')->user->get_storage();
 
         $controller->set_storage($person_record, $schema);
         if (! $controller->initialize())
@@ -271,7 +271,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         //If settings are not complete redirect to settings page
         if (!$this->_check_imp_settings())

@@ -76,7 +76,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             }
         }
 
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         //TODO: Create wikinote
         $wikipage = new net_nemein_wiki_wikipage();
         $wikipage->topic = $this->_topic->id;
@@ -209,7 +209,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

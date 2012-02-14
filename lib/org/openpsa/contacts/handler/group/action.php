@@ -20,7 +20,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      */
     public function _handler_action($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         // Check if we get the group
         $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
 

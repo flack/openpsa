@@ -250,7 +250,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['section_name'] = $_MIDCOM->i18n->get_string($plugin_config['name'], $component);
             $class = $plugin_config['class'];
 
-            if (!$_MIDCOM->auth->can_user_do("{$component}:access", null, $class))
+            if (!midcom::get('auth')->can_user_do("{$component}:access", null, $class))
             {
                 // Disabled plugin
                 continue;
@@ -405,7 +405,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     {
         $this->_draw_plugins();
 
-        if (!$_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
+        if (!midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             return;
         }

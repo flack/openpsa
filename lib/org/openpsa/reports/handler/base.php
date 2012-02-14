@@ -28,7 +28,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _handler_generator_get($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
             || !is_array($_REQUEST['org_openpsa_reports_query_data']))
         {
@@ -144,7 +144,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _handler_query_form($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -265,7 +265,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     protected function _expand_resource($resource_id, $ret = array())
     {
         debug_add('Got resource_id: ' . $resource_id);
-        $dba_obj = $_MIDCOM->auth->get_assignee($resource_id);
+        $dba_obj = midcom::get('auth')->get_assignee($resource_id);
 
         self::_verify_cache('users', $this->_request_data);
         switch (get_class($dba_obj))

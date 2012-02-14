@@ -27,7 +27,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

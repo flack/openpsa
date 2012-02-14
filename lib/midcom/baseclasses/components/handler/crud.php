@@ -417,7 +417,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
         else
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_dba_class);
+            midcom::get('auth')->require_user_do('midgard:create', null, $this->_dba_class);
         }
 
         // Select schema name to use based on arguments

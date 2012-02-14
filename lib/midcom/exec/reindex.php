@@ -18,7 +18,7 @@ $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
-    if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
+    if (! midcom::get('auth')->request_sudo('midcom.services.indexer'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -26,8 +26,8 @@ if (   $ips
 }
 else
 {
-    $_MIDCOM->auth->require_valid_user('basic');
-    $_MIDCOM->auth->require_admin_user();
+    midcom::get('auth')->require_valid_user('basic');
+    midcom::get('auth')->require_admin_user();
 }
 
 if ($GLOBALS['midcom_config']['indexer_backend'] === false)
@@ -170,7 +170,7 @@ ignore_user_abort(false);
 
 if ($ip_sudo)
 {
-    $_MIDCOM->auth->drop_sudo();
+    midcom::get('auth')->drop_sudo();
 }
 
 //re-enable ob

@@ -18,7 +18,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
     {
         // Mass importing is for now better left for admins only
         // TODO: Add smarter per-type ACL checks
-        $_MIDCOM->auth->require_admin_user();
+        midcom::get('auth')->require_admin_user();
         $this->_request_data['type'] = 'product';
 
         $this->_request_data['import_status'] = array

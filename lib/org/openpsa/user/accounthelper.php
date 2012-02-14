@@ -516,9 +516,9 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $this->_person->set_parameter("org_openpsa_user_password", "last_change", time());
         }
         //sets privilege
-        $_MIDCOM->auth->request_sudo($this->_component);
+        midcom::get('auth')->request_sudo($this->_component);
         $this->_person->set_privilege('midgard:owner', "user:" . $this->_person->guid);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         return true;
     }
@@ -542,11 +542,11 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             return false;
         }
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.user');
+        midcom::get('auth')->request_sudo('org.openpsa.user');
         $qb = midcom_db_person::new_query_builder();
         midcom_core_account::add_username_constraint($qb, '=', $_POST['username']);
         $results = $qb->execute();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         if (sizeof($results) != 1)
         {
@@ -579,7 +579,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             return $stat;
         }
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.user');
+        midcom::get('auth')->request_sudo('org.openpsa.user');
         $attempts = $this->_person->get_parameter("org_openpsa_user_password", "attempts");
 
         if (!empty($attempts))
@@ -609,7 +609,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         $attempts = serialize($attempts);
         $this->_person->set_parameter("org_openpsa_user_password", "attempts", $attempts);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return $stat;
     }
 }

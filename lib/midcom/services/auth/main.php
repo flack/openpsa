@@ -710,7 +710,7 @@ class midcom_services_auth
                 $this->_http_basic_auth();
             }
             // Figure out how to update midcom auth status
-            $_MIDCOM->auth->_initialize_user_from_midgard();
+            midcom::get('auth')->_initialize_user_from_midgard();
         }
     }
 

@@ -4,7 +4,7 @@ $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 
 $title = 'MidCOM Developers';
 
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
 $developers = array();
 

@@ -226,7 +226,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     {
         if (!empty($topic->symlink))
         {
-            $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+            midcom::get('auth')->request_sudo('midcom.admin.folder');
             try
             {
                 $topic = new midcom_db_topic($topic->symlink);
@@ -236,7 +236,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
                 debug_add("Could not get target for symlinked topic #{$topic->id}: " .
                           $e->getMessage(), MIDCOM_LOG_ERROR);
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
 
         if (in_array($topic->id, $stop))
@@ -246,11 +246,11 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
         $stop[] = $topic->id;
 
-        $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+        midcom::get('auth')->request_sudo('midcom.admin.folder');
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $topic->id);
         $results = $qb->execute();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         foreach ($results as $topic)
         {

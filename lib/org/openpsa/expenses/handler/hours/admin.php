@@ -144,7 +144,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            $_MIDCOM->auth->require_valid_user();
+            midcom::get('auth')->require_valid_user();
             $data['task'] = 0;
         }
 

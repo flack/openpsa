@@ -1,6 +1,6 @@
 <?php
-$_MIDCOM->auth->require_valid_user('basic');
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_valid_user('basic');
+midcom::get('auth')->require_admin_user();
 midcom::get()->disable_limits();
 
 $chunk_size = 1000;

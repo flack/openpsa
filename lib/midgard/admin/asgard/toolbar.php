@@ -390,7 +390,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
         );
 
         if (   $_MIDCOM->componentloader->is_installed('midcom.helper.replicator')
-            && $_MIDCOM->auth->admin)
+            && midcom::get('auth')->admin)
         {
             $this->add_item
             (

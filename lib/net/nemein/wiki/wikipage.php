@@ -64,13 +64,13 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
     public function _on_updating()
     {
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
             // Place current user in the page authors list
             $authors = explode('|', substr($this->metadata->authors, 1, -1));
-            if (!in_array($_MIDCOM->auth->user->guid, $authors))
+            if (!in_array(midcom::get('auth')->user->guid, $authors))
             {
-                $authors[] = $_MIDCOM->auth->user->guid;
+                $authors[] = midcom::get('auth')->user->guid;
                 $this->metadata->authors = '|' . implode('|', $authors) . '|';
             }
         }
@@ -173,9 +173,9 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Construct the message
         $message = array();
         $user_string = $_MIDCOM->i18n->get_string('anonymous', 'net.nemein.wiki');
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             $user_string = $user->name;
         }
         // Title for long notifications

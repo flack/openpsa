@@ -40,7 +40,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
@@ -183,7 +183,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_document = $this->_load_document($args[0]);
 
         //If the user hasn't looked at the document since its last update, save the current time as last visit
-        $person = $_MIDCOM->auth->user->get_storage();
+        $person = midcom::get('auth')->user->get_storage();
         if ((int) $person->get_parameter('org.openpsa.documents_visited', $this->_document->guid) < (int) $this->_document->metadata->revised)
         {
             $person->set_parameter('org.openpsa.documents_visited', $this->_document->guid, time());

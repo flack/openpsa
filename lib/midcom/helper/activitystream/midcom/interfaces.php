@@ -24,7 +24,7 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         }
 
         // Create an activity log entry
-        if (!$_MIDCOM->auth->request_sudo('midcom.helper.activitystream'))
+        if (!midcom::get('auth')->request_sudo('midcom.helper.activitystream'))
         {
             // Not allowed to create activity logs
             return;
@@ -44,7 +44,7 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         if (!$activity->verb)
         {
             debug_add('Cannot generate a verb for the activity, skipping');
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return;
         }
 
@@ -60,9 +60,9 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
             $activity->summary = $object->_rcs_message;
         }
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $actor = $_MIDCOM->auth->user->get_storage();
+            $actor = midcom::get('auth')->user->get_storage();
             $activity->actor = $actor->id;
         }
 
@@ -73,7 +73,7 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
             $handled_targets["{$activity->target}_{$activity->actor}"] = true;
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

@@ -94,7 +94,7 @@ if (isset($data['search_results']))
 
             if (!isset($persons[$result->metadata->creator]))
             {
-                $persons[$result->metadata->creator] = $_MIDCOM->auth->get_user($result->metadata->creator);
+                $persons[$result->metadata->creator] = midcom::get('auth')->get_user($result->metadata->creator);
             }
 
             echo "        <tr>\n";

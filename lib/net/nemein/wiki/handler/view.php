@@ -135,9 +135,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             )
         );
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             if ($this->_page->parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_view_toolbar->add_item
@@ -538,16 +538,16 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (!$this->_load_page($args[0]))
         {
             throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
 
-        $_MIDCOM->auth->request_sudo('net.nemein.wiki');
+        midcom::get('auth')->request_sudo('net.nemein.wiki');
 
-        $user = $_MIDCOM->auth->user->get_storage();
+        $user = midcom::get('auth')->user->get_storage();
 
         if (   array_key_exists('target', $_POST)
             && $_POST['target'] == 'folder')
@@ -575,7 +575,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('unsubscribed from changes in %s'), $target), 'ok');
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         // Redirect to editing
         if ($this->_page->name == 'index')

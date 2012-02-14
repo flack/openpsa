@@ -610,7 +610,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $_MIDCOM->skip_page_style = true;
 
         $data['view_title'] = $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help');
@@ -655,7 +655,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function _handler_component($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $data['component'] = $args[0];
 
@@ -702,7 +702,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function _handler_help($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $data['help_id'] = $args[1];
         $data['component'] = $args[0];

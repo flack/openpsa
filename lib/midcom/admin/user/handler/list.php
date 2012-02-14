@@ -102,7 +102,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         // Used in select
         $data['groups_for_select'] = array();
-        if ($_MIDCOM->auth->admin)
+        if (midcom::get('auth')->admin)
         {
             $data['groups_for_select'][] = array
             (

@@ -56,9 +56,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function update(&$object, $updatemessage = null)
     {
         // Store user identifier and IP address to the update string
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $update_string = "{$_MIDCOM->auth->user->id}|{$_SERVER['REMOTE_ADDR']}";
+            $update_string = midcom::get('auth')->user->id . "|{$_SERVER['REMOTE_ADDR']}";
         }
         else
         {
@@ -68,9 +68,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // Generate update message if needed
         if (!$updatemessage)
         {
-            if ($_MIDCOM->auth->user !== null)
+            if (midcom::get('auth')->user !== null)
             {
-                $updatemessage = sprintf("Updated on %s by %s", strftime("%x %X"), $_MIDCOM->auth->user->name);
+                $updatemessage = sprintf("Updated on %s by %s", strftime("%x %X"), midcom::get('auth')->user->name);
             }
             else
             {

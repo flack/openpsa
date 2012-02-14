@@ -25,7 +25,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.libconfig');
 
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     public function get_libraries()

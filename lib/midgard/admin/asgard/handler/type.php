@@ -143,7 +143,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     public function _handler_type($handler_id, array $args, array &$data)
     {
         $this->type = $args[0];
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         if (!$_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type))
         {
             throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
@@ -182,7 +182,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private function _prepare_toolbar(&$data)
     {
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, $this->type))
+        if (midcom::get('auth')->can_user_do('midgard:create', null, $this->type))
         {
             $data['asgard_toolbar']->add_item
             (
@@ -195,7 +195,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             );
         }
 
-        if ($_MIDCOM->auth->admin)
+        if (midcom::get('auth')->admin)
         {
             $qb = new midgard_query_builder($this->type);
             $qb->include_deleted();

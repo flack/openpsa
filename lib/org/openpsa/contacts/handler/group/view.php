@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             )
         );
 
-        if (   $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
+        if (   midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
             && $this->_group->can_do('midgard:create'))
         {
             $allow_person_create = true;
@@ -192,7 +192,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Get the requested group object
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
@@ -254,7 +254,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _handler_json($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $_MIDCOM->skip_page_style = true;
         $this->_request_data['group'] = new org_openpsa_contacts_group_dba($args[0]);
     }

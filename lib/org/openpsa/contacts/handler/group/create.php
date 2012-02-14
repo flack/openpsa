@@ -102,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_type = $args[0];
 
@@ -116,7 +116,7 @@ implements midcom_helper_datamanager2_interfaces_create
         else
         {
             // This is a root level organization, require creation permissions under the component root group
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
+            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
         }
 
         $data['controller'] = $this->get_controller('create');

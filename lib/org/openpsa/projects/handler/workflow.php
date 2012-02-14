@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      */
     public function _handler_action($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         if (!isset($this->_request_data['action']))
         {
             $this->_request_data['action'] = $args[1];
@@ -95,7 +95,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      */
     public function _handler_post($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         //Look for action among POST variables, then load main handler...
         if (   !isset($_POST['org_openpsa_projects_workflow_action'])
             || !is_array($_POST['org_openpsa_projects_workflow_action'])

@@ -32,7 +32,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $fields =& $schemadb['default']->fields;
 
-        $group_object = $_MIDCOM->auth->get_group("group:{$this->_request_data['group']->guid}");
+        $group_object = midcom::get('auth')->get_group("group:{$this->_request_data['group']->guid}");
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();

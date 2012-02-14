@@ -59,13 +59,13 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
 
         if ($handler_id == 'mycontacts_xml')
         {
-            $_MIDCOM->auth->require_valid_user('basic');
+            midcom::get('auth')->require_valid_user('basic');
             $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
             $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
         }
         else
         {
-            $_MIDCOM->auth->require_valid_user();
+            midcom::get('auth')->require_valid_user();
 
             $data['widget_config'] = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('contact');
             $data['widget_config']['id_field'] = 'guid';

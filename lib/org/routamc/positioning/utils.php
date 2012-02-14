@@ -394,9 +394,9 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                         if (!$located_object->guid)
                         {
                             // This one has been deleted
-                            $_MIDCOM->auth->request_sudo('org.routamc.positioning');
+                            midcom::get('auth')->request_sudo('org.routamc.positioning');
                             $result->delete();
-                            $_MIDCOM->auth->drop_sudo();
+                            midcom::get('auth')->drop_sudo();
                             continue;
                         }
                         $result = $located_object;
@@ -442,9 +442,9 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                 if (!$located_object->guid)
                 {
                     // This one has been deleted
-                    $_MIDCOM->auth->request_sudo('org.routamc.positioning');
+                    midcom::get('auth')->request_sudo('org.routamc.positioning');
                     $result->delete();
-                    $_MIDCOM->auth->drop_sudo();
+                    midcom::get('auth')->drop_sudo();
                     continue;
                 }
                 $result = $located_object;

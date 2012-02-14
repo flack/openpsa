@@ -51,7 +51,7 @@ class midcom_services_tmp
      */
     function create_object()
     {
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
+        midcom::get('auth')->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
 
         $tmp = new midcom_core_temporary_object();
         if (! $tmp->create())

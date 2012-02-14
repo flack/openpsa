@@ -170,7 +170,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     {
         if ($GLOBALS['midcom_config']['symlinks'])
         {
-            $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+            midcom::get('auth')->request_sudo('midcom.admin.folder');
             $qb_topic = midcom_db_topic::new_query_builder();
             $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
             $symlinks = $qb_topic->execute();
@@ -186,7 +186,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
                 throw new midcom_error($msg);
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
         $this->_delete_topic_update_index();
 

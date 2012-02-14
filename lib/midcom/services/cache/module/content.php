@@ -1280,11 +1280,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // Typecast to make copy in stead of reference
             $strategy = (string)$this->_headers_strategy;
             $default_lifetime = (int)$this->_default_lifetime;
-            if (   (   isset($_MIDCOM->auth)
-                    && is_a($_MIDCOM->auth, 'midcom_services_auth')
-                    && $_MIDCOM->auth->is_valid_user())
-                || !midcom_connection::get_user()
-                )
+            if (   midcom::get('auth')->is_valid_user()
+                || !midcom_connection::get_user())
             {
                 // Typecast to make copy in stead of reference
                 $strategy = (string)$this->_headers_strategy_authenticated;

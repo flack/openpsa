@@ -145,7 +145,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
-            && $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+            && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             $billing_data_url = "create/" . $this->_contact->guid . "/";
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();

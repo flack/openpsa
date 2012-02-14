@@ -289,7 +289,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 
         if ($this->_request_data['up'] == 0)
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
         else
         {

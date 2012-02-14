@@ -269,7 +269,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             }
         }
 
-        $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+        midcom::get('auth')->request_sudo('midcom.admin.folder');
         // Because edit from a symlink edits its target, it is best to keep name properties in sync to get the expected behavior
         $qb_topic = midcom_db_topic::new_query_builder();
         $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
@@ -291,7 +291,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 }
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
 

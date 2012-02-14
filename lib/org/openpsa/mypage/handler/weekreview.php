@@ -15,7 +15,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 {
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     /**
@@ -217,7 +217,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         // Then start looking for stuff to display
         $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_task_statuses_between($data['review_data'], $_MIDCOM->auth->user, $data['week_start'], $data['week_end']);
+        $this->_list_task_statuses_between($data['review_data'], midcom::get('auth')->user, $data['week_start'], $data['week_end']);
         $this->_list_positions_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time

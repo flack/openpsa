@@ -61,7 +61,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         if (!$this->_comment->can_do('midgard:update'))
         {
             $this->_comment->_sudo_requested = true;
-            $_MIDCOM->auth->request_sudo('net.nehmer.comments');
+            midcom::get('auth')->request_sudo('net.nehmer.comments');
         }
 
         switch ($_POST['mark'])
@@ -148,7 +148,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         if ($this->_comment->_sudo_requested)
         {
             $this->_comment->_sudo_requested = false;
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
 
 

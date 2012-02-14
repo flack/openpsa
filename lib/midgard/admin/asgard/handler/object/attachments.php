@@ -255,7 +255,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $filename = $this->_process_form();
         if (!$filename)
@@ -307,7 +307,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);
@@ -398,7 +398,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);

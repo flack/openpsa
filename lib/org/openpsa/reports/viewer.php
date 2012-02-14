@@ -149,7 +149,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $data['available_components'] = $this->_get_available_generators();
     }

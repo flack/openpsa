@@ -63,7 +63,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_dbaclass = $args[0];
-        $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_dbaclass);
+        midcom::get('auth')->require_user_do('midgard:create', null, $this->_dbaclass);
 
         $this->_load_component_node();
 

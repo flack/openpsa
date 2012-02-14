@@ -199,7 +199,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
          if (!isset($_POST['title']))
         {
@@ -251,7 +251,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_update($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
         $this->_product = new org_openpsa_products_product_dba($args[0]);
 
@@ -284,7 +284,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_delete($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {

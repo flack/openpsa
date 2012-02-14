@@ -23,12 +23,12 @@ class net_nehmer_comments_cron_buzz extends midcom_baseclasses_components_cron_h
             return;
         }
 
-        if (!$_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+        if (!midcom::get('auth')->request_sudo('net.nehmer.comments'))
         {
             debug_add('Could not get sudo, aborting operation', MIDCOM_LOG_ERROR);
             return;
         }
-        
+
         // Get 50 latest articles so we can look for those
         $articles_by_title = array();
         $qb = midcom_db_article::new_query_builder();
@@ -84,11 +84,11 @@ class net_nehmer_comments_cron_buzz extends midcom_baseclasses_components_cron_h
             {
                 continue;
             }
-            
+
             // Store the URL to the article for later use
             $articles_by_title[$entry_title]->set_parameter('net.nehmer.comments', 'comments_feed', $feed_url);
             $articles_by_title[$entry_title]->set_parameter('net.nehmer.comments', 'comments_url', $buzz_url);
-            
+
             // Fetch replies and store as comments
             $replies = @simplexml_load_file($feed_url);
             if (   !$replies
@@ -96,11 +96,11 @@ class net_nehmer_comments_cron_buzz extends midcom_baseclasses_components_cron_h
             {
                 continue;
             }
-            
+
             foreach ($replies->entry as $entry)
             {
                 $entry_published = strtotime((string) $entry->published);
-                
+
                 // Check this comment isn't there yet
                 $qb = net_nehmer_comments_comment::new_query_builder();
                 $qb->add_constraint('author', '=', (string) $entry->author->name);
@@ -120,7 +120,7 @@ class net_nehmer_comments_cron_buzz extends midcom_baseclasses_components_cron_h
                     unset($comments);
                     continue;
                 }
-                
+
                 $comment = new net_nehmer_comments_comment();
                 $comment->objectguid = $articles_by_title[$entry_title]->guid;
                 $comment->author = (string) $entry->author->name;
@@ -130,7 +130,7 @@ class net_nehmer_comments_cron_buzz extends midcom_baseclasses_components_cron_h
                 $comment->create();
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         debug_add('Done');
     }

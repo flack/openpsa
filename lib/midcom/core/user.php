@@ -11,7 +11,7 @@
  * manipulate accounts, instead, this is an abstraction used in the ACL system.
  *
  * You must not create these objects directly. Instead, use the factory method
- * $_MIDCOM->auth->get_user($id), where $id is any valid constructor argument
+ * midcom::get('auth')->get_user($id), where $id is any valid constructor argument
  * for a midcom_db_person.
  *
  * @package midcom
@@ -379,7 +379,7 @@ class midcom_core_user
         $result = $mc->list_keys();
         if (!empty($result))
         {
-            if ($group = $_MIDCOM->auth->get_group(key($result)))
+            if ($group = midcom::get('auth')->get_group(key($result)))
             {
                 return $group->get_storage()->guid;
             }
@@ -595,7 +595,7 @@ class midcom_core_user
      */
     public function is_online()
     {
-        return $_MIDCOM->auth->sessionmgr->is_user_online($this);
+        return midcom::get('auth')->sessionmgr->is_user_online($this);
     }
 
     /**

@@ -96,9 +96,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->set_config_value($last . '_relative_url', $node_relative_url);
         }
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.core');
+        midcom::get('auth')->request_sudo('org.openpsa.core');
         $this->snippet->update();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
     }
@@ -126,7 +126,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     private function load_snippet()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.core');
+        midcom::get('auth')->request_sudo('org.openpsa.core');
         $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path("/org.openpsa.cache");
         if (!$lib_snippetdir->guid)
@@ -152,7 +152,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->snippet->create();
             $this->initialize_site_structure();
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         eval ("\$array = array ( {$this->snippet->code}\n );");
         $this->data = $array;
     }
@@ -246,7 +246,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         else
         {
-            if ($_MIDCOM->auth->admin)
+            if (midcom::get('auth')->admin)
             {
                 $_MIDCOM->uimessages->add
                 (

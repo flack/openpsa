@@ -51,7 +51,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 

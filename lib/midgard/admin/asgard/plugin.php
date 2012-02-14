@@ -15,7 +15,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     public function _on_initialize()
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
         $_MIDCOM->cache->content->no_cache();
 
@@ -37,7 +37,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     public static function prepare_plugin($title, &$data)
     {
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
         $_MIDCOM->cache->content->no_cache();
         $data['view_title'] = $title;
@@ -407,7 +407,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     {
         static $preferences = array();
 
-        if (!$_MIDCOM->auth->user)
+        if (!midcom::get('auth')->user)
         {
             return;
         }
@@ -415,12 +415,12 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         if (!isset($preferences[$preference]))
         {
             // Store the person statically
-            if (!isset($preferences[$_MIDCOM->auth->user->guid]))
+            if (!isset($preferences[midcom::get('auth')->user->guid]))
             {
-                $preferences[$_MIDCOM->auth->user->guid] = new midcom_db_person($_MIDCOM->auth->user->guid);
+                $preferences[midcom::get('auth')->user->guid] = new midcom_db_person(midcom::get('auth')->user->guid);
             }
 
-            $preferences[$preference] = $preferences[$_MIDCOM->auth->user->guid]->get_parameter('midgard.admin.asgard:preferences', $preference);
+            $preferences[$preference] = $preferences[midcom::get('auth')->user->guid]->get_parameter('midgard.admin.asgard:preferences', $preference);
         }
 
         return $preferences[$preference];

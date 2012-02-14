@@ -58,9 +58,9 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
+        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
         {
             $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
             foreach (array_keys($schemadb_campaign) as $name)

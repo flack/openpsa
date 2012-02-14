@@ -94,7 +94,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_document = $this->_load_document($args[0]);
         $this->_document->require_do('midgard:update');
@@ -199,7 +199,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_document = $this->_load_document($args[0]);
         $this->_document->require_do('midgard:delete');

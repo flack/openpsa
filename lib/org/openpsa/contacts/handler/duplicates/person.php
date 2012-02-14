@@ -23,7 +23,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
     public function _handler_sidebyside($handler_id, array $args, array &$data)
     {
         $this->set_active_leaf('persons_merge');
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Process the selection if present.
         if (   isset($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])

@@ -488,7 +488,7 @@ class midcom_helper__componentloader
         $this->manifests[$manifest->name] = $manifest;
 
         // Register Privileges
-        $_MIDCOM->auth->acl->register_default_privileges($manifest->privileges);
+        midcom::get('auth')->acl->register_default_privileges($manifest->privileges);
 
         // Register watches
         if ($manifest->watches !== null)

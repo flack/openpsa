@@ -55,7 +55,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
          */
         $this->_prepare_request_data();
 
-        if ($_MIDCOM->auth->admin)
+        if (midcom::get('auth')->admin)
         {
             $data['asgard_toolbar']->add_item
             (

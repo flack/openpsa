@@ -668,12 +668,12 @@ class midcom_services_auth_acl
         // otherwise. (get_parent_guid calling get_object_by_guid calling can_do ...)
 
         // ==> into SUDO
-        $previous_sudo = $_MIDCOM->auth->acl->_internal_sudo;
-        $_MIDCOM->auth->acl->_internal_sudo = true;
+        $previous_sudo = midcom::get('auth')->acl->_internal_sudo;
+        midcom::get('auth')->acl->_internal_sudo = true;
 
         $parent_guid = $_MIDCOM->dbfactory->get_parent_guid($guid, $class);
 
-        $_MIDCOM->auth->acl->_internal_sudo = $previous_sudo;
+        midcom::get('auth')->acl->_internal_sudo = $previous_sudo;
         // <== out of SUDO
 
         if (   $parent_guid == $guid
@@ -706,7 +706,7 @@ class midcom_services_auth_acl
         // noting it this way is required to ensure proper scoping of several privileges
         // assigned to a single object.
         $valid_privileges = array();
-        $valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER] = $_MIDCOM->auth->acl->get_owner_default_privileges();
+        $valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER] = midcom::get('auth')->acl->get_owner_default_privileges();
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
 
@@ -870,7 +870,7 @@ class midcom_services_auth_acl
             $full_privileges = array_merge
             (
                 $full_privileges,
-                $_MIDCOM->auth->acl->get_owner_default_privileges()
+                midcom::get('auth')->acl->get_owner_default_privileges()
             );
         }
 
@@ -1022,7 +1022,7 @@ class midcom_services_auth_acl
         if (   $privilegename != 'midgard:owner'
             && $last_scope < MIDCOM_PRIVILEGE_SCOPE_OWNER)
         {
-            $owner_privileges = $_MIDCOM->auth->acl->get_owner_default_privileges();
+            $owner_privileges = midcom::get('auth')->acl->get_owner_default_privileges();
             if (array_key_exists($privilegename, $owner_privileges))
             {
                 $found = self::_load_content_privilege('midgard:owner', $guid, $class, $user_id);
@@ -1044,12 +1044,12 @@ class midcom_services_auth_acl
         //if nothing was found, we try to recurse to parent
 
         // ==> into SUDO
-        $previous_sudo = $_MIDCOM->auth->acl->_internal_sudo;
-        $_MIDCOM->auth->acl->_internal_sudo = true;
+        $previous_sudo = midcom::get('auth')->acl->_internal_sudo;
+        midcom::get('auth')->acl->_internal_sudo = true;
 
         $parent_guid = $_MIDCOM->dbfactory->get_parent_guid($guid, $class);
 
-        $_MIDCOM->auth->acl->_internal_sudo = $previous_sudo;
+        midcom::get('auth')->acl->_internal_sudo = $previous_sudo;
         // <== out of SUDO
 
         if (   $parent_guid == $guid

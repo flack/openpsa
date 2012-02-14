@@ -75,7 +75,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && !$_MIDCOM->auth->can_user_do('midcom:urlname'))
+            && !midcom::get('auth')->can_user_do('midcom:urlname'))
         {
             foreach (array_keys($this->_schemadb) as $name)
             {

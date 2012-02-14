@@ -74,7 +74,7 @@ if (   array_key_exists('msisdn', $_GET)
         }
     }
 
-    if (!$_MIDCOM->auth->request_sudo('org.routamc.positioning'))
+    if (!midcom::get('auth')->request_sudo('org.routamc.positioning'))
     {
         throw new midcom_error('Could not get sudo rights (check debug log for details)');
     }
@@ -110,7 +110,7 @@ if (   array_key_exists('msisdn', $_GET)
         {
             org_routamc_positioning_send_sms($person->handphone, 'Failed to delete log, reason ' . midcom_connection::get_error_string(), $config->get('smslib_from'), $config);
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
@@ -155,13 +155,13 @@ if (   array_key_exists('msisdn', $_GET)
             org_routamc_positioning_send_sms($person->handphone, $message, $config->get('smslib_from'), $config);
         }
     }
-    $_MIDCOM->auth->drop_sudo();
+    midcom::get('auth')->drop_sudo();
     $_MIDCOM->finish();
     _midcom_stop_request();
 }
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 
 if (array_key_exists('add_position', $_POST))
 {

@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($this->_request_data['up'] == 0)
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
         }
         else
         {

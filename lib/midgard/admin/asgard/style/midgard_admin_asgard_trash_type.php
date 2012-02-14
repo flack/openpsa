@@ -23,7 +23,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
 
     if (!isset($persons[$object->metadata->revisor]))
     {
-        $persons[$object->metadata->revisor] = $_MIDCOM->auth->get_user($object->metadata->revisor);
+        $persons[$object->metadata->revisor] = midcom::get('auth')->get_user($object->metadata->revisor);
     }
 
     $reflector = midcom_helper_reflector_tree::get($object);

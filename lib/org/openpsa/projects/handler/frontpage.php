@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_view_toolbar->add_item
         (
@@ -29,7 +29,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'project/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_project'),
             )
         );
 
@@ -40,7 +40,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'task/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
             )
         );
 

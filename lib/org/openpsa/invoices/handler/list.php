@@ -159,7 +159,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_json($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $_MIDCOM->skip_page_style = true;
         $this->_list_type = $args[0];
     }
@@ -182,7 +182,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_dashboard($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_view_toolbar->add_item
         (
@@ -191,7 +191,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_URL => 'invoice/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
             )
         );
 
@@ -202,7 +202,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_URL => 'projects/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('project invoicing'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
             )
         );
 
@@ -332,7 +332,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_customer($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         try
         {
@@ -344,7 +344,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         $data['customer'] = $this->_customer;
 
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             $this->_view_toolbar->add_item
             (
@@ -417,7 +417,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_deliverable($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (count($args) != 1)
         {
