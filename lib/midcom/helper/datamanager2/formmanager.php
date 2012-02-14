@@ -216,7 +216,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             $name = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
-            $name = $_MIDCOM->componentloader->path_to_prefix($name);
+            $name = midcom::get('componentloader')->path_to_prefix($name);
         }
         if (! $name)
         {

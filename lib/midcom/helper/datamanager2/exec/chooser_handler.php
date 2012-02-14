@@ -107,7 +107,7 @@ if (!empty($_callback_class))
 else
 {
     // Load component if possible
-    $_MIDCOM->componentloader->load_graceful($component);
+    midcom::get('componentloader')->load_graceful($component);
 
     // Could not get required class defined, abort
     if (!class_exists($class))

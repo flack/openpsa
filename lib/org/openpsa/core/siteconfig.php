@@ -43,9 +43,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     {
         $this->_component = 'org.openpsa.core';
 
-        if (!$_MIDCOM->componentloader->is_loaded($this->_component))
+        if (!midcom::get('componentloader')->is_loaded($this->_component))
         {
-            $_MIDCOM->componentloader->load($this->_component);
+            midcom::get('componentloader')->load($this->_component);
         }
 
         parent::__construct();

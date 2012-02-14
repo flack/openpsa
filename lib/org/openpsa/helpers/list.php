@@ -25,7 +25,7 @@ class org_openpsa_helpers_list
         $ret = array(0 => '');
         $seen = array();
 
-        if (!$_MIDCOM->componentloader->load_graceful('org.openpsa.contacts'))
+        if (!midcom::get('componentloader')->load_graceful('org.openpsa.contacts'))
         {
             //PONDER: Maybe we should raise a fatal error ??
             return $ret;

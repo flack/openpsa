@@ -53,12 +53,12 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['name']))
+        if (!midcom::get('componentloader')->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} is not installed.");
         }
 
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($data['name']);
+        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($data['name']);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");

@@ -30,7 +30,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $component_array['name'] = $name;
         $component_array['title'] = $_MIDCOM->i18n->get_string($name, $name);
         $component_array['purecode'] = $manifest->purecode;
-        $component_array['icon'] = $_MIDCOM->componentloader->get_component_icon($name);
+        $component_array['icon'] = midcom::get('componentloader')->get_component_icon($name);
 
         if (isset($manifest->_raw_data['package.xml']['description']))
         {
@@ -60,7 +60,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             )
         );
 
-        if (isset($_MIDCOM->componentloader->manifests['midcom.admin.help']))
+        if (isset(midcom::get('componentloader')->manifests['midcom.admin.help']))
         {
             $component_array['toolbar']->add_item
             (
@@ -82,7 +82,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_request_data['components'] = array();
         $this->_request_data['libraries'] = array();
 
-        foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
+        foreach (midcom::get('componentloader')->manifests as $name => $manifest)
         {
             if (!array_key_exists('package.xml', $manifest->_raw_data))
             {
@@ -95,7 +95,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             {
                 $type = 'libraries';
             }
-            elseif ($_MIDCOM->componentloader->is_core_component($name))
+            elseif (midcom::get('componentloader')->is_core_component($name))
             {
                 $type = 'core_components';
             }
@@ -177,13 +177,13 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     public function _handler_component($handler_id, array $args, array &$data)
     {
         $data['component'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['component']))
+        if (!midcom::get('componentloader')->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
-        $data['component_data'] = $this->_load_component_data($data['component'], $_MIDCOM->componentloader->manifests[$data['component']]);
-        $data['component_dependencies'] = $_MIDCOM->componentloader->get_component_dependencies($data['component']);
+        $data['component_data'] = $this->_load_component_data($data['component'], midcom::get('componentloader')->manifests[$data['component']]);
+        $data['component_dependencies'] = midcom::get('componentloader')->get_component_dependencies($data['component']);
 
         $data['view_title'] = $data['component_data']['title'];
         $_MIDCOM->set_pagetitle($data['view_title']);

@@ -399,7 +399,7 @@ class midcom_helper__dbfactory
         // We need this helper (workaround Zend bug)
         if (!function_exists('midcom_helper_replicator_import_object'))
         {
-            $_MIDCOM->componentloader->load('midcom.helper.replicator');
+            midcom::get('componentloader')->load('midcom.helper.replicator');
         }
 
         if (!$_MIDCOM->dbclassloader->is_mgdschema_object($unserialized_object))
@@ -598,7 +598,7 @@ class midcom_helper__dbfactory
         }
 
         $acl_object->_on_imported();
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
         return true;
     }
 
@@ -622,7 +622,7 @@ class midcom_helper__dbfactory
         // We need this helper (workaround Zend bug)
         if (!function_exists('midcom_helper_replicator_import_object'))
         {
-            $_MIDCOM->componentloader->load('midcom.helper.replicator');
+            midcom::get('componentloader')->load('midcom.helper.replicator');
         }
 
         try
@@ -653,7 +653,7 @@ class midcom_helper__dbfactory
         // Trigger parent updated
         midcom_baseclasses_core_dbobject::update_post_ops($acl_object);
         // And also imported
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
 
         return true;
     }

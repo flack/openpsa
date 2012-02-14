@@ -202,7 +202,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         if ($this->_config->get('ajax_comments_enable'))
         {
-            $_MIDCOM->componentloader->load('net.nehmer.comments');
+            midcom::get('componentloader')->load('net.nehmer.comments');
 
             $comments_node = $this->_seek_comments();
 
@@ -217,7 +217,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         if ($this->_config->get('comments_enable'))
         {
-            $_MIDCOM->componentloader->load('net.nehmer.comments');
+            midcom::get('componentloader')->load('net.nehmer.comments');
             $this->_request_data['comments_enable'] = true;
         }
 

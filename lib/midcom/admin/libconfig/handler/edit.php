@@ -100,12 +100,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_component_name = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($this->_component_name))
+        if (!midcom::get('componentloader')->is_installed($this->_component_name))
         {
             throw new midcom_error_notfound("Component {$this->_component_name} is not installed.");
         }
 
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($this->_component_name);
+        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($this->_component_name);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");

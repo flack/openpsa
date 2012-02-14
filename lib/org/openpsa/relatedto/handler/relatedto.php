@@ -385,7 +385,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         //Make sure we have the component classes available and
         //fallback to default renderer if not
-        if (!$_MIDCOM->componentloader->load_graceful($link['component']))
+        if (!midcom::get('componentloader')->load_graceful($link['component']))
         {
             $this->_render_line_default($link, $other_obj);
             return;

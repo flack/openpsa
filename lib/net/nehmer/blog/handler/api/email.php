@@ -190,7 +190,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         // Try to find tags in email content
         $content = $this->_decoder->body;
         $content_tags = '';
-        $_MIDCOM->componentloader->load_graceful('net.nemein.tag');
+        midcom::get('componentloader')->load_graceful('net.nemein.tag');
         if (class_exists('net_nemein_tag_handler'))
         {
             // unconditionally tag

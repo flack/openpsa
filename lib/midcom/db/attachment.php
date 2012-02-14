@@ -198,7 +198,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $object = $this->get_parent();
             if ($object !== null)
             {
-                $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+                midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
             }
 
             $this->file_to_cache();
@@ -461,7 +461,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $object = $this->get_parent();
         if ($object !== null)
         {
-            $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
         }
     }
 
@@ -490,7 +490,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $object = $this->get_parent();
         if ($object !== null)
         {
-            $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
         }
     }
 
@@ -513,7 +513,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $object = $this->get_parent();
         if ($object !== null)
         {
-            $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
         }
     }
 

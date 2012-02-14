@@ -488,7 +488,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $data['index_fulltext'] = $this->_config->get('index_fulltext');
             if ($this->_config->get('comments_enable'))
             {
-                $_MIDCOM->componentloader->load_graceful('net.nehmer.comments');
+                midcom::get('componentloader')->load_graceful('net.nehmer.comments');
                 $data['comments_enable'] = true;
             }
 

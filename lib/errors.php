@@ -348,7 +348,7 @@ class midcom_exception_handler
             return;
         }
 
-        if (!$_MIDCOM->componentloader->is_installed('org.openpsa.mail'))
+        if (!midcom::get('componentloader')->is_installed('org.openpsa.mail'))
         {
             debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
             return;

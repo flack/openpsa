@@ -207,7 +207,7 @@ class midcom_services_dbclassloader
         }
         else
         {
-            $this->_class_definition_filename = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
+            $this->_class_definition_filename = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
         }
     }
 
@@ -367,7 +367,7 @@ class midcom_services_dbclassloader
 
             if (   !empty($component)
                 && $component != 'midcom'
-                && $_MIDCOM->componentloader->is_installed($component))
+                && midcom::get('componentloader')->is_installed($component))
             {
                 return $component;
             }
@@ -530,7 +530,7 @@ class midcom_services_dbclassloader
         if (! array_key_exists($classname, $this->_mgdschema_class_handler))
         {
             $component = $this->get_component_for_class($classname);
-            $_MIDCOM->componentloader->load($component);
+            midcom::get('componentloader')->load($component);
             if (! array_key_exists($classname, $this->_mgdschema_class_handler))
             {
                 debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
@@ -545,14 +545,14 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        if ($_MIDCOM->componentloader->is_loaded($component))
+        if (midcom::get('componentloader')->is_loaded($component))
         {
             // Already loaded, so we're fine too.
             return true;
         }
 
         // This throws midcom_error on any problems.
-        $_MIDCOM->componentloader->load($component);
+        midcom::get('componentloader')->load($component);
 
         return true;
     }
@@ -590,7 +590,7 @@ class midcom_services_dbclassloader
             return $classes;
         }
 
-        $classes = $_MIDCOM->componentloader->manifests[$component]->class_mapping;
+        $classes = midcom::get('componentloader')->manifests[$component]->class_mapping;
 
         return $classes;
     }

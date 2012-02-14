@@ -9,7 +9,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "<ul>\n";
             foreach ($data['dependencies'] as $dependency)
             {
-                $component_icon = $_MIDCOM->componentloader->get_component_icon($dependency);
+                $component_icon = midcom::get('componentloader')->get_component_icon($dependency);
                 if (!$component_icon)
                 {
                     echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png\" alt=\"\" /> {$dependency} <span class='alert'>Error: This component is not installed!</span></li>\n";

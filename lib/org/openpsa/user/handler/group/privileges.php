@@ -57,7 +57,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $fields['invoices_creation']['privilege_object'] = $group_object->get_storage();
         $fields['invoices_editing']['privilege_object'] = $group_object->get_storage();
         // Load campaign classes
-        if ($_MIDCOM->componentloader->load_graceful('org.openpsa.directmarketing'))
+        if (midcom::get('componentloader')->load_graceful('org.openpsa.directmarketing'))
         {
             $fields['campaigns_creation']['privilege_object'] = $group_object->get_storage();
             $fields['campaigns_editing']['privilege_object'] = $group_object->get_storage();

@@ -24,7 +24,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     public function _on_initialize()
     {
         // Load needed data classes
-        $_MIDCOM->componentloader->load_graceful('org.openpsa.products');
+        midcom::get('componentloader')->load_graceful('org.openpsa.products');
 
         //TODO: Check that the loads actually succeeded
 

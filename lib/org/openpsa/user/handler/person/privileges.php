@@ -61,7 +61,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $fields['products_editing']['privilege_object'] = $person_object;
 
         // Load wiki classes
-        if ($_MIDCOM->componentloader->load_graceful('net.nemein.wiki'))
+        if (midcom::get('componentloader')->load_graceful('net.nemein.wiki'))
         {
             $fields['wiki_creation']['privilege_object'] = $person_object;
             $fields['wiki_editing']['privilege_object'] = $person_object;
@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             unset($fields['wiki_editing']);
         }
         // Load campaign classes
-        if ($_MIDCOM->componentloader->load_graceful('org.openpsa.directmarketing'))
+        if (midcom::get('componentloader')->load_graceful('org.openpsa.directmarketing'))
         {
             $fields['campaigns_creation']['privilege_object'] = $person_object;
             $fields['campaigns_editing']['privilege_object'] = $person_object;

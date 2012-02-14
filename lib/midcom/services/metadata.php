@@ -479,13 +479,13 @@ class midcom_services_metadata
 
         $component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         if (   !$component
-            || !$_MIDCOM->componentloader->is_installed($component)
-            || !$_MIDCOM->componentloader->load_graceful($component))
+            || !midcom::get('componentloader')->is_installed($component)
+            || !midcom::get('componentloader')->load_graceful($component))
         {
             return '';
         }
 
-        $interface = $_MIDCOM->componentloader->get_interface_class($component);
+        $interface = midcom::get('componentloader')->get_interface_class($component);
         if (!method_exists($interface, 'get_opengraph_default'))
         {
             return '';

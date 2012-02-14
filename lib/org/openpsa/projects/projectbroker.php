@@ -35,7 +35,7 @@ class org_openpsa_projects_projectbroker
      */
     function find_task_prospects(&$task)
     {
-        $_MIDCOM->componentloader->load_graceful('net.nemein.tag');
+        midcom::get('componentloader')->load_graceful('net.nemein.tag');
         if (!class_exists('net_nemein_tag_handler'))
         {
             return false;
@@ -102,7 +102,7 @@ class org_openpsa_projects_projectbroker
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
             return;
         }
-        $_MIDCOM->componentloader->load_graceful('org.openpsa.calendar');
+        midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
@@ -187,7 +187,7 @@ class org_openpsa_projects_projectbroker
             // Default to 15 minutes for minimum time here
             $minimum_time_slot = 0.25;
         }
-        $_MIDCOM->componentloader->load_graceful('org.openpsa.calendar');
+        midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);

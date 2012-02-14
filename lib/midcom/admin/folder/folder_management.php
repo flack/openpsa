@@ -41,7 +41,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
         $this->_request_data['folder'] = $this->_topic;
 
-        if (!array_key_exists($this->_topic->component, $_MIDCOM->componentloader->manifests))
+        if (!array_key_exists($this->_topic->component, midcom::get('componentloader')->manifests))
         {
             $this->_topic->component = 'midcom.core.nullcomponent';
         }
@@ -84,7 +84,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
         $components = array ();
 
         // Loop through the list of components of component loader
-        foreach ($_MIDCOM->componentloader->manifests as $manifest)
+        foreach (midcom::get('componentloader')->manifests as $manifest)
         {
             // Skip purecode components
             if ($manifest->purecode)

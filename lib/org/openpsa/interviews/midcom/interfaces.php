@@ -28,7 +28,7 @@ class org_openpsa_interviews_interface extends midcom_baseclasses_components_int
 
     public function _on_initialize()
     {
-        $_MIDCOM->componentloader->load('org.openpsa.directmarketing');
+        midcom::get('componentloader')->load('org.openpsa.directmarketing');
         return true;
     }
 }

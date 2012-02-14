@@ -86,7 +86,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             );
         }
 
-        if ($_MIDCOM->componentloader->is_installed('org.openpsa.relatedto'))
+        if (midcom::get('componentloader')->is_installed('org.openpsa.relatedto'))
         {
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_product->guid);
         }

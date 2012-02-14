@@ -480,7 +480,7 @@ class midgard_admin_asgard_schemadb
     private function _add_component_dropdown($key)
     {
         $components = array('' => '');
-        foreach ($_MIDCOM->componentloader->manifests as $manifest)
+        foreach (midcom::get('componentloader')->manifests as $manifest)
         {
             // Skip purecode components
             if ($manifest->purecode)

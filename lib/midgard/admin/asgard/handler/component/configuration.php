@@ -88,7 +88,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _load_configs($component, $object = null)
     {
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component);
+        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
@@ -130,7 +130,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function load_schemadb()
     {
         // Load SchemaDb
-        $schemadb_config_path = $_MIDCOM->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
+        $schemadb_config_path = midcom::get('componentloader')->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
         $schemadb = null;
         $schema = 'default';
 
@@ -212,7 +212,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['name']))
+        if (!midcom::get('componentloader')->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
@@ -459,7 +459,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['name']))
+        if (!midcom::get('componentloader')->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }

@@ -487,7 +487,7 @@ class midcom_helper_nav_backend
         // Retrieve a NAP instance
         // if we are missing the component, use the nullcomponent.
         if (   !$topic->component
-            || !array_key_exists($topic->component, $_MIDCOM->componentloader->manifests))
+            || !array_key_exists($topic->component, midcom::get('componentloader')->manifests))
         {
             debug_add("The topic {$topic->id} has no component assigned to it, using 'midcom.core.nullcomponent'.",
                 MIDCOM_LOG_INFO);

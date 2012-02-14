@@ -15,7 +15,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 {
     public function _on_initialize()
     {
-        return array_key_exists('org.openpsa.projects', $_MIDCOM->componentloader->manifests);
+        return array_key_exists('org.openpsa.projects', midcom::get('componentloader')->manifests);
     }
 
     /**
@@ -41,7 +41,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        if (!$_MIDCOM->componentloader->load_graceful('org.openpsa.projects'))
+        if (!midcom::get('componentloader')->load_graceful('org.openpsa.projects'))
         {
             debug_add('org.openpsa.projects could not be loaded', MIDCOM_LOG_WARN);
             return;

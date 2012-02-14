@@ -281,7 +281,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $_MIDCOM->componentloader->load('midcom.helper.reflector');
+                midcom::get('componentloader')->load('midcom.helper.reflector');
                 $copy = new midcom_helper_reflector_copy();
                 $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
                 $copy_objects = array();

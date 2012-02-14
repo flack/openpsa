@@ -125,7 +125,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_create($handler_id, array $args, array &$data)
     {
         //load component here to be able to access its constants
-        $_MIDCOM->componentloader->load('org.openpsa.projects');
+        midcom::get('componentloader')->load('org.openpsa.projects');
 
         $this->_load_schemadb();
         $data['selected_schema'] = $args[0];

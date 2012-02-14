@@ -18,7 +18,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     public function __construct ()
     {
-        $_MIDCOM->componentloader->load('midcom.helper.reflector');
+        midcom::get('componentloader')->load('midcom.helper.reflector');
     }
 
     /**

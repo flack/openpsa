@@ -116,7 +116,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _get_scheduled_invoices()
     {
-        $_MIDCOM->componentloader->load('org.openpsa.invoices');
+        midcom::get('componentloader')->load('org.openpsa.invoices');
         $invoices = array();
         $at_qb = midcom_services_at_entry_dba::new_query_builder();
         $at_qb->add_constraint('method', '=', 'new_subscription_cycle');

@@ -174,11 +174,11 @@ class midcom_services_permalinks
         // in any way, return in the same way as resolve_permalink itself.
 
         $component = $topic->component;
-        if (!$_MIDCOM->componentloader->is_installed($component))
+        if (!midcom::get('componentloader')->is_installed($component))
         {
             return null;
         }
-        $interface = $_MIDCOM->componentloader->get_interface_class($component);
+        $interface = midcom::get('componentloader')->get_interface_class($component);
         if ($interface === null)
         {
             debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",

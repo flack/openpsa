@@ -53,7 +53,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
                 debug_add("\$this->fromComponent is empty, don't know how to load missing class '{$class}'", MIDCOM_LOG_ERROR);
                 return null;
             }
-            if (!$_MIDCOM->componentloader->load_graceful($this->fromComponent))
+            if (!midcom::get('componentloader')->load_graceful($this->fromComponent))
             {
                 debug_add("Could not load component '{$this->fromComponent}' (to load missing class '{$class}')", MIDCOM_LOG_ERROR);
                 return null;

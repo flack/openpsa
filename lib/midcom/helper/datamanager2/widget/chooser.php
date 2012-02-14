@@ -539,7 +539,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!empty($this->component))
         {
-            $_MIDCOM->componentloader->load($this->component);
+            midcom::get('componentloader')->load($this->component);
         }
 
         return class_exists($this->class);
@@ -567,7 +567,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!empty($this->component))
         {
-            $_MIDCOM->componentloader->load($this->component);
+            midcom::get('componentloader')->load($this->component);
         }
 
         if (empty($this->result_headers))
@@ -1157,7 +1157,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!class_exists($this->class))
         {
-            $_MIDCOM->componentloader->load_graceful($this->component);
+            midcom::get('componentloader')->load_graceful($this->component);
         }
 
         $qb = @call_user_func(array($this->class, 'new_query_builder'));

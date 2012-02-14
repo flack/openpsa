@@ -79,7 +79,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     {
         $items = array();
 
-        if (!$_MIDCOM->componentloader->is_loaded('org.openpsa.httplib'))
+        if (!midcom::get('componentloader')->is_loaded('org.openpsa.httplib'))
         {
             $_MIDCOM->load_library('org.openpsa.httplib');
         }
@@ -758,8 +758,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             {
                 // This item has been removed from the feed.
 
-                if (   $_MIDCOM->componentloader->is_installed('net.nemein.favourites')
-                    && $_MIDCOM->componentloader->load_graceful('net.nemein.favourites'))
+                if (   midcom::get('componentloader')->is_installed('net.nemein.favourites')
+                    && midcom::get('componentloader')->load_graceful('net.nemein.favourites'))
                 {
                     // If it has been favorited keep it
                     $qb = net_nemein_favourites_favourite_dba::new_query_builder();

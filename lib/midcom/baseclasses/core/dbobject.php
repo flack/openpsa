@@ -129,7 +129,7 @@ class midcom_baseclasses_core_dbobject
             mgd_cache_invalidate();
         }
 
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
     }
 
     /**
@@ -239,7 +239,7 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _pre_check_name(midcom_core_dbaobject $object)
     {
-        $_MIDCOM->componentloader->load('midcom.helper.reflector');
+        midcom::get('componentloader')->load('midcom.helper.reflector');
         // Make sure name is empty of unique if the object has such property
         $name_property = midcom_helper_reflector::get_name_property($object);
         if (empty($name_property))
@@ -407,7 +407,7 @@ class midcom_baseclasses_core_dbobject
         self::_set_owner_privileges($object);
 
         $object->_on_created();
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
@@ -518,7 +518,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_tree(midcom_core_dbaobject $object)
     {
-        $_MIDCOM->componentloader->load_graceful('midcom.helper.reflector');
+        midcom::get('componentloader')->load_graceful('midcom.helper.reflector');
 
         // Get the child nodes
         $children = midcom_helper_reflector_tree::get_child_objects($object);
@@ -561,7 +561,7 @@ class midcom_baseclasses_core_dbobject
     public static function delete_post_ops(midcom_core_dbaobject $object)
     {
         $object->_on_deleted();
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
@@ -1555,7 +1555,7 @@ class midcom_baseclasses_core_dbobject
         $original_use_activitystream = $object->_use_activitystream;
         $object->_use_activitystream = false;
 
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
 
         $object->_use_activitystream = $original_use_activitystream;
 

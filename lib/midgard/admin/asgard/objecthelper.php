@@ -75,7 +75,7 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
         if ($data['object']->name == 'ROOT')
         {
             $data = $_MIDCOM->get_custom_context_data('request_data');
-            $element_path = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
+            $element_path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
             $data['help_style_element'] = array
             (
                 'component' => 'midcom',

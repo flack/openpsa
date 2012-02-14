@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     private function _load_schemas()
     {
         // Load contacts explicitly to get constants for schema
-        $_MIDCOM->componentloader->load('org.openpsa.contacts');
+        midcom::get('componentloader')->load('org.openpsa.contacts');
 
         // We try to combine these schemas to provide a single centralized controller
         $this->_schemadbs['campaign_member'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member'));

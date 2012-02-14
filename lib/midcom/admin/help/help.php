@@ -53,7 +53,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             $component = 'midcom.core.nullcomponent';
         }
-        if (   !$_MIDCOM->componentloader->is_installed($component)
+        if (   !midcom::get('componentloader')->is_installed($component)
             && $component != 'midcom')
         {
             throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
@@ -271,7 +271,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         // Dependencies
-        $this->_request_data['dependencies'] = $_MIDCOM->componentloader->get_component_dependencies($component);
+        $this->_request_data['dependencies'] = midcom::get('componentloader')->get_component_dependencies($component);
         if (count($this->_request_data['dependencies']))
         {
             $files['dependencies'] = array
@@ -342,7 +342,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data = array();
 
         // TODO: We're using "private" members here, better expose them through a method
-        $handler = $_MIDCOM->componentloader->get_interface_class($component);
+        $handler = midcom::get('componentloader')->get_interface_class($component);
         $request =& $handler->_context_data[$_MIDCOM->get_current_context()]['handler'];
         if (!isset($request->_request_switch))
         {
@@ -495,14 +495,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $component_array = array();
         $component_array['name'] = $name;
         $component_array['title'] = $_MIDCOM->i18n->get_string($name, $name);
-        $component_array['icon'] = $_MIDCOM->componentloader->get_component_icon($name);
+        $component_array['icon'] = midcom::get('componentloader')->get_component_icon($name);
 
-        if (!isset($_MIDCOM->componentloader->manifests[$name]))
+        if (!isset(midcom::get('componentloader')->manifests[$name]))
         {
             return $component_array;
         }
 
-        $manifest = $_MIDCOM->componentloader->manifests[$name];
+        $manifest = midcom::get('componentloader')->manifests[$name];
         $component_array['purecode'] = $manifest->purecode;
 
         if (isset($manifest->_raw_data['package.xml']['description']))
@@ -534,7 +534,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $this->_request_data['core_components']['midcom'] = $this->_load_component_data('midcom');
 
-        foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
+        foreach (midcom::get('componentloader')->manifests as $name => $manifest)
         {
             if (!array_key_exists('package.xml', $manifest->_raw_data))
             {
@@ -548,7 +548,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 $type = 'libraries';
             }
 
-            if ($_MIDCOM->componentloader->is_core_component($name))
+            if (midcom::get('componentloader')->is_core_component($name))
             {
                 $type = 'core_' . $type;
             }
@@ -659,14 +659,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $data['component'] = $args[0];
 
-        if (!$_MIDCOM->componentloader->is_installed($data['component']))
+        if (!midcom::get('componentloader')->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
         if ($data['component'] != 'midcom')
         {
-            $_MIDCOM->componentloader->load($data['component']);
+            midcom::get('componentloader')->load($data['component']);
         }
         $_MIDCOM->skip_page_style = true;
 
@@ -706,14 +706,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $data['help_id'] = $args[1];
         $data['component'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['component']))
+        if (!midcom::get('componentloader')->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
         if ($data['component'] != 'midcom')
         {
-            $_MIDCOM->componentloader->load($data['component']);
+            midcom::get('componentloader')->load($data['component']);
         }
         $_MIDCOM->skip_page_style = true;
 

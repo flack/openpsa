@@ -219,7 +219,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             }
 
             //pass billing-data if invoices is installed
-            if ($_MIDCOM->componentloader->is_installed('org.openpsa.invoices'))
+            if (midcom::get('componentloader')->is_installed('org.openpsa.invoices'))
             {
                 $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
                 $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);

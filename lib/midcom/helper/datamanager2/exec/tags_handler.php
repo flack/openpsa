@@ -68,7 +68,7 @@ if ($mode == 'object')
     // Load component if required
     if (!class_exists($class))
     {
-        $_MIDCOM->componentloader->load_graceful($component);
+        midcom::get('componentloader')->load_graceful($component);
     }
     // Could not get required class defined, abort
     if (!class_exists($class))

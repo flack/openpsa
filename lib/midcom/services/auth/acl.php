@@ -804,7 +804,7 @@ class midcom_services_auth_acl
                 if (!class_exists($class))
                 {
                     if (   is_null($component)
-                        || !$_MIDCOM->componentloader->load_graceful($component))
+                        || !midcom::get('componentloader')->load_graceful($component))
                     {
                         debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
                         return false;

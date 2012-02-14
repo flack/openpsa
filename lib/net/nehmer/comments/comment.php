@@ -218,7 +218,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return;
         }
 
-        if (!$_MIDCOM->componentloader->is_installed('be.crsolutions.mollom'))
+        if (!midcom::get('componentloader')->is_installed('be.crsolutions.mollom'))
         {
             debug_add('be.crsolutions.mollom spam checker is enabled but not installed, aborting check', MIDCOM_LOG_INFO);
             return;

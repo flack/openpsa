@@ -71,7 +71,7 @@ class org_openpsa_contacts_duplicates_merge
         }
 
         //Copied on purpose TODO: when upgrading to PHP5 make sure this is passed as copy
-        $manifests = $_MIDCOM->componentloader->manifests;
+        $manifests = midcom::get('componentloader')->manifests;
         //Check all installed components
         foreach ($manifests as $component => $manifest)
         {
@@ -103,20 +103,20 @@ class org_openpsa_contacts_duplicates_merge
     private function _call_component_merge($component, &$obj1, &$obj2, $merge_mode)
     {
         //Make sure we can load and access the component
-        if (!$_MIDCOM->componentloader->is_loaded($component))
+        if (!midcom::get('componentloader')->is_loaded($component))
         {
-            $_MIDCOM->componentloader->load_graceful($component);
+            midcom::get('componentloader')->load_graceful($component);
         }
         $interface_classname = str_replace('.', '_', $component) . '_interface';
         if (   !class_exists($interface_classname)
-            || !$_MIDCOM->componentloader->is_loaded($component))
+            || !midcom::get('componentloader')->is_loaded($component))
         {
             // We could not load the component/interface
             debug_add("could not load component {$component}", MIDCOM_LOG_ERROR);
             // PONDER: false or true (false means the merge will be aborted...)
             return true;
         }
-        $interface = $_MIDCOM->componentloader->get_interface_class($component);
+        $interface = midcom::get('componentloader')->get_interface_class($component);
 
         $method = 'org_openpsa_contacts_duplicates_merge_' . $this->_object_mode;
         if (!method_exists($interface, $method))

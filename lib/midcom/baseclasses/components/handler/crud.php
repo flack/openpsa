@@ -283,7 +283,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _on_initialize()
     {
-        if (!$_MIDCOM->componentloader->is_loaded('midcom.helper.datamanager2'))
+        if (!midcom::get('componentloader')->is_loaded('midcom.helper.datamanager2'))
         {
             $_MIDCOM->load_library('midcom.helper.datamanager2');
         }

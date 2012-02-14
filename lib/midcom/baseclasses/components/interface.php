@@ -241,7 +241,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         // Preparation
         $this->_component = $component;
-        $this->_manifest = $_MIDCOM->componentloader->manifests[$this->_component];
+        $this->_manifest = midcom::get('componentloader')->manifests[$this->_component];
 
         // Load libraries
         foreach ($this->_autoload_libraries as $library)

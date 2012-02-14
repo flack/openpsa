@@ -887,7 +887,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 break;
 
             case 'component':
-                $_MIDCOM->componentloader->load($src);
+                midcom::get('componentloader')->load($src);
                 break;
 
             case 'snippet':
@@ -988,12 +988,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Load plugins registered via component manifests
         $manifest_plugins = array();
-        $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('request_handler_plugin');
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('request_handler_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
             $manifest_plugins[$component] = $plugin_config;
         }
-        $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('asgard_plugin');
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
             $manifest_plugins["asgard_{$component}"] = $plugin_config;

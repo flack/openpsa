@@ -150,14 +150,14 @@ class midcom_services_cron
      */
     function _load_jobs()
     {
-        $data = $_MIDCOM->componentloader->get_all_manifest_customdata('midcom.services.cron');
+        $data = midcom::get('componentloader')->get_all_manifest_customdata('midcom.services.cron');
         $data['midcom'] = $this->_midcom_jobs;
 
         foreach ($data as $component => $jobs)
         {
             // First, verify the component is loaded
             if (   $component != 'midcom'
-                && ! $_MIDCOM->componentloader->load_graceful($component))
+                && ! midcom::get('componentloader')->load_graceful($component))
             {
                 $msg = "Failed to load the component {$component}. See the debug level log for further information, skipping this component.";
                 debug_add($msg, MIDCOM_LOG_ERROR);

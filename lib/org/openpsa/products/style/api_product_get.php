@@ -8,11 +8,11 @@ if ($label == 'default')
 }
 
 $extradata = array();
-if ($_MIDCOM->componentloader->is_installed('net.nehmer.comments'))
+if (midcom::get('componentloader')->is_installed('net.nehmer.comments'))
 {
     // We have comments component installed, add comments about the product to the view
-    $_MIDCOM->componentloader->load('net.nehmer.comments');
-    
+    midcom::get('componentloader')->load('net.nehmer.comments');
+
     $comments_db = net_nehmer_comments_comment::list_by_objectguid_filter_anonymous($data['product']->guid);
 
     foreach ($comments_db as $i => $comment)

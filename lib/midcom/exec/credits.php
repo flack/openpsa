@@ -8,7 +8,7 @@ midcom::get('auth')->require_valid_user();
 
 $developers = array();
 
-foreach ($_MIDCOM->componentloader->manifests as $name => $manifest)
+foreach (midcom::get('componentloader')->manifests as $name => $manifest)
 {
     if (!array_key_exists('package.xml', $manifest->_raw_data))
     {
@@ -172,7 +172,7 @@ reset($developers);
                                         <?php
                                         foreach ($components as $component => $component_name)
                                         {
-                                            $icon = $_MIDCOM->componentloader->get_component_icon($component);
+                                            $icon = midcom::get('componentloader')->get_component_icon($component);
                                             echo "<a href=\"" . $_MIDCOM->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
                                             echo "<img src=\"" . MIDCOM_STATIC_URL . "/{$icon}\" alt=\"{$component_name} ({$component})\" title=\"{$component_name} ({$component})\" />";
                                             echo "</a>\n";

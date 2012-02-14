@@ -43,7 +43,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _on_initialize()
     {
-        $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
+        midcom::get('componentloader')->load('midcom.helper.datamanager2');
     }
 
     public function get_schema_name()

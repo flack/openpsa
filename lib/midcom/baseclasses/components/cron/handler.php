@@ -67,7 +67,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
         }
         else
         {
-            $this->_component_interface = $_MIDCOM->componentloader->get_interface_class($this->_component);
+            $this->_component_interface = midcom::get('componentloader')->get_interface_class($this->_component);
         }
         return $this->_on_initialize();
     }

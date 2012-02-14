@@ -73,7 +73,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             throw new midcom_error('Could not load campaign member schema database.');
         }
         // Make sure component is loaded so that constants are defined
-        $_MIDCOM->componentloader->load('org.openpsa.contacts');
+        midcom::get('componentloader')->load('org.openpsa.contacts');
         $this->_schemadbs['person'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
         if (!$this->_schemadbs['person'])
         {
