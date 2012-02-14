@@ -38,7 +38,7 @@ else
     }
 }
 
-$item->guid = $_MIDCOM->permalinks->create_permalink($data['article']->guid);
+$item->guid = midcom::get('permalinks')->create_permalink($data['article']->guid);
 $item->date = (int) $data['article']->metadata->published;
 $item->description = '';
 

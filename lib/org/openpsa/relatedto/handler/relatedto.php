@@ -98,7 +98,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         org_openpsa_relatedto_plugin::add_header_files();
 
-        $object_url = $_MIDCOM->permalinks->create_permalink($this->_object->guid);
+        $object_url = midcom::get('permalinks')->create_permalink($this->_object->guid);
 
         if ($object_url)
         {
@@ -466,7 +466,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _render_line_document(&$link, &$other_obj)
     {
-        $this->_request_data['document_url'] = $_MIDCOM->permalinks->create_permalink($other_obj->guid);
+        $this->_request_data['document_url'] = midcom::get('permalinks')->create_permalink($other_obj->guid);
 
         midcom_show_style('relatedto_list_item_document');
     }
@@ -712,7 +712,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $class = get_class($other_obj);
 
-        $object_url = $_MIDCOM->permalinks->create_permalink($other_obj->guid);
+        $object_url = midcom::get('permalinks')->create_permalink($other_obj->guid);
 
         $ref = midcom_helper_reflector::get($other_obj);
         $class_label = $ref->get_class_label();

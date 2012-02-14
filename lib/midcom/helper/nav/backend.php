@@ -444,7 +444,7 @@ class midcom_helper_nav_backend
         $nodedata[MIDCOM_NAV_FULLURL] = "{$GLOBALS['midcom_config']['midcom_site_url']}{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
         $nodedata[MIDCOM_NAV_ABSOLUTEURL] = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen($_MIDCOM->get_host_name()))
             . "{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
-        $nodedata[MIDCOM_NAV_PERMALINK] = $_MIDCOM->permalinks->create_permalink($nodedata[MIDCOM_NAV_GUID]);
+        $nodedata[MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($nodedata[MIDCOM_NAV_GUID]);
 
         return $nodedata;
     }
@@ -794,7 +794,7 @@ class midcom_helper_nav_backend
             }
             else
             {
-                $leaves[$id][MIDCOM_NAV_PERMALINK] = $_MIDCOM->permalinks->create_permalink($leaves[$id][MIDCOM_NAV_GUID]);
+                $leaves[$id][MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($leaves[$id][MIDCOM_NAV_GUID]);
             }
         }
     }

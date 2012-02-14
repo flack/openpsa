@@ -188,7 +188,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $message['content'] .= "\n{$diff}\n\n";
 
         $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
-        $message['content'] .= $_MIDCOM->permalinks->create_permalink($this->guid);
+        $message['content'] .= midcom::get('permalinks')->create_permalink($this->guid);
 
         // Content for short notifications
         $topic = new midcom_db_topic($this->topic);

@@ -307,7 +307,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             }
             else
             {
-                $_MIDCOM->relocate($_MIDCOM->permalinks->create_permalink($result[0]->guid));
+                $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
             }
         }
 

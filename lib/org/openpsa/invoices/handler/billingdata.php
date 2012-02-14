@@ -193,7 +193,7 @@ implements midcom_helper_datamanager2_interfaces_create
                         $relocate .= 'group/' . $this->_linked_object->guid . '/';
                         break;
                     default:
-                        $relocate = $_MIDCOM->permalinks->create_permalink($this->_linked_object->guid);
+                        $relocate = midcom::get('permalinks')->create_permalink($this->_linked_object->guid);
                         break;
                 }
                 $_MIDCOM->relocate($relocate);
@@ -209,7 +209,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $ref = midcom_helper_reflector::get($this->_linked_object);
         $object_label = $ref->get_object_label($this->_linked_object);
 
-        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_linked_object->guid), $object_label);
+        $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_linked_object->guid), $object_label);
         $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 }

@@ -125,7 +125,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     {
         if (!is_a($this->_object, 'midcom_db_topic'))
         {
-            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $this->_resolve_object_title());
+            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $this->_resolve_object_title());
         }
         $this->add_breadcrumb("__ais/rcs/{$this->_object->guid}/", $this->_l10n->get('show history'));
     }
@@ -138,7 +138,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_view_toolbar->add_item(
             array
             (
-                MIDCOM_TOOLBAR_URL => $_MIDCOM->permalinks->create_permalink($this->_guid),
+                MIDCOM_TOOLBAR_URL => midcom::get('permalinks')->create_permalink($this->_guid),
                 MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('back to %s', 'no.bergfald.rcs'), $this->_resolve_object_title()),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
             )
@@ -409,7 +409,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             && $this->_backend->restore_to_revision($args[1]))
         {
             midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('no.bergfald.rcs', 'no.bergfald.rcs'), sprintf($_MIDCOM->i18n->get_string('restore to version %s successful', 'no.bergfald.rcs'), $args[1]), 'ok');
-            $_MIDCOM->relocate($_MIDCOM->permalinks->create_permalink($this->_object->guid));
+            $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
         else
         {

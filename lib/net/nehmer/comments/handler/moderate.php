@@ -86,10 +86,10 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                             $message['content'] .= $data['l10n']->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $data['l10n']->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
                         }
                     }
-                    $message['content'] = "\n\n" . $_MIDCOM->permalinks->create_permalink($this->_comment->objectguid);
+                    $message['content'] = "\n\n" . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
 
                     $message['abstract'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
-                    $message['abstract'] = " " . $_MIDCOM->permalinks->create_permalink($this->_comment->objectguid);
+                    $message['abstract'] = " " . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
 
                     // Notify moderators
                     $moderator_guids = explode('|', $moderators);

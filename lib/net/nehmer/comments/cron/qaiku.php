@@ -38,7 +38,7 @@ class net_nehmer_comments_cron_qaiku extends midcom_baseclasses_components_cron_
         $articles = $qb->execute();
         foreach ($articles as $article)
         {
-            $articles_by_url[$_MIDCOM->permalinks->resolve_permalink($article->guid)] = $article;
+            $articles_by_url[midcom::get('permalinks')->resolve_permalink($article->guid)] = $article;
         }
         unset($articles);
 

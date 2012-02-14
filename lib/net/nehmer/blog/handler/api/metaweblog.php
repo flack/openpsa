@@ -293,7 +293,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         (
             'postid'      => new XML_RPC_Value($article->guid, 'string'),
             'title'       => new XML_RPC_Value($article->title, 'string'),
-            'permaLink'   => new XML_RPC_Value($_MIDCOM->permalinks->create_permalink($article->guid), 'string'),
+            'permaLink'   => new XML_RPC_Value(midcom::get('permalinks')->create_permalink($article->guid), 'string'),
             'link'        => new XML_RPC_Value($link, 'string'),
             'description' => new XML_RPC_Value($article->content, 'string'),
             'mt_excerpt'  => new XML_RPC_Value($article->abstract, 'string'),
@@ -479,7 +479,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             (
                 'postid'      => new XML_RPC_Value($article->guid, 'string'),
                 'title'       => new XML_RPC_Value($article->title, 'string'),
-                'permaLink'   => new XML_RPC_Value($_MIDCOM->permalinks->create_permalink($article->guid), 'string'),
+                'permaLink'   => new XML_RPC_Value(midcom::get('permalinks')->create_permalink($article->guid), 'string'),
                 'link'        => new XML_RPC_Value($link, 'string'),
                 'description' => new XML_RPC_Value($article->content, 'string'),
                 'mt_excerpt'  => new XML_RPC_Value($article->abstract, 'string'),

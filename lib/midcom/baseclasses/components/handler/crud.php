@@ -148,7 +148,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _get_object_url()
     {
-        return $_MIDCOM->permalinks->resolve_permalink($this->_object->guid);
+        return midcom::get('permalinks')->resolve_permalink($this->_object->guid);
     }
 
     /**
@@ -441,7 +441,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // Redirect to parent page, if any.
                 if ($this->_parent)
                 {
-                    $_MIDCOM->relocate($_MIDCOM->permalinks->resolve_permalink($this->_parent->guid));
+                    $_MIDCOM->relocate(midcom::get('permalinks')->resolve_permalink($this->_parent->guid));
                 }
                 // If nothing helps, try the topic's front page
                 else

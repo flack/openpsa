@@ -52,7 +52,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
             && substr($object->__mgdschema_class_name__, 0, 23) != 'org_routamc_positioning'
             && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag')
         {
-            $link = $_MIDCOM->permalinks->resolve_permalink($object->guid);
+            $link = midcom::get('permalinks')->resolve_permalink($object->guid);
             if ($link)
             {
                 $this->add_item

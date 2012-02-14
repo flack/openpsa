@@ -55,7 +55,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->_output_mode = $args[1];
         }
 
-        $this->_relocate_url = $_MIDCOM->permalinks->create_permalink($this->_current_object->guid);
+        $this->_relocate_url = midcom::get('permalinks')->create_permalink($this->_current_object->guid);
         $this->_request_data['url_prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
          //add needed constraints etc. to the query-builder
@@ -82,7 +82,7 @@ implements midcom_helper_datamanager2_interfaces_create
             //prepare breadcrumb
             $ref = midcom_helper_reflector::get($this->_current_object);
             $object_label = $ref->get_object_label($this->_current_object);
-            $object_url = $_MIDCOM->permalinks->create_permalink($this->_current_object->guid);
+            $object_url = midcom::get('permalinks')->create_permalink($this->_current_object->guid);
             if ($object_url)
             {
                 $this->add_breadcrumb($object_url, $object_label);
@@ -304,7 +304,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
 
                     $reflector = new midcom_helper_reflector($linked_object);
-                    $link_html = "<a href='" . $_MIDCOM->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
+                    $link_html = "<a href='" . midcom::get('permalinks')->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
                     $this->_request_data['linked_objects'][$entry->linkGuid] = $link_html;
                     $this->_request_data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
                 }
@@ -377,7 +377,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $ref = midcom_helper_reflector::get($this->_current_object);
         $object_label = $ref->get_object_label($this->_current_object);
 
-        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_current_object->guid), $object_label);
+        $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_current_object->guid), $object_label);
         $this->add_breadcrumb($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/org.openpsa.relatedto/render/' . $this->_current_object->guid . '/both/', $this->_l10n->get('view related information'));
 
         $this->add_breadcrumb("", $this->_l10n->get('journal entry') . " : " . $object_label);

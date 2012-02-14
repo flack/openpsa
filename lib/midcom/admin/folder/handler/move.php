@@ -46,7 +46,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (isset($_POST['move_to']))
         {
             $this->_move_object((int) $_POST['move_to']);
-            $_MIDCOM->relocate($_MIDCOM->permalinks->create_permalink($this->_object->guid));
+            $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
             // This will exit
         }
 
@@ -64,7 +64,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             // This is a regular object, bind to view
             $_MIDCOM->bind_view_to_object($this->_object);
 
-            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $object_label);
+            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
 
             $data['current_folder'] = new midcom_db_topic($this->_object->topic);

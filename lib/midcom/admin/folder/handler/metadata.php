@@ -117,7 +117,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
             case 'save':
                 midcom::get('cache')->invalidate($this->_object->guid);
             case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->permalinks->create_permalink($this->_object->guid));
+                $_MIDCOM->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
                 // This will exit
         }
 
@@ -129,7 +129,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         }
         else
         {
-            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $object_label);
+            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
         }
 

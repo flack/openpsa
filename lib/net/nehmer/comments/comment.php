@@ -635,7 +635,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $message['content']  = "{$this->title}\n";
         $message['content'] .= "{$this->content}\n\n";
         $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
-        $message['content'] .= $_MIDCOM->permalinks->create_permalink($this->objectguid);
+        $message['content'] .= midcom::get('permalinks')->create_permalink($this->objectguid);
 
         $message['abstract'] = $message['title'];
 
