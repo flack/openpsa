@@ -113,25 +113,22 @@ class midcom_services_metadata
      */
     function set_page_class($page_class, $context_id = null)
     {
-        if ($context_id === null)
-        {
-            $context_id = midcom_core_context::get()->id;
-        }
+        $context = midcom_core_context::get($context_id);
 
         // Append current topic to page class if enabled
         if ($GLOBALS['midcom_config']['page_class_include_component'])
         {
-            $page_class .= ' ' . str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
+            $page_class .= ' ' . str_replace('.', '_', $context->get_key(MIDCOM_CONTEXT_COMPONENT));
         }
 
         // Append a custom class from topic to page class
-        $topic_class = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)->get_parameter('midcom.services.metadata', 'page_class');
+        $topic_class = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)->get_parameter('midcom.services.metadata', 'page_class');
         if (!empty($topic_class))
         {
             $page_class .= " {$topic_class}";
         }
 
-        $this->_page_classes[$context_id] = trim($page_class);
+        $this->_page_classes[$context->id] = trim($page_class);
     }
 
     /**
@@ -142,14 +139,11 @@ class midcom_services_metadata
      */
     public function get_page_class($context_id = null)
     {
-        if ($context_id === null)
-        {
-            $context_id = midcom_core_context::get()->id;
-        }
+        $context = midcom_core_context::get($context_id);
 
-        if (array_key_exists($context_id, $this->_page_classes))
+        if (array_key_exists($context->id, $this->_page_classes))
         {
-            return $this->_page_classes[$context_id];
+            return $this->_page_classes[$context->id];
         }
         else
         {
@@ -220,20 +214,17 @@ class midcom_services_metadata
      */
     function bind_metadata_to_object($metadata_type, &$object, $context_id = null)
     {
-        if ($context_id === null)
-        {
-            $context_id = midcom_core_context::get()->id;
-        }
+        $context = midcom_core_context::get($context_id);
 
-        $this->_metadata[$context_id][$metadata_type] = midcom_helper_metadata::retrieve($object);
-        if (!$this->_metadata[$context_id][$metadata_type])
+        $this->_metadata[$context->id][$metadata_type] = midcom_helper_metadata::retrieve($object);
+        if (!$this->_metadata[$context->id][$metadata_type])
         {
             return;
         }
 
         // Update MidCOM 2.6 request metadata if appropriate
-        $request_metadata = $_MIDCOM->get_26_request_metadata($context_id);
-        $edited = $this->_metadata[$context_id][$metadata_type]->get('revised');
+        $request_metadata = $_MIDCOM->get_26_request_metadata($context->id);
+        $edited = $this->_metadata[$context->id][$metadata_type]->get('revised');
         if ($edited > $request_metadata['lastmodified'])
         {
             $_MIDCOM->set_26_request_metadata($edited, $request_metadata['permalinkguid']);
