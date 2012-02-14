@@ -100,7 +100,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         // of the index() method. Needs fixes there.
 
         $document = $indexer->new_document($dm);
-        if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_products_product_dba'))
+        if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_products_product_dba'))
         {
             if ($config->get('enable_scheduling'))
             {

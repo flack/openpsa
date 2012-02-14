@@ -370,7 +370,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         foreach ($this->_allowed_xep_keys as $xep_key)
         {
             if (   !in_array($xep_key, $this->use_xep_keys)
-                || !$_MIDCOM->dbfactory->property_exists($this->_type->location, $xep_key)
+                || !midcom::get('dbfactory')->property_exists($this->_type->location, $xep_key)
                 || in_array($xep_key, $inserted_xep_keys))
             {
                 // Skip
@@ -688,7 +688,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         foreach ($this->_allowed_xep_keys as $xep_key)
         {
             if (   !in_array($xep_key, $this->use_xep_keys)
-                || !$_MIDCOM->dbfactory->property_exists($this->_type->location, $xep_key))
+                || !midcom::get('dbfactory')->property_exists($this->_type->location, $xep_key))
             {
                 continue;
             }

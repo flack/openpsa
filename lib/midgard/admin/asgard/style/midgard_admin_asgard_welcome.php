@@ -246,7 +246,7 @@ else
         {
             try
             {
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
+                $object = midcom::get('dbfactory')->get_object_by_guid($activity->target);
             }
             catch (midcom_error $e)
             {

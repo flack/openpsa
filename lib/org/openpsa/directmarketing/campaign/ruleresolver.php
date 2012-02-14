@@ -356,7 +356,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
             try
             {
-                $parent = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                $parent = midcom::get('dbfactory')->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {
@@ -369,13 +369,13 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     $this->add_person_rule($person_rule);
                     break;
-                case ($_MIDCOM->dbfactory->is_a($parent, 'midgard_group')):
+                case (midcom::get('dbfactory')->is_a($parent, 'midgard_group')):
                     $group_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     $this->add_group_rule($group_rule);
                     break;
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_member'):
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_message_receipt'):
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_link_log'):
+                case midcom::get('dbfactory')->is_a($parent, 'org_openpsa_campaign_member'):
+                case midcom::get('dbfactory')->is_a($parent, 'org_openpsa_campaign_message_receipt'):
+                case midcom::get('dbfactory')->is_a($parent, 'org_openpsa_link_log'):
                     $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->person);
                     $this->add_person_rule($person_rule);
                     break;
@@ -450,7 +450,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $skip_properties[] = 'orgOpenpsaAccesstype';
         $skip_properties[] = 'orgOpenpsaWgtype';
 
-        if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_person'))
+        if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_person'))
         {
             // The info field is a special case
             $skip_properties[] = 'info';
@@ -463,7 +463,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             // Duh
             $skip_properties[] = 'password';
         }
-        if ($_MIDCOM->dbfactory->is_a($object, 'midgard_member'))
+        if (midcom::get('dbfactory')->is_a($object, 'midgard_member'))
         {
             // The info field is a special case
             $skip_properties[] = 'info';

@@ -453,7 +453,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             // We have an object, check the link type
             // Note: in creation mode we do not have this so we have no way to check)
-            $mgdschema_object = $_MIDCOM->dbfactory->convert_midcom_to_midgard($this->_type->storage->object);
+            $mgdschema_object = midcom::get('dbfactory')->convert_midcom_to_midgard($this->_type->storage->object);
             if (    $mgdschema_object !== null
                  && $this->_field['storage']['location'] !== null)
             {

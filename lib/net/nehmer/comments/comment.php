@@ -21,17 +21,17 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     static function new_query_builder()
     {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
     }
 
     static function new_collector($domain, $value)
     {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
     }
 
     static function &get_cached($src)
     {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
     }
 
     /**
@@ -513,7 +513,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             }
             else
             {
-                $parent_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+                $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
                 // TODO: Figure out whether to round
                 if (!$config->get('ratings_cache_to_object_use_rcs'))
                 {
@@ -536,7 +536,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             }
             else
             {
-                $parent_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+                $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
                 if (!$config->get('comment_count_cache_to_object_use_rcs'))
                 {
                     $parent_object->_use_rcs = false;
@@ -557,7 +557,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         //Get the parent object
         try
         {
-            $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+            $parent = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
         }
         catch (midcom_error $e)
         {
@@ -615,7 +615,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $message = array();
 
         // Resolve parent title
-        $parent_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+        $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
         $ref = midcom_helper_reflector::get($parent_object);
         $parent_title = $ref->get_object_label($parent_object);
 

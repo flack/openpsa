@@ -16,12 +16,12 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
 
     static function new_query_builder()
     {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
     }
 
     static function new_collector($domain, $value)
     {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
     }
 
     /**
@@ -32,7 +32,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
      */
     static function &get_cached($src)
     {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
     }
 
     public static function add($object_guid, $person, $role)

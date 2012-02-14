@@ -221,7 +221,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             return;
         }
 
-        $qb = $_MIDCOM->dbfactory->new_query_builder($this->child_class);
+        $qb = midcom::get('dbfactory')->new_query_builder($this->child_class);
         $parent_key = $this->parent_key_fieldname;
         $qb->add_constraint($this->child_foreign_key_fieldname, '=', $this->storage->object->$parent_key);
 

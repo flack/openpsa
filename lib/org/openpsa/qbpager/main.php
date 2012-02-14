@@ -53,9 +53,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         $this->_limit =& $this->results_per_page;
         $this->_pager_id = $pager_id;
-        $this->_midcom_qb = $_MIDCOM->dbfactory->new_query_builder($classname);
+        $this->_midcom_qb = midcom::get('dbfactory')->new_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
-        $this->_midcom_qb_count = $_MIDCOM->dbfactory->new_query_builder($classname);
+        $this->_midcom_qb_count = midcom::get('dbfactory')->new_query_builder($classname);
         if (!$this->_sanity_check())
         {
             //TODO: throw error?

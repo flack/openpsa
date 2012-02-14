@@ -767,7 +767,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     {
         foreach ($this->autodelete_dependents as $classname => $link_property)
         {
-            $qb = $_MIDCOM->dbfactory->new_query_builder($classname);
+            $qb = midcom::get('dbfactory')->new_query_builder($classname);
             $qb->add_constraint($link_property, '=', $this->id);
             $results = $qb->execute();
             foreach ($results as $result)

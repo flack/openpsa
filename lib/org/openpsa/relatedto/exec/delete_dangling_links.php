@@ -30,8 +30,8 @@ foreach ($results as $result)
     $i++;
     try
     {
-        $_MIDCOM->dbfactory->get_object_by_guid($result->fromGuid);
-        $_MIDCOM->dbfactory->get_object_by_guid($result->toGuid);
+        midcom::get('dbfactory')->get_object_by_guid($result->fromGuid);
+        midcom::get('dbfactory')->get_object_by_guid($result->toGuid);
     }
     catch (midcom_error $e)
     {

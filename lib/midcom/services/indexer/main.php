@@ -294,7 +294,7 @@ class midcom_services_indexer
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
                 try
                 {
-                    $object = $_MIDCOM->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
+                    $object = midcom::get('dbfactory')->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
                 }
                 catch (midcom_error $e)
                 {

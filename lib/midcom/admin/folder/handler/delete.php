@@ -142,7 +142,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
             try
             {
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
                 $atts = $object->list_attachments();
                 if ($atts)
                 {

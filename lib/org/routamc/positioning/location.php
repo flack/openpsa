@@ -18,17 +18,17 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
 
     static function new_query_builder()
     {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
     }
 
     static function new_collector($domain, $value)
     {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
     }
 
     static function &get_cached($src)
     {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
     }
 
     /**
@@ -70,7 +70,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
 
         try
         {
-            $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->parent);
+            $parent = midcom::get('dbfactory')->get_object_by_guid($this->parent);
             return $parent->guid;
         }
         catch (midcom_error $e)

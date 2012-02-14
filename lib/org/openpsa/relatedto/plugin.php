@@ -155,7 +155,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $i = 0;
         foreach ($array as $rel)
         {
-            if (!$_MIDCOM->dbfactory->is_a($rel, 'org_openpsa_relatedto_dba')) //Matches also 'org_openpsa_relatedto'
+            if (!midcom::get('dbfactory')->is_a($rel, 'org_openpsa_relatedto_dba')) //Matches also 'org_openpsa_relatedto'
             {
                 //Wrong type of object found in array, cruelly abort the whole procedure
                 return false;

@@ -671,7 +671,7 @@ class midcom_services_auth_acl
         $previous_sudo = midcom::get('auth')->acl->_internal_sudo;
         midcom::get('auth')->acl->_internal_sudo = true;
 
-        $parent_guid = $_MIDCOM->dbfactory->get_parent_guid($guid, $class);
+        $parent_guid = midcom::get('dbfactory')->get_parent_guid($guid, $class);
 
         midcom::get('auth')->acl->_internal_sudo = $previous_sudo;
         // <== out of SUDO
@@ -1047,7 +1047,7 @@ class midcom_services_auth_acl
         $previous_sudo = midcom::get('auth')->acl->_internal_sudo;
         midcom::get('auth')->acl->_internal_sudo = true;
 
-        $parent_guid = $_MIDCOM->dbfactory->get_parent_guid($guid, $class);
+        $parent_guid = midcom::get('dbfactory')->get_parent_guid($guid, $class);
 
         midcom::get('auth')->acl->_internal_sudo = $previous_sudo;
         // <== out of SUDO

@@ -419,7 +419,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         }
 
         // Get the row parameters with collector
-        $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+        $mc = midcom::get('dbfactory')->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
 
         // Add the constraints
         $mc->add_constraint('metadata.deleted', '=', 0);
@@ -716,7 +716,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 }
 
                 // Get the row parameters with collector
-                $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+                $mc = midcom::get('dbfactory')->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
@@ -900,7 +900,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
             $link_object = null;
             $needs_update = false;
 
-            $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
+            $qb = midcom::get('dbfactory')->new_query_builder($this->link_class);
             $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
             $qb->add_constraint($this->link_row_property, '=', $link_row_id);
             $results = $qb->execute();
@@ -947,7 +947,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
             }
         }
 
-        $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
+        $qb = midcom::get('dbfactory')->new_query_builder($this->link_class);
         $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
         if (count($current_selection))
         {

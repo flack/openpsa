@@ -38,7 +38,7 @@ class midcom_helper_reflector_nameresolver
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
         }
         if (   empty($name_property)
-            || !$_MIDCOM->dbfactory->property_exists($this->_object, $name_property))
+            || !midcom::get('dbfactory')->property_exists($this->_object, $name_property))
         {
             // Could not resolve valid property
             return false;
@@ -214,7 +214,7 @@ class midcom_helper_reflector_nameresolver
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
             foreach ($root_classes as $classname)
             {
-                if ($_MIDCOM->dbfactory->is_a($this->_object, $classname))
+                if (midcom::get('dbfactory')->is_a($this->_object, $classname))
                 {
                     $is_root_class = true;
                     if (!$this->_name_is_unique_check_roots($root_classes))
@@ -553,7 +553,7 @@ class midcom_helper_reflector_nameresolver
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
             foreach ($root_classes as $schema_type)
             {
-                if ($_MIDCOM->dbfactory->is_a($this->_object, $schema_type))
+                if (midcom::get('dbfactory')->is_a($this->_object, $schema_type))
                 {
                     $is_root_class = true;
                 }

@@ -42,7 +42,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
         }
         $guids = $_POST['guids'];
 
-        $dummy_object = $_MIDCOM->dbfactory->get_object_by_guid($guids[0]);
+        $dummy_object = midcom::get('dbfactory')->get_object_by_guid($guids[0]);
         $dba_class = get_class($dummy_object);
 
         $qb = call_user_func(array($dba_class, 'new_query_builder'));

@@ -80,7 +80,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Use the DB Factory to resolve the class and to get the object
         try
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($identifier);
+            $object = midcom::get('dbfactory')->get_object_by_guid($identifier);
         }
         catch (midcom_error $e)
         {

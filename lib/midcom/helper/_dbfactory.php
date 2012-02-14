@@ -423,7 +423,7 @@ class midcom_helper__dbfactory
         if (   is_object($acl_object)
             && $acl_object->id)
         {
-            if (!$_MIDCOM->dbfactory->is_a($acl_object, get_class($unserialized_object)))
+            if (!midcom::get('dbfactory')->is_a($acl_object, get_class($unserialized_object)))
             {
                 $acl_class = get_class($acl_object);
                 $unserialized_class = get_class($unserialized_object);
@@ -627,7 +627,7 @@ class midcom_helper__dbfactory
 
         try
         {
-            $acl_object = $_MIDCOM->dbfactory->get_object_by_guid($unserialized_object->parentguid);
+            $acl_object = midcom::get('dbfactory')->get_object_by_guid($unserialized_object->parentguid);
         }
         catch (midcom_error $e)
         {

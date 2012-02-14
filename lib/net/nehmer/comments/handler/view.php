@@ -206,7 +206,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             // User wants to subscribe to receive notifications about this comments thread
 
             // Get the object we're commenting
-            $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->_objectguid);
+            $parent = midcom::get('dbfactory')->get_object_by_guid($this->_objectguid);
 
             // Sudo so we can update the parent object
             if (midcom::get('auth')->request_sudo('net.nehmer.comments'))

@@ -111,7 +111,7 @@
  *
  *     function _on_reindex($topic, $config, &$indexer)
  *     {
- *         $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
+ *         $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
  *         $qb->add_constraint('topic', '=', $topic->id);
  *         $result = $qb->execute();
  *

@@ -57,7 +57,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $object = $this->_object;
             if (!empty($this->_object_path))
             {
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_object_path[0]);
+                $object = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[0]);
             }
 
             foreach ($this->root_types as $root_type)
@@ -461,7 +461,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     {
         if (!empty($this->_object_path))
         {
-            $root_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_object_path[0]);
+            $root_object = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[0]);
             $this->_request_data['root_object'] =& $root_object;
             $this->_request_data['navigation_type'] = $root_object->__mgdschema_class_name__;
         }

@@ -33,7 +33,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      */
     public function _handler_move($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
 
         if (   !is_a($this->_object, 'midcom_db_topic')
             && !is_a($this->_object, 'midcom_db_article'))

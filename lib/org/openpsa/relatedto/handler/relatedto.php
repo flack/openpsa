@@ -55,7 +55,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     public function _handler_render($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_mode = $args[1];
         $this->_sort = 'default';
         if (isset($args[2]))
@@ -181,7 +181,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             );
             try
             {
-                $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'fromGuid'));
+                $to_arr['other_obj'] = midcom::get('dbfactory')->get_object_by_guid($mc->get_subkey($guid, 'fromGuid'));
             }
             catch (midcom_error $e)
             {
@@ -234,7 +234,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             );
             try
             {
-                $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'toGuid'));
+                $to_arr['other_obj'] = midcom::get('dbfactory')->get_object_by_guid($mc->get_subkey($guid, 'toGuid'));
             }
             catch (midcom_error $e)
             {
@@ -257,9 +257,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         switch(true)
         {
-            case $_MIDCOM->dbfactory->is_a($obj, 'midcom_db_event'):
+            case midcom::get('dbfactory')->is_a($obj, 'midcom_db_event'):
                 return $obj->start;
-            case $_MIDCOM->dbfactory->is_a($obj, 'org_openpsa_projects_task_dba'):
+            case midcom::get('dbfactory')->is_a($obj, 'org_openpsa_projects_task_dba'):
                 return $obj->start;
             default:
                 return $obj->metadata->created;
@@ -781,7 +781,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             try
             {
-                $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
+                $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[1]);
                 if (!($this->_object instanceof org_openpsa_relatedto_dba))
                 {
                     $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");

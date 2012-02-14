@@ -80,7 +80,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         //get billing_data
         $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
-        $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
+        $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($this->_billing_data->linkGuid);
 
         $this->_controller = $this->get_controller('simple', $this->_billing_data);
         $this->_process_billing_form();
@@ -112,7 +112,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         try
         {
-            $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+            $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         }
         catch (midcom_error $e)
         {
@@ -139,7 +139,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
         $this->_billing_data->require_do('midgard:delete');
-        $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
+        $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($this->_billing_data->linkGuid);
 
         $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
         $this->_process_billing_form();

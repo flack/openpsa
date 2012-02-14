@@ -81,11 +81,11 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         switch(true)
         {
-            case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_person'):
+            case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
                 $this->_org_openpsa_relatedto_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_event'):
-            case $_MIDCOM->dbfactory->is_a($object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get('dbfactory')->is_a($object, 'midcom_db_event'):
+            case midcom::get('dbfactory')->is_a($object, 'org_openpsa_calendar_event_dba'):
                 $this->_org_openpsa_relatedto_find_suspects_event($object, $defaults, $links_array);
                 break;
 
@@ -204,7 +204,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
     function create_hour_report(&$task, $person_id, &$from_object, $from_component)
     {
-        if (!$_MIDCOM->dbfactory->is_a($task, 'org_openpsa_projects_task_dba'))
+        if (!midcom::get('dbfactory')->is_a($task, 'org_openpsa_projects_task_dba'))
         {
             debug_add('given task is not really a task', MIDCOM_LOG_ERROR);
             return false;
@@ -223,7 +223,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         switch (true)
         {
-            case $_MIDCOM->dbfactory->is_a($from_object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get('dbfactory')->is_a($from_object, 'org_openpsa_calendar_event_dba'):
                 $event =& $from_object;
                 $hr->date = $event->start;
                 $hr->hours = round((($event->end - $event->start) / 3600), 2);

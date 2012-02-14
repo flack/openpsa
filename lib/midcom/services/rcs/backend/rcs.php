@@ -661,7 +661,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         try
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
+            $object = midcom::get('dbfactory')->get_object_by_guid($this->_guid);
         }
         catch (midcom_error $e)
         {

@@ -379,7 +379,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         if (! $_MIDCOM->dbclassloader->is_midcom_db_object($topic))
         {
-            $this->_topic = $_MIDCOM->dbfactory->convert_midgard_to_midcom($topic);
+            $this->_topic = midcom::get('dbfactory')->convert_midgard_to_midcom($topic);
         }
         else
         {

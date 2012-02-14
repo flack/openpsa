@@ -713,7 +713,7 @@ class midcom_helper_nav_backend
             {
                 try
                 {
-                    $leaf[MIDCOM_NAV_OBJECT] = $_MIDCOM->dbfactory->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
+                    $leaf[MIDCOM_NAV_OBJECT] = midcom::get('dbfactory')->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
                 }
                 catch (midcom_error $e){}
             }

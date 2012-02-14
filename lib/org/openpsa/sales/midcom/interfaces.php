@@ -73,12 +73,12 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
         switch(true)
         {
-            case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_person'):
+            case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
                 //List all projects and tasks given person is involved with
                 $this->_org_openpsa_relatedto_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_event'):
-            case $_MIDCOM->dbfactory->is_a($object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get('dbfactory')->is_a($object, 'midcom_db_event'):
+            case midcom::get('dbfactory')->is_a($object, 'org_openpsa_calendar_event_dba'):
                 $this->_org_openpsa_relatedto_find_suspects_event($object, $defaults, $links_array);
                 break;
                 //TODO: groups ? other objects ?

@@ -74,7 +74,7 @@ class midcom_services_permalinks
 
         try
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
         }
         catch (midcom_error $e)
         {

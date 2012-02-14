@@ -328,7 +328,7 @@ class midcom_helper_nav
         // the tree. This is, for example, used by the on-delete cache invalidation.
         try
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
 
             if (is_a($object, 'midcom_db_topic'))
             {

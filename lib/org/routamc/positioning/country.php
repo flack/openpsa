@@ -15,22 +15,22 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_routamc_positioning_country';
-    
+
     static function new_query_builder()
     {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
     }
 
     static function new_collector($domain, $value)
     {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
     }
 
     static function &get_cached($src)
     {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
     }
-    
+
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -68,7 +68,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
         {
             return $matches[0];
         }
-        
+
         // Strict name didn't match, seek by alternate names
         $qb = org_routamc_positioning_country_dba::new_query_builder();
         $qb->add_constraint('alternatenames', 'LIKE', "%{$name}%");
@@ -83,10 +83,10 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
 
         return false;
     }
-    
+
     /**
      * Get the country object by code
-     * 
+     *
      * @param string $code                            Either two or three character representation
      * @return org_routamc_positioning_country_dba    Country object or null on failure
      */
@@ -97,14 +97,14 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
             $qb->add_constraint('code', '=', $code);
             $qb->add_constraint('code3', '=', $code);
         $qb->end_group();
-        
+
         $matches = $qb->execute();
-        
+
         if (!isset($matches[0]))
         {
             return null;
         }
-        
+
         return $matches[0];
     }
 }

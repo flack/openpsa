@@ -221,7 +221,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $label_property = $ref->get_label_property();
 
         if (   is_string($label_property)
-            && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $label_property))
+            && midcom::get('dbfactory')->property_exists($this->mgdschema_class, $label_property))
         {
             $qb->add_order($label_property);
         }
@@ -229,7 +229,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             $title_property = $ref->get_title_property(new $this->mgdschema_class());
             if (   is_string($title_property)
-                && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $title_property))
+                && midcom::get('dbfactory')->property_exists($this->mgdschema_class, $title_property))
             {
                 $qb->add_order($title_property);
             }
@@ -492,7 +492,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $i = 0;
         foreach ($child_classes as $child_class)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, $child_class))
+            if (midcom::get('dbfactory')->is_a($object, $child_class))
             {
                 unset($child_classes[$i]);
                 array_unshift($child_classes, $child_class);
@@ -952,13 +952,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $dummy = new $schema_type();
         $title_property = $ref->get_title_property($dummy);
         if (   is_string($title_property)
-            && $_MIDCOM->dbfactory->property_exists($schema_type, $title_property))
+            && midcom::get('dbfactory')->property_exists($schema_type, $title_property))
         {
             $qb->add_order($title_property);
         }
         $name_property = $ref->get_name_property($dummy);
         if (   is_string($name_property)
-            && $_MIDCOM->dbfactory->property_exists($schema_type, $name_property))
+            && midcom::get('dbfactory')->property_exists($schema_type, $name_property))
         {
             $qb->add_order($name_property);
         }

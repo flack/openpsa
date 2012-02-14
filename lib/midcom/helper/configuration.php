@@ -126,7 +126,7 @@ class midcom_helper_configuration
         // Cast to DBA type.
         if (! $_MIDCOM->dbclassloader->is_midcom_db_object($this->_object))
         {
-            $this->_object = $_MIDCOM->dbfactory->convert_midgard_to_midcom($this->_object);
+            $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
         }
 
         $array = $this->_object->list_parameters($this->_path);

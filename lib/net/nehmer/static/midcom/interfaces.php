@@ -34,7 +34,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
     {
         if (is_null($config->get('symlink_topic')))
         {
-            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
+            $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
 

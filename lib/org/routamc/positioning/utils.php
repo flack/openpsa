@@ -301,7 +301,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         {
             $direct = true;
         }
-        $qb =  $_MIDCOM->dbfactory->new_query_builder($classname);
+        $qb =  midcom::get('dbfactory')->new_query_builder($classname);
 
         if (!$direct)
         {
@@ -353,7 +353,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         if ($result_count == 0)
         {
             // Check that there are any in the DB before proceeding further
-            $qb_check =  $_MIDCOM->dbfactory->new_query_builder($classname);
+            $qb_check =  midcom::get('dbfactory')->new_query_builder($classname);
             if ($qb_check->count_unchecked() == 0)
             {
                 return array();

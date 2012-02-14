@@ -259,7 +259,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     private function _load_membership_objects()
     {
-        $qb = $_MIDCOM->dbfactory->new_query_builder($this->mapping_class_name);
+        $qb = midcom::get('dbfactory')->new_query_builder($this->mapping_class_name);
         $qb->add_constraint($this->master_fieldname, '=', $this->_get_master_foreign_key());
 
         if (   $this->sortable

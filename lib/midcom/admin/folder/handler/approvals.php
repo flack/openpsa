@@ -29,7 +29,7 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
             throw new midcom_error('Cannot process approval request, request is incomplete.');
         }
 
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($_REQUEST['guid']);
+        $object = midcom::get('dbfactory')->get_object_by_guid($_REQUEST['guid']);
         $object->require_do('midcom:approve');
 
         $metadata = midcom_helper_metadata::retrieve($object);

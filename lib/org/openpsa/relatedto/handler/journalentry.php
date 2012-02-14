@@ -48,7 +48,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_entry($handler_id, array $args, array &$data)
     {
-        $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
 
         if ($args[1])
         {
@@ -140,7 +140,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
 
         $data['controller'] = $this->get_controller('create');
 
@@ -182,7 +182,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_remove($handler_id, array $args, array &$data)
     {
-        $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $reminder = new org_openpsa_relatedto_journal_entry_dba($args[1]);
 
         $reminder->delete();
@@ -202,7 +202,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
+        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($this->_journal_entry->linkGuid);
 
         $data['controller'] = $this->get_controller('simple', $this->_journal_entry);
 
@@ -243,7 +243,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
+        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($this->_journal_entry->linkGuid);
 
         if (!$this->_journal_entry->delete())
         {
@@ -295,7 +295,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     //create reflector with linked object to get the right label
                     try
                     {
-                        $linked_object = $_MIDCOM->dbfactory->get_object_by_guid($entry->linkGuid);
+                        $linked_object = midcom::get('dbfactory')->get_object_by_guid($entry->linkGuid);
                     }
                     catch (midcom_error $e)
                     {

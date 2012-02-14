@@ -149,7 +149,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     function read_object($person)
     {
         if (   !is_object($person)
-            && !$_MIDCOM->dbfactory->is_a($person, 'midcom_db_person'))
+            && !midcom::get('dbfactory')->is_a($person, 'midcom_db_person'))
         {
             // Given $person is not one
             return false;

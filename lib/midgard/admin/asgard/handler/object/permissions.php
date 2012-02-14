@@ -114,7 +114,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $i = 0;
         while (   $tmp
                && $tmp->guid
-               && !$_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic')
+               && !midcom::get('dbfactory')->is_a($tmp, 'midgard_topic')
                && $i < 100)
         {
             // Get the parent; wishing eventually to get a topic
@@ -123,7 +123,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // If the temporary object eventually reached a topic, fetch its manifest
-        if ($_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic'))
+        if (midcom::get('dbfactory')->is_a($tmp, 'midgard_topic'))
         {
             $current_manifest = $component_loader->manifests[$tmp->component];
         }

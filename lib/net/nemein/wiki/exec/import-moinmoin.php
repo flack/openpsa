@@ -52,7 +52,7 @@ if (   !isset($_REQUEST['root_topic_guid'])
 
 // TODO: ask for dir and topic
 $wiki_root = $_REQUEST['wiki_root'];
-$root_topic = $_MIDCOM->dbfactory->get_object_by_guid($_REQUEST['root_topic_guid']);
+$root_topic = midcom::get('dbfactory')->get_object_by_guid($_REQUEST['root_topic_guid']);
 $import_revisions = $_REQUEST['import_revisions'];
 
 $_MIDCOM->cache->content->enable_live_mode();

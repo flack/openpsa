@@ -22,17 +22,17 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
 
     static function new_query_builder()
     {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
     }
 
     static function new_collector($domain, $value)
     {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
     }
 
     static function &get_cached($src)
     {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
     }
 
     /**
@@ -61,7 +61,7 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         {
             try
             {
-                $target = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
+                $target = midcom::get('dbfactory')->get_object_by_guid($activity->target);
                 $reflector = new midcom_helper_reflector($target);
                 $class_label = $reflector->get_class_label();
                 $target_label = "{$class_label} " . $reflector->get_object_label($target);

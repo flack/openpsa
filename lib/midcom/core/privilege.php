@@ -163,7 +163,7 @@ class midcom_core_privilege
         {
             try
             {
-                $this->__cached_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+                $this->__cached_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
             }
             catch (midcom_error $e)
             {

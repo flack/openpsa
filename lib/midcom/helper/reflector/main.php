@@ -216,10 +216,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $property = $obj->get_label_property();
                 break;
             // TODO: Switch to use the get_name/title_property helpers below
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_topic')):
+            case (midcom::get('dbfactory')->is_a($obj, 'midcom_db_topic')):
                 $property = 'extra';
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_person')):
+            case (midcom::get('dbfactory')->is_a($obj, 'midcom_db_person')):
                 $property = array
                 (
                     'rname',
@@ -255,7 +255,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // Not a MidCOM DBA object
             try
             {
-                $obj = $_MIDCOM->dbfactory->convert_midgard_to_midcom($object);
+                $obj = midcom::get('dbfactory')->convert_midgard_to_midcom($object);
             }
             catch (midcom_error $e)
             {
@@ -811,10 +811,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $name_exceptions = $this->_config->get('name_exceptions');
         foreach ($name_exceptions as $class => $property)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, $class))
+            if (midcom::get('dbfactory')->is_a($object, $class))
             {
                 if (   $property !== false
-                    && !$_MIDCOM->dbfactory->property_exists($object, $property))
+                    && !midcom::get('dbfactory')->property_exists($object, $property))
                 {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     self::$_cache['name'][$key] = false;
@@ -826,7 +826,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // The simple heuristic
-        if ($_MIDCOM->dbfactory->property_exists($object, 'name'))
+        if (midcom::get('dbfactory')->property_exists($object, 'name'))
         {
             self::$_cache['name'][$key] = 'name';
         }
@@ -880,7 +880,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $title_property = self::get_title_property($object);
         }
         if (   empty($title_property)
-            || !$_MIDCOM->dbfactory->property_exists($object, $title_property))
+            || !midcom::get('dbfactory')->property_exists($object, $title_property))
         {
             // Could not resolve valid property
             return false;
@@ -930,10 +930,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         foreach ($title_exceptions as $class => $property)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, $class))
+            if (midcom::get('dbfactory')->is_a($object, $class))
             {
                 if (   $property !== false
-                    && !$_MIDCOM->dbfactory->property_exists($object, $property))
+                    && !midcom::get('dbfactory')->property_exists($object, $property))
                 {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     self::$_cache['title'][$key] = false;
@@ -945,7 +945,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // The easy check
-        if ($_MIDCOM->dbfactory->property_exists($object, 'title'))
+        if (midcom::get('dbfactory')->property_exists($object, 'title'))
         {
             self::$_cache['title'][$key] = 'title';
         }

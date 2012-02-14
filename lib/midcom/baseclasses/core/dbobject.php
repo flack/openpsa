@@ -176,7 +176,7 @@ class midcom_baseclasses_core_dbobject
         if (! is_null($parent))
         {
             // Attachments are a special case
-            if ($_MIDCOM->dbfactory->is_a($object, 'midgard_attachment'))
+            if (midcom::get('dbfactory')->is_a($object, 'midgard_attachment'))
             {
                 if (   ! midcom::get('auth')->can_do('midgard:attachments', $parent)
                     || ! midcom::get('auth')->can_do('midgard:update', $parent))
@@ -617,7 +617,7 @@ class midcom_baseclasses_core_dbobject
             {
                 $undeleted = true;
                 // refresh
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
                 $undeleted_size += $object->metadata->size;
             }
 
@@ -1859,7 +1859,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_attachment');
+        $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_attachment');
         $qb->add_constraint('parentguid', '=', $object->guid);
 
         return $qb;
@@ -1975,7 +1975,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function get_parent_guid(midcom_core_dbaobject $object)
     {
-        return $_MIDCOM->dbfactory->get_parent_guid($object);
+        return midcom::get('dbfactory')->get_parent_guid($object);
     }
 
     /**
@@ -2008,7 +2008,7 @@ class midcom_baseclasses_core_dbobject
                 {
                     try
                     {
-                        $parents[$parent_guid] = $_MIDCOM->dbfactory->get_object_by_guid($parent_guid);
+                        $parents[$parent_guid] = midcom::get('dbfactory')->get_object_by_guid($parent_guid);
                     }
                     catch (midcom_error $e){}
                 }
