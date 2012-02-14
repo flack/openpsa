@@ -65,9 +65,9 @@ class midgard_admin_asgard_schemadb
         if ($type != null)
         {
             $dba_type = $type;
-            if (!$_MIDCOM->dbclassloader->is_midcom_db_object($type))
+            if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
             {
-                $dba_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
+                $dba_type = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
             }
             $dummy_object = new $dba_type();
             $type_fields = $dummy_object->get_properties();
@@ -75,7 +75,7 @@ class midgard_admin_asgard_schemadb
         else
         {
             $type = get_class($this->_object);
-            if (!$_MIDCOM->dbclassloader->is_midcom_db_object($type))
+            if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
             {
                 $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
             }
@@ -545,12 +545,12 @@ class midgard_admin_asgard_schemadb
             case MGD_TYPE_UINT:
             case MGD_TYPE_STRING:
             case MGD_TYPE_GUID:
-                $class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
+                $class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($linked_type);
                 if (! $class)
                 {
                     break;
                 }
-                $component = $_MIDCOM->dbclassloader->get_component_for_class($linked_type);
+                $component = midcom::get('dbclassloader')->get_component_for_class($linked_type);
                 $this->_schemadb['object']->append_field
                 (
                     $key,

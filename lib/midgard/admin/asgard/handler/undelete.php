@@ -95,7 +95,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         $dummy = new $this->type;
-        $data['midcom_dba_classname'] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
+        $data['midcom_dba_classname'] = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy);
         $data['type'] = $this->type;
         $data['reflector'] = midcom_helper_reflector::get($data['type']);
         $data['label_property'] = $data['reflector']->get_label_property();

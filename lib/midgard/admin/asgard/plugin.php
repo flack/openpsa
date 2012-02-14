@@ -74,7 +74,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $data['object'] =& $object;
 
         // Populate toolbars
-        if ($_MIDCOM->dbclassloader->is_midcom_db_object($object))
+        if (midcom::get('dbclassloader')->is_midcom_db_object($object))
         {
             // These toolbars only work with DBA objects as they do ACL checks
             $_MIDCOM->bind_view_to_object($object);

@@ -342,13 +342,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_new_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($args[0]);
+        $this->_new_type = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($args[0]);
         if (!$this->_new_type)
         {
             throw new midcom_error_notfound('Failed to find type for the new object');
         }
 
-        $_MIDCOM->dbclassloader->load_mgdschema_class_handler($this->_new_type);
+        midcom::get('dbclassloader')->load_mgdschema_class_handler($this->_new_type);
         if (!class_exists($this->_new_type))
         {
             throw new midcom_error_notfound("Component handling MgdSchema type '{$args[0]}' was not found.");

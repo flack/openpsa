@@ -64,7 +64,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
             $mgdschema_class = midcom_helper_reflector::class_rewrite($schema_type);
             $dummy_object = new $mgdschema_class();
-            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
+            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
             if (empty($midcom_dba_classname))
             {
                 continue;
@@ -76,7 +76,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         // List all revised objects
         foreach ($classes as $class)
         {
-            if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($class))
+            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($class))
             {
                 // Failed to load handling component, skip
                 continue;

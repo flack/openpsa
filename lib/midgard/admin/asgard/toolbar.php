@@ -136,13 +136,13 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                             // Articles and topics can always be created
                             break;
                         default:
-                            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
+                            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
                             if (!$midcom_dba_classname)
                             {
                                 $display_button = false;
                                 break;
                             }
-                            $component = $_MIDCOM->dbclassloader->get_component_for_class($type);
+                            $component = midcom::get('dbclassloader')->get_component_for_class($type);
                             if ($component != $object->component)
                             {
                                 $display_button = false;
@@ -161,7 +161,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                             // Articles can always be created
                             break;
                         default:
-                            $component = $_MIDCOM->dbclassloader->get_component_for_class($type);
+                            $component = midcom::get('dbclassloader')->get_component_for_class($type);
                             if ($component != $topic->component)
                             {
                                 $display_button = false;
