@@ -201,6 +201,44 @@ class midcom_compat_superglobal
     }
 
     /**
+     * Prepends a substyle before the currently selected component style.
+     *
+     * Prepends a substyle before the currently selected component style, effectively
+     * enabling a depth of more then one style during substyle selection. This is only
+     * effective if done during the handle phase of the component and allows the
+     * component. The currently selected substyle therefore is now searched one level
+     * deeper below "subStyle".
+     *
+     * The system must have completed the CAN_HANDLE Phase before this function will
+     * be available.
+     *
+     * @param string $newsub The substyle to prepend.
+     */
+    function substyle_prepend($newsub)
+    {
+        midcom::get('style')->prepend_substyle($newsub);
+    }
+
+    /**
+     * Appends a substyle after the currently selected component style.
+     *
+     * Appends a substyle after the currently selected component style, effectively
+     * enabling a depth of more then one style during substyle selection. This is only
+     * effective if done during the handle phase of the component and allows the
+     * component. The currently selected substyle therefore is now searched one level
+     * deeper below "subStyle".
+     *
+     * The system must have completed the CAN_HANDLE Phase before this function will
+     * be available.
+     *
+     * @param string $newsub The substyle to append.
+     */
+    function substyle_append($newsub)
+    {
+        midcom::get('style')->append_substyle($newsub);
+    }
+
+    /**
      * Returns the ID of the currently active context. This is false if there is no
      * context running.
      *

@@ -826,80 +826,6 @@ class midcom_application
     }
 
     /**
-     * Appends a substyle after the currently selected component style.
-     *
-     * Appends a substyle after the currently selected component style, effectively
-     * enabling a depth of more then one style during substyle selection. This is only
-     * effective if done during the handle phase of the component and allows the
-     * component. The currently selected substyle therefore is now searched one level
-     * deeper below "subStyle".
-     *
-     * The system must have completed the CAN_HANDLE Phase before this function will
-     * be available.
-     *
-     * @param string $newsub The substyle to append.
-     * @see substyle_prepend()
-     */
-    function substyle_append ($newsub)
-    {
-        // Make sure try to use only the first argument if we get space separated list, fixes #1788
-        if (strpos($newsub, ' ') !== false)
-        {
-            list ($newsub, $ignore) = explode(' ', $newsub, 2);
-            unset($ignore);
-        }
-
-        if ($this->_status < MIDCOM_STATUS_HANDLE)
-        {
-            throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");
-        }
-
-        $context = midcom_core_context::get();
-        $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
-
-        if (strlen($current_style) > 0)
-        {
-            $newsub = $current_style . '/' . $newsub;
-        }
-
-        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $newsub);
-    }
-
-    /**
-     * Prepends a substyle before the currently selected component style.
-     *
-     * Prepends a substyle before the currently selected component style, effectively
-     * enabling a depth of more then one style during substyle selection. This is only
-     * effective if done during the handle phase of the component and allows the
-     * component. The currently selected substyle therefore is now searched one level
-     * deeper below "subStyle".
-     *
-     * The system must have completed the CAN_HANDLE Phase before this function will
-     * be available.
-     *
-     * @param string $newsub The substyle to prepend.
-     * @see substyle_append()
-     */
-    function substyle_prepend($newsub)
-    {
-        if ($this->_status < MIDCOM_STATUS_HANDLE)
-        {
-            throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");
-        }
-
-        $context = midcom_core_context::get();
-        $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
-
-        if (strlen($current_style) > 0)
-        {
-            $newsub .= "/" . $current_style;
-        }
-        debug_add("Updating Component Context Substyle from $current_style to $newsub");
-
-        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $newsub);
-    }
-
-    /**
      * Get the current MidCOM processing state.
      *
      * @return int    One of the MIDCOM_STATUS_... constants indicating current state.
@@ -1352,7 +1278,7 @@ class midcom_application
         $page_class = midcom::get('metadata')->get_object_classes($object, $page_class);
         midcom::get('metadata')->set_page_class($page_class, $context->id);
 
-        $this->substyle_append($page_class);
+        midcom::get('style')->append_substyle($page_class);
     }
 
     /**

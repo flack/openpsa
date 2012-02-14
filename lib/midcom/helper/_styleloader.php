@@ -828,6 +828,23 @@ class midcom_helper__styleloader
     }
 
     /**
+     * Function prepend styledir
+     *
+     * @param string $dirname path of styledirectory within midcom.
+     * @return boolean true if directory appended
+     * @throws midcom_error if directory does not exist.
+     */
+    function prepend_styledir ($dirname)
+    {
+        if (!file_exists(MIDCOM_ROOT . $dirname))
+        {
+            throw new midcom_error("Style directory {$dirname} does not exist.");
+        }
+        $this->_styledirs_prepend[midcom_core_context::get()->id][] = $dirname;
+        return true;
+    }
+
+    /**
      * append the styledir of a component to the queue of styledirs.
      *
      * @param string componentname
@@ -854,20 +871,75 @@ class midcom_helper__styleloader
     }
 
     /**
-     * Function prepend styledir
+     * Appends a substyle after the currently selected component style.
      *
-     * @param string $dirname path of styledirectory within midcom.
-     * @return boolean true if directory appended
-     * @throws midcom_error if directory does not exist.
+     * Appends a substyle after the currently selected component style, effectively
+     * enabling a depth of more then one style during substyle selection. This is only
+     * effective if done during the handle phase of the component and allows the
+     * component. The currently selected substyle therefore is now searched one level
+     * deeper below "subStyle".
+     *
+     * The system must have completed the CAN_HANDLE Phase before this function will
+     * be available.
+     *
+     * @param string $newsub The substyle to append.
      */
-    function prepend_styledir ($dirname)
+    function append_substyle ($newsub)
     {
-        if (!file_exists(MIDCOM_ROOT . $dirname))
+        // Make sure try to use only the first argument if we get space separated list, fixes #1788
+        if (strpos($newsub, ' ') !== false)
         {
-            throw new midcom_error("Style directory {$dirname} does not exist.");
+            list ($newsub, $ignore) = explode(' ', $newsub, 2);
+            unset($ignore);
         }
-        $this->_styledirs_prepend[midcom_core_context::get()->id][] = $dirname;
-        return true;
+
+        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE)
+        {
+            throw new midcom_error("Cannot append a substyle before the HANDLE phase.");
+        }
+
+        $context = midcom_core_context::get();
+        $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
+
+        if (strlen($current_style) > 0)
+        {
+            $newsub = $current_style . '/' . $newsub;
+        }
+
+        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $newsub);
+    }
+
+    /**
+     * Prepends a substyle before the currently selected component style.
+     *
+     * Prepends a substyle before the currently selected component style, effectively
+     * enabling a depth of more then one style during substyle selection. This is only
+     * effective if done during the handle phase of the component and allows the
+     * component. The currently selected substyle therefore is now searched one level
+     * deeper below "subStyle".
+     *
+     * The system must have completed the CAN_HANDLE Phase before this function will
+     * be available.
+     *
+     * @param string $newsub The substyle to prepend.
+     */
+    function prepend_substyle($newsub)
+    {
+        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE)
+        {
+            throw new midcom_error("Cannot prepend a substyle before the HANDLE phase.");
+        }
+
+        $context = midcom_core_context::get();
+        $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
+
+        if (strlen($current_style) > 0)
+        {
+            $newsub .= "/" . $current_style;
+        }
+        debug_add("Updating Component Context Substyle from $current_style to $newsub");
+
+        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $newsub);
     }
 
     /**
