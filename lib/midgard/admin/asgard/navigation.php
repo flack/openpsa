@@ -289,7 +289,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $css_class .= " {$ref->mgdschema_class}";
 
         // Populate common properties
-        $css_class = $_MIDCOM->metadata->get_object_classes($object, $css_class);
+        $css_class = midcom::get('metadata')->get_object_classes($object, $css_class);
 
         if ($this->_is_selected($object))
         {

@@ -522,7 +522,7 @@ class fi_protie_navigation
         // Add information about the object's status
         if (   $this->object_status_to_class
             && isset($item[MIDCOM_NAV_OBJECT])
-            && $css_status_class = $_MIDCOM->metadata->get_object_classes($item[MIDCOM_NAV_OBJECT]))
+            && $css_status_class = midcom::get('metadata')->get_object_classes($item[MIDCOM_NAV_OBJECT]))
         {
             $classes[] = $css_status_class;
         }

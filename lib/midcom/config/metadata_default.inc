@@ -19,7 +19,7 @@
             'type' => 'select',
             'type_config' => array
             (
-                'options' => $_MIDCOM->metadata->get_opengraph_types(),
+                'options' => midcom::get('metadata')->get_opengraph_types(),
             ),
             'widget' => 'select',
             'storage' => array
@@ -28,7 +28,7 @@
                 'domain'   => 'midcom.helper.metadata',
                 'name'     => 'opengraph_type',
             ),
-            'default' => $_MIDCOM->metadata->get_opengraph_type_default(),
+            'default' => midcom::get('metadata')->get_opengraph_type_default(),
             'hidden' => ! $GLOBALS['midcom_config']['metadata_opengraph'],
         ),
         'navnoentry' => array

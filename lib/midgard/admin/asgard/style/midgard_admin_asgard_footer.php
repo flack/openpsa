@@ -5,7 +5,7 @@
                         {
                             echo "GUID: {$data['object']->guid}, ID: {$data['object']->id}.\n";
                         }
-                        $view_metadata = $_MIDCOM->metadata->get_view_metadata();
+                        $view_metadata = midcom::get('metadata')->get_view_metadata();
                         if ($view_metadata)
                         {
                             try
