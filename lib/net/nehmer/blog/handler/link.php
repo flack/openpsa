@@ -220,7 +220,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_process_delete();
 
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
         midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);

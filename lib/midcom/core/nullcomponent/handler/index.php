@@ -36,7 +36,7 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
         midcom::get('style')->prepend_component_styledir('midcom.core.nullcomponent');
         midcom::get('head')->set_pagetitle($this->_topic->extra);
 
-        $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
+        midcom::get('metadata')->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
     }
 
     /**

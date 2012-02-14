@@ -67,7 +67,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     public static function bind_to_object($object, $handler_id, &$data)
     {
         // Tell our object to MidCOM
-        $_MIDCOM->set_26_request_metadata($object->metadata->revised, $object->guid);
+        midcom::get('metadata')->set_request_metadata($object->metadata->revised, $object->guid);
         $data['object_reflector'] = midcom_helper_reflector::get($object);
         $data['tree_reflector'] = midcom_helper_reflector_tree::get($object);
 

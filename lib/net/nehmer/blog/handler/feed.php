@@ -118,7 +118,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         // Prepare the feed (this will also validate the handler_id)
         $this->_create_feed($handler_id);
 
-        $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
     }
 
     /**
@@ -222,7 +222,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     public function _handler_index ($handler_id, array $args, array &$data)
     {
         $this->set_active_leaf(NET_NEHMER_BLOG_LEAFID_FEEDS);
-        $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
+        midcom::get('metadata')->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
     }
 
     /**

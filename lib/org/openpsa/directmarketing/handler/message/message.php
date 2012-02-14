@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         // Populate calendar events for the message
         $_MIDCOM->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata($this->_message->metadata->revised, $this->_message->guid);
+        midcom::get('metadata')->set_request_metadata($this->_message->metadata->revised, $this->_message->guid);
         midcom::get('head')->set_pagetitle($this->_message->title);
     }
 

@@ -1206,7 +1206,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $time = 0;
             foreach (midcom_core_context::get_all() as $id => $context)
             {
-                $meta = $_MIDCOM->get_26_request_metadata($id);
+                $meta = midcom::get('metadata')->get_request_metadata($id);
                 if ($meta['lastmodified'] > $time)
                 {
                     $time = $meta['lastmodified'];

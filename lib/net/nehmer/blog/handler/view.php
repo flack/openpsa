@@ -181,7 +181,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
     }
 

@@ -104,7 +104,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($this->_campaign != null)
         {
-            $_MIDCOM->set_26_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
+            midcom::get('metadata')->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         }
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         midcom::get('head')->set_pagetitle($data['view_title']);

@@ -66,7 +66,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
 
         // Populate calendar events for the campaign
         $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
+        midcom::get('metadata')->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         midcom::get('head')->set_pagetitle($this->_campaign->title);
     }
 

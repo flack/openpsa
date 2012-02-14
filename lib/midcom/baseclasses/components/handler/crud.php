@@ -461,7 +461,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         if ($this->_object)
         {
             // Let MidCOM know about the object
-            $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+            midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
             $this->_view_toolbar->bind_to($this->_object);
         }
 
@@ -523,7 +523,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_breadcrumb($handler_id);
 
         // Let MidCOM know about the object
-        $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+        midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
@@ -578,7 +578,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_breadcrumb($handler_id);
 
         // Let MidCOM know about the object
-        $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+        midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $_MIDCOM->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
@@ -651,7 +651,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_breadcrumb($handler_id);
 
         // Let MidCOM know about the object
-        $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+        midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);

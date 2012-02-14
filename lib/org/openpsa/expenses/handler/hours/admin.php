@@ -274,7 +274,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_view_toolbar->bind_to($this->_hour_report);
 
-        $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
+        midcom::get('metadata')->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
 
         midcom::get('head')->set_pagetitle($this->_l10n->get($handler_id));
 
@@ -359,7 +359,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_view_toolbar->bind_to($this->_hour_report);
 
-        $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
+        midcom::get('metadata')->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
     }
 
     /**

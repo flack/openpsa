@@ -209,7 +209,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             );
         }
 
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
 
         if (   $this->_config->get('indexinnav')

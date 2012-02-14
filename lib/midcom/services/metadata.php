@@ -222,12 +222,12 @@ class midcom_services_metadata
             return;
         }
 
-        // Update MidCOM 2.6 request metadata if appropriate
-        $request_metadata = $_MIDCOM->get_26_request_metadata($context->id);
+        // Update request metadata if appropriate
+        $request_metadata = $this->get_request_metadata($context->id);
         $edited = $this->_metadata[$context->id][$metadata_type]->get('revised');
         if ($edited > $request_metadata['lastmodified'])
         {
-            $_MIDCOM->set_26_request_metadata($edited, $request_metadata['permalinkguid']);
+            $this->set_request_metadata($edited, $request_metadata['permalinkguid']);
         }
     }
 
@@ -237,8 +237,8 @@ class midcom_services_metadata
      */
     function populate_meta_head()
     {
-        // Populate the 2.6 request metadata into view
-        $request_metadata = $_MIDCOM->get_26_request_metadata();
+        // Populate the request metadata into view
+        $request_metadata = $this->get_request_metadata();
 
         // HTML generator information
         midcom::get('head')->add_meta_head
@@ -329,7 +329,7 @@ class midcom_services_metadata
         if (   $opengraph_type
             && $opengraph_type != 'none')
         {
-            $request_metadata = $_MIDCOM->get_26_request_metadata();
+            $request_metadata = $this->get_request_metadata();
 
             midcom::get('head')->add_meta_head
             (

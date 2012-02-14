@@ -321,7 +321,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         midcom::get('head')->set_pagetitle($this->_page->title);
 
-        $_MIDCOM->set_26_request_metadata($this->_page->metadata->revised, $this->_page->guid);
+        midcom::get('metadata')->set_request_metadata($this->_page->metadata->revised, $this->_page->guid);
     }
 
     /**

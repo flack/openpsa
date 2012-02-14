@@ -290,7 +290,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->set_26_request_metadata($this->_get_last_modified(), $this->_objectguid);
+        midcom::get('metadata')->set_request_metadata($this->_get_last_modified(), $this->_objectguid);
 
         if (   isset($_SERVER['HTTP_X_REQUESTED_WITH'])
             && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')

@@ -123,7 +123,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         org_openpsa_helpers::dm2_savecancel($this);
         $this->_view_toolbar->bind_to($this->_group);
 
-        $_MIDCOM->set_26_request_metadata($this->_group->metadata->revised, $this->_group->guid);
+        midcom::get('metadata')->set_request_metadata($this->_group->metadata->revised, $this->_group->guid);
         midcom::get('head')->set_pagetitle($this->_group->title);
     }
 
