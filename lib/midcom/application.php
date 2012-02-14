@@ -332,7 +332,8 @@ class midcom_application
 
         // Determine new Context ID and set currentcontext,
         // enter that context and prepare its data structure.
-        $context = new midcom_core_context(null, $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC));
+        $oldcontext = midcom_core_context::get();
+        $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
 
         if ($pass_get)
         {
@@ -344,7 +345,6 @@ class midcom_application
             $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url);
         }
 
-        $oldcontext = midcom_core_context::get();
         $context->set_current();
 
         /* "content-cache" for DLs, check_hit */

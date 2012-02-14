@@ -103,12 +103,25 @@ class midcom_core_context
         self::$_currentcontext = $this->id;
     }
 
+    /**
+     * Get context, either the current one or one designated by ID
+     *
+     * If the current context is requested and doesn't exist for some reason, it is automatically created
+     *
+     * @param int $id The context ID, if any
+     */
     public static function & get($id = null)
     {
         if (is_null($id))
         {
             $id = self::$_currentcontext;
+            if (!isset(self::$_contexts[$id]))
+            {
+                self::$_contexts[$id] = new self($id);
+            }
+            return self::$_contexts[$id];
         }
+
         if (   $id < 0
             || $id >= count(self::$_contexts))
         {
@@ -116,10 +129,8 @@ class midcom_core_context
             $ret = false;
             return $ret;
         }
-        else
-        {
-            return self::$_contexts[$id];
-        }
+
+        return self::$_contexts[$id];
     }
 
     /**
