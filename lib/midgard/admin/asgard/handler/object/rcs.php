@@ -276,7 +276,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             )
         );
 
-        if (isset($current))
+        if (!empty($current))
         {
             $this->_request_data['rcs_toolbar_2']->add_item
             (
