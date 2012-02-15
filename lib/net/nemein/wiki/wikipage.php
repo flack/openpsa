@@ -306,10 +306,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $content = "\n\n" . str_replace('h1', 'h3', ob_get_contents()) . "\n\n";
         ob_end_clean();
 
-        // Return from the DLd context into the correct context
-        // FIXME: Why doesn't dynamic_load do this by itself?
-        midcom::get('style')->enter_context($oldcontext->id);
-
         return "{$content}{$after}";
     }
 

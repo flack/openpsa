@@ -64,8 +64,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
         {
             midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
-            // FIXME: This is a rather ugly hack
-            midcom::get('style')->enter_context(0);
         }
         ?>
     </div>
@@ -75,8 +73,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             && $data['deliverable_object']->invoiced > 0)
         {
             midcom::get()->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
-            // FIXME: This is a rather ugly hack
-            midcom::get('style')->enter_context(0);
         }
         ?>
     </div>

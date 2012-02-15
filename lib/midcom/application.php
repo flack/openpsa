@@ -391,6 +391,7 @@ class midcom_application
 
         // Leave Context
         $oldcontext->set_current();
+        midcom::get('style')->enter_context($oldcontext->id);
 
         return $context->id;
     }
