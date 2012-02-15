@@ -316,7 +316,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             return false;
         }
         $this->_file->require_do('midgard:update');
-        $_MIDCOM->bind_view_to_object($this->_file);
+        $this->bind_view_to_object($this->_file);
 
         $filename = $this->_process_form();
         if (!$filename)

@@ -96,7 +96,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
     }
 
     /**

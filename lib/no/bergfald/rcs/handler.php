@@ -117,7 +117,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
         if (get_class($this->_object) != 'midcom_db_topic')
         {
-            $_MIDCOM->bind_view_to_object($this->_object);
+            $this->bind_view_to_object($this->_object);
         }
     }
 
@@ -223,7 +223,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_object);
+        $this->bind_view_to_object($this->_object);
     }
 
     /**

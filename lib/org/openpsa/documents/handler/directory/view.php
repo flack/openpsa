@@ -178,7 +178,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_request_data['directory']);
+        $this->bind_view_to_object($this->_request_data['directory']);
     }
 
     /**

@@ -62,7 +62,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         else
         {
             // This is a regular object, bind to view
-            $_MIDCOM->bind_view_to_object($this->_object);
+            $this->bind_view_to_object($this->_object);
 
             $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");

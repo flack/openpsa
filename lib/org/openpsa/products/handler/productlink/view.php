@@ -76,7 +76,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->bind_view_to_object($this->_productlink, $data['datamanager']->schema->name);
+        $this->bind_view_to_object($this->_productlink, $data['datamanager']->schema->name);
 
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_productlink);
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);

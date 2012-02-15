@@ -159,7 +159,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('edit %s'), $this->_page->title);
         midcom::get('head')->set_pagetitle($data['view_title']);

@@ -248,7 +248,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
+        $this->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
 
         if (isset($product_group))
         {

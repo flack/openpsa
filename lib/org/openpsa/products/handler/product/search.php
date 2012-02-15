@@ -501,7 +501,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             }
         }
 
-        $_MIDCOM->bind_view_to_object($this->_topic, $this->_request_data['search_schema']);
+        $this->bind_view_to_object($this->_topic, $this->_request_data['search_schema']);
     }
 
     /**

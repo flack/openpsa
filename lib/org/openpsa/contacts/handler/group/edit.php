@@ -103,7 +103,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['group'] =& $this->_group;
 
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
 
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
 

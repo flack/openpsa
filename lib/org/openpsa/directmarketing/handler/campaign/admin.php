@@ -214,7 +214,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         midcom::get('head')->set_pagetitle($this->_campaign->title);
-        $_MIDCOM->bind_view_to_object($this->_campaign);
+        $this->bind_view_to_object($this->_campaign);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -319,7 +319,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         midcom::get('head')->set_pagetitle($this->_campaign->title);
 
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_campaign);
+        $this->bind_view_to_object($this->_campaign);
 
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -379,7 +379,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_prepare_request_data($handler_id);
         midcom::get('head')->set_pagetitle($this->_campaign->title);
-        $_MIDCOM->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
+        $this->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -448,7 +448,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         );
 
         midcom::get('head')->set_pagetitle($this->_campaign->title);
-        $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 

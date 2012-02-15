@@ -99,7 +99,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         else
         {
             // This is a regular object, bind to view
-            $_MIDCOM->bind_view_to_object($this->_object);
+            $this->bind_view_to_object($this->_object);
         }
 
         $this->_metadata = midcom_helper_metadata::retrieve($this->_object);

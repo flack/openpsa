@@ -238,7 +238,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         // Add toolbar items
         $this->_populate_toolbar();
 
-        $_MIDCOM->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
 
         midcom::get('head')->set_pagetitle($this->_group->official);
 

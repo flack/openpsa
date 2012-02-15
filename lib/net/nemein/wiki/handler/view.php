@@ -193,7 +193,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);
         }
 
-        $_MIDCOM->bind_view_to_object($this->_page, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_page, $this->_datamanager->schema->name);
     }
 
     private function _load_page($wikiword)

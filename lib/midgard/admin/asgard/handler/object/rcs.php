@@ -130,7 +130,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         if (get_class($this->_object) != 'midcom_db_topic')
         {
-            $_MIDCOM->bind_view_to_object($this->_object);
+            $this->bind_view_to_object($this->_object);
         }
     }
 
@@ -371,7 +371,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_object);
+        $this->bind_view_to_object($this->_object);
     }
 
     /**

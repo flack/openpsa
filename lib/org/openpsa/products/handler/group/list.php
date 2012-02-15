@@ -192,7 +192,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
                 }
             }
-            $_MIDCOM->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
+            $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
         }
 
         $this->_update_breadcrumb_line();

@@ -241,7 +241,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
+        $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
 
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
@@ -304,7 +304,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         $this->_prepare_request_data($handler_id);
         midcom::get('head')->set_pagetitle($this->_deliverable->title);
-        $_MIDCOM->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
+        $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
         $this->_update_breadcrumb_line($handler_id);
     }
 

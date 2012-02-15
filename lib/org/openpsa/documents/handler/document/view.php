@@ -222,7 +222,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $this->_add_version_navigation();
 
-        $_MIDCOM->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
     }
 
     private function _populate_toolbar()

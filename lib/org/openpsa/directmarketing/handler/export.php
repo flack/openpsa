@@ -56,7 +56,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             )
         );
 
-        $_MIDCOM->bind_view_to_object($this->_request_data['campaign']);
+        $this->bind_view_to_object($this->_request_data['campaign']);
 
         $this->_load_schemas();
     }

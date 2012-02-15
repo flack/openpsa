@@ -225,7 +225,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->bind_view_to_object($this->_article, $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_article, $this->_controller->datamanager->schema->name);
         midcom::get('style')->append_substyle('admin');
         midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->set_active_leaf($this->_article->id);
@@ -401,7 +401,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
         midcom::get('style')->append_substyle('admin');
         midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");

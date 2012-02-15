@@ -98,7 +98,7 @@ implements midcom_helper_datamanager2_interfaces_create
             )
         );
 
-        $_MIDCOM->bind_view_to_object($this->_billing_data);
+        $this->bind_view_to_object($this->_billing_data);
     }
 
     public function _show_edit($handler_id, array &$data)

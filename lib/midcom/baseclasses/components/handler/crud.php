@@ -520,7 +520,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         // Let MidCOM know about the object
         midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
-        $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
     }
@@ -575,7 +575,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         // Let MidCOM know about the object
         midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
-        $_MIDCOM->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
     }
@@ -648,7 +648,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         // Let MidCOM know about the object
         midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
-        $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
     }

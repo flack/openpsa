@@ -231,7 +231,7 @@ implements midcom_helper_datamanager2_interfaces_create
         );
 
         $this->_prepare_breadcrumb();
-        $_MIDCOM->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
+        $this->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
     }
 
     public function _show_edit($handler_id, array &$data)
