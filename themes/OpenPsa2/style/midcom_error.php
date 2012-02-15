@@ -1,4 +1,5 @@
 <?php
+$head = midcom::get('head');
 $message = $this->data['error_message'];
 $title = $this->data['error_title'];
 $exception = $this->data['error_exception'];
@@ -8,11 +9,11 @@ $exception = $this->data['error_exception'];
 <head>
   <title><(title)> OpenPSA</title>
   <?php
-$_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'media' => 'screen,projection'));
-$_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'media' => 'all'));
-$_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'media' => 'print'));
-$_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/error.css', 'media' => 'all'));
-$_MIDCOM->print_head_elements();
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'screen,projection');
+$head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all'));
+$head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print'));
+$head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/error.css', 'all'));
+$head->print_head_elements();
 ?>
 
   <link rel="shortcut icon" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/openpsa-16x16.png" />
@@ -42,7 +43,6 @@ if (!empty($stacktrace))
 
   <div class="org_openpsa_softwareinfo">
       <a href="http://www.openpsa.org/">OpenPSA <?php
-      $_MIDCOM->componentloader->load('org.openpsa.core');
       echo org_openpsa_core_version::get_version_both();
       ?></a>,
       <a href="http://www.midgard-project.org/">Midgard <?php echo mgd_version(); ?></a>

@@ -1,4 +1,8 @@
 <?php
+$i18n = midcom::get('i18n');
+$head = midcom::get('head');
+$context = midcom_core_context::get();
+
 if (!defined('MIDCOM_STATIC_URL'))
 {
     define('MIDCOM_STATIC_URL', '/midcom-static');
@@ -13,33 +17,33 @@ if ($width !== false)
     $pref_found = true;
 }
 
-$topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+$topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
 echo "<?xml version=\"1.0\"?>\n";
 ?>
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $_MIDCOM->i18n->get_current_language(); ?>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $i18n->get_current_language(); ?>">
     <head>
         <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
-        <title><?php echo $topic->extra . ': ' . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?> - <(title)> OpenPSA</title>
+        <title><?php echo $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITLE); ?> - <(title)> OpenPSA</title>
         <link type="image/x-icon" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/openpsa-16x16.png" rel="shortcut icon"/>
         <?php
-        $_MIDCOM->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'media' => 'screen,projection'));
-        $_MIDCOM->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'media' => 'all'));
-        $_MIDCOM->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'media' => 'print'));
-        $_MIDCOM->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'media' => 'all'));
+          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'screen,projection');
+          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all');
+          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
+          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'all');
 
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+        $head->enable_jquery();
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
         org_openpsa_widgets_ui::add_head_elements();
-        $_MIDCOM->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
-        $_MIDCOM->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get('i18n')->get_l10n('org.openpsa.widgets')->get('more') . "';");
-        $_MIDCOM->print_head_elements();
+        $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
+        $head->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get('i18n')->get_l10n('org.openpsa.widgets')->get('more') . "';");
+        $head->print_head_elements();
 
         if ($pref_found)
         {?>
@@ -57,7 +61,7 @@ echo "<?xml version=\"1.0\"?>\n";
         <?php } ?>
 
     </head>
-    <body<?php $_MIDCOM->print_jsonload(); ?>>
+    <body<?php $head->print_jsonload(); ?>>
         <(toolbar)>
         <div id="container">
           <div id="leftframe">
@@ -84,7 +88,7 @@ echo "<?xml version=\"1.0\"?>\n";
               <div id="content-text">
                   <?php
                   //Display any UI messages added to stack on PHP level
-                  $_MIDCOM->uimessages->show();
+                  midcom::get('uimessages')->show();
                   ?>
                   <(content)>
               </div>
