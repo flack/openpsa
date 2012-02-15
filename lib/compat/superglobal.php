@@ -97,6 +97,28 @@ class midcom_compat_superglobal
     }
 
     /**
+     * Load a code library
+     *
+     * This will load the pure-code library denoted by the MidCOM Path $path. It will
+     * return true if the component truly was a pure-code library, false otherwise.
+     * If the component loader cannot load the component, midcom_error will be
+     * thrown by it.
+     *
+     * Common example:
+     *
+     * <code>
+     * $_MIDCOM->load_library('midcom.helper.datamanager');
+     * </code>
+     *
+     * @param string $path    The name of the code library to load.
+     * @return boolean            Indicates whether the library was successfully loaded.
+     */
+    function load_library($path)
+    {
+        return midcom::get('componentloader')->load_library($path);
+    }
+
+    /**
      * Access the MidCOM component context
      *
      * @param int param1    Either the ID of the context (two parameters) or the key requested (one parameter).

@@ -176,6 +176,41 @@ class midcom_helper__componentloader
     }
 
     /**
+     * This will load the pure-code library denoted by $path. It will
+     * return true if the component truly was a pure-code library, false otherwise.
+     * If the component loader cannot load the component, midcom_error will be
+     * thrown.
+     *
+     * Common example:
+     *
+     * <code>
+     * midcom::get('componentloader')->load_library('midcom.helper.datamanager');
+     * </code>
+     *
+     * @param string $path    The name of the code library to load.
+     * @return boolean            Indicates whether the library was successfully loaded.
+     */
+    function load_library($path)
+    {
+        if (! array_key_exists($path, $this->manifests))
+        {
+            debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        if (! $this->manifests[$path]->purecode)
+        {
+            debug_add("Cannot load component {$path} as library, it is a full-fledged component.", MIDCOM_LOG_ERROR);
+            debug_print_r('Manifest:', $this->manifests[$path]);
+            return false;
+        }
+
+        $this->load($path);
+
+        return true;
+    }
+
+    /**
      * This function will load the component specified by the MidCOM
      * path $path. If the component could not be loaded successfully due
      * to integrity errors (missing SnippetDirs, Classes, etc.), it will
