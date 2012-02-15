@@ -20,7 +20,7 @@
  * you should explicitly delete temporary objects you do no longer need using
  * the default delete call.
  *
- * This service is available as $_MIDCOM->tmp.
+ * This service is available as midcom::get('tmp').
  *
  * <b>Temporary object privileges</b>
  *

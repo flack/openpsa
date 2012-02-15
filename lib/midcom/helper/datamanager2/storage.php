@@ -76,7 +76,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         if ($this->object === null)
         {
-            $this->object = $_MIDCOM->tmp->create_object();
+            $this->object = midcom::get('tmp')->create_object();
         }
     }
 

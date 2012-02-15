@@ -35,7 +35,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         midcom::get('cache')->content->no_cache();
 
         $this->_load_datamanager();
-        $_MIDCOM->load_library('midcom.helper.xml');
     }
 
     /**
