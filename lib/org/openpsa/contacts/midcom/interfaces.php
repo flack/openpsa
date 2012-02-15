@@ -291,7 +291,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $data['rss_url'] = $rss_url[0]['href'];
 
             // We have a feed URL, but we should check if it is GeoRSS as well
-            $_MIDCOM->load_library('net.nemein.rss');
+            midcom::get('componentloader')->load_library('net.nemein.rss');
 
             $rss_content = net_nemein_rss_fetch::raw_fetch($data['rss_url']);
 

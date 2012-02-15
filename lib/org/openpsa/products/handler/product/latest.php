@@ -187,7 +187,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        $_MIDCOM->load_library('de.bitfolge.feedcreator'); //Load the feed library here, because we disabled autoloading.
+        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator'); //Load the feed library here, because we disabled autoloading.
 
         $data['rss_creator'] = new UniversalFeedCreator();
         $data['rss_creator']->title = $this->_topic->extra;

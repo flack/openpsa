@@ -396,7 +396,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
      */
     private function _replace_wikiwords_macro_tagged($macro_content, $fulltag, $after)
     {
-        if (!$_MIDCOM->load_library('net.nemein.tag'))
+        if (!midcom::get('componentloader')->load_library('net.nemein.tag'))
         {
             // TODO: do something to explain that we can't load n.n.tag...
             return $fulltag;

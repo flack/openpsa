@@ -47,7 +47,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if ($this->_config->get('rss_subscription_enable'))
         {
-            $_MIDCOM->load_library('net.nemein.rss');
+            midcom::get('componentloader')->load_library('net.nemein.rss');
             $rss_switches = net_nemein_rss_manage::get_plugin_handlers();
             $this->_request_switch = array_merge($this->_request_switch, $rss_switches);
         }

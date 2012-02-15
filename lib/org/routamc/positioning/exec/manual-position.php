@@ -2,7 +2,7 @@
 function org_routamc_positioning_send_sms($to, $message, $from, $config)
 {
     $sms_lib = 'org.openpsa.smslib';
-    $_MIDCOM->load_library($sms_lib);
+    midcom::get('componentloader')->load_library($sms_lib);
     $sms_lib_api = $config->get('smslib_api');
     $sms_lib_location = $config->get('smslib_uri');
     $sms_lib_client_id = $config->get('smslib_client_id');

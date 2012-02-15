@@ -148,7 +148,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         if (!$this->orgOpenpsaAccesstype)
         {
             //Make sure the constant is defined
-            $_MIDCOM->load_library('org.openpsa.core');
+            midcom::get('componentloader')->load_library('org.openpsa.core');
             $this->orgOpenpsaAccesstype = ORG_OPENPSA_ACCESSTYPE_PUBLIC;
         }
         return true;

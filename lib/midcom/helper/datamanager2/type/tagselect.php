@@ -115,7 +115,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 'color' => '8596b6'
             );
 
-            $_MIDCOM->load_library('net.nemein.tag');
+            midcom::get('componentloader')->load_library('net.nemein.tag');
         }
 
         $this->allow_multiple = true;

@@ -107,7 +107,7 @@ class midcom_compat_superglobal
      * Common example:
      *
      * <code>
-     * $_MIDCOM->load_library('midcom.helper.datamanager');
+     * midcom::get('componentloader')->load_library('midcom.helper.datamanager');
      * </code>
      *
      * @param string $path    The name of the code library to load.

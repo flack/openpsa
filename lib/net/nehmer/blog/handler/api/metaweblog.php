@@ -45,7 +45,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             if (!class_exists('org_routamc_positioning_object'))
             {
                 // Load the positioning library
-                $_MIDCOM->load_library('org.routamc.positioning');
+                midcom::get('componentloader')->load_library('org.routamc.positioning');
             }
             $this->_positioning = true;
         }

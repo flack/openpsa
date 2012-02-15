@@ -992,7 +992,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $tags[$tag] = $html_tag['href'];
             }
 
-            $_MIDCOM->load_library('net.nemein.tag');
+            midcom::get('componentloader')->load_library('net.nemein.tag');
 
             return net_nemein_tag_handler::tag_object($article, $tags);
         }

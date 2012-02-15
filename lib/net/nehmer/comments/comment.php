@@ -224,7 +224,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return;
         }
 
-        $_MIDCOM->load_library('be.crsolutions.mollom');
+        midcom::get('componentloader')->load_library('be.crsolutions.mollom');
 
         $mollom = new be_crsolutions_mollom();
         if (!$mollom->initialize())

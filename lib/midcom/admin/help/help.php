@@ -38,7 +38,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             $this->mgdtypes[MGD_TYPE_NONE] = 'none';
         }
-        $_MIDCOM->load_library('net.nehmer.markdown');
+        midcom::get('componentloader')->load_library('net.nehmer.markdown');
     }
 
     public function _on_initialize()

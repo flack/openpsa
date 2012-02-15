@@ -331,7 +331,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _show_view($handler_id, array &$data)
     {
-        $_MIDCOM->load_library('net.nemein.tag');
+        midcom::get('componentloader')->load_library('net.nemein.tag');
 
         if ($this->_controller)
         {

@@ -63,7 +63,7 @@ if (   !empty($component)
 
 if ($mode == 'object')
 {
-    $_MIDCOM->load_library('net.nemein.tag');
+    midcom::get('componentloader')->load_library('net.nemein.tag');
 
     // Load component if required
     if (!class_exists($class))
