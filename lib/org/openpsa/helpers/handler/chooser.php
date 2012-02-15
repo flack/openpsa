@@ -84,7 +84,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['controller'] =& $this->_controller;
         $data['action'] =& $this->_action;
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

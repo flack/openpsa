@@ -54,7 +54,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     private function _content_type()
     {
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->content_type('text/calendar');
         // Debugging
         //midcom::get('cache')->content->content_type('text/plain');

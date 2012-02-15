@@ -106,7 +106,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
 
         $this->_init_csv_variables();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // FIXME: Use global configuration
         //midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));

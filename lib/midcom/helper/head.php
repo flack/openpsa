@@ -523,7 +523,7 @@ class midcom_helper_head
         }
 
         $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
-        $script .= "var MIDCOM_PAGE_PREFIX = '" . $_MIDCOM->get_page_prefix() . "';\n";
+        $script .= "var MIDCOM_PAGE_PREFIX = '" . midcom::get()->get_page_prefix() . "';\n";
 
         $this->_jquery_init_scripts .= "<script type=\"text/javascript\">\n";
         $this->_jquery_init_scripts .= trim($script) . "\n";

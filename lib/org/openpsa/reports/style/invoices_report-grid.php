@@ -180,7 +180,7 @@ jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($foote
 </script>
 
 <?php
-$host_prefix = $_MIDCOM->get_host_prefix();
+$host_prefix = midcom::get()->get_host_prefix();
 
 $filename = $data['l10n']->get($data['table_title']);
 $filename .= '_' . date('Y_m_d');

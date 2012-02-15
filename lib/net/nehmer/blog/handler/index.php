@@ -68,7 +68,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     {
         if ($handler_id == 'ajax-latest')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb']);

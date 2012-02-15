@@ -179,7 +179,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $qb->add_order('orgOpenpsaObtype');
         $data['prospects'] = $qb->execute();
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
@@ -210,7 +210,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $projectbroker = new org_openpsa_projects_projectbroker();
         $data['slots'] = $projectbroker->resolve_person_timeslots($data['person'], $this->_task);
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

@@ -9,7 +9,7 @@
     </head>
     <body>
         <?php
-        $_MIDCOM->content();
+        midcom::get()->content();
         midcom::get('uimessages')->show();
         midcom::get('toolbars')->show();
         ?>

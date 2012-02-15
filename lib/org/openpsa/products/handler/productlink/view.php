@@ -63,7 +63,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
     {
         if (preg_match('/_raw$/', $handler_id))
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $this->_productlink = new org_openpsa_products_product_link_dba($args[0]);

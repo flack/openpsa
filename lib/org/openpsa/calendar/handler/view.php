@@ -684,7 +684,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
     public function _handler_event($handler_id, array $args, array &$data)
     {
         // We're using a popup here
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // Get the requested event object
         $this->_request_data['event'] = new org_openpsa_calendar_event_dba($args[0]);

@@ -95,7 +95,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $this->_handler_list_project($args);
                 //form of tasks has to be changed for json
                 $this->_change_tasks_for_json();
-                $_MIDCOM->skip_page_style = true;
+                midcom::get()->skip_page_style = true;
                 $this->_request_data['view'] = 'json';
                 break;
             default:

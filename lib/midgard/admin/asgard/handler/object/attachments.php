@@ -368,7 +368,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     {
         midgard_admin_asgard_plugin::asgard_header();
 
-        $host_prefix = $_MIDCOM->get_host_prefix();
+        $host_prefix = midcom::get()->get_host_prefix();
         $delete_url = $host_prefix . '__mfa/asgard/object/attachments/delete/' . $this->_object->guid . '/' . $this->_file->name;
 
         $data['delete_url'] =& $delete_url;

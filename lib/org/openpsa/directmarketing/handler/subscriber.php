@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     public function _on_initialize()
     {
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

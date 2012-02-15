@@ -461,7 +461,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         $this->_load_datamanager();
     }
 
@@ -501,7 +501,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         $this->_load_datamanager();
     }
 

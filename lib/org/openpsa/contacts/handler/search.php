@@ -116,7 +116,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         switch ($args[0])
         {
             case 'foaf':
-                $_MIDCOM->skip_page_style = true;
+                midcom::get()->skip_page_style = true;
                 $this->_view = 'foaf';
                 if (!empty($this->_query))
                 {

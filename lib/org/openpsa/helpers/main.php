@@ -110,7 +110,7 @@ class org_openpsa_helpers
         {
             return $output;
         }
-        $host_prefix = $_MIDCOM->get_host_prefix();
+        $host_prefix = midcom::get()->get_host_prefix();
         foreach ($identifiers as $identifier)
         {
             $parts = explode(':', $identifier);
@@ -154,7 +154,7 @@ class org_openpsa_helpers
         {
             return false;
         }
-        $host_prefix = $_MIDCOM->get_host_prefix();
+        $host_prefix = midcom::get()->get_host_prefix();
         foreach ($identifiers as $identifier)
         {
             $parts = explode(':', $identifier);

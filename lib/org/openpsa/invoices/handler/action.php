@@ -331,7 +331,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         switch ($_POST['oper'])
         {

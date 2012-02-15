@@ -416,7 +416,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     public static function serve_attachment($guid)
     {
         $attachment = new midcom_db_attachment($guid);
-        $_MIDCOM->serve_attachment($attachment);
+        midcom::get()->serve_attachment($attachment);
     }
     public function has_parameters()
     {

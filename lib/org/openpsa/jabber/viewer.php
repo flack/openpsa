@@ -33,7 +33,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
     {
         midcom::get('auth')->require_valid_user();
         // We're using a popup here
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

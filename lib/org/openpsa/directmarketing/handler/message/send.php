@@ -59,7 +59,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             throw new midcom_error('"content" not defined in schema');
         }
         ignore_user_abort();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('auth')->drop_sudo();
     }
 

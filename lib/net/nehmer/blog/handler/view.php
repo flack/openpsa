@@ -139,7 +139,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     {
         if ($handler_id == 'view-raw')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $this->_load_datamanager();

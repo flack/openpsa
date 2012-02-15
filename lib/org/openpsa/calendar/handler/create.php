@@ -103,7 +103,7 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_helpers::dm2_savecancel($this);
 
         // Hide the ROOT style
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

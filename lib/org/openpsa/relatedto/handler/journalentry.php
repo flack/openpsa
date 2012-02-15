@@ -332,7 +332,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'xml':
                 midcom::get()->header("Content-type: text/xml; charset=UTF-8");
-                $_MIDCOM->skip_page_style = true;
+                midcom::get()->skip_page_style = true;
                 break;
         }
     }

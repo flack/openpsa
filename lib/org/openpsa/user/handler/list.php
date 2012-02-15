@@ -76,7 +76,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function _handler_json($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

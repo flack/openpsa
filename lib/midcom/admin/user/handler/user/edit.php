@@ -181,7 +181,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_passwords($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

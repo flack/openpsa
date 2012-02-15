@@ -25,7 +25,7 @@ function render_breadcrumb(&$crumbs)
 }
 
 $site_root = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-$host_prefix = $_MIDCOM->get_host_prefix();
+$host_prefix = midcom::get()->get_host_prefix();
 $nap = new midcom_helper_nav();
 
 $qb = midcom_db_topic::new_query_builder();

@@ -205,7 +205,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             }
             //set data for preview & skip page_style because of javascript call
             $data['preview_persons'] = $rule_persons;
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         // Add toolbar items

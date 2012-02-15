@@ -409,7 +409,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         if ($handler_id == 'view_search_raw')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $data['results'] = array();

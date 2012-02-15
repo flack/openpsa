@@ -55,7 +55,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         if ($handler_id == 'mycontacts_xml')
         {

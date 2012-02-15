@@ -67,7 +67,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // Prepare control structures
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
@@ -138,7 +138,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_feed->description = $this->_config->get('rss_description');
         $this->_feed->language = $this->_config->get('rss_language');
         $this->_feed->editor = $this->_config->get('rss_webmaster');
-        $this->_feed->link = $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $this->_feed->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $this->_feed->cssStyleSheet = false;
 
         switch($handler_id)

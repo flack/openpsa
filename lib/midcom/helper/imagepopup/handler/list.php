@@ -39,7 +39,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     {
         midcom::get('cache')->content->no_cache();
         midcom::get('auth')->require_valid_user();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         if (!$this->_config->get('enable_page'))
         {

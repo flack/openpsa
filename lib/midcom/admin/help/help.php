@@ -43,7 +43,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     public function _on_initialize()
     {
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         // doing this here as this component most probably will not be called by itself.
         midcom::get('style')->prepend_component_styledir('midcom.admin.help');
     }

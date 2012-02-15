@@ -248,7 +248,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $data['memberships'] = $qb->execute();
 
         // Group person listing, always work even if there are none
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

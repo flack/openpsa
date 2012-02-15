@@ -128,7 +128,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         }
 
         //We're outputting CSV
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->content_type('application/csv');
     }
 

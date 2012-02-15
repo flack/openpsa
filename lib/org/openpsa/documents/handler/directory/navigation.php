@@ -101,7 +101,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         $this->_request_data['topic_array'] = $document_topics;
 
         //This handler is supposed to be used with dynamic_load or AJAX, so skip page style
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

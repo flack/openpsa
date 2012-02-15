@@ -150,7 +150,7 @@ $grid->render($rows);
 </div>
 <?php
 $grid_id = $grid->get_identifier();
-$host_prefix = $_MIDCOM->get_host_prefix();
+$host_prefix = midcom::get()->get_host_prefix();
 
 $filename = $data['list_title'];
 $filename .= '_' . date('Y_m_d');

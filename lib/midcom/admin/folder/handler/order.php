@@ -189,7 +189,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Skip the page style on AJAX form handling
         if (isset($_GET['ajax']))
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
     }
 

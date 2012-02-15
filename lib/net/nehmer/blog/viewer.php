@@ -67,7 +67,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('rss 2.0 feed'),
-                    'href'  => $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
+                    'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
                 )
             );
             midcom::get('head')->add_link_head
@@ -77,7 +77,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                     'rel'   => 'alternate',
                     'type'  => 'application/atom+xml',
                     'title' => $this->_l10n->get('atom feed'),
-                    'href'  => $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'atom.xml',
+                    'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'atom.xml',
                 )
             );
         }
@@ -90,7 +90,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 'rel' => 'EditURI',
                 'type' => 'application/rsd+xml',
                 'title' => 'RSD',
-                'href' => $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rsd.xml',
+                'href' => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rsd.xml',
             )
         );
     }

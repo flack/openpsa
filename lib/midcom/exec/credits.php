@@ -173,7 +173,7 @@ reset($developers);
                                         foreach ($components as $component => $component_name)
                                         {
                                             $icon = midcom::get('componentloader')->get_component_icon($component);
-                                            echo "<a href=\"" . $_MIDCOM->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
+                                            echo "<a href=\"" . midcom::get()->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
                                             echo "<img src=\"" . MIDCOM_STATIC_URL . "/{$icon}\" alt=\"{$component_name} ({$component})\" title=\"{$component_name} ({$component})\" />";
                                             echo "</a>\n";
                                         }

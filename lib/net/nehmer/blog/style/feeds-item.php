@@ -30,11 +30,11 @@ else
 {
     if ($data['config']->get('view_in_url'))
     {
-        $item->link = $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
+        $item->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
     }
     else
     {
-        $item->link = $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
+        $item->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
     }
 }
 
@@ -59,7 +59,7 @@ if ($data['config']->get('rss_use_content'))
 }
 
 // Replace links
-$item->description = preg_replace(',<(a|link|img|script|form|input)([^>]+)(href|src|action)="/([^>"\s]+)",ie', '"<\1\2\3=\"' . $_MIDCOM->get_host_name() . '/\4\""', $item->description);
+$item->description = preg_replace(',<(a|link|img|script|form|input)([^>]+)(href|src|action)="/([^>"\s]+)",ie', '"<\1\2\3=\"' . midcom::get()->get_host_name() . '/\4\""', $item->description);
 
 // TODO: Figure out the RSS multi-category support for real
 $categories = explode('|', $data['article']->extra1);

@@ -28,7 +28,7 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
         midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         $data['rss_creator'] = new UniversalFeedCreator();
         $data['rss_creator']->title = $data['node'][MIDCOM_NAV_NAME];

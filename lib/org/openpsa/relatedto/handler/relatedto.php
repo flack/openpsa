@@ -771,7 +771,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     public function _handler_ajax($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         $ajax = new org_openpsa_helpers_ajax();
         //Request mode switch
         $this->_mode =& $args[0];
@@ -827,7 +827,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         $ajax = new org_openpsa_helpers_ajax();
 

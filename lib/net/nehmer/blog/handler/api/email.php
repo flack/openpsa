@@ -149,7 +149,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
 
         //Content-Type
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->content_type('text/plain');
 
         if (!isset($this->_request_data['schemadb'][$this->_config->get('api_email_schema')]))

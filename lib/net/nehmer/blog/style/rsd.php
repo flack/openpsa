@@ -7,7 +7,7 @@
  * More information about the format can be found in:
  * http://archipelago.phrasewise.com/rsd
  */
-$prefix = $_MIDCOM->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo '<?xml version="1.0" ?>';
 ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >

@@ -40,7 +40,7 @@ if (   isset($data['restored_form_data'])
 if ($GLOBALS['midcom_config']['auth_openid_enable'])
 {
     midcom::get('componentloader')->load_library('net.nemein.openid');
-    $url = $_MIDCOM->get_host_prefix() . 'midcom-exec-net.nemein.openid/initiate.php';
+    $url = midcom::get()->get_host_prefix() . 'midcom-exec-net.nemein.openid/initiate.php';
     ?>
     <!--<h3><?php echo midcom::get('i18n')->get_string('login using openid', 'net.nemein.openid'); ?></h3>-->
 

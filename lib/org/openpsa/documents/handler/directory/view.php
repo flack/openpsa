@@ -107,7 +107,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 $this->_prepare_directories($root_topic, $current_component);
                 //set header & style for xml
                 midcom::get()->header("Content-type: text/xml; charset=UTF-8");
-                $_MIDCOM->skip_page_style = true;
+                midcom::get()->skip_page_style = true;
 
                 break;
             //html

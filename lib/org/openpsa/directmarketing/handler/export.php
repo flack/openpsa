@@ -153,7 +153,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         $this->_load_datamanagers();
         $this->_init_csv_variables();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
     }
 

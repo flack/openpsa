@@ -182,7 +182,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         $this->_request_data['login_form_html'] = $formData;
 
         // We're using a popup here
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

@@ -285,7 +285,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if (   $handler_id = 'view-comments-custom'
             && count($args) > 1)
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
             $this->custom_view = $args[1];
         }
 
@@ -295,7 +295,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if (   isset($_SERVER['HTTP_X_REQUESTED_WITH'])
             && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
     }
 

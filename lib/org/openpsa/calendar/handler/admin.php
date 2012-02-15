@@ -32,7 +32,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         midcom::get('auth')->require_valid_user();
 
         // This is a popup
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

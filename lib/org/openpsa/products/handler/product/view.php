@@ -103,7 +103,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     {
         if (preg_match('/_raw$/', $handler_id))
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $qb = org_openpsa_products_product_dba::new_query_builder();

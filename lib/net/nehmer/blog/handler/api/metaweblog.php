@@ -689,7 +689,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     public function _handler_rsd($handler_id, array $args, array &$data)
     {
         //Content-Type
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->content_type('text/xml');
     }
 
@@ -717,7 +717,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
 
         //Content-Type
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->no_cache();
         midcom::get('cache')->content->content_type('text/xml');
 
