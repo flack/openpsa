@@ -29,16 +29,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     private $_status = true;
 
     /**
-     * Startup routines
-     */
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-    }
-
-    /**
      * Get the user preferences schema
      */
     public function load_schemadb()

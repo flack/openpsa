@@ -17,10 +17,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');

@@ -80,10 +80,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
         // Accordion is needed for per-type help when available
         midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');

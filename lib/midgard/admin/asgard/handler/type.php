@@ -15,13 +15,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 {
     var $type;
 
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-    }
-
     private function _prepare_qb($dummy_object)
     {
         // Figure correct MidCOM DBA class to use and get midcom QB

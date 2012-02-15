@@ -30,13 +30,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_controller = null;
 
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-    }
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.

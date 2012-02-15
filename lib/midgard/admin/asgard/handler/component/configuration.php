@@ -19,10 +19,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
-
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
     }
 
     private function _prepare_toolbar($handler_id)

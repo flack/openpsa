@@ -102,13 +102,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midgard.admin.asgard/rcs.css");
-
-        // Load the helper class
-        midcom::get('componentloader')->load('midcom.helper.xml');
     }
 
     /**
