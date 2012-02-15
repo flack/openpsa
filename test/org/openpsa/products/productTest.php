@@ -33,7 +33,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $product->code = $code;
         $product->productGroup = self::$_group->id;
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.products');
+        midcom::get('auth')->request_sudo('org.openpsa.products');
         $stat = $product->create();
         $this->assertTrue($stat);
         $this->register_object($product);
@@ -50,7 +50,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $stat = $product->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

@@ -22,7 +22,7 @@ class org_openpsa_products_product_groupTest extends openpsa_testcase
     public function testCRUD()
     {
         $time = time();
-        $_MIDCOM->auth->request_sudo('org.openpsa.products');
+        midcom::get('auth')->request_sudo('org.openpsa.products');
         $group = new org_openpsa_products_product_group_dba();
         $group->code = 'TEST-100' . $time;
         $stat = $group->create();
@@ -45,7 +45,7 @@ class org_openpsa_products_product_groupTest extends openpsa_testcase
         $stat = $group->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

@@ -29,30 +29,31 @@ class midcom_services_auth_loginTest extends openpsa_testcase
         self::$_password = substr('p_' . time(), 0, 11);
         self::$_username = __CLASS__ . ' user ' . time();
 
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         $account = midcom_core_account::get(self::$_person);
         $account->set_password(self::$_password);
         $account->set_username(self::$_username);
         $account->save();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function testLogin()
     {
-        $stat = $_MIDCOM->auth->login(self::$_username, self::$_password);
+        $auth = midcom::get('auth');
+        $stat = $auth->login(self::$_username, self::$_password);
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->_sync_user_with_backend();
-        $this->assertTrue($_MIDCOM->auth->is_valid_user());
+        $auth->_sync_user_with_backend();
+        $this->assertTrue($auth->is_valid_user());
 
-        $user = $_MIDCOM->auth->user;
+        $user = $auth->user;
         $this->assertTrue($user instanceof midcom_core_user);
         $this->assertEquals(self::$_person->guid, $user->guid);
         $this->assertEquals(self::$_person->id, midcom_connection::get_user());
 
-        $_MIDCOM->auth->logout();
-        $this->assertTrue(is_null($_MIDCOM->auth->user));
-        $this->assertFalse($_MIDCOM->auth->is_valid_user());
+        $auth->logout();
+        $this->assertTrue(is_null($auth->user));
+        $this->assertFalse($auth->is_valid_user());
     }
 }
 ?>

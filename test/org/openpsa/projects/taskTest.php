@@ -21,7 +21,7 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
 
         $task = new org_openpsa_projects_task_dba();
 
@@ -52,7 +52,7 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $stat = $task->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function testHierarchy()
@@ -60,9 +60,9 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $project = $this->create_object('org_openpsa_projects_project');
         $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
         $parent = $task->get_parent();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         $this->assertEquals($parent->guid, $project->guid);
     }

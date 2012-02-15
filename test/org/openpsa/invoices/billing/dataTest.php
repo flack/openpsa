@@ -32,7 +32,7 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $data = new org_openpsa_invoices_billing_data_dba();
         $data->linkGuid = self::$_contact->guid;
         $data->useContactAddress = true;
@@ -63,7 +63,7 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
         $stat = $data->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

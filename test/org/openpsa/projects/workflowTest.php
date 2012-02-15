@@ -230,11 +230,11 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
     {
         parent::TearDownAfterClass();
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
         self::$_other_user->delete();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
-        $_MIDCOM->auth->logout();
+        midcom::get('auth')->logout();
         self::$_user->delete();
     }
 }

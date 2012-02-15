@@ -24,7 +24,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $password = substr('p_' . time(), 0, 11);
         $username = __CLASS__ . ' user ' . microtime();
 
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         if (!$person->create())
         {
             throw new Exception('Person could not be created. Reason: ' . midcom_connection::get_error_string());
@@ -34,14 +34,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $account->set_password($password);
         $account->set_username($username);
         $account->save();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         if ($login)
         {
-            if (!$_MIDCOM->auth->login($username, $password))
+            if (!midcom::get('auth')->login($username, $password))
             {
                 throw new Exception('Login for user ' . $username . ' failed');
             }
-            $_MIDCOM->auth->_sync_user_with_backend();
+            midcom::get('auth')->_sync_user_with_backend();
         }
         self::$_class_objects[$person->guid] = $person;
         return $person;
@@ -243,12 +243,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $data = array_merge($presets, $data);
         $object = self::prepare_object($classname, $data);
 
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         if (!$object->create())
         {
             throw new Exception('Object of type ' . $classname . ' could not be created. Reason: ' . midcom_connection::get_error_string());
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return $object;
     }
 
@@ -277,7 +277,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public static function delete_linked_objects($classname, $link_field, $id)
     {
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         $qb = call_user_func(array($classname, 'new_query_builder'));
         $qb->add_constraint($link_field, '=', $id);
         $results = $qb->execute();
@@ -287,7 +287,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result->_use_activitystream = false;
             $result->delete();
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function tearDown()
@@ -349,7 +349,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     private static function _process_delete_queue($queue)
     {
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         $limit = sizeof($queue) * 5;
         $iteration = 0;
         while (!empty($queue))
@@ -377,7 +377,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

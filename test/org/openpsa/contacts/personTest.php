@@ -21,7 +21,7 @@ class org_openpsa_contacts_personTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
+        midcom::get('auth')->request_sudo('org.openpsa.contacts');
         $person = new org_openpsa_contacts_person_dba();
 
         $person->lastname = 'TEST PERSON ' . __CLASS__;
@@ -39,7 +39,7 @@ class org_openpsa_contacts_personTest extends openpsa_testcase
         $stat = $person->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

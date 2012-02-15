@@ -23,7 +23,7 @@ class org_openpsa_documents_directoryTest extends openpsa_testcase
     {
         $user = $this->create_user(true);
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.documents');
+        midcom::get('auth')->request_sudo('org.openpsa.documents');
 
         $directory = new org_openpsa_documents_directory();
         $directory->name = 'TEST_' . __CLASS__ . time();
@@ -37,7 +37,7 @@ class org_openpsa_documents_directoryTest extends openpsa_testcase
         $stat = $directory->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

@@ -21,7 +21,7 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
 {
     public function testCreate()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.relatedto');
+        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
         $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
@@ -52,7 +52,7 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
 
         $stat = $relatedto->delete();
         $this->assertTrue($stat);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

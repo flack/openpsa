@@ -28,7 +28,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.sales');
+        midcom::get('auth')->request_sudo('org.openpsa.sales');
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $deliverable->salesproject = $this->_salesproject->id;
         $deliverable->plannedUnits = 2.5;
@@ -60,7 +60,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertEquals($this->_salesproject->value, 0);
         $this->assertEquals($this->_salesproject->profit, 0);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function testGet_parent()
