@@ -36,7 +36,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         debug_add("batch_url: {$batch_url}");
 
         ob_start();
-        $_MIDCOM->dynamic_load($batch_url);
+        midcom::get()->dynamic_load($batch_url);
         $output = ob_get_contents();
         ob_end_clean();
 
@@ -190,7 +190,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
                 debug_add("START SEND TO URL {$sending_url}");
                 midcom::get('auth')->request_sudo();
                 ob_start();
-                $_MIDCOM->dynamic_load($sending_url);
+                midcom::get()->dynamic_load($sending_url);
                 $output = ob_get_contents();
                 ob_end_clean();
                 midcom::get('auth')->drop_sudo();

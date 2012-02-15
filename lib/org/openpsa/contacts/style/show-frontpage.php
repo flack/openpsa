@@ -13,6 +13,6 @@ $node = $nap->get_node($nap->get_current_node());
 
 <div class="main">
     <?php
-    $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "mycontacts");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "mycontacts");
     ?>
 </div>

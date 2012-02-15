@@ -29,7 +29,7 @@
  * In your component (or style), add a DL line like this wherever you want the comment
  * feature available:
  *
- * $_MIDCOM->dynamic_load('/$path_to_comments_topic/comment/$guid');
+ * midcom::get()->dynamic_load('/$path_to_comments_topic/comment/$guid');
  *
  * $guid is the GUID of the object you're commenting.
  *

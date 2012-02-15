@@ -28,7 +28,7 @@ function hideElement(element)
 
 <div class="sidebar">
     <?php
-    $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
     ?>
 </div>
 

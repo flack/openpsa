@@ -53,7 +53,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
     if (array_key_exists('comments_url', $data))
     {
-        $_MIDCOM->dynamic_load($data['comments_url']);
+        midcom::get()->dynamic_load($data['comments_url']);
     }
     ?>
     <p><a href="&(prefix);"><?php $data['l10n_midcom']->show('back'); ?></a></p>

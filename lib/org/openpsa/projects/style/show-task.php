@@ -202,7 +202,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             ?>
         </div>
         <div class="hours">
-          <?php $_MIDCOM->dynamic_load($expenses_url . "hours/task/all/" . $task->guid . "/"); ?>
+          <?php midcom::get()->dynamic_load($expenses_url . "hours/task/all/" . $task->guid . "/"); ?>
         </div>
     </div>
 

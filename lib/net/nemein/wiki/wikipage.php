@@ -299,10 +299,9 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // Start buffering
-        $oldcontext = midcom_core_context::get();
         ob_start();
         // Load the photo
-        $_MIDCOM->dynamic_load("{$node[MIDCOM_NAV_RELATIVEURL]}photo/raw/{$photo->guid}");
+        midcom::get()->dynamic_load("{$node[MIDCOM_NAV_RELATIVEURL]}photo/raw/{$photo->guid}");
         // FIXME: The newlines are to avoid some CSS breakage. Problem is that Markdown adds block-level tags around this first
         $content = "\n\n" . str_replace('h1', 'h3', ob_get_contents()) . "\n\n";
         ob_end_clean();

@@ -6,7 +6,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <?php
     if ($data['projects_url'])
     {
-        $_MIDCOM->dynamic_load('workingon/');
+        midcom::get()->dynamic_load('workingon/');
     }
     ?>
 </div>
@@ -18,7 +18,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         ?>
         <div class="agenda">
             <?php
-            $_MIDCOM->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
+            midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
             ?>
         </div>
         <?php
@@ -78,7 +78,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         ?>
         <div class="tasks">
             <?php
-            $_MIDCOM->dynamic_load($data['projects_relative_url'] . 'task/list/');
+            midcom::get()->dynamic_load($data['projects_relative_url'] . 'task/list/');
             ?>
         </div>
         <?php
@@ -89,7 +89,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         ?>
         <div class="wiki">
             <?php
-            $_MIDCOM->dynamic_load($data['wiki_url'] . 'latest/');
+            midcom::get()->dynamic_load($data['wiki_url'] . 'latest/');
             ?>
         </div>
         <?php

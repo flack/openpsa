@@ -101,7 +101,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         ini_set('log_errors', true);
         ini_set('display_errors', false);
         ob_start();
-        $_MIDCOM->dynamic_load($data['compose_url']);
+        midcom::get()->dynamic_load($data['compose_url']);
         $composed = ob_get_contents();
         ob_end_clean();
         ini_set('display_errors', $de_backup);
