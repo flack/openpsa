@@ -1,6 +1,5 @@
 <?php
-$context_id = $_MIDCOM->get_current_context();
-$back_button_name = $_MIDCOM->i18n->get_string("back" , "midcom");
+$back_button_name = midcom::get('i18n')->get_string("back" , "midcom");
 //remove the back-button
 //TODO: any better way to identify the back button ?
 
