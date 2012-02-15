@@ -93,6 +93,73 @@ class midcom_compat_superglobal
     }
 
     /**
+     * Deliver a snippet to the client.
+     *
+     * This function can serve the code field of an arbitrary snippet. There is no checking on
+     * permissions done here, the callee has to ensure this.
+     *
+     * Two parameters can be used to influence the behavior of this method:
+     * "midcom/content-type" will set the content-type header sent with the code
+     * field's content. If this is not set, application/octet-stream is used as a
+     * default. "midcom/expire" is a count of seconds used for content expiration,
+     * both for the HTTP headers and for the caching engine. If this is no valid
+     * integer or less then or equal to zero or not set, the value is set to "1".
+     *
+     * The last modified header is created by using the revised timestamp of the
+     * snippet.
+     *
+     * Remember to also set the parameter "midcom/allow_serve" to "true" to clear the
+     * snippet for serving.
+     *
+     * @param MidgardSnippet &$snippet    The snippet that should be delivered to the client.
+     */
+    function serve_snippet (& $snippet)
+    {
+        if ($snippet->parameter("midcom", "allow_serve") != "true")
+        {
+            throw new midcom_error_forbidden("This snippet may not be served.");
+        }
+        $content_type = $snippet->parameter("midcom", "content-type");
+        if (! $content_type || $content_type == "")
+        {
+            $content_type = "application/octet-stream";
+        }
+        $expire = $snippet->parameter("midcom", "expire");
+        if (! $expire || ! is_numeric($expire) || $expire < -1)
+        {
+            $expire = -1;
+        }
+        else
+        {
+            $expire = (int) $expire;
+        }
+        // This is necessary, as the internal date representation is not HTTP
+        // standard compliant. :-(
+        $lastmod = strtotime($snippet->revised);
+
+        $midcom = midcom::get();
+
+        $midcom->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastmod) . ' GMT');
+        $midcom->header("Content-Length: " . strlen($snippet->code));
+        $midcom->header("Accept-Ranges: none");
+        $midcom->header("Content-Type: $content_type");
+        midcom::get('cache')->content->content_type($content_type);
+
+        // TODO: This should be made aware of the cache headers strategy for content cache module
+        if ($expire > 0)
+        {
+            $midcom->header("Cache-Control: public max-age=$expires");
+            $midcom->header("Expires: " . gmdate("D, d M Y H:i:s", (time()+$expire)) . " GMT" );
+            midcom::get('cache')->content->expires(time()+$expire);
+        }
+        else if ($expire == 0)
+        {
+            midcom::get('cache')->content->no_cache();
+        }
+        echo $snippet->code;
+    }
+
+    /**
      * Return a reference to a given service.
      *
      * Returns the MidCOM Object Service indicated by $name. If the service cannot be

@@ -21,14 +21,6 @@ midcom_application::dynamic_load().
 This method will serve the attachment denoted by the given ID/GUID.
 It uses the default expiration time of serve_attachment (see there).
 
-<b>int servesnippet; GUID servesnippetguid</b>
-
-This pair will serve the code field of a snippet denoted by the given ID/GUID,
-see serve_snippet for further options. For security purposes, the snippets that
-may be served using this function MUST have the parameter midcom/allow_serve
-set to "true". If this is not the case, snippet serving will be aborted with an
-access denied error. See the serve_snippet method documentation for further details.
-
 <b>GUID permalink</b>
 
 This will resolve the given GUID into the MidCOM NAP tree, relocating to the
