@@ -14,7 +14,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midgard.admin.asgard');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
         midcom::get('cache')->content->no_cache();

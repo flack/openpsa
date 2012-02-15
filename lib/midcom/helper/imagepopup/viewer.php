@@ -13,9 +13,5 @@
  */
 class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plugin
 {
-    function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.imagepopup');
-    }
 }
 ?>

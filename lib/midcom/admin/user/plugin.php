@@ -16,9 +16,6 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midgard.admin.asgard');
-        $_MIDCOM->load_library('midcom.admin.user');
-
         midcom::get('auth')->require_user_do('midcom.admin.user:access', null, 'midcom_admin_user_plugin');
     }
 

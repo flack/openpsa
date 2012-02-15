@@ -63,8 +63,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         $this->_component = 'net.nemein.rss';
 
-        $_MIDCOM->load_library('org.openpsa.httplib');
-
         if ($this->_node->component)
         {
             $this->_node_config = midcom_baseclasses_components_configuration::get($this->_node->component, 'config');
@@ -78,11 +76,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     function raw_fetch($url)
     {
         $items = array();
-
-        if (!midcom::get('componentloader')->is_loaded('org.openpsa.httplib'))
-        {
-            $_MIDCOM->load_library('org.openpsa.httplib');
-        }
 
         try
         {

@@ -35,7 +35,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        if (!$_MIDCOM->load_library('org.openpsa.relatedto'))
+        if (!class_exists('org_openpsa_relatedto_dba'))
         {
             debug_add('relatedto library could not be loaded', MIDCOM_LOG_WARN);
             return;

@@ -272,7 +272,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         $data = array();
 
         // TODO: Error handling
-        $_MIDCOM->load_library('org.openpsa.httplib');
         $client = new org_openpsa_httplib();
         $html = $client->get($url);
 

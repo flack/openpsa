@@ -45,7 +45,7 @@ echo $data['rcs_toolbar']->render();
                     if(is_object($user))
                     {
                         $person = $user->get_storage();
-                        if ($_MIDCOM->load_library('org.openpsa.widgets'))
+                        if (class_exists('org_openpsa_widgets_contact'))
                         {
                             $user_card = new org_openpsa_widgets_contact($person);
                             $person_label = $user_card->show_inline();

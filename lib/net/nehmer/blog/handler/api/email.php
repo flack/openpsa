@@ -89,7 +89,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             $this->_article->author = $results[0]->id;
         }
 
-        $_MIDCOM->load_library('midcom.helper.reflector');
         $resolver = new midcom_helper_reflector_nameresolver($this->_article);
         $this->_article->topic = $this->_content_topic->id;
         $this->_article->title = $title;

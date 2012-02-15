@@ -45,7 +45,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         parent::__construct();
         midcom::get('style')->prepend_component_styledir('org.openpsa.relatedto');
-        $_MIDCOM->load_library('midcom.helper.reflector');
     }
 
     /**

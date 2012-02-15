@@ -14,19 +14,6 @@
 class net_nehmer_static_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    public function __construct()
-    {
-        $this->_autoload_libraries = Array
-        (
-            'midcom.helper.datamanager2',
-        );
-    }
-
-    /**
      * Iterate over all articles and create index record using the datamanager indexer
      * method.
      */

@@ -13,23 +13,6 @@
  */
 class midcom_helper_filesync_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_component = 'midcom.helper.filesync';
-
-        // Load all mandatory class files of the component here
-        $this->_autoload_files = array();
-
-        // Load all libraries used by component here
-        $this->_autoload_libraries = array();
-    }
-
     public static function prepare_dir($prefix)
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.filesync', 'config');

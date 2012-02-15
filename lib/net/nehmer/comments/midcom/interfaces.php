@@ -50,12 +50,6 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
         parent::__construct();
 
         $this->_component = 'net.nehmer.comments';
-        $this->_autoload_libraries = array
-        (
-            'midcom.helper.datamanager2',
-            'org.openpsa.notifications',
-            'org.openpsa.qbpager',
-        );
 
         // New messages enter at 4, and can be lowered or raised
         define('NET_NEHMER_COMMENTS_NEW', 0);

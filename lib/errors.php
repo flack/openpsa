@@ -347,8 +347,6 @@ class midcom_exception_handler
             return;
         }
 
-        $_MIDCOM->load_library('org.openpsa.mail');
-
         $mail = new org_openpsa_mail();
         $mail->to = $GLOBALS['midcom_config']['error_actions'][$httpcode]['email'];
         $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";

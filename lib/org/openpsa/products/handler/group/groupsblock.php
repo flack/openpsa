@@ -164,8 +164,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
     private function _list_group_products()
     {
-        $_MIDCOM->load_library('org.openpsa.qbpager');
-
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $product_qb->results_per_page = $this->_config->get('products_per_page');
 

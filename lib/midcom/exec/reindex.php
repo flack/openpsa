@@ -69,7 +69,6 @@ if (isset($_REQUEST['language']))
     $language = $_REQUEST['language'];
 }
 
-$_MIDCOM->load_library('org.openpsa.httplib');
 if (!class_exists('org_openpsa_httplib'))
 {
     $singlep_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-midcom/reindex_singleprocess.php', $current_uri);

@@ -1,6 +1,4 @@
 <?php
-$_MIDCOM->load_library('midcom.helper.reflector');
-
 function obj_cleanup(&$object)
 {
     if ($object->delete())

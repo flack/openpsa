@@ -3,7 +3,6 @@ midcom::get('auth')->require_admin_user();
 
 midcom::get()->disable_limits();
 
-$_MIDCOM->load_library('org.openpsa.httplib');
 $http_request = new org_openpsa_httplib();
 
 $csv = $http_request->get('http://weather.gladstonefamily.net/cgi-bin/location.pl/pjsg_all_location.csv?csv=1');

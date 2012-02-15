@@ -1,7 +1,6 @@
 <?php
 midcom::get('auth')->require_admin_user();
 
-$_MIDCOM->load_library('org.openpsa.httplib');
 $http_request = new org_openpsa_httplib();
 
 $xml = $http_request->get('http://ws.geonames.org/countryInfo?lang=' . midcom::get('i18n')->get_current_language());

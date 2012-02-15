@@ -113,7 +113,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             midcom::get()->relocate("__mfa/asgard/trash/{$this->type}/");
         }
 
-        $_MIDCOM->load_library('org.openpsa.qbpager');
         $qb = new org_openpsa_qbpager_direct($data['type'], "{$data['type']}_trash");
         $qb->include_deleted();
         $qb->add_constraint('metadata.deleted', '=', true);

@@ -206,8 +206,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
     private function _get_diff($field = 'content')
     {
-        $_MIDCOM->load_library('midcom.helper.xml');
-
         if (!class_exists('Text_Diff'))
         {
             @include_once 'Text/Diff.php';
