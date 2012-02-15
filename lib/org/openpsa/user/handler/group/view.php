@@ -89,7 +89,7 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
             )
         );
-        midcom::get()->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
     }
 
     /**

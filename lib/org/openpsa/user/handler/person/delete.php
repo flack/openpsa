@@ -70,7 +70,7 @@ implements midcom_helper_datamanager2_interfaces_view
 
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('delete %s'), $this->_person->get_label()));
 
-        midcom::get()->bind_view_to_object($this->_person);
+        $this->bind_view_to_object($this->_person);
     }
 
     /**

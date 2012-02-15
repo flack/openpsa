@@ -349,6 +349,31 @@ class midcom_compat_superglobal
      */
 
     /**
+     * Binds the current page view to a particular object. This will automatically connect such things like
+     * metadata and toolbars to the correct object.
+     *
+     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
+     * @param string $page_class String describing page type, will be used for substyling
+     */
+    function bind_view_to_object($object, $page_class = 'default')
+    {
+        $context = midcom_core_context::get();
+
+        // Bind the object into the view toolbar
+        $view_toolbar = midcom::get('toolbars')->get_view_toolbar($context->id);
+        $view_toolbar->bind_to($object);
+
+        // Bind the object to the metadata service
+        midcom::get('metadata')->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
+
+        // Push the object's CSS classes to metadata service
+        $page_class = midcom::get('metadata')->get_object_classes($object, $page_class);
+        midcom::get('metadata')->set_page_class($page_class, $context->id);
+
+        midcom::get('style')->append_substyle($page_class);
+    }
+
+    /**
      * Generate an error page.
      *
      * This function is a small helper, that will display a simple HTML Page reporting

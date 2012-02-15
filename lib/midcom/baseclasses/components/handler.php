@@ -206,5 +206,29 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     {
         return array();
     }
+
+    /**
+     * Binds the current page view to a particular object. This will automatically connect such things like
+     * metadata and toolbars to the correct object.
+     *
+     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
+     * @param string $page_class String describing page type, will be used for substyling
+     */
+    function bind_view_to_object($object, $page_class = 'default')
+    {
+        // Bind the object into the view toolbar
+        $this->_view_toolbar->bind_to($object);
+
+        $metadata = midcom::get('metadata');
+        // Bind the object to the metadata service
+        $metadata->bind_to($object);
+
+        // Push the object's CSS classes to metadata service
+        $page_class = $metadata->get_object_classes($object, $page_class);
+        $metadata->set_page_class($page_class);
+
+        midcom::get('style')->append_substyle($page_class);
+    }
+
 }
 ?>

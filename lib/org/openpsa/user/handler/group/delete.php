@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('delete %s'), $this->_group->get_label()));
 
-        midcom::get()->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
     }
 
     /**
