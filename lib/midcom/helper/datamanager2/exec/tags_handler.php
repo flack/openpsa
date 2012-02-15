@@ -17,7 +17,7 @@ $callback_args = array();
 
 // Common headers
 midcom::get('cache')->content->content_type('text/xml');
-$_MIDCOM->header('Content-type: text/xml; charset=' . $encoding);
+midcom::get()->header('Content-type: text/xml; charset=' . $encoding);
 echo '<?xml version="1.0" encoding="' . $encoding . '" standalone="yes"?>' . "\n";
 echo "<response>\n";
 
@@ -28,7 +28,7 @@ if (! isset($_REQUEST["query"]))
     echo "</response>\n";
 
     debug_add("Empty query string. Quitting now.");
-    $_MIDCOM->finish();
+    midcom::get()->finish();
     _midcom_stop_request();
 }
 
@@ -76,7 +76,7 @@ if ($mode == 'object')
         echo "    <status>0</status>\n";
         echo "    <errstr>Class {$class} could not be loaded</errstr>\n";
         echo "</response>\n";
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 
@@ -89,7 +89,7 @@ if ($mode == 'object')
         echo "    <status>0</status>\n";
         echo "    <errstr>Error when executing QB</errstr>\n";
         echo "</response>\n";
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 
@@ -160,7 +160,7 @@ if (empty($results))
     echo "</response>\n";
 
     debug_add("No results.");
-    $_MIDCOM->finish();
+    midcom::get()->finish();
     _midcom_stop_request();
 }
 
@@ -177,6 +177,6 @@ foreach ($results as $i => $result)
 echo "    </results>\n";
 echo "</response>\n";
 
-$_MIDCOM->finish();
+midcom::get()->finish();
 _midcom_stop_request();
 ?>

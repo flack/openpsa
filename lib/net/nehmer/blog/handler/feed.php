@@ -65,7 +65,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     {
         $_MIDCOM->load_library('de.bitfolge.feedcreator');
         midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
         $_MIDCOM->skip_page_style = true;
 

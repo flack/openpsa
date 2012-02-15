@@ -61,7 +61,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         {
             midcom::get('auth')->require_valid_user('basic');
             midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
-            $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+            midcom::get()->header("Content-type: text/xml; charset=UTF-8");
         }
         else
         {

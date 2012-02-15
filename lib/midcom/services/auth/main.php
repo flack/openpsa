@@ -698,7 +698,7 @@ class midcom_services_auth
             _midcom_header('HTTP/1.0 401 Unauthorized');
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
-            $_MIDCOM->finish();
+            midcom::get()->finish();
             _midcom_stop_request();
         }
         else
@@ -1158,7 +1158,7 @@ class midcom_services_auth
 
         midcom::get('style')->show_midcom('midcom_services_auth_login_page');
 
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 }

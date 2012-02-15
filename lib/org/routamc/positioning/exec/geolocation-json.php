@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->header('Content-type: application/json');
+midcom::get()->header('Content-type: application/json');
 
 if (   isset($_POST['latitude'])
     && isset($_POST['longitude']))
@@ -10,7 +10,7 @@ if (   isset($_POST['latitude'])
         'latitude' => (float) $_POST['latitude'],
         'longitude' => (float) $_POST['longitude'],
     );
-    
+
     if (isset($_POST['accuracy']))
     {
         // W3C accuracy is in meters, convert to our approximates
@@ -31,11 +31,11 @@ if (   isset($_POST['latitude'])
         {
             // Fall back to "state level"
             $location_array['accuracy'] = 50;
-        }  
+        }
     }
 
     $location_array['source'] = 'browser';
-    
+
     org_routamc_positioning_user::set_location($location_array);
 }
 

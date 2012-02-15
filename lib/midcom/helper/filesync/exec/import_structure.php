@@ -17,7 +17,7 @@ else
     midcom::get('auth')->require_admin_user();
 }
 midcom::get('cache')->content->enable_live_mode();
-$_MIDCOM->header('Content-Type: text/plain');
+midcom::get()->header('Content-Type: text/plain');
 
 $importer->import();
 echo "Import from {$importer->root_dir} completed\n";

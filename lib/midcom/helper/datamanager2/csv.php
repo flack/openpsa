@@ -197,7 +197,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
             echo $this->get_line($list[$id]);
         }
 
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 }

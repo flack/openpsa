@@ -337,7 +337,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     public function _handler_opensearchdescription($handler_id, array $args, array &$data)
     {
         midcom::get('cache')->content->content_type("application/opensearchdescription+xml");
-        $_MIDCOM->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
+        midcom::get()->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
         $_MIDCOM->skip_page_style = true;
     }
 

@@ -197,7 +197,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
         if ($exit)
         {
-            $_MIDCOM->finish();
+            midcom::get()->finish();
             _midcom_stop_request();
         }
 

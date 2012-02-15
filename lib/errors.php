@@ -89,7 +89,7 @@ class midcom_exception_handler
         {
             debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
             echo "<br />{$title}: {$login_warning}";
-            $_MIDCOM->finish();
+            midcom::get()->finish();
             debug_add("Emergency Error Message output finished, exiting now");
             _midcom_stop_request();
         }
@@ -107,7 +107,7 @@ class midcom_exception_handler
 
         midcom::get('style')->show_midcom('midcom_services_auth_access_denied');
 
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         debug_add("Error Page output finished, exiting now");
         _midcom_stop_request();
     }
@@ -266,7 +266,7 @@ class midcom_exception_handler
 
         debug_add("Error Page output finished, exiting now");
         midcom::get('cache')->content->no_cache();
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 

@@ -29,7 +29,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     public function _handler_opml($handler_id, array $args, array &$data)
     {
         midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
         $_MIDCOM->skip_page_style = true;
 

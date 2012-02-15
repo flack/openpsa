@@ -12,9 +12,9 @@ $handler = new midcom_helper_datamanager2_ajax_autocomplete($_REQUEST);
 
 // Common headers
 midcom::get('cache')->content->content_type('application/json');
-$_MIDCOM->header('Content-type: application/json; charset=UTF-8');
+midcom::get()->header('Content-type: application/json; charset=UTF-8');
 
 echo json_encode($handler->get_results());
 
-$_MIDCOM->finish();
+midcom::get()->finish();
 ?>

@@ -231,7 +231,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_form($this->form_identifier);
                 $state = 'ajax_editing';
-                $_MIDCOM->finish();
+                midcom::get()->finish();
                 _midcom_stop_request();
 
             case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
@@ -239,7 +239,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 $this->formmanager->process_form();
                 $this->formmanager->display_view($this->form_identifier);
                 $state = 'ajax_preview';
-                $_MIDCOM->finish();
+                midcom::get()->finish();
                 _midcom_stop_request();
 
             case (array_key_exists("{$this->form_identifier}_save", $_POST)):
@@ -266,7 +266,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                     $this->formmanager->display_form($this->form_identifier);
                     $state = 'ajax_editing';
                 }
-                $_MIDCOM->finish();
+                midcom::get()->finish();
                 _midcom_stop_request();
 
             case (array_key_exists("{$this->form_identifier}_cancel", $_REQUEST)):
@@ -274,7 +274,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_view($this->form_identifier);
 
-                $_MIDCOM->finish();
+                midcom::get()->finish();
                 _midcom_stop_request();
         }
     }

@@ -74,7 +74,7 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
     private function _prepare()
     {
         midcom::get('cache')->content->content_type('text/xml');
-        $_MIDCOM->header('Content-type: text/xml; charset=' . $this->encoding);
+        midcom::get()->header('Content-type: text/xml; charset=' . $this->encoding);
     }
 
     /**
@@ -99,7 +99,7 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
      */
     private function _close()
     {
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 
