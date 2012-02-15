@@ -91,7 +91,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_options($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->skip_page_style = false;
     }
 
     /**

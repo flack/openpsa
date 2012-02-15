@@ -12,6 +12,12 @@
  */
 class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_components_handler
 {
+    public function _on_initialize()
+    {
+        //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
+        $_MIDCOM->skip_page_style = true;
+    }
+
     /**
      * Phase for showing the list of campaigns
      *
@@ -191,8 +197,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $data['unsubscribe_status'] = $data['membership']->update();
         debug_add("Unsubscribe status: {$data['unsubscribe_status']}");
         midcom::get('auth')->drop_sudo();
-        //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
-        $_MIDCOM->skip_page_style = true;
     }
 
     /**
@@ -232,8 +236,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         debug_add("Unsubscribe status: {$this->_request_data['unsubscribe_status']}");
 
         midcom::get('auth')->drop_sudo();
-        //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
-        $_MIDCOM->skip_page_style = true;
 
         $message = new org_openpsa_helpers_ajax();
         $message->simpleReply($this->_request_data['unsubscribe_status'], "Unsubscribe failed");
@@ -292,8 +294,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         }
 
         midcom::get('auth')->drop_sudo();
-        //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
-        $_MIDCOM->skip_page_style = true;
     }
 
     /**

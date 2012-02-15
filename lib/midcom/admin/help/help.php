@@ -43,6 +43,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     public function _on_initialize()
     {
+        $_MIDCOM->skip_page_style = true;
         // doing this here as this component most probably will not be called by itself.
         midcom::get('style')->prepend_component_styledir('midcom.admin.help');
     }
@@ -611,7 +612,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $_MIDCOM->skip_page_style = true;
 
         $data['view_title'] = midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help');
         midcom::get('head')->set_pagetitle($data['view_title']);
@@ -668,7 +668,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             midcom::get('componentloader')->load($data['component']);
         }
-        $_MIDCOM->skip_page_style = true;
 
         $data['view_title'] = sprintf(midcom::get('i18n')->get_string('help for %s', 'midcom.admin.help'), midcom::get('i18n')->get_string($data['component'], $data['component']));
         midcom::get('head')->set_pagetitle($data['view_title']);
@@ -715,7 +714,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             midcom::get('componentloader')->load($data['component']);
         }
-        $_MIDCOM->skip_page_style = true;
 
         $data['help_files'] = $this->list_files($data['component']);
 

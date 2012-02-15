@@ -13,7 +13,6 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
 {
     function _load_schemadb($handler_id, &$args, &$data)
     {
-        $_MIDCOM->skip_page_style = true;
         $data['session'] = new midcom_services_session('org_openpsa_products_csvexport');
         if (!empty($_POST))
         {

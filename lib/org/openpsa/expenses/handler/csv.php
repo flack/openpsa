@@ -17,7 +17,6 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
 
     function _load_schemadb($handler_id, &$args, &$data)
     {
-        $_MIDCOM->skip_page_style = true;
         //We need the constants...
         midcom::get('componentloader')->load('org.openpsa.projects');
 

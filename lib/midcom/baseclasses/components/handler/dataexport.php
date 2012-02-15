@@ -83,8 +83,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $this->_load_datamanager($this->_load_schemadb($handler_id, $args, $data));
         $this->_objects = $this->_load_data($handler_id, $args, $data);
 
-        $_MIDCOM->skip_page_style = true;
-
         if (   !isset($args[0])
             || empty($args[0]))
         {

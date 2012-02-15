@@ -232,7 +232,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         //If we have a dummy token don't bother with looking for it, just go on.
         if ($this->_request_data['token'] === 'dummy')
         {
-            $_MIDCOM->skip_page_style = true;
             midcom::get()->relocate($this->_request_data['target']);
             //This will exit
         }

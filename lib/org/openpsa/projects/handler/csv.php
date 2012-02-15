@@ -17,7 +17,6 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
 
     function _load_schemadb($handler_id, &$args, &$data)
     {
-        $_MIDCOM->skip_page_style = true;
         if (isset($args[0]))
         {
             $data['schemadb_to_use'] = 'schemadb_csvexport_' . $args[0];
