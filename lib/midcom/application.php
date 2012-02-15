@@ -702,28 +702,6 @@ class midcom_application
      * Framework Access Helper functions
      */
 
-    function generate_host_url($host)
-    {
-        if ($host->port == 443)
-        {
-            $protocol = 'https';
-        }
-        else
-        {
-            $protocol = 'http';
-        }
-
-        $port = '';
-        if (   $host->port != 80
-            && $host->port != 443
-            && $host->port != 0)
-        {
-            $port = ':' . $host->port;
-        }
-
-        return "{$protocol}://{$host->name}{$port}{$host->prefix}/";
-    }
-
     /**
      * Retrieves the name of the current host, fully qualified with protocol and
      * port.

@@ -70,6 +70,28 @@ class midcom_compat_superglobal
         return midcom::get()->$key = $value;
     }
 
+    function generate_host_url($host)
+    {
+        if ($host->port == 443)
+        {
+            $protocol = 'https';
+        }
+        else
+        {
+            $protocol = 'http';
+        }
+
+        $port = '';
+        if (   $host->port != 80
+            && $host->port != 443
+            && $host->port != 0)
+        {
+            $port = ':' . $host->port;
+        }
+
+        return "{$protocol}://{$host->name}{$port}{$host->prefix}/";
+    }
+
     /**
      * Return a reference to a given service.
      *
