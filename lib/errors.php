@@ -126,19 +126,6 @@ class midcom_exception_handler
             throw $e;
         }
 
-        if (   !isset($_MIDCOM)
-            || !$_MIDCOM)
-        {
-            // We got an exception before MidCOM has been initialized, show it anyway
-            debug_add('Exception before MidCOM initialization: ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-
-            if (!_midcom_headers_sent())
-            {
-                _midcom_header('HTTP/1.0 500 Server Error');
-            }
-
-            _midcom_stop_request('Failed to initialize MidCOM: ' . $e->getMessage());
-        }
         $this->_exception = $e;
 
         debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $e->getTraceAsString());
