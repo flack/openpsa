@@ -149,14 +149,12 @@ class midcom_helper_head
     /**
      * Register JavaScript Code for output directly in the page.
      *
-     * This allows MidCOM components to register JavaScript code
-     * during page processing. The site style code can then query this queued-up code
+     * This allows components to register JavaScript code
+     * during page processing. The site style can then query this queued-up code
      * at anytime it likes. The queue-up SHOULD be done during the code-init phase,
      * while the print_head_elements output SHOULD be included in the HTML HEAD area and
      * the HTTP onload attribute returned by print_jsonload SHOULD be included in the
-     * BODY-tag. Note, that these suggestions are not enforced, if you want a Javascript
-     * clean site, just omit the print calls and you should be fine in almost all
-     * cases.
+     * BODY-tag. Note, that these suggestions are not enforced
      *
      * The sequence of the add_jsfile and add_jscript commands is kept stable.
      *
@@ -182,8 +180,7 @@ class midcom_helper_head
     /**
      * Register JavaScript snippets to jQuery states.
      *
-     * This allows MidCOM components to register JavaScript code
-     * to the jQuery states.
+     * This allows components to register JavaScript code to the jQuery states.
      * Possible ready states: document.ready
      *
      * @param string $script    The code to be included in the state.
@@ -207,7 +204,7 @@ class midcom_helper_head
     /**
      * Register some object tags to be added to the head element.
      *
-     * This allows MidCOM components to register object tags to be placed in the
+     * This allows components to register object tags to be placed in the
      * head section of the page.
      *
      * @param  string $script    The input between the <object></object> tags.
@@ -230,10 +227,10 @@ class midcom_helper_head
 
     /**
      *  Register a metatag to be added to the head element.
-     *  This allows MidCOM components to register metatags to be placed in the
+     *  This allows components to register metatags to be placed in the
      *  head section of the page.
      *
-     *  @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
+     *  @param  array  $attributes Array of attribute => value pairs to be placed in the tag.
      *  @see print_head_elements()
      */
     public function add_meta_head($attributes = null)
@@ -251,7 +248,7 @@ class midcom_helper_head
 
     /**
      * Register a styleblock / style link  to be added to the head element.
-     * This allows MidCOM components to register extra css sheets they wants to include.
+     * This allows components to register extra CSS sheets they wants to include.
      * in the head section of the page.
      *
      * @param  string $script    The input between the <style></style> tags.
@@ -272,23 +269,23 @@ class midcom_helper_head
     }
 
     /**
-     * Register a linkelement to be placed in the pagehead.
+     * Register a link element to be placed in the page head.
      *
-     * This allows components to register extra css-links in the pagehead.
+     * This allows components to register extra CSS links.
      * Example to use this to include a CSS link:
      * <code>
      * $attributes = array ('rel' => 'stylesheet',
      *                      'type' => 'text/css',
      *                      'href' => '/style.css'
      *                      );
-     * $_MIDCOM->head->add_link_head($attributes);
+     * midcom::get('head')->add_link_head($attributes);
      * </code>
      *
      * Each URL will only be added once. When trying to add the same URL a second time,
      * it will be moved to the end of the stack, so that CSS overrides behave as the developer
      * intended
      *
-     * @param  array $attributes Array of attribute=> value pairs to be placed in the tag.
+     * @param  array $attributes Array of attribute => value pairs to be placed in the tag.
      * @see print_head_elements()
      */
     public function add_link_head(array $attributes)
@@ -337,14 +334,12 @@ class midcom_helper_head
     /**
      * Register a JavaScript method for the body onload event
      *
-     * This allows MidCOM components to register JavaScript code
-     * during page processing. The site style code can then query this queued-up code
+     * This allows components to register JavaScript code
+     * during page processing. The site style can then query this queued-up code
      * at anytime it likes. The queue-up SHOULD be done during the code-init phase,
      * while the print_head_elements output SHOULD be included in the HTML HEAD area and
      * the HTTP onload attribute returned by print_jsonload SHOULD be included in the
-     * BODY-tag. Note, that these suggestions are not enforced, if you want a JScript
-     * clean site, just omit the print calls and you should be fine in almost all
-     * cases.
+     * BODY-tag. Note that these suggestions are not enforced.
      *
      * @param string $method    The name of the method to be called on page startup, including parameters but excluding the ';'.
      * @see add_jsfile()
@@ -361,25 +356,23 @@ class midcom_helper_head
     /**
      * Echo the registered javascript code.
      *
-     * This allows MidCOM components to register JavaScript code
+     * This allows components to register JavaScript code
      * during page processing. The site style code can then query this queued-up code
      * at anytime it likes. The queue-up SHOULD be done during the code-init phase,
      * while the print_head_elements output SHOULD be included in the HTML HEAD area and
      * the HTTP onload attribute returned by print_jsonload SHOULD be included in the
-     * BODY-tag. Note, that these suggestions are not enforced, if you want a JScript
-     * clean site, just omit the print calls and you should be fine in almost all
-     * cases.
+     * BODY-tag. Note, that these suggestions are not enforced
      *
      * The sequence of the add_jsfile and add_jscript commands is kept stable.
      *
      * This is usually called during the BODY region of your style:
      *
      * <code>
-     * <HTML>
-     *     <BODY <?php midcom::get('head')->print_jsonload();?>>
+     * <html>
+     *     <body <?php midcom::get('head')->print_jsonload();?>>
      *            <!-- your actual body -->
-     *     </BODY>
-     * </HTML>
+     *     </body>
+     * </html>
      * </code>
      *
      * @see add_jsfile()
@@ -402,14 +395,12 @@ class midcom_helper_head
      *
      * Place the method within the <head> section of your page.
      *
-     * This allows MidCOM components to register HEAD elements
-     * during page processing. The site style code can then query this queued-up code
+     * This allows components to register HEAD elements
+     * during page processing. The site style can then query this queued-up code
      * at anytime it likes. The queue-up SHOULD be done during the code-init phase,
      * while the print_head_elements output SHOULD be included in the HTML HEAD area and
      * the HTTP onload attribute returned by print_jsonload SHOULD be included in the
-     * BODY-tag. Note, that these suggestions are not enforced, if you want a JScript
-     * clean site, just omit the print calls and you should be fine in almost all
-     * cases.
+     * BODY tag. Note that these suggestions are not enforced
      *
      * @see add_link_head
      * @see add_object_head
