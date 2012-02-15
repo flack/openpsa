@@ -80,8 +80,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
 
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_load_schema();
 
         $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');

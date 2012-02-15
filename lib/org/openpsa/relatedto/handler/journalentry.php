@@ -38,7 +38,6 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         parent::__construct();
         midcom::get('style')->prepend_component_styledir('org.openpsa.relatedto');
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
 
     /**

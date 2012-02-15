@@ -49,10 +49,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _on_initialize()
     {
         org_openpsa_widgets_calendar::add_head_elements();
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+
         // Load schema database
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();

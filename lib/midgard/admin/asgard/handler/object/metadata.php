@@ -35,8 +35,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Ensure we get the correct styles
         midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
 
     /**

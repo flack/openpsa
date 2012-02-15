@@ -206,11 +206,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
 
         $this->_check_imp_settings();
 
-        //Initialize/handle DM
-        debug_add("Loading Schema Database");
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         // Load the schema definition file
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_horde_account'));
 

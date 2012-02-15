@@ -41,11 +41,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private $_datamanager = null;
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.

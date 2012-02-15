@@ -51,7 +51,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
     }
 

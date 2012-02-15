@@ -210,7 +210,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, $args)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_request_data['schemadb_group'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
         $this->_request_data['schemadb_product'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_product'));
 

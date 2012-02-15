@@ -243,8 +243,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         if (   !$config->get('index_products')
             && !$config->get('index_groups'))
         {

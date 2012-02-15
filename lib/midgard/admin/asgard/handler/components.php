@@ -20,8 +20,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $_MIDCOM->skip_page_style = true;
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css');
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
 
     private function _load_component_data($name, $manifest)

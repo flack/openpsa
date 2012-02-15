@@ -157,16 +157,12 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_tinyurl = $this->_get_item($args[0]);
 
         // Show error page on failure
-        if (   !$this->_tinyurl
-            || !$this->_tinyurl->guid)
+        if (!$this->_tinyurl)
         {
             throw new midcom_error_notfound('Item not found');
         }
 
         $this->_tinyurl->require_do('midgard:update');
-
-        // Ensure that datamanager is available
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         // Edit controller
         $data['controller'] = $this->get_controller('simple', $this->_tinyurl);

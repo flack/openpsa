@@ -69,8 +69,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
 
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_privileges[] = 'midgard:read';
         $this->_privileges[] = 'midgard:create';
         $this->_privileges[] = 'midgard:update';

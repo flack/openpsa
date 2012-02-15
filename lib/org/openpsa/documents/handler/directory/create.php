@@ -35,11 +35,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      */
     private $_schema = 'default';
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * This is what Datamanager calls to actually create a directory
      */

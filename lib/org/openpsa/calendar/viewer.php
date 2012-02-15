@@ -41,8 +41,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         // Always run in uncached mode
         midcom::get('cache')->content->no_cache();
 
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_request_data['view'] = 'default';
 
         return true;

@@ -35,11 +35,6 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      */
     private $_schema = 'default';
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * Loads and prepares the schema database.
      *

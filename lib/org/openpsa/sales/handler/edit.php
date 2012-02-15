@@ -82,8 +82,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
     private function _initialize_datamanager($schemadb_snippet)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         // Initialize the datamanager with the schema
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_snippet);
 

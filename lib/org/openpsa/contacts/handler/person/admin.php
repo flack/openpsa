@@ -96,15 +96,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     }
 
     /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
