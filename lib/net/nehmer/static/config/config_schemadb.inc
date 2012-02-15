@@ -53,12 +53,12 @@
                     array
                     (
                         'name' => 'extra',
-                        'title' => $_MIDCOM->i18n->get_string('title', 'midcom'),
+                        'title' => midcom::get('i18n')->get_string('title', 'midcom'),
                     ),
                     array
                     (
                         'name' => 'name',
-                        'title' => $_MIDCOM->i18n->get_string('name', 'midcom'),
+                        'title' => midcom::get('i18n')->get_string('name', 'midcom'),
                     ),
                 ),
                 'generate_path_for' => 'extra',

@@ -67,7 +67,7 @@
             'storage'   => null,
             'type'      => 'boolean',
             'widget'   => 'checkbox',
-            'hidden' => !$_MIDCOM->auth->user,
+            'hidden' => !midcom::get('auth')->user,
         ),
     ),
 ),

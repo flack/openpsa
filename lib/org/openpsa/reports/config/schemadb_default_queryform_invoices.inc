@@ -82,9 +82,9 @@
                 (
                     'options' =>  array
                     (
-                        'sent'     => $_MIDCOM->i18n->get_string('sent date', 'org.openpsa.invoices'),
-                        'due'      => $_MIDCOM->i18n->get_string('due date', 'org.openpsa.invoices'),
-                        'paid'     => $_MIDCOM->i18n->get_string('paid date', 'org.openpsa.invoices'),
+                        'sent'     => midcom::get('i18n')->get_string('sent date', 'org.openpsa.invoices'),
+                        'due'      => midcom::get('i18n')->get_string('due date', 'org.openpsa.invoices'),
+                        'paid'     => midcom::get('i18n')->get_string('paid date', 'org.openpsa.invoices'),
                     ),
                 ),
                 'widget'        => 'radiocheckselect',
@@ -100,11 +100,11 @@
                 (
                     'options' =>  array
                     (
-                        'unsent'     => $_MIDCOM->i18n->get_string('unsent', 'org.openpsa.invoices'),
-                        'open'     => $_MIDCOM->i18n->get_string('open', 'org.openpsa.invoices'),
-                        'overdue'      => $_MIDCOM->i18n->get_string('overdue', 'org.openpsa.invoices'),
-                        'paid'     => $_MIDCOM->i18n->get_string('paid', 'org.openpsa.invoices'),
-                        'scheduled'     => $_MIDCOM->i18n->get_string('scheduled', 'org.openpsa.invoices'),
+                        'unsent'     => midcom::get('i18n')->get_string('unsent', 'org.openpsa.invoices'),
+                        'open'     => midcom::get('i18n')->get_string('open', 'org.openpsa.invoices'),
+                        'overdue'      => midcom::get('i18n')->get_string('overdue', 'org.openpsa.invoices'),
+                        'paid'     => midcom::get('i18n')->get_string('paid', 'org.openpsa.invoices'),
+                        'scheduled'     => midcom::get('i18n')->get_string('scheduled', 'org.openpsa.invoices'),
                     ),
                     'allow_multiple' => true
 

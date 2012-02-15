@@ -68,7 +68,7 @@
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_person/",
                 'creation_default_key' => 'lastname',
-            ),           
+            ),
         ),
         'forceauthor' => Array
         (
@@ -103,17 +103,17 @@
                     array
                     (
                         'name' => 'code',
-                        'title' =>  $_MIDCOM->i18n->get_string('ISO code', 'net.nemein.rss'),
+                        'title' =>  midcom::get('i18n')->get_string('ISO code', 'net.nemein.rss'),
                     ),
                     array
                     (
                         'name' => 'name',
-                        'title' =>  $_MIDCOM->i18n->get_string('language (in english)', 'net.nemein.rss'),
+                        'title' =>  midcom::get('i18n')->get_string('language (in english)', 'net.nemein.rss'),
                     ),
                     array
                     (
                         'name' => 'native',
-                        'title' =>  $_MIDCOM->i18n->get_string('language (native)', 'net.nemein.rss'),
+                        'title' =>  midcom::get('i18n')->get_string('language (native)', 'net.nemein.rss'),
                     ),
                 ),
                 'id_field' => 'id',
