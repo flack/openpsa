@@ -42,7 +42,7 @@ class org_openpsa_core_version
      */
     public static function get_version_name()
     {
-        return self::VERSION_NAME;
+        return self::NAME;
     }
 
     /**
