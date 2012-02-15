@@ -378,7 +378,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 break;
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
     /**

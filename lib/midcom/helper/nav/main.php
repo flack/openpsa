@@ -639,7 +639,7 @@ class midcom_helper_nav
      *         MIDCOM_NAV_NAME => $this->_category_name,
      *     ),
      * );
-     * $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+     * midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
      * </code>
      *
      * @return array The computed breadcrumb data as outlined above.

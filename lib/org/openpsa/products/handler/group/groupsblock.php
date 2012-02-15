@@ -403,7 +403,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             unset($tmp[count($tmp) - 1]);
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
 }
 ?>

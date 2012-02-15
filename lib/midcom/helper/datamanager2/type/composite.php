@@ -470,7 +470,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
                 'item_count' => null,
                 'item_total' => null,
             );
-            $_MIDCOM->set_custom_context_data('midcom_helper_datamanager2_widget_composite', $request_data);
+            midcom_core_context::get()->set_custom_key('midcom_helper_datamanager2_widget_composite', $request_data);
             echo "<{$this->area_element} id=\"{$form_identifier}_area\" class=\"temporary_item\" style=\"display: none;\">\n";
             midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_item");
             echo "</{$this->area_element}>\n";
@@ -515,7 +515,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             'item_total' => $item_total,
         );
 
-        $_MIDCOM->set_custom_context_data('midcom_helper_datamanager2_widget_composite', $request_data);
+        midcom_core_context::get()->set_custom_key('midcom_helper_datamanager2_widget_composite', $request_data);
         midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_header");
 
         $item_count = 0;
@@ -530,7 +530,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             $request_data['item'] = $object;
             $request_data['item_count'] = $item_count;
 
-            $_MIDCOM->set_custom_context_data('midcom_helper_datamanager2_widget_composite', $request_data);
+            midcom_core_context::get()->set_custom_key('midcom_helper_datamanager2_widget_composite', $request_data);
             echo "<{$this->area_element} id=\"{$this->_controllers[$identifier]->form_identifier}_area\">\n";
             midcom::get('style')->show("_dm2_composite_{$this->style_element_name}_item");
             echo "</{$this->area_element}>\n";

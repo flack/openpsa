@@ -221,7 +221,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
             }
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
 }
 ?>

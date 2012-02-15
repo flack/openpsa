@@ -160,7 +160,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         {
             return;
         }
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
     }
 
     /**

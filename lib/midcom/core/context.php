@@ -194,7 +194,7 @@ class midcom_core_context
      * that it actually breaks with the encapsulation I want, but I don't have a
      * better solution yet.
      *
-     * A complete example can be found with set_custom_context_data.
+     * A complete example can be found with set_custom_key.
      *
      * @param int $key    The requested key
      * @param string $component    The component name
@@ -246,7 +246,7 @@ class midcom_core_context
      * <code>
      * class my_component_class_one {
      *     function init () {
-     *         $_MIDCOM->set_custom_context_data('classone', $this);
+     *         midcom_core_context::get()->set_custom_key('classone', $this);
      *     }
      * }
      *

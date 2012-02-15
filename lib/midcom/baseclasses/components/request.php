@@ -397,7 +397,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function initialize($component)
     {
         $this->_component = $component;
-        $_MIDCOM->set_custom_context_data('request_data', $this->_request_data);
+        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
 
         $this->_request_data['config'] =& $this->_config;
         $this->_request_data['topic'] = null;

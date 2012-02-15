@@ -675,7 +675,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $tmp = array_reverse($tmp);
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>
