@@ -238,8 +238,19 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error("Failed to create product: {$errstr}");
         }
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product created: ' . midcom_connection::get_error_string());
-        // This will exit
+        $this->_send_reply('Product created');
+    }
+
+    private function _send_reply($message)
+    {
+        $midcom = midcom::get();
+        $midcom->header('Content-Type: text/html');
+        $midcom->header('HTTP/1.0 200 OK');
+        echo $message . ': ' . midcom_connection::get_error_string();
+
+        midcom::get('cache')->content->no_cache();
+        $midcom->finish();
+        _midcom_stop_request();
     }
 
     /**
@@ -271,8 +282,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error('Failed to update product: ' . midcom_connection::get_error_string());
         }
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product updated: ' . midcom_connection::get_error_string());
-        // This will exit
+        $this->_send_reply('Product updated');
     }
 
     /**
@@ -300,8 +310,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         $indexer = midcom::get('indexer');
         $indexer->delete($this->_product->guid);
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product deleted: ' . midcom_connection::get_error_string());
-        // This will exit
+        $this->_send_reply('Product deleted');
     }
 }
 ?>
