@@ -26,7 +26,7 @@ if (   isset($data['restored_form_data'])
     echo "                <p>\n";
     echo "                    <label for=\"restore_form_data\" class=\"checkbox\">\n";
     echo "                        <input name=\"restore_form_data\" id=\"restore_form_data\" type=\"checkbox\" value=\"1\" checked=\"checked\" class=\"checkbox\" />\n";
-    echo "                        {midcom::get('i18n')->get_string('restore submitted form data', 'midcom')}?\n";
+    echo "                        " . midcom::get('i18n')->get_string('restore submitted form data', 'midcom') . "?\n";
     echo "                    </label>\n";
     echo "                </p>\n";
 }

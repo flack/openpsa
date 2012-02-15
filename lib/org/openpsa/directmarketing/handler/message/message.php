@@ -95,7 +95,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         if (!empty(midcom::get('auth')->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/{midcom::get('auth')->user->guid}/";
+            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get('auth')->user->guid . '/';
         }
         else
         {
