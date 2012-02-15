@@ -164,7 +164,7 @@ if (count($data['revised']) > 0)
         }
         $revisor = midcom::get('auth')->get_user($object->metadata->revisor);
 
-        if (empty($revsior))
+        if (empty($revisor))
         {
             $revisor_name = $data['l10n_midcom']->get('unknown');
         }
