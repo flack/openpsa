@@ -42,7 +42,6 @@ if (extension_loaded('midgard2'))
 
         'schema' => array
         (
-            'types' => array(),
         ),
     );
 
