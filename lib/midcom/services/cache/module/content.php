@@ -255,7 +255,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 break;
         }
 
-        if (isset($_MIDCOM))
+        if (midcom::get())
         {
             $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
         }
