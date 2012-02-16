@@ -192,7 +192,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
             && $up == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host
-            $up = $_MIDGARD['style'];
+            $up = midcom_connection::get('style');
         }
 
         $qb = midcom_db_style::new_query_builder();

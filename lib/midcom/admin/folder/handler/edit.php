@@ -401,8 +401,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         }
         else
         {
-            $up = $_MIDGARD['style'];
-            debug_add("No inherited style found, placing the new style under host style (ID: {$_MIDGARD['style']}");
+            $up = midcom_connection::get('style');
+            debug_add("No inherited style found, placing the new style under host style ID: " . midcom_connection::get('style'));
         }
 
         $style = new midcom_db_style();

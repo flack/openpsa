@@ -68,7 +68,7 @@
  *   system automatically works within the current sitegroup, appending the corresponding
  *   suffix. If set to 'not-sitegrouped', no processing is done, which means the user
  *   has to specify the correct sitegroup always. The setting 'auto', which is the default,
- *   uses sitegrouped if the current host is in a sitegroup (that is, $_MIDGARD['sitegroup']
+ *   uses sitegrouped if the current host is in a sitegroup (that is, midcom_connection::get('sitegroup')
  *   is nonzero) or non-sitegrouped mode if we are in SG0.
  * - <b>int auth_login_form_httpcode</b>: HTTP return code used in MidCOM login screens,
  *   either 403 (403 Forbidden) or 200 (200 OK), defaulting to 403.
@@ -553,14 +553,14 @@ class midcom_config implements arrayaccess
 
     private function _complete_defaults()
     {
-        if (isset($_MIDGARD['config']['auth_cookie_id']))
+        if (midcom_connection::get('config', 'auth_cookie_id'))
         {
-            $auth_cookie_id = $_MIDGARD['config']['auth_cookie_id'];
+            $auth_cookie_id = midcom_connection::get('config', 'auth_cookie_id');
         }
         else
         {
             // Generate host identifier from Midgard host
-            $auth_cookie_id = "host{$_MIDGARD['host']}";
+            $auth_cookie_id = "host" . midcom_connection::get('host');
         }
         $this->_default_config['auth_backend_simple_cookie_id'] = $auth_cookie_id;
 
@@ -577,17 +577,18 @@ class midcom_config implements arrayaccess
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
         // TODO: Would be good to include DB name into the path
-        if ($_MIDGARD['config']['prefix'] == '/usr')
+        $prefix = midcom_connection::get('config', 'prefix');
+        if ($prefix == '/usr')
         {
             $this->_default_config['midcom_services_rcs_root'] = '/var/lib/midgard/rcs';
         }
-        else if ($_MIDGARD['config']['prefix'] == '/usr/local')
+        else if ($prefix == '/usr/local')
         {
             $this->_default_config['midcom_services_rcs_root'] = '/var/local/lib/midgard/rcs';
         }
         else
         {
-            $this->_default_config['midcom_services_rcs_root'] =  "{$_MIDGARD['config']['prefix']}/var/lib/midgard/rcs";
+            $this->_default_config['midcom_services_rcs_root'] =  "{$prefix}/var/lib/midgard/rcs";
         }
     }
 
@@ -613,7 +614,6 @@ class midcom_config implements arrayaccess
 }
 
 /* ----- Include the site config ----- */
-/* This should be replaced by $_MIDGARD constructs */
 if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
 {
     include(MIDCOM_CONFIG_FILE_BEFORE);

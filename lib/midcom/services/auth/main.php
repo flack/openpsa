@@ -249,7 +249,7 @@ class midcom_services_auth
         // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
         // MidCOM auth.
         if (   midcom_connection::is_admin()
-            || $_MIDGARD['root'])
+            || midcom_connection::get('root'))
         {
             $this->admin = true;
         }
@@ -290,7 +290,7 @@ class midcom_services_auth
         {
             $this->user = $user;
             if (   midcom_connection::is_admin()
-                || $_MIDGARD['root'])
+                || midcom_connection::get('root'))
             {
                 $this->admin = true;
             }

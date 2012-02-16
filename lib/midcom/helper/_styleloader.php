@@ -182,7 +182,7 @@ class midcom_helper__styleloader
                     }
 
                     if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
-                        && $style->up == $_MIDGARD['style'])
+                        && $style->up == midcom_connection::get('style'))
                     {
                         // Relative path, stop before going to main Midgard style
                         break;
@@ -218,7 +218,7 @@ class midcom_helper__styleloader
             && $rootstyle == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host
-            $rootstyle = $_MIDGARD['style'];
+            $rootstyle = midcom_connection::get('style');
         }
 
         if (!isset($cached[$rootstyle]))
@@ -471,10 +471,10 @@ class midcom_helper__styleloader
             'style-finish' => '',
         );
 
-        if ($style_id == $_MIDGARD['style'])
+        if ($style_id == midcom_connection::get('style'))
         {
             // We're in site main style, append elements from there to the list of "common elements"
-            $mc = midcom_db_element::new_collector('style', $_MIDGARD['style']);
+            $mc = midcom_db_element::new_collector('style', midcom_connection::get('style'));
             $elements = $mc->get_values('name');
             foreach ($elements as $name)
             {
@@ -752,7 +752,7 @@ class midcom_helper__styleloader
             }
             else if ($GLOBALS['midcom_config']['styleengine_relative_paths'])
             {
-                $_st = $_MIDGARD['style'];
+                $_st = midcom_connection::get('style');
             }
         }
 
@@ -1036,7 +1036,7 @@ class midcom_helper__styleloader
     {
         if (is_null($this->object))
         {
-            $this->object = new midcom_db_style($_MIDGARD['style']);
+            $this->object = new midcom_db_style(midcom_connection::get('style'));
         }
         return $this->object;
     }

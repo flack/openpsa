@@ -84,7 +84,6 @@ if (extension_loaded('midgard2'))
         $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
     }
 
-    // Initialize the $_MIDGARD superglobal
     $_MIDGARD = $mgd_defaults;
 }
 else if (extension_loaded('midgard'))

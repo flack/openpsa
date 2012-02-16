@@ -73,7 +73,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         }
         if (!$this->host)
         {
-            $this->host = $_MIDGARD['host'];
+            $this->host = midcom_connection::get('host');
         }
         $this->_serialize_arguments();
         return true;
