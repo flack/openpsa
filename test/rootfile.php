@@ -44,11 +44,6 @@ $GLOBALS['midcom_config_local'] = array();
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
-    if (!ini_get('midgard.superglobals_compat'))
-    {
-        throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
-    }
-
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 
     // Open connection
