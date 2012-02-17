@@ -383,6 +383,7 @@ class midcom_connection
                 self::$_data = self::$_defaults;
             }
         }
+
         if (   null === $subkey
             && isset(self::$_data[$key]))
         {
@@ -508,10 +509,10 @@ class midcom_connection
     {
         if (null === self::_get('config', 'unique_host_name'))
         {
-            self::$_data['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
+            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
         }
 
-        return self::$_data['unique_host_name'];
+        return self::$_data['config']['unique_host_name'];
     }
 }
 ?>
