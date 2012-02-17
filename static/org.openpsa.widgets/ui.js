@@ -177,7 +177,7 @@ var org_openpsa_layout =
             containment: 'window',
             stop: function()
             {
-                var offset = Math.max($(this).offset().left, 0),
+                var offset = Math.max(($(this).offset().left + 4), 0),
                 navigation_width = offset,
                 content_margin_left = offset + 2;
 
