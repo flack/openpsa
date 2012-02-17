@@ -373,7 +373,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
             if ($iteration++ > $limit)
             {
-                throw new midcom_error('Maximum retry count for cleanup reached');
+                throw new midcom_error('Maximum retry count for cleanup reached (' . sizeof($queue) . ' remaining entries)');
             }
         }
 
