@@ -1,8 +1,8 @@
 <?php
 $l10n = midcom::get('i18n')->get_l10n('midcom');
-$message = $l10n->get_string('login message - please enter credentials');
+$message = $l10n->get('login message - please enter credentials');
 $login_warning = '';
-$title = $l10n->get_string('login');
+$title = $l10n->get('login');
 
 if (isset($this->data['midcom_services_auth_access_denied_message']))
 {
