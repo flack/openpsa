@@ -78,7 +78,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = 'midcom:approve';
         }
 
-        midcom::get('head')->enable_jquery();
         $script = "function submit_privileges(form){jQuery('#submit_action',form).attr({name: 'midcom_helper_datamanager2_add', value: 'add'});form.submit();};function applyRowClasses(){jQuery('.maa_permissions_items tr.maa_permissions_rows_row:odd').addClass('odd');jQuery('.maa_permissions_items tr.maa_permissions_rows_row:even').addClass('even');};";
         midcom::get('head')->add_jscript($script);
 

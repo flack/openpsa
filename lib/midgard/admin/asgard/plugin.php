@@ -24,6 +24,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             midcom::get('i18n')->set_language($language);
         }
 
+        // Enable jQuery
+        midcom::get('head')->enable_jquery();
+
         // Ensure we get the correct styles
         midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
         midcom::get()->skip_page_style = true;

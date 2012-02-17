@@ -25,13 +25,5 @@ class midgard_admin_asgard_interface extends midcom_baseclasses_components_inter
             'midcom.admin.help',
         );
     }
-
-    public function _on_initialize()
-    {
-        // Enable jQuery
-        midcom::get('head')->enable_jquery();
-
-        return true;
-    }
 }
 ?>
