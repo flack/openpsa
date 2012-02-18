@@ -8,7 +8,7 @@
 
 if (!defined('OPENPSA_TEST_ROOT'))
 {
-    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
     require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
 }
 
