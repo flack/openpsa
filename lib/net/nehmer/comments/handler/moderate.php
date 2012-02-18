@@ -17,17 +17,15 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      * Comment we are currently working with.
      *
      * @var Array
-     * @access private
      */
-    var $_comment = null;
+    private $_comment = null;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
-     * @access private
      */
-    var $_objectguid = null;
+    private $_objectguid = null;
 
     /**
      * Simple helper which references all important members to the request data listing

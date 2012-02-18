@@ -17,42 +17,37 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * The schema database to use.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * List of comments we are currently working with.
      *
      * @var Array
-     * @access private
      */
-    var $_comments = null;
+    private $_comments = null;
 
     /**
      * A new comment just created for posting.
      *
      * @var net_nehmer_comments_comment
-     * @access private
      */
-    var $_new_comment = null;
+    private $_new_comment = null;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
-     * @access private
      */
-    var $_objectguid = null;
+    private $_objectguid = null;
 
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_display_datamanager = null;
+    private $_display_datamanager = null;
 
     var $custom_view = null;
 

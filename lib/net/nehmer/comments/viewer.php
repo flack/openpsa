@@ -17,8 +17,6 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
 {
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     function _populate_node_toolbar()
     {

@@ -22,33 +22,29 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * The schema database to use.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * List of comments we are currently working with.
      *
      * @var Array
-     * @access private
      */
-    var $_comments = null;
+    private $_comments = null;
 
     /**
      * A new comment just created for posting.
      *
      * @var net_nehmer_comments_comment
-     * @access private
      */
-    var $_new_comment = null;
+    private $_new_comment = null;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
-     * @access private
      */
-    var $_objectguid = null;
+    private $_objectguid = null;
 
     /**
      * The controller used to post a new comment. Only set if we have a valid user.
@@ -56,18 +52,16 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * This is a Creation Mode DM2 controller.
      *
      * @var midcom_helper_datamanager2_controller_create
-     * @access private
      */
-    var $_post_controller = null;
+    private $_post_controller = null;
 
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_display_datamanager = null;
+    private $_display_datamanager = null;
 
     var $custom_view = null;
 
