@@ -103,7 +103,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             {
                 throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
             }
-            if (!midcom_admin_folder_folder_management::is_child_listing_finite($this->_object))
+            if (!midcom_admin_folder_management::is_child_listing_finite($this->_object))
             {
                 $this->_object->up = $up;
                 $this->_object->name = $name;
