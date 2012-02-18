@@ -38,14 +38,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_controller;
 
-    /**
-     * Load midcom.helper.datamanager2. Called on handler initialization phase.
-     */
-    public function _on_initialize()
-    {
-        midcom::get('componentloader')->load('midcom.helper.datamanager2');
-    }
-
     public function get_schema_name()
     {
         $name = 'config';

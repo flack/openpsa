@@ -14,14 +14,6 @@
 class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_handler
 {
     /**
-     * Constructor method
-     */
-    public function __construct ()
-    {
-        midcom::get('componentloader')->load('midcom.helper.reflector');
-    }
-
-    /**
      * Handler for folder deletion.
      *
      * @param mixed $handler_id The ID of the handler.

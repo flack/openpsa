@@ -11,9 +11,6 @@
  * user preferences.
  *
  * <code>
- * // Loads the component for the first time
- * midcom::get('componentloader')->load('fi.protie.navigation');
- *
  * // Initializes the class
  * $navigation = new fi_protie_navigation();
  *

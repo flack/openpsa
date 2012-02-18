@@ -361,7 +361,7 @@ class midcom_services_i18n
      * @see midcom_services_i18n_l10n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
-     * @return midcom_helper__i18n_l10n    The cached L10n database; honor the reference for memory consumptions sake.
+     * @return midcom_services_i18n_l10n    The cached L10n database; honor the reference for memory consumptions sake.
      */
     function get_l10n($component = 'midcom', $database = 'default')
     {
@@ -385,7 +385,7 @@ class midcom_services_i18n
      * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
      *     database is used.
      * @return string The translated string
-     * @see midcom_helper__i18n_l10n::get()
+     * @see midcom_services_i18n_l10n::get()
      */
     function get_string($stringid, $component = null, $database = 'default')
     {
@@ -414,7 +414,7 @@ class midcom_services_i18n
      *     current component (out of the component context).
      * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
      *     database is used.
-     * @see midcom_helper__i18n_l10n::get()
+     * @see midcom_services_i18n_l10n::get()
      * @see get_string()
      */
     function show_string($stringid, $component = null, $database = 'default')

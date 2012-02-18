@@ -202,9 +202,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _process_batch_change()
     {
-        // Load the org.openpsa.mail class
-        midcom::get('componentloader')->load('org.openpsa.mail');
-
         // Set the mail commo parts
         $mail = new org_openpsa_mail();
         $mail->from = $this->_config->get('message_sender');

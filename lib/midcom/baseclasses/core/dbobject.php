@@ -239,7 +239,6 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _pre_check_name(midcom_core_dbaobject $object)
     {
-        midcom::get('componentloader')->load('midcom.helper.reflector');
         // Make sure name is empty of unique if the object has such property
         $name_property = midcom_helper_reflector::get_name_property($object);
         if (empty($name_property))

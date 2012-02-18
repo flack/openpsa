@@ -101,7 +101,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         //send welcome mail?
         if ($send_welcome_mail)
         {
-            midcom::get('componentloader')->load('org.openpsa.mail');
             $mail = new org_openpsa_mail();
             $mail->to = $usermail;
             $mail->from = $this->_config->get('welcome_mail_from_address');

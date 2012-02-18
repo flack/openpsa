@@ -283,7 +283,6 @@ implements midcom_helper_datamanager2_interfaces_create
             {
                 $this->_request_data['linked_objects'] = array();
                 $this->_request_data['linked_raw_objects'] = array();
-                midcom::get('componentloader')->load('midcom.helper.reflector');
 
                 foreach ($this->_request_data['entries'] as $entry)
                 {
