@@ -366,7 +366,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_gethistory($what)
     {
-        $history = $this->rcs_exec('rlog "' . $what . ',v"');
+        $history = $this->rcs_exec('rlog', $what . ',v');
 
         $revisions = array();
         $lines = explode("\n", $history);
@@ -398,12 +398,18 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * execute a command
      *
-     * @param string command
+     * @param string $command The command to execute
+     * @param string $filename The file to operate on
      * @return string command result.
      */
-    private function rcs_exec($command)
+    private function rcs_exec($command, $filename)
     {
-        $fh = popen($command, "r");
+        if (!is_readable($filename))
+        {
+            debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
+            return '';
+        }
+        $fh = popen($command . '"' . $filename . '" 2>&1', "r");
         $ret = "";
         while ($reta = fgets($fh, 1024))
         {
