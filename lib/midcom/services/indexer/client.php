@@ -30,7 +30,7 @@ abstract class midcom_services_indexer_client
     /**
      * The L10n DB for the topic's component
      *
-     * @var midcom_services__i18n_l10n
+     * @var midcom_services_i18n_l10n
      */
     protected $_l10n;
 

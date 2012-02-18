@@ -358,7 +358,7 @@ class midcom_services_i18n
      *
      * Using the special name "midcom" you will get the midcom core l10n library.
      *
-     * @see midcom_services__i18n_l10n
+     * @see midcom_services_i18n_l10n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
      * @return midcom_helper__i18n_l10n    The cached L10n database; honor the reference for memory consumptions sake.
@@ -437,11 +437,11 @@ class midcom_services_i18n
 
         if ($component == 'midcom')
         {
-            $obj = new midcom_services__i18n_l10n('midcom', $database);
+            $obj = new midcom_services_i18n_l10n('midcom', $database);
         }
         else
         {
-            $obj = new midcom_services__i18n_l10n($component, $database);
+            $obj = new midcom_services_i18n_l10n($component, $database);
         }
 
         if (! $obj)

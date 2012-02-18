@@ -92,7 +92,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     /**
      * The primary L10n DB to use for schema translation.
      *
-     * @var midcom_services__i18n_l10n
+     * @var midcom_services_i18n_l10n
      */
     var $l10n_schema = null;
 

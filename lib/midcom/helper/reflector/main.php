@@ -88,7 +88,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Gets a midcom_helper_l10n instance for component governing the type
      *
-     * @return midcom_services__i18n_l10n  Localization library for the reflector object class
+     * @return midcom_services_i18n_l10n  Localization library for the reflector object class
      */
     public function get_component_l10n()
     {

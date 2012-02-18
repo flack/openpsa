@@ -49,7 +49,7 @@
  *
  * @package midcom.services
  */
-class midcom_services__i18n_l10n
+class midcom_services_i18n_l10n
 {
     /**
      * The name of the locale library we use, this is usually
@@ -368,7 +368,7 @@ class midcom_services__i18n_l10n
      * it is automatically made available.
      *
      * @param string $lang The language to check for.
-     * @see midcom_services__i18n_l10n::_load_language()
+     * @see midcom_services_i18n_l10n::_load_language()
      */
     private function _check_for_language($lang)
     {
@@ -411,7 +411,7 @@ class midcom_services__i18n_l10n
      * specified in the language database.
      *
      * If you want another character encoding as the default one, you
-     * have to override it manually using midcom_services__i18n_l10n::set_charset()
+     * have to override it manually using midcom_services_i18n_l10n::set_charset()
      * after calling this method.
      *
      * This is usually set through midcom_services_i18n.

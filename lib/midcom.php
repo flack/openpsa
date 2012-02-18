@@ -139,8 +139,6 @@ class midcom
         self::$_services['cache'] = new midcom_services_cache();
         self::$_services['cache']->initialize();
 
-        require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
-
         /////////////////////////////////////
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();

@@ -11,8 +11,8 @@
  * in all parts of the component's environment. Available services are
  *
  * <b>midcom_services_i18n $_i18n</b> A handle to the i18n service.
- * <b>midcom_services__i18n_l10n $_l10n</b> The components' L10n string database.
- * <b>midcom_services__i18n_l10n $_l10n_midcom</b> The global MidCOM string database.
+ * <b>midcom_services_i18n_l10n $_l10n</b> The components' L10n string database.
+ * <b>midcom_services_i18n_l10n $_l10n_midcom</b> The global MidCOM string database.
  * <b>midcom_helper_configuration $_config</b> The current configuration.
  *
  * @package midcom.baseclasses
