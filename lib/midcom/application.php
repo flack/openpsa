@@ -129,8 +129,6 @@ class midcom_application
     /**
      * Main MidCOM initialization.
      *
-     * Note, that there is no constructor so that initialize can already populate global references.
-     *
      * Initialize the Application class. Sets all private variables to a predefined
      * state. $node should be set to the midcom root-node GUID.
      * $prefix can be a prefix, which is appended to midcom_connection::get_url('self') (i.e. the

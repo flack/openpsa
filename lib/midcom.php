@@ -145,9 +145,11 @@ class midcom
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
 
-        require_once(MIDCOM_ROOT . '/compat/superglobal.php');
-
-        $_MIDCOM = new midcom_compat_superglobal();
+        if (!empty($GLOBALS['midcom_config']['midcom_use_superglobal']))
+        {
+            require_once MIDCOM_ROOT . '/compat/superglobal.php';
+            $_MIDCOM = new midcom_compat_superglobal();
+        }
 
         self::$_application->initialize();
 
