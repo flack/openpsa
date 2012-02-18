@@ -219,6 +219,13 @@ class midcom
         $autoloaded++;
     }
 
+    /**
+     * Get service or midcom_application singletons. Services are automatically instantiated if they
+     * were not used before
+     *
+     * @param string $name The service name as listed in the _service_classes array or null to get midcom_application
+     * @return mixed The requested instance
+     */
     public static function get($name = null)
     {
         if (is_null($name))
