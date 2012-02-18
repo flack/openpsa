@@ -24,22 +24,6 @@
  * this class. Only the first one is mandatory, the method name defaults to
  * dm2_create_callback.
  *
- * It must return a reference to a freshly created object that should be populated
- * with the validated form data. It receives a reference to the controller instance
- * calling it. Thus, a valid callback would look something like this:
- *
- * <code>
- * function & dm2_create_callback(&$controller)
- * {
- *     // ...
- *     return $object;
- * }
- * </code>
- *
- * If the callback is unable to create an empty object for whatever reason, you should
- * throw midcom_error. There is no error handling whatsoever on the side of this
- * controller instance. If the function returns, a valid instance is expected.
- *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_controller_create extends midcom_helper_datamanager2_controller

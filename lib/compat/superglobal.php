@@ -268,7 +268,7 @@ class midcom_compat_superglobal
      * Store arbitrary, component-specific information in the component context
      *
      * @param mixed $key        The key associated to the value.
-     * @param mixed $value    The value to store. (This is stored by-reference!)
+     * @param mixed &$value    The value to store. (This is stored by-reference!)
      * @param int $contextid    The context to associated this data with (defaults to the current context)
      */
     function set_custom_context_data($key, &$value, $contextid = null)

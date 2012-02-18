@@ -118,7 +118,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     /**
      * Method for adding or updating an object to the MidCOM indexer service.
      *
-     * @param $dm Datamanager2 instance containing the object
+     * @param &$dm Datamanager2 instance containing the object
      * @todo implement this properly now it's just a stub
      */
     public function _index_object(&$dm)

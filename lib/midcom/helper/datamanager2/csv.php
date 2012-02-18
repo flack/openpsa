@@ -184,7 +184,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
      * // This will exit.
      * </code>
      *
-     * @param Array list A list of objects to convert, all matchable by the current DM2 instance.
+     * @param Array &$list A list of objects to convert, all matchable by the current DM2 instance.
      */
     function convert_list_to_stdout(&$list)
     {

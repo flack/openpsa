@@ -552,8 +552,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Checks the info array for required mapping keys and regenerates them if missing
      *
-     * @param array $info reference to the info array of given attachment
-     * @param string $identifier reference to the attachments' identifier
+     * @param array &$info reference to the info array of given attachment
+     * @param string &$identifier reference to the attachments' identifier
      */
     function _info_heuristics(&$info, &$identifier)
     {
