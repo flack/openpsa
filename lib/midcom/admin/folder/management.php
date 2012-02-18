@@ -11,7 +11,7 @@
  *
  * @package midcom.admin.folder
  */
-class midcom_admin_folder_folder_management extends midcom_baseclasses_components_plugin
+class midcom_admin_folder_management extends midcom_baseclasses_components_plugin
 {
     /**
      * Anchor prefix stores the link back to the edited content topic
@@ -254,7 +254,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
         foreach ($results as $topic)
         {
-            if (!midcom_admin_folder_folder_management::is_child_listing_finite($topic, $stop))
+            if (!self::is_child_listing_finite($topic, $stop))
             {
                 return false;
             }

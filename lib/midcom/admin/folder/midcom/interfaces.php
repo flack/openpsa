@@ -23,11 +23,6 @@ class midcom_admin_folder_interface extends midcom_baseclasses_components_interf
         (
             'midcom.admin.help',
         );
-
-        $this->_autoload_files = array
-        (
-            'folder_management.php', // NOTE: Autoloader cannot find this!!
-        );
     }
 }
 ?>

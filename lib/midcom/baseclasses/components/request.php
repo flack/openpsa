@@ -228,7 +228,7 @@
  *     (
  *         'folder' => Array
  *         (
- *             'class' => 'midcom_admin_folder_folder_management',
+ *             'class' => 'midcom_admin_folder_management',
  *             'src' => 'file:/midcom/admin/folder/folder_management.php',
  *             'name' => 'Folder administration',
  *             'config' => null,
@@ -955,8 +955,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             (
                 'folder' => Array
                 (
-                    'class' => 'midcom_admin_folder_folder_management',
-                    'src' => 'file:/midcom/admin/folder/folder_management.php',
+                    'class' => 'midcom_admin_folder_management',
+                    'src' => 'file:/midcom/admin/folder/management.php',
                     'name' => 'Folder administration',
                     'config' => null,
                 ),

@@ -353,7 +353,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 );
             }
             $this->_new_topic->update();
-            if (!midcom_admin_folder_folder_management::is_child_listing_finite($topic))
+            if (!midcom_admin_folder_management::is_child_listing_finite($topic))
             {
                 $this->_new_topic->purge();
                 throw new midcom_error
