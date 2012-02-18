@@ -109,6 +109,7 @@ class midcom_core_context
      * If the current context is requested and doesn't exist for some reason, it is automatically created
      *
      * @param int $id The context ID, if any
+     * @return midcom_core_context The requested context, or false if not found
      */
     public static function & get($id = null)
     {

@@ -102,7 +102,7 @@ class midcom_helper_head
      */
     public function set_pagetitle($string)
     {
-        midcom_core_context::get()->set_key($string, MIDCOM_CONTEXT_PAGETITLE);
+        midcom_core_context::get()->set_key(MIDCOM_CONTEXT_PAGETITLE, $string);
     }
 
     /**
