@@ -41,27 +41,6 @@
 class net_nehmer_comments_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    function __construct()
-    {
-        parent::__construct();
-
-        $this->_component = 'net.nehmer.comments';
-
-        // New messages enter at 4, and can be lowered or raised
-        define('NET_NEHMER_COMMENTS_NEW', 0);
-        define('NET_NEHMER_COMMENTS_JUNK', 1);
-        define('NET_NEHMER_COMMENTS_ABUSE', 2);
-        define('NET_NEHMER_COMMENTS_REPORTED_ABUSE', 3);
-        define('NET_NEHMER_COMMENTS_NEW_ANONYMOUS', 4); // This is here only because n.n.discussion has it this way, TODO: refactor this to work as discussion
-        define('NET_NEHMER_COMMENTS_NEW_USER', 5); // This is here only because n.n.discussion has it this way, TODO: refactor this to work as discussion
-        define('NET_NEHMER_COMMENTS_MODERATED', 6);
-    }
-
-    /**
      * The delete handler will drop all entries associated with any deleted object
      * so that our DB is clean.
      *

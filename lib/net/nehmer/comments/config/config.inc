@@ -23,18 +23,18 @@
 'qaiku_enable' => false,
 'qaiku_topic' => '', // GUID of topic to check Buzz comments for
 'qaiku_apikey' => '',
-'qaiku_initial_status' => 4, // NET_NEHMER_COMMENTS_NEW_ANONYMOUS
+'qaiku_initial_status' => 4, // net_nehmer_comments_comment::NEW_ANONYMOUS
 
 // Google Buzz support
 'buzz_enable' => false,
 'buzz_topic' => '', // GUID of topic to check Buzz comments for
 'buzz_url' => '',
-'buzz_initial_status' => 4, // NET_NEHMER_COMMENTS_NEW_ANONYMOUS
+'buzz_initial_status' => 4, // net_nehmer_comments_comment::NEW_ANONYMOUS
 
 // Atom/RSS Comments import
 'atom_comments_import_enable' => false,
 'atom_comments_topic' => '', // GUID of topic to check Atom comments for (used by cron-script)
-'atom_comments_initial_status' => 4, // NET_NEHMER_COMMENTS_NEW_ANONYMOUS
+'atom_comments_initial_status' => 4, // net_nehmer_comments_comment::NEW_ANONYMOUS
 
 // Rating mode
 'ratings_enable' => false,

@@ -17,6 +17,15 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_comments_comment_db';
+
+    // New messages enter at 4, and can be lowered or raised
+    const JUNK = 1;
+    const ABUSE = 2;
+    const REPORTED_ABUSE = 3;
+    const NEW_ANONYMOUS = 4;
+    const NEW_USER = 5;
+    const MODERATED = 6;
+
     var $_send_notification = false;
 
     static function new_query_builder()
@@ -245,7 +254,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             // Quality content
             debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as ham with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
 
-            $this->status = NET_NEHMER_COMMENTS_MODERATED;
+            $this->status = net_nehmer_comments_comment::MODERATED;
             $this->update();
             $this->_log_moderation('reported_not_junk', 'mollom', "Quality = {$ret['quality']}");
             return;
@@ -256,7 +265,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             // Spam
             debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as spam with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
 
-            $this->status = NET_NEHMER_COMMENTS_JUNK;
+            $this->status = net_nehmer_comments_comment::JUNK;
             $this->update();
             $this->_log_moderation('confirmed_junk', 'mollom', "Quality = {$ret['quality']}");
             return;
@@ -270,7 +279,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     function report_abuse()
     {
-        if ($this->status == NET_NEHMER_COMMENTS_MODERATED)
+        if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
             return false;
         }
@@ -279,11 +288,11 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         if (   $this->can_do('net.nehmer.comments:moderation')
             && !$this->_sudo_requested)
         {
-            $this->status = NET_NEHMER_COMMENTS_ABUSE;
+            $this->status = net_nehmer_comments_comment::ABUSE;
         }
         else
         {
-            $this->status = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+            $this->status = net_nehmer_comments_comment::REPORTED_ABUSE;
         }
 
         if ($this->update())
@@ -300,7 +309,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function confirm_abuse()
     {
-        if ($this->status == NET_NEHMER_COMMENTS_MODERATED)
+        if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
             return false;
         }
@@ -311,7 +320,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return false;
         }
 
-        $this->status = NET_NEHMER_COMMENTS_ABUSE;
+        $this->status = net_nehmer_comments_comment::ABUSE;
         if ($this->update())
         {
             // Log who reported it
@@ -326,7 +335,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function confirm_junk()
     {
-        if ($this->status == NET_NEHMER_COMMENTS_MODERATED)
+        if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
             return false;
         }
@@ -338,7 +347,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return false;
         }
 
-        $this->status = NET_NEHMER_COMMENTS_JUNK;
+        $this->status = net_nehmer_comments_comment::JUNK;
         if ($this->update())
         {
             // Log who reported it
@@ -360,7 +369,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
 
         // Set the status
-        $this->status = NET_NEHMER_COMMENTS_MODERATED;
+        $this->status = net_nehmer_comments_comment::MODERATED;
         $updated = $this->update();
 
         if ($this->update())
@@ -451,17 +460,16 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         $view_status = array
         (
-            NET_NEHMER_COMMENTS_NEW,
-            NET_NEHMER_COMMENTS_NEW_ANONYMOUS,
-            NET_NEHMER_COMMENTS_NEW_USER,
-            NET_NEHMER_COMMENTS_MODERATED,
+            net_nehmer_comments_comment::NEW_ANONYMOUS,
+            net_nehmer_comments_comment::NEW_USER,
+            net_nehmer_comments_comment::MODERATED,
         );
 
         if (isset($this->_config))
         {
             if ($this->_config->get('show_reported_abuse_as_normal'))
             {
-                $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
             }
         }
 

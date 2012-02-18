@@ -175,12 +175,12 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         if (midcom::get('auth')->user)
         {
-            $this->_new_comment->status = NET_NEHMER_COMMENTS_NEW_USER;
+            $this->_new_comment->status = net_nehmer_comments_comment::NEW_USER;
             $this->_new_comment->author = midcom::get('auth')->user->name;
         }
         else
         {
-            $this->_new_comment->status = NET_NEHMER_COMMENTS_NEW_ANONYMOUS;
+            $this->_new_comment->status = net_nehmer_comments_comment::NEW_ANONYMOUS;
         }
 
         if ($this->_config->get('enable_notify'))

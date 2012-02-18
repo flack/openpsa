@@ -205,40 +205,38 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         {
             case 'reported_abuse':
                 $this->_request_data['status_to_show'] = 'reported abuse';
-                $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
               break;
             case 'abuse':
                 $this->_request_data['status_to_show'] = 'abuse';
-                $view_status[] = NET_NEHMER_COMMENTS_ABUSE;
+                $view_status[] = net_nehmer_comments_comment::ABUSE;
               break;
             case 'junk':
                 $this->_request_data['status_to_show'] = 'junk';
-                $view_status[] = NET_NEHMER_COMMENTS_JUNK;
+                $view_status[] = net_nehmer_comments_comment::JUNK;
               break;
             case 'latest':
                 $this->_request_data['status_to_show'] = 'latest comments';
-                $view_status[] = NET_NEHMER_COMMENTS_NEW;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_ANONYMOUS;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_USER;
-                $view_status[] = NET_NEHMER_COMMENTS_MODERATED;
+                $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
+                $view_status[] = net_nehmer_comments_comment::NEW_USER;
+                $view_status[] = net_nehmer_comments_comment::MODERATED;
                 if ($this->_config->get('show_reported_abuse_as_normal'))
                 {
-                    $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                    $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
               break;
             case 'latest_new':
                 $this->_request_data['status_to_show'] = 'latest comments, only new';
-                $view_status[] = NET_NEHMER_COMMENTS_NEW;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_ANONYMOUS;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_USER;
+                $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
+                $view_status[] = net_nehmer_comments_comment::NEW_USER;
                 if ($this->_config->get('show_reported_abuse_as_normal'))
                 {
-                    $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                    $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
               break;
             case 'latest_approved':
                 $this->_request_data['status_to_show'] = 'latest comments, only approved';
-                $view_status[] = NET_NEHMER_COMMENTS_MODERATED;
+                $view_status[] = net_nehmer_comments_comment::MODERATED;
               break;
         }
 
