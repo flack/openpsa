@@ -221,7 +221,7 @@ class org_openpsa_widgets_grid_provider
 
     private function _convert_to_localdata()
     {
-        echo "var " . $this->_grid->get_identifier() . '_entries = ' .  json_encode($this->get_rows()) . ";\n";
+        return "var " . $this->_grid->get_identifier() . '_entries = ' .  json_encode($this->get_rows()) . ";\n";
     }
 
     private function _render_json()

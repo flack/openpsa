@@ -295,9 +295,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             $this->_provider->setup_grid();
         }
 
-        $string = '';
-
-        $string .= '<table id="' . $this->_identifier . '"></table>';
+        $string = '<table id="' . $this->_identifier . '"></table>';
         $string .= '<div id="p_' . $this->_identifier . '"></div>';
         $string .= '<script type="text/javascript">//<![CDATA[' . "\n";
 
