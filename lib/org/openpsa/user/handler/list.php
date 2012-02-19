@@ -15,6 +15,25 @@ class org_openpsa_user_handler_list extends midcom_baseclasses_components_handle
 implements org_openpsa_widgets_grid_provider_client
 {
     /**
+     * The grid provider
+     *
+     * @var org_openpsa_widgets_grid_provider
+     */
+    private $_provider;
+
+    /**
+     * The group we're working on, if any
+     *
+     * @var org_openpsa_contacts_group_dba
+     */
+    private $_group;
+
+    public function _on_initialize()
+    {
+        $this->_provider = new org_openpsa_widgets_grid_provider($this);
+    }
+
+    /**
      * Handler method for listing users
      *
      * @param string $handler_id Name of the used handler
@@ -29,7 +48,19 @@ implements org_openpsa_widgets_grid_provider_client
             $person = $auth->user->get_storage();
             midcom::get()->relocate('view/' . $person->guid . '/');
         }
-        $data['grid'] = new org_openpsa_widgets_grid('org_openpsa_user_grid', 'json');
+
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data['provider_url'] = $prefix . 'json/';
+        $grid_id = 'org_openpsa_user_grid';
+        if (sizeof($args) == 1)
+        {
+            $grid_id = 'org_openpsa_members_grid';
+            $this->_group = new org_openpsa_contacts_group_dba($args[0]);
+            $data['group'] = $this->_group;
+            $data['provider_url'] .= 'members/' . $this->_group->guid . '/';
+        }
+
+        $data['grid'] = $this->_provider->get_grid($grid_id);
 
         org_openpsa_widgets_tree::add_head_elements();
 
@@ -63,6 +94,10 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_list($handler_id, array &$data)
     {
+        if (!$this->_group)
+        {
+            midcom_show_style('group-sidebar');
+        }
         midcom_show_style('users-grid');
     }
 
@@ -77,6 +112,11 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get('auth')->require_valid_user();
         midcom::get()->skip_page_style = true;
+        $data['provider'] = $this->_provider;
+        if (sizeof($args) == 1)
+        {
+            $this->_group = new org_openpsa_contacts_group_dba($args[0]);
+        }
     }
 
     /**
@@ -87,7 +127,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_json($handler_id, array &$data)
     {
-        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
         midcom_show_style('users-grid-json');
     }
 
@@ -98,6 +137,20 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
         //@todo constraint username <> '' ?
+
+        if ($this->_group)
+        {
+            $mc = midcom_db_member::new_collector('gid', $this->_group->id);
+            $members = $mc->get_values('uid');
+            if (empty($members))
+            {
+                $qb->add_constraint('id', '=', 0);
+            }
+            else
+            {
+                $qb->add_constraint('id', 'IN', $members);
+            }
+        }
 
         if (!is_null($field))
         {
