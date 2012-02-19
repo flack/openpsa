@@ -35,6 +35,8 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.contacts', array('group', self::$_group->guid));
         $this->assertEquals('group_view', $data['handler_id']);
 
+        $output = $this->show_handler($data);
+
         midcom::get('auth')->drop_sudo();
     }
 }
