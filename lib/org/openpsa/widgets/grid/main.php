@@ -273,10 +273,6 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      */
     public function render($entries = false)
     {
-        echo '<table id="' . $this->_identifier . '"></table>';
-        echo '<div id="p_' . $this->_identifier . '"></div>';
-        echo '<script type="text/javascript">//<![CDATA[' . "\n";
-
         if (is_array($entries))
         {
             if (null !== $this->_provider)
@@ -289,12 +285,25 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
                 $this->_provider->set_grid($this);
             }
         }
+        echo $this->__toString();
+    }
 
-        $this->_provider->setup_grid();
+    public function __toString()
+    {
+        if ($this->_provider)
+        {
+            $this->_provider->setup_grid();
+        }
 
-        echo $this->_prepend_js;
+        $string = '';
 
-        echo 'jQuery("#' . $this->_identifier . '").jqGrid({';
+        $string .= '<table id="' . $this->_identifier . '"></table>';
+        $string .= '<div id="p_' . $this->_identifier . '"></div>';
+        $string .= '<script type="text/javascript">//<![CDATA[' . "\n";
+
+        $string .= $this->_prepend_js;
+
+        $string .= 'jQuery("#' . $this->_identifier . '").jqGrid({';
 
         $colnames = array();
         foreach ($this->_columns as $name => $column)
@@ -305,62 +314,64 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             }
             $colnames[] = $column['label'];
         }
-        echo "\ncolNames: " . json_encode($colnames) . ",\n";
+        $string .= "\ncolNames: " . json_encode($colnames) . ",\n";
 
-        $this->_render_colmodel();
+        $string .= $this->_render_colmodel();
 
         $total_options = sizeof($this->_options);
         $i = 0;
         foreach ($this->_options as $name => $value)
         {
-            echo $name . ': ' . $value;
+            $string .= $name . ': ' . $value;
             if (++$i < $total_options)
             {
-                echo ',';
+                $string .= ',';
             }
-            echo "\n";
+            $string .= "\n";
         }
-        echo "});\n";
+        $string .= "});\n";
         if ($this->get_option('footerrow'))
         {
-            echo 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ");\n";
+            $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ");\n";
         }
-        echo '//]]></script>';
+        $string .= '//]]></script>';
+        return $string;
     }
 
     private function _render_colmodel()
     {
-        echo "colModel: [\n";
+        $string = "colModel: [\n";
         $total_columns = sizeof($this->_columns);
         $i = 0;
         foreach ($this->_columns as $name => $column)
         {
             if ($column['separate_index'])
             {
-                echo '{name: "index_' . $name . '", index: "index_' . $name . '", ';
-                echo 'sorttype: "' . $column['separate_index'] . '", hidden: true}' . ",\n";
+                $string .= '{name: "index_' . $name . '", index: "index_' . $name . '", ';
+                $string .= 'sorttype: "' . $column['separate_index'] . '", hidden: true}' . ",\n";
             }
 
-            echo '{name: "' . $name . '", ';
+            $string .= '{name: "' . $name . '", ';
             if ($column['separate_index'])
             {
-                echo 'index: "index_' . $name . '"';
+                $string .= 'index: "index_' . $name . '"';
             }
             else
             {
-                echo 'index: "' . $name . '"';
+                $string .= 'index: "' . $name . '"';
             }
             if (!empty($column['options']))
             {
-                echo ', ' . $column['options'];
+                $string .= ', ' . $column['options'];
             }
-            echo '}';
+            $string .= '}';
             if (++$i < $total_columns)
             {
-                echo ",\n";
+                $string .= ",\n";
             }
         }
-        echo "\n],\n";
+        $string .= "\n],\n";
+        return $string;
     }
 }
 ?>
