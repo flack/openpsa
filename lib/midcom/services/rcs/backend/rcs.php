@@ -367,7 +367,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_gethistory($what)
     {
         $history = $this->rcs_exec('rlog', $what . ',v');
-
         $revisions = array();
         $lines = explode("\n", $history);
 
@@ -409,13 +408,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
             return '';
         }
-        $fh = popen($command . '"' . $filename . '" 2>&1', "r");
+        $fh = popen($command . ' "' . $filename . '" 2>&1', "r");
         $ret = "";
         while ($reta = fgets($fh, 1024))
         {
             $ret .= $reta;
         }
         pclose($fh);
+
         return $ret;
     }
 
