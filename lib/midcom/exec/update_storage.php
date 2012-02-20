@@ -20,7 +20,8 @@ echo "  Created base storage\n";
 
 $re = new ReflectionExtension('midgard2');
 $classes = $re->getClasses();
-
+$counter = 0;
+$start = microtime(true);
 foreach ($classes as $refclass)
 {
     if (!$refclass->isSubclassOf('midgard_object'))
@@ -29,6 +30,7 @@ foreach ($classes as $refclass)
     }
     $type = $refclass->getName();
 
+    $counter++;
     if (midgard_storage::class_storage_exists($type))
     {
         midgard_storage::update_class_storage($type);
@@ -41,7 +43,7 @@ foreach ($classes as $refclass)
     }
     flush();
 }
-
+echo "Processed " . $counter . " schema types in " . round(microtime(true) - $start, 2) . "s";
 echo "\n\nDone.";
 echo "</pre>";
 ob_start();
