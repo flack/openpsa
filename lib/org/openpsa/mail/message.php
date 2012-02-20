@@ -228,6 +228,8 @@ class org_openpsa_mail_message
         if (strpos($value, '<'))
         {
             $name = substr($value, 0, strpos($value, '<'));
+            $name = preg_replace('/^\W*"/', '', $name);
+            $name = preg_replace('/"\W*$/', '', $name);
             $address = substr($value, strpos($value, '<') + 1);
             $address = substr($address, 0, strlen($address) - 1);
             $value = $this->_encode_quoted_printable($name) . ' <' . $address . '>';
