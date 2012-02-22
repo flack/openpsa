@@ -49,7 +49,7 @@ if ($data['list_type'] != 'paid')
 }
 else
 {
-    $grid->set_column('action', $data['l10n']->get('paid date'), 'width: 80, align: "center", formatter: "date"');
+    $grid->set_column('paid', $data['l10n']->get('paid date'), 'width: 80, align: "center", formatter: "date"');
 }
 $grid->set_footer_data($footer_data);
 ?>
