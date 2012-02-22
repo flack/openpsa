@@ -105,8 +105,13 @@
         },
         pager : "#p_journal_entry_grid",
         loadonce: true,
-        sortname: 'date',
-        sortorder: 'desc'
+        grouping: true,
+        groupingView: {
+          groupField: ['date'],
+          groupColumnShow: [false],
+          groupText : ['<strong>{0}</strong>'],
+          groupOrder: ['desc'],
+       }
     });
 
 </script>
