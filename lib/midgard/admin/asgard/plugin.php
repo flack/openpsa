@@ -426,13 +426,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
         if (!isset($preferences[$preference]))
         {
-            // Store the person statically
-            if (!isset($preferences[midcom::get('auth')->user->guid]))
-            {
-                $preferences[midcom::get('auth')->user->guid] = new midcom_db_person(midcom::get('auth')->user->guid);
-            }
+            $person = midcom_db_person::get_cached(midcom::get('auth')->user->guid);
 
-            $preferences[$preference] = $preferences[midcom::get('auth')->user->guid]->get_parameter('midgard.admin.asgard:preferences', $preference);
+            $preferences[$preference] = $person->get_parameter('midgard.admin.asgard:preferences', $preference);
         }
 
         return $preferences[$preference];
