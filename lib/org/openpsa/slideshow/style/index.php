@@ -1,3 +1,4 @@
+<h1><?php echo $data['topic']->extra; ?></h1>
 <div id="slideshow_container">
 <?php
 foreach ($data['images'] as $image)

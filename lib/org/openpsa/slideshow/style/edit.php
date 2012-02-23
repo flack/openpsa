@@ -1,3 +1,5 @@
+<h1><?php echo sprintf($data['l10n_midcom']->get('edit %s'), $data['l10n']->get('slideshow')); ?></h1>
+
 <input type="file" multiple="multiple" id="upload_field" />
 
 <div id="item_container">
