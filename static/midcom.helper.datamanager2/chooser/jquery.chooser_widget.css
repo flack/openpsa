@@ -75,7 +75,7 @@ input.chooser_widget_search_input
 .chooser_widget_search_loading
 {
     padding-right: 20px;
-    background: url('../ajax-loading-small.gif') right center no-repeat;
+    background: url('../../stock-icons/16x16/ajax-loading.gif') right center no-repeat;
 }
 .chooser_widget_search_saved
 {

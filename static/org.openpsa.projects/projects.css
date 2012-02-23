@@ -126,7 +126,7 @@ div.org_openpsa_projects_projectbroker ul.prospects
 }
 div.org_openpsa_projects_projectbroker ul.project_prospects_renderer_searching
 {
-    background-image: url("../midcom.helper.datamanager2/ajax-loading.gif");
+    background-image: url("../stock-icons/32x32/ajax-loading.gif");
     padding-top: 32px;
 }
 div.org_openpsa_projects_projectbroker ul.project_prospects_renderer_search_fail
@@ -143,7 +143,7 @@ div.org_openpsa_projects_projectbroker ul.prospects > li
 }
 div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_searching
 {
-    background-image: url("../midcom.helper.datamanager2/ajax-loading-small.gif");
+    background-image: url("../stock-icons/16x16/ajax-loading.gif");
     padding-right: 16px;
 }
 div.org_openpsa_projects_project .filter_form

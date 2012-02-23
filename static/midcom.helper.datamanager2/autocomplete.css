@@ -34,7 +34,7 @@
 
 .ui-autocomplete-loading
 {
-    background: url('ajax-loading-small.gif') right center no-repeat;
+    background: url('../stock-icons/16x16/ajax-loading.gif') right center no-repeat;
 }
 
 .ui-autocomplete-error

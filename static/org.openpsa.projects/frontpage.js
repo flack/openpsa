@@ -1,6 +1,6 @@
 function get_tasks_json(object , url , prefix)
 {
-    var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='"+MIDCOM_STATIC_URL+"/midcom.helper.datamanager2/ajax-loading.gif' alt='loading' /></td></tr>";
+    var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>";
     row = $(object).parent().parent();
     row.after(wait_html);
     $.ajax({

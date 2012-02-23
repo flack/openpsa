@@ -7,7 +7,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <script type="text/javascript">
 jQuery('input.delete').bind('click', function(){
     var guid = this.id.substr(38);
-    var loading = "<img src='" + MIDCOM_STATIC_URL + "/midcom.helper.datamanager2/ajax-loading.gif' alt='loading' />";
+    var loading = "<img src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' />";
     jQuery('#org_openpsa_widgets_contact-' + guid).css('text-align', 'center');
     jQuery('#org_openpsa_widgets_contact-' + guid).html(loading);
     jQuery.ajax({

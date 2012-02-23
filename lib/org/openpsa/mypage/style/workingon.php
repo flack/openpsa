@@ -73,7 +73,7 @@ if (!is_null($workingon->task))
     </div>
 </div>
 <div id="org_openpsa_mypage_workingon_loading">
-<img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/ajax-loading.gif" alt="loading" />
+<img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/32x32/ajax-loading.gif" alt="loading" />
 </div>
 
 <?php

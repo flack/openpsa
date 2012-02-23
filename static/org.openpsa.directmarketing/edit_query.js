@@ -41,7 +41,7 @@ function group_hover()
 
 function send_preview()
 {
-    var loading = "<img style='text-align:center;' src='" + MIDCOM_STATIC_URL + "/midcom.helper.datamanager2/ajax-loading.gif'/>";
+    var loading = "<img style='text-align:center;' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif'/>";
     $("#preview_persons").css("text-align", "center");
     $("#preview_persons").html(loading);
     get_rules_array(zero_group_id);

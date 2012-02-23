@@ -198,7 +198,7 @@ dm2AjaxEditor.prototype = {
             'text-align': 'center',
             'font-family': 'Helvetica, sans-serif',
             'padding-top'           : '40px',
-            'background-image'  : 'url("/midcom-static/midcom.helper.datamanager2/ajax-loading-black.gif")',
+            'background-image'  : 'url("/midcom-static/stock-icons/32x32/ajax-loading-black.gif")',
             'background-repeat' : 'no-repeat',
             'background-position': 'top center',
             '-moz-border-radius': '8px',

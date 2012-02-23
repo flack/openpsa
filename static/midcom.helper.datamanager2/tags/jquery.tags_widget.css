@@ -35,7 +35,7 @@ input.tags_widget_input
 
 .tags_widget_loading
 {
-	background : Window url('../ajax-loading-small.gif') right center no-repeat;
+	background : Window url('../../stock-icons/16x16/ajax-loading.gif') right center no-repeat;
 }
 .tags_widget_error
 {
