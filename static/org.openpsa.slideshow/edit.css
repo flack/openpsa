@@ -1,0 +1,131 @@
+#item_container
+{
+    margin-top: 1em;
+    display: table;
+}
+
+#item_container .entry
+{
+    border: 1px solid #ddd;
+    padding: .2em;
+    margin: .2em 0
+    display: table-row;
+    cursor: move;
+    margin-bottom: 1em;
+    border-radius: .15em
+}
+
+#item_container .entry-template
+{
+    display: none;
+}
+
+#item_container .entry:hover
+{
+    box-shadow: 0 0 1em rgba(0, 0, 0, .4)
+    background-color: white;
+}
+
+#item_container .ui-sortable-helper
+{
+    opacity: .8
+}
+
+#item_container .entry .thumbnail,
+#item_container .entry .details
+{
+    display: table-cell;
+}
+#item_container .entry .thumbnail
+{
+    border: 1px solid #ddd;
+    width: 100px;
+    height: 80px;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: white;
+}
+#item_container .entry .thumbnail img
+{
+    border: 1px solid #ddd;
+    width: 100px;
+    display: table-cell;
+    vertical-align: middle
+}
+#item_container .entry .details
+{
+    vertical-align: top;
+    padding-left: 1em;
+}
+
+#item_container .entry .details .filename
+{
+    font-size: .8em;
+    color: #555;
+    display: block;
+    padding-bottom: .3em;
+    display: block;
+    height: 16px;
+    padding-top: 3px;
+}
+
+#item_container .entry .controls .action
+{
+    float: right;
+    height: 16px;
+    width: 16px;
+    margin-left: 6px;
+    margin-bottom: 3px;
+    cursor: pointer
+}
+
+#item_container .entry .controls .image-delete
+{
+    display: block;
+    background-image: url('../stock-icons/16x16/cancel.png');
+}
+
+#item_container .entry-deleted .controls .image-delete
+{
+    display: none;
+}
+
+#item_container .entry .controls .image-cancel-delete
+{
+    display: none;
+    background-image: url('../stock-icons/16x16/stock_refresh.png');
+}
+
+#item_container .entry-deleted .controls .image-cancel-delete
+{
+    display: block;
+}
+
+#item_container .entry .details textarea,
+#item_container .entry .details input
+{
+    border: 1px solid #ddd;
+    width: 23em
+}
+
+#item_container .entry .details textarea
+{
+    display: block;
+}
+
+#item_container .entry-deleted .thumbnail,
+#item_container .entry-deleted .description,
+#item_container .entry-deleted .title
+{
+    display: none;
+}
+
+#item_container .entry-deleted .details
+{
+    display: block;
+}
+
+#item_manager #progress_bar
+{
+    width: 400px;
+}
