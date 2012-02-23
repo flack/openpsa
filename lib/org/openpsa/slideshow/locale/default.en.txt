@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING no images found
+No images were found
+---STRINGEND
+
 ---STRING save all
 Save all changes
 ---STRINGEND

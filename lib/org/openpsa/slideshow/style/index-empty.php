@@ -1,0 +1,1 @@
+<p><?php $data['l10n']->show('no images found'); ?></p>
