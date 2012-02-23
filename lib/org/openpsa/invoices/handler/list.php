@@ -50,11 +50,6 @@ implements org_openpsa_widgets_grid_provider_client
         if (!is_null($field))
         {
             $field = str_replace('index_', '', $field);
-            if (   $field == 'action'
-                && $this->_list_type == 'paid')
-            {
-                $field = 'paid';
-            }
             $qb->add_order($field, $direction);
         }
 
@@ -147,7 +142,12 @@ implements org_openpsa_widgets_grid_provider_client
             $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
         }
 
-        $entry['action'] = $this->_master->render_invoice_actions($invoice);
+        $colname = 'action';
+        if ($this->_list_type == 'paid')
+        {
+            $colname = 'paid';
+        }
+        $entry[$colname] = $this->_master->render_invoice_actions($invoice);
 
         return $entry;
     }
@@ -243,7 +243,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $this->_request_data['list_type'] = 'paid';
         $provider = new org_openpsa_widgets_grid_provider($this);
-        $provider->add_order('action', 'DESC');
+        $provider->add_order('paid', 'DESC');
 
         $this->_request_data['grid'] = $provider->get_grid('paid_invoices_grid');
         $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
