@@ -52,7 +52,20 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     {
         $this->_update_invoice();
     }
-
+    
+    /**
+    * Human-readable label for cases like Asgard navigation
+     */
+    function get_label()
+    {
+        $label = $this->description;
+        if (strlen($label) > 100)
+        {
+            $label = substr($label, 0, 97) . '...';
+        }
+        return $label;
+    }
+        
     public function render_link()
     {
         $url = '';
