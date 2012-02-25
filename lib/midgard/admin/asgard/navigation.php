@@ -241,8 +241,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     private function _draw_plugins()
     {
-        $this->_request_data['chapter_name'] = midcom::get('i18n')->get_string('asgard plugins', 'midgard.admin.asgard');
-        midcom_show_style('midgard_admin_asgard_navigation_chapter');
         $customdata = midcom::get('componentloader')->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
@@ -403,6 +401,9 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     function draw()
     {
+        $this->_request_data['chapter_name'] = $GLOBALS['midcom_config']['midcom_site_title'];
+        midcom_show_style('midgard_admin_asgard_navigation_chapter');
+
         $this->_draw_plugins();
 
         if (!midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
@@ -410,12 +411,10 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             return;
         }
 
-        $this->_request_data['chapter_name'] = midcom::get('i18n')->get_string('midgard objects', 'midgard.admin.asgard');
-        midcom_show_style('midgard_admin_asgard_navigation_chapter');
-
         $label_mapping = $this->_process_root_types();
 
         $expanded_types = array_intersect(array_keys($label_mapping), $this->expanded_root_types);
+        $collapsed_types = array_diff($label_mapping, $expanded_types);
 
         /*
          * Use a dropdown for displaying the navigation if at least one type is expanded
@@ -423,38 +422,68 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
          * can take up the maximum available space while all types are still accessible with one
          * click if nothing is expanded
          */
+        $types_shown = false;
         if ( sizeof($expanded_types) > 0
              && midgard_admin_asgard_plugin::get_preference('navigation_type') === 'dropdown')
         {
             $this->_draw_select_navigation();
-            return;
+            $types_shown = true;
         }
 
-        foreach ($label_mapping as $root_type => $label)
+        foreach ($expanded_types as $root_type)
         {
-            $ref = $this->_get_reflector($root_type);
             $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$root_type}";
-
-            $this->_request_data['section_name'] = $label;
-
-            if (in_array($root_type, $expanded_types))
+            $this->_request_data['section_name'] = $label_mapping[$root_type];
+            $this->_request_data['expanded'] = true;
+            midcom_show_style('midgard_admin_asgard_navigation_section_header');
+            $ref = $this->_get_reflector($root_type);
+            $root_objects = $ref->get_root_objects();
+            if (   is_array($root_objects)
+                && count($root_objects) > 0)
             {
-                $this->_request_data['expanded'] = true;
-                midcom_show_style('midgard_admin_asgard_navigation_section_header');
-                $root_objects = $ref->get_root_objects();
-                if (   is_array($root_objects)
-                    && count($root_objects) > 0)
-                {
-                    $this->_list_root_elements($root_objects, $ref);
-                }
-            }
-            else
-            {
-                $this->_request_data['expanded'] = false;
-                midcom_show_style('midgard_admin_asgard_navigation_section_header');
+                $this->_list_root_elements($root_objects, $ref);
             }
             midcom_show_style('midgard_admin_asgard_navigation_section_footer');
         }
+
+        if (!$types_shown)
+        {
+            $this->_request_data['section_name'] = $this->_l10n->get('midgard objects');
+            $this->_request_data['expanded'] = true;
+            midcom_show_style('midgard_admin_asgard_navigation_section_header');
+
+            $this->_draw_type_list($collapsed_types);
+
+            midcom_show_style('midgard_admin_asgard_navigation_section_footer');
+        }
+    }
+
+    private function _draw_type_list(array $types)
+    {
+        echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
+
+        foreach ($types as $type => $label)
+        {
+            $url = midcom_connection::get_url('self') . "__mfa/asgard/{$type}";
+            echo "    <li class=\"mgdschema-type\">";
+
+            $dbaclass = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
+            if ($dbaclass)
+            {
+                $object = new $dbaclass;
+            }
+            else
+            {
+                $object = new $type;
+            }
+            $icon = midcom_helper_reflector::get_object_icon($object);
+
+            echo "<a href=\"" . $url . "\" title=\"{$label}\">{$icon}{$label}</a>\n";
+
+            echo "    </li>\n";
+        }
+
+        echo "</ul>\n";
     }
 
     private function _draw_select_navigation()
@@ -487,37 +516,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $this->_request_data['expanded_root_types'] = $this->expanded_root_types;
 
         midcom_show_style('midgard_admin_asgard_navigation_sections');
-
-        // Stop here if there is no MgdSchema object path to show
-        if (!$this->_request_data['navigation_type'])
-        {
-            return;
-        }
-
-        if (in_array($this->_request_data['navigation_type'], $this->expanded_root_types))
-        {
-            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$this->_request_data['navigation_type']}/";
-        }
-        else
-        {
-            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$this->_request_data['navigation_type']}/";
-        }
-
-        $ref = $this->_get_reflector($this->_request_data['navigation_type']);
-
-        // Show the navigation of the requested object
-        $root_objects = $ref->get_root_objects();
-
-        $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$this->_request_data['navigation_type']}/";
-        $this->_request_data['section_name'] = $ref->get_class_label();
-
-        if (   is_array($root_objects)
-            && count($root_objects) > 0)
-        {
-            midcom_show_style('midgard_admin_asgard_navigation_section_header');
-            $this->_list_root_elements($root_objects, $ref);
-            midcom_show_style('midgard_admin_asgard_navigation_section_footer');
-        }
     }
 }
 ?>
