@@ -968,9 +968,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if ($this->_field['required'])
         {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
+            /*
+             * @todo: This only works because of a bug in quickform. When it doesn't find a name,
+             * it takes the last one in the group element array, but forgets to prefix the group name,
+             * allowing us to validate against a top-level POST key. This should be replaced by a more
+             * solid implementation at some point
+             */
             $this->_form->addGroupRule($this->name, array
             (
-                "{$this->_element_id}_selections" => array
+                "{$this->_element_id}_nonexistant" => array
                 (
                     array($errmsg, 'required'),
                 ),
