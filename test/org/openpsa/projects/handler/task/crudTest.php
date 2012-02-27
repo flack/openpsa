@@ -67,8 +67,8 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
 
         $formdata = array
         (
-            'org_openpsa_projects_resources_chooser_widget_selections' => array($person->id => '1'),
-            'org_openpsa_projects_manager_chooser_widget_selections' => array($person->id => '1')
+            'org_openpsa_projects_resources_chooser_selections' => array($person->id),
+            'org_openpsa_projects_manager_chooser_selections' => array($person->id)
         );
 
         $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.projects', array('task', 'edit', self::$_task->guid));

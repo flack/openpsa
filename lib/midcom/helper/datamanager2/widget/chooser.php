@@ -970,7 +970,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
             $this->_form->addGroupRule($this->name, array
             (
-                "{$this->_element_id}_widget_selections" => array
+                "{$this->_element_id}_selections" => array
                 (
                     array($errmsg, 'required'),
                 ),

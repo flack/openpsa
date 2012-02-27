@@ -8,7 +8,7 @@
 
 if (!defined('OPENPSA_TEST_ROOT'))
 {
-    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
     require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
 }
 
@@ -39,7 +39,8 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
             'code' => 'TEST_' . __CLASS__ . '_' . time(),
             'delivery' => (string) org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'orgOpenpsaObtype' => (string) ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
-            'org_openpsa_products_productGroup_chooser_widget_selections' => array((string) self::$_group->id => '1')
+            'org_openpsa_products_productGroup_chooser_selections' => array((string) self::$_group->id),
+            'productGroup[org_openpsa_products_productGroup_chooser_selections]' => array((string) self::$_group->id)
         );
 
         $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.products', array('product', 'create', 'default'));
