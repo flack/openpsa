@@ -40,7 +40,6 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
             'delivery' => (string) org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'orgOpenpsaObtype' => (string) ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
             'org_openpsa_products_productGroup_chooser_selections' => array((string) self::$_group->id),
-            'productGroup[org_openpsa_products_productGroup_chooser_selections]' => array((string) self::$_group->id)
         );
 
         $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.products', array('product', 'create', 'default'));

@@ -65,9 +65,6 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
             'hours' => '2',
             'org_openpsa_expenses_person_chooser_selections' => array($person->id),
             'org_openpsa_expenses_task_chooser_selections' => array(self::$_task->id),
-            //these are for validation...
-            'person[org_openpsa_expenses_person_chooser_selections]' => array($person->id),
-            'task[org_openpsa_expenses_task_chooser_selections]' => array(self::$_task->id)
         );
 
         $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.expenses', array('hours', 'create', 'hour_report'));
