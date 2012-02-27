@@ -330,8 +330,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     {
         if (!is_a($this->_type, 'midcom_helper_datamanager2_type_select'))
         {
-            debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the chooser widget with it.",
-                MIDCOM_LOG_WARN);
+            debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the chooser widget with it.", MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -356,7 +355,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 || empty($this->_callback_class))
             {
                 debug_add("Warning, the field {$this->name} does not have proper class definitions set.",
-                    MIDCOM_LOG_WARN);
+                MIDCOM_LOG_WARN);
 
                 return false;
             }
@@ -366,7 +365,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !$this->_check_renderer())
         {
             debug_add("Warning, the field {$this->name} renderer wasn't found or not set properly, thus widget can never show results.",
-                MIDCOM_LOG_WARN);
+            MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -378,7 +377,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (!$this->_check_class())
         {
             debug_add("Warning, cannot load class {$this->class} for field {$this->name}.",
-                MIDCOM_LOG_WARN);
+            MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -391,28 +390,28 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !isset($this->_callback_class))
         {
             debug_add("Warning, the field {$this->name} does not have searchfields defined, it can never return results.",
-                MIDCOM_LOG_WARN);
+            MIDCOM_LOG_WARN);
             return false;
         }
 
-        midcom::get('head')->enable_jquery();
+        $head = midcom::get('head');
+        $head->enable_jquery();
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css');
-
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
 
         if ($this->sortable)
         {
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
         }
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css');
 
-        $this->_element_id = "{$this->_namespace}{$this->name}_chooser_widget";
+        $this->_element_id = "{$this->_namespace}{$this->name}_chooser";
 
         if (!is_null($this->creation_handler))
         {
@@ -455,7 +454,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             // Note: in creation mode we do not have this so we have no way to check)
             $mgdschema_object = midcom::get('dbfactory')->convert_midcom_to_midgard($this->_type->storage->object);
             if (    $mgdschema_object !== null
-                 && $this->_field['storage']['location'] !== null)
+                && $this->_field['storage']['location'] !== null)
             {
                 $mrp = new midgard_reflection_property(get_class($mgdschema_object));
 
@@ -501,7 +500,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             // Try auto-load.
             $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $this->_renderer_callback_class) . '.php';
-            if (! file_exists($path))
+            if (!file_exists($path))
             {
                 debug_add("Auto-loading of the renderer callback class {$this->_renderer_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
                 return false;
@@ -826,14 +825,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return $results;
         }
 
-        foreach ($_REQUEST["{$this->_element_id}_selections"] as $guid => $value)
+        foreach ($_REQUEST["{$this->_element_id}_selections"] as $guid)
         {
-            if (!$value)
-            {
-                continue;
-            }
-
-            $results[$guid] = $value;
+            $results[$guid] = $guid;
         }
 
         return $results;
@@ -1234,7 +1228,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     {
         foreach ($this->widget_elements as $element)
         {
-            if (method_exists($element, 'isFrozen')
+            if (    method_exists($element, 'isFrozen')
                 && !$element->isFrozen())
             {
                 return false;
@@ -1274,14 +1268,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $real_results = $results["{$this->_element_id}_selections"];
         if (is_array($real_results))
         {
-            foreach ($real_results as $key => $value)
-            {
-                if (   $value != "0"
-                    || $value != 0)
-                {
-                    $this->_type->selection[] = $key;
-                }
-            }
+            $this->_type->selection = $real_results;
         }
         else if (!$this->allow_multiple)
         {
