@@ -191,8 +191,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         switch ($this->_output_mode)
         {
             case 'html':
-                midcom_show_style("show-directory-header");
-                midcom_show_style("show-directory-footer");
+                midcom_show_style("show-directory");
                 break;
             case 'xml':
                 $this->_request_data['documents'] = $this->_documents;
