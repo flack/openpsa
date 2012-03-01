@@ -116,7 +116,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
             if (!$mail->send())
             {
-                $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_string();
+                $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
                 return false;
             }
 
