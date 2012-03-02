@@ -1,4 +1,9 @@
 <?php
+if (empty($data['group']))
+{
+    midcom_show_style('group-sidebar');
+}
+
 $grid = $data['grid'];
 $grid->set_option('scroll', 1)
     ->set_option('rowNum', 30)

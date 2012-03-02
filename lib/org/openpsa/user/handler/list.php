@@ -94,10 +94,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_list($handler_id, array &$data)
     {
-        if (!$this->_group)
-        {
-            midcom_show_style('group-sidebar');
-        }
         midcom_show_style('users-grid');
     }
 
