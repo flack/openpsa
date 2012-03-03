@@ -19,6 +19,43 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     }
 
     /**
+     * Handler for recreating derived images
+     *
+     * @param string $handler_id Name of the used handler
+     * @param mixed $args Array containing the variable arguments passed to the handler
+     * @param mixed &$data Data passed to the show method
+     */
+    public function _handler_recreate($handler_id, array $args, array &$data)
+    {
+        $qb = org_openpsa_slideshow_image_dba::new_query_builder();
+        $qb->add_constraint('topic', '=', $this->_topic->id);
+        $qb->add_order('position');
+        $images = $qb->execute();
+        $failed = 0;
+        foreach ($images as $image)
+        {
+            if (   !$image->generate_image('thumbnail', $this->_config->get('thumbnail_filter'))
+                || !$image->generate_image('image', $this->_config->get('image_filter')))
+            {
+                $failed++;
+            }
+        }
+        $successful = sizeof($images) - $failed;
+        if ($failed == 0)
+        {
+            $message = sprintf($this->_l10n->get('generated derived images for %s entries'), $successful);
+            $type = 'ok';
+        }
+        else
+        {
+            $message = sprintf($this->_l10n->get('generated derived images for %s entries, %s errors occurred'), $successful, $failed);
+            $type = 'error';
+        }
+        midcom::get('uimessages')->add($this->_l10n->get($this->_component), $message, $type);
+        midcom::get()->relocate('edit/');
+    }
+
+    /**
      * Handler method for edit page
      *
      * @param string $handler_id Name of the used handler
@@ -52,6 +89,15 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
                 MIDCOM_TOOLBAR_URL => "",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+            )
+        );
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "recreate/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recreate derived images'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             )
         );
     }
@@ -191,6 +237,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
 
         $image->attachment = $attachment->id;
+        $image->generate_image('thumbnail', $this->_config->get('thumbnail_filter'));
+        $image->generate_image('image', $this->_config->get('image_filter'));
         $image->update();
     }
 }

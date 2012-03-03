@@ -2,8 +2,24 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING generated derived images for %s entries
+Generated derived images for %s entries
+---STRINGEND
+
+---STRING generated derived images for %s entries, %s errors occurred
+Generated derived images for %s entries, %s errors occurred
+---STRINGEND
+
 ---STRING no images found
 No images were found
+---STRINGEND
+
+---STRING org.openpsa.slideshow
+OpenPSA Slideshow
+---STRINGEND
+
+---STRING recreate derived images
+Recreate derived images
 ---STRINGEND
 
 ---STRING save all

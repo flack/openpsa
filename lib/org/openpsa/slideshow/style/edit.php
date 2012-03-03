@@ -8,7 +8,7 @@ foreach ($data['images'] as $image)
 {
     try
     {
-        $attachment = new midcom_db_attachment($image->attachment);
+        $attachment = new midcom_db_attachment($image->thumbnail);
         $url = midcom_db_attachment::get_url($attachment);
     }
     catch (midcom_error $e)

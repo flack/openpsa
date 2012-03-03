@@ -8,5 +8,7 @@
         <property name="description" type="text" />
         <property name="position" type="integer" />
         <property name="attachment" link="midgard_attachment:id" type="unsigned integer" />
+        <property name="thumbnail" link="midgard_attachment:id" type="unsigned integer" />
+        <property name="image" link="midgard_attachment:id" type="unsigned integer" />
     </type>
 </Schema>

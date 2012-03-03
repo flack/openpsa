@@ -17,3 +17,10 @@
     'handler' => array('org_openpsa_slideshow_handler_edit', 'edit_ajax'),
     'fixed_args' => array('edit', 'ajax')
 ),
+
+// Match /recreate/
+'recreate' => array
+(
+    'handler' => array('org_openpsa_slideshow_handler_edit', 'recreate'),
+    'fixed_args' => 'recreate'
+),
