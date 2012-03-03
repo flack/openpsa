@@ -114,7 +114,7 @@ class midcom_helper_imagefilter
             $buffer = fread($src, 131072); /* 128 kB */
             fwrite($dst, $buffer, 131072);
         }
-        $att->close();
+        $input->close();
         fclose($dst);
         return $tmpname;
     }
@@ -134,6 +134,7 @@ class midcom_helper_imagefilter
             return false;
         }
         fclose($src);
+        return true;
     }
 
     public static function imagemagick_available()
@@ -753,6 +754,7 @@ class midcom_helper_imagefilter
         if ($exit_code !== 0)
         {
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
+
             debug_add("Command was: {$cmd}");
             return false;
         }
