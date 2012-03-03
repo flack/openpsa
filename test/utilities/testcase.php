@@ -123,6 +123,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         midcom::get('style')->enter_context($context->id);
         ob_start();
         $context->set_custom_key('request_data', $data);
+        $handler->_request_data =& $data;
         $handler->$method($data['handler_id'], $data);
         $output = ob_get_contents();
         ob_end_clean();
