@@ -184,25 +184,13 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true, the temporary file will be deleted
-     *     after postprocessing and attachment-creation.
-     * @param string $identifier The identifier to use for the attaachment. This is usually
-     *     auto-created, so you don't have to bother about this.
-     * @return mixed Returns the identifier of the created image on success or false
-     *     on failure.
+     * @return boolean Indicating success.
      */
-    function add_image($filename, $tmpname, $title, $autodelete = true, $identifier = null)
+    function add_image($filename, $tmpname, $title)
     {
-        if ($identifier === null)
-        {
-            $identifier = md5(time() . $filename . $tmpname);
-        }
-        if (! $this->set_image($identifier, $filename, $tmpname, $title, $autodelete))
-        {
-            return false;
-        }
+        $identifier = md5(time() . $filename . $tmpname);
 
-        return $identifier;
+        return $this->set_image($identifier, $filename, $tmpname, $title);
     }
 
     /**
@@ -212,18 +200,16 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true, the temporary file will be deleted
-     *     after postprocessing and attachment-creation.
      * @return boolean Indicating success.
      */
-    function update_image($identifier, $filename, $tmpname, $title, $autodelete = true)
+    function update_image($identifier, $filename, $tmpname, $title)
     {
-        if (! array_key_exists($identifier, $this->images))
+        if (!array_key_exists($identifier, $this->images))
         {
             return false;
         }
 
-        return $this->set_image($identifier, $filename, $tmpname, $title, $autodelete);
+        return $this->set_image($identifier, $filename, $tmpname, $title);
     }
 
     /**
@@ -234,12 +220,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true, the temporary file will be deleted
-     *     after postprocessing and attachment-creation.
      * @return boolean Indicating success.
-     * @access protected
      */
-    function set_image($identifier, $filename, $tmpname, $title, $autodelete)
+    function set_image($identifier, $filename, $tmpname, $title)
     {
         if (empty($identifier))
         {
@@ -258,7 +241,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             $force_pending_attachments = array();
         }
-        if (!$this->_set_image($filename, $tmpname, $title, $autodelete, $force_pending_attachments))
+        if (!$this->_set_image($filename, $tmpname, $title, true, $force_pending_attachments))
         {
             return false;
         }
@@ -268,7 +251,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
     function update_image_title($identifier, $title)
     {
-        if (! array_key_exists($identifier, $this->images))
+        if (!array_key_exists($identifier, $this->images))
         {
             debug_add("Failed to update the image title: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
             return false;
@@ -276,7 +259,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
         foreach ($this->images[$identifier] as $info)
         {
-            if (! $this->update_attachment_title($info['identifier'], $title))
+            if (!$this->update_attachment_title($info['identifier'], $title))
             {
                 debug_add("Failed to update the image title: Could not update attachment {$info['identifier']} bailing out.");
                 return false;
@@ -746,15 +729,15 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 continue;
             }
 
-           if (   !isset($image['object'])
-                || !$image['object'])
+            if (empty($image['object']))
             {
                 debug_add("Image {$identifier} has no image object, skipping recreation.", MIDCOM_LOG_INFO);
                 continue;
             }
 
             // Copy the "main image" to a temporary location
-            $tmp = $this->create_tmp_copy($image['object']);
+            $filter = new midcom_helper_imagefilter;
+            $tmp = $filter->create_tmp_copy($image['object']);
 
             // Update all derived images
             if (!$this->update_image($identifier, $image['filename'], $tmp, $this->titles[$identifier]))

@@ -456,43 +456,26 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             return false;
         }
 
-        $tmpfile = $this->create_tmp_copy($this->attachments[$identifier]);
-        if ($tmpfile === false)
-        {
-            debug_add("Could not create a working copy for '{$identifier}', aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
+        $this->_filter = new midcom_helper_imagefilter($this->attachments[$identifier]);
 
-        $this->_filter = new midcom_helper_imagefilter();
-        if (!$this->_filter->set_file($tmpfile))
-        {
-            debug_add("\$this->_filter->set_file() failed, aborting", MIDCOM_LOG_ERROR);
-            // Clean up
-            unlink($tmpfile);
-            $this->_filter = null;
-            return false;
-        }
         if (!$this->_filter->process_chain($filter))
         {
             debug_add("Failed to process filter chain '{$filter}', aborting", MIDCOM_LOG_ERROR);
             // Clean up
-            unlink($tmpfile);
             $this->_filter = null;
             return false;
         }
-        // Don't leave the filter object laying
-        $this->_filter = null;
 
-        if (!$this->update_image_from_file($identifier, $tmpfile))
+        if (!$this->update_image_from_file($identifier))
         {
-            debug_add("Failed to update image '{$identifier}' from file '{$tmpfile}', aborting", MIDCOM_LOG_ERROR);
+            debug_add("Failed to update image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
             // Clean up
-            unlink($tmpfile);
+            $this->_filter = null;
             return false;
         }
 
-        // Clean-up the temp file
-        unlink($tmpfile);
+        // Don't leave the filter object laying
+        $this->_filter = null;
 
         debug_add("Applied filter '{$filter}' to image '{$identifier}'", MIDCOM_LOG_INFO);
         return true;
@@ -502,35 +485,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * Overwrites image content from file, recalculates size etc
      *
      * @param string $identifier image identifier to update
-     * @param string $file file to use
      * @return boolean indicating success/failure
      */
-    function update_image_from_file($identifier, $file)
+    function update_image_from_file($identifier)
     {
-        if (!array_key_exists($identifier, $this->attachments))
+        if (!$this->_filter->write($this->attachments[$identifier]))
         {
-            debug_add("Identifier '{$identifier}' not found", MIDCOM_LOG_ERROR);
             return false;
         }
-        $image = $this->attachments[$identifier];
-        if (!is_readable($file))
-        {
-            debug_add("File '{$file}' is not readable", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $src = fopen($file, 'r');
-        if (!$src)
-        {
-            debug_add("Could not open file '{$file}' for reading", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        if (!$image->copy_from_handle($src))
-        {
-            debug_add("\$image->copy_from_handle() failed", MIDCOM_LOG_ERROR);
-            fclose($src);
-            return false;
-        }
-        fclose($src);
 
         // Failing these is bad, but it's too late now that we already have overwritten the actual image data...
         $this->_set_attachment_info_additional($identifier, $file);
@@ -568,8 +530,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     {
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
-                || !empty($this->derived_images)
-                )
+                || !empty($this->derived_images))
             && !$this->imagemagick_available())
         {
             throw new midcom_error( 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
@@ -588,7 +549,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
 
         // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+        $filename = midcom_db_attachment::safe_filename($filename, true);
 
         if ($force_pending_attachments === false)
         {
@@ -697,7 +658,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             foreach ($this->derived_images as $identifier => $filter_chain)
             {
                 // PONDER: Shouldn't the derived images be derived from the 'main' image (now derived from original) ??
-                if (! $this->_create_working_copy())
+                $this->_current_tmpname = $this->_filter->create_tmp_copy($this->_original_tmpname);
+
+                if (!$this->_filter->set_file($this->_current_tmpname))
                 {
                     return false;
                 }
@@ -767,7 +730,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function _save_main_image()
     {
-        if (! $this->_create_working_copy())
+        $this->_current_tmpname = $this->_filter->create_tmp_copy($this->_original_tmpname);
+
+        if (!$this->_filter->set_file($this->_current_tmpname))
         {
             return false;
         }
@@ -822,30 +787,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         @unlink($this->_current_tmpname);
 
         return $result;
-    }
-
-    /**
-     * This function creates a new working copy and stores the filename in _current_tmpname.
-     * (Beware of consecutive uses with current_tmpname, which will be silently overwritten,
-     * the old file must be unlinked by the callee.) The filter instance will automatically
-     * be set to the new file.
-     *
-     * @return boolean Indicating success.
-     */
-    private function _create_working_copy()
-    {
-        $this->_current_tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_image");
-        // TODO: error handling
-        $src = fopen($this->_original_tmpname, 'r');
-        $dst = fopen($this->_current_tmpname, 'w+');
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
-        fclose($src);
-        fclose($dst);
-        return $this->_filter->set_file($this->_current_tmpname);
     }
 
     /**
@@ -916,7 +857,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             case 'image/jpeg':
                 debug_add('No conversion necessary we already have a web mime type');
                 return true;
-                break;
 
             case 'application/postscript':
             case 'application/pdf':
@@ -941,7 +881,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         {
             $this->_filename .= ".{$conversion}";
             // Make sure there is only one extension on the file ??
-            $this->_filename = midcom_helper_datamanager2_type_blobs::safe_filename($this->_filename, true);
+            $this->_filename = midcom_db_attachment::safe_filename($this->_filename, true);
         }
 
         if ($this->_filter)

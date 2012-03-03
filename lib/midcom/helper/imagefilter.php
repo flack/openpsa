@@ -42,6 +42,100 @@ class midcom_helper_imagefilter
      */
     private $_quality = "-quality 90";
 
+    public function __construct(midcom_db_attachment $input = null)
+    {
+        if (null !== $input)
+        {
+            $tmpfile = $this->create_tmp_copy($input);
+            if ($tmpfile === false)
+            {
+                throw new midcom_error("Could not create a working copy, aborting");
+            }
+
+            if (!$this->set_file($tmpfile))
+            {
+                // Clean up
+                unlink($tmpfile);
+                throw new midcom_error("set_file() failed, aborting");
+            }
+        }
+    }
+
+    public function __destruct()
+    {
+        if (   !empty($this->_filename)
+            && file_exists($this->_filename))
+        {
+            unlink($this->_filename);
+        }
+    }
+
+    /**
+     * Creates a working copy to filesystem from given attachment object
+     *
+     * @param mixed $input The attachment object or filename to copy
+     * @return string tmp file name (or false on failure)
+     */
+    function create_tmp_copy($input)
+    {
+        $tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midcom_helper_imagefilter_');
+
+        if (is_string($input))
+        {
+            // TODO: error handling
+            $src = fopen($input, 'r');
+            $dst = fopen($tmpname, 'w+');
+            while (! feof($src))
+            {
+                $buffer = fread($src, 131072); /* 128 kB */
+                fwrite($dst, $buffer, 131072);
+            }
+            fclose($src);
+            fclose($dst);
+            return $tmpname;
+        }
+
+        $src = $input->open('r');
+        if (!$src)
+        {
+            debug_add("Could not open attachment #{$input->id} for reading", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        $dst = fopen($tmpname, 'w+');
+        if (!$dst)
+        {
+            debug_add("Could not open file '{$tmpname}' for writing", MIDCOM_LOG_ERROR);
+            unlink($tmpname);
+            return false;
+        }
+        while (! feof($src))
+        {
+            $buffer = fread($src, 131072); /* 128 kB */
+            fwrite($dst, $buffer, 131072);
+        }
+        $att->close();
+        fclose($dst);
+        return $tmpname;
+    }
+
+    public function write(midcom_db_attachment $target)
+    {
+        $src = fopen($this->_filename, 'r');
+        if (!$src)
+        {
+            debug_add("Could not open file '{$this->_filename}' for reading", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        if (!$target->copy_from_handle($src))
+        {
+            debug_add("copy_from_handle() failed", MIDCOM_LOG_ERROR);
+            fclose($src);
+            return false;
+        }
+        fclose($src);
+    }
+
     public static function imagemagick_available()
     {
         static $return = -1;

@@ -40,38 +40,11 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 
-    /**
-     * Rewrite a filename to URL safe form
-     *
-     * @param string $filename file name to rewrite
-     * @return string rewritten filename
-     *
-     * FIXME: This code is duplicated in many places (see DM blobs type for example), make single helper and use that
-     */
-    function safe_filename($filename)
-    {
-        $filename = basename(trim($filename));
-
-        $regex = '/^(.*)(\..*?)$/';
-
-        if (preg_match($regex, $filename, $ext_matches))
-        {
-            $name = $ext_matches[1];
-            $ext = $ext_matches[2];
-        }
-        else
-        {
-            $name = $filename;
-            $ext = '';
-        }
-        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
-    }
-
     private function _process_file_upload($uploaded_file)
     {
         if (is_null($this->_file))
         {
-            $local_filename = $this->safe_filename($uploaded_file['name']);
+            $local_filename = midcom_db_attachment::safe_filename($uploaded_file['name']);
             $local_file = $this->_get_file($local_filename);
             if (!$local_file)
             {
@@ -129,7 +102,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             }
 
             // We're creating a new file
-            $local_filename = $this->safe_filename($_POST['midgard_admin_asgard_filename']);
+            $local_filename = midcom_db_attachment::safe_filename($_POST['midgard_admin_asgard_filename']);
             $local_file = $this->_get_file($local_filename);
             if (!$local_file)
             {

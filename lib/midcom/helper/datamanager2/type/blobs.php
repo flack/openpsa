@@ -360,7 +360,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Ensure that the filename is URL safe (but allow multiple extensions)
         // PONDER: make use of this configurable in type-config ??
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, false);
+        $filename = midcom_db_attachment::safe_filename($filename, false);
 
         $handle = @fopen($tmpname, 'r');
         if (! $handle)
@@ -452,7 +452,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Ensure that the filename is URL safe (but allow multiple extensions)
         // PONDER: make use of this configurable in type-config ??
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, false);
+        $filename = midcom_db_attachment::safe_filename($filename, false);
 
         // Obtain a temporary object if necessary. This is the only place where this needs to be
         // done (all other I/O ops are logically behind the add operation).
@@ -587,7 +587,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             // the method will log errors and raise uimessages as needed
             return false;
         }
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, false);
+        $filename = midcom_db_attachment::safe_filename($filename, false);
 
         $handle = @fopen($tmpname, 'r');
 
@@ -817,71 +817,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         }
         return $result;
     }
-
-    /**
-     * Rewrite a filename to URL safe form
-     *
-     * @param string $filename file name to rewrite
-     * @param boolean $force_single_extension force file to single extension (defaults to true)
-     * @return string rewritten filename
-     * @todo add possibility to use the file utility to determine extension if missing.
-     */
-    static function safe_filename($filename, $force_single_extension = true)
-    {
-        $filename = trim($filename);
-        if ($force_single_extension)
-        {
-            $regex = '/^(.*)(\..*?)$/';
-        }
-        else
-        {
-            $regex = '/^(.*?)(\..*)$/';
-        }
-        if (preg_match($regex, $filename, $ext_matches))
-        {
-            $name = $ext_matches[1];
-            $ext = $ext_matches[2];
-        }
-        else
-        {
-            $name = $filename;
-            $ext = '';
-        }
-        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
-    }
-
-    /**
-     * Creates a working copy to filesystem from given attachment object
-     *
-     * @param object $att the attachment object to copy
-     * @return string tmp file name (or false on failure)
-     */
-    function create_tmp_copy($att)
-    {
-        $src = $att->open('r');
-        if (!$src)
-        {
-            debug_add("Could not open attachment #{$att->id} for reading", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midcom_helper_datamanager2_type_blobs_');
-        $dst = fopen($tmpname, 'w+');
-        if (!$dst)
-        {
-            debug_add("Could not open file '{$tmpname}' for writing", MIDCOM_LOG_ERROR);
-            unlink($tmpname);
-            return false;
-        }
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
-        $att->close();
-        fclose($dst);
-        return $tmpname;
-    }
-
 
     /**
      * Makes sanity checks on the uploaded file, used by add_attachment and update_attachment

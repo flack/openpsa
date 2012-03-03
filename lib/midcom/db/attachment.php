@@ -206,6 +206,38 @@ class midcom_db_attachment extends midcom_core_dbaobject
     }
 
     /**
+     * Rewrite a filename to URL safe form
+     *
+     * @param string $filename file name to rewrite
+     * @param boolean $force_single_extension force file to single extension (defaults to true)
+     * @return string rewritten filename
+     * @todo add possibility to use the file utility to determine extension if missing.
+     */
+    public static function safe_filename($filename, $force_single_extension = true)
+    {
+        $filename = basename(trim($filename));
+        if ($force_single_extension)
+        {
+            $regex = '/^(.*)(\..*?)$/';
+        }
+        else
+        {
+            $regex = '/^(.*?)(\..*)$/';
+        }
+        if (preg_match($regex, $filename, $ext_matches))
+        {
+            $name = $ext_matches[1];
+            $ext = $ext_matches[2];
+        }
+        else
+        {
+            $name = $filename;
+            $ext = '';
+        }
+        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
+    }
+
+    /**
      * Get the path to the document in the static cache
      *
      * @return string

@@ -132,7 +132,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     function set_image($filename, $tmpname, $title, $autodelete = true)
     {
         // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+        $filename = midcom_db_attachment::safe_filename($filename, true);
 
         $this->_pending_attachments = $this->attachments;
 

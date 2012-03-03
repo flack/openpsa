@@ -106,5 +106,25 @@ class midcom_db_attachmentTest extends openpsa_testcase
         $attachment->file_to_cache();
         $this->assertFileExists($expected_path);
     }
+
+    /**
+     * @dataProvider provider_safe_filename
+     */
+    public function test_safe_filename($input, $extension, $output)
+    {
+        $converted = midcom_db_attachment::safe_filename($input, $extension);
+        $this->assertEquals($converted, $output);
+    }
+
+    public function provider_safe_filename()
+    {
+        return array
+        (
+            array('Minä olen huono tiedosto.foo.jpg', true, 'mina_olen_huono_tiedosto-foo.jpg'),
+            array('Minä olen huono tiedosto.foo.jpg', false, 'mina_olen_huono_tiedosto.foo.jpg'),
+            array('Minä olen huono tiedosto ilman päätettä', true, 'mina_olen_huono_tiedosto_ilman_paatetta'),
+            array('Minä olen huono tiedosto ilman päätettä', false, 'mina_olen_huono_tiedosto_ilman_paatetta'),
+        );
+    }
 }
 ?>
