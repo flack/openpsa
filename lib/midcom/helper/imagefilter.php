@@ -94,12 +94,12 @@ class midcom_helper_imagefilter
     /**
      * Sets the filename of the image currently being edited.
      *
-     * This must be the full path to the file, the fill will be
+     * This must be the full path to the file, it will be
      * replaced with the modified image.
      *
-     * The process will check for write permission at this point,
+     * The process will check for write permissions at this point,
      * A return value of false will indicate some problem, see the
-     * MidCOM Debug Log for details.
+     * debug log for details.
      *
      * @todo Use ImageMagick Identify to check for a valid image.
      *
@@ -146,7 +146,7 @@ class midcom_helper_imagefilter
                 continue;
             }
 
-            if (! $this->process_command($cmd))
+            if (!$this->process_command($cmd))
             {
                 debug_add("Execution of {$cmd} failed, aborting now.");
                 midcom::get('uimessages')->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
@@ -384,8 +384,7 @@ class midcom_helper_imagefilter
         }
         else
         {
-            debug_add("ImageMagick failed to convert the image, it returned with {$exit_code}, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r('The generated output was:', $output);
+            debug_print_r("ImageMagick failed to convert the image, it returned with {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: [{$cmd}]");
             return false;
         }
@@ -421,8 +420,7 @@ class midcom_helper_imagefilter
         else
         {
             unlink($tempfile);
-            debug_add("ImageMagick failed to convert the image, it returned with {$exit_code}, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r('The generated output was:', $output);
+            debug_print_r("ImageMagick failed to convert the image, it returned with {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: [{$cmd}]");
             return false;
         }
@@ -526,8 +524,7 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick/jpegtran failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output);
+            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}");
             if ($do_unlink)
             {
@@ -597,8 +594,7 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick/jpegtran failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output);
+            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}");
             if ($do_unlink)
             {
@@ -662,9 +658,8 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+            debug_add("Command was: {$cmd}");
             return false;
         }
 
@@ -716,9 +711,8 @@ class midcom_helper_imagefilter
 
             if ($exit_code !== 0)
             {
-                debug_add("ImageMagick failed to get image info, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
                 debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-                debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+                debug_add("Command was: {$cmd}");
             }
 
             $output = implode("\n", $output);
@@ -739,9 +733,8 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+            debug_add("Command was: {$cmd}");
             return false;
         }
 
@@ -774,9 +767,8 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+            debug_add("Command was: {$cmd}");
             return false;
         }
 
