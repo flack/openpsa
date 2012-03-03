@@ -354,7 +354,7 @@ class midcom_connection
             case 'page_style':
             case 'argv':
             case 'argc':
-                return self::get_url();
+                return self::get_url($key);
             case 'schema':
                 if ($subkey == 'types')
                 {
