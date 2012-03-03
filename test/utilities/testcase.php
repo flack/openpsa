@@ -114,13 +114,15 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $data;
     }
 
-    public function show_handler($data)
+    public function show_handler(&$data)
     {
         $handler = $data['__openpsa_testcase_handler'];
         $method = '_show_' . $data['__openpsa_testcase_handler_method'];
 
-        midcom::get('style')->enter_context(midcom_core_context::get()->id);
+        $context = midcom_core_context::get();
+        midcom::get('style')->enter_context($context->id);
         ob_start();
+        $context->set_custom_key('request_data', $data);
         $handler->$method($data['handler_id'], $data);
         $output = ob_get_contents();
         ob_end_clean();
