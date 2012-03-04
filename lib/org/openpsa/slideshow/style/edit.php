@@ -10,23 +10,24 @@ foreach ($data['images'] as $image)
     {
         $attachment = new midcom_db_attachment($image->thumbnail);
         $url = midcom_db_attachment::get_url($attachment);
+        $name = $attachment->name;
     }
     catch (midcom_error $e)
     {
-        echo $e->getMessage();
-        continue;
+        $url = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
+        $name = $data['l10n']->get('attachment missing');
     }
     ?>
     <div class="entry existing-entry" id="image-&(image.guid);">
       <div class="thumbnail">
-        <img src="&(url);" alt="&(attachment.name);" />
+        <img src="&(url);" alt="&(name);" />
       </div>
       <div class="details">
         <span class="controls">
           <span class="action image-delete"></span>
           <span class="action image-cancel-delete"></span>
         </span>
-        <span class="filename">&(attachment.name);</span>
+        <span class="filename">&(name);</span>
         <span class="title"><input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>" value="&(image.title);" /></span>
         <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
       </div>

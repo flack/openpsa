@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING attachment missing
+Dateianhang fehlt
+---STRINGEND
+
 ---STRING generated derived images for %s entries
 Generated derived images for %s entries
 ---STRINGEND
