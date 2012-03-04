@@ -28,7 +28,7 @@ foreach ($data['images'] as $image)
         </span>
         <span class="filename">&(attachment.name);</span>
         <span class="title"><input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>" value="&(image.title);" /></span>
-        <span class="description"><textarea placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
+        <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
       </div>
     </div>
 <?php } ?>
@@ -43,7 +43,7 @@ foreach ($data['images'] as $image)
   </span>
   <span class="filename"></span>
   <span class="title"><input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>"/></span>
-  <span class="description"><textarea placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea></span>
+  <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea></span>
 </div>
 </div>
 </div>
