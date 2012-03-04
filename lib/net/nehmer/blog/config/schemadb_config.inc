@@ -47,12 +47,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'disable_permalinks' => array
             (
@@ -68,12 +68,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'disable_indexing' => array
             (
@@ -89,12 +89,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'language' => array
             (
@@ -199,8 +199,52 @@
                 ),
                 'type' => 'text',
                 'widget' => 'text',
-                'end_fieldset' => '2',
+                'end_fieldset' => '1',
             ),
+            'archive_enable' => array
+            (
+                'title' => 'archive_enable',
+                'storage' => array
+                (
+                    'location' => 'configuration',
+                    'domain' => 'net.nehmer.blog',
+                    'name' => 'archive_enable',
+                ),
+                'type' => 'select',
+                'type_config' => array
+                (
+                    'options' => array
+                    (
+                        '1' => 'yes',
+                        '0' => 'no',
+                        '' => 'default setting',
+                    ),
+                ),
+                'widget' => 'radiocheckselect',
+            ),
+            'archive_item_order' => array
+            (
+                'title' => 'archive item order',
+                'storage' => array
+                (
+                    'location' => 'configuration',
+                    'domain' => 'net.nehmer.blog',
+                    'name' => 'archive_item_order',
+                ),
+                'type' => 'select',
+                'type_config' => array
+                (
+                    'options' => array
+                    (
+                        'ASC' => 'ascending',
+                        'DESC' => 'descending',
+                        '' => 'default setting',
+                    ),
+                ),
+                'widget' => 'radiocheckselect',
+                'end_fieldset' => '1',
+            ),
+
             'schemadb' => array
             (
                 'title' => 'schemadb',
@@ -235,12 +279,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'ajax_comments_enable' => array
             (
@@ -256,12 +300,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'ajax_enable' => array
             (
@@ -277,55 +321,13 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
                 'hidden' => !$GLOBALS['midcom_config']['enable_ajax_editing'],
-            ),
-            'archive_enable' => array
-            (
-                'title' => 'archive_enable',
-                'storage' => array
-                (
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'archive_enable',
-                ),
-                'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
-                        '' => 'default setting',
-                        '1' => 'yes',
-                        '0' => 'no',
-                    ),
-                ),
-                'widget' => 'select',
-            ),
-            'archive_item_order' => array
-            (
-                'title' => 'archive item order',
-                'storage' => array
-                (
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'archive_item_order',
-                ),
-                'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
-                        '' => 'default setting',
-                        'ASC' => 'ascending',
-                        'DESC' => 'descending',
-                    ),
-                ),
-                'widget' => 'select',
             ),
             'rss_subscription_enable' => array
             (
@@ -341,12 +343,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'link_to_external_url' => array
             (
@@ -362,12 +364,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'symlink_topic' => array
             (
@@ -456,17 +458,18 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
                 'start_fieldset' => array
                 (
                     'title' => 'navigation options',
                 ),
             ),
+
             'show_navigation_pseudo_leaves' => array
             (
                 'title' => 'show pseudo leaves in navigation',
@@ -482,12 +485,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'feeds_in_navigation' => array
             (
@@ -504,12 +507,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
             ),
             'view_in_url' => array
             (
@@ -526,12 +529,12 @@
                 (
                     'options' => array
                     (
-                        '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
+                        '' => 'default setting',
                     ),
                 ),
-                'widget' => 'select',
+                'widget' => 'radiocheckselect',
                 'end_fieldset' => 1,
             ),
         ),
