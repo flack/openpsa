@@ -7,6 +7,14 @@
  */
 
 /**
+ * @ignore
+ */
+require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
+require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
+require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
+require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
+
+/**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
  * in net.nehmer.blog or events in net.nemein.calendar
  *
@@ -31,18 +39,21 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Current node we're importing to
+     *
      * @var midcom_db_topic
      */
     private $_node = null;
 
     /**
      * Configuration of node we're importing to
+     *
      * @var midcom_helper_configuration
      */
     private $_node_config = null;
 
     /**
      * Datamanager for handling saves
+     *
      * @var midcom_helper_datamanager2
      */
     private $_datamanager = null;
@@ -52,11 +63,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     public function __construct($feed)
     {
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
-
         $this->_feed = $feed;
 
         $this->_node = new midcom_db_topic($this->_feed->node);
@@ -73,7 +79,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Static method for actually fetching a feed
      */
-    function raw_fetch($url)
+    public static function raw_fetch($url)
     {
         $items = array();
 
@@ -81,7 +87,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         {
             // TODO: Ensure Magpie uses conditional GETs here
             error_reporting(E_WARNING);
-            $rss = @fetch_rss($url);
+            $rss = fetch_rss($url);
             error_reporting(E_ALL);
         }
         catch (Exception $e)
@@ -101,7 +107,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         foreach ($rss->items as $item)
         {
             // Normalize the item
-            $item = net_nemein_rss_fetch::normalize_item($item);
+            $item = self::normalize_item($item);
 
             if ($item)
             {
@@ -120,7 +126,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     function fetch()
     {
-        $rss = net_nemein_rss_fetch::raw_fetch($this->_feed->url);
+        $rss = self::raw_fetch($this->_feed->url);
 
         if (!$rss)
         {
