@@ -15,6 +15,11 @@
  */
 class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
 {
+    public static function add_head_elements()
+    {
+        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/net.nehmer.comments/comments.css');
+    }
+
     /**
      * Populates the node toolbar depending on the user's rights.
      */

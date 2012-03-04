@@ -152,6 +152,21 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             $this->_request_data['controller']->process_ajax();
         }
 
+        if ($this->_config->get('comments_enable'))
+        {
+            $comments_node = $this->_seek_comments();
+            if ($comments_node)
+            {
+                $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
+                if (   $this->_topic->can_do('midgard:update')
+                    && $this->_topic->can_do('net.nehmer.comments:moderation'))
+                {
+                    net_nehmer_comments_viewer::add_head_elements();
+                }
+            }
+            // TODO: Should we tell admin to create a net.nehmer.comments folder?
+        }
+
         $tmp = Array();
         $arg = $this->_article->name ? $this->_article->name : $this->_article->guid;
         if ($this->_config->get('view_in_url'))
@@ -251,16 +266,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         else
         {
             $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
-        }
-
-        if ($this->_config->get('comments_enable'))
-        {
-            $comments_node = $this->_seek_comments();
-            if ($comments_node)
-            {
-                $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
-            }
-            // TODO: Should we tell admin to create a net.nehmer.comments folder?
         }
 
         midcom_show_style('view');
