@@ -10,7 +10,8 @@ foreach ($data['images'] as $image)
     {
         $attachment = new midcom_db_attachment($image->thumbnail);
         $url = midcom_db_attachment::get_url($attachment);
-        $name = $attachment->name;
+        $original = new midcom_db_attachment($image->attachment);
+        $name = $original->name;
     }
     catch (midcom_error $e)
     {
