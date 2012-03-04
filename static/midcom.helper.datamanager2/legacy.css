@@ -107,13 +107,20 @@ form.datamanager2 fieldset.checkbox label
     display: inline;
     margin: 0 10px 0 0;
     white-space: nowrap;
+    font-weight: normal;
+}
+
+form.datamanager2 fieldset.radiobox .separator-vertical,
+form.datamanager2 fieldset.checkbox .separator-vertical
+{
+    display: block;
 }
 
 form.datamanager2 fieldset.radiobox input,
 form.datamanager2 fieldset.checkbox input
 {
     display: inline;
-    vertical-align: bottom;
+    vertical-align: top;
 }
 
 form.datamanager2 div.blob_preview,
