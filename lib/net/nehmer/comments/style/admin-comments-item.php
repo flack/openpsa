@@ -19,12 +19,14 @@ $object_link = midcom::get('permalinks')->create_permalink($data['comment']->obj
 ?>
 
 <div style="clear:right;" class="net_nehmer_comments_comment">
-    <div style="float:right;" class="net_nehmer_comments_comment_toolbar">
+    <div style="float:right;">
         <a href="&(object_link);"><?php echo $data['l10n']->get('go to parent object'); ?></a>
-        <?php echo $data['comment_toolbar']->render(); ?>
     </div>
     <h3 class="headline">&(view['title']);&(rating);</h3>
     <div class="published">&(published);</div>
+    <div class="net_nehmer_comments_comment_toolbar">
+        <?php echo $data['comment_toolbar']->render(); ?>
+    </div>
 
     <div class="content">&(view['content']:h);</div>
 </div>

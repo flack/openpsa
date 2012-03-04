@@ -251,7 +251,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         {
             $this->_init_display_datamanager();
         }
+        net_nehmer_comments_viewer::add_head_elements();
         $this->_prepare_request_data();
+        $this->add_breadcrumb('', $this->_l10n->get($data['status_to_show']));
     }
 
     /**

@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING abuse
+Mißbrauch
+---STRINGEND
+
 ---STRING author
 Name
 ---STRINGEND
@@ -11,7 +15,7 @@ Kommentare
 ---STRINGEND
 
 ---STRING confirm abuse
-Als mißbräuchlich markieren 
+Als mißbräuchlich markieren
 ---STRINGEND
 
 ---STRING confirm junk
@@ -24,6 +28,22 @@ Kommentar
 
 ---STRING creator: %s, created %s, source ip %s.
 Angelegt von: %s, Erstellungsdatum: %s, Quell-IP: %s.
+---STRINGEND
+
+---STRING junk
+Junk
+---STRINGEND
+
+---STRING latest comments
+Neueste Kommentare
+---STRINGEND
+
+---STRING latest comments, only new
+Neueste Kommentare, nur neue
+---STRINGEND
+
+---STRING latest comments, only approved
+Neueste Kommentare, nur freigegebene
 ---STRINGEND
 
 ---STRING net.nehmer.comments
@@ -48,6 +68,10 @@ Einen Kommentar schreiben
 
 ---STRING published by %s on %s.
 Veröffentlicht von %s am %s.
+---STRINGEND
+
+---STRING reported_abuse
+Mißbrauch gemeldet
 ---STRINGEND
 
 ---STRING allow_anonymous
