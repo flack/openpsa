@@ -77,7 +77,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * @param guid $guid The GUID of the object to bind to.
      * @return Array List of applicable comments.
      */
-    function list_by_objectguid($guid, $limit=false, $order='ASC', $paging=false, $status = false)
+    function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
     {
         if ($paging !== false)
         {
