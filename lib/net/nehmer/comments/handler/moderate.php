@@ -65,46 +65,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         switch ($_POST['mark'])
         {
             case 'abuse':
-                // Report the abuse
-                $moderators = $this->_config->get('moderators');
-                if (   $this->_comment->report_abuse()
-                    && $moderators)
-                {
-                    // Prepare notification message
-                    $message = array();
-                    $message['title'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
-                    $message['content'] = '';
-                    $logs = $this->_comment->get_logs();
-                    if (count($logs) > 0)
-                    {
-                        $message['content'] .= $data['l10n']->get('moderation history').":\n\n";
-                        foreach ($logs as $time => $log)
-                        {
-                            $reported = strftime('%x %X', strtotime("{$time}Z"));
-                            $message['content'] .= $data['l10n']->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $data['l10n']->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
-                        }
-                    }
-                    $message['content'] = "\n\n" . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
-
-                    $message['abstract'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
-                    $message['abstract'] = " " . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
-
-                    // Notify moderators
-                    $moderator_guids = explode('|', $moderators);
-                    foreach ($moderator_guids as $moderator_guid)
-                    {
-                        if (empty($moderator_guid))
-                        {
-                            continue;
-                        }
-                        org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
-                    }
-                }
-                if (isset($_POST['return_url']))
-                {
-                    midcom::get()->relocate($_POST['return_url']);
-                    // This will exit.
-                }
+                $this->_report_abuse($data);
                 break;
 
             case 'confirm_abuse':
@@ -158,6 +119,45 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
         midcom::get()->relocate('');
         // This will exit.
+    }
+
+    private function _report_abuse($data)
+    {
+        // Report the abuse
+        $moderators = $this->_config->get('moderators');
+        if (   $this->_comment->report_abuse()
+            && $moderators)
+        {
+            // Prepare notification message
+            $message = array();
+            $message['title'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
+            $message['content'] = '';
+            $logs = $this->_comment->get_logs();
+            if (count($logs) > 0)
+            {
+                $message['content'] .= $data['l10n']->get('moderation history').":\n\n";
+                foreach ($logs as $time => $log)
+                {
+                    $reported = strftime('%x %X', strtotime("{$time}Z"));
+                    $message['content'] .= $data['l10n']->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $data['l10n']->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
+                }
+            }
+            $message['content'] = "\n\n" . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
+
+            $message['abstract'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
+            $message['abstract'] = " " . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
+
+            // Notify moderators
+            $moderator_guids = explode('|', $moderators);
+            foreach ($moderator_guids as $moderator_guid)
+            {
+                if (empty($moderator_guid))
+                {
+                    continue;
+                }
+                org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
+            }
+        }
     }
 }
 ?>
