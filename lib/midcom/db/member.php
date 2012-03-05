@@ -194,7 +194,7 @@ class midcom_db_member extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-        	$e->log();
+            $e->log();
             return;
         }
         $activity = new midcom_helper_activitystream_activity_dba();

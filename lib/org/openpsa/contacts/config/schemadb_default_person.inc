@@ -207,8 +207,8 @@
                     array
                     (
                         'field' => 'orgOpenpsaObtype',
-                        'op'    => '=',
-                        'value' => ORG_OPENPSA_OBTYPE_OTHERGROUP,
+                        'op'    => '<',
+                        'value' => ORG_OPENPSA_OBTYPE_MYCONTACTS,
                     ),
                     array
                     (

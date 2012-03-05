@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_create
             {
                 $defaults['organizations'] = array($this->_group->id);
             }
-            else if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+            else if ($this->_group->orgOpenpsaObtype < ORG_OPENPSA_OBTYPE_MYCONTACTS)
             {
                 $defaults['groups'] = array($this->_group->id);
             }
