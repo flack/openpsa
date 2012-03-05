@@ -380,8 +380,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function &dm2_create_callback(&$controller)
     {
-        echo "The creation callback has to be implemented in the child class";
-        _midcom_stop_request();
+        throw new midcom_error("The creation callback has to be implemented in the child class");
     }
 
     /**

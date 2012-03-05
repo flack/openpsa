@@ -75,7 +75,7 @@ $coordinates = $user_position->get_coordinates();
 
 if (!$coordinates)
 {
-    _midcom_stop_request("Failed to get your current position.<br />");
+    throw new midcom_error("Failed to get your current position.");
 }
 
 echo "<p>".sprintf('Your position is %s', org_routamc_positioning_utils::pretty_print_coordinates($coordinates['latitude'], $coordinates['longitude']))."</p>\n";

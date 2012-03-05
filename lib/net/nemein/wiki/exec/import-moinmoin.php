@@ -131,9 +131,7 @@ class net_nemein_wiki_moinmoin_importer
                     $topic->component = 'net.nemein.wiki';
                     if (!$topic->create())
                     {
-                        echo "FAILURE: could not create topic, error: " . midcom_connection::get_error_string() . "<br/>\n";
-                        _midcom_stop_request();
-                        return false;
+                        throw new midcom_error("could not create topic, error: " . midcom_connection::get_error_string());
                     }
                     $topic = new midcom_db_topic($topic->id);
                     // Set the component
@@ -167,9 +165,8 @@ class net_nemein_wiki_moinmoin_importer
                         if (!$page->create())
                         {
                             // Could not create index
-                            echo "FAILURE: Could not create index for new topic, errstr: " . midcom_connection::get_error_string() . " <br/>\n";
                             $topic->delete();
-                            return false;
+                            throw new midcom_error("Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
                         }
                     }
                     // We have created a new topic, now recurse to create the rest of the path.

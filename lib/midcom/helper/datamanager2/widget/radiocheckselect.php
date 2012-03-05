@@ -65,7 +65,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
 
         if ($this->_type->allow_other)
         {
-            _midcom_stop_request("Allow Other support for radiocheckselect widget not yet implemented.");
+            throw new midcom_error("Allow Other support for radiocheckselect widget not yet implemented.");
         }
 
         return true;

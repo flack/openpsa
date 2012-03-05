@@ -59,14 +59,12 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
         {
             if (! @mkdir($this->_cache_dir, 0755))
             {
-                _midcom_stop_request("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
-                // This will exit.
+                throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
             }
         }
         else if (! is_dir($this->_cache_dir))
         {
-            _midcom_stop_request("Failed to create the cache base directory {$this->_cache_dir}: A file of the same name already exists.");
-            // This will exit.
+            throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: A file of the same name already exists.");
         }
     }
 

@@ -103,18 +103,9 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
                 // Memcache connection failed
                 if ($this->_abort_on_fail)
                 {
+                    debug_add("Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage(), MIDCOM_LOG_ERROR);
                     // Abort the request
-                    /**
-                     * We don't have the superglobal initialized yet
                     throw new midcom_error("Failed to connect to {$this->_host}:{$this->_port}.");
-                     */
-                    _midcom_header('HTTP/1.0 503 Service Unavailable');
-                    _midcom_header('Retry-After: 60');
-                    _midcom_header('Cache-Control: no-store, no-cache, must-revalidate');
-                    _midcom_header('Cache-Control: post-check=0, pre-check=0', false);
-                    _midcom_header('Pragma: no-cache');
-                    _midcom_stop_request("memcache handler: Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage());
-                    // This will exit.
                 }
 
                 // Otherwise we just skip caching

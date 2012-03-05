@@ -36,7 +36,7 @@ class midcom_config_test
                 break;
 
             default:
-                _midcom_stop_request("Unknown error code {$result_code}. Aborting.");
+                throw new midcom_error("Unknown error code {$result_code}.");
         }
 
         echo "    <td>{$recommendations}</td>\n";

@@ -27,7 +27,7 @@ if (   !$access_key
             || !isset($request_token['oauth_token_secret'])
             || !is_string($request_token['oauth_token_secret']))
         {
-            _midcom_stop_request("Failed to get FireEagle request token\n");
+            throw new midcom_error("Failed to get FireEagle request token\n");
         }
 
         // Save request token to session and redirect user
@@ -48,7 +48,7 @@ if (   !$access_key
         if (   !$session->exists('auth_state')
             || $session->get('auth_state') != 'start')
         {
-            _midcom_stop_request("Out of sequence.");
+            throw new midcom_error("Out of sequence.");
         }
 
         $fireeagle = new FireEagle($fireeagle_consumer_key, $fireeagle_consumer_secret, $session->get('request_token'), $session->get('request_secret'));
@@ -58,7 +58,7 @@ if (   !$access_key
             || !isset($access_token['oauth_token_secret'])
             || !is_string($access_token['oauth_token_secret']))
         {
-            _midcom_stop_request("Failed to get FireEagle access token\n");
+            throw new midcom_error("Failed to get FireEagle access token\n");
         }
 
         $user->set_parameter('net.yahoo.fireeagle', 'access_key', $access_token['oauth_token']);

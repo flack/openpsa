@@ -79,8 +79,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             }
             else
             {
-                _midcom_stop_request("dba cache handler: Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}");
-                // This will exit.
+                debug_print_r("Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}");
+                throw new midcom_error('Failed autodetection of a usable DBA handler');
             }
         }
         $this->_filename = "{$this->_cache_dir}{$this->_name}.{$this->_handler}";
