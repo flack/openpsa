@@ -13,6 +13,13 @@
  */
 class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_handler
 {
+    /**
+     * Response wrapper
+     *
+     * @var midcom_response
+     */
+    private $_response;
+
     public function _on_initialize()
     {
         midcom::get('auth')->require_valid_user();
@@ -128,21 +135,22 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     {
         $this->_validate_request();
 
-        $response = new midcom_response('json');
-        $response->title = $this->_l10n->get($this->_component);
+        $this->_response = new midcom_response('json');
+        $this->_response->title = $this->_l10n->get($this->_component);
+
         $function = '_process_' . $this->_operation;
         try
         {
             $this->$function();
-            $response->success = true;
+            $this->_response->success = true;
         }
         catch (midcom_error $e)
         {
-            $response->success = false;
-            $response->error = $e->getMessage();
+            $this->_response->success = false;
+            $this->_response->error = $e->getMessage();
         }
 
-        $response->send();
+        $this->_response->send();
     }
 
     private function _process_create()
@@ -157,7 +165,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         {
             throw new midcom_error('Failed to create image: ' . midcom_connection::get_error_string());
         }
-
+        $this->_response->position = $image->position;
+        $this->_response->guid = $image->guid;
         if (isset($_FILES['image']))
         {
             $this->_upload_image($_FILES['image'], $image);
@@ -248,6 +257,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         {
             throw new midcom_error('Failed to create attachment: ' . midcom_connection::get_error_string());
         }
+        $this->_response->filename = $attachment->name;
 
         $image->attachment = $attachment->id;
         $image->generate_image('thumbnail', $this->_config->get('thumbnail_filter'));

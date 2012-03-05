@@ -100,6 +100,15 @@ $(document).ready(function()
                     {
                         $.midcom_services_uimessage_add({type: 'error', message: reply.error, title: reply.title});
                     }
+                    else
+                    {
+                        var entry = $('#item_container .entry:not(.entry-template):not(.entry-deleted)')[reply.position];
+                        $(entry)
+                            .removeClass('new-entry')
+                            .addClass('existing-entry')
+                            .attr('id', 'image-' + reply.guid)
+                            .find('.filename').text(reply.filename);
+                    }
                     remove_pending_request();
                 }
             };
