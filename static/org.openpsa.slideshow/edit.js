@@ -87,6 +87,11 @@ $(document).ready(function()
             {
                 if (xhr.readyState === 4)
                 {
+                    var reply = $.parseJSON(xhr.responseText);
+                    if (!reply.success)
+                    {
+                        $.midcom_services_uimessage_add({type: 'error', message: reply.error, title: reply.title});
+                    }
                     remove_pending_request();
                 }
             };

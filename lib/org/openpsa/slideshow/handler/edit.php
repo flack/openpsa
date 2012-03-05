@@ -78,6 +78,10 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.progressbar.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.pulsate.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.css');
         $head->add_jquery_ui_theme(array('progressbar'));
@@ -124,12 +128,21 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     {
         $this->_validate_request();
 
+        $response = new midcom_response('json');
+        $response->title = $this->_l10n->get($this->_component);
         $function = '_process_' . $this->_operation;
-        $this->$function();
+        try
+        {
+            $this->$function();
+            $response->success = true;
+        }
+        catch (midcom_error $e)
+        {
+            $response->success = false;
+            $response->error = $e->getMessage();
+        }
 
-        midcom::get()->skip_page_style = true;
-        midcom::get()->finish();
-        _midcom_stop_request();
+        $response->send();
     }
 
     private function _process_create()
