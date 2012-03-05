@@ -40,7 +40,15 @@ $(document).ready(function()
     $('#item_container')
         .delegate('.image-delete', 'click', function()
         {
-            $(this).closest('.entry').addClass('entry-deleted');
+            var entry = $(this).closest('.entry');
+            if (entry.hasClass('new-entry'))
+            {
+                entry.remove();
+            }
+            else
+            {
+                entry.addClass('entry-deleted');
+            }
         })
         .delegate('.image-cancel-delete', 'click', function()
         {
