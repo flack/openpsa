@@ -344,6 +344,10 @@ class midcom_exception_handler
 
         $mail->body .= "\n" . implode("\n", $stacktrace);
 
+        if (!empty($_SERVER['HTTP_REFERER']))
+        {
+            $mail->body .= "\n\nReferrer: {$_SERVER['HTTP_REFERER']}";
+        }
         if (!$mail->send())
         {
             debug_add("failed to send error notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
