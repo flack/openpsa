@@ -27,13 +27,48 @@ class midcom_response_xml extends midcom_response
 
         foreach ($this->_data as $field => $value)
         {
-            echo '  <' . $field . '>' . $value . '</' . $field . ">\n";
+            echo $this->_render_tag($field, $value);
         }
 
         echo "</response>\n";
 
         midcom::get()->finish();
         _midcom_stop_request();
+    }
+
+    private function _render_tag($field, $value)
+    {
+        $output = '';
+        if (is_array($value))
+        {
+            $subtypes = array();
+            foreach ($value as $key => $subvalue)
+            {
+                if (is_int($key))
+                {
+                    $output .= $this->_render_tag($field, $subvalue);
+                }
+                else
+                {
+                    $subtypes[$key] = $subvalue;
+                }
+            }
+
+            if (!empty($subtypes))
+            {
+                $subtype_string = '';
+                foreach ($subtypes as $key => $subvalue)
+                {
+                    $subtype_string .= $this->_render_tag($key, $subvalue);
+                }
+                $output .= $this->_render_tag($field, $subtype_string);
+            }
+        }
+        else
+        {
+            $output .= '<' . $field . '>' . $value . '</' . $field . ">\n";
+        }
+        return $output;
     }
 }
 ?>
