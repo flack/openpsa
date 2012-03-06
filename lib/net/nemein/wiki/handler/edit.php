@@ -99,13 +99,12 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             case 'cancel':
                 if ($this->_page->name == 'index')
                 {
-                    midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
                 }
                 else
                 {
-                    midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
+                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
                 }
-                // This will exit.
         }
 
         $this->_view_toolbar->add_item
@@ -242,8 +241,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_page->parameter('midcom.helper.datamanager2', 'schema_name', $_POST['change_to']);
 
         // Redirect to editing
-        midcom::get()->relocate("edit/{$this->_page->name}/");
-        // This will exit
+        return new midcom_response_relocate("edit/{$this->_page->name}/");
     }
 }
 ?>

@@ -115,12 +115,10 @@ implements midcom_helper_datamanager2_interfaces_edit
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
                 midcom::get('cache')->invalidate($this->_object->guid);
-                midcom::get()->relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
 
             case 'cancel':
-                midcom::get()->relocate("__mfa/asgard/object/view/{$this->_object->guid}");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_object->guid}");
         }
 
         $this->_prepare_request_data();

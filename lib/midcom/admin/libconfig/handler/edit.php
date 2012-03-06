@@ -153,8 +153,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                midcom::get()->relocate('__mfa/asgard_midcom.admin.libconfig/edit/' . $this->_component_name);
-                // This will exit.
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.libconfig/edit/' . $this->_component_name);
         }
 
         $data['controller'] =& $this->_controller;

@@ -197,8 +197,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             if (   $node
                 && isset($node[MIDCOM_NAV_FULLURL]))
             {
-                midcom::get()->relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
-                // This will exit
+                return new midcom_response_relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
             }
             throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
         }
@@ -218,13 +217,12 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             case 'cancel':
                 if ($this->_config->get('view_in_url'))
                 {
-                    midcom::get()->relocate("view/{$this->_article->name}/");
+                    return new midcom_response_relocate("view/{$this->_article->name}/");
                 }
                 else
                 {
-                    midcom::get()->relocate("{$this->_article->name}/");
+                    return new midcom_response_relocate("{$this->_article->name}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
@@ -264,8 +262,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_content_topic->id)
         {
-            midcom::get()->relocate("delete/link/{$args[0]}/");
-            // This will exit
+            return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
         $this->_article->require_do('midgard:delete');
 
@@ -301,8 +298,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('article %s deleted'), $title));
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('net_nehmer_blog_deletecancel', $_REQUEST))
@@ -312,13 +308,12 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))
             {
-                midcom::get()->relocate("view/{$this->_article->name}/");
+                return new midcom_response_relocate("view/{$this->_article->name}/");
             }
             else
             {
-                midcom::get()->relocate("{$this->_article->name}/");
+                return new midcom_response_relocate("{$this->_article->name}/");
             }
-            // This will exit
         }
 
         $this->_prepare_request_data();

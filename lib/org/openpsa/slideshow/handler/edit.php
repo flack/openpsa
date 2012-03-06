@@ -59,7 +59,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
             $type = 'error';
         }
         midcom::get('uimessages')->add($this->_l10n->get($this->_component), $message, $type);
-        midcom::get()->relocate('edit/');
+        return new midcom_response_relocate('edit/');
     }
 
     /**

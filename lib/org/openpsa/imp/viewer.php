@@ -175,8 +175,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         {
             //Address to post the form to not found, we try to just to redirect to the given server URI
             debug_add('Action URI not found in data, relocating to server base URI');
-            midcom::get()->relocate($this->_server_uri);
-            //This will exit
+            return new midcom_response_relocate($this->_server_uri);
         }
 
         $this->_request_data['login_form_html'] = $formData;
@@ -237,13 +236,10 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         switch ($controller->process_form())
         {
             case 'save':
-                midcom::get()->relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-                //this will exit
-                break;
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
+
             case 'cancel':
-                midcom::get()->relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-                //this will exit
-                break;
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
         }
 
         $data['controller'] = $controller;
@@ -272,9 +268,8 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_check_imp_settings())
         {
             debug_add("Horde/Imp settings incomplete, redirecting to settings page.");
-            midcom::get()->relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+            return new midcom_response_relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                                 . 'settings/');
-            //This will exit
         }
 
         $this->_populate_toolbar();

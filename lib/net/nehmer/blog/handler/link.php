@@ -147,8 +147,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 $this->_article = new midcom_db_article($this->_link->article);
-                midcom::get()->relocate("{$this->_article->name}/");
-                // This will exit
+                return new midcom_response_relocate("{$this->_article->name}/");
 
             case 'cancel':
                 if (isset($_GET['article']))
@@ -164,7 +163,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     try
                     {
                         $article = new midcom_db_article($_GET['article']);
-                        midcom::get()->relocate("{$prefix}{$article->name}/");
+                        return new midcom_response_relocate("{$prefix}{$article->name}/");
                     }
                     catch (midcom_error $e)
                     {
@@ -172,8 +171,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                 }
 
-                midcom::get()->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();

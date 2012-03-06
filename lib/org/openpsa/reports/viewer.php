@@ -109,7 +109,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     {
         $report = new org_openpsa_reports_query_dba($args[0]);
         $report->delete();
-        midcom::get()->relocate('');
+        return new midcom_response_relocate('');
     }
 
 

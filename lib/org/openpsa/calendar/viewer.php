@@ -57,7 +57,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
         if (org_openpsa_calendar_interface::find_root_event())
         {
-            midcom::get()->relocate('');
+            return new midcom_response_relocate('');
         }
     }
 
@@ -78,21 +78,17 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         switch($this->_config->get('start_view'))
         {
             case 'day':
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . 'day/' . date('Y-m-d', $selected_time) . '/');
-                // This will exit()
-            break;
+
             case 'month':
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . 'month/' . date('Y-m-d', $selected_time) . '/');
-                // This will exit()
-                break;
+
             default:
             case 'week':
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . 'week/' . date('Y-m-d', $selected_time) . '/');
-                // This will exit()
-                break;
         }
     }
 }

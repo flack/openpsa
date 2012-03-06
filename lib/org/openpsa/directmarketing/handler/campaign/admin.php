@@ -151,8 +151,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         //check if it should be saved or preview
@@ -200,8 +199,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 $this->_campaign->schedule_update_smart_campaign_members();
 
                 //Save ok, relocate
-                midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
-                // This will exit()
+                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
             }
             //set data for preview & skip page_style because of javascript call
             $data['preview_persons'] = $rule_persons;
@@ -251,9 +249,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         if (   isset($_POST['midcom_helper_datamanager2_cancel'])
             && !empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+            return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
-            // This will exit()
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
@@ -309,9 +306,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $this->_request_data['campaign']->schedule_update_smart_campaign_members();
 
             //Save ok, relocate
-            midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+            return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
-            // This will exit()
         }
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
@@ -359,8 +355,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
@@ -420,15 +415,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $indexer->delete($this->_campaign->guid);
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate("campaign/{$this->_campaign->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         $this->set_active_leaf('campaign_' .$this->_campaign->id);

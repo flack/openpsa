@@ -134,19 +134,17 @@ implements midcom_helper_datamanager2_interfaces_create
 
                 midcom::get('cache')->invalidate($this->_product->guid);
 
-                midcom::get()->relocate("product/{$this->_product->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("product/{$this->_product->guid}/");
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    midcom::get()->relocate('');
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    midcom::get()->relocate("{$this->_request_data['up']}/");
+                    return new midcom_response_relocate("{$this->_request_data['up']}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();

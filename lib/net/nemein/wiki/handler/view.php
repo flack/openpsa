@@ -297,17 +297,16 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 // No matching redirection page found, relocate to editing
                 // TODO: Add UI message
-                midcom::get()->relocate("edit/{$this->_page->name}/");
-                // This will exit
+                return new midcom_response_relocate("edit/{$this->_page->name}/");
             }
 
             if ($result[0]->topic == $this->_topic->id)
             {
-                midcom::get()->relocate("{$result[0]->name}/");
+                return new midcom_response_relocate("{$result[0]->name}/");
             }
             else
             {
-                midcom::get()->relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
+                return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
             }
         }
 
@@ -580,10 +579,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         // Redirect to editing
         if ($this->_page->name == 'index')
         {
-            midcom::get()->relocate("");
+            return new midcom_response_relocate("");
         }
-        midcom::get()->relocate("{$this->_page->name}/");
-        // This will exit
+        return new midcom_response_relocate("{$this->_page->name}/");
     }
 
     /**

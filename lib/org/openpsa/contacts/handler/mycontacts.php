@@ -30,7 +30,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         {
             $return_url = $_GET['return_url'];
         }
-        midcom::get()->relocate($return_url);
+        return new midcom_response_relocate($return_url);
     }
 
     /**
@@ -45,7 +45,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->remove($args[0]);
 
-        midcom::get()->relocate("person/{$target->guid}/");
+        return new midcom_response_relocate("person/{$target->guid}/");
     }
 
     /**

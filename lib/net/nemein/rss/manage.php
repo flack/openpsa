@@ -173,7 +173,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             // TODO: display error messages
             // TODO: redirect user to edit page if creation succeeded
 
-            midcom::get()->relocate('feeds/list/');
+            return new midcom_response_relocate('feeds/list/');
         }
 
         // OPML subscription list import support
@@ -207,7 +207,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             }
             xml_parser_free($opml_parser);
 
-            midcom::get()->relocate('feeds/list/');
+            return new midcom_response_relocate('feeds/list/');
         }
 
         $this->_update_breadcrumb_line($handler_id);
@@ -255,8 +255,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                midcom::get()->relocate('feeds/list/');
-                // This will exit.
+                return new midcom_response_relocate('feeds/list/');
         }
 
         midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
@@ -303,15 +302,13 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             }
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('feeds/list/');
-            // This will exit.
+            return new midcom_response_relocate('feeds/list/');
         }
 
         if (array_key_exists('net_nemein_rss_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate('feeds/list/');
-            // This will exit()
+            return new midcom_response_relocate('feeds/list/');
         }
 
         midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);

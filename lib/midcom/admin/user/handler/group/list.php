@@ -50,8 +50,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
         if (isset($_POST['f_cancel']))
         {
-            midcom::get()->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
-            // This will exit
+            return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
         }
 
         if (isset($_POST['f_submit']))
@@ -64,8 +63,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             if ($data['group']->update())
             {
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), midcom::get('i18n')->get_string('updated', 'midcom'));
-                midcom::get()->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
-                // This will exit
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
             }
             else
             {

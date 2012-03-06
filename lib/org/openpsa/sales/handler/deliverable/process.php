@@ -79,8 +79,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
         }
 
         // Get user back to the sales project
-        midcom::get()->relocate("salesproject/{$this->_salesproject->guid}/");
-        // This will exit.
+        return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
     }
 
     /**

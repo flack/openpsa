@@ -100,11 +100,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
-                midcom::get()->relocate("message/{$this->_message->guid}/");
+                return new midcom_response_relocate("message/{$this->_message->guid}/");
 
             case 'cancel':
-                midcom::get()->relocate("campaign/{$data['campaign']->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("campaign/{$data['campaign']->guid}/");
         }
 
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));

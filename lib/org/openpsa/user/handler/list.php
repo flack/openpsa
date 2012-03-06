@@ -46,7 +46,7 @@ implements org_openpsa_widgets_grid_provider_client
         if (!$auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
         {
             $person = $auth->user->get_storage();
-            midcom::get()->relocate('view/' . $person->guid . '/');
+            return new midcom_response_relocate('view/' . $person->guid . '/');
         }
 
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);

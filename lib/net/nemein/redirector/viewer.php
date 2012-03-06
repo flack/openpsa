@@ -128,8 +128,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 && !$this->_config->get('admin_redirection')))
         {
             // No type set, redirect to config
-            midcom::get()->relocate("{$prefix}config/");
-            // This will exit
+            return new midcom_response_relocate("{$prefix}config/");
         }
 
         // Get the topic link and relocate accordingly
@@ -152,8 +151,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            midcom::get()->relocate($data['url'], $this->_config->get('redirection_code'));
-            // This will exit
+            return new midcom_response_relocate($data['url'], $this->_config->get('redirection_code'));
         }
     }
 

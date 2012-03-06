@@ -233,8 +233,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                midcom::get()->relocate("deliverable/{$this->_deliverable->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
         }
 
         // Add toolbar items
@@ -291,15 +290,13 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             $indexer->delete($this->_deliverable->guid);
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_sales_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate("deliverable/{$this->_deliverable->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);

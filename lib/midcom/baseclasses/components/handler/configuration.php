@@ -117,15 +117,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
-                midcom::get()->relocate('');
-                // This will exit
-                break;
+                return new midcom_response_relocate('');
 
             case 'cancel':
                 midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
-                midcom::get()->relocate('');
-                // This will exit
-                break;
+                return new midcom_response_relocate('');
         }
 
         // Update the breadcrumb and page title
@@ -182,14 +178,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (array_key_exists('midcom_baseclasses_components_handler_configuration_recreatecancel', $_POST))
         {
-            midcom::get()->relocate('config/');
-            // This will exit.
+            return new midcom_response_relocate('config/');
         }
 
         if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
         {
-            midcom::get()->relocate('config/');
-            // This will exit.
+            return new midcom_response_relocate('config/');
         }
 
         $data['datamanagers'] = $this->_load_datamanagers();

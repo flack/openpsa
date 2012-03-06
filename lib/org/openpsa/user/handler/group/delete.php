@@ -52,15 +52,13 @@ implements midcom_helper_datamanager2_interfaces_view
                 $indexer = midcom::get('indexer');
                 $indexer->delete($this->_group->guid);
 
-                midcom::get()->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
             }
             else
             {
                 // Failure, give a message
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
-                midcom::get()->relocate($prefix . 'group/' . $this->_group->guid . '/');
-                // This will exit
+                return new midcom_response_relocate($prefix . 'group/' . $this->_group->guid . '/');
             }
         }
 

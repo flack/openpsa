@@ -241,12 +241,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
                 midcom::get('uimessages')->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
 
-                midcom::get()->relocate("{$this->_page->name}/");
-                // This will exit.
+                return new midcom_response_relocate("{$this->_page->name}/");
 
             case 'cancel':
-                midcom::get()->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('create wikipage %s'), $this->_wikiword);

@@ -115,12 +115,10 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 $this->_article = new midcom_db_article($this->_link->article);
-                midcom::get()->relocate("{$this->_article->name}/");
-                // This will exit
+                return new midcom_response_relocate("{$this->_article->name}/");
 
             case 'cancel':
-                midcom::get()->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();

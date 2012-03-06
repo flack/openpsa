@@ -53,8 +53,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // Fall-through
 
             case 'cancel':
-                midcom::get()->relocate('view/' . $this->_person->guid . '/');
-                // This will exit.
+                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
         }
 
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));

@@ -331,7 +331,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             && $_POST['add_assignee'])
         {
             $this->_object->set_privilege('midgard:read', $_POST['add_assignee']);
-            midcom::get()->relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
+            return new midcom_response_relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
         }
 
         switch ($this->_controller->process_form())
@@ -339,8 +339,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 //Fall-through
             case 'cancel':
-                midcom::get()->relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
         }
 
         $this->_prepare_request_data();

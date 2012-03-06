@@ -120,7 +120,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     public function _handler_open($handler_id, array $args, array &$data)
     {
         $page_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        midcom::get()->relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
+        return new midcom_response_relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
     }
 
     /**
@@ -224,12 +224,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // Reindex the object
                 //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                midcom::get()->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
 
             case 'cancel':
-                midcom::get()->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
+
             case 'edit':
                 $qf =& $this->_controller->formmanager->form;
                 if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
@@ -443,8 +442,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
                     $redirect_url = str_replace('//', '/', "__mfa/asgard/object/edit/{$this->_new_object->guid}/");
-                    midcom::get()->relocate($redirect_url);
-                    // This will exit.
+                    return new midcom_response_relocate($redirect_url);
                 }
                 break;
 
@@ -461,8 +459,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
-                    midcom::get()->relocate("__mfa/asgard/{$objecturl}/");
-                    // This will exit.
+                    return new midcom_response_relocate("__mfa/asgard/{$objecturl}/");
                 }
         }
 
@@ -603,19 +600,16 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             if ($parent)
             {
-                midcom::get()->relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
-                // This will exit()
+                return new midcom_response_relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
             }
 
-            midcom::get()->relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
-            // This will exit.
+            return new midcom_response_relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
         }
 
         if (array_key_exists('midgard_admin_asgard_deletecancel', $_REQUEST))
         {
             // Redirect to default object mode page.
-            midcom::get()->relocate($cancel_url);
-            // This will exit()
+            return new midcom_response_relocate($cancel_url);
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -629,8 +623,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Add jQuery file for the checkbox operations
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
         midcom::get('head')->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
-
-        return true;
     }
 
     /**
@@ -706,11 +698,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             case 'save':
                 $new_object = $this->_process_copy($target);
                 // Relocate to the newly created object
-                midcom::get()->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
-                break;
+                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
 
             case 'cancel':
-                midcom::get()->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
+                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
         }
 
         // Add Thickbox
@@ -737,8 +728,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         $data['target'] = $target;
-
-        return true;
     }
 
     private function _process_copy($target)

@@ -429,20 +429,18 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         {
             case 'save':
                 $this->_index_object($this->_controller->datamanager);
+                return new midcom_response_relocate($this->_get_object_url());
 
-                midcom::get()->relocate($this->_get_object_url());
-                // This will exit.
             case 'cancel':
                 // Redirect to parent page, if any.
                 if ($this->_parent)
                 {
-                    midcom::get()->relocate(midcom::get('permalinks')->resolve_permalink($this->_parent->guid));
+                    return new midcom_response_relocate(midcom::get('permalinks')->resolve_permalink($this->_parent->guid));
                 }
                 // If nothing helps, try the topic's front page
                 else
                 {
-                    midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-                    // This will exit.
+                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
                 }
         }
 
@@ -561,8 +559,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
             case 'cancel':
                 // Redirect to view page.
-                midcom::get()->relocate($this->_get_object_url());
-                // This will exit.
+                return new midcom_response_relocate($this->_get_object_url());
         }
 
         $this->_prepare_request_data();
@@ -632,10 +629,10 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
                 // Delete ok, relocating to welcome.
-                midcom::get()->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
+
             case 'cancel':
-                midcom::get()->relocate($this->_get_object_url());
+                return new midcom_response_relocate($this->_get_object_url());
         }
 
         $this->_prepare_request_data();

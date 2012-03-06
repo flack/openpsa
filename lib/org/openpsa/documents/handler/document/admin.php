@@ -123,13 +123,11 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                     $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
                 }
 
-                midcom::get()->relocate($prefix  . "document/" . $this->_document->guid . "/");
-                // This will exit()
+                return new midcom_response_relocate($prefix  . "document/" . $this->_document->guid . "/");
 
             case 'cancel':
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                                    . "document/" . $this->_document->guid . "/");
-                // This will exit()
         }
 
         $this->_request_data['controller'] =& $this->_controller;
@@ -214,8 +212,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                     $indexer = midcom::get('indexer');
                     $indexer->delete($this->_document->guid);
                     // Redirect to the directory
-                    midcom::get()->relocate('');
-                    // This will exit
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
@@ -224,8 +221,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 }
                 //Fall-through
             case 'cancel':
-                midcom::get()->relocate("document/" . $this->_document->guid . "/");
-                // This will exit()
+                return new midcom_response_relocate("document/" . $this->_document->guid . "/");
         }
 
         $data['document_dm'] = $this->_datamanager;

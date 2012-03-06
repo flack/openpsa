@@ -46,8 +46,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (isset($_POST['move_to']))
         {
             $this->_move_object((int) $_POST['move_to']);
-            midcom::get()->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
-            // This will exit
+            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);

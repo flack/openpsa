@@ -179,8 +179,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                midcom::get()->relocate("message/{$this->_message->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("message/{$this->_message->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
@@ -231,15 +230,13 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             $indexer->delete($this->_message->guid);
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate("campaign/{$data['campaign']->guid}/");
-            // This will exit.
+            return new midcom_response_relocate("campaign/{$data['campaign']->guid}/");
         }
 
         if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate("message/{$this->_message->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("message/{$this->_message->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);
@@ -311,8 +308,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 // Fall through
 
             case 'cancel':
-                midcom::get()->relocate("message/{$guid}/");
-                // This will exit
+                return new midcom_response_relocate("message/{$guid}/");
         }
 
         midcom::get('head')->set_pagetitle($this->_message->title);

@@ -38,7 +38,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         //check for manually uploaded pdf-file & if user wants to replace it
         if (array_key_exists('cancel', $_POST))
         {
-            midcom::get()->relocate($this->_request_data['invoice_url']);
+            return new midcom_response_relocate($this->_request_data['invoice_url']);
         }
         else if (array_key_exists('save', $_POST))
         {
@@ -72,7 +72,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
                     {
                         $blob = new midgard_blob($attachment->__object);
                         // check if md5 sum equals the one saved in auto_generated
-                        if ($checksum== md5_file($blob->get_path()))
+                        if ($checksum == md5_file($blob->get_path()))
                         {
                             $this->_update_attachment = true;
                         }
@@ -89,7 +89,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             $this->_request_data['billing_data'] = $this->_invoice->get_billing_data();
             self::render_and_attach_pdf($this->_invoice);
             midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
-            midcom::get()->relocate($this->_request_data["invoice_url"]);
+            return new midcom_response_relocate($this->_request_data["invoice_url"]);
         }
     }
 

@@ -197,8 +197,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             if (   $node
                 && isset($node[MIDCOM_NAV_FULLURL]))
             {
-                midcom::get()->relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
-                // This will exit
+                return new midcom_response_relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
             }
             throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
         }
@@ -218,10 +217,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             case 'cancel':
                 if ($this->_article->name == 'index')
                 {
-                    midcom::get()->relocate('');
+                    return new midcom_response_relocate('');
                 }
-                midcom::get()->relocate("{$this->_article->name}/");
-                // This will exit.
+                return new midcom_response_relocate("{$this->_article->name}/");
         }
 
         $this->_prepare_request_data();
@@ -357,8 +355,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_content_topic->id)
         {
-            midcom::get()->relocate("delete/link/{$args[0]}/");
-            // This will exit
+            return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
         $this->_article->require_do('midgard:delete');
 
@@ -389,15 +386,13 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             $indexer->delete($this->_article->guid);
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('net_nehmer_static_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate("{$this->_article->name}/");
-            // This will exit()
+            return new midcom_response_relocate("{$this->_article->name}/");
         }
 
         $this->_prepare_request_data();

@@ -130,8 +130,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $formdata = $data['controller']->datamanager->types;
                 $this->_master->process_notify_date($formdata, $this->_deliverable);
             case 'cancel':
-                midcom::get()->relocate("salesproject/{$this->_salesproject->guid}/");
-                break;
+                return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);

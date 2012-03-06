@@ -99,14 +99,14 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             && is_array($_POST['undelete']))
         {
             $this->_undelete();
-            midcom::get()->relocate("__mfa/asgard/trash/{$this->type}/");
+            return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
         }
 
         if (   isset($_POST['purge'])
             && is_array($_POST['undelete']))
         {
             $this->_purge();
-            midcom::get()->relocate("__mfa/asgard/trash/{$this->type}/");
+            return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
         }
 
         $qb = new org_openpsa_qbpager_direct($data['type'], "{$data['type']}_trash");

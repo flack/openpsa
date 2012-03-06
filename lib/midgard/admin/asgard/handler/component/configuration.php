@@ -488,11 +488,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case 'cancel':
                 if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
                 {
-                    midcom::get()->relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
-                    // This will exit.
+                    return new midcom_response_relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
                 }
-                midcom::get()->relocate("__mfa/asgard/components/configuration/{$data['name']}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/components/configuration/{$data['name']}/");
         }
 
         $data['controller'] =& $this->_controller;

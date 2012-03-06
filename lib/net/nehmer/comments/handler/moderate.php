@@ -97,12 +97,10 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
                 if (isset($_POST['return_url']))
                 {
-                    midcom::get()->relocate($_POST['return_url']);
-                    // This will exit.
+                    return new midcom_response_relocate($_POST['return_url']);
                 }
 
-                midcom::get()->relocate("read/{$this->_comment->guid}/");
-                // This will exit
+                return new midcom_response_relocate("read/{$this->_comment->guid}/");
         }
         if ($this->_comment->_sudo_requested)
         {
@@ -113,12 +111,10 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
         if (isset($_POST['return_url']))
         {
-            midcom::get()->relocate($_POST['return_url']);
-            // This will exit.
+            return new midcom_response_relocate($_POST['return_url']);
         }
 
-        midcom::get()->relocate('');
-        // This will exit.
+        return new midcom_response_relocate('');
     }
 
     private function _report_abuse($data)

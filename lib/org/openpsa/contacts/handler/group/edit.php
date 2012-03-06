@@ -84,8 +84,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
             case 'cancel':
                 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                midcom::get()->relocate($prefix . "group/" . $this->_group->guid . "/");
-                // This will exit.
+                return new midcom_response_relocate($prefix . "group/" . $this->_group->guid . "/");
         }
 
         $root_group = org_openpsa_contacts_interface::find_root_group();

@@ -137,19 +137,17 @@ implements midcom_helper_datamanager2_interfaces_create
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
                 midcom::get('cache')->invalidate($this->_topic->guid);
-                midcom::get()->relocate("{$this->_group->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("{$this->_group->guid}/");
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    midcom::get()->relocate('');
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    midcom::get()->relocate("{$this->_request_data['up']}/");
+                    return new midcom_response_relocate("{$this->_request_data['up']}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();

@@ -112,8 +112,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
                 }
                 midcom::get('cache')->invalidate($this->_topic->guid);
             case 'cancel':
-                midcom::get()->relocate("{$this->_group->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("{$this->_group->guid}/");
         }
 
         $this->_update_breadcrumb_line();

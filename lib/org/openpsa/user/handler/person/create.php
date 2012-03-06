@@ -53,18 +53,16 @@ implements midcom_helper_datamanager2_interfaces_create
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
                 $this->_master->create_account($this->_person, $data["controller"]->formmanager);
 
-                midcom::get()->relocate('view/' . $this->_person->guid . '/');
+                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
 
             case 'cancel':
-                midcom::get()->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $this->add_breadcrumb('', sprintf($this->_l10n->get('create person')));
 
         org_openpsa_helpers::dm2_savecancel($this);
     }
-
 
     /**
      * DM2 creation callback.

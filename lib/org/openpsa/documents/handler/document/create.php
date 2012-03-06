@@ -125,11 +125,10 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
                     $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
                 }
 
-                midcom::get()->relocate($prefix  . "document/" . $this->_document->guid . "/");
-                // This will exit
+                return new midcom_response_relocate($prefix  . "document/" . $this->_document->guid . "/");
+
             case 'cancel':
-                midcom::get()->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
         $this->_request_data['controller'] =& $this->_controller;
 

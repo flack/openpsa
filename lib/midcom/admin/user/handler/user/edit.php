@@ -140,12 +140,10 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 // Show confirmation for the user
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
-                midcom::get()->relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
 
             case 'cancel':
-                midcom::get()->relocate('__mfa/asgard_midcom.admin.user/');
-                // This will exit.
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
     }
 
@@ -316,13 +314,11 @@ implements midcom_helper_datamanager2_interfaces_edit
             if (isset($_POST['f_cancel']))
             {
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
-                midcom::get()->relocate('__mfa/asgard_midcom.admin.user/');
-                // This will exit
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
             }
             $this->_process_batch_change();
             // Relocate to the user administration front page
-            midcom::get()->relocate('__mfa/asgard_midcom.admin.user/');
-            // This will exit
+            return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
         if (isset($_GET['ajax']))

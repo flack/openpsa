@@ -93,8 +93,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 {
                     $url = '';
                 }
-                midcom::get()->relocate($url);
-                // This will exit
+                return new midcom_response_relocate($url);
         }
 
         // Add the breadcrumb pieces

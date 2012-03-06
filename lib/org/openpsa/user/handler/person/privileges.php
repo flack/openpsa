@@ -107,9 +107,8 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 // Fall-through
             case 'cancel':
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . "view/" . $this->_person->guid . "/");
-                // This will exit()
         }
 
         midcom::get('head')->set_pagetitle("{$this->_person->name}");

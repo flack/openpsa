@@ -81,13 +81,11 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
                 $indexer->index($this->_controller->datamanager);
 
                 $this->_view = "default";
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-                // This will exit()
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
 
             case 'cancel':
                 $this->_view = "default";
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-                // This will exit()
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
         }
 
         $this->_request_data['controller'] = $this->_controller;

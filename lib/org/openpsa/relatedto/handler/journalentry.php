@@ -149,8 +149,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 //relocate to relatedto-renders
                 $add_url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
                 $add_url .= $this->_current_object->guid . "/html/";
-                midcom::get()->relocate($add_url);
-                // This will exit.
+                return new midcom_response_relocate($add_url);
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
@@ -188,7 +187,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $add_url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/reminder/";
         $add_url = $add_url . $this->_current_object->guid . "/";
 
-        midcom::get()->relocate($add_url);
+        return new midcom_response_relocate($add_url);
     }
 
     public function load_schemadb()
@@ -211,8 +210,7 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'save':
             case 'cancel':
                 $url_prefix = $url_prefix . $this->_current_object->guid . "/html/";
-                midcom::get()->relocate($url_prefix);
-                // This will exit.
+                return new midcom_response_relocate($url_prefix);
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
@@ -248,7 +246,7 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
 
-        midcom::get()->relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
+        return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
     }
 
     public function _handler_list($handler_id , $args , &$data)

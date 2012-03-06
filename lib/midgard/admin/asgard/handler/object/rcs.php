@@ -402,8 +402,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                 }
 
                 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                midcom::get()->relocate("{$prefix}__mfa/asgard/object/rcs/diff/{$args[0]}/{$first}/{$last}/");
-                // This will exit
+                return new midcom_response_relocate("{$prefix}__mfa/asgard/object/rcs/diff/{$args[0]}/{$first}/{$last}/");
             }
         }
 
@@ -599,7 +598,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             && $this->_backend->restore_to_revision($args[1]))
         {
             midcom::get('uimessages')->add($this->_l10n->get('no.bergfald.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
-            midcom::get()->relocate("__mfa/asgard/object/view/{$this->_guid}/");
+            return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_guid}/");
         }
         else
         {

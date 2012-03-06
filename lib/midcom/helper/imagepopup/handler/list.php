@@ -45,15 +45,15 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         {
             if ($handler_id == '____ais-imagepopup-list_object')
             {
-                midcom::get()->relocate('__ais/imagepopup/folder/default/');
+                return new midcom_response_relocate('__ais/imagepopup/folder/default/');
             }
             elseif ($handler_id =='____ais-imagepopup-list_folder')
             {
-                midcom::get()->relocate('__ais/imagepopup/folder/default/');
+                return new midcom_response_relocate('__ais/imagepopup/folder/default/');
             }
             elseif ($handler_id =='____ais-imagepopup-list_unified')
             {
-                midcom::get()->relocate('__ais/imagepopup/unified/default/');
+                return new midcom_response_relocate('__ais/imagepopup/unified/default/');
             }
         }
 

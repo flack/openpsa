@@ -110,8 +110,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         // Cancel pressed
         if (isset($_POST['org_openpsa_calendar_delete_cancel']))
         {
-            midcom::get()->relocate("event/{$this->_event->guid}/");
-            // This will exit
+            return new midcom_response_relocate("event/{$this->_event->guid}/");
         }
 
         // Delete confirmed, remove the event

@@ -91,9 +91,9 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['acl_dm']->process_form())
         {
             case 'save':
-                // Fall-thorugh
+                // Fall-through
             case 'cancel':
-                midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . "group/" . $this->_group->guid . "/");
         }
 

@@ -24,8 +24,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     {
         foreach ($data['schemadb_product'] as $name => $schema)
         {
-            midcom::get()->relocate("search/{$name}/");
-            // This will exit
+            return new midcom_response_relocate("search/{$name}/");
         }
     }
 

@@ -175,8 +175,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 // *** FALL THROUGH ***
 
             case 'cancel':
-                midcom::get()->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();

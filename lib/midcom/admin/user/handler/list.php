@@ -83,8 +83,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             {
                 $get = implode('&midcom_admin_user[]=', $_POST['midcom_admin_user']);
 
-                midcom::get()->relocate("__mfa/asgard_midcom.admin.user/password/batch/?midcom_admin_user[]={$get}");
-                // This will exit
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/password/batch/?midcom_admin_user[]={$get}");
             }
         }
 

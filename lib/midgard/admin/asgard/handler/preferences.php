@@ -87,14 +87,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('preferences saved', 'midgard.admin.asgard'));
-                midcom::get()->relocate($return_page);
-                // This will exit
-                break;
+                return new midcom_response_relocate($return_page);
+
             case 'cancel':
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
-                midcom::get()->relocate($return_page);
-                // This will exit
-                break;
+                return new midcom_response_relocate($return_page);
         }
 
         // Load the common data

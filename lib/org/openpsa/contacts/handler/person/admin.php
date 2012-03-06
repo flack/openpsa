@@ -198,8 +198,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
                 // *** FALL-THROUGH ***
             case 'cancel':
-                midcom::get()->relocate("person/{$this->_contact->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("person/{$this->_contact->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
@@ -254,15 +253,13 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
             $indexer->delete($this->_contact->guid . '_' . midcom::get('i18n')->get_content_language());
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_contacts_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate("person/{$this->_contact->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("person/{$this->_contact->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);

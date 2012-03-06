@@ -410,7 +410,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             && $this->_backend->restore_to_revision($args[1]))
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('no.bergfald.rcs', 'no.bergfald.rcs'), sprintf(midcom::get('i18n')->get_string('restore to version %s successful', 'no.bergfald.rcs'), $args[1]), 'ok');
-            midcom::get()->relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
+            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
         else
         {

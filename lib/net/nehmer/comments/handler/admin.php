@@ -120,9 +120,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         midcom::get('auth')->require_valid_user();
 
-        if(!$this->_topic->can_do('net.nehmer.comments:moderation'))
+        if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
-            midcom::get()->relocate('/');
+            return new midcom_response_relocate('/');
         }
         $this->_request_data['topic'] = $this->_topic;
     }
@@ -190,7 +190,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
         if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
-            midcom::get()->relocate('/');
+            return new midcom_response_relocate('/');
         }
 
         // This might exit.

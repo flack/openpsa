@@ -69,7 +69,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         if (!empty($_POST['relocate']))
         {
             midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $data['message']['message'], $data['message']['type']);
-            midcom::get()->relocate('');
+            return new midcom_response_relocate('');
         }
 
         $data['next_action'] = $this->_master->render_invoice_actions($invoice);
@@ -405,7 +405,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_object->_recalculate_invoice_items();
 
-        midcom::get()->relocate("invoice/items/" . $this->_object->guid . "/");
+        return new midcom_response_relocate("invoice/items/" . $this->_object->guid . "/");
     }
 
     private function _prepare_output()

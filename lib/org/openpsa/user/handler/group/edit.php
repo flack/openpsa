@@ -49,8 +49,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // Fall-through
 
             case 'cancel':
-                midcom::get()->relocate('group/' . $this->_group->guid . '/');
-                // This will exit.
+                return new midcom_response_relocate('group/' . $this->_group->guid . '/');
         }
 
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));

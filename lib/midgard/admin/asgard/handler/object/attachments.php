@@ -234,7 +234,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
         else
         {
-            midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
 
         $this->_list_files();
@@ -297,7 +297,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         {
             if ($filename != $data['filename'])
             {
-                midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+                return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
             }
         }
 
@@ -383,8 +383,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         if (isset($_POST['f_cancel']))
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('delete cancelled', 'midgard.admin.asgard'));
-            midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
-            // This will exit
+            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
         }
 
         if (isset($_POST['f_confirm']))
@@ -392,8 +391,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             if ($this->_file->delete())
             {
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('file %s deleted', 'midgard.admin.asgard'), $data['filename']));
-                midcom::get()->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
-                // This will exit
+                return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
             }
         }
 

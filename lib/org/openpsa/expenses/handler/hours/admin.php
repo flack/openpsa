@@ -155,19 +155,17 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             case 'save':
                 $this->_hour_report->modify_hours_by_time_slot();
                 $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
-                midcom::get()->relocate("hours/task/" . $task->guid . "/");
-                // This will exit.
+                return new midcom_response_relocate("hours/task/" . $task->guid . "/");
 
             case 'cancel':
                 if (count($args) > 1)
                 {
-                    midcom::get()->relocate("hours/task/" . $parent->guid . "/");
+                    return new midcom_response_relocate("hours/task/" . $parent->guid . "/");
                 }
                 else
                 {
-                    midcom::get()->relocate('');
+                    return new midcom_response_relocate('');
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
@@ -248,8 +246,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 // *** FALL-THROUGH ***
             case 'cancel':
                 $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
-                midcom::get()->relocate("hours/task/" . $task->guid . "/");
-                // This will exit.
+                return new midcom_response_relocate("hours/task/" . $task->guid . "/");
         }
 
 
@@ -339,15 +336,13 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             }
 
             // Delete ok, relocating to welcome.
-            midcom::get()->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_expenses_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            midcom::get()->relocate('');
-            // This will exit()
+            return new midcom_response_relocate('');
         }
 
         $this->_load_schemadb();
@@ -433,7 +428,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             debug_print_r('No reports passed to action handler', $_POST);
         }
 
-        midcom::get()->relocate($relocate);
+        return new midcom_response_relocate($relocate);
     }
 
     private function _get_autocomplete_selection()

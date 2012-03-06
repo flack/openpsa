@@ -185,8 +185,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         {
             case 'cancel':
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('cancelled'));
-                midcom::get()->relocate($prefix);
-                break;
+                return new midcom_response_relocate($prefix);
 
             case 'save':
                 if ($this->_handler_id === 'edit')
@@ -197,8 +196,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 {
                     $url = $this->_create_topic($prefix);
                 }
-                midcom::get()->relocate($url);
-                // This will exit
+                return new midcom_response_relocate($url);
         }
 
         $this->_prepare_request_data();

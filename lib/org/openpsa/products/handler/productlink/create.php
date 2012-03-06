@@ -125,19 +125,17 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
             case 'save':
                 midcom::get('cache')->invalidate($this->_productlink->guid);
 
-                midcom::get()->relocate("productlink/{$this->_productlink->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("productlink/{$this->_productlink->guid}/");
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    midcom::get()->relocate('');
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    midcom::get()->relocate("{$this->_request_data['up']}/");
+                    return new midcom_response_relocate("{$this->_request_data['up']}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
