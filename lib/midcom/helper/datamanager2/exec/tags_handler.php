@@ -9,27 +9,20 @@
  */
 
 // Common variables
-$encoding = 'UTF-8';
 $items = array();
 $mode = 'callback';
 $_callback = null;
 $callback_args = array();
 
-// Common headers
-midcom::get('cache')->content->content_type('text/xml');
-midcom::get()->header('Content-type: text/xml; charset=' . $encoding);
-echo '<?xml version="1.0" encoding="' . $encoding . '" standalone="yes"?>' . "\n";
-echo "<response>\n";
+$response = new midcom_response_xml;
+$response->status = 0;
 
 if (! isset($_REQUEST["query"]))
 {
-    echo "    <status>0</status>\n";
-    echo "    <errstr>Search term not defined</errstr>\n"; //TODO: Localize message
-    echo "</response>\n";
+    $response->errstr = "Search term not defined"; //TODO: Localize message
 
     debug_add("Empty query string. Quitting now.");
-    midcom::get()->finish();
-    _midcom_stop_request();
+    $response->send();
 }
 
 $query = $_REQUEST["query"];
@@ -38,8 +31,7 @@ $query = $_REQUEST["query"];
 $map = array('component', 'class', 'object_id', 'id_field', 'callback', 'callback_args');
 foreach ($map as $varname)
 {
-    if (   isset($_REQUEST[$varname])
-        && !empty($_REQUEST[$varname]))
+    if (!empty($_REQUEST[$varname]))
     {
         $$varname = $_REQUEST[$varname];
         if ($varname == 'callback_args')
@@ -73,11 +65,8 @@ if ($mode == 'object')
     // Could not get required class defined, abort
     if (!class_exists($class))
     {
-        echo "    <status>0</status>\n";
-        echo "    <errstr>Class {$class} could not be loaded</errstr>\n";
-        echo "</response>\n";
-        midcom::get()->finish();
-        _midcom_stop_request();
+        $response->errstr = "Class {$class} could not be loaded";
+        $reponse->send();
     }
 
     $qb = call_user_func(array($class, 'new_query_builder'));
@@ -86,11 +75,8 @@ if ($mode == 'object')
 
     if ($results === false)
     {
-        echo "    <status>0</status>\n";
-        echo "    <errstr>Error when executing QB</errstr>\n";
-        echo "</response>\n";
-        midcom::get()->finish();
-        _midcom_stop_request();
+        $response->errstr = "Error when executing QB";
+        $reponse->send();
     }
 
     $object = $results[0];
@@ -155,28 +141,21 @@ foreach ($items as $id => $item)
 
 if (empty($results))
 {
-    echo "    <status>0</status>\n";
-    echo "    <errstr>No results</errstr>\n"; //TODO: Localize message
-    echo "</response>\n";
-
+    $response->errstr = "No results"; //TODO: Localize message
     debug_add("No results.");
-    midcom::get()->finish();
-    _midcom_stop_request();
+    $reponse->send();
 }
-
-echo "    <status>1</status>\n";
-echo "    <results>\n";
+$response->status = 1;
+$items = array('result');
 foreach ($results as $i => $result)
 {
-    echo "        <result>\n";
-    echo "            <id>{$result['id']}</id>\n";
-    echo "            <name>{$result['name']}</name>\n";
-    echo "            <color>{$result['color']}</color>\n";
-    echo "        </result>\n";
+    $items['result'][] = array
+    (
+        'id' => $result['id'],
+        'name' => $result['name'],
+        'color' => $result['color']
+    );
 }
-echo "    </results>\n";
-echo "</response>\n";
-
-midcom::get()->finish();
-_midcom_stop_request();
+$response->results = $items;
+$response->send();
 ?>

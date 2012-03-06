@@ -494,7 +494,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         else
         {
             // TODO: needs create temporary copy function.
-            _midcom_stop_request('TODO');
+            throw new midcom_error('TODO');
         }
 
         $this->_update_attachment_info($identifier);
@@ -695,7 +695,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         else
         {
             // TODO: needs create temporary copy function.
-            _midcom_stop_request('TODO');
+            throw new midcom_error('TODO');
         }
 
         $this->_update_attachment_info($identifier);

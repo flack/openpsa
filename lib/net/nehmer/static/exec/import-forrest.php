@@ -15,8 +15,6 @@ if (array_key_exists('directory', $_POST))
     $importer->import_folder($folder, $_POST['parent']);
     echo "</pre>\n";
     _midcom_stop_request();
-
-    echo "</ul>\n";
 }
 else
 {

@@ -69,11 +69,7 @@ if (is_null($positions))
         $error_str = $geocoder->error;
     }
 
-    midcom::get()->header('HTTP/1.0 500 Server Error');
-    echo "Geocoding failed: {$error_str}";
-    midcom::get()->finish();
-    _midcom_stop_request();
-    // This will exit
+    throw new midcom_error("Geocoding failed: {$error_str}");
 }
 
 midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
