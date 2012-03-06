@@ -11,7 +11,7 @@
  *
  * @package midcom
  */
-class midcom_response_json extends midcom_response
+class midcom_response_xml extends midcom_response
 {
     /**
      * Sends the response to the client and shuts down the environment
@@ -19,10 +19,18 @@ class midcom_response_json extends midcom_response
     public function send()
     {
         midcom::get()->skip_page_style = true;
-        midcom::get('cache')->content->content_type('application/json');
-        midcom::get()->header('Content-type: application/json; charset=' . $this->encoding);
+        midcom::get('cache')->content->content_type('text/xml');
+        midcom::get()->header('Content-type: text/xml; charset=' . $this->encoding);
 
-        echo json_encode($this->_data);
+        echo '<?xml version="1.0" encoding="' . $this->encoding . '" standalone="yes"?>' . "\n";
+        echo "<response>\n";
+
+        foreach ($this->_data as $field => $value)
+        {
+            echo '  <' . $field . '>' . $value . '</' . $field . ">\n";
+        }
+
+        echo "</response>\n";
 
         midcom::get()->finish();
         _midcom_stop_request();

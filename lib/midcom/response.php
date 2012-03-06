@@ -14,6 +14,14 @@
 abstract class midcom_response
 {
     /**
+     * Character encoding to use
+     *
+     * @todo determine on the fly?
+     * @var string Character encoding
+     */
+    public $encoding = 'UTF-8';
+
+    /**
      * The data to be transmitted
      *
      * @var array
