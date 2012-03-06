@@ -871,7 +871,7 @@ class midcom_application
      */
     function relocate($url, $response_code = 302)
     {
-        $reponse = new midcom_response_relocate($url, $response_code);
+        $response = new midcom_response_relocate($url, $response_code);
         $response->send();
     }
 
