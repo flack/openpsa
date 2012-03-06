@@ -611,7 +611,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         else if (   is_object($result)
                  && $result instanceof midcom_response)
         {
-            $response->send();
+            $result->send();
             //this will exit
         }
 
