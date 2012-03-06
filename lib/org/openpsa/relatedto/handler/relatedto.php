@@ -771,8 +771,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     public function _handler_ajax($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        midcom::get()->skip_page_style = true;
-        $ajax = new org_openpsa_helpers_ajax();
+        $response = new midcom_response_xml;
+        $response->result = false;
+
         //Request mode switch
         $this->_mode =& $args[0];
         $this->_object = false;
@@ -783,31 +784,33 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[1]);
                 if (!($this->_object instanceof org_openpsa_relatedto_dba))
                 {
-                    $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
+                    $response->status = "method '{$this->_mode}' requires guid of a link object as an argument";
                 }
 
             }
             catch (midcom_error $e)
             {
-                $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
+                $response->status = "method '{$this->_mode}' requires guid of a link object as an argument";
             }
         }
         switch ($this->_mode)
         {
             case 'deny':
                 $this->_object->status = org_openpsa_relatedto_dba::NOTRELATED;
-                $stat = $this->_object->update();
-                $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
-                //this will exit()
+                $response->result = $this->_object->update();
+                $response->status = 'error:' . midcom_connection::get_error_string();
+                break;
             case 'confirm':
                 $this->_object->status = org_openpsa_relatedto_dba::CONFIRMED;
-                $stat = $this->_object->update();
-                $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
-                //this will exit()
+                $response->result = $this->_object->update();
+                $response->status = 'error:' . midcom_connection::get_error_string();
+                break;
             default:
-                $ajax->simpleReply(false, "method '{$this->_mode}' not supported");
-                //this will exit()
+                $response->status = "method '{$this->_mode}' not supported";
+                break;
         }
+        $response->send();
+        //this will exit()
     }
 
     /**
@@ -827,22 +830,22 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        midcom::get()->skip_page_style = true;
 
-        $ajax = new org_openpsa_helpers_ajax();
+        $response = new midcom_response_xml;
 
         try
         {
             $relation = new org_openpsa_relatedto_dba($args[0]);
+            $response->result = $relation->delete();
+            $response->status = 'Last message: ' . midcom_connection::get_error_string();
         }
         catch (midcom_error $e)
         {
-            $ajax->simpleReply(false, "Object '{$args[0]}' could not be loaded, error:" . $e->getMessage());
-            //this will exit()
+            $response->result = false;
+            $response->status = "Object '{$args[0]}' could not be loaded, error:" . $e->getMessage();
         }
 
-        $stat = $relation->delete();
-        $ajax->simpleReply($stat, 'Last message: ' . midcom_connection::get_error_string());
+        $response->send();
         //this will exit()
     }
 

@@ -237,8 +237,10 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         midcom::get('auth')->drop_sudo();
 
-        $message = new org_openpsa_helpers_ajax();
-        $message->simpleReply($this->_request_data['unsubscribe_status'], "Unsubscribe failed");
+        $response = new midcom_response_xml;
+        $response->status = "Unsubscribe failed";
+        $response->result = $this->_request_data['unsubscribe_status'];
+        $response->send();
         // This will exit
     }
 

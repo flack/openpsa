@@ -52,9 +52,12 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                         $errstr = midcom_connection::get_error_string();
                     }
                 }
-                $ajax = new org_openpsa_helpers_ajax();
+
+                $response = new midcom_response_xml;
+                $response->result = $update_succeeded;
+                $response->status = $errstr;
+                $response->send();
                 //This will exit.
-                $ajax->simpleReply($update_succeeded, $errstr);
 
             case "members":
                 // Group person listing, always work even if there are none

@@ -50,9 +50,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
         $errstr = midcom_connection::get_error_string();
 
-        $ajax = new org_openpsa_helpers_ajax();
+        $response = new midcom_response_xml;
+        $response->result = $update_succeeded;
+        $response->status = $errstr;
+        $response->send();
         //This will exit.
-        $ajax->simpleReply($update_succeeded, $errstr);
     }
 
     public function load_schemadb()
