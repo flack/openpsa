@@ -11,31 +11,14 @@
  *
  * @package midcom
  */
-class midcom_response
+abstract class midcom_response
 {
-    /**
-     * The response mode (currently only json is implemented)
-     *
-     * @var string
-     */
-    private $_mode = 'json';
-
     /**
      * The data to be transmitted
      *
      * @var array
      */
-    private $_data = array();
-
-    /**
-     * Standard constructor
-     *
-     * @param string $mode the response mode (currently only json is supported)
-     */
-    public function __construct($mode)
-    {
-        $this->_mode = $mode;
-    }
+    protected $_data = array();
 
     public function __get($name)
     {
@@ -54,19 +37,6 @@ class midcom_response
     /**
      * Sends the response to the client and shuts down the environment
      */
-    public function send()
-    {
-        if ($this->_mode == 'json')
-        {
-            midcom::get()->skip_page_style = true;
-            midcom::get('cache')->content->content_type('application/json');
-            midcom::get()->header('Content-type: application/json; charset=UTF-8');
-
-            echo json_encode($this->_data);
-        }
-
-        midcom::get()->finish();
-        _midcom_stop_request();
-    }
+    abstract public function send();
 }
 ?>

@@ -16,7 +16,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     /**
      * Response wrapper
      *
-     * @var midcom_response
+     * @var midcom_response_json
      */
     private $_response;
 
@@ -135,7 +135,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     {
         $this->_validate_request();
 
-        $this->_response = new midcom_response('json');
+        $this->_response = new midcom_response_json;
         $this->_response->title = $this->_l10n->get($this->_component);
 
         $function = '_process_' . $this->_operation;
