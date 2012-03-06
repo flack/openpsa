@@ -60,8 +60,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
                 $member->person = $this->_request_data['person']->id;
                 $member->campaign = $campaign->id;
-                $member->create();
-                if ($member->id)
+                if ($member->create())
                 {
                     midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
                         sprintf(
