@@ -106,7 +106,6 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
         if (!class_exists($classname))
         {
             throw new midcom_error("Requested exporter class {$type} is not installed.");
-            // This will exit.
         }
 
         $class = new $classname();

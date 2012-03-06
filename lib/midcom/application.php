@@ -496,7 +496,7 @@ class midcom_application
             }
 
             $this->_status = MIDCOM_STATUS_ABORT;
-            return false;// This will exit.
+            return false;
         }
 
         if (   $context->id == 0

@@ -564,7 +564,6 @@ class midcom_services_auth
                 $message = sprintf($string, $privilege);
             }
             throw new midcom_error_forbidden($message);
-            // This will exit.
         }
     }
 
@@ -596,7 +595,6 @@ class midcom_services_auth
                 $message = sprintf($string, $privilege);
             }
             throw new midcom_error_forbidden($message);
-            // This will exit.
         }
     }
 
@@ -632,7 +630,6 @@ class midcom_services_auth
             }
 
             throw new midcom_error_forbidden($message);
-            // This will exit.
         }
     }
 
@@ -654,7 +651,6 @@ class midcom_services_auth
             && ! $this->_component_sudo)
         {
             throw new midcom_error_forbidden($message);
-            // This will exit.
         }
     }
 

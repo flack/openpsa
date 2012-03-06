@@ -96,7 +96,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             {
                 return new midcom_response_relocate(midcom_connection::get_url('uri') . "/{$fname}");
             }
-            // This will exit
         }
 
         if(   !isset($data['filename'])

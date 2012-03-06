@@ -167,7 +167,6 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         if (!file_exists($path))
         {
             throw new midcom_error("Structure file {$path} not found");
-            // This will exit.
         }
 
         $structuredata = file_get_contents($path);
@@ -178,7 +177,6 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
             || !isset($structure[$structure_name]['root']))
         {
             throw new midcom_error("Invalid structure file {$path}");
-            // This will exit.
         }
 
         $this->read_structure($structure[$structure_name]['root']);
