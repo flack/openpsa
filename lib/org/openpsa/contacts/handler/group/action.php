@@ -56,8 +56,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                 $response = new midcom_response_xml;
                 $response->result = $update_succeeded;
                 $response->status = $errstr;
-                $response->send();
-                //This will exit.
+                return $response;
 
             case "members":
                 // Group person listing, always work even if there are none

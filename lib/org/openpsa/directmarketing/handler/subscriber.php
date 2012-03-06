@@ -240,8 +240,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $response = new midcom_response_xml;
         $response->status = "Unsubscribe failed";
         $response->result = $this->_request_data['unsubscribe_status'];
-        $response->send();
-        // This will exit
+        return $response;
     }
 
     /**

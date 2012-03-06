@@ -809,8 +809,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 $response->status = "method '{$this->_mode}' not supported";
                 break;
         }
-        $response->send();
-        //this will exit()
+        return $response;
     }
 
     /**
@@ -845,8 +844,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $response->status = "Object '{$args[0]}' could not be loaded, error:" . $e->getMessage();
         }
 
-        $response->send();
-        //this will exit()
+        return $response;
     }
 
     /**

@@ -440,8 +440,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $response->members = $stat[0];
             $response->receipts = $stat[1];
         }
-        $response->send();
-        //This will exit
+        return $response;
     }
 }
 ?>
