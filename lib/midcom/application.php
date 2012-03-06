@@ -871,39 +871,8 @@ class midcom_application
      */
     function relocate($url, $response_code = 302)
     {
-        if (! preg_match('|^https?://|', $url))
-        {
-            if (   $url == ''
-                || substr($url, 0, 1) != "/")
-            {
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                if ($prefix == '')
-                {
-                    $prefix = $this->get_page_prefix();
-                }
-                $url =  "{$prefix}{$url}";
-                debug_add("This is a relative URL from the local MidCOM site, prepending anchor prefix: {$url}");
-            }
-            else
-            {
-                $url = $this->get_host_name() . $url;
-                debug_add("This is an absolute URL from the local host, prepending host name: {$url}");
-            }
-
-            $location = "Location: {$url}";
-        }
-        else
-        {
-            // This is an external URL
-            $location = "Location: {$url}";
-        }
-
-        midcom::get('cache')->content->no_cache();
-
-        $this->finish();
-        debug_add("Relocating to {$location}");
-        $this->header($location, $response_code);
-        _midcom_stop_request();
+        $reponse = new midcom_response_relocate($url, $response_code);
+        $response->send();
     }
 
     /**

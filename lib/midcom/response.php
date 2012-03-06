@@ -22,6 +22,13 @@ abstract class midcom_response
     public $encoding = 'UTF-8';
 
     /**
+     * Response code to use
+     *
+     * @var int HTTP response code
+     */
+    public $code = 200;
+
+    /**
      * The data to be transmitted
      *
      * @var array
