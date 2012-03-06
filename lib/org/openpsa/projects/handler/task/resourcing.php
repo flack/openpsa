@@ -90,10 +90,10 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     continue;
                 }
                 $update_prospect = false;
-                foreach ($slots as $data)
+                foreach ($slots as $slotdata)
                 {
-                    if (   !array_key_exists('used', $data)
-                        || empty($data['used']))
+                    if (   !array_key_exists('used', $slotdata)
+                        || empty($slotdata['used']))
                     {
                         // Slot not selected, skip
                         continue;
@@ -102,8 +102,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     $update_prospect = true;
                     // Create event from slot
                     $event = new org_openpsa_calendar_event_dba();
-                    $event->start = $data['start'];
-                    $event->end = $data['end'];
+                    $event->start = $slotdata['start'];
+                    $event->end = $slotdata['end'];
                     $event->search_relatedtos = false;
                     $event->title = sprintf($this->_l10n->get('work for task %s'), $this->_task->title);
                     if (!$event->create())
