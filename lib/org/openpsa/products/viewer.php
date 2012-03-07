@@ -363,6 +363,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             }
             else if (get_class($object) != 'org_openpsa_products_product_link_dba')
             {
+                $url = "{$object->code}/";
                 if (isset($object->up))
                 {
                     $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -370,29 +371,18 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                     $group = $parentgroup_qb->execute();
                     if (count($group) > 0)
                     {
-                        $tmp[] = array
-                        (
-                            MIDCOM_NAV_URL => "{$group[0]->code}/{$object->code}/",
-                            MIDCOM_NAV_NAME => $object->title,
-                        );
+                        $url = "{$group[0]->code}/" . $url;
                     }
                 }
                 else if ($parent != null)
                 {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$parent->code}/{$object->code}/",
-                        MIDCOM_NAV_NAME => $object->title,
-                    );
+                    $url = "{$parent->code}/" . $url;
                 }
-                else
-                {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$object->code}/",
-                        MIDCOM_NAV_NAME => $object->title,
-                    );
-                }
+                $tmp[] = array
+                (
+                    MIDCOM_NAV_URL => $url,
+                    MIDCOM_NAV_NAME => $object->title,
+                );
             }
             $object = $parent;
         }
