@@ -267,28 +267,13 @@ class midcom_compat_superglobal
     /**
      * Store arbitrary, component-specific information in the component context
      *
+     * @param mixed $key    The key associated to the value or the context id
      * @param mixed &$value    The value to store. (This is stored by-reference!)
-     * @param mixed $param1    The key associated to the value or the context id, if called with three parameters
-     * @param mixed $param2    The key if a context was specified as first parameter
+     * @param mixed $contextid    The key if a context was specified as first parameter
      */
-    function set_custom_context_data(&$value, $param1, $param2 = null)
+    function set_custom_context_data($key, &$value, $contextid = null)
     {
-        if (null === $param2)
-        {
-            $context = midcom_core_context::get();
-            $key = $param1;
-        }
-        else
-        {
-            $context = midcom_core_context::get($param1);
-            $key = $param2;
-        }
-
-        if (!$context)
-        {
-            return;
-        }
-
+        $context = midcom_core_context::get($contextid);
         $context->set_custom_key($key, $value);
     }
 
