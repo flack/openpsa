@@ -264,7 +264,7 @@ class midcom_core_context
      * @param string $component The component associated to the key.
      * @see get_custom_key()
      */
-    function set_custom_key ($key, &$value, $component = null)
+    function set_custom_key($key, &$value, $component = null)
     {
         if (null === $component)
         {

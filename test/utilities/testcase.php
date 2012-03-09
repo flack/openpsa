@@ -119,6 +119,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $handler = $data['__openpsa_testcase_handler'];
         $method = '_show_' . $data['__openpsa_testcase_handler_method'];
 
+        midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
         $context = midcom_core_context::get();
         midcom::get('style')->enter_context($context->id);
         ob_start();
@@ -128,6 +129,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $output = ob_get_contents();
         ob_end_clean();
         midcom::get('style')->leave_context();
+        midcom::get()->set_status(MIDCOM_STATUS_PREPARE);
         return $output;
     }
 
