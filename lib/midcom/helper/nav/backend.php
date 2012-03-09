@@ -111,7 +111,7 @@ class midcom_helper_nav_backend
      * @todo Update the data structure documentation
      * @var Array
      */
-    private static $_nodes;
+    private static $_nodes = array();
 
     /**
      * This array holds a list of all topics for which the leaves have been loaded.
