@@ -9,59 +9,6 @@
 /**
  * Main controlling instance of the MidCOM Framework
  *
- * <b>URL METHODS TO THE MIDCOM ROOT PAGE</b>
- *
- * The following URL parameters are recognized by the _process function and are
- * executed before any component processing is done. They all belong to the
- * domain "midcom", e.g. they are executed like this: midcom-$name-$value.
- *
- * <b>string substyle</b>
- *
- * This will set a substyle to the current component, which is appended to the
- * style selected by the component at the moment the component style is loaded.
- * The methods substyle_(append|prepend)'s work on the basis of this value then.
- *
- * Note, that this first assignment is done between can_handle and handle, so
- * it will serve as a basis for all component-side style switching operations.
- *
- * The substyle URL switch is most useful in conjunction with
- * midcom_application::dynamic_load().
- *
- * <b>GUID serveattachmentguid</b>
- *
- * This method will serve the attachment denoted by the given ID/GUID.
- * It uses the default expiration time of serve_attachment (see there).
- *
- * <b>GUID permalink</b>
- *
- * This will resolve the given GUID into the MidCOM NAP tree, relocating to the
- * URL corresponding to the node/leaf. The Permalink can be created by using the
- * key MIDCOM_NAV_PERMALINK of any NAP data array. Upon resolving it, MidCOM will
- * relocate to the automatically computed MIDCOM_NAV_FULLURL.
- *
- * <b>string exec</b>
- *
- * Allows you to execute certain php files directly, in full MidCOM context.
- * The argument is the name of the component, which holds the script to be
- * executed. Script files are searched in the subdirectory "exec" of the component.
- * If you use "midcom" as component name, MidCOM core scripts, located in
- * lib/midcom/exec will be accessible. The next argument on the command line must
- * be the name of the script file. Accessing subdirectories is not possible, only
- * a single argument will be taken.
- *
- * The scripts executed need to do their own permission checks, they will work with
- * the credentials of the current MidCOM instance unconditionally.
- *
- * Example: http://$host/midcom-exec-midcom/upgrade_metadata.php
- *
- * The remaining URL arguments are put into the globals $argc/$argv.
- *
- * <b>string cache</b>
- *
- * May take one of the following values: "invalidate" will clear the cache of the
- * current site, "nocache" will bypass the cache for the current request by
- * calling midcom::get('cache')->content->no_cache();
- *
  * @package midcom
  */
 class midcom_application
@@ -180,9 +127,8 @@ class midcom_application
     }
 
     /* *************************************************************************
-     * Main Application control framework:
-     * start_services - Starts all available services
-     * code-init      - Handle the current request
+     * Control framework:
+     * codeinit      - Handle the current request
      * content        - Show the current pages output
      * dynamic_load   - Dynamically load and execute a URL
      * finish         - Cleanup Work
@@ -434,37 +380,10 @@ class midcom_application
      */
     private function _process(midcom_core_context $context)
     {
-        $success = false;
+        $resolver = new midcom_core_resolver($context);
+        $handler = $resolver->process();
 
-        $this->_process_variables($context);
-
-        $this->_status = MIDCOM_STATUS_CANHANDLE;
-
-        do
-        {
-            $object = $context->parser->get_current_object();
-            if (   !is_object($object)
-                || !$object->guid)
-            {
-                throw new midcom_error('Root node missing.');
-            }
-
-            if (is_a($object, 'midcom_db_attachment'))
-            {
-                $this->serve_attachment($object);
-            }
-
-            // Check whether the component can handle the request.
-            // If so, execute it, if not, continue.
-            if ($handler = $context->get_handler($object))
-            {
-                $context->run($handler);
-                $success = true;
-                break;
-            }
-        } while ($context->parser->get_object() !== false);
-
-        if (! $success)
+        if (false === $handler)
         {
             /**
              * Simple: if current context is not '0' we were called from another context.
@@ -486,6 +405,7 @@ class midcom_application
             $this->_status = MIDCOM_STATUS_ABORT;
             return false;
         }
+        $context->run($handler);
 
         if (   $context->id == 0
             && $this->skip_page_style == true)
@@ -509,142 +429,6 @@ class midcom_application
         else
         {
             $this->_status = MIDCOM_STATUS_CONTENT;
-        }
-    }
-
-    private function _process_variables(midcom_core_context $context)
-    {
-        while (($tmp = $context->parser->get_variable('midcom')) !== false)
-        {
-            foreach ($tmp as $key => $value)
-            {
-                switch ($key)
-                {
-                    case 'substyle':
-                        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
-                        debug_add("Substyle '$value' selected");
-                        break;
-
-                    case 'serveattachmentguid':
-                        if ($context->parser->argc > 1)
-                        {
-                            debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
-                        }
-
-                        $attachment = new midcom_db_attachment($value);
-                        if (!$attachment->can_do('midgard:autoserve_attachment'))
-                        {
-                            throw new midcom_error_notfound('Failed to access attachment: Autoserving denied.');
-                        }
-
-                        $this->serve_attachment($attachment);
-                        $this->finish();
-                        _midcom_stop_request();
-
-                    case 'permalink':
-                        $guid = $value;
-                        $destination = midcom::get('permalinks')->resolve_permalink($guid);
-                        if ($destination === null)
-                        {
-                            throw new midcom_error_notfound("This Permalink is unknown.");
-                        }
-
-                        // We use "302 Found" here so that search engines and others will keep using the PermaLink instead of the temporary
-                        $this->header("Location: {$destination}", 302);
-                        $this->finish();
-                        _midcom_stop_request();
-
-                    case 'cache':
-                        if ($value == 'invalidate')
-                        {
-                            if (   empty($GLOBALS['midcom_config']['indexer_reindex_allowed_ips'])
-                                || !in_array($_SERVER['REMOTE_ADDR'], $GLOBALS['midcom_config']['indexer_reindex_allowed_ips']))
-                            {
-                                midcom::get('auth')->require_valid_user('basic');
-                                midcom::get('auth')->require_admin_user();
-                            }
-                            midcom::get('cache')->content->enable_live_mode();
-                            midcom::get('cache')->invalidate_all();
-                            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('MidCOM', 'midcom'), "Cache invalidation successful.", 'info');
-
-                            $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
-                            $this->relocate($url);
-                        }
-                        else if ($value == 'nocache')
-                        {
-                            midcom::get('cache')->content->no_cache();
-                        }
-                        else
-                        {
-                            throw new midcom_error_notfound("Invalid cache request URL.");
-                        }
-                        break;
-
-                    case "logout":
-                        // rest of URL used as redirect
-                        $remaining_url = false;
-                        if (   !empty($tmp['logout'])
-                            || !empty($context->parser->argv))
-                        {
-                            $remaining_url = $tmp['logout'] . '/' ;
-                            $remaining_url .= implode($context->parser->argv, '/');
-                            $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
-                        }
-                        if (is_string($remaining_url))
-                        {
-                            $redirect_to = $remaining_url;
-                        }
-                        else
-                        {
-                            $redirect_to = '';
-                        }
-                        if (!empty($_SERVER['QUERY_STRING']))
-                        {
-                            $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
-                        }
-                        midcom::get('cache')->content->no_cache();
-                        midcom::get('auth')->logout();
-                        $this->relocate($redirect_to);
-                        // This will exit
-
-                    case "login":
-                        // rest of URL used as redirect
-                        $remaining_url = false;
-                        if (   !empty($tmp['login'])
-                            || !empty($context->parser->argv))
-                        {
-                            $remaining_url = "{$tmp['login']}/" . implode($context->parser->argv, '/');
-                            $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
-                        }
-                        if (is_string($remaining_url))
-                        {
-                            $redirect_to = $remaining_url;
-                        }
-                        else
-                        {
-                            $redirect_to = '';
-                        }
-                        if (!empty($_SERVER['QUERY_STRING']))
-                        {
-                            $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
-                        }
-                        if (midcom::get('auth')->is_valid_user())
-                        {
-                            $this->relocate($redirect_to);
-                            // This will exit
-                        }
-                        midcom::get('auth')->show_login_page();
-                        // This will exit too;
-
-                    case 'exec':
-                        $this->_exec_file($value);
-                        // This will exit
-
-                    default:
-                        debug_add("Unknown MidCOM URL Property ignored: {$key} => {$value}", MIDCOM_LOG_WARN);
-                        throw new midcom_error_notfound("This MidCOM URL method is unknown.");
-                }
-            }
         }
     }
 
@@ -692,10 +476,8 @@ class midcom_application
         {
             if (   array_key_exists("SSL_PROTOCOL", $_SERVER)
                 ||
-                (
-                       array_key_exists('HTTPS', $_SERVER)
-                    && $_SERVER['HTTPS'] == 'on'
-                )
+                   (   array_key_exists('HTTPS', $_SERVER)
+                    && $_SERVER['HTTPS'] == 'on')
                 || $_SERVER["SERVER_PORT"] == 443)
             {
                 $protocol = "https";
@@ -806,7 +588,6 @@ class midcom_application
     /* *************************************************************************
      * Generic Helper Functions not directly related with MidCOM:
      *
-     * serve_attachment   - Serves attachment including all necessary headers
      * relocate           - executes a HTTP relocation to the given URL
      */
 
@@ -861,219 +642,6 @@ class midcom_application
     {
         $response = new midcom_response_relocate($url, $response_code);
         $response->send();
-    }
-
-    /**
-     * Deliver a blob to the client.
-     *
-     * This is a replacement for mgd_serve_attachment that should work around most of
-     * its bugs: It is missing all important HTTP Headers concerning file size,
-     * modification date and expiration. It will not call _midcom_stop_request() when it is finished,
-     * you still have to do that yourself. It will add the following HTTP Headers:
-     *
-     * - Cache-Control: public max-age=$expires
-     * - Expires: GMT Date $now+$expires
-     * - Last-Modified: GMT Date of the last modified timestamp of the Attachment
-     * - Content-Length: The Length of the Attachment in Bytes
-     * - Accept-Ranges: none
-     *
-     * This should enable caching of browsers for Navigation images and so on. You can
-     * influence the expiration of the served attachment with the parameter $expires.
-     * It is the time in seconds till the client should refetch the file. The default
-     * for this is 24 hours. If you set it to "0" caching will be prohibited by
-     * changing the sent headers like this:
-     *
-     * - Pragma: no-cache
-     * - Cache-Control: no-cache
-     * - Expires: Current GMT Date
-     *
-     * If expires is set to -1, which is the default as of 2.0.0 (it was 86400 earlier),
-     * no expires header gets sent.
-     *
-     * @param MidgardAttachment &$attachment    A reference to the attachment to be delivered.
-     * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
-     */
-    function serve_attachment(& $attachment, $expires = -1)
-    {
-        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
-        {
-            $subdir = substr($attachment->guid, 0, 1);
-            if (file_exists("{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}/{$attachment->guid}_{$attachment->name}"))
-            {
-                $this->relocate("{$GLOBALS['midcom_config']['attachment_cache_url']}/{$subdir}/{$attachment->guid}_{$attachment->name}", 301);
-            }
-        }
-
-        // Sanity check expires
-        if (   !is_int($expires)
-            || $expires < -1)
-        {
-            throw new midcom_error("\$expires has to be a positive integer or zero or -1, is now {$expires}.");
-        }
-
-        // Doublecheck that this is registered
-        $cache = midcom::get('cache');
-        $cache->content->register($attachment->guid);
-        $stats = $attachment->stat();
-        $last_modified =& $stats[9];
-
-
-        $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
-
-        // Check etag and return 304 if necessary
-        if (   $expires <> 0
-            && $cache->content->_check_not_modified($last_modified, $etag))
-        {
-            if (!_midcom_headers_sent())
-            {
-                $cache->content->cache_control_headers();
-                // Doublemakesure these are present
-                $this->header('HTTP/1.0 304 Not Modified', 304);
-                $this->header("ETag: {$etag}");
-            }
-            while(@ob_end_flush());
-            debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
-            _midcom_stop_request();
-        }
-
-        $f = $attachment->open('r');
-        if (! $f)
-        {
-            throw new midcom_error('Failed to open attachment for reading: ' . midcom_connection::get_error_string());
-        }
-
-        $this->header("ETag: {$etag}");
-        $cache->content->content_type($attachment->mimetype);
-        $cache->content->register_sent_header("Content-Type: {$attachment->mimetype}");
-        $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
-        $this->header("Content-Length: " . $stats[7]);
-        $this->header("Content-Description: {$attachment->title}");
-
-        // PONDER: Support ranges ("continue download") somehow ?
-        $this->header("Accept-Ranges: none");
-
-        if ($expires > 0)
-        {
-            // If custom expiry now+expires is set use that
-            $cache->content->expires(time()+$expires);
-        }
-        else if ($expires == 0)
-        {
-            // expires set to 0 means disable cache, so we shall
-            $cache->content->no_cache();
-        }
-        // TODO: Check metadata service for the real expiry timestamp ?
-
-        $cache->content->cache_control_headers();
-
-        $send_att_body = true;
-        if ($GLOBALS['midcom_config']['attachment_xsendfile_enable'])
-        {
-            $blob = new midgard_blob($attachment->__object);
-            $att_local_path = $blob->get_path();
-            debug_add("Checking is_readable({$att_local_path})");
-            if (is_readable($att_local_path))
-            {
-                $this->header("X-Sendfile: {$att_local_path}");
-                $send_att_body = false;
-            }
-        }
-
-        // Store metadata in cache so _check_hit() can help us
-        if (   !$cache->content->_uncached
-            && !$cache->content->_no_cache)
-        {
-            $cache->content->write_meta_cache('A-' . $etag, $etag);
-        }
-
-        while(@ob_end_flush());
-
-        if (!$send_att_body)
-        {
-            debug_add('NOT sending file (X-Sendfile will take care of that, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
-            _midcom_stop_request();
-        }
-
-        fpassthru($f);
-        $attachment->close();
-        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
-        _midcom_stop_request();
-    }
-
-    /**
-     * This is a helper to execute any given Script in the current MidCOM
-     * context. All files have to be in $component_dir/exec directly, otherwise
-     * the script will not execute.
-     *
-     * The script's name is taken from the current argv[0].
-     *
-     * The script file is executed in the cache's live mode to allow for long running
-     * scripts (just produce any output regularly, or Apache will kill you after ~ 2 mins.).
-     *
-     * The remaining arguments will be placed into the globals $argc/argv.
-     *
-     * @param string $component The component to look in ("midcom" uses core scripts)
-     * @see midcom_services_cache_module_content::enable_live_mode()
-     */
-    private function _exec_file($component)
-    {
-        $context = midcom_core_context::get();
-        // Sanity checks
-        if ($context->parser->argc < 1)
-        {
-            throw new midcom_error_notfound("Script exec path invalid, need exactly one argument.");
-        }
-
-        // Build the path
-        if ($component == 'midcom')
-        {
-            $path = MIDCOM_ROOT . '/midcom/exec/';
-        }
-        else
-        {
-            $componentloader = midcom::get('componentloader');
-            if (!$componentloader->is_installed($component))
-            {
-                throw new midcom_error_notfound('The requested component is not installed');
-            }
-            $componentloader->load($component);
-            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-            $path = MIDCOM_ROOT . $componentloader->path_to_snippetpath($component) . '/exec/';
-        }
-        $path .= $context->parser->argv[0];
-
-        if (   is_dir($path)
-            && isset($context->parser->argv[1]))
-        {
-            $path .= '/' . $context->parser->argv[1];
-        }
-
-        if (is_dir($path))
-        {
-            throw new midcom_error_notfound("Path is a directory.");
-        }
-
-        if (! file_exists($path))
-        {
-            throw new midcom_error_notfound("File not found.");
-        }
-
-        // collect remaining arguments and put them to global vars.
-        $GLOBALS['argc'] = $context->parser->argc--;
-        $GLOBALS['argv'] = $context->parser->argv;
-        array_shift($GLOBALS['argv']);
-
-        midcom::get('cache')->content->enable_live_mode();
-
-        $this->_status = MIDCOM_STATUS_CONTENT;
-
-        // We seem to be in a valid place. Exec the file with the current
-        // permissions.
-        require($path);
-
-        // Exit
-        $this->finish();
-        _midcom_stop_request('');
     }
 
     /**

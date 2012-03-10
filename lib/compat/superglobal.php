@@ -160,6 +160,41 @@ class midcom_compat_superglobal
     }
 
     /**
+     * Deliver a blob to the client.
+     *
+     * This is a replacement for mgd_serve_attachment that should work around most of
+     * its bugs: It is missing all important HTTP Headers concerning file size,
+     * modification date and expiration. It will not call _midcom_stop_request() when it is finished,
+     * you still have to do that yourself. It will add the following HTTP Headers:
+     *
+     * - Cache-Control: public max-age=$expires
+     * - Expires: GMT Date $now+$expires
+     * - Last-Modified: GMT Date of the last modified timestamp of the Attachment
+     * - Content-Length: The Length of the Attachment in Bytes
+     * - Accept-Ranges: none
+     *
+     * This should enable caching of browsers for Navigation images and so on. You can
+     * influence the expiration of the served attachment with the parameter $expires.
+     * It is the time in seconds till the client should refetch the file. The default
+     * for this is 24 hours. If you set it to "0" caching will be prohibited by
+     * changing the sent headers like this:
+     *
+     * - Pragma: no-cache
+     * - Cache-Control: no-cache
+     * - Expires: Current GMT Date
+     *
+     * If expires is set to -1, no expires header gets sent.
+     *
+     * @param MidgardAttachment &$attachment    A reference to the attachment to be delivered.
+     * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
+     */
+    function serve_attachment(& $attachment, $expires = -1)
+    {
+        $resolver = new midcom_core_resolver(midcom_core_context::get());
+        $resolver->serve_attachment($attachment, $expires);
+    }
+
+    /**
      * Return a reference to a given service.
      *
      * Returns the MidCOM Object Service indicated by $name. If the service cannot be
