@@ -426,7 +426,6 @@ class midcom_config implements arrayaccess
 
         // Service implementation defaults
         'service_midcom_core_service_urlparser' => 'midcom_core_service_implementation_urlparsertopic',
-        'service_midcom_core_service_urlgenerator' => 'midcom_core_service_implementation_urlgeneratori18n',
 
         // Public attachment caching directives
         'attachment_cache_enabled' => false,

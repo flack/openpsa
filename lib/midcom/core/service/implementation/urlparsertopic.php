@@ -7,7 +7,7 @@
  */
 
 /**
- * URL name parser that uses the MidCOM 2.8+ topic structure
+ * URL name parser that uses the topic structure
  *
  * @package midcom
  */

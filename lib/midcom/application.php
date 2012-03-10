@@ -9,18 +9,6 @@
 /**
  * Main controlling instance of the MidCOM Framework
  *
- * This class is the heart of the MidCOM Framework. It has the entry points which
- * are used to fire up the framework and get everything running. This class
- * represents a Facade pattern.
- *
- * - Provide the entry points that are located in code-global, code-init and
- *   content. They will activate the framework.
- * - Provide some very basic Helper Functions for snippet loading and error-page
- *   generation
- * - Evaluate the URL and activate the required components.
- * - Provide a mechanism to dynamically load a second component during a page
- *   run.
- *
  * <b>URL METHODS TO THE MIDCOM ROOT PAGE</b>
  *
  * The following URL parameters are recognized by the _process function and are
@@ -161,7 +149,7 @@ class midcom_application
             }
             else
             {
-                // Fall back to another MidCOM topic so that admin has a chance to fix this
+                // Fall back to another topic so that admin has a chance to fix this
                 midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
                 $qb = midcom_db_topic::new_query_builder();
                 $qb->add_constraint('up', '=', 0);
