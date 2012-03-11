@@ -378,13 +378,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), $msg, 'error');
         debug_add($msg, MIDCOM_LOG_ERROR);
         debug_print_r('DM2->schema->field_order', $this->schema->field_order);
-        $types_tmp = array();
-        foreach (array_keys($this->types) as $typename)
-        {
-            $types_tmp[$typename] = get_class($this->types[$typename]);
-        }
-        debug_print_r('DM2->types keys and classes', $types_tmp);
-        unset($msg, $typename, $types_tmp);
+
         return true;
     }
 
