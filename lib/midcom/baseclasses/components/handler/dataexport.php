@@ -116,32 +116,27 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     private function _init_csv_variables()
     {
         // FIXME: Use global configuration
-        if (   !isset($this->csv['s'])
-            || empty($this->csv['s']))
+        if (empty($this->csv['s']))
         {
             $this->csv['s'] = ';';
             //$this->csv['s'] = $this->_config->get('csv_export_separator');
         }
-        if (   !isset($this->csv['q'])
-            || empty($this->csv['q']))
+        if (empty($this->csv['q']))
         {
             $this->csv['q'] = '"';
             //$this->csv['q'] = $this->_config->get('csv_export_quote');
         }
-        if (   !isset($this->csv['d'])
-            || empty($this->csv['d']))
+        if (empty($this->csv['d']))
         {
             //$this->csv['d'] = '.';
             $this->csv['d'] = $this->_l10n_midcom->get('decimal point');
         }
-        if (   !isset($this->csv['nl'])
-            || empty($this->csv['nl']))
+        if (empty($this->csv['nl']))
         {
             $this->csv['nl'] = "\n";
             //$this->csv['nl'] = $this->_config->get('csv_export_newline');
         }
-        if (   !isset($this->csv['charset'])
-            || empty($this->csv['charset']))
+        if (empty($this->csv['charset']))
         {
             // Default to ISO-LATIN-15 (Latin-1 with EURO sign etc)
             $this->csv['charset'] = 'ISO-8859-15';
@@ -183,8 +178,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         // Strings and numbers beginning with zero are quoted
         if (   !empty($data)
-               && (!is_numeric($data)
-                   || preg_match('/^[0+]/', $data)))
+            && (   !is_numeric($data)
+                || preg_match('/^[0+]/', $data)))
         {
             // Make sure we have only newlines in data
             $data = preg_replace("/\n\r|\r\n|\r/", "\n", $data);
@@ -300,7 +295,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 $data = '';
                 $data = $type->convert_to_csv();
 
-                if ($this->include_totals
+                if (   $this->include_totals
                     && $typename == 'number')
                 {
                     $this->_totals[$fieldname] += $data;
