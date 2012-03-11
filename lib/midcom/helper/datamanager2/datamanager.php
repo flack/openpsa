@@ -207,7 +207,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         $config = $this->schema->fields[$name];
         if (!isset($config['type']) )
         {
-            throw new Exception("The field {$name} is missing type");
+            throw new midcom_error("The field {$name} is missing type");
         }
 
         if (strpos($config['type'], '_') === false)
@@ -226,7 +226,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         $this->types[$name] = new $classname();
         if (!$this->types[$name] instanceof midcom_helper_datamanager2_type)
         {
-            throw new Exception("{$classname} is not a valid DM2 type");
+            throw new midcom_error("{$classname} is not a valid DM2 type");
         }
 
         if (! $this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this))
