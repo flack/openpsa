@@ -611,9 +611,13 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                     // We don't have a class available, very weird indeed (rewriting may cause this but midcom has wrappers for all first class DB objects)
                     continue;
                 }
-                $tmpobject = new $tmpclass($link->fromGuid);
-                if (!$tmpobject->guid)
+                try
                 {
+                    $tmpobject = new $tmpclass($link->fromGuid);
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
                     continue;
                 }
                 // PHP5-TODO: Must be copy-by-value
