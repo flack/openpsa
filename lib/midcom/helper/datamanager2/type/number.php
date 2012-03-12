@@ -88,7 +88,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      * This conversion assumes that the current value is already rounded (usually
      * done by either set_value() or validate().
      *
-     * @return string The string representation of the flaoting point number.
+     * @return string The string representation of the floating point number.
      */
     function convert_to_storage()
     {

@@ -43,16 +43,6 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
     public $csv_export_key = false;
 
     /**
-     * Initialize the class, if necessary, create a callback instance, otherwise
-     * validate that an option array is present.
-     */
-    public function _on_initialize()
-    {
-        // todo check the headers and rows
-        return true;
-    }
-
-    /**
      * Converts storage format to live format, all invalid keys are dropped, and basic validation
      * is done to ensure constraints like allow_multiple are met.
      */
@@ -158,17 +148,6 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
             }
             return implode($values, ', ');
         }
-    }
-
-    /**
-     * The validation callback ensures that we don't have an array or an object
-     * as a value, which would be wrong.
-     *
-     * @return boolean Indicating validity.
-     */
-    public function _on_validate()
-    {
-        return true;
     }
 
     function convert_to_html()
