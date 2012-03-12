@@ -74,24 +74,22 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $group = new org_openpsa_contacts_group_dba();
 
-        if ($this->_type == 'organization')
+        if (   $this->_type == 'organization'
+            && $this->_parent_group)
         {
-            if ($this->_parent_group)
-            {
-                $group->owner = (int) $this->_parent_group->id;
-            }
-            else
-            {
-                $root_group = org_openpsa_contacts_interface::find_root_group();
-                $group->owner = (int) $root_group->id;
-            }
+            $group->owner = (int) $this->_parent_group->id;
+        }
+        else
+        {
+            $root_group = org_openpsa_contacts_interface::find_root_group();
+            $group->owner = (int) $root_group->id;
         }
         $group->name = time();
 
         if (! $group->create())
         {
             debug_print_r('We operated on this object:', $group);
-            throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed to create a new group. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_group =& $group;
