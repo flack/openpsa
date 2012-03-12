@@ -331,29 +331,31 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             echo "<li class=\"email\"><a title=\"{$this->contact_details['email']}\" href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
         }
 
-        if (array_key_exists('homepage', $this->contact_details))
-        {
-            echo "<li class=\"url\"><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
-        }
-
         if (array_key_exists('skype', $this->contact_details))
         {
-            echo "<li class=\"tel skype\"";
+            echo "<li class=\"tel skype\">";
+            echo "<a href=\"skype:{$this->contact_details['skype']}?call\"";
             if (empty($_SERVER['HTTPS']))
             {
                 // TODO: either complain enough to Skype to have them allow SSL to this server or have some component (o.o.contacts) proxy the image
                 echo " style=\"background-image: url('http://mystatus.skype.com/smallicon/{$this->contact_details['skype']}');\"";
             }
-            echo "><a href=\"skype:{$this->contact_details['skype']}?call\">{$this->contact_details['skype']}</a></li>\n";
+            echo ">{$this->contact_details['skype']}</a></li>\n";
         }
 
         // Instant messaging contact information
         if (array_key_exists('jid', $this->contact_details))
         {
-            echo "<li class=\"jabbber\"";
+            echo "<li class=\"jabbber\">";
+            echo "<a href=\"xmpp:{$this->contact_details['jid']}\"";
             $edgar_url = $this->_config->get('jabber_edgar_url');
             echo " style=\"background-repeat: no-repeat;background-image: url('{$edgar_url}?jid={$this->contact_details['jid']}&type=image');\"";
-            echo "><a href=\"xmpp:{$this->contact_details['jid']}\">{$this->contact_details['jid']}</a></li>\n";
+            echo ">{$this->contact_details['jid']}</a></li>\n";
+        }
+
+        if (array_key_exists('homepage', $this->contact_details))
+        {
+            echo "<li class=\"url\"><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
         }
 
         echo "</ul>\n";
