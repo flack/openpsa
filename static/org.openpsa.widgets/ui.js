@@ -103,7 +103,14 @@ var org_openpsa_layout =
             }
             if (over)
             {
-                dropdown.prepend($(this).detach());
+                if (!container.data('event_attached'))
+                {
+                    dropdown.append($(this).detach());
+                }
+                else
+                {
+                    dropdown.prepend($(this).detach());
+                }
             }
         });
         if (!over)
