@@ -105,7 +105,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             {
                 $this->_datamanagers[$identifier]->set_schema('default');
             }
-
         }
     }
 
@@ -225,23 +224,19 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     private function _init_csv_variables()
     {
-        if (   !isset($this->csv['s'])
-            || empty($this->csv['s']))
+        if (empty($this->csv['s']))
         {
             $this->csv['s'] = $this->_config->get('csv_export_separator');
         }
-        if (   !isset($this->csv['q'])
-            || empty($this->csv['q']))
+        if (empty($this->csv['q']))
         {
             $this->csv['q'] = $this->_config->get('csv_export_quote');
         }
-        if (   !isset($this->csv['d'])
-            || empty($this->csv['d']))
+        if (empty($this->csv['d']))
         {
             $this->csv['d'] = $this->_config->get('csv_export_decimal');
         }
-        if (   !isset($this->csv['nl'])
-            || empty($this->csv['nl']))
+        if (empty($this->csv['nl']))
         {
             $this->csv['nl'] = $this->_config->get('csv_export_newline');
         }
