@@ -72,29 +72,27 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function & dm2_create_callback(&$datamanager)
     {
-        $group = new org_openpsa_contacts_group_dba();
+        $this->_group = new org_openpsa_contacts_group_dba();
 
         if (   $this->_type == 'organization'
             && $this->_parent_group)
         {
-            $group->owner = (int) $this->_parent_group->id;
+            $this->_group->owner = (int) $this->_parent_group->id;
         }
         else
         {
             $root_group = org_openpsa_contacts_interface::find_root_group();
-            $group->owner = (int) $root_group->id;
+            $this->_group->owner = (int) $root_group->id;
         }
-        $group->name = time();
+        $this->_group->name = time();
 
-        if (! $group->create())
+        if (! $this->_group->create())
         {
-            debug_print_r('We operated on this object:', $group);
+            debug_print_r('We operated on this object:', $this->_group);
             throw new midcom_error("Failed to create a new group. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_group =& $group;
-
-        return $group;
+        return $this->_group;
     }
 
     /**
