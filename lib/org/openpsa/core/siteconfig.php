@@ -183,7 +183,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $parts = explode('.', $component);
         $last = array_pop($parts);
 
-        return $this->get($last . '_full_url');
+        return $this->get($last, '_full_url');
     }
 
     /**
@@ -200,7 +200,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         $parts = explode('.', $component);
         $last = array_pop($parts);
-        return $this->get($last . '_relative_url');
+        return $this->get($last, '_relative_url');
     }
 
     /**
@@ -217,14 +217,23 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         $parts = explode('.', $component);
         $last = array_pop($parts);
-        return $this->get($last . '_guid');
+        return $this->get($last, '_guid');
     }
 
-    private function get($key)
+    private function get($type, $suffix)
     {
-    	if (!array_key_exists($key, $this->data))
+        $key = $type . $suffix;
+        if (!array_key_exists($key, $this->data))
         {
         	return null;
+        }
+        if (!midcom::get('auth')->admin)
+        {
+            $user_id = midcom::get('auth')->acl->get_user_id();
+            if (!midcom::get('auth')->acl->can_do_byguid('midgard:read', $this->data[$type . '_guid'], 'midcom_db_topic', $user_id))
+            {
+                return null;
+            }
         }
         return $this->data[$key];
     }
