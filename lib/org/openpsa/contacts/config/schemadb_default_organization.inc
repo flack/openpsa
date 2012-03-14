@@ -39,6 +39,7 @@
                 ),
             ),
             'widget'       => 'radiocheckselect',
+            'default' => ORG_OPENPSA_OBTYPE_ORGANIZATION
         ),
         'categories' => array
         (
