@@ -8,6 +8,7 @@
 
 /**
  * Navigation class for Asgard
+ *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_navigation extends midcom_baseclasses_components_purecode
@@ -62,8 +63,8 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
             foreach ($this->root_types as $root_type)
             {
-                if ( (is_a($object, $root_type)
-                      || midcom_helper_reflector::is_same_class($root_type, $object->__midcom_class_name__)))
+                if (    is_a($object, $root_type)
+                     || midcom_helper_reflector::is_same_class($root_type, $object->__midcom_class_name__))
                 {
                     $this->expanded_root_types[] = $root_type;
                     break;
@@ -189,7 +190,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      * @param array &$root_objects reference to the array of root objects
      * @param midcom_helper_reflector_tree &$ref Reflector singleton
      */
-    private function _list_root_elements(&$root_objects, &$ref)
+    private function _list_root_elements(&$root_objects, midcom_helper_reflector_tree &$ref)
     {
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
@@ -273,7 +274,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    private function _is_selected(&$object)
+    private function _is_selected($object)
     {
         if (in_array($object->guid, $this->_object_path))
         {
@@ -334,7 +335,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         // Get the inclusion/exclusion model
         $model = $this->_config->get('midgard_types_model');
-        if (   midgard_admin_asgard_plugin::get_preference('midgard_types_model'))
+        if (midgard_admin_asgard_plugin::get_preference('midgard_types_model'))
         {
             $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model');
         }
@@ -423,7 +424,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
          * click if nothing is expanded
          */
         $types_shown = false;
-        if ( sizeof($expanded_types) > 0
+        if (    sizeof($expanded_types) > 0
              && midgard_admin_asgard_plugin::get_preference('navigation_type') === 'dropdown')
         {
             $this->_draw_select_navigation();
@@ -494,7 +495,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['root_object'] =& $root_object;
             $this->_request_data['navigation_type'] = $root_object->__mgdschema_class_name__;
         }
-        elseif (isset($this->expanded_root_types[0]))
+        else if (isset($this->expanded_root_types[0]))
         {
             $this->_request_data['navigation_type'] = $this->expanded_root_types[0];
         }

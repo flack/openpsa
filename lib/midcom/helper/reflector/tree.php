@@ -124,8 +124,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     function count_root_objects($deleted = false)
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -152,8 +151,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     function has_root_objects()
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -191,11 +189,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array of objects or false on failure
      */
-    function get_root_objects($deleted = false)
+    public function get_root_objects($deleted = false)
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -945,7 +942,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param midgard_query_builder $qb reference to QB instance
      * @param string $schema_type valid mgdschema class name
      */
-    function add_schema_sorts_to_qb(&$qb, $schema_type)
+    public static function add_schema_sorts_to_qb(&$qb, $schema_type)
     {
         // Sort by "title" and "name" if available
         $ref = midcom_helper_reflector_tree::get($schema_type);
