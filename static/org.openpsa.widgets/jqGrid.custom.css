@@ -27,3 +27,8 @@
     margin: 1px;
     cursor: pointer
 }
+
+.ui-jqgrid tr.jqgrow td.longtext
+{
+    white-space: pre-wrap
+}
