@@ -21,7 +21,7 @@
         </property>
         <property name="linkGuid" type="guid" index="yes"/>
         <property name="title" type="string" />
-        <property name="text" type="string" />
+        <property name="text" type="text" />
         <!--
             date to show up the entry 
         -->
