@@ -459,7 +459,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         array_pop($this->_current_groups);
         $current_group_id = count($this->_current_groups) - 1;
-        if ($current_group_id > -1 )
+        if ($current_group_id > -1)
         {
             $this->_current_group_name = $this->_current_groups[$current_group_id];
             $this->_current_group_templates[$this->_current_group_name]['group_elements'][] = $html;

@@ -34,8 +34,7 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
                 }
             }
             if (   isset($this->_group_up)
-                && isset($this->_group)
-               )
+                && isset($this->_group))
             {
                 return "productlink/{$this->_group_up->code}/{$this->_object->code}/";
             }

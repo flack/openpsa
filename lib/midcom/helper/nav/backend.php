@@ -917,8 +917,7 @@ class midcom_helper_nav_backend
 
         if (   $up
             || (   $GLOBALS['midcom_config']['symlinks']
-                && $node != self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id)
-           )
+                && $node != self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id))
         {
             $up = $this->_nodeid($node, $up);
         }

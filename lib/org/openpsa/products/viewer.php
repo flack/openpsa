@@ -108,8 +108,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 if (   (   $object->start != 0
                         && $object->start > time())
                     || (   $object->end != 0
-                        && $object->end < time())
-                    )
+                        && $object->end < time()))
                 {
                     // Not in market, remove from index
                     $indexer->delete($document->RI);

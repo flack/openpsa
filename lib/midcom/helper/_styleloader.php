@@ -853,7 +853,7 @@ class midcom_helper__styleloader
     function append_component_styledir ($component)
     {
         $loader = midcom::get('componentloader');
-        $path = $loader->path_to_snippetpath($component ) . "/style";
+        $path = $loader->path_to_snippetpath($component) . "/style";
         $this->append_styledir($path);
         return;
     }

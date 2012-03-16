@@ -205,7 +205,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     private function _load_type($name)
     {
         $config = $this->schema->fields[$name];
-        if (!isset($config['type']) )
+        if (!isset($config['type']))
         {
             throw new midcom_error("The field {$name} is missing type");
         }

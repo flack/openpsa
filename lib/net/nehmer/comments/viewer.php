@@ -122,7 +122,6 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
                         MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('report abuse'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-//                        MIDCOM_TOOLBAR_ENABLED =>  $comment->can_do('midgard:update'),
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
                         (

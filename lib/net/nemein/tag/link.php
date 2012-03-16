@@ -84,8 +84,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     {
         if (   empty($this->fromGuid)
             || empty($this->fromClass)
-            || empty($this->tag)
-            )
+            || empty($this->tag))
         {
             // All required properties not defined
             return false;

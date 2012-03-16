@@ -69,14 +69,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                         }
 
                         if (   is_array($fields_to_skip)
-                            && in_array($field_id, $fields_to_skip)
-                            )
+                            && in_array($field_id, $fields_to_skip))
                         {
                             continue;
                         }
 
                         $field_label = $schemadb[$data['schema']]->translate_schema_string($field['title']);
-                        if($cell == $field_label)
+                        if ($cell == $field_label)
                         {
                             $selected = ' selected';
                         }

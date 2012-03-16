@@ -50,7 +50,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-
             )
         );
         $this->_view_toolbar->add_item

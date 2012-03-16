@@ -305,8 +305,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     {
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
-                || !empty($this->derived_images)
-                )
+                || !empty($this->derived_images))
             && !$this->imagemagick_available())
         {
             throw new midcom_error( 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');

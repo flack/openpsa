@@ -122,8 +122,7 @@ class midcom_baseclasses_core_dbobject
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
             && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement'))
-            )
+                || is_a($object, 'midcom_db_pageelement')))
         {
             debug_add('invalidating Midgard page cache');
             mgd_cache_invalidate();
@@ -425,8 +424,7 @@ class midcom_baseclasses_core_dbobject
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
             && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement'))
-            )
+                || is_a($object, 'midcom_db_pageelement')))
         {
             mgd_cache_invalidate();
         }
@@ -573,8 +571,7 @@ class midcom_baseclasses_core_dbobject
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
             && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement'))
-            )
+                || is_a($object, 'midcom_db_pageelement')))
         {
             mgd_cache_invalidate();
         }
@@ -637,8 +634,7 @@ class midcom_baseclasses_core_dbobject
                 // Invalidate Midgard pagecache if we touched style/page element
                 if (   function_exists('mgd_cache_invalidate')
                     && (   is_a($object, 'midcom_db_element')
-                        || is_a($object, 'midcom_db_pageelement'))
-                    )
+                        || is_a($object, 'midcom_db_pageelement')))
                 {
                     mgd_cache_invalidate();
                 }

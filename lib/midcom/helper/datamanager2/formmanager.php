@@ -786,7 +786,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @param string $key the form field name
      * @param string $value the new value to set
      */
-    function set_value( $key, $value )
+    function set_value($key, $value)
     {
         $element = $this->_controller->formmanager->form->getElement($key);
         $element->setValue($value);
@@ -909,7 +909,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * @return array the submitted values.
      */
-    function get_submit_values(  )
+    function get_submit_values()
     {
         return $this->form->getSubmitValues( true );
     }

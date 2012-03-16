@@ -177,8 +177,7 @@ class org_openpsa_helpers_list
 
                     //TODO: get the vgroup object based on the key or something, this check fails always.
                     if (   $show_members
-                        && is_object($vgroup)
-                        )
+                        && is_object($vgroup))
                     {
                         $vgroup_members = $vgroup->list_members();
                         foreach ($vgroup_members as $key2 => $person)

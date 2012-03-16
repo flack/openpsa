@@ -222,8 +222,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $workday_starts = 8;
             $workday_ends = 16;
             if (   empty($workday_starts)
-                || empty($workday_ends)
-                )
+                || empty($workday_ends))
             {
                 // No work on that day
                 continue;

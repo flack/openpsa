@@ -305,7 +305,7 @@ class midcom_helper_misc
 
         // Ultimate fall-back, if we couldn't get anything out of the transliteration we use the UTF-8 character hexes as the name string to have *something*
         if (   empty($string)
-               || preg_match("/^{$replacer}+$/", $string))
+            || preg_match("/^{$replacer}+$/", $string))
         {
             $i = 0;
             // make sure this is not mb_strlen (ie mb automatic overloading off)
@@ -370,13 +370,13 @@ class midcom_helper_misc
         $check_files = Array();
         switch ($mimetype_filename)
         {
-        case 'application-x-zip-compressed':
-            $check_files[] = "gnome-application-zip.png";
-            break;
-        default:
-            $check_files[] = "{$mimetype_filename}.png";
-            $check_files[] = "gnome-{$mimetype_filename}.png";
-            break;
+            case 'application-x-zip-compressed':
+                $check_files[] = "gnome-application-zip.png";
+                break;
+            default:
+                $check_files[] = "{$mimetype_filename}.png";
+                $check_files[] = "gnome-{$mimetype_filename}.png";
+                break;
         }
 
         // Default icon if there is none for the MIME type
@@ -422,7 +422,7 @@ class midcom_helper_misc
             // More than a meg
             return $return_size = sprintf("%01.2f", $size / 1048576) . " Mb";
         }
-        elseif ($size > 1024)
+        else if ($size > 1024)
         {
             // More than a kilo
             return $return_size = sprintf("%01.2f", $size / 1024) . " Kb";

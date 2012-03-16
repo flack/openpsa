@@ -81,7 +81,7 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
         return sprintf("%s:[%s TO %s]",
             $this->get_field(),
             gmdate($format, $this->_start . "Z"),
-            gmdate($format, ($this->_end == 0 ) ? time() : $this->_end . "Z"));
+            gmdate($format, ($this->_end == 0) ? time() : $this->_end . "Z"));
     }
 }
 ?>

@@ -147,7 +147,7 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
     function convert_to_html()
     {
         $table = "<table border='0' cellspacing='0' ><tr>";
-        foreach ($this->headers as $header )
+        foreach ($this->headers as $header)
         {
             $table .= "<td>{$header}</td>\n";
         }
@@ -155,7 +155,7 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
         foreach ($this->rows as $row)
         {
             $table .= "<tr>\n";
-            foreach ($row as $value )
+            foreach ($row as $value)
             {
                 $table .= "<td>{$value}</td>\n";
             }

@@ -354,8 +354,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             if (   !is_array($info)
                 || !array_key_exists(0, $info)
                 || !array_key_exists(1, $info)
-                || !array_key_exists(2, $info)
-                )
+                || !array_key_exists(2, $info))
             {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
@@ -801,8 +800,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         if (   empty($tmp_dir)
             || $tmp_dir === '/'
             /* TODO: better tmp dir matching */
-            || !preg_match('|^/tmp/|', $tmp_dir)
-            )
+            || !preg_match('|^/tmp/|', $tmp_dir))
         {
             // Do somethign ? we cannot return as there's more work to do...
         }
@@ -814,8 +812,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         }
         if (   empty($new_name)
             /* TODO: better tmp dir matching */
-            || !preg_match('|^/tmp/|', $new_name)
-            )
+            || !preg_match('|^/tmp/|', $new_name))
         {
             return;
         }

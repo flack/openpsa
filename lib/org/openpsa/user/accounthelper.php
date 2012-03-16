@@ -391,7 +391,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             return false;
         }
 
-        if ($max_timeframe < $last_change )
+        if ($max_timeframe < $last_change)
         {
             return true;
         }

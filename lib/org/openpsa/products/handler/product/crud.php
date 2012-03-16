@@ -34,8 +34,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
                 }
             }
             if (   isset($this->_group_up)
-                && isset($this->_group)
-               )
+                && isset($this->_group))
             {
                 return "product/{$this->_group_up->code}/{$this->_object->code}/";
             }

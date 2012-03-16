@@ -553,11 +553,9 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
         if (   count($data['groups']) >= 1
             && (   count($data['products']) == 0
-                || $this->_config->get('listing_primary') == 'groups'
-               )
-           )
+                || $this->_config->get('listing_primary') == 'groups'))
         {
-            if ( $this->_config->get('disable_subgroups_on_frontpage') !== true )
+            if ($this->_config->get('disable_subgroups_on_frontpage') !== true)
             {
                 midcom_show_style('group_header');
 

@@ -297,11 +297,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $directory = dir($path);
         while (false !== ($entry = $directory->read()))
         {
-            if (substr($entry, 0, 1) == '.' ||
-                substr($entry, 0, 5) == 'index' ||
-                substr($entry, 0, 7) == 'handler' ||
-                substr($entry, 0, 9) == 'urlmethod'
-               )
+            if (    substr($entry, 0, 1) == '.'
+                 || substr($entry, 0, 5) == 'index'
+                 || substr($entry, 0, 7) == 'handler'
+                 || substr($entry, 0, 9) == 'urlmethod')
             {
                 // Ignore dotfiles, handlers & index.lang.txt
                 continue;

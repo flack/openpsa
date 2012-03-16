@@ -37,7 +37,7 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
         $result = $qb_billing_data->execute();
-        if (count($result) > 0 )
+        if (count($result) > 0)
         {
             foreach ($result as $billing_data)
             {

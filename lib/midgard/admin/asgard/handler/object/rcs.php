@@ -482,7 +482,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $data['args'] = $args;
 
         if (   !$this->_backend->version_exists($args[1])
-            || !$this->_backend->version_exists($args[2]) )
+            || !$this->_backend->version_exists($args[2]))
         {
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }

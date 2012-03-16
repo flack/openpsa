@@ -166,7 +166,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
-        if ($sg_snippetdir->id == false )
+        if ($sg_snippetdir->id == false)
         {
             $sd = new midcom_db_snippetdir();
             $sd->up = 0;
@@ -181,7 +181,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name);
-        if ($lib_snippetdir->id == false )
+        if ($lib_snippetdir->id == false)
         {
             $sd = new midcom_db_snippetdir();
             $sd->up = $sg_snippetdir->id;
@@ -196,7 +196,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $snippet = new midcom_db_snippet();
         $snippet->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name . "/config");
-        if ($snippet->id == false )
+        if ($snippet->id == false)
         {
             $sn = new midcom_db_snippet();
             $sn->up = $lib_snippetdir->id;

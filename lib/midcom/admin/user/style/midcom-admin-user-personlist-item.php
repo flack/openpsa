@@ -46,8 +46,7 @@
         // Quick and dirty on-demand group-loading
         if (   $member->gid != 0
             && (   !isset($data['groups'][$member->gid])
-                || !is_object($data['groups'][$member->gid]))
-            )
+                || !is_object($data['groups'][$member->gid])))
         {
             $data['groups'][$member->gid] = new midcom_db_group((int)$member->gid);
         }

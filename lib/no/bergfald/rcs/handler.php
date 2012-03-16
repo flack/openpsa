@@ -293,7 +293,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         if (   !$this->_backend->version_exists($args[1])
-            || !$this->_backend->version_exists($args[2]) )
+            || !$this->_backend->version_exists($args[2]))
         {
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }

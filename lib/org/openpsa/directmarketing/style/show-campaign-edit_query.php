@@ -117,15 +117,15 @@ foreach ($properties_map as $class => $properties)
         {
             var group_id = first_group("dirmar_rules_editor_container" ,<?php
             // pass type of first rule_group to javascript, if there is one
-            if (count($current_rules) > 0 )
+            if (count($current_rules) > 0)
             {
                 if(isset($current_rules['type']))
                 {
-                    echo '"'.$current_rules['type'].'"';
+                    echo '"' . $current_rules['type'] . '"';
                 }
                 else
                 {
-                    echo '"'.$current_rules['groups'].'"';
+                    echo '"' . $current_rules['groups'] . '"';
                 }
             }
             else

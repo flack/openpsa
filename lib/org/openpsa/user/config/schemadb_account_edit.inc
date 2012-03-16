@@ -61,6 +61,5 @@
             'required' => false,
             'storage' => null,
         ),
-
     )
 ),

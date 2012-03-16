@@ -451,9 +451,7 @@ class fi_protie_navigation
 
             if (   $item[MIDCOM_NAV_ID] === $this->_nap->get_current_node()
                 && (   !$this->_nap->get_current_leaf()
-                    || !$this->_nap->get_leaf($this->_nap->get_current_leaf())
-                   )
-               )
+                    || !$this->_nap->get_leaf($this->_nap->get_current_leaf())))
             {
                 $classes[] = $this->css_active;
             }

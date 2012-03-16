@@ -15,7 +15,7 @@ if ($data['view'] == 'grid')
     echo '<option value="project">' . $data['l10n']->get('project') . "</option>\n";
     echo '<option value="customer">' . $data['l10n']->get('customer') . "</option>\n";
     echo '<option value="manager">' . $data['l10n']->get('manager') . "</option>\n";
-    echo '<option value="clear" ' . (($data['view_identifier'] == 'agreement') ? 'selected="selected"' : '' ) . ' >' . midcom::get('i18n')->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
+    echo '<option value="clear" ' . (($data['view_identifier'] == 'agreement') ? 'selected="selected"' : '') . ' >' . midcom::get('i18n')->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
     echo '</select>';
 } ?>
 </div>

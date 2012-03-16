@@ -270,9 +270,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $filter = null;
         }
 
-        if ($data['query'] != '' )
+        if ($data['query'] != '')
         {
-            $final_query = ( $GLOBALS['midcom_config']['indexer_backend'] == 'solr' ) ? $data['query'] : "({$data['query']})";
+            $final_query = ($GLOBALS['midcom_config']['indexer_backend'] == 'solr') ? $data['query'] : "({$data['query']})";
         }
         else
         {

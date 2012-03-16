@@ -50,7 +50,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
      */
     public function _show_index($handler_id, array &$data)
     {
-        if (sizeof($data['images']) > 0 )
+        if (sizeof($data['images']) > 0)
         {
             midcom_show_style('index');
         }

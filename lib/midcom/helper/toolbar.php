@@ -295,7 +295,7 @@ class midcom_helper_toolbar
     function add_item_to_index($item, $index)
     {
         $item = $this->clean_item($item);
-        if (! array_key_exists($index, $this->items) )
+        if (! array_key_exists($index, $this->items))
         {
             debug_add("Insert of item {$item[MIDCOM_TOOLBAR_NAME]} into index $index failed");
             return false;
@@ -725,7 +725,7 @@ class midcom_helper_toolbar
             {
                 $output .= " title='{$item[MIDCOM_TOOLBAR_HELPTEXT]}'";
             }
-            if ( count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0 )
+            if (count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0)
             {
                 foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
                 {
@@ -799,7 +799,7 @@ class midcom_helper_toolbar
             $output .= "  <form method=\"post\" action=\"{$item[MIDCOM_TOOLBAR_URL]}\">\n";
             $output .= "    <div><button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
 
-            if ( count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0 )
+            if (count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0)
             {
                 foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
                 {

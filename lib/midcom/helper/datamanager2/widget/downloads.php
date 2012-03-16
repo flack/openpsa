@@ -415,9 +415,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         if (   $this->_type->storage->object
             && (   !$this->_type->storage->object->can_do('midgard:attachments')
                 || !$this->_type->storage->object->can_do('midgard:update')
-                || !$this->_type->storage->object->can_do('midgard:parameters')
-                )
-            )
+                || !$this->_type->storage->object->can_do('midgard:parameters')))
         {
             $frozen = true;
         }

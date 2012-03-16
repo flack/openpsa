@@ -79,8 +79,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         if (   !empty($matches)
                /* doublecheck */
             && $matches[0]->longitude === $this->longitude
-            && $matches[0]->latitude === $this->latitude
-            )
+            && $matches[0]->latitude === $this->latitude)
         {
             // We don't need to save duplicate entries
             midcom_connection::set_error(MGD_ERR_DUPLICATE);

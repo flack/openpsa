@@ -26,12 +26,9 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         midcom::get('auth')->require_valid_user();
 
         // Process the selection if present.
-        if (   isset($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])
-            && !empty($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])
-            && isset($_POST['org_openpsa_contacts_handler_duplicates_person_options'])
+        if (   !empty($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])
             && !empty($_POST['org_openpsa_contacts_handler_duplicates_person_options'])
-            && count($_POST['org_openpsa_contacts_handler_duplicates_person_options']) == 2
-            )
+            && count($_POST['org_openpsa_contacts_handler_duplicates_person_options']) == 2)
         {
             $option1 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][1]);
             $option2 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][2]);
@@ -43,8 +40,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                         $option1->require_do('midgard:update');
                         $option2->require_do('midgard:update');
                         if (   !$option1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, time())
-                            || !$option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time())
-                            )
+                            || !$option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time()))
                         {
                             $errstr = midcom_connection::get_error_string();
                             // Failed to set as not duplicate, clear parameters that might have been set
@@ -150,8 +146,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
             }
             // Extra sanity check (in case of semi-successful not-duplicate mark)
             if (   $person1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $person2->guid)
-                || $person2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $person1->guid)
-                )
+                || $person2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $person1->guid))
             {
                 debug_add("It seems these two (#{$person1->id} and #{$person2->id}) have also marked as not duplicates, some cleanup might be a good thing", MIDCOM_LOG_WARN);
                 $i++;

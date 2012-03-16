@@ -122,7 +122,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        if ( !isset($_POST['org_openpsa_reports_csv']) )
+        if (!isset($_POST['org_openpsa_reports_csv']))
         {
             throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST');
         }

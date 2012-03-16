@@ -411,13 +411,10 @@ class org_openpsa_helpers_vxparser
         //See if we have any special characters in str to escape
         if (preg_match_all("/[^\x20-\x7e]/", $str, $matches))
         {
-            if (   (   (count($matches[0])/strlen($str)*100)>50
-                    && $this->compatibility['data']['supported_encodings']['B64']
-                    )
+            if (   (   (count($matches[0]) / strlen($str) * 100) > 50
+                    && $this->compatibility['data']['supported_encodings']['B64'])
                 || (   isset($params['VALUE'])
-                    && $params['VALUE'] == 'BINARY'
-                    )
-                )
+                    && $params['VALUE'] == 'BINARY'))
             {
                 //If over 50% characters require encoding (and client supports it) or data is specified to be binary use base64
                 $params['CHARSET'] = strtoupper($this->charset);

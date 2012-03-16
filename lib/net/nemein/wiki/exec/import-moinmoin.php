@@ -1,13 +1,10 @@
 <?php
 midcom::get('auth')->require_admin_user();
 
-if (   !isset($_REQUEST['root_topic_guid'])
-    || empty($_REQUEST['root_topic_guid'])
-    || !isset($_REQUEST['wiki_root'])
+if (   empty($_REQUEST['root_topic_guid'])
     || empty($_REQUEST['wiki_root'])
     || !is_dir($_REQUEST['wiki_root'])
-    || !isset($_REQUEST['import_revisions'])
-    )
+    || !isset($_REQUEST['import_revisions']))
 {
 ?>
 <h1>Import from MoinMoin wiki</h1>

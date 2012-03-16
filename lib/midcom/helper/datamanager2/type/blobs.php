@@ -917,7 +917,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                 // do not index the attachment for index_method attachment & noindex
                 // for index_method=attachment the content of the attachment is stored in content of the object
                 if (    $this->_datamanager->schema->fields[$this->name]['index_method'] == 'attachment'
-                    ||  $this->_datamanager->schema->fields[$this->name]['index_method'] == 'noindex' )
+                    ||  $this->_datamanager->schema->fields[$this->name]['index_method'] == 'noindex')
                 {
                     $index_attachment = false;
                 }

@@ -465,23 +465,22 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
      */
     public function get_existing_columns()
     {
-        if (!$this->storage
-            || !$this->storage->object
-           )
+        if (   !$this->storage
+            || !$this->storage->object)
         {
             return $this->columns;
         }
 
         if ($this->storage_mode == 'link')
-          {
-              $columns = array();
-              foreach ($this->link_columns as $name)
-              {
-                  $columns[$name] = $name;
-              }
-              $this->columns = $columns;
-              return $this->columns;
-          }
+        {
+            $columns = array();
+            foreach ($this->link_columns as $name)
+            {
+                $columns[$name] = $name;
+            }
+            $this->columns = $columns;
+            return $this->columns;
+        }
         else if (!($raw_data = $this->storage->object->get_parameter("{$this->parameter_domain}.type.tabledata.order", "{$this->name}:columns")))
         {
             return $this->columns;
