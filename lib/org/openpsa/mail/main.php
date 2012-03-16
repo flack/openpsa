@@ -168,17 +168,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Decodes HTML entities to their respective characters
-     */
-    function html_entity_decode( $given_html, $quote_style = ENT_QUOTES )
-    {
-        $trans_table = array_flip(get_html_translation_table( HTML_SPECIALCHARS, $quote_style ));
-        $trans_table['&#39;'] = "'";
-        $trans_table['&nbsp;'] = ' ';
-        return ( strtr( $given_html, $trans_table ) );
-    }
-
-    /**
      * Tries to convert HTML to plaintext
      */
     function html2text($html)
@@ -196,7 +185,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $text = preg_replace('/(<[^>]*>)/', '', $text);
 
         //Decode entities
-        $text = $this->html_entity_decode($text);
+        $text = html_entity_decode($text, ENT_QUOTES);
 
         //Trim whitespace from end of lines
         $text = preg_replace("/[ \t\f]+$/m", '', $text);
