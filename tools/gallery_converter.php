@@ -7,13 +7,21 @@ class gallery_converter
 {
     private $_node;
 
-    public function __construct($id)
-    {
-        $this->_node = new midgard_topic($id);
-    }
-
     public function execute()
     {
+        $qb = new midgard_query_builder('midgard_topic');
+        $qb->add_constraint('component', '=', 'org.routamc.gallery');
+        $results = $qb->execute();
+        foreach ($results as $result)
+        {
+            $this->_process_node($result);
+        }
+    }
+
+    private function _process_node($node)
+    {
+        $this->_node = $node;
+
         $this->_output('Processing node ' . $this->_node->name);
         $links = $this->_get_photolinks();
         $this->_output('Found ' . sizeof($links) . ' photolinks');
