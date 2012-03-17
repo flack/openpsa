@@ -12,6 +12,10 @@ if ($data['view'] == 'grid')
 
     echo ' ' . midcom::get('i18n')->get_string('group by', 'org.openpsa.core') . ': ';
     echo '<select id="chgrouping_' . $grid_id . '">';
+    if ($data['view_identifier'] == 'my_tasks')
+    {
+        echo '<option value="status">' . $data['l10n']->get('status') . "</option>\n";
+    }
     echo '<option value="project">' . $data['l10n']->get('project') . "</option>\n";
     echo '<option value="customer">' . $data['l10n']->get('customer') . "</option>\n";
     echo '<option value="manager">' . $data['l10n']->get('manager') . "</option>\n";

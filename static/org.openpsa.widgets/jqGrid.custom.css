@@ -32,3 +32,20 @@
 {
     white-space: pre-wrap
 }
+
+.ui-jqgrid tr.jqgrow td.multiline
+{
+    white-space: pre-wrap;
+}
+
+.ui-jqgrid tr.jqgrow td.multiline .title
+{
+    font-weight: bold
+}
+
+.ui-jqgrid tr.jqgrow td.multiline .details
+{
+    color: #444;
+    margin: .3em 0;
+    padding-left: .3em
+}

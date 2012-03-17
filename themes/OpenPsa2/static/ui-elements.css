@@ -64,47 +64,48 @@ div.area .metadata input {
 }
 
 /* Inline toolbars */
-.area ul.area_toolbar
+ul.area_toolbar
 {
     white-space: nowrap;
-    margin: .3em 0
+    margin: .4em 0;
+    padding: 0
 }
-.area ul.area_toolbar li
+ul.area_toolbar li
 {
     display: inline;
-    margin-right: 4px;
+    margin-right: .4em;
     line-height: 20px;
 }
-.area ul.area_toolbar li a
+ul.area_toolbar li a
 {
     text-decoration: none;
 }
-.area ul.area_toolbar li input
+ul.area_toolbar li input
 {
     background-position: 2px;
 }
-.area ul.area_toolbar li a.yes,
-.area ul.area_toolbar li input.yes
+ul.area_toolbar li a.yes,
+ul.area_toolbar li input.yes
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/ok.png');
     background-repeat: no-repeat;
 }
-.area ul.area_toolbar li a.no,
-.area ul.area_toolbar li input.no
+ul.area_toolbar li a.no,
+ul.area_toolbar li input.no
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/cancel.png');
     background-repeat: no-repeat;
 }
-.area ul.area_toolbar li input.hours
+ul.area_toolbar li input.hours
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/stock_event.png');
     background-position: left;
     background-repeat: no-repeat;
 }
-.area ul.area_toolbar li input:hover
+ul.area_toolbar li input:hover
 {
     cursor: pointer;
 }

@@ -73,6 +73,33 @@ class org_openpsa_projects_workflow
         return $return;
     }
 
+    public static function render_status_control($task)
+    {
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        if ($task->status < org_openpsa_projects_task_status_dba::COMPLETED)
+        {
+            $action = 'complete';
+            $checked = '';
+        }
+        else
+        {
+            if ($task->status == org_openpsa_projects_task_status_dba::COMPLETED)
+            {
+                $action = 'remove_complete';
+            }
+            else
+            {
+                $action = 'reopen';
+            }
+            $checked = ' checked="checked"';
+
+        }
+        $html = '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '/">';
+        $html .= '<input type="hidden" name="org_openpsa_projects_workflow_action[' . $action . ']" value="true" />';
+        $html .= '<input type="checkbox"' . $checked . ' name="org_openpsa_projects_workflow_dummy" value="true" onchange="this.form.submit()" />';
+        $html .= '</form>';
+        return $html;
+    }
 
     /**
      * Shortcut for creating status object

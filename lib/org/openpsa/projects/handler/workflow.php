@@ -78,17 +78,6 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_action($handler_id, array &$data)
-    {
-        //We actually should not ever get this far
-        return;
-    }
-
-    /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.

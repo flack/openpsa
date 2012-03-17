@@ -798,6 +798,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     opacity: 1;
 }
 
+.ui-jqgrid td.multiline .title a,
+.ui-jqgrid td.multiline .details a
+{
+    color: #14335e;
+}
 
 .ui-autocomplete,
 .ui-datepicker,

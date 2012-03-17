@@ -145,8 +145,10 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         if ($handler_id == 'project')
         {
-            $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+            org_openpsa_widgets_grid::add_head_elements();
             org_openpsa_widgets_contact::add_head_elements();
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
+            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
         }
     }
 
