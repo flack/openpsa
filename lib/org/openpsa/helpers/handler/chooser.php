@@ -121,8 +121,8 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($this->_dbaclass)
         {
             case 'org_openpsa_contacts_person_dba':
-                $indexer = midcom::get('indexer');
-                org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_node[MIDCOM_NAV_OBJECT]);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
+                $indexer->index($this->_controller->datamanager);
                 break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");

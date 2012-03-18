@@ -1,4 +1,4 @@
-'render_sort' => array
+'chooser_create' => array
 (
     'handler' => array('org_openpsa_helpers_handler_chooser', 'create'),
     'fixed_args' => array('chooser', 'create'),
