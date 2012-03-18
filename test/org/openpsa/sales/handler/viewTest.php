@@ -31,9 +31,26 @@ class org_openpsa_sales_salesproject_viewTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.sales');
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $product_group = $this->create_object('org_openpsa_products_product_group_dba');
+        $product_attributes = array
+        (
+            'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE,
+            'productGroup' => $product_group->id
+        );
+        $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+        $deliverable_attributes = array
+        (
+            'salesproject' => $salesproject->id,
+            'product' => $product->id,
+            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+        );
+
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
         $data = $this->run_handler('org.openpsa.sales', array('salesproject', $salesproject->guid));
         $this->assertEquals('salesproject_view', $data['handler_id']);
+
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }
