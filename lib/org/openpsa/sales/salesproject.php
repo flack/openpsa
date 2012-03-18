@@ -245,7 +245,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     {
         if ($property == 'contacts')
         {
-            if(is_null($this->_contacts))
+            if (is_null($this->_contacts))
             {
                 $this->get_members();
             }

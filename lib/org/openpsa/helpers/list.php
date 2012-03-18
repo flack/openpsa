@@ -43,6 +43,7 @@ class org_openpsa_helpers_list
             self::task_groups_put($ret, $mode, $company);
         }
         $task->get_members();
+
         if (   !is_array($task->contacts)
             || count($task->contacts) == 0)
         {
@@ -52,8 +53,9 @@ class org_openpsa_helpers_list
         $mc = midcom_db_member::new_collector('metadata.deleted', false);
         $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
         /* Skip magic groups */
-        $mc->add_constraint('gid.name', 'NOT LIKE', '__%');
+        $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');
         $memberships = $mc->get_values('gid');
+
         if (empty($memberships))
         {
             return $ret;
