@@ -49,7 +49,6 @@ implements org_openpsa_widgets_grid_provider_client
         $qb = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
         if (!is_null($field))
         {
-            $field = str_replace('index_', '', $field);
             $qb->add_order($field, $direction);
         }
 

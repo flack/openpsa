@@ -63,7 +63,6 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (!is_null($field))
         {
-            $field = str_replace('index_', '', $field);
             if ($field == 'created')
             {
                 $field = 'metadata.created';

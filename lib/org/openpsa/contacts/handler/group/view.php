@@ -289,7 +289,6 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
         if (!is_null($field))
         {
-            $field = str_replace('index_', '', $field);
             if ($field == 'username')
             {
                 midcom_core_account::add_username_order($qb, $direction);

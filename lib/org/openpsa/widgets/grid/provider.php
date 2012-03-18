@@ -270,8 +270,13 @@ class org_openpsa_widgets_grid_provider
             {
                 $this->_parse_query($_GET);
             }
+            $field = $this->_sort_field;
+            if (!is_null($field))
+            {
+                $field = str_replace('index_', '', $field);
+            }
 
-            $this->_query = $this->_client->get_qb($this->_sort_field, $this->_sort_direction);
+            $this->_query = $this->_client->get_qb($field, $this->_sort_direction);
         }
         return $this->_query;
     }
