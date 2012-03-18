@@ -38,7 +38,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_person = new midcom_db_person($args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
 
         if ($this->_person->id != midcom_connection::get_user())
         {
