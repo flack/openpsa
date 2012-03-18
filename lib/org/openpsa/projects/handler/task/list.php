@@ -349,7 +349,7 @@ implements org_openpsa_widgets_grid_provider_client
         else
         {
             $entry['planned_hours'] = $task->plannedHours;
-            $entry['invoiceable_hours'] = $task->invoiceableHours;
+            $entry['invoiced_hours'] = $task->invoicedHours;
             $entry['approved_hours'] = $task->approvedHours;
             $entry['reported_hours'] = $task->reportedHours;
         }

@@ -60,8 +60,8 @@ if ($data['view_identifier'] != 'project_tasks')
 else
 {
     $grid->set_column('planned_hours', $data['l10n']->get('planned hours'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
-        ->set_column('invoiceable_hours', $data['l10n']->get('invoiceable'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
         ->set_column('reported_hours', $data['l10n']->get('reported'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
+        ->set_column('invoiced_hours', $data['l10n']->get('invoiced'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
         ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float')
         ->set_option('caption', $data['l10n']->get($data['view_identifier']));
 }
@@ -96,7 +96,7 @@ jQuery("#chgrouping_&(grid_id);").change(function()
     }
 });
 org_openpsa_grid_footer.set_field('&(grid_id);', 'planned_hours', 'sum');
-org_openpsa_grid_footer.set_field('&(grid_id);', 'invoiceable_hours', 'sum');
 org_openpsa_grid_footer.set_field('&(grid_id);', 'reported_hours', 'sum');
+org_openpsa_grid_footer.set_field('&(grid_id);', 'invoiced_hours', 'sum');
 org_openpsa_grid_footer.set_field('&(grid_id);', 'reported', 'sum');
 </script>
