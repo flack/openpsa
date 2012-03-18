@@ -65,6 +65,20 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             ));
         }*/
 
+        if (!empty($this->_request_data['projects_url']))
+        {
+            $prefix = midcom::get()->get_page_prefix() . $this->_request_data['projects_url'];
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                )
+            );
+        }
+
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
         $relatedto_button_settings['wikinote']['wikiword'] = sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_request_data['salesproject']->title, date('Y-m-d H:i'));
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['salesproject'], $this->_component, $relatedto_button_settings);

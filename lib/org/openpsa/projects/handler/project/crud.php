@@ -62,6 +62,21 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             )
         );
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
+
+        if (!empty($sales_url))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('salesproject', 'org.openpsa.sales'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                )
+            );
+        }
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
     }
 
