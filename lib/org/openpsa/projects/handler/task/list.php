@@ -326,8 +326,11 @@ implements org_openpsa_widgets_grid_provider_client
             $entry['priority'] = '<span title="' . $this->_l10n->get($this->_request_['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
         }
 
-        $entry['index_customer'] = $celldata['index_customer'];
-        $entry['customer'] = $celldata['customer'];
+        if ($this->_request_data['view_identifier'] != 'agreement')
+        {
+            $entry['index_customer'] = $celldata['index_customer'];
+            $entry['customer'] = $celldata['customer'];
+        }
 
         $entry['manager'] = $manager_card->show_inline();
         $entry['index_manager'] = preg_replace('/<span.*?class="uid".*?>.*?<\/span>/', '', $entry['manager']);
@@ -478,18 +481,12 @@ implements org_openpsa_widgets_grid_provider_client
         }
         else
         {
-            if ($data['view_identifier'] == 'agreement')
+            if (   $data['view_identifier'] != 'my_tasks'
+                && $data['view_identifier'] != 'agreement')
             {
-                midcom_show_style("show-task-grid-agreement");
+                midcom_show_style("show-priority-filter");
             }
-            else
-            {
-                if ($data['view_identifier'] != 'my_tasks')
-                {
-                    midcom_show_style("show-priority-filter");
-                }
-                midcom_show_style("show-task-grid");
-            }
+            midcom_show_style("show-task-grid");
         }
     }
 
