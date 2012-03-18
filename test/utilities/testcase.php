@@ -342,6 +342,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         self::_process_delete_queue($queue);
         $this->_testcase_objects = array();
+        org_openpsa_mail_backend_unittest::flush();
         midcom_compat_unittest::flush_registered_headers();
     }
 

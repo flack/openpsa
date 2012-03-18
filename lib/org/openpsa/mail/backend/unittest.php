@@ -30,5 +30,12 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
         self::$mails[$this->_index]['body'] = $body;
         return true;
     }
+
+    public static function flush()
+    {
+        $mails = self::$mails;
+        self::$mails = array();
+        return $mails;
+    }
 }
 ?>
