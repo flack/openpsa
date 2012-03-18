@@ -409,6 +409,17 @@ var org_openpsa_grid_editable =
     }
 };
 
+var org_openpsa_grid_footer =
+{
+    set_field: function(grid_id, colname, operation)
+    {
+        var value = $('#' + grid_id).jqGrid('getCol', colname, false, operation),
+        footerdata = {};
+        footerdata[colname] = value;
+        $('#' + grid_id).jqGrid('footerData', 'set', footerdata);
+    }
+};
+
 var org_openpsa_export_csv =
 {
     configs: {},
