@@ -1,0 +1,23 @@
+ul.slideshow-subfolders
+{
+    margin: 0;
+    padding: 0;
+}
+ul.slideshow-subfolders li
+{
+    list-style: none;
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    text-align: center;
+}
+ul.slideshow-subfolders li img
+{
+    border: 1px solid #333;
+}
+ul.slideshow-subfolders li span.subfolder-title
+{
+    display: block;
+}

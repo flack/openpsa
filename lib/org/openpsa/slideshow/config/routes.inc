@@ -3,6 +3,12 @@
 (
     'handler' => array('org_openpsa_slideshow_handler_index', 'index'),
 ),
+// Match /subfolders
+'index_subfolders' => array
+(
+    'handler' => array('org_openpsa_slideshow_handler_index', 'subfolders'),
+    'fixed_args' => 'subfolders',
+),
 
 // Match /edit/
 'edit' => array
