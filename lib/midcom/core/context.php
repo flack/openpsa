@@ -342,11 +342,17 @@ class midcom_core_context
      */
     public function run(midcom_baseclasses_components_interface $handler)
     {
-        if (!$handler->handle())
+        $result = $handler->handle();
+        if (false === $result)
         {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
         }
-
+        else if (   is_object($result)
+                 && $result instanceof midcom_response)
+        {
+            $result->send();
+            //this will exit
+        }
         // Retrieve Metadata
         $nav = new midcom_helper_nav();
         if ($nav->get_current_leaf() === false)

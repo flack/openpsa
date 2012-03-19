@@ -103,8 +103,17 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $handler = $context->get_handler($topic);
         $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
         $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
-        $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
-        $data = $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+
+        $result = $handler->handle();
+        $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
+        $data =& $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+
+        if (   is_object($result)
+            && $result instanceof midcom_response)
+        {
+            $data['__openpsa_testcase_response'] = $result;
+        }
+
         $data['__openpsa_testcase_handler'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][0];
         $data['__openpsa_testcase_handler_method'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][1];
 
@@ -168,6 +177,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         try
         {
             $data = $this->run_handler($component, $args);
+            if (array_key_exists($controller_key, $data))
+            {
+                $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
+            }
+            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'Form did not relocate');
+            return $data['__openpsa_testcase_response']->url;
         }
         catch (openpsa_test_relocate $e)
         {
@@ -175,8 +190,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $url = preg_replace('/^\//', '', $url);
             return $url;
         }
-        $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
-        $this->assertTrue(false, 'Form did not relocate');
     }
 
     /**
@@ -199,13 +212,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         try
         {
             $data = $this->run_handler($component, $args);
+            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'handler did not relocate');
+            $url = $data['__openpsa_testcase_response']->url;
         }
         catch (openpsa_test_relocate $e)
         {
             $url = $e->getMessage();
         }
 
-        $this->assertTrue(!is_null($url), 'handler did not relocate');
         $url = preg_replace('/^\//', '', $url);
         return $url;
     }

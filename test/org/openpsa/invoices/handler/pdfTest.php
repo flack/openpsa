@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_pdfTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
 
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'pdf', self::$_invoice->guid));
-        $this->assertEquals('http://localhost/invoice/' . self::$_invoice->guid . '/', $url);
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get('auth')->drop_sudo();
     }

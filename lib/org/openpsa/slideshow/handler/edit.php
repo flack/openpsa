@@ -150,7 +150,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
             $this->_response->error = $e->getMessage();
         }
 
-        $this->_response->send();
+        return $this->_response;
     }
 
     private function _process_create()

@@ -608,12 +608,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             debug_add($method . ' (' . $this->_handler['id'] . ') returned false. This is deprecated, please use exceptions instead');
             return false;
         }
-        else if (   is_object($result)
-                 && $result instanceof midcom_response)
-        {
-            $result->send();
-            //this will exit
-        }
 
         if (is_a($handler, 'midcom_baseclasses_components_handler'))
         {
@@ -632,7 +626,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);
 
-        return true;
+        return $result;
     }
 
     /**
