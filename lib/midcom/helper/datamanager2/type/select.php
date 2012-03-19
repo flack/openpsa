@@ -445,7 +445,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 }
                 else
                 {
-                    return $this->selection[0];
+                    return current($this->selection);
                 }
             }
         }
