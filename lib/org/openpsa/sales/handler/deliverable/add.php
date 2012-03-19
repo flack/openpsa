@@ -35,10 +35,20 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_product;
 
-
     public function load_schemadb()
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
+
+        if ($this->get_schema_name() == 'subscription')
+        {
+            $schemadb['subscription']->fields['start']['type_config']['min_date'] = strftime('%Y-%m-%d');
+        }
+        else
+        {
+            $schemadb['default']->fields['end']['type_config']['min_date'] = strftime('%Y-%m-%d');
+        }
+
+        return $schemadb;
     }
 
     public function get_schema_name()
