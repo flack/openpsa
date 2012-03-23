@@ -3,7 +3,32 @@ if (!extension_loaded('midgard2'))
 {
     die("Midgard2 is not installed in your PHP environment.\n");
 }
-$name = $argv[1];
+if (empty($argv[1]))
+{
+    $name = prompt('Enter project name', 'openpsa');
+}
+else
+{
+    $name = $argv[1];
+}
+
+function prompt($message, $default = null)
+{
+    echo $message;
+    if (null !== $default)
+    {
+        echo ' [' . $default . ']';
+    }
+    echo ":\n";
+    $handle = fopen('php://stdin', 'r');
+    $input = trim(fgets($handle));
+    if (   empty($input)
+        && null !== $default)
+    {
+        return $default;
+    }
+    return $input;
+}
 
 function check_dir($directory)
 {
