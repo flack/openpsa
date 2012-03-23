@@ -103,7 +103,7 @@ class openpsa_installer
         $config->cachedir = '/var/cache/' . $this->_project_name;
         $config->logfilename = '/var/log/' . $this->_project_name . '/midgard.log';
         $config->loglevel = 'debug';
-        if (!$config->save_file('' . $this->_project_name . '', false))
+        if (!$config->save_file($this->_project_name, false))
         {
             $this->fail("Failed to save Midgard2 config file to /etc/midgard2/conf.d");
         }
