@@ -31,13 +31,28 @@ class openpsa_installer
         echo $message . "\n";
     }
 
-    public function prompt($message, $default = null)
+    public function prompt($message, $default = null, array $options = array())
     {
-        if (null !== $default)
+        if (!empty($options))
+        {
+            foreach ($options as $i => $option)
+            {
+                if ($option == $default)
+                {
+                    $options[$i] = strtoupper($option);
+                }
+                else
+                {
+                    $options[$i] = strtolower($option);
+                }
+            }
+            $message .= ' [' . implode('|', $options) . ']';
+        }
+        else if (null !== $default)
         {
             $message .= ' [' . $default . ']';
         }
-        $this->output($message . ":");
+        $this->output($message);
 
         $handle = fopen('php://stdin', 'r');
         $input = trim(fgets($handle));
@@ -70,12 +85,25 @@ class openpsa_installer
 
     public function run()
     {
-        $config = new midgard_config();
-        if (!$config->read_file($this->_project_name, false))
+        $config_file = "/etc/midgard2/conf.d/" . $this->_project_name;
+        if (file_exists($config_file))
         {
-            $config = $this->_create_config();
+            switch ($this->prompt($config_file . " already exists, override?", 'n', array('y', 'n')))
+            {
+                case 'y':
+                    unlink($config_file);
+                    $config = $this->_create_config();
+                    break;
+
+                default:
+                    $config = new midgard_config();
+                    if (!$config->read_file($this->_project_name, false))
+                    {
+                        $this->fail('Could not read config file ' . $config_file);
+                    }
+            }
         }
-        
+
         // Open a DB connection with the config
         $midgard = midgard_connection::get_instance();
         if (!$midgard->open_config($config))
@@ -90,6 +118,7 @@ class openpsa_installer
     private function _create_config()
     {
         $this->_check_dir('/var/lib/' . $this->_project_name);
+        $this->_check_dir('/var/cache/' . $this->_project_name);
         $this->_link_file('config', 'midgard_auth_types.xml', '/var/lib/' . $this->_project_name . '/share');
 
         // Create a config file
