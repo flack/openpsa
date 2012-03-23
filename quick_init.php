@@ -95,7 +95,7 @@ class openpsa_installer
         // Create a config file
         $config = new midgard_config();
         $config->dbtype = 'SQLite';
-        $config->database = $argv[1];
+        $config->database = $this->_project_name;
         $config->dbdir = '/var/lib/' . $this->_project_name;
         $config->blobdir = '/var/lib/' . $this->_project_name . '/blobs';
         $config->sharedir = '/var/lib/' . $this->_project_name . '/share';
