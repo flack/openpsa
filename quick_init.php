@@ -10,6 +10,24 @@ class openpsa_installer
         {
             die("Midgard2 is not installed in your PHP environment.\n");
         }
+
+        if (!class_exists('midgard_topic'))
+        {
+            $iterator = new DirectoryIterator('./schemas');
+            foreach ($iterator as $fileinfo)
+            {
+                if (   $fileinfo->isFile()
+                    && strpos($fileinfo->getFilename(), 'xml'))
+                {
+                    //@todo: how to determine correct schema dir?
+                    $this->_link_file('schemas', $fileinfo->getFilename(), '/usr/share/midgard2/schema');
+                }
+            }
+            $this->output('Schemas linked. Re-run installer to continue');
+            exit(0);
+        }
+
+
         if (empty($argv[1]))
         {
             $this->_project_name = $this->prompt('Enter project name', 'openpsa');
@@ -117,6 +135,7 @@ class openpsa_installer
 
         require_once 'tools/bootstrap.php';
         openpsa_prepare_database($config);
+        openpsa_prepare_topics();
     }
 
     private function _create_config()
