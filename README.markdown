@@ -61,8 +61,8 @@ Also enable FastCGI to talk to your PHP installation:
 Then just configure your Lighttpd to pass all requests to the OpenPSA "rootfile":
 
     url.rewrite-once = ( 
-        "^/midcom-static/OpenPsa2/(.*)$" => "/openpsa/themes/OpenPsa2/static/$1",
-        "^/midcom-static/(.*)$" => "/openpsa/static/$1",
+        "^/openpsa2-static/OpenPsa2/(.*)$" => "/openpsa/themes/OpenPsa2/static/$1",
+        "^/openpsa2-static/(.*)$" => "/openpsa/static/$1",
         "^([^\?]*)(\?(.+))?$" => "openpsa/rootfile.php$2"
     )
 
