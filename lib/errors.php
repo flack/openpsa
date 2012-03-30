@@ -372,9 +372,15 @@ class midcom_exception_handler
         foreach ($stack as $number => $frame)
         {
             $line = $number + 1;
-            $file = str_replace(MIDCOM_ROOT, '[midcom_root]', $frame['file']);
-            $line .= ": {$file}:{$frame['line']}  ";
-
+            if (array_key_exists('file', $frame))
+            {
+                $file = str_replace(MIDCOM_ROOT, '[midcom_root]', $frame['file']);
+                $line .= ": {$file}:{$frame['line']}  ";
+            }
+            else
+            {
+                $line .= ': [internal]  ';
+            }
             if (array_key_exists('class', $frame))
             {
                 $line .= $frame['class'];
