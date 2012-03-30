@@ -4,6 +4,8 @@ class openpsa_installer
 {
     protected $_project_name;
 
+    protected $_user;
+
     public function __construct($args)
     {
         if (!extension_loaded('midgard2'))
@@ -84,8 +86,13 @@ class openpsa_installer
 
     protected function _check_dir($directory)
     {
+        if (null === $this->_user)
+        {
+            $this->_user = $this->prompt('Set permissions for', 'www-data');
+        }
         if (   !is_dir($directory)
-            && !mkdir($directory))
+            && !mkdir($directory)
+            && !chown($directory, $this->_user))
         {
             $this->fail("Failed to create directory " . $directory);
         }
@@ -110,7 +117,7 @@ class openpsa_installer
             {
                 case 'y':
                     unlink($config_file);
-                    $config = $this->_create_config();
+                    $config = $this->_create_config($config_file);
                     break;
 
                 default:
@@ -123,7 +130,7 @@ class openpsa_installer
         }
         else
         {
-            $config = $this->_create_config();
+            $config = $this->_create_config($config_file);
         }
 
         // Open a DB connection with the config
@@ -138,7 +145,7 @@ class openpsa_installer
         openpsa_prepare_topics();
     }
 
-    private function _create_config()
+    private function _create_config($config_file)
     {
         $this->_check_dir('/var/lib/' . $this->_project_name);
         $this->_check_dir('/var/cache/' . $this->_project_name);
@@ -158,9 +165,13 @@ class openpsa_installer
         $config->loglevel = 'debug';
         if (!$config->save_file($this->_project_name, false))
         {
-            $this->fail("Failed to save Midgard2 config file to /etc/midgard2/conf.d");
+            $this->fail("Failed to save " . $config_file);
         }
-        $this->output("Configuration file /etc/midgard2/conf.d/" . $this->_project_name . " created.");
+        if (!chown($config_file, $this->_user))
+        {
+            $this->fail("Failed to set permissions to " . $this->_user . ' on ' . $config_file);
+        }
+        $this->output("Configuration file " . $config_file . " created.");
         return $config;
     }
 }
