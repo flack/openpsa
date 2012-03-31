@@ -58,7 +58,7 @@ class midcom_services_cache
      * It will load the content cache module as the first one, the rest will be
      * loaded in their order of appearance in the Array.
      */
-    function initialize()
+    public function __construct()
     {
         foreach ($GLOBALS['midcom_config']['cache_autoload_queue'] as $name)
         {

@@ -41,6 +41,7 @@ class midcom
     private static $_service_classes = array
     (
         'componentloader' => 'midcom_helper__componentloader',
+        'cache' => 'midcom_services_cache',
         'dbclassloader' => 'midcom_services_dbclassloader',
         'dbfactory' => 'midcom_helper__dbfactory',
         'debug' => 'midcom_debug',
@@ -137,7 +138,6 @@ class midcom
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
         self::$_services['cache'] = new midcom_services_cache();
-        self::$_services['cache']->initialize();
 
         /////////////////////////////////////
         // Instantiate the MidCOM main class
