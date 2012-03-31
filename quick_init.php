@@ -10,7 +10,11 @@ class openpsa_installer
     {
         if (!extension_loaded('midgard2'))
         {
-            die("Midgard2 is not installed in your PHP environment.\n");
+            $this->fail("Midgard2 is not installed in your PHP environment.\n");
+        }
+        else if (version_compare(mgd_version(), '10.05.4', '<='))
+        {
+            $this->fail('OpenPSA requires midgard 10.05.5 or later (found version: ' . mgd_version() . ')');
         }
 
         if (!class_exists('midgard_topic'))
