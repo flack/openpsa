@@ -253,7 +253,10 @@ class midcom_exception_handler
 
         debug_add("Error Page output finished, exiting now");
         midcom::get('cache')->content->no_cache();
-        midcom::get()->finish();
+        if (midcom::get())
+        {
+            midcom::get()->finish();
+        }
         _midcom_stop_request();
     }
 
