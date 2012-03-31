@@ -144,7 +144,14 @@ class midcom_exception_handler
         {
             ob_start();
             echo "\n";
-            var_dump($errcontext);
+            try
+            {
+                @var_dump($errcontext);
+            }
+            catch (Exception $e)
+            {
+                debug_print_r('Exception encountered while dumping the error context', $e, MIDCOM_LOG_ERROR);
+            }
             $msg .= ob_get_clean();
         }
         switch ($errno)
@@ -153,9 +160,6 @@ class midcom_exception_handler
             case E_USER_ERROR:
                 // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); in stead?
                 throw new midcom_error($msg, $errno);
-                // I don't think we reach this
-                return  true;
-                break;
         }
         // Leave other errors for PHP to take care of
         return false;
