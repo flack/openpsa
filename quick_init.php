@@ -155,6 +155,7 @@ class openpsa_installer
         $this->_check_dir('/var/cache/' . $this->_project_name);
         $this->_link_file('config', 'midgard_auth_types.xml', '/var/lib/' . $this->_project_name . '/share');
         $this->_link_file('config', 'MidgardObjects.xml', '/var/lib/' . $this->_project_name . '/share');
+        $this->_check_dir('/var/lib/' . $this->_project_name . '/share/views');
 
         // Create a config file
         $config = new midgard_config();
