@@ -300,6 +300,7 @@ class midcom_config_test
     public function check_pear()
     {
         $this->print_header('PEAR');
+        $checked_dependencies = array();
         foreach (midcom::get('componentloader')->manifests as $manifest)
         {
             if (empty($manifest->_raw_data['package.xml']['dependencies']))
@@ -316,11 +317,16 @@ class midcom_config_test
                     }
                     continue;
                 }
+                if (array_key_exists($dependency, $checked_dependencies))
+                {
+                    continue;
+                }
+
                 $filename = str_replace('_', '/', $dependency);
                 @include_once($filename . '.php');
                 if (!class_exists($dependency))
                 {
-                    if (array_key_exists('optional', $data)
+                    if (   array_key_exists('optional', $data)
                         && $data['optional'] == 'yes')
                     {
                         $this->println($dependency, self::WARNING, 'Package ' . $dependency . ' from channel ' . $data['channel'] . ' is optionally required by ' . $manifest->name);
@@ -334,6 +340,7 @@ class midcom_config_test
                 {
                     $this->println($dependency, self::OK);
                 }
+                $checked_dependencies[$dependency] = true;
             }
         }
     }
