@@ -134,6 +134,11 @@ class midcom_config_test
         {
             $this->println('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for OpenPSA.');
         }
+        else if (   extension_loaded('midgard2')
+                 && version_compare(mgd_version(), '10.05.5', '<'))
+        {
+            $this->println('Midgard Version', self::ERROR, 'Midgard2 10.05.5 or greater is required for OpenPSA.');
+        }
         else
         {
             $this->println('Midgard Version', self::OK, mgd_version());
