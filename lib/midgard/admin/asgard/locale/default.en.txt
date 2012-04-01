@@ -814,8 +814,8 @@ URL
 Use edit mode instead of view mode as the primary object management page
 ---STRINGEND
 
----STRING use editarea editor for editing code snippets
-Use EditArea editor for editing code snippets
+---STRING use codemirror editor for editing code snippets
+Use CodeMirror editor for editing code snippets
 ---STRINGEND
 
 ---STRING use tinymce editor for editing content

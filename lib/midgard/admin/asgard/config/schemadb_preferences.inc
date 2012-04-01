@@ -29,14 +29,14 @@
                 'title' => 'editor options',
             ),
         ),
-        'editarea_enabled' => array
+        'codemirror_enabled' => array
         (
-            'title' => 'use editarea editor for editing code snippets',
+            'title' => 'use codemirror editor for editing code snippets',
             'storage' => array
             (
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
-                'name' => 'editarea_enabled',
+                'name' => 'codemirror_enabled',
             ),
             'type' => 'select',
             'type_config' => array

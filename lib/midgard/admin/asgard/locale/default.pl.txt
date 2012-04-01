@@ -786,8 +786,8 @@ URL
 Wejście w obiekt oznacza edycję
 ---STRINGEND
 
----STRING use editarea editor for editing code snippets
-Używaj EditArea do edycji kodu
+---STRING use codemirror editor for editing code snippets
+Używaj CodeMirror do edycji kodu
 ---STRINGEND
 
 ---STRING use tinymce editor for editing content

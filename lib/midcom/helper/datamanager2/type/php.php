@@ -15,6 +15,18 @@
 class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_type
 {
     /**
+     * Modes used in editor
+     *
+     * @var array
+     */
+    public $modes = array('xml', 'javascript', 'css', 'clike', 'php');
+
+    /**
+     * Widget version
+     */
+    public $version = '2.23';
+
+    /**
      * The current string encapsulated by this type.
      *
      * @var string
@@ -25,15 +37,20 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     var $code_valid_errors = array();
 
     /**
-     * Whether to actually enable editarea for preview
+     * Whether to enable the widget for preview
      */
-    var $editarea_enabled = true;
+    public $enabled = true;
 
     public function _on_initialize()
     {
-        if ($this->editarea_enabled)
+        if ($this->enabled)
         {
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');
+            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version . '/lib/codemirror.css');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version . '/lib/codemirror.js');
+            foreach ($this->modes as $mode)
+            {
+                midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version . '/mode/' . $mode . '/' . $mode . '.js');
+            }
         }
 
         return true;
@@ -81,11 +98,15 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         $fp = fopen($tmpfile, 'w');
         fwrite($fp, $this->value);
         fclose($fp);
-        $parse_results = `php -l {$tmpfile}`;
+        $return_status = 0;
+        $parse_results = array();
+        exec("php -l {$tmpfile}", $parse_results, $return_status);
+        $parse_results = implode("\n", $parse_results);
+
         debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
         unlink($tmpfile);
 
-        if (strstr($parse_results, 'Parse error'))
+        if ($return_status !== 0)
         {
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
             $this->validation_error = sprintf($this->_l10n->get('type php: parse error in line %s'), $line);
@@ -98,25 +119,19 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
     function convert_to_html()
     {
-        if (!$this->editarea_enabled)
+        if (!$this->enabled)
         {
             return highlight_string((string) $this->value, true);
         }
 
-        $html = "<textarea rows=\"30\" cols=\"100%\" class=\"editarea php\" id=\"editarea_{$this->name}\" name=\"editarea_{$this->name}\">{$this->value}</textarea>";
+        $html = "<textarea rows=\"30\" cols=\"100%\" class=\"codemirror php\" id=\"codemirror_{$this->name}\" name=\"codemirror_{$this->name}\">{$this->value}</textarea>";
 
-        midcom::get('head')->add_jscript("
-            editAreaLoader.init({
-                id : 'editarea_" . $this->name . "',
-                syntax: 'php',
-                start_highlight: true,
-                allow_toggle: false,
-                show_line_colors: true,
-                is_editable: false,
-                fullscreen: false
-            });
-        ");
+        $config = midcom_helper_misc::get_snippet_content_graceful($this->_config->get('codemirror_config_snippet'));
 
+        $config = str_replace('{$id}', 'codemirror_' . $this->name, $config);
+        $config = str_replace('{$read_only}', '"nocursor"', $config);
+
+        midcom::get('head')->add_jquery_state_script($config);
         return $html;
     }
 }

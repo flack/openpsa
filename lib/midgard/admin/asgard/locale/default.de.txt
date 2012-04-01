@@ -770,8 +770,8 @@ URL
 Bearbeitungsmodus anstelle des Ansichtsmodus als Startseite der Objektverwaltung verwenden
 ---STRINGEND
 
----STRING use editarea editor for editing code snippets
-EditArea-Editor zum Bearbeiten von Quellcode verwenden
+---STRING use codemirror editor for editing code snippets
+CodeMirror-Editor zum Bearbeiten von Quellcode verwenden
 ---STRINGEND
 
 ---STRING use tinymce editor for editing content

@@ -65,7 +65,7 @@
 
 // User interface
 'tinymce_enabled' => true,
-'editarea_enabled' => true,
+'codemirror_enabled' => true,
 'escape_frameset' => false,
 'enable_quicklinks' => true,
 'edit_mode' => false,               // Enable to enter straight to the edit mode and to skip viewing mmode

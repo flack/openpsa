@@ -5,7 +5,7 @@ if (array_key_exists($data['file']->mimetype, $data['attachment_text_types']))
 {
     // Show file for preview only if it is a text file
     ?>
-            <textarea name="midcom_admin_styleeditor_contents" cols="60" rows="30" wrap="none" id="midcom_admin_styleeditor_file_edit" readonly="readonly" class="editarea &(data['file_syntax']);"><?php
+            <textarea name="midcom_admin_styleeditor_contents" cols="60" rows="30" wrap="none" id="midcom_admin_styleeditor_file_edit" readonly="readonly" class="codemirror &(data['file_syntax']);"><?php
                 $f = $data['file']->open('r');
                 if ($f)
                 {

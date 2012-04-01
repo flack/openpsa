@@ -22,7 +22,7 @@
 
             <label>
                 <span><?php echo midcom::get('i18n')->get_string('file contents', 'midgard.admin.asgard'); ?></span>
-                <textarea name="midgard_admin_asgard_contents" cols="60" rows="30" wrap="none" id="midgard_admin_asgard_file_edit" class="editarea &(data['file_syntax']);"><?php
+                <textarea name="midgard_admin_asgard_contents" cols="60" rows="30" wrap="none" id="midgard_admin_asgard_file_edit" class="codemirror &(data['file_syntax']);"><?php
                     $f = $data['file']->open('r');
                     if ($f)
                     {

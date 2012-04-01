@@ -12,7 +12,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if ($data['handler_id'] == '____mfa-asgard-object_edit')
         {
             ?>
-            <button type="button" class="copy" onclick="if (editAreaLoader) { editAreaLoader.setValue('net_nehmer_static_value', this.parentNode.getElementsByTagName('textarea')[0].innerHTML); } else { document.getElementById('net_nehmer_static_value').innerHTML=this.parentNode.getElementsByTagName('textarea')[0].innerHTML;}">
+            <button type="button" class="copy" onclick="if (editor) { editor.setValue(this.parentNode.getElementsByTagName('textarea')[0].innerHTML); } else { document.getElementById('net_nehmer_static_value').innerHTML=this.parentNode.getElementsByTagName('textarea')[0].innerHTML;}">
                 <?php echo midcom::get('i18n')->get_string('copy default value', 'midgard.admin.asgard'); ?>
             </button>
             <?php

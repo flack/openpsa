@@ -378,11 +378,11 @@ class midgard_admin_asgard_schemadb
                 $height = 30;
 
                 // Check the user preference and configuration
-                if (   midgard_admin_asgard_plugin::get_preference('editarea_enabled')
-                    || (   midgard_admin_asgard_plugin::get_preference('editarea_enabled') !== '0'
-                        && $this->_config->get('editarea_enabled')))
+                if (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled')
+                    || (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled') !== '0'
+                        && $this->_config->get('codemirror_enabled')))
                 {
-                    $widget = 'editarea';
+                    $widget = 'codemirror';
                 }
 
                 $dm_type = 'php';

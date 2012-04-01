@@ -370,21 +370,31 @@ p
 #content .object_edit .shorttext,
 #content .object_edit select,
 #content .object_edit .longtext,
-#content .object_edit input.date
+#content .object_edit input.date,
+#content .object_edit div.CodeMirror,
+.CodeMirror-fullscreen
 {
     border: 1px solid #888888;
     background-color: white;
-    padding: 1px 2px;
-    display: inline !important
 }
 
 
 #content .object_edit .shorttext:focus,
 #content .object_edit select:focus,
 #content .object_edit .longtext:focus,
-#content .object_edit input.date:focus
+#content .object_edit input.date:focus,
+#content .object_edit div.CodeMirror-focused
 {
     border: 1px solid Highlight;
+}
+
+#content .object_edit .shorttext,
+#content .object_edit select,
+#content .object_edit .longtext,
+#content .object_edit input.date
+{
+    padding: 1px 2px;
+    display: inline !important
 }
 
 #content .object_edit fieldset

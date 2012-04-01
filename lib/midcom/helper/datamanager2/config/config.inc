@@ -20,6 +20,8 @@
 'tinymce_url' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tinymce',
 //'tinymce_default_config_snippet' => "{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/midcom.helper.datamanager2/tinymce",
 
+'codemirror_config_snippet' => "file://midcom/helper/datamanager2/config/codemirror_default",
+
 'html_purify' => true,
 'html_purify_config' => array
 (
