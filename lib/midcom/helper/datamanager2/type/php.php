@@ -100,7 +100,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         fclose($fp);
         $return_status = 0;
         $parse_results = array();
-        exec("php -l {$tmpfile}", $parse_results, $return_status);
+        exec("php -l {$tmpfile} 2>&1", $parse_results, $return_status);
         $parse_results = implode("\n", $parse_results);
 
         debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
@@ -108,7 +108,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
         if ($return_status !== 0)
         {
-            $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
+            $line = preg_replace('/^.+?on line (\d+?).*?$/s', '\1', $parse_results);
             $this->validation_error = sprintf($this->_l10n->get('type php: parse error in line %s'), $line);
 
             return false;
