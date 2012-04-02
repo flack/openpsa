@@ -244,10 +244,13 @@ implements org_openpsa_widgets_grid_provider_client
         $provider = new org_openpsa_widgets_grid_provider($this);
         $provider->add_order('paid', 'DESC');
 
-        $this->_request_data['grid'] = $provider->get_grid('paid_invoices_grid');
-        $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
+        if ($provider->count_rows() > 0)
+        {
+            $this->_request_data['grid'] = $provider->get_grid('paid_invoices_grid');
+            $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
 
-        midcom_show_style('show-grid-ajax');
+            midcom_show_style('show-grid-ajax');
+        }
     }
 
     /**
