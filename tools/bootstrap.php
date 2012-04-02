@@ -77,7 +77,7 @@ function openpsa_prepare_topics()
     foreach ($openpsa_topics as $title => $component)
     {
         $topic = new midgard_topic();
-        $topic->name = strtolower(preg_replace('/\W/', '-', $title);
+        $topic->name = strtolower(preg_replace('/\W/', '-', $title));
         $topic->component = $component;
         $topic->extra = $title;
         $topic->up = $root_topic->id;
