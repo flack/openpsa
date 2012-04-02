@@ -14,8 +14,8 @@
     height: 20px;
     position: fixed !important;
     _position: absolute;
-    background-color: ThreeDFace;
-    color: MenuText !important;
+    background-color: #eee;
+    color: #222 !important;
     margin: 0;
     padding: 0;
     border-style: solid;
@@ -58,7 +58,7 @@
 .midcom_services_toolbars_fancy.type_menu
 {
     border-width: 1px;
-    border-color: threedshadow threedshadow threeddarkshadow threedshadow;
+    border-color: #888 #444 #333 #888;
     font-size: 11px;
     cursor: default;
     line-height: 18px;
