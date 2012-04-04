@@ -30,7 +30,14 @@ $head->print_head_elements();
   </p>
 
   <div class="error-exception">
+<?php if (!empty($this->data['error_exception']))
+{
+    $e = $this->data['error_exception'];
+    echo '<p>' . get_class($e) . ' in ' . $e->getFile() . ', line ' . $e->getLine() . "</p>";
+}
+?>
 <?php
+
 $stacktrace = $this->data['error_handler']->get_function_stack();
 
 if (!empty($stacktrace))
