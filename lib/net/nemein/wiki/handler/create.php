@@ -205,33 +205,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $data['controller'] = $this->get_controller('create');
 
-        if ($handler_id == 'create_by_word_relation')
-        {
-            if (   mgd_is_guid($args[0])
-                && mgd_is_guid($args[1]))
-            {
-                // We're in "Related to" mode
-                $nap = new midcom_helper_nav();
-                $related_to_node = $nap->resolve_guid($args[1]);
-                if ($related_to_node)
-                {
-                    $data['related_to'][$related_to_node[MIDCOM_NAV_GUID]] = array
-                    (
-                        'node'   => $related_to_node,
-                        'target' => $args[1],
-                    );
-                }
-                else
-                {
-                    throw new midcom_error_notfound('The GUID ' . $args[1] . ' could not be found.');
-                }
-            }
-            else
-            {
-                throw new midcom_error_notfound('Invalid arguments.');
-            }
-        }
-
         switch ($data['controller']->process_form())
         {
             case 'save':
