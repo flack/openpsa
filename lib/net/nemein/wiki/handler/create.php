@@ -78,8 +78,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _check_unique_wikiword($wikiword)
     {
-        $resolver = new net_nemein_wiki_wikipage();
-        $resolver->topic = $this->_topic->id;
+        $resolver = new net_nemein_wiki_resolver($this->_topic->id);
         $resolved = $resolver->path_to_wikipage($wikiword, true, true);
 
         if (!empty($resolved['latest_parent']))
