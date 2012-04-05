@@ -478,29 +478,29 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         {
             // Ignore markdown tags
             case (preg_match("/[\(:\[]/", $after)):
-                    // TODO: should by str match (array) instead
-                    return $match[0];
+                // TODO: should by str match (array) instead
+                return $match[0];
                 break;
             // Escaped tag [!!text]
             case (preg_match("/^\!\!(.*)/", $fulltext, $parts)):
-                    return "[{$parts[1]}]{$after}";
+                return "[{$parts[1]}]{$after}";
                 break;
             // MediaWiki-style link [wikipage|label]
             case (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)):
-                    $text = $parts[2];
-                    $wikilink = $parts[1];
+                $text = $parts[2];
+                $wikilink = $parts[1];
                 break;
             // Macro [something: <data>] (for example [abbr: BOFH - Bastard Operator From Hell] or [photo: <GUID>])
             case (   preg_match('/^(.*?): (.*)/', $fulltext, $macro_parts)
                   && ($method = "_replace_wikiwords_macro_{$macro_parts[1]}")
                   && method_exists($this, $method)):
-                    return $this->$method($macro_parts[2], $match[0], $after);
+                return $this->$method($macro_parts[2], $match[0], $after);
                 break;
             // MediaWiki-style link [wikipage] (no text)
             // TODO: it is possible that this wasn't originally intended to be default, but the if/elseif tree was complex and this ended up being resolved as the last else
             default:
-                    $text = $fulltext;
-                    $wikilink = $fulltext;
+                $text = $fulltext;
+                $wikilink = $fulltext;
                 break;
         }
 
