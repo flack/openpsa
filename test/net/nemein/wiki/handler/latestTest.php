@@ -35,6 +35,7 @@ class net_nemein_wiki_handler_latestTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic, array('latest'));
         $this->assertEquals('latest', $data['handler_id']);
+        $this->show_handler($data);
     }
 }
 ?>

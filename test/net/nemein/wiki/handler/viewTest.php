@@ -54,24 +54,28 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic, array(self::$_page->name));
         $this->assertEquals('view', $data['handler_id']);
+        $this->show_handler($data);
     }
 
     public function testHandler_raw()
     {
         $data = $this->run_handler(self::$_topic, array('raw', self::$_page->name));
         $this->assertEquals('raw', $data['handler_id']);
+        $this->show_handler($data);
     }
 
     public function testHandler_source()
     {
         $data = $this->run_handler(self::$_topic, array('source', self::$_page->name));
         $this->assertEquals('source', $data['handler_id']);
+        $this->show_handler($data);
     }
 
     public function testHandler_whatlinks()
     {
         $data = $this->run_handler(self::$_topic, array('whatlinks', self::$_page->name));
         $this->assertEquals('whatlinks', $data['handler_id']);
+        $this->show_handler($data);
     }
 
     public function testHandler_subscribe()

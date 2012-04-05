@@ -35,6 +35,7 @@ class net_nemein_wiki_handler_orphanTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic, array('orphans'));
         $this->assertEquals('orphans', $data['handler_id']);
+        $this->show_handler($data);
     }
 }
 ?>

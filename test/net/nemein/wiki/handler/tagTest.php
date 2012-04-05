@@ -54,6 +54,8 @@ class net_nemein_wiki_handler_tagTest extends openpsa_testcase
 
         $data = $this->run_handler(self::$_topic, array('tags', self::$_page->name));
         $this->assertEquals('tags', $data['handler_id']);
+
+        $this->show_handler($data);
     }
 }
 ?>
