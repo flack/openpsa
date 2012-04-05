@@ -216,7 +216,8 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
             // Replace wikiwords
             // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
-            $data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($data['preview_page'], 'replace_wikiwords'), $data['wikipage_view']['content']);
+            $parser = new net_nemein_wiki_parser($data['preview_page']);
+            $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
         }
 
         midcom_show_style('view-wikipage-edit');

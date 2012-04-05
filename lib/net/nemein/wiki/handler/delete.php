@@ -100,7 +100,8 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         // Replace wikiwords
         if (array_key_exists('content', $this->_request_data['wikipage_view']))
         {
-            $this->_request_data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($this->_page, 'replace_wikiwords'), $this->_request_data['wikipage_view']['content']);
+            $parser = new net_nemein_wiki_parser($this->_page);
+            $this->_request_data['wikipage_view']['content'] = $parser->get_markdown($this->_request_data['wikipage_view']['content']);
         }
 
         midcom_show_style('view-wikipage-delete');

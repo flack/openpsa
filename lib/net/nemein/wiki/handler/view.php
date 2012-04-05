@@ -354,7 +354,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         // Replace wikiwords
         // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
-        $data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($this->_page, 'replace_wikiwords'), $data['wikipage_view']['content']);
+        $parser = new net_nemein_wiki_parser($this->_page);
+        $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
 
         midcom_show_style('view-wikipage');
     }
@@ -483,7 +484,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $data['display_related_to'] = $this->_config->get('display_related_to');
 
         // Replace wikiwords
-        $data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($this->_page, 'replace_wikiwords'), $data['wikipage_view']['content']);
+        $parser = new net_nemein_wiki_parser($this->_page);
+        $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
 
         midcom_show_style('view-wikipage-raw');
     }
@@ -624,7 +626,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         }
 
         // Replace wikiwords
-        $data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($this->_page, 'replace_wikiwords'), $data['wikipage_view']['content']);
+        $parser = new net_nemein_wiki_parser($this->_page);
+        $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
 
         midcom_show_style('view-wikipage-whatlinks');
     }
