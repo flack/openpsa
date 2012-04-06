@@ -118,7 +118,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $class_label = $ref->get_class_label();
         $object_label = $ref->get_object_label($this->_object);
 
-        $relatedto_button_settings['wikinote']['wikiword'] = sprintf(midcom::get('i18n')->get_string('notes for %s %s on %s', 'org.openpsa.relatedto'), $class_label, $object_label, strftime('%x %H:%M'));
+        $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf(midcom::get('i18n')->get_string('notes for %s %s on %s', 'org.openpsa.relatedto'), $class_label, $object_label, strftime('%x %H:%M')));
 
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_object, $this->_request_data['topic']->component, $relatedto_button_settings);
 
