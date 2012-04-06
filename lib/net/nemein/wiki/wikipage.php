@@ -207,19 +207,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
     private function _get_diff($field = 'content')
     {
-        if (!class_exists('Text_Diff'))
-        {
-            @include_once 'Text/Diff.php';
-            @include_once 'Text/Diff/Renderer.php';
-            @include_once 'Text/Diff/Renderer/unified.php';
-            @include_once 'Text/Diff/Renderer/inline.php';
-        }
-
-        if (!class_exists('Text_Diff'))
-        {
-            return '';
-        }
-
         // Load the RCS handler
         $rcs = midcom::get('rcs');
         $rcs_handler = $rcs->load_handler($this);
@@ -237,7 +224,15 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $this_version = $history[0];
         $prev_version = $history[1];
 
-        $diff_fields = $rcs_handler->get_diff($prev_version, $this_version, 'unified');
+        try
+        {
+            $diff_fields = $rcs_handler->get_diff($prev_version, $this_version, 'unified');
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return '';
+        }
 
         if (!array_key_exists('diff', $diff_fields[$field]))
         {

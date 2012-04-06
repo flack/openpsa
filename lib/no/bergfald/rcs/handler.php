@@ -298,21 +298,9 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
-        if (!class_exists('Text_Diff'))
-        {
-            @include_once 'Text/Diff.php';
-            @include_once 'Text/Diff/Renderer.php';
-            @include_once 'Text/Diff/Renderer/unified.php';
-            @include_once 'Text/Diff/Renderer/inline.php';
-
-            if (!class_exists('Text_Diff'))
-            {
-                throw new midcom_error("Failed to load Text_Diff library.");
-            }
-        }
+        $this->_request_data['diff'] = $this->_backend->get_diff($args[1], $args[2]);
 
         $this->_prepare_toolbars($args[2], true);
-        $this->_request_data['diff'] = $this->_backend->get_diff($args[1], $args[2]);
 
         $this->_request_data['comment'] = $this->_backend->get_comment($args[2]);
 

@@ -566,6 +566,19 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
     {
+        if (!class_exists('Text_Diff'))
+        {
+            @include_once 'Text/Diff.php';
+            @include_once 'Text/Diff/Renderer.php';
+            @include_once 'Text/Diff/Renderer/unified.php';
+            @include_once 'Text/Diff/Renderer/inline.php';
+
+            if (!class_exists('Text_Diff'))
+            {
+                throw new midcom_error("Failed to load Text_Diff library.");
+            }
+        }
+
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
 
@@ -593,49 +606,33 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
             if ($oldest_value != $newest[$attribute])
             {
-                if (class_exists('Text_Diff'))
+                $lines1 = explode ("\n", $oldest_value);
+                $lines2 = explode ("\n", $newest[$attribute]);
+
+                $diff = new Text_Diff($lines1, $lines2);
+
+                if ($renderer_style == 'unified')
                 {
-                    $lines1 = explode ("\n", $oldest_value);
-                    $lines2 = explode ("\n", $newest[$attribute]);
-
-                    $diff = new Text_Diff($lines1, $lines2);
-
-                    if ($renderer_style == 'unified')
-                    {
-                        $renderer = new Text_Diff_Renderer_unified();
-                    }
-                    else
-                    {
-                        $renderer = new Text_Diff_Renderer_inline();
-                    }
-
-                    if (!$diff->isEmpty())
-                    {
-                        // Run the diff
-                        $return[$attribute]['diff'] = $renderer->render($diff);
-
-                        if ($renderer_style == 'inline')
-                        {
-                            // Modify the output for nicer rendering
-                            $return[$attribute]['diff'] = str_replace('<del>', "<span class=\"deleted\" title=\"removed in {$latest_revision}\">", $return[$attribute]['diff']);
-                            $return[$attribute]['diff'] = str_replace('</del>', '</span>', $return[$attribute]['diff']);
-                            $return[$attribute]['diff'] = str_replace('<ins>', "<span class=\"inserted\" title=\"added in {$latest_revision}\">", $return[$attribute]['diff']);
-                            $return[$attribute]['diff'] = str_replace('</ins>', '</span>', $return[$attribute]['diff']);
-                        }
-                    }
-                }
-                else if (!is_null($GLOBALS['midcom_config']['utility_diff']))
-                {
-                    /* this doesn't work */
-                    $command = $GLOBALS['midcom_config']['utility_diff'] . " -u <(echo \"{$oldest_value}\") <(echo \"{$newest[$attribute]}\")";
-
-                    $output = array();
-                    $result = shell_exec($command);
-                    $return[$attribute]['diff'] = $command. "\n'".$result . "'";
+                    $renderer = new Text_Diff_Renderer_unified();
                 }
                 else
                 {
-                    $return[$attribute]['diff'] = "THIS IS AN OUTRAGE!";
+                    $renderer = new Text_Diff_Renderer_inline();
+                }
+
+                if (!$diff->isEmpty())
+                {
+                    // Run the diff
+                    $return[$attribute]['diff'] = $renderer->render($diff);
+
+                    if ($renderer_style == 'inline')
+                    {
+                        // Modify the output for nicer rendering
+                        $return[$attribute]['diff'] = str_replace('<del>', "<span class=\"deleted\" title=\"removed in {$latest_revision}\">", $return[$attribute]['diff']);
+                        $return[$attribute]['diff'] = str_replace('</del>', '</span>', $return[$attribute]['diff']);
+                        $return[$attribute]['diff'] = str_replace('<ins>', "<span class=\"inserted\" title=\"added in {$latest_revision}\">", $return[$attribute]['diff']);
+                        $return[$attribute]['diff'] = str_replace('</ins>', '</span>', $return[$attribute]['diff']);
+                    }
                 }
             }
         }
