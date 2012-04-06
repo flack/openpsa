@@ -98,20 +98,18 @@ class net_nemein_wiki_resolver
             'remaining_path' => $path,
         );
 
-        /* We store the Wiki folder hierarchy in a static array
-           that is populated only once, and even then only the
-           first time we encounter a namespaced wikilink */
-        static $folder_tree = array();
-        if (   strstr($path, '/')
-            && (   count($folder_tree) == 0
-                || $force_resolve_folder_tree))
-        {
-            $folder_tree = $this->_resolve_folder_tree($force_as_root);
-        }
-
+        // Namespaced handling
         if (strstr($path, '/'))
         {
-            // Namespaced handling
+            /* We store the Wiki folder hierarchy in a static array
+               that is populated only once, and even then only the
+               first time we encounter a namespaced wikilink */
+            static $folder_tree = array();
+            if (   count($folder_tree) == 0
+                || $force_resolve_folder_tree)
+            {
+                $folder_tree = $this->_resolve_folder_tree($force_as_root);
+            }
 
             if (substr($path, 0, 1) != '/')
             {
