@@ -24,12 +24,8 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array
-        (
-            'component' => 'net.nehmer.blog',
-            'name' => __CLASS__ . time()
-        );
-        self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
+        self::$_topic = self::get_component_node('net.nehmer.blog');
+
         $article_properties = array
         (
             'topic' => self::$_topic->id,
@@ -45,6 +41,7 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic);
         $this->assertEquals('index', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -55,6 +52,7 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, array('index'));
         $this->assertEquals('view', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }
