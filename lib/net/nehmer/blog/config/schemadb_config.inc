@@ -257,7 +257,7 @@
                 'type' => 'select',
                 'type_config' => array
                 (
-                    'options' => midcom_baseclasses_components_configuration::get('net.nehmer.static', 'config')->get('schemadbs'),
+                    'options' => midcom_baseclasses_components_configuration::get('net.nehmer.blog', 'config')->get('schemadbs'),
                 ),
                 'widget' => 'select',
                 'start_fieldset' => array
