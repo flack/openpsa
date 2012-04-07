@@ -9,8 +9,7 @@
 /**
  * This class is designed to ease MidCOM Configuration management.
  *
- * Basically it
- * supports key/value pairs of data, which can be retrieved out of Midgard
+ * Basically it supports key/value pairs of data, which can be retrieved out of Midgard
  * Parameters. In this case it would make the key/values a string/string pair with
  * a length limit of 255 characters. Since the current implementation only supports
  * read-access to the configuration data, this is a negligible fact, in reality it
@@ -36,9 +35,9 @@
  * configuration data.
  *
  * Any configuration key in the local configuration, which is not present in the
- * global "template", will be logged as a warning into the MidCOM log. This should
- * normally not happen. Originally, this case threw a critical error, but that
- * made upgrading configurations quite difficult.
+ * global "template", will be logged as a warning. This should normally not happen.
+ * Originally, this case threw a critical error, but that made upgrading 
+ * configurations quite difficult.
  *
  * @package midcom.helper
  */
