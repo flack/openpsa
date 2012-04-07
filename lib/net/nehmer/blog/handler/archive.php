@@ -444,14 +444,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         $now = new DateTime();
-        if (strlen($month) == 1)
-        {
-            $month = "0{$month}";
-        }
-        $this->_start = new DateTime("{$year}-{$month}-01 00:00:00");
+        $this->_start = new DateTime("{$year}-" . sprintf('%02d', $month) .  "-01 00:00:00");
         if ($this->_start > $now)
         {
-            throw new midcom_error_notfound("The month '{$year}-{$month}' is in the future, no archive available.");
+            throw new midcom_error_notfound("The month '{$year}-" . sprintf('%02d', $month) .  "' is in the future, no archive available.");
         }
 
         if ($month == 12)
@@ -464,11 +460,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $endyear = $year;
             $endmonth = $month + 1;
         }
-        if (strlen($endmonth) == 1)
-        {
-            $endmonth = "0{$endmonth}";
-        }
-        $this->_end = new DateTime("{$endyear}-{$endmonth}-01 00:00:00");
+
+        $this->_end = new DateTime("{$endyear}-" . sprintf('%02d', $endmonth) .  "-01 00:00:00");
     }
 
     /**
