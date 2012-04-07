@@ -183,17 +183,7 @@ class midcom_services_toolbars
      */
     function get_host_toolbar($context_id = null)
     {
-        if ($context_id === null)
-        {
-            $context_id = midcom_core_context::get()->id;
-        }
-
-        if (! array_key_exists($context_id, $this->_toolbars))
-        {
-            $this->_create_toolbars($context_id);
-        }
-
-        return $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST];
+        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_HOST);
     }
 
     /**
@@ -205,17 +195,7 @@ class midcom_services_toolbars
      */
     function get_node_toolbar($context_id = null)
     {
-        if ($context_id === null)
-        {
-            $context_id = midcom_core_context::get()->id;
-        }
-
-        if (! array_key_exists($context_id, $this->_toolbars))
-        {
-            $this->_create_toolbars($context_id);
-        }
-
-        return $this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE];
+        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_NODE);
     }
 
     /**
@@ -227,17 +207,7 @@ class midcom_services_toolbars
      */
     function get_view_toolbar($context_id = null)
     {
-        if ($context_id === null)
-        {
-            $context_id = midcom_core_context::get()->id;
-        }
-
-        if (! array_key_exists($context_id, $this->_toolbars))
-        {
-            $this->_create_toolbars($context_id);
-        }
-
-        return $this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW];
+        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_VIEW);
     }
 
     /**
@@ -249,6 +219,11 @@ class midcom_services_toolbars
      */
     function get_help_toolbar($context_id = null)
     {
+        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_HELP);
+    }
+
+    private function _get_toolbar($context_id, $identifier)
+    {
         if ($context_id === null)
         {
             $context_id = midcom_core_context::get()->id;
@@ -259,7 +234,7 @@ class midcom_services_toolbars
             $this->_create_toolbars($context_id);
         }
 
-        return $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HELP];
+        return $this->_toolbars[$context_id][$identifier];
     }
 
     /**
