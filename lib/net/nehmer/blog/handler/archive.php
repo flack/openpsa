@@ -147,8 +147,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $data =& $this->_request_data;
         $qb = midcom_db_article::new_query_builder();
 
-        $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:M:s'));
-        $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:M:s'));
+        $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:i:s'));
+        $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:i:s'));
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'archive_welcome');
 
         return $qb->count();
@@ -354,8 +354,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 throw new midcom_error("The request handler {$handler_id} is not supported.");
         }
 
-        $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:M:s'));
-        $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:M:s'));
+        $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:i:s'));
+        $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:i:s'));
         $qb->add_order('metadata.published', $this->_config->get('archive_item_order'));
         $this->_articles = $qb->execute();
 
