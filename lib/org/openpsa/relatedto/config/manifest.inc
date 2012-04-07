@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.relatedto',
 'icon' => 'stock-icons/16x16/hidden.png',
 'purecode' => true,
-'version' => '9.0beta2+git',
+'version' => '9.0beta3',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array
