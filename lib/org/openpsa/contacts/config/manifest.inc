@@ -9,7 +9,7 @@
     'org_openpsa_contacts_list' => 'org_openpsa_contacts_list_dba',
     'org_openpsa_member' => 'org_openpsa_contacts_member_dba',
 ),
-'version' => '9.0beta3',
+'version' => '9.0beta3+git',
 'state' => 'stable',
 'package.xml' => array
 (

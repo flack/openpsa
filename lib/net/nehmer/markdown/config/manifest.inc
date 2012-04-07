@@ -1,6 +1,6 @@
 'name' => 'net.nehmer.markdown',
 'icon' => 'net.nehmer.markdown/markdown.png',
-'version' => '9.0beta3',
+'version' => '9.0beta3+git',
 'state' => 'stable',
 'purecode' => true,
 'package.xml' => array
