@@ -68,28 +68,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
     private function _prepare_qb()
     {
         $query = $this->_request["term"];
-        $wildcard_query = $query;
-        if (   isset($this->_request['auto_wildcards'])
-            && strpos($query, '%') === false)
-        {
-            switch ($this->_request['auto_wildcards'])
-            {
-                case 'start':
-                    $wildcard_query = '%' . $query;
-                    break;
-                case 'end':
-                    $wildcard_query = $query . '%';
-                    break;
-                case 'both':
-                    $wildcard_query = '%' . $query . '%';
-                    break;
-                default:
-                    debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
-                    break;
-            }
-        }
-        $wildcard_query = str_replace("*", "%", $wildcard_query);
-        $wildcard_query = preg_replace('/%+/', '%', $wildcard_query);
+        $wildcard_query = $this->_add_wildcards($query);
 
         $qb = @call_user_func(array($this->_request['class'], 'new_query_builder'));
         if (! $qb)
@@ -106,9 +85,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
             reset($constraints);
             foreach ($constraints as $key => $data)
             {
-                if (   !array_key_exists('field', $data)
-                    || !array_key_exists('op', $data)
-                    || !array_key_exists('value', $data)
+                if (   !array_key_exists('value', $data)
                     || empty($data['field'])
                     || empty($data['op']))
                 {
@@ -173,6 +150,33 @@ class midcom_helper_datamanager2_ajax_autocomplete
             }
         }
         return $qb;
+    }
+
+    private function _add_wildcards($query)
+    {
+        $wildcard_query = $query;
+        if (   isset($this->_request['auto_wildcards'])
+            && strpos($query, '%') === false)
+        {
+            switch ($this->_request['auto_wildcards'])
+            {
+                case 'start':
+                    $wildcard_query = '%' . $query;
+                    break;
+                case 'end':
+                    $wildcard_query = $query . '%';
+                    break;
+                case 'both':
+                    $wildcard_query = '%' . $query . '%';
+                    break;
+                default:
+                    debug_add("Don't know how to handle auto_wildcards value '" . $this->_request['auto_wildcards'] . "'", MIDCOM_LOG_WARN);
+                    break;
+            }
+        }
+        $wildcard_query = str_replace("*", "%", $wildcard_query);
+        $wildcard_query = preg_replace('/%+/', '%', $wildcard_query);
+        return $wildcard_query;
     }
 
     public function get_results()
