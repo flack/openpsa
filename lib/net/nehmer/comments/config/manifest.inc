@@ -63,11 +63,6 @@
     (
         array
         (
-            'handler' => 'net_nehmer_comments_cron_buzz',
-            'recurrence' => MIDCOM_CRON_HOUR,
-        ),
-        array
-        (
             'handler' => 'net_nehmer_comments_cron_qaiku',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
