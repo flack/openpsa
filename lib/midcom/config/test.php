@@ -164,9 +164,9 @@ class midcom_config_test
     public function check_php()
     {
         $this->print_header('PHP');
-        if (version_compare(phpversion(), '5.2.0', '<'))
+        if (version_compare(phpversion(), '5.3.0', '<'))
         {
-            $this->println('Version', self::ERROR, 'PHP 5.2.0 or greater is required for MidCOM.');
+            $this->println('Version', self::ERROR, 'PHP 5.3.0 or greater is required for MidCOM.');
         }
         else
         {

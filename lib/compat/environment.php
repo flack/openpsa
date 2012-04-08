@@ -138,14 +138,7 @@ class midcom_compat_default extends midcom_compat_environment
 
     public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
     {
-        if (version_compare(PHP_VERSION, '5.2.0', '<'))
-        {
-            return setcookie($name, $value, $expire, $path, $domain, $secure);
-        }
-        else
-        {
-            return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-        }
+        return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
     }
 }
 

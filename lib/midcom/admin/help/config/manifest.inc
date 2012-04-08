@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/stock_help-agent.png',
 'description' => 'On-site help displayer',
 'purecode' => true,
-'version' => '9.0beta2+git',
+'version' => '9.0beta3+git',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),
