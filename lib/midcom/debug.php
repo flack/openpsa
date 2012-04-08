@@ -179,14 +179,7 @@ class midcom_debug
         }
 
         //find the proper caller
-        if (version_compare(PHP_VERSION, '5.2.5', '<'))
-        {
-            $bt = debug_backtrace();
-        }
-        else
-        {
-            $bt = debug_backtrace(false);
-        }
+        $bt = debug_backtrace(false);
         $prefix .= $this->_get_caller($bt);
         fputs($file, $prefix . trim($message) . "\n");
         fclose($file);
