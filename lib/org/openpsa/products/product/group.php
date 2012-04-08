@@ -15,6 +15,8 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_products_product_group';
 
+    const TYPE_SMART = 1000;
+
     public function _on_creating()
     {
         if ($this->_check_duplicates($this->code))

@@ -249,7 +249,7 @@ catch (midcom_error $e)
         && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
     {
         if (   $product
-            && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+            && $product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
         {
             $tabs[] = array
             (

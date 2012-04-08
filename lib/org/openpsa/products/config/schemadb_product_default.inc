@@ -82,9 +82,9 @@
             (
                 'options' => Array
                 (
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE   => 'service',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS     => 'material goods',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION  => 'solution',
+                    org_openpsa_products_product_dba::TYPE_SERVICE   => 'service',
+                    org_openpsa_products_product_dba::TYPE_GOODS     => 'material goods',
+                    org_openpsa_products_product_dba::TYPE_SOLUTION  => 'solution',
                 ),
             ),
             'widget' => 'select',

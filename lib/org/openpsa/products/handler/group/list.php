@@ -335,7 +335,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
             $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
 
-            if ($this->_request_data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            if ($this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
             {
                 $allow_create_product = false;
             }
@@ -441,7 +441,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         if (   $this->_request_data['group']
-            && $this->_request_data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            && $this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
         {
             // Smart group, query products by stored constraints
             $constraints = $this->_request_data['group']->list_parameters('org.openpsa.products:constraints');

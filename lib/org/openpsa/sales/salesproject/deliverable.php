@@ -349,10 +349,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             // Check if we need to create task or ship goods
             switch ($product->orgOpenpsaObtype)
             {
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE:
+                case org_openpsa_products_product_dba::TYPE_SERVICE:
                     $scheduler->create_task($this->start, $this->end, $this->title);
                     break;
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS:
+                case org_openpsa_products_product_dba::TYPE_GOODS:
                     // TODO: Warehouse management: create new order
                 default:
                     break;
@@ -396,7 +396,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         {
             switch ($product->orgOpenpsaObtype)
             {
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE:
+                case org_openpsa_products_product_dba::TYPE_SERVICE:
                     // Change status of tasks connected to the deliverable
                     $task_qb = org_openpsa_projects_task_dba::new_query_builder();
                     $task_qb->add_constraint('agreement', '=', $this->id);
@@ -407,7 +407,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
                         org_openpsa_projects_workflow::close($task, sprintf(midcom::get('i18n')->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
                     }
                     break;
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS:
+                case org_openpsa_products_product_dba::TYPE_GOODS:
                     // TODO: Warehouse management: mark product as shipped
                 default:
                     break;

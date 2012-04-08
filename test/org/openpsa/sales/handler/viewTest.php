@@ -34,7 +34,7 @@ class org_openpsa_sales_salesproject_viewTest extends openpsa_testcase
         $product_group = $this->create_object('org_openpsa_products_product_group_dba');
         $product_attributes = array
         (
-            'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE,
+            'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE,
             'productGroup' => $product_group->id
         );
         $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);

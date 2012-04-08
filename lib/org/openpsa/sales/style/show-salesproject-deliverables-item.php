@@ -60,7 +60,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if (   $data['projects_url']
             && $data['product']
-            && $data['product']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE
             && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
         {
             midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");

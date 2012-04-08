@@ -19,6 +19,21 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
     const DELIVERY_SINGLE = 1000;
     const DELIVERY_SUBSCRIPTION = 2000;
 
+    /**
+     * Professional services
+     */
+    const TYPE_SERVICE = 1000;
+
+    /**
+     * Material goods
+     */
+    const TYPE_GOODS = 2000;
+
+    /**
+     * Solution is a nonmaterial good
+     */
+    const TYPE_SOLUTION = 2001;
+
     function get_parent_guid_uncached()
     {
         if ($this->productGroup != 0)

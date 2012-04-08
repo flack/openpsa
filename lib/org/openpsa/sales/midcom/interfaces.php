@@ -23,11 +23,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
     public function _on_initialize()
     {
-        // Load needed data classes
-        midcom::get('componentloader')->load_graceful('org.openpsa.products');
-
-        //TODO: Check that the loads actually succeeded
-
         //org.openpsa.sales object types
         define('ORG_OPENPSA_OBTYPE_SALESPROJECT', 10000);
         define('ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER', 10500);

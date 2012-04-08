@@ -288,7 +288,6 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     {
         //get the necessary constants
         midcom::get('componentloader')->load('org.openpsa.sales');
-        midcom::get('componentloader')->load('org.openpsa.products');
 
         $now = time();
         $this_month = gmdate('n', $now);
@@ -487,7 +486,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE
                     ),
                     '_task' => array
                     (
@@ -551,7 +550,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE
                     ),
                     '_hour_report' => array
                     (
@@ -603,7 +602,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS
                     )
                 ),
                 'output' => array

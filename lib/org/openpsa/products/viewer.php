@@ -301,7 +301,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             }
             $parent->require_do('midgard:create');
 
-            if ($parent->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            if ($parent->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
             {
                 return false;
             }

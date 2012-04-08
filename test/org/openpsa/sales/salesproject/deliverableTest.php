@@ -110,9 +110,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerOrder()
     {
-        //get necessary constants
-        midcom::get('componentloader')->load('org.openpsa.products');
-
         return array
         (
             0 => array
@@ -122,7 +119,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'product' => array
                     (
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
-                        'type' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
+                        'type' => org_openpsa_products_product_dba::TYPE_GOODS,
                     ),
                     'deliverable' => array
                     (
@@ -165,7 +162,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'product' => array
                     (
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
-                        'type' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS,
+                        'type' => org_openpsa_products_product_dba::TYPE_GOODS,
                     ),
                     'deliverable' => array
                     (

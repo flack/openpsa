@@ -69,7 +69,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $tasks_completed = array();
         $tasks_not_completed = array();
 
-        if ($product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+        if ($product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
         {
             // Close previous task(s)
             $last_task = null;

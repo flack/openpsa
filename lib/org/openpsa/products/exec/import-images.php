@@ -24,7 +24,6 @@ else
     midcom::get()->disable_limits();
 
     // Import product images
-    midcom::get('componentloader')->load_graceful('org.openpsa.products');
     $qb = org_openpsa_products_product_dba::new_query_builder();
     $qb->add_constraint('code', '<>', '');
     $products = $qb->execute();

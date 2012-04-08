@@ -11,21 +11,6 @@
  */
 class org_openpsa_products_interface extends midcom_baseclasses_components_interface
 {
-    public function _on_initialize()
-    {
-        // Define product types
-        // Professional services
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE', 1000);
-        // Material goods
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS', 2000);
-        // Solution is a nonmaterial good
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION', 2001);
-
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART', 1000);
-
-        return true;
-    }
-
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         try
