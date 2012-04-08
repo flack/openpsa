@@ -22,22 +22,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     public $contacts = null; //Shorthand access for contact members
     public $resources = null; // --''--
 
-
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     public function __get($property)
     {
         if ($property == 'status_type')

@@ -25,27 +25,6 @@ class midcom_db_host extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_host';
 
-    /**
-     * Overwrite the query builder getter with a version retrieving the right type.
-     * We need a better solution here in DBA core actually, but it will be difficult to
-     * do this as we cannot determine the current class in a polymorphic environment without
-     * having a this (this call is static).
-     */
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     function get_label()
     {
         if (   $this->port == 0

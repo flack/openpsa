@@ -17,21 +17,6 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     var $person;
     var $participant;
 
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     public function __construct($identifier = null)
     {
         parent::__construct($identifier);

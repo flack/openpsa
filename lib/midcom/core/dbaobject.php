@@ -11,7 +11,7 @@
  *
  * @package midcom
  */
-abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
+abstract class midcom_core_dbaobject
 {
     /**
      * MgdSchema object
@@ -196,6 +196,41 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     public function __set($property, $value)
     {
         return $this->__object->$property = $value;
+    }
+
+    /**
+     * Shortcut for accessing MidCOM Query Builder
+     *
+     * @return midcom_core_querybuilder The initialized instance of the query builder.
+     * @see midcom_core_querybuilder
+     */
+    public static function new_query_builder()
+    {
+        return midcom::get('dbfactory')->new_query_builder(get_called_class());
+    }
+
+    /**
+     * Shortcut for accessing MidCOM Collector
+     *
+     * @param string $domain The domain property of the collector instance
+     * @param mixed $value Value match for the collector instance
+     * @return midcom_core_collector The initialized instance of the collector.
+     * @see midcom_core_collector
+     */
+    public static function new_collector($domain, $value)
+    {
+        return midcom::get('dbfactory')->new_collector(get_called_class(), $domain, $value);
+    }
+
+    /**
+     * Shortcut for accessing MidCOM object cache.
+     *
+     * @param mixed $src GUID of object (ids work but are discouraged)
+     * @return mixed Reference to the object or false
+     */
+    public static function &get_cached($src)
+    {
+        return midcom::get('dbfactory')->get_cached(get_called_class(), $src);
     }
 
     public function set_guid($guid)

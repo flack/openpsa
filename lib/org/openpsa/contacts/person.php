@@ -28,27 +28,6 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         parent::__construct($identifier);
     }
 
-    public static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    public static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    /**
-     * Retrieve a reference to a person object, uses in-request caching
-     *
-     * @param string $src GUID of person (ids work but are discouraged)
-     * @return org_openpsa_contacts_person_dba reference to device object or false
-     */
-    public static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     public function __set($name, $value)
     {
         if (   $name == 'homepage'

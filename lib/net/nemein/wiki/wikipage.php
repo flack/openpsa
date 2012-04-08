@@ -18,17 +18,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         'net_nemein_wiki_link_dba' => 'frompage'
     );
 
-    /**
-     * Overwrite the query builder getter with a version retrieving the right type.
-     * We need a better solution here in DBA core actually, but it will be difficult to
-     * do this as we cannot determine the current class in a polymorphic environment without
-     * having a this
-     */
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
     public function _on_loaded()
     {
         // Backwards compatibility

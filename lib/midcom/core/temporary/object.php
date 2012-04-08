@@ -22,21 +22,6 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
     public $_use_activitystream = false;
     public $_use_rcs = false;
 
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     /**
      * These objects have no restrictions whatsoever directly assigned to them.
      * This allows you to assign further privileges to the temporary object during

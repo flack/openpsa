@@ -39,21 +39,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      */
     private $_update_parent_on_save = false;
 
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     function get_parent_guid_uncached()
     {
         if ($this->up != 0)

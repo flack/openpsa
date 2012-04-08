@@ -20,21 +20,6 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
     var $_use_activitystream = false;
     var $_use_rcs = false;
 
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     /**
      * Map MidCOM I/O operations to Activity Streams verbs
      *

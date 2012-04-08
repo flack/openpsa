@@ -18,21 +18,6 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
 
     const MYCONTACTS = 500;
 
-    static function new_query_builder()
-    {
-        return midcom::get('dbfactory')->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return midcom::get('dbfactory')->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return midcom::get('dbfactory')->get_cached(__CLASS__, $src);
-    }
-
     public static function _on_prepare_new_query_builder(&$qb)
     {
         $qb->add_constraint('orgOpenpsaObtype', '=', self::MYCONTACTS);
