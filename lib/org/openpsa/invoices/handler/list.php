@@ -241,6 +241,7 @@ implements org_openpsa_widgets_grid_provider_client
     private function _show_recent()
     {
         $this->_request_data['list_type'] = 'paid';
+        $this->_list_type = 'recent';
         $provider = new org_openpsa_widgets_grid_provider($this);
         $provider->add_order('paid', 'DESC');
 
