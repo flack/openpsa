@@ -219,6 +219,8 @@ implements org_openpsa_widgets_grid_provider_client
                 )
             );
         }
+        $this->_request_data['customer'] = $this->_customer;
+
         midcom::get('head')->set_pagetitle($this->_l10n->get('dashboard'));
     }
 
@@ -320,7 +322,6 @@ implements org_openpsa_widgets_grid_provider_client
 
         $this->_request_data['grid'] = $provider->get_grid($grid_id);
         $this->_request_data['list_type'] = $this->_list_type;
-        $this->_request_data['customer'] = $this->_customer;
 
         $label = ($type == 'all') ? 'invoices' : $type . ' invoices';
         $this->_request_data['list_label'] = $this->_l10n->get($label);
