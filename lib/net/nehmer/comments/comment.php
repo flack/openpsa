@@ -158,7 +158,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function count_by_objectguid($guid, $status = false)
     {
-
         $qb = net_nehmer_comments_comment::new_query_builder();
 
         if (!is_array($status))
@@ -183,7 +182,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function count_by_objectguid_filter_anonymous($guid, $status = false)
     {
-
         $qb = net_nehmer_comments_comment::new_query_builder();
 
         if (!is_array($status))
@@ -479,8 +477,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             $value = 0;
             foreach ($comments as $comment)
             {
-                if (   isset($comment->rating)
-                    && !empty($comment->rating))
+                if (!empty($comment->rating))
                 {
                     $rating_comments++;
                     $ratings_total += $comment->rating;
@@ -494,7 +491,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             {
                 $value = $ratings_total;
             }
-            elseif ($rating_comments != 0)
+            else if ($rating_comments != 0)
             {
                 $value = $ratings_total / $rating_comments;
             }

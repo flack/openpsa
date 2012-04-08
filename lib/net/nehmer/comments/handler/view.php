@@ -163,8 +163,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;
         //Proxy check
-        if (   isset($_SERVER["HTTP_X_FORWARDED_FOR"])
-            && !empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
+        if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
         {
             $this->_new_comment->ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
         }
@@ -444,7 +443,5 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
         midcom_show_style('comments-footer');
     }
-
 }
-
 ?>
