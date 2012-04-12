@@ -264,7 +264,7 @@ var org_openpsa_layout =
         if (   search !== ''
             && search !== location.search)
         {
-            field.val(decodeURI(search));
+            field.val(decodeURIComponent(search));
         }
         else
         {
