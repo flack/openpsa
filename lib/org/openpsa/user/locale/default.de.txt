@@ -82,7 +82,7 @@ Darf Organisationen anlegen
 Darf Produkte anlegen
 ---STRINGEND
 
----STRING enable task view
+---STRING enable task creation
 Darf Aufgaben anlegen
 ---STRINGEND
 

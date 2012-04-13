@@ -82,7 +82,7 @@ Enable organization creation
 Enable product creation
 ---STRINGEND
 
----STRING enable task view
+---STRING enable task creation
 Enable task creation
 ---STRINGEND
 
