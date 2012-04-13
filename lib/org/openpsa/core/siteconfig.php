@@ -87,9 +87,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $node_relative_url = 'false';
             if (is_array($node))
             {
-              $node_guid = "'" . $node[MIDCOM_NAV_OBJECT]->guid . "'";
-              $node_full_url = "'" . $node[MIDCOM_NAV_FULLURL] . "'";
-              $node_relative_url = "'" . $node[MIDCOM_NAV_RELATIVEURL] . "'";
+                $node_guid = "'" . $node[MIDCOM_NAV_OBJECT]->guid . "'";
+                $node_full_url = "'" . $node[MIDCOM_NAV_FULLURL] . "'";
+                $node_relative_url = "'" . $node[MIDCOM_NAV_RELATIVEURL] . "'";
             }
             $this->set_config_value($last . '_guid', $node_guid);
             $this->set_config_value($last . '_full_url', $node_full_url);
