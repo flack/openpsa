@@ -83,6 +83,10 @@ Darf Produkte anlegen
 ---STRINGEND
 
 ---STRING enable task view
+Darf Aufgaben anlegen
+---STRINGEND
+
+---STRING enable task view
 Darf Aufgaben sehen, die von anderen erstellt wurden
 ---STRINGEND
 

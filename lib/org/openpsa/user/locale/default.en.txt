@@ -83,6 +83,10 @@ Enable product creation
 ---STRINGEND
 
 ---STRING enable task view
+Enable task creation
+---STRINGEND
+
+---STRING enable task view
 Enable viewing tasks created by others
 ---STRINGEND
 
