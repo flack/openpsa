@@ -117,6 +117,20 @@
             ),
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
         ),
+        'tasks_creation' => array
+        (
+            'title' => 'enable task creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_projects_task_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
+        ),
         'projects_tasks' => array
         (
             'title' => 'enable task view',
