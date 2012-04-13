@@ -19,6 +19,10 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_document';
 
+    const STATUS_DRAFT = 4000;
+    const STATUS_FINAL = 4001;
+    const STATUS_REVIEW = 4002;
+
     function get_parent_guid_uncached()
     {
         // FIXME: Midgard Core should do this
@@ -43,7 +47,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         if (!$this->docStatus)
         {
-            $this->docStatus = ORG_OPENPSA_DOCUMENT_STATUS_DRAFT;
+            $this->docStatus = org_openpsa_documents_document_dba::STATUS_DRAFT;
         }
     }
 

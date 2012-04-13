@@ -38,10 +38,6 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
 
         //org.openpsa.documents object types
         define('ORG_OPENPSA_OBTYPE_DOCUMENT', 3000);
-        //org.openpsa.documents document status
-        define('ORG_OPENPSA_DOCUMENT_STATUS_DRAFT', 4000);
-        define('ORG_OPENPSA_DOCUMENT_STATUS_FINAL', 4001);
-        define('ORG_OPENPSA_DOCUMENT_STATUS_REVIEW', 4002);
 
         //org.openpsa.calendar object types
         define('ORG_OPENPSA_OBTYPE_EVENT', 5000);
