@@ -58,7 +58,8 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $statuses =  array
         (
             'open',
-            'unsent'
+            'unsent',
+            'scheduled'
         );
         $query->set_parameter('midcom.helper.datamanager2', 'invoice_status', serialize($statuses));
         $query->set_parameter('midcom.helper.datamanager2', 'date_field', 'date');
