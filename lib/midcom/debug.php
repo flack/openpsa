@@ -153,8 +153,7 @@ class midcom_debug
 
         $file = fopen($this->_filename, 'a+');
 
-        if (   MIDCOM_XDEBUG
-            && function_exists('xdebug_memory_usage'))
+        if (function_exists('xdebug_memory_usage'))
         {
             static $lastmem = 0;
             $curmem = xdebug_memory_usage();
@@ -290,7 +289,7 @@ class midcom_debug
             return;
         }
 
-        if (MIDCOM_XDEBUG)
+        if (function_exists('xdebug_get_function_stack'))
         {
             $stack = array_reverse(xdebug_get_function_stack());
         }

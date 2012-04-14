@@ -103,25 +103,6 @@ class midcom
         ini_set('track_errors', '1');
         require(MIDCOM_ROOT. '/errors.php');
 
-        //////////////////////////////////////////////////////////////
-        // Set the MIDCOM_XDEBUG constant accordingly, if not yet set.
-
-        if (! defined('MIDCOM_XDEBUG'))
-        {
-            if (function_exists('xdebug_start_profiling'))
-            {
-                define('MIDCOM_XDEBUG', 1);
-            }
-            else if (function_exists('xdebug_break'))
-            {
-                define('MIDCOM_XDEBUG', 2);
-            }
-            else
-            {
-                define('MIDCOM_XDEBUG', 0);
-            }
-        }
-
         // Register autoloader so we get all MidCOM classes loaded automatically
         spl_autoload_register(array('midcom', 'autoload'));
 
