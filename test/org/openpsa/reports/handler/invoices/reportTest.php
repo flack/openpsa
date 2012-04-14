@@ -22,6 +22,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
+        self::create_class_object('org_openpsa_invoices_invoice_dba');
     }
 
     public function test_handler_generator_get()
@@ -45,6 +46,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', array('invoices', 'edit', $query->guid));
         $this->assertEquals('invoices_edit_report_guid', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -53,10 +55,19 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
+        $statuses =  array
+        (
+            'open',
+            'unsent'
+        );
+        $query->set_parameter('midcom.helper.datamanager2', 'invoice_status', serialize($statuses));
+        $query->set_parameter('midcom.helper.datamanager2', 'date_field', 'date');
+        $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
         $data = $this->run_handler('org.openpsa.reports', array('invoices', $query->guid, 'test.csv'));
         $this->assertEquals('invoices_report_guid_file', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -78,13 +89,11 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
-
         $data = $this->run_handler('org.openpsa.reports', array('invoices'));
         $this->assertEquals('invoices_report', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
-
 }
 ?>
