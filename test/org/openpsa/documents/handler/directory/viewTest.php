@@ -38,6 +38,7 @@ class org_openpsa_documents_handler_directory_viewTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.documents', array('directory', 'xml', self::$_directory->guid));
         $this->assertEquals('directory-single-view', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

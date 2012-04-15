@@ -33,6 +33,7 @@ class org_openpsa_documents_handler_directory_createTest extends openpsa_testcas
         $data = $this->run_handler('org.openpsa.documents', array('create'));
         $this->assertEquals('directory-create', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

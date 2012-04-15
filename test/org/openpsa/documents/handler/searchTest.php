@@ -8,8 +8,8 @@
 
 if (!defined('OPENPSA_TEST_ROOT'))
 {
-    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -17,7 +17,7 @@ if (!defined('OPENPSA_TEST_ROOT'))
  *
  * @package openpsa.test
  */
-class org_openpsa_documents_handler_directory_searchTest extends openpsa_testcase
+class org_openpsa_documents_handler_searchTest extends openpsa_testcase
 {
     protected static $_person;
 
@@ -33,6 +33,7 @@ class org_openpsa_documents_handler_directory_searchTest extends openpsa_testcas
         $data = $this->run_handler('org.openpsa.documents', array('search'));
         $this->assertEquals('search', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }
