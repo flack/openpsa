@@ -33,6 +33,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array('projects'));
         $this->assertEquals('list_projects_uninvoiced', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 

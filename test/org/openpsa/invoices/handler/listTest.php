@@ -33,6 +33,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array());
         $this->assertEquals('dashboard', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -43,6 +44,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array('list', 'json', 'all'));
         $this->assertEquals('list_json_type', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -53,6 +55,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array('list', 'customer', 'all', self::$_person->guid));
         $this->assertEquals('list_customer_all', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -66,6 +69,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array('list', 'deliverable', $deliverable->guid));
         $this->assertEquals('list_deliverable_all', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }
