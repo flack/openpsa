@@ -36,42 +36,6 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         return $this->_type;
     }
 
-    private function _load_members()
-    {
-        $rows = array();
-
-        $member_ids = array_keys($this->_group->get_members());
-
-        if (empty($member_ids))
-        {
-            return $rows;
-        }
-        $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', $member_ids);
-        $qb->add_order('lastname');
-        $qb->add_order('firstname');
-        $qb->add_order('email');
-        $members = $qb->execute();
-
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $prefix .= 'person/';
-
-        foreach ($members as $person)
-        {
-            $row = array
-            (
-                'index_firstname' => $person->firstname,
-                'firstname' => '<a href="' . $prefix . $person->guid . '/">' . $person->firstname . '</a>',
-                'index_lastname' => $person->lastname,
-                'lastname' => '<a href="' . $prefix . $person->guid . '/">' . $person->lastname . '</a>',
-                'index_email' => $person->email,
-                'email' =>  '<a href="mailto:' . $person->email . '">' . $person->email . '</a>',
-            );
-            $rows[] = $row;
-        }
-        return $rows;
-    }
-
     private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item
