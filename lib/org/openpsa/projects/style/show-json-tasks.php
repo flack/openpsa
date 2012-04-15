@@ -17,7 +17,6 @@ foreach ($tasks as $task)
         'priority' => $task['priority'],
         'priority_title' => $data['priority_array'][$task['index_priority']],
         'planned_hours' => $task['planned_hours'],
-        'invoiceable_hours' => $task['invoiceable_hours'],
         'approved_hours' => $task['approved_hours'],
         'reported_hours' => $task['reported_hours'],
         'start' => date("d.m.Y", strtotime($task['start'])),
