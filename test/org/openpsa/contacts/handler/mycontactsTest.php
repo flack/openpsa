@@ -8,7 +8,7 @@
 
 if (!defined('OPENPSA_TEST_ROOT'))
 {
-    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))) . DIRECTORY_SEPARATOR);
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
     require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
 }
 
@@ -33,6 +33,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.contacts', array('mycontacts'));
         $this->assertEquals('mycontacts', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -43,6 +44,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.contacts', array('mycontacts', 'xml'));
         $this->assertEquals('mycontacts_xml', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
