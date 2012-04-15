@@ -70,8 +70,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_get_campaign_data($receipt_data['first_send']);
 
         $segmentation_param = false;
-        if (   isset($data['message_array']['report_segmentation'])
-            && !empty($data['message_array']['report_segmentation']))
+        if (!empty($data['message_array']['report_segmentation']))
         {
             $segmentation_param = $data['message_array']['report_segmentation'];
         }
@@ -368,7 +367,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])
-            && isset($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']])
             && !empty($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']]))
         {
             $this->_create_campaign_from_link();

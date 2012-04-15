@@ -607,8 +607,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         reset($data_array['dm_types']);
         foreach ($data_array['dm_types'] as $field => $typedata)
         {
-            if (   !isset($typedata->attachments_info)
-                || empty($typedata->attachments_info))
+            if (empty($typedata->attachments_info))
             {
                 continue;
             }

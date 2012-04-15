@@ -246,8 +246,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_prepare_request_data($handler_id);
 
-        if (   isset($_POST['midcom_helper_datamanager2_cancel'])
-            && !empty($_POST['midcom_helper_datamanager2_cancel']))
+        if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
             return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
@@ -255,12 +254,10 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
 
-        if (   isset($_POST['midcom_helper_datamanager2_save'])
-            && !empty($_POST['midcom_helper_datamanager2_save']))
+        if (!empty($_POST['midcom_helper_datamanager2_save']))
         {
             //Actual save routine
-            if (   !isset($_POST['midcom_helper_datamanager2_dummy_field_rules'])
-                || empty($_POST['midcom_helper_datamanager2_dummy_field_rules']))
+            if (empty($_POST['midcom_helper_datamanager2_dummy_field_rules']))
             {
                 //Rule code empty
                 midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('no rule given'), 'error');
