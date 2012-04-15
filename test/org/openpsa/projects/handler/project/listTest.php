@@ -31,6 +31,7 @@ class org_openpsa_projects_handler_project_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', array('project', 'list'));
         $this->assertEquals('project-list', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -41,6 +42,7 @@ class org_openpsa_projects_handler_project_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', array('project', 'list', 'overtime'));
         $this->assertEquals('project-list-status', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }
