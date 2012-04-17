@@ -186,6 +186,10 @@ Configuration save failed: %s
 Configuration saved successfully
 ---STRINGEND
 
+---STRING confirm deletion of file %s
+Confirm deletion of file %s
+---STRINGEND
+
 ---STRING content
 Content
 ---STRINGEND
@@ -272,6 +276,10 @@ Default language
 
 ---STRING delete %s %s
 Delete %s "%s"
+---STRINGEND
+
+---STRING delete file %s
+Delete file "%s"
 ---STRINGEND
 
 ---STRING deleted by

@@ -178,6 +178,10 @@ Sichern der Konfiguration fehlgeschlagen: %s
 Konfiguration erfolgreich gespeichert
 ---STRINGEND
 
+---STRING confirm deletion of file %s
+Löschen der Datei "%s" bestätigen
+---STRINGEND
+
 ---STRING content
 Inhalt
 ---STRINGEND
@@ -252,6 +256,10 @@ Standardsprache
 
 ---STRING delete %s %s
 %s "%s" löschen
+---STRINGEND
+
+---STRING delete file %s
+Datei "%s" löschen
 ---STRINGEND
 
 ---STRING deleted by

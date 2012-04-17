@@ -1,5 +1,5 @@
-<h1><?php echo sprintf(midcom::get('i18n')->get_string('delete file %s', 'midcom.admin.styleeditor'), $data['filename']); ?></h1>
-<p><?php echo sprintf(midcom::get('i18n')->get_string('confirm delete of file %s', 'midcom.admin.styleeditor'), $data['filename']); ?></p>
+<h1><?php echo sprintf($data['l10n']->get('delete file %s'), $data['filename']); ?></h1>
+<p><?php echo sprintf($data['l10n']->get('confirm deletion of file %s'), $data['filename']); ?></p>
 <?php
 if (array_key_exists($data['file']->mimetype, $data['attachment_text_types']))
 {
