@@ -157,8 +157,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         }
 
         // set parameter for datamanager to find the pdf
-        $invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid);
-        $attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file));
+        if (   !$invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid)
+            || !$attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file)))
+        {
+            debug_add("Failed to create attachment parameters, last midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+        }
     }
 }
 ?>
