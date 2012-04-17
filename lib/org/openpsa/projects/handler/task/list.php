@@ -323,7 +323,7 @@ implements org_openpsa_widgets_grid_provider_client
         if (   isset($this->_request_data['priority_array'])
             && array_key_exists($task->priority, $this->_request_data['priority_array']))
         {
-            $entry['priority'] = '<span title="' . $this->_l10n->get($this->_request_['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
+            $entry['priority'] = '<span title="' . $this->_l10n->get($this->_request_data['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
         }
 
         if ($this->_request_data['view_identifier'] != 'agreement')
