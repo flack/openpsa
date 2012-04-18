@@ -406,3 +406,6 @@ Create PDF
 PDF file created successfully 
 ---STRINGEND
 
+---STRING pdf creation failed
+Could not create PDF
+---STRINGEND

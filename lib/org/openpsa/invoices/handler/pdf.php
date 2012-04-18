@@ -87,8 +87,14 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         if ($this->_update_attachment)
         {
             $this->_request_data['billing_data'] = $this->_invoice->get_billing_data();
-            self::render_and_attach_pdf($this->_invoice);
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
+            if (self::render_and_attach_pdf($this->_invoice))
+            {
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
+            }
+            else
+            {
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf creation failed') . ': ' . midcom_connection::get_error_string(), 'error');
+            }
             return new midcom_response_relocate($this->_request_data["invoice_url"]);
         }
     }
@@ -161,7 +167,9 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             || !$attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file)))
         {
             debug_add("Failed to create attachment parameters, last midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            return false;
         }
+        return true;
     }
 }
 ?>

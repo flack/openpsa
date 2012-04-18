@@ -409,3 +409,7 @@ PDF erzeugen
 ---STRING pdf created
 PDF-Datei wurde erfolgreich erzeugt 
 ---STRINGEND
+
+---STRING pdf creation failed
+PDF-Datei konnte nicht erzeugt werden
+---STRINGEND
