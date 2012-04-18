@@ -95,8 +95,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if (is_null($this->_file))
         {
-            if (   !isset($_POST['midgard_admin_asgard_filename'])
-                || empty($_POST['midgard_admin_asgard_filename']))
+            if (empty($_POST['midgard_admin_asgard_filename']))
             {
                 return false;
             }
@@ -124,8 +123,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         $success = true;
 
-        if (   isset($_POST['midgard_admin_asgard_filename'])
-            && !empty($_POST['midgard_admin_asgard_filename'])
+        if (   !empty($_POST['midgard_admin_asgard_filename'])
             && $local_file->name != $_POST['midgard_admin_asgard_filename'])
         {
             $local_file->name = $_POST['midgard_admin_asgard_filename'];
@@ -136,8 +134,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             }
         }
 
-        if (   isset($_POST['midgard_admin_asgard_mimetype'])
-            && !empty($_POST['midgard_admin_asgard_mimetype'])
+        if (   !empty($_POST['midgard_admin_asgard_mimetype'])
             && $local_file->mimetype != $_POST['midgard_admin_asgard_mimetype'])
         {
             $local_file->mimetype = $_POST['midgard_admin_asgard_mimetype'];
@@ -150,8 +147,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         // We should always store at least an empty string so it can be edited later
         $contents = '';
-        if (   isset($_POST['midgard_admin_asgard_contents'])
-            && !empty($_POST['midgard_admin_asgard_contents']))
+        if (!empty($_POST['midgard_admin_asgard_contents']))
         {
             $contents = $_POST['midgard_admin_asgard_contents'];
         }
