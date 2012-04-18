@@ -207,7 +207,7 @@ Copy %s
 ---STRINGEND
 
 ---STRING copy %s and its descendants
-Copy '%s' and its descendants
+Copy "%s" and its descendants
 ---STRINGEND
 
 ---STRING copy attachments
@@ -379,7 +379,7 @@ Failed undeleting attachment %s, reason %s
 ---STRINGEND
 
 ---STRING file %s deleted
-File '%s' deleted
+File "%s" deleted
 ---STRINGEND
 
 ---STRING file contents
