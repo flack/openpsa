@@ -109,7 +109,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     {
         $fields =& $this->_schemadb['default']->fields;
         $organizations = array();
-        $member_mc = midcom_db_member::new_collector('uid', $contact_id);
+        $member_mc = org_openpsa_contacts_member_dba::new_collector('uid', $contact_id);
+        $member_mc->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $groups = $member_mc->get_values('gid');
         foreach ($groups as $group)
         {
