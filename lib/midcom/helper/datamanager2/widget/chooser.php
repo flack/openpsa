@@ -458,8 +458,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             {
                 $mrp = new midgard_reflection_property(get_class($mgdschema_object));
 
-                if (   !$mrp
-                    || !$mrp->is_link($this->_field['storage']['location']))
+                if (    (   $mrp->get_midgard_type($this->_field['storage']['location']) === MGD_TYPE_INT
+                         || $mrp->get_midgard_type($this->_field['storage']['location']) === MGD_TYPE_UINT)
+                     && !$mrp->is_link($this->_field['storage']['location']))
                 {
                     // Storing IDs to non-linked fields is not replication safe
                     debug_add("Field \"{$this->name}\" is set to store to property \"{$this->_field['storage']['location']}\" which is not link, making it replication-unsafe, aborting.", MIDCOM_LOG_WARN);
