@@ -33,13 +33,13 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_OBTYPE_ORGANIZATION => 'organization',
-                    ORG_OPENPSA_OBTYPE_DAUGHTER     => 'daughter organization',
-                    ORG_OPENPSA_OBTYPE_DEPARTMENT   => 'department'
+                    org_openpsa_contacts_group_dba::ORGANIZATION => 'organization',
+                    org_openpsa_contacts_group_dba::DAUGHTER     => 'daughter organization',
+                    org_openpsa_contacts_group_dba::DEPARTMENT   => 'department'
                 ),
             ),
             'widget'       => 'radiocheckselect',
-            'default' => ORG_OPENPSA_OBTYPE_ORGANIZATION
+            'default' => org_openpsa_contacts_group_dba::ORGANIZATION
         ),
         'categories' => array
         (

@@ -267,7 +267,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 try
                 {
                     $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-                    if ($data['group']->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_MYCONTACTS)
+                    if ($data['group']->orgOpenpsaObtype == org_openpsa_contacts_group_dba::MYCONTACTS)
                     {
                         continue;
                     }

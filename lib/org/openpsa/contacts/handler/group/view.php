@@ -137,7 +137,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($this->_group->orgOpenpsaObtype < ORG_OPENPSA_OBTYPE_MYCONTACTS)
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
         {
             midcom_show_style("show-group-other");
         }
@@ -162,7 +162,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $data['group'] = $this->_group;
 
-        if ($this->_group->orgOpenpsaObtype < ORG_OPENPSA_OBTYPE_MYCONTACTS)
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
         {
             $this->_type = 'group';
             $data['group_tree'] = $this->_master->get_group_tree();

@@ -101,7 +101,7 @@
                     (
                         'field' => 'orgOpenpsaObtype',
                         'op'    => '<',
-                        'value' => ORG_OPENPSA_OBTYPE_MYCONTACTS,
+                        'value' => org_openpsa_contacts_group_dba::MYCONTACTS,
                     ),
                 ),
             ),

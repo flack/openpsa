@@ -188,7 +188,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         //get groups
         $mc_member = org_openpsa_contacts_member_dba::new_collector('uid', $user->id);
-        $mc_member->add_constraint('gid.orgOpenpsaObtype', '<', ORG_OPENPSA_OBTYPE_MYCONTACTS);
+        $mc_member->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
         $mc_member->add_order('gid.official');
         $mc_member->add_order('gid.name');
         $gids = $mc_member->get_values('gid');

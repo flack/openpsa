@@ -38,11 +38,11 @@ implements midcom_helper_datamanager2_interfaces_create
         $defaults = array();
         if ($this->_group)
         {
-            if ($this->_group->orgOpenpsaObtype >= ORG_OPENPSA_OBTYPE_ORGANIZATION)
+            if ($this->_group->orgOpenpsaObtype >= org_openpsa_contacts_group_dba::ORGANIZATION)
             {
                 $defaults['organizations'] = array($this->_group->id);
             }
-            else if ($this->_group->orgOpenpsaObtype < ORG_OPENPSA_OBTYPE_MYCONTACTS)
+            else if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
             {
                 $defaults['groups'] = array($this->_group->id);
             }

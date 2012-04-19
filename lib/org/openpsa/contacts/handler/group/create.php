@@ -53,7 +53,7 @@ implements midcom_helper_datamanager2_interfaces_create
             if ($this->_type == 'organization')
             {
                 // Set the default type to "department"
-                $defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
+                $defaults['object_type'] = org_openpsa_contacts_group_dba::DEPARTMENT;
             }
             else
             {

@@ -64,7 +64,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $this->_group->require_do('midgard:update');
 
-        if ($this->_group->orgOpenpsaObtype < ORG_OPENPSA_OBTYPE_MYCONTACTS)
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
         {
             $this->_type = 'group';
         }

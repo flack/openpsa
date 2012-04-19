@@ -45,7 +45,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
     {
         $attributes = array
         (
-            'orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_ORGANIZATION
+            'orgOpenpsaObtype' => org_openpsa_contacts_group_dba::ORGANIZATION
         );
         $organization = $this->create_object('org_openpsa_contacts_group_dba', $attributes);
         midcom::get('auth')->request_sudo('org.openpsa.contacts');

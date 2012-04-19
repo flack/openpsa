@@ -22,11 +22,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     public function _on_initialize()
     {
         //org.openpsa.contacts object types
-        define('ORG_OPENPSA_OBTYPE_OTHERGROUP', 0);
-        define('ORG_OPENPSA_OBTYPE_MYCONTACTS', 500);
-        define('ORG_OPENPSA_OBTYPE_ORGANIZATION', 1000);
-        define('ORG_OPENPSA_OBTYPE_DAUGHTER', 1001);
-        define('ORG_OPENPSA_OBTYPE_DEPARTMENT', 1002);
         define('ORG_OPENPSA_OBTYPE_PERSON', 2000);
         define('ORG_OPENPSA_OBTYPE_RESOURCE', 2001);
         return true;
@@ -38,7 +33,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     public function _on_reindex($topic, $config, &$indexer)
     {
         $qb_organisations = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb_organisations->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_MYCONTACTS);
+        $qb_organisations->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $organisation_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
 
         $qb_persons = org_openpsa_contacts_person_dba::new_query_builder();
