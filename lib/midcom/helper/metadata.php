@@ -824,8 +824,7 @@ class midcom_helper_metadata
         }
 
         // Lock was created by the user, return "not locked"
-        if (   isset(midcom::get('auth')->user)
-            && isset(midcom::get('auth')->user->guid)
+        if (   !empty(midcom::get('auth')->user->guid)
             && $this->get('locker') === midcom::get('auth')->user->guid)
         {
             return false;
