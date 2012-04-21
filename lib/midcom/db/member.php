@@ -25,8 +25,16 @@ class midcom_db_member extends midcom_core_dbaobject
 
     public function get_label()
     {
-        $person = new midcom_db_person($this->uid);
-        $grp = new midcom_db_group($this->gid);
+        try
+        {
+            $person = new midcom_db_person($this->uid);
+            $grp = new midcom_db_group($this->gid);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return 'Invalid membership record';
+        }
         return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
     }
 
