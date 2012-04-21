@@ -37,7 +37,7 @@ do
     {
         if (!$result->delete())
         {
-            echo 'ERROR: Deleting entry ' . $result->guid . ' failed: ' . midcom_connection::get_error_string();
+            echo 'ERROR: Deleting entry ' . $result->guid . ' failed: ' . midcom_connection::get_error_string() . " \n";
         }
     }
 
@@ -89,7 +89,7 @@ do
                 {
                     if (!$entry->delete())
                     {
-                        echo 'ERROR: Deleting entry ' . $entry->guid . ' failed: ' . midcom_connection::get_error_string();
+                        echo 'ERROR: Deleting entry ' . $entry->guid . ' failed: ' . midcom_connection::get_error_string() . " \n";
                     }
                 }
             }
