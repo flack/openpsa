@@ -305,6 +305,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result->_use_rcs = false;
             $result->_use_activitystream = false;
             $result->delete();
+            $result->purge();
         }
         midcom::get('auth')->drop_sudo();
     }
@@ -390,6 +391,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 {
                     throw new midcom_error('Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
                 }
+            }
+            else
+            {
+                $object->purge();
             }
             if ($iteration++ > $limit)
             {
