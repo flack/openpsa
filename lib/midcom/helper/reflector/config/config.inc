@@ -60,6 +60,7 @@
     /* members should not be root classes by MgSchema, workaround a bug */
     'midgard_member',
     'org_openpsa_campaign_member',
+    'org_openpsa_role',
     /* These use GUID to link to many parents */
     'net_nemein_tag_link',
     'net_nehmer_comments_comment_db',
@@ -76,6 +77,7 @@
     'midgard_person',
     'openpsa_person',
     'org_openpsa_person',
+    'org_openpsa_contacts_list',
     'midgard_group',
     'org_openpsa_organization',
     /* Replicator subscriptions have their own specific admin UI */
