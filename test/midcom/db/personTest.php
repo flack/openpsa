@@ -38,8 +38,20 @@ class midcom_db_personTest extends openpsa_testcase
         $this->assertEquals('Firstname Lastname', $person->name);
         $this->assertEquals('Lastname, Firstname', $person->rname);
 
+        $group = $this->create_object('midcom_db_group');
+        $attributes = array
+        (
+            'gid' => $group->id,
+            'uid' => $person->id
+        );
+        $member = $this->create_object('midcom_db_member', $attributes);
+
         $stat = $person->delete();
         $this->assertTrue($stat);
+
+        $qb = midcom_db_member::new_query_builder();
+        $qb->add_constraint('id', '=', $member->id);
+        $this->assertEquals(0, $qb->count());
 
         midcom::get('auth')->drop_sudo();
      }
