@@ -411,6 +411,7 @@ p
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     padding: 4px;
+    clear: both
 }
 
 #content .object_edit fieldset.rcs .element
