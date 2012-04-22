@@ -103,7 +103,7 @@ do
             }
             else
             {
-                throw new midcom_error('Unexpected error: ' . midcom_connection::get_error_string());
+                throw new midcom_error('Unexpected error: ' . midcom_connection::get_error_string() . ', ' . $e->getMessage());
             }
         }
     }
