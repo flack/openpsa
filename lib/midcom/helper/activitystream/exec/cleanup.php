@@ -39,6 +39,10 @@ do
         {
             echo 'ERROR: Deleting entry ' . $result->guid . ' failed: ' . midcom_connection::get_error_string() . " \n";
         }
+        else
+        {
+            $result->purge();
+        }
     }
 
 } while (sizeof($results) > 0);
@@ -90,6 +94,10 @@ do
                     if (!$entry->delete())
                     {
                         echo 'ERROR: Deleting entry ' . $entry->guid . ' failed: ' . midcom_connection::get_error_string() . " \n";
+                    }
+                    else
+                    {
+                        $result->purge();
                     }
                 }
             }
