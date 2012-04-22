@@ -132,8 +132,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
             }
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
-        else if (   array_key_exists('cancel', $_POST)
-                && $_POST['cancel'])
+        else if (!empty($_POST['cancel']))
         {
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
