@@ -361,11 +361,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         foreach ($this->_comments as $comment)
         {
-            // TODO: Workaround for #134
-            if (! $comment->metadata->revised)
-            {
-                $comment->metadata->revised = $comment->metadata->created;
-            }
             if ($comment->metadata->revised > $lastmod)
             {
                 $lastmod = $comment->metadata->revised;
@@ -376,10 +371,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         {
             return strtotime($lastmod);
         }
-        else
-        {
-            return 0;
-        }
+
+        return 0;
     }
 
     /**
