@@ -169,7 +169,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_view_toolbar->bind_to($this->_salesproject);
-
+        $customer = $this->_salesproject->get_customer();
+        if ($customer)
+        {
+            $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
+        }
         org_openpsa_sales_viewer::add_breadcrumb_path($data['salesproject'], $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
