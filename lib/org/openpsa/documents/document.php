@@ -153,8 +153,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         {
             $info = explode(':', $item);
             if (   !is_array($info)
-                || !array_key_exists(0, $info)
-                || !array_key_exists(1, $info))
+                || sizeof($info) < 2)
             {
                 // Broken item
                 debug_add("Attachment entry '{$item}' is broken!", MIDCOM_LOG_ERROR);
@@ -253,7 +252,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         // Copy current properties
         foreach ($properties as $key)
         {
-            if ($key != 'guid'
+            if (   $key != 'guid'
                 && $key != 'id'
                 && $key != 'metadata')
             {
