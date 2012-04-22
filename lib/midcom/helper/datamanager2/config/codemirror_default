@@ -1,6 +1,7 @@
 var editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
   mode: "application/x-httpd-php",
   lineNumbers: true,
+  theme: "eclipse",
   lineWrapping: true,
   matchBrackets: true,
   indentUnit: 4,

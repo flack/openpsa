@@ -66,6 +66,7 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
         {
             $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->_type->version;
             midcom::get('head')->add_stylesheet($prefix . '/lib/codemirror.css');
+            midcom::get('head')->add_stylesheet($prefix . '/theme/eclipse.css');
             midcom::get('head')->add_jsfile($prefix . '/lib/codemirror.js');
             foreach ($this->_type->modes as $mode)
             {
