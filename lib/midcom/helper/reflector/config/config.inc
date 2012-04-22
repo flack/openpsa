@@ -65,6 +65,8 @@
     'net_nemein_tag_link',
     'net_nehmer_comments_comment_db',
     'org_openpsa_relatedto',
+    'org_openpsa_relatedto_journal_entry',
+    'org_openpsa_billing_data',
     'org_routamc_positioning_location',
     /* These we just don't anybody mucking about with */
     'midcom_core_login_session_db',
