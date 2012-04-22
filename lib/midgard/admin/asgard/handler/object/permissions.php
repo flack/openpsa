@@ -130,8 +130,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = $privilege;
         }
 
-        if (   isset($current_manifest->customdata['midgard.admin.asgard.acl'])
-            && isset($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges']))
+        if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges']))
         {
             foreach ($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'] as $privilege)
             {
@@ -327,8 +326,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_controller = $this->get_controller('simple', $this->_object);
 
         if (   isset($_POST['midcom_helper_datamanager2_add'])
-            && isset($_POST['add_assignee'])
-            && $_POST['add_assignee'])
+            && !empty($_POST['add_assignee']))
         {
             $this->_object->set_privilege('midgard:read', $_POST['add_assignee']);
             return new midcom_response_relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");

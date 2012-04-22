@@ -20,14 +20,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     private $_reflectors = array();
 
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-    }
-
     private function _list_revised($since, $review_by = null, $type = null, $only_mine = false)
     {
         $classes = array();
@@ -129,15 +121,12 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
-        $this->_prepare_request_data();
-
         $data['view_title'] = $this->_l10n->get('asgard');
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         if (isset($_POST['execute_mass_action']))
         {
-            if (   isset($_POST['selections'])
-                && !empty($_POST['selections'])
+            if (   !empty($_POST['selections'])
                 && isset($_POST['mass_action']))
             {
                 $method_name = "_mass_{$_POST['mass_action']}";
