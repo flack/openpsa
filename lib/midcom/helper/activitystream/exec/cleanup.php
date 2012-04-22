@@ -97,7 +97,7 @@ do
                     }
                     else
                     {
-                        $result->purge();
+                        $entry->purge();
                     }
                 }
             }
