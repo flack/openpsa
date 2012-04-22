@@ -118,10 +118,8 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             case 'foaf':
                 midcom::get()->skip_page_style = true;
                 $this->_view = 'foaf';
-                if (!empty($this->_query))
-                {
-                    $this->_search_qb_persons();
-                }
+                $this->_search_qb_persons();
+
                 break;
             default:
                 throw new midcom_error('Unknown search type ' . $args[0]);
@@ -135,18 +133,16 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _show_search_type($handler_id, array &$data)
     {
-        if ($this->_view == 'foaf')
+        if (   $this->_view == 'foaf'
+            && sizeof($this->_persons) > 0)
         {
-            if (sizeof($this->_persons) > 0)
+            midcom_show_style('foaf-header');
+            foreach ($this->_persons as $person)
             {
-                midcom_show_style('foaf-header');
-                foreach ($this->_persons as $person)
-                {
-                    $data['person'] = $person;
-                    midcom_show_style('foaf-person-item');
-                }
-                midcom_show_style('foaf-footer');
+                $data['person'] = $person;
+                midcom_show_style('foaf-person-item');
             }
+            midcom_show_style('foaf-footer');
         }
     }
 
@@ -161,29 +157,26 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $this->_query_mode = 'both';
         $this->_parse_query();
 
-        if (!empty($this->_query))
+        if ($this->_query_mode != 'person')
         {
-            if ($this->_query_mode != 'person')
-            {
-                $this->_search_qb_groups();
-            }
-            if ($this->_query_mode != 'group')
-            {
-                $this->_search_qb_persons();
-            }
+            $this->_search_qb_groups();
+        }
+        if ($this->_query_mode != 'group')
+        {
+            $this->_search_qb_persons();
+        }
 
-            if (   count($this->_groups) == 1
-                && count($this->_persons) == 0)
-            {
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                return new midcom_response_relocate($prefix . 'group/' . $this->_groups[0]->guid . '/');
-            }
-            else if (   count($this->_groups) == 0
-                     && count($this->_persons) == 1)
-            {
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                return new midcom_response_relocate($prefix . 'person/' . $this->_persons[0]->guid . '/');
-            }
+        if (   count($this->_groups) == 1
+            && count($this->_persons) == 0)
+        {
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+            return new midcom_response_relocate($prefix . 'group/' . $this->_groups[0]->guid . '/');
+        }
+        else if (   count($this->_groups) == 0
+                 && count($this->_persons) == 1)
+        {
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+            return new midcom_response_relocate($prefix . 'person/' . $this->_persons[0]->guid . '/');
         }
 
         $this->_populate_toolbar();
@@ -246,7 +239,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         if (   count($this->_groups) == 0
             && count($this->_persons) == 0
-            && $this->_query !== null)
+            && $this->_query_string)
         {
             //No results at all (from any of the queries)
             midcom_show_style('search-empty');
@@ -287,7 +280,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     private function _search_qb_groups()
     {
-        if (!$this->_query)
+        if (!$this->_query_string)
         {
             return false;
         }
@@ -307,22 +300,20 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
     /**
      * Does a QB query for persons, returns false or number of matched entries
-     *
-     * Displays style element 'search-persons-empty' only if $displayEmpty is
-     * set to true.
      */
     private function _search_qb_persons()
     {
-        $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        if (!empty($this->_query))
+        if (!$this->_query_string)
         {
-            // Search using only the fields defined in config
-            $person_fields = explode(',', $this->_config->get('person_search_fields'));
-            if (   !is_array($person_fields)
-                || count($person_fields) == 0)
-            {
-                throw new midcom_error( 'Invalid person search configuration');
-            }
+            return false;
+        }
+        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        // Search using only the fields defined in config
+        $person_fields = explode(',', $this->_config->get('person_search_fields'));
+        if (   !is_array($person_fields)
+            || count($person_fields) == 0)
+        {
+            throw new midcom_error( 'Invalid person search configuration');
         }
         $this->_apply_constraints($qb, $person_fields);
 
