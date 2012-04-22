@@ -1,7 +1,7 @@
 <h1><?php echo midcom::get('i18n')->get_string('attachments', 'midgard.admin.asgard'); ?></h1>
 
 <form method="post" class="datamanager2" enctype="multipart/form-data">
-    <fieldset class="midgard_admin_asgard_object_attachments_upload">
+    <fieldset class="fieldset midgard_admin_asgard_object_attachments_upload">
         <legend><?php echo midcom::get('i18n')->get_string('upload file', 'midgard.admin.asgard'); ?></legend>
 
         <input type="file" name="midgard_admin_asgard_file" />
@@ -9,7 +9,7 @@
 
     <hr />
 
-    <fieldset class="midgard_admin_asgard_object_attachments_newfile">
+    <fieldset class="fieldset midgard_admin_asgard_object_attachments_newfile">
         <legend><?php echo midcom::get('i18n')->get_string('add text file', 'midgard.admin.asgard'); ?></legend>
 
         <label>

@@ -1,7 +1,7 @@
 <h1><?php echo sprintf(midcom::get('i18n')->get_string('edit file %s', 'midgard.admin.asgard'), $data['filename']); ?></h1>
 
 <form method="post" enctype="multipart/form-data" class="datamanager2" action="<?php echo midcom_connection::get_url('uri'); ?>" onsubmit="midgard_admin_asgard_file_edit.toggleEditor();">
-    <fieldset>
+    <fieldset class="fieldset">
         <legend><?php echo midcom::get('i18n')->get_string('upload file', 'midgard.admin.asgard'); ?></legend>
 
         <input type="file" name="midgard_admin_asgard_file" />
@@ -12,7 +12,7 @@
         // Show file for editing only if it is a text file
         ?>
         <hr />
-        <fieldset>
+        <fieldset class="fieldset">
             <legend><?php echo midcom::get('i18n')->get_string('edit text file', 'midgard.admin.asgard'); ?></legend>
 
             <label>
