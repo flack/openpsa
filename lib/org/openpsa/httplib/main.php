@@ -137,10 +137,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         $c->setHeader('User-Agent', $this->_user_agent());
 
         // Handle basic auth
-        if (   isset($this->basicauth['user'])
-            && $this->basicauth['user'] !== false
-            && isset($this->basicauth['password'])
-            && $this->basicauth['password'] !== false)
+        if (   !empty($this->basicauth['user'])
+            && !empty($this->basicauth['password']))
         {
             // Set basic auth
             $c->setAuth($this->basicauth['user'], $this->basicauth['password']);
