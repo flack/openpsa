@@ -77,12 +77,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_request_data['custom_view'] =& $this->custom_view;
     }
 
-    function _resolve_object_title($object)
-    {
-        $ref = midcom_helper_reflector::get($object);
-        return $ref->get_object_label($object);
-    }
-
     /**
      * Prepares the _display_datamanager member.
      *
