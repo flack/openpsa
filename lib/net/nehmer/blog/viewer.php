@@ -203,19 +203,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         return false;
     }
 
-    /**
-     * Generic request startup work:
-     *
-     * - Load the Schema Database
-     * - Add the LINK HTML HEAD elements
-     * - Populate the Node Toolbar
-     */
-    public function _on_can_handle($handler, $args)
-    {
-        $this->_request_data['viewer_instance'] =& $this;
-        return true;
-    }
-
     public function _on_handle($handler, $args)
     {
         $this->_request_data['schemadb'] =
@@ -408,12 +395,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
             $links = $mc->get_values('article');
             $qb->begin_group('OR');
-                foreach ($links as $article_id)
-                {
-                    $qb->add_constraint('id', '=', $article_id);
-                }
-                unset($mc, $links);
-
+                $qb->add_constraint('id', 'IN', $links);
                 $qb->add_constraint('topic', 'IN', $topic_ids);
             $qb->end_group();
         }
@@ -487,7 +469,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 }
             $qb->end_group();
         }
-
 
         $qb->add_constraint('up', '=', 0);
     }
