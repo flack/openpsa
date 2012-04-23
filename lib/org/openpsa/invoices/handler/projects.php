@@ -33,8 +33,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice->customer = (int) $_POST['org_openpsa_invoices_invoice_customer'];
         $invoice->number = $invoice->generate_invoice_number();
         $invoice->owner = midcom_connection::get_user();
-        $invoice->vat = $invoice->get_default_vat();
-        $invoice->description = '';
+        $invoice->vat = $invoice->get_default('vat');
+        $invoice->description = $invoice->get_default('remarks');
 
         if (!$invoice->create())
         {

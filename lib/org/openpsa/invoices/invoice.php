@@ -22,6 +22,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         'org_openpsa_invoices_invoice_item_dba' => 'invoice'
     );
 
+    private $_billing_data = false;
+
     function get_invoice_class()
     {
         if ($this->sent == 0)
@@ -131,7 +133,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             }
             if ($this->due == 0)
             {
-                $this->due = ($this->get_default_due() * 3600 * 24) + $this->date;
+                $this->due = ($this->get_default('due') * 3600 * 24) + $this->date;
             }
         }
     }
@@ -191,21 +193,13 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * function to get the default invoice due of the customer or the config
+     * function to get the default value for invoice
+     * @param string $attribute
      */
-    function get_default_due()
+    public function get_default($attribute)
     {
         $billing_data = $this->get_billing_data();
-        return $billing_data->due;
-    }
-
-    /**
-     * Function to get the default VAT of the customer or the config
-     */
-    function get_default_vat()
-    {
-        $billing_data = $this->get_billing_data();
-        return (int) $billing_data->vat;
+        return $billing_data->{$attribute};
     }
 
     /**
@@ -314,56 +308,76 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return $items;
     }
 
-    function get_billing_data()
+    /**
+     * helper function to get the billing data for given contact if any
+     * @param string $dba_class
+     * @param mixed $contact_id
+     */
+    private function _get_billing_data($dba_class, $contact_id)
     {
-        //check if there is a customer set with invoice_data
-        try
+        if ($contact_id == 0)
         {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
-            $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb->add_constraint('linkGuid', '=', $customer->guid);
-            $billing_data = $qb->execute();
-            if (count($billing_data) > 0)
-            {
-                // call set_address so the billing_data contains address of the linked contact
-                // if the property useContactAddress is set
-                $billing_data[0]->set_address();
-                return $billing_data[0];
-            }
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-        }
-        //check if the customerContact is set & has invoice_data
-        try
-        {
-            $customerContact = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
-            $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb->add_constraint('linkGuid', '=', $customerContact->guid);
-            $billing_data = $qb->execute();
-            if (count($billing_data) > 0)
-            {
-                // call set_address so the billing_data contains address of the linked contact
-                // if the property useContactAddress is set
-                $billing_data[0]->set_address();
-                return $billing_data[0];
-            }
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
+            return false;
         }
 
-        //set the default-values for vat&due from config
-        $billing_data = new org_openpsa_invoices_billing_data_dba();
+        try
+        {
+            $contact = call_user_func(array($dba_class, 'get_cached'), $contact_id);
+            $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
+            $qb->add_constraint('linkGuid', '=', $contact->guid);
+            $billing_data = $qb->execute();
+            if (count($billing_data) == 0)
+            {
+                return false;
+            }
+
+            // call set_address so the billing_data contains address of the linked contact
+            // if the property useContactAddress is set
+            $billing_data[0]->set_address();
+            return $billing_data[0];
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
+    }
+
+    /**
+     * helper function to get the billing data for the invoice
+     */
+    public function get_billing_data()
+    {
+        // check if we got the billing data cached already
+        if ($this->_billing_data)
+        {
+            return $this->_billing_data;
+        }
+
+        // check if there is a customer set with invoice_data
+        $bd = $this->_get_billing_data('org_openpsa_contacts_group_dba', $this->customer);
+        if ($bd)
+        {
+            $this->_billing_data = $bd;
+            return $bd;
+        }
+        // check if the customerContact is set and has invoice_data
+        $bd = $this->_get_billing_data('org_openpsa_contacts_person_dba', $this->customerContact);
+        if ($bd)
+        {
+            $this->_billing_data = $bd;
+            return $bd;
+        }
+
+        // set the default-values for vat and due from config
+        $bd = new org_openpsa_invoices_billing_data_dba();
         $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
         $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
 
-        $billing_data->vat = $vat[0];
-        $billing_data->due = $due;
+        $bd->vat = (int) $vat[0];
+        $bd->due = $due;
 
-        return $billing_data;
+        $this->_billing_data = $bd;
+        return $bd;
     }
 
     public function get_customer()

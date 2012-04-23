@@ -89,8 +89,8 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $invoice->sum = $invoice_sum;
 
             $invoice->sent = $time;
-            $invoice->due = ($invoice->get_default_due() * 3600 * 24) + $time;
-            $invoice->vat = $invoice->get_default_vat();
+            $invoice->due = ($invoice->get_default('due') * 3600 * 24) + $time;
+            $invoice->vat = $invoice->get_default('vat');
 
             $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
             if ($this->_sales_url)

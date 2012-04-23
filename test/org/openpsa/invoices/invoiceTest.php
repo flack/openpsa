@@ -38,7 +38,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $stat = $invoice->update();
         $this->assertTrue($stat);
         $invoice->refresh();
-        $expected_due = ($invoice->get_default_due() * 3600 * 24) + $date;
+        $expected_due = ($invoice->get_default('due') * 3600 * 24) + $date;
         $this->assertEquals($expected_due, $invoice->due);
 
         $stat = $invoice->delete();

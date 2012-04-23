@@ -57,8 +57,8 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
         $invoice_data = $invoice->get_billing_data();
 
         $this->assertEquals($data->guid, $invoice_data->guid);
-        $this->assertEquals($data->vat, $invoice->get_default_vat());
-        $this->assertEquals($data->due, $invoice->get_default_due());
+        $this->assertEquals($data->vat, $invoice->get_default('vat'));
+        $this->assertEquals($data->due, $invoice->get_default('due'));
 
         $stat = $data->delete();
         $this->assertTrue($stat);

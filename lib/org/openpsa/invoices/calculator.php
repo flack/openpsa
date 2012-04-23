@@ -119,7 +119,8 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $invoice->customerContact = $salesproject->customerContact;
         $invoice->number = $invoice->generate_invoice_number();
         $invoice->owner = $salesproject->owner;
-        $invoice->vat = $invoice->get_default_vat();
+        $invoice->vat = $invoice->get_default('vat');
+        $invoice->description = $invoice->get_default('remarks');
 
         if ($invoice->create())
         {

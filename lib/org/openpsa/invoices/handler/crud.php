@@ -174,17 +174,24 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     function _load_defaults()
     {
         $this->_defaults['date'] = time();
+        $this->_defaults['deliverydate'] = time();
 
-        // Set default due date
+        // Set default due date and copy customer remarks to invoice description
         if (array_key_exists('customer', $this->_request_data))
         {
             $dummy = new org_openpsa_invoices_invoice_dba();
             $dummy->customer = $this->_request_data['customer']->id;
-            $this->_defaults['vat'] = $dummy->get_default_vat();
+            $this->_defaults['vat'] = $dummy->get_default('vat');
+
             if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_person_dba'))
             {
                 $this->_defaults['customerContact'] = $this->_request_data['customer']->id;
             }
+
+            // we got a customer, set description default
+            $this->_defaults['description'] = $dummy->get_default('remarks');
+
+            unset($dummy);
         }
         else
         {
