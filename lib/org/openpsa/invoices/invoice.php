@@ -11,6 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
+
 class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
@@ -119,9 +120,14 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     {
         if ($this->sent > 0)
         {
+            $time = time();
             if (!$this->date)
             {
-                $this->date = time();
+                $this->date = $time;
+            }
+            if (!$this->deliverydate)
+            {
+                $this->deliverydate = $time;
             }
             if ($this->due == 0)
             {

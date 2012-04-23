@@ -78,10 +78,21 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         echo "</p>\n";
     }
     if ($invoice->date > 0)
-    { ?>
+    {
+    ?>
         <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
         <?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></p>
-    <?php } ?>
+    <?php
+    }
+
+    if ($invoice->deliverydate > 0)
+    {
+    ?>
+        <p><strong><?php echo $data['l10n']->get('invoice delivery date'); ?>: </strong>
+        <?php echo date($data['l10n_midcom']->get('short date'), $invoice->deliverydate); ?></p>
+    <?php
+    }
+    ?>
 
     <p><strong><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </strong></p>
     <pre class="description">

@@ -126,6 +126,10 @@ Invoice address
 Invoice date
 ---STRINGEND
 
+---STRING invoice delivery date
+Delivery date
+---STRINGEND
+
 ---STRING invoice %s created
 Invoice %s created
 ---STRINGEND

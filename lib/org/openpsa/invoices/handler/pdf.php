@@ -112,9 +112,17 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
 
     public static function render_and_attach_pdf(org_openpsa_invoices_invoice_dba $invoice)
     {
-        if ($invoice->date == 0)
+        if ($invoice->date == 0 || $invoice->deliverydate == 0)
         {
-            $invoice->date = time();
+            $time = time();
+            if ($invoice->date == 0)
+            {
+                $invoice->date = $time;
+            }
+            if ($invoice->deliverydate == 0)
+            {
+                $invoice->deliverydate = $time;
+            }
             $invoice->update();
         }
         // renders the pdf and attaches it to the invoice

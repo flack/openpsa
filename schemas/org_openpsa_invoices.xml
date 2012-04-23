@@ -12,6 +12,7 @@
 
         <!-- The invoice itself, date, comment, sum and VAT % -->
         <property name="date" type="integer" index="yes"/>
+        <property name="deliverydate" type="integer" index="yes" />
         <property name="number" type="unsigned integer" index="yes"/>
         <property name="description" type="text"/>
         <property name="sum" type="float"/>

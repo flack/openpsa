@@ -118,6 +118,10 @@ Rechnungsadresse
 Rechnungsdatum
 ---STRINGEND
 
+---STRING invoice delivery date
+Lieferdatum
+---STRINGEND
+
 ---STRING invoice %s created
 Rechnung %s wurde erstellt
 ---STRINGEND

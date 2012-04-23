@@ -24,6 +24,21 @@
                 'css_group' => 'area meta',
             ),
         ),
+        'deliverydate' => array
+        (
+            'title' => 'invoice delivery date',
+            'storage'    => 'deliverydate',
+            'type'    => 'date',
+            'type_config' => array
+            (
+                'storage_type' => 'UNIXTIME',
+            ),
+            'widget'    => 'jsdate',
+            'widget_config' => array
+            (
+                'show_time' => false
+            ),
+        ),
         'number' => array
         (
             'title' => 'invoice number',
