@@ -15,6 +15,8 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
     <head>
     <title><?php echo htmlspecialchars($title); ?></title>
     <?php
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all');
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'all');
     $head->print_head_elements();
     ?>
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/legacy.css" />
