@@ -440,16 +440,11 @@ jQuery.midcom_helper_datamanager2_widget_chooser = function(input, options)
     {
         input.css({float: 'left'});
 
-        creation_dialog = jQuery('#' + options.widget_id + '_creation_dialog');
+        var creation_dialog = jQuery('#' + options.widget_id + '_creation_dialog'),
         create_button = jQuery('#' + options.widget_id + '_create_button');
         create_button.css('display', 'block');
         create_button.bind('click', function()
         {
-            if (jQuery('#' + options.widget_id + '_creation_dialog').css('display') == 'block')
-            {
-               jQuery('#' + options.widget_id + '_creation_dialog').hide();
-               return;
-            }
             var creation_url = options.creation_handler;
 
             creation_url += '?chooser_widget_id=' + options.widget_id;
@@ -458,22 +453,23 @@ jQuery.midcom_helper_datamanager2_widget_chooser = function(input, options)
                 creation_url += '&defaults[' + options.creation_default_key + ']=' + last_term;
             }
 
-            var iframe = ['<iframe src="' + creation_url + '"'];
-            iframe.push('id="' + options.widget_id + '_creation_dialog_content"');
-            iframe.push('class="chooser_widget_creation_dialog_content"');
-            iframe.push('frameborder="0"');
-            iframe.push('marginwidth="0"');
-            iframe.push('marginheight="0"');
-            iframe.push('width="600"');
-            iframe.push('height="450"');
-            iframe.push('scrolling="auto"');
-            iframe.push('/>');
+            var iframe_html = '<iframe src="' + creation_url + '" id="' + options.widget_id + '_creation_dialog_content"'
+                + ' class="chooser_widget_creation_dialog_content"'
+                + ' frameborder="0"'
+                + ' marginwidth="0"'
+                + ' marginheight="0"'
+                + ' width="100%"'
+                + ' height="100%"'
+                + ' scrolling="auto" />';
 
-            var iframe_html = iframe.join(' ');
-            jQuery('.chooser_widget_creation_dialog_content_holder', creation_dialog).html(iframe_html);
 
-            //jQuery('#' + options.widget_id + '_creation_dialog').jqmShow();
-            jQuery('#' + options.widget_id + '_creation_dialog').show();
+            jQuery(creation_dialog)
+                .html(iframe_html)
+                .dialog(
+                {
+                    height: 450,
+                    width: 600
+                });
         });
     }
 };

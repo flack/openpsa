@@ -570,6 +570,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Manually added styles */
 
+.ui-dialog
+{
+    box-shadow: 3px 6px 12px rgba(0,0,0,.3);
+}
+
 .ui-tabs
 {
     padding: 0

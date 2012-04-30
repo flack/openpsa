@@ -100,33 +100,15 @@ input.chooser_widget_search_input
     float: left;
 }
 
-/* Creation dialog related */
 .chooser_widget_creation_dialog
 {
     display: none;
-    position: fixed !important;
-    position: absolute;
-    top: 5%;
-    left: 50%;
-    
-    margin-left: -300px;
-    width: 600px;
-    
-    background-color: #EEE;
-    color: #333;
-    border: 1px solid black;
-    padding: 12px;    
-
-    z-index: 3; /* foreground */
-}
-.chooser_widget_creation_dialog_content_holder
-{
-}
-.chooser_widget_creation_dialog_content
-{
 }
 
-/* Creation dialog related ends */
+.chooser_widget_create_button
+{
+	cursor: pointer;
+}
 
 .chooser_widget_item_part_status
 {

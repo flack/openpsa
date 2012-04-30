@@ -407,6 +407,13 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
         }
+        if ($this->creation_mode_enabled)
+        {
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
+        }
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css');
@@ -887,8 +894,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $dialog_id = $this->_element_id . '_creation_dialog';
 
             $dialog_html = "<div class=\"chooser_widget_creation_dialog\" id=\"{$dialog_id}\">\n";
-            $dialog_html .= "    <div class=\"chooser_widget_creation_dialog_content_holder\">\n";
-            $dialog_html .= "    </div>\n";
             $dialog_html .= "</div>\n";
 
             $button_html = "<div class=\"chooser_widget_create_button\" id=\"{$this->_element_id}_create_button\" style=\"display: none;\">\n";
