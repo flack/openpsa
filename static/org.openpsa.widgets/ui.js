@@ -273,17 +273,14 @@ var org_openpsa_layout =
 
         field.data('helptext', current_provider.helptext);
 
-        if (providers.length > 1)
-        {
-            selector.insertBefore(field);
-            $('<div id="org_openpsa_search_trigger"></div>')
-                .click(function()
-                {
-                    $('#org_openpsa_search_providers').toggle();
-                    $(this).toggleClass('focused');
-                })
-                .insertBefore(field);
-        }
+        selector.insertBefore(field);
+        $('<div id="org_openpsa_search_trigger"></div>')
+            .click(function()
+            {
+                $('#org_openpsa_search_providers').toggle();
+                $(this).toggleClass('focused');
+            })
+            .insertBefore(field);
 
         field.show()
         .bind('focus', function()
