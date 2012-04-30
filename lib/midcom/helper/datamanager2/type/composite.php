@@ -501,7 +501,6 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
         return '';
     }
 
-
     /**
      * Displays the child objects
      */

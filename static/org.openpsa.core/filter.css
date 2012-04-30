@@ -5,19 +5,20 @@
     display: inline-block
 }
 
-.org_openpsa_filter_widget .filter .filter_action
+.org_openpsa_filter_widget .filter_action
 {
     cursor: pointer;
     visibility: hidden;
     padding-left: .3em
 }
 
-.org_openpsa_filter_widget:hover .filter .filter_action
+.org_openpsa_filter_widget:hover .filter_action,
+.org_openpsa_filter_widget.filter-changed .filter_action
 {
     visibility: visible
 }
 
-.org_openpsa_filter_widget .filter .hasDatepicker
+.org_openpsa_filter_widget .hasDatepicker
 {
     border: 1px solid #BABDB6;
     padding: .2em;

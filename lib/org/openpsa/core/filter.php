@@ -130,9 +130,14 @@ class org_openpsa_core_filter
 
     /**
      * Renders the filter widget according to mode
+     *
+     * @param string $url The backend URL to send the data to
      */
-    public function render()
+    public function render($url)
     {
+        echo '<form id="' . $this->name . '_filter" class="org_openpsa_filter" action="' . $url . '" method="post" style="display:inline">';
+        echo '<div class="org_openpsa_filter_widget">';
+
         if ($this->_config['mode'] == 'timeframe')
         {
             $this->_render_timeframe();
@@ -147,6 +152,7 @@ class org_openpsa_core_filter
                 $this->$method($options);
             }
         }
+        echo "</div>\n";
         echo "\n</form>\n";
     }
 
@@ -192,8 +198,8 @@ class org_openpsa_core_filter
         $from_value = (!empty($this->_selection['from'])) ? $this->_selection['from'] : '';
 
         echo $this->_config['helptext'] . ': ';
-        echo '<input type="text" name="' . $this->name . '[from]" id="' . $ids['from'] . '" value="' . $from_value . '" />';
-        echo '<input type="text" name="' . $this->name . '[to]" id="' . $ids['to'] . '" value="' . $to_value . '" />';
+        echo '<input class="filter_input" type="text" name="' . $this->name . '[from]" id="' . $ids['from'] . '" value="' . $from_value . '" />';
+        echo '<input class="filter_input" type="text" name="' . $this->name . '[to]" id="' . $ids['to'] . '" value="' . $to_value . '" />';
         $this->_render_actions();
 
         echo '<script type="text/javascript">';
@@ -209,7 +215,7 @@ class org_openpsa_core_filter
      */
     private function _render_singleselect(array $options)
     {
-        echo '<select onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
+        echo '<select class="filter_input" onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
 
         foreach ($options as $option)
         {
@@ -230,7 +236,7 @@ class org_openpsa_core_filter
      */
     private function _render_multiselect(array $options)
     {
-        echo '<select id="select_' . $this->name . '" name="' . $this->name . '[]" size="1" multiple="multiple" >';
+        echo '<select class="filter_input" id="select_' . $this->name . '" name="' . $this->name . '[]" size="1" multiple="multiple" >';
 
         foreach ($options as $option)
         {

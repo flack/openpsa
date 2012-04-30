@@ -135,15 +135,11 @@ class org_openpsa_core_queryfilter
         $url = midcom_connection::get_url('uri');
         if (!empty($this->_selection))
         {
-            $url .= '?' . http_build_query($this->_selection);
+            $url .= '?' . http_build_query($this->_selection, '', '&amp;');
         }
         foreach ($this->_filters as $filter)
         {
-            echo '<div class="org_openpsa_filter_widget">';
-            echo '<form id="' . $filter->name . '_filter" class="filter" action="' . $url . '" method="post" style="display:inline">';
-
-            $filter->render();
-            echo "</div>\n";
+            $filter->render($url);
         }
     }
 }
