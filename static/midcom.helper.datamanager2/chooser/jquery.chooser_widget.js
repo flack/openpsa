@@ -440,7 +440,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser = function(input, options)
     {
         input.css({float: 'left'});
 
-        var creation_dialog = jQuery('#' + options.widget_id + '_creation_dialog'),
+        creation_dialog = jQuery('#' + options.widget_id + '_creation_dialog');
         create_button = jQuery('#' + options.widget_id + '_create_button');
         create_button.css('display', 'block');
         create_button.bind('click', function()
