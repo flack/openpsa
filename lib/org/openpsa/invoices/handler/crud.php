@@ -350,7 +350,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "invoice/process/mark_paid/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "invoice/process/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
                     MIDCOM_TOOLBAR_POST => true,
