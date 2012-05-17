@@ -49,6 +49,11 @@ abstract class midcom_response
         $this->_data[$name] = $value;
     }
 
+    public function set_data($data)
+    {
+        $this->_data = $data;
+    }
+
     /**
      * Sends the response to the client and shuts down the environment
      */
