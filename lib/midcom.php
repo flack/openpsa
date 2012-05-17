@@ -147,6 +147,22 @@ class midcom
     {
         static $autoloaded = 0;
 
+        //PSR-0 part
+        $class_name = ltrim($class_name, '\\');
+        if ($last_ns_pos = strripos($class_name, '\\'))
+        {
+            $basedir = MIDCOM_ROOT . '/../vendor/';
+            $namespace = substr($class_name, 0, $last_ns_pos);
+            $class_name = substr($class_name, $last_ns_pos + 1);
+            $file_name  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            $file_name .= str_replace('_', DIRECTORY_SEPARATOR, $class_name) . '.php';
+
+            require $basedir . $file_name;
+            $autoloaded++;
+            return;
+        }
+
+        //MidCOM "Classic"
         $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $class_name) . '.php';
         $path = str_replace('//', '/_', $path);
 

@@ -5,3 +5,4 @@
 /test/config.inc.php
 /test/mgd1-connection.inc.php
 /test/__output
+/vendor/*/
