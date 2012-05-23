@@ -343,7 +343,7 @@ Als Arbeitsgruppe behandeln
 ---STRINGEND
 
 ---STRING vendor
-Verkäufer
+Zulieferer
 ---STRINGEND
 
 ---STRING visiting address
