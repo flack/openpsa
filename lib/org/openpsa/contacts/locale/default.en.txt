@@ -334,10 +334,6 @@ Suborganizations
 Title
 ---STRINGEND
 
----STRING treat as workgroup
-Treat as Workgroup
----STRINGEND
-
 ---STRING vendor
 Vendor
 ---STRINGEND

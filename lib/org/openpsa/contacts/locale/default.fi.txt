@@ -242,10 +242,6 @@ Katuosoite
 Aliorganisaatiot
 ---STRINGEND
 
----STRING treat as workgroup
-Käytä työryhmänä
----STRINGEND
-
 ---STRING vendor
 Toimittaja
 ---STRINGEND

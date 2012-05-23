@@ -338,10 +338,6 @@ Unterorganisationen
 Titel
 ---STRINGEND
 
----STRING treat as workgroup
-Als Arbeitsgruppe behandeln
----STRINGEND
-
 ---STRING vendor
 Zulieferer
 ---STRINGEND
