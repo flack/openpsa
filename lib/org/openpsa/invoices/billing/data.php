@@ -7,7 +7,7 @@
  */
 
 /**
- * MidCOM wrapped class for access to stored queries
+ * Billing data DBA class
  *
  * @package org.openpsa.invoices
  */
@@ -19,6 +19,18 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     function get_parent_guid_uncached()
     {
         return $this->linkGuid;
+    }
+
+    public function _on_creating()
+    {
+        $mc = self::new_collector('linkGuid', $this->linkGuid);
+        if ($mc->count() > 0)
+        {
+            midcom_connection::set_error(MGD_ERR_DUPLICATE);
+            return false;
+        }
+
+        return true;
     }
 
     /**
