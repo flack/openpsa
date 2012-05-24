@@ -105,16 +105,19 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             $qb->add_order('number', 'ASC');
             $results = $qb->execute();
 
-            $toolbar->add_item
-            (
-                array
+            if (sizeof($results) == 1)
+            {
+                $toolbar->add_item
                 (
-                    MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                )
-            );
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+                    )
+                );
+            }
         }
     }
 }
