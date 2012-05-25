@@ -31,7 +31,7 @@ Loading
 ---STRINGEND
 
 ---STRING no grouping
-flat
+No grouping
 ---STRINGEND
 
 ---STRING org.openpsa.core
