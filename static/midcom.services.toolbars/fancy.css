@@ -155,9 +155,8 @@
 {
     background: url('images/drag-grid.gif') repeat top left;
     margin-left: 20px;
-    width: 1.5em;
     height: 20px;
-    min-width: 25px;
+    width: 20px;
     cursor: move;
     float: right;
 }
