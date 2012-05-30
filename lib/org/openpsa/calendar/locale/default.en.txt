@@ -46,6 +46,26 @@ Edit %s
 End time
 ---STRINGEND
 
+---STRING event "%s" was updated
+Event "%s" was updated
+---STRINGEND
+
+---STRING event "%s" (%s) was updated
+Event "%s" (%s) was updated
+---STRINGEND
+
+---STRING event "%s" was modified, updated information below.
+Event "%s" was modified, updated information below.
+---STRINGEND
+
+---STRING event "%s" was cancelled
+Event "%s" was cancelled
+---STRINGEND
+
+---STRING event "%s" (%s) was cancelled
+Event "%s" (%s) was cancelled
+---STRINGEND
+
 ---STRING event %s
 Event %s
 ---STRINGEND
@@ -174,3 +194,26 @@ Week %s
 Week view
 ---STRINGEND
 
+---STRING you have been added to event "%s"
+You have been added to event "%s"
+---STRINGEND
+
+---STRING you have been added to event "%s" (%s)
+You have been added to event "%s" (%s)
+---STRINGEND
+
+---STRING you have been added to event "%s" participants list, event information below.
+You have been added to event "%s" participants list, event information below.
+---STRINGEND
+
+---STRING you have been removed from event "%s"
+You have been removed from event "%s"
+---STRINGEND
+
+---STRING you have been removed from event "%s" (%s)
+You have been removed from event "%s" (%s)
+---STRINGEND
+
+---STRING you have been removed from event "%s" (%s) participants list.
+You have been removed from event "%s" (%s) participants list.
+---STRINGEND
