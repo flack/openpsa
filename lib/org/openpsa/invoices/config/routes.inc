@@ -35,6 +35,13 @@
     'variable_args' => 1,
 ),
 
+// Match /list/scheduled/
+'list_deliverable_all' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_scheduled', 'list'),
+    'fixed_args' => array('scheduled'),
+),
+
 // Match /invoice/new/
 'invoice_new_nocustomer' => array
 (
