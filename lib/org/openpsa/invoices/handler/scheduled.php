@@ -84,6 +84,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $invoice['sum'] = $invoice_sum;
         $invoice['deliverable'] = $deliverable->title;
+        $invoice['index_deliverable'] = $deliverable->title;
         $invoice['type'] = $type;
 
         $invoice = $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
