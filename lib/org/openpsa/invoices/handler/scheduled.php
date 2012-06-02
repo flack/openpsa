@@ -56,6 +56,10 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $at_entry)
     {
+        $invoice = array
+        (
+            'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
+        );
         try
         {
             $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
@@ -78,13 +82,9 @@ implements org_openpsa_widgets_grid_provider_client
             $type = midcom::get('i18n')->get_l10n('org.openpsa.reports')->get('fixed price');
         }
 
-        $invoice = array
-        (
-            'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
-            'sum' => $invoice_sum,
-            'description' => $deliverable->title,
-            'type' => $type
-        );
+        $invoice['sum'] = $invoice_sum;
+        $invoice['description'] = $deliverable->title;
+        $invoice['type'] = $type;
 
         $invoice = $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
         $invoice = $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
