@@ -19,7 +19,7 @@ implements org_openpsa_widgets_grid_provider_client
 {
     private $_reports_url;
 
-    private $_sales_l10n;
+    private $_sales_url;
 
     /**
      * @param mixed $handler_id The ID of the handler.
@@ -31,12 +31,12 @@ implements org_openpsa_widgets_grid_provider_client
         midcom::get('auth')->require_valid_user();
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
-        $this->_reports_l10n = midcom::get('i18n')->get_l10n('org.openpsa.reports');
 
         $provider = new org_openpsa_widgets_grid_provider($this, 'local');
         $provider->add_order('start');
 
         $data['grid'] = $provider->get_grid('scheduled');
+        midcom::get('head')->set_pagetitle($this->_l10n->get('scheduled invoices'));
         $this->add_breadcrumb('', $this->_l10n->get('scheduled invoices'));
     }
 
@@ -67,16 +67,15 @@ implements org_openpsa_widgets_grid_provider_client
             return array();
         }
 
-        if (   $deliverable->invoiceByActualUnits
-            && $at_entry->arguments['cycle'] > 1)
+        if ($deliverable->invoiceByActualUnits)
         {
-            $invoice_sum = $deliverable->invoiced / ($at_entry->arguments['cycle'] - 1);
-            $calculation_base = sprintf($this->_reports_l10n->get('average of %s runs'), $at_entry->arguments['cycle'] - 1);
+            $calculation_base = midcom::get('i18n')->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
+            $invoice_sum = $deliverable->units * $deliverable->pricePerUnit;
         }
         else
         {
             $invoice_sum = $deliverable->price;
-            $calculation_base = $this->_reports_l10n->get('fixed price');
+            $calculation_base = midcom::get('i18n')->get_l10n('org.openpsa.reports')->get('fixed price');
         }
 
         $invoice = array
