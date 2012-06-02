@@ -68,7 +68,7 @@ implements org_openpsa_widgets_grid_provider_client
         catch (midcom_error $e)
         {
             $e->log();
-            return array();
+            return $invoice;
         }
 
         if ($deliverable->invoiceByActualUnits)
