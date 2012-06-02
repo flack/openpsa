@@ -83,7 +83,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         $invoice['sum'] = $invoice_sum;
-        $invoice['description'] = $deliverable->title;
+        $invoice['deliverable'] = $deliverable->title;
         $invoice['type'] = $type;
 
         $invoice = $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
@@ -93,7 +93,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (!empty($this->_sales_url))
         {
-            $invoice['description'] = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice['description'] . '</a>';
+            $invoice['deliverable'] = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice['deliverable'] . '</a>';
         }
 
         return $invoice;
