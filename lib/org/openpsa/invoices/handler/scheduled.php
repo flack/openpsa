@@ -45,7 +45,7 @@ implements org_openpsa_widgets_grid_provider_client
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('method', '=', 'new_subscription_cycle');
         $qb->add_constraint('component', '=', 'org.openpsa.sales');
-
+        $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
         if (!is_null($field))
         {
             $qb->add_order($field, $direction);
