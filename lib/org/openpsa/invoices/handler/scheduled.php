@@ -69,27 +69,29 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($deliverable->invoiceByActualUnits)
         {
-            $calculation_base = midcom::get('i18n')->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
+            $type = midcom::get('i18n')->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
             $invoice_sum = $deliverable->units * $deliverable->pricePerUnit;
         }
         else
         {
             $invoice_sum = $deliverable->price;
-            $calculation_base = midcom::get('i18n')->get_l10n('org.openpsa.reports')->get('fixed price');
+            $type = midcom::get('i18n')->get_l10n('org.openpsa.reports')->get('fixed price');
         }
 
         $invoice = array
         (
             'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
             'sum' => $invoice_sum,
-            'description' => $deliverable->title . ' (' . $calculation_base . ')',
+            'description' => $deliverable->title,
+            'type' => $type
         );
 
         $invoice = $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
         $invoice = $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
         $invoice = $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
 
-        if ($this->_sales_url)
+
+        if (!empty($this->_sales_url))
         {
             $invoice['description'] = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice['description'] . '</a>';
         }

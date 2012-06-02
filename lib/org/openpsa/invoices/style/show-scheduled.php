@@ -8,11 +8,11 @@ $footer_data = array
 
 $grid->set_option('loadonce', true);
 
-$grid->set_column('customer', $data['l10n']->get('customer'), 'classes: "ui-ellipsis"', 'string');
-$grid->set_column('customerContact', $data['l10n']->get('customer contact'), 'classes: "ui-ellipsis"', 'string');
-$grid->set_column('description', $data['l10n_midcom']->get('description'), 'classes: "ui-ellipsis"');
-
 $grid->set_column('time', $data['l10n_midcom']->get('date'), 'width: 80, fixed: true, align: "center", formatter: "date"')
+->set_column('customer', $data['l10n']->get('customer'), 'width: 100, classes: "ui-ellipsis"', 'string')
+->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 100, classes: "ui-ellipsis"', 'string')
+->set_column('description', $data['l10n_midcom']->get('description'), 'width: 100, classes: "ui-ellipsis"')
+->set_column('type', midcom::get('i18n')->get_l10n('midgard.admin.asgard')->get('type'), 'width: 80, classes: "ui-ellipsis"')
 ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false, classes: "sum", sorttype: "number", formatter: "number"');
 
 $grid->set_footer_data($footer_data);
