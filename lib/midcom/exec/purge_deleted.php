@@ -34,10 +34,15 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
 
     $total = 0;
     $purged = 0;
+    $failed_guids = array();
     do
     {
         $qb = new midgard_query_builder($mgdschema);
         $qb->add_constraint('metadata.deleted', '<>', 0);
+        if (!empty($failed_guids))
+        {
+            $qb->add_constraint('guid', 'NOT IN', $failed_guids);
+        }
         $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
         $qb->include_deleted();
         $qb->set_limit($chunk_size);
@@ -54,12 +59,13 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
             if (!$obj->purge())
             {
                 echo "ERROR: Failed to purge <tt>{$obj->guid}</tt>, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string() . "\n";
+                $failed_guids[] = $obj->guid;
                 continue 1;
             }
             $purged++;
         }
     } while (count($objects) > 0);
-    echo "Found {$total} objects, purged {$purged} objects\n";
+    echo "Found {$total} objects, purged {$purged} objects, " . sizeof($failed_guids) . " failures\n";
     flush();
 }
 
