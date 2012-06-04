@@ -95,9 +95,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     ?>
 
     <p><strong><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </strong></p>
-    <pre class="description">
-          &(view['description']);
-    </pre>
+    <div class="description">&(view['description']);</div>
 
     <?php
     if (!empty($data['invoice_items']))

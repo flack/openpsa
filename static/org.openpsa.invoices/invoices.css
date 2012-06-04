@@ -78,6 +78,11 @@ div.org_openpsa_invoices table button.yes
     border-bottom-width:1px;
 }
 
+.org_openpsa_invoice .description
+{
+    white-space: pre-wrap
+}
+
 .org_openpsa_helpers_fileinfo
 {
     display: inline-block;
