@@ -47,7 +47,7 @@ div.salesproject div.deliverables ol.deliverable_list
     margin: 0px;
     padding: 4px;
 }
-div.salesproject div.deliverables ol.deliverable_list li
+div.salesproject div.deliverables ol.deliverable_list li.deliverable
 {
     margin-bottom: 1em;
     list-style: none;
@@ -79,7 +79,7 @@ div.salesproject div.deliverables ol.deliverable_list li.expanded .icon
     background-image:url('../stock-icons/16x16/list-remove.png');
 }
 
-div.salesproject div.deliverables ol.deliverable_list li h3
+div.salesproject div.deliverables ol.deliverable_list li.deliverable h3
 {
     background-color: #e9ede4;
     padding: 0 0.5em;
@@ -95,43 +95,43 @@ div.salesproject div.deliverables ol.deliverable_list li h3
     font-weight: bold;
 }
 
-div.salesproject div.deliverables ol.deliverable_list li div.information,
-div.salesproject div.deliverables ol.deliverable_list li div.toolbar
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.information,
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.toolbar
 {
     margin-left: 24px;
 }
 
-div.salesproject div.deliverables ol.deliverable_list li div.tasks
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.tasks
 {
     margin-top: .5em;
     clear: both
 }
 
-div.salesproject div.deliverables ol.deliverable_list li div.tags
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.tags
 {
     float: right;
     margin-right: 24px;
     font-size: 0.9em;
 }
-div.salesproject div.deliverables ol.deliverable_list li div.information
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.information
 {
     display: none;
 }
-div.salesproject div.deliverables ol.deliverable_list li div.description
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.description
 {
     width: 65%;
 }
-div.salesproject div.deliverables ol.deliverable_list li table.details
+div.salesproject div.deliverables ol.deliverable_list li.deliverable table.details
 {
     float: right;
     width: 30%;
     font-size: smaller;
 }
-div.salesproject div.deliverables ol.deliverable_list li table.details th
+div.salesproject div.deliverables ol.deliverable_list li.deliverable table.details th
 {
     text-align: left;
 }
-div.salesproject div.deliverables ol.deliverable_list li div.components
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.components
 {
     clear: right;
 }
