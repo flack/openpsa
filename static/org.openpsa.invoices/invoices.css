@@ -78,7 +78,7 @@ div.org_openpsa_invoices table button.yes
     border-bottom-width:1px;
 }
 
-.org_openpsa_invoice .description
+.org_openpsa_invoices_invoice .description
 {
     white-space: pre-wrap
 }
