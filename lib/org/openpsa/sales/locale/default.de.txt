@@ -111,6 +111,10 @@ Kunde
 Kundenkontakt
 ---STRINGEND
 
+---STRING deliverable
+Bestellung
+---STRINGEND
+
 ---STRING deliverables
 Bestellungen
 ---STRINGEND
