@@ -155,10 +155,13 @@ div.net_nemein_wiki_wikipage div.warning
 
 div.net_nemein_wiki_wikipage pre code
 {
+    background-color: #444;
+    color: #f5f5f5;
     display: block;
     border: 1px solid #e7e7e7;
     margin: .3em 2em;
-    padding: .3em 1em;
+    padding: .5em 1em;
     max-width: 90%;
-    overflow: auto
+    overflow: auto;
+    white-space: pre-wrap;
 }
