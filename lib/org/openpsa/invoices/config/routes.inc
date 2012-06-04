@@ -36,7 +36,7 @@
 ),
 
 // Match /list/scheduled/
-'list_deliverable_all' => array
+'list_scheduled' => array
 (
     'handler' => Array('org_openpsa_invoices_handler_scheduled', 'list'),
     'fixed_args' => array('scheduled'),
