@@ -153,54 +153,14 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return $ret;
     }
 
-    function list_groups_by_up($up = 0)
+    public function get_root()
     {
-        //FIXME rewrite to use collector, rewrite to use (per request) result caching
-        static $group_list = array();
-
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $qb->add_constraint('up', '=', $up);
-        $qb->add_order('code');
-        $qb->add_order('title');
-        $groups = $qb->execute();
-
-        foreach ($groups as $group)
+        $root = $this;
+        while ($root->up != 0)
         {
-            if (   !isset($group_list['id'])
-                || !is_array($group_list['id']))
-            {
-                $group_list['id'] = array();
-            }
-            $group_list['id'][$group->id] = "{$group->title}";
+            $root = self::get_cached($root->up);
         }
-
-        return $group_list['id'];
-    }
-
-    function list_groups_parent($up = 0)
-    {
-        //FIXME rewrite to use collector, rewrite to use (per request) result caching
-        static $group_list = array();
-
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        if (midcom_connection::is_admin())
-        {
-            $qb->add_constraint('up', '=', $up);
-        }
-        else
-        {
-            $qb->add_constraint('id', '=', $up);
-        }
-        $qb->add_order('code');
-        $qb->add_order('title');
-        $groups = $qb->execute();
-
-        foreach ($groups as $group)
-        {
-            $group_list[$group->code] = "{$group->title}";
-        }
-
-        return $group_list;
+        return $root;
     }
 }
 ?>
