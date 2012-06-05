@@ -13,6 +13,11 @@
  */
 class midcom_response_json extends midcom_response
 {
+    public function __construct(array $data = array())
+    {
+        $this->_data = $data;
+    }
+
     /**
      * Sends the response to the client and shuts down the environment
      */
