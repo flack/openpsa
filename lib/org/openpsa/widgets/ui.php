@@ -19,13 +19,9 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         return $config->get($value);
     }
 
-    /**
-     * Helper function that returns information about available search providers
-     *
-     * @return array
-     */
-    public static function get_search_providers()
+    public static function initialize_search()
     {
+        $defaults = array('autocomplete' => false);
         $providers = array();
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $configured_providers = self::get_config_value('search_providers');
@@ -36,8 +32,18 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $user_id = midcom::get('auth')->acl->get_user_id();
         }
 
-        foreach ($configured_providers as $component => $route)
+        foreach ($configured_providers as $component => $config)
         {
+            if (!is_array($config))
+            {
+                $config = array('route' => $config);
+            }
+            $config = array_merge($defaults, $config);
+            if ($config['autocomplete'] === true)
+            {
+                midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+            }
+
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
                 && (   !$user_id
@@ -46,13 +52,18 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
                 $providers[] = array
                 (
                     'helptext' => midcom::get('i18n')->get_string('search title', $component),
-                    'url' => $node_url . $route,
-                    'identifier' => $component
+                    'url' => $node_url . $config['route'],
+                    'identifier' => $component,
+                    'autocomplete' => $config['autocomplete'],
                 );
             }
         }
 
-        return $providers;
+        midcom::get('head')->add_jquery_state_script('org_openpsa_layout.initialize_search
+        (
+            ' . json_encode($providers) . ',
+            "' . midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider') . '"
+        );');
     }
 
     /**

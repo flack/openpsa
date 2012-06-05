@@ -5,7 +5,11 @@
 'search_providers' => array
 (
     'midcom.helper.search' => 'result/',
-    'org.openpsa.contacts' => 'search/',
+    'org.openpsa.contacts' => array
+    (
+        'route' => 'search/',
+        'autocomplete' => true
+    ),
     'org.openpsa.documents' => 'search/',
     'org.openpsa.invoices' => 'goto/',
 ),

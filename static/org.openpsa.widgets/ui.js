@@ -217,6 +217,37 @@ var org_openpsa_layout =
             current = providers[0].identifier;
         }
 
+        var enable_autocomplete = function (provider)
+        {
+            if (provider.autocomplete)
+            {
+                $('#org_openpsa_search_query').autocomplete(
+                {
+                    source: function (request, response)
+                    {
+                        $.ajax(
+                        {
+                            url: provider.url + '/autocomplete/',
+                            dataType: 'json',
+                            data: { query: request.term},
+                            success: function (data)
+                            {
+                                response(data);
+                            }
+                        });
+                    },
+                    select: function (event, ui)
+                    {
+                        if (ui.item)
+                        {
+                            location.href = ui.item.url;
+                        }
+                    },
+                    minLength: 2
+                });
+            }
+        }
+
         for (i = 0; i < providers.length; i++)
         {
             li_class = 'provider';
@@ -231,10 +262,18 @@ var org_openpsa_layout =
                 .click(function(event)
                 {
                     var target = $(event.target),
+                    old_item = $('#org_openpsa_search_providers .current'),
                     query = $('#org_openpsa_search_query');
 
-                    $('#org_openpsa_search_providers .current').removeClass('current');
+                    if (old_item.data('provider').autocomplete)
+                    {
+                        query.autocomplete('destroy');
+                    }
+                    old_item.removeClass('current');
                     target.addClass('current');
+
+                    enable_autocomplete(target.data('provider'));
+
                     $('#org_openpsa_search_form').attr('action', target.data('provider').url);
                     $('#org_openpsa_search_trigger').click();
 
@@ -256,6 +295,12 @@ var org_openpsa_layout =
                     $(this).removeClass('hover');
                 })
                 .appendTo(selector);
+
+            if (   current === providers[i].identifier
+                && providers[i].autocomplete === true)
+            {
+                enable_autocomplete(providers[i]);
+            }
         }
 
         $('#org_openpsa_search_form').attr('action', current_provider.url);

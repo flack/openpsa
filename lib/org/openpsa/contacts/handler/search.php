@@ -166,6 +166,11 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             $this->_search_qb_persons();
         }
 
+        if ($handler_id == 'search_autocomplete')
+        {
+            return $this->_prepare_json_reply();
+        }
+
         if (   count($this->_groups) == 1
             && count($this->_persons) == 0)
         {
@@ -184,6 +189,34 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         midcom::get('head')->set_pagetitle($this->_l10n->get('search'));
         $this->add_breadcrumb("", $this->_l10n->get('search'));
         $data['query_string'] = $this->_query_string;
+    }
+
+    private function _prepare_json_reply()
+    {
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data = array();
+        foreach ($this->_persons as $person)
+        {
+            $data[] = array
+            (
+                'label' => $person->get_label(),
+                'value' => $person->get_label(),
+                'url' => $prefix . 'person/' . $person->guid . '/'
+            );
+        }
+        foreach ($this->_groups as $group)
+        {
+            $data[] = array
+            (
+                'label' => $group->get_label(),
+                'value' => $group->get_label(),
+                'url' => $prefix . 'group/' . $group->guid . '/'
+            );
+        }
+        $response = new midcom_response_json();
+
+        $response->set_data($data);
+        return $response;
     }
 
     private function _populate_toolbar()

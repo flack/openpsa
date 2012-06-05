@@ -41,6 +41,8 @@ echo "<?xml version=\"1.0\"?>\n";
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
         org_openpsa_widgets_ui::add_head_elements();
+        org_openpsa_widgets_ui::initialize_search();
+
         $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
         $head->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get('i18n')->get_l10n('org.openpsa.widgets')->get('more') . "';");
         $head->print_head_elements();

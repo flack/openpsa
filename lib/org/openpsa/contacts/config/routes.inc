@@ -35,6 +35,12 @@
     'variable_args' => 1,
 ),
 
+// Match /search/autocomplete
+'search_autocomplete' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_search', 'search'),
+    'fixed_args' => array('search', 'autocomplete')
+),
 // Match /search/<type>
 'search_type' => array
 (
