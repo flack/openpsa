@@ -4,13 +4,13 @@ $data = $this->data;
 <form name="midcom_services_auth_frontend_form" method='post' id="midcom_services_auth_frontend_form">
     <p>
         <label for="username">
-            <?php echo midcom::get('i18n')->get_string('username', 'midcom'); ?><br />
+            <span class="field_label"><?php echo midcom::get('i18n')->get_string('username', 'midcom'); ?></span><br />
             <input name="username" id="username" type="text" class="input" />
         </label>
     </p>
     <p>
         <label for="password">
-            <?php echo midcom::get('i18n')->get_string('password', 'midcom'); ?><br />
+            <span class="field_label"><?php echo midcom::get('i18n')->get_string('password', 'midcom'); ?></span><br />
             <input name="password" id="password" type="password" class="input" />
         </label>
     </p>
