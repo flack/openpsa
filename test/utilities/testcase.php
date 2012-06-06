@@ -277,6 +277,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         foreach ($data as $field => $value)
         {
+            if (is_array($value))
+            {
+                foreach ($value as $arr_field => $arr_value)
+                {
+                    $object->{$field}->{$arr_field} = $value;
+                }
+                continue;
+            }
             $object->$field = $value;
         }
         return $object;
