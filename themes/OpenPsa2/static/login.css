@@ -9,7 +9,7 @@ body {
     min-width: 26em;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 40px;
+    margin-top: 5%;
 }
 
 div.login-header img {
@@ -25,13 +25,12 @@ div.login-header h1 {
 
 #midcom_login_form {
     padding: 0 1ex;
-    border: 1px solid #777;
-    -moz-border-radius: 0.3em;
-    -webkit-border-radius: 0.3em;
+    border: 1px solid #999;
     border-radius: 0.3em;
     position: relative;
     background-color: white;
-    min-width: 25em
+    min-width: 26em;
+    margin-bottom: .4em
 }
 
 #midcom_login_form label {
@@ -40,14 +39,17 @@ div.login-header h1 {
     display: block;
 }
 
-#midcom_login_form label br {
-    display: none;
+#midcom_login_form label .field_label {
+    display: block;
+    float: left;
+    padding-right: 0.7em;
+    text-align: right;
+    width: 12em;
+    line-height: 1.8em
 }
 
-#midcom_login_form input {
-    margin: 0.2em 0 0 0;
-    position: absolute;
-    left: 12em
+#midcom_login_form label br {
+    display: none;
 }
 
 #midcom_login_form .input {
@@ -58,10 +60,15 @@ div.login-header h1 {
     height: 3em;
 }
 
+#midcom_services_auth_frontend_form_submit {
+    margin-left: 12.7em
+}
+
 div.org_openpsa_softwareinfo {
     font-size: smaller;
-    padding-left: .8em;
-    color: #777
+    padding-right: .5em;
+    color: #777;
+    text-align: right
 }
 
 div.org_openpsa_softwareinfo a {
