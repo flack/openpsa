@@ -33,6 +33,7 @@ else
 </head>
 
 <body>
+ <div class="login-container">
   <div class="login-header">
     <h1><(title)> OpenPSA</h1>
   </div>
@@ -40,6 +41,9 @@ else
   <p class='login_message'>
     <?php echo $message ?>
   </p>
+
+  <div class="login-form-container">
+  <?php midcom::get('auth')->show_login_form(); ?>
 
   <p class="login_warning" id="cookie_warning" style="display:none">
   <?php echo $l10n->get('cookies must be enabled to log in'); ?>
@@ -56,9 +60,7 @@ else
   {
       echo '<p class="login_warning">' . $login_warning . "</p>\n";
   } ?>
-
-  <?php midcom::get('auth')->show_login_form(); ?>
-
+  </div>
   <script type="text/javascript">
     document.getElementById('username').focus();
   </script>
@@ -68,7 +70,7 @@ else
       ?></a>,
       <a href="http://www.midgard-project.org/">Midgard <?php echo mgd_version(); ?></a>
   </div>
-
+ </div>
 <script type="text/javascript">
 document.cookie = "cookietest=success;";
 if (document.cookie.indexOf("cookietest=") == -1)
