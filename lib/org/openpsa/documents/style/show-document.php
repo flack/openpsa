@@ -7,7 +7,7 @@ $view =& $data['document_dm'];
 
 <div class="main">
     <?php
-    $view->display_view();
+    $view->display_view(true);
 
     $tabs = array();
 

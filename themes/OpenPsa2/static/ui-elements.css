@@ -235,13 +235,13 @@ div.midcom_helper_datamanager2_view div.field > div
 }
 div.midcom_helper_datamanager2_view div.field:hover > div
 {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #ddd;
 }
 
 div.midcom_helper_datamanager2_view div.title
 {
     text-align: right;
-    font-weight: bold;
+    color: #777;
     padding: .1em .3em .2em 0;
 }
 
@@ -305,6 +305,12 @@ form.datamanager2 .form label
     padding-right: .5em;
     text-align: right;
     min-width: 9em;
+    font-weight: normal;
+}
+
+form.datamanager2 .form fieldset th
+{
+    font-weight: normal;
 }
 
 form.datamanager2 .form label,
@@ -318,7 +324,9 @@ form.datamanager2 .form .element_checkbox .input
 
 form.datamanager2 .element .field_text
 {
-    margin-right: 0;
+	text-shadow: 1px 1px 1px white;
+    margin-right: .3em;
+    color: #555
 }
 
 form.datamanager2 .form_toolbar
@@ -445,7 +453,7 @@ form.datamanager2 fieldset.radiobox label {
     display: inline;
     padding-right: 10px;
     font-weight: normal;
-    vertical-align: middle
+    vertical-align: bottom
 }
 
 form.datamanager2 fieldset.checkbox br,
