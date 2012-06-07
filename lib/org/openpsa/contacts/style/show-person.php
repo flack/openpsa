@@ -17,7 +17,7 @@ $node = $nap->get_node($nap->get_current_node());
 
 <div class="main">
 <?php
-    $data['datamanager']->display_view();
+    $data['datamanager']->display_view(true);
 
     //add tabs
     $tabs = array();
