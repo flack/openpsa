@@ -502,9 +502,16 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * Be aware that this is only geared for simple administration interfaces, it will provide
      * *no* editing capabilities (like AJAX) etc. If you want that to work, you need a formmanger
      * instance instead.
+     *
+     * @param boolean $skip_empty Should empty fields be rendered or not
      */
-    function display_view()
+    function display_view($skip_empty = false)
     {
+        if (is_null($this->formmanager))
+        {
+            $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
+            $this->formmanager->initialize();
+        }
         // iterate over all types so that they can add their piece to the form
         echo "<div class=\"midcom_helper_datamanager2_view\">\n";
         $fieldset_count = 0;
@@ -515,8 +522,14 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 continue;
             }
             $config =& $this->schema->fields[$name];
-            if (   isset($config['hidden'])
-                && $config['hidden'])
+            if (!empty($config['hidden']))
+            {
+                continue;
+            }
+
+            $field_value = $this->formmanager->widgets[$name]->render_content();
+            if (   trim($field_value) == ''
+                && $skip_empty)
             {
                 continue;
             }
@@ -570,12 +583,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             echo '<div class="title">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
             echo '<div class="value">';
 
-            if (is_null($this->formmanager))
-            {
-                $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
-                $this->formmanager->initialize();
-            }
-            echo $this->formmanager->widgets[$name]->render_content();
+            echo $field_value;
+
             echo "</div>\n";
             echo "</div>\n";
 
