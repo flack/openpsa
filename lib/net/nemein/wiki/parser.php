@@ -344,7 +344,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
         $type = $wikipage_match['wikipage']->parameter('midcom.helper.datamanager2', 'schema_name');
 
-        return "<a href=\"{$url_name}{$page_anchor}\"{$class} class=\"wikipage {$type}\" title=\"{$wikilink}\">{$text}</a>";
+        return "<a href=\"{$url_name}{$page_anchor}\" class=\"wikipage {$type}\" title=\"{$wikilink}\">{$text}</a>";
     }
 
     function find_links_in_content()
