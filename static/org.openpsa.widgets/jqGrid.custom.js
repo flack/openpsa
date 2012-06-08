@@ -420,6 +420,15 @@ var org_openpsa_grid_footer =
     }
 };
 
+var org_openpsa_grid_helper =
+{
+    set_tooltip: function (grid_id, column, tooltip)
+    {
+        var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];
+        $("tr.ui-jqgrid-labels th:eq(" + column + ")", thd).attr("title", tooltip);
+    }
+};
+
 var org_openpsa_export_csv =
 {
     configs: {},
