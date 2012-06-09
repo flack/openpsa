@@ -301,8 +301,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
         $string .= $this->_prepend_js;
 
-        $string .= 'jQuery("#' . $this->_identifier . '").jqGrid({';
-
+        $string .= 'org_openpsa_grid_helper.setup_grid("' . $this->_identifier . '", {';
         $colnames = array();
         foreach ($this->_columns as $name => $column)
         {

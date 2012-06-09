@@ -126,6 +126,10 @@ var org_openpsa_grid_resize =
                     $(this).removeClass('ui-state-hover');
                 })
                 .prependTo($(this));
+            if ($(this).closest('.ui-jqgrid').find('.ui-jqgrid-btable').data('maximized'))
+            {
+                $(this).find('.ui-jqgrid-titlebar-maximize').trigger('click');
+            }
         });
     },
     fill_width: function(items)
@@ -136,14 +140,17 @@ var org_openpsa_grid_resize =
         }
         var new_width;
 
-        if (items.hasClass('ui-jqgrid-maximized'))
-        {
-            new_width = $(org_openpsa_grid_resize.containment).attr('clientWidth') - 20;
-        }
         $.each(items, function(index, item)
         {
-            //calculate for each item separately to take care of floating neighbors
-            new_width = $(item).width() - 12;
+            if (items.hasClass('ui-jqgrid-maximized'))
+            {
+                new_width = $(org_openpsa_grid_resize.containment).attr('clientWidth') - 12;
+            }
+            else
+            {
+                //calculate for each item separately to take care of floating neighbors
+                new_width = $(item).width() - 12;
+            }
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
             {
                 var id = $(this).attr('id')
@@ -247,15 +254,19 @@ var org_openpsa_grid_resize =
 
         function set_param(grid_id, value)
         {
-            if ($("#" + grid_id).parent().parent().height() === value)
+            if ($("#" + grid_id).parent().parent().height() !== value)
             {
-                return;
+                try
+                {
+                    $("#" + grid_id).jqGrid().setGridHeight(value);
+                }
+                catch(e){}
+                if ($("#" + grid_id).data('vScroll'))
+                {
+                    $("#" + grid_id).closest(".ui-jqgrid-bdiv").scrollTop($("#" + grid_id).data('vScroll'));
+                    $("#" + grid_id).removeData('vScroll')
+                }
             }
-            try
-            {
-                $("#" + grid_id).jqGrid().setGridHeight(value);
-            }
-            catch(e){}
         }
     },
     maximize_height: function(part)
@@ -422,10 +433,59 @@ var org_openpsa_grid_footer =
 
 var org_openpsa_grid_helper =
 {
+    event_handler_added: false,
+    active_grids: [],
     set_tooltip: function (grid_id, column, tooltip)
     {
         var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];
         $("tr.ui-jqgrid-labels th:eq(" + column + ")", thd).attr("title", tooltip);
+    },
+    setup_grid: function (grid_id, config)
+    {
+        var identifier = location.hostname + location.href + '#' + grid_id,
+        saved_values = {};
+        if (typeof window.localStorage !== 'undefined')
+        {
+            org_openpsa_grid_helper.active_grids.push(grid_id);
+            saved_values = $.parseJSON(window.localStorage.getItem(identifier));
+            console.log(saved_values);
+            if (!$.isEmptyObject(saved_values.custom_keys))
+            {
+                var keys = saved_values.custom_keys;
+                delete saved_values.custom_keys;
+                $('#' + grid_id).data('vScroll', keys.vScroll);
+                $('#' + grid_id).data('maximized', keys.maximized);
+            }
+            config = $.extend(config, saved_values);
+            if (org_openpsa_grid_helper.event_handler_added === false)
+            {
+                $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
+            }
+        }
+        $('#' + grid_id).jqGrid(config);
+    },
+    save_grid_data: function()
+    {
+        $.each(org_openpsa_grid_helper.active_grids, function(index, grid_id)
+        {
+            var identifier = location.hostname + location.href + '#' + grid_id,
+            grid = $('#' + grid_id),
+            data = 
+            {
+                'page': grid.jqGrid('getGridParam', 'page'),
+                'sortname': grid.jqGrid('getGridParam', 'sortname'),
+                'sortorder': grid.jqGrid('getGridParam', 'sortorder'),
+                'grouping': grid.jqGrid('getGridParam', 'grouping'),
+                'groupingView': grid.jqGrid('getGridParam', 'groupingView'),
+                'hiddengrid': !grid.is(':visible'),
+                'custom_keys':
+                {
+                    'vScroll': grid.closest(".ui-jqgrid-bdiv").scrollTop(),
+                    'maximized': grid.closest('.ui-jqgrid-maximized').length > 0
+                }
+            };
+            window.localStorage.setItem(identifier, JSON.stringify(data))
+        });
     }
 };
 
