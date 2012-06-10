@@ -158,7 +158,8 @@
     height: 20px;
     width: 20px;
     cursor: move;
-    float: right;
+    position: absolute;
+    right: 3px;
 }
 .midcom_services_toolbars_fancy.type_menu div.dragbar
 {
