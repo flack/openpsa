@@ -448,15 +448,17 @@ var org_openpsa_grid_helper =
         {
             org_openpsa_grid_helper.active_grids.push(grid_id);
             saved_values = $.parseJSON(window.localStorage.getItem(identifier));
-            console.log(saved_values);
-            if (!$.isEmptyObject(saved_values.custom_keys))
+            if (saved_values)
             {
-                var keys = saved_values.custom_keys;
-                delete saved_values.custom_keys;
-                $('#' + grid_id).data('vScroll', keys.vScroll);
-                $('#' + grid_id).data('maximized', keys.maximized);
+                if (typeof saved_values.custom_keys !== 'undefined')
+                {
+                    var keys = saved_values.custom_keys;
+                    delete saved_values.custom_keys;
+                    $('#' + grid_id).data('vScroll', keys.vScroll);
+                    $('#' + grid_id).data('maximized', keys.maximized);
+                }
+                config = $.extend(config, saved_values);
             }
-            config = $.extend(config, saved_values);
             if (org_openpsa_grid_helper.event_handler_added === false)
             {
                 $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
