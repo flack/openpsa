@@ -556,7 +556,8 @@ class midcom_helper_nav_backend
             $nodedata[MIDCOM_NAV_NODEID] = $up;
 
             if (   !$nodedata[MIDCOM_NAV_NODEID]
-                || !array_key_exists($nodedata[MIDCOM_NAV_NODEID], self::$_nodes))
+                || (   !array_key_exists($nodedata[MIDCOM_NAV_NODEID], self::$_nodes)
+                    && $this->_loadNode($nodedata[MIDCOM_NAV_NODEID]) !== MIDCOM_ERROK))
             {
                 return null;
             }
