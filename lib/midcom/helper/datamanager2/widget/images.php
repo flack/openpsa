@@ -127,7 +127,7 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
                     jQuery('#{$this->_namespace}{$this->name}')
                         .create_tablesorter({
                             max_count: 0,
-                            sortable: true,
+                            sortable_rows: true,
                             allow_delete: false
                         });
                 });
@@ -281,10 +281,13 @@ END;
         {
             return;
         }
-
+        $html = "        <tr>\n";
+        if ($this->_type->sortable)
+        {
+             $html .= "            <td class=\"new sortable\"></td>\n";
+        }
         // Filename column
-        $html = "        <tr>\n" .
-                "            <td class=\"new text\" colspan=\"1\">";
+        $html .= "            <td class=\"new text\" colspan=\"2\">";
         $html .= sprintf("%s:", $this->_l10n->get('add new file'));
         $this->_elements['s_new_filename'] = HTML_QuickForm::createElement('static', 's_new_filename', '', $html);
 

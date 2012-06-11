@@ -140,7 +140,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                     jQuery('#{$this->_namespace}{$this->name}')
                         .create_tablesorter({
                             max_count: 0,
-                            sortable: true,
+                            sortable_rows: true,
                             allow_delete: false
                         });
                 });
