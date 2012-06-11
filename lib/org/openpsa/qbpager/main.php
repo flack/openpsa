@@ -203,14 +203,15 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     private function _get_query_string($page_var, $page_number)
     {
         $query = array($page_var => (int) $page_number);
-        foreach (explode('&', $_SERVER["QUERY_STRING"]) as $key => $value)
+        
+        foreach ($_GET as $key => $value)
         {
-            if (   strpos($key, $page_var) === false
-                && $key != '')
+            if ( $key != $page_var && $key != '' )
             {
-                $query[$key] = midcom_helper_xsspreventer::escape_attribute($value);
+                $query[$key] = $value;
             }
         }
+
         return '?' . http_build_query($query);
     }
 
