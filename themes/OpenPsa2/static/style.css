@@ -305,6 +305,10 @@ a:hover
   padding-top: 0.7em;
   color: black;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9);
+  text-overflow: ellipsis;
+  max-height: 38px;
+  margin-right: 150px;
+  overflow: hidden;
 }
 
 #content-menu div.context
