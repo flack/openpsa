@@ -39,23 +39,23 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
             if ($invoice->paid)
             {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->paid) . '</span>: <br />';
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->paid) . '</span>: <br />';
                 echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
                 if ($invoice->due < $invoice->paid)
                 {
-                    echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->due) . '</span>: <br />';
+                    echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
                     echo $data['l10n']->get('overdue') . '</li>';
                 }
             }
             else if ($invoice->due < time())
             {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->due) . '</span>: <br />';
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
                 echo $data['l10n']->get('overdue') . '</li>';
             }
 
             if ($invoice->sent)
             {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->sent) . '</span>: <br />';
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->sent) . '</span>: <br />';
                 if ($mail_time = $invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail'))
                 {
                     echo sprintf($data['l10n']->get('marked invoice %s sent per mail'), '');
@@ -67,7 +67,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
                 echo '</li>';
             }
 
-            echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->metadata->created) . '</span>: <br />';
+            echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->metadata->created) . '</span>: <br />';
             echo sprintf($data['l10n']->get('invoice %s created'), '') . '</li>';
 
             echo "</ul>\n";
