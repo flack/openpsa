@@ -81,7 +81,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $invoice->generate_invoicing_task($invoice_sender_guid);
         }
 
-        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice "%s" created'), $invoice->get_label()), 'ok');
+        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice %s created'), $invoice->get_label()), 'ok');
 
         midcom::get()->relocate("invoice/edit/{$invoice->guid}/");
             // This will exit

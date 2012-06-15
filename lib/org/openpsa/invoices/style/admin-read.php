@@ -29,6 +29,42 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
         } ?>
+
+        <div class="org_openpsa_helper_box history status">
+        <?php
+            echo "<h3>" . midcom::get('i18n')->get_l10n('org.openpsa.projects')->get('status history') . "</h3>\n";
+            echo "<div class=\"current-status {$invoice->get_status()}\">" . $data['l10n']->get('invoice status') . ': ' . $data['l10n']->get($invoice->get_status()) . "</div>\n";
+
+            echo "<ul>\n";
+
+            if ($invoice->paid)
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->paid) . '</span>: <br />';
+                echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
+                if ($invoice->due < $invoice->paid)
+                {
+                    echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->due) . '</span>: <br />';
+                    echo $data['l10n']->get('overdue') . '</li>';
+                }
+            }
+            else if ($invoice->due < time())
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->due) . '</span>: <br />';
+                echo $data['l10n']->get('overdue') . '</li>';
+            }
+
+            if ($invoice->sent)
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->sent) . '</span>: <br />';
+                echo sprintf($data['l10n']->get('marked invoice %s sent'), '') . '</li>';
+            }
+
+            echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->metadata->created) . '</span>: <br />';
+            echo sprintf($data['l10n']->get('invoice %s created'), '') . '</li>';
+
+            echo "</ul>\n";
+        ?>
+    </div>
     </div>
 <div class="main org_openpsa_invoices_invoice">
     <p><strong><?php echo $data['l10n']->get('invoice status'); ?>: </strong>

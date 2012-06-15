@@ -182,16 +182,16 @@ send per mail
 Marked %s hours as invoiced
 ---STRINGEND
 
----STRING marked invoice "%s" paid
-Marked invoice "%s" as paid
+---STRING marked invoice %s paid
+Marked invoice %s as paid
 ---STRINGEND
 
----STRING marked invoice "%s" sent
-Marked invoice "%s" as sent
+---STRING marked invoice %s sent
+Marked invoice %s as sent
 ---STRINGEND
 
----STRING marked invoice "%s" sent per mail
-Sent invoice "%s" per mail
+---STRING marked invoice %s sent per mail
+Sent invoice %s per mail
 ---STRINGEND
 
 ---STRING marked task "%s" finished

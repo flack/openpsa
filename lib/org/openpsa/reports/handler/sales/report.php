@@ -151,7 +151,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
             foreach ($invoices as $invoice)
             {
                 $invoice_price += $invoice->sum;
-                $invoice_class = $invoice->get_invoice_class();
+                $invoice_class = $invoice->get_status();
 
                 if ($invoices_node)
                 {

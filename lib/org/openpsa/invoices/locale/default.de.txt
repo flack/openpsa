@@ -170,16 +170,16 @@ Mail versenden
 %s Arbeitsstunden als abgerechnet markiert
 ---STRINGEND
 
----STRING marked invoice "%s" paid
-Rechnung "%s" wurde als bezahlt markiert
+---STRING marked invoice %s paid
+Rechnung %s wurde als bezahlt markiert
 ---STRINGEND
 
----STRING marked invoice "%s" sent
-Rechnung "%s" wurde als verschickt markiert
+---STRING marked invoice %s sent
+Rechnung %s wurde als verschickt markiert
 ---STRINGEND
 
----STRING marked invoice "%s" sent per mail
-Rechnung "%s" wurde per E-Mail versendet
+---STRING marked invoice %s sent per mail
+Rechnung %s wurde per E-Mail versendet
 ---STRINGEND
 
 ---STRING marked task "%s" finished

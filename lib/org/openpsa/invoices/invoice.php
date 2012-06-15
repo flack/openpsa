@@ -11,7 +11,6 @@
  *
  * @package org.openpsa.invoices
  */
-
 class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
@@ -24,7 +23,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     private $_billing_data = false;
 
-    function get_invoice_class()
+    function get_status()
     {
         if ($this->sent == 0)
         {
