@@ -47,7 +47,8 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
                     echo $data['l10n']->get('overdue') . '</li>';
                 }
             }
-            else if ($invoice->due < time())
+            else if (   $invoice->due
+                     && $invoice->due < time())
             {
                 echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
                 echo $data['l10n']->get('overdue') . '</li>';
