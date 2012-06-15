@@ -316,7 +316,8 @@ a:hover
   padding: 0;
   margin: 0;
   position: absolute;
-  right: 10px
+  right: 10px;
+  z-index: 50;
 }
 
 #content-menu ul
@@ -416,7 +417,7 @@ ul#org_openpsa_search_providers li.current
 
 input#org_openpsa_search_query
 {
-    position: absolute;
+    position: relative;
     right: .5em;
     display: none;
     background-color: white;
