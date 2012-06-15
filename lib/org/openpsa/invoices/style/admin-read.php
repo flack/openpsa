@@ -56,7 +56,15 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             if ($invoice->sent)
             {
                 echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->sent) . '</span>: <br />';
-                echo sprintf($data['l10n']->get('marked invoice %s sent'), '') . '</li>';
+                if ($mail_time = $invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail'))
+                {
+                    echo sprintf($data['l10n']->get('marked invoice %s sent per mail'), '');
+                }
+                else
+                {
+                    echo sprintf($data['l10n']->get('marked invoice %s sent'), '');
+                }
+                echo '</li>';
             }
 
             echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date'), $invoice->metadata->created) . '</span>: <br />';

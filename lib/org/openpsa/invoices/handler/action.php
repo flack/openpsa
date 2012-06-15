@@ -157,6 +157,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
         else
         {
+            $invoice->set_parameter($this->_component, 'sent_by_mail', time());
             return $this->_mark_as_sent($invoice);
         }
     }
