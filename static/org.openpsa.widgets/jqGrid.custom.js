@@ -480,7 +480,7 @@ var org_openpsa_grid_helper =
                 'sortorder': grid.jqGrid('getGridParam', 'sortorder'),
                 'grouping': grid.jqGrid('getGridParam', 'grouping'),
                 'groupingView': grid.jqGrid('getGridParam', 'groupingView'),
-                'hiddengrid': !grid.is(':visible'),
+                'hiddengrid': grid.closest('.ui-jqgrid-view').find('.ui-jqgrid-titlebar-close .ui-icon').hasClass('ui-icon-circle-triangle-s'),
                 'custom_keys':
                 {
                     'vScroll': grid.closest(".ui-jqgrid-bdiv").scrollTop(),
