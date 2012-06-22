@@ -4,6 +4,15 @@
  *
  * Usage: phpunit --no-globals-backup ./
  */
+
+// For now we need to manipulate the PHP include_path until
+// MidCOM starts using the Composer-generated autoloaders
+// everywhere.
+if (function_exists('set_include_path'))
+{
+    set_include_path(get_include_path() . ':' . __DIR__ . '/../vendor/pear-pear:' . __DIR__ . '/../vendor/pear-hp');
+}
+
 $mgd_defaults = array
 (
     'argv' => array(),
