@@ -6,7 +6,6 @@
  * Makes a single http POST to the given url, message is in 'message_source'
  * in future extra variables (like for auth or something) may be added
  */
-require_once 'HTTP/Client.php';
 // Get the configuration arguments
 if ($argc != 2)
 {

@@ -72,7 +72,6 @@ elseif (   substr($BOUNCE_LOGGER, 0, strlen("http://")) == "http://"
         || substr($BOUNCE_LOGGER, 0, strlen("https://")) == "https://")
 {
     /** @ ignore */
-    require_once 'HTTP/Client.php';
     $client = new HTTP_Client();
     $client->post($BOUNCE_LOGGER, array("token" => $token));
     exit(0);

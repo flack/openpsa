@@ -5,14 +5,6 @@
  * Usage: phpunit --no-globals-backup ./
  */
 
-// For now we need to manipulate the PHP include_path until
-// MidCOM starts using the Composer-generated autoloaders
-// everywhere.
-if (function_exists('set_include_path'))
-{
-    set_include_path(get_include_path() . ':' . __DIR__ . '/../vendor/pear-pear:' . __DIR__ . '/../vendor/pear-hp');
-}
-
 if (gc_enabled()) {
     echo "Disabling Zend Garbage Collection to prevent segfaults, see:\n";
     echo "  https://bugs.php.net/bug.php?id=51091\n";

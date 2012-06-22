@@ -12,7 +12,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once 'Text/CAPTCHA.php';
 global $argc, $argv;
 
 $session = new midcom_services_session('midcom_helper_datamanager2_widget_captcha');

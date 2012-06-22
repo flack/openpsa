@@ -7,11 +7,6 @@
  */
 
 /**
- * @ignore
- */
-require_once 'HTTP/Request2.php';
-
-/**
  * Solr implementation of the indexer backend.
  *
  * This works by communicating with solr over http requests.

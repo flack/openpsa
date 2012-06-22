@@ -17,8 +17,6 @@ class org_openpsa_mail_backend_mail_smtp extends org_openpsa_mail_backend
 
     public function __construct(array $params)
     {
-        include_once('Mail.php');
-        include_once('Mail/smtp.php');
         if (   !class_exists('Mail')
             || !class_exists('Mail_smtp'))
         {

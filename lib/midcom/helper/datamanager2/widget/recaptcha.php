@@ -7,7 +7,6 @@
  */
 
 /** @ignore */
-require_once('Text/Password.php');
 require_once(MIDCOM_ROOT . '/external/recaptcha/recaptchalib.php');
 /**
  * Datamanager 2 recaptcha widget
