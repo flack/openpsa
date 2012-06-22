@@ -59,12 +59,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns a list of comments applicable to a given object, ordered by creation
      * date.
      *
-     * May be called statically.
-     *
      * @param guid $guid The GUID of the object to bind to.
      * @return Array List of applicable comments.
      */
-    function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
+    public static function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
     {
         if ($paging !== false)
         {
