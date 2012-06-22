@@ -5,7 +5,7 @@ php:
   - 5.4
 
 before_script:
-  - ./tests/travis_midgard2.sh
+  - ./test/travis_midgard2.sh
   - wget http://getcomposer.org/composer.phar 
   - php composer.phar install --dev
   - cp schemas/* /usr/share/midgard2/schema
