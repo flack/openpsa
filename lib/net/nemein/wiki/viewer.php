@@ -128,7 +128,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $indexer->index($document);
     }
 
-    function initialize_index_article($topic)
+    public static function initialize_index_article($topic)
     {
         $page = new net_nemein_wiki_wikipage();
         $page->topic = $topic->id;

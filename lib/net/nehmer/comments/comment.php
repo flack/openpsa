@@ -28,6 +28,8 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     var $_send_notification = false;
 
+    private $_sudo_requested = false;
+
     /**
      * DBA magic defaults which assign write privileges for all USERS, so that they can
      * add new comments at will.
