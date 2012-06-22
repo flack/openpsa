@@ -79,7 +79,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      * @param string $parent_component  Name of the parent component, which will pop the item first on the list
      * @return mixed Array containing names of the components
      */
-    public function get_component_list($parent_component = '')
+    public static function get_component_list($parent_component = '')
     {
         $components = array ();
 
