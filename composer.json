@@ -1,0 +1,55 @@
+{
+    "name": "openpsa/midcom",
+    "type": "library",
+    "description": "Content-oriented Model-View-Controller library for PHP and the Midgard Content Repository",
+    "keywords": ["mvc", "midgard", "framework"],
+    "homepage": "http://midgard-project.org/midcom/",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Andreas Flack",
+            "email": "flack@contentcontrol-berlin.de",
+            "homepage": "http://www.contentcontrol-berlin.de/"
+        },
+        {
+            "name": "Henri Bergius",
+            "email": "henri.bergius@iki.fi",
+            "homepage": "http://bergie.iki.fi/"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.php.net"
+        },
+        {
+            "type": "pear",
+            "url": "htmlpurifier.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0",
+        "pear-pear/XML_RPC": "*",
+        "pear-pear/HTTP_Request2": "*",
+        "pear-pear/Console_GetArgs": "*",
+        "pear-pear/Contact_Vcard_Parse": "*",
+        "pear-pear/Mail": "*",
+        "pear-pear/Mail_mime": "*",
+        "pear-pear/Net_SMTP": "*",
+        "pear-pear/Auth_SASL": "*",
+        "pear-pear/HTML_QuickForm": "*",
+        "pear-hp/HTMLPurifier": "*",
+        "pear-pear/Text_CAPTCHA": "*",
+        "pear-pear/Text_Diff": "*"
+    },
+    "suggest": {
+        "ext-midgard2": ">=10.05.5"
+    },
+    "provide": {
+        "midgard/midcom": "*",
+        "openpsa/openpsa": "*"
+    },
+    "autoload": {
+        "classmap": ["lib"]
+    }
+}
