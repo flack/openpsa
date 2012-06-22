@@ -18,7 +18,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @var midcom_db_person
      */
-    protected static $_person;
+    protected $_person;
 
     /**
      * The account we're working on
