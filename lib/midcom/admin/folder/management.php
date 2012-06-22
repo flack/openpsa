@@ -143,7 +143,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         $list = array();
 
-        if ($urltopic = end(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS)))
+        $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
+        if ($urltopic = end($urltopics))
         {
             if (empty($urltopic->component))
             {

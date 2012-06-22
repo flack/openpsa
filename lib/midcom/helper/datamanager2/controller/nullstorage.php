@@ -48,7 +48,8 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
         }
         if ($this->schemaname === null)
         {
-            $this->schemaname = array_shift(array_keys($this->schemadb));
+            $schemas = array_keys($this->schemadb);
+            $this->schemaname = array_shift($schemas);
         }
 
         // Startup the DM infrastructure

@@ -93,7 +93,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         midcom_show_style("show-frontpage");
     }
 
-    function get_messagetype_icon($type)
+    public static function get_messagetype_icon($type)
     {
         $icon = 'stock_mail.png';
         switch ($type)

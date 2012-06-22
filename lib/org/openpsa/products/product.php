@@ -145,7 +145,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function list_products()
+    public static function list_products()
     {
         $component_list = Array();
         $qb = org_openpsa_products_product_dba::new_query_builder();

@@ -58,7 +58,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      *
      * See org_openpsa_relatedto_suspect::find_links_object() for details
      */
-    function find_links_object_component($object, $component, $defaults = false)
+    public static function find_links_object_component($object, $component, $defaults = false)
     {
         $ret = array();
 
