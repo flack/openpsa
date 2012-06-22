@@ -8,7 +8,7 @@ before_script:
   - ./test/travis_midgard2.sh
   - wget http://getcomposer.org/composer.phar 
   - php composer.phar install --dev
-  - cp schemas/* /usr/share/midgard2/schema
+  - sudo cp schemas/* /usr/share/midgard2/schema
 
 script: phpunit
 
