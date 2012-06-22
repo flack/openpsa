@@ -2,6 +2,10 @@
 pyrus channel-discover pear.indeyets.ru
 pyrus install -f http://pear.indeyets.ru/get/pake-1.6.3.tgz
 
+# FIXME: We should be able to remove these once
+# https://github.com/composer/composer/pull/775 lands
+pyrus install HTML_Common
+
 # Options
 MIDGARD_LIBS_VERSION=10.05.6
 MIDGARD_EXT_VERSION=ratatoskr
