@@ -180,7 +180,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     /**
      * Static method for listing available style templates
      */
-    public function list_styles($up = 0, $prefix = '/', $spacer = '')
+    public static function list_styles($up = 0, $prefix = '/', $spacer = '')
     {
         static $style_array = array();
 
