@@ -6,3 +6,7 @@
 /test/mgd1-connection.inc.php
 /test/__output
 /vendor/*/
+/vendor/autoload.php
+composer.phar
+composer.lock
+phpunit.xml

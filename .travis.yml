@@ -1,0 +1,16 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+before_script:
+  - ./test/travis_midgard2.sh
+  - wget http://getcomposer.org/composer.phar 
+  - php composer.phar install --dev
+  - sudo cp schemas/* /usr/share/midgard2/schema
+
+script: phpunit
+
+notifications:
+    irc: "irc.freenode.org#midgard"
