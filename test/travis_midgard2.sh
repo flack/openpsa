@@ -13,6 +13,9 @@ MIDGARD_EXT_VERSION=ratatoskr
 # Install Midgard2 library dependencies
 sudo apt-get install -y dbus libgda-4.0-4 libgda-4.0-dev libxml2-dev libdbus-1-dev libdbus-glib-1-dev
 
+# MidCOM also requires rcs
+sudo apt-get install rcs
+
 # Build Midgard2 core from recent tarball
 wget -q https://github.com/midgardproject/midgard-core/tarball/${MIDGARD_EXT_VERSION}
 tar -xzf ratatoskr
