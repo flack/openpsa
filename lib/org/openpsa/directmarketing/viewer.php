@@ -133,7 +133,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         return $class;
     }
 
-    public static function load_campaign($identifier)
+    public function load_campaign($identifier)
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba($identifier);
         if ($campaign->node != $this->_topic->id)
