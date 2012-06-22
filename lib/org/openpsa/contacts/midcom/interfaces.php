@@ -22,93 +22,46 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     public function _on_initialize()
     {
         //org.openpsa.contacts object types
-        define('ORG_OPENPSA_OBTYPE_OTHERGROUP', 0);
-        define('ORG_OPENPSA_OBTYPE_ORGANIZATION', 1000);
-        define('ORG_OPENPSA_OBTYPE_DAUGHTER', 1001);
-        define('ORG_OPENPSA_OBTYPE_DEPARTMENT', 1002);
         define('ORG_OPENPSA_OBTYPE_PERSON', 2000);
         define('ORG_OPENPSA_OBTYPE_RESOURCE', 2001);
         return true;
     }
 
     /**
-     * Iterate over all groups and create index record using the datamanager indexer
-     * method.
+     * Prepares the component's indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+        $qb_organisations = org_openpsa_contacts_group_dba::new_query_builder();
+        $qb_organisations->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $organisation_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
 
-        $qb = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb->add_constraint('orgOpenpsaObtype', '<>', 0);
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
+        $qb_persons = org_openpsa_contacts_person_dba::new_query_builder();
+        $person_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_person'));
 
-            foreach ($ret as $group)
-            {
-                if (!$datamanager->autoset_storage($group))
-                {
-                    debug_add("Warning, failed to initialize datamanager for group {$group->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Group dump:', $group);
+        $indexer = new org_openpsa_contacts_midcom_indexer($topic, $indexer);
+        $indexer->add_query('organisations', $qb_organisations, $organisation_schema);
+        $indexer->add_query('persons', $qb_persons, $person_schema);
 
-                    continue;
-                }
-                org_openpsa_contacts_viewer::index_group($datamanager, $indexer, $topic);
-            }
-        }
-
-        $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_person'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
-            if (!$datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb_document'),
-                    MIDCOM_LOG_WARN);
-                return false;
-            }
-
-            foreach ($ret as $person)
-            {
-                if (!$datamanager->autoset_storage($person))
-                {
-                    debug_add("Warning, failed to initialize datamanager for person {$person->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Person dump:', $person);
-
-                    continue;
-                }
-                org_openpsa_contacts_viewer::index_person($datamanager, $indexer, $topic);
-            }
-        }
-
-        return true;
+        return $indexer;
     }
 
     /**
      * Locates the root group
      */
-    static function find_root_group()
+    static function find_root_group($name = '__org_openpsa_contacts')
     {
-        static $root_group = null;
+        static $root_groups = array();
 
         //Check if we have already initialized
-        if (!is_null($root_group))
+        if (!empty($root_groups[$name]))
         {
-            return $root_group;
+            return $root_groups[$name];
         }
-
-        $root_group = false;
 
         $qb = midcom_db_group::new_query_builder();
         $qb->add_constraint('owner', '=', 0);
-        $qb->add_constraint('name', '=', '__org_openpsa_contacts');
+        $qb->add_constraint('name', '=', $name);
 
         $results = $qb->execute();
 
@@ -117,7 +70,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         {
             foreach ($results as $group)
             {
-                $root_group = $group;
+                $root_groups[$name] = $group;
             }
         }
         else
@@ -125,22 +78,21 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
 
             //Attempt to  auto-initialize the group.
-            $_MIDCOM->auth->request_sudo();
+            midcom::get('auth')->request_sudo();
             $grp = new midcom_db_group();
             $grp->owner = 0;
-            $grp->name = '__org_openpsa_contacts';
-            $grp->official = 'CRM Root Group';
+            $grp->name = $name;
+            $grp->official = midcom::get('i18n')->get_l10n('org.openpsa.contacts')->get($name);
             $ret = $grp->create();
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             if (!$ret)
             {
-                debug_add("Could not auto-initialize the module, create root group '__org_openpsa_contacts' manually", MIDCOM_LOG_ERROR);
-                return false;
+                throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());
             }
-            $root_group = $grp;
+            $root_groups[$name] = $grp;
         }
 
-        return $root_group;
+        return $root_groups[$name];
     }
 
     public function _on_resolve_permalink($topic, $config, $guid)
@@ -255,7 +207,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
         );
 
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)
@@ -273,15 +225,14 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             'guid' => true,
         );
         $changed = false;
-        foreach($person2 as $property => $value)
+        foreach ($person2 as $property => $value)
         {
             // Copy only simple properties not marked to be skipped missing from person1
             if (   empty($person2->$property)
                 || !empty($person1->$property)
                 || isset($skip_properties[$property])
                 || is_array($value)
-                || is_object($value)
-                )
+                || is_object($value))
             {
                 continue;
             }
@@ -305,10 +256,17 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
     private function _get_data_from_url($url)
     {
+        //We have to hang on to the hKit object, because its configuration is done by require_once
+        //and will thus only work for the first instantiation...
+        static $hkit;
+        if (is_null($hkit))
+        {
+            require_once MIDCOM_ROOT . '/external/hkit.php';
+            $hkit = new hKit();
+        }
         $data = array();
 
         // TODO: Error handling
-        $_MIDCOM->load_library('org.openpsa.httplib');
         $client = new org_openpsa_httplib();
         $html = $client->get($url);
 
@@ -328,7 +286,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $data['rss_url'] = $rss_url[0]['href'];
 
             // We have a feed URL, but we should check if it is GeoRSS as well
-            $_MIDCOM->load_library('net.nemein.rss');
+            midcom::get('componentloader')->load_library('net.nemein.rss');
 
             $rss_content = net_nemein_rss_fetch::raw_fetch($data['rss_url']);
 
@@ -344,17 +302,13 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             }
         }
 
-        if (class_exists('hkit'))
+        $hcards = @$hkit->getByURL('hcard', $url);
+
+        if (   is_array($hcards)
+            && count($hcards) > 0)
         {
-            // We have the Microformats parsing hKit available, see if the page includes a hCard
-            $hkit = new hKit();
-            $hcards = @$hkit->getByURL('hcard', $url);
-            if (   is_array($hcards)
-                && count($hcards) > 0)
-            {
-                // We have found hCard data here
-                $data['hcards'] = $hcards;
-            }
+            // We have found hCard data here
+            $data['hcards'] = $hcards;
         }
 
         return $data;
@@ -362,6 +316,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
     /**
      * AT handler for fetching Semantic Web data for person or group
+     *
      * @param array $args handler arguments
      * @param object &$handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure

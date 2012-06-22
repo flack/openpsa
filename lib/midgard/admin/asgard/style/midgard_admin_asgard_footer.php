@@ -5,7 +5,7 @@
                         {
                             echo "GUID: {$data['object']->guid}, ID: {$data['object']->id}.\n";
                         }
-                        $view_metadata = $_MIDCOM->metadata->get_view_metadata();
+                        $view_metadata = midcom::get('metadata')->get_view_metadata();
                         if ($view_metadata)
                         {
                             try
@@ -18,7 +18,7 @@
                                 $creator_string = $data['l10n']->get('unknown person');
                             }
                             $created = (int) $view_metadata->get('created');
-                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created)) . "\n";
+                            echo sprintf(midcom::get('i18n')->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created)) . "\n";
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
@@ -35,7 +35,7 @@
                                     $editor_string = $data['l10n']->get('unknown person');
                                 }
 
-                                echo sprintf($_MIDCOM->i18n->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), $editor_string, strftime('%c', $edited), $revision) . "\n";
+                                echo sprintf(midcom::get('i18n')->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), $editor_string, strftime('%c', $edited), $revision) . "\n";
                             }
                         }
                         ?>
@@ -43,7 +43,7 @@
                 </div>
                 <div id="navigation">
                     <?php
-                    $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo "<a href=\"{$prefix}__mfa/asgard/\">";
                     echo "<img src=\"" . MIDCOM_STATIC_URL . "/midgard.admin.asgard/asgard2.png\" id=\"asgard_logo\" title=\"Asgard\" alt=\"Asgard\" />";
                     echo "</a>\n";
@@ -65,7 +65,7 @@
             <span class="copyrights">
                 <img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.services.toolbars/images/midgard-logo.png" alt="(M)" />
                 <strong><?php
-                    echo $_MIDCOM->i18n->get_string('asgard for', 'midgard.admin.asgard');
+                    echo midcom::get('i18n')->get_string('asgard for', 'midgard.admin.asgard');
                     if (extension_loaded('midgard2'))
                     {
                         echo " Midgard2 ";

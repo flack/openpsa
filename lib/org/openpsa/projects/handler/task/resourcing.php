@@ -61,7 +61,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         org_openpsa_widgets_calendar::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.projects/projectbroker.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.projects/projectbroker.js");
     }
 
     /**
@@ -90,10 +90,10 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     continue;
                 }
                 $update_prospect = false;
-                foreach ($slots as $data)
+                foreach ($slots as $slotdata)
                 {
-                    if (   !array_key_exists('used', $data)
-                        || empty($data['used']))
+                    if (   !array_key_exists('used', $slotdata)
+                        || empty($slotdata['used']))
                     {
                         // Slot not selected, skip
                         continue;
@@ -102,8 +102,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     $update_prospect = true;
                     // Create event from slot
                     $event = new org_openpsa_calendar_event_dba();
-                    $event->start = $data['start'];
-                    $event->end = $data['end'];
+                    $event->start = $slotdata['start'];
+                    $event->end = $slotdata['end'];
                     $event->search_relatedtos = false;
                     $event->title = sprintf($this->_l10n->get('work for task %s'), $this->_task->title);
                     if (!$event->create())
@@ -130,19 +130,16 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     // TODO: error handling
                 }
             }
-            $_MIDCOM->relocate("task/{$this->_task->guid}/");
-            // This will exit.
+            return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
-        else if (   array_key_exists('cancel', $_POST)
-                && $_POST['cancel'])
+        else if (!empty($_POST['cancel']))
         {
-            $_MIDCOM->relocate("task/{$this->_task->guid}/");
-            // This will exit.
+            return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_task->title);
-        $_MIDCOM->bind_view_to_object($this->_task);
+        midcom::get('head')->set_pagetitle($this->_task->title);
+        $this->bind_view_to_object($this->_task);
 
         org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);
         $this->add_breadcrumb("task/resourcing/{$this->_task->guid}/", $this->_l10n->get('resourcing'));
@@ -179,10 +176,10 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $qb->add_order('orgOpenpsaObtype');
         $data['prospects'] = $qb->execute();
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
     }
 
     /**
@@ -210,7 +207,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $projectbroker = new org_openpsa_projects_projectbroker();
         $data['slots'] = $projectbroker->resolve_person_timeslots($data['person'], $this->_task);
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

@@ -21,7 +21,7 @@ class org_openpsa_projects_projectTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
 
         $project = new org_openpsa_projects_project();
         $stat = $project->create();
@@ -38,7 +38,7 @@ class org_openpsa_projects_projectTest extends openpsa_testcase
         $stat = $project->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
      }
 }
 ?>

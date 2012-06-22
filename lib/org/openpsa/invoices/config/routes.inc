@@ -35,6 +35,13 @@
     'variable_args' => 1,
 ),
 
+// Match /scheduled/
+'list_scheduled' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_scheduled', 'list'),
+    'fixed_args' => array('scheduled'),
+),
+
 // Match /invoice/new/
 'invoice_new_nocustomer' => array
 (
@@ -101,7 +108,7 @@
 'create_pdf' => array
 (
     'fixed_args' => array('invoice' , 'pdf'),
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'pdf'),
+    'handler' => Array('org_openpsa_invoices_handler_pdf', 'pdf'),
     'variable_args' => 1,
 ),
 // Match /invoice/<guid>
@@ -118,10 +125,17 @@
     'fixed_args' => array('billingdata' , 'create'),
     'variable_args' => 1,
 ),
+// Match /billingdata/delete/<guid>
+'billing_data_delete' => array
+(
+    'handler' => array('org_openpsa_invoices_handler_billingdata', 'delete'),
+    'fixed_args' => array('billingdata', 'delete'),
+    'variable_args' => 1,
+),
 // Match /billingdata/<guid>
 'billing_data' => array
 (
-    'handler' => array('org_openpsa_invoices_handler_billingdata', 'billingdata'),
+    'handler' => array('org_openpsa_invoices_handler_billingdata', 'edit'),
     'fixed_args' => array('billingdata'),
     'variable_args' => 1,
 ),

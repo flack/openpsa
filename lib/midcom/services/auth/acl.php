@@ -9,10 +9,6 @@
 /**
  * This class is responsible for ACL checks against classes and content objects.
  *
- * Unless further qualified, "Midgard Content Objects" can be either pre-mgdschema
- * or mgdschema objects. The only necessary constraint is that a MidCOM base class
- * (midgard_db_*) must be available.
- *
  * This implementation is based on the general idea outlined in mRFC 15
  * ( http://www.midgard-project.org/development/mrfc/0015/ ),
  * MidCOM Authentication and Access Control service. <i>Developers Note:</i> Be aware that
@@ -69,7 +65,7 @@
  * This is analogous to the MidCOM default configuration, they are taken into account globally to each
  * and every check whether a privilege is granted. Whenever a privilege is defined, there is also a
  * default value (either ALLOW or DENY) assigned to it. They serve as a basis for all privilege sets
- * and ensure, that there is a value set for all privileges.
+ * and ensure that there is a value set for all privileges.
  *
  * These defaults are defined by the MidCOM core and the components respectively and are very restrictive,
  * basically granting read-only access to all non sensitive information.
@@ -90,7 +86,7 @@
  * example:
  *
  * <code>
- * function get_class_magic_default_privileges()
+ * public static function get_class_magic_default_privileges()
  * {
  *     return Array (
  *         'EVERYONE' => Array(),
@@ -122,21 +118,21 @@
  * object in the system, and are read on every access to a content object. As you can see in the
  * introduction, you have the most flexibility here.
  *
- * The basic idea is, that you can assign privileges based on the combination of users/groups and
+ * The basic idea is that you can assign privileges based on the combination of users/groups and
  * content objects. In other words, you can say the user x has the privilege midgard:update for
  * this object (and its descendants) only. This works with groups as well.
  *
  * The possible assignees here are either a user, a group or one of the magic assignees EVERYONE,
- * USERS or ANONYMOuS, as outlined above.
+ * USERS or ANONYMOUS, as outlined above.
  *
- * Be aware, that Midgard Persons and Groups count as content object when loaded from the database
- * in a tool like net.nemein.personnel, as the groups are not used for authentication but for
+ * Be aware, that persons and groups are treted as content objects when loaded from the database
+ * in a tool like org.openpsa.user, as the groups are not used for authentication but for
  * regular site operation there. Therefore, the SELF privileges mentioned above are not taken into
  * account when determining the content object privileges!
  *
  * <i>Privilege merging</i>
  *
- * This is, where we get to the guts of privileges, as this is not trivial (but nevertheless
+ * This is where we get to the guts of privilege system, as this is not trivial (but nevertheless
  * straight-forward I hope). The general idea is based on the scope of object a privilege applies:
  *
  * System default privileges obviously have the largest scope, they apply to everyone. The next
@@ -155,7 +151,6 @@
  * |                  Root Midgard group
  * |                  ... more parent Midgard groups ...
  * |                  Direct Midgard group membership
- * |                  Virtual group memberships
  * |                  User
  * |                  SELF privileges limited to a class
  * |                  Root content object
@@ -168,7 +163,7 @@
  * merged into the privilege set. It is of no importance from where you get ownership at that point.
  *
  * Implementation notes: Internally, MidCOM separates the "user privilege set" which is everything
- * down to the line User above, and the content object privileges, which constitutes of the rest.
+ * down to the line User above, and the content object privileges, which constitutes the rest.
  * This separation has been done for performance reasons, as the user's privileges are loaded
  * immediately upon authentication of the user, and the privileges of the actual content objects
  * are merged into this set then. Normally, this should be of no importance for ACL users, but it
@@ -181,19 +176,18 @@
  * <i>Midgard Core Privileges</i>
  *
  * These privileges are part of the MidCOM Database Abstraction layer (MidCOM DBA) and have been
- * originally proposed by me in a mail to the Midgard developers list. They will move into the
- * core level eventually, but for the time being MidCOM will control them. Unless otherwise noted,
+ * originally proposed by me in a mail to the Midgard developers list. Unless otherwise noted,
  * all privileges are denied by default and no difference between owner and normal default privileges
  * is made.
  *
  * - <i>midgard:read</i> controls read access to the object, if denied, you cannot load the object
  *   from the database. This privilege is granted by default.
- * - <i>midgard:update</i> controls updating of objects. Be aware, that you need to be able to read
+ * - <i>midgard:update</i> controls updating of objects. Be aware that you need to be able to read
  *   the object before updating it, it is granted by default only for owners.
- * - <i>midgard:delete</i> controls deletion of objects. Be aware, that you need to be able to read
+ * - <i>midgard:delete</i> controls deletion of objects. Be aware that you need to be able to read
  *   the object before updating it, it is granted by default only for owners.
  * - <i>midgard:create</i> allows you to create new content objects as children on whatever content
- *   object that you have the create privilege for. This means, you can create an article if and only
+ *   object that you have the create privilege for. This means that you can create an article if and only
  *   if you have create permission for either the parent article (if you create a so-called 'reply
  *   article') or the parent topic, it is granted by default only for owners.
  * - <i>midgard:parameters</i> allows the manipulation of parameters on the current object if and
@@ -237,7 +231,7 @@
  * </pre>
  *
  * These calls operate only on the privileges of the given object. They do not do any merging
- * whatsoever, this is the job of the auth framework itself (midcom_services_auth).
+ * whatsoever, this is the job of the CAL framework itself (midcom_services_auth_acl).
  *
  * Unsetting a privilege does not deny it, but clears the privilege specification on the current
  * object and sets it to INHERIT internally. As you might have guessed, if you want to clear
@@ -245,19 +239,8 @@
  *
  * See the documentation of the DBA layer for more information on these five calls.
  *
- * <b>Checking Privileges</b>
- *
- * This class overs various methods to verify the privilege state of a user, all of them prefixed
- * with can_* for privileges and is_* for membership checks.
- *
- * Each function is available in a simple check version, which returns true or false, and a
- * require_* prefixed variant, which has no return value. The require variants of these calls
- * instead check if the given condition is met, if yes, they return silently, otherwise they
- * throw an access denied error.
- *
  * @package midcom.services
  */
-
 class midcom_services_auth_acl
 {
     var $auth = null;
@@ -323,6 +306,20 @@ class midcom_services_auth_acl
      * @var Array
      */
     private static $_privileges_cache = array();
+
+    /**
+    * Internal cache of the content privileges of users on content objects, this is
+    * an associative array using a combination of the user identifier and the object's
+    * guid as index. The privileges for the anonymous user use the magic
+    * EVERYONE as user identifier.
+    *
+    * This must not be merged with the class-wide privileges_cache, because otherwise
+    * class_default_privileges for child objects might be overridden by parent default
+    * privileges
+    *
+    * @var Array
+    */
+    private static $_content_privileges_cache = array();
 
     /**
      * Simple, currently empty default constructor.
@@ -648,9 +645,9 @@ class midcom_services_auth_acl
      * only in the case of nonpersistent objects (no valid GUID yet), it will revert to
      * regular object usage.
      *
-     * @param $guid The GUID for which we should load privileges.
+     * @param string $guid The GUID for which we should load privileges.
      * @param string $user_id The MidCOM user assignee for which we should collect the privileges.
-     * @param $class The DBA classname
+     * @param string $class The DBA classname
      * @return Array An array of privilege_name => privilege_value pairs valid for the given user.
      */
     private static function _collect_content_privileges($guid, $user_id, $class = null)
@@ -671,12 +668,12 @@ class midcom_services_auth_acl
         // otherwise. (get_parent_guid calling get_object_by_guid calling can_do ...)
 
         // ==> into SUDO
-        $previous_sudo = $_MIDCOM->auth->acl->_internal_sudo;
-        $_MIDCOM->auth->acl->_internal_sudo = true;
+        $previous_sudo = midcom::get('auth')->acl->_internal_sudo;
+        midcom::get('auth')->acl->_internal_sudo = true;
 
-        $parent_guid = $_MIDCOM->dbfactory->get_parent_guid($guid, $class);
+        $parent_guid = midcom::get('dbfactory')->get_parent_guid($guid, $class);
 
-        $_MIDCOM->auth->acl->_internal_sudo = $previous_sudo;
+        midcom::get('auth')->acl->_internal_sudo = $previous_sudo;
         // <== out of SUDO
 
         if (   $parent_guid == $guid
@@ -709,7 +706,7 @@ class midcom_services_auth_acl
         // noting it this way is required to ensure proper scoping of several privileges
         // assigned to a single object.
         $valid_privileges = array();
-        $valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER] = $_MIDCOM->auth->acl->get_owner_default_privileges();
+        $valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER] = midcom::get('auth')->acl->get_owner_default_privileges();
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
 
@@ -748,7 +745,6 @@ class midcom_services_auth_acl
                 $last_owner_scope = $scope;
             }
         }
-
 
         // Process owner privileges
         if (! $is_owner)
@@ -808,7 +804,7 @@ class midcom_services_auth_acl
                 if (!class_exists($class))
                 {
                     if (   is_null($component)
-                        || !$_MIDCOM->componentloader->load_graceful($component))
+                        || !midcom::get('componentloader')->load_graceful($component))
                     {
                         debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
                         return false;
@@ -874,7 +870,7 @@ class midcom_services_auth_acl
             $full_privileges = array_merge
             (
                 $full_privileges,
-                $_MIDCOM->auth->acl->get_owner_default_privileges()
+                midcom::get('auth')->acl->get_owner_default_privileges()
             );
         }
 
@@ -899,7 +895,7 @@ class midcom_services_auth_acl
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    function can_do_byguid($privilege, $object_guid, $object_class, $user_id)
+    public function can_do_byguid($privilege, $object_guid, $object_class, $user_id)
     {
         if ($this->_internal_sudo)
         {
@@ -925,6 +921,7 @@ class midcom_services_auth_acl
 
         if (self::_load_content_privilege($privilege, $object_guid, $object_class, $user_id))
         {
+            self::$_privileges_cache[$cache_key][$privilege] = self::$_content_privileges_cache[$cache_key][$privilege];
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
@@ -985,8 +982,8 @@ class midcom_services_auth_acl
      * a few corners and therefore be faster
      *
      * @param string $privilegename The privilege to check for
-     * @param string $object_guid A Midgard GUID pointing to an object
-     * @param string $object_class DBA Class of the object in question
+     * @param string $guid A Midgard GUID pointing to an object
+     * @param string $class DBA Class of the object in question
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      * @return boolean True when privilege was found, otherwise false
      */
@@ -994,9 +991,13 @@ class midcom_services_auth_acl
     {
         $cache_id = $user_id . '::' . $guid;
 
-        if (array_key_exists($privilegename, self::$_privileges_cache[$cache_id]))
+        if (!array_key_exists($cache_id, self::$_content_privileges_cache))
         {
-            return true;
+            self::$_content_privileges_cache[$cache_id] = array();
+        }
+        if (array_key_exists($privilegename, self::$_content_privileges_cache[$cache_id]))
+        {
+            return self::$_content_privileges_cache[$cache_id][$privilegename];
         }
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
@@ -1021,14 +1022,14 @@ class midcom_services_auth_acl
         if (   $privilegename != 'midgard:owner'
             && $last_scope < MIDCOM_PRIVILEGE_SCOPE_OWNER)
         {
-            $owner_privileges = $_MIDCOM->auth->acl->get_owner_default_privileges();
+            $owner_privileges = midcom::get('auth')->acl->get_owner_default_privileges();
             if (array_key_exists($privilegename, $owner_privileges))
             {
                 $found = self::_load_content_privilege('midgard:owner', $guid, $class, $user_id);
                 if (    $found
-                     && self::$_privileges_cache[$cache_id]['midgard:owner'])
+                     && self::$_content_privileges_cache[$cache_id]['midgard:owner'])
                 {
-                    self::$_privileges_cache[$cache_id][$privilegename] = $owner_privileges[$privilegename];
+                    self::$_content_privileges_cache[$cache_id][$privilegename] = $owner_privileges[$privilegename];
                     return true;
                 }
             }
@@ -1036,19 +1037,19 @@ class midcom_services_auth_acl
 
         if (!is_null($content_privilege))
         {
-            self::$_privileges_cache[$cache_id][$privilegename] = ($content_privilege->value == MIDCOM_PRIVILEGE_ALLOW);
+            self::$_content_privileges_cache[$cache_id][$privilegename] = ($content_privilege->value == MIDCOM_PRIVILEGE_ALLOW);
             return true;
         }
 
         //if nothing was found, we try to recurse to parent
 
         // ==> into SUDO
-        $previous_sudo = $_MIDCOM->auth->acl->_internal_sudo;
-        $_MIDCOM->auth->acl->_internal_sudo = true;
+        $previous_sudo = midcom::get('auth')->acl->_internal_sudo;
+        midcom::get('auth')->acl->_internal_sudo = true;
 
-        $parent_guid = $_MIDCOM->dbfactory->get_parent_guid($guid, $class);
+        $parent_guid = midcom::get('dbfactory')->get_parent_guid($guid, $class);
 
-        $_MIDCOM->auth->acl->_internal_sudo = $previous_sudo;
+        midcom::get('auth')->acl->_internal_sudo = $previous_sudo;
         // <== out of SUDO
 
         if (   $parent_guid == $guid
@@ -1061,14 +1062,16 @@ class midcom_services_auth_acl
             $parent_cache_id = $user_id . '::' . $parent_guid;
             if (!array_key_exists($parent_cache_id, self::$_privileges_cache))
             {
-                self::$_privileges_cache[$parent_cache_id] = array();
+                self::$_content_privileges_cache[$parent_cache_id] = array();
             }
 
             if (self::_load_content_privilege($privilegename, $parent_guid, null, $user_id))
             {
-                self::$_privileges_cache[$cache_id][$privilegename] = self::$_privileges_cache[$parent_cache_id][$privilegename];
+                self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
+
                 return true;
             }
+
             return false;
         }
     }

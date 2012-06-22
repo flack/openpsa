@@ -1,7 +1,7 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-echo "<h1>" . sprintf($_MIDCOM->i18n->get_string('mgdschemas in %s', 'midcom.admin.help'),
-                $_MIDCOM->i18n->get_string($data['component'], $data['component'])) . "</h1>\n";
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+echo "<h1>" . sprintf(midcom::get('i18n')->get_string('mgdschemas in %s', 'midcom.admin.help'),
+                midcom::get('i18n')->get_string($data['component'], $data['component'])) . "</h1>\n";
 
 if (count($data['mgdschemas']) > 0)
 {
@@ -14,8 +14,8 @@ if (count($data['mgdschemas']) > 0)
         echo "    <table>\n";
         echo "        <tbody>\n";
         echo "            <tr>\n";
-        echo "                <th class='property'>" . $_MIDCOM->i18n->get_string('property', 'midcom.admin.help') . "</th>\n";
-        echo "                <th>" . $_MIDCOM->i18n->get_string('description', 'midcom.admin.help') . "</th>\n";
+        echo "                <th class='property'>" . midcom::get('i18n')->get_string('property', 'midcom.admin.help') . "</th>\n";
+        echo "                <th>" . midcom::get('i18n')->get_string('description', 'midcom.admin.help') . "</th>\n";
         echo "            </tr>\n";
 
         $i = 1;
@@ -34,7 +34,7 @@ if (count($data['mgdschemas']) > 0)
                 }
                 else
                 {
-                    $linked_component = $_MIDCOM->dbclassloader->get_component_for_class($val['link_name']);
+                    $linked_component = midcom::get('dbclassloader')->get_component_for_class($val['link_name']);
                 }
                 if ($linked_component)
                 {
@@ -64,8 +64,8 @@ if (count($data['mgdschemas']) > 0)
             echo "    <table>\n";
             echo "        <tbody>\n";
             echo "            <tr>\n";
-            echo "                <th class='property'>" . $_MIDCOM->i18n->get_string('signature', 'midcom.admin.help') . "</th>\n";
-            echo "                <th>" . $_MIDCOM->i18n->get_string('description', 'midcom.admin.help') . "</th>\n";
+            echo "                <th class='property'>" . midcom::get('i18n')->get_string('signature', 'midcom.admin.help') . "</th>\n";
+            echo "                <th>" . midcom::get('i18n')->get_string('description', 'midcom.admin.help') . "</th>\n";
             echo "            </tr>\n";
 
             foreach ($reflectionmethods as $reflectionmethod)
@@ -126,6 +126,6 @@ if (count($data['mgdschemas']) > 0)
 }
 else
 {
-    echo "<p>" . $_MIDCOM->i18n->get_string('no mgdschema found', 'midcom.admin.help') . "</p>";
+    echo "<p>" . midcom::get('i18n')->get_string('no mgdschema found', 'midcom.admin.help') . "</p>";
 }
 ?>

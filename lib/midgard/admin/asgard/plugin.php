@@ -14,16 +14,22 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midgard.admin.asgard');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         // Preferred language
         if (($language = midgard_admin_asgard_plugin::get_preference('interface_language')))
         {
-            $_MIDCOM->i18n->set_language($language);
+            midcom::get('i18n')->set_language($language);
         }
+
+        // Enable jQuery
+        midcom::get('head')->enable_jquery();
+
+        // Ensure we get the correct styles
+        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
+        midcom::get()->skip_page_style = true;
 
         $this->_request_data['asgard_toolbar'] = new midgard_admin_asgard_toolbar();
         self::get_default_mode($this->_request_data);
@@ -37,9 +43,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     public static function prepare_plugin($title, &$data)
     {
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
         $data['view_title'] = $title;
         $data['asgard_toolbar'] = new midgard_admin_asgard_toolbar();
         self::get_default_mode($data);
@@ -47,12 +53,12 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         // Preferred language
         if (($language = midgard_admin_asgard_plugin::get_preference('interface_language')))
         {
-            $_MIDCOM->i18n->set_language($language);
+            midcom::get('i18n')->set_language($language);
         }
 
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->style->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
+        midcom::get()->skip_page_style = true;
+        midcom::get('style')->prepend_component_styledir('midgard.admin.asgard');
+        midcom::get('style')->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
     }
 
     public static function get_type_label($type)
@@ -67,17 +73,23 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     public static function bind_to_object($object, $handler_id, &$data)
     {
         // Tell our object to MidCOM
-        $_MIDCOM->set_26_request_metadata($object->metadata->revised, $object->guid);
+        midcom::get('metadata')->set_request_metadata($object->metadata->revised, $object->guid);
         $data['object_reflector'] = midcom_helper_reflector::get($object);
         $data['tree_reflector'] = midcom_helper_reflector_tree::get($object);
 
         $data['object'] =& $object;
 
         // Populate toolbars
-        if ($_MIDCOM->dbclassloader->is_midcom_db_object($object))
+        if (midcom::get('dbclassloader')->is_midcom_db_object($object))
         {
+            $context = midcom_core_context::get();
+
+            // Bind the object to the metadata service
+            midcom::get('metadata')->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
+
             // These toolbars only work with DBA objects as they do ACL checks
-            $_MIDCOM->bind_view_to_object($object);
+            $view_toolbar = midcom::get('toolbars')->get_view_toolbar($context->id);
+            $view_toolbar->bind_to($object);
             $data['asgard_toolbar']->bind_to_object($object, $handler_id, $data);
             self::_set_object_breadcrumb($object, $handler_id, $data);
         }
@@ -91,51 +103,51 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         switch ($handler_id)
         {
             case '____mfa-asgard-object_edit':
-                $title_string = $_MIDCOM->i18n->get_string('edit %s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('edit %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_metadata':
-                $title_string = $_MIDCOM->i18n->get_string('metadata of %s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('metadata of %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_attachments':
             case '____mfa-asgard-object_attachments_edit':
             case '____mfa-asgard-object_attachments_delete':
-                $title_string = $_MIDCOM->i18n->get_string('attachments of %s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('attachments of %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_parameters':
-                $title_string = $_MIDCOM->i18n->get_string('parameters of %s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('parameters of %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_permissions':
                 // Figure out label for the object's class
                 switch (get_class($object))
                 {
                     case 'midcom_db_topic':
-                        $type = $_MIDCOM->i18n->get_string('folder', 'midgard.admin.asgard');
+                        $type = midcom::get('i18n')->get_string('folder', 'midgard.admin.asgard');
                         break;
                     default:
                         $type = $data['object_reflector']->get_class_label();
                 }
-                $title_string = sprintf($_MIDCOM->i18n->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, midgard_admin_asgard_handler_object_permissions::resolve_object_title($object));
+                $title_string = sprintf(midcom::get('i18n')->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, midgard_admin_asgard_handler_object_permissions::resolve_object_title($object));
                 break;
             case '____mfa-asgard-object_create':
-                $title_string = sprintf($_MIDCOM->i18n->get_string('create %s under %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']), '%s %s');
+                $title_string = sprintf(midcom::get('i18n')->get_string('create %s under %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']), '%s %s');
                 break;
             case '____mfa-asgard-object_delete':
-                $title_string = $_MIDCOM->i18n->get_string('delete %s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('delete %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_rcs_history':
             case '____mfa-asgard-object_rcs_diff':
             case '____mfa-asgard-object_rcs_preview':
-                $title_string = $_MIDCOM->i18n->get_string('revision history of %s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('revision history of %s %s', 'midgard.admin.asgard');
                 break;
             default:
-                $title_string = $_MIDCOM->i18n->get_string('%s %s', 'midgard.admin.asgard');
+                $title_string = midcom::get('i18n')->get_string('%s %s', 'midgard.admin.asgard');
                 break;
         }
 
         $label = $data['object_reflector']->get_object_label($object);
         $type_label = midgard_admin_asgard_plugin::get_type_label(get_class($object));
         $data['view_title'] = sprintf($title_string, $type_label, $label);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     /**
@@ -213,7 +225,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             $breadcrumb[] = array
             (
                 MIDCOM_NAV_URL => self::_generate_url('parameters', $parent->guid),
-                MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
+                MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('parameters', 'midcom'),
             );
         }
 
@@ -240,35 +252,35 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('edit', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('edit', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-object_copy':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('copy', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('copy', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('copy', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-object_copy_tree':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('copy/tree', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('copy', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('copy', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-components_configuration_edit_folder':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('component configuration', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-object_metadata':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('metadata', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('metadata', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('metadata', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-object_attachments':
@@ -277,7 +289,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('attachments', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('attachments', 'midgard.admin.asgard'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('attachments', 'midgard.admin.asgard'),
                 );
 
                 if ($handler_id == '____mfa-asgard-object_attachments_edit')
@@ -285,7 +297,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                     $breadcrumb[] = array
                     (
                         MIDCOM_NAV_URL => "__mfa/asgard/object/attachments/{$object->guid}/edit/",
-                        MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit', 'midcom'),
+                        MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('edit', 'midcom'),
                     );
                 }
                 if ($handler_id == '____mfa-asgard-object_attachments_delete')
@@ -293,7 +305,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                     $breadcrumb[] = array
                     (
                         MIDCOM_NAV_URL => "__mfa/asgard/object/attachments/{$object->guid}/delete/",
-                        MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('delete', 'midcom'),
+                        MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('delete', 'midcom'),
                     );
                 }
                 break;
@@ -301,14 +313,14 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('parameters', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('parameters', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-object_permissions':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('permissions', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('privileges', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('privileges', 'midcom'),
                 );
                 break;
             case '____mfa-asgard-object_create':
@@ -318,27 +330,27 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                     $breadcrumb[] = array
                     (
                         MIDCOM_NAV_URL => self::_generate_url('parameters', $object->guid),
-                        MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
+                        MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('parameters', 'midcom'),
                     );
                 }
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('create' . $data['new_type_arg'], $object->guid),
-                    MIDCOM_NAV_NAME => sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg'])),
+                    MIDCOM_NAV_NAME => sprintf(midcom::get('i18n')->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg'])),
                 );
                 break;
             case '____mfa-asgard-object_delete':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => self::_generate_url('delete', $object->guid),
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('delete', 'midcom'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('delete', 'midcom'),
                 );
                 break;
             case '____mfa-asgard_midcom.helper.replicator-object':
                 $breadcrumb[] = array
                 (
                     MIDCOM_NAV_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('replication information', 'midcom.helper.replicator'),
+                    MIDCOM_NAV_NAME => midcom::get('i18n')->get_string('replication information', 'midcom.helper.replicator'),
                 );
                 break;
             case '____mfa-asgard-object_rcs_diff':
@@ -378,7 +390,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 break;
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
     /**
@@ -407,20 +419,16 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     {
         static $preferences = array();
 
-        if (!$_MIDCOM->auth->user)
+        if (!midcom::get('auth')->user)
         {
             return;
         }
 
         if (!isset($preferences[$preference]))
         {
-            // Store the person statically
-            if (!isset($preferences[$_MIDCOM->auth->user->guid]))
-            {
-                $preferences[$_MIDCOM->auth->user->guid] = new midcom_db_person($_MIDCOM->auth->user->guid);
-            }
+            $person = midcom_db_person::get_cached(midcom::get('auth')->user->guid);
 
-            $preferences[$preference] = $preferences[$_MIDCOM->auth->user->guid]->get_parameter('midgard.admin.asgard:preferences', $preference);
+            $preferences[$preference] = $person->get_parameter('midgard.admin.asgard:preferences', $preference);
         }
 
         return $preferences[$preference];

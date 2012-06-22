@@ -35,15 +35,10 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      */
     private $_schema = 'default';
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * This is what Datamanager calls to actually create a directory
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $topic = new org_openpsa_documents_directory();
         $topic->up = $this->_request_data['directory']->id;
@@ -86,7 +81,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_do('midgard:create', $this->_request_data['directory']);
+        $data['directory']->require_do('midgard:create');
 
         $this->_load_create_controller();
 
@@ -94,16 +89,15 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         {
             case 'save':
                 // Index the directory
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
                 // Relocate to the new directory view
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . $this->_request_data["directory"]->name. "/");
-                // This will exit
+
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
         $this->_request_data['controller'] = $this->_controller;
 

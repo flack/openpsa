@@ -23,7 +23,7 @@ class net_nehmer_comments_cron_qaiku extends midcom_baseclasses_components_cron_
             return;
         }
 
-        if (!$_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+        if (!midcom::get('auth')->request_sudo('net.nehmer.comments'))
         {
             debug_add('Could not get sudo, aborting operation', MIDCOM_LOG_ERROR);
             return;
@@ -38,10 +38,10 @@ class net_nehmer_comments_cron_qaiku extends midcom_baseclasses_components_cron_
         $articles = $qb->execute();
         foreach ($articles as $article)
         {
-            $articles_by_url[$_MIDCOM->permalinks->resolve_permalink($article->guid)] = $article;
+            $articles_by_url[midcom::get('permalinks')->resolve_permalink($article->guid)] = $article;
         }
         unset($articles);
-        
+
         foreach ($articles_by_url as $article_url => $article)
         {
             // Get the Qaiku JSON feed for article
@@ -51,19 +51,19 @@ class net_nehmer_comments_cron_qaiku extends midcom_baseclasses_components_cron_
             {
                 continue;
             }
-        
+
             $comments = json_decode($json_file);
             if (empty($comments))
             {
                 continue;
             }
-            
+
             foreach ($comments as $entry)
             {
                 $article->set_parameter('net.nehmer.comments', 'qaiku_url', $entry->in_reply_to_status_url);
 
                 $entry_published = strtotime($entry->created_at);
-                
+
                 // Check this comment isn't there yet
                 $qb = net_nehmer_comments_comment::new_query_builder();
                 $qb->add_constraint('author', '=', (string) $entry->user->name);
@@ -83,7 +83,7 @@ class net_nehmer_comments_cron_qaiku extends midcom_baseclasses_components_cron_
                     unset($comments);
                     continue;
                 }
-                
+
                 $comment = new net_nehmer_comments_comment();
                 $comment->objectguid = $article->guid;
                 $comment->author = $entry->user->name;
@@ -93,7 +93,7 @@ class net_nehmer_comments_cron_qaiku extends midcom_baseclasses_components_cron_
                 $comment->create();
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         debug_add('Done');
     }

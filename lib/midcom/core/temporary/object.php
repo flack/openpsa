@@ -19,21 +19,8 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midcom_core_temporary_object_db';
-
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
+    public $_use_activitystream = false;
+    public $_use_rcs = false;
 
     /**
      * These objects have no restrictions whatsoever directly assigned to them.
@@ -86,13 +73,13 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      * parameters etc. This feature is mainly geared towards preparing a freshly
      * created final object with the data associated with this temporary object.
      *
-     * Any invalid object / missing privilege will trigger a generate_error.
+     * Any invalid object / missing privilege will trigger a midcom_error.
      *
      * @param midcom_dba_object $object The object to transfer the extensions to.
      */
     function move_extensions_to_object($object)
     {
-        if (! $_MIDCOM->dbclassloader->is_midcom_db_object($object))
+        if (! midcom::get('dbclassloader')->is_midcom_db_object($object))
         {
             throw new midcom_error('The object passed is no valid for move_extensions_to_object.');
         }
@@ -139,10 +126,6 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (!method_exists($this, 'purge'))
-        {
-            return;
-        }
         $this->purge();
     }
 }

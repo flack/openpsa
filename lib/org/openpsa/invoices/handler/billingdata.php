@@ -22,38 +22,16 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_linked_object = null;
 
     /**
-     * Contains the billing_data
+     * Contains the billing data object
      *
      * @var object
      */
     private $_billing_data = null;
 
     /**
-     * Contains datamanager-controller
+     * Contains DM2 controller
      */
     private $_controller = null;
-
-    public function _handler_billingdata($handler_id, array $args, array &$data)
-    {
-        //get billing_data
-        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
-        $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
-
-        $_MIDCOM->set_pagetitle($_MIDCOM->i18n->get_string('edit', 'midcom') . " " . $this->_l10n->get("billing data"));
-
-        $this->_controller = $this->get_controller('simple', $this->_billing_data);
-        $this->_process_billing_form();
-
-        $_MIDCOM->enable_jquery();
-
-        $this->_update_breadcrumb();
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_billing_data);
-
-        $this->_request_data['controller'] =& $this->_controller;
-    }
 
     public function load_schemadb()
     {
@@ -75,16 +53,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $dummy_invoice = new org_openpsa_invoices_invoice_dba();
         //set the defaults for vat & due to the schema
-        $fields['due']['default'] = $dummy_invoice->get_default_due();
-        $fields['vat']['default'] = $dummy_invoice->get_default_vat();
+        $fields['due']['default'] = $dummy_invoice->get_default('due');
+        $fields['vat']['default'] = $dummy_invoice->get_default('vat');
         unset($dummy_invoice);
 
         return $schemadb;
-    }
-
-    public function _show_billingdata($handler_id, array &$data)
-    {
-        midcom_show_style('show-billingdata');
     }
 
     /**
@@ -103,25 +76,43 @@ implements midcom_helper_datamanager2_interfaces_create
         return $billing_data;
     }
 
-    /**
-     * Helper to update the breadcrumb
-     */
-    private function _update_breadcrumb()
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $ref = midcom_helper_reflector::get($this->_linked_object);
-        $object_label = $ref->get_object_label($this->_linked_object);
+        //get billing_data
+        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
+        $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($this->_billing_data->linkGuid);
 
-        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_linked_object->guid), $object_label);
-        $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
+        $this->_controller = $this->get_controller('simple', $this->_billing_data);
+        $this->_process_billing_form();
+
+        $this->_prepare_output('edit');
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "billingdata/delete/{$this->_billing_data->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_billing_data->can_do('midgard:delete'),
+            )
+        );
+
+        $this->bind_view_to_object($this->_billing_data);
+    }
+
+    public function _show_edit($handler_id, array &$data)
+    {
+        midcom_show_style('show-billingdata');
     }
 
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         try
         {
-            $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+            $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         }
         catch (midcom_error $e)
         {
@@ -131,8 +122,46 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_controller = $this->get_controller('create');
         $this->_process_billing_form();
 
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create', 'midcom') . " " . $this->_l10n->get("billing data")));
+        $this->_prepare_output('create');
+    }
+
+    public function _show_create($handler_id, array &$data)
+    {
+        midcom_show_style('show-billingdata');
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_delete($handler_id, array $args, array &$data)
+    {
+        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
+        $this->_billing_data->require_do('midgard:delete');
+        $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($this->_billing_data->linkGuid);
+
+        $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        $this->_process_billing_form();
+
+        $data['datamanager'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_billing_data);
+        $this->_prepare_output('delete');
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_delete($handler_id, array &$data)
+    {
+        midcom_show_style("show-billingdata-delete");
+    }
+
+    private function _prepare_output($mode)
+    {
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . " %s"), $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();
 
@@ -142,18 +171,15 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_request_data['controller'] =& $this->_controller;
     }
 
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('show-billingdata');
-    }
-
     /**
-     * helper function to process the form of the controller
+     * Helper function to process the form of the controller
      */
     private function _process_billing_form()
     {
         switch ($this->_controller->process_form())
         {
+            case 'delete':
+                $this->_billing_data->delete();
             case 'save':
             case 'cancel':
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -167,12 +193,24 @@ implements midcom_helper_datamanager2_interfaces_create
                         $relocate .= 'group/' . $this->_linked_object->guid . '/';
                         break;
                     default:
-                        $relocate = $_MIDCOM->permalinks->create_permalink($this->_linked_object->guid);
+                        $relocate = midcom::get('permalinks')->create_permalink($this->_linked_object->guid);
                         break;
                 }
-                $_MIDCOM->relocate($relocate);
+                midcom::get()->relocate($relocate);
                 // This will exit.
         }
+    }
+
+    /**
+     * Helper to update the breadcrumb
+     */
+    private function _update_breadcrumb()
+    {
+        $ref = midcom_helper_reflector::get($this->_linked_object);
+        $object_label = $ref->get_object_label($this->_linked_object);
+
+        $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_linked_object->guid), $object_label);
+        $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 }
 ?>

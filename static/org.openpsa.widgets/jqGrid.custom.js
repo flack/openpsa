@@ -29,7 +29,7 @@ var org_openpsa_grid_resize =
     {
         $('table.ui-jqgrid-btable').jqGrid('setGridParam', {onHeaderClick: function(gridstate)
         {
-            $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate == 'visible');
+            $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate === 'visible');
             $(window).trigger('resize');
         }});
 
@@ -75,8 +75,7 @@ var org_openpsa_grid_resize =
     {
         $(items).each(function()
         {
-            var maximize_button = $('<a role="link" class="ui-jqgrid-titlebar-maximize HeaderButton" style="right: 20px;"><span class="ui-icon ui-icon-circle-zoomin"></span></a>');
-            maximize_button
+            $('<a role="link" class="ui-jqgrid-titlebar-maximize HeaderButton" style="right: 20px;"><span class="ui-icon ui-icon-circle-zoomin"></span></a>')
                 .bind('click', function()
                 {
                     var container = $(this).closest('.ui-jqgrid').parent();
@@ -106,8 +105,7 @@ var org_openpsa_grid_resize =
                     {
                         $(this).addClass('ui-state-active');
                         $(org_openpsa_grid_resize.containment).scrollTop(0);
-                        var placeholder = $('<div id="maximized_placeholder"></div>')
-                        placeholder
+                        $('<div id="maximized_placeholder"></div>')
                             .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())
                             .insertAfter(container);
                         container
@@ -126,9 +124,12 @@ var org_openpsa_grid_resize =
                 .bind('mouseleave', function()
                 {
                     $(this).removeClass('ui-state-hover');
-                });
-
-            $(this).prepend(maximize_button);
+                })
+                .prependTo($(this));
+            if ($(this).closest('.ui-jqgrid').find('.ui-jqgrid-btable').data('maximized'))
+            {
+                $(this).find('.ui-jqgrid-titlebar-maximize').trigger('click');
+            }
         });
     },
     fill_width: function(items)
@@ -137,27 +138,34 @@ var org_openpsa_grid_resize =
         {
             return;
         }
-        var new_width = items.filter(':visible').width() - 12;
+        var new_width;
 
-        if (items.hasClass('ui-jqgrid-maximized'))
+        $.each(items, function(index, item)
         {
-            new_width = $(org_openpsa_grid_resize.containment).attr('clientWidth') - 20;
-        }
-        $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
-        {
-            var id = $(this).attr('id');
-
-            var panel = jQuery("#gbox_" + id).closest('.ui-tabs-panel');
-            if (   panel.length > 0
-                && panel.hasClass('ui-tabs-hide'))
+            if (items.hasClass('ui-jqgrid-maximized'))
             {
-                return;
+                new_width = $(org_openpsa_grid_resize.containment).attr('clientWidth') - 12;
             }
-            try
+            else
             {
-                jQuery("#" + id).jqGrid().setGridWidth(new_width);
+                //calculate for each item separately to take care of floating neighbors
+                new_width = $(item).width() - 12;
             }
+            $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
+            {
+                var id = $(this).attr('id')
+                panel = $("#gbox_" + id).closest('.ui-tabs-panel');
+                if (   panel.length > 0
+                    && panel.hasClass('ui-tabs-hide'))
+                {
+                    return;
+                }
+                try
+                {
+                    $("#" + id).jqGrid().setGridWidth(new_width);
+                }
             catch(e){}
+        });
         });
     },
     set_height: function(items, mode)
@@ -174,7 +182,7 @@ var org_openpsa_grid_resize =
         grid_heights = {},
         minimum_height = 21;
 
-        if ($('#org_openpsa_resize_marker_end').length == 0)
+        if ($('#org_openpsa_resize_marker_end').length === 0)
         {
             $(org_openpsa_grid_resize.containment)
                 .append('<div id="org_openpsa_resize_marker_end"></div>')
@@ -189,15 +197,16 @@ var org_openpsa_grid_resize =
             {
                 var grid_height = grid_body.parent().parent().height(),
                 content_height = grid_body.outerHeight();
-                if (    content_height == 0
+                if (    content_height === 0
                     && (   grid_body.jqGrid('getGridParam', 'datatype') !== 'local'
-                        || (   grid_body.jqGrid('getGridParam', 'treeGrid') === true)
-                            && grid_body.jqGrid('getGridParam', 'treedatatype') !== 'local'))
+                        || (   grid_body.jqGrid('getGridParam', 'treeGrid') === true
+                            && grid_body.jqGrid('getGridParam', 'treedatatype') !== 'local')))
                 {
                     content_height = 100;
                 }
 
-                if (grid_body.jqGrid('getGridParam', 'gridstate') == 'visible')
+                if (   grid_body.jqGrid('getGridParam', 'gridstate') === 'visible'
+                    && $(this).is(':visible'))
                 {
                     grid_heights[grid_body.attr('id')] = content_height;
                     grids_content_height += content_height;
@@ -209,7 +218,7 @@ var org_openpsa_grid_resize =
 
         var available_space = container_height - container_nongrid_height;
 
-        if (   grids_content_height == 0
+        if (   grids_content_height === 0
             || available_space <= minimum_height * visible_grids)
         {
             return;
@@ -220,7 +229,7 @@ var org_openpsa_grid_resize =
         {
             $.each(grid_heights, function(grid_id, content_height)
             {
-                set_param(grid_id, content_height)
+                set_param(grid_id, content_height);
             });
             return;
         }
@@ -232,7 +241,7 @@ var org_openpsa_grid_resize =
             {
                 available_space -= minimum_height;
                 grids_content_height -= content_height;
-                set_param(grid_id, minimum_height)
+                set_param(grid_id, minimum_height);
                 delete grid_heights[grid_id];
             }
         });
@@ -240,20 +249,24 @@ var org_openpsa_grid_resize =
         $.each(grid_heights, function(grid_id, content_height)
         {
             var new_height = Math.round(available_space * (content_height / grids_content_height));
-            set_param(grid_id, new_height)
+            set_param(grid_id, new_height);
         });
 
         function set_param(grid_id, value)
         {
-            if ($("#" + grid_id).parent().parent().height() == value)
+            if ($("#" + grid_id).parent().parent().height() !== value)
             {
-                return;
+                try
+                {
+                    $("#" + grid_id).jqGrid().setGridHeight(value);
+                }
+                catch(e){}
+                if ($("#" + grid_id).data('vScroll'))
+                {
+                    $("#" + grid_id).closest(".ui-jqgrid-bdiv").scrollTop($("#" + grid_id).data('vScroll'));
+                    $("#" + grid_id).removeData('vScroll')
+                }
             }
-            try
-            {
-                $("#" + grid_id).jqGrid().setGridHeight(value);
-            }
-            catch(e){}
         }
     },
     maximize_height: function(part)
@@ -276,18 +289,39 @@ var org_openpsa_grid_editable =
 {
     grid_id: '',
     last_added_row: 0,
-    options:
+    default_options:
     {
         keys: true,
-        afterrestorefunc: this.after_restore
+        afterrestorefunc: function(id)
+        {
+            org_openpsa_grid_editable.toggle(id, false);
+        },
+        aftersavefunc: function(id)
+        {
+            org_openpsa_grid_editable.toggle(id, false);
+        },
+        oneditfunc: function(id)
+        {
+            org_openpsa_grid_editable.toggle(id, true);
+        },
+        successfunc: function(data)
+        {
+            var return_values = $.parseJSON(data.responseText);
+            return [true, return_values, return_values.id];
+        }
+    },
+    toggle: function(id, edit_mode)
+    {
+        $('#save_button_' + id).toggleClass('hidden', !edit_mode);
+        $('#cancel_button_' + id).toggleClass('hidden', !edit_mode);
+        $('#edit_button_' + id).toggleClass('hidden', edit_mode);
     },
 
     enable_inline: function (grid_id, custom_options)
     {
-        var lastsel;
+        var lastsel,
         self = this;
-        self.options = jQuery.extend({}, custom_options, self.options);
-
+        self.options = $.extend({}, self.default_options, custom_options);
         self.grid_id = grid_id;
         $('#' + grid_id).jqGrid('setGridParam',
         {
@@ -319,56 +353,48 @@ var org_openpsa_grid_editable =
     },
     editRow: function(id)
     {
-        $('#' + self.grid_id).jqGrid('editRow', id, self.options);
-        $('#edit_button_' + id).addClass('hidden');
-        $('#save_button_' + id).removeClass('hidden');
-        $('#cancel_button_' + id).removeClass('hidden')
-            .closest("tr").find('input[type="text"]:first:visible').focus();
+        $('#' + this.grid_id).jqGrid('editRow', id, this.options);
+        $('#cancel_button_' + id).closest("tr").find('input[type="text"]:first:visible').focus();
     },
     saveRow: function(id)
     {
-        $('#' + self.grid_id).jqGrid('saveRow', id, self.options);
-        $('#edit_button_' + id).removeClass('hidden');
-        this.after_restore(id);
+        $('#' + this.grid_id).jqGrid('saveRow', id, this.options);
     },
     restoreRow: function(id)
     {
-        $('#' + self.grid_id).jqGrid('restoreRow', id, self.options);
-        $('#edit_button_' + id).removeClass('hidden');
-        this.after_restore(id);
+        $('#' + this.grid_id).jqGrid('restoreRow', id, this.options);
     },
     deleteRow: function(id)
     {
-        var edit_url = $('#' + self.grid_id).jqGrid('getGridParam', 'editurl')
-        rowdata = $('#' + self.grid_id).jqGrid('getRowData', id),
+        var edit_url = $('#' + this.grid_id).jqGrid('getGridParam', 'editurl'),
+        rowdata = $('#' + this.grid_id).jqGrid('getRowData', id),
+        self = this;
         rowdata.oper = 'del';
 
         $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
         {
             $('#' + self.grid_id).jqGrid('delRowData', id);
-            if (   typeof self.options.aftersavefunc != 'undefined'
+            if (   typeof self.options.aftersavefunc !== 'undefined'
                 && $.isFunction(self.options.aftersavefunc))
             {
                 self.options.aftersavefunc(0, []);
             }
         });
     },
-    after_restore: function(id)
-    {
-        $('#save_button_' + id).addClass('hidden');
-        $('#cancel_button_' + id).addClass('hidden');
-    },
     add_inline_controls: function()
     {
-        var rowids = jQuery("#" + self.grid_id).jqGrid('getDataIDs');
-        for (var i = 0; i < rowids.length; i++)
+        var rowids = $("#" + this.grid_id).jqGrid('getDataIDs'),
+        self = this,
+        i, current_rowid;
+
+        for (i = 0; i < rowids.length; i++)
         {
-            var current_rowid = rowids[i];
-            be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />";
-            bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />";
-            bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />";
+            current_rowid = rowids[i];
+            var be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />",
+            bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
+            bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
             bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
-            $("#" + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
+            $("#" + this.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
         }
 
         $(".row_edit").live('click', function()
@@ -392,7 +418,78 @@ var org_openpsa_grid_editable =
             self.restoreRow(id);
         });
     }
+};
 
+var org_openpsa_grid_footer =
+{
+    set_field: function(grid_id, colname, operation)
+    {
+        var value = $('#' + grid_id).jqGrid('getCol', colname, false, operation),
+        footerdata = {};
+        footerdata[colname] = value;
+        $('#' + grid_id).jqGrid('footerData', 'set', footerdata);
+    }
+};
+
+var org_openpsa_grid_helper =
+{
+    event_handler_added: false,
+    active_grids: [],
+    set_tooltip: function (grid_id, column, tooltip)
+    {
+        var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];
+        $("tr.ui-jqgrid-labels th:eq(" + column + ")", thd).attr("title", tooltip);
+    },
+    setup_grid: function (grid_id, config)
+    {
+        var identifier = location.hostname + location.href + '#' + grid_id,
+        saved_values = {};
+        if (   typeof window.localStorage !== 'undefined'
+            && window.localStorage)
+        {
+            org_openpsa_grid_helper.active_grids.push(grid_id);
+            saved_values = $.parseJSON(window.localStorage.getItem(identifier));
+            if (saved_values)
+            {
+                if (typeof saved_values.custom_keys !== 'undefined')
+                {
+                    var keys = saved_values.custom_keys;
+                    delete saved_values.custom_keys;
+                    $('#' + grid_id).data('vScroll', keys.vScroll);
+                    $('#' + grid_id).data('maximized', keys.maximized);
+                }
+                config = $.extend(config, saved_values);
+            }
+            if (org_openpsa_grid_helper.event_handler_added === false)
+            {
+                $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
+            }
+        }
+        $('#' + grid_id).jqGrid(config);
+    },
+    save_grid_data: function()
+    {
+        $.each(org_openpsa_grid_helper.active_grids, function(index, grid_id)
+        {
+            var identifier = location.hostname + location.href + '#' + grid_id,
+            grid = $('#' + grid_id),
+            data = 
+            {
+                'page': grid.jqGrid('getGridParam', 'page'),
+                'sortname': grid.jqGrid('getGridParam', 'sortname'),
+                'sortorder': grid.jqGrid('getGridParam', 'sortorder'),
+                'grouping': grid.jqGrid('getGridParam', 'grouping'),
+                'groupingView': grid.jqGrid('getGridParam', 'groupingView'),
+                'hiddengrid': grid.closest('.ui-jqgrid-view').find('.ui-jqgrid-titlebar-close .ui-icon').hasClass('ui-icon-circle-triangle-s'),
+                'custom_keys':
+                {
+                    'vScroll': grid.closest(".ui-jqgrid-bdiv").scrollTop(),
+                    'maximized': grid.closest('.ui-jqgrid-maximized').length > 0
+                }
+            };
+            window.localStorage.setItem(identifier, JSON.stringify(data))
+        });
+    }
 };
 
 var org_openpsa_export_csv =
@@ -411,23 +508,22 @@ var org_openpsa_export_csv =
     },
     prepare_data: function(id)
     {
-        var config = this.configs[id];
-        var rows = jQuery('#' + config.id).jqGrid('getRowData');
-
-        var data = '';
-
-        for (var field in config.fields)
+        var config = this.configs[id],
+        rows = $('#' + config.id).jqGrid('getRowData'),
+        field, i,
+        data = '';
+        for (field in config.fields)
         {
             data += this.trim(config.fields[field]) + this.separator;
         }
 
         data += '\n';
 
-        for (var i = 0; i < rows.length; i++)
+        for (i = 0; i < rows.length; i++)
         {
             for (field in config.fields)
             {
-                if (typeof rows[i][field] != 'undefined')
+                if (typeof rows[i][field] !== 'undefined')
                 {
                     data += this.trim(rows[i][field]) + this.separator;
                 }
@@ -450,16 +546,16 @@ var org_openpsa_batch_processing =
 {
     initialize: function(config)
     {
-        var widgets_to_add = [];
+        var widgets_to_add = [],
         //build action form and associated widgets
-        var action_select = '<div class="action_select_div" id="' + config.id + '_batch" style="display: none;">';
+        action_select = '<div class="action_select_div" id="' + config.id + '_batch" style="display: none;">';
         action_select += '<input type="hidden" name="batch_grid_id" value="' + config.id + '" />';
         action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
 
         $.each(config.options, function(key, values)
         {
             action_select += '<option value="' + key + '" >' + values.label + '</option>';
-            if (typeof values.widget_config != 'undefined')
+            if (typeof values.widget_config !== 'undefined')
             {
                 var widget_id = config.id + '__' + key;
                 widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: values.widget_config});
@@ -487,7 +583,7 @@ var org_openpsa_batch_processing =
         {
             onSelectRow: function(id)
             {
-                if ($('#' + config.id).jqGrid('getGridParam', 'selarrrow').length == 0)
+                if ($('#' + config.id).jqGrid('getGridParam', 'selarrrow').length === 0)
                 {
                     $('#' + config.id + '_batch').hide();
                 }
@@ -518,8 +614,8 @@ var org_openpsa_batch_processing =
             s = $("#" + config.id).jqGrid('getGridParam', 'selarrrow');
             for (i = 0; i < s.length; i++)
             {
-                jQuery('<input type="hidden" name="entries[' + s[i] + ']" value="On" />').appendTo('#form_' + config.id);
+                $('<input type="hidden" name="entries[' + s[i] + ']" value="On" />').appendTo('#form_' + config.id);
             }
         });
     }
-}
+};

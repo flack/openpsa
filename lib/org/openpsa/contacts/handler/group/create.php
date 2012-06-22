@@ -47,12 +47,17 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
+        $defaults = array();
         if (!is_null($this->_parent_group))
         {
             if ($this->_type == 'organization')
             {
                 // Set the default type to "department"
-                $defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
+                $defaults['object_type'] = org_openpsa_contacts_group_dba::DEPARTMENT;
+            }
+            else
+            {
+                $defaults['owner'] = org_openpsa_contacts_interface::find_root_group()->id;
             }
             if ($this->_parent_group)
             {
@@ -67,31 +72,27 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function & dm2_create_callback(&$datamanager)
     {
-        $group = new org_openpsa_contacts_group_dba();
+        $this->_group = new org_openpsa_contacts_group_dba();
 
-        if ($this->_type == 'organization')
+        if (   $this->_type == 'organization'
+            && $this->_parent_group)
         {
-            if ($this->_parent_group)
-            {
-                $group->owner = (int) $this->_parent_group->id;
-            }
-            else
-            {
-                $root_group = org_openpsa_contacts_interface::find_root_group();
-                $group->owner = (int) $root_group->id;
-            }
+            $this->_group->owner = (int) $this->_parent_group->id;
         }
-        $group->name = time();
-
-        if (! $group->create())
+        else
         {
-            debug_print_r('We operated on this object:', $group);
-            throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
+            $root_group = org_openpsa_contacts_interface::find_root_group();
+            $this->_group->owner = (int) $root_group->id;
+        }
+        $this->_group->name = time();
+
+        if (! $this->_group->create())
+        {
+            debug_print_r('We operated on this object:', $this->_group);
+            throw new midcom_error("Failed to create a new group. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_group =& $group;
-
-        return $group;
+        return $this->_group;
     }
 
     /**
@@ -101,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_type = $args[0];
 
@@ -110,12 +111,12 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             // Get the parent organization
             $this->_parent_group = new org_openpsa_contacts_group_dba($args[1]);
-            $_MIDCOM->auth->require_do('midgard:create', $this->_parent_group);
+            $this->_parent_group->require_do('midgard:create');
         }
         else
         {
             // This is a root level organization, require creation permissions under the component root group
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
+            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
         }
 
         $data['controller'] = $this->get_controller('create');
@@ -123,21 +124,20 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Index the organization
-                $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_topic);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+                $indexer->index($data['controller']->datamanager);
 
                 // Relocate to group view
-                $_MIDCOM->relocate("group/" . $this->_group->guid . "/");
-                // This will exit
+                return new midcom_response_relocate("group/" . $this->_group->guid . "/");
 
             case 'cancel':
                 if ($this->_parent_group)
                 {
-                    $_MIDCOM->relocate("group/" . $this->_parent_group->guid . "/");
+                    return new midcom_response_relocate("group/" . $this->_parent_group->guid . "/");
                 }
                 else
                 {
-                    $_MIDCOM->relocate('');
+                    return new midcom_response_relocate('');
                 }
         }
 
@@ -146,7 +146,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get("create organization"));
+        midcom::get('head')->set_pagetitle($this->_l10n->get("create organization"));
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_parent_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_type)));

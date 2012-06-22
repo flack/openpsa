@@ -41,7 +41,6 @@ class midcom_helper__dbfactory
         {
             $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
         }
-
         return $this->convert_midgard_to_midcom($tmp);
     }
 
@@ -82,15 +81,11 @@ class midcom_helper__dbfactory
      * This function will determine the correct type of midgard_collector that
      * has to be created. It will also call the _on_prepare_new_collector event handler.
      *
-     * Since this is to be called statically, it will take a class name, not an instance
-     * as argument.
-     *
      * @param string $classname The name of the class for which you want to create a collector.
      * @param string $domain The domain property of the collector instance
      * @param mixed $value Value match for the collector instance
      * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
-     * @static
      */
     function new_collector($classname, $domain, $value)
     {
@@ -103,13 +98,9 @@ class midcom_helper__dbfactory
      * This function will determine the correct type of midgard_query_builder that
      * has to be created. It will also call the _on_prepare_new_query_builder event handler.
      *
-     * Since this is to be called statically, it will take a class name, not an instance
-     * as argument.
-     *
      * @param string $classname The name of the class for which you want to create a query builder.
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
-     * @static
      */
     function new_query_builder($classname)
     {
@@ -137,11 +128,11 @@ class midcom_helper__dbfactory
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
         }
 
-        if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
+        if (midcom::get('dbclassloader')->is_mgdschema_object($object))
         {
-            $classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
+            $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
 
-            if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($classname))
+            if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($classname))
             {
                 throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
             }
@@ -180,9 +171,9 @@ class midcom_helper__dbfactory
             return null;
         }
 
-        if (!$_MIDCOM->dbclassloader->is_midcom_db_object($object))
+        if (!midcom::get('dbclassloader')->is_midcom_db_object($object))
         {
-            if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
+            if (midcom::get('dbclassloader')->is_mgdschema_object($object))
             {
                 // Return it directly, it is already in the format we want
                 return $object;
@@ -295,7 +286,7 @@ class midcom_helper__dbfactory
             {
                 $object_guid = null;
             }
-            elseif (   isset($object->__guid)
+            else if (   isset($object->__guid)
                     && !$object->guid)
             {
                 $object_guid = $object->__guid;
@@ -322,9 +313,9 @@ class midcom_helper__dbfactory
                 return $cached_parent_guids[$object_guid];
             }
 
-            $parent_guid = $_MIDCOM->cache->memcache->lookup_parent_guid($object_guid);
+            $parent_guid = midcom::get('cache')->memcache->lookup_parent_guid($object_guid);
         }
-        elseif ($the_object === null)
+        else if ($the_object === null)
         {
             throw new midcom_error('Tried to resolve an invalid GUID without an object being present. This cannot be done.');
         }
@@ -355,6 +346,7 @@ class midcom_helper__dbfactory
                         return null;
                     }
                 }
+
                 $parent_guid = $the_object->get_parent_guid_uncached();
             }
 
@@ -368,17 +360,17 @@ class midcom_helper__dbfactory
 
             if (mgd_is_guid($object_guid))
             {
-                $_MIDCOM->cache->memcache->update_parent_guid($object_guid, $parent_guid);
+                midcom::get('cache')->memcache->update_parent_guid($object_guid, $parent_guid);
             }
+        }
+
+        if (!mgd_is_guid($parent_guid))
+        {
+            $parent_guid = null;
         }
 
         // Remember this so we don't need to get it again
         $cached_parent_guids[$object_guid] = $parent_guid;
-
-        if (!mgd_is_guid($parent_guid))
-        {
-            return null;
-        }
 
         return $parent_guid;
     }
@@ -407,10 +399,10 @@ class midcom_helper__dbfactory
         // We need this helper (workaround Zend bug)
         if (!function_exists('midcom_helper_replicator_import_object'))
         {
-            $_MIDCOM->componentloader->load('midcom.helper.replicator');
+            midcom::get('componentloader')->load('midcom.helper.replicator');
         }
 
-        if (!$_MIDCOM->dbclassloader->is_mgdschema_object($unserialized_object))
+        if (!midcom::get('dbclassloader')->is_mgdschema_object($unserialized_object))
         {
             debug_add("Unserialized object " . get_class($unserialized_object) . " is not recognized as supported MgdSchema class.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ERROR);
@@ -418,8 +410,8 @@ class midcom_helper__dbfactory
         }
 
         // Load the required component for DBA class
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($unserialized_object);
-        if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($unserialized_object);
+        if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot import.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ERROR);
@@ -431,7 +423,7 @@ class midcom_helper__dbfactory
         if (   is_object($acl_object)
             && $acl_object->id)
         {
-            if (!$_MIDCOM->dbfactory->is_a($acl_object, get_class($unserialized_object)))
+            if (!midcom::get('dbfactory')->is_a($acl_object, get_class($unserialized_object)))
             {
                 $acl_class = get_class($acl_object);
                 $unserialized_class = get_class($unserialized_object);
@@ -606,7 +598,7 @@ class midcom_helper__dbfactory
         }
 
         $acl_object->_on_imported();
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
         return true;
     }
 
@@ -630,12 +622,12 @@ class midcom_helper__dbfactory
         // We need this helper (workaround Zend bug)
         if (!function_exists('midcom_helper_replicator_import_object'))
         {
-            $_MIDCOM->componentloader->load('midcom.helper.replicator');
+            midcom::get('componentloader')->load('midcom.helper.replicator');
         }
 
         try
         {
-            $acl_object = $_MIDCOM->dbfactory->get_object_by_guid($unserialized_object->parentguid);
+            $acl_object = midcom::get('dbfactory')->get_object_by_guid($unserialized_object->parentguid);
         }
         catch (midcom_error $e)
         {
@@ -661,7 +653,7 @@ class midcom_helper__dbfactory
         // Trigger parent updated
         midcom_baseclasses_core_dbobject::update_post_ops($acl_object);
         // And also imported
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
 
         return true;
     }

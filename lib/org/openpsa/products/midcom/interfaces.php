@@ -11,25 +11,6 @@
  */
 class org_openpsa_products_interface extends midcom_baseclasses_components_interface
 {
-    public function _on_initialize()
-    {
-        // Define delivery types
-        define('ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE', 1000);
-        define('ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION', 2000);
-
-        // Define product types
-        // Professional services
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE', 1000);
-        // Material goods
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS', 2000);
-        // Solution is a nonmaterial good
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION', 2001);
-
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART', 1000);
-
-        return true;
-    }
-
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         try
@@ -148,8 +129,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 //Check if the product is in a nested category.
                 if (   $category
                     && isset($category[0]->up)
-                    && $category[0]->up > 0
-                    )
+                    && $category[0]->up > 0)
                 {
                     $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
                     $parent_category_qb->add_constraint('id', '=', $category[0]->up);
@@ -213,9 +193,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $category = $category_qb->execute_unchecked();
                 //Check if the product is in a nested category.
                 if (   $category
-                    && isset($category[0]->up)
-                       && $category[0]->up > 0
-                    )
+                    && !empty($category[0]->up))
                 {
                     $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
                     $parent_category_qb->add_constraint('id', '=', $category[0]->up);
@@ -248,8 +226,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         if (   !$config->get('index_products')
             && !$config->get('index_groups'))
         {

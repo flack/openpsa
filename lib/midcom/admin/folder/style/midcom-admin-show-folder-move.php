@@ -3,7 +3,7 @@
     <div class="midcom_admin_content_folderlist">
         <ul>
         <?php
-        $root_folder = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+        $root_folder = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
 
         $class = '';
         $selected = '';
@@ -26,7 +26,7 @@
 
         function midcom_admin_folder_list_folders($up = 0, $tree_disabled = false)
         {
-            $data =& $_MIDCOM->get_custom_context_data('request_data');
+            $data =& midcom_core_context::get()->get_custom_key('request_data');
             if (   is_a($data['object'], 'midcom_db_topic')
                 && $up == $data['object']->id)
             {

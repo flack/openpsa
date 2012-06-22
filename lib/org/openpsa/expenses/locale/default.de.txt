@@ -22,8 +22,8 @@ Ausgaben in KW %s
 Stundenbericht
 ---STRINGEND
 
----STRING hour reports between %s and %s
-Stundenberichte zwischen %s und %s
+---STRING hour reports
+Stundenberichte
 ---STRINGEND
 
 ---STRING hours
@@ -50,6 +50,10 @@ Abrechenbare Stundenberichte
 Abgerechnete Stundenberichte
 ---STRINGEND
 
+---STRING list view
+Listenansicht
+---STRINGEND
+
 ---STRING list_hours_task %s
 Stundenberichte für Aufgabe "%s"
 ---STRINGEND
@@ -60,10 +64,6 @@ Folgewoche
 
 ---STRING org.openpsa.expenses
 Ausgaben-Verwaltung
----STRINGEND
-
----STRING person
-Person
 ---STRINGEND
 
 ---STRING previous week
@@ -82,6 +82,10 @@ Aufgabe "%s" anzeigen
 Aufgabe
 ---STRINGEND
 
+---STRING timeframe
+Zeitraum
+---STRINGEND
+
 ---STRING total
 Summe
 ---STRINGEND
@@ -98,32 +102,8 @@ Nicht abrechenbare Stundenberichte
 Stundenbericht löschen
 ---STRINGEND
 
----STRING no filter available
-Es ist kein Filter verfügbar
----STRINGEND
-
----STRING no filter available for %s
-Der Filter für %s ist nicht verfügbar
----STRINGEND
-
----STRING filter error
-Filter Fehler
----STRINGEND
-
----STRING the handed filter for %s could not be set as parameter
-Der übergebene Filter für %s konnte nicht als Parameter gespeichert werden
----STRINGEND
-
----STRING unset
-zurücksetzen
----STRINGEND
-
 ---STRING person
 Person
----STRINGEND
-
----STRING apply
-anwenden
 ---STRINGEND
 
 ---STRING invoice

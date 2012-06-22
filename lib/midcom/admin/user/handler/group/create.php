@@ -18,8 +18,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.user/usermgmt.css');
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'), $this->_request_data);
@@ -65,16 +63,15 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Show confirmation for the group
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
-                $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-                // This will exit.
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
-        $data['view_title'] = $_MIDCOM->i18n->get_string('create group', 'midcom.admin.user');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        $data['view_title'] = midcom::get('i18n')->get_string('create group', 'midcom.admin.user');
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/create/", $data['view_title']);

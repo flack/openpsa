@@ -47,9 +47,9 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_DOCUMENT_STATUS_DRAFT  => 'draft',
-                    ORG_OPENPSA_DOCUMENT_STATUS_REVIEW => 'review',
-                    ORG_OPENPSA_DOCUMENT_STATUS_FINAL  => 'final',
+                    org_openpsa_documents_document_dba::STATUS_DRAFT  => 'draft',
+                    org_openpsa_documents_document_dba::STATUS_REVIEW => 'review',
+                    org_openpsa_documents_document_dba::STATUS_FINAL  => 'final',
                 ),
             ),
             'widget'       => 'radiocheckselect',
@@ -59,7 +59,7 @@
                 'title' => 'Metadata',
                 'css_group' => 'area meta',
             ),
-            'default' => ORG_OPENPSA_DOCUMENT_STATUS_DRAFT
+            'default' => org_openpsa_documents_document_dba::STATUS_DRAFT
         ),
         'keywords' => array
         (
@@ -85,7 +85,6 @@
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array(),
                 'searchfields'  => array
                 (
                     'firstname',

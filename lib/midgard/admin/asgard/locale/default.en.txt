@@ -186,6 +186,10 @@ Configuration save failed: %s
 Configuration saved successfully
 ---STRINGEND
 
+---STRING confirm deletion of file %s
+Confirm deletion of file %s
+---STRINGEND
+
 ---STRING content
 Content
 ---STRINGEND
@@ -203,7 +207,7 @@ Copy %s
 ---STRINGEND
 
 ---STRING copy %s and its descendants
-Copy '%s' and its descendants
+Copy "%s" and its descendants
 ---STRINGEND
 
 ---STRING copy attachments
@@ -272,6 +276,10 @@ Default language
 
 ---STRING delete %s %s
 Delete %s "%s"
+---STRINGEND
+
+---STRING delete file %s
+Delete file "%s"
 ---STRINGEND
 
 ---STRING deleted by
@@ -371,7 +379,7 @@ Failed undeleting attachment %s, reason %s
 ---STRINGEND
 
 ---STRING file %s deleted
-File '%s' deleted
+File "%s" deleted
 ---STRINGEND
 
 ---STRING file contents
@@ -814,8 +822,8 @@ URL
 Use edit mode instead of view mode as the primary object management page
 ---STRINGEND
 
----STRING use editarea editor for editing code snippets
-Use EditArea editor for editing code snippets
+---STRING use codemirror editor for editing code snippets
+Use CodeMirror editor for editing code snippets
 ---STRINGEND
 
 ---STRING use tinymce editor for editing content

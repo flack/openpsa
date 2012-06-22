@@ -28,7 +28,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     private function _prepare_handler($args)
     {
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
+        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
@@ -43,7 +43,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             )
         );
 
-        $_MIDCOM->bind_view_to_object($this->_request_data['campaign']);
+        $this->bind_view_to_object($this->_request_data['campaign']);
 
         $this->_load_schemas();
 
@@ -73,7 +73,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             throw new midcom_error('Could not load campaign member schema database.');
         }
         // Make sure component is loaded so that constants are defined
-        $_MIDCOM->componentloader->load('org.openpsa.contacts');
+        midcom::get('componentloader')->load('org.openpsa.contacts');
         $this->_schemadbs['person'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
         if (!$this->_schemadbs['person'])
         {
@@ -729,11 +729,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                             // We have parsed some contact info.
 
                             // Convert fields from latin-1 to MidCOM charset (usually utf-8)
-                            foreach($contact as $type => $fields)
+                            foreach ($contact as $type => $fields)
                             {
                                 foreach ($fields as $key => $value)
                                 {
-                                    $contact[$type][$key] = iconv('ISO-8859-1', $_MIDCOM->i18n->get_current_charset(), $value);
+                                    $contact[$type][$key] = iconv('ISO-8859-1', midcom::get('i18n')->get_current_charset(), $value);
                                 }
                             }
 

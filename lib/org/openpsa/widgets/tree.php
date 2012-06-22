@@ -70,6 +70,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
      */
     public function __construct($classname, $parent_field)
     {
+        parent::__construct();
         $this->_object_class = $classname;
         $this->_parent_field = $parent_field;
 
@@ -177,7 +178,7 @@ JSINIT;
             {
                 $url = $prefix . 'midcom-permalink-' . $item['guid'];
             }
-            echo '<li id="g_' . $item['guid'] . '" data="url: \'' . $url . '\'"><span>' . $item['title'] . "</span>\n";
+            echo '<li id="g_' . $item['guid'] . '"><a href="' . $url . '">' . $item['title'] . "</a>\n";
             if (!empty($item['children']))
             {
                 $this->_render_items($item['children']);

@@ -6,11 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-if (! class_exists('midcom_helper_reflector'))
-{
-    $_MIDCOM->load_library('midcom.helper.reflector');
-}
-
 /**
  * Datamanager 2 Chooser widget
  *
@@ -32,8 +27,6 @@ if (! class_exists('midcom_helper_reflector'))
  *     'type' => 'select',
  *     'type_config' => array
  *     (
- *          'require_corresponding_option' => false,
- *          'allow_multiple' => true,
  *          'multiple_storagemode' => 'array',
  *     ),
  *     'widget' => 'chooser',
@@ -45,26 +38,6 @@ if (! class_exists('midcom_helper_reflector'))
  * </code>
  * OR
  * <code>
- *  'buddies' => Array
- *  (
- *      'title' => 'buddies',
- *      'storage' => null,
- *      'type' => 'select',
- *      'type_config' => array
- *      (
- *           'require_corresponding_option' => false,
- *           'allow_multiple' => true,
- *           'multiple_storagemode' => 'array',
- *      ),
- *      'widget' => 'chooser',
- *      'widget_config' => array
- *      (
- *          'clever_class' => 'buddy',
- *      ),
- *  ),
- * </code>
- * OR
- * <code>
  *  'styles' => Array
  *  (
  *      'title' => 'styles',
@@ -72,8 +45,6 @@ if (! class_exists('midcom_helper_reflector'))
  *      'type' => 'select',
  *      'type_config' => array
  *      (
- *           'require_corresponding_option' => false,
- *           'allow_multiple' => true,
  *           'multiple_storagemode' => 'array',
  *      ),
  *      'widget' => 'chooser',
@@ -102,7 +73,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     private $_js_widget_options = array();
 
-    var $_input_element = null;
+    private $_input_element = null;
 
     /**
      * Class to search for
@@ -126,7 +97,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     var $clever_class = null;
 
     /**
-     * Associative array of constraints (besides the search term), always AND
+     * Array of constraints (besides the search term), always AND
+     *
+     * Attention: If the type defines constraints, they always take precedence
      *
      * Example:
      * <code>
@@ -261,14 +234,14 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      *
      * @var string
      */
-    var $_jscript = '';
+    private $_jscript = '';
 
     /**
      * In case the options are returned by a callback, this member holds the class.
      *
      * @var class
      */
-    var $_callback = false;
+    private $_callback = false;
 
     /**
      * In case the options are returned by a callback, this member holds the name of the
@@ -276,14 +249,14 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      *
      * @var string
      */
-    public $_callback_class = null;
+    private $_callback_class = null;
 
     /**
      * The arguments to pass to the option callback constructor.
      *
      * @var mixed
      */
-    public $_callback_args = null;
+    private $_callback_args = null;
 
     /**
      * Renderer
@@ -297,21 +270,21 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      *
      * @var class
      */
-    var $_renderer_callback = false;
+    private $_renderer_callback = false;
 
     /**
      * Renderer callback class name
      *
      * @var string
      */
-    var $_renderer_callback_class = null;
+    private $_renderer_callback_class = null;
 
     /**
      * Renderer callback arguments
      *
      * @var array
      */
-    var $_renderer_callback_args = array();
+    private $_renderer_callback_args = array();
 
     /**
      * The group of widgets items as QuickForm elements
@@ -320,8 +293,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     var $widget_elements = array();
 
-    var $_static_items_html = "";
-    var $_added_static_items = array();
+    private $_static_items_html = "";
+    private $_added_static_items = array();
 
     var $allow_multiple = true;
     var $require_corresponding_option = true;
@@ -355,11 +328,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     public function _on_initialize()
     {
-        if (   !is_a($this->_type, 'midcom_helper_datamanager2_type_select')
-            && !is_a($this->_type, 'midcom_helper_datamanager2_type_mnrelation'))
+        if (!is_a($this->_type, 'midcom_helper_datamanager2_type_select'))
         {
-            debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the chooser widget with it.",
-                MIDCOM_LOG_WARN);
+            debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the chooser widget with it.", MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -384,7 +355,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 || empty($this->_callback_class))
             {
                 debug_add("Warning, the field {$this->name} does not have proper class definitions set.",
-                    MIDCOM_LOG_WARN);
+                MIDCOM_LOG_WARN);
 
                 return false;
             }
@@ -394,20 +365,20 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !$this->_check_renderer())
         {
             debug_add("Warning, the field {$this->name} renderer wasn't found or not set properly, thus widget can never show results.",
-                MIDCOM_LOG_WARN);
+            MIDCOM_LOG_WARN);
             return false;
+        }
+
+        if (!empty($this->_type->constraints))
+        {
+            $this->constraints = $this->_type->constraints;
         }
 
         if (!$this->_check_class())
         {
             debug_add("Warning, cannot load class {$this->class} for field {$this->name}.",
-                MIDCOM_LOG_WARN);
+            MIDCOM_LOG_WARN);
             return false;
-        }
-
-        if (!$this->id_field)
-        {
-            $this->id_field = 'guid';
         }
 
         if (!$this->_is_replication_safe())
@@ -419,30 +390,37 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !isset($this->_callback_class))
         {
             debug_add("Warning, the field {$this->name} does not have searchfields defined, it can never return results.",
-                MIDCOM_LOG_WARN);
+            MIDCOM_LOG_WARN);
             return false;
         }
 
-        $_MIDCOM->enable_jquery();
+        $head = midcom::get('head');
+        $head->enable_jquery();
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css');
-
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
 
         if ($this->sortable)
         {
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
+        }
+        if ($this->creation_mode_enabled)
+        {
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
         }
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css');
 
-        $this->_element_id = "{$this->_namespace}{$this->name}_chooser_widget";
+        $this->_element_id = "{$this->_namespace}{$this->name}_chooser";
 
-        if (! is_null($this->creation_handler))
+        if (!is_null($this->creation_handler))
         {
             $this->_enable_creation_mode();
         }
@@ -469,7 +447,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 // Storing IDs to parameters is not replication safe
                 debug_add("Field \"{$this->name}\" is set to store to a parameter but links via ID which is not replication-safe, aborting.", MIDCOM_LOG_WARN);
 
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
 
                 return false;
         }
@@ -481,19 +459,20 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             // We have an object, check the link type
             // Note: in creation mode we do not have this so we have no way to check)
-            $mgdschema_object = $_MIDCOM->dbfactory->convert_midcom_to_midgard($this->_type->storage->object);
+            $mgdschema_object = midcom::get('dbfactory')->convert_midcom_to_midgard($this->_type->storage->object);
             if (    $mgdschema_object !== null
-                 && $this->_field['storage']['location'] !== null)
+                && $this->_field['storage']['location'] !== null)
             {
                 $mrp = new midgard_reflection_property(get_class($mgdschema_object));
 
-                if (   !$mrp
-                    || !$mrp->is_link($this->_field['storage']['location']))
+                if (    (   $mrp->get_midgard_type($this->_field['storage']['location']) === MGD_TYPE_INT
+                         || $mrp->get_midgard_type($this->_field['storage']['location']) === MGD_TYPE_UINT)
+                     && !$mrp->is_link($this->_field['storage']['location']))
                 {
                     // Storing IDs to non-linked fields is not replication safe
                     debug_add("Field \"{$this->name}\" is set to store to property \"{$this->_field['storage']['location']}\" which is not link, making it replication-unsafe, aborting.", MIDCOM_LOG_WARN);
 
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
 
                     return false;
                 }
@@ -502,15 +481,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         return true;
     }
 
-    function _enable_creation_mode()
+    private function _enable_creation_mode()
     {
-        if (! empty($this->creation_handler))
+        if (!empty($this->creation_handler))
         {
             $this->creation_mode_enabled = true;
         }
     }
 
-    function _check_renderer()
+    private function _check_renderer()
     {
         if (!isset($this->renderer['class']))
         {
@@ -519,17 +498,17 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         $this->_renderer_callback_class = $this->renderer['class'];
         $this->_renderer_callback_args = array();
-        if (isset($this->renderer['args'])
+        if (   isset($this->renderer['args'])
             && !empty($this->renderer['args']))
         {
             $this->_renderer_callback_args = $this->renderer['args'];
         }
 
-        if (! class_exists($this->_renderer_callback_class))
+        if (!class_exists($this->_renderer_callback_class))
         {
             // Try auto-load.
             $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $this->_renderer_callback_class) . '.php';
-            if (! file_exists($path))
+            if (!file_exists($path))
             {
                 debug_add("Auto-loading of the renderer callback class {$this->_renderer_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
                 return false;
@@ -537,7 +516,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             require_once($path);
         }
 
-        if (! class_exists($this->_renderer_callback_class))
+        if (!class_exists($this->_renderer_callback_class))
         {
             debug_add("The renderer callback class {$this->_renderer_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
             return false;
@@ -547,7 +526,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         return $this->_renderer_callback->initialize();
     }
 
-    function _check_class()
+    private function _check_class()
     {
         if (!empty($this->clever_class))
         {
@@ -565,37 +544,17 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return true;
         }
 
-        if (! empty($this->component))
+        if (!empty($this->component))
         {
-            $_MIDCOM->componentloader->load($this->component);
+            midcom::get('componentloader')->load($this->component);
         }
 
         return class_exists($this->class);
     }
 
-    function _check_clever_class()
+    private function _check_clever_class()
     {
         $clever_classes = $this->_config->get('clever_classes');
-
-        //This is a lazy workaround to preserve a rarely-used feature for backwards-compatibility
-        if (   isset($_MIDCOM->auth->user)
-            && method_exists($_MIDCOM->auth->user, 'get_storage'))
-        {
-            $current_user = $_MIDCOM->auth->user->get_storage();
-        }
-        else
-        {
-            $current_user = new midcom_db_person();
-        }
-
-        foreach ($clever_classes['buddy']['constraints'] as $i => $constraint)
-        {
-            if ($constraint['value'] == '__USER__')
-            {
-                $clever_classes['buddy']['constraints'][$i]['value'] = $current_user->guid;
-            }
-        }
-        //workaround end
 
         if (array_key_exists($this->clever_class, $clever_classes))
         {
@@ -613,54 +572,37 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->class = $class['class'];
         $this->component = $class['component'];
 
-        if (! empty($this->component))
+        if (!empty($this->component))
         {
-            $_MIDCOM->componentloader->load($this->component);
+            midcom::get('componentloader')->load($this->component);
         }
 
         if (empty($this->result_headers))
         {
             $this->result_headers = array();
-            foreach ($class['headers'] as $header_key)
+            foreach ($class['result_headers'] as $header_data)
             {
-                $header = array();
                 if ($this->component)
                 {
-                    $header['title'] = $_MIDCOM->i18n->get_string($header_key, $this->component);
+                    $header_data['title'] = midcom::get('i18n')->get_string($header_data['title'], $this->component);
                 }
                 else
                 {
-                    $header['title'] = $this->_l10n_midcom->get($header_key);
+                    $header_data['title'] = $this->_l10n_midcom->get($header_data['title']);
                 }
-                $header['name'] = $header_key;
-                $this->result_headers[] = $header;
+                $this->result_headers[] = $header_data;
             }
         }
-        if (   is_null($this->generate_path_for)
-            && isset($class['generate_path_for']))
+
+        $config_fields = array('generate_path_for', 'constraints', 'searchfields', 'orders', 'reflector_key', 'id_field');
+
+        foreach ($config_fields as $field)
         {
-            $this->generate_path_for = $class['generate_path_for'];
-        }
-        if (empty($this->constraints))
-        {
-            $this->constraints = $class['constraints'];
-        }
-        if (empty($this->searchfields))
-        {
-            $this->searchfields = $class['searchfields'];
-        }
-        if (empty($this->orders))
-        {
-            $this->orders = $class['orders'];
-        }
-        if (isset($class['reflector_key']))
-        {
-            $this->reflector_key = $class['reflector_key'];
-        }
-        if (!$this->id_field
-            && isset($class['id_field']))
-        {
-            $this->id_field = $class['id_field'];
+            if (   isset($class[$field])
+                && empty($this->$field))
+            {
+                $this->$field = $class[$field];
+            }
         }
     }
 
@@ -700,7 +642,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             }
         }
 
-        if (! $matching_type)
+        if (!$matching_type)
         {
             debug_add("no matches found for {$this->clever_class}!");
             return false;
@@ -743,8 +685,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             }
         }
 
-        $this->class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($matching_type);
-        $this->component = $_MIDCOM->dbclassloader->get_component_for_class($matching_type);
+        $this->class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($matching_type);
+        $this->component = midcom::get('dbclassloader')->get_component_for_class($matching_type);
 
         if (empty($this->constraints))
         {
@@ -841,7 +783,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $header_count = count($this->result_headers);
         foreach ($this->result_headers as $k => $header_item)
         {
-            $header_title = $_MIDCOM->i18n->get_string($_MIDCOM->i18n->get_string($header_item['title'], $this->component), 'midcom');
+            $header_title = midcom::get('i18n')->get_string(midcom::get('i18n')->get_string($header_item['title'], $this->component), 'midcom');
 
             $headers[] = array
             (
@@ -891,14 +833,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return $results;
         }
 
-        foreach ($_REQUEST["{$this->_element_id}_selections"] as $guid => $value)
+        foreach ($_REQUEST["{$this->_element_id}_selections"] as $guid)
         {
-            if (!$value)
-            {
-                continue;
-            }
-
-            $results[$guid] = $value;
+            $results[$guid] = $guid;
         }
 
         return $results;
@@ -913,8 +850,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         // Get url to search handler
         $nav = new midcom_helper_nav();
         $root_node = $nav->get_node($nav->get_root_node());
-        if (   !$root_node
-            || empty($root_node))
+        if (empty($root_node))
         {
             return;
         }
@@ -958,8 +894,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $dialog_id = $this->_element_id . '_creation_dialog';
 
             $dialog_html = "<div class=\"chooser_widget_creation_dialog\" id=\"{$dialog_id}\">\n";
-            $dialog_html .= "    <div class=\"chooser_widget_creation_dialog_content_holder\">\n";
-            $dialog_html .= "    </div>\n";
             $dialog_html .= "</div>\n";
 
             $button_html = "<div class=\"chooser_widget_create_button\" id=\"{$this->_element_id}_create_button\" style=\"display: none;\">\n";
@@ -991,19 +925,19 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (   !empty($this->reflector_key)
             && !$this->result_headers)
         {
-            $title = $_MIDCOM->i18n->get_string('Label', 'midcom');
+            $title = midcom::get('i18n')->get_string('Label', 'midcom');
             $this->_static_items_html .= "            <th class=\"label\">{$title}&nbsp;</th>\n";
         }
         else
         {
             foreach ($this->result_headers as $header_item)
             {
-                $header_title = $_MIDCOM->i18n->get_string($_MIDCOM->i18n->get_string($header_item['title'], $this->component), 'midcom');
+                $header_title = midcom::get('i18n')->get_string(midcom::get('i18n')->get_string($header_item['title'], $this->component), 'midcom');
                 $this->_static_items_html .= "            <th class=\"{$header_item['name']}\">{$header_title}&nbsp;</th>\n";
             }
         }
 
-        $title = $_MIDCOM->i18n->get_string('Selected', 'midcom.helper.datamanager2');
+        $title = midcom::get('i18n')->get_string('Selected', 'midcom.helper.datamanager2');
         $this->_static_items_html .= "            <th class=\"selected\">{$title}&nbsp;</th>\n";
         $this->_static_items_html .= "        </tr>\n";
         $this->_static_items_html .= "    </thead>\n";
@@ -1029,8 +963,31 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             '',
             $this->_static_items_html
         );
+        $this->widget_elements[] = HTML_QuickForm::createElement
+        (
+            'hidden',
+            "{$this->_element_id}_selections",
+            ''
+        );
 
         $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_chooser'));
+        if ($this->_field['required'])
+        {
+            $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
+            /*
+             * @todo: This only works because of a bug in quickform. When it doesn't find a name,
+             * it takes the last one in the group element array, but forgets to prefix the group name,
+             * allowing us to validate against a top-level POST key. This should be replaced by a more
+             * solid implementation at some point
+             */
+            $this->_form->addGroupRule($this->name, array
+            (
+                "{$this->_element_id}_nonexistant" => array
+                (
+                    array($errmsg, 'required'),
+                ),
+            ));
+        }
     }
 
     private function _add_items_to_form()
@@ -1086,7 +1043,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->_jscript .= '</script>';
     }
 
-    function _add_existing_item_as_static($key)
+    private function _add_existing_item_as_static($key)
     {
         $object = $this->_get_key_data($key, false, true);
         $id_field = $this->id_field;
@@ -1104,7 +1061,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !$this->result_headers)
         {
             $value = @$object->get_label();
-            $title = $_MIDCOM->i18n->get_string('label', 'midcom');
+            $title = midcom::get('i18n')->get_string('label', 'midcom');
             $this->_static_items_html .= "<td class=\"label\">{$value}&nbsp;</td>\n";
         }
         else
@@ -1130,27 +1087,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->_added_static_items[$item_id] = true;
     }
 
-    function _get_object_values(&$object)
-    {
-        $name_components = array();
-        foreach ($this->result_headers as $header_item)
-        {
-            $item_name = $header_item['name'];
-
-            if (   !isset($object->$item_name)
-                || empty($object->$item_name))
-            {
-                continue;
-            }
-
-            $value = $object->$item_name;
-            $value = rawurlencode($value);
-            $name_components[$item_name] = $value;
-        }
-        return $name_components;
-    }
-
-    function _resolve_object_name(&$object)
+    private function _resolve_object_name($object)
     {
         if (!class_exists('midcom_helper_reflector'))
         {
@@ -1160,7 +1097,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         return $ref->get_object_label($object);
     }
 
-    function _object_to_jsdata(&$object)
+    private function _object_to_jsdata($object)
     {
         $id = @$object->id;
         $guid = @$object->guid;
@@ -1197,7 +1134,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         return json_encode($jsdata);
     }
 
-    function _get_key_data($key, $in_render_mode = false, $return_object = false)
+    private function _get_key_data($key, $in_render_mode = false, $return_object = false)
     {
         if ($this->_callback)
         {
@@ -1222,25 +1159,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return $this->_object_to_jsdata($results);
         }
 
-        $_MIDCOM->auth->request_sudo();
-
-        if (   isset($this->reflector_key)
-            && !empty($this->reflector_key))
-        {
-            if ($this->reflector_key == 'buddy')
-            {
-                $this->class = 'org_openpsa_contacts_person_dba';
-                $this->component = 'org.openpsa.contacts';
-            }
-        }
+        midcom::get('auth')->request_sudo();
 
         if (!class_exists($this->class))
         {
-            $_MIDCOM->componentloader->load_graceful($this->component);
+            midcom::get('componentloader')->load_graceful($this->component);
         }
 
         $qb = @call_user_func(array($this->class, 'new_query_builder'));
-        if (! $qb)
+        if (!$qb)
         {
             $qb = new midgard_query_builder($this->class);
         }
@@ -1252,7 +1179,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         $results = $qb->execute();
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         if (count($results) == 0)
         {
@@ -1278,7 +1205,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         return $this->_object_to_jsdata($object);
     }
-
 
     function freeze()
     {
@@ -1314,7 +1240,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     {
         foreach ($this->widget_elements as $element)
         {
-            if (method_exists($element, 'isFrozen')
+            if (    method_exists($element, 'isFrozen')
                 && !$element->isFrozen())
             {
                 return false;
@@ -1351,19 +1277,12 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return;
         }
 
-        $real_results =& $results["{$this->_element_id}_selections"];
+        $real_results = $results["{$this->_element_id}_selections"];
         if (is_array($real_results))
         {
-            foreach ($real_results as $key => $value)
-            {
-                if (   $value != "0"
-                    || $value != 0)
-                {
-                    $this->_type->selection[] = $key;
-                }
-            }
+            $this->_type->selection = $real_results;
         }
-        elseif (!$this->allow_multiple)
+        else if (!$this->allow_multiple)
         {
             $this->_type->selection[] = $real_results;
         }

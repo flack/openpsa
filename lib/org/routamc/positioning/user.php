@@ -10,7 +10,7 @@
  * User geolocation
  *
  * The methods of this class can be used for storing and retrieving location of both authenticated
- * and anonymous users. 
+ * and anonymous users.
  *
  * <b>Simple usage with GeoPlugin IP address geocoding works like the following:</b>
  *
@@ -52,17 +52,17 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
             throw new InvalidArgumentException('No coordinates provided');
         }
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
             // Set to user's location log
-            return org_routamc_positioning_user::set_location_for_person($location, $_MIDCOM->auth->user->get_storage());
+            return org_routamc_positioning_user::set_location_for_person($location, midcom::get('auth')->user->get_storage());
         }
 
         // Set to session
         $session = new midcom_services_session();
         return $session->set('org_routamc_positioning_user_location', $location);
     }
-    
+
     static public function set_location_for_person(array $location, midcom_db_person $person)
     {
         if (   !isset($location['latitude'])
@@ -75,7 +75,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         $log->person = $person->id;
         $log->latitude = $location['latitude'];
         $log->longitude = $location['longitude'];
-            
+
         if (isset($location['source']))
         {
             $log->importer = $location['source'];
@@ -90,10 +90,10 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
 
     static public function get_location($when = null)
     {
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
             // Get from user's location log
-            return org_routamc_positioning_user::get_location_for_person($_MIDCOM->auth->user->get_storage(), $when);
+            return org_routamc_positioning_user::get_location_for_person(midcom::get('auth')->user->get_storage(), $when);
         }
 
         // Get from session
@@ -104,7 +104,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         }
         return $session->get('org_routamc_positioning_user_location');
     }
-    
+
     static public function get_location_for_person(midcom_db_person $person, $when = null)
     {
         $person_position = new org_routamc_positioning_person($person);

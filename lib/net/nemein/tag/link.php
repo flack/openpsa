@@ -23,21 +23,6 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         parent::__construct($id);
     }
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     function get_parent_guid_uncached()
     {
         if (empty($this->fromGuid))
@@ -53,7 +38,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
                 debug_add("\$this->fromComponent is empty, don't know how to load missing class '{$class}'", MIDCOM_LOG_ERROR);
                 return null;
             }
-            if (!$_MIDCOM->componentloader->load_graceful($this->fromComponent))
+            if (!midcom::get('componentloader')->load_graceful($this->fromComponent))
             {
                 debug_add("Could not load component '{$this->fromComponent}' (to load missing class '{$class}')", MIDCOM_LOG_ERROR);
                 return null;
@@ -84,8 +69,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     {
         if (   empty($this->fromGuid)
             || empty($this->fromClass)
-            || empty($this->tag)
-            )
+            || empty($this->tag))
         {
             // All required properties not defined
             return false;
@@ -168,10 +152,10 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
             return false;
         }
 
-        $_MIDCOM->load_library('org.routamc.positioning');
+        midcom::get('componentloader')->load_library('org.routamc.positioning');
 
         // Get all "geo" tags of the object
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($this->fromGuid);
+        $object = midcom::get('dbfactory')->get_object_by_guid($this->fromGuid);
         $geotags = net_nemein_tag_handler::get_object_machine_tags_in_context($object, 'geo');
 
         $position = array

@@ -57,6 +57,26 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.expenses', array('hours', 'create', 'hour_report'));
         $this->assertEquals('hours_create', $data['handler_id']);
 
+        $person = $this->create_object('midcom_db_person');
+
+        $formdata = array
+        (
+            'description' => __CLASS__ . '::' . __FUNCTION__,
+            'hours' => '2',
+            'org_openpsa_expenses_person_chooser_selections' => array($person->id),
+            'org_openpsa_expenses_task_chooser_selections' => array(self::$_task->id),
+        );
+
+        $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.expenses', array('hours', 'create', 'hour_report'));
+
+        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb->add_constraint('task', '=', self::$_task->id);
+        $qb->add_constraint('description', '=', __CLASS__ . '::' . __FUNCTION__);
+        $results = $qb->execute();
+        $this->register_objects($results);
+        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals('hours/task/' . self::$_task->guid . '/', $url);
+
         midcom::get('auth')->drop_sudo();
     }
 

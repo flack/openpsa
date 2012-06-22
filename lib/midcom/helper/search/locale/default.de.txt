@@ -6,6 +6,10 @@
 Erweiterte Suche
 ---STRINGEND
 
+---STRING basic search
+Einfache Suche
+---STRINGEND
+
 ---STRING found %s documents, showing %s documents.
 %s Dokumente wurden gefunden, auf dieser Seite werden %s Dokumente angezeigt.
 ---STRINGEND
@@ -76,14 +80,7 @@ Tipps zur Suche
 
 ---STRING search hints lucene
 Wörter können mit Anführungszeichen zusammengefasst werden("meine Abfrage").<br />
-Die Boolschen Operatoren AND (und), OR (oder) und NOT (nicht) können verwendet werden.<br/>
-Weitere Informationen können in der <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Dokumentation von Lucene</a> gefunden werden.
----STRINGEND
-
----STRING search hints plucene
-Wörter können mit Anführungszeichen zusammengefasst werden("meine Abfrage").<br />
-Die Boolschen Operatoren AND (und), OR (oder) und NOT (nicht) können verwendet werden.<br/>
-Weitere Informationen können in der Dokumentation von <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a>  und <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> gefunden werden.
+Die Boolschen Operatoren AND (und), OR (oder) und NOT (nicht) können verwendet werden.
 ---STRINGEND
 
 ---STRING search results

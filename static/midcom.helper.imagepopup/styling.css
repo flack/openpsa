@@ -91,15 +91,25 @@ ul li
     font-weight: bold;
     display: block;
 }
-#files table tr
+table.midcom_helper_datamanager2_widget_downloads
+{
+    border-collapse: collapse;
+    width: 100%
+}
+table.midcom_helper_datamanager2_widget_downloads tr
 {
     vertical-align: top;
 }
 
-#files table th {
+table.midcom_helper_datamanager2_widget_downloads th {
 	border-bottom:solid 1px #D7DBD1; 
-	padding-bottom:3px;
 }
+
+table.midcom_helper_datamanager2_widget_downloads td
+{
+    padding: 5px;
+}
+
 #files input {
 	width: 8.5em;
 }

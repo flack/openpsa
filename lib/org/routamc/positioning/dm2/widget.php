@@ -24,7 +24,7 @@
      'widget' => 'org_routamc_positioning_dm2_widget',
      'widget_config' => Array
      (
-         'service' => 'geonames', //Possible values are city, geonames, yahoo
+         'service' => 'geonames', //Possible values are city, geonames
      ),
  ),
  *
@@ -122,11 +122,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $this->service = 'geonames';
         }
 
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/position_widget.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.css');
-        $_MIDCOM->add_link_head
+        midcom::get('head')->add_link_head
         (
             array
             (
@@ -138,8 +138,8 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             )
         );
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
 
         $this->_element_id = "{$this->_namespace}{$this->name}_position_widget";
 
@@ -152,7 +152,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }";
 
         $script = "jQuery('#{$this->_element_id }').tabs({$config});\n";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
 
         $this->_get_country_list();
         $this->_init_widgets_js_options();
@@ -192,7 +192,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         foreach ($this->enabled_methods as $method)
         {
-            $html .= "        <li><a href=\"#{$this->_element_id}_tab_content_{$method}\"><span>" . $_MIDCOM->i18n->get_string($method, 'org.routamc.positioning') . "</span></a></li>\n";
+            $html .= "        <li><a href=\"#{$this->_element_id}_tab_content_{$method}\"><span>" . midcom::get('i18n')->get_string($method, 'org.routamc.positioning') . "</span></a></li>\n";
         }
 
         $html .= "    </ul>\n";
@@ -252,7 +252,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $city_name = $this->_get_city_name();
 
         $html .= "<label for='{$this->_element_id}_input_place_city' id='{$this->_element_id}_input_place_city_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_city', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_city', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_city\" id=\"{$this->_element_id}_input_place_city\" name=\"{$this->_element_id}_input_place_city\" type=\"text\" value=\"{$city_name}\" />";
         $html .= "</label>";
 
@@ -269,7 +269,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html .= "<label for='{$this->_element_id}_input_place_region' id='{$this->_element_id}_input_place_region_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_region', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_region', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_region\" id=\"{$this->_element_id}_input_place_region\" name=\"{$this->_element_id}_input_place_region\" type=\"text\" value=\"{$region}\" />";
         $html .= "</label>";
 
@@ -286,7 +286,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html .= "<label for='{$this->_element_id}_input_place_street' id='{$this->_element_id}_input_place_street_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_street', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_street', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_street\" id=\"{$this->_element_id}_input_place_street\" name=\"{$this->_element_id}_input_place_street\" type=\"text\" value=\"{$street}\" />";
         $html .= "</label>";
 
@@ -303,7 +303,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html .= "<label for='{$this->_element_id}_input_place_postalcode' id='{$this->_element_id}_input_place_postalcode_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_postalcode', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_postalcode', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_postalcode\" id=\"{$this->_element_id}_input_place_postalcode\" name=\"{$this->_element_id}_input_place_postalcode\" type=\"text\" value=\"{$postalcode}\" />";
         $html .= "</label>";
 
@@ -370,7 +370,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         foreach ($this->_allowed_xep_keys as $xep_key)
         {
             if (   !in_array($xep_key, $this->use_xep_keys)
-                || !$_MIDCOM->dbfactory->property_exists($this->_type->location, $xep_key)
+                || !midcom::get('dbfactory')->property_exists($this->_type->location, $xep_key)
                 || in_array($xep_key, $inserted_xep_keys))
             {
                 // Skip
@@ -392,7 +392,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             }
 
             $html .= "<label for='{$this->_element_id}_input_place_{$xep_key}' id='{$this->_element_id}_input_place_{$xep_key}_label'>";
-            $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string("xep_{$xep_key}", 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
+            $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string("xep_{$xep_key}", 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
             $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_{$xep_key}\" id=\"{$this->_element_id}_input_place_{$xep_key}\" name=\"{$this->_element_id}_input_place_{$xep_key}\" type=\"text\" value=\"{$xep_value}\" />";
             $html .= "</label>";
         }
@@ -422,7 +422,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $script = "init_position_widget('{$this->_element_id}', mapstraction_{$this->_element_id}_map, {$this->js_options_str});";
         $script = "jQuery('#{$this->_element_id}').dm2_position_widget(mapstraction_{$this->_element_id}_map, {$this->js_options_str});";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
     }
 
     function _add_coordinates_method_elements()
@@ -449,12 +449,12 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $lon = str_replace(",", ".", $lon);
 
         $html .= "<label for='{$this->_element_id}_input_coordinates_latitude' id='{$this->_element_id}_input_coordinates_latitude_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('latitude', 'org.routamc.positioning') . "</span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('latitude', 'org.routamc.positioning') . "</span>";
         $html .= "<input size=\"20\" class=\"shorttext position_widget_input position_widget_input_coordinates_latitude\" id=\"{$this->_element_id}_input_coordinates_latitude\" name=\"{$this->_element_id}_input_coordinates_latitude\" type=\"text\" value=\"{$lat}\" />";
         $html .= "</label>";
 
         $html .= "<label for='{$this->_element_id}_input_coordinates_longitude' id='{$this->_element_id}_input_coordinates_longitude_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('longitude', 'org.routamc.positioning') . "</span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('longitude', 'org.routamc.positioning') . "</span>";
         $html .= "<input size=\"20\" class=\"shorttext position_widget_input position_widget_input_coordinates_longitude\" id=\"{$this->_element_id}_input_coordinates_longitude\" name=\"{$this->_element_id}_input_coordinates_longitude\" type=\"text\" value=\"{$lon}\" />";
         $html .= "</label>";
 
@@ -473,7 +473,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     {
         $this->_countrylist = array
         (
-            '' => $_MIDCOM->i18n->get_string('select your country', 'org.routamc.positioning'),
+            '' => midcom::get('i18n')->get_string('select your country', 'org.routamc.positioning'),
         );
 
         $qb = org_routamc_positioning_country_dba::new_query_builder();
@@ -503,7 +503,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html .= "<label for='{$this->_element_id}_input_place_country' id='{$this->_element_id}_input_place_country_label'>";
-        $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_country', 'org.routamc.positioning') . "</span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_country', 'org.routamc.positioning') . "</span>";
         $html .= "<select class=\"dropdown position_widget_input position_widget_input_place_country\" id=\"{$this->_element_id}_input_place_country\" name=\"{$this->_element_id}_input_place_country\">";
 
         foreach ($this->_countrylist as $code => $name)
@@ -588,7 +588,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             && !empty($lon))
         {
             $script = "jQuery('#{$this->_element_id}').dm2_pw_init_current_pos({$lat},{$lon});";
-            $_MIDCOM->add_jquery_state_script($script);
+            midcom::get('head')->add_jquery_state_script($script);
         }
 
         return Array
@@ -688,7 +688,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         foreach ($this->_allowed_xep_keys as $xep_key)
         {
             if (   !in_array($xep_key, $this->use_xep_keys)
-                || !$_MIDCOM->dbfactory->property_exists($this->_type->location, $xep_key))
+                || !midcom::get('dbfactory')->property_exists($this->_type->location, $xep_key))
             {
                 continue;
             }

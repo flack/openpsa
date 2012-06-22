@@ -2,7 +2,7 @@
 function org_routamc_positioning_send_sms($to, $message, $from, $config)
 {
     $sms_lib = 'org.openpsa.smslib';
-    $_MIDCOM->load_library($sms_lib);
+    midcom::get('componentloader')->load_library($sms_lib);
     $sms_lib_api = $config->get('smslib_api');
     $sms_lib_location = $config->get('smslib_uri');
     $sms_lib_client_id = $config->get('smslib_client_id');
@@ -69,12 +69,12 @@ if (   array_key_exists('msisdn', $_GET)
         // Check where the request is from
         if ($_SERVER['REMOTE_ADDR'] != $config->get('sms_import_ip'))
         {
-            $_MIDCOM->finish();
+            midcom::get()->finish();
             _midcom_stop_request();
         }
     }
 
-    if (!$_MIDCOM->auth->request_sudo('org.routamc.positioning'))
+    if (!midcom::get('auth')->request_sudo('org.routamc.positioning'))
     {
         throw new midcom_error('Could not get sudo rights (check debug log for details)');
     }
@@ -110,8 +110,8 @@ if (   array_key_exists('msisdn', $_GET)
         {
             org_routamc_positioning_send_sms($person->handphone, 'Failed to delete log, reason ' . midcom_connection::get_error_string(), $config->get('smslib_from'), $config);
         }
-        $_MIDCOM->auth->drop_sudo();
-        $_MIDCOM->finish();
+        midcom::get('auth')->drop_sudo();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
 
@@ -155,13 +155,13 @@ if (   array_key_exists('msisdn', $_GET)
             org_routamc_positioning_send_sms($person->handphone, $message, $config->get('smslib_from'), $config);
         }
     }
-    $_MIDCOM->auth->drop_sudo();
-    $_MIDCOM->finish();
+    midcom::get('auth')->drop_sudo();
+    midcom::get()->finish();
     _midcom_stop_request();
 }
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 
 if (array_key_exists('add_position', $_POST))
 {
@@ -222,7 +222,6 @@ if ($coordinates)
         <select name="geocoder">
             <option value="city">Local city database</option>
             <option value="geonames">GeoNames</option>
-            <option value="yahoo">Yahoo!</option>
         </select>
     </label>
     <p>OR</p>

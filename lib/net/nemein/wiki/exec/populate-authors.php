@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
-$rcs = $_MIDCOM->get_service('rcs');    
+$rcs = midcom::get('rcs');
 $qb = midcom_db_article::new_query_builder();
 // TODO: Add this when wiki inserts all contributors to authors array
 // $qb->add_constraint('metadata.authors', 'LIKE', "%|{$guid}|%");
@@ -11,10 +11,10 @@ foreach ($pages as $page)
 {
     echo "Wiki page {$page->title}... ";
     $changed = false;
-    $authors = explode('|', substr($page->metadata->authors, 1, -1));    
+    $authors = explode('|', substr($page->metadata->authors, 1, -1));
     $object_rcs = $rcs->load_handler($page);
     $history = $object_rcs->list_history();
-    foreach ($history as $rev => $data) 
+    foreach ($history as $rev => $data)
     {
         $user_guid = substr($data['user'], 5);
         if (!in_array($user_guid, $authors))

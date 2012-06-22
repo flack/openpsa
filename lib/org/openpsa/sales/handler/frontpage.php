@@ -27,7 +27,7 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => 'salesproject/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
             )
         );
 

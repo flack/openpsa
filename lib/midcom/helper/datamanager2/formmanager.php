@@ -6,9 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** We depend on the PEAR Package HTML_QuickForm. */
-require_once "HTML/QuickForm.php";
-
 /**
  * Datamanager 2 Form Manager core class.
  *
@@ -217,9 +214,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         if ($name === null)
         {
-            $name = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
-            $name = $_MIDCOM->componentloader->path_to_prefix($name);
+            $name = midcom::get('componentloader')->path_to_prefix($name);
         }
         if (! $name)
         {
@@ -229,12 +226,15 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         $this->namespace = "{$name}_";
 
-        // Ignore deprecation warnings on PHP 5.3 because they're caused by HTML_Quickform2
+        // Ignore deprecation warnings on PHP 5.3 caused by HTML_Quickform
         if (version_compare(PHP_VERSION, '5.3.0', '>='))
         {
             $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
         }
-        // TODO: make configurable to get URL from $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI) instead, see #1262
+
+        require_once "HTML/QuickForm.php";
+
+        // TODO: make configurable to get URL from midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $this->_defaults = array();
         $this->widgets = array();
@@ -330,7 +330,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
     private function _load_field_default($name, $config)
     {
-        $field_default = $this->widgets[$name]->get_default();;
+        $field_default = $this->widgets[$name]->get_default();
         if (   null === $field_default
             && !empty($config['default']))
         {
@@ -659,7 +659,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['read_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['read_privilege'])
-                && ! $_MIDCOM->auth->is_group_member($config['read_privilege']['group']))
+                && ! midcom::get('auth')->is_group_member($config['read_privilege']['group']))
             {
                 return false;
             }
@@ -715,7 +715,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['write_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['write_privilege'])
-                && ! $_MIDCOM->auth->is_group_member($config['write_privilege']['group']))
+                && ! midcom::get('auth')->is_group_member($config['write_privilege']['group']))
             {
                 $widget->freeze();
             }
@@ -786,7 +786,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @param string $key the form field name
      * @param string $value the new value to set
      */
-    function set_value( $key, $value )
+    function set_value($key, $value)
     {
         $element = $this->_controller->formmanager->form->getElement($key);
         $element->setValue($value);
@@ -884,24 +884,50 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if (   $exitcode == 'save'
             || $exitcode == 'next')
         {
+            // Ignore deprecation warnings on PHP 5.3 caused by HTML_Quickform
+            if (version_compare(PHP_VERSION, '5.3.0', '>='))
+            {
+                $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+            }
             // Validate the form.
             if (! $this->form->validate())
             {
                 debug_add('Failed to validate the form, reverting to edit mode.');
                 $exitcode = 'edit';
             }
+            if (version_compare(PHP_VERSION, '5.3.0', '>='))
+            {
+                error_reporting($old_value);
+            }
         }
         return $exitcode;
     }
+
     /**
      * Use this function to get the values of submitted form without going through
      * a storage backend.
      *
      * @return array the submitted values.
      */
-    function get_submit_values(  )
+    function get_submit_values()
     {
         return $this->form->getSubmitValues( true );
+    }
+
+    /**
+     * Get the user input for one particular field in the storage format
+     *
+     * @param string $field The field to query
+     */
+    public function get_value($field)
+    {
+        if (!array_key_exists($field, $this->widgets))
+        {
+            debug_add('Widget ' . $field . ' not found in form', MIDCOM_LOG_WARN);
+            return null;
+        }
+        $this->widgets[$field]->sync_type_with_widget($this->get_submit_values());
+        return $this->_types[$field]->convert_to_storage();
     }
 
     /**

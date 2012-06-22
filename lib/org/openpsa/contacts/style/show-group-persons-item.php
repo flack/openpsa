@@ -7,7 +7,7 @@ $contact = new org_openpsa_widgets_contact($data['person']);
 $contact->link = "{$node[MIDCOM_NAV_FULLURL]}person/{$data['person']->guid}/";
 $contact->show_groups = false;
 
-if ($_MIDCOM->auth->can_do('midgard:update', $data['member']))
+if ($data['member']->can_do('midgard:update'))
 {
     $contact->extra_html = "<li>
         <input id=\"editable_title_{$data['person']->guid}_ajaxDefault\" value=\"" . $data['l10n']->get('<title>') . "\" type=\"hidden\" />

@@ -126,13 +126,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public $new_root_object = null;
 
     /**
-     * Reflectors for different MgdSchema object types
-     *
-     * @var array         class_name => midcom_helper_reflector
-     */
-    private $reflectors = array();
-
-    /**
      * Properties for each encountered MgdSchema object
      *
      * @var array         class_name => array of properties
@@ -165,7 +158,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Get property list and start checking (or abort on error)
-        if ($_MIDCOM->dbclassloader->is_midcom_db_object($object))
+        if (midcom::get('dbclassloader')->is_midcom_db_object($object))
         {
             $properties = $object->get_object_vars();
         }
@@ -209,24 +202,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function get_parent_property(&$object)
     {
-        $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
-
-        if (isset($this->parent_properties[$mgdschema_class]))
-        {
-            return $this->parent_properties[$mgdschema_class];
-        }
-
-        if (!isset($this->reflectors[$mgdschema_class]))
-        {
-            $this->reflectors[$mgdschema_class] = new midcom_helper_reflector($mgdschema_class);
-        }
-
-        // Get the parent property
         $properties = self::get_target_properties($object);
-        $parent_property = $properties['parent'];
-        $this->parent_properties[$mgdschema_class] = $parent_property;
-
-        return $parent_property;
+        return $properties['parent'];
     }
 
     /**
@@ -260,7 +237,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         // Try to get the parent property for determining, which property should be
         // used to point the parent of the new object. Attachments are a special case.
-        if (!$_MIDCOM->dbfactory->is_a($object, 'midcom_db_attachment'))
+        if (!midcom::get('dbfactory')->is_a($object, 'midcom_db_attachment'))
         {
             $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
         }
@@ -310,7 +287,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
                 break;
 
             case (mgd_is_guid($object)):
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($object);
+                $object = midcom::get('dbfactory')->get_object_by_guid($object);
                 break;
 
             case ($class):
@@ -468,7 +445,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             {
                 return false;
             }
-            /**/
+
             // @TODO: Is there a sure way to determine if the parent is
             // GUID or is it ID? If so, please change it here.
             if (is_string($source->$parent_property))

@@ -1,9 +1,7 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $project =& $data['project'];
 $manager_card = org_openpsa_widgets_contact::get($project->manager);
-
-$customer = new midcom_db_group($project->customer);
 ?>
 <tr>
     <td><?php
@@ -11,13 +9,22 @@ $customer = new midcom_db_group($project->customer);
         ?></td>
     <td><?php echo $manager_card->show_inline(); ?></td>
     <td><?php
-    if ($data['contacts_url'])
+    try
     {
-        echo "<a href=\"{$data['contacts_url']}group/{$customer->guid}/\">{$customer->official}</a>";
+        $customer = new midcom_db_group($project->customer);
+
+        if ($data['contacts_url'])
+        {
+            echo "<a href=\"{$data['contacts_url']}group/{$customer->guid}/\">{$customer->official}</a>";
+        }
+        else
+        {
+            echo $customer->official;
+        }
     }
-    else
+    catch (midcom_error $e)
     {
-        echo $customer->official;
+        echo $data['l10n']->get('no customer');
     }
     ?></td>
     <td>

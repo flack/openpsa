@@ -44,7 +44,7 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
         }
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('pages tagged with %s in %s'), $data['tag'], $this->_topic->extra);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb("tags/{$data['tag']}/", $data['view_title']);
     }

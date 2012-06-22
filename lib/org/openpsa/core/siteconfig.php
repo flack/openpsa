@@ -43,9 +43,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     {
         $this->_component = 'org.openpsa.core';
 
-        if (!$_MIDCOM->componentloader->is_loaded($this->_component))
+        if (!midcom::get('componentloader')->is_loaded($this->_component))
         {
-            $_MIDCOM->componentloader->load($this->_component);
+            midcom::get('componentloader')->load($this->_component);
         }
 
         parent::__construct();
@@ -87,20 +87,20 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $node_relative_url = 'false';
             if (is_array($node))
             {
-              $node_guid = "'" . $node[MIDCOM_NAV_OBJECT]->guid . "'";
-              $node_full_url = "'" . $node[MIDCOM_NAV_FULLURL] . "'";
-              $node_relative_url = "'" . $node[MIDCOM_NAV_RELATIVEURL] . "'";
+                $node_guid = "'" . $node[MIDCOM_NAV_OBJECT]->guid . "'";
+                $node_full_url = "'" . $node[MIDCOM_NAV_FULLURL] . "'";
+                $node_relative_url = "'" . $node[MIDCOM_NAV_RELATIVEURL] . "'";
             }
             $this->set_config_value($last . '_guid', $node_guid);
             $this->set_config_value($last . '_full_url', $node_full_url);
             $this->set_config_value($last . '_relative_url', $node_relative_url);
         }
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.core');
+        midcom::get('auth')->request_sudo('org.openpsa.core');
         $this->snippet->update();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
+        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
     }
 
     /**
@@ -126,7 +126,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     private function load_snippet()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.core');
+        midcom::get('auth')->request_sudo('org.openpsa.core');
         $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path("/org.openpsa.cache");
         if (!$lib_snippetdir->guid)
@@ -152,7 +152,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->snippet->create();
             $this->initialize_site_structure();
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         eval ("\$array = array ( {$this->snippet->code}\n );");
         $this->data = $array;
     }
@@ -183,7 +183,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $parts = explode('.', $component);
         $last = array_pop($parts);
 
-        return $this->get($last . '_full_url');
+        return $this->get($last, '_full_url');
     }
 
     /**
@@ -200,7 +200,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         $parts = explode('.', $component);
         $last = array_pop($parts);
-        return $this->get($last . '_relative_url');
+        return $this->get($last, '_relative_url');
     }
 
     /**
@@ -217,14 +217,24 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         $parts = explode('.', $component);
         $last = array_pop($parts);
-        return $this->get($last . '_guid');
+        return $this->get($last, '_guid');
     }
 
-    private function get($key)
+    private function get($type, $suffix)
     {
-    	if (!array_key_exists($key, $this->data))
+        $key = $type . $suffix;
+        if (!array_key_exists($key, $this->data))
         {
-        	return null;
+            return null;
+        }
+        if (!midcom::get('auth')->admin)
+        {
+            $user_id = midcom::get('auth')->acl->get_user_id();
+            if (   !$this->data[$type . '_guid']
+                || !midcom::get('auth')->acl->can_do_byguid('midgard:read', $this->data[$type . '_guid'], 'midcom_db_topic', $user_id))
+            {
+                return null;
+            }
         }
         return $this->data[$key];
     }
@@ -246,12 +256,12 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         else
         {
-            if ($_MIDCOM->auth->admin)
+            if (midcom::get('auth')->admin)
             {
-                $_MIDCOM->uimessages->add
+                midcom::get('uimessages')->add
                 (
-                    $_MIDCOM->i18n->get_string('org.openpsa.core', 'org.openpsa.core'),
-                    $_MIDCOM->i18n->get_string('owner organization couldnt be found', 'org.openpsa.core'),
+                    midcom::get('i18n')->get_string('org.openpsa.core', 'org.openpsa.core'),
+                    midcom::get('i18n')->get_string('owner organization couldnt be found', 'org.openpsa.core'),
                     'error'
                 );
             }

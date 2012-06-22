@@ -14,19 +14,6 @@
 class net_nehmer_static_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    public function __construct()
-    {
-        $this->_autoload_libraries = Array
-        (
-            'midcom.helper.datamanager2',
-        );
-    }
-
-    /**
      * Iterate over all articles and create index record using the datamanager indexer
      * method.
      */
@@ -34,7 +21,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
     {
         if (is_null($config->get('symlink_topic')))
         {
-            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
+            $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
 

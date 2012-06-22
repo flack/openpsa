@@ -16,20 +16,15 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midgard.admin.asgard');
-        $_MIDCOM->load_library('midcom.admin.user');
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $_MIDCOM->auth->require_user_do('midcom.admin.user:access', null, 'midcom_admin_user_plugin');
+        midcom::get('auth')->require_user_do('midcom.admin.user:access', null, 'midcom_admin_user_plugin');
     }
 
     /**
      * Static method for generating one password
      *
-     * @static
      * @param int $length
      */
-    public function generate_password($length = 8, $no_similars = true, $strong = true)
+    public static function generate_password($length = 8, $no_similars = true, $strong = true)
     {
         $similars = array
         (

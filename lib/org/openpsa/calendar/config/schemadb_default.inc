@@ -104,8 +104,8 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_ACCESSTYPE_PUBLIC => 'public',
-                    ORG_OPENPSA_ACCESSTYPE_PRIVATE => 'private',
+                    ORG_OPENPSA_ACCESSTYPE_PRIVATE => midcom::get('i18n')->get_string('private', 'org.openpsa.core'),
+                    ORG_OPENPSA_ACCESSTYPE_PUBLIC => midcom::get('i18n')->get_string('public', 'org.openpsa.core'),
                 ),
             ),
             'widget' => 'select',

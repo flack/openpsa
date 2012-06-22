@@ -50,9 +50,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
         $errstr = midcom_connection::get_error_string();
 
-        $ajax = new org_openpsa_helpers_ajax();
+        $response = new midcom_response_xml;
+        $response->result = $update_succeeded;
+        $response->status = $errstr;
+        $response->send();
         //This will exit.
-        $ajax->simpleReply($update_succeeded, $errstr);
     }
 
     public function load_schemadb()
@@ -69,7 +71,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Get the current user
         $this->_person = new midcom_db_person(midcom_connection::get_user());
@@ -91,8 +93,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 {
                     $url = '';
                 }
-                $_MIDCOM->relocate($url);
-                // This will exit
+                return new midcom_response_relocate($url);
         }
 
         // Add the breadcrumb pieces

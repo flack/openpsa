@@ -419,7 +419,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         }
 
         // Get the row parameters with collector
-        $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+        $mc = midcom::get('dbfactory')->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
 
         // Add the constraints
         $mc->add_constraint('metadata.deleted', '=', 0);
@@ -465,23 +465,22 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
      */
     public function get_existing_columns()
     {
-        if (!$this->storage
-            || !$this->storage->object
-           )
+        if (   !$this->storage
+            || !$this->storage->object)
         {
             return $this->columns;
         }
 
         if ($this->storage_mode == 'link')
-          {
-              $columns = array();
-              foreach ($this->link_columns as $name)
-              {
-                  $columns[$name] = $name;
-              }
-              $this->columns = $columns;
-              return $this->columns;
-          }
+        {
+            $columns = array();
+            foreach ($this->link_columns as $name)
+            {
+                $columns[$name] = $name;
+            }
+            $this->columns = $columns;
+            return $this->columns;
+        }
         else if (!($raw_data = $this->storage->object->get_parameter("{$this->parameter_domain}.type.tabledata.order", "{$this->name}:columns")))
         {
             return $this->columns;
@@ -716,7 +715,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 }
 
                 // Get the row parameters with collector
-                $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+                $mc = midcom::get('dbfactory')->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
@@ -877,7 +876,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
     private function _store_links()
     {
-        $mgdschema_classname = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class($this->link_class);
+        $mgdschema_classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($this->link_class);
         $ref = new midgard_reflection_property($mgdschema_classname);
 
         $type_map = Array();
@@ -900,7 +899,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
             $link_object = null;
             $needs_update = false;
 
-            $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
+            $qb = midcom::get('dbfactory')->new_query_builder($this->link_class);
             $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
             $qb->add_constraint($this->link_row_property, '=', $link_row_id);
             $results = $qb->execute();
@@ -947,9 +946,12 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
             }
         }
 
-        $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
+        $qb = midcom::get('dbfactory')->new_query_builder($this->link_class);
         $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
-        $qb->add_constraint($this->link_row_property, 'NOT IN', $current_selection);
+        if (count($current_selection))
+        {
+            $qb->add_constraint($this->link_row_property, 'NOT IN', $current_selection);
+        }
         $links_todelete = $qb->execute();
         foreach ($links_todelete as $link_object)
         {

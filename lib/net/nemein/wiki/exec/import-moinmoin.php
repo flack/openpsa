@@ -1,13 +1,10 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
-if (   !isset($_REQUEST['root_topic_guid'])
-    || empty($_REQUEST['root_topic_guid'])
-    || !isset($_REQUEST['wiki_root'])
+if (   empty($_REQUEST['root_topic_guid'])
     || empty($_REQUEST['wiki_root'])
     || !is_dir($_REQUEST['wiki_root'])
-    || !isset($_REQUEST['import_revisions'])
-    )
+    || !isset($_REQUEST['import_revisions']))
 {
 ?>
 <h1>Import from MoinMoin wiki</h1>
@@ -52,10 +49,10 @@ if (   !isset($_REQUEST['root_topic_guid'])
 
 // TODO: ask for dir and topic
 $wiki_root = $_REQUEST['wiki_root'];
-$root_topic = $_MIDCOM->dbfactory->get_object_by_guid($_REQUEST['root_topic_guid']);
+$root_topic = midcom::get('dbfactory')->get_object_by_guid($_REQUEST['root_topic_guid']);
 $import_revisions = $_REQUEST['import_revisions'];
 
-$_MIDCOM->cache->content->enable_live_mode();
+midcom::get('cache')->content->enable_live_mode();
 while(@ob_end_flush());
 midcom::get()->disable_limits();
 
@@ -71,14 +68,12 @@ class net_nemein_wiki_moinmoin_importer
     var $testing = true;
     var $add_object_parameters = array();
     var $import_revisions = true;
-    var $resolver = false;
 
     public function __construct($schemadb_path = 'file:/net/nemein/wiki/config/schemadb_default.inc')
     {
-        $this->resolver = new net_nemein_wiki_wikipage();
         $this->_schemadb['default'] = new midcom_helper_datamanager2_schema($schemadb_path, 'default');
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('net.nemein.wiki');
+        $this->_l10n = midcom::get('i18n')->get_l10n('net.nemein.wiki');
     }
 
     function import_file($title, $revision_path)
@@ -100,12 +95,12 @@ class net_nemein_wiki_moinmoin_importer
         {
             return false;
         }
-        $this->resolver->topic =& $this->root_topic->id;
+        $resolver = net_nemein_wiki_resolver($this->root_topic->id);
         // Make sure this is clean
         $this->add_parameters = array();
         $content = trim(file_get_contents($revision_path)) . "\n";
         $content = $this->moinmoin2markdown($content, $title);
-        $resolved = $this->resolver->path_to_wikipage($title, true);
+        $resolved = $resolver->path_to_wikipage($title, true);
         echo "INFO: Importing '{$revision_path}' into '{$title}'<br/>\n";
         if (!empty($resolved['latest_parent']))
         {
@@ -131,9 +126,7 @@ class net_nemein_wiki_moinmoin_importer
                     $topic->component = 'net.nemein.wiki';
                     if (!$topic->create())
                     {
-                        echo "FAILURE: could not create topic, error: " . midcom_connection::get_error_string() . "<br/>\n";
-                        _midcom_stop_request();
-                        return false;
+                        throw new midcom_error("could not create topic, error: " . midcom_connection::get_error_string());
                     }
                     $topic = new midcom_db_topic($topic->id);
                     // Set the component
@@ -167,9 +160,8 @@ class net_nemein_wiki_moinmoin_importer
                         if (!$page->create())
                         {
                             // Could not create index
-                            echo "FAILURE: Could not create index for new topic, errstr: " . midcom_connection::get_error_string() . " <br/>\n";
                             $topic->delete();
-                            return false;
+                            throw new midcom_error("Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
                         }
                     }
                     // We have created a new topic, now recurse to create the rest of the path.
@@ -225,7 +217,7 @@ class net_nemein_wiki_moinmoin_importer
         // Handle $this->add_object_parameters
         if (!empty($this->add_object_parameters))
         {
-            foreach($this->add_object_parameters as $param)
+            foreach ($this->add_object_parameters as $param)
             {
                 $wikipage->set_parameter($param['domain'], $param['name'], $param['value']);
             }
@@ -242,7 +234,7 @@ class net_nemein_wiki_moinmoin_importer
         if (preg_match_all('/\(([0-9a-f]{2,4})\)/', $title, $encoded_matches))
         {
             $seen = array();
-            foreach($encoded_matches[1] as $key => $hex)
+            foreach ($encoded_matches[1] as $key => $hex)
             {
                 if (isset($seen[$hex]))
                 {
@@ -788,7 +780,7 @@ class net_nemein_wiki_moinmoin_importer
     {
         $rendered = "<table>\n    <thead>\n        <tr>\n";
         $pad = '            ';
-        foreach($columns_array as $column => $num)
+        foreach ($columns_array as $column => $num)
         {
             if (isset($table_data[0][$num]))
             {
@@ -812,7 +804,7 @@ class net_nemein_wiki_moinmoin_importer
         foreach ($table_data as $row => $cells)
         {
             $rendered .= "        <tr>\n";
-            foreach($columns_array as $column => $num)
+            foreach ($columns_array as $column => $num)
             {
                 if (isset($cells[$num]))
                 {
@@ -843,7 +835,7 @@ class net_nemein_wiki_moinmoin_importer
         $heading_row1 = '';
         $heading_row2 = '';
         $columns = count($columns_array)-1;
-        foreach($columns_array as $column => $num)
+        foreach ($columns_array as $column => $num)
         {
             if (isset($table_data[0][$num]))
             {
@@ -867,7 +859,7 @@ class net_nemein_wiki_moinmoin_importer
         // Render rest of rows
         foreach ($table_data as $cells)
         {
-            foreach($columns_array as $column => $num)
+            foreach ($columns_array as $column => $num)
             {
                 if (isset($cells[$num]))
                 {

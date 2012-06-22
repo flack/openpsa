@@ -63,7 +63,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
     {
         if (preg_match('/_raw$/', $handler_id))
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $this->_productlink = new org_openpsa_products_product_link_dba($args[0]);
@@ -76,14 +76,14 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->bind_view_to_object($this->_productlink, $data['datamanager']->schema->name);
+        $this->bind_view_to_object($this->_productlink, $data['datamanager']->schema->name);
 
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_productlink);
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
 
-        $_MIDCOM->set_26_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
+        midcom::get('metadata')->set_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
 
-//        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+//        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
     }
 
     /**

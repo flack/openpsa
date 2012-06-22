@@ -15,8 +15,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 {
     /**
      * Initialize the request switch and the content topic.
-     *
-     * @access protected
      */
     public function _on_initialize()
     {
@@ -98,11 +96,11 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             $topic = new midcom_db_topic($topic);
         }
 
-        // Don't index directly, that would loose a reference due to limitations
+        // Don't index directly, that would lose a reference due to limitations
         // of the index() method. Needs fixes there.
 
         $document = $indexer->new_document($dm);
-        if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_products_product_dba'))
+        if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_products_product_dba'))
         {
             if ($config->get('enable_scheduling'))
             {
@@ -110,8 +108,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 if (   (   $object->start != 0
                         && $object->start > time())
                     || (   $object->end != 0
-                        && $object->end < time())
-                    )
+                        && $object->end < time()))
                 {
                     // Not in market, remove from index
                     $indexer->delete($document->RI);
@@ -133,8 +130,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     private function _populate_node_toolbar()
     {
@@ -214,7 +209,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, $args)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_request_data['schemadb_group'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
         $this->_request_data['schemadb_product'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_product'));
 
@@ -233,7 +227,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             {
                 foreach ($feeds as $title => $url)
                 {
-                    $_MIDCOM->add_link_head
+                    midcom::get('head')->add_link_head
                     (
                         array
                         (
@@ -248,14 +242,14 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('updated products'),
-                    'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
+                    'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
                 )
             );
         }
@@ -293,7 +287,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 
         if ($this->_request_data['up'] == 0)
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
         else
         {
@@ -307,7 +301,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             }
             $parent->require_do('midgard:create');
 
-            if ($parent->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            if ($parent->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
             {
                 return false;
             }
@@ -368,6 +362,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             }
             else if (get_class($object) != 'org_openpsa_products_product_link_dba')
             {
+                $url = "{$object->code}/";
                 if (isset($object->up))
                 {
                     $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -375,29 +370,18 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                     $group = $parentgroup_qb->execute();
                     if (count($group) > 0)
                     {
-                        $tmp[] = array
-                        (
-                            MIDCOM_NAV_URL => "{$group[0]->code}/{$object->code}/",
-                            MIDCOM_NAV_NAME => $object->title,
-                        );
+                        $url = "{$group[0]->code}/" . $url;
                     }
                 }
                 else if ($parent != null)
                 {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$parent->code}/{$object->code}/",
-                        MIDCOM_NAV_NAME => $object->title,
-                    );
+                    $url = "{$parent->code}/" . $url;
                 }
-                else
-                {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$object->code}/",
-                        MIDCOM_NAV_NAME => $object->title,
-                    );
-                }
+                $tmp[] = array
+                (
+                    MIDCOM_NAV_URL => $url,
+                    MIDCOM_NAV_NAME => $object->title,
+                );
             }
             $object = $parent;
         }

@@ -59,12 +59,12 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         // Check if we get the group
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $this->_group->require_do('midgard:update');
 
-        if ($this->_group->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_OTHERGROUP)
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
         {
             $this->_type = 'group';
         }
@@ -78,19 +78,16 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                // Index the organization
-                $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_topic);
-
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+                $indexer->index($data['controller']->datamanager);
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate($prefix . "group/" . $this->_group->guid . "/");
-                // This will exit.
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+                return new midcom_response_relocate($prefix . "group/" . $this->_group->guid . "/");
         }
 
-        $root_group = org_openpsa_contacts_interface::find_root_group($this->_config);
+        $root_group = org_openpsa_contacts_interface::find_root_group();
 
         if (   $this->_group->owner
             && $this->_group->owner != $root_group->id)
@@ -105,9 +102,9 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['group'] =& $this->_group;
 
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get($this->_type)));

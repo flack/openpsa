@@ -13,23 +13,6 @@
  */
 class midcom_helper_filesync_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_component = 'midcom.helper.filesync';
-
-        // Load all mandatory class files of the component here
-        $this->_autoload_files = array();
-
-        // Load all libraries used by component here
-        $this->_autoload_libraries = array();
-    }
-
     public static function prepare_dir($prefix)
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.filesync', 'config');
@@ -39,14 +22,12 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
             $parent = dirname($path);
             if (!is_writable($parent))
             {
-                throw new midcom_error("Directory {$parent} is not writable by Apache");
-                // This will exit.
+                throw new midcom_error("Directory {$parent} is not writable");
             }
 
             if (! mkdir($path))
             {
                 throw new midcom_error("Failed to create directory {$path}. Reason: " . $php_errormsg);
-                // This will exit.
             }
         }
 
@@ -60,14 +41,12 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
         {
             if (!is_writable($path))
             {
-                throw new midcom_error("Directory {$path} is not writable by Apache");
-                // This will exit.
+                throw new midcom_error("Directory {$path} is not writable");
             }
 
              if (! mkdir($module_dir))
             {
                 throw new midcom_error("Failed to create directory {$module_dir}. Reason: " . $php_errormsg);
-                // This will exit.
             }
         }
 

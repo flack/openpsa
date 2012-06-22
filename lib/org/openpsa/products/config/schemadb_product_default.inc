@@ -69,6 +69,7 @@
                 ),
                 'generate_path_for' => 'title',
             ),
+            'required' => true,
         ),
         'orgOpenpsaObtype' => Array
         (
@@ -81,9 +82,9 @@
             (
                 'options' => Array
                 (
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE   => 'service',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS     => 'material goods',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION  => 'solution',
+                    org_openpsa_products_product_dba::TYPE_SERVICE   => 'service',
+                    org_openpsa_products_product_dba::TYPE_GOODS     => 'material goods',
+                    org_openpsa_products_product_dba::TYPE_SOLUTION  => 'solution',
                 ),
             ),
             'widget' => 'select',
@@ -99,8 +100,8 @@
             (
                 'options' => Array
                 (
-                    ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE       => 'single delivery',
-                    ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION => 'subscription',
+                    org_openpsa_products_product_dba::DELIVERY_SINGLE       => 'single delivery',
+                    org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION => 'subscription',
                 ),
             ),
             'widget' => 'select',
@@ -140,9 +141,6 @@
                 'component'   => 'midgard.admin.asgard',
                 'titlefield'  => 'official',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                ),
                 'result_headers' => array
                 (
                     array('name' => 'name', 'title' => 'name'),

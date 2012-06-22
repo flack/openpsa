@@ -30,7 +30,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
         $report = new org_openpsa_projects_hour_report_dba();
         $report->task = self::$_task->id;
         $report->hours = 2.5;
@@ -64,7 +64,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         $task_hours = self::$_project->get_task_hours();
         $this->assertEquals($task_hours['reportedHours'], 0);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function tearDown()

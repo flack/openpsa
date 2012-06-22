@@ -34,7 +34,7 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
     {
         $this->_libs = midcom_admin_libconfig_plugin::get_libraries();
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $data['view_title']);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     /**

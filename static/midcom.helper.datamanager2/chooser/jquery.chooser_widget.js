@@ -21,8 +21,6 @@
  * @option Object format_items Map of key value pairs of formatters to be applied to items. Default: null
  */
 
-
-
 jQuery.fn.extend(
 {
     midcom_helper_datamanager2_widget_chooser_widget: function(url, options)
@@ -447,11 +445,6 @@ jQuery.midcom_helper_datamanager2_widget_chooser = function(input, options)
         create_button.css('display', 'block');
         create_button.bind('click', function()
         {
-            if (jQuery('#' + options.widget_id + '_creation_dialog').css('display') == 'block')
-            {
-               jQuery('#' + options.widget_id + '_creation_dialog').hide();
-               return;
-            }
             var creation_url = options.creation_handler;
 
             creation_url += '?chooser_widget_id=' + options.widget_id;
@@ -460,22 +453,23 @@ jQuery.midcom_helper_datamanager2_widget_chooser = function(input, options)
                 creation_url += '&defaults[' + options.creation_default_key + ']=' + last_term;
             }
 
-            var iframe = ['<iframe src="' + creation_url + '"'];
-            iframe.push('id="' + options.widget_id + '_creation_dialog_content"');
-            iframe.push('class="chooser_widget_creation_dialog_content"');
-            iframe.push('frameborder="0"');
-            iframe.push('marginwidth="0"');
-            iframe.push('marginheight="0"');
-            iframe.push('width="600"');
-            iframe.push('height="450"');
-            iframe.push('scrolling="auto"');
-            iframe.push('/>');
+            var iframe_html = '<iframe src="' + creation_url + '" id="' + options.widget_id + '_creation_dialog_content"'
+                + ' class="chooser_widget_creation_dialog_content"'
+                + ' frameborder="0"'
+                + ' marginwidth="0"'
+                + ' marginheight="0"'
+                + ' width="100%"'
+                + ' height="100%"'
+                + ' scrolling="auto" />';
 
-            var iframe_html = iframe.join(' ');
-            jQuery('.chooser_widget_creation_dialog_content_holder', creation_dialog).html(iframe_html);
 
-            //jQuery('#' + options.widget_id + '_creation_dialog').jqmShow();
-            jQuery('#' + options.widget_id + '_creation_dialog').show();
+            jQuery(creation_dialog)
+                .html(iframe_html)
+                .dialog(
+                {
+                    height: 450,
+                    width: 600
+                });
         });
     }
 };
@@ -630,18 +624,13 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
 
     function can_add(id)
     {
-        //console.log('can_add id: ' + id);
-
         var existing = false;
         existing = jQuery.grep( list_items, function(n,i)
-       {
-           return n == id;
+        {
+            return n == id;
         });
         if (existing == id)
         {
-            // jQuery('#' + options.widget_id + '_result_item_' + id,list).hide('fast',function(){
-            //    jQuery('#' + options.widget_id + '_result_item_' + id,list).show('fast');
-            //  });
             return false;
         }
 
@@ -650,32 +639,13 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
 
     function add(data, item)
     {
-        // console.log('ResultsHolder add');
-        // console.log(data);
-        //console.log('data.id: ' + data.id);
-        //console.log('data.guid: ' + data.guid);
-
-        var n = null;
-
-        var item_id = data[options.id_field];
-        //console.log('options.id_field: ' + options.id_field);
-        //console.log('item_id: ' + item_id);
-
-        // var static_row = jQuery('#' + options.widget_id + '_existing_item_' + item_id + '_row');
-        // if (typeof static_row[0] != 'undefined')
-        // {
-        //     var static_input = jQuery('#' + options.widget_id + '_existing_item_' + item_id + '_input');
-        //     static_input.delete();
-        //     static_row.delete();
-        // }
+        var n = null,
+        item_id = data[options.id_field];
 
         if (! can_add(item_id))
         {
-            //console.log("Can't add!");
             return false;
         }
-
-        //console.log('Can add!');
 
         if (! has_content)
         {
@@ -683,8 +653,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
             element.show();
         }
 
-
-        var input_elem_name = options.widget_id + '_selections[' + item_id + ']';
+        var input_elem_name = options.widget_id + '_selections[]';
 
         var li_elem = jQuery('<li>')
             .attr({ id: options.widget_id + '_result_item_' + item_id })
@@ -698,11 +667,12 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
                 {
                     return;
                 }
-                var li_element = target(event);
+                var li_element = target(event),
+                current_keep_status = jQuery(li_element).attr('keep_on_list'),
+                current_delete_status = jQuery(li_element).attr('deleted'),
+                current_presel_status = jQuery(li_element).attr('pre_selected');
+
                 jQuery('#' + options.widget_id + '_search_input').focus();
-                var current_keep_status = jQuery(li_element).attr('keep_on_list');
-                var current_delete_status = jQuery(li_element).attr('deleted');
-                var current_presel_status = jQuery(li_element).attr('pre_selected');
 
                 if (current_keep_status == 'true')
                 {
@@ -720,7 +690,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
                     }
                     else
                     {
-                        if(options.allow_multiple)
+                        if (options.allow_multiple)
                         {
                             restore(item_id);
                         }
@@ -737,7 +707,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
                     activate(item_id);
                 }
             })
-            .mouseover( function(event)
+            .mouseover(function(event)
             {
                 if (jQuery(target(event)).attr('modified') != 'true')
                 {
@@ -761,25 +731,26 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
         if (   options.renderer_callback
             && typeof item != 'undefined')
         {
-            //console.log('use renderer');
             // PONDER:  How should we really handle the renderer_callback rendering?
             //          We could use custom javascript function, or require the data
             //          object to contain a content field which is already formatted html...
-            var item_content = jQuery('<div>')
+            jQuery('<div>')
                 .html(item)
                 .appendTo(li_elem);
 
-            var input_elem = jQuery('<input type="hidden" />')
-                .attr({ name: input_elem_name, value: 0, id: options.widget_id + '_result_item_' + item_id + '_input' })
+            jQuery('<input type="hidden" />')
+                .attr({ name: input_elem_name, value: item_id, id: options.widget_id + '_result_item_' + item_id + '_input' })
+                .prop('disabled', true)
                 .appendTo(li_elem);
         }
         else
         {
-            var item_content = midcom_helper_datamanager2_widget_chooser_format_item(data,options,block_width)
+            midcom_helper_datamanager2_widget_chooser_format_item(data, options, block_width)
                 .appendTo(li_elem);
 
-            var input_elem = jQuery('<input type="hidden" />')
-                .attr({ name: input_elem_name, value: 0, id: options.widget_id + '_result_item_' + item_id + '_input' })
+            jQuery('<input type="hidden" />')
+                .attr({ name: input_elem_name, value: item_id, id: options.widget_id + '_result_item_' + item_id + '_input' })
+                .prop('disabled', true)
                 .appendTo(li_elem);
         }
 
@@ -807,15 +778,15 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
 
     function adjust_height(cleanup)
     {
-	if(!cleanup)
+	    if(!cleanup)
         {
             cleanup = false
         }
-        var elem_offset= list.offset().top;
-        var elem_height= list.height();
-        var viewport_top = jQuery(window).scrollTop();
-        var viewport_height = jQuery(window).height();
-        var viewport_bottom = viewport_top + jQuery(window).height();
+        var elem_offset= list.offset().top,
+        elem_height= list.height(),
+        viewport_top = jQuery(window).scrollTop(),
+        viewport_height = jQuery(window).height(),
+        viewport_bottom = viewport_top + jQuery(window).height();
 
         if (   elem_offset < viewport_bottom
             && elem_offset + elem_height > viewport_bottom)
@@ -856,17 +827,17 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
             jq_elem.addClass(CLASSES.HOVER);
         }
 
-        var elem_offset= jq_elem.offset().top;
-        var elem_height = jq_elem.height();
-        var elem_bottom = elem_offset + elem_height;
-        var list_offset= list.offset().top;
-        var list_scrolltop = list.scrollTop();
-        var list_height = list.height();
-        var list_bottom = list_offset + list_height;
+        var elem_offset= jq_elem.offset().top,
+        elem_height = jq_elem.height(),
+        elem_bottom = elem_offset + elem_height,
+        list_offset= list.offset().top,
+        list_scrolltop = list.scrollTop(),
+        list_height = list.height(),
+        list_bottom = list_offset + list_height;
         if (elem_bottom > list_bottom)
-	{
-	    list.scrollTop((elem_bottom - list_bottom) + list_scrolltop);
-	}
+        {
+            list.scrollTop((elem_bottom - list_bottom) + list_scrolltop);
+        }
         else if (elem_offset <= list_offset)
         {
             list.scrollTop(list_scrolltop - (list_offset - elem_offset));
@@ -895,7 +866,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
      */
     function remove(id)
     {
-        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).attr({ value: 0 });
+        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).prop({ 'disabled': true });
 
         jQuery('#' + options.widget_id + '_result_item_' + id)
             .removeClass(CLASSES.ACTIVE)
@@ -921,7 +892,6 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
             // Hide results list
             jQuery('#' + options.widget_id + '_results').hide();
         }
-
     }
 
     /**
@@ -931,7 +901,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
      */
     function restore(id)
     {
-        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).attr({ value: id });
+        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).prop({'disabled': false});
 
         jQuery('#' + options.widget_id + '_result_item_' + id)
             .removeClass(CLASSES.DELETED)
@@ -957,7 +927,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
             previous_selection.attr('modified', 'false');
         }
 
-        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).attr({ value: id });
+        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).prop({ 'disabled': false });
 
         jQuery('#' + options.widget_id + '_result_item_' + id)
             .removeClass(CLASSES.DELETED)
@@ -1019,7 +989,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
      */
     function inactivate(id)
     {
-        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).attr({ value: 0 });
+        jQuery('#' + options.widget_id + '_result_item_' + id + '_input', list).prop({ 'disabled': true });
 
         jQuery('#' + options.widget_id + '_result_item_' + id)
             .removeClass(CLASSES.DELETED)
@@ -1028,7 +998,6 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
             .attr('keep_on_list','false')
             .attr('deleted','false')
             .attr('modified', 'true');
-        //selected_items.push(id);
 
         selected_items = jQuery.grep( selected_items, function(n,i)
         {

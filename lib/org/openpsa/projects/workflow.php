@@ -73,6 +73,33 @@ class org_openpsa_projects_workflow
         return $return;
     }
 
+    public static function render_status_control($task)
+    {
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        if ($task->status < org_openpsa_projects_task_status_dba::COMPLETED)
+        {
+            $action = 'complete';
+            $checked = '';
+        }
+        else
+        {
+            if ($task->status == org_openpsa_projects_task_status_dba::COMPLETED)
+            {
+                $action = 'remove_complete';
+            }
+            else
+            {
+                $action = 'reopen';
+            }
+            $checked = ' checked="checked"';
+
+        }
+        $html = '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '/">';
+        $html .= '<input type="hidden" name="org_openpsa_projects_workflow_action[' . $action . ']" value="true" />';
+        $html .= '<input type="checkbox"' . $checked . ' name="org_openpsa_projects_workflow_dummy" value="true" onchange="this.form.submit()" />';
+        $html .= '</form>';
+        return $html;
+    }
 
     /**
      * Shortcut for creating status object
@@ -302,7 +329,7 @@ class org_openpsa_projects_workflow
 
         if (self::create_status($task, org_openpsa_projects_task_status_dba::CLOSED, 0, $comment))
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf($_MIDCOM->i18n->get_string('marked task "%s" closed', 'org.openpsa.projects'), $task->title), 'ok');
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('marked task "%s" closed', 'org.openpsa.projects'), $task->title), 'ok');
             if ($task->agreement)
             {
                 $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
@@ -313,15 +340,14 @@ class org_openpsa_projects_workflow
                 $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
                 $task_qb->add_constraint('id', '<>', $task->id);
                 $task_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-                $tasks = $task_qb->execute();
-                if (count($tasks) == 0)
+                if ($task_qb->count() == 0)
                 {
                     // No other open tasks, mark as delivered
                     $agreement->deliver(false);
                 }
                 else
                 {
-                    $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf($_MIDCOM->i18n->get_string('did not mark deliverable "%s" delivered due to other tasks', 'org.openpsa.sales'), $agreement->title), 'info');
+                    midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('did not mark deliverable "%s" delivered due to other tasks', 'org.openpsa.sales'), $agreement->title), 'info');
                 }
             }
             return true;
@@ -398,7 +424,7 @@ class org_openpsa_projects_workflow
         }
 
         // Notify user
-        $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf($_MIDCOM->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title), 'ok');
+        midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get('i18n')->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title), 'ok');
         return $hours_marked;
     }
 }

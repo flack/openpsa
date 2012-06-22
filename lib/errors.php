@@ -10,7 +10,7 @@
  * midcom_exception_handler
  *
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
- * and converted into Exception handled by $_MIDCOM->generate_error() with
+ * and converted into Exception handled by midcom_exception_handler::show() with
  * code 500 thus can be customized and make user friendly.
  *
  * @package midcom
@@ -24,10 +24,98 @@ class midcom_exception_handler
      */
     private $_exception;
 
+    private function _generate_http_response()
+    {
+        if ($GLOBALS['midcom_config']['auth_login_form_httpcode'] == 200)
+        {
+            _midcom_header('HTTP/1.0 200 OK');
+            return;
+        }
+        _midcom_header('HTTP/1.0 403 Forbidden');
+    }
+
+    /**
+     * This is called by throw new midcom_error_forbidden(...) if and only if
+     * the headers have not yet been sent. It will display the error message and appends the
+     * login form below it.
+     *
+     * The function will clear any existing output buffer, and the sent page will have the
+     * 403 - Forbidden HTTP Status. The login will relocate to the same URL, so it should
+     * be mostly transparent.
+     *
+     * The login message shown depends on the current state:
+     * - If an authentication attempt was done but failed, an appropriated wrong user/password
+     *   message is shown.
+     * - If the user is authenticated, a note that he might have to switch to a user with more
+     *   privileges is shown.
+     * - Otherwise, no message is shown.
+     *
+     * This function will exit() unconditionally.
+     *
+     * If the style element <i>midcom_services_auth_access_denied</i> is defined, it will be shown
+     * instead of the default error page. The following variables will be available in the local
+     * scope:
+     *
+     * $title contains the localized title of the page, based on the 'access denied' string ID of
+     * the main MidCOM L10n DB. $message will contain the notification what went wrong and
+     * $login_warning will notify the user of a failed login. The latter will either be empty
+     * or enclosed in a paragraph with the CSS ID 'login_warning'.
+     *
+     * @link http://www.midgard-project.org/midcom-permalink-c5e99db3cfbb779f1108eff19d262a7c further information about how to style these elements.
+     * @param string $message The message to show to the user.
+     */
+    function access_denied($message)
+    {
+        debug_print_function_stack("access_denied was called from here:");
+
+        // Determine login message
+        $login_warning = '';
+        if (! is_null($this->user))
+        {
+            // The user has insufficient privileges
+            $login_warning = midcom::get('i18n')->get_string('login message - insufficient privileges', 'midcom');
+        }
+        else if ($this->auth_credentials_found)
+        {
+            $login_warning = midcom::get('i18n')->get_string('login message - user or password wrong', 'midcom');
+        }
+
+        $title = midcom::get('i18n')->get_string('access denied', 'midcom');
+
+        // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
+        // an error page at this point (dynamic_load from site style? Code in Site Style, something
+        // like that)
+        if (_midcom_headers_sent())
+        {
+            debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
+            echo "<br />{$title}: {$login_warning}";
+            midcom::get()->finish();
+            debug_add("Emergency Error Message output finished, exiting now");
+            _midcom_stop_request();
+        }
+
+        // Drop any output buffer first.
+        midcom::get('cache')->content->disable_ob();
+
+        $this->_generate_http_response();
+
+        midcom::get('cache')->content->no_cache();
+
+        midcom::get('style')->data['midcom_services_auth_access_denied_message'] = $message;
+        midcom::get('style')->data['midcom_services_auth_access_denied_title'] = $title;
+        midcom::get('style')->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
+
+        midcom::get('style')->show_midcom('midcom_services_auth_access_denied');
+
+        midcom::get()->finish();
+        debug_add("Error Page output finished, exiting now");
+        _midcom_stop_request();
+    }
+
+
     /**
      * Catch an Exception and show it as a HTTP error
      *
-     * @see midcom_application::generate_error()
      * @see midcom_exception_handler::show()
      */
     public function handle_exception(Exception $e)
@@ -38,19 +126,6 @@ class midcom_exception_handler
             throw $e;
         }
 
-        if (   !isset($_MIDCOM)
-            || !$_MIDCOM)
-        {
-            // We got an exception before MidCOM has been initialized, show it anyway
-            debug_add('Exception before MidCOM initialization: ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-
-            if (!_midcom_headers_sent())
-            {
-                _midcom_header('HTTP/1.0 500 Server Error');
-            }
-
-            _midcom_stop_request('Failed to initialize MidCOM: ' . $e->getMessage());
-        }
         $this->_exception = $e;
 
         debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $e->getTraceAsString());
@@ -65,22 +140,24 @@ class midcom_exception_handler
     public function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
     {
         $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
-        if (MIDCOM_XDEBUG)
+        ob_start();
+        echo "\n";
+        try
         {
-            ob_start();
-            echo "\n";
-            var_dump($errcontext);
-            $msg .= ob_get_clean();
+            @var_dump($errcontext);
         }
+        catch (Exception $e)
+        {
+            debug_print_r('Exception encountered while dumping the error context', $e, MIDCOM_LOG_ERROR);
+        }
+        $msg .= ob_get_clean();
+
         switch ($errno)
         {
             case E_ERROR:
             case E_USER_ERROR:
                 // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); in stead?
                 throw new midcom_error($msg, $errno);
-                // I don't think we reach this
-                return  true;
-                break;
         }
         // Leave other errors for PHP to take care of
         return false;
@@ -136,13 +213,9 @@ class midcom_exception_handler
                 break;
 
             case MIDCOM_ERRFORBIDDEN:
-                if (!is_null($_MIDCOM->auth))
-                {
-                    // The auth service is running, we relay execution to it so that it can
-                    // correctly display an authentication field.
-                    $_MIDCOM->auth->access_denied($message);
-                    // This will exit().
-                }
+                // show access denied
+                $this->access_denied($message);
+
                 $header = "HTTP/1.0 403 Forbidden";
                 $title = "Forbidden";
                 $code = 403;
@@ -167,18 +240,12 @@ class midcom_exception_handler
         _midcom_header ($header);
         _midcom_header ('Content-Type: text/html');
 
-        if (isset($_MIDCOM->style))
-        {
-            $style = $_MIDCOM->style;
-        }
-        else
-        {
-            $style = new midcom_helper__styleloader();
-        }
+        $style = midcom::get('style');
 
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
         $style->data['error_code'] = $code;
+        $style->data['error_exception'] = $this->_exception;
         $style->data['error_handler'] = $this;
 
         if (!$style->show_midcom('midcom_error_' . $code))
@@ -187,8 +254,11 @@ class midcom_exception_handler
         }
 
         debug_add("Error Page output finished, exiting now");
-        $_MIDCOM->cache->content->no_cache();
-        $_MIDCOM->finish();
+        midcom::get('cache')->content->no_cache();
+        if (midcom::get())
+        {
+            midcom::get()->finish();
+        }
         _midcom_stop_request();
     }
 
@@ -217,7 +287,7 @@ class midcom_exception_handler
         $msg .= "{$httpcode} {$message}\n";
         if (isset($_SERVER['HTTP_REFERER']))
         {
-            $msg .= "(Referrer: {$_SERVER['HTTP_REFERER']})";
+            $msg .= "(Referrer: {$_SERVER['HTTP_REFERER']})\n";
         }
 
         // Send as email handler
@@ -263,13 +333,11 @@ class midcom_exception_handler
             return;
         }
 
-        if (!$_MIDCOM->componentloader->is_installed('org.openpsa.mail'))
+        if (!midcom::get('componentloader')->is_installed('org.openpsa.mail'))
         {
             debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
             return;
         }
-
-        $_MIDCOM->load_library('org.openpsa.mail');
 
         $mail = new org_openpsa_mail();
         $mail->to = $GLOBALS['midcom_config']['error_actions'][$httpcode]['email'];
@@ -279,7 +347,7 @@ class midcom_exception_handler
 
         $stacktrace = $this->get_function_stack();
 
-        $mail->body .= "\n{$stacktrace}";
+        $mail->body .= "\n" . implode("\n", $stacktrace);
 
         if (!$mail->send())
         {
@@ -293,10 +361,10 @@ class midcom_exception_handler
 
         if ($this->_exception)
         {
-            return $this->_exception->getTraceAsString();
+            $stack = $this->_exception->getTrace();
         }
 
-        if (MIDCOM_XDEBUG)
+        else if (function_exists('xdebug_get_function_stack'))
         {
             $stack = xdebug_get_function_stack();
         }
@@ -305,24 +373,41 @@ class midcom_exception_handler
             $stack = array_reverse(debug_backtrace(false));
         }
 
-        $stacktrace .= "Stacktrace:\n";
+        $stacktrace = array();
         foreach ($stack as $number => $frame)
         {
-            $stacktrace .= $number + 1;
-            $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
-            if (array_key_exists('class', $frame))
+            $line = $number + 1;
+            if (array_key_exists('file', $frame))
             {
-                $stacktrace .= "{$frame['class']}::{$frame['function']}";
-            }
-            else if (array_key_exists('function', $frame))
-            {
-                $stacktrace .= $frame['function'];
+                $file = str_replace(MIDCOM_ROOT, '[midcom_root]', $frame['file']);
+                $line .= ": {$file}:{$frame['line']}  ";
             }
             else
             {
-                $stacktrace .= 'require, include or eval';
+                $line .= ': [internal]  ';
             }
-            $stacktrace .= "\n";
+            if (array_key_exists('class', $frame))
+            {
+                $line .= $frame['class'];
+                if (array_key_exists('type', $frame))
+                {
+                    $line .= $frame['type'];
+                }
+                else
+                {
+                    $line .= '::';
+                }
+                $line .= $frame['function'];
+            }
+            else if (array_key_exists('function', $frame))
+            {
+                $line .= $frame['function'];
+            }
+            else
+            {
+                $line .= 'require, include or eval';
+            }
+            $stacktrace[] = $line;
         }
 
         unset($stack);
@@ -377,7 +462,7 @@ class midcom_error_forbidden extends midcom_error
     {
         if (is_null($message))
         {
-            $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+            $message = midcom::get('i18n')->get_string('access denied', 'midcom');
         }
         parent::__construct($message, $code);
     }
@@ -411,7 +496,7 @@ class midcom_error_midgard extends midcom_error
             else if ($last_error == MGD_ERR_ACCESS_DENIED)
             {
                 $code = MIDCOM_ERRFORBIDDEN;
-                $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+                $message = midcom::get('i18n')->get_string('access denied', 'midcom');
             }
             else if ($last_error == MGD_ERR_OBJECT_DELETED)
             {

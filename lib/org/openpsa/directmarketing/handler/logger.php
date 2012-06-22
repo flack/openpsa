@@ -31,13 +31,13 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $campaigns = array();
         $this->_request_data['update_status'] = array('receipts' => array(), 'members' => array());
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         debug_add("Looking for token '{$_POST['token']}' in sent receipts");
         $ret = $this->_qb_token_receipts($_POST['token']);
         debug_print_r("_qb_token_receipts({$_POST['token']}) returned", $ret);
         if (empty($ret))
         {
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             throw new midcom_error_notfound("No receipts with token '{$_POST['token']}' found");
         }
         //While in theory we should have only one token lets use foreach just to be sure
@@ -83,9 +83,9 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get('auth')->drop_sudo();
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->content_type('text/plain');
     }
 
     /**
@@ -136,13 +136,13 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             throw new midcom_error('Link not present in POST or empty');
         }
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         debug_add("Looking for token '{$_POST['token']}' in sent receipts");
         $ret = $this->_qb_token_receipts($_POST['token']);
         debug_print_r("_qb_token_receipts({$_POST['token']}) returned", $ret);
         if (empty($ret))
         {
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             throw new midcom_error_notfound("No receipts with token '{$_POST['token']}' found");
         }
         //While in theory we should have only one token lets use foreach just to be sure
@@ -151,9 +151,9 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             $this->_create_link_receipt($receipt, $_POST['token'], $_POST['link']);
         }
 
-        $_MIDCOM->auth->drop_sudo();
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get('auth')->drop_sudo();
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->content_type('text/plain');
     }
 
     private function _create_link_receipt(&$receipt, &$token, &$target)
@@ -232,17 +232,15 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         //If we have a dummy token don't bother with looking for it, just go on.
         if ($this->_request_data['token'] === 'dummy')
         {
-            $_MIDCOM->skip_page_style = true;
-            $_MIDCOM->relocate($this->_request_data['target']);
-            //This will exit
+            return new midcom_response_relocate($this->_request_data['target']);
         }
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         debug_add("Looking for token '{$this->_request_data['token']}' in sent receipts");
         $ret = $this->_qb_token_receipts($this->_request_data['token']);
         if (empty($ret))
         {
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             throw new midcom_error_notfound("No receipts with token '{$this->_request_data['token']}' found");
         }
 
@@ -252,10 +250,9 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             $this->_create_link_receipt($receipt, $this->_request_data['token'], $this->_request_data['target']);
         }
 
-        $_MIDCOM->auth->drop_sudo();
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->relocate($this->_request_data['target']);
-        //This will exit
+        midcom::get('auth')->drop_sudo();
+        midcom::get()->skip_page_style = true;
+        return new midcom_response_relocate($this->_request_data['target']);
     }
 
     /**

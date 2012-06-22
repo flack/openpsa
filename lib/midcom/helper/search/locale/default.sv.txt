@@ -72,12 +72,7 @@ Söktips
 
 ---STRING search hints lucene
 Grupper termer genom att använda dubbel citat ("min sökning").<br />
-Du kan använda boolean operatörer AND, OR och NOT (måste vara i versaler).<br />
----STRINGEND
-
----STRING search hints plucene
-Grupper termer genom att använda dubbel citat ("min sökning").<br />
-Du kan använda boolean operatörer AND, OR och NOT (måste vara i versaler).<br />
+Du kan använda boolean operatörer AND, OR och NOT (måste vara i versaler).
 ---STRINGEND
 
 ---STRING search results

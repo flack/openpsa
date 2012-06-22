@@ -1,0 +1,14 @@
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="org_openpsa_slideshow_image" table="org_openpsa_image" parent="midgard_topic">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="topic" link="midgard_topic:id" type="unsigned integer" parentfield="topic" />
+        <property name="title" type="string" />
+        <property name="description" type="text" />
+        <property name="position" type="integer" />
+        <property name="attachment" link="midgard_attachment:id" type="unsigned integer" />
+        <property name="thumbnail" link="midgard_attachment:id" type="unsigned integer" />
+        <property name="image" link="midgard_attachment:id" type="unsigned integer" />
+    </type>
+</Schema>

@@ -108,7 +108,7 @@
  *
  * The recommended way of handling inconsistencies as the ones shown above is to log an error with
  * at least MIDCOM_LOG_INFO and then return null. Depending on your application you could also
- * call generate_error instead, halting execution.
+ * throw midcom_error instead, halting execution.
  *
  * @package midcom.services
  */
@@ -150,10 +150,6 @@ class midcom_services_dbclassloader
      * look in the directory MIDCOM_ROOT/net/nehmer/static/config/my_classes.inc. The magic
      * component 'midcom' goes for the MIDCOM_ROOT/midcom/config directory and is reserved
      * for MidCOM core classes and compatibility classes.
-     *
-     * If the class definition file is invalid, false is returned.
-     *
-     * If this function completes successfully, all __xxx classes are loaded and present.
      */
     function load_classes($component, $filename, $definition_list = null)
     {
@@ -173,8 +169,6 @@ class midcom_services_dbclassloader
 
     /**
      * This helper function validates a class definition list for correctness.
-     *
-     * Any error will be logged and false is returned.
      *
      * Where possible, missing elements are completed with sensible defaults.
      *
@@ -213,7 +207,7 @@ class midcom_services_dbclassloader
         }
         else
         {
-            $this->_class_definition_filename = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
+            $this->_class_definition_filename = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
         }
     }
 
@@ -344,6 +338,7 @@ class midcom_services_dbclassloader
                 case 'org.openpsa.organization':
                 case 'org.openpsa.person':
                 case 'org.openpsa.role':
+                case 'org.openpsa.member':
                     $component = 'org.openpsa.contacts';
                     break;
                 case 'org.openpsa.salesproject':
@@ -353,6 +348,7 @@ class midcom_services_dbclassloader
                     $component = 'org.openpsa.calendar';
                     break;
                 case 'org.openpsa.invoice':
+                case 'org.openpsa.billing':
                     $component = 'org.openpsa.invoices';
                     break;
                 case 'org.openpsa.query':
@@ -371,7 +367,7 @@ class midcom_services_dbclassloader
 
             if (   !empty($component)
                 && $component != 'midcom'
-                && $_MIDCOM->componentloader->is_installed($component))
+                && midcom::get('componentloader')->is_installed($component))
             {
                 return $component;
             }
@@ -512,12 +508,11 @@ class midcom_services_dbclassloader
      * outside of it.
      *
      * Its purpose is to ensure that the component providing a certain DBA class instance is
-     * actually loaded. This is necessary, as the intermediate classes along with the class
-     * descriptions are loaded during system startup now, but the full-blown DBA class
-     * is not available at that point (for performance reasons). It will load the components
-     * in question when requested by any operation in the system that might have to convert
-     * to a yet unloaded class, mainly this covers the type conversion of arbitrary objects
-     * retrieved by the GUID object getter.
+     * actually loaded. This is necessary, as the class descriptions are loaded during system
+     * startup now, but the full-blown DBA class is not available at that point (for performance
+     * reasons). It will load the components in question when requested by any operation in the
+     * system that might have to convert to a yet unloaded class, mainly this covers the type
+     * conversion of arbitrary objects retrieved by the GUID object getter.
      *
      * @param string $classname The name of the MidCOM DBA class that must be available.
      * @return boolean Indicating success. False is returned only if you are requesting unknown
@@ -535,7 +530,7 @@ class midcom_services_dbclassloader
         if (! array_key_exists($classname, $this->_mgdschema_class_handler))
         {
             $component = $this->get_component_for_class($classname);
-            $_MIDCOM->componentloader->load($component);
+            midcom::get('componentloader')->load($component);
             if (! array_key_exists($classname, $this->_mgdschema_class_handler))
             {
                 debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
@@ -550,14 +545,14 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        if ($_MIDCOM->componentloader->is_loaded($component))
+        if (midcom::get('componentloader')->is_loaded($component))
         {
             // Already loaded, so we're fine too.
             return true;
         }
 
-        // This generate_error's on any problems.
-        $_MIDCOM->componentloader->load($component);
+        // This throws midcom_error on any problems.
+        midcom::get('componentloader')->load($component);
 
         return true;
     }
@@ -595,7 +590,7 @@ class midcom_services_dbclassloader
             return $classes;
         }
 
-        $classes = $_MIDCOM->componentloader->manifests[$component]->class_mapping;
+        $classes = midcom::get('componentloader')->manifests[$component]->class_mapping;
 
         return $classes;
     }

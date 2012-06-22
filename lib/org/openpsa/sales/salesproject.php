@@ -44,21 +44,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     var $next_action = false;
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function refresh()
     {
         $this->_contacts = null;
@@ -82,7 +67,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $deliverables = $deliverable_qb->execute();
         foreach ($deliverables as $deliverable)
         {
-            if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 $scheduler = new org_openpsa_invoices_scheduler($deliverable);
                 if ($deliverable->end == 0)
@@ -245,7 +230,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     {
         if ($property == 'contacts')
         {
-            if(is_null($this->_contacts))
+            if (is_null($this->_contacts))
             {
                 $this->get_members();
             }
@@ -299,7 +284,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     private function _pid_to_obj($pid)
     {
-        return $_MIDCOM->auth->get_user($pid);
+        return midcom::get('auth')->get_user($pid);
     }
 
     public function _on_updated()

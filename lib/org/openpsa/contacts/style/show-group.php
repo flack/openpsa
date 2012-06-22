@@ -18,8 +18,8 @@ $addresses = array();
         <?php
     }
     ?>
-    <?php $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/members/"); ?>
-    <?php $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/subgroups/"); ?>
+    <?php midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/members/"); ?>
+    <?php midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/subgroups/"); ?>
 
     <!-- TODO: Add salesprojects here -->
     <!-- TODO: Projects list, Add project button -->
@@ -69,9 +69,9 @@ $addresses = array();
     if (array_key_exists('billing_data', $data))
     {
         echo "<h2>" . $data['l10n']->get('invoice defaults') . "</h2>\n";
-        echo "<div><strong>" . $_MIDCOM->i18n->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
+        echo "<div><strong>" . midcom::get('i18n')->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->vat . " %</div>\n";
-        echo "<div><strong>" . $_MIDCOM->i18n->get_string('payment target', 'org.openpsa.invoices') . ": </strong>";
+        echo "<div><strong>" . midcom::get('i18n')->get_string('payment target', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->due . "</div>\n";
         $data['billing_data']->render_address();
     }
@@ -82,16 +82,27 @@ $addresses = array();
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
     $tabs = array();
-    $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-    if (   $invoices_url
-           && strpos($data['view']['categories'], $data['l10n']->get('client')) !== false)
+    if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false)
     {
         //TODO: Check for privileges somehow
-        $tabs[] = array
-        (
-            'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
-            'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
-        );
+        $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
+        if ($invoices_url)
+        {
+            $tabs[] = array
+            (
+                'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
+                'title' => midcom::get('i18n')->get_string('invoices', 'org.openpsa.invoices'),
+            );
+        }
+        $sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales');
+        if ($sales_url)
+        {
+            $tabs[] = array
+            (
+                'url' => $sales_url . "list/customer/{$data['group']->guid}/",
+                'title' => midcom::get('i18n')->get_string('salesprojects', 'org.openpsa.sales'),
+            );
+        }
     }
     org_openpsa_widgets_ui::render_tabs($data['group']->guid, $tabs);
     ?>

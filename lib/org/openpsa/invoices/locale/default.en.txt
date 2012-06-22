@@ -126,12 +126,20 @@ Invoice address
 Invoice date
 ---STRINGEND
 
+---STRING invoice delivery date
+Delivery date
+---STRINGEND
+
 ---STRING invoice %s created
 Invoice %s created
 ---STRINGEND
 
 ---STRING invoice data
 Invoice data
+---STRINGEND
+
+---STRING invoice has already been sent. should it be replaced?
+This invoice has already been sent. Should the file be regenerated anyways?
 ---STRINGEND
 
 ---STRING invoice items
@@ -174,16 +182,16 @@ send per mail
 Marked %s hours as invoiced
 ---STRINGEND
 
----STRING marked invoice "%s" paid
-Marked invoice "%s" as paid
+---STRING marked invoice %s paid
+Marked invoice %s as paid
 ---STRINGEND
 
----STRING marked invoice "%s" sent
-Marked invoice "%s" as sent
+---STRING marked invoice %s sent
+Marked invoice %s as sent
 ---STRINGEND
 
----STRING marked invoice "%s" sent per mail
-Sent invoice "%s" per mail
+---STRING marked invoice %s sent per mail
+Sent invoice %s per mail
 ---STRINGEND
 
 ---STRING marked task "%s" finished
@@ -274,6 +282,10 @@ Quantity
 Recently paid invoices
 ---STRINGEND
 
+---STRING remarks
+Remarks
+---STRINGEND
+
 ---STRING scheduled
 Scheduled
 ---STRINGEND
@@ -320,6 +332,10 @@ There is no invoice with number %s
 
 ---STRING totals
 Totals
+---STRINGEND
+
+---STRING unable to deliver mail: %s
+Unable to deliver mail: %s
 ---STRINGEND
 
 ---STRING unsent
@@ -383,9 +399,17 @@ Use the address given in contact
 ---STRINGEND
 
 ---STRING current pdf file was manually uploaded shall it be replaced ?
-The current pdf-file was manually uploaded. So shall it really be replaced ?
+The current PDF file was manually uploaded. So shall it really be replaced ?
 ---STRINGEND
 
----STRING create pdf for invoice
-Create PDF for invoice
+---STRING create pdf
+Create PDF
+---STRINGEND
+
+---STRING pdf created
+PDF file created successfully 
+---STRINGEND
+
+---STRING pdf creation failed
+Could not create PDF
 ---STRINGEND

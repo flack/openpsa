@@ -41,14 +41,14 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.sales');
 
         $product = org_openpsa_products_product_dba::get_cached(self::$_product->id);
-        $product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE;
+        $product->delivery = org_openpsa_products_product_dba::DELIVERY_SINGLE;
         $product->update();
 
         $deliverable_attributes = array
         (
             'salesproject' => self::$_salesproject->id,
             'product' => self::$_product->id,
-            'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE,
+            'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'units' => 1,
             'pricePerUnit' => 5
         );
@@ -93,7 +93,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.sales');
 
         $product = org_openpsa_products_product_dba::get_cached(self::$_product->id);
-        $product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION;
+        $product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $product->update();
 
         $deliverable_attributes = array
@@ -103,7 +103,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
             'start' => time(),
             'continuous' => true,
             'unit' => 'q',
-            'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION,
+            'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
         );
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);

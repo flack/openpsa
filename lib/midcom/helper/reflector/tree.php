@@ -53,14 +53,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             // Figure correct MidCOM DBA class to use and get midcom QB
             $qb = false;
-            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
             if (empty($midcom_dba_classname))
             {
                 debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
                 $x = false;
                 return $x;
             }
-            if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 $x = false;
@@ -124,8 +124,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     function count_root_objects($deleted = false)
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -152,8 +151,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     function has_root_objects()
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -191,11 +189,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array of objects or false on failure
      */
-    function get_root_objects($deleted = false)
+    public function get_root_objects($deleted = false)
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -221,7 +218,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $label_property = $ref->get_label_property();
 
         if (   is_string($label_property)
-            && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $label_property))
+            && midcom::get('dbfactory')->property_exists($this->mgdschema_class, $label_property))
         {
             $qb->add_order($label_property);
         }
@@ -229,7 +226,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             $title_property = $ref->get_title_property(new $this->mgdschema_class());
             if (   is_string($title_property)
-                && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $title_property))
+                && midcom::get('dbfactory')->property_exists($this->mgdschema_class, $title_property))
             {
                 $qb->add_order($title_property);
             }
@@ -427,10 +424,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $ref =& $this->_mgd_reflector;
         $target_class = $ref->get_link_name($property);
         $dummy_object = new $target_class();
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (!empty($midcom_dba_classname))
         {
-            if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 return false;
@@ -492,7 +489,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $i = 0;
         foreach ($child_classes as $child_class)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, $child_class))
+            if (midcom::get('dbfactory')->is_a($object, $child_class))
             {
                 unset($child_classes[$i]);
                 array_unshift($child_classes, $child_class);
@@ -543,14 +540,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb = false;
 
             // Figure correct MidCOM DBA class to use and get midcom QB
-            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
+            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (empty($midcom_dba_classname))
             {
                 debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
                 return $qb;
             }
 
-            if (!$_MIDCOM->dbclassloader->load_component_for_class($midcom_dba_classname))
+            if (!midcom::get('dbclassloader')->load_component_for_class($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 return $qb;
@@ -900,7 +897,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 continue;
             }
 
-            $dba_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
+            $dba_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (!$dba_class)
             {
                 // Not a MidCOM DBA object, skip
@@ -919,7 +916,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         if (!empty($root_exceptions_forceroot))
         {
-            foreach($root_exceptions_forceroot as $schema_type)
+            foreach ($root_exceptions_forceroot as $schema_type)
             {
                 if (!class_exists($schema_type))
                 {
@@ -945,20 +942,20 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param midgard_query_builder $qb reference to QB instance
      * @param string $schema_type valid mgdschema class name
      */
-    function add_schema_sorts_to_qb(&$qb, $schema_type)
+    public static function add_schema_sorts_to_qb(&$qb, $schema_type)
     {
         // Sort by "title" and "name" if available
         $ref = midcom_helper_reflector_tree::get($schema_type);
         $dummy = new $schema_type();
         $title_property = $ref->get_title_property($dummy);
         if (   is_string($title_property)
-            && $_MIDCOM->dbfactory->property_exists($schema_type, $title_property))
+            && midcom::get('dbfactory')->property_exists($schema_type, $title_property))
         {
             $qb->add_order($title_property);
         }
         $name_property = $ref->get_name_property($dummy);
         if (   is_string($name_property)
-            && $_MIDCOM->dbfactory->property_exists($schema_type, $name_property))
+            && midcom::get('dbfactory')->property_exists($schema_type, $name_property))
         {
             $qb->add_order($name_property);
         }

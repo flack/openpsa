@@ -28,7 +28,7 @@ function hideElement(element)
 
 <div class="sidebar">
     <?php
-    $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
     ?>
 </div>
 
@@ -50,7 +50,7 @@ function hideElement(element)
     if (count($data['campaign']->testers) > 0)
     {
         $counter = 1;
-        foreach($data['campaign']->testers as $id => $bool)
+        foreach ($data['campaign']->testers as $id => $bool)
         {
             $person = org_openpsa_widgets_contact::get($id);
             echo $person->show_inline();

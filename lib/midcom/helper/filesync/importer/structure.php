@@ -26,7 +26,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
     {
         if ($parent_id == 0)
         {
-            $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+            $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         }
         else
         {
@@ -47,7 +47,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
                     return false;
                 }
 
-                if ($structure['create_index'])
+                if (!empty($structure['create_index']))
                 {
                     // Create index article for n.n.static
                     $article = new midcom_db_article();
@@ -161,25 +161,22 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
     public function import()
     {
         // Generate a safe name for the structure
-        $host = new midcom_db_host($_MIDGARD['host']);
-        $structure_name = midcom_generate_urlname_from_string($host->get_label());
+        $structure_name = midcom_helper_misc::generate_urlname_from_string(midcom::get()->get_page_prefix());
         $path = "{$this->root_dir}{$structure_name}.inc";
 
         if (!file_exists($path))
         {
             throw new midcom_error("Structure file {$path} not found");
-            // This will exit.
         }
 
         $structuredata = file_get_contents($path);
-        eval("\$structure = Array({$structuredata}\n);");
-        if (   !isset($structure)
-            || !is_array($structure)
+        $structure = midcom_helper_misc::parse_config($structuredata);
+
+        if (   !is_array($structure)
             || !isset($structure[$structure_name])
             || !isset($structure[$structure_name]['root']))
         {
             throw new midcom_error("Invalid structure file {$path}");
-            // This will exit.
         }
 
         $this->read_structure($structure[$structure_name]['root']);

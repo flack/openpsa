@@ -363,7 +363,7 @@ Bitte geben Sie Ihren Benutzernamen und Ihr Passwort ein.
 ---STRINGEND
 
 ---STRING login message - user or password wrong
-Benutzername oder Passwort war ungültig.
+Benutzername oder Passwort waren ungültig.
 ---STRINGEND
 
 ---STRING logout

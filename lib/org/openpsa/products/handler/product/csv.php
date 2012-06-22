@@ -13,7 +13,6 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
 {
     function _load_schemadb($handler_id, &$args, &$data)
     {
-        $_MIDCOM->skip_page_style = true;
         $data['session'] = new midcom_services_session('org_openpsa_products_csvexport');
         if (!empty($_POST))
         {
@@ -39,11 +38,11 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $schemaname = $_POST['org_openpsa_products_export_schema'];
             if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
+                midcom::get()->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
             }
             else
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "/{$schemaname}");
+                midcom::get()->relocate(midcom_connection::get_url('uri') . "/{$schemaname}");
             }
             // This will exit
         }
@@ -97,7 +96,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
                 $groups = $qb_groups->execute();
                 $qb->begin_group('OR');
                 $qb->add_constraint('productGroup', '=', $root_group->id);
-                foreach($groups as $group)
+                foreach ($groups as $group)
                 {
                     $qb->add_constraint('productGroup', '=', $group->id);
                 }

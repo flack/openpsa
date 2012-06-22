@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <h1><?php echo $data['l10n']->get('copy message'); ?></h1>
 <p>

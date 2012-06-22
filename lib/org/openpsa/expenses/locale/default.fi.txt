@@ -66,18 +66,6 @@ Yhteensä
 Ei-laskutettava
 ---STRINGEND
 
----STRING apply
-käytä
----STRINGEND
-
----STRING filter error
-Suodatusvirhe
----STRINGEND
-
----STRING hour reports between %s and %s
-Tuntiraportit välille %s ja %s
----STRINGEND
-
 ---STRING hours unit
 h
 ---STRINGEND
@@ -98,27 +86,11 @@ Laskutettavat raportit
 Laskutetut raportit
 ---STRINGEND
 
----STRING no filter available
-Suodattimia ei saatavilla
----STRINGEND
-
----STRING no filter available for %s
-Suodattimia ei saatavilla kohteelle %s
----STRINGEND
-
 ---STRING show task %s
 Näytä tehtävät kohteelle %s
 ---STRINGEND
 
----STRING the handed filter for %s could not be set as parameter
-Käsiteltyä suodatinta kohteelle %s ei voida asettaa parametriksi
----STRINGEND
-
 ---STRING uninvoiceable reports
 Ei-laskutettavat raportit
----STRINGEND
-
----STRING unset
-Poista asetus
 ---STRINGEND
 

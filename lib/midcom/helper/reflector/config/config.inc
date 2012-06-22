@@ -60,10 +60,13 @@
     /* members should not be root classes by MgSchema, workaround a bug */
     'midgard_member',
     'org_openpsa_campaign_member',
+    'org_openpsa_role',
     /* These use GUID to link to many parents */
     'net_nemein_tag_link',
     'net_nehmer_comments_comment_db',
     'org_openpsa_relatedto',
+    'org_openpsa_relatedto_journal_entry',
+    'org_openpsa_billing_data',
     'org_routamc_positioning_location',
     /* These we just don't anybody mucking about with */
     'midcom_core_login_session_db',
@@ -76,6 +79,7 @@
     'midgard_person',
     'openpsa_person',
     'org_openpsa_person',
+    'org_openpsa_contacts_list',
     'midgard_group',
     'org_openpsa_organization',
     /* Replicator subscriptions have their own specific admin UI */
@@ -124,7 +128,6 @@
     ),
     'stock_people.png' => array
     (
-        'net_nehmer_buddylist_entry_db',
         'org_openpsa_campaign',
     ),
     'stock_news.png' => array

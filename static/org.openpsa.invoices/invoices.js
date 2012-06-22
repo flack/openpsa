@@ -2,23 +2,17 @@
 */
 function parse_input(string)
 {
-    search_string = ',';
-    replace_string = '.';
-
-    return string.replace(search_string , replace_string);
+    return string.replace(',' , '.');
 }
 
 function calculate_row(id)
 {
-    price_unit = parse_input($("#price_per_unit_" + id).val());
-    units = parse_input($("#units_" + id).val());
+    var price_unit = parse_input($("#price_per_unit_" + id).val()),
+    units = parse_input($("#units_" + id).val()),
+    sum = 0;
     //check if they are numbers
-    if(   isNaN(price_unit)
-       && isNaN(units))
-    {
-        sum = 0;
-    }
-    else
+    if (   !isNaN(price_unit)
+        && !isNaN(units))
     {
         sum = price_unit * units;
     }
@@ -32,7 +26,7 @@ function calculate_total(table)
     {
         if ($(this).find('input[type="checkbox"]').is(':checked'))
         {
-            total += $(this).find('.units').val() * $(this).find('.price_per_unit').val()
+            total += $(this).find('.units').val() * $(this).find('.price_per_unit').val();
         }
     });
 
@@ -42,20 +36,20 @@ function calculate_total(table)
 function calculate_invoices_total(table)
 {
     var total = 0,
-    row_sum;
+    row_sum,
+    totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum'),
+    decimal_separator = totals_field.text().slice(totals_field.text().length - 3, totals_field.text().length - 2);
+
     table.find('tbody tr').not('.jqgfirstrow').each(function()
     {
         row_sum = parseFloat($(this).find('.sum').prev().text());
         if (isNaN(row_sum))
         {
-            console.log($(this).find('.sum').parent());
             return;
         }
 
         total += row_sum;
     });
-    var totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum'),
-    decimal_separator = totals_field.text().slice(totals_field.text().length - 3, totals_field.text().length - 2);
 
     total = total.toFixed(2).replace('.', decimal_separator);
     totals_field.text(total);
@@ -69,19 +63,20 @@ function process_invoice(button, action)
         var parsed = jQuery.parseJSON(data);
         if (parsed.success === false)
         {
-            //TODO: Error reporting
+            $.midcom_services_uimessage_add(parsed.message);
             return;
         }
         var old_grid = button.closest('.ui-jqgrid-btable'),
-        row_data = old_grid.getRowData(id);
+        row_data = old_grid.getRowData(id),
+        new_grid = jQuery('#' + parsed.new_status + '_invoices_grid');
+
         old_grid.delRowData(id);
         calculate_invoices_total(old_grid);
 
-        var new_grid = jQuery('#' + parsed.new_status + '_invoices_grid');
         if (new_grid.length < 1)
         {
-	    // Grid is not present yet, reload
-	    window.location.reload();
+            // Grid is not present yet, reload
+            window.location.reload();
             return;
         }
 
@@ -97,7 +92,7 @@ function process_invoice(button, action)
             new_grid.trigger('reloadGrid');
         }
         $(window).trigger('resize');
-        jQuery.midcom_services_uimessage_add(parsed.message);
+        $.midcom_services_uimessage_add(parsed.message);
     });
 }
 

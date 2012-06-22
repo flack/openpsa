@@ -1,10 +1,10 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-echo "<h1>" . $_MIDCOM->i18n->get_string('urlmethods', 'midcom.admin.help') . "</h1>\n";
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+echo "<h1>" . midcom::get('i18n')->get_string('urlmethods', 'midcom.admin.help') . "</h1>\n";
 if (count($data['urlmethods']) > 0)
 {
-    echo "<h2>" . $_MIDCOM->i18n->get_string('available url methods', 'midcom.admin.help') . "</h2>\n";
-    
+    echo "<h2>" . midcom::get('i18n')->get_string('available url methods', 'midcom.admin.help') . "</h2>\n";
+
     $i = 0;
     foreach ($data['urlmethods'] as $file => $method_info)
     {
@@ -30,6 +30,6 @@ if (count($data['urlmethods']) > 0)
 }
 else
 {
-    echo "<p>" . $_MIDCOM->i18n->get_string('no url methods found', 'midcom.admin.help') . "</p>";
+    echo "<p>" . midcom::get('i18n')->get_string('no url methods found', 'midcom.admin.help') . "</p>";
 }
 ?>

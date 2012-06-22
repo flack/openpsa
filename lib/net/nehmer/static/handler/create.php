@@ -187,24 +187,21 @@ implements midcom_helper_datamanager2_interfaces_create
                 }
 
                 // Index the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nehmer_static_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
                 if ($this->_article->name === 'index')
                 {
-                    $_MIDCOM->relocate('');
-                    // This will exit.
+                    return new midcom_response_relocate('');
                 }
-                $_MIDCOM->relocate("{$this->_article->name}/");
-                // This will exit.
+                return new midcom_response_relocate("{$this->_article->name}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
     }
 

@@ -1,0 +1,51 @@
+.ui-jqgrid-maximized
+{
+    position: absolute;
+    z-index: 20
+}
+.ui-jqgrid-maximized-background
+{
+    display: none;
+}
+
+.ui-jqgrid .HeaderButton
+{
+    height: 18px;
+    margin: -10px 0 0;
+    padding: 1px;
+    position: absolute;
+    top: 50%;
+    width: 19px;
+}
+.ui-jqgrid .HeaderButton:hover
+{
+    padding: 1px;
+}
+.ui-jqgrid .HeaderButton span
+{
+    display: block;
+    margin: 1px;
+    cursor: pointer
+}
+
+.ui-jqgrid tr.jqgrow td.longtext
+{
+    white-space: pre-wrap
+}
+
+.ui-jqgrid tr.jqgrow td.multiline
+{
+    white-space: pre-wrap;
+}
+
+.ui-jqgrid tr.jqgrow td.multiline .title
+{
+    font-weight: bold
+}
+
+.ui-jqgrid tr.jqgrow td.multiline .details
+{
+    color: #444;
+    margin: .3em 0;
+    padding-left: .3em
+}

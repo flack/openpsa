@@ -18,7 +18,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
         org_openpsa_widgets_contact::add_head_elements();
     }
 
@@ -41,7 +41,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
 
         $offset = $date->format('N') - 1;
         $date->modify('-' . $offset . ' days');
-        $date->setTime(0, 0, 1);
+        $date->setTime(0, 0, 0);
         $this->_request_data['week_start'] = (int) $date->format('U');
         $date->setTime(23, 59, 59);
         $date->modify('+6 days');
@@ -55,17 +55,17 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_updates($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         // Instantiate indexer
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
 
         $start = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        $query = '__TOPIC_URL:"' . $_MIDCOM->get_host_name() . '*"';
+        $query = '__TOPIC_URL:"' . midcom::get()->get_host_name() . '*"';
         $filter = new midcom_services_indexer_filter_date('__EDITED', $start, 0);
         $this->_request_data['today'] = $indexer->query($query, $filter);
         $start = mktime(0, 0, 0, date('m'), date('d')-1, date('Y'));
         $end = mktime(23, 59, 59, date('m'), date('d')-1, date('Y'));
-        $query = '__TOPIC_URL:"' . $_MIDCOM->get_host_name() . '*"';
+        $query = '__TOPIC_URL:"' . midcom::get()->get_host_name() . '*"';
         $filter = new midcom_services_indexer_filter_date('__EDITED', $start, $end);
         $this->_request_data['yesterday'] = $indexer->query($query, $filter);
     }

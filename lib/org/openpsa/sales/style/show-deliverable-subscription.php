@@ -1,7 +1,7 @@
 <?php
 $view = $data['view_deliverable'];
 $status = $data['deliverable']->get_status();
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $per_unit = $data['l10n']->get('per unit');
 try
@@ -10,7 +10,7 @@ try
     $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
     if (array_key_exists($product->unit, $unit_options))
     {
-        $unit = $_MIDCOM->i18n->get_string($unit_options[$product->unit], 'org.openpsa.products');
+        $unit = midcom::get('i18n')->get_string($unit_options[$product->unit], 'org.openpsa.products');
         $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
     }
 }
@@ -54,12 +54,12 @@ catch (midcom_error $e)
         $at_entries = $data['deliverable']->get_at_entries();
         if (count($at_entries) > 0)
         {
-            echo "<h2>" . $_MIDCOM->i18n->get_string('next billing run', 'midcom.services.at') . "</h2>\n";
+            echo "<h2>" . midcom::get('i18n')->get_string('next billing run', 'midcom.services.at') . "</h2>\n";
             echo "<table>\n";
             echo "    <thead>\n";
             echo "        <tr>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('time', 'midcom.services.at') . "</th>\n";
-            echo "            <th>" . $_MIDCOM->i18n->get_string('status', 'midcom.services.at') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('time', 'midcom.services.at') . "</th>\n";
+            echo "            <th>" . midcom::get('i18n')->get_string('status', 'midcom.services.at') . "</th>\n";
             echo "        </tr>\n";
             echo "    </thead>\n";
             echo "    <tbody>\n";
@@ -72,14 +72,14 @@ catch (midcom_error $e)
                 echo "            <td>";
                 switch ($entry->status)
                 {
-                    case MIDCOM_SERVICES_AT_STATUS_SCHEDULED:
-                        echo $_MIDCOM->i18n->get_string('scheduled', 'midcom.services.at');
+                    case midcom_services_at_entry_dba::SCHEDULED:
+                        echo midcom::get('i18n')->get_string('scheduled', 'midcom.services.at');
                         break;
-                    case MIDCOM_SERVICES_AT_STATUS_RUNNING:
-                        echo $_MIDCOM->i18n->get_string('running', 'midcom.services.at');
+                    case midcom_services_at_entry_dba::RUNNING:
+                        echo midcom::get('i18n')->get_string('running', 'midcom.services.at');
                         break;
-                    case MIDCOM_SERVICES_AT_STATUS_FAILED:
-                        echo $_MIDCOM->i18n->get_string('failed', 'midcom.services.at');
+                    case midcom_services_at_entry_dba::FAILED:
+                        echo midcom::get('i18n')->get_string('failed', 'midcom.services.at');
                         break;
                 }
                 echo "</td>\n";
@@ -195,7 +195,7 @@ catch (midcom_error $e)
                           <th><?php echo $per_unit ?></th>
                           <th><?php echo $data['l10n']->get('plan'); ?></th>
                           <th><?php echo $data['l10n']->get('is'); ?></th>
-                          <th><?php echo $_MIDCOM->i18n->get_string('sum', 'org.openpsa.invoices'); ?></th>
+                          <th><?php echo midcom::get('i18n')->get_string('sum', 'org.openpsa.invoices'); ?></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -241,7 +241,7 @@ catch (midcom_error $e)
         $tabs[] = array
         (
             'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
-            'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
+            'title' => midcom::get('i18n')->get_string('invoices', 'org.openpsa.invoices'),
         );
     }
 
@@ -249,12 +249,12 @@ catch (midcom_error $e)
         && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
     {
         if (   $product
-            && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+            && $product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
         {
             $tabs[] = array
             (
                 'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
-                'title' => $_MIDCOM->i18n->get_string('tasks', 'org.openpsa.projects'),
+                'title' => midcom::get('i18n')->get_string('tasks', 'org.openpsa.projects'),
             );
         }
     }

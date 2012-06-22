@@ -62,7 +62,7 @@ abstract class midcom_services_auth_backend
     /**
      * This function checks the given username / password pair is valid and sets
      * the $user member accordingly. The default implementation checks against
-     * midcom_connection::login and retrieves the user using $_MIDGARD.
+     * midcom_connection::login().
      *
      * Normally you should not need to override this function.
      *
@@ -158,7 +158,7 @@ abstract class midcom_services_auth_backend
      * The logout function should delete the currently active login session,
      * which has been loaded by a previous call to read_login_session.
      *
-     * You should call generate_error if anything goes wrong here.
+     * You should throw midcom_error if anything goes wrong here.
      */
     function logout()
     {

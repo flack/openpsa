@@ -19,7 +19,7 @@
     float: right;
     width: 16px;
     height: 16px;
-    background: url('../ajax-loading-small.gif');
+    background: url('../../stock-icons/16x16/ajax-loading.gif');
 }
 
 .position_widget_actions

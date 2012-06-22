@@ -21,20 +21,11 @@
     'variable_args' => 1,
 ),
 
-// Handle /hours/between/<from>/<to>
-'list_hours_between' => array
+// Handle /hours/
+'list_hours' => array
 (
     'handler' => array('org_openpsa_expenses_handler_hours_list', 'list'),
-    'fixed_args' => array('hours', 'between'),
-    'variable_args' => 2,
-),
-
-// Handle /hours/between/all/<from>/<to>
-'list_hours_between_all' => array
-(
-    'handler' => array('org_openpsa_expenses_handler_hours_list', 'list'),
-    'fixed_args' => array('hours', 'between', 'all'),
-    'variable_args' => 2,
+    'fixed_args' => array('hours'),
 ),
 
 // Handle /hours/edit/<guid>
@@ -67,6 +58,14 @@
     'handler' => array('org_openpsa_expenses_handler_hours_admin', 'create'),
     'fixed_args' => array('hours', 'create'),
     'variable_args' => 2,
+),
+
+// Handle /csv/<type>
+'csv' => array
+(
+    'handler' => array('org_openpsa_expenses_handler_csv', 'csv'),
+    'fixed_args' => 'csv',
+    'variable_args' => 1,
 ),
 
 // Handle /<timestamp>

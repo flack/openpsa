@@ -23,32 +23,19 @@ class midcom_db_member extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_member';
 
-    /**
-     * Overwrite the query builder getter with a version retrieving the right type.
-     * We need a better solution here in DBA core actually, but it will be difficult to
-     * do this as we cannot determine the current class in a polymorphic environment without
-     * having a this (this call is static).
-     */
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function get_label()
     {
-        $person = new midcom_db_person($this->uid);
-        $grp = new midcom_db_group($this->gid);
-        return sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
+        try
+        {
+            $person = new midcom_db_person($this->uid);
+            $grp = new midcom_db_group($this->gid);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return 'Invalid membership record';
+        }
+        return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
     }
 
     /**
@@ -96,7 +83,7 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             return;
         }
-        $_MIDCOM->cache->invalidate($person->guid);
+        midcom::get('cache')->invalidate($person->guid);
     }
 
     public function _on_creating()
@@ -104,7 +91,7 @@ class midcom_db_member extends midcom_core_dbaobject
         // Allow root group membership creation only for admins
         if ($this->gid == 0)
         {
-            if (!$_MIDCOM->auth->admin)
+            if (!midcom::get('auth')->admin)
             {
                 debug_add("Group #0 membership creation only allowed for admins");
                 debug_print_function_stack('Forbidden ROOT member creation called from');
@@ -123,7 +110,7 @@ class midcom_db_member extends midcom_core_dbaobject
         // Allow root group membership creation only for admins (check update as well to avoid sneaky bastards
         if ($this->gid == 0)
         {
-            if ($_MIDCOM->auth->admin)
+            if (midcom::get('auth')->admin)
             {
                 debug_add("Group #0 membership creation only allowed for admins");
                 debug_print_function_stack('Forbidden ROOT member creation called from');
@@ -145,7 +132,7 @@ class midcom_db_member extends midcom_core_dbaobject
     {
         $this->_invalidate_person_cache();
 
-        if (!$_MIDCOM->auth->request_sudo('midcom'))
+        if (!midcom::get('auth')->request_sudo('midcom'))
         {
             return true;
         }
@@ -157,19 +144,19 @@ class midcom_db_member extends midcom_core_dbaobject
         $activity->target = $target->guid;
         $activity->actor = $actor->id;
         $this->verb = 'http://activitystrea.ms/schema/1.0/join';
-        if (   isset($_MIDCOM->auth->user)
-            && isset($_MIDCOM->auth->user->guid)
-            && $actor->guid == $_MIDCOM->auth->user->guid)
+        if (   isset(midcom::get('auth')->user)
+            && isset(midcom::get('auth')->user->guid)
+            && $actor->guid == midcom::get('auth')->user->guid)
         {
-            $this->summary = sprintf($_MIDCOM->i18n->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);
+            $this->summary = sprintf(midcom::get('i18n')->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);
         }
         else
         {
-            $this->summary = sprintf($_MIDCOM->i18n->get_string('%s was added to group %s', 'midcom'), $actor->name, $target->official);
+            $this->summary = sprintf(midcom::get('i18n')->get_string('%s was added to group %s', 'midcom'), $actor->name, $target->official);
         }
         $activity->create();
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function _on_updated()
@@ -181,7 +168,7 @@ class midcom_db_member extends midcom_core_dbaobject
     {
         $this->_invalidate_person_cache();
 
-        if (!$_MIDCOM->auth->request_sudo('midcom'))
+        if (!midcom::get('auth')->request_sudo('midcom'))
         {
             return;
         }
@@ -194,25 +181,25 @@ class midcom_db_member extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-        	$e->log();
+            $e->log();
             return;
         }
         $activity = new midcom_helper_activitystream_activity_dba();
         $activity->target = $target->guid;
         $activity->actor = $actor->id;
         $activity->verb = 'http://community-equity.org/schema/1.0/leave';
-        if (    $_MIDCOM->auth->is_valid_user()
-             && $actor->guid == $_MIDCOM->auth->user->guid)
+        if (    midcom::get('auth')->is_valid_user()
+             && $actor->guid == midcom::get('auth')->user->guid)
         {
-            $activity->summary = sprintf($_MIDCOM->i18n->get_string('%s left group %s', 'midcom'), $actor->name, $target->official);
+            $activity->summary = sprintf(midcom::get('i18n')->get_string('%s left group %s', 'midcom'), $actor->name, $target->official);
         }
         else
         {
-            $activity->summary = sprintf($_MIDCOM->i18n->get_string('%s was removed from group %s', 'midcom'), $actor->name, $target->official);
+            $activity->summary = sprintf(midcom::get('i18n')->get_string('%s was removed from group %s', 'midcom'), $actor->name, $target->official);
         }
         $activity->create();
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

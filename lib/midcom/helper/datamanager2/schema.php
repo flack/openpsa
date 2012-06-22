@@ -92,7 +92,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     /**
      * The primary L10n DB to use for schema translation.
      *
-     * @var midcom_services__i18n_l10n
+     * @var midcom_services_i18n_l10n
      */
     var $l10n_schema = null;
 
@@ -246,7 +246,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     || $schema['extends']['name'] === $schema_name)
                 {
                     $snippet_path = $this->_get_snippet_link($path);
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
 
                     debug_add(sprintf($this->_l10n->get('schema %s:%s extends itself'), $path, $schema_name), MIDCOM_LOG_WARN);
                     continue;
@@ -266,7 +266,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 debug_add(sprintf($this->_l10n->get('extended schema %s:%s was not found'), $path, $schema_name), MIDCOM_LOG_WARN);
 
                 $snippet_path = $this->_get_snippet_link($path);
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
                 continue;
             }
 
@@ -398,9 +398,9 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
         else
         {
-            $l10n_name = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
-        $this->_l10n_schema = $_MIDCOM->i18n->get_l10n($l10n_name);
+        $this->_l10n_schema = midcom::get('i18n')->get_l10n($l10n_name);
 
         if (array_key_exists('operations', $this->_raw_schema))
         {
@@ -444,7 +444,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     {
                         if (!$prepended)
                         {
-                            $field['static_prepend'] = "<h3 style='clear: left;'>" . $_MIDCOM->i18n->get_string('metadata', 'midcom') . "</h3>\n" . $field['static_prepend'];
+                            $field['static_prepend'] = "<h3 style='clear: left;'>" . midcom::get('i18n')->get_string('metadata', 'midcom') . "</h3>\n" . $field['static_prepend'];
                             $prepended = true;
                         }
                         $this->append_field($name, $field);
@@ -584,7 +584,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             if (!is_array($rule))
             {
-                $validation[$key] = array('type' => $rule);
+                $rule = array('type' => $rule);
             }
             else if (!array_key_exists('type', $rule))
             {
@@ -602,7 +602,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 'format' => ''
             );
 
-            $validation[$key] = array_merge($defaults, $validation[$key]);
+            $validation[$key] = array_merge($defaults, $rule);
         }
         return $validation;
     }
@@ -662,23 +662,18 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             // doesn't have line breaks
             if (preg_match('/\n/', $raw_db))
             {
-                $result = eval("\$raw_db = array ( {$raw_db} );");
+                $raw_db = midcom_helper_misc::parse_config($raw_db);
             }
             else
             {
                 $path = $raw_db;
-                if (array_key_exists($path, $loaded_dbs))
+                if (!array_key_exists($path, $loaded_dbs))
                 {
-                    return $loaded_dbs[$path];
+                    $data = midcom_helper_misc::get_snippet_content($raw_db);
+                    $loaded_dbs[$path] = midcom_helper_misc::parse_config($data);
                 }
-                $data = midcom_helper_misc::get_snippet_content($raw_db);
-                $result = eval ("\$raw_db = array ( {$data}\n );");
-            }
 
-            // Bullet-proof against syntax errors
-            if ($result === false)
-            {
-                throw new midcom_error("Failed to parse the schema database loaded from '{$raw_db}', see above for PHP errors.");
+                $raw_db = $loaded_dbs[$path];
             }
         }
 
@@ -692,11 +687,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         foreach ($raw_db as $name => $raw_schema)
         {
             $schemadb[$name] = new midcom_helper_datamanager2_schema($raw_db, $name, $path);
-        }
-
-        if (!is_null($path))
-        {
-            $loaded_dbs[$path] = $schemadb;
         }
 
         return $schemadb;
@@ -713,7 +703,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         // Seems we do not need this anymore, but return key still
         return $key;
 
-        $session = $_MIDCOM->get_service('session');
+        $session = midcom::get('session');
         $session->set('midcom.helper.datamanager2', $key, $this->_raw_schema);
         return $key;
     }

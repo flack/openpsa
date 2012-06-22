@@ -1,0 +1,23 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE en
+
+---STRING subject
+Subject
+---STRINGEND
+
+---STRING message
+Message
+---STRINGEND
+
+---STRING form successfully sent
+The form was sent successully
+---STRINGEND
+
+---STRING error sending form
+An error ocurred while sending the form 
+---STRINGEND
+
+---STRING org.openpsa.mail
+Email sending library
+---STRINGEND

@@ -42,7 +42,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         (
             'productGroup' => $this->_group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
-            'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+            'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
         );
         $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
 
@@ -60,7 +60,6 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
         );
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
-        //remember to remove buddylist entry later on
 
         $deliverable_attributes = array
         (
@@ -135,7 +134,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
      */
     public function testRun_cycle($params, $input, $result)
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $this->_apply_input($input);
 
         $scheduler = new org_openpsa_invoices_scheduler($this->_deliverable);
@@ -165,7 +164,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     private function _verify_new_task()
@@ -289,7 +288,6 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     {
         //get the necessary constants
         midcom::get('componentloader')->load('org.openpsa.sales');
-        midcom::get('componentloader')->load('org.openpsa.products');
 
         $now = time();
         $this_month = gmdate('n', $now);
@@ -440,7 +438,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+                        'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                     )
                 ),
                 array
@@ -488,7 +486,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE
                     ),
                     '_task' => array
                     (
@@ -552,7 +550,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE
                     ),
                     '_hour_report' => array
                     (
@@ -604,7 +602,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     '_product' => array
                     (
-                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS
                     )
                 ),
                 'output' => array
@@ -629,7 +627,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
      */
     public function testRun_cycle_multiple()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
 
         $deliverable_attributes = array
         (
@@ -654,7 +652,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         );
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $this->_product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION;
+        $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();
 
         $this->_deliverable->start = strtotime('2010-02-02 00:00:00');
@@ -696,7 +694,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $this->assertEquals(200, $invoice->sum);
         $this->assertEquals(100, $deliverable2->invoiced);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 
 $plazes = org_routamc_positioning_importer::create('plazes');
 $coordinates = $plazes->get_plazes_location($user);

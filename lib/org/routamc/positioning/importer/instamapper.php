@@ -18,7 +18,6 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
     public function __construct()
     {
         parent::__construct();
-        $_MIDCOM->load_library('org.openpsa.httplib');
     }
 
     /**

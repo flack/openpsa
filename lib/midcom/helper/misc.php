@@ -26,9 +26,9 @@ class midcom_helper_misc
        's' => 'unmodified',
     );
 
-
     /**
      * Register PHP function as string formatter to the Midgard formatting engine.
+     *
      * @see http://www.midgard-project.org/documentation/reference-other-mgd_register_filter/
      */
     public static function register_filter($name, $function)
@@ -36,6 +36,22 @@ class midcom_helper_misc
         self::$_filters["x{$name}"] = $function;
     }
 
+    /**
+     * Helper function to turn typical midcom config files into PHP arrays
+     *
+     * @param string $data The data to parse
+     * @throws midcom_error
+     * @return array The config in array format
+     */
+    public static function parse_config($data)
+    {
+        $result = eval("\$data = array({$data}\n);");
+        if ($result === false)
+        {
+            throw new midcom_error("Failed to parse config data, see above for PHP errors.");
+        }
+        return $data;
+    }
 
     /**
      * This helper function searches for a snippet either in the Filesystem
@@ -80,7 +96,7 @@ class midcom_helper_misc
                 $cached_snippets[$path] = null;
                 return null;
             }
-            $_MIDCOM->cache->content->register($snippet->guid);
+            midcom::get('cache')->content->register($snippet->guid);
             $data = $snippet->code;
         }
         $cached_snippets[$path] = $data;
@@ -213,7 +229,7 @@ class midcom_helper_misc
         }
         else
         {
-            $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, $_MIDCOM->i18n->get_current_charset())';
+            $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get(\'i18n\')->get_current_charset())';
         }
 
         return "<?php $command; ?>";
@@ -289,7 +305,7 @@ class midcom_helper_misc
 
         // Ultimate fall-back, if we couldn't get anything out of the transliteration we use the UTF-8 character hexes as the name string to have *something*
         if (   empty($string)
-               || preg_match("/^{$replacer}+$/", $string))
+            || preg_match("/^{$replacer}+$/", $string))
         {
             $i = 0;
             // make sure this is not mb_strlen (ie mb automatic overloading off)
@@ -354,13 +370,13 @@ class midcom_helper_misc
         $check_files = Array();
         switch ($mimetype_filename)
         {
-        case 'application-x-zip-compressed':
-            $check_files[] = "gnome-application-zip.png";
-            break;
-        default:
-            $check_files[] = "{$mimetype_filename}.png";
-            $check_files[] = "gnome-{$mimetype_filename}.png";
-            break;
+            case 'application-x-zip-compressed':
+                $check_files[] = "gnome-application-zip.png";
+                break;
+            default:
+                $check_files[] = "{$mimetype_filename}.png";
+                $check_files[] = "gnome-{$mimetype_filename}.png";
+                break;
         }
 
         // Default icon if there is none for the MIME type
@@ -380,6 +396,19 @@ class midcom_helper_misc
     }
 
     /**
+     * Helper function, determines the mime-type of the specified file.
+     *
+     * The call uses the "file" utility which must be present for this type to work.
+     *
+     * @param string $filename The file to scan
+     * @return string The autodetected mime-type
+     */
+    public static function get_mimetype($filename)
+    {
+        return exec("{$GLOBALS['midcom_config']['utility_file']} -ib {$filename} 2>/dev/null");
+    }
+
+    /**
      * Helper function for pretty printing file sizes
      * Original from http://www.theukwebdesigncompany.com/articles/php-file-manager.php
      *
@@ -393,7 +422,7 @@ class midcom_helper_misc
             // More than a meg
             return $return_size = sprintf("%01.2f", $size / 1048576) . " Mb";
         }
-        elseif ($size > 1024)
+        else if ($size > 1024)
         {
             // More than a kilo
             return $return_size = sprintf("%01.2f", $size / 1024) . " Kb";

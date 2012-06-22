@@ -25,32 +25,11 @@ class midcom_db_eventmember extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_eventmember';
 
-    /**
-     * Overwrite the query builder getter with a version retrieving the right type.
-     * We need a better solution here in DBA core actually, but it will be difficult to
-     * do this as we cannot determine the current class in a polymorphic environment without
-     * having a this (this call is static).
-     */
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function get_label()
     {
         $person = new midcom_db_person($this->uid);
         $event = new midcom_db_event($this->eid);
-        return sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
+        return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $event->title);
     }
 
     /**

@@ -81,7 +81,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      * outside is safe at this point.
      *
      * @return boolean Indicating success, false will abort the type construction sequence.
-     * @access protected
      */
     public function _on_initialize()
     {
@@ -116,7 +115,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 'color' => '8596b6'
             );
 
-            $_MIDCOM->load_library('net.nemein.tag');
+            midcom::get('componentloader')->load_library('net.nemein.tag');
         }
 
         $this->allow_multiple = true;
@@ -270,8 +269,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
     {
         if (   empty($this->options)
             && (   $this->use_tag_library
-                || $this->force_saving_to_tag_library)
-            )
+                || $this->force_saving_to_tag_library))
         {
             debug_add("use tag lib");
 

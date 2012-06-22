@@ -26,6 +26,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function load_schemadb()
     {
+        midcom::get('componentloader')->load("org.openpsa.contacts");
         $person_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
         $account_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         foreach ($account_schema['default']->fields as $name => $value)
@@ -50,21 +51,19 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
                 $this->_master->create_account($this->_person, $data["controller"]->formmanager);
 
-                $_MIDCOM->relocate('view/' . $this->_person->guid . '/');
+                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $this->add_breadcrumb('', sprintf($this->_l10n->get('create person')));
 
         org_openpsa_helpers::dm2_savecancel($this);
     }
-
 
     /**
      * DM2 creation callback.

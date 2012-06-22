@@ -57,7 +57,7 @@ class midcom_helper_nav
     {
         if ($contextid == -1)
         {
-            $contextid = $_MIDCOM->get_current_context();
+            $contextid = midcom_core_context::get()->id;
         }
         $this->_contextid = $contextid;
         $this->_backend = $this->_get_backend();
@@ -263,7 +263,7 @@ class midcom_helper_nav
         {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }
-        $navorder = (int) $this->_backend->get_parameter($guid, 'navorder');
+        $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
 
         switch ($navorder)
         {
@@ -328,7 +328,8 @@ class midcom_helper_nav
         // the tree. This is, for example, used by the on-delete cache invalidation.
         try
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+
             if (is_a($object, 'midcom_db_topic'))
             {
                 // Ok. This topic should be within the content tree,
@@ -338,6 +339,7 @@ class midcom_helper_nav
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
                 }
+
                 return $this->get_node($object->id);
             }
 
@@ -399,7 +401,7 @@ class midcom_helper_nav
         // function call.
         $unprocessed_node_ids = Array ($this->get_root_node());
 
-        while ( count ($unprocessed_node_ids) > 0)
+        while (count ($unprocessed_node_ids) > 0)
         {
             $node_id = array_shift($unprocessed_node_ids);
 
@@ -569,8 +571,7 @@ class midcom_helper_nav
             {
                 if (   isset($data['napobject'])
                     && isset($data['napobject'][MIDCOM_NAV_GUID])
-                    && in_array($data['napobject'][MIDCOM_NAV_GUID], $skip_guids)
-                   )
+                    && in_array($data['napobject'][MIDCOM_NAV_GUID], $skip_guids))
                 {
                     continue;
                 }
@@ -637,7 +638,7 @@ class midcom_helper_nav
      *         MIDCOM_NAV_NAME => $this->_category_name,
      *     ),
      * );
-     * $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+     * midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
      * </code>
      *
      * @return array The computed breadcrumb data as outlined above.
@@ -646,7 +647,7 @@ class midcom_helper_nav
      */
     function get_breadcrumb_data ($id = null)
     {
-        $prefix = $_MIDCOM->get_context_data($this->_contextid, MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get($this->_contextid)->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $result = Array();
 
         if (! $id)
@@ -716,7 +717,7 @@ class midcom_helper_nav
             );
         }
 
-        $customdata = $_MIDCOM->get_custom_context_data('midcom.helper.nav.breadcrumb');
+        $customdata = midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
         if (is_array($customdata))
         {
             foreach ($customdata as $key => $entry)

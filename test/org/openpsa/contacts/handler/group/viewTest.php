@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -28,13 +28,47 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
         self::$_group = self::create_class_object('org_openpsa_contacts_group_dba');
     }
 
-    public function testHandler_view()
+    public function testHandler_view_group()
     {
         midcom::get('auth')->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('group', self::$_group->guid));
         $this->assertEquals('group_view', $data['handler_id']);
 
+        $output = $this->show_handler($data);
+
+        $this->show_handler($data);
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_view_organization()
+    {
+        $attributes = array
+        (
+            'orgOpenpsaObtype' => org_openpsa_contacts_group_dba::ORGANIZATION
+        );
+        $organization = $this->create_object('org_openpsa_contacts_group_dba', $attributes);
+        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+
+        $data = $this->run_handler('org.openpsa.contacts', array('group', $organization->guid));
+        $this->assertEquals('group_view', $data['handler_id']);
+
+        $output = $this->show_handler($data);
+
+        $this->show_handler($data);
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_json()
+    {
+        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+
+        $data = $this->run_handler('org.openpsa.contacts', array('group', 'json', self::$_group->guid));
+        $this->assertEquals('group_view_json', $data['handler_id']);
+
+        $output = $this->show_handler($data);
+
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

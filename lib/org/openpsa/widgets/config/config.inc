@@ -5,13 +5,17 @@
 'search_providers' => array
 (
     'midcom.helper.search' => 'result/',
-    'org.openpsa.contacts' => 'search/',
+    'org.openpsa.contacts' => array
+    (
+        'route' => 'search/',
+        'autocomplete' => true
+    ),
     'org.openpsa.documents' => 'search/',
     'org.openpsa.invoices' => 'goto/',
 ),
 
 /* grid widget */
-'jqgrid_version' => '4.1.1',
+'jqgrid_version' => '4.3.3',
 
 /* contact widget */
 'jabber_enable_presence' => true,

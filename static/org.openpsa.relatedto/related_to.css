@@ -80,7 +80,7 @@ ol.org_openpsa_relatedto_list div
 }
 ol.org_openpsa_relatedto_list div.ajax_busy
 {
-    background-image: url('../org.openpsa.helpers/ajax-loading.gif');
+    background-image: url('../stock-icons/16x16/ajax-loading.gif');
     height: 20px;
     background-position: center;
     background-repeat: no-repeat;

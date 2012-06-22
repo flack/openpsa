@@ -82,6 +82,14 @@ Enable organization creation
 Enable product creation
 ---STRINGEND
 
+---STRING enable task creation
+Enable task creation
+---STRINGEND
+
+---STRING enable task view
+Enable viewing tasks created by others
+---STRINGEND
+
 ---STRING enable editing products created by others
 Enable editing products created by others
 ---STRINGEND
@@ -110,8 +118,20 @@ Generate Password
 Group Information
 ---STRINGEND
 
+---STRING last login
+Letzer Login
+---STRINGEND
+
 ---STRING notification settings
 Notification settings
+---STRINGEND
+
+---STRING new password
+New password
+---STRINGEND
+
+---STRING new password repeat
+Repeat new password
 ---STRINGEND
 
 ---STRING own_password
@@ -122,16 +142,12 @@ Own Password
 Send welcome mail?
 ---STRINGEND
 
+---STRING user is online
+User is online
+---STRINGEND
+
 ---STRING username_already_exists
 This username is already taken.
----STRINGEND
-
----STRING new password
-New password
----STRINGEND
-
----STRING new password repeat
-Repeat new password
 ---STRINGEND
 
 ---STRING password_too_weak
@@ -320,6 +336,10 @@ Remove account
 
 ---STRING street
 Street address
+---STRINGEND
+
+---STRING switch to user
+Switch to user
 ---STRINGEND
 
 ---STRING unknown email address

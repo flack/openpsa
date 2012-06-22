@@ -173,21 +173,20 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         {
             case 'save':
                 // Reindex the message
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate("message/{$this->_message->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("message/{$this->_message->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_message->title);
-        $_MIDCOM->bind_view_to_object($this->_message, $this->_request_data['controller']->datamanager->schema->name);
+        midcom::get('head')->set_pagetitle($this->_message->title);
+        $this->bind_view_to_object($this->_message, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -227,24 +226,22 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_message->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate("campaign/{$data['campaign']->guid}/");
-            // This will exit.
+            return new midcom_response_relocate("campaign/{$data['campaign']->guid}/");
         }
 
         if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("message/{$this->_message->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("message/{$this->_message->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_message->title);
-        $_MIDCOM->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
+        midcom::get('head')->set_pagetitle($this->_message->title);
+        $this->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -281,7 +278,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $_MIDCOM->componentloader->load('midcom.helper.reflector');
                 $copy = new midcom_helper_reflector_copy();
                 $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
                 $copy_objects = array();
@@ -312,12 +308,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 // Fall through
 
             case 'cancel':
-                $_MIDCOM->relocate("message/{$guid}/");
-                // This will exit
+                return new midcom_response_relocate("message/{$guid}/");
         }
 
-        $_MIDCOM->set_pagetitle($this->_message->title);
-        $_MIDCOM->bind_view_to_object($this->_message);
+        midcom::get('head')->set_pagetitle($this->_message->title);
+        $this->bind_view_to_object($this->_message);
         $this->_update_breadcrumb_line($handler_id);
     }
 

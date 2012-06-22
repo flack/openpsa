@@ -69,7 +69,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         $this->_message = $message;
 
         $this->headers['User-Agent'] = 'Midgard/' . substr(mgd_version(), 0, 4);
-        $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
+        $this->headers['X-Originating-Ip'] = '[' . $_SERVER['REMOTE_ADDR'] . ']';
 
         $this->encoding = $this->_i18n->get_current_charset();
 
@@ -223,10 +223,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         if (   !isset($part->disposition)
             || (   $part->disposition == 'inline'
                 && (   isset($part->ctype_primary)
-                    && strtolower($part->ctype_primary) == 'text'
-                    )
-                )
-            )
+                    && strtolower($part->ctype_primary) == 'text')))
         {
             //part is (likely) body
             if (   isset($part->ctype_parameters['charset'])
@@ -310,7 +307,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         if (is_array($data))
         {
             debug_add('Given data is an array, iterating trough it');
-            foreach($data as $k => $v)
+            foreach ($data as $k => $v)
             {
                 debug_add("Recursing key {$k}");
                 $data[$k] = $this->_charset_convert($v, $given_encoding);
@@ -364,9 +361,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
                 /* ASCII is a subset of the following encodings, and thus requires no conversion to them */
                 && (   $this_encoding_lower == 'utf-8'
                     || $this_encoding_lower == 'iso-8859-1'
-                    || $this_encoding_lower == 'iso-8859-15')
-                )
-            )
+                    || $this_encoding_lower == 'iso-8859-15')))
         {
             debug_add("Given/Detected encoding '{$encoding}' and desired encoding '{$this->encoding}' require no conversion between them", MIDCOM_LOG_INFO);
             return $data;

@@ -1,0 +1,13 @@
+.net_nehmer_comments_comment_toolbar ul.midcom_toolbar
+{
+    list-style-type: none;
+    margin: 0;
+    padding: .2em
+}
+
+.net_nehmer_comments_comment_toolbar li,
+.net_nehmer_comments_comment_toolbar li form,
+.net_nehmer_comments_comment_toolbar li form div
+{
+    display: inline
+}

@@ -70,6 +70,130 @@ class midcom_compat_superglobal
         return midcom::get()->$key = $value;
     }
 
+    function generate_host_url($host)
+    {
+        if ($host->port == 443)
+        {
+            $protocol = 'https';
+        }
+        else
+        {
+            $protocol = 'http';
+        }
+
+        $port = '';
+        if (   $host->port != 80
+            && $host->port != 443
+            && $host->port != 0)
+        {
+            $port = ':' . $host->port;
+        }
+
+        return "{$protocol}://{$host->name}{$port}{$host->prefix}/";
+    }
+
+    /**
+     * Deliver a snippet to the client.
+     *
+     * This function can serve the code field of an arbitrary snippet. There is no checking on
+     * permissions done here, the callee has to ensure this.
+     *
+     * Two parameters can be used to influence the behavior of this method:
+     * "midcom/content-type" will set the content-type header sent with the code
+     * field's content. If this is not set, application/octet-stream is used as a
+     * default. "midcom/expire" is a count of seconds used for content expiration,
+     * both for the HTTP headers and for the caching engine. If this is no valid
+     * integer or less then or equal to zero or not set, the value is set to "1".
+     *
+     * The last modified header is created by using the revised timestamp of the
+     * snippet.
+     *
+     * Remember to also set the parameter "midcom/allow_serve" to "true" to clear the
+     * snippet for serving.
+     *
+     * @param MidgardSnippet &$snippet    The snippet that should be delivered to the client.
+     */
+    function serve_snippet (& $snippet)
+    {
+        if ($snippet->parameter("midcom", "allow_serve") != "true")
+        {
+            throw new midcom_error_forbidden("This snippet may not be served.");
+        }
+        $content_type = $snippet->parameter("midcom", "content-type");
+        if (! $content_type || $content_type == "")
+        {
+            $content_type = "application/octet-stream";
+        }
+        $expire = $snippet->parameter("midcom", "expire");
+        if (! $expire || ! is_numeric($expire) || $expire < -1)
+        {
+            $expire = -1;
+        }
+        else
+        {
+            $expire = (int) $expire;
+        }
+        // This is necessary, as the internal date representation is not HTTP
+        // standard compliant. :-(
+        $lastmod = strtotime($snippet->revised);
+
+        $midcom = midcom::get();
+
+        $midcom->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastmod) . ' GMT');
+        $midcom->header("Content-Length: " . strlen($snippet->code));
+        $midcom->header("Accept-Ranges: none");
+        $midcom->header("Content-Type: $content_type");
+        midcom::get('cache')->content->content_type($content_type);
+
+        // TODO: This should be made aware of the cache headers strategy for content cache module
+        if ($expire > 0)
+        {
+            $midcom->header("Cache-Control: public max-age=$expires");
+            $midcom->header("Expires: " . gmdate("D, d M Y H:i:s", (time()+$expire)) . " GMT" );
+            midcom::get('cache')->content->expires(time()+$expire);
+        }
+        else if ($expire == 0)
+        {
+            midcom::get('cache')->content->no_cache();
+        }
+        echo $snippet->code;
+    }
+
+    /**
+     * Deliver a blob to the client.
+     *
+     * This is a replacement for mgd_serve_attachment that should work around most of
+     * its bugs: It is missing all important HTTP Headers concerning file size,
+     * modification date and expiration. It will not call _midcom_stop_request() when it is finished,
+     * you still have to do that yourself. It will add the following HTTP Headers:
+     *
+     * - Cache-Control: public max-age=$expires
+     * - Expires: GMT Date $now+$expires
+     * - Last-Modified: GMT Date of the last modified timestamp of the Attachment
+     * - Content-Length: The Length of the Attachment in Bytes
+     * - Accept-Ranges: none
+     *
+     * This should enable caching of browsers for Navigation images and so on. You can
+     * influence the expiration of the served attachment with the parameter $expires.
+     * It is the time in seconds till the client should refetch the file. The default
+     * for this is 24 hours. If you set it to "0" caching will be prohibited by
+     * changing the sent headers like this:
+     *
+     * - Pragma: no-cache
+     * - Cache-Control: no-cache
+     * - Expires: Current GMT Date
+     *
+     * If expires is set to -1, no expires header gets sent.
+     *
+     * @param MidgardAttachment &$attachment    A reference to the attachment to be delivered.
+     * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
+     */
+    function serve_attachment(& $attachment, $expires = -1)
+    {
+        $resolver = new midcom_core_resolver(midcom_core_context::get());
+        $resolver->serve_attachment($attachment, $expires);
+    }
+
     /**
      * Return a reference to a given service.
      *
@@ -94,6 +218,28 @@ class midcom_compat_superglobal
     public function get_component_loader()
     {
         return midcom::get('componentloader');
+    }
+
+    /**
+     * Load a code library
+     *
+     * This will load the pure-code library denoted by the MidCOM Path $path. It will
+     * return true if the component truly was a pure-code library, false otherwise.
+     * If the component loader cannot load the component, midcom_error will be
+     * thrown by it.
+     *
+     * Common example:
+     *
+     * <code>
+     * midcom::get('componentloader')->load_library('midcom.helper.datamanager');
+     * </code>
+     *
+     * @param string $path    The name of the code library to load.
+     * @return boolean            Indicates whether the library was successfully loaded.
+     */
+    function load_library($path)
+    {
+        return midcom::get('componentloader')->load_library($path);
     }
 
     /**
@@ -156,20 +302,14 @@ class midcom_compat_superglobal
     /**
      * Store arbitrary, component-specific information in the component context
      *
-     * @param mixed $key        The key associated to the value.
-     * @param mixed $value    The value to store. (This is stored by-reference!)
-     * @param int $contextid    The context to associated this data with (defaults to the current context)
+     * @param mixed $key    The key associated to the value or the context id
+     * @param mixed &$value    The value to store. (This is stored by-reference!)
+     * @param mixed $contextid    The key if a context was specified as first parameter
      */
-    function set_custom_context_data ($key, &$value, $contextid = null)
+    function set_custom_context_data($key, &$value, $contextid = null)
     {
         $context = midcom_core_context::get($contextid);
-        if (!$context)
-        {
-            return;
-        }
-        $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
-
-        $context->set_custom_key($component, $key, $value);
+        $context->set_custom_key($key, $value);
     }
 
     /**
@@ -198,9 +338,45 @@ class midcom_compat_superglobal
             return $result;
         }
 
-        $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        return $context->get_custom_key($key);
+    }
 
-        return $context->get_custom_key($component, $key);
+    /**
+     * Prepends a substyle before the currently selected component style.
+     *
+     * Prepends a substyle before the currently selected component style, effectively
+     * enabling a depth of more then one style during substyle selection. This is only
+     * effective if done during the handle phase of the component and allows the
+     * component. The currently selected substyle therefore is now searched one level
+     * deeper below "subStyle".
+     *
+     * The system must have completed the CAN_HANDLE Phase before this function will
+     * be available.
+     *
+     * @param string $newsub The substyle to prepend.
+     */
+    function substyle_prepend($newsub)
+    {
+        midcom::get('style')->prepend_substyle($newsub);
+    }
+
+    /**
+     * Appends a substyle after the currently selected component style.
+     *
+     * Appends a substyle after the currently selected component style, effectively
+     * enabling a depth of more then one style during substyle selection. This is only
+     * effective if done during the handle phase of the component and allows the
+     * component. The currently selected substyle therefore is now searched one level
+     * deeper below "subStyle".
+     *
+     * The system must have completed the CAN_HANDLE Phase before this function will
+     * be available.
+     *
+     * @param string $newsub The substyle to append.
+     */
+    function substyle_append($newsub)
+    {
+        midcom::get('style')->append_substyle($newsub);
     }
 
     /**
@@ -232,6 +408,51 @@ class midcom_compat_superglobal
     public function _set_current_context($id)
     {
         return midcom_core_context::set_current($id);
+    }
+
+    /**
+     * This is a temporary transition function used to set the currently known and required
+     * Request Metadata: The last modified timestamp and the permalink GUID.
+     *
+     * <i>Author's note:</i> This function is a temporary solution which is used until the
+     * Request handling code of MidCOM has been rewritten. Hence the _26_ section in its name.
+     * I have decided to put them into their own function instead of letting you access the
+     * corresponding context keys directly. Thus, there is also corresponding getter-function,
+     * which return you the set information here. Just don't worry where it is stored and use
+     * the interface functions.
+     *
+     * You may set either of the arguments to null to enforce default usage (based on NAP).
+     *
+     * @param int $lastmodified The date of last modification of this request.
+     * @param string $permalinkguid The GUID used to create a permalink for this request.
+     * @see get_26_request_metadata()
+     */
+    function set_26_request_metadata($lastmodified, $permalinkguid)
+    {
+        midcom::get('metadata')->set_request_metadata($lastmodified, $permalinkguid);
+    }
+
+    /**
+     * This is a temporary transition function used to get the currently known and required
+     * Request Metadata: The last modified timestamp and the permalink GUID.
+     *
+     * <i>Author's note:</i> This function is a temporary solution which is used until the
+     * Request handling code of MidCOM has been rewritten. Hence the _26_ section in its name.
+     * I have decided to put them into their own function instead of letting you access the
+     * corresponding context keys directly. Thus, there is also corresponding setter-function,
+     * which set the information returned here. Just don't worry where it is stored and use
+     * the interface functions.
+     *
+     * @param int $context_id The context from which the request metadata should be retrieved. Omit
+     *     to use the current context.
+     * @return Array An array with the two keys 'lastmodified' and 'permalinkguid' containing the
+     *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
+     *     which contains a ready-made permalink.
+     * @see set_26_request_metadata()
+     */
+    public function get_26_request_metadata($context_id = null)
+    {
+        return midcom::get('metadata')->get_request_metadata($context_id);
     }
 
     /**
@@ -267,6 +488,31 @@ class midcom_compat_superglobal
      * relocate           - executes a HTTP relocation to the given URL
      * _showdebuglog      - internal helper for the debuglog URL method.
      */
+
+    /**
+     * Binds the current page view to a particular object. This will automatically connect such things like
+     * metadata and toolbars to the correct object.
+     *
+     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
+     * @param string $page_class String describing page type, will be used for substyling
+     */
+    function bind_view_to_object($object, $page_class = 'default')
+    {
+        $context = midcom_core_context::get();
+
+        // Bind the object into the view toolbar
+        $view_toolbar = midcom::get('toolbars')->get_view_toolbar($context->id);
+        $view_toolbar->bind_to($object);
+
+        // Bind the object to the metadata service
+        midcom::get('metadata')->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
+
+        // Push the object's CSS classes to metadata service
+        $page_class = midcom::get('metadata')->get_object_classes($object, $page_class);
+        midcom::get('metadata')->set_page_class($page_class, $context->id);
+
+        midcom::get('style')->append_substyle($page_class);
+    }
 
     /**
      * Generate an error page.

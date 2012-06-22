@@ -114,12 +114,12 @@ Merkkaa lähetetyksi
 Merkitty %s tuntia laskutetuiksi
 ---STRINGEND
 
----STRING marked invoice "%s" paid
-Lasku "%s" merkattu maksetuksi
+---STRING marked invoice %s paid
+Lasku %s merkattu maksetuksi
 ---STRINGEND
 
----STRING marked invoice "%s" sent
-Lasku "%s" merkattu lähetetyksi
+---STRING marked invoice %s sent
+Lasku %s merkattu lähetetyksi
 ---STRINGEND
 
 ---STRING marked task "%s" finished

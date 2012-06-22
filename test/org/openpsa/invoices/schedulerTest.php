@@ -262,7 +262,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
         );
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
-        //remember to remove buddylist entry later on
 
         $deliverable_attributes = array
         (
@@ -281,7 +280,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $end_cmp = mktime(23, 59, 59, date('n', $end), date('j', $end), date('Y', $end));
 
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $task = $scheduler->create_task($start, $end, $title);
         $this->assertTrue(is_a($task, 'org_openpsa_projects_task_dba'));
         $this->register_object($task);
@@ -330,9 +329,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $this->assertEquals($member->id, $task2->manager);
         $this->assertEquals($task->resources, $task2->resources);
 
-
-        $this->delete_linked_objects('org_openpsa_contacts_buddy_dba', 'account', $manager->guid);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

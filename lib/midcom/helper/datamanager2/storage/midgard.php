@@ -18,7 +18,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
     /**
      * Start up the storage manager and bind it to a given MidgardObject.
      * The passed object must be a MidCOM DBA object, otherwise the system bails with
-     * generate_error. In this case, no automatic conversion is done, as this would
+     * midcom_error. In this case, no automatic conversion is done, as this would
      * destroy the reference.
      *
      * @param midcom_helper_datamanager2_schema $schema The data schema to use for processing.
@@ -27,7 +27,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
     public function __construct($schema, $object)
     {
         parent::__construct($schema);
-        if (! $_MIDCOM->dbclassloader->is_mgdschema_object($object))
+        if (! midcom::get('dbclassloader')->is_mgdschema_object($object))
         {
             debug_print_r('Object passed:', $object);
             throw new midcom_error('The midgard storage backend requires a MidCOM DBA object.');

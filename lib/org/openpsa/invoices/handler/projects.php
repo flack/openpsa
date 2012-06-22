@@ -31,14 +31,14 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
     {
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->customer = (int) $_POST['org_openpsa_invoices_invoice_customer'];
-        $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
+        $invoice->number = $invoice->generate_invoice_number();
         $invoice->owner = midcom_connection::get_user();
-        $invoice->vat = $invoice->get_default_vat();
-        $invoice->description = '';
+        $invoice->vat = $invoice->get_default('vat');
+        $invoice->description = $invoice->get_default('remarks');
 
         if (!$invoice->create())
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
             return false;
         }
 
@@ -81,9 +81,9 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $invoice->generate_invoicing_task($invoice_sender_guid);
         }
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice "%s" created'), $invoice->get_label()), 'ok');
+        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice %s created'), $invoice->get_label()), 'ok');
 
-        $_MIDCOM->relocate("invoice/edit/{$invoice->guid}/");
+        midcom::get()->relocate("invoice/edit/{$invoice->guid}/");
             // This will exit
     }
 
@@ -94,8 +94,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      */
     public function _handler_uninvoiced($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba');
+        midcom::get('auth')->require_valid_user();
+        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba');
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '>=', org_openpsa_projects_task_status_dba::COMPLETED);
@@ -134,7 +134,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
 
         $title = $this->_l10n->get('project invoicing');
-        $_MIDCOM->set_pagetitle($title);
+        midcom::get('head')->set_pagetitle($title);
         $this->add_breadcrumb("", $title);
     }
 

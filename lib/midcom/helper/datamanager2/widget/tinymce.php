@@ -46,7 +46,7 @@
  * are initialized individually. If the specified snippet is not used, some default configuration
  * is used (see the private function _get_advanced_configuration).
  *
- * Configuraton is specified in an already JScript compatible way: The main config snippet is included
+ * Configuration is specified in an already JScript compatible way: The main config snippet is included
  * verbatim, as is the information in the local_config option.
  *
  * The following options must not be specified in any configuration: mode, elements, language
@@ -108,6 +108,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
 
     /**
      * Should the imagepopup button be shown?
+     *
      * @var boolean defaults to true.
      */
     var $use_imagepopup = true;
@@ -130,11 +131,11 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $prefix = $this->_config->get('tinymce_url');
         if ($this->_config->get('tinymce_use_compressor'))
         {
-            $_MIDCOM->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
+            midcom::get('head')->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
         }
         else
         {
-            $_MIDCOM->add_jsfile("{$prefix}/tiny_mce.js", true);
+            midcom::get('head')->add_jsfile("{$prefix}/tiny_mce.js", true);
         }
     }
 
@@ -156,24 +157,17 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         }
 
 
-        $language = $_MIDCOM->i18n->get_current_language();
+        $language = midcom::get('i18n')->get_current_language();
         // fix to use the correct langcode for norwegian.
         if ($language == 'no')
         {
              $language = 'nb';
         }
-        /**
-         * #1454
-        if ($language == 'sv')
-        {
-             $language = 'sv_utf8';
-        }
-         */
 
         $imagepopup_url = '';
         if ($this->use_imagepopup)
         {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $imagepopup_url = "plugin_imagepopup_popupurl: \"{$prefix}__ais/imagepopup/";
 
             if ($this->_type->storage->object)
@@ -201,7 +195,7 @@ disk_cache : true,
 debug : false
 });
 EOT;
-        $_MIDCOM->add_jscript($script_gz);
+            midcom::get('head')->add_jscript($script_gz);
         }
 
         // Compute the final script:
@@ -221,11 +215,13 @@ browsers : "msie,gecko,opera,safari"
 });
 EOT;
 
-        $_MIDCOM->add_jscript($script);
+        midcom::get('head')->add_jscript($script);
     }
+
     /**
      * Returns the string ,imagepopup that is added if we are editing a
      * saved object (and thus can add attachments)
+     *
      * @return string empty or containing ",imagepopup"
      */
     function _get_imagepopup_jsstring()
@@ -236,6 +232,7 @@ EOT;
         }
         return "";
     }
+
     /**
      * Returns the configuration theme based on the local_config_theme.
      *
@@ -293,6 +290,7 @@ theme_advanced_toolbar_location : "top",
 paste_create_linebreaks : false,
 EOT;
     }
+
     /**
      * Returns the "advanced" configuration
      */
@@ -365,7 +363,7 @@ EOT;
             else
             {
                 // No object has been created yet. Therefore, we register the schema for the topic GUID
-                $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+                $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
                 $this->_schema->register_to_session($topic->guid);
             }
         }
@@ -374,9 +372,10 @@ EOT;
     /**
      * This is called during intialization the function is used to
      * register the schema to a session key
+     *
      * @return boolean always true
      */
-     public function _on_initialize ()
+     public function _on_initialize()
      {
         if ($this->_initialize_dependencies)
         {

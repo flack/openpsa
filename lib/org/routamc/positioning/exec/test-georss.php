@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 
 $html = org_routamc_positioning_importer::create('georss');
 $coordinates = $html->get_georss_location($user);

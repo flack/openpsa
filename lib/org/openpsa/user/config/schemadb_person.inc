@@ -91,11 +91,19 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'midcom_db_member',
+                'mapping_class_name' => 'org_openpsa_contacts_member_dba',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'allow_multiple' => true,
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'orgOpenpsaObtype',
+                        'op'    => '<',
+                        'value' => org_openpsa_contacts_group_dba::MYCONTACTS,
+                    ),
+                ),
             ),
             'widget' => 'chooser',
             'widget_config' => array

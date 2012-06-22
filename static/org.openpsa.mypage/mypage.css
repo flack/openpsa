@@ -44,6 +44,10 @@ div#org_openpsa_mypage_workingon_time
     font-size: 90%
 }
 
+div.org_openpsa_mypage_workingon .controls
+{
+    margin-top: .7em
+}
 #org_openpsa_mypage_workingon_loading
 {
     text-align: center;

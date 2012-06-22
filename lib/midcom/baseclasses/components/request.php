@@ -68,7 +68,7 @@
  *     // 'handler' => Array('net_nemein_registrations_regadmin', 'view')
  *     //
  *     // Alternative, use existing class (first parameter must be a reference):
- *     // 'handler' => Array(&$regadmin, 'view')
+ *     // 'handler' => Array($regadmin, 'view')
  * );
  * </code>
  *
@@ -80,7 +80,7 @@
  *
  * First, if you have two handlers with similar signatures, the latter might be hidden by the
  * former, for example the handler 'view' with two variable arguments includes the urls that
- * could match 'view','registration' with a single variable argument if processed in this order.
+ * could match 'view', 'registration' with a single variable argument if processed in this order.
  * In these cases you have to add the most specific handlers first.
  *
  * Second, for performance reasons, you should try to add the handler which will be accessed
@@ -149,13 +149,6 @@
  * Databases of the Component and MidCOM itself located in this class. They are stored
  * as 'l10n' and 'l10n_midcom'. Also available as 'config' is the current component
  * configuration and 'topic' will hold the current content topic.
- *
- * For those asking about "avoiding the problems of the view_* globals", this basically breaks
- * down to the fact that multiple components use these variables simultaneously. If you
- * invoke a dynamic_load within a style element, you have good chances, that after it your
- * original global $view variables have been overwritten by the style code of the
- * dynamically loaded component.
- *
  *
  * <b>Automatic handler class instantiation</b>
  *
@@ -235,7 +228,7 @@
  *     (
  *         'folder' => Array
  *         (
- *             'class' => 'midcom_admin_folder_folder_management',
+ *             'class' => 'midcom_admin_folder_management',
  *             'src' => 'file:/midcom/admin/folder/folder_management.php',
  *             'name' => 'Folder administration',
  *             'config' => null,
@@ -303,7 +296,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Request specific data storage area. Registered in the component context
      * as ''.
      *
-     * @var Array
+     * @var array
      */
     public $_request_data = Array();
 
@@ -353,9 +346,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * it will be post-processed afterwards during initialize to provide a unified
      * set of data. Therefore you must not modify this switch after construction.
      *
-     * @var Array
+     * @var array
      */
-    public $_request_switch = Array();
+    public $_request_switch = array();
 
     /**#@+
      * Internal request handling state variable, these are considered read-only for
@@ -384,9 +377,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     final public function __construct($topic, $config)
     {
-        if (! $_MIDCOM->dbclassloader->is_midcom_db_object($topic))
+        if (! midcom::get('dbclassloader')->is_midcom_db_object($topic))
         {
-            $this->_topic = $_MIDCOM->dbfactory->convert_midgard_to_midcom($topic);
+            $this->_topic = midcom::get('dbfactory')->convert_midgard_to_midcom($topic);
         }
         else
         {
@@ -404,19 +397,25 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function initialize($component)
     {
         $this->_component = $component;
-        $_MIDCOM->set_custom_context_data('request_data', $this->_request_data);
+        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
 
         $this->_request_data['config'] =& $this->_config;
         $this->_request_data['topic'] = null;
-        $this->_request_data['l10n'] =& $this->_l10n;
-        $this->_request_data['l10n_midcom'] =& $this->_l10n_midcom;
+        $this->_request_data['l10n'] = $this->_l10n;
+        $this->_request_data['l10n_midcom'] = $this->_l10n_midcom;
 
         if (empty(self::$_plugin_namespace_config))
         {
             $this->_register_core_plugin_namespaces();
         }
 
-        $this->_request_switch = midcom_baseclasses_components_configuration::get($this->_component, 'routes');
+        $manifest = midcom::get('componentloader')->manifests[$this->_component];
+        if (!empty($manifest->extends))
+        {
+            $this->_request_switch = midcom_baseclasses_components_configuration::get($manifest->extends, 'routes');
+        }
+
+        $this->_request_switch = array_merge($this->_request_switch, midcom_baseclasses_components_configuration::get($this->_component, 'routes'));
 
         $this->_on_initialize();
     }
@@ -464,17 +463,16 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
     }
 
-
     /**
      * CAN_HANDLE Phase interface, checks against all registered handlers if a valid
      * one can be found. You should not need to override this, instead, use the
      * HANDLE Phase for further checks.
      *
-     * If available, the function calls the _can_handle callback of the eventhandlers
+     * If available, the function calls the _can_handle callback of the event handlers
      * which potentially match the argument declaration.
      *
      * @param int $argc The argument count
-     * @param Array $argv The argument list
+     * @param array $argv The argument list
      * @return boolean Indicating whether the request can be handled by the class, or not.
      */
     public function can_handle($argc, $argv)
@@ -504,7 +502,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $fixed_args_count = count($request['fixed_args']);
             $total_args_count = $fixed_args_count + $request['variable_args'];
 
-            if (( $argc != $total_args_count && (  $request['variable_args'] >= 0 )) || $fixed_args_count > $argc)
+            if (    ($argc != $total_args_count && ($request['variable_args'] >= 0))
+                 || $fixed_args_count > $argc)
             {
                 continue;
             }
@@ -570,35 +569,37 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $handler = $this->_handler['handler'][0];
 
         // Update the request data
-        $this->_request_data['topic'] =& $this->_topic;
-        if (array_key_exists('plugin_namespace', $this->_request_data))
-        {
-            // Prepend the plugin anchor prefix so that it is complete.
-            $this->_request_data['plugin_anchorprefix'] =
-                  $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . $this->_request_data['plugin_anchorprefix'];
-        }
+        $this->_request_data['topic'] = $this->_topic;
 
         // Get the toolbars for both the main request object and the handler
         // object. Note, if both are equal, we will have two assignments at this
         // point; it shouldn't bother us, it isn't a regular use-case anymore (besides
         // the fact that this is only a very very very minor performance issue).
-        $this->_node_toolbar = $_MIDCOM->toolbars->get_node_toolbar();
-        $this->_view_toolbar = $_MIDCOM->toolbars->get_view_toolbar();
-        $handler->_node_toolbar = $_MIDCOM->toolbars->get_node_toolbar();
-        $handler->_view_toolbar = $_MIDCOM->toolbars->get_view_toolbar();
+        $this->_node_toolbar = midcom::get('toolbars')->get_node_toolbar();
+        $this->_view_toolbar = midcom::get('toolbars')->get_view_toolbar();
+        $handler->_node_toolbar = midcom::get('toolbars')->get_node_toolbar();
+        $handler->_view_toolbar = midcom::get('toolbars')->get_view_toolbar();
 
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
 
-        // Call the general handle event handler
-        $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
-        if ($result === false)
+        if (array_key_exists('plugin_namespace', $this->_request_data))
         {
-            debug_add('_on_handle for ' . $this->_handler['id'] . ' returned false. This is deprecated, please use exceptions instead');
-            return false;
+            // Prepend the plugin anchor prefix so that it is complete.
+            $this->_request_data['plugin_anchorprefix'] =
+            midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
+            . $this->_request_data['plugin_anchorprefix'];
         }
-
+        else
+        {
+            // We're not using a plugin handler, so call the general handle event handler
+            $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
+            if ($result === false)
+            {
+                debug_add('_on_handle for ' . $this->_handler['id'] . ' returned false. This is deprecated, please use exceptions instead');
+                return false;
+            }
+        }
         $method = "_handler_{$this->_handler['handler'][1]}";
         $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
 
@@ -616,16 +617,16 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Check whether this request should not be cached by default:
         if ($this->_handler['no_cache'] == true)
         {
-            $_MIDCOM->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
         }
         if ($this->_handler['expires'] >= 0)
         {
-            $_MIDCOM->cache->content->expires($this->_handler['expires']);
+            midcom::get('cache')->content->expires($this->_handler['expires']);
         }
 
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);
 
-        return true;
+        return $result;
     }
 
     /**
@@ -657,7 +658,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             $this->_handler['handler'][0]->initialize($this);
 
-            $_MIDCOM->_set_context_data($this->_handler['id'], MIDCOM_CONTEXT_HANDLERID);
+            midcom_core_context::get()->set_key($this->_handler['id'], MIDCOM_CONTEXT_HANDLERID);
         }
     }
 
@@ -721,18 +722,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Component specific initialization code for the handle phase. The name of the request
      * handler is passed as an argument to the event handler.
      *
-     * If you discover that you cannot handle the request already at this stage, return false
-     * and set the error variables accordingly. The reminder of the handle phase is skipped
-     * then, returning immediately to MidCOM.
-     *
      * Note, that while you have the complete information around the request (handler id,
      * args and request data) available, it is strongly discouraged to handle everything
      * here. Instead, stay with the specific request handler methods as far as sensible.
      *
-     * This callback is executed even if the actual request is handled by an external
-     * handler class.
-     *
-     * @param mixed $handler The ID (Array-Key) of the handler that is responsible to handle
+     * @param mixed $handler The ID (array key) of the handler that is responsible to handle
      *   the request.
      * @param Array $args The argument list.
      * @return boolean Return false to abort the handle phase, true to continue normally.
@@ -751,11 +745,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * This is run before the actual evaluation of the request switch. Components can use
      * this phase to load plugins that need registering in the request switch on demand.
      *
-     * The advantage of this is that it is not necessary, to load all plugins completely,
+     * The advantage of this is that it is not necessary to load all plugins completely,
      * you just have to know the "root" URL space (f.x. "/plugins/$name/").
      *
      * If you discover that you cannot handle the request already at this stage, return false
-     * The reminder of the can_handle phase is skipped then, returning the URL processing back
+     * The remainder of the can_handle phase is skipped then, returning the URL processing back
      * to MidCOM.
      *
      * @param int $argc The argument count as passed by the Core.
@@ -772,7 +766,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * output method associated with the handler declaration is called, return false to
      * override this automatism, true, the default, will call the output handler normally.
      *
-     * @param mixed $handler The ID (Array-Key) of the handler that is responsible to handle
+     * @param mixed $handler The ID (array key) of the handler that is responsible to handle
      *   the request.
      * @return boolean Return false to override the regular component output.
      */
@@ -793,7 +787,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * Only very basic testing is done to keep runtime up, currently the system only
      * checks to prevent duplicate namespace registrations. In such a case,
-     * generate_error will be called. Any further validation won't be done before
+     * midcom_error will be thrown. Any further validation won't be done before
      * can_handle determines that a plugin is actually in use.
      *
      * @param string $namespace The plugin namespace, checked against $args[0] during
@@ -814,7 +808,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * This helper loads the specified namespace/plugin combo.
      *
      * Any problem to load a plugin will be logged accordingly and false will be returned.
-     * Critical errors will trigger generate_error.
+     * Critical errors will trigger midcom_error.
      *
      * @todo Allow for lazy plugin namespace configuration loading (using a callback)!
      *     This will make things more performant and integration with other components
@@ -886,14 +880,14 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $src = substr($plugin_config['src'], $i + 1);
         }
 
-        switch($method)
+        switch ($method)
         {
             case 'file':
-                require_once(MIDCOM_ROOT . $src);
+                require_once MIDCOM_ROOT . $src;
                 break;
 
             case 'component':
-                $_MIDCOM->componentloader->load($src);
+                midcom::get('componentloader')->load($src);
                 break;
 
             case 'snippet':
@@ -925,19 +919,19 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         foreach ($handlers as $identifier => $handler_config)
         {
             // First, update the fixed args list (be tolerant here)
-            if (! array_key_exists('fixed_args', $handler_config))
+            if (!array_key_exists('fixed_args', $handler_config))
             {
-                $handler_config['fixed_args'] = Array($namespace, $plugin);
+                $handler_config['fixed_args'] = array($namespace, $plugin);
             }
-            else if (! is_array($handler_config['fixed_args']))
+            else if (!is_array($handler_config['fixed_args']))
             {
-                $handler_config['fixed_args'] = Array($namespace, $plugin, $handler_config['fixed_args']);
+                $handler_config['fixed_args'] = array($namespace, $plugin, $handler_config['fixed_args']);
             }
             else
             {
                 $handler_config['fixed_args'] = array_merge
                 (
-                    Array($namespace, $plugin),
+                    array($namespace, $plugin),
                     $handler_config['fixed_args']
                 );
             }
@@ -961,8 +955,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             (
                 'folder' => Array
                 (
-                    'class' => 'midcom_admin_folder_folder_management',
-                    'src' => 'file:/midcom/admin/folder/folder_management.php',
+                    'class' => 'midcom_admin_folder_management',
+                    'src' => 'file:/midcom/admin/folder/management.php',
                     'name' => 'Folder administration',
                     'config' => null,
                 ),
@@ -994,12 +988,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Load plugins registered via component manifests
         $manifest_plugins = array();
-        $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('request_handler_plugin');
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('request_handler_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
             $manifest_plugins[$component] = $plugin_config;
         }
-        $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('asgard_plugin');
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
             $manifest_plugins["asgard_{$component}"] = $plugin_config;

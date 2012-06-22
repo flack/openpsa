@@ -1,7 +1,6 @@
 'config' => array
 (
     'description' => 'Default Configuration Schema', /* This is a topic */
-    'locktimeout' => 0, /* Don't lock this, we display the edit view always */
     'fields' => array
     (
         /* redirection settings */
@@ -85,7 +84,7 @@
                     (
                         'field' => 'up',
                         'op' => 'INTREE',
-                        'value' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPICID),
+                        'value' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID),
                     ),
                 ),
                 'result_headers' => array

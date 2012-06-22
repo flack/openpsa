@@ -192,7 +192,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
                 }
             }
-            $_MIDCOM->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
+            $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
         }
 
         $this->_update_breadcrumb_line();
@@ -227,7 +227,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
         }
 
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
     }
 
     private function _handle_list_intree($args)
@@ -335,15 +335,15 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
             $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
 
-            if ($this->_request_data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            if ($this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
             {
                 $allow_create_product = false;
             }
         }
         else
         {
-            $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            $allow_create_group = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            $allow_create_product = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
 
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)
@@ -374,11 +374,17 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 $icon = 'stock-icons/16x16/new-text.png';
             }
+            $create_url = $name;
+
+            if ($this->_request_data['parent_group'])
+            {
+                $create_url = $this->_request_data['parent_group'] . '/' . $create_url;
+            }
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['parent_group']}/{$name}/",
+                    MIDCOM_TOOLBAR_URL => "product/create/{$create_url}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
@@ -426,7 +432,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
     private function _list_group_products()
     {
-        $_MIDCOM->load_library('org.openpsa.qbpager');
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $product_qb->results_per_page = $this->_config->get('products_per_page');
 
@@ -436,7 +441,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         if (   $this->_request_data['group']
-            && $this->_request_data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            && $this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
         {
             // Smart group, query products by stored constraints
             $constraints = $this->_request_data['group']->list_parameters('org.openpsa.products:constraints');
@@ -544,15 +549,13 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (   count($data['groups']) >= 1
             && (   count($data['products']) == 0
-                || $this->_config->get('listing_primary') == 'groups'
-               )
-           )
+                || $this->_config->get('listing_primary') == 'groups'))
         {
-            if ( $this->_config->get('disable_subgroups_on_frontpage') !== true )
+            if ($this->_config->get('disable_subgroups_on_frontpage') !== true)
             {
                 midcom_show_style('group_header');
 
@@ -669,7 +672,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $tmp = array_reverse($tmp);
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>

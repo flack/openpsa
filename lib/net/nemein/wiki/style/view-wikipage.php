@@ -22,7 +22,7 @@ $node = $nap->get_node($nap->get_current_node());
     {
         usort($tagged_pages, array('net_nemein_wiki_handler_view', 'sort_by_title'));
         echo "<dl class=\"tagged\">\n";
-        echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), $_MIDCOM->i18n->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
+        echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), midcom::get('i18n')->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
         foreach ($tagged_pages as $page)
         {
             echo "    <dd><a href=\"{$node[MIDCOM_NAV_FULLURL]}{$page->name}/\">{$page->title}</a></dd>\n";
@@ -34,17 +34,18 @@ $node = $nap->get_node($nap->get_current_node());
     $tags_by_context = net_nemein_tag_handler::get_object_tags_by_contexts($data['wikipage']);
     if (count($tags_by_context) > 0)
     {
+        $parser = new net_nemein_wiki_parser($data['wikipage']);
         echo "<dl class=\"tags\">\n";
         foreach ($tags_by_context as $context => $tags)
         {
             if (!$context)
             {
-                $context = $_MIDCOM->i18n->get_string('tagged', 'net.nemein.tag');
+                $context = midcom::get('i18n')->get_string('tagged', 'net.nemein.tag');
             }
             echo "    <dt>{$context}</dt>\n";
             foreach ($tags as $tag => $url)
             {
-                $link = $data['wikipage']->replace_wikiwords(array('', $tag, ''));
+                $link = $parser->render_link($tag);
                 echo "        <dd class=\"tag\">{$link}</dd>\n";
             }
         }

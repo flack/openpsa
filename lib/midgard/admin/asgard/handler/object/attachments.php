@@ -36,45 +36,15 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.styleeditor/style-editor.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/legacy.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
-    }
-
-    /**
-     * Rewrite a filename to URL safe form
-     *
-     * @param string $filename file name to rewrite
-     * @return string rewritten filename
-     *
-     * FIXME: This code is duplicated in many places (see DM blobs type for example), make single helper and use that
-     */
-    function safe_filename($filename)
-    {
-        $filename = basename(trim($filename));
-
-        $regex = '/^(.*)(\..*?)$/';
-
-        if (preg_match($regex, $filename, $ext_matches))
-        {
-            $name = $ext_matches[1];
-            $ext = $ext_matches[2];
-        }
-        else
-        {
-            $name = $filename;
-            $ext = '';
-        }
-        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
     }
 
     private function _process_file_upload($uploaded_file)
     {
         if (is_null($this->_file))
         {
-            $local_filename = $this->safe_filename($uploaded_file['name']);
+            $local_filename = midcom_db_attachment::safe_filename($uploaded_file['name']);
             $local_file = $this->_get_file($local_filename);
             if (!$local_file)
             {
@@ -125,14 +95,13 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if (is_null($this->_file))
         {
-            if (   !isset($_POST['midgard_admin_asgard_filename'])
-                || empty($_POST['midgard_admin_asgard_filename']))
+            if (empty($_POST['midgard_admin_asgard_filename']))
             {
                 return false;
             }
 
             // We're creating a new file
-            $local_filename = $this->safe_filename($_POST['midgard_admin_asgard_filename']);
+            $local_filename = midcom_db_attachment::safe_filename($_POST['midgard_admin_asgard_filename']);
             $local_file = $this->_get_file($local_filename);
             if (!$local_file)
             {
@@ -154,8 +123,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         $success = true;
 
-        if (   isset($_POST['midgard_admin_asgard_filename'])
-            && !empty($_POST['midgard_admin_asgard_filename'])
+        if (   !empty($_POST['midgard_admin_asgard_filename'])
             && $local_file->name != $_POST['midgard_admin_asgard_filename'])
         {
             $local_file->name = $_POST['midgard_admin_asgard_filename'];
@@ -166,8 +134,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             }
         }
 
-        if (   isset($_POST['midgard_admin_asgard_mimetype'])
-            && !empty($_POST['midgard_admin_asgard_mimetype'])
+        if (   !empty($_POST['midgard_admin_asgard_mimetype'])
             && $local_file->mimetype != $_POST['midgard_admin_asgard_mimetype'])
         {
             $local_file->mimetype = $_POST['midgard_admin_asgard_mimetype'];
@@ -180,8 +147,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         // We should always store at least an empty string so it can be edited later
         $contents = '';
-        if (   isset($_POST['midgard_admin_asgard_contents'])
-            && !empty($_POST['midgard_admin_asgard_contents']))
+        if (!empty($_POST['midgard_admin_asgard_contents']))
         {
             $contents = $_POST['midgard_admin_asgard_contents'];
         }
@@ -231,13 +197,13 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         if (sizeof($this->_files) > 0)
         {
             // Add Thickbox
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css', 'screen');
-            $_MIDCOM->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
+            midcom::get('head')->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
 
             //add table widget
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
     }
@@ -252,10 +218,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $filename = $this->_process_form();
         if (!$filename)
@@ -264,7 +230,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
         else
         {
-            $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
 
         $this->_list_files();
@@ -304,10 +270,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);
@@ -316,7 +282,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             return false;
         }
         $this->_file->require_do('midgard:update');
-        $_MIDCOM->bind_view_to_object($this->_file);
+        $this->bind_view_to_object($this->_file);
 
         $filename = $this->_process_form();
         if (!$filename)
@@ -327,7 +293,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         {
             if ($filename != $data['filename'])
             {
-                $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+                return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
             }
         }
 
@@ -371,7 +337,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     {
         midgard_admin_asgard_plugin::asgard_header();
 
-        $host_prefix = $_MIDCOM->get_host_prefix();
+        $host_prefix = midcom::get()->get_host_prefix();
         $delete_url = $host_prefix . '__mfa/asgard/object/attachments/delete/' . $this->_object->guid . '/' . $this->_file->name;
 
         $data['delete_url'] =& $delete_url;
@@ -395,10 +361,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);
@@ -412,18 +378,16 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if (isset($_POST['f_cancel']))
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('delete cancelled', 'midgard.admin.asgard'));
-            $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
-            // This will exit
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('delete cancelled', 'midgard.admin.asgard'));
+            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
         }
 
         if (isset($_POST['f_confirm']))
         {
             if ($this->_file->delete())
             {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('file %s deleted', 'midgard.admin.asgard'), $data['filename']));
-                $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
-                // This will exit
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('file %s deleted', 'midgard.admin.asgard'), $data['filename']));
+                return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
             }
         }
 

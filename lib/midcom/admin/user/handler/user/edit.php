@@ -20,8 +20,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.user/usermgmt.css');
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'), $this->_request_data);
@@ -38,7 +36,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
                 )
             );
@@ -47,7 +45,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/password/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit account', 'midcom.admin.user'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit account', 'midcom.admin.user'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
             );
@@ -95,13 +93,13 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_schemadb_name = 'schemadb_account';
         }
 
-        $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_toolbar($data, $handler_id);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
 
         // Add jQuery Form handling for generating passwords with AJAX
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
 
         // Manually check the username to prevent duplicates
         if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
@@ -117,7 +115,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // If matches were found, add an error message
                 if ($qb->count() > 0)
                 {
-                    $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'), sprintf($_MIDCOM->i18n->get_string('username %s is already in use', 'midcom.admin.user'), $_REQUEST['username']));
+                    midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.admin.user', 'midcom.admin.user'), sprintf(midcom::get('i18n')->get_string('username %s is already in use', 'midcom.admin.user'), $_REQUEST['username']));
                     unset($_POST['midcom_helper_datamanager2_save']);
                     unset($_REQUEST['midcom_helper_datamanager2_save']);
                 }
@@ -141,13 +139,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Show confirmation for the user
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
-                $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
-                // This will exit.
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-                // This will exit.
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
     }
 
@@ -183,7 +179,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_passwords($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**
@@ -204,9 +200,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _process_batch_change()
     {
-        // Load the org.openpsa.mail class
-        $_MIDCOM->componentloader->load('org.openpsa.mail');
-
         // Set the mail commo parts
         $mail = new org_openpsa_mail();
         $mail->from = $this->_config->get('message_sender');
@@ -216,7 +209,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $success = true;
 
         // Get the context prefix
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Change every user or continue to next on failure - failures will show UI messages
         foreach ($_POST['midcom_admin_user'] as $id)
@@ -227,7 +220,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             catch (midcom_error $e)
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
                 $success = false;
                 continue;
             }
@@ -238,7 +231,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             // Cannot send the email if address is not specified
             if (!$person->email)
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
                 continue;
             }
 
@@ -272,7 +265,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 if (!$person->update())
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url));
+                    midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url));
                     $success = false;
                 }
             }
@@ -285,7 +278,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Show UI message on success
         if ($success)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
         }
     }
 
@@ -298,7 +291,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_admin_user();
+        midcom::get('auth')->require_admin_user();
 
         // Set page title and default variables
         $data['view_title'] = $this->_l10n->get('batch generate passwords');
@@ -320,14 +313,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             if (isset($_POST['f_cancel']))
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-                // This will exit
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
             }
             $this->_process_batch_change();
             // Relocate to the user administration front page
-            $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-            // This will exit
+            return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
         if (isset($_GET['ajax']))

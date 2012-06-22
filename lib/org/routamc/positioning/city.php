@@ -15,22 +15,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_routamc_positioning_city';
-   
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
 
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-    
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -38,7 +23,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
     {
         return $this->city;
     }
-    
+
     public function get_label_property()
     {
         return 'city';
@@ -79,8 +64,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         if (   !empty($matches)
                /* doublecheck */
             && $matches[0]->longitude === $this->longitude
-            && $matches[0]->latitude === $this->latitude
-            )
+            && $matches[0]->latitude === $this->latitude)
         {
             // We don't need to save duplicate entries
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
@@ -104,7 +88,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         {
             return $matches[0];
         }
-        
+
         // Strict name didn't match, seek by alternate names
         $qb = org_routamc_positioning_city_dba::new_query_builder();
         $qb->add_constraint('alternatenames', 'LIKE', "%{$name}%");

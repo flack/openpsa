@@ -18,7 +18,6 @@
                     'google' => 'Google Maps',
                     'openstreetmap' => 'OpenStreetMap via Google Maps',
                     'microsoft' => 'Microsoft Virtual Earth',
-                    'yahoo' => 'Yahoo! Local',
                 ),
             ),
         ),

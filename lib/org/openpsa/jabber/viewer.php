@@ -21,7 +21,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
     }
 
     /**
@@ -31,9 +31,9 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_applet($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         // We're using a popup here
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**
@@ -53,7 +53,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_summary($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     /**
@@ -73,7 +73,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     /**

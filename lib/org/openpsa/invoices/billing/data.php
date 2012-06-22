@@ -7,7 +7,7 @@
  */
 
 /**
- * MidCOM wrapped class for access to stored queries
+ * Billing data DBA class
  *
  * @package org.openpsa.invoices
  */
@@ -16,24 +16,21 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_billing_data';
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     function get_parent_guid_uncached()
     {
         return $this->linkGuid;
+    }
+
+    public function _on_creating()
+    {
+        $mc = self::new_collector('linkGuid', $this->linkGuid);
+        if ($mc->count() > 0)
+        {
+            midcom_connection::set_error(MGD_ERR_DUPLICATE);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -46,7 +43,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
 
         //html-ouptut
         echo '<div class="vcard">';
-        echo '<div style="text-align:center"><em>' . $_MIDCOM->i18n->get_string('invoice address', 'org.openpsa.contacts') . "</em></div>\n";
+        echo '<div style="text-align:center"><em>' . midcom::get('i18n')->get_string('invoice address', 'org.openpsa.contacts') . "</em></div>\n";
         echo "<strong>\n";
         echo $this->recipient . "\n";
         echo "</strong>\n";
@@ -55,24 +52,54 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         echo "</div>\n";
     }
 
+    public function get_label()
+    {
+        $label = midcom::get('i18n')->get_l10n('org.openpsa.invoices')->get('billing data') . ' (';
+        if ($contact = $this->get_contact())
+        {
+            $label .= $contact->get_label() . ')';
+        }
+        else
+        {
+            $label .= $this->linkGuid . ')';
+        }
+        return $label;
+    }
+
     /**
-     * function to add the address of the contact(person/group) to the billing_data
+     * get the contact object
+     *
+     * @return mixed The contact object or false
+     */
+    public function get_contact()
+    {
+        try
+        {
+            return new org_openpsa_contacts_person_dba($this->linkGuid);
+        }
+        catch (midcom_error $e)
+        {
+            try
+            {
+                return new org_openpsa_contacts_group_dba($this->linkGuid);
+            }
+            catch (midcom_error $e)
+            {
+                debug_add("Failed to load contact with GUID: " . $this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Function to add the address of the contact(person/group) to the billing_data
      * if the flag useContactAddress is set
      */
     function set_address()
     {
         if ($this->useContactAddress && !empty($this->linkGuid))
         {
-            //get the contact object
-            try
-            {
-                $contact = $_MIDCOM->dbfactory->get_object_by_guid($this->linkGuid);
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
-                return false;
-            }
+            $contact = $this->get_contact();
             switch (true)
             {
                 case is_a($contact, 'org_openpsa_contacts_person_dba'):

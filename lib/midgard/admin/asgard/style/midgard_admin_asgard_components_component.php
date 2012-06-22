@@ -1,6 +1,6 @@
 <?php
 $component =& $data['component_data'];
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 
 <div class="midgard_admin_asgard_components_component">
@@ -8,7 +8,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if (count($component['maintainers']) > 0)
         {
-            echo "<h3>" . $_MIDCOM->i18n->get_string('created by', 'midgard.admin.asgard') . "</h3>\n";
+            echo "<h3>" . midcom::get('i18n')->get_string('created by', 'midgard.admin.asgard') . "</h3>\n";
             echo "<ul>\n";
 
             foreach ($component['maintainers'] as $username => $maintainer)
@@ -44,7 +44,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if (count($data['component_dependencies']) > 0)
         {
-            echo "<h2>" . $_MIDCOM->i18n->get_string('component depends on', 'midcom') . "</h2>\n";
+            echo "<h2>" . midcom::get('i18n')->get_string('component depends on', 'midcom') . "</h2>\n";
             echo "<ul>\n";
             foreach ($data['component_dependencies'] as $dependency)
             {
@@ -54,7 +54,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                     continue;
                     // Done.
                 }
-                $component_icon = $_MIDCOM->componentloader->get_component_icon($dependency);
+                $component_icon = midcom::get('componentloader')->get_component_icon($dependency);
                 if (!$component_icon)
                 {
                     echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png\" alt=\"\" /> {$dependency} <span class='alert'>Error: This component is not installed!</span></li>\n";
@@ -75,7 +75,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $files = $help->list_files($data['component'], true);
         if (count($files) > 0)
         {
-            echo "<h3>" . $_MIDCOM->i18n->get_string('component help', 'midcom.admin.help') . "</h3>\n";
+            echo "<h3>" . midcom::get('i18n')->get_string('component help', 'midcom.admin.help') . "</h3>\n";
             echo "<ul>\n";
             foreach ($files as $identifier => $filedata)
             {

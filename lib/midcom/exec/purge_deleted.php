@@ -1,10 +1,13 @@
 <?php
-$_MIDCOM->auth->require_valid_user('basic');
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_valid_user('basic');
+midcom::get('auth')->require_admin_user();
+midcom::get()->disable_limits();
+
+$chunk_size = 1000;
 
 if (!isset($_GET['days']))
 {
-    $grace_days = 25;
+    $grace_days = $GLOBALS['midcom_config']['cron_purge_deleted_after'];
 }
 else
 {
@@ -16,37 +19,57 @@ echo "<p>Current grace period is {$grace_days} days, use ?days=x to set to other
 
 // 1 second before midnight $grace_days ago
 $cut_off = mktime(23, 59, 59, date('n'), date('j')-$grace_days, date('Y'));
+
+while(@ob_end_flush());
+echo "<pre>\n";
+flush();
 foreach (midcom_connection::get_schema_types() as $mgdschema)
 {
     if ($mgdschema == '__midgard_cache')
     {
         continue;
     }
-    echo "<h2>Processing class {$mgdschema}</h2>\n";
-    $qb = new midgard_query_builder($mgdschema);
-    $qb->add_constraint('metadata.deleted', '<>', 0);
-    $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
-    $qb->include_deleted();
-    $objects = $qb->execute();
-    unset($qb);
-    if (!is_array($objects))
-    {
-        echo "FATAL QB ERROR<br/>\n";
-        continue;
-    }
-    $found = count($objects);
+    echo "<h2>Processing class {$mgdschema}</h2>";
+    flush();
+
+    $total = 0;
     $purged = 0;
-    foreach ($objects as $obj)
+    $failed_guids = array();
+    do
     {
-        if (!$obj->purge())
+        $qb = new midgard_query_builder($mgdschema);
+        $qb->add_constraint('metadata.deleted', '<>', 0);
+        if (!empty($failed_guids))
         {
-            echo "ERROR: Failed to purge <tt>{$obj->guid}</tt>, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string() . "<br/>\n";
+            $qb->add_constraint('guid', 'NOT IN', $failed_guids);
+        }
+        $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
+        $qb->include_deleted();
+        $qb->set_limit($chunk_size);
+        $objects = $qb->execute();
+        unset($qb);
+        if (!is_array($objects))
+        {
+            echo "FATAL QB ERROR\n";
             continue;
         }
-        $purged++;
-    }
-    echo "Found {$found} objects, purged {$purged} objects<br/>\n";
+        $total += count($objects);
+        foreach ($objects as $obj)
+        {
+            if (!$obj->purge())
+            {
+                echo "ERROR: Failed to purge <tt>{$obj->guid}</tt>, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string() . "\n";
+                $failed_guids[] = $obj->guid;
+                continue 1;
+            }
+            $purged++;
+        }
+    } while (count($objects) > 0);
+    echo "Found {$total} objects, purged {$purged} objects, " . sizeof($failed_guids) . " failures\n";
+    flush();
 }
 
-echo "<br/><br/>Done.";
+echo "Done.\n";
+echo "</pre>";
+ob_start();
 ?>

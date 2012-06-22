@@ -76,7 +76,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         if ($this->object === null)
         {
-            $this->object = $_MIDCOM->tmp->create_object();
+            $this->object = midcom::get('tmp')->create_object();
         }
     }
 
@@ -87,7 +87,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      *
      * Any types defined in the schema but not found in the passed type listing
      * are ignored unless they are flagged as required, in which case
-     * generate_error is called.
+     * midcom_error is called.
      *
      * @param Array &$types A reference to an array of types matching the schema definition.
      * @return boolean Indicating success.
@@ -153,7 +153,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      *
      * Any types defined in the schema but not found in the passed type listing
      * are ignored unless they are flagged as required, in which case
-     * generate_error is called.
+     * midcom_error is thrown.
      *
      * @param Array &$types A reference to an array of types matching the schema definition.
      */
@@ -229,11 +229,11 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         if ($this->object === null)
         {
-            return $_MIDCOM->auth->can_user_do($privilege);
+            return midcom::get('auth')->can_user_do($privilege);
         }
         else
         {
-            return $_MIDCOM->auth->can_do($privilege, $this->object);
+            return $this->object->can_do($privilege);
         }
     }
 }

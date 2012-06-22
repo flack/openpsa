@@ -18,7 +18,7 @@ echo "<records>" . count($data['entries']) . "</records>";
       <cell> $closed </cell>
   </row>
 */
-foreach($data['entries'] as $entry)
+foreach ($data['entries'] as $entry)
 {
     echo "<row>";
         echo "<cell>" . $entry->id . "</cell>";
@@ -33,29 +33,28 @@ foreach($data['entries'] as $entry)
         ?>
         <cell><![CDATA[&(entry.text:h);]]></cell>
         <?php
-        echo "<cell>" . $entry->followUp . "</cell>";
         if($entry->followUp == 0)
         {
             echo "<cell>none</cell>";
         }
         else
         {
-            echo "<cell>" . date('d.m.Y', $entry->followUp) . "</cell>";
+            echo "<cell>" . date('Y-m-d', $entry->followUp) . "</cell>";
         }
-        if($data['show_object'])
+        if ($data['show_object'])
         {
             echo "<cell>" . $data['linked_raw_objects'][$entry->linkGuid] . "</cell>";
             echo "<cell><![CDATA[" . $data['linked_objects'][$entry->linkGuid] . "]]></cell>";
         }
-        if($data['show_closed'])
+        if ($data['show_closed'])
         {
-            if($entry->closed)
+            if ($entry->closed)
             {
-                echo "<cell>" . $_MIDCOM->i18n->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
+                echo "<cell>" . midcom::get('i18n')->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
             }
             else
             {
-                echo "<cell>" . $_MIDCOM->i18n->get_string('open', 'org.openpsa.relatedto') . "</cell>";
+                echo "<cell>" . midcom::get('i18n')->get_string('open', 'org.openpsa.relatedto') . "</cell>";
             }
         }
 

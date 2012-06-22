@@ -17,15 +17,9 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
 
     /**
@@ -38,11 +32,11 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      */
     public function _handler_trash($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_admin_user();
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('auth')->require_admin_user();
+        midcom::get('cache')->content->no_cache();
 
         $data['view_title'] = $this->_l10n->get('trash');
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['types'] = array();
         foreach (midcom_connection::get_schema_types() as $type)
@@ -86,16 +80,16 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      */
     public function _handler_trash_type($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_admin_user();
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('auth')->require_admin_user();
+        midcom::get('cache')->content->no_cache();
 
         $this->type = $args[0];
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $dummy = new $this->type;
-        $data['midcom_dba_classname'] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
+        $data['midcom_dba_classname'] = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy);
         $data['type'] = $this->type;
         $data['reflector'] = midcom_helper_reflector::get($data['type']);
         $data['label_property'] = $data['reflector']->get_label_property();
@@ -105,17 +99,16 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             && is_array($_POST['undelete']))
         {
             $this->_undelete();
-            $_MIDCOM->relocate("__mfa/asgard/trash/{$this->type}/");
+            return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
         }
 
         if (   isset($_POST['purge'])
             && is_array($_POST['undelete']))
         {
             $this->_purge();
-            $_MIDCOM->relocate("__mfa/asgard/trash/{$this->type}/");
+            return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
         }
 
-        $_MIDCOM->load_library('org.openpsa.qbpager');
         $qb = new org_openpsa_qbpager_direct($data['type'], "{$data['type']}_trash");
         $qb->include_deleted();
         $qb->add_constraint('metadata.deleted', '=', true);
@@ -163,7 +156,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         if ($purged_size)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_misc::filesize_to_string($purged_size)), 'info');
+            midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_misc::filesize_to_string($purged_size)), 'info');
         }
     }
 
@@ -194,7 +187,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         if ($undeleted_size > 0)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
+            midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
         }
     }
 

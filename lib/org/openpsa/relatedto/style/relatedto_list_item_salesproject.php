@@ -12,12 +12,12 @@ $customer = midcom_db_group::get_cached($salesproject->customer);
   <ul class="metadata">
     <?php
     // Owner
-    echo "<li>" . $_MIDCOM->i18n->get_string('owner', 'midcom') . ": ";
+    echo "<li>" . midcom::get('i18n')->get_string('owner', 'midcom') . ": ";
     echo $owner_card->show_inline() . "</li>";
     // Customer
     if ($customer)
     {
-        echo "<li>" . $_MIDCOM->i18n->get_string('customer', 'org.openpsa.sales') . ": ";
+        echo "<li>" . midcom::get('i18n')->get_string('customer', 'org.openpsa.sales') . ": ";
         echo $customer->official;
         echo "</li>";
     }

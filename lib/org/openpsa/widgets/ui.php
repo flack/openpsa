@@ -19,40 +19,51 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         return $config->get($value);
     }
 
-    /**
-     * Helper function that returns information about available search providers
-     *
-     * @return array
-     */
-    public static function get_search_providers()
+    public static function initialize_search()
     {
+        $defaults = array('autocomplete' => false);
         $providers = array();
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $configured_providers = self::get_config_value('search_providers');
         $user_id = false;
 
-        if (!$_MIDCOM->auth->admin)
+        if (!midcom::get('auth')->admin)
         {
-            $user_id = $_MIDCOM->auth->acl->get_user_id();
+            $user_id = midcom::get('auth')->acl->get_user_id();
         }
 
-        foreach ($configured_providers as $component => $route)
+        foreach ($configured_providers as $component => $config)
         {
+            if (!is_array($config))
+            {
+                $config = array('route' => $config);
+            }
+            $config = array_merge($defaults, $config);
+            if ($config['autocomplete'] === true)
+            {
+                midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+            }
+
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
                 && (   !$user_id
-                    || $_MIDCOM->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
+                    || midcom::get('auth')->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
             {
                 $providers[] = array
                 (
-                    'helptext' => $_MIDCOM->i18n->get_string('search title', $component),
-                    'url' => $node_url . $route,
-                    'identifier' => $component
+                    'helptext' => midcom::get('i18n')->get_string('search title', $component),
+                    'url' => $node_url . $config['route'],
+                    'identifier' => $component,
+                    'autocomplete' => $config['autocomplete'],
                 );
             }
         }
 
-        return $providers;
+        midcom::get('head')->add_jquery_state_script('org_openpsa_layout.initialize_search
+        (
+            ' . json_encode($providers) . ',
+            "' . midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider') . '"
+        );');
     }
 
     /**
@@ -113,7 +124,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     public static function render_tabs($guid = null, $tabdata = array())
     {
         $uipage = self::get_config_value('ui_page');
-        $host_prefix = substr($_MIDCOM->get_host_prefix(), strlen($_MIDCOM->get_host_name()));
+        $host_prefix = substr(midcom::get()->get_host_prefix(), strlen(midcom::get()->get_host_name()));
         $prefix = $host_prefix . $uipage . '/';
 
         if (null !== $guid)
@@ -122,12 +133,12 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $tabdata[] = array
             (
                'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
-               'title' => $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
+               'title' => midcom::get('i18n')->get_string('journal entries', 'org.openpsa.relatedto'),
             );
             $tabdata[] = array
             (
                'url' => '__mfa/org.openpsa.relatedto/render/' . $guid . '/both/',
-               'title' => $_MIDCOM->i18n->get_string('related objects', 'org.openpsa.relatedto'),
+               'title' => midcom::get('i18n')->get_string('related objects', 'org.openpsa.relatedto'),
             );
         }
 
@@ -140,52 +151,14 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         echo "\n</ul>\n";
         echo "</div>\n";
 
-        $wait = $_MIDCOM->i18n->get_string('loading', 'org.openpsa.widgets');
+        $wait = midcom::get('i18n')->get_string('loading', 'org.openpsa.widgets');
 
         echo <<<JSINIT
 <script type="text/javascript">
 $(document).ready(
     function()
     {
-        $('.ui-state-active a').live('mouseup', function(event)
-        {
-            if (event.which != 1)
-            {
-                return;
-            }
-            var url = $.data(event.currentTarget, 'href.tabs').replace(/\/{$uipage}\//, '/');
-            location.href = url;
-        });
-        $('#tabs a').live('click', function(event){intercept_clicks(event)});
-
-        var tabs = $('#tabs').tabs({
-              cache: true,
-              spinner: '{$wait}...',
-              load: function(){\$(window).trigger('resize');},
-              show: function(){\$(window).trigger('resize');}
-        });
-
-        $.history.init(function(url)
-        {
-            var tab_id = 0;
-            if (url != '')
-            {
-                tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
-            }
-
-            if ($('#tabs').tabs('option', 'selected') != tab_id)
-            {
-                $('#tabs').tabs('select', tab_id);
-            }
-        });
-
-        $('#tabs a.tabs_link').bind('click', function(event)
-        {
-            var url = $(this).attr('href');
-            url = url.replace(/^.*#/, '');
-            $.history.load(url);
-            return true;
-        });
+        org_openpsa_widgets_tabs.initialize('{$uipage}', '{$wait}...');
     }
 );
 </script>

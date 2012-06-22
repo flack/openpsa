@@ -12,7 +12,8 @@
 
         <!-- The invoice itself, date, comment, sum and VAT % -->
         <property name="date" type="integer" index="yes"/>
-        <property name="number" type="integer" index="yes"/>
+        <property name="deliverydate" type="integer" index="yes" />
+        <property name="number" type="unsigned integer" index="yes"/>
         <property name="description" type="text"/>
         <property name="sum" type="float"/>
         <property name="vat" type="integer"/>
@@ -68,6 +69,7 @@
         <property name="due" type="unsigned integer" />
         
         <property name="sendingoption" type="integer" />
+        <property name="remarks" type="text" />
 
         <property name="useContactAddress" type="boolean" />
         <!-- guid of the object the billing data belongs to -->

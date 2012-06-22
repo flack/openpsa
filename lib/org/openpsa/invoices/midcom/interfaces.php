@@ -33,11 +33,11 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
      */
     public function _on_watched_dba_delete($object)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
         $result = $qb_billing_data->execute();
-        if (count($result) > 0 )
+        if (count($result) > 0)
         {
             foreach ($result as $billing_data)
             {
@@ -45,53 +45,21 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
                 $billing_data->delete();
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**
-     * Iterate over all invoices and create index record using the datamanager indexer
-     * method.
+     * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
 
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
+        $indexer = new org_openpsa_invoices_midcom_indexer($topic, $indexer);
+        $indexer->add_query('invoices', $qb, $schemadb);
 
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
-            if (!$datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb'),
-                    MIDCOM_LOG_WARN);
-                return false;
-            }
-            foreach ($ret as $invoice)
-            {
-                if (!$datamanager->autoset_storage($invoice))
-                {
-                    debug_add("Warning, failed to initialize datamanager for invoice {$invoice->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Invoice dump:', $invoice);
-                    continue;
-                }
-                //create index_datamanger from datamanger
-                $index_datamanager = new midcom_services_indexer_document_datamanager2($datamanager);
-
-                //get guid, topic_url of passed node
-                $nav = new midcom_helper_nav();
-                $object = $nav->resolve_guid($topic->guid, true);
-                $index_datamanager->topic_guid = $topic->guid;
-                $index_datamanager->topic_url = $object[MIDCOM_NAV_FULLURL];
-                $index_datamanager->component = $object[MIDCOM_NAV_COMPONENT];
-                $indexer->index($index_datamanager);
-            }
-        }
-        return true;
+        return $indexer;
     }
 }
 ?>

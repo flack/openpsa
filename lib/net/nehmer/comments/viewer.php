@@ -15,10 +15,13 @@
  */
 class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
 {
+    public static function add_head_elements()
+    {
+        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/net.nehmer.comments/comments.css');
+    }
+
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     function _populate_node_toolbar()
     {
@@ -106,8 +109,8 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     {
         $toolbar = new midcom_helper_toolbar();
 
-        if (   $_MIDCOM->auth->user
-            && $comment->status < NET_NEHMER_COMMENTS_MODERATED)
+        if (   midcom::get('auth')->user
+            && $comment->status < net_nehmer_comments_comment::MODERATED)
         {
             if (!$comment->can_do('net.nehmer.comments:moderation'))
             {
@@ -119,7 +122,6 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
                         MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('report abuse'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-//                        MIDCOM_TOOLBAR_ENABLED =>  $comment->can_do('midgard:update'),
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
                         (
@@ -208,8 +210,6 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     function _on_handle($handler, $args)
     {
         $this->_populate_node_toolbar();
-
-        return true;
     }
 }
 

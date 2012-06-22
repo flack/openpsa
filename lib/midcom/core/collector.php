@@ -16,14 +16,13 @@
  * It essentially wraps the calls to {@link midcom_helper__dbfactory::new_collector()}.
  *
  * Normally you should never have to create an instance of this type directly,
- * instead use the get_new_mc() method available in the MidCOM DBA API or the
+ * instead use the new_collector() method available in the MidCOM DBA API or the
  * midcom_helper__dbfactory::new_collector() method which is still available.
  *
  * If you have to do create the instance manually however, do not forget to call the
  * {@link initialize()} function after construction, or the creation callbacks will fail.
  *
  * @package midcom
- * @todo Refactor the class to promote code reuse in the execution handlers.
  */
 class midcom_core_collector extends midcom_core_query
 {
@@ -107,19 +106,18 @@ class midcom_core_collector extends midcom_core_query
      */
     public function execute()
     {
-        if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this)))
+        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this)))
         {
             debug_add('The _on_prepare_exec_collector callback returned false, so we abort now.');
             return false;
         }
 
-        if (!$_MIDCOM->auth->admin)
+        if (!midcom::get('auth')->admin)
         {
-            $this->_user_id = $_MIDCOM->auth->acl->get_user_id();
+            $this->_user_id = midcom::get('auth')->acl->get_user_id();
         }
 
-        $this->_executed = true;
-        return true;
+        return $this->_real_execute();
     }
 
     /**
@@ -129,6 +127,12 @@ class midcom_core_collector extends midcom_core_query
      */
     private function _real_execute()
     {
+        if ($this->_executed)
+        {
+            // mgd gets stuck in an infinite loop if execute() is called more than once,
+            // so we have to prevent this...
+            return true;
+        }
         // Add the limit / offsets
         if ($this->_limit)
         {
@@ -143,16 +147,9 @@ class midcom_core_collector extends midcom_core_query
 
         $this->_add_visibility_checks();
 
-        return $this->_query->execute();
-    }
-
-    /**
-     * Resets some internal variables for re-execute
-     */
-    protected function _reset()
-    {
-        $this->_executed = false;
-        parent::_reset();
+        $stat = $this->_query->execute();
+        $this->_executed = true;
+        return $stat;
     }
 
     /**
@@ -187,7 +184,7 @@ class midcom_core_collector extends midcom_core_query
 
     private function _list_keys_and_check_privileges()
     {
-        $this->_real_execute();
+        $this->execute();
         $result = $this->_query->list_keys();
         if (!is_array($result))
         {
@@ -199,7 +196,7 @@ class midcom_core_collector extends midcom_core_query
         foreach ($result as $object_guid => $empty_copy)
         {
             if (    $this->_user_id
-                && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id))
+                && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id))
             {
                 debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
                 $this->denied++;
@@ -213,7 +210,7 @@ class midcom_core_collector extends midcom_core_query
             }
 
             // Register the GUID as loaded in this request
-            $_MIDCOM->cache->content->register($object_guid);
+            midcom::get('cache')->content->register($object_guid);
 
             $newresult[$object_guid] = array();
         }
@@ -246,7 +243,6 @@ class midcom_core_collector extends midcom_core_query
      */
     public function list_keys()
     {
-        $this->_reset();
         $result = $this->_list_keys_and_check_privileges();
         if (!is_array($result))
         {
@@ -285,7 +281,7 @@ class midcom_core_collector extends midcom_core_query
     public function get_subkey($key, $property)
     {
         if (   $this->_user_id
-            && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
+            && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
         {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
@@ -296,7 +292,7 @@ class midcom_core_collector extends midcom_core_query
     public function get($key)
     {
         if (   $this->_user_id
-            && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
+            && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
         {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
@@ -361,7 +357,6 @@ class midcom_core_collector extends midcom_core_query
      */
     public function count_unchecked()
     {
-        $this->_reset();
         if ($this->_limit)
         {
             $this->_query->set_limit($this->_limit);
@@ -375,19 +370,38 @@ class midcom_core_collector extends midcom_core_query
 
     public function get_objects()
     {
+        $qb = new midcom_core_querybuilder($this->_real_class);
+
+        if (!empty($this->_orders))
+        {
+            //Reset offset/limit, otherwise sorting won't work properly
+            $limit = $this->_limit;
+            $offset = $this->_offset;
+            $this->_offset = 0;
+            $this->_limit = 0;
+            $qb->set_limit($limit);
+            $qb->set_offset($offset);
+        }
         $this->execute();
         $guids = $this->list_keys();
+
+        if (!empty($this->_orders))
+        {
+            $this->_offset = $offset;
+            $this->_limit = $limit;
+        }
         if (sizeof($guids) == 0)
         {
             return array();
         }
-        $qb = new midcom_core_querybuilder($this->_real_class);
+
         $qb->hide_invisible = $this->hide_invisible;
         $qb->add_constraint('guid', 'IN', array_keys($guids));
         foreach ($this->_orders as $order)
         {
             $qb->add_order($order['field'], $order['direction']);
         }
+
         return $qb->execute();
     }
 }

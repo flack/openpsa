@@ -45,22 +45,20 @@ implements midcom_helper_datamanager2_interfaces_view
         if (array_key_exists('org_openpsa_user_deleteok', $_POST))
         {
             $delete_succeeded = $this->_group->delete();
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             if ($delete_succeeded)
             {
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_group->guid);
 
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
             }
             else
             {
                 // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
-                $_MIDCOM->relocate($prefix . 'group/' . $this->_group->guid . '/');
-                // This will exit
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+                return new midcom_response_relocate($prefix . 'group/' . $this->_group->guid . '/');
             }
         }
 
@@ -72,7 +70,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('delete %s'), $this->_group->get_label()));
 
-        midcom::get()->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
     }
 
     /**

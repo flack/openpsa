@@ -64,14 +64,14 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     {
         try
         {
-            $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            $this->_object = midcom::get('dbfactory')->get_object_by_guid($guid);
         }
         catch (midcom_error $e)
         {
             if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
             {
-                $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
-                $_MIDCOM->relocate($relocate);
+                $relocate = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
+                midcom::get()->relocate($relocate);
             }
 
             throw $e;
@@ -80,16 +80,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         // Accordion is needed for per-type help when available
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.accordion.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.accordion.min.js');
     }
 
     /**
@@ -102,7 +96,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['schemadb'] = $this->_schemadb;
         $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['asgard_prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
+        $this->_request_data['asgard_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
     }
 
     /**
@@ -125,8 +119,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _handler_open($handler_id, array $args, array &$data)
     {
-        $page_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $_MIDCOM->relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
+        $page_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        return new midcom_response_relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
     }
 
     /**
@@ -141,7 +135,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     {
         $this->_load_object($args[0]);
 
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $this->_prepare_request_data();
 
@@ -195,7 +189,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_object($args[0]);
 
         $this->_object->require_do('midgard:update');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -228,23 +222,23 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 }
 
                 // Reindex the object
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                $_MIDCOM->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
+
             case 'edit':
                 $qf =& $this->_controller->formmanager->form;
-                if(isset($_REQUEST['midcom_helper_datamanager2_save']) && isset($qf->_errors))
+                if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
+                    && isset($qf->_errors))
                 {
-                    foreach($qf->_errors as $field => $error)
+                    foreach ($qf->_errors as $field => $error)
                     {
                         $element =& $qf->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
-                        $_MIDCOM->uimessages->add
+                        midcom::get('uimessages')->add
                             (
                                 $this->_l10n->get('midgard.admin.asgard'),
                                 $message,
@@ -341,32 +335,32 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_new_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($args[0]);
+        $this->_new_type = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($args[0]);
         if (!$this->_new_type)
         {
             throw new midcom_error_notfound('Failed to find type for the new object');
         }
 
-        $_MIDCOM->dbclassloader->load_mgdschema_class_handler($this->_new_type);
+        midcom::get('dbclassloader')->load_mgdschema_class_handler($this->_new_type);
         if (!class_exists($this->_new_type))
         {
             throw new midcom_error_notfound("Component handling MgdSchema type '{$args[0]}' was not found.");
         }
         $data['new_type_arg'] = $args[0];
 
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['defaults'] = array();
         if (   $handler_id == '____mfa-asgard-object_create_toplevel'
             || $handler_id == '____mfa-asgard-object_create_chooser')
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_new_type);
+            midcom::get('auth')->require_user_do('midgard:create', null, $this->_new_type);
 
-            $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
+            $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
         }
         else
         {
-            $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
+            $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[1]);
             $this->_object->require_do('midgard:create');
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
@@ -440,7 +434,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 }
 
                 // Reindex the object
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
                 $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
@@ -448,8 +442,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
                     $redirect_url = str_replace('//', '/', "__mfa/asgard/object/edit/{$this->_new_object->guid}/");
-                    $_MIDCOM->relocate($redirect_url);
-                    // This will exit.
+                    return new midcom_response_relocate($redirect_url);
                 }
                 break;
 
@@ -466,8 +459,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
-                    $_MIDCOM->relocate("__mfa/asgard/{$objecturl}/");
-                    // This will exit.
+                    return new midcom_response_relocate("__mfa/asgard/{$objecturl}/");
                 }
         }
 
@@ -550,7 +542,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_object($args[0]);
 
         $this->_object->require_do('midgard:delete');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $type = $this->_object->__mgdschema_class_name__;
 
@@ -603,39 +595,34 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_object->guid);
 
             if ($parent)
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
-                // This will exit()
+                return new midcom_response_relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
             }
 
-            $_MIDCOM->relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
-            // This will exit.
+            return new midcom_response_relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
         }
 
         if (array_key_exists('midgard_admin_asgard_deletecancel', $_REQUEST))
         {
             // Redirect to default object mode page.
-            $_MIDCOM->relocate($cancel_url);
-            // This will exit()
+            return new midcom_response_relocate($cancel_url);
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
         // Add Thickbox
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css', 'screen');
-        $_MIDCOM->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
+        midcom::get('head')->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
 
         // Add jQuery file for the checkbox operations
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
-        $_MIDCOM->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
-
-        return true;
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
+        midcom::get('head')->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
     }
 
     /**
@@ -673,7 +660,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Get the object that will be copied
         $this->_load_object($args[0]);
 
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         static $targets = array();
 
@@ -692,7 +679,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Load the schemadb for searching the parent object
         $this->_load_schemadb($target['class'], $target['parent'], true);
         // Change the name for the parent field
-        $this->_schemadb['object']->fields[$target['parent']]['title'] = $_MIDCOM->i18n->get_string('choose the target', 'midgard.admin.asgard');
+        $this->_schemadb['object']->fields[$target['parent']]['title'] = $this->_l10n->get('choose the target');
 
         // Load the nullstorage controller
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
@@ -711,22 +698,21 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             case 'save':
                 $new_object = $this->_process_copy($target);
                 // Relocate to the newly created object
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
-                break;
+                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
+                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
         }
 
         // Add Thickbox
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css', 'screen');
-        $_MIDCOM->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
+        midcom::get('head')->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
 
         // Add jQuery file for the checkbox operations
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
-        $_MIDCOM->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
+        midcom::get('head')->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
 
         // Common hooks for Asgard
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -735,15 +721,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         switch ($handler_id)
         {
             case '____mfa-asgard-object_copy_tree':
-                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s and its descendants', 'midgard.admin.asgard'), $this->_object->$target['label']);
+                $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->$target['label']);
                 break;
             default:
-                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s', 'midgard.admin.asgard'), $this->_object->$target['label']);
+                $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->$target['label']);
         }
 
         $data['target'] = $target;
-
-        return true;
     }
 
     private function _process_copy($target)
@@ -821,11 +805,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree')
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
+            midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
         }
         else
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
+            midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
         }
         return $new_object;
     }

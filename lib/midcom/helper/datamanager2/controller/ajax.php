@@ -29,9 +29,10 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     /**
      * AJAX controller initialization. Loads required Javascript libraries and connects to the parent class initialization.
      *
+     * @param string $identifier The form identifier
      * @return boolean Indicating success.
      */
-    function initialize()
+    function initialize($identifier = null)
     {
         parent::initialize();
 
@@ -43,6 +44,8 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
         }
+
+        $this->form_identifier .= $identifier;
 
         return true;
     }
@@ -107,23 +110,21 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     {
         $state = 'view';
 
-        $this->form_identifier = "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}";
+        $this->form_identifier = "dm2_ajax_{$this->datamanager->storage->object->guid}";
 
         if (!$this->_is_ajax_editable())
         {
             return $state;
         }
 
-        $_MIDCOM->enable_jquery();
+        midcom::get('head')->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.metadata.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
 
         $config = $this->_generate_editor_config();
 
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config});";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 
@@ -196,7 +197,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
         if ($exit)
         {
-            $_MIDCOM->finish();
+            midcom::get()->finish();
             _midcom_stop_request();
         }
 

@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 
 echo "<p>\n";
 
@@ -18,8 +18,8 @@ if (   !isset($_POST['to'])
                         <option value="mail_sendmail">PEAR Mail/Sendmail</option>
                         <option value="mail">PHP mail()</option>
                      </select><br/>
-            From: <input name="from" size=50 type="text" value="noreply@openpsa.org"/><br/>
-            To: <input name="to" size=50 type="text" value="test@nemein.com" /><br/>
+            From: <input name="from" size=50 type="text" value="noreply@openpsa2.org"/><br/>
+            To: <input name="to" size=50 type="text" value="test@openpsa2.org" /><br/>
             Subject: <input name="subject" size=50 type="text" value="Testing o.o.mail with special chars (ÄäÖöÅå€)"/><br/>
             Message:<br/>
             <textarea rows=40 cols=80 name="body">Test body with special chars (Ää Öö Åå €)
@@ -41,6 +41,10 @@ else
     $ret = $mail->send();
 
     echo "mail->send returned {$ret}<br>\n";
+    if (!$ret)
+    {
+        echo $mail->get_error_message();
+    }
 }
 
 echo "</p>\n";

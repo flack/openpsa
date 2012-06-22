@@ -7,6 +7,14 @@
  */
 
 /**
+ * @ignore
+ */
+require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
+require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
+require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
+require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
+
+/**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
  * in net.nehmer.blog or events in net.nemein.calendar
  *
@@ -31,18 +39,21 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Current node we're importing to
+     *
      * @var midcom_db_topic
      */
     private $_node = null;
 
     /**
      * Configuration of node we're importing to
+     *
      * @var midcom_helper_configuration
      */
     private $_node_config = null;
 
     /**
      * Datamanager for handling saves
+     *
      * @var midcom_helper_datamanager2
      */
     private $_datamanager = null;
@@ -52,18 +63,11 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     public function __construct($feed)
     {
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
-
         $this->_feed = $feed;
 
         $this->_node = new midcom_db_topic($this->_feed->node);
 
         $this->_component = 'net.nemein.rss';
-
-        $_MIDCOM->load_library('org.openpsa.httplib');
 
         if ($this->_node->component)
         {
@@ -75,20 +79,15 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Static method for actually fetching a feed
      */
-    function raw_fetch($url)
+    public static function raw_fetch($url)
     {
         $items = array();
-
-        if (!$_MIDCOM->componentloader->is_loaded('org.openpsa.httplib'))
-        {
-            $_MIDCOM->load_library('org.openpsa.httplib');
-        }
 
         try
         {
             // TODO: Ensure Magpie uses conditional GETs here
             error_reporting(E_WARNING);
-            $rss = @fetch_rss($url);
+            $rss = fetch_rss($url);
             error_reporting(E_ALL);
         }
         catch (Exception $e)
@@ -108,7 +107,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         foreach ($rss->items as $item)
         {
             // Normalize the item
-            $item = net_nemein_rss_fetch::normalize_item($item);
+            $item = self::normalize_item($item);
 
             if ($item)
             {
@@ -127,7 +126,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     function fetch()
     {
-        $rss = net_nemein_rss_fetch::raw_fetch($this->_feed->url);
+        $rss = self::raw_fetch($this->_feed->url);
 
         if (!$rss)
         {
@@ -319,7 +318,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $article->extra1 = "|{$feed_category}|";
 
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-        $article->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
+        $article->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
 
         // Handle categories provided in the feed
         if (isset($item['category']))
@@ -483,7 +482,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
             if ($node_lang_code != '')
             {
-                $lang_id = $_MIDCOM->i18n->code_to_id($node_lang_code);
+                $lang_id = midcom::get('i18n')->code_to_id($node_lang_code);
                 $article->lang = $lang_id;
             }
             $article->allow_name_catenate = true;
@@ -602,7 +601,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             // This item has been imported already earlier. Update
             $event = $events[0];
             $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-            $event->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
+            $event->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
             $event->allow_name_catenate = true;
             if (empty($event->name))
             {
@@ -635,13 +634,13 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
             if ($node_lang_code != '')
             {
-                $lang_id = $_MIDCOM->i18n->code_to_id($node_lang_code);
+                $lang_id = midcom::get('i18n')->code_to_id($node_lang_code);
                 $event->lang = $lang_id;
             }
             $event->allow_name_catenate = true;
             $event->title = (string)$item['title'];
             $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-            $event->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
+            $event->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
 
             $resolver = new midcom_helper_reflector_nameresolver($event);
             $event->name = $resolver->generate_unique_name();
@@ -758,8 +757,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             {
                 // This item has been removed from the feed.
 
-                if (   $_MIDCOM->componentloader->is_installed('net.nemein.favourites')
-                    && $_MIDCOM->componentloader->load_graceful('net.nemein.favourites'))
+                if (   midcom::get('componentloader')->is_installed('net.nemein.favourites')
+                    && midcom::get('componentloader')->load_graceful('net.nemein.favourites'))
                 {
                     // If it has been favorited keep it
                     $qb = net_nemein_favourites_favourite_dba::new_query_builder();
@@ -999,7 +998,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $tags[$tag] = $html_tag['href'];
             }
 
-            $_MIDCOM->load_library('net.nemein.tag');
+            midcom::get('componentloader')->load_library('net.nemein.tag');
 
             return net_nemein_tag_handler::tag_object($article, $tags);
         }
@@ -1053,7 +1052,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         if (   !isset($item['title'])
             || !$item['title'])
         {
-            $item['title'] = $_MIDCOM->i18n->get_string('untitled', 'net.nemein.rss');
+            $item['title'] = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
 
             $item_date = $item['date_timestamp'];
 

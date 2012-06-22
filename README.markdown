@@ -61,11 +61,24 @@ Also enable FastCGI to talk to your PHP installation:
 Then just configure your Lighttpd to pass all requests to the OpenPSA "rootfile":
 
     url.rewrite-once = ( 
-        "^/midcom-static/OpenPsa2/(.*)$" => "/openpsa/themes/OpenPsa2/static/$1",
-        "^/midcom-static/(.*)$" => "/openpsa/static/$1",
+        "^/openpsa2-static/OpenPsa2/(.*)$" => "/openpsa/themes/OpenPsa2/static/$1",
+        "^/openpsa2-static/(.*)$" => "/openpsa/static/$1",
         "^([^\?]*)(\?(.+))?$" => "openpsa/rootfile.php$2"
     )
 
 *Note:* this rewrite rule is a bit too inclusive, to be improved.
 
 Restart your Lighttpd and point your browser to the address you're using with the server. Default login to OpenPSA is `admin`/`password`.
+
+## Setting up Apache
+
+Alternatively, you can also run under Apache (or any other web server, for that matter). Just make sure that you have mod_rewrite enabled:
+
+    a2enmod rewrite
+
+And use something like this in your vhost config (or .htaccess file):
+
+    RewriteEngine On
+    RewriteRule ^/midcom-static/OpenPsa2/(.*)$ /openpsa/themes/OpenPsa2/static/$1 [L]
+    RewriteRule ^/midcom-static/(.*)$ /openpsa/static/$1 [L]
+    RewriteRule ^/(.*)$ /openpsa/rootfile.php [QSA,L]

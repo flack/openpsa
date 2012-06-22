@@ -18,7 +18,7 @@
  * the following call inside the HTML BODY tags of your style:
  *
  * <code>
- * $_MIDCOM->uimessages->show();
+ * midcom::get('uimessages')->show();
  * </code>
  *
  * <b>Adding UI messages to show:</b>
@@ -33,13 +33,13 @@
  * To add a UI message, call the following:
  *
  * <code>
- * $_MIDCOM->uimessages->add($title, $message, $type);
+ * midcom::get('uimessages')->add($title, $message, $type);
  * </code>
  *
  * For example:
  *
  * <code>
- * $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page "%s" added'), $this->_wikiword), 'ok');
+ * midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page "%s" added'), $this->_wikiword), 'ok');
  * </code>
  *
  * <b>Configuration:</b>
@@ -104,19 +104,19 @@ class midcom_services_uimessages
      */
     function initialize()
     {
-        if ($_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
+        if (midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
-            $_MIDCOM->enable_jquery();
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.core.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.pulsate.min.js');
+            midcom::get('head')->enable_jquery();
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
+            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.core.min.js');
+            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.pulsate.min.js');
 
-            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
+            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
         }
         else
         {
-            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
+            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
         }
 
         // Read messages from session
@@ -227,16 +227,12 @@ class midcom_services_uimessages
      *
      * @param boolean $show Show simple HTML
      */
-    function show($show_simple_also = false)
+    function show($show_simple = false)
     {
-        if ($show_simple_also)
+        if (   $show_simple
+            || !midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
             $this->show_simple();
-        }
-
-        // No privileges for showing the AJAX user interface messages
-        if (!$_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
-        {
             return;
         }
 
@@ -285,7 +281,7 @@ class midcom_services_uimessages
     function show_simple($prefer_fancy = false)
     {
         if (   $prefer_fancy
-            && $_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
+            && midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
             return $this->show();
         }
@@ -294,9 +290,10 @@ class midcom_services_uimessages
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            foreach ($this->_message_stack as $message)
+            foreach ($this->_message_stack as $id => $message)
             {
                 $this->_render_message($message);
+                unset($this->_message_stack[$id]);
             }
 
             echo "</div>\n";

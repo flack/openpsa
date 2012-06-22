@@ -46,12 +46,11 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     {
         $data['group'] = new midcom_db_group($args[0]);
         // Get the prefix
-        $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (isset($_POST['f_cancel']))
         {
-            $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
-            // This will exit
+            return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
         }
 
         if (isset($_POST['f_submit']))
@@ -63,9 +62,8 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
             if ($data['group']->update())
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('updated', 'midcom'));
-                $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
-                // This will exit
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), midcom::get('i18n')->get_string('updated', 'midcom'));
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
             }
             else
             {
@@ -77,7 +75,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('move %s'), $data['group']->official);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb($handler_id);
     }
@@ -116,11 +114,11 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     public function _handler_list($handler_id, array $args, array &$data)
     {
         // Get the prefix
-        $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        $data['view_title'] = $_MIDCOM->i18n->get_string('groups', 'midcom.admin.user');
+        $data['view_title'] = midcom::get('i18n')->get_string('groups', 'midcom.admin.user');
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb($handler_id);
     }
@@ -194,7 +192,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
             if (!$data['title'])
             {
-                $data['title'] = $_MIDCOM->i18n->get_string('unknown', 'midcom.admin.user');
+                $data['title'] = midcom::get('i18n')->get_string('unknown', 'midcom.admin.user');
             }
 
             // Show the group
@@ -202,7 +200,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             {
                 // Prevent moving owner to any of its children
                 $data['disabled'] = false;
-                if (midcom_admin_user_handler_group_list::belongs_to($data['id'], $data['group']->id))
+                if (self::belongs_to($data['id'], $data['group']->id))
                 {
                     $data['disabled'] = true;
                 }
@@ -222,11 +220,10 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Internal helper to check if the requested group belongs to the haystack
      *
-     * @static
      * @param int $id
      * @param int $owner
      */
-    public function belongs_to($id, $owner)
+    public static function belongs_to($id, $owner)
     {
         do
         {

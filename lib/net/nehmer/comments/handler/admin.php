@@ -17,42 +17,37 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * The schema database to use.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * List of comments we are currently working with.
      *
      * @var Array
-     * @access private
      */
-    var $_comments = null;
+    private $_comments = null;
 
     /**
      * A new comment just created for posting.
      *
      * @var net_nehmer_comments_comment
-     * @access private
      */
-    var $_new_comment = null;
+    private $_new_comment = null;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
-     * @access private
      */
-    var $_objectguid = null;
+    private $_objectguid = null;
 
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_display_datamanager = null;
+    private $_display_datamanager = null;
 
     var $custom_view = null;
 
@@ -63,7 +58,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         $this->_request_data['comments'] =& $this->_comments;
         $this->_request_data['objectguid'] =& $this->_objectguid;
-        $this->_request_data['post_controller'] =& $this->_post_controller;
         $this->_request_data['display_datamanager'] =& $this->_display_datamanager;
         $this->_request_data['custom_view'] =& $this->custom_view;
     }
@@ -90,7 +84,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 $this->_config->get('schemadb'));
 
             if (   $this->_config->get('use_captcha')
-                || (   ! $_MIDCOM->auth->user
+                || (   ! midcom::get('auth')->user
                     && $this->_config->get('use_captcha_if_anonymous')))
             {
                 $this->_schemadb['comment']->append_field
@@ -124,11 +118,11 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     function _handler_welcome($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
-        if(!$this->_topic->can_do('net.nehmer.comments:moderation'))
+        if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
-            $_MIDCOM->relocate('/');
+            return new midcom_response_relocate('/');
         }
         $this->_request_data['topic'] = $this->_topic;
     }
@@ -167,19 +161,19 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
             }
 
-            $_MIDCOM->cache->invalidate($comment->objectguid);
+            midcom::get('cache')->invalidate($comment->objectguid);
             $this->_relocate_to_self();
         }
     }
 
     /**
-     * This is a shortcut for $_MIDCOM->relocate which relocates to the very same page we
+     * This is a shortcut for midcom::get()->relocate which relocates to the very same page we
      * are viewing right now, including all GET parameters we had in the original request.
      * We do this by taking the $_SERVER['REQUEST_URI'] variable.
      */
     function _relocate_to_self()
     {
-        $_MIDCOM->relocate($_SERVER['REQUEST_URI']);
+        midcom::get()->relocate($_SERVER['REQUEST_URI']);
         // This will exit.
     }
 
@@ -192,11 +186,11 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     function _handler_moderate($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
-            $_MIDCOM->relocate('/');
+            return new midcom_response_relocate('/');
         }
 
         // This might exit.
@@ -210,40 +204,38 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         {
             case 'reported_abuse':
                 $this->_request_data['status_to_show'] = 'reported abuse';
-                $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
               break;
             case 'abuse':
                 $this->_request_data['status_to_show'] = 'abuse';
-                $view_status[] = NET_NEHMER_COMMENTS_ABUSE;
+                $view_status[] = net_nehmer_comments_comment::ABUSE;
               break;
             case 'junk':
                 $this->_request_data['status_to_show'] = 'junk';
-                $view_status[] = NET_NEHMER_COMMENTS_JUNK;
+                $view_status[] = net_nehmer_comments_comment::JUNK;
               break;
             case 'latest':
                 $this->_request_data['status_to_show'] = 'latest comments';
-                $view_status[] = NET_NEHMER_COMMENTS_NEW;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_ANONYMOUS;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_USER;
-                $view_status[] = NET_NEHMER_COMMENTS_MODERATED;
+                $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
+                $view_status[] = net_nehmer_comments_comment::NEW_USER;
+                $view_status[] = net_nehmer_comments_comment::MODERATED;
                 if ($this->_config->get('show_reported_abuse_as_normal'))
                 {
-                    $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                    $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
               break;
             case 'latest_new':
                 $this->_request_data['status_to_show'] = 'latest comments, only new';
-                $view_status[] = NET_NEHMER_COMMENTS_NEW;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_ANONYMOUS;
-                $view_status[] = NET_NEHMER_COMMENTS_NEW_USER;
+                $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
+                $view_status[] = net_nehmer_comments_comment::NEW_USER;
                 if ($this->_config->get('show_reported_abuse_as_normal'))
                 {
-                    $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                    $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
               break;
             case 'latest_approved':
                 $this->_request_data['status_to_show'] = 'latest comments, only approved';
-                $view_status[] = NET_NEHMER_COMMENTS_MODERATED;
+                $view_status[] = net_nehmer_comments_comment::MODERATED;
               break;
         }
 
@@ -259,7 +251,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         {
             $this->_init_display_datamanager();
         }
+        net_nehmer_comments_viewer::add_head_elements();
         $this->_prepare_request_data();
+        $this->add_breadcrumb('', $this->_l10n->get($data['status_to_show']));
     }
 
     /**
@@ -280,8 +274,8 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
                 midcom_show_style('admin-comments-item');
 
-                if (   $_MIDCOM->auth->admin
-                    || (   $_MIDCOM->auth->user
+                if (   midcom::get('auth')->admin
+                    || (   midcom::get('auth')->user
                         && $comment->can_do('midgard:delete')))
                 {
                     midcom_show_style('admin-comments-admintoolbar');

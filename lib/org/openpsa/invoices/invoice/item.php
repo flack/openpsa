@@ -23,21 +23,6 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         parent::__construct($id);
     }
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function _on_created()
     {
         $this->_update_invoice();
@@ -52,7 +37,20 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     {
         $this->_update_invoice();
     }
-
+    
+    /**
+    * Human-readable label for cases like Asgard navigation
+     */
+    function get_label()
+    {
+        $label = $this->description;
+        if (strlen($label) > 100)
+        {
+            $label = substr($label, 0, 97) . '...';
+        }
+        return $label;
+    }
+        
     public function render_link()
     {
         $url = '';
@@ -101,7 +99,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
                 if ($old_sum != $invoice->sum)
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($this->deliverable);
-                    if (   $deliverable->orgOpenpsaObtype !== ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+                    if (   $deliverable->orgOpenpsaObtype !== org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                         && $deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
                     {
                         $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;
@@ -154,7 +152,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         if ($invoiced != $deliverable->invoiced)
         {
             $deliverable->invoiced = $invoiced;
-            if (   $deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE
+            if (   $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SINGLE
                 && $deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
             {
                 $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;

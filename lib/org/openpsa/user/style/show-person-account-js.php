@@ -94,24 +94,24 @@ $.fn.teststrength = function(password, username, option)
 
     //password length
     score += password.length * 4;
-    score += ( $.fn.checkRepetition(1,password).length - password.length ) * 1;
-    score += ( $.fn.checkRepetition(2,password).length - password.length ) * 1;
-    score += ( $.fn.checkRepetition(3,password).length - password.length ) * 1;
-    score += ( $.fn.checkRepetition(4,password).length - password.length ) * 1;
+    score += ($.fn.checkRepetition(1,password).length - password.length) * 1;
+    score += ($.fn.checkRepetition(2,password).length - password.length) * 1;
+    score += ($.fn.checkRepetition(3,password).length - password.length) * 1;
+    score += ($.fn.checkRepetition(4,password).length - password.length) * 1;
 
     <?php
-    	foreach($data['password_rules'] as $rule)
+    	foreach ($data['password_rules'] as $rule)
         {
             echo " if (password.match(".$rule['match'].")){ score += ".$rule['score'].";}";
         }
     ?>
 
     //verifying 0 < score < 100
-    if ( score < 0 )
+    if (score < 0)
     {
     	score = 0;
     }
-    if ( score > 100 )
+    if (score > 100)
     {
     	score = 100;
     }

@@ -11,8 +11,8 @@
  * in all parts of the component's environment. Available services are
  *
  * <b>midcom_services_i18n $_i18n</b> A handle to the i18n service.
- * <b>midcom_services__i18n_l10n $_l10n</b> The components' L10n string database.
- * <b>midcom_services__i18n_l10n $_l10n_midcom</b> The global MidCOM string database.
+ * <b>midcom_services_i18n_l10n $_l10n</b> The components' L10n string database.
+ * <b>midcom_services_i18n_l10n $_l10n_midcom</b> The global MidCOM string database.
  * <b>midcom_helper_configuration $_config</b> The current configuration.
  *
  * @package midcom.baseclasses
@@ -21,7 +21,7 @@ abstract class midcom_baseclasses_components_base
 {
     /**
      * The name of the component, e.g. net.nehmer.static. Should be used whenever the
-     * components' name is required instead of hardcoding it.
+     * component's name is required instead of hardcoding it.
      *
      * @var string
      */
@@ -47,13 +47,13 @@ abstract class midcom_baseclasses_components_base
         switch ($field)
         {
             case '_i18n':
-                $instance = $_MIDCOM->get_service('i18n');
+                $instance = midcom::get('i18n');
                 break;
             case '_l10n':
-                $instance = $_MIDCOM->i18n->get_l10n($this->_component);
+                $instance = midcom::get('i18n')->get_l10n($this->_component);
                 break;
             case '_l10n_midcom':
-                $instance = $_MIDCOM->i18n->get_l10n('midcom');
+                $instance = midcom::get('i18n')->get_l10n('midcom');
                 break;
             case '_config':
                 $instance = midcom_baseclasses_components_configuration::get($this->_component, 'config');
@@ -94,7 +94,7 @@ abstract class midcom_baseclasses_components_base
      */
     public function add_stylesheet($url, $media = false)
     {
-        $_MIDCOM->add_stylesheet($url, $media);
+        midcom::get('head')->add_stylesheet($url, $media);
     }
 }
 ?>

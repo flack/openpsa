@@ -18,7 +18,7 @@ $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
-    if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
+    if (! midcom::get('auth')->request_sudo('midcom.services.indexer'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -26,8 +26,8 @@ if (   $ips
 }
 else
 {
-    $_MIDCOM->auth->require_valid_user('basic');
-    $_MIDCOM->auth->require_admin_user();
+    midcom::get('auth')->require_valid_user('basic');
+    midcom::get('auth')->require_admin_user();
 }
 
 if ($GLOBALS['midcom_config']['indexer_backend'] === false)
@@ -63,13 +63,12 @@ switch($_SERVER['SERVER_PORT'])
 }
 
 //check if language is passed - if not take the current-one
-$language = $_MIDCOM->i18n->get_current_language();
+$language = midcom::get('i18n')->get_current_language();
 if (isset($_REQUEST['language']))
 {
     $language = $_REQUEST['language'];
 }
 
-$_MIDCOM->load_library('org.openpsa.httplib');
 if (!class_exists('org_openpsa_httplib'))
 {
     $singlep_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-midcom/reindex_singleprocess.php', $current_uri);
@@ -82,14 +81,15 @@ ignore_user_abort(true);
 
 debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
 ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+$start = microtime(true);
 
 $nap = new midcom_helper_nav();
 $nodes = Array();
 $nodeid = $nap->get_root_node();
-$loader = $_MIDCOM->get_component_loader();
-$indexer = $_MIDCOM->get_service('indexer');
+$loader = midcom::get('componentloader');
+$indexer = midcom::get('indexer');
 
-// Use this to check that indexer is on-line (and hope the root topic isn't a gigantic wiki)
+// Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nodeid);
 $existing_documents = $indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
 if ($existing_documents === false)
@@ -169,12 +169,12 @@ ignore_user_abort(false);
 
 if ($ip_sudo)
 {
-    $_MIDCOM->auth->drop_sudo();
+    midcom::get('auth')->drop_sudo();
 }
 
 //re-enable ob
 ob_start();
 ?>
 
-Reindex complete
+Reindex complete. Time elapsed: <?php echo round(microtime(true) - $start, 2) . 's'; ?>
 </pre>

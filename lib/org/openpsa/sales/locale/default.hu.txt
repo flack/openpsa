@@ -30,7 +30,7 @@ Aktív
 Aktív értékesítési projektek
 ---STRINGEND
 
----STRING add deliverable
+---STRING add offer
 Szállítás hozzáadása
 ---STRINGEND
 

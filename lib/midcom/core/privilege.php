@@ -163,7 +163,7 @@ class midcom_core_privilege
         {
             try
             {
-                $this->__cached_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+                $this->__cached_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
             }
             catch (midcom_error $e)
             {
@@ -201,7 +201,7 @@ class midcom_core_privilege
             return false;
         }
 
-        return $_MIDCOM->auth->get_assignee($this->assignee);
+        return midcom::get('auth')->get_assignee($this->assignee);
     }
 
     /**
@@ -215,7 +215,7 @@ class midcom_core_privilege
         {
             $assignee = $this->assignee;
         }
-        switch($assignee)
+        switch ($assignee)
         {
             case 'SELF':
             case 'EVERYONE':
@@ -258,7 +258,7 @@ class midcom_core_privilege
             }
             else
             {
-                $tmp = $_MIDCOM->auth->get_assignee($assignee);
+                $tmp = midcom::get('auth')->get_assignee($assignee);
                 if (! $tmp)
                 {
                     debug_add("Could not resolve the assignee string '{$assignee}', see above for more information.", MIDCOM_LOG_INFO);
@@ -292,7 +292,7 @@ class midcom_core_privilege
     public function validate()
     {
         // 1. Privilege name
-        if (! $_MIDCOM->auth->acl->privilege_exists($this->privilegename))
+        if (! midcom::get('auth')->acl->privilege_exists($this->privilegename))
         {
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
                 MIDCOM_LOG_INFO);
@@ -337,8 +337,8 @@ class midcom_core_privilege
                 MIDCOM_LOG_INFO);
             return false;
         }
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:privileges'))
         {
             debug_add("Insufficient privileges on the content object with the GUID '{$this->__guid}', midgard:update and midgard:privileges required.",
                 MIDCOM_LOG_INFO);
@@ -429,13 +429,13 @@ class midcom_core_privilege
         }
         else
         {
-            $return = $_MIDCOM->cache->memcache->get('ACL', $cache_key);
+            $return = midcom::get('cache')->memcache->get('ACL', $cache_key);
 
             if (! is_array($return))
             {
                 // Didn't get privileges from cache, get them from DB
                 $return = self::_query_privileges($guid, $type);
-                $_MIDCOM->cache->memcache->put('ACL', $cache_key, $return);
+                midcom::get('cache')->memcache->put('ACL', $cache_key, $return);
             }
 
             $cache[$cache_key] = $return;
@@ -443,7 +443,6 @@ class midcom_core_privilege
 
         return $return;
     }
-
 
     /**
      * This is an internal helper function, which may only be called statically.
@@ -526,13 +525,13 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @param object &$object A reference to the object to query.
+     * @param object $object The object to query.
      * @param string $name The name of the privilege to query
      * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      * @return midcom_core_privilege The privilege matching the constraints.
      */
-    public static function get_privilege(&$object, $name, $assignee, $classname = '')
+    public static function get_privilege($object, $name, $assignee, $classname = '')
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
@@ -548,7 +547,7 @@ class midcom_core_privilege
 
         if (count($result) > 1)
         {
-            $_MIDCOM->auth->request_sudo('midcom.core');
+            midcom::get('auth')->request_sudo('midcom.core');
             debug_add('A DB inconsistency has been detected. There is more then one record for privilege specified. Deleting all excess records after the first one!',
                 MIDCOM_LOG_ERROR);
             debug_print_r('Content Object:', $object);
@@ -559,7 +558,7 @@ class midcom_core_privilege
                 $privilege = array_pop($result);
                 $privilege->delete();
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
         else if (count($result) == 0)
         {
@@ -609,7 +608,7 @@ class midcom_core_privilege
                 }
                 else if (strstr($this->__privilege['assignee'], 'group:') !== false)
                 {
-                    $user = $_MIDCOM->auth->get_user($user_id);
+                    $user = midcom::get('auth')->get_user($user_id);
                     if (is_object($user))
                     {
                        return $user->is_in_group($this->__privilege['assignee']);
@@ -777,7 +776,7 @@ class midcom_core_privilege
      */
     private function _invalidate_cache()
     {
-        $_MIDCOM->cache->invalidate($this->objectguid);
+        midcom::get('cache')->invalidate($this->objectguid);
     }
 
     /**

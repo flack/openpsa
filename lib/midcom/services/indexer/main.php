@@ -7,15 +7,14 @@
  */
 
 /**
- * This class is the main access points into the MidCOM Indexer subsystem.
+ * This class is the main access point into the MidCOM Indexer subsystem.
  *
- * It allows you to maintain and query the MidCOM document index.
+ * It allows you to maintain and query the document index.
  *
  * Do not instantiate this class directly. Instead use the get_service
  * method on midcom_application using the service name 'indexer' to obtain
  * a running instance. You <i>must</i> honor the reference of that call.
  *
- * @package midcom.services
  * @see midcom_services_indexer_document
  * @see midcom_services_indexer_backend
  * @see midcom_services_indexer_filter
@@ -23,8 +22,8 @@
  * @todo Batch indexing support
  * @todo Write code examples
  * @todo More elaborate class introduction.
+ * @package midcom.services
  */
-
 class midcom_services_indexer
 {
     /**
@@ -87,7 +86,7 @@ class midcom_services_indexer
      */
     function enabled()
     {
-        return ! $this->_disabled;
+        return !$this->_disabled;
     }
 
     /**
@@ -104,16 +103,16 @@ class midcom_services_indexer
      *           midcom_services_indexer_document or an Array of these objects.
      * @return boolean Indicating success.
      */
-    function index ($documents)
+    function index($documents)
     {
         if ($this->_disabled)
         {
             return true;
         }
 
-        if (! is_array($documents))
+        if (!is_array($documents))
         {
-            $documents = Array($documents);
+            $documents = array($documents);
         }
         if (count($documents) == 0)
         {
@@ -135,54 +134,55 @@ class midcom_services_indexer
 
         try
         {
-            $stat = $this->_backend->index($documents);
+            return $this->_backend->index($documents);
         }
         catch (Exception $e)
         {
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $stat = false;
+            return false;
         }
-        return $stat;
     }
 
     /**
      * Automatic helper which transforms a reference-passed object into an indexable document.
      * Where necessary (f.x. with the DM instances) automatic indexing of subclasses is done.
      *
-     * Currently supported arguments:
-     *
-     * - Datamanager 2 Instances (midcom_helper_datamanager2_datamanager)
-     *
      * Note, that this is conceptually different from the public new_document operation: It might
-     * already trigger indexing of dependant objects: A datamanager instance for example will
+     * already trigger indexing of dependent objects: A datamanager instance for example will
      * automatically reindex all BLOBs defined in the schema.
      *
-     * @param midcom_helper_datamanager2_datamanager &$object A reference to the supported object types which allow for automatic
-     *     casting (see above).
-     * @access protected
+     * @param midcom_helper_datamanager2_datamanager &$object A reference to the DM2 object
      */
-    function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
+    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
     {
         $object = $this->new_document($object);
     }
 
-
     /**
-     * Removes the document with the given resource identifier from the index.
+     * Removes the document(s) with the given resource identifier(s) from the index.
+     * Using GUIDs instead of RIs will delete all language versions
      *
-     * @param string $RI The resource identifier of the document that should be deleted.
+     * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    function delete($RI)
+    function delete($RIs)
     {
         if ($this->_disabled)
         {
             return true;
         }
-
+        if (!is_array($RIs))
+        {
+            $RIs = array($RIs);
+        }
+        if (count($RIs) == 0)
+        {
+            // Nothing to do.
+            return true;
+        }
         try
         {
-            $stat = $this->_backend->delete($RI);
+            $stat = $this->_backend->delete($RIs);
         }
         catch (Exception $e)
         {
@@ -199,7 +199,7 @@ class midcom_services_indexer
      *
      * @return boolean Indicating success.
      */
-    function delete_all()
+    function delete_all($constraint = '')
     {
         if ($this->_disabled)
         {
@@ -208,14 +208,13 @@ class midcom_services_indexer
 
         try
         {
-            $stat = $this->_backend->delete_all();
+            return $this->_backend->delete_all($constraint);
         }
         catch (Exception $e)
         {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $stat = false;
+            return false;
         }
-        return $stat;
     }
 
     /**
@@ -225,15 +224,15 @@ class midcom_services_indexer
      * The backend determines what filters are supported and how they are
      * treated.
      *
-     * The query syntax is also dependant on the backend. Refer to its documentation
+     * The query syntax is also dependent on the backend. Refer to its documentation
      * how queries should be built.
      *
-     * @param string $query The query, which must suite the backends query syntax. It is assumed to be in the site charset.
+     * @param string $query The query, which must suit the backends query syntax. It is assumed to be in the site charset.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query.
      * @return Array An array of documents matching the query, or false on a failure.
      * @todo Refactor into multiple methods
      */
-    function query($query, $filter = null)
+    function query($query, midcom_services_indexer_filter $filter = null)
     {
         if ($this->_disabled)
         {
@@ -241,7 +240,7 @@ class midcom_services_indexer
         }
 
         // Do charset translations
-        $i18n = $_MIDCOM->get_service('i18n');
+        $i18n = midcom::get('i18n');
         $query = $i18n->convert_to_utf8($query);
 
         try
@@ -263,7 +262,6 @@ class midcom_services_indexer
         foreach ($result_raw as $document)
         {
             $document->fields_to_members();
-
             /**
              * FIXME: Rethink program flow and especially take into account that not all documents are
              * created by midcom or even served by midgard
@@ -275,8 +273,7 @@ class midcom_services_indexer
             // topic instead.
 
             // Try to check topic only if the guid is actually set
-            if (   isset($document->topic_guid)
-                && !empty($document->topic_guid))
+            if (!empty($document->topic_guid))
             {
                 try
                 {
@@ -297,7 +294,7 @@ class midcom_services_indexer
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
                 try
                 {
-                    $object = $_MIDCOM->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
+                    $object = midcom::get('dbfactory')->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
                 }
                 catch (midcom_error $e)
                 {

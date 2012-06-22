@@ -8,6 +8,7 @@
 
 /**
  * The Grand Unified Reflector
+ *
  * @package midcom.helper.reflector
  */
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
@@ -39,15 +40,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (is_object($src))
         {
             $original_class = get_class($src);
-
-            // TODO: This should be redundant, it's only used to the the mgdschema_class, which is overwritten later by the resolve_baseclass -method
-            if (!isset($src->__mgdschema_class_name__))
-            {
-                $converted = $_MIDCOM->dbfactory->convert_midgard_to_midcom($src);
-                $src = $converted;
-                $this->mgdschema_class = $src->__mgdschema_class_name__;
-                unset($converted);
-            }
         }
         else
         {
@@ -55,7 +47,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Resolve root class name
-        $this->mgdschema_class = midcom_helper_reflector::resolve_baseclass($original_class);
+        $this->mgdschema_class = self::resolve_baseclass($original_class);
 
         // Could not resolve root class name
         if (empty($this->mgdschema_class))
@@ -70,18 +62,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return;
         }
         $this->_mgd_reflector = new midgard_reflection_property($this->mgdschema_class);
-        if (!$this->_mgd_reflector)
-        {
-            debug_add("Could not instantiate midgard_mgd_reflection_property for {$this->mgdschema_class}", MIDCOM_LOG_ERROR);
-            return;
-        }
 
         // Instantiate dummy object
-        $this->_dummy_object = new $this->mgdschema_class();
-        if (!$this->_dummy_object)
-        {
-            debug_add("Could not instantiate dummy object for {$this->mgdschema_class}", MIDCOM_LOG_ERROR);
-        }
+        $this->_dummy_object = new $this->mgdschema_class;
     }
 
     public static function &get($src)
@@ -105,7 +88,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Gets a midcom_helper_l10n instance for component governing the type
      *
-     * @return midcom_services__i18n_l10n  Localization library for the reflector object class
+     * @return midcom_services_i18n_l10n  Localization library for the reflector object class
      */
     public function get_component_l10n()
     {
@@ -114,7 +97,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             return self::$_cache['l10n'][$this->mgdschema_class];
         }
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
         if (empty($midcom_dba_classname))
         {
             // Could not resolve MidCOM DBA class name, fallback early to our own l10n
@@ -123,7 +106,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $this->_l10n;
         }
 
-        $component = $_MIDCOM->dbclassloader->get_component_for_class($midcom_dba_classname);
+        $component = midcom::get('dbclassloader')->get_component_for_class($midcom_dba_classname);
         if (!$component)
         {
             debug_add("Could not resolve component for DBA class {$midcom_dba_classname}, using our own l10n", MIDCOM_LOG_INFO);
@@ -131,7 +114,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $this->_l10n;
         }
         // Got component, try to load the l10n helper for it
-        $midcom_i18n = $_MIDCOM->get_service('i18n');
+        $midcom_i18n = midcom::get('i18n');
         $component_l10n = $midcom_i18n->get_l10n($component);
         if (!empty($component_l10n))
         {
@@ -157,7 +140,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
 
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+
         if (!empty($midcom_dba_classname))
         {
             $use_classname = $midcom_dba_classname;
@@ -168,7 +152,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $label = $component_l10n->get($use_classname);
         if ($label == $use_classname)
         {
-            // Class string not localized, try Bergies way to pretty-print
+            // Class string not localized, try Bergie's way to pretty-print
             $classname_parts = explode('_', $use_classname);
             if (count($classname_parts) >= 3)
             {
@@ -197,7 +181,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_label_property()
     {
-        $midcom_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
+        $midcom_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
         if ($midcom_class)
         {
             $obj = new $midcom_class;
@@ -232,10 +216,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $property = $obj->get_label_property();
                 break;
             // TODO: Switch to use the get_name/title_property helpers below
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_topic')):
+            case (midcom::get('dbfactory')->is_a($obj, 'midcom_db_topic')):
                 $property = 'extra';
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_person')):
+            case (midcom::get('dbfactory')->is_a($obj, 'midcom_db_person')):
                 $property = array
                 (
                     'rname',
@@ -271,7 +255,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // Not a MidCOM DBA object
             try
             {
-                $obj = $_MIDCOM->dbfactory->convert_midgard_to_midcom($object);
+                $obj = midcom::get('dbfactory')->convert_midgard_to_midcom($object);
             }
             catch (midcom_error $e)
             {
@@ -371,7 +355,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         $object_class = get_class($obj);
-        $object_baseclass = midcom_helper_reflector::resolve_baseclass($obj);
+        $object_baseclass = self::resolve_baseclass($obj);
         switch(true)
         {
             // object knows it's icon, how handy!
@@ -469,7 +453,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $obj =& $this->_dummy_object;
 
         // Get property list and start checking (or abort on error)
-        if ($_MIDCOM->dbclassloader->is_midcom_db_object($obj))
+        if (midcom::get('dbclassloader')->is_midcom_db_object($obj))
         {
             $properties = $obj->get_object_vars();
         }
@@ -700,17 +684,17 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function is_same_class($class_one, $class_two)
     {
-        $one = midcom_helper_reflector::resolve_baseclass($class_one);
-        $two = midcom_helper_reflector::resolve_baseclass($class_two);
+        $one = self::resolve_baseclass($class_one);
+        $two = self::resolve_baseclass($class_two);
         if ($one == $two)
         {
             return true;
         }
-        if (midcom_helper_reflector::class_rewrite($one) == $two)
+        if (self::class_rewrite($one) == $two)
         {
             return true;
         }
-        if ($one == midcom_helper_reflector::class_rewrite($two))
+        if ($one == self::class_rewrite($two))
         {
             return true;
         }
@@ -800,27 +784,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $parent_class = $classname;
         }
 
-        // Then traverse class tree
-        do
-        {
-            $cached[$classname] = $parent_class;
-            $parent_class = get_parent_class($cached[$classname]);
-            if (   empty($parent_class)
-                || $parent_class == 'midgard_object'
-                || $parent_class == 'MidgardObject')
-            {
-                break;
-            }
-        }
-        while ($parent_class !== false);
+        $cached[$classname] = $parent_class;
 
-        // Avoid notice in case things went wrong
-        if (isset($cached[$classname]))
-        {
-            return $cached[$classname];
-        }
-
-        return false;
+        return $cached[$classname];
     }
 
     /**
@@ -845,10 +811,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $name_exceptions = $this->_config->get('name_exceptions');
         foreach ($name_exceptions as $class => $property)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, $class))
+            if (midcom::get('dbfactory')->is_a($object, $class))
             {
                 if (   $property !== false
-                    && !$_MIDCOM->dbfactory->property_exists($object, $property))
+                    && !midcom::get('dbfactory')->property_exists($object, $property))
                 {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     self::$_cache['name'][$key] = false;
@@ -860,7 +826,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // The simple heuristic
-        if ($_MIDCOM->dbfactory->property_exists($object, 'name'))
+        if (midcom::get('dbfactory')->property_exists($object, 'name'))
         {
             self::$_cache['name'][$key] = 'name';
         }
@@ -885,7 +851,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         try
         {
-            $resolver = midcom_helper_reflector::get($object);
+            $resolver = self::get($object);
             return $resolver->get_name_property_nonstatic($object);
         }
         catch (midcom_error $e)
@@ -914,7 +880,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $title_property = self::get_title_property($object);
         }
         if (   empty($title_property)
-            || !$_MIDCOM->dbfactory->property_exists($object, $title_property))
+            || !midcom::get('dbfactory')->property_exists($object, $title_property))
         {
             // Could not resolve valid property
             return false;
@@ -934,7 +900,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_title_property($object)
     {
-        $resolver = midcom_helper_reflector::get($object);
+        $resolver = self::get($object);
         return $resolver->get_title_property_nonstatic($object);
     }
 
@@ -964,10 +930,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         foreach ($title_exceptions as $class => $property)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, $class))
+            if (midcom::get('dbfactory')->is_a($object, $class))
             {
                 if (   $property !== false
-                    && !$_MIDCOM->dbfactory->property_exists($object, $property))
+                    && !midcom::get('dbfactory')->property_exists($object, $property))
                 {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     self::$_cache['title'][$key] = false;
@@ -979,7 +945,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // The easy check
-        if ($_MIDCOM->dbfactory->property_exists($object, 'title'))
+        if (midcom::get('dbfactory')->property_exists($object, 'title'))
         {
             self::$_cache['title'][$key] = 'title';
         }

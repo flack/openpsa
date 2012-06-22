@@ -20,18 +20,14 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Set the "now working on" status
         $data['workingon'] = new org_openpsa_mypage_workingon();
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
-        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
-
-        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
-        $task_conf = $widget_config['task'];
-        $task_conf['handler_url'] = $handler_url;
+        $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $task_conf['id_field'] = 'guid';
 
         $task_conf['constraints'][] = array
@@ -158,7 +154,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     public function _handler_set($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
         $relocate = '';
         if (array_key_exists('url', $_POST))
@@ -187,11 +183,10 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $stat = $workingon->set($_POST['task']);
         if (!$stat)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
         }
 
-        $_MIDCOM->relocate($relocate . "workingon/");
-        // This will exit
+        return new midcom_response_relocate($relocate . "workingon/");
     }
 }
 ?>

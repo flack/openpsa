@@ -311,7 +311,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         fclose($dst);
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         return true;
     }
 
@@ -368,7 +368,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function apply_filter_all($filter)
     {
-        foreach($this->attachments as $identifier => $image)
+        foreach ($this->attachments as $identifier => $image)
         {
             if ($identifier === 'original')
             {
@@ -404,43 +404,25 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         }
 
         $image = $this->attachments[$identifier];
-        $tmpfile = $this->create_tmp_copy($image);
-        if ($tmpfile === false)
-        {
-            debug_add("Could not create a working copy for '{$identifier}', aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $this->_filter = new midcom_helper_imagefilter();
-        if (!$this->_filter->set_file($tmpfile))
-        {
-            debug_add("\$this->_filter->set_file() failed, aborting", MIDCOM_LOG_ERROR);
-            // Clean up
-            unlink($tmpfile);
-            $this->_filter = null;
-            return false;
-        }
+        $this->_filter = new midcom_helper_imagefilter($image);
         if (!$this->_filter->process_chain($filter))
         {
             debug_add("Failed to process filter chain '{$filter}', aborting", MIDCOM_LOG_ERROR);
             // Clean up
-            unlink($tmpfile);
             $this->_filter = null;
             return false;
         }
-        // Don't leave the filter object laying
-        $this->_filter = null;
 
-        if (!$this->update_image_from_file($identifier, $tmpfile))
+        if (!$this->update_image_from_file($identifier))
         {
             debug_add("Failed to update image '{$identifier}' from file '{$tmpfile}', aborting", MIDCOM_LOG_ERROR);
             // Clean up
-            unlink($tmpfile);
+            $this->_filter = null;
             return false;
         }
 
-        // Clean-up the temp file
-        unlink($tmpfile);
+        // Don't leave the filter object laying
+        $this->_filter = null;
 
         debug_add("Applied filter '{$filter}' to image '{$identifier}'", MIDCOM_LOG_INFO);
         return true;
@@ -455,30 +437,10 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function update_image_from_file($identifier, $file)
     {
-        if (!array_key_exists($identifier, $this->attachments))
+        if (!$this->_filter->write($this->attachments[$identifier]))
         {
-            debug_add("Identifier '{$identifier}' not found", MIDCOM_LOG_ERROR);
             return false;
         }
-        if (!is_readable($file))
-        {
-            debug_add("File '{$file}' is not readable", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $src = fopen($file, 'r');
-        if (!$src)
-        {
-            debug_add("Could not open file '{$file}' for reading", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $image = $this->attachments[$identifier];
-        if (!$image->copy_from_handle($src))
-        {
-            debug_add("\$image->copy_from_handle() failed", MIDCOM_LOG_ERROR);
-            fclose($src);
-            return false;
-        }
-        fclose($src);
 
         // Failing these is bad, but it's too late now that we already have overwritten the actual image data...
         $this->_set_attachment_info_additional($identifier, $file);
@@ -505,7 +467,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         }
 
         // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+        $filename = midcom_db_attachment::safe_filename($filename, true);
 
         return $this->_set_image($filename, $tmpname, $title, $autodelete);
     }
@@ -518,7 +480,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             return false;
         }
         // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+        $filename = midcom_db_attachment::safe_filename($filename, true);
 
         return $this->_set_video($filename, $tmpname, $title, $autodelete);
     }
@@ -539,7 +501,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         $this->title = $title;
         $this->_filename = $filename;
         $this->_original_tmpname = $tmpname;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
 
         $this->_filter = new midcom_helper_imagefilter();
 
@@ -587,7 +549,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         $this->title_video = $title;
         $this->_filename_video = $filename;
         $this->_original_tmpname_video = $tmpname;
-        $this->_original_mimetype_video = $this->_get_mimetype($this->_original_tmpname_video);
+        $this->_original_mimetype_video = midcom_helper_misc::get_mimetype($this->_original_tmpname_video);
 
         // 1st step: original image storage and auto-conversion..
         if (   ! $this->_save_original_video())
@@ -679,11 +641,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             foreach ($this->derived_images as $identifier => $filter_chain)
             {
                 // PONDER: Shouldn't the derived images be derived from the 'main' image (now derived from original) ??
-                if (! $this->_create_working_copy())
-                {
-                    return false;
-                }
-
                 $result = $this->_save_derived_image($identifier);
                 @unlink($this->_current_tmpname);
                 if (! $result)
@@ -702,11 +659,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             foreach ($this->derived_videoss as $identifier => $filter_chain)
             {
                 // PONDER: Shouldn't the derived images be derived from the 'main' image (now derived from original) ??
-                if (! $this->_create_working_copy())
-                {
-                    return false;
-                }
-
                 $result = $this->_save_derived_image($identifier);
                 @unlink($this->_current_tmpname);
                 if (! $result)
@@ -725,7 +677,10 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function _save_derived_image($identifier)
     {
-        if (! $this->_filter->process_chain($this->derived_images[$identifier]))
+        $this->_current_tmpname = $this->_filter->create_tmp_copy($this->_original_tmpname);
+
+        if (   !$this->_filter->set_file($this->_current_tmpname)
+            || !$this->_filter->process_chain($this->derived_images[$identifier]))
         {
             return false;
         }
@@ -748,7 +703,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             return $this->update_attachment($blob_identifier,
                                             "{$identifier}_{$this->_filename}",
                                             $title,
-                                            $this->_get_mimetype($this->_current_tmpname),
+                                            midcom_helper_misc::get_mimetype($this->_current_tmpname),
                                             $this->_current_tmpname,
                                             false);
         }
@@ -759,7 +714,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         return $this->add_attachment($blob_identifier,
                                      "{$identifier}_{$this->_filename}",
                                      $title,
-                                     $this->_get_mimetype($this->_current_tmpname),
+                                     midcom_helper_misc::get_mimetype($this->_current_tmpname),
                                      $this->_current_tmpname,
                                      false);
     }
@@ -771,7 +726,9 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function _save_main_image()
     {
-        if (! $this->_create_working_copy())
+        $this->_current_tmpname = $this->_filter->create_tmp_copy($this->_original_tmpname);
+
+        if (!$this->_filter->set_file($this->_current_tmpname))
         {
             return false;
         }
@@ -832,10 +789,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
     function _save_main_video()
     {
-        if (! $this->_create_working_copy_video())
-        {
-            return false;
-        }
+        $this->_current_tmpname_video = $this->_filter->create_tmp_copy($this->_original_tmpname_video);
 
         if (isset($this->_identifier))
         {
@@ -883,46 +837,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         @unlink($this->_current_tmpname_video);
 
         return $result;
-    }
-    /**
-     * This function creates a new working copy and stores the filename in _current_tmpname.
-     * (Beware of consecutive uses with current_tmpname, which will be silently overwritten,
-     * the old file must be unlinked by the callee.) The filter instance will automatically
-     * be set to the new file.
-     *
-     * @return boolean Indicating success.
-     */
-    private function _create_working_copy()
-    {
-        $this->_current_tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_video");
-        // TODO: error handling
-        $src = fopen($this->_original_tmpname, 'r');
-        $dst = fopen($this->_current_tmpname, 'w+');
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
-        fclose($src);
-        fclose($dst);
-        return $this->_filter->set_file($this->_current_tmpname);
-    }
-
-    function _create_working_copy_video()
-    {
-        $this->_current_tmpname_video = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_video");
-        // TODO: error handling
-        $src = fopen($this->_original_tmpname_video, 'r');
-        $dst = fopen($this->_current_tmpname_video, 'w+');
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
-        fclose($src);
-        fclose($dst);
-
-        return true;
     }
 
     /**

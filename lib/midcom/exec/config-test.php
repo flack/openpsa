@@ -1,19 +1,27 @@
 <?php
 if (! exec ('which which'))
 {
-    _midcom_stop_request("The 'which' utility cannot be found. It is required for configuration-testing. Aborting.");
+    throw new midcom_error("The 'which' utility cannot be found.");
 }
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 ?>
 <html>
-<head><title>MidCOM Configuration Test</title></head>
+<head><title>Configuration Test</title></head>
+<style type="text/css">
+tr.test th
+{
+	text-align: left;
+	white-space: nowrap;
+	font-weight: normal
+}
+</style>
 <body>
 
-<h1>MidCOM Configuration Test</h1>
+<h1>Configuration Test</h1>
 
-<p>This page performs a few tests on the MidCOM configuration.</p>
+<p>This page performs a few tests on the system configuration.</p>
 
-<table border="1" cellspacing="0" cellpadding="3">
+<table border="1" cellspacing="0" cellpadding="2">
   <tr>
     <th>Test</th>
     <th>Result</th>

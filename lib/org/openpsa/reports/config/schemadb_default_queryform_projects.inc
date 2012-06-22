@@ -84,7 +84,7 @@
                 (
                     'show_time' => false,
                 ),
-                'default'       => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y'))),
+                'default'       => array('start_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y')))),
                 'start_fieldset'  => array
                 (
                     'title'     => 'Timeframe',
@@ -105,7 +105,7 @@
                 (
                     'show_time' => false,
                 ),
-                'default'       => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y'))),
+                'default'       => array('end_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y')))),
                 'end_fieldset'    => '',
             ),
             'resource' => array

@@ -38,14 +38,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_controller;
 
-    /**
-     * Load midcom.helper.datamanager2. Called on handler initialization phase.
-     */
-    public function _on_initialize()
-    {
-        $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
-    }
-
     public function get_schema_name()
     {
         $name = 'config';
@@ -86,7 +78,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      *
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
-     * @param array  $data          Miscellaneous output data
+     * @param array  &$data          Miscellaneous output data
      */
     public function _handler_config($handler_id, array $args, array &$data)
     {
@@ -105,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 array
                 (
                     MIDCOM_TOOLBAR_URL => 'config/recreate/',
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('recreate images', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('recreate images', 'midcom'),
                     // TODO: better icon
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/recurring.png',
                     MIDCOM_TOOLBAR_POST => true,
@@ -124,24 +116,20 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
-                $_MIDCOM->relocate('');
-                // This will exit
-                break;
+                midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
+                return new midcom_response_relocate('');
 
             case 'cancel':
-                $_MIDCOM->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
-                $_MIDCOM->relocate('');
-                // This will exit
-                break;
+                midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
+                return new midcom_response_relocate('');
         }
 
         // Update the breadcrumb and page title
         $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
 
-        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('component %s configuration for folder %s', 'midcom'), $_MIDCOM->i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
-        $_MIDCOM->set_pagetitle($data['title']);
+        $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+        $data['title'] = sprintf(midcom::get('i18n')->get_string('component %s configuration for folder %s', 'midcom'), midcom::get('i18n')->get_string($data['component'], $data['component']), $data['topic']->extra);
+        midcom::get('head')->set_pagetitle($data['title']);
     }
 
     /**
@@ -152,9 +140,9 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_config($handler_id, array &$data)
     {
-        $_MIDCOM->style->data['controller'] =& $this->_controller;
-        $_MIDCOM->style->data['title'] = $data['title'];
-        $_MIDCOM->style->show_midcom('dm2_config');
+        midcom::get('style')->data['controller'] =& $this->_controller;
+        midcom::get('style')->data['title'] = $data['title'];
+        midcom::get('style')->show_midcom('dm2_config');
     }
 
     /**
@@ -190,14 +178,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (array_key_exists('midcom_baseclasses_components_handler_configuration_recreatecancel', $_POST))
         {
-            $_MIDCOM->relocate('config/');
-            // This will exit.
+            return new midcom_response_relocate('config/');
         }
 
         if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
         {
-            $_MIDCOM->relocate('config/');
-            // This will exit.
+            return new midcom_response_relocate('config/');
         }
 
         $data['datamanagers'] = $this->_load_datamanagers();
@@ -205,9 +191,9 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Update the breadcrumb and page title
         $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
         $this->add_breadcrumb('config/recreate/', $this->_l10n_midcom->get('recreate images'));
-        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
-        $_MIDCOM->set_pagetitle($data['title']);
+        $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+        $data['title'] = sprintf(midcom::get('i18n')->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
+        midcom::get('head')->set_pagetitle($data['title']);
     }
 
     /**
@@ -220,11 +206,11 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom::get()->disable_limits();
 
-        $_MIDCOM->style->data['title'] = $data['title'];
-        $_MIDCOM->style->data['objects'] = $this->_load_objects();
-        $_MIDCOM->style->data['datamanagers'] = $data['datamanagers'];
+        midcom::get('style')->data['title'] = $data['title'];
+        midcom::get('style')->data['objects'] = $this->_load_objects();
+        midcom::get('style')->data['datamanagers'] = $data['datamanagers'];
 
-        $_MIDCOM->style->show_midcom('dm2_config_recreate');
+        midcom::get('style')->show_midcom('dm2_config_recreate');
     }
 }
 ?>

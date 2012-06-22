@@ -77,27 +77,6 @@ class midcom_db_person extends midcom_core_dbaobject
         parent::__construct($id);
     }
 
-    /**
-     * Overwrite the query builder getter with a version retrieving the right type.
-     * We need a better solution here in DBA core actually, but it will be difficult to
-     * do this as we cannot determine the current class in a polymorphic environment without
-     * having a this (this call is static).
-     */
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function __set($property, $value)
     {
         parent::__set($property, $value);
@@ -113,8 +92,6 @@ class midcom_db_person extends midcom_core_dbaobject
 
     /**
      * Updates all computed members.
-     *
-     * @access protected
      */
     public function _on_loaded()
     {
@@ -128,7 +105,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (! $_MIDCOM->auth->request_sudo('midcom'))
+        if (! midcom::get('auth')->request_sudo('midcom'))
         {
             debug_add('Failed to get SUDO privileges, skipping membership deletion silently.', MIDCOM_LOG_ERROR);
             return;
@@ -164,14 +141,12 @@ class midcom_db_person extends midcom_core_dbaobject
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**
      * Updates all computed members and adds a midgard:owner privilege for the person itself
      * on the record.
-     *
-     * @access protected
      */
     public function _on_created()
     {
@@ -183,8 +158,6 @@ class midcom_db_person extends midcom_core_dbaobject
     /**
      * Synchronizes the $name, $rname, $emaillink and $homepagelink members
      * with the members they are based on.
-     *
-     * @access protected
      */
     private function _update_computed_members()
     {
@@ -252,7 +225,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     function add_to_group($name)
     {
-        $group = $_MIDCOM->auth->get_midgard_group_by_name($name);
+        $group = midcom::get('auth')->get_midgard_group_by_name($name);
         if (! $group)
         {
             debug_add("Failed to add the person {$this->id} to group {$name}, the group does not exist.", MIDCOM_LOG_WARN);

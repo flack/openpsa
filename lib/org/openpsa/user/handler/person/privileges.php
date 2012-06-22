@@ -31,7 +31,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
         $fields =& $schemadb['default']->fields;
-        $user_object = $_MIDCOM->auth->get_user($this->_person->guid);
+        $user_object = midcom::get('auth')->get_user($this->_person->guid);
 
         $person_object = $user_object->get_storage();
 
@@ -61,7 +61,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $fields['products_editing']['privilege_object'] = $person_object;
 
         // Load wiki classes
-        if ($_MIDCOM->componentloader->load_graceful('net.nemein.wiki'))
+        if (midcom::get('componentloader')->load_graceful('net.nemein.wiki'))
         {
             $fields['wiki_creation']['privilege_object'] = $person_object;
             $fields['wiki_editing']['privilege_object'] = $person_object;
@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             unset($fields['wiki_editing']);
         }
         // Load campaign classes
-        if ($_MIDCOM->componentloader->load_graceful('org.openpsa.directmarketing'))
+        if (midcom::get('componentloader')->load_graceful('org.openpsa.directmarketing'))
         {
             $fields['campaigns_creation']['privilege_object'] = $person_object;
             $fields['campaigns_editing']['privilege_object'] = $person_object;
@@ -93,11 +93,11 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_privileges($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Check if we get the person
         $this->_person = new midcom_db_person($args[0]);
-        $_MIDCOM->auth->require_do('midgard:privileges', $this->_person);
+        $this->_person->require_do('midgard:privileges');
         $this->_request_data['person'] =& $this->_person;
 
         $data['acl_dm'] = $this->get_controller('simple', $this->_person);
@@ -107,12 +107,11 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 // Fall-through
             case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . "view/" . $this->_person->guid . "/");
-                // This will exit()
         }
 
-        $_MIDCOM->set_pagetitle("{$this->_person->name}");
+        midcom::get('head')->set_pagetitle("{$this->_person->name}");
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("view/{$this->_person->guid}/", $this->_person->name);

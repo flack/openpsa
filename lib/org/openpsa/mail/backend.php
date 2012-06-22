@@ -31,6 +31,10 @@ abstract class org_openpsa_mail_backend
      */
     public static function get($implementation, array $params)
     {
+        if (defined('OPENPSA2_UNITTEST_RUN'))
+        {
+            return self::_load_backend('unittest', $params);
+        }
         if ($implementation = 'try_default')
         {
             $try_backends = midcom_baseclasses_components_configuration::get('org.openpsa.mail', 'config')->get('default_try_backends');
@@ -73,6 +77,12 @@ abstract class org_openpsa_mail_backend
         if (!$ret)
         {
             $this->error = $ret;
+        }
+        else if (   is_object($ret)
+                 && is_a($ret, 'PEAR_Error'))
+        {
+            $this->error = $ret->getMessage();
+            $ret = false;
         }
         else
         {

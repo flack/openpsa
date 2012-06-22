@@ -37,6 +37,7 @@ class org_openpsa_documents_handler_document_adminTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.documents', array('document', 'delete', self::$_document->guid));
         $this->assertEquals('document-delete', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -47,6 +48,7 @@ class org_openpsa_documents_handler_document_adminTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.documents', array('document', 'edit', self::$_document->guid));
         $this->assertEquals('document-edit', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

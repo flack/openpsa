@@ -6,9 +6,10 @@
     'org_openpsa_organization' => 'org_openpsa_contacts_group_dba',
     'org_openpsa_person' => 'org_openpsa_contacts_person_dba',
     'org_openpsa_role' => 'org_openpsa_contacts_role_dba',
-    'net_nehmer_buddylist_entry_db' => 'org_openpsa_contacts_buddy_dba',
+    'org_openpsa_contacts_list' => 'org_openpsa_contacts_list_dba',
+    'org_openpsa_member' => 'org_openpsa_contacts_member_dba',
 ),
-'version' => '9.0beta1+git',
+'version' => '9.0beta3+git',
 'state' => 'stable',
 'package.xml' => array
 (
@@ -38,7 +39,6 @@
         'org.openpsa.widgets' => array(),
         'org.openpsa.qbpager' => array(),
         'org.openpsa.relatedto' => array(),
-        'net.nehmer.buddylist' => array(),
         'org.routamc.positioning' => array(),
         'midcom' => array(),
         'midcom.services.at' => array(),

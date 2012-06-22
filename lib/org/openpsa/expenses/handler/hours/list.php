@@ -31,16 +31,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private $tasks = array();
 
     /**
-     * Prepare a paged query builder for listing hour reports
-     */
-    function &_prepare_qb()
-    {
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $this->_request_data['qb'] =& $qb;
-        return $qb;
-    }
-
-    /**
      * The handler for the list view
      *
      * @param mixed $handler_id the array key from the request array
@@ -49,44 +39,27 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // List hours
-        $qb = $this->_prepare_qb();
+        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
 
         $mode = 'full';
 
-        $filter_array = array
-        (
-            "person"
-        );
         //url for batch_handler
-        $this->_request_data['action_target_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
+        $this->_request_data['action_target_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
 
         switch ($handler_id)
         {
-            case 'list_hours_between':
-                $person_filter = new org_openpsa_core_filter($filter_array, $qb);
-                $data['filter_persons'] = $person_filter->list_filter("person");
-                // Fallthrough
-            case 'list_hours_between_all':
-                $start_time = @strtotime($args[0]);
-                $end_time = @strtotime($args[1]);
-                if (   $start_time == -1
-                    || $end_time == -1)
-                {
-                    throw new midcom_error('Failed to generate start and end times from ' . $args[0] . ', ' . $args[1]);
-                }
-                $qb->add_constraint('date', '>=', $start_time);
-                $qb->add_constraint('date', '<=', $end_time);
+            case 'list_hours':
+                $this->_master->add_list_filter($qb);
 
-                $data['view_title'] = sprintf($data['l10n']->get('hour reports between %s and %s'), strftime("%x", $start_time), strftime("%x", $end_time));
+                $data['view_title'] = $data['l10n']->get('hour reports');
                 $data['breadcrumb_title'] = $data['view_title'];
                 break;
 
             case 'list_hours_task':
-                $person_filter = new org_openpsa_core_filter($filter_array, $qb);
-                $data['filter_persons'] = $person_filter->list_filter("person");
+                $this->_master->add_list_filter($qb);
                 // Fallthrough
             case 'list_hours_task_all':
                 $task = new org_openpsa_projects_task_dba($args[0]);
@@ -123,32 +96,15 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         $data['mode'] = $mode;
         $data['tasks'] = $this->tasks;
+        $data['qb'] = $qb;
 
         org_openpsa_widgets_grid::add_head_elements();
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
-        $this->_add_filter_widget();
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->add_breadcrumb('', $data['breadcrumb_title']);
     }
-
-    private function _add_filter_widget()
-    {
-        if (!array_key_exists("filter_persons", $this->_request_data))
-        {
-            return;
-        }
-
-        //css & js needed for widget
-        $_MIDCOM->enable_jquery();
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/dropdown-check-list.0.9/css/ui.dropdownchecklist.css");
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
-    }
-
 
     /**
      * Helper to load the data linked to the hour reports
@@ -175,7 +131,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 'reports' => array(),
             ),
         );
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+
         foreach ($hours as $report)
         {
             if (!array_key_exists($report->person, $this->reporters))
@@ -247,7 +204,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                     $data['action_options']['mark_uninvoiceable'] = array('label' => $this->_l10n->get('mark_uninvoiceable'));
                     break;
                 case 'uninvoiceable':
-                    $data['action_options']['mark_invoiceable'] =  array('label' => $this->_l10n->get('mark_invoiceable'));;
+                    $data['action_options']['mark_invoiceable'] =  array('label' => $this->_l10n->get('mark_invoiceable'));
                     break;
             }
             $data['reports'] = $reports;
@@ -262,12 +219,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     private function _prepare_batch_options()
     {
-        // Get url to search handler
-        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
-
-        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
-        $task_conf = $widget_config['task'];
-        $task_conf['handler_url'] = $handler_url;
+        $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
 
         //Make sure we have the needed constants
         midcom::get('componentloader')->load('org.openpsa.projects');
@@ -278,12 +230,11 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             'value' => ORG_OPENPSA_OBTYPE_TASK,
         );
 
-        $invoice_conf = $widget_config['invoice'];
-        $invoice_conf['handler_url'] = $handler_url;
+        $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
         $options = array
         (
-            'none' => array('label' => $_MIDCOM->i18n->get_string("choose action", "midcom.admin.user")),
+            'none' => array('label' => midcom::get('i18n')->get_string("choose action", "midcom.admin.user")),
             'change_task' => array
             (
                 'label' => $this->_l10n->get('change_task'),

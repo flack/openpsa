@@ -49,7 +49,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_event = new org_openpsa_calendar_event_dba();
         $this->_event->up = $this->_root_event->id;
-        if (! $this->_event->create())
+        if (!$this->_event->create())
         {
             debug_print_r('We operated on this object:', $this->_event);
             throw new midcom_error('Failed to create a new event. Last Midgard error was: ' . midcom_connection::get_error_string());
@@ -71,7 +71,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
 
         // ACL handling: require create privileges
-        $_MIDCOM->auth->require_do('midgard:create', $this->_root_event);
+        $this->_root_event->require_do('midgard:create');
 
         if (isset($args[0]))
         {
@@ -84,15 +84,18 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         // Load the controller instance
-        $data['event_dm'] = $this->get_controller('create');
+        $data['controller'] = $this->get_controller('create');
 
         // Process form
-        switch ($data['event_dm']->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
+                $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
+                $indexer->index($data['controller']->datamanager);
+                //FALL-THROUGH
             case 'cancel':
-                $_MIDCOM->add_jsonload('window.opener.location.reload();');
-                $_MIDCOM->add_jsonload('window.close();');
+                midcom::get('head')->add_jsonload('window.opener.location.reload();');
+                midcom::get('head')->add_jsonload('window.close();');
                 break;
         }
 
@@ -100,7 +103,7 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_helpers::dm2_savecancel($this);
 
         // Hide the ROOT style
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**

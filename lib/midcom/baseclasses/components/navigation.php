@@ -8,7 +8,7 @@
 
 /**
  * Base class to encapsulate a NAP interface. Does all the necessary work for
- * setting the object to the right topic. you just have to fill the gaps for
+ * setting the object to the right topic. You just have to fill the gaps for
  * getting the leaves and node data.
  *
  * Normally, it is enough if you override the members list_leaves() and get_node().
@@ -45,7 +45,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
     {
         $this->_component = $component;
 
-        $this->_i18n = $_MIDCOM->get_service('i18n');
+        $this->_i18n = midcom::get('i18n');
         $this->_l10n = $this->_i18n->get_l10n($this->_component);
         $this->_l10n_midcom = $this->_i18n->get_l10n('midcom');
     }
@@ -106,7 +106,6 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
         );
     }
 
-
     /**
      * Set a new content object. This updates the local configuration copy with the
      * topic in question. It calls the event handler _on_set_object after initializing
@@ -127,7 +126,6 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      * Event handler called after a new topic has been set. The configuration is
      * already loaded at this point.
      *
-     * @access protected
      * @return boolean Set this to false to indicate that you could not set this instance
      *   to the topic. NAP will abort loading this node and log the error accordingly.
      *   Return true if everything is fine.

@@ -31,7 +31,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _update_breadcrumb()
     {
-        $label = $_MIDCOM->i18n->get_string($this->_component_name, $this->_component_name);
+        $label = midcom::get('i18n')->get_string($this->_component_name, $this->_component_name);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $this->_request_data['view_title']);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/view/{$name}", $label);
@@ -77,7 +77,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function get_schema_defaults()
     {
         $defaults = array();
-        foreach ($this->_libconfig->_merged as $key => $value)
+        foreach ($this->_libconfig->get_all() as $key => $value)
         {
             if (is_array($value))
             {
@@ -100,12 +100,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_component_name = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($this->_component_name))
+        if (!midcom::get('componentloader')->is_installed($this->_component_name))
         {
             throw new midcom_error_notfound("Component {$this->_component_name} is not installed.");
         }
 
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($this->_component_name);
+        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($this->_component_name);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
@@ -139,35 +139,34 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 if ($this->_save_configuration())
                 {
                     mgd_cache_invalidate();
-                    $_MIDCOM->uimessages->add($this->_l10n->get('host configuration'),
+                    midcom::get('uimessages')->add($this->_l10n->get('host configuration'),
                     $this->_l10n->get('settings saved successfully')
                     . $this->_codeinit->id,
                                                 'ok');
                 }
                 else
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('host configuration'),
+                    midcom::get('uimessages')->add($this->_l10n->get('host configuration'),
                       sprintf($this->_l10n->get('failed to save settings, reason %s')),
                                                 'error');
                 }
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.libconfig/edit/' . $this->_component_name);
-                // This will exit.
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.libconfig/edit/' . $this->_component_name);
         }
 
         $data['controller'] =& $this->_controller;
 
         $this->_update_breadcrumb();
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _save_configuration()
     {
         $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
-        if ($sg_snippetdir->id == false )
+        if ($sg_snippetdir->id == false)
         {
             $sd = new midcom_db_snippetdir();
             $sd->up = 0;
@@ -182,7 +181,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name);
-        if ($lib_snippetdir->id == false )
+        if ($lib_snippetdir->id == false)
         {
             $sd = new midcom_db_snippetdir();
             $sd->up = $sg_snippetdir->id;
@@ -197,7 +196,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $snippet = new midcom_db_snippet();
         $snippet->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name . "/config");
-        if ($snippet->id == false )
+        if ($snippet->id == false)
         {
             $sn = new midcom_db_snippet();
             $sn->up = $lib_snippetdir->id;

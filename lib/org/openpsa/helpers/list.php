@@ -25,7 +25,7 @@ class org_openpsa_helpers_list
         $ret = array(0 => '');
         $seen = array();
 
-        if (!$_MIDCOM->componentloader->load_graceful('org.openpsa.contacts'))
+        if (!midcom::get('componentloader')->load_graceful('org.openpsa.contacts'))
         {
             //PONDER: Maybe we should raise a fatal error ??
             return $ret;
@@ -36,13 +36,14 @@ class org_openpsa_helpers_list
             && !isset($ret[$task->customer]))
         {
             //Make sure we can read the current customer for the name
-            $_MIDCOM->auth->request_sudo();
+            midcom::get('auth')->request_sudo();
             $company = new org_openpsa_contacts_group_dba($task->customer);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             $seen[$company->id] = true;
             self::task_groups_put($ret, $mode, $company);
         }
         $task->get_members();
+
         if (   !is_array($task->contacts)
             || count($task->contacts) == 0)
         {
@@ -51,8 +52,10 @@ class org_openpsa_helpers_list
 
         $mc = midcom_db_member::new_collector('metadata.deleted', false);
         $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
-
+        /* Skip magic groups */
+        $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');
         $memberships = $mc->get_values('gid');
+
         if (empty($memberships))
         {
             return $ret;
@@ -60,7 +63,7 @@ class org_openpsa_helpers_list
 
         foreach ($memberships as $gid)
         {
-            if (isset($seen[$gid])
+            if (   isset($seen[$gid])
                 && $seen[$gid] == true)
             {
                 continue;
@@ -68,11 +71,6 @@ class org_openpsa_helpers_list
             try
             {
                 $company = new org_openpsa_contacts_group_dba($gid);
-                /* Skip magic groups */
-                if (preg_match('/^__/', $company->name))
-                {
-                    continue;
-                }
             }
             catch (midcom_error $e)
             {
@@ -157,15 +155,15 @@ class org_openpsa_helpers_list
         if (!array_key_exists($array_name, $GLOBALS))
         {
             $GLOBALS[$array_name] = array();
-            if ($_MIDCOM->auth->user)
+            if (midcom::get('auth')->user)
             {
                 if ($add_me == 'first')
                 {
                     //TODO: Localization
-                    $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
+                    $GLOBALS[$array_name][midcom::get('auth')->user->id] = 'me';
                 }
 
-                $users_groups = $_MIDCOM->auth->user->list_memberships();
+                $users_groups = midcom::get('auth')->user->list_memberships();
                 foreach ($users_groups as $key => $vgroup)
                 {
                     if (is_object($vgroup))
@@ -181,8 +179,7 @@ class org_openpsa_helpers_list
 
                     //TODO: get the vgroup object based on the key or something, this check fails always.
                     if (   $show_members
-                        && is_object($vgroup)
-                        )
+                        && is_object($vgroup))
                     {
                         $vgroup_members = $vgroup->list_members();
                         foreach ($vgroup_members as $key2 => $person)
@@ -197,7 +194,7 @@ class org_openpsa_helpers_list
                 if ($add_me == 'last')
                 {
                     //TODO: Localization
-                    $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
+                    $GLOBALS[$array_name][midcom::get('auth')->user->id] = 'me';
                 }
             }
         }

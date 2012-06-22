@@ -66,6 +66,8 @@
  *
  * <i>string name</i> should be clear, it is the full name of the component.
  *
+ * <i>string extends</i> The name of the component from which the current should inherit
+ *
  * <i>boolean purecode</i> is equally easy, indicating whether this is a library or a full
  * scale component.
  *
@@ -212,6 +214,13 @@ class midcom_core_manifest
     public $name = '';
 
     /**
+     * The name of the parent component, if any.
+     *
+     * @var string
+     */
+    public $extends;
+
+    /**
      * This is the translated, full component name obtained by looking up the string
      * $name in the l10n library $name.
      *
@@ -292,13 +301,13 @@ class midcom_core_manifest
      * the file is accessed directly.
      *
      * @param string $filename The name of the manifest file to load.
-     * @param array $values the values the manifest uses.
      */
-    public function __construct($filename, $values)
+    public function __construct($filename)
     {
         $this->filename = $filename;
-        $this->_raw_data = $values;
-        $this->_load_manifest($values);
+        $this->_raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);
+
+        $this->_load_manifest();
     }
 
     /**
@@ -306,7 +315,7 @@ class midcom_core_manifest
      *
      * @todo move this into the constructor, use isset.
      */
-    private function _load_manifest($values )
+    private function _load_manifest()
     {
         if (!is_array($this->_raw_data))
         {
@@ -318,6 +327,10 @@ class midcom_core_manifest
         if (array_key_exists('purecode', $this->_raw_data))
         {
             $this->purecode = ($this->_raw_data['purecode'] == true);
+        }
+        if (!empty($this->_raw_data['extends']))
+        {
+            $this->extends = $this->_raw_data['extends'];
         }
         if (array_key_exists('version', $this->_raw_data))
         {
@@ -354,7 +367,7 @@ class midcom_core_manifest
     {
         if ($this->name_translated === null)
         {
-            $this->name_translated = $_MIDCOM->i18n->get_string($this->name, $this->name);
+            $this->name_translated = midcom::get('i18n')->get_string($this->name, $this->name);
         }
         return $this->name_translated;
     }
@@ -365,8 +378,6 @@ class midcom_core_manifest
      *
      * It will not complete any missing owner default privileges, this is done by the
      * Authentication service upon privilege registering.
-     *
-     * @access protected
      */
     private function _process_privileges()
     {

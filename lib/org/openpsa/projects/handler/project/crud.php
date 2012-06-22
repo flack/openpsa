@@ -50,7 +50,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-
             )
         );
         $this->_view_toolbar->add_item
@@ -63,6 +62,21 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             )
         );
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
+
+        if (!empty($sales_url))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('salesproject', 'org.openpsa.sales'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                )
+            );
+        }
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
     }
 
@@ -121,7 +135,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 break;
         }
 
-        $_MIDCOM->set_pagetitle($view_title);
+        midcom::get('head')->set_pagetitle($view_title);
     }
 
     /**
@@ -146,8 +160,10 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         if ($handler_id == 'project')
         {
-            $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+            org_openpsa_widgets_grid::add_head_elements();
             org_openpsa_widgets_contact::add_head_elements();
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
+            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
         }
     }
 
@@ -177,27 +193,12 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Method for adding or updating the project to the MidCOM indexer service.
      *
-     * @param $dm Datamanager2 instance containing the object
+     * @param &$dm Datamanager2 instance containing the object
      */
     public function _index_object(&$dm)
     {
-        $indexer = $_MIDCOM->get_service('indexer');
-
-        $nav = new midcom_helper_nav();
-        //get the node to fill the required index-data for topic/component
-        $node = $nav->get_node($nav->get_current_node());
-
-        $document = $indexer->new_document($dm);
-        $document->topic_guid = $node[MIDCOM_NAV_GUID];
-        $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->storage->object);
-        $document->component = $node[MIDCOM_NAV_COMPONENT];
-
-        if ($indexer->index($document))
-        {
-            return true;
-        }
-        return false;
+        $indexer = new org_openpsa_projects_midcom_indexer($this->_topic);
+        return $indexer->index($dm);
     }
 }
 ?>

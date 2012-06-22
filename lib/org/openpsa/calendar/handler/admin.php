@@ -29,10 +29,10 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // This is a popup
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**
@@ -52,20 +52,23 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         // Load the controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $schemadb;
-        $this->_controller->set_storage($this->_event);
-        if (! $this->_controller->initialize())
+        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
+        $data['controller']->schemadb = $schemadb;
+        $data['controller']->set_storage($this->_event);
+        if (!$data['controller']->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
+                $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
+                $indexer->index($data['controller']->datamanager);
+                //FALL-THROUGH
             case 'cancel':
-                $_MIDCOM->add_jsonload('window.opener.location.reload();');
-                $_MIDCOM->add_jsonload('window.close();');
+                midcom::get('head')->add_jsonload('window.opener.location.reload();');
+                midcom::get('head')->add_jsonload('window.close();');
                 // This will _midcom_stop_request(well, in a way...)
         }
 
@@ -86,7 +89,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
         // Show popup
         midcom_show_style('show-popup-header');
-        $this->_request_data['event_dm'] =& $this->_controller;
         midcom_show_style('show-event-edit');
         midcom_show_style('show-popup-footer');
     }
@@ -108,8 +110,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         // Cancel pressed
         if (isset($_POST['org_openpsa_calendar_delete_cancel']))
         {
-            $_MIDCOM->relocate("event/{$this->_event->guid}/");
-            // This will exit
+            return new midcom_response_relocate("event/{$this->_event->guid}/");
         }
 
         // Delete confirmed, remove the event
@@ -117,8 +118,8 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         {
             $this->_request_data['delete_succeeded'] = true;
             $this->_event->delete();
-            $_MIDCOM->add_jsonload('window.opener.location.reload();');
-            $_MIDCOM->add_jsonload('window.close();');
+            midcom::get('head')->add_jsonload('window.opener.location.reload();');
+            midcom::get('head')->add_jsonload('window.close();');
         }
         $this->_request_data['event'] =& $this->_event;
     }

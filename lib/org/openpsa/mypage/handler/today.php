@@ -17,7 +17,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     private function _populate_toolbar()
@@ -58,7 +58,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      */
     public function _handler_today($handler_id, array $args, array &$data)
     {
-        $this->user = $_MIDCOM->auth->user->get_storage();
+        $this->user = midcom::get('auth')->user->get_storage();
 
         if ($handler_id == 'today')
         {
@@ -75,12 +75,12 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->_populate_toolbar();
 
         $data['title'] = strftime($data['requested_time']);
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Add the JS file for workingon widget
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/jQuery/jquery.epiclock.min.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/jQuery/jquery.epiclock.min.js");
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
@@ -97,7 +97,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
             array(
                 'property' => 'metadata.creator',
                 'operator' => '=',
-                'value' => $_MIDCOM->auth->user->guid,
+                'value' => midcom::get('auth')->user->guid,
             ),
             //only show entries with followUp set and within the next 7 days
             array(
@@ -132,7 +132,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
         $data['wiki_url'] = $siteconfig->get_node_relative_url('net.nemein.wiki');
 
-        $data_url = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data_url = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data['journal_url'] = $data_url . '/__mfa/org.openpsa.relatedto/journalentry/list/xml/';
 
         midcom_show_style('show-today');

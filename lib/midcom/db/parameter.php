@@ -32,21 +32,6 @@ class midcom_db_parameter extends midcom_core_dbaobject
         parent::__construct($id);
     }
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     function get_parent_guid_uncached()
     {
         return $this->parentguid;
@@ -74,7 +59,49 @@ class midcom_db_parameter extends midcom_core_dbaobject
         }
     }
 
-    function get_label()
+    /**
+     * Helper function to read a parameter without loading the corresponding object.
+     * This is primarily for improving performance, so the function does not check
+     * for privileges.
+     *
+     * @param string $objectguid The object's GUID
+     * @param string $domain The parameter's domain
+     * @param string $name The parameter to look for
+     */
+    public static function get_by_objectguid($objectguid, $domain, $name)
+    {
+        static $parameter_cache = array();
+
+        if (!isset($parameter_cache[$objectguid]))
+        {
+            $parameter_cache[$objectguid] = array();
+        }
+
+        if (isset($parameter_cache[$objectguid][$name]))
+        {
+            return $parameter_cache[$objectguid][$name];
+        }
+
+        $mc = midgard_parameter::new_collector('parentguid', $objectguid);
+        $mc->set_key_property('value');
+        $mc->add_constraint('name', '=', $name);
+        $mc->add_constraint('domain', '=', $domain);
+        $mc->set_limit(1);
+        $mc->execute();
+        $parameters = $mc->list_keys();
+
+        if (count($parameters) == 0)
+        {
+            $parameter_cache[$objectguid][$name] = null;
+            return $parameter_cache[$objectguid][$name];
+        }
+
+        $parameter_cache[$objectguid][$name] = key($parameters);
+
+        return $parameter_cache[$objectguid][$name];
+    }
+
+    public function get_label()
     {
         return "{$this->domain} {$this->name}";
     }

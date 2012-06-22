@@ -7,4 +7,4 @@
     <p>&(data['processing_msg']);</p>
 <?php } ?>
 
-<?php $data['formmanager']->display_form(); ?>
+<?php $data['controller']->display_form(); ?>

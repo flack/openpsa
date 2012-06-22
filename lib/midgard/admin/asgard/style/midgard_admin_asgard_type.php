@@ -1,15 +1,15 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 if ($data['component'] == 'midgard')
 {
     $component_label = 'Midgard CMS';
 }
 else
 {
-    $component_label = $_MIDCOM->i18n->get_string($data['component'], $data['component']);
+    $component_label = midcom::get('i18n')->get_string($data['component'], $data['component']);
 }
 echo "<h2>";
-echo sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'),
+echo sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'),
         midgard_admin_asgard_plugin::get_type_label($data['type']),
         $component_label);
 echo "</h2>";
@@ -17,16 +17,16 @@ echo "</h2>";
 echo "<p>";
 if ($data['parent_type'])
 {
-    echo sprintf($_MIDCOM->i18n->get_string('%s is under type %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
+    echo sprintf(midcom::get('i18n')->get_string('%s is under type %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
 }
 
 if ($data['component'] == 'midgard')
 {
-    echo $_MIDCOM->i18n->get_string('this is a midgard core type', 'midgard.admin.asgard') . "</p>\n";
+    echo midcom::get('i18n')->get_string('this is a midgard core type', 'midgard.admin.asgard') . "</p>\n";
 }
 else
 {
-    echo sprintf($_MIDCOM->i18n->get_string('this type belongs to %s component', 'midgard.admin.asgard'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
+    echo sprintf(midcom::get('i18n')->get_string('this type belongs to %s component', 'midgard.admin.asgard'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
 }
 ?>
 
@@ -35,10 +35,10 @@ else
 <form method="get">
 <div id="search_bar">
     <label>
-        <?php echo $_MIDCOM->i18n->get_string('search', 'midgard.admin.asgard'); ?>
+        <?php echo midcom::get('i18n')->get_string('search', 'midgard.admin.asgard'); ?>
         <input id="search_field" type="text" name="search" class="search"<?php if (isset($_GET['search'])) { echo " value=\"{$_GET['search']}\""; } ?> />
     </label>
-    <input class="search" type="submit" value="<?php echo $_MIDCOM->i18n->get_string('go', 'midgard.admin.asgard'); ?>" />
+    <input class="search" type="submit" value="<?php echo midcom::get('i18n')->get_string('go', 'midgard.admin.asgard'); ?>" />
 </div>
 </form>
 <script type="text/javascript">
@@ -71,7 +71,7 @@ if (isset($data['search_results']))
     }
     if (!$data['search_results'])
     {
-        echo "<p>" . $_MIDCOM->i18n->get_string('no results', 'midgard.admin.asgard') . "</p>\n";
+        echo "<p>" . midcom::get('i18n')->get_string('no results', 'midgard.admin.asgard') . "</p>\n";
     }
 
     else
@@ -79,9 +79,9 @@ if (isset($data['search_results']))
         echo "<table class=\"table_widget\" id=\"search_results\">\n";
         echo "    <thead>\n";
         echo "        <tr>\n";
-        echo "            <th>" . $_MIDCOM->i18n->get_string('title', 'midcom') . "</th>\n";
-        echo "            <th>" . $_MIDCOM->i18n->get_string('created on', 'midgard.admin.asgard') . "</th>\n";
-        echo "            <th>" . $_MIDCOM->i18n->get_string('created by', 'midgard.admin.asgard') . "</th>\n";
+        echo "            <th>" . midcom::get('i18n')->get_string('title', 'midcom') . "</th>\n";
+        echo "            <th>" . midcom::get('i18n')->get_string('created on', 'midgard.admin.asgard') . "</th>\n";
+        echo "            <th>" . midcom::get('i18n')->get_string('created by', 'midgard.admin.asgard') . "</th>\n";
         echo "        </tr>\n";
         echo "    </thead>\n";
         echo "    <tbody>\n";
@@ -94,7 +94,7 @@ if (isset($data['search_results']))
 
             if (!isset($persons[$result->metadata->creator]))
             {
-                $persons[$result->metadata->creator] = $_MIDCOM->auth->get_user($result->metadata->creator);
+                $persons[$result->metadata->creator] = midcom::get('auth')->get_user($result->metadata->creator);
             }
 
             echo "        <tr>\n";

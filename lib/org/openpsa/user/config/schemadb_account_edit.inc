@@ -5,7 +5,7 @@
     (
         array
         (
-            'callback' => 'is_username_available',
+            'callback' => 'validate_edit_form',
             'autoload_snippet' => 'file:/org/openpsa/user/config/validation_callbacks.inc',
         ),
     ),
@@ -61,6 +61,5 @@
             'required' => false,
             'storage' => null,
         ),
-
     )
 ),

@@ -4,10 +4,6 @@ $GLOBALS['midcom_config_local'] = array();
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
-    if (!ini_get('midgard.superglobals_compat'))
-    {
-        throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
-    }
     if (!class_exists('midgard_topic'))
     {
         throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
@@ -42,7 +38,6 @@ if (extension_loaded('midgard2'))
 
         'schema' => array
         (
-            'types' => array(),
         ),
     );
 
@@ -62,6 +57,15 @@ if (extension_loaded('midgard2'))
     {
         $midgard->enable_workspace(false);
     }
+
+    // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
+    // see also https://github.com/midgardproject/midgard-php5/issues/50
+    if (   function_exists('gc_enabled')
+        && gc_enabled())
+    {
+        gc_disable();
+    }
+
 }
 else if (!extension_loaded('midgard'))
 {

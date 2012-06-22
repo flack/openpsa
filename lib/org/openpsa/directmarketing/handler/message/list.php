@@ -30,12 +30,10 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
      */
     public function _handler_list ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_list_type = $args[0];
         $this->_campaign = $this->_master->load_campaign($args[1]);
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
-
-        $_MIDCOM->load_library('org.openpsa.qbpager');
 
         $data['campaign'] =& $this->_campaign;
         $this->_load_datamanager();

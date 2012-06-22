@@ -173,7 +173,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
         if ($handler_id == 'view_raw')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $this->_load_datamanager();
@@ -209,8 +209,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             );
         }
 
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
+        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
 
         if (   $this->_config->get('indexinnav')
             || $this->_config->get('autoindex')
@@ -222,11 +222,11 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if (   $this->_config->get('folder_in_title')
             && $this->_topic->extra != $this->_article->title)
         {
-            $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+            midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         }
         else
         {
-            $_MIDCOM->set_pagetitle($this->_article->title);
+            midcom::get('head')->set_pagetitle($this->_article->title);
         }
     }
 
@@ -268,7 +268,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 if ($index_qb->count_unchecked() == 0)
                 {
                     $schemas = array_keys($this->_request_data['schemadb']);
-                    $_MIDCOM->relocate("createindex/{$schemas[0]}/");
+                    midcom::get()->relocate("createindex/{$schemas[0]}/");
                     // This will exit.
                 }
             }

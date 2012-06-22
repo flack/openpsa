@@ -21,7 +21,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
 
     public function _on_initialize()
     {
-        return $_MIDCOM->load_library('org.routamc.positioning');
+        return midcom::get('componentloader')->load_library('org.routamc.positioning');
     }
 
     /**

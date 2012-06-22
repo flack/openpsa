@@ -46,7 +46,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
@@ -94,7 +93,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_document = $this->_load_document($args[0]);
         $this->_document->require_do('midgard:update');
@@ -113,10 +112,10 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 // TODO: Update the URL name?
 
                 // Update the Index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 if ($this->_document->topic != $this->_topic->id)
                 {
                     $nap = new midcom_helper_nav();
@@ -124,22 +123,20 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                     $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
                 }
 
-                $_MIDCOM->relocate($prefix  . "document/" . $this->_document->guid . "/");
-                // This will exit()
+                return new midcom_response_relocate($prefix  . "document/" . $this->_document->guid . "/");
 
             case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                                    . "document/" . $this->_document->guid . "/");
-                // This will exit()
         }
 
         $this->_request_data['controller'] =& $this->_controller;
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
 
         $this->_update_breadcrumb_line('edit');
     }
@@ -199,11 +196,10 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_document = $this->_load_document($args[0]);
-
-        $_MIDCOM->auth->require_do('midgard:delete', $this->_document);
+        $this->_document->require_do('midgard:delete');
 
         $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
 
@@ -213,21 +209,19 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 if ($this->_document->delete())
                 {
                     // Update the index
-                    $indexer = $_MIDCOM->get_service('indexer');
+                    $indexer = midcom::get('indexer');
                     $indexer->delete($this->_document->guid);
                     // Redirect to the directory
-                    $_MIDCOM->relocate('');
-                    // This will exit
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
                     // Failure, give a message
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
                 }
                 //Fall-through
             case 'cancel':
-                $_MIDCOM->relocate("document/" . $this->_document->guid . "/");
-                // This will exit()
+                return new midcom_response_relocate("document/" . $this->_document->guid . "/");
         }
 
         $data['document_dm'] = $this->_datamanager;

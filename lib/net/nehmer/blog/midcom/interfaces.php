@@ -22,14 +22,9 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
     {
         define('NET_NEHMER_BLOG_LEAFID_FEEDS', 2);
 
-        $this->_autoload_libraries = array
-        (
-            'midcom.helper.datamanager2'
-        );
-
         if ($GLOBALS['midcom_config']['positioning_enable'])
         {
-            $this->_autoload_libraries[] = 'org.routamc.positioning';
+            $this->_autoload_libraries = array('org.routamc.positioning');
         }
     }
 
@@ -42,7 +37,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
         if (   is_null($config->get('symlink_topic'))
             && !$config->get('disable_indexing'))
         {
-            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
+            $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
 
@@ -130,7 +125,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
 
     public function get_opengraph_default($object)
     {
-        if ($_MIDCOM->dbfactory->is_a($object, 'midgard_topic'))
+        if (midcom::get('dbfactory')->is_a($object, 'midgard_topic'))
         {
             return 'blog';
         }

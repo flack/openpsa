@@ -3,21 +3,17 @@ body
     font-family: 'Lucida Grande', 'Lucida Sans', 'Arial', sans-serif
 }
 
-#content-text div.main
-{
-    margin-right: 32%;
-}
-
+#content-text div.main,
 #content-text > div.main
 {
-    margin-right: 32%;
+    margin-right: 30%;
+    padding-right: 1em
 }
 
 #content-text div.sidebar
 {
     float: right;
     width: 30%;
-    padding-left: 2%;
 }
 
 #content-text div.sidebar div.vcard
@@ -33,7 +29,6 @@ body
 
 #content-text
 {
-    background-color: #ffffff;
     padding: 1em 0.5em 1em 1em;
     overflow: auto;
     position: relative

@@ -1,12 +1,11 @@
 <?php
 // Available request data: comments, objectguid, comment, display_datamanager
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $comment = $data['comment'];
 
 $creator = $comment->metadata->creator;
 $created = $comment->metadata->created;
 
-$user = $_MIDCOM->auth->get_user($creator);
+$user = midcom::get('auth')->get_user($creator);
 if ($user)
 {
     $username = "{$user->name} ({$user->username})";

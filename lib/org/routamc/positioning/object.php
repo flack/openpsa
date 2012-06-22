@@ -189,18 +189,18 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
                 {
                     // We are most likely pointing to wrong log. Remove this cached entry so we can recreate i
                     // again below
-                    $_MIDCOM->auth->request_sudo('org.routamc.positioning');
+                    midcom::get('auth')->request_sudo('org.routamc.positioning');
                     $location->delete();
                     $cache = true;
-                    $_MIDCOM->auth->drop_sudo();
+                    midcom::get('auth')->drop_sudo();
                 }
                 else
                 {
                     // This location entry isn't coming from a log so it just needs to be rescheduled
-                    $_MIDCOM->auth->request_sudo('org.routamc.positioning');
+                    midcom::get('auth')->request_sudo('org.routamc.positioning');
                     $location->date = $time;
                     $location->update();
-                    $_MIDCOM->auth->drop_sudo();
+                    midcom::get('auth')->drop_sudo();
                     return $coordinates;
                 }
             }
@@ -220,7 +220,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
             if ($cache)
             {
                 // Cache the object's location into a location object
-                $_MIDCOM->auth->request_sudo('org.routamc.positioning');
+                midcom::get('auth')->request_sudo('org.routamc.positioning');
                 $location = new org_routamc_positioning_location_dba();
                 $location->log = $log->id;
                 $location->relation = (int) ORG_ROUTAMC_POSITIONING_RELATION_IN;
@@ -232,7 +232,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
                 $location->longitude = $log->longitude;
                 $location->altitude = $log->altitude;
                 $location->create();
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
             }
 
             return $coordinates;
@@ -248,7 +248,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
         if (!is_null($coordinates))
         {
             // ICBM tag as defined by http://geourl.org/
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (

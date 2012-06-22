@@ -79,56 +79,58 @@ class midcom_baseclasses_components_configuration
      * and constructs a midcom_helper_configuration object out of it. Both
      * Component defaults and sitegroup-configuration gets merged. The
      * resulting object is stored under the key 'config' in the
-     * components' data storage area.
-     *
-     * Errors will be logged as MIDCOM_LOG_WARN but silently ignored. This
-     * should be viable, since as of MidCOM 2.4 the configuration class is
-     * more flexible when local and global configurations do not match.
+     * component's data storage area.
      *
      * Three files will be loaded in order:
      *
-     * 1. The components default configuration, placed in $prefix/config/$name.inc
-     * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/$name.inc.
-     * 3. Any site configuration in the snippet $GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/$name.
-     *
-     * If $_config_snippet_name is set to null, no configuration will be done.
+     * 1. The component's default configuration, placed in $prefix/config/config.inc
+     * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/config.inc.
+     * 3. Any site configuration in the snippet $GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/config.
      *
      * @see midcom_helper_configuration
-     * @see $_config_snippet_name
      */
     private static function _load_configuration($component)
     {
-        $loader = $_MIDCOM->get_component_loader();
+        $data = array();
+        $loader = midcom::get('componentloader');
+        if (!empty($loader->manifests[$component]->extends))
+        {
+            $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($loader->manifests[$component]->extends);
+            // Load and parse the global config
+            $parent_data = self::read_array_from_file($component_path . '/config/config.inc');
+            if ($parent_data)
+            {
+                $data = $parent_data;
+            }
+        }
         $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($component);
         // Load and parse the global config
-        $data = self::read_array_from_file($component_path . '/config/config.inc');
-        if (! $data)
+        $component_data = self::read_array_from_file($component_path . '/config/config.inc');
+        if ($component_data)
         {
-            // Empty defaults
-            $data = Array();
+            $data = array_merge($data, $component_data);
         }
-        $config = new midcom_helper_configuration($data);
 
         // Go for the sitewide default
-        $data = self::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
-        if ($data !== false)
+        $fs_data = self::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
+        if ($fs_data !== false)
         {
-            $config->store($data, false);
+            $data = array_merge($data, $fs_data);
         }
 
         // Finally, check the sitegroup config
-        $data = self::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
-        if ($data !== false)
+        $sn_data = self::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
+        if ($sn_data !== false)
         {
-            $config->store($data, false);
+            $data = array_merge($data, $sn_data);
         }
 
-        self::$_data[$component]['config'] = new midcom_helper_configuration($config->get_all());
+        self::$_data[$component]['config'] = new midcom_helper_configuration($data);
     }
 
     private static function _load_routes($component)
     {
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $data = self::read_array_from_file($component_path . '/config/routes.inc');
@@ -167,12 +169,8 @@ class midcom_baseclasses_components_configuration
         {
             return false;
         }
-        $result = eval("\$data = array({$data}\n);");
-        if ($result === false)
-        {
-            throw new midcom_error("Failed to parse content loaded from file '{$filename}', see above for PHP errors.");
-        }
-        return $data;
+
+        return midcom_helper_misc::parse_config($data);
     }
 
     /**
@@ -190,12 +188,7 @@ class midcom_baseclasses_components_configuration
     public static function read_array_from_snippet($snippetpath)
     {
         $code = midcom_helper_misc::get_snippet_content_graceful($snippetpath);
-        $result = eval("\$data = Array({$code}\n);");
-        if ($result === false)
-        {
-            throw new midcom_error("Failed to parse content loaded from snippet '{$snippetpath}', see above for PHP errors.");
-        }
-        return $data;
+        return midcom_helper_misc::parse_config($code);
     }
 }
 ?>

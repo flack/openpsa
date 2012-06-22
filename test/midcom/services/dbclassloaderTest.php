@@ -24,7 +24,7 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
      */
     public function testGet_component_classes($component, $result)
     {
-        $classes = $_MIDCOM->dbclassloader->get_component_classes($component);
+        $classes = midcom::get('dbclassloader')->get_component_classes($component);
         $this->assertEquals($result, $classes);
     }
 
@@ -52,13 +52,13 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
      */
     public function testGet_midcom_class_name_for_mgdschema_object($object, $result)
     {
-        $component = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
+        $component = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
         $this->assertEquals($result, $component);
     }
 
     public function providerGet_midcom_class_name_for_mgdschema_object()
     {
-        return array
+        $ret = array
         (
             array
             (
@@ -66,6 +66,15 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
                 'org_openpsa_projects_task_dba'
             )
         );
+        if (class_exists('openpsa_person'))
+        {
+            $ret[] = array
+            (
+                new openpsa_person,
+                'midcom_db_person'
+            );
+        }
+        return $ret;
     }
 }
 ?>

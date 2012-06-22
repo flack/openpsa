@@ -219,7 +219,6 @@
                 'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
                 'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER),
-                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array

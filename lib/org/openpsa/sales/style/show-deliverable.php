@@ -10,7 +10,7 @@ try
     $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
     if (array_key_exists($product->unit, $unit_options))
     {
-        $unit = $_MIDCOM->i18n->get_string($unit_options[$product->unit], 'org.openpsa.products');
+        $unit = midcom::get('i18n')->get_string($unit_options[$product->unit], 'org.openpsa.products');
         $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
     }
 }
@@ -124,7 +124,7 @@ catch (midcom_error $e)
                           <th><?php echo $per_unit ?></th>
                           <th><?php echo $data['l10n']->get('plan'); ?></th>
                           <th><?php echo $data['l10n']->get('is'); ?></th>
-                          <th><?php echo $_MIDCOM->i18n->get_string('sum', 'org.openpsa.invoices'); ?></th>
+                          <th><?php echo midcom::get('i18n')->get_string('sum', 'org.openpsa.invoices'); ?></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -170,7 +170,7 @@ catch (midcom_error $e)
         $tabs[] = array
         (
             'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
-            'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
+            'title' => midcom::get('i18n')->get_string('invoices', 'org.openpsa.invoices'),
         );
     }
 
@@ -178,12 +178,12 @@ catch (midcom_error $e)
         && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
     {
         if (   $product
-            && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+            && $product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
         {
             $tabs[] = array
             (
                 'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
-                'title' => $_MIDCOM->i18n->get_string('tasks', 'org.openpsa.projects'),
+                'title' => midcom::get('i18n')->get_string('tasks', 'org.openpsa.projects'),
             );
         }
     }

@@ -30,8 +30,8 @@ Expiration of an agreement
 Active
 ---STRINGEND
 
----STRING add deliverable
-Add deliverable
+---STRING add offer
+Add offer
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
@@ -110,6 +110,10 @@ Customer
 Customer contact
 ---STRINGEND
 
+---STRING deliverable
+Deliverable
+---STRINGEND
+
 ---STRING deliverables
 Deliverables
 ---STRINGEND
@@ -136,6 +140,10 @@ Estimated delivery
 
 ---STRING generate now
 Generate now
+---STRINGEND
+
+---STRING go to customer
+Go to customer
 ---STRINGEND
 
 ---STRING invoice
@@ -298,6 +306,10 @@ Sales report for %s - %s
 Sales project
 ---STRINGEND
 
+---STRING salesprojects
+Sales projects
+---STRINGEND
+
 ---STRING salesprojects active
 Active sales projects
 ---STRINGEND
@@ -324,6 +336,10 @@ Sales projects won
 
 ---STRING salesprojects: %s
 Sales projects: %s
+---STRINGEND
+
+---STRING salesprojects with %s
+Sales projects with %s
 ---STRINGEND
 
 ---STRING select either end date or continuous

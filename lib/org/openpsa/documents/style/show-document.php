@@ -7,7 +7,7 @@ $view =& $data['document_dm'];
 
 <div class="main">
     <?php
-    $view->display_view();
+    $view->display_view(true);
 
     $tabs = array();
 
@@ -18,7 +18,7 @@ $view =& $data['document_dm'];
 
         $tabs[] = array
         (
-            'url' => "/{$node[MIDCOM_NAV_RELATIVEURL]}document/versions/{$data['document']->guid}/",
+            'url' => "{$node[MIDCOM_NAV_RELATIVEURL]}document/versions/{$data['document']->guid}/",
             'title' => $data['l10n']->get('older versions'),
         );
     }

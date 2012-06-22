@@ -6,12 +6,20 @@
 aggregated
 ---STRINGEND
 
+---STRING apply
+apply
+---STRINGEND
+
 ---STRING confirm delete
 Confirm deletion
 ---STRINGEND
 
 ---STRING download as CSV
 Download as CSV
+---STRINGEND
+
+---STRING filter error
+Filter error
 ---STRINGEND
 
 ---STRING group by
@@ -23,7 +31,7 @@ Loading
 ---STRINGEND
 
 ---STRING no grouping
-flat
+No grouping
 ---STRINGEND
 
 ---STRING org.openpsa.core
@@ -40,6 +48,14 @@ Private
 
 ---STRING public
 Public
+---STRINGEND
+
+---STRING the handed filter for %s could not be set as parameter
+The handed filter for %s could not be set as parameter
+---STRINGEND
+
+---STRING unset
+unset
 ---STRINGEND
 
 ---STRING use the buttons below or in toolbar

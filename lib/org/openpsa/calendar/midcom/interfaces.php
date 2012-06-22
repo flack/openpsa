@@ -32,7 +32,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             throw new midcom_error('Failed to create the root event');
         }
 
-        $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
         $topic->set_parameter($this->_component, 'calendar_root_event', $event->guid);
 
         return $event;
@@ -43,11 +43,11 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     static function find_root_event()
     {
-        if (!$_MIDCOM->componentloader->is_loaded('org.openpsa.calendar'))
+        if (!midcom::get('componentloader')->is_loaded('org.openpsa.calendar'))
         {
-            $_MIDCOM->componentloader->load_graceful('org.openpsa.calendar');
+            midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
             //Doublecheck
-            if (!$_MIDCOM->componentloader->is_loaded('org.openpsa.calendar'))
+            if (!midcom::get('componentloader')->is_loaded('org.openpsa.calendar'))
             {
                 return false;
             }
@@ -92,7 +92,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             {
                 debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
                 //Attempt to auto-initialize
-                $_MIDCOM->auth->request_sudo();
+                midcom::get('auth')->request_sudo();
                 $event = new midcom_db_event();
                 $event->up = 0;
                 $event->title = '__org_openpsa_calendar';
@@ -100,7 +100,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 $event->start = time();
                 $event->end = time() + 1;
                 $ret = $event->create();
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 if (!$ret)
                 {
                     $root_event = false;
@@ -119,44 +119,21 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     }
 
     /**
-     * Iterate over all events and create index record using the datamanager indexer
-     * method.
+     * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $root_event = self::find_root_event();
 
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
-
         $qb->add_constraint('up', '=',  $root_event->id);
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
+        $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
 
-            foreach ($ret as $event)
-            {
-                if (! $datamanager)
-                {
-                    debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb'),
-                        MIDCOM_LOG_WARN);
-                    continue;
-                }
 
-                if (! $datamanager->autoset_storage($event))
-                {
-                    debug_add("Warning, failed to initialize datamanager for Event {$event->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Event dump:', $event);
-                    continue;
-                }
+        $indexer = new org_openpsa_calendar_midcom_indexer($topic, $indexer);
+        $indexer->add_query('events', $qb, $schemadb);
 
-                $indexer->index($datamanager);
-            }
-        }
-        return true;
+        return $indexer;
     }
 
     /**
@@ -350,7 +327,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
         );
 
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)

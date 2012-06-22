@@ -13,11 +13,6 @@
  */
 class org_openpsa_products_handler_product_search extends midcom_baseclasses_components_handler
 {
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('org.openpsa.qbpager');
-    }
-
     /**
      * Redirector moving user to the search form of first schema
      *
@@ -29,8 +24,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     {
         foreach ($data['schemadb_product'] as $name => $schema)
         {
-            $_MIDCOM->relocate("search/{$name}/");
-            // This will exit
+            return new midcom_response_relocate("search/{$name}/");
         }
     }
 
@@ -370,7 +364,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 // Find a delimiter not part of the constraint value (the SQL wildcard will be rewritten so % CAN be used as delimiter)
                 $delimiters = array('/', '#', '%', '|', '_');
                 $contraint_test_value = str_replace('%', '', $constraint['value']);
-                foreach($delimiters as $delimiter)
+                foreach ($delimiters as $delimiter)
                 {
                     if (!strstr($contraint_test_value, $delimiter))
                     {
@@ -414,7 +408,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         if ($handler_id == 'view_search_raw')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $data['results'] = array();
@@ -467,7 +461,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         $data['view_title'] = $this->_l10n->get('search') . ': ' . $this->_l10n->get($data['schemadb_product'][$data['search_schema']]->description);
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _populate_toolbar()
@@ -506,7 +500,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             }
         }
 
-        $_MIDCOM->bind_view_to_object($this->_topic, $this->_request_data['search_schema']);
+        $this->bind_view_to_object($this->_topic, $this->_request_data['search_schema']);
     }
 
     /**

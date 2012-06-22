@@ -10,7 +10,7 @@ $event =& $data['other_obj'];
     <li class="time location"><?php echo $event->format_timeframe() . ", {$event->location}"; ?></li>
     <?php
     // Participants
-    echo "<li class=\"members\">" . $_MIDCOM->i18n->get_string('participants', 'org.openpsa.calendar') . ": ";
+    echo "<li class=\"members\">" . midcom::get('i18n')->get_string('participants', 'org.openpsa.calendar') . ": ";
     foreach ($event->participants as $person_id => $confirmed)
     {
         $participant_card = org_openpsa_widgets_contact::get($person_id);

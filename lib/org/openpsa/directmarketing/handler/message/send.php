@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send_bg($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
 
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
@@ -59,8 +59,8 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             throw new midcom_error('"content" not defined in schema');
         }
         ignore_user_abort();
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get()->skip_page_style = true;
+        midcom::get('auth')->drop_sudo();
     }
 
     /**
@@ -70,9 +70,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _show_send_bg($handler_id, array &$data)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         debug_add('Forcing content type: text/plain');
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get('cache')->content->content_type('text/plain');
         $composed = $this->_prepare_send($data);
         $data['message_obj']->test_mode = false;
         $data['message_obj']->send_output = false;
@@ -85,7 +85,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         {
             echo "Batch #{$data['batch_number']} DONE\n";
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     private function _prepare_send(&$data)
@@ -101,14 +101,14 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         ini_set('log_errors', true);
         ini_set('display_errors', false);
         ob_start();
-        $_MIDCOM->dynamic_load($data['compose_url']);
+        midcom::get()->dynamic_load($data['compose_url']);
         $composed = ob_get_contents();
         ob_end_clean();
         ini_set('display_errors', $de_backup);
         ini_set('log_errors', $le_backup);
         //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
         debug_add('Forcing content type: text/html');
-        $_MIDCOM->cache->content->content_type('text/html');
+        midcom::get('cache')->content->content_type('text/html');
 
         //PONDER: Should we leave these entirely for the methods to parse from the array ?
         $data['compose_subject'] = '';
@@ -175,7 +175,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['message']->campaign);
@@ -250,8 +250,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 );
                 debug_add("---SHOW SEND---".$data['batch_url_base_full'], MIDCOM_LOG_ERROR);
                 $bool = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'background_send_message', $at_handler_arguments);
-                $bool2 = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'test', $at_handler_arguments);
-                debug_add("--- RESULT register:" . $bool . " register2:" . $bool2,  MIDCOM_LOG_ERROR);
+                debug_add("--- RESULT register:" . $bool,  MIDCOM_LOG_ERROR);
                 midcom_show_style('send-start');
                 break;
         }

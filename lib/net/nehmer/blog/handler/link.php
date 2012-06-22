@@ -147,8 +147,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 $this->_article = new midcom_db_article($this->_link->article);
-                $_MIDCOM->relocate("{$this->_article->name}/");
-                // This will exit
+                return new midcom_response_relocate("{$this->_article->name}/");
 
             case 'cancel':
                 if (isset($_GET['article']))
@@ -164,7 +163,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     try
                     {
                         $article = new midcom_db_article($_GET['article']);
-                        $_MIDCOM->relocate("{$prefix}{$article->name}/");
+                        return new midcom_response_relocate("{$prefix}{$article->name}/");
                     }
                     catch (midcom_error $e)
                     {
@@ -172,13 +171,12 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                 }
 
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -220,9 +218,9 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_process_delete();
 
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -234,16 +232,16 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         if (isset($_POST['f_cancel']))
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
             if ($this->_config->get('view_in_url'))
             {
-                $_MIDCOM->relocate("view/{$this->_article->name}/");
+                midcom::get()->relocate("view/{$this->_article->name}/");
             }
             else
             {
-                $_MIDCOM->relocate("{$this->_article->name}/");
+                midcom::get()->relocate("{$this->_article->name}/");
             }
             // This will exit
         }
@@ -256,8 +254,8 @@ implements midcom_helper_datamanager2_interfaces_create
         // Delete the link
         if ($this->_link->delete())
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
-            $_MIDCOM->relocate('');
+            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
+            midcom::get()->relocate('');
             // This will exit
         }
         else

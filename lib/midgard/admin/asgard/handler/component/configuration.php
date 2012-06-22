@@ -19,10 +19,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
-
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
     }
 
     private function _prepare_toolbar($handler_id)
@@ -32,7 +28,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('view', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('view', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             )
         );
@@ -41,7 +37,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             )
         );
@@ -68,7 +64,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->add_breadcrumb
         (
             "__mfa/asgard/components/{$this->_request_data['name']}/",
-            $_MIDCOM->i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
+            midcom::get('i18n')->get_string($this->_request_data['name'], $this->_request_data['name'])
         );
         $this->add_breadcrumb
         (
@@ -88,7 +84,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _load_configs($component, $object = null)
     {
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component);
+        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
@@ -130,7 +126,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function load_schemadb()
     {
         // Load SchemaDb
-        $schemadb_config_path = $_MIDCOM->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
+        $schemadb_config_path = midcom::get('componentloader')->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
         $schemadb = null;
         $schema = 'default';
 
@@ -169,20 +165,20 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     $key,
                     $this->_detect_schema($key, $value)
                 );
-                $schemadb[$schema]->fields[$key]['title'] = $_MIDCOM->i18n->get_string($schemadb[$schema]->fields[$key]['title'], $schemadb[$schema]->l10n_schema);
+                $schemadb[$schema]->fields[$key]['title'] = midcom::get('i18n')->get_string($schemadb[$schema]->fields[$key]['title'], $schemadb[$schema]->l10n_schema);
             }
 
             if (   !isset($this->_request_data['config']->_local[$key])
                 || $this->_request_data['config']->_local[$key] == $this->_request_data['config']->_global[$key])
             {
                 // No local configuration setting, note to user that this is the global value
-                $schemadb[$schema]->fields[$key]['title'] = $_MIDCOM->i18n->get_string($schemadb[$schema]->fields[$key]['title'], $schemadb[$schema]->l10n_schema);
-                $schemadb[$schema]->fields[$key]['title'] .= " <span class=\"global\">(" . $_MIDCOM->i18n->get_string('global value', 'midgard.admin.asgard') .")</span>";
+                $schemadb[$schema]->fields[$key]['title'] = midcom::get('i18n')->get_string($schemadb[$schema]->fields[$key]['title'], $schemadb[$schema]->l10n_schema);
+                $schemadb[$schema]->fields[$key]['title'] .= " <span class=\"global\">(" . midcom::get('i18n')->get_string('global value', 'midgard.admin.asgard') .")</span>";
             }
         }
 
         // Prepare defaults
-        foreach ($this->_request_data['config']->_merged as $key => $value)
+        foreach ($this->_request_data['config']->get_all() as $key => $value)
         {
             if (!isset($schemadb[$schema]->fields[$key]))
             {
@@ -212,7 +208,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['name']))
+        if (!midcom::get('componentloader')->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
@@ -221,7 +217,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['view_title'] = sprintf($this->_l10n->get('configuration for %s'), $data['name']);
         $this->_prepare_toolbar($handler_id);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumbs($handler_id);
     }
 
@@ -240,7 +236,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         foreach ($data['config']->_global as $key => $value)
         {
-            $data['key'] = $_MIDCOM->i18n->get_string($key, $data['name']);
+            $data['key'] = midcom::get('i18n')->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
 
             if (isset($data['config']->_local[$key]))
@@ -315,7 +311,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (strstr($parse_results, 'Parse error'))
         {
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
-            throw new midcom_error(sprintf($_MIDCOM->i18n->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
+            throw new midcom_error(sprintf(midcom::get('i18n')->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
         }
     }
 
@@ -459,7 +455,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['name']))
+        if (!midcom::get('componentloader')->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
@@ -492,11 +488,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case 'cancel':
                 if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
                 {
-                    $_MIDCOM->relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
-                    // This will exit.
+                    return new midcom_response_relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
                 }
-                $_MIDCOM->relocate("__mfa/asgard/components/configuration/{$data['name']}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/components/configuration/{$data['name']}/");
         }
 
         $data['controller'] =& $this->_controller;
@@ -513,7 +507,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $this->_prepare_breadcrumbs($handler_id);
         }
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _save_configuration($data)
@@ -528,10 +522,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         catch (Exception $e)
         {
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
-                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), $e->getMessage()),
+                midcom::get('i18n')->get_string('component configuration', 'midcom'),
+                sprintf(midcom::get('i18n')->get_string('configuration save failed: %s', 'midgard.admin.asgard'), $e->getMessage()),
                 'error'
             );
             return;
@@ -542,31 +536,31 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
-                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
+                midcom::get('i18n')->get_string('component configuration', 'midcom'),
+                midcom::get('i18n')->get_string('configuration saved successfully', 'midgard.admin.asgard'),
                 'ok'
             );
-            $_MIDCOM->relocate("__mfa/asgard/components/configuration/edit/{$data['name']}/{$data['folder']->guid}/");
+            midcom::get()->relocate("__mfa/asgard/components/configuration/edit/{$data['name']}/{$data['folder']->guid}/");
             // This will exit
         }
 
         if ($this->_save_snippet($config))
         {
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
-                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
+                midcom::get('i18n')->get_string('component configuration', 'midcom'),
+                midcom::get('i18n')->get_string('configuration saved successfully', 'midgard.admin.asgard'),
                 'ok'
             );
         }
         else
         {
-            $_MIDCOM->uimessages->add
+            midcom::get('uimessages')->add
             (
-                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_connection::get_error_string()),
+                midcom::get('i18n')->get_string('component configuration', 'midcom'),
+                sprintf(midcom::get('i18n')->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_connection::get_error_string()),
                 'error'
             );
         }

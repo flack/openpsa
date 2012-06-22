@@ -98,10 +98,6 @@ Dozwolone IP podczas importu SMS
 Ulica
 ---STRINGEND
 
----STRING yahoo_application_key
-Klucz aplikacji Yahoo!
----STRINGEND
-
 ---STRING select your country
 Wybierz kraj
 ---STRINGEND

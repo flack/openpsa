@@ -10,7 +10,7 @@
  * @ignore
  */
 //These two constants are on purpose in here
-define('ORG_OPENPSA_CORE_VERSION_NUMBER', $_MIDCOM->componentloader->get_component_version('org.openpsa.core'));
+define('ORG_OPENPSA_CORE_VERSION_NUMBER', midcom::get('componentloader')->get_component_version('org.openpsa.core'));
 define('ORG_OPENPSA_CORE_VERSION_NAME', 'Off the Grid');
 
 /**
@@ -23,14 +23,16 @@ define('ORG_OPENPSA_CORE_VERSION_NAME', 'Off the Grid');
  */
 class org_openpsa_core_version
 {
+    const NAME = 'Off the Grid';
+
     /**
      * Returns version number
      *
      * @return string OpenPSA version string
      */
-    function get_version_number()
+    public static function get_version_number()
     {
-            return ORG_OPENPSA_CORE_VERSION_NUMBER;
+        return midcom::get('componentloader')->get_component_version('org.openpsa.core');
     }
 
     /**
@@ -38,9 +40,9 @@ class org_openpsa_core_version
      *
      * @return string OpenPSA version string
      */
-    function get_version_name()
+    public static function get_version_name()
     {
-            return ORG_OPENPSA_CORE_VERSION_NAME;
+        return self::NAME;
     }
 
     /**
@@ -48,9 +50,9 @@ class org_openpsa_core_version
      *
      * @return string OpenPSA version string
      */
-    function get_version_both()
+    public static function get_version_both()
     {
-      return ORG_OPENPSA_CORE_VERSION_NUMBER . ' (' . ORG_OPENPSA_CORE_VERSION_NAME . ')';
+        return self::get_version_number() . ' (' . self::get_version_name() . ')';
     }
 }
 ?>

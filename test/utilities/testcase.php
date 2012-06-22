@@ -19,10 +19,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     public static function create_user($login = false)
     {
         $person = new midcom_db_person();
+        $person->_use_rcs = false;
+        $person->_use_activitystream = false;
         $password = substr('p_' . time(), 0, 11);
         $username = __CLASS__ . ' user ' . microtime();
 
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         if (!$person->create())
         {
             throw new Exception('Person could not be created. Reason: ' . midcom_connection::get_error_string());
@@ -32,14 +34,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $account->set_password($password);
         $account->set_username($username);
         $account->save();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         if ($login)
         {
-            if (!$_MIDCOM->auth->login($username, $password))
+            if (!midcom::get('auth')->login($username, $password))
             {
                 throw new Exception('Login for user ' . $username . ' failed');
             }
-            $_MIDCOM->auth->_sync_user_with_backend();
+            midcom::get('auth')->_sync_user_with_backend();
         }
         self::$_class_objects[$person->guid] = $person;
         return $person;
@@ -62,6 +64,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result = $qb->execute();
             if (sizeof($result) == 1)
             {
+                midcom::get('auth')->drop_sudo();
                 return $result[0];
             }
 
@@ -78,9 +81,17 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $topic;
     }
 
-    public function run_handler($component, array $args = array())
+    public function run_handler($topic, array $args = array())
     {
-        $topic = $this->get_component_node($component);
+        if (is_object($topic))
+        {
+            $component = $topic->component;
+        }
+        else
+        {
+            $component = $topic;
+            $topic = $this->get_component_node($component);
+        }
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
@@ -90,9 +101,19 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $context->parser->parse($args);
         $handler = $context->get_handler($topic);
+        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
         $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
-        $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
-        $data = $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+
+        $result = $handler->handle();
+        $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
+        $data =& $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+
+        if (   is_object($result)
+            && $result instanceof midcom_response)
+        {
+            $data['__openpsa_testcase_response'] = $result;
+        }
+
         $data['__openpsa_testcase_handler'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][0];
         $data['__openpsa_testcase_handler_method'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][1];
 
@@ -102,18 +123,37 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $data;
     }
 
-    public function show_handler($data)
+    public function show_handler(&$data)
     {
         $handler = $data['__openpsa_testcase_handler'];
         $method = '_show_' . $data['__openpsa_testcase_handler_method'];
 
-        midcom::get('style')->enter_context(midcom_core_context::get()->id);
+        midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
+        $context = midcom_core_context::get();
+        midcom::get('style')->enter_context($context->id);
         ob_start();
+        $context->set_custom_key('request_data', $data);
+        $handler->_request_data =& $data;
         $handler->$method($data['handler_id'], $data);
         $output = ob_get_contents();
         ob_end_clean();
         midcom::get('style')->leave_context();
+        midcom::get()->set_status(MIDCOM_STATUS_PREPARE);
         return $output;
+    }
+
+    public function set_post_data($post_data)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $post_data;
+        $_REQUEST = $_POST;
+    }
+
+    public function set_get_data($get_data)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET = $get_data;
+        $_REQUEST = $_GET;
     }
 
     public function set_dm2_formdata($controller, $formdata)
@@ -137,6 +177,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         try
         {
             $data = $this->run_handler($component, $args);
+            if (array_key_exists($controller_key, $data))
+            {
+                $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
+            }
+            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'Form did not relocate');
+            return $data['__openpsa_testcase_response']->url;
         }
         catch (openpsa_test_relocate $e)
         {
@@ -144,8 +190,20 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $url = preg_replace('/^\//', '', $url);
             return $url;
         }
+    }
+
+    /**
+     * same logic as submit_dm2_form, but this method does not expect a relocate
+     */
+    public function submit_dm2_no_relocate_form($controller_key, $formdata, $component, $args = array())
+    {
+        $data = $this->run_handler($component, $args);
+        $this->set_dm2_formdata($data[$controller_key], $formdata);
+        $data = $this->run_handler($component, $args);
+
         $this->assertEquals(array(), $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
-        $this->assertTrue(false, 'Form did not relocate');
+
+        return $data;
     }
 
     public function run_relocate_handler($component, array $args = array())
@@ -154,12 +212,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         try
         {
             $data = $this->run_handler($component, $args);
+            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'handler did not relocate');
+            $url = $data['__openpsa_testcase_response']->url;
         }
         catch (openpsa_test_relocate $e)
         {
             $url = $e->getMessage();
         }
-        $this->assertTrue(!is_null($url), $component . ' handler did not relocate');
+
         $url = preg_replace('/^\//', '', $url);
         return $url;
     }
@@ -202,12 +262,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $data = array_merge($presets, $data);
         $object = self::prepare_object($classname, $data);
 
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         if (!$object->create())
         {
             throw new Exception('Object of type ' . $classname . ' could not be created. Reason: ' . midcom_connection::get_error_string());
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return $object;
     }
 
@@ -217,6 +277,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         foreach ($data as $field => $value)
         {
+            if (strpos($field, '.') !== false)
+            {
+                $parts = explode('.', $field);
+                $object->{$parts[0]}->{$parts[1]} = $value;
+                continue;
+            }
             $object->$field = $value;
         }
         return $object;
@@ -229,9 +295,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
+    public static function create_persisted_object($classname, $data = array())
+    {
+        return self::_create_object($classname, $data);
+    }
+
     public static function delete_linked_objects($classname, $link_field, $id)
     {
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         $qb = call_user_func(array($classname, 'new_query_builder'));
         $qb->add_constraint($link_field, '=', $id);
         $results = $qb->execute();
@@ -240,8 +311,9 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result->_use_rcs = false;
             $result->_use_activitystream = false;
             $result->delete();
+            $result->purge();
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     public function tearDown()
@@ -253,6 +325,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         if (!empty($_POST))
         {
             $_POST = array();
+        }
+        if (!empty($_GET))
+        {
+            $_GET = array();
         }
         if (!empty($_REQUEST))
         {
@@ -274,6 +350,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
 
         $queue = array();
+
         while (!empty($this->_testcase_objects))
         {
             $object = array_pop($this->_testcase_objects);
@@ -286,6 +363,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         self::_process_delete_queue($queue);
         $this->_testcase_objects = array();
+        org_openpsa_mail_backend_unittest::flush();
         midcom_compat_unittest::flush_registered_headers();
     }
 
@@ -298,7 +376,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     private static function _process_delete_queue($queue)
     {
-        $_MIDCOM->auth->request_sudo('midcom.core');
+        midcom::get('auth')->request_sudo('midcom.core');
         $limit = sizeof($queue) * 5;
         $iteration = 0;
         while (!empty($queue))
@@ -306,7 +384,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $object = array_pop($queue);
             if (!$object->delete())
             {
-                if (midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS)
+                if (   midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS
+                    || midcom_connection::get_error() == MGD_ERR_OK)
                 {
                     array_unshift($queue, $object);
                 }
@@ -316,16 +395,20 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 }
                 else
                 {
-                    throw new midcom_error('Cleanup test object ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
+                    throw new midcom_error('Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
                 }
+            }
+            else
+            {
+                $object->purge();
             }
             if ($iteration++ > $limit)
             {
-                throw new midcom_error('Maximum retry count for cleanup reached');
+                throw new midcom_error('Maximum retry count for cleanup reached (' . sizeof($queue) . ' remaining entries)');
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

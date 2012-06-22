@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for updating members of all (not-archived) smart campaigns
+ *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_components_cron_handler
@@ -21,9 +22,9 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('archived', '=', 0);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         $ret = $qb->execute();
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         if (   $ret === false
             || !is_array($ret))
         {
@@ -34,8 +35,8 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         {
             return;
         }
-        $i=1;
-        foreach($ret as $campaign)
+        $i = 1;
+        foreach ($ret as $campaign)
         {
             $next_time = time()+(($i++)*60);
             debug_add("Scheduling member update for campaign #{$campaign->id} ({$campaign->title}) to happen on " . date('Y-m-d H:i:s', $next_time));

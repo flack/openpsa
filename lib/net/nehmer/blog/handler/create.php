@@ -75,7 +75,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && !$_MIDCOM->auth->can_user_do('midcom:urlname'))
+            && !midcom::get('auth')->can_user_do('midcom:urlname'))
         {
             foreach (array_keys($this->_schemadb) as $name)
             {
@@ -170,23 +170,18 @@ implements midcom_helper_datamanager2_interfaces_create
                     $this->_article->update();
                 }
                 // Index the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nehmer_blog_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
                 // *** FALL THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();
-        if ($this->_article != null)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        }
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
     }
 

@@ -25,12 +25,6 @@
     'handler' => array ('midcom_baseclasses_components_handler_configuration', 'config'),
     'fixed_args' => array ('config'),
 ),
-// Match /moderate/
-/*'moderate' => array
-(
-    'handler' => array('net_nehmer_comments_handler_moderate', 'moderate'),
-    'fixed_args' => array('moderate')
-);*/
 // Match /moderate/<comment_status_to_moderate>
 'moderate' => array
 (

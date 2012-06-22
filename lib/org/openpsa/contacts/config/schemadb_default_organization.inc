@@ -33,12 +33,13 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_OBTYPE_ORGANIZATION => 'organization',
-                    ORG_OPENPSA_OBTYPE_DAUGHTER     => 'daughter organization',
-                    ORG_OPENPSA_OBTYPE_DEPARTMENT   => 'department'
+                    org_openpsa_contacts_group_dba::ORGANIZATION => 'organization',
+                    org_openpsa_contacts_group_dba::DAUGHTER     => 'daughter organization',
+                    org_openpsa_contacts_group_dba::DEPARTMENT   => 'department'
                 ),
             ),
             'widget'       => 'radiocheckselect',
+            'default' => org_openpsa_contacts_group_dba::ORGANIZATION
         ),
         'categories' => array
         (
@@ -75,7 +76,6 @@
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
-                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -285,7 +285,6 @@
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
-                'allow_multiple' => true,
             ),
             'widget' => 'chooser',
             'widget_config' => array

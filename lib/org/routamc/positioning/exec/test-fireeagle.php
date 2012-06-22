@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 
 // Use the FireEagle PHP library from http://fireeagle.yahoo.net/developer/code/php
 require_once(MIDCOM_ROOT . '/external/fireeagle.php');
@@ -27,7 +27,7 @@ if (   !$access_key
             || !isset($request_token['oauth_token_secret'])
             || !is_string($request_token['oauth_token_secret']))
         {
-            _midcom_stop_request("Failed to get FireEagle request token\n");
+            throw new midcom_error("Failed to get FireEagle request token\n");
         }
 
         // Save request token to session and redirect user
@@ -38,7 +38,7 @@ if (   !$access_key
         <p><a href="<?php echo $fireeagle->getAuthorizeURL($request_token['oauth_token']); ?>" target="_blank">Authorize this application</a></p>
         <p><a href="?f=callback">And then click here</a></p>
         <?php
-        $_MIDCOM->finish();
+        midcom::get()->finish();
         _midcom_stop_request();
     }
     elseif (   isset($_GET['f'])
@@ -48,7 +48,7 @@ if (   !$access_key
         if (   !$session->exists('auth_state')
             || $session->get('auth_state') != 'start')
         {
-            _midcom_stop_request("Out of sequence.");
+            throw new midcom_error("Out of sequence.");
         }
 
         $fireeagle = new FireEagle($fireeagle_consumer_key, $fireeagle_consumer_secret, $session->get('request_token'), $session->get('request_secret'));
@@ -58,20 +58,20 @@ if (   !$access_key
             || !isset($access_token['oauth_token_secret'])
             || !is_string($access_token['oauth_token_secret']))
         {
-            _midcom_stop_request("Failed to get FireEagle access token\n");
+            throw new midcom_error("Failed to get FireEagle access token\n");
         }
 
         $user->set_parameter('net.yahoo.fireeagle', 'access_key', $access_token['oauth_token']);
         $user->set_parameter('net.yahoo.fireeagle', 'access_secret', $access_token['oauth_token_secret']);
 
-        $_MIDCOM->relocate($_SERVER['SCRIPT_NAME']);
+        midcom::get()->relocate($_SERVER['SCRIPT_NAME']);
         // This will exit
     }
 
     ?>
     <p><a href="?f=start">Start Fire Eagle authentication</a></p>
     <?php
-    $_MIDCOM->finish();
+    midcom::get()->finish();
     _midcom_stop_request();
 }
 

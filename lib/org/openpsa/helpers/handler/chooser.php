@@ -52,7 +52,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function __construct()
     {
         parent::__construct();
-        $_MIDCOM->style->prepend_component_styledir('org.openpsa.helpers');
+        midcom::get('style')->prepend_component_styledir('org.openpsa.helpers');
     }
 
     /**
@@ -63,7 +63,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_dbaclass = $args[0];
-        $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_dbaclass);
+        midcom::get('auth')->require_user_do('midgard:create', null, $this->_dbaclass);
 
         $this->_load_component_node();
 
@@ -84,7 +84,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['controller'] =& $this->_controller;
         $data['action'] =& $this->_action;
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -121,8 +121,8 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($this->_dbaclass)
         {
             case 'org_openpsa_contacts_person_dba':
-                $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_node[MIDCOM_NAV_OBJECT]);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
+                $indexer->index($this->_controller->datamanager);
                 break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
@@ -136,8 +136,8 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $nap = new midcom_helper_nav();
-        $component = $_MIDCOM->dbclassloader->get_component_for_class($this->_dbaclass);
-        $_MIDCOM->componentloader->load($component);
+        $component = midcom::get('dbclassloader')->get_component_for_class($this->_dbaclass);
+        midcom::get('componentloader')->load($component);
         $topic_guid = $siteconfig->get_node_guid($component);
         $this->_node = $nap->resolve_guid($topic_guid);
 
@@ -183,7 +183,7 @@ implements midcom_helper_datamanager2_interfaces_create
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
-        $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), $_MIDCOM->i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
+        $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), midcom::get('i18n')->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
 
         midcom_show_style('popup_head');
         if ($this->_action != 'form')

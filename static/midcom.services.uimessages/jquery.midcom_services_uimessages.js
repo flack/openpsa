@@ -13,7 +13,7 @@ var MIDCOM_SERVICES_UIMESSAGES_INDEX = 0;
 
 jQuery.midcom_services_uimessage_add = function(options) {
     jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(options);
-}
+};
 
 jQuery.fn.midcom_services_uimessage = function(options)
 {

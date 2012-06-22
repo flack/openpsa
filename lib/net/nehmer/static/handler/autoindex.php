@@ -81,7 +81,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
             $article_time = 0;
         }
         $topic_time = $this->_content_topic->metadata->revised;
-        $_MIDCOM->set_26_request_metadata(max($article_time, $topic_time), null);
+        midcom::get('metadata')->set_request_metadata(max($article_time, $topic_time), null);
 
         $this->_index_entries = $this->_load_autoindex_data();
     }
@@ -202,7 +202,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     private function _process_datamanager (&$datamanager, &$article, &$view)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $filename = "{$article->name}/";
 
         $view[$filename]['article'] = $article;

@@ -17,8 +17,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
 {
     /**
      * Populates the node toolbar depending on the user's rights.
-     *
-     * @access protected
      */
     private function _populate_node_toolbar()
     {
@@ -44,11 +42,11 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         // This component uses Ajax, include the handler javascripts
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/messages.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/messages.js");
 
         $this->_populate_node_toolbar();
     }
@@ -60,9 +58,9 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
+        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
         {
             $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
             foreach (array_keys($schemadb_campaign) as $name)

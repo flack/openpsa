@@ -33,15 +33,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     private $_handler_id;
 
     /**
-     * Load the schemadb and other midcom.admin.folder specific stuff
-     */
-    public function _on_initialize()
-    {
-        // Load the configuration
-        $_MIDCOM->componentloader->load('midcom.admin.folder');
-    }
-
-    /**
      * Load either a create controller or an edit (simple) controller or trigger an error message
      */
     private function _load_controller()
@@ -180,12 +171,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->_load_controller();
 
         // Get the content topic prefix
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Store the old name before editing
         $old_name = $this->_topic->name;
         // Symlink support requires that we use actual URL topic object here
-        if ($urltopic = end($_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS)))
+        if ($urltopic = end(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS)))
         {
             $old_name = $urltopic->name;
         }
@@ -193,9 +184,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         switch ($this->_controller->process_form())
         {
             case 'cancel':
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('cancelled'));
-                $_MIDCOM->relocate($prefix);
-                break;
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('cancelled'));
+                return new midcom_response_relocate($prefix);
 
             case 'save':
                 if ($this->_handler_id === 'edit')
@@ -206,8 +196,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 {
                     $url = $this->_create_topic($prefix);
                 }
-                $_MIDCOM->relocate($url);
-                // This will exit
+                return new midcom_response_relocate($url);
         }
 
         $this->_prepare_request_data();
@@ -219,14 +208,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->add_breadcrumb('__ais/folder/edit/', $data['title']);
 
         // Set page title
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
-        $help_toolbar = $_MIDCOM->toolbars->get_help_toolbar();
+        $help_toolbar = midcom::get('toolbars')->get_help_toolbar();
         $help_toolbar->add_help_item('edit_folder', 'midcom.admin.folder', null, null, 1);
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
     }
@@ -269,16 +258,16 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 return false;
             }
 
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
 
             if (! $this->_topic->update())
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
                 return false;
             }
         }
 
-        $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+        midcom::get('auth')->request_sudo('midcom.admin.folder');
         // Because edit from a symlink edits its target, it is best to keep name properties in sync to get the expected behavior
         $qb_topic = midcom_db_topic::new_query_builder();
         $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
@@ -300,9 +289,9 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 }
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
+        midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
 
         // Get the relocation url
         $url = preg_replace("/{$old_name}\/\$/", "{$this->_topic->name}/", $prefix);
@@ -362,7 +351,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 );
             }
             $this->_new_topic->update();
-            if (!midcom_admin_folder_folder_management::is_child_listing_finite($topic))
+            if (!midcom_admin_folder_management::is_child_listing_finite($topic))
             {
                 $this->_new_topic->purge();
                 throw new midcom_error
@@ -381,7 +370,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             }
         }
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
+        midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
 
         // Generate name if it is missing
         if (!$this->_new_topic->name)
@@ -405,13 +394,13 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     {
         if (isset($GLOBALS['midcom_style_inherited']))
         {
-            $up = $_MIDCOM->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
+            $up = midcom::get('style')->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
             debug_add("Style inherited from {$GLOBALS['midcom_style_inherited']}");
         }
         else
         {
-            $up = $_MIDGARD['style'];
-            debug_add("No inherited style found, placing the new style under host style (ID: {$_MIDGARD['style']}");
+            $up = midcom_connection::get('style');
+            debug_add("No inherited style found, placing the new style under host style ID: " . midcom_connection::get('style'));
         }
 
         $style = new midcom_db_style();
@@ -422,13 +411,13 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         {
             debug_print_r('Failed to create a new style due to ' . midcom_connection::get_error_string(), $style, MIDCOM_LOG_WARN);
 
-            $_MIDCOM->uimessages->add('edit folder', sprintf($_MIDCOM->i18n->get_string('failed to create a new style template: %s', 'midcom.admin.folder'), midcom_connection::get_error_string()), 'error');
+            midcom::get('uimessages')->add('edit folder', sprintf(midcom::get('i18n')->get_string('failed to create a new style template: %s', 'midcom.admin.folder'), midcom_connection::get_error_string()), 'error');
             return '';
         }
 
         debug_print_r('New style created', $style);
 
-        return $_MIDCOM->style->get_style_path_from_id($style->id);
+        return midcom::get('style')->get_style_path_from_id($style->id);
     }
 
     /**

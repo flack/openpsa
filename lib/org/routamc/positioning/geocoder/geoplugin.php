@@ -27,7 +27,6 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
     public function __construct()
     {
          $this->_component = 'org.routamc.positioning';
-         $_MIDCOM->load_library('org.openpsa.httplib');
          parent::__construct();
     }
 
@@ -43,7 +42,7 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
         {
             throw new InvalidArgumentException("No IP address provided");
         }
-        
+
         // Check that we have a valid IP
         if (!filter_var($location['ip'], FILTER_VALIDATE_IP))
         {
@@ -59,13 +58,13 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
         // Remove the geoPlugin() callback
         $json = substr($json, 10, -1);
         $geocoded = json_decode($json);
-        
+
         if (   !$geocoded->geoplugin_latitude
             || !$geocoded->geoplugin_longitude)
         {
             throw new RuntimeException("GeoPlugin did not return coordinates for IP");
         }
-        
+
         $location = array
         (
             'latitude' => (float) $geocoded->geoplugin_latitude,

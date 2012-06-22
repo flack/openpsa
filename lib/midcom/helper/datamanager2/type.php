@@ -174,7 +174,6 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * outside is safe at this point.
      *
      * @return boolean Indicating success, false will abort the type construction sequence.
-     * @access protected
      */
     public function _on_initialize()
     {
@@ -275,7 +274,6 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * In case validation fails, you should assign an (already translated) error message
      * to the validation_error public member.
      *
-     * @access protected
      * @return boolean Indicating value validity.
      */
     public function _on_validate()

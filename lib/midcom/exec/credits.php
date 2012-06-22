@@ -1,14 +1,14 @@
 <?php
 echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
-$_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 
 $title = 'MidCOM Developers';
 
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
 $developers = array();
 
-foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
+foreach (midcom::get('componentloader')->manifests as $name => $manifest)
 {
     if (!array_key_exists('package.xml', $manifest->_raw_data))
     {
@@ -49,7 +49,7 @@ foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
             if (   array_key_exists('active', $details)
                 && $details['active'] == 'no')
             {
-                $details['role'] = sprintf($_MIDCOM->i18n->get_string('not active %s', 'midcom'), $_MIDCOM->i18n->get_string($details['role'], 'midcom'));
+                $details['role'] = sprintf(midcom::get('i18n')->get_string('not active %s', 'midcom'), midcom::get('i18n')->get_string($details['role'], 'midcom'));
             }
 
             $developers[$identifier]['roles'][$details['role']][$package_type][$name] = $manifest->get_name_translated($name);
@@ -65,7 +65,7 @@ reset($developers);
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>Midgard CMS - <?php echo $title; ?></title>
-        <?php echo $_MIDCOM->print_head_elements(); ?>
+        <?php echo midcom::get('head')->print_head_elements(); ?>
         <style type="text/css">
             <!--
             table.dev
@@ -141,7 +141,7 @@ reset($developers);
                 </thead>-->
                 <tbody>
                     <?php
-                    foreach($developers as $name => $details)
+                    foreach ($developers as $name => $details)
                     {
                         $person_label  = "<div class=\"vcard\">\n";
                         $person_label .= "    <h2><a href=\"http://www.midgard-project.org/community/account/view/{$details['username']}/\" class=\"url fn\">{$details['name']}</a></h2>\n";
@@ -165,15 +165,15 @@ reset($developers);
                                         ?>
                                         <dt>
                                             <?php
-                                            echo sprintf($_MIDCOM->i18n->get_string('%s of packages of type %s', 'midcom'), $_MIDCOM->i18n->get_string($role, 'midcom'), $_MIDCOM->i18n->get_string($package_type, 'midcom'));
+                                            echo sprintf(midcom::get('i18n')->get_string('%s of packages of type %s', 'midcom'), midcom::get('i18n')->get_string($role, 'midcom'), midcom::get('i18n')->get_string($package_type, 'midcom'));
                                             ?>
                                         </dt>
                                         <dd>
                                         <?php
                                         foreach ($components as $component => $component_name)
                                         {
-                                            $icon = $_MIDCOM->componentloader->get_component_icon($component);
-                                            echo "<a href=\"" . $_MIDCOM->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
+                                            $icon = midcom::get('componentloader')->get_component_icon($component);
+                                            echo "<a href=\"" . midcom::get()->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
                                             echo "<img src=\"" . MIDCOM_STATIC_URL . "/{$icon}\" alt=\"{$component_name} ({$component})\" title=\"{$component_name} ({$component})\" />";
                                             echo "</a>\n";
                                         }

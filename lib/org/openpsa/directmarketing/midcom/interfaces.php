@@ -14,20 +14,6 @@
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Test case for the AT service
-     *
-     * @param array $args handler arguments
-     * @param object &$handler reference to the cron_handler object calling this method.
-     * @return boolean Always true
-     */
-    function at_test($args, &$handler)
-    {
-        $handler->print_error("got args:", $args);
-        debug_print_r("got args:", $args);
-        return true;
-    }
-
-    /**
      * Background message sending AT batch handler
      *
      * @param array $args handler arguments
@@ -44,17 +30,17 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             $handler->print_error($msg);
             return false;
         }
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
 
         $batch_url = "{$args['url_base']}/{$args['batch']}/{$args['midcom_services_at_entry_object']->guid}";
         debug_add("batch_url: {$batch_url}");
 
         ob_start();
-        $_MIDCOM->dynamic_load($batch_url);
+        midcom::get()->dynamic_load($batch_url);
         $output = ob_get_contents();
         ob_end_clean();
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 
@@ -75,7 +61,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             return false;
         }
 
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         try
         {
             $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
@@ -97,7 +83,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             return false;
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 
@@ -202,12 +188,12 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
                 $sending_url = $directmarketing_node[MIDCOM_NAV_RELATIVEURL]."message/{$message->guid}/send/";
 
                 debug_add("START SEND TO URL {$sending_url}");
-                $_MIDCOM->auth->request_sudo();
+                midcom::get('auth')->request_sudo();
                 ob_start();
-                $_MIDCOM->dynamic_load($sending_url);
+                midcom::get()->dynamic_load($sending_url);
                 $output = ob_get_contents();
                 ob_end_clean();
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("END SEND");
             }
             else
@@ -281,7 +267,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             debug_add('QB Error / receipts', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($receipts as $receipt)
+        foreach ($receipts as $receipt)
         {
             debug_add("Transferred message_receipt #{$receipt->id} to person #{$person1->id} (from #{$receipt->person})", MIDCOM_LOG_INFO);
             $receipt->person = $person1->id;
@@ -303,7 +289,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             debug_add('QB Error / links', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($logs as $log)
+        foreach ($logs as $log)
         {
             debug_add("Transferred link_log #{$log->id} to person #{$person1->id} (from #{$log->person})", MIDCOM_LOG_INFO);
             $log->person = $person1->id;
@@ -324,7 +310,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             'org_openpsa_directmarketing_campaign_messagereceipt_dba',
             'org_openpsa_directmarketing_link_log_dba',
         );
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             // TODO: 1.8 metadata format support
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);

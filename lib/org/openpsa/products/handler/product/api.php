@@ -31,11 +31,10 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         }
 
         //Content-Type
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->no_cache();
 
         $this->_load_datamanager();
-        $_MIDCOM->load_library('midcom.helper.xml');
     }
 
     /**
@@ -92,7 +91,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_options($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->skip_page_style = false;
     }
 
     /**
@@ -119,7 +117,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error("Product {$args[0]} could not be loaded with Datamanager.");
         }
 
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
     }
 
     /**
@@ -167,7 +165,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
                 }
             }
         }
-        $_MIDCOM->cache->content->content_type('text/xml');
+        midcom::get('cache')->content->content_type('text/xml');
 
         $qb->add_order('code');
         $qb->add_order('title');
@@ -199,7 +197,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
          if (!isset($_POST['title']))
         {
@@ -225,7 +223,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error("Failed to initialize DM2 for product: {$errstr}");
         }
 
-        foreach($this->_datamanager->types as $key => $type)
+        foreach ($this->_datamanager->types as $key => $type)
         {
             if (isset($_POST[$key]))
             {
@@ -240,8 +238,19 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error("Failed to create product: {$errstr}");
         }
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product created: ' . midcom_connection::get_error_string());
-        // This will exit
+        $this->_send_reply('Product created');
+    }
+
+    private function _send_reply($message)
+    {
+        $midcom = midcom::get();
+        $midcom->header('Content-Type: text/html');
+        $midcom->header('HTTP/1.0 200 OK');
+        echo $message . ': ' . midcom_connection::get_error_string();
+
+        midcom::get('cache')->content->no_cache();
+        $midcom->finish();
+        _midcom_stop_request();
     }
 
     /**
@@ -251,7 +260,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_update($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
         $this->_product = new org_openpsa_products_product_dba($args[0]);
 
@@ -260,7 +269,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error( 'Failed to initialize DM2 for product: ' . midcom_connection::get_error_string());
         }
 
-        foreach($this->_datamanager->types as $key => $type)
+        foreach ($this->_datamanager->types as $key => $type)
         {
             if (isset($_POST[$key]))
             {
@@ -273,8 +282,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error('Failed to update product: ' . midcom_connection::get_error_string());
         }
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product updated: ' . midcom_connection::get_error_string());
-        // This will exit
+        $this->_send_reply('Product updated');
     }
 
     /**
@@ -284,7 +292,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_delete($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user('basic');
+        midcom::get('auth')->require_valid_user('basic');
 
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
@@ -299,11 +307,10 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         }
 
         // Update the index
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         $indexer->delete($this->_product->guid);
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product deleted: ' . midcom_connection::get_error_string());
-        // This will exit
+        $this->_send_reply('Product deleted');
     }
 }
 ?>

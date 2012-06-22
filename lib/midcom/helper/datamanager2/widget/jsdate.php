@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
 
         if ($this->_initialize_dependencies)
         {
-            $this->_add_external_html_elements();
+            self::add_head_elements();
         }
 
         return true;
@@ -106,7 +106,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      * Adds the external HTML dependencies, both JS and CSS. A static flag prevents
      * multiple insertions of these dependencies.
      */
-    private function _add_external_html_elements()
+    public static function add_head_elements()
     {
         static $executed = false;
 
@@ -193,11 +193,11 @@ EOT;
      */
     public function add_elements_to_form($attributes)
     {
-        $this->_add_external_html_elements();
+        self::add_head_elements();
 
-        $elements = $this->_create_unfrozen_elements();
+        $elements = $this->_create_elements();
 
-        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
+        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', ''), false);
 
         if ($this->_field['required'])
         {
@@ -216,8 +216,10 @@ EOT;
 
     /**
      * Create the unfrozen element listing.
+     *
+     * @param boolean $frozen Should the elements be frozen or not
      */
-    private function _create_unfrozen_elements()
+    private function _create_elements($frozen = false)
     {
         $elements = array();
         $attributes = Array
@@ -259,23 +261,11 @@ EOT;
             }
         }
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
+        if (!$frozen)
+        {
+            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
+        }
         return $elements;
-    }
-
-    /**
-     * Create the frozen element listing.
-     */
-    private function _create_frozen_elements()
-    {
-        $attributes = Array
-        (
-            'class' => 'date',
-            'id'    => $this->name,
-        );
-        $element = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
-        $element->freeze();
-        return array($element);
     }
 
     /**
@@ -284,7 +274,12 @@ EOT;
      */
     public function freeze()
     {
-        $new_elements = $this->_create_frozen_elements();
+        $new_elements = $this->_create_elements(true);
+
+        foreach ($new_elements as $element)
+        {
+            $element->freeze();
+        }
 
         $group = $this->_form->getElement($this->name);
         $group->setElements($new_elements);
@@ -297,7 +292,7 @@ EOT;
      */
     function unfreeze()
     {
-        $new_elements = $this->_create_unfrozen_elements();
+        $new_elements = $this->_create_elements();
 
         $group = $this->_form->getElement($this->name);
         $group->setElements($new_elements);
@@ -375,7 +370,7 @@ EOT;
         $empty_date = "0000-00-00 00:00:00";
 
         // Could not find any input
-        if (!isset($results[$this->name . '_date']))
+        if (empty($results[$this->name . '_date']))
         {
             return $empty_date;
         }
@@ -393,7 +388,7 @@ EOT;
 
             $input .= ' ' . $hours . ':' . $minutes . ':';
             // If we have hidden seconds, we need to change format to save those seconds
-            $this->format = 'Y-m-d H:i:s';
+            $this->format = '%Y-%m-%d %H:%M:%S';
             if ($this->hide_seconds)
             {
                 $input .= '00';

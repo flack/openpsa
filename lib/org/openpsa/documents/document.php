@@ -19,20 +19,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_document';
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
+    const STATUS_DRAFT = 4000;
+    const STATUS_FINAL = 4001;
+    const STATUS_REVIEW = 4002;
 
     function get_parent_guid_uncached()
     {
@@ -58,7 +47,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         if (!$this->docStatus)
         {
-            $this->docStatus = ORG_OPENPSA_DOCUMENT_STATUS_DRAFT;
+            $this->docStatus = org_openpsa_documents_document_dba::STATUS_DRAFT;
         }
     }
 
@@ -67,7 +56,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_DOCUMENT;
         if (!$this->author)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             $this->author = $user->id;
         }
         return true;
@@ -103,25 +92,25 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         if (   $parent
             && $parent->component == 'org.openpsa.documents')
         {
-            $_MIDCOM->auth->request_sudo('org.openpsa.documents');
+            midcom::get('auth')->request_sudo('org.openpsa.documents');
 
             $parent = new org_openpsa_documents_directory($parent);
             $parent->_use_rcs = false;
             $parent->_use_activitystream = false;
             $parent->update();
 
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
     }
 
     public function get_class()
     {
-        if (   !$_MIDCOM->auth->user
+        if (   !midcom::get('auth')->user
             || empty($this->guid))
         {
             return '';
         }
-        $person = $_MIDCOM->auth->user->get_storage();
+        $person = midcom::get('auth')->user->get_storage();
         $lastvisited = $person->get_parameter('org.openpsa.documents_visited', $this->guid);
 
         if (   $lastvisited
@@ -164,8 +153,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         {
             $info = explode(':', $item);
             if (   !is_array($info)
-                || !array_key_exists(0, $info)
-                || !array_key_exists(1, $info))
+                || sizeof($info) < 2)
             {
                 // Broken item
                 debug_add("Attachment entry '{$item}' is broken!", MIDCOM_LOG_ERROR);
@@ -204,9 +192,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         //first, try if there is a direct translation
-        if ($mimetype != $_MIDCOM->i18n->get_string($mimetype, 'org.openpsa.documents'))
+        if ($mimetype != midcom::get('i18n')->get_string($mimetype, 'org.openpsa.documents'))
         {
-            return ($_MIDCOM->i18n->get_string($mimetype, 'org.openpsa.documents'));
+            return (midcom::get('i18n')->get_string($mimetype, 'org.openpsa.documents'));
         }
 
         //if nothing is found, do some heuristics
@@ -253,7 +241,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             $subtype = strtoupper($subtype);
         }
 
-        return sprintf($_MIDCOM->i18n->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
+        return sprintf(midcom::get('i18n')->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
     }
 
     function backup_version()
@@ -264,7 +252,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         // Copy current properties
         foreach ($properties as $key)
         {
-            if ($key != 'guid'
+            if (   $key != 'guid'
                 && $key != 'id'
                 && $key != 'metadata')
             {

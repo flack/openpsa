@@ -118,6 +118,10 @@ Art des Berichts
 Basis-Projekt/-Prozess
 ---STRINGEND
 
+---STRING sales report %s - %s
+Verkaufsbericht %s - %s
+---STRINGEND
+
 ---STRING save query for future
 Report speichern
 ---STRINGEND

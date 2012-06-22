@@ -5,8 +5,8 @@ $view = $data['view_article'];
 
 $publish_time = $data['article']->metadata->published;
 $published = sprintf($data['l10n']->get('posted on %s.'), strftime('%Y-%m-%d %T %Z', $publish_time));
-$permalink = $_MIDCOM->permalinks->create_permalink($data['article']->guid);
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$permalink = midcom::get('permalinks')->create_permalink($data['article']->guid);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 
 <div class="hentry">
@@ -41,7 +41,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             try
             {
                 $article = new midcom_db_article($related);
-                echo "<li><a href=\"" . $_MIDCOM->permalinks->create_permalink($article->guid) . "\">{$article->title}</a></li>\n";
+                echo "<li><a href=\"" . midcom::get('permalinks')->create_permalink($article->guid) . "\">{$article->title}</a></li>\n";
             }
             catch (midcom_error $e)
             {
@@ -53,7 +53,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
     if (array_key_exists('comments_url', $data))
     {
-        $_MIDCOM->dynamic_load($data['comments_url']);
+        midcom::get()->dynamic_load($data['comments_url']);
     }
     ?>
     <p><a href="&(prefix);"><?php $data['l10n_midcom']->show('back'); ?></a></p>

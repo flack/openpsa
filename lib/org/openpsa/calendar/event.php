@@ -66,21 +66,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     var $notify_force_add = false;
     var $search_relatedtos = true;
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function get_label()
     {
         if ($this->start == 0)
@@ -109,7 +94,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
 
         // Check for empty title in existing events
         if (   $this->id
@@ -128,7 +113,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $this->_get_em();
 
         // Hide details if we're not allowed to see them
-        if (!$_MIDCOM->auth->can_do('org.openpsa.calendar:read', $this))
+        if (!$this->can_do('org.openpsa.calendar:read'))
         {
             // Hide almost all properties
             $properties = $this->get_properties();
@@ -307,7 +292,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $link_def->fromComponent = 'org.openpsa.calendar';
         $link_def->fromGuid = $this->guid;
         $link_def->fromClass = get_class($this);
-        $link_def->status = ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED;
+        $link_def->status = org_openpsa_relatedto_dba::SUSPECTED;
         return $link_def;
     }
 
@@ -332,7 +317,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         // Do no seek if we already have confirmed links
         $mc = new org_openpsa_relatedto_collector($this->guid, 'org_openpsa_projects_task_dba', 'outgoing');
-        $mc->add_constraint('status', '=', ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
+        $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();
         if (!empty($links))
@@ -396,7 +381,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         // Do no seek if we already have confirmed links
         $mc = new org_openpsa_relatedto_collector($this->guid, array('org_openpsa_salesproject_dba', 'org_openpsa_salesproject_deliverable_dba'));
-        $mc->add_constraint('status', '=', ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
+        $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();
         if (!empty($links))
@@ -493,7 +478,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         // Handle ACL accordingly
         foreach ($this->participants as $person_id => $selected)
         {
-            $user = $_MIDCOM->auth->get_user($person_id);
+            $user = midcom::get('auth')->get_user($person_id);
 
             // All participants can read and update
             $this->set_privilege('org.openpsa.calendar:read', $user->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -541,7 +526,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $this->_get_em();
         //Remove participants
-        $_MIDCOM->auth->request_sudo('org.openpsa.calendar');
+        midcom::get('auth')->request_sudo('org.openpsa.calendar');
         reset ($this->participants);
         while (list ($id, $bool) = each ($this->participants))
         {
@@ -572,7 +557,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         //Remove event parameters
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         return true;
     }
@@ -677,7 +662,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     function details_text($display_title = true, $member = false, $nl = "\n")
     {
-        $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
         $str = '';
         if ($display_title)
         {

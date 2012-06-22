@@ -15,8 +15,6 @@ class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_req
 {
     /**
      * Initialize the request switch and the content topic.
-     *
-     * @access protected
      */
     public function _on_initialize()
     {

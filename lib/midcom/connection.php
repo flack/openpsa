@@ -18,7 +18,38 @@ class midcom_connection
      *
      * @var array
      */
-    private static $_data = array();
+    private static $_data;
+
+    private static $_defaults = array
+    (
+        'argv' => array(),
+
+        'user' => 0,
+        'admin' => false,
+        'root' => false,
+
+        'auth' => false,
+        'cookieauth' => false,
+
+        // General host setup
+        'page' => 0,
+        'debug' => false,
+
+        'host' => 0,
+        'style' => 0,
+        'author' => 0,
+        'config' => array
+        (
+            'prefix' => '',
+            'quota' => false,
+            'unique_host_name' => 'openpsa',
+            'auth_cookie_id' => 1,
+        ),
+
+        'schema' => array
+        (
+        ),
+    );
 
     /**
      * Check whether Midgard database connection exists
@@ -51,7 +82,6 @@ class midcom_connection
         // Midgard 8.09 or 9.03
         return midgard_connection::set_loglevel($loglevel);
     }
-
 
     /**
      * Set Midgard error code
@@ -118,8 +148,12 @@ class midcom_connection
             (
                 'login' => $username,
                 'authtype' => $GLOBALS['midcom_config']['auth_type'],
-                'password' => self::prepare_password($password)
             );
+
+            if (!$trusted)
+            {
+                $login_tokens['password'] = self::prepare_password($password);
+            }
 
             try
             {
@@ -144,15 +178,25 @@ class midcom_connection
 
             if ($mode == 'auto')
             {
-                $mode = ($_MIDGARD['sitegroup'] == 0) ? 'not-sitegrouped' : 'sitegrouped';
+                $mode = (self::_get('sitegroup') == 0) ? 'not-sitegrouped' : 'sitegrouped';
             }
 
             if ($mode == 'sitegrouped')
             {
-                $sitegroup = new midgard_sitegroup($_MIDGARD['sitegroup']);
+                $sitegroup = new midgard_sitegroup(self::_get('sitegroup'));
                 $sg_name = $sitegroup->name;
             }
-            return midgard_user::auth($username, $password, $sg_name, $trusted);
+            $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
+            if (   !$stat
+                && $GLOBALS['midcom_config']['auth_type'] == 'Plaintext'
+                && strlen($password) > 11)
+            {
+                //mgd1 has the password field defined with length 13, but it doesn't complain
+                //when saving a longer password, it just sometimes shortens it, so we try the
+                //shortened version here (we cut at 11 because the first two characters are **)
+                $stat = midgard_user::auth($username, substr($password, 0, 11), $sg_name, $trusted);
+            }
+            return $stat;
         }
     }
 
@@ -189,7 +233,11 @@ class midcom_connection
             switch ($GLOBALS['midcom_config']['auth_type'])
             {
                 case 'Plaintext':
-                    $password = '**' . $password;
+                    //do not add the ** for empty passwords - in case it was set to empty do disable account
+                    if (!empty($password))
+                    {
+                        $password = '**' . $password;
+                    }
                     break;
                 case 'Legacy':
                     /*
@@ -289,6 +337,68 @@ class midcom_connection
     }
 
     /**
+     * Getter for various environment-related variables. this serves mostly as a drop-in
+     * replacement for $_MIDGARD superglobal access
+     *
+     * @param string $key The key to look up
+     * @param string $subkey The subkey, if any
+     * @return mixed The found value or null
+     */
+    public static function get($key, $subkey = null)
+    {
+        switch ($key)
+        {
+            case 'uri':
+            case 'self':
+            case 'prefix':
+            case 'page_style':
+            case 'argv':
+            case 'argc':
+                return self::get_url($key);
+            case 'schema':
+                if ($subkey == 'types')
+                {
+                    return self::get_schema_types();
+                }
+            case 'config':
+                if ($subkey == 'unique_host_name')
+                {
+                    return self::get_unique_host_name();
+                }
+            default:
+                return self::_get($key, $subkey);
+        }
+    }
+
+    public static function _get($key, $subkey = null)
+    {
+        if (null === self::$_data)
+        {
+            if (!empty($_MIDGARD))
+            {
+                self::$_data = $_MIDGARD;
+            }
+            else
+            {
+                self::$_data = self::$_defaults;
+            }
+        }
+
+        if (   null === $subkey
+            && isset(self::$_data[$key]))
+        {
+            return self::$_data[$key];
+        }
+        if (   null !== $subkey
+            && isset(self::$_data[$key][$subkey]))
+        {
+            return self::$_data[$key][$subkey];
+        }
+
+        return null;
+    }
+
+    /**
      * Lists all available MgdSchema types
      *
      * @return array A list of class names
@@ -299,9 +409,9 @@ class midcom_connection
         {
             return self::$_data['schema_types'];
         }
-        if (method_exists('midgard_connection', 'get_instance'))
+        if (null === self::_get('schema', 'types'))
         {
-            // Midgard 9.09 or newer
+            // Superglobal is off, Midgard 9.09 or newer
             // Get the classes from PHP5 reflection
             $re = new ReflectionExtension('midgard2');
             $classes = $re->getClasses();
@@ -316,7 +426,7 @@ class midcom_connection
         else
         {
             // Midgard 8.09 or 9.03
-            self::$_data['schema_types'] = array_keys($_MIDGARD['schema']['types']);
+            self::$_data['schema_types'] = array_keys(self::_get('schema', 'types'));
         }
 
         return self::$_data['schema_types'];
@@ -330,30 +440,25 @@ class midcom_connection
      */
     static function get_url($key)
     {
-        if (method_exists('midgard_connection', 'get_instance'))
+        static $parsed = false;
+        if (!$parsed)
         {
-            // Midgard 9.09 or newer
-            if (!array_key_exists($key, self::$_data))
+            // This has the side effect to ensure that $_data is properly initialized
+            if (null !== self::_get($key))
             {
+                // key was found, so we must have a (real, mgd1) superglobal
+                self::_parse_url(implode('/', $_MIDGARD['argv']), $_MIDGARD['self'], $_MIDGARD['prefix']);
+            }
+            else
+            {
+                // Superglobal disabled, Midgard 9.09 or newer
                 $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
                 self::_parse_url($url_components['path'], OPENPSA2_PREFIX, substr(OPENPSA2_PREFIX, 0, -1));
             }
-        }
-        else if (array_key_exists($key, $_MIDGARD))
-        {
-            // Midgard 8.09 or 9.03
-            if (!array_key_exists($key, self::$_data))
-            {
-                self::_parse_url(implode('/', $_MIDGARD['argv']), $_MIDGARD['self'], $_MIDGARD['prefix']);
-            }
+            $parsed = true;
         }
 
-        if (array_key_exists($key, self::$_data))
-        {
-            return self::$_data[$key];
-        }
-
-        return false;
+        return self::_get($key);
     }
 
     /**
@@ -402,19 +507,12 @@ class midcom_connection
 
     public static function get_unique_host_name()
     {
-        if (!isset(self::$_data['unique_host_name']))
+        if (null === self::_get('config', 'unique_host_name'))
         {
-            if (isset($_MIDGARD['config']['unique_host_name']))
-            {
-                self::$_data['unique_host_name'] = $_MIDGARD['config']['unique_host_name'];
-            }
-            else
-            {
-                self::$_data['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
-            }
+            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
         }
 
-        return self::$_data['unique_host_name'];
+        return self::$_data['config']['unique_host_name'];
     }
 }
 ?>

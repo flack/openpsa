@@ -18,7 +18,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
         $this->_datamanagers['document'] = new midcom_helper_datamanager2_datamanager($schema);
     }
@@ -38,7 +37,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             $node = $nap->get_node($nap->get_current_node());
 
             // Instantiate indexer
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
 
             // Add the search parameters
             $query = $_GET['query'];
@@ -60,7 +59,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      */
     private function _populate_toolbar()
     {
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (

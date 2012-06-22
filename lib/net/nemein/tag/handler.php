@@ -28,9 +28,10 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     {
         if (is_null($component))
         {
-            $component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+            $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
         $existing_tags = net_nemein_tag_handler::get_object_tags($object);
+
         if (!is_array($existing_tags))
         {
             // Major failure when getting existing tags
@@ -98,6 +99,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             if (!$tag->create())
             {
                 debug_add("Failed to create tag \"{$tagstring}\": " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+
                 return;
             }
         }
@@ -609,9 +611,13 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                     // We don't have a class available, very weird indeed (rewriting may cause this but midcom has wrappers for all first class DB objects)
                     continue;
                 }
-                $tmpobject = new $tmpclass($link->fromGuid);
-                if (!$tmpobject->guid)
+                try
                 {
+                    $tmpobject = new $tmpclass($link->fromGuid);
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
                     continue;
                 }
                 // PHP5-TODO: Must be copy-by-value

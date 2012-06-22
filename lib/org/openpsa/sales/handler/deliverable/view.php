@@ -80,8 +80,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
 
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_load_schema();
 
         $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
@@ -93,13 +91,13 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         $this->_prepare_request_data();
 
-        $_MIDCOM->bind_view_to_object($this->_deliverable);
+        $this->bind_view_to_object($this->_deliverable);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         org_openpsa_widgets_ui::enable_ui_tab();
 
-        $_MIDCOM->set_26_request_metadata($this->_deliverable->metadata->revised, $this->_deliverable->guid);
-        $_MIDCOM->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");
+        midcom::get('metadata')->set_request_metadata($this->_deliverable->metadata->revised, $this->_deliverable->guid);
+        midcom::get('head')->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");
     }
 
     /**
@@ -113,7 +111,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         // For AJAX handling it is the controller that renders everything
         $this->_request_data['view_deliverable'] = $this->_request_data['controller']->get_content_html();
 
-        if ($this->_deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             midcom_show_style('show-deliverable-subscription');
         }

@@ -1,7 +1,7 @@
 <?php
-$_MIDCOM->auth->require_admin_user();
+midcom::get('auth')->require_admin_user();
 // Get us to full live mode
-$_MIDCOM->cache->content->enable_live_mode();
+midcom::get('cache')->content->enable_live_mode();
 while(@ob_end_flush());
 ?>
 <h1>Import content from Apache Forrest XML files</h1>
@@ -15,8 +15,6 @@ if (array_key_exists('directory', $_POST))
     $importer->import_folder($folder, $_POST['parent']);
     echo "</pre>\n";
     _midcom_stop_request();
-
-    echo "</ul>\n";
 }
 else
 {

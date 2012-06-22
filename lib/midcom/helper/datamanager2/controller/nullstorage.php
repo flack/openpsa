@@ -37,9 +37,10 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
      * You need to set the schema database before calling this function. Optionally
      * you may set defaults and the schemaname to use as well.
      *
+     * @param string $identifier The form identifier
      * @return boolean Indicating success.
      */
-    function initialize()
+    function initialize($identifier = null)
     {
         if (count($this->schemadb) == 0)
         {
@@ -56,7 +57,7 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
         $this->datamanager->set_schema($this->schemaname);
         $this->datamanager->set_storage($storage);
         $this->formmanager = new midcom_helper_datamanager2_formmanager($this->datamanager->schema, $this->datamanager->types);
-        return $this->formmanager->initialize();
+        return $this->formmanager->initialize($identifier);
     }
 
     /**

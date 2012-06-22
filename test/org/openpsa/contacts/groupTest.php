@@ -21,7 +21,7 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
+        midcom::get('auth')->request_sudo('org.openpsa.contacts');
         $group = new org_openpsa_contacts_group_dba();
         $time = time();
 
@@ -44,7 +44,7 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
         $stat = $group->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

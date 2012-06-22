@@ -32,11 +32,10 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
      * outside is safe at this point.
      *
      * @return boolean Indicating success, false will abort the type construction sequence.
-     * @access protected
      */
     public function _on_initialize()
     {
-        return $_MIDCOM->load_library('net.nemein.tag');
+        return midcom::get('componentloader')->load_library('net.nemein.tag');
     }
 
     public function convert_from_storage($source)

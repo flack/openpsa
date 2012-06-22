@@ -13,6 +13,7 @@ catch (midcom_error $e)
 
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
+$expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 ?>
     <div class="sidebar">
@@ -28,6 +29,51 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
         } ?>
+
+        <div class="org_openpsa_helper_box history status">
+        <?php
+            echo "<h3>" . midcom::get('i18n')->get_l10n('org.openpsa.projects')->get('status history') . "</h3>\n";
+            echo "<div class=\"current-status {$invoice->get_status()}\">" . $data['l10n']->get('invoice status') . ': ' . $data['l10n']->get($invoice->get_status()) . "</div>\n";
+
+            echo "<ul>\n";
+
+            if ($invoice->paid)
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->paid) . '</span>: <br />';
+                echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
+                if ($invoice->due < $invoice->paid)
+                {
+                    echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
+                    echo $data['l10n']->get('overdue') . '</li>';
+                }
+            }
+            else if (   $invoice->due
+                     && $invoice->due < time())
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
+                echo $data['l10n']->get('overdue') . '</li>';
+            }
+
+            if ($invoice->sent)
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->sent) . '</span>: <br />';
+                if ($mail_time = $invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail'))
+                {
+                    echo sprintf($data['l10n']->get('marked invoice %s sent per mail'), '');
+                }
+                else
+                {
+                    echo sprintf($data['l10n']->get('marked invoice %s sent'), '');
+                }
+                echo '</li>';
+            }
+
+            echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->metadata->created) . '</span>: <br />';
+            echo sprintf($data['l10n']->get('invoice %s created'), '') . '</li>';
+
+            echo "</ul>\n";
+        ?>
+    </div>
     </div>
 <div class="main org_openpsa_invoices_invoice">
     <p><strong><?php echo $data['l10n']->get('invoice status'); ?>: </strong>
@@ -42,16 +88,16 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         {
             if ($invoice->due > time())
             {
-                echo sprintf($data['l10n']->get('due on %s'), strftime("%x", $invoice->due));
+                echo sprintf($data['l10n']->get('due on %s'), date($data['l10n_midcom']->get('short date'), $invoice->due));
             }
             else
             {
-                echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), strftime("%x", $invoice->due)) . '</span>';
+                echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), date($data['l10n_midcom']->get('short date'), $invoice->due)) . '</span>';
             }
         }
         else
         {
-            echo sprintf($data['l10n']->get('paid on %s'), strftime("%x", $invoice->paid));
+            echo sprintf($data['l10n']->get('paid on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
         }
     }
     echo "</p>\n";
@@ -60,7 +106,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         && !$invoice->paid)
     {
         echo "<p><strong>" . $data['l10n']->get('sent date') . ": </strong>\n";
-        echo strftime("%x", $invoice->sent) . "</p>\n";
+        echo date($data['l10n_midcom']->get('short date'), $invoice->sent) . "</p>\n";
     }
     if ($invoice->owner)
     {
@@ -77,15 +123,24 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         echo "</p>\n";
     }
     if ($invoice->date > 0)
-    { ?>
+    {
+    ?>
         <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
-        <?php echo strftime("%x", $invoice->date); ?></p>
-    <?php } ?>
+        <?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></p>
+    <?php
+    }
 
-    <p><strong><?php echo $_MIDCOM->i18n->get_string('description', 'midcom');?>: </strong></p>
-    <pre class="description">
-          &(view['description']);
-    </pre>
+    if ($invoice->deliverydate > 0)
+    {
+    ?>
+        <p><strong><?php echo $data['l10n']->get('invoice delivery date'); ?>: </strong>
+        <?php echo date($data['l10n_midcom']->get('short date'), $invoice->deliverydate); ?></p>
+    <?php
+    }
+    ?>
+
+    <p><strong><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </strong></p>
+    <div class="description">&(view['description']);</div>
 
     <?php
     if (!empty($data['invoice_items']))
@@ -95,7 +150,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <thead>
         <tr>
         <th>
-        <?php echo $_MIDCOM->i18n->get_string('description', 'midcom'); ?>
+        <?php echo midcom::get('i18n')->get_string('description', 'midcom'); ?>
         </th>
         <th class='numeric'>
         <?php echo $data['l10n']->get('price'); ?>
@@ -108,6 +163,20 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         </th>
         </tr>
         </thead>
+        <tfoot>
+           <tr>
+              <td><?php echo $data['l10n']->get('sum excluding vat'); ?>:</td>
+              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number($invoice->sum); ?></td>
+           </tr>
+           <tr class="secondary">
+              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']);):</td>
+              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number(($invoice->sum / 100) * $invoice->vat); ?></td>
+           </tr>
+           <tr class="primary">
+              <td><?php echo $data['l10n']->get('sum including vat'); ?>:</td>
+              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum); ?></td>
+           </tr>
+        </tfoot>
         <tbody>
         <?php
         $invoice_sum = 0;
@@ -120,25 +189,12 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->pricePerUnit) . "</td>";
             echo "<td class='numeric'>" . $item->units . "</td>";
             echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->units * $item->pricePerUnit) . "</td>";
-            echo "</tr>";
+            echo "</tr>\n";
             $invoice_sum += $item->units * $item->pricePerUnit;
         }
         ?>
         </tbody>
-          <tfoot>
-           <tr>
-              <td><?php echo $data['l10n']->get('sum excluding vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number($invoice_sum); ?></td>
-           </tr>
-           <tr class="secondary">
-              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']);):</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number(($invoice_sum / 100) * $invoice->vat); ?></td>
-           </tr>
-           <tr class="primary">
-              <td><?php echo $data['l10n']->get('sum including vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number((($invoice_sum / 100) * $invoice->vat) + $invoice_sum); ?></td>
-           </tr>
-           </tfoot>
+
         </table>
         <?php
     }
@@ -196,7 +252,7 @@ if (    isset($data['sorted_reports'])
 
         $row['id'] = $report->id;
         $row['index_date'] = $report->date;
-        $row['date'] = strftime('%x', $report->date);
+        $row['date'] = date($data['l10n_midcom']->get('short date'), $report->date);
         $row['index_reporter'] = $reporter->rname;
         $row['reporter'] = $reporter_card->show_inline();
         $row['hours'] = $report->hours;
@@ -223,13 +279,13 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', <?php
-                 echo '"index_date", "' .  $_MIDCOM->i18n->get_string('date', 'org.openpsa.projects') . '",';
+                 echo '"index_date", "' .  midcom::get('i18n')->get_string('date', 'org.openpsa.projects') . '",';
 
-                 echo '"index_reporter", "' .  $_MIDCOM->i18n->get_string('reporter', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('hours', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('description', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('approved', 'org.openpsa.projects') . '",';
-                 echo '"' . $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects') . '"';
+                 echo '"index_reporter", "' .  midcom::get('i18n')->get_string('reporter', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('hours', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('description', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('approved', 'org.openpsa.projects') . '",';
+                 echo '"' . midcom::get('i18n')->get_string('task', 'org.openpsa.projects') . '"';
                 ?>],
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
@@ -259,7 +315,7 @@ jQuery("#&(grid_id);").jqGrid({
 </script>
 
 <?php
-    echo "<form method=\"post\" action=\"" . $projects_url . "csv/hours/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
+    echo "<form method=\"post\" action=\"" . $expenses_url . "csv/hour_report/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
     echo "    <input type=\"hidden\" id=\"csvdata\" name=\"org_openpsa_core_csvexport\" value=\"\" />";
     foreach ($guids as $guid)
     {
@@ -270,7 +326,7 @@ jQuery("#&(grid_id);").jqGrid({
         echo "    <input type=\"hidden\" name=\"guids[]\" value=\"" . $guid . "\" />\n";
     }
     echo "    <input type=\"hidden\" name=\"order[date]\" value=\"ASC\" />\n";
-    echo "    <input class=\"button\" type=\"submit\" value=\"" . $_MIDCOM->i18n->get_string('download as CSV', 'org.openpsa.core') . "\" />\n";
+    echo "    <input class=\"button\" type=\"submit\" value=\"" . midcom::get('i18n')->get_string('download as CSV', 'org.openpsa.core') . "\" />\n";
     echo "</form>\n";
 }
 ?>

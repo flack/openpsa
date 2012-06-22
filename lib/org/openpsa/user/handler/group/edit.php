@@ -45,19 +45,18 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->get_label()));
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->get_label()));
                 // Fall-through
 
             case 'cancel':
-                $_MIDCOM->relocate('group/' . $this->_group->guid . '/');
-                // This will exit.
+                return new midcom_response_relocate('group/' . $this->_group->guid . '/');
         }
 
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->get_label()));
 
         org_openpsa_helpers::dm2_savecancel($this);
-        midcom::get()->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
     }
 
     /**

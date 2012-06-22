@@ -22,7 +22,7 @@
  * <code>
  * $mail = new org_openpsa_mail();
  *
- * $mail->from = 'noreply@openpsa.org';
+ * $mail->from = 'noreply@openpsa2.org';
  * $mail->subject = $this->_config->get('mail_from');
  * $mail->body = $this->_config->get('mail_body');
  * $mail->to = $this->_person->email;
@@ -123,7 +123,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
         $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
 
-        $this->headers['X-Originating-IP'] = $_SERVER['REMOTE_ADDR'];
+        $this->headers['X-Originating-IP'] = '[' . $_SERVER['REMOTE_ADDR'] . ']';
         $this->headers['X-Mailer'] = "PHP/" . phpversion() . ' /OpenPSA/' . midcom::get('componentloader')->get_component_version($this->_component) . '/' . get_class($this->_backend);
     }
 
@@ -168,17 +168,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Decodes HTML entities to their respective characters
-     */
-    function html_entity_decode( $given_html, $quote_style = ENT_QUOTES )
-    {
-        $trans_table = array_flip(get_html_translation_table( HTML_SPECIALCHARS, $quote_style ));
-        $trans_table['&#39;'] = "'";
-        $trans_table['&nbsp;'] = ' ';
-        return ( strtr( $given_html, $trans_table ) );
-    }
-
-    /**
      * Tries to convert HTML to plaintext
      */
     function html2text($html)
@@ -196,7 +185,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $text = preg_replace('/(<[^>]*>)/', '', $text);
 
         //Decode entities
-        $text = $this->html_entity_decode($text);
+        $text = html_entity_decode($text, ENT_QUOTES);
 
         //Trim whitespace from end of lines
         $text = preg_replace("/[ \t\f]+$/m", '', $text);
@@ -262,7 +251,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     {
         if (!is_object($this->_backend))
         {
-            debug_add('no backend object available, aborting');
+            debug_add('no backend object available, aborting', MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -272,7 +261,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $ret = $this->_backend->send($message);
         if ($ret !== true)
         {
-            debug_add($this->_backend->get_error_message());
+            debug_add('Mail sending failed: ' . $this->_backend->get_error_message(), MIDCOM_LOG_ERROR);
         }
         return $ret;
     }
@@ -456,10 +445,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private function _get_mimetype($content, $name = 'unknown')
     {
-        if (!function_exists('mime_content_type'))
-        {
-            return false;
-        }
         $filename = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'org_openpsa_mail_') . "_{$name}";
         $fp = fopen($filename, 'w');
         if (!$fp)
@@ -468,10 +453,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             unlink($filename);
             return false;
         }
-        //fwrite($fp, $content, strlen($content));
         fwrite($fp, $content);
         fclose($fp);
-        $mimetype = mime_content_type($filename);
+        $mimetype = midcom_helper_misc::get_mimetype($filename);
         unlink($filename);
 
         return $mimetype;

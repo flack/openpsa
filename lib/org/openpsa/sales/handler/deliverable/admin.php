@@ -96,16 +96,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     }
 
     /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -150,8 +140,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     private function _modify_schema()
     {
-        $_MIDCOM->load_library('midcom.services.at');
-
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
@@ -215,11 +203,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             case 'save':
                 $formdata = $this->_controller->datamanager->types;
 
-                $entry = isset($formdata['at_entry']) ? (int) $formdata['at_entry']->value : 0;
-
-                if ($entry != 0)
+                if (!empty($formdata['at_entry']->value))
                 {
-                    $entry = new midcom_services_at_entry_dba($entry);
+                    $entry = new midcom_services_at_entry_dba((int) $formdata['at_entry']->value);
 
                     $next_cycle = 0;
                     if (   isset($formdata['next_cycle'])
@@ -238,28 +224,26 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                         $entry->update();
                     }
                 }
-                $this->_process_notify_date($formdata);
+                $this->_master->process_notify_date($formdata, $this->_deliverable);
 
                 // Reindex the deliverable
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_sales_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate("deliverable/{$this->_deliverable->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
         }
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_deliverable->title);
-        $_MIDCOM->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
+        $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
     }
 
 
@@ -302,24 +286,22 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_deliverable->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_sales_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("deliverable/{$this->_deliverable->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_deliverable->title);
-        $_MIDCOM->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
+        midcom::get('head')->set_pagetitle($this->_deliverable->title);
+        $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -335,80 +317,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $data['deliverable_view'] = $this->_datamanager->get_content_html();
 
         midcom_show_style('show-deliverable-delete');
-    }
-
-    /**
-     * Function to process the notify date in the passed formdata of the datamanger
-     * creates/edits/deletes the corresponding at_entry if needed
-     *
-     * @param array $formdata The Formdata of the datamanager containing the notify_date
-     */
-    private function _process_notify_date($formdata)
-    {
-        //check if there is already an at_entry
-        $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_deliverable->guid);
-        $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
-        $mc_entry->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_deliverable_dba');
-        $mc_entry->add_constraint('toExtra', '=', 'notify_at_entry');
-        $entry_keys = $mc_entry->get_values('fromGuid');
-
-        //check date
-        if (!$formdata['notify']->is_empty())
-        {
-            $notification_entry = null;
-
-            if (count($entry_keys) == 0)
-            {
-                $notification_entry = new midcom_services_at_entry_dba();
-                $notification_entry->create();
-                //relatedto from notifcation to deliverable
-                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $this->_deliverable, 'org.openpsa.sales', false, array('toExtra' => 'notify_at_entry'));
-            }
-            else
-            {
-                //get guid of at_entry
-                foreach ($entry_keys as $key => $entry)
-                {
-                    //check if related at_entry exists
-                    try
-                    {
-                        $notification_entry = new midcom_services_at_entry_dba($entry);
-                    }
-                    catch (midcom_error $e)
-                    {
-                        //relatedto links to a non-existing at_entry - so create a new one an link to it
-                        $notification_entry = new midcom_services_at_entry_dba();
-                        $notification_entry->create();
-                        $relatedto = new org_openpsa_relatedto_dba($key);
-                        $relatedto->fromGuid = $notification_entry->guid;
-                        $relatedto->update();
-                    }
-                    break;
-                }
-            }
-            $notification_entry->start = $formdata['notify']->value->format('U');
-            $notification_entry->method = 'new_notification_message';
-            $notification_entry->component = 'org.openpsa.sales';
-            $notification_entry->arguments = array('deliverable' => $this->_deliverable->guid);
-            $notification_entry->update();
-        }
-        else
-        {
-            //void date - so delete existing at_entrys for this notify_date
-            foreach ($entry_keys as $key => $empty)
-            {
-                try
-                {
-                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
-                    //check if related at_entry exists & delete it
-                    $notification_entry->delete();
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
-            }
-        }
     }
 }
 ?>

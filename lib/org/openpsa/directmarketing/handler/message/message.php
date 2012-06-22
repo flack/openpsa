@@ -34,7 +34,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
      */
     public function _handler_view ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
 
@@ -52,9 +52,9 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $this->_populate_toolbar();
 
         // Populate calendar events for the message
-        $_MIDCOM->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata($this->_message->metadata->revised, $this->_message->guid);
-        $_MIDCOM->set_pagetitle($this->_message->title);
+        $this->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
+        midcom::get('metadata')->set_request_metadata($this->_message->metadata->revised, $this->_message->guid);
+        midcom::get('head')->set_pagetitle($this->_message->title);
     }
 
     private function _populate_toolbar()
@@ -93,9 +93,9 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             )
         );
 
-        if (!empty($_MIDCOM->auth->user->guid))
+        if (!empty(midcom::get('auth')->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/{$_MIDCOM->auth->user->guid}/";
+            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get('auth')->user->guid . '/';
         }
         else
         {

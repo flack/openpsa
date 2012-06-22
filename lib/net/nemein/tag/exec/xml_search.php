@@ -8,23 +8,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-// Common variables
-$encoding = 'UTF-8';
-
-// Common headers
-$_MIDCOM->cache->content->content_type('text/xml');
-$_MIDCOM->header('Content-type: text/xml; charset=' . $encoding);
-echo '<?xml version="1.0" encoding="' . $encoding . '" standalone="yes"?>' . "\n";
-echo "<response>\n";
+$response = new midcom_response_xml;
+$response->status = 0;
 
 // Make sure we have search term
 if (!isset($_REQUEST['search']))
 {
-    echo "    <status>0</status>\n";
-    echo "    <errstr>Search term not defined</errstr>\n";
-    echo "</response>\n";
-    $_MIDCOM->finish();
-    _midcom_stop_request();
+    $response->errstr = "Search term not defined";
+    $response->send();
 }
 $search = str_replace('*', '%', $_REQUEST['search']);
 
@@ -35,22 +26,20 @@ $qb->add_order('tag', 'ASC');
 $results = $qb->execute();
 if ($results === false)
 {
-    echo "    <status>0</status>\n";
-    echo "    <errstr>Error when executing QB</errstr>\n";
-    echo "</response>\n";
-    $_MIDCOM->finish();
-    _midcom_stop_request();
+    $response->errstr = "Error when executing QB";
+    $response->send();
 }
 
-echo "    <status>1</status>\n";
-echo "    <errstr></errstr>\n";
+$response->status = 1;
+$response->errstr = '';
 
+$items = array('tag');
 echo "    <results>\n";
 foreach ($results as $object)
 {
-    echo "      <tag>{$object->tag}</tag>\n";
+    $items['tag'][] = $object->tag;
 }
-echo "    </results>\n";
 
-echo "</response>\n";
+$response->results = $items;
+$response->send();
 ?>

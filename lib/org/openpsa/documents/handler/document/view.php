@@ -13,6 +13,7 @@
  *
  */
 class org_openpsa_documents_handler_document_view extends midcom_baseclasses_components_handler
+implements org_openpsa_widgets_grid_provider_client
 {
     /**
      * The document we're working with (if any).
@@ -30,12 +31,93 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
     private $_datamanager = null;
 
+    /**
+     * The grid provider for document versions
+     *
+     * @var org_openpsa_widgets_grid_provider
+     */
+    private $_provider;
+
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+        midcom::get('auth')->require_valid_user();
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+    }
+
+    public function get_qb($field = null, $direction = 'ASC')
+    {
+        $qb = org_openpsa_documents_document_dba::new_query_builder();
+
+        if ($this->_document->nextVersion == 0)
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->id);
+        }
+        else
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+        }
+        $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+
+        if (!is_null($field))
+        {
+            if ($field == 'created')
+            {
+                $field = 'metadata.created';
+            }
+            $qb->add_order($field, $direction);
+        }
+
+        return $qb;
+    }
+
+    public function get_row(midcom_core_dbaobject $document)
+    {
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $entry = array();
+
+        $entry['id'] = $document->id;
+        $entry['index_title'] = $document->title;
+
+        $entry['index_filesize'] = 0;
+        $entry['filesize'] = '';
+        $entry['mimetype'] = '';
+
+        $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
+        $alt = '';
+        $att = $document->load_attachment();
+
+        if ($att)
+        {
+            $icon = midcom_helper_misc::get_mime_icon($att->mimetype);
+            $alt = $att->name;
+            $stats = $att->stat();
+            $entry['index_filesize'] = $stats[7];
+            $entry['filesize'] = midcom_helper_misc::filesize_to_string($stats[7]);
+            $entry['mimetype'] = org_openpsa_documents_document_dba::get_file_type($att->mimetype);
+        }
+
+        $title = '<a class="tab_escape" href="' .$prefix . 'document/' . $document->guid .'/"><img src="' . $icon . '"';
+        $title .= 'alt="' . $alt . '" style="border: 0px; height: 16px; vertical-align: middle" /> ' . $document->title . '</a>';
+
+        $entry['title'] = $title;
+
+        $entry['created'] = strftime('%Y-%m-%d %X', $document->metadata->created);
+
+        $entry['index_author'] = '';
+        $entry['author'] = '';
+
+        if ($document->author)
+        {
+            $author = org_openpsa_contacts_person_dba::get_cached($document->author);
+            $entry['index_author'] = $author->rname;
+            $author_card = org_openpsa_widgets_contact::get($author->guid);
+            $entry['author'] = $author_card->show_inline();
+        }
+
+        return $entry;
     }
 
     private function _load_document($guid)
@@ -69,23 +151,8 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
     public function _handler_versions($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-
-        // Get list of older versions
-        $qb = org_openpsa_documents_document_dba::new_query_builder();
-        if ($this->_document->nextVersion == 0)
-        {
-            $qb->add_constraint('nextVersion', '=', $this->_document->id);
-        }
-        else
-        {
-            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
-            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
-        }
-        $qb->add_constraint('topic', '=', $data['directory']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
-        $qb->add_order('metadata.created', 'DESC');
-
-        $data['documents'] = $qb->execute();
+        $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $this->_provider->add_order('created', 'DESC');
     }
 
     /**
@@ -95,10 +162,11 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      */
     public function _show_versions($handler_id, array &$data)
     {
-        if (sizeof($data['documents']) == 0)
+        if ($this->_provider->count_rows() == 0)
         {
             return;
         }
+        $data['grid'] = $this->_provider->get_grid('documents_grid');
 
         midcom_show_style('show-document-grid');
     }
@@ -114,7 +182,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         $this->_document = $this->_load_document($args[0]);
 
         //If the user hasn't looked at the document since its last update, save the current time as last visit
-        $person = $_MIDCOM->auth->user->get_storage();
+        $person = midcom::get('auth')->user->get_storage();
         if ((int) $person->get_parameter('org.openpsa.documents_visited', $this->_document->guid) < (int) $this->_document->metadata->revised)
         {
             $person->set_parameter('org.openpsa.documents_visited', $this->_document->guid, time());
@@ -144,7 +212,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         $this->_request_data['document_dm'] =& $this->_datamanager;
         $this->_request_data['document'] =& $this->_document;
 
-        $_MIDCOM->set_pagetitle($this->_document->title);
+        midcom::get('head')->set_pagetitle($this->_document->title);
 
         if ($this->_document->nextVersion == 0)
         {
@@ -153,12 +221,12 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         $this->_add_version_navigation();
 
-        $_MIDCOM->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
     }
 
     private function _populate_toolbar()
     {
-        if ( $_MIDCOM->auth->can_do('midgard:update', $this->_document))
+        if ($this->_document->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item
             (
@@ -171,7 +239,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
                 )
             );
         }
-        if ( $_MIDCOM->auth->can_do('midgard:delete', $this->_document))
+        if ($this->_document->can_do('midgard:delete'))
         {
             $this->_view_toolbar->add_item
             (

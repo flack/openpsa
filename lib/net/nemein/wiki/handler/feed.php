@@ -20,15 +20,15 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _handler_rss($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->load_library('de.bitfolge.feedcreator');
+        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator');
 
         $data['nap'] = new midcom_helper_nav();
         $data['node'] = $data['nap']->get_node($this->_topic->id);
 
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         $data['rss_creator'] = new UniversalFeedCreator();
         $data['rss_creator']->title = $data['node'][MIDCOM_NAV_NAME];
@@ -44,10 +44,8 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _show_rss($handler_id, array &$data)
     {
-        $_MIDCOM->load_library('net.nehmer.markdown');
-
         $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('topic.component', '=', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
+        $qb->add_constraint('topic.component', '=', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         $qb->add_constraint('topic', 'INTREE', $this->_topic->id);
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit($this->_config->get('rss_count'));
@@ -84,7 +82,8 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
                 $e->log();
             }
 
-            $item->description = Markdown(preg_replace_callback($this->_config->get('wikilink_regexp'), array($wikipage, 'replace_wikiwords'), $wikipage->content));
+            $parser = new net_nemein_wiki_parser($wikipage);
+            $item->description = $parser->get_html();
             $data['rss_creator']->addItem($item);
         }
         $data['rss'] = $data['rss_creator']->createFeed('RSS2.0');

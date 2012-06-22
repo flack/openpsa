@@ -11,7 +11,7 @@ else
 }
 
 $records = sizeof($data['directories']) + sizeof($data['documents']);
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 echo "<rows>";
 echo "<page>1</page>";
@@ -97,7 +97,7 @@ foreach ($data['directories'] as $directory)
     echo "<cell>" . $creator->contact_details['lastname'] . ", " . $creator->contact_details['firstname'] . "</cell>";
     echo "<cell><![CDATA[<span class='jqgrid_person'>" . $creator->show_inline() . "</span>]]></cell>";
     echo "<cell> " . $directory->metadata->revised . "</cell>";
-    echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m", $directory->metadata->revised ) . "</span>]]></cell>";
+    echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m", $directory->metadata->revised) . "</span>]]></cell>";
     echo "<cell>-1</cell>";
     echo "<cell></cell>";
 
@@ -152,7 +152,7 @@ foreach ($data['documents'] as $document)
     echo "<cell>" . $author->contact_details['lastname'] . ", " . $author->contact_details['firstname'] . "</cell>";
     echo "<cell><![CDATA[<span class='jqgrid_person'>" . $author->show_inline() . "</span>]]></cell>";
     echo "<cell> " . $document->metadata->revised . "</cell>";
-    echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m", $document->metadata->revised ) . "</span>]]></cell>";
+    echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m", $document->metadata->revised) . "</span>]]></cell>";
 
     //filesize-index & modified file_size
     echo "<cell>" . $file_size . "</cell>";

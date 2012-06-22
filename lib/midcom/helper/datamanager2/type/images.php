@@ -11,7 +11,7 @@
  *
  * This type encapsulates a unlimited list of uploaded images each along with an optional
  * number of derived images like thumbnails. Both the main image and the derived thumbnails
- * will be ran through a defined filter chain. The originally uploaded files can be
+ * will be run through a defined filter chain. The originally uploaded files can be
  * kept optionally.
  *
  * Similar to the downloads widget, the individual images are distinguished using md5
@@ -23,10 +23,9 @@
  *
  * The original image will be available with the "original" identifier prefix unless
  * configured otherwise. The main image used for display is available as "main",
- * which will be ensured to be web-compatible. (This
- * distinction is important in case you upload TIFF or other non-web-compatible
- * images. All derived images will be available under the prefixes defined in the schema
- * configuration.
+ * which will be ensured to be web-compatible. (This distinction is important in case
+ * you upload TIFF or other non-web-compatible images. All derived images will be available
+ * under the prefixes defined in the schema configuration.
  *
  * An optional "quick" thumbnail mode is available as well where you just specify the
  * maximum frame of a thumbnail to-be-generated. The auto-generated image will then be
@@ -185,25 +184,13 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true, the temporary file will be deleted
-     *     after postprocessing and attachment-creation.
-     * @param string $identifier The identifier to use for the attaachment. This is usually
-     *     auto-created, so you don't have to bother about this.
-     * @return mixed Returns the identifier of the created image on success or false
-     *     on failure.
+     * @return boolean Indicating success.
      */
-    function add_image($filename, $tmpname, $title, $autodelete = true, $identifier = null)
+    function add_image($filename, $tmpname, $title)
     {
-        if ($identifier === null)
-        {
-            $identifier = md5(time() . $filename . $tmpname);
-        }
-        if (! $this->set_image($identifier, $filename, $tmpname, $title, $autodelete))
-        {
-            return false;
-        }
+        $identifier = md5(time() . $filename . $tmpname);
 
-        return $identifier;
+        return $this->set_image($identifier, $filename, $tmpname, $title);
     }
 
     /**
@@ -213,18 +200,16 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true, the temporary file will be deleted
-     *     after postprocessing and attachment-creation.
      * @return boolean Indicating success.
      */
-    function update_image($identifier, $filename, $tmpname, $title, $autodelete = true)
+    function update_image($identifier, $filename, $tmpname, $title)
     {
-        if (! array_key_exists($identifier, $this->images))
+        if (!array_key_exists($identifier, $this->images))
         {
             return false;
         }
 
-        return $this->set_image($identifier, $filename, $tmpname, $title, $autodelete);
+        return $this->set_image($identifier, $filename, $tmpname, $title);
     }
 
     /**
@@ -235,12 +220,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true, the temporary file will be deleted
-     *     after postprocessing and attachment-creation.
      * @return boolean Indicating success.
-     * @access protected
      */
-    function set_image($identifier, $filename, $tmpname, $title, $autodelete)
+    function set_image($identifier, $filename, $tmpname, $title)
     {
         if (empty($identifier))
         {
@@ -259,7 +241,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             $force_pending_attachments = array();
         }
-        if (!$this->_set_image($filename, $tmpname, $title, $autodelete, $force_pending_attachments))
+        if (!$this->_set_image($filename, $tmpname, $title, true, $force_pending_attachments))
         {
             return false;
         }
@@ -269,7 +251,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
     function update_image_title($identifier, $title)
     {
-        if (! array_key_exists($identifier, $this->images))
+        if (!array_key_exists($identifier, $this->images))
         {
             debug_add("Failed to update the image title: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
             return false;
@@ -277,7 +259,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
         foreach ($this->images[$identifier] as $info)
         {
-            if (! $this->update_attachment_title($info['identifier'], $title))
+            if (!$this->update_attachment_title($info['identifier'], $title))
             {
                 debug_add("Failed to update the image title: Could not update attachment {$info['identifier']} bailing out.");
                 return false;
@@ -372,8 +354,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             if (   !is_array($info)
                 || !array_key_exists(0, $info)
                 || !array_key_exists(1, $info)
-                || !array_key_exists(2, $info)
-                )
+                || !array_key_exists(2, $info))
             {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
@@ -393,8 +374,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             $images_identifier = $info[0];
             if (   isset($this->attachments_info[$blobs_identifier])
                 && isset($this->attachments_info[$blobs_identifier]['object'])
-                && is_object($this->attachments_info[$blobs_identifier]['object'])
-               )
+                && is_object($this->attachments_info[$blobs_identifier]['object']))
             {
                 $this->titles[$images_identifier] = $this->attachments_info[$blobs_identifier]['object']->title;
             }
@@ -416,7 +396,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 continue;
             }
-            foreach($this->images[$images_identifier] as $info)
+            foreach ($this->images[$images_identifier] as $info)
             {
                 if ($info['object']->title === $title)
                 {
@@ -428,7 +408,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
         return parent::convert_to_storage();
     }
-
 
     /**
      * The HTML-Version of the image type can take two forms, depending on
@@ -471,7 +450,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                     }
                     if (   !isset($main['object'])
                         || !is_object($main['object'])
-                        || !isset($main['object']->guid)
                         || empty($main['object']->guid))
                     {
                         //Panic, broken identifier
@@ -516,11 +494,11 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * This saves a map of attachment identifiers to image identifier/name pairs.
      * It is updated accordingly on all save operations and complements the base
-     * types _save_attachment_listing. It is stored to have a safe way of loading
+     * type's _save_attachment_listing. It is stored to have a safe way of loading
      * the images (heuristics could not be safe enough when subtypes create
      * non-md5 based identifiers).
      */
-    function _save_image_listing()
+    private function _save_image_listing()
     {
         $data = array();
 
@@ -556,8 +534,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Checks the info array for required mapping keys and regenerates them if missing
      *
-     * @param array $info reference to the info array of given attachment
-     * @param string $identifier reference to the attachments' identifier
+     * @param array &$info reference to the info array of given attachment
+     * @param string &$identifier reference to the attachments' identifier
      */
     function _info_heuristics(&$info, &$identifier)
     {
@@ -645,15 +623,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         parent::_sort_attachments();
 
-        // Attachments are stored in manually set order
-        /**
-         * Commented out, the sort routines take score into account, no reason to trust saving order
-        if ($this->sortable)
-        {
-            return;
-        }
-         */
-
         uasort($this->images,
             array('midcom_helper_datamanager2_type_images', '_sort_images_callback'));
     }
@@ -671,11 +640,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     function _sort_images_callback($a, $b)
     {
         // safety against broken images
-        if (   isset($a['main'])
-            && isset($a['main']['object'])
-            && isset($b['main'])
-            && isset($b['main']['object'])
-            )
+        if (   !empty($a['main']['object'])
+            && !empty($b['main']['object']))
         {
             $a_obj = $a['main']['object'];
             $b_obj = $b['main']['object'];
@@ -686,11 +652,10 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             if (   is_array($a)
                 && is_array($b))
             {
-                foreach($a as $key => $data)
+                foreach ($a as $key => $data)
                 {
-                    if (   isset($a[$key]['object'])
-                        && isset($b[$key])
-                        && isset($b[$key]['object']))
+                    if (   !empty($a[$key]['object'])
+                        && !empty($b[$key]['object']))
                     {
                         $a_obj = $a[$key]['object'];
                         $b_obj = $b[$key]['object'];
@@ -699,10 +664,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             }
         }
 
-        if (   (   !isset($a_obj)
-                || !$a_obj)
-            && (   !isset($b_obj)
-                || !$b_obj))
+        if (   empty($a_obj)
+            && empty($b_obj))
         {
             return 0;
         }
@@ -754,7 +717,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 $image = $images['original'];
             }
-            elseif (isset($images['main']))
+            else if (isset($images['main']))
             {
                 $image = $images['main'];
             }
@@ -765,15 +728,15 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 continue;
             }
 
-           if (   !isset($image['object'])
-                || !$image['object'])
+            if (empty($image['object']))
             {
                 debug_add("Image {$identifier} has no image object, skipping recreation.", MIDCOM_LOG_INFO);
                 continue;
             }
 
             // Copy the "main image" to a temporary location
-            $tmp = $this->create_tmp_copy($image['object']);
+            $filter = new midcom_helper_imagefilter;
+            $tmp = $filter->create_tmp_copy($image['object']);
 
             // Update all derived images
             if (!$this->update_image($identifier, $image['filename'], $tmp, $this->titles[$identifier]))
@@ -815,7 +778,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             debug_add("identifier '{$identifier}' not found in \$this->images", MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($this->images[$images_identifier] as $sub_identifier => $info)
+        foreach ($this->images[$images_identifier] as $sub_identifier => $info)
         {
             if ($sub_identifier === 'original')
             {
@@ -831,14 +794,13 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         return true;
     }
 
-    function _batch_handler_cleanup($tmp_dir, $new_name)
+    private function _batch_handler_cleanup($tmp_dir, $new_name)
     {
         debug_add("called with: '{$tmp_dir}', '{$new_name}'");
         if (   empty($tmp_dir)
             || $tmp_dir === '/'
             /* TODO: better tmp dir matching */
-            || !preg_match('|^/tmp/|', $tmp_dir)
-            )
+            || !preg_match('|^/tmp/|', $tmp_dir))
         {
             // Do somethign ? we cannot return as there's more work to do...
         }
@@ -850,8 +812,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         }
         if (   empty($new_name)
             /* TODO: better tmp dir matching */
-            || !preg_match('|^/tmp/|', $new_name)
-            )
+            || !preg_match('|^/tmp/|', $new_name))
         {
             return;
         }
@@ -860,7 +821,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         exec($cmd, $output, $ret);
     }
 
-    function _batch_handler($extension, $file_data)
+    public function _batch_handler($extension, $file_data)
     {
         $tmp_name = $file_data['tmp_name'];
         $new_name = "{$tmp_name}.{$extension}";
@@ -927,7 +888,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         $this->_batch_handler_cleanup($tmp_dir, $new_name);
     }
 
-    function _batch_handler_get_files_recursive($path, &$files)
+    private function _batch_handler_get_files_recursive($path, &$files)
     {
         $dp = @opendir($path);
         if (!$dp)

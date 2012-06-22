@@ -34,7 +34,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var string
      */
-    private $_element_template = "<div class=\"element {type}<!-- BEGIN error --> error<!-- END error -->\" id=\"{element_name}_container\"><label for='{namespace}{element_name}' id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
+    private $_element_template = "<div class=\"element {type}<!-- BEGIN error --> error<!-- END error --><!-- BEGIN required --> required<!-- END required -->\" id=\"{element_name}_container\"><label for='{namespace}{element_name}' id='{element_name}_label'>\n\t\t
         <span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span></label>\n\t\t
         <div class=\"input\">
@@ -45,7 +45,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var string
      */
-    private $_default_group_template = "<div class=\"element\" id='{element_name}_container'>\n\t\t
+    private $_default_group_template = "<div class=\"element<!-- BEGIN required --> required<!-- END required -->\" id='{element_name}_container'>\n\t\t
         <label><span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span></label>\n\t\t
         <div class=\"input\">
@@ -271,7 +271,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         if (is_array($label))
         {
-            foreach($label as $key => $text)
+            foreach ($label as $key => $text)
             {
                 $key  = is_int($key) ? $key + 2 : $key;
                 $html = str_replace("{label_{$key}}", $text, $html);
@@ -283,7 +283,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         $html = str_replace('{element_name}', $name, $html);
         if (strpos($html, '{label_'))
         {
-            $html = preg_replace('/\s*<!-- BEGIN label_(\S+) -->.*<!-- END label_\1 -->\s*/i', '', $html);
+            $html = preg_replace('/<!-- BEGIN label_(\S+) -->.*<!-- END label_\1 -->/i', '', $html);
         }
 
         return $html;
@@ -302,7 +302,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         }
         else
         {
-            $html = preg_replace("/([ \t\n\r]*)?<!-- BEGIN " . $identifier . " -->.*?<!-- END " . $identifier . " -->([ \t\n\r]*)?/is", '', $html);
+            $html = preg_replace("/<!-- BEGIN " . $identifier . " -->.*?<!-- END " . $identifier . " -->/is", '', $html);
         }
     }
 
@@ -346,6 +346,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         }
         else
         {
+            $this->_extract_helptext($element);
             $this->_group_elements[] = $element->toHtml();
         }
     }
@@ -357,6 +358,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      */
     public function renderHidden(&$element)
     {
+        $this->_extract_helptext($element);
         $this->_hidden_html .= $element->toHtml() . "\n";
     }
 
@@ -457,7 +459,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         array_pop($this->_current_groups);
         $current_group_id = count($this->_current_groups) - 1;
-        if ($current_group_id > -1 )
+        if ($current_group_id > -1)
         {
             $this->_current_group_name = $this->_current_groups[$current_group_id];
             $this->_current_group_templates[$this->_current_group_name]['group_elements'][] = $html;

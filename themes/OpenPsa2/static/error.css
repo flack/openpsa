@@ -1,0 +1,43 @@
+body {
+    color: #000000;
+    background-color: #FFFFFF;
+    font-family: "Verdana", "Arial", "Helvetica", sans-serif;
+    background-image: url(../org.openpsa.core/rorschach.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    padding: 40px 10% 5% 10%;
+}
+
+div.error-header img {
+    margin-left: 50px;
+    border: none;
+}
+div.error-header h1 {
+    color: #314E6C;
+}
+
+div.error-exception {
+    padding: 0 1ex;
+    border: 1px solid #777;
+    -moz-border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    border-radius: 0.3em;
+    position: relative;
+    background-color: white;
+    overflow: auto
+}
+
+div.org_openpsa_softwareinfo {
+    font-size: smaller;
+    padding-left: .8em;
+    color: #777
+}
+
+div.org_openpsa_softwareinfo a {
+    text-decoration: none;
+    color: #777
+}
+
+div.org_openpsa_softwareinfo a:hover {
+    text-decoration: underline;
+}

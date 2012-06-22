@@ -22,44 +22,26 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
     }
 
     /**
-     * Iterate over all documents and create index record using the datamanager indexer
-     * method.
+     * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+        $qb_documents = org_openpsa_documents_document_dba::new_query_builder();
+        $qb_documents->add_constraint('topic', '=', $topic->id);
+        $qb_documents->add_constraint('nextVersion', '=', 0);
+        $qb_documents->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+        $schemadb_documents = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_document'));
 
-        $qb = org_openpsa_documents_document_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $topic->id);
-        $qb->add_constraint('nextVersion', '=', 0);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_document'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
-            if (!$datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb_document'),
-                    MIDCOM_LOG_WARN);
-                return false;
-            }
+        $qb_directories = org_openpsa_documents_directory::new_query_builder();
+        $qb_directories->add_constraint('up', '=', $topic->id);
+        $qb_directories->add_constraint('component', '=', $this->_component);
+        $schemadb_directories = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_directory'));
 
-            foreach ($ret as $document)
-            {
-                if (!$datamanager->autoset_storage($document))
-                {
-                    debug_add("Warning, failed to initialize datamanager for document {$document->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Document dump:', $document);
+        $indexer = new org_openpsa_documents_midcom_indexer($topic, $indexer);
+        $indexer->add_query('documents', $qb_documents, $schemadb_documents);
+        $indexer->add_query('directories', $qb_directories, $schemadb_directories);
 
-                    continue;
-                }
-
-                $indexer->index($datamanager);
-            }
-        }
-        return true;
+        return $indexer;
     }
 
     public function _on_resolve_permalink($topic, $config, $guid)

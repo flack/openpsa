@@ -29,36 +29,42 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     /**
      * Optional URI to person details
+     *
      * @var string
      */
     var $link = null;
 
     /**
      * Optional HTML to be placed into the card
+     *
      * @var string
      */
     var $extra_html = null;
 
     /**
      * Optional HTML to be placed into the card (before any other output in the DIV)
+     *
      * @var string
      */
     var $prefix_html = null;
 
     /**
      * Whether to show person's groups in a list
+     *
      * @var boolean
      */
     var $show_groups = true;
 
     /**
      * Whether to generate links to the groups using NAP
+     *
      * @var boolean
      */
     var $link_contacts = true;
 
     /**
      * Default org.openpsa.contacts URL to be used for linking to groups. Will be autoprobed if not supplied.
+     *
      * @var string
      */
     private static $_contacts_url;
@@ -143,7 +149,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     function read_object($person)
     {
         if (   !is_object($person)
-            && !$_MIDCOM->dbfactory->is_a($person, 'midcom_db_person'))
+            && !midcom::get('dbfactory')->is_a($person, 'midcom_db_person'))
         {
             // Given $person is not one
             return false;
@@ -308,7 +314,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         echo "</div>\n";
 
         // Contact information sequence
-        echo "<ul>\n";
+        echo "<ul class=\"contact_information\">\n";
         if ($this->extra_html)
         {
             echo $this->extra_html;
@@ -322,32 +328,34 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         if (array_key_exists('email', $this->contact_details))
         {
-            echo "<li class=\"email\"><a href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
-        }
-
-        if (array_key_exists('homepage', $this->contact_details))
-        {
-            echo "<li class=\"url\"><a href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
+            echo "<li class=\"email\"><a title=\"{$this->contact_details['email']}\" href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
         }
 
         if (array_key_exists('skype', $this->contact_details))
         {
-            echo "<li class=\"tel skype\"";
+            echo "<li class=\"tel skype\">";
+            echo "<a href=\"skype:{$this->contact_details['skype']}?call\"";
             if (empty($_SERVER['HTTPS']))
             {
                 // TODO: either complain enough to Skype to have them allow SSL to this server or have some component (o.o.contacts) proxy the image
                 echo " style=\"background-image: url('http://mystatus.skype.com/smallicon/{$this->contact_details['skype']}');\"";
             }
-            echo "><a href=\"skype:{$this->contact_details['skype']}?call\">{$this->contact_details['skype']}</a></li>\n";
+            echo ">{$this->contact_details['skype']}</a></li>\n";
         }
 
         // Instant messaging contact information
         if (array_key_exists('jid', $this->contact_details))
         {
-            echo "<li class=\"jabbber\"";
+            echo "<li class=\"jabbber\">";
+            echo "<a href=\"xmpp:{$this->contact_details['jid']}\"";
             $edgar_url = $this->_config->get('jabber_edgar_url');
             echo " style=\"background-repeat: no-repeat;background-image: url('{$edgar_url}?jid={$this->contact_details['jid']}&type=image');\"";
-            echo "><a href=\"xmpp:{$this->contact_details['jid']}\">{$this->contact_details['jid']}</a></li>\n";
+            echo ">{$this->contact_details['jid']}</a></li>\n";
+        }
+
+        if (array_key_exists('homepage', $this->contact_details))
+        {
+            echo "<li class=\"url\"><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
         }
 
         echo "</ul>\n";
@@ -382,7 +390,8 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             return;
         }
 
-        $mc = midcom_db_member::new_collector('uid', $this->contact_details['id']);
+        $mc = org_openpsa_contacts_member_dba::new_collector('uid', $this->contact_details['id']);
+        $mc->add_constraint('gid.orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
         $mc->add_value_property('gid');
         $mc->add_value_property('extra');
         $mc->execute();
@@ -392,24 +401,17 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         {
             foreach ($memberships as $guid => $empty)
             {
-                echo "<li class=\"org\">";
-
                 try
                 {
-                    if (class_exists('org_openpsa_contacts_group_dba'))
-                    {
-                        $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
-                    }
-                    else
-                    {
-                        $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
-                    }
+                    $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
                 }
                 catch (midcom_error $e)
                 {
                     $e->log();
                     continue;
                 }
+
+                echo "<li class=\"org\">";
                 if ($mc->get_subkey($guid, 'extra'))
                 {
                     echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
@@ -517,7 +519,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                 || ($cardname != 'visiting'
                     && !$inherited_cards_only))
             {
-                echo '<div style="text-align:center"><em>' . $_MIDCOM->i18n->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
+                echo '<div style="text-align:center"><em>' . midcom::get('i18n')->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
             }
             echo "<strong>\n";
             if ($parent_name)

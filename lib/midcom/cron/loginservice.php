@@ -14,7 +14,7 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
     public function _on_execute()
     {
         debug_add('called!');
-        $_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
+        midcom::get('dbclassloader')->load_classes('midcom', 'core_classes.inc', null, true);
 
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('timestamp', '<', time() - $GLOBALS['midcom_config']['auth_login_session_timeout']);
@@ -32,10 +32,7 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
             }
             else
             {
-                if (method_exists($tmp, 'purge'))
-                {
-                    $tmp->purge();
-                }
+                $tmp->purge();
                 debug_add("Deleted login session {$tmp->id}.");
             }
         }

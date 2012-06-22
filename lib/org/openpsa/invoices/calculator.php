@@ -34,8 +34,8 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $this->_deliverable = $deliverable;
         // Recalculate price to catch possible unit changes
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
-        $client = new $client_class($this->_deliverable);
-        $client->run();
+        $client = new $client_class();
+        $client->run($this->_deliverable);
 
         $this_cycle_amount = $client->get_price();
 
@@ -93,33 +93,21 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
      */
     private function _probe_invoice($cycle_number)
     {
-        if (is_null($cycle_number))
-        {
-            //we're not working with a subscription, so better create a new invoice right away
-            return $this->_create_invoice();
-        }
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->_deliverable->salesproject);
         $deliverable_mc->add_constraint('state', '>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
-        $deliverable_mc->add_constraint('product.delivery', '=', ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION);
+        $deliverable_mc->add_constraint('product.delivery', '=', org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION);
         $deliverables = $deliverable_mc->get_values('id');
 
         $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('metadata.deleted', false);
-        $item_mc->add_constraint('deliverable', 'IN', $deliverables);
+        $item_mc->add_constraint('deliverable.salesproject', '=', $this->_deliverable->salesproject);
+        $item_mc->add_constraint('invoice.sent', '=', 0);
         $suspects = $item_mc->get_values('invoice');
 
         if (sizeof($suspects) > 0)
         {
-            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-            $qb->add_constraint('id', 'IN', $suspects);
-            $qb->add_constraint('parameter.value', '=', $cycle_number);
-            $qb->add_constraint('sent', '=', 0);
-            $results = $qb->execute();
-            if (sizeof($results) == 1)
-            {
-                return $results[0];
-            }
+            return new org_openpsa_invoices_invoice_dba(array_pop($suspects));
         }
-        //Nothing or ambiguous results found, create a new invoice
+        //Nothing found, create a new invoice
         return $this->_create_invoice($cycle_number);
     }
 
@@ -129,9 +117,10 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->customer = $salesproject->customer;
         $invoice->customerContact = $salesproject->customerContact;
-        $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
+        $invoice->number = $invoice->generate_invoice_number();
         $invoice->owner = $salesproject->owner;
-        $invoice->vat = $invoice->get_default_vat();
+        $invoice->vat = $invoice->get_default('vat');
+        $invoice->description = $invoice->get_default('remarks');
 
         if ($invoice->create())
         {

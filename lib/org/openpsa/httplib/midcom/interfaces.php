@@ -11,14 +11,5 @@
  */
 class org_openpsa_httplib_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor.
-     *
-     * Nothing fancy, loads hkit file
-     */
-    public function __construct()
-    {
-        require_once MIDCOM_ROOT . '/external/hkit.php';
-    }
 }
 ?>

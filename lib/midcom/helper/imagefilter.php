@@ -29,9 +29,8 @@ class midcom_helper_imagefilter
      * The file currently being processed.
      *
      * @var string
-     * @access private
      */
-    var $_filename = null;
+    private $_filename = null;
 
     /**
      * The quality to use for JPEG manipulation, this is not
@@ -40,9 +39,103 @@ class midcom_helper_imagefilter
      * Stored as a valid imagemagick option, defaults to '-quality 90' right now.
      *
      * @var string
-     * @access private
      */
-    var $_quality = "-quality 90";
+    private $_quality = "-quality 90";
+
+    public function __construct(midcom_db_attachment $input = null)
+    {
+        if (null !== $input)
+        {
+            $tmpfile = $this->create_tmp_copy($input);
+            if ($tmpfile === false)
+            {
+                throw new midcom_error("Could not create a working copy, aborting");
+            }
+
+            if (!$this->set_file($tmpfile))
+            {
+                // Clean up
+                unlink($tmpfile);
+                throw new midcom_error("set_file() failed, aborting");
+            }
+        }
+    }
+
+    public function __destruct()
+    {
+        if (   !empty($this->_filename)
+            && file_exists($this->_filename))
+        {
+            unlink($this->_filename);
+        }
+    }
+
+    /**
+     * Creates a working copy to filesystem from given attachment object
+     *
+     * @param mixed $input The attachment object or filename to copy
+     * @return string tmp file name (or false on failure)
+     */
+    function create_tmp_copy($input)
+    {
+        $tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midcom_helper_imagefilter_');
+
+        if (is_string($input))
+        {
+            // TODO: error handling
+            $src = fopen($input, 'r');
+            $dst = fopen($tmpname, 'w+');
+            while (! feof($src))
+            {
+                $buffer = fread($src, 131072); /* 128 kB */
+                fwrite($dst, $buffer, 131072);
+            }
+            fclose($src);
+            fclose($dst);
+            return $tmpname;
+        }
+
+        $src = $input->open('r');
+        if (!$src)
+        {
+            debug_add("Could not open attachment #{$input->id} for reading", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        $dst = fopen($tmpname, 'w+');
+        if (!$dst)
+        {
+            debug_add("Could not open file '{$tmpname}' for writing", MIDCOM_LOG_ERROR);
+            unlink($tmpname);
+            return false;
+        }
+        while (! feof($src))
+        {
+            $buffer = fread($src, 131072); /* 128 kB */
+            fwrite($dst, $buffer, 131072);
+        }
+        $input->close();
+        fclose($dst);
+        return $tmpname;
+    }
+
+    public function write(midcom_db_attachment $target)
+    {
+        $src = fopen($this->_filename, 'r');
+        if (!$src)
+        {
+            debug_add("Could not open file '{$this->_filename}' for reading", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        if (!$target->copy_from_handle($src))
+        {
+            debug_add("copy_from_handle() failed", MIDCOM_LOG_ERROR);
+            fclose($src);
+            return false;
+        }
+        fclose($src);
+        return true;
+    }
 
     public static function imagemagick_available()
     {
@@ -65,7 +158,7 @@ class midcom_helper_imagefilter
         return $return;
     }
 
-    function _jpegtran_available()
+    private function _jpegtran_available()
     {
         static $return = -1;
         if ($return !== -1)
@@ -96,12 +189,12 @@ class midcom_helper_imagefilter
     /**
      * Sets the filename of the image currently being edited.
      *
-     * This must be the full path to the file, the fill will be
+     * This must be the full path to the file, it will be
      * replaced with the modified image.
      *
-     * The process will check for write permission at this point,
+     * The process will check for write permissions at this point,
      * A return value of false will indicate some problem, see the
-     * MidCOM Debug Log for details.
+     * debug log for details.
      *
      * @todo Use ImageMagick Identify to check for a valid image.
      *
@@ -113,7 +206,7 @@ class midcom_helper_imagefilter
         if (!self::imagemagick_available())
         {
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
-            $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
+            midcom::get('uimessages')->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
             return false;
         }
         if (! is_writeable($filename))
@@ -148,10 +241,10 @@ class midcom_helper_imagefilter
                 continue;
             }
 
-            if (! $this->process_command($cmd))
+            if (!$this->process_command($cmd))
             {
                 debug_add("Execution of {$cmd} failed, aborting now.");
-                $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
+                midcom::get('uimessages')->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
                 return false;
             }
         }
@@ -303,7 +396,7 @@ class midcom_helper_imagefilter
      * Returns the name of a temporary file to be used to write
      * the transformed image to. Has to be managed by the callee.
      */
-    function _get_tempfile()
+    private function _get_tempfile()
     {
         return tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_imagefilter");
     }
@@ -312,7 +405,7 @@ class midcom_helper_imagefilter
      * This will replace the original file with the processed copy
      * of $tmpfile, deleting the temporary file afterwards.
      */
-    function _process_tempfile($tmpname)
+    private function _process_tempfile($tmpname)
     {
         $src = fopen($tmpname, "r");
         $dst = fopen($this->_filename, "w+");
@@ -373,7 +466,7 @@ class midcom_helper_imagefilter
      * @param float $gamma Gamma adjustment value.
      * @return boolean true on success.
      */
-    function gamma($gamma)
+    public function gamma($gamma)
     {
         $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -gamma "
             . escapeshellarg($gamma) . " " . escapeshellarg($this->_filename);
@@ -386,8 +479,7 @@ class midcom_helper_imagefilter
         }
         else
         {
-            debug_add("ImageMagick failed to convert the image, it returned with {$exit_code}, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r('The generated output was:', $output);
+            debug_print_r("ImageMagick failed to convert the image, it returned with {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: [{$cmd}]");
             return false;
         }
@@ -406,7 +498,7 @@ class midcom_helper_imagefilter
      * @param string $format The format to convert to. This must be a valid conversion targed
      *     recognized by Imagemagick, it defaults to 'jpg'.
      */
-    function convert($format = 'jpg')
+    public function convert($format = 'jpg')
     {
         $tempfile = $this->_get_tempfile();
 
@@ -423,8 +515,7 @@ class midcom_helper_imagefilter
         else
         {
             unlink($tempfile);
-            debug_add("ImageMagick failed to convert the image, it returned with {$exit_code}, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r('The generated output was:', $output);
+            debug_print_r("ImageMagick failed to convert the image, it returned with {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: [{$cmd}]");
             return false;
         }
@@ -440,7 +531,7 @@ class midcom_helper_imagefilter
      *
      * @return boolean true on success.
      */
-    function exifrotate()
+    public function exifrotate()
     {
         if (! function_exists("read_exif_data"))
         {
@@ -528,8 +619,7 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick/jpegtran failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output);
+            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}");
             if ($do_unlink)
             {
@@ -556,7 +646,7 @@ class midcom_helper_imagefilter
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
      * @return boolean true on success.
      */
-    function rotate($rotate)
+    public function rotate($rotate)
     {
         // Do some normalizing on the argument
         while ($rotate < 0)
@@ -599,8 +689,7 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick/jpegtran failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output);
+            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}");
             if ($do_unlink)
             {
@@ -633,7 +722,7 @@ class midcom_helper_imagefilter
      * @param int $y Height
      * @return boolean true on success.
      */
-    function rescale($x, $y)
+    public function rescale($x, $y)
     {
         if ($x == 0 && $y == 0)
         {
@@ -664,9 +753,9 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+
+            debug_add("Command was: {$cmd}");
             return false;
         }
 
@@ -687,7 +776,7 @@ class midcom_helper_imagefilter
      * @param int $x Width
      * @return boolean true on success.
      */
-    function squarethumb($x, $gravity = 'center')
+    public function squarethumb($x, $gravity = 'center')
     {
         return $this->crop($x, $x, $gravity);
     }
@@ -712,15 +801,14 @@ class midcom_helper_imagefilter
         }
         else
         {
-            // If image data was not available, try to get it with idenfity program
+            // If image data was not available, try to get it with identify program
             $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}identify -verbose {$this->_filename}";
             exec($cmd, $output, $exit_code);
 
             if ($exit_code !== 0)
             {
-                debug_add("ImageMagick failed to get image info, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
                 debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-                debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+                debug_add("Command was: {$cmd}");
             }
 
             $output = implode("\n", $output);
@@ -741,9 +829,8 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+            debug_add("Command was: {$cmd}");
             return false;
         }
 
@@ -776,9 +863,8 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
+            debug_add("Command was: {$cmd}");
             return false;
         }
 

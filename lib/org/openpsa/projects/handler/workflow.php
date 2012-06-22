@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      */
     public function _handler_action($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         if (!isset($this->_request_data['action']))
         {
             $this->_request_data['action'] = $args[1];
@@ -73,19 +73,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             //Cannot redirect, throw error
         }
-        $_MIDCOM->relocate($this->_request_data['redirect_to']);
+        midcom::get()->relocate($this->_request_data['redirect_to']);
         //This will exit
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_action($handler_id, array &$data)
-    {
-        //We actually should not ever get this far
-        return;
     }
 
     /**
@@ -95,7 +84,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      */
     public function _handler_post($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         //Look for action among POST variables, then load main handler...
         if (   !isset($_POST['org_openpsa_projects_workflow_action'])
             || !is_array($_POST['org_openpsa_projects_workflow_action'])

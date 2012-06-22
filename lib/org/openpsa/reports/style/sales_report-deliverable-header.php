@@ -12,20 +12,20 @@ $report =& $data['report'];
             <table class="report list sales_report" id="org_openpsa_reports_deliverable_reporttable">
                 <thead>
                     <tr>
-                        <th><?php echo $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.sales'); ?></th>
+                        <th><?php echo midcom::get('i18n')->get_string('invoices', 'org.openpsa.sales'); ?></th>
                         <?php
                         if ($data['handler_id'] != 'deliverable_report')
                         {
-                            echo "            <th>" .  $_MIDCOM->i18n->get_string('owner', 'org.openpsa.sales') . "</th>\n";
+                            echo "            <th>" .  midcom::get('i18n')->get_string('owner', 'org.openpsa.sales') . "</th>\n";
                         }
                         ?>
-                        <th><?php echo $_MIDCOM->i18n->get_string('customer', 'org.openpsa.sales'); ?></th>
-                        <th><?php echo $_MIDCOM->i18n->get_string('salesproject', 'org.openpsa.sales'); ?></th>
-                        <th><?php echo $_MIDCOM->i18n->get_string('product', 'org.openpsa.sales'); ?></th>
-                        <th class="numeric"><?php echo $_MIDCOM->i18n->get_string('price', 'org.openpsa.sales'); ?></th>
-                        <th class="numeric"><?php echo $_MIDCOM->i18n->get_string('cost', 'org.openpsa.sales'); ?></th>
-                        <th class="numeric"><?php echo $_MIDCOM->i18n->get_string('profit', 'org.openpsa.sales'); ?></th>
-                        <th><?php echo $_MIDCOM->i18n->get_string('calculation basis', 'org.openpsa.sales'); ?></th>
+                        <th><?php echo midcom::get('i18n')->get_string('customer', 'org.openpsa.sales'); ?></th>
+                        <th><?php echo midcom::get('i18n')->get_string('salesproject', 'org.openpsa.sales'); ?></th>
+                        <th><?php echo midcom::get('i18n')->get_string('product', 'org.openpsa.sales'); ?></th>
+                        <th class="numeric"><?php echo midcom::get('i18n')->get_string('price', 'org.openpsa.sales'); ?></th>
+                        <th class="numeric"><?php echo midcom::get('i18n')->get_string('cost', 'org.openpsa.sales'); ?></th>
+                        <th class="numeric"><?php echo midcom::get('i18n')->get_string('profit', 'org.openpsa.sales'); ?></th>
+                        <th><?php echo midcom::get('i18n')->get_string('calculation basis', 'org.openpsa.sales'); ?></th>
                     </tr>
                 </thead>
                 <tbody>

@@ -178,6 +178,10 @@ Sichern der Konfiguration fehlgeschlagen: %s
 Konfiguration erfolgreich gespeichert
 ---STRINGEND
 
+---STRING confirm deletion of file %s
+Löschen der Datei "%s" bestätigen
+---STRINGEND
+
 ---STRING content
 Inhalt
 ---STRINGEND
@@ -195,7 +199,7 @@ Inhalts-Besitzer
 ---STRINGEND
 
 ---STRING copy %s and its descendants
-Kopiere '%s' und Kindelemente
+Kopiere "%s" und Kindelemente
 ---STRINGEND
 
 ---STRING copy attachments
@@ -252,6 +256,10 @@ Standardsprache
 
 ---STRING delete %s %s
 %s "%s" löschen
+---STRINGEND
+
+---STRING delete file %s
+Datei "%s" löschen
 ---STRINGEND
 
 ---STRING deleted by
@@ -339,7 +347,7 @@ Attachment %s konnte nicht wiederhergestellt werden, Ursache: %s
 ---STRINGEND
 
 ---STRING file %s deleted
-Datei '%s' gelöscht
+Datei "%s" gelöscht
 ---STRINGEND
 
 ---STRING file contents
@@ -770,8 +778,8 @@ URL
 Bearbeitungsmodus anstelle des Ansichtsmodus als Startseite der Objektverwaltung verwenden
 ---STRINGEND
 
----STRING use editarea editor for editing code snippets
-EditArea-Editor zum Bearbeiten von Quellcode verwenden
+---STRING use codemirror editor for editing code snippets
+CodeMirror-Editor zum Bearbeiten von Quellcode verwenden
 ---STRINGEND
 
 ---STRING use tinymce editor for editing content

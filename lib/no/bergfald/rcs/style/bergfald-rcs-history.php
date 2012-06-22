@@ -1,6 +1,6 @@
 <?php
 $history = $data['history'];
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $guid = $data['guid'];
 
 echo "<h1>{$data['view_title']}</h1>\n";
@@ -16,11 +16,11 @@ else
         <table>
             <thead>
                 <tr>
-                    <th><?php echo $_MIDCOM->i18n->get_string('revision', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo $_MIDCOM->i18n->get_string('date', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo $_MIDCOM->i18n->get_string('user', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo $_MIDCOM->i18n->get_string('lines', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo $_MIDCOM->i18n->get_string('message', 'no.bergfald.rcs'); ?></th>
+                    <th><?php echo midcom::get('i18n')->get_string('revision', 'no.bergfald.rcs'); ?></th>
+                    <th><?php echo midcom::get('i18n')->get_string('date', 'no.bergfald.rcs'); ?></th>
+                    <th><?php echo midcom::get('i18n')->get_string('user', 'no.bergfald.rcs'); ?></th>
+                    <th><?php echo midcom::get('i18n')->get_string('lines', 'no.bergfald.rcs'); ?></th>
+                    <th><?php echo midcom::get('i18n')->get_string('message', 'no.bergfald.rcs'); ?></th>
                     <th></th>
                 </tr>
             </thead>
@@ -34,11 +34,11 @@ else
 
                 if ($history['user'])
                 {
-                    $user = $_MIDCOM->auth->get_user($history['user']);
+                    $user = midcom::get('auth')->get_user($history['user']);
                     if(is_object($user))
                     {
                         $person = $user->get_storage();
-                        if ($_MIDCOM->load_library('org.openpsa.widgets'))
+                        if (midcom::get('componentloader')->load_library('org.openpsa.widgets'))
                         {
                             $user_card = new org_openpsa_widgets_contact($person);
                             $person_label = $user_card->show_inline();

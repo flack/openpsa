@@ -2,19 +2,19 @@
 if (isset($data['feed']))
 {
     ?>
-    <h1><?php echo sprintf($_MIDCOM->i18n->get_string('fetch feed %s', 'net.nemein.rss'), $data['feed']->title); ?></h1>
+    <h1><?php echo sprintf(midcom::get('i18n')->get_string('fetch feed %s', 'net.nemein.rss'), $data['feed']->title); ?></h1>
     <?php
 }
 else
 {
     ?>
-    <h1><?php echo $_MIDCOM->i18n->get_string('fetch feeds', 'net.nemein.rss'); ?></h1>
+    <h1><?php echo midcom::get('i18n')->get_string('fetch feeds', 'net.nemein.rss'); ?></h1>
     <?php
 }
 
 if (count($data['items']) == 0)
 {
-    echo '<p>' . $_MIDCOM->i18n->get_string('no items found in feed', 'net.nemein.rss') . "</p>\n";
+    echo '<p>' . midcom::get('i18n')->get_string('no items found in feed', 'net.nemein.rss') . "</p>\n";
     echo "<p class=\"error\">{$GLOBALS['MAGPIE_ERROR']}</p>\n";
 }
 else
@@ -22,9 +22,9 @@ else
     echo "<table>\n";
     echo "    <thead>\n";
     echo "        <tr>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('date', 'midcom') . "</th>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('remote item', 'net.nemein.rss') . "</th>\n";
-    echo "            <th>" . $_MIDCOM->i18n->get_string('local item', 'net.nemein.rss') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('date', 'midcom') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('remote item', 'net.nemein.rss') . "</th>\n";
+    echo "            <th>" . midcom::get('i18n')->get_string('local item', 'net.nemein.rss') . "</th>\n";
     echo "        </tr>\n";
     echo "    </thead>\n";
     echo "    <tbody>\n";
@@ -41,7 +41,7 @@ else
         }
         if ($date == 0)
         {
-            echo "    <td>" . $_MIDCOM->i18n->get_string('n/a', 'net.nemein.rss') . "</td>\n";
+            echo "    <td>" . midcom::get('i18n')->get_string('n/a', 'net.nemein.rss') . "</td>\n";
         }
         else
         {
@@ -51,21 +51,21 @@ else
 
         if (!$item['local_guid'])
         {
-            echo "    <td>" . $_MIDCOM->i18n->get_string('not in local database', 'net.nemein.rss') . "</td>\n";
+            echo "    <td>" . midcom::get('i18n')->get_string('not in local database', 'net.nemein.rss') . "</td>\n";
         }
         else
         {
-            switch ($_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT))
+            switch (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT))
             {
                 case 'net.nehmer.blog':
                     $local_article = new midcom_db_article($item['local_guid']);
-                    $local_link = $_MIDCOM->permalinks->create_permalink($item['local_guid']);
+                    $local_link = midcom::get('permalinks')->create_permalink($item['local_guid']);
                     echo "    <td><a href=\"{$local_link}\">{$local_article->title}</a></td>\n";
                     break;
 
                 case 'net.nemein.calendar':
                     $local_event = new net_nemein_calendar_event($item['local_guid']);
-                    $local_link = $_MIDCOM->permalinks->create_permalink($item['local_guid']);
+                    $local_link = midcom::get('permalinks')->create_permalink($item['local_guid']);
                     echo "    <td><a href=\"{$local_link}\">{$local_event->title}</a></td>\n";
                     break;
             }

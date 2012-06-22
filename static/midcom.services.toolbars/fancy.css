@@ -14,8 +14,8 @@
     height: 20px;
     position: fixed !important;
     _position: absolute;
-    background-color: ThreeDFace;
-    color: MenuText !important;
+    background-color: #eee;
+    color: #222 !important;
     margin: 0;
     padding: 0;
     border-style: solid;
@@ -57,11 +57,13 @@
 .midcom_services_toolbars_fancy.type_palette,
 .midcom_services_toolbars_fancy.type_menu
 {
-    border-width: 1px 2px 2px 1px;
+    border-width: 1px;
+    border-color: #888 #444 #333 #888;
     font-size: 11px;
     cursor: default;
     line-height: 18px;
     vertical-align: middle;
+    box-shadow: 3px 4px 7px rgba(0, 0, 0, .25)
 }
 
 .midcom_services_toolbars_fancy.type_palette,
@@ -75,16 +77,17 @@
 .midcom_services_toolbars_fancy.type_menu a,
 .midcom_services_toolbars_fancy.type_menu ul li button
 {
-  font-family: 'Verdana', 'Arial', 'Helvetica', sans-serif !important;
-  font-weight: bold;
-  background-image: none;
+    font-family: 'Verdana', 'Arial', 'Helvetica', sans-serif !important;
+    background-image: none;
 }
 
 .midcom_services_toolbars_fancy.type_palette .midcom_services_toolbars_topic_title,
 .midcom_services_toolbars_fancy.type_menu .midcom_services_toolbars_topic_title
 {
-  margin-bottom: 0px;
-  padding: 0 8px 0 3px;
+    margin-bottom: 0px;
+    padding: 0 8px 0 3px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .6);
 }
 
 .midcom_services_toolbars_fancy.type_palette ul li,
@@ -120,12 +123,11 @@
 .midcom_services_toolbars_fancy.type_palette .items,
 .midcom_services_toolbars_fancy.type_menu .items
 {
-    margin-top: 2px;
+    margin: 0;
     margin-left: 5px;
-    margin-right: 0px;
-    margin-bottom: 0px;
     float: left;
     clear: right;
+    line-height: 20px;
 }
 .midcom_services_toolbars_fancy.type_palette .items div.item,
 .midcom_services_toolbars_fancy.type_menu .items div.item
@@ -153,11 +155,11 @@
 {
     background: url('images/drag-grid.gif') repeat top left;
     margin-left: 20px;
-    width: 1.5em;
     height: 20px;
-    min-width: 25px;
+    width: 20px;
     cursor: move;
-    float: right;
+    position: absolute;
+    right: 3px;
 }
 .midcom_services_toolbars_fancy.type_menu div.dragbar
 {
@@ -171,9 +173,8 @@
     text-align: left;
     padding: 0;
     background-color: ThreeDHighlight;
-    border-left: #444444 solid 1px;
-    border-right: #444444 solid 1px;
-    border-bottom: #555555 solid 2px;
+    border: #444444 solid 1px;
+    border-top-color: #999;
     -moz-border-radius-bottomleft: 0.4em;
     -webkit-border-bottom-left-radius: 0.4em;
     border-bottom-left-radius: 0.4em;
@@ -183,6 +184,7 @@
     color: #000000;
     position: absolute;
     display: none;
+    box-shadow: 1px 2px 7px rgba(0, 0, 0, .25)
 }
 
 .midcom_services_toolbars_fancy.type_palette .items div.item ul li.enabled {}

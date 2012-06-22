@@ -205,9 +205,9 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     private function _load_type($name)
     {
         $config = $this->schema->fields[$name];
-        if (!isset($config['type']) )
+        if (!isset($config['type']))
         {
-            throw new Exception("The field {$name} is missing type");
+            throw new midcom_error("The field {$name} is missing type");
         }
 
         if (strpos($config['type'], '_') === false)
@@ -226,7 +226,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         $this->types[$name] = new $classname();
         if (!$this->types[$name] instanceof midcom_helper_datamanager2_type)
         {
-            throw new Exception("{$classname} is not a valid DM2 type");
+            throw new midcom_error("{$classname} is not a valid DM2 type");
         }
 
         if (! $this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this))
@@ -375,16 +375,10 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             return false;
         }
         $msg = "DM2->types['{$name}'] is not set (but was present in field_order/fields array), current instance of schema '{$this->schema_name}' is somehow broken";
-        $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), $msg, 'error');
+        midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), $msg, 'error');
         debug_add($msg, MIDCOM_LOG_ERROR);
         debug_print_r('DM2->schema->field_order', $this->schema->field_order);
-        $types_tmp = array();
-        foreach (array_keys($this->types) as $typename)
-        {
-            $types_tmp[$typename] = get_class($this->types[$typename]);
-        }
-        debug_print_r('DM2->types keys and classes', $types_tmp);
-        unset($msg, $typename, $types_tmp);
+
         return true;
     }
 
@@ -508,9 +502,16 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * Be aware that this is only geared for simple administration interfaces, it will provide
      * *no* editing capabilities (like AJAX) etc. If you want that to work, you need a formmanger
      * instance instead.
+     *
+     * @param boolean $skip_empty Should empty fields be rendered or not
      */
-    function display_view()
+    function display_view($skip_empty = false)
     {
+        if (is_null($this->formmanager))
+        {
+            $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
+            $this->formmanager->initialize();
+        }
         // iterate over all types so that they can add their piece to the form
         echo "<div class=\"midcom_helper_datamanager2_view\">\n";
         $fieldset_count = 0;
@@ -521,8 +522,14 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 continue;
             }
             $config =& $this->schema->fields[$name];
-            if (   isset($config['hidden'])
-                && $config['hidden'])
+            if (!empty($config['hidden']))
+            {
+                continue;
+            }
+
+            $field_value = $this->formmanager->widgets[$name]->render_content();
+            if (   trim($field_value) == ''
+                && $skip_empty)
             {
                 continue;
             }
@@ -573,15 +580,11 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             }
 
             echo "<div class=\"field\">\n";
-            echo '<div class="title" style="font-weight: bold;">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
-            echo '<div class="value" style="margin-left: 5em; min-height: 1em;">';
+            echo '<div class="title">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
+            echo '<div class="value">';
 
-            if (is_null($this->formmanager))
-            {
-                $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
-                $this->formmanager->initialize();
-            }
-            echo $this->formmanager->widgets[$name]->render_content();
+            echo $field_value;
+
             echo "</div>\n";
             echo "</div>\n";
 

@@ -23,9 +23,15 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
 
     public static function setupBeforeClass()
     {
-        self::create_user(true);
+        $user = self::create_user(true);
 
         self::$_project = self::create_class_object('org_openpsa_projects_project');
+        $attributes = array
+        (
+            'manager' => $user->id,
+            'project' => self::$_project->id
+        );
+        self::create_class_object('org_openpsa_projects_task_dba', $attributes);
     }
 
     public function testHandler_list_user()
@@ -33,8 +39,9 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'list'));
-        $this->assertEquals('task-list', $data['handler_id']);
+        $this->assertEquals('task-list-user', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -45,6 +52,18 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', array('task', 'list', 'project', self::$_project->guid));
         $this->assertEquals('task-list-2', $data['handler_id']);
 
+        $this->show_handler($data);
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_list_project_json()
+    {
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
+
+        $data = $this->run_handler('org.openpsa.projects', array('task', 'list', 'json', self::$_project->guid));
+        $this->assertEquals('task-list-2', $data['handler_id']);
+
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -55,6 +74,7 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', array('task', 'list', 'all', 'open'));
         $this->assertEquals('task-list-2', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -67,6 +87,7 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'list', 'all', 'agreement', $deliverable->id));
         $this->assertEquals('task-list-3', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

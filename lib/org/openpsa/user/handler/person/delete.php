@@ -50,18 +50,16 @@ implements midcom_helper_datamanager2_interfaces_view
             if ($delete_succeeded)
             {
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_person->guid);
 
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
             }
             else
             {
                 // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
-                $_MIDCOM->relocate('view/' . $this->_person->guid . '/');
-                // This will exit
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
             }
         }
 
@@ -70,7 +68,7 @@ implements midcom_helper_datamanager2_interfaces_view
 
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('delete %s'), $this->_person->get_label()));
 
-        midcom::get()->bind_view_to_object($this->_person);
+        $this->bind_view_to_object($this->_person);
     }
 
     /**

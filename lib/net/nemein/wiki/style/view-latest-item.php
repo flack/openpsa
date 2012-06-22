@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $page =& $data['wikipage'];
 $history =& $data['history'];
 
@@ -18,7 +18,7 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
         <?php
         if ($history['user'])
         {
-            $user = $_MIDCOM->auth->get_user($history['user']);
+            $user = midcom::get('auth')->get_user($history['user']);
 
             if(is_object($user))
             {

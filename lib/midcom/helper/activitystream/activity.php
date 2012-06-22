@@ -20,21 +20,6 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
     var $_use_activitystream = false;
     var $_use_rcs = false;
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     /**
      * Map MidCOM I/O operations to Activity Streams verbs
      *
@@ -61,7 +46,7 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         {
             try
             {
-                $target = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
+                $target = midcom::get('dbfactory')->get_object_by_guid($activity->target);
                 $reflector = new midcom_helper_reflector($target);
                 $class_label = $reflector->get_class_label();
                 $target_label = "{$class_label} " . $reflector->get_object_label($target);
@@ -90,11 +75,11 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         try
         {
             $actor = new midcom_core_user($activity->actor);
-            return sprintf($_MIDCOM->i18n->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
+            return sprintf(midcom::get('i18n')->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
         }
         catch (midcom_error $e)
         {
-            return sprintf($_MIDCOM->i18n->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
+            return sprintf(midcom::get('i18n')->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
         }
     }
 

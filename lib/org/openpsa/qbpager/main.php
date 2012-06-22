@@ -53,9 +53,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         $this->_limit =& $this->results_per_page;
         $this->_pager_id = $pager_id;
-        $this->_midcom_qb = $_MIDCOM->dbfactory->new_query_builder($classname);
+        $this->_midcom_qb = midcom::get('dbfactory')->new_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
-        $this->_midcom_qb_count = $_MIDCOM->dbfactory->new_query_builder($classname);
+        $this->_midcom_qb_count = midcom::get('dbfactory')->new_query_builder($classname);
         if (!$this->_sanity_check())
         {
             //TODO: throw error?
@@ -198,22 +198,22 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Fetch all $_GET variables, but leave out the page number
+     * Fetch all $_GET variables
      */
-    private function _get_query_string()
+    private function _get_query_string($page_var, $page_number)
     {
-        $query_string = '';
-        foreach(explode('&', $_SERVER["QUERY_STRING"]) as $key)
+        $query = array($page_var => (int) $page_number);
+        
+        foreach ($_GET as $key => $value)
         {
-            if (   strpos($key, 'org_openpsa_qbpager') === false
-                && $key != '')
+            if ( $key != $page_var && $key != '' )
             {
-                $query_string .= '&amp;' . $key;
+                $query[$key] = $value;
             }
         }
-        return $query_string;
-    }
 
+        return '?' . http_build_query($query);
+    }
 
     /**
      * Displays previous/next selector
@@ -245,13 +245,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         if ($data['current_page'] > 1)
         {
             $previous = $data['current_page'] - 1;
-            echo "\n<a class=\"previous_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$previous}" . $this->_get_query_string()) . " rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
+            echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
         if ($data['current_page'] < $data['page_count'])
         {
             $next = $data['current_page'] + 1;
-            echo "\n<a class=\"next_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$next}" . $this->_get_query_string()) . " rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
+            echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
         }
 
         echo "\n</div>\n";
@@ -302,9 +302,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             $previous = $data['current_page'] - 1;
             if ($previous != 1)
             {
-                echo "\n<a class=\"first_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}=1" . $this->_get_query_string()) . " rel=\"prev\">" . $this->_l10n->get('first') . "</a>";
+                echo "\n<a class=\"first_page\" href=\"" . $this->_get_query_string($page_var, 1) . "\" rel=\"prev\">" . $this->_l10n->get('first') . "</a>";
             }
-            echo "\n<a class=\"previous_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$previous}" . $this->_get_query_string()) . " rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
+            echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
 
@@ -319,17 +319,17 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 echo "\n<span class=\"current_page\">{$page}</span>";
                 continue;
             }
-            echo "\n<a class=\"select_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$page}" . $this->_get_query_string()) . ">{$page}</a>";
+            echo "\n<a class=\"select_page\" href=\"" . $this->_get_query_string($page_var, $page) . "\">{$page}</a>";
         }
 
         if ($data['current_page'] < $data['page_count'])
         {
             $next = $data['current_page'] + 1;
-            echo "\n<a class=\"next_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$next}" . $this->_get_query_string()) . " rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
+            echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
 
             if ($next != $data['page_count'])
             {
-                echo "\n<a class=\"last_page\" href=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$data['page_count']}" . $this->_get_query_string()) . " rel=\"next\">" . $this->_l10n->get('last') . "</a>";
+                echo "\n<a class=\"last_page\" href=\"" . $this->_get_query_string($page_var, $data['page_count']) . "\" rel=\"next\">" . $this->_l10n->get('last') . "</a>";
             }
         }
 
@@ -389,9 +389,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             $previous = $data['current_page'] - 1;
             if ($previous != 1)
             {
-                $pages_xml_str .= "<page class=\"first_page\" number=\"1\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}=1" . $this->_get_query_string()) . "><![CDATA[" . $this->_l10n->get('first') . "]]></page>\n";
+                $pages_xml_str .= "<page class=\"first_page\" number=\"1\" url=" . $this->_get_query_string($page_var, 1) . "><![CDATA[" . $this->_l10n->get('first') . "]]></page>\n";
             }
-                $pages_xml_str .= "<page class=\"previous_page\" number=\"{$previous}\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$previous}" . $this->_get_query_string()) . "><![CDATA[" . $this->_l10n->get('previous') . "]]></page>\n";
+                $pages_xml_str .= "<page class=\"previous_page\" number=\"{$previous}\" url=" . $this->_get_query_string($page_var, $previous) . "><![CDATA[" . $this->_l10n->get('previous') . "]]></page>\n";
         }
 
 
@@ -408,17 +408,17 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 continue;
             }
 
-            $pages_xml_str .= "<page class=\"select_page\" number=\"{$page}\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$page}" . $this->_get_query_string()) . ">{$page}</page>\n";
+            $pages_xml_str .= "<page class=\"select_page\" number=\"{$page}\" url=" . $this->_get_query_string($page_var, $page) . ">{$page}</page>\n";
         }
 
         if ($data['current_page'] < $data['page_count'])
         {
             $next = $data['current_page'] + 1;
-            $pages_xml_str .= "<page class=\"next_page\" number=\"{$next}\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$next}" . $this->_get_query_string()) . "><![CDATA[" . $this->_l10n->get('next') . "]]></page>\n";
+            $pages_xml_str .= "<page class=\"next_page\" number=\"{$next}\" url=" . $this->_get_query_string($page_var, $next) . "><![CDATA[" . $this->_l10n->get('next') . "]]></page>\n";
 
             if ($next != $data['page_count'])
             {
-                $pages_xml_str .= "<page class=\"last_page\" number=\"{$data['page_count']}\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$data['page_count']}" . $this->_get_query_string()) . "><![CDATA[" . $this->_l10n->get('last') . "]]></page>\n";
+                $pages_xml_str .= "<page class=\"last_page\" number=\"{$data['page_count']}\" url=" . $this->_get_query_string($page_var, $data['page_count']) . "><![CDATA[" . $this->_l10n->get('last') . "]]></page>\n";
             }
         }
 

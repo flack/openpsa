@@ -59,7 +59,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
 
         if ($this->delete_missing)
         {
-            // Then delete files and folders that are in DB but not in the importing folder 
+            // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, $style_path);
             $this->delete_missing_files($filenames, $style_path);
         }
@@ -72,7 +72,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
             $id = (int)$id;
         }
         $rootdir = new midcom_db_snippetdir($id);
-        if (!$_MIDCOM->auth->can_do('midgard:update', $rootdir))
+        if (!$rootdir->can_do('midgard:update'))
         {
             return false;
         }
@@ -86,7 +86,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
         $rootdirs = $qb->execute();
         foreach ($rootdirs as $rootdir)
         {
-            if ($_MIDCOM->auth->can_do('midgard:update', $rootdir))
+            if ($rootdir->can_do('midgard:update'))
             {
                 $this->read_snippetdir($rootdir, $this->root_dir);
             }

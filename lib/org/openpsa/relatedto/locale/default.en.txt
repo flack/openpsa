@@ -66,6 +66,10 @@ Finished
 Open
 ---STRINGEND
 
+---STRING entry created
+Created on
+---STRINGEND
+
 ---STRING entry text
 Text
 ---STRINGEND

@@ -3,11 +3,25 @@
 (
     'handler' => array('org_openpsa_user_handler_list', 'list'),
 ),
+// Match /members/<group>
+'user_list_members' => array
+(
+    'handler' => array('org_openpsa_user_handler_list', 'list'),
+    'fixed_args' => 'members',
+	'variable_args' => 1,
+),
 // Match /json/
 'user_list_json' => array
 (
     'handler' => array('org_openpsa_user_handler_list', 'json'),
     'fixed_args' => 'json',
+),
+// Match /json/
+'user_list_json_members' => array
+(
+    'handler' => array('org_openpsa_user_handler_list', 'json'),
+    'fixed_args' => array('json', 'members'),
+	'variable_args' => 1,
 ),
 // Match /view/<guid>/
 'user_view' => array
@@ -69,6 +83,13 @@
 (
     'handler' => array('org_openpsa_user_handler_person_account', 'delete'),
     'fixed_args' => array('account', 'delete'),
+    'variable_args' => 1,
+),
+// Match /account/su/<guid>/
+'account_su' => array
+(
+    'handler' => array('org_openpsa_user_handler_person_account', 'su'),
+    'fixed_args' => array('account', 'su'),
     'variable_args' => 1,
 ),
 // Match /lostpassword/

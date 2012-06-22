@@ -83,7 +83,7 @@ class org_openpsa_calendar_conflictmanager
             $rob_tentative = false;
         }
         //We need sudo to see busys in events we normally don't see and to rob resources from tentative events
-        $_MIDCOM->auth->request_sudo('org.openpsa.calendar');
+        midcom::get('auth')->request_sudo('org.openpsa.calendar');
 
         //Storage for events that have been modified due the course of this method
         $modified_events = array();
@@ -102,7 +102,7 @@ class org_openpsa_calendar_conflictmanager
             && empty($ret_ev2))
         {
             //No busy events found within the timeframe
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             debug_add('no overlaps found');
             return true;
         }
@@ -121,7 +121,7 @@ class org_openpsa_calendar_conflictmanager
             || is_array($this->busy_resources))
         {
             //Unresolved conflicts (note return value is for conflicts not lack of them)
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             debug_print_r('unresolvable conflicts found', $this->busy_members);
             midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
@@ -152,7 +152,7 @@ class org_openpsa_calendar_conflictmanager
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         //No conflicts found or they could be automatically resolved
         $this->busy_members = false;
         $this->busy_resources = false;

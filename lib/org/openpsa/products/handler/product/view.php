@@ -86,7 +86,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             );
         }
 
-        if ($_MIDCOM->componentloader->is_installed('org.openpsa.relatedto'))
+        if (midcom::get('componentloader')->is_installed('org.openpsa.relatedto'))
         {
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_product->guid);
         }
@@ -103,7 +103,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     {
         if (preg_match('/_raw$/', $handler_id))
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $qb = org_openpsa_products_product_dba::new_query_builder();
@@ -248,7 +248,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
+        $this->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
 
         if (isset($product_group))
         {
@@ -269,9 +269,9 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_product, $product_group);
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
 
-        $_MIDCOM->set_26_request_metadata($this->_product->metadata->revised, $this->_product->guid);
+        midcom::get('metadata')->set_request_metadata($this->_product->metadata->revised, $this->_product->guid);
 
         $title = $this->_config->get('product_page_title');
 
@@ -294,7 +294,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
         $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
 
-        $_MIDCOM->set_pagetitle($title);
+        midcom::get('head')->set_pagetitle($title);
     }
 
     /**

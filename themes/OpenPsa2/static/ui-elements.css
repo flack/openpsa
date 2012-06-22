@@ -64,47 +64,48 @@ div.area .metadata input {
 }
 
 /* Inline toolbars */
-.area ul.area_toolbar
+ul.area_toolbar
 {
     white-space: nowrap;
-    margin: .3em 0
+    margin: .4em 0;
+    padding: 0
 }
-.area ul.area_toolbar li
+ul.area_toolbar li
 {
     display: inline;
-    margin-right: 4px;
+    margin-right: .4em;
     line-height: 20px;
 }
-.area ul.area_toolbar li a
+ul.area_toolbar li a
 {
     text-decoration: none;
 }
-.area ul.area_toolbar li input
+ul.area_toolbar li input
 {
     background-position: 2px;
 }
-.area ul.area_toolbar li a.yes,
-.area ul.area_toolbar li input.yes
+ul.area_toolbar li a.yes,
+ul.area_toolbar li input.yes
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/ok.png');
     background-repeat: no-repeat;
 }
-.area ul.area_toolbar li a.no,
-.area ul.area_toolbar li input.no
+ul.area_toolbar li a.no,
+ul.area_toolbar li input.no
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/cancel.png');
     background-repeat: no-repeat;
 }
-.area ul.area_toolbar li input.hours
+ul.area_toolbar li input.hours
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/stock_event.png');
     background-position: left;
     background-repeat: no-repeat;
 }
-.area ul.area_toolbar li input:hover
+ul.area_toolbar li input:hover
 {
     cursor: pointer;
 }
@@ -205,27 +206,48 @@ div.area ul.comments li div.mobile {
 
 
 /* Datamanager-generated view handling*/
-div.midcom_helper_datamanager2_view,
-div.fieldset {
+div.midcom_helper_datamanager2_view
+{
     margin-bottom: 1em;
     display: table;
 }
-div.midcom_helper_datamanager2_view div.field {
+div.fieldset
+{
+    margin-bottom: 1em;
+    display: table-row-group;
+}
+#content-text div.fieldset h2
+{
+    display: table-caption;
+    font-size: 1.2em;
+}
+div.midcom_helper_datamanager2_view div.field
+{
     margin-bottom: 1em;
     display: table-row;
 }
-div.midcom_helper_datamanager2_view div.field > div{
+div.midcom_helper_datamanager2_view div.field > div
+{
     display: table-cell;
     border-bottom: 1px solid white;
     padding-top: 2px;
     padding-left: 5px
 }
-div.midcom_helper_datamanager2_view div.field:hover > div {
-    border-bottom: 1px solid #999;
+div.midcom_helper_datamanager2_view div.field:hover > div
+{
+    border-bottom: 1px solid #ddd;
+}
+
+div.midcom_helper_datamanager2_view div.title
+{
+    text-align: right;
+    color: #777;
+    padding: .1em .3em .2em 0;
 }
 
 /* Ajax handling */
-input.ajax_editable, select.ajax_editable {
+input.ajax_editable, select.ajax_editable
+{
     border: 1px solid transparent;
     background-color: transparent;
     background-position: right;
@@ -239,12 +261,11 @@ select.ajax_editable option {
 form.datamanager2
 {
     margin-bottom: 5em;
-    display: table;
 }
 
 form.datamanager2 .form
 {
-    display: table-row-group;
+    display: table;
 }
 
 form.datamanager2 .form fieldset.fieldset
@@ -257,6 +278,7 @@ form.datamanager2 .form fieldset.fieldset
     background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(32%,#F9F9F9), color-stop(96%,#F9F9F8), color-stop(100%,#FCFCFC));
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
+    display: table-row-group;
 }
 
 form.datamanager2 .form fieldset.fieldset:hover
@@ -268,7 +290,8 @@ form.datamanager2 .form fieldset.fieldset:hover
 
 form.datamanager2 .form fieldset.fieldset legend
 {
-    font-size: 1.1em
+    font-size: 1.1em;
+    display: table-caption
 }
 
 form.datamanager2 .element
@@ -282,6 +305,12 @@ form.datamanager2 .form label
     padding-right: .5em;
     text-align: right;
     min-width: 9em;
+    font-weight: normal;
+}
+
+form.datamanager2 .form fieldset th
+{
+    font-weight: normal;
 }
 
 form.datamanager2 .form label,
@@ -295,7 +324,9 @@ form.datamanager2 .form .element_checkbox .input
 
 form.datamanager2 .element .field_text
 {
-    margin-right: 0;
+	text-shadow: 1px 1px 1px white;
+    margin-right: .3em;
+    color: #555
 }
 
 form.datamanager2 .form_toolbar
@@ -422,7 +453,7 @@ form.datamanager2 fieldset.radiobox label {
     display: inline;
     padding-right: 10px;
     font-weight: normal;
-    vertical-align: middle
+    vertical-align: bottom
 }
 
 form.datamanager2 fieldset.checkbox br,
@@ -510,6 +541,10 @@ dl.campaigns dt.unsubscribed {
 #container div.vcard a
 {
     color: #333333;
+}
+#container div.vcard a:hover
+{
+    text-decoration: underline
 }
 #container div.main div.vcard li
 {

@@ -92,20 +92,19 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 break;
             case 'save':
                 // Reindex the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
-                $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
+                midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
                 // *** FALL-THROUGH ***
             case 'cancel':
                 if ($this->_page->name == 'index')
                 {
-                    $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
                 }
                 else
                 {
-                    $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
+                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
                 }
-                // This will exit.
         }
 
         $this->_view_toolbar->add_item
@@ -159,10 +158,10 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('edit %s'), $this->_page->title);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         // Set the breadcrumb pieces
         $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
@@ -217,7 +216,8 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
             // Replace wikiwords
             // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
-            $data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($data['preview_page'], 'replace_wikiwords'), $data['wikipage_view']['content']);
+            $parser = new net_nemein_wiki_parser($data['preview_page']);
+            $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
         }
 
         midcom_show_style('view-wikipage-edit');
@@ -242,8 +242,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_page->parameter('midcom.helper.datamanager2', 'schema_name', $_POST['change_to']);
 
         // Redirect to editing
-        $_MIDCOM->relocate("edit/{$this->_page->name}/");
-        // This will exit
+        return new midcom_response_relocate("edit/{$this->_page->name}/");
     }
 }
 ?>

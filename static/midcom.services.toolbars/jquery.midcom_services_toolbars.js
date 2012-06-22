@@ -31,7 +31,6 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         visible: true,
         create_root: false,
         debug: false,
-        enable_memory: false,
         class_name: 'midcom_services_toolbars_fancy',
         show_logos: true,
         allow_auto_create: false
@@ -84,7 +83,7 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         {   
             settings.class_name = root.attr('class');
             root_element = root;
-            item_holder = jQuery('div.items',root_element);
+            item_holder = jQuery('div.items', root_element);
         }
         else
         {
@@ -102,18 +101,15 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
     debug('root_element: '+root_element, 'info');
     
     var menu_items = with_items || Array();
-    
-    var client_memory = null;
 
-    //ad-hoc cookie implementation that simulates the prototype-based client_memory behavior
     if (document.cookie)
     {
         var cookie_array = document.cookie.split(';');
         for (var i = 0; i < cookie_array.length; i++)
         {
-            if (cookie_array[i].match(/^\smidcom_services_toolbars_position=/))
+            if (cookie_array[i].match(/^\s?midcom_services_toolbars_position=/))
             {
-                var pos = cookie_array[i].replace(/^\smidcom_services_toolbars_position=/, '');
+                var pos = cookie_array[i].replace(/^\s?midcom_services_toolbars_position=/, '');
                 memorized_position = {};
                 memorized_position.x = pos.split('_')[0];
                 memorized_position.y = pos.split('_')[1];
@@ -152,24 +148,30 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
     }
     
     
-    var default_position = get_default_position(root_element);
+    var default_position = get_default_position(root_element),
+    posX = default_position.x,
+    posY = default_position.y;
 
     if (memorized_position != null)
     {
         debug("memorized_position.x: " + memorized_position.x);
         debug("memorized_position.y: " + memorized_position.y);
-        var posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x) + 'px';
-        var posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y) + 'px';
+        posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x);
+        posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y);
     }
     else
     {
-        var posX = default_position.x + 'px';
-        var posY = default_position.y + 'px';
+        jQuery.get(
+            MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php',
+            {
+                'position_x': default_position.x,
+                'position_y': default_position.y
+            }
+        );
     }
     
-    debug('posX: '+posX);
-    debug('posY: '+posY);
-    
+    debug('posX: ' + posX);
+    debug('posY: ' + posY);
     debug('Initializing Finished', 'info');
     
     enable_toolbar();
@@ -204,7 +206,7 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
 
         jQuery(root).append(item_holder);
         
-        if (   type_configs[settings.type].draggable)
+        if (type_configs[settings.type].draggable)
         {
             jQuery(root).append(
                 jQuery('<div>').addClass('dragbar')
@@ -222,17 +224,14 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         if (type_configs[settings.type].width > 0)
         {
             root_element.css({ width: type_configs[settings.type].width });
-        }        
-        root_element.css({ left: posX, top: posY });
-        
-        // if (jQuery.browser.safari)
-        // {
-        //     root_element.css({ position: 'fixed' });
-        // }
-        // if (jQuery.browser.ie)
-        // {
-        root_element.css({ position: 'absolute' });
-        // }
+        }
+
+        if (Math.ceil(posX) + root_element.width() > $(window).width())
+        {
+            posX = $(window).width() - (root_element.width() + 4);
+        }
+
+        root_element.css({ left: posX + 'px', top: posY + 'px', position: 'absolute', width: root_element.width() + 'px'});
         
         jQuery('div.item', item_holder).each(function(i,n){
             debug("i: "+i+" n: "+n);
@@ -261,11 +260,12 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
             
         });
 
-        if (   type_configs[settings.type].draggable)
+        if (type_configs[settings.type].draggable)
         {
             root_element.draggable({
                 stop: function(e){save_position(e);},
-                handle: '.dragbar'
+                handle: '.dragbar',
+                containment: 'window'
             });
             root_element.css({ cursor: 'default' });
         }
@@ -279,21 +279,13 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         if (jQuery.browser.msie && jQuery.browser.version < 8)
         {
             var width = 0;
-	    root_element.children().each(function(){
-	        width += jQuery(this).width();
+            root_element.children().each(function()
+            {
+                width += jQuery(this).width();
             });
             root_element.width(width + 30);
         }
         debug('enable_toolbar finished', 'info');
-        
-        init_auto_move();
-    }
-    
-    function init_auto_move()
-    {
-        // jQuery('window').bind('scroll', function(e){
-        //     console.log("Body scroll");
-        // });
     }
     
     function save_position(event)
@@ -308,11 +300,6 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         
         var pos = { x: new_pos.left,
                     y: new_pos.top };
-
-        if (settings.memory)
-        {
-            client_memory.write("position",protoToolkit.toJSON(pos));
-        }
 
         jQuery.get(
             MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php',

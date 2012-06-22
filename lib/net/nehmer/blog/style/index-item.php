@@ -3,7 +3,7 @@
 $view = $data['datamanager']->get_content_html();
 $view_counter = $data['article_counter'];
 $article_count = $data['article_count'];
-$class_str = $_MIDCOM->metadata->get_object_classes($data['article']);
+$class_str = midcom::get('metadata')->get_object_classes($data['article']);
 if($view_counter == 0)
 {
     $class_str = ' first';
@@ -42,16 +42,16 @@ elseif (array_key_exists('comments_enable', $data))
     </p>
     <?php if (array_key_exists('image', $view) && $view['image']) { ?>
         <div style="float: left; padding: 5px;">&(view['image']:h);</div>
-    <?php 
-    } 
-    
+    <?php
+    }
+
     if (isset($view['abstract']))
     {
         ?>
         <p class="entry-summary">&(view['abstract']:h);</p>
         <?php
     }
-    
+
     if ($data['index_fulltext'])
     {
         ?>

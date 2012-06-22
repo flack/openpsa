@@ -58,7 +58,6 @@
     'sid',
     'password',
 ),
-'schemadb_parameters' => 'file:/midgard/admin/asgard/config/schemadb_parameters.inc',
 'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.inc',
 
 // User preferences
@@ -66,7 +65,7 @@
 
 // User interface
 'tinymce_enabled' => true,
-'editarea_enabled' => true,
+'codemirror_enabled' => true,
 'escape_frameset' => false,
 'enable_quicklinks' => true,
 'edit_mode' => false,               // Enable to enter straight to the edit mode and to skip viewing mmode
@@ -80,6 +79,7 @@
 'skip_in_filter' => array
 (
     'midgard_parameter',
+    'midcom_helper_activitystream_activity',
     'midcom_core_privilege_db',
     'midcom_services_at_entry_db',
     'midgard_language',

@@ -33,10 +33,10 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
      */
     public function _handler_index ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->style->prepend_component_styledir('midcom.core.nullcomponent');
-        $_MIDCOM->set_pagetitle($this->_topic->extra);
-        
-        $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
+        midcom::get('style')->prepend_component_styledir('midcom.core.nullcomponent');
+        midcom::get('head')->set_pagetitle($this->_topic->extra);
+
+        midcom::get('metadata')->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 if (!function_exists('org_openpsa_products_search_options_helper'))
 {
@@ -63,9 +63,9 @@ if (!function_exists('org_openpsa_products_search_value_helper'))
     $options = array
     (
         '' => '',
-        ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE => $data['l10n']->get('service'),
-        ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS => $data['l10n']->get('material goods'),
-        ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION => $data['l10n']->get('solution'),
+        org_openpsa_products_product_dba::TYPE_SERVICE => $data['l10n']->get('service'),
+        org_openpsa_products_product_dba::TYPE_GOODS => $data['l10n']->get('material goods'),
+        org_openpsa_products_product_dba::TYPE_SOLUTION => $data['l10n']->get('solution'),
     );
     org_openpsa_products_search_options_helper($options, 3);
 ?>

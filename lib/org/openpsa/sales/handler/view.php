@@ -65,11 +65,26 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             ));
         }*/
 
+        if (!empty($this->_request_data['projects_url']))
+        {
+            $prefix = midcom::get()->get_page_prefix() . $this->_request_data['projects_url'];
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                )
+            );
+        }
+
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
-        $relatedto_button_settings['wikinote']['wikiword'] = sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_request_data['salesproject']->title, date('Y-m-d H:i'));
+        $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_request_data['salesproject']->title, date('Y-m-d H:i')));
+        unset($relatedto_button_settings['task']);
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['salesproject'], $this->_component, $relatedto_button_settings);
 
-        $_MIDCOM->bind_view_to_object($this->_salesproject);
+        $this->bind_view_to_object($this->_salesproject);
     }
 
     private function _load_controller()
@@ -94,8 +109,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
 
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_load_controller();
 
         $this->_list_deliverables();
@@ -104,9 +117,15 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         $this->_populate_toolbar();
 
+        $customer = $this->_salesproject->get_customer();
+        if ($customer)
+        {
+            $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
+        }
+
         $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
-        $_MIDCOM->set_26_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
-        $_MIDCOM->set_pagetitle($this->_salesproject->title);
+        midcom::get('metadata')->set_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
+        midcom::get('head')->set_pagetitle($this->_salesproject->title);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
@@ -172,7 +191,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                     {
                         $data['product'] = false;
                     }
-                    if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                    if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                     {
                         midcom_show_style('show-salesproject-deliverables-subscription');
                     }
@@ -205,13 +224,13 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
         {
             //started, ordered
-            if (   $deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            if (   $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 $entries = $deliverable->get_at_entries();
                 if (isset($entries[0]))
                 {
                     $toolbar .= "<p>" . sprintf($this->_l10n->get('next invoice will be generated on %s'), strftime('%x', $entries[0]->start));
-                    if (   $entries[0]->status == MIDCOM_SERVICES_AT_STATUS_SCHEDULED
+                    if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
                     {
                         $toolbar .= ' <input type="hidden" name="at_entry" value="' . $entries[0]->guid . "\" />\n";
@@ -233,13 +252,13 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $toolbar .= "<p>" . $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced, 2) . "</p>\n";
             }
         }
-        else if (   $deliverable->orgOpenpsaObtype != ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+        else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                  && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //not invoiced yet
             $client_class = $this->_config->get('calculator');
-            $client = new $client_class($deliverable);
-            $client->run();
+            $client = new $client_class();
+            $client->run($deliverable);
 
             if ($client->get_price() > 0)
             {

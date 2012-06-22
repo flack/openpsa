@@ -34,8 +34,7 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
                 }
             }
             if (   isset($this->_group_up)
-                && isset($this->_group)
-               )
+                && isset($this->_group))
             {
                 return "productlink/{$this->_group_up->code}/{$this->_object->code}/";
             }
@@ -71,7 +70,7 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
                 break;
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
     public function _populate_toolbar($handler_id)

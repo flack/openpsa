@@ -68,14 +68,13 @@ class midcom_services__sessioning
         $started = true;
     }
 
-    function _initialize($unconditional_start = false)
+    private function _initialize($unconditional_start = false)
     {
         static $initialized = false;
         if ($initialized)
         {
             return true;
         }
-
 
         if (   !$GLOBALS['midcom_config']['sessioning_service_enable']
             && !(   $GLOBALS['midcom_config']['sessioning_service_always_enable_for_users']
@@ -139,7 +138,7 @@ class midcom_services__sessioning
      */
     function exists($domain, $key)
     {
-        if (!$this->_initialize())
+        if (!$this->_initialize(true))
         {
             return false;
         }
@@ -153,7 +152,6 @@ class midcom_services__sessioning
         {
             return false;
         }
-
         return true;
     }
 
@@ -190,7 +188,7 @@ class midcom_services__sessioning
         {
             if (!$no_cache)
             {
-                $_MIDCOM->cache->content->no_cache();
+                midcom::get('cache')->content->no_cache();
                 $no_cache = true;
             }
             return $this->_get_helper($domain, $key);
@@ -247,7 +245,7 @@ class midcom_services__sessioning
         static $no_cache = false;
         if (!$no_cache)
         {
-            $_MIDCOM->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
             $no_cache = true;
         }
         $_SESSION["midcom_session_data"][$domain][$key] = serialize($value);

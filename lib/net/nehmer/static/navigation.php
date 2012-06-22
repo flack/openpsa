@@ -9,14 +9,10 @@
 /**
  * n.n.static NAP interface class
  *
- * This class has been rewritten for MidCOM 2.6 utilizing all of the currently
- * available state-of-the-art technology.
- *
  * See the individual member documentations about special NAP options in use.
  *
  * @package net.nehmer.static
  */
-
 class net_nehmer_static_navigation extends midcom_baseclasses_components_navigation
 {
     /**
@@ -132,8 +128,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
      * Set the content topic to use. This will check against the configuration setting 'symlink_topic'.
      * We don't do sanity checking here for performance reasons, it is done when accessing the topic,
      * that should be enough.
-     *
-     * @access protected
      */
     private function _determine_content_topic()
     {

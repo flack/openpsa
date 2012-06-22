@@ -7,7 +7,7 @@
     {
         $checked = ' checked="checked"';
     }
-    
+
     if (!$data['person']->can_do('midgard:update'))
     {
         $checked .= ' disabled="disabled"';
@@ -19,7 +19,7 @@
     ?>
     <td><input type="checkbox" name="midcom_admin_user[]" value="<?php echo $data['person']->id; ?>" <?php echo $checked; ?>/></td>
     <?php
-    $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     $linked = 0;
     foreach ($data['list_fields'] as $field)
     {
@@ -36,7 +36,7 @@
         }
         echo "<td>{$value}</td>\n";
     }
-    
+
     $qb = midcom_db_member::new_query_builder();
     $qb->add_constraint('uid', '=', $data['person']->id);
     $memberships = $qb->execute();
@@ -46,8 +46,7 @@
         // Quick and dirty on-demand group-loading
         if (   $member->gid != 0
             && (   !isset($data['groups'][$member->gid])
-                || !is_object($data['groups'][$member->gid]))
-            )
+                || !is_object($data['groups'][$member->gid])))
         {
             $data['groups'][$member->gid] = new midcom_db_group((int)$member->gid);
         }
@@ -64,7 +63,7 @@
             }
             continue;
         }
-    
+
         $value = $data['groups'][$member->gid]->official;
         if ($data['groups'][$member->gid]->can_do('midgard:update'))
         {

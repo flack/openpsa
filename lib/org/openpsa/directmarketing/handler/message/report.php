@@ -36,7 +36,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     private function _analyze_message_report(&$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_request_data['report'] = array();
         $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
@@ -70,8 +70,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_get_campaign_data($receipt_data['first_send']);
 
         $segmentation_param = false;
-        if (   isset($data['message_array']['report_segmentation'])
-            && !empty($data['message_array']['report_segmentation']))
+        if (!empty($data['message_array']['report_segmentation']))
         {
             $segmentation_param = $data['message_array']['report_segmentation'];
         }
@@ -140,7 +139,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             {
                 try
                 {
-                    $person = midcom_db_person::get_cached($link->person);
+                    $person = org_openpsa_contacts_person_dba::get_cached($link->person);
                     $segment = $person->parameter('org.openpsa.directmarketing.segments', $segmentation_param);
                 }
                 catch (midcom_error $e){}
@@ -230,7 +229,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                     (
                         'comment' => $this->_l10n->get('segment limits'),
                         'type' => 'AND',
-                        'class' => 'midcom_db_person',
+                        'class' => 'org_openpsa_contacts_person_dba',
                         'rules' => array
                         (
                             array
@@ -344,7 +343,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             return false;
         }
         $campaign->schedule_update_smart_campaign_members();
-        $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+        midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
             . "campaign/edit/{$campaign->guid}/");
         // This will exit()
     }
@@ -368,7 +367,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])
-            && isset($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']])
             && !empty($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']]))
         {
             $this->_create_campaign_from_link();
@@ -387,10 +385,10 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
         );
-        if (   !empty($_MIDCOM->auth->user)
-            && !empty($_MIDCOM->auth->user->guid))
+        if (   !empty(midcom::get('auth')->user)
+            && !empty(midcom::get('auth')->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/{$_MIDCOM->auth->user->guid}/";
+            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get('auth')->user->guid .'/';
         }
         else
         {
@@ -429,20 +427,18 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     public function _handler_status($handler_id, array $args, array &$data)
     {
         $this->_request_data['message_obj'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $reply = new org_openpsa_helpers_ajax();
-        $stat = $this->_request_data['message_obj']->send_status();
-        if ($stat == false)
+        $response = new midcom_response_xml;
+        $response->result = $this->_request_data['message_obj']->send_status();
+        if ($response->result == false)
         {
-            $reply->simpleReply(false, 'message->send_status returned false');
+            $response->status = 'message->send_status returned false';
         }
-        $members = $stat[0];
-        $receipts = $stat[1];
-        $reply->start();
-            $reply->addTag('result', true);
-            $reply->addTag('members', $members);
-            $reply->addTag('receipts', $receipts);
-        $reply->end();
-        //This will exit
+        else
+        {
+            $response->members = $stat[0];
+            $response->receipts = $stat[1];
+        }
+        return $response;
     }
 }
 ?>

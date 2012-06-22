@@ -1,13 +1,12 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$view_today =& $data['view_today'];
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 
 <div class="sidebar">
     <?php
     if ($data['projects_url'])
     {
-        $_MIDCOM->dynamic_load('workingon/');
+        midcom::get()->dynamic_load('workingon/');
     }
     ?>
 </div>
@@ -19,7 +18,7 @@ $view_today =& $data['view_today'];
         ?>
         <div class="agenda">
             <?php
-            $_MIDCOM->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
+            midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
             ?>
         </div>
         <?php
@@ -49,12 +48,11 @@ $view_today =& $data['view_today'];
                 <?php
                     //index is needed for sorting
                     echo "'index_name',";
-                    echo "'" . $_MIDCOM->i18n->get_string('entry title', 'org.openpsa.relatedto') ."',";
-                    echo "'" . $_MIDCOM->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
-                    echo "'index_date',";
-                    echo "'" . $_MIDCOM->i18n->get_string('followUp', 'org.openpsa.relatedto') . "',";
+                    echo "'" . midcom::get('i18n')->get_string('entry title', 'org.openpsa.relatedto') ."',";
+                    echo "'" . midcom::get('i18n')->get_string('entry text', 'org.openpsa.relatedto') . "',";
+                    echo "'" . midcom::get('i18n')->get_string('followUp', 'org.openpsa.relatedto') . "',";
                     echo "'index_object',";
-                    echo "'" . $_MIDCOM->i18n->get_string('linked object', 'org.openpsa.relatedto') . "'";
+                    echo "'" . midcom::get('i18n')->get_string('linked object', 'org.openpsa.relatedto') . "'";
                 ?>
                 ],
                 colModel:[
@@ -62,14 +60,14 @@ $view_today =& $data['view_today'];
                     {name:'index_name', index: 'index_name' ,hidden: true},
                     {name:'name', index: 'index_name' },
                     {name:'description',index: 'description' },
-                    {name:'index_date' , index: 'index_date' , sorttype: 'integer', hidden:true },
-                    {name:'remind_date', index:'index_date', fixed: true , width:140 },
+                    {name:'remind_date', index: 'remind_date', fixed: true, formatter: 'date', width:140 },
                     {name:'index_object', index: 'index_object', sorttype:"text" ,hidden: true},
                     {name:'object',index:'index_object', width: 120 }
                  ],
                 rownumbers: false,
                 loadonce: true,
-                caption: "<?php echo $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto');?>",
+                caption: "<?php echo midcom::get('i18n')->get_string('journal entries', 'org.openpsa.relatedto');?>",
+                sortname: 'remind_date'
              });
         </script>
         <?php
@@ -80,7 +78,7 @@ $view_today =& $data['view_today'];
         ?>
         <div class="tasks">
             <?php
-            $_MIDCOM->dynamic_load($data['projects_relative_url'] . 'task/list/');
+            midcom::get()->dynamic_load($data['projects_relative_url'] . 'task/list/');
             ?>
         </div>
         <?php
@@ -91,7 +89,7 @@ $view_today =& $data['view_today'];
         ?>
         <div class="wiki">
             <?php
-            $_MIDCOM->dynamic_load($data['wiki_url'] . 'latest/');
+            midcom::get()->dynamic_load($data['wiki_url'] . 'latest/');
             ?>
         </div>
         <?php

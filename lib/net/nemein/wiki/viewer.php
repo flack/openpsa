@@ -18,22 +18,22 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         // Add machine-readable RSS link
-        $_MIDCOM->add_link_head
+        midcom::get('head')->add_link_head
         (
             array
             (
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
-                'title' => 'Latest changes RSS',
-                'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
+                'title' => sprintf($this->_l10n->get('latest updates in %s'), $this->_topic->extra),
+                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
             )
         );
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             if ($this->_topic->parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_node_toolbar->add_item
@@ -114,7 +114,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             $topic = new midcom_db_topic($topic);
         }
 
-        // Don't index directly, that would loose a reference due to limitations
+        // Don't index directly, that would lose a reference due to limitations
         // of the index() method. Needs fixes there.
 
         $nav = new midcom_helper_nav();
@@ -138,7 +138,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $page->author = midcom_connection::get_user();
         if ($page->create())
         {
-                return $page;
+            return $page;
         }
         return false;
     }

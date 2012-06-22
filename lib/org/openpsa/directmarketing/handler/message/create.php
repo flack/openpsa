@@ -59,7 +59,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_message->campaign = $this->_request_data['campaign']->id;
         $this->_message->orgOpenpsaObtype = $this->_schemadb[$this->_schema]->customdata['org_openpsa_directmarketing_messagetype'];
 
-        if (! $this->_message->create())
+        if (!$this->_message->create())
         {
             debug_print_r('We operated on this object:', $this->_message);
             throw new midcom_error('Failed to create a new message. Last Midgard error was: ' . midcom_connection::get_error_string());
@@ -79,7 +79,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $data['campaign'] = $this->_master->load_campaign($args[0]);
-        $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);
+        $data['campaign']->require_do('midgard:create');
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
@@ -97,22 +97,17 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Index the message
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
-                $_MIDCOM->relocate("message/{$this->_message->guid}/");
+                return new midcom_response_relocate("message/{$this->_message->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate("campaign/{$data['campaign']->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("campaign/{$data['campaign']->guid}/");
         }
 
-        if ($this->_message != null)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_message->metadata->revised, $this->_message->guid);
-        }
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
         org_openpsa_helpers::dm2_savecancel($this);

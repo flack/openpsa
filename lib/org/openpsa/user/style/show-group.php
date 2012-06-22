@@ -1,17 +1,16 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+midcom_show_style('group-sidebar');
 ?>
-<div class="sidebar">
-  <div class="area org_openpsa_helper_box">
-    <h3><?php echo $data['l10n']->get('groups'); ?></h3>
-<?php
-    midcom::get()->dynamic_load($prefix . 'groups/');
-?>
-  </div>
-</div>
 
 <div class="main">
 <?php
+//quick way to remove members field
+array_pop($data['view']->schema->field_order);
 $data['view']->display_view();
 ?>
 </div>
+<?php
+    midcom::get()->dynamic_load($prefix . 'members/' . $data['group']->guid . '/');
+?>

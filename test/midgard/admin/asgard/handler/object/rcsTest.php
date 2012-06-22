@@ -19,19 +19,19 @@ if (!defined('OPENPSA_TEST_ROOT'))
  */
 class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
 {
-    protected static $_object;
-
-    public static function setUpBeforeClass()
-    {
-        self::$_object = self::create_class_object('midcom_db_topic', array('_use_rcs' => true));
-    }
 
     public function testHandler_history()
     {
         $this->create_user(true);
+        $object_with_history = self::create_class_object('midcom_db_topic', array('_use_rcs' => true));
+        $object_without_history = self::create_class_object('midcom_db_topic', array('_use_rcs' => false));
+
         midcom::get('auth')->request_sudo('midgard.admin.asgard');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', self::$_object->guid));
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', $object_with_history->guid));
+        $this->assertEquals('____mfa-asgard-object_rcs_history', $data['handler_id']);
+
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', $object_without_history->guid));
         $this->assertEquals('____mfa-asgard-object_rcs_history', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();

@@ -17,7 +17,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -25,7 +24,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * The article to display
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article = null;
 
@@ -33,7 +31,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * The Datamanager of the article to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
     private $_datamanager = null;
 
@@ -142,7 +139,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     {
         if ($handler_id == 'view-raw')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         $this->_load_datamanager();
@@ -153,6 +150,21 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb'];
             $this->_request_data['controller']->set_storage($this->_article);
             $this->_request_data['controller']->process_ajax();
+        }
+
+        if ($this->_config->get('comments_enable'))
+        {
+            $comments_node = $this->_seek_comments();
+            if ($comments_node)
+            {
+                $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
+                if (   $this->_topic->can_do('midgard:update')
+                    && $this->_topic->can_do('net.nehmer.comments:moderation'))
+                {
+                    net_nehmer_comments_viewer::add_head_elements();
+                }
+            }
+            // TODO: Should we tell admin to create a net.nehmer.comments folder?
         }
 
         $tmp = Array();
@@ -183,9 +195,9 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
+        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
     }
 
     /**
@@ -229,10 +241,10 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
-        if ($_MIDCOM->auth->request_sudo('net.nehmer.blog'))
+        if (midcom::get('auth')->request_sudo('net.nehmer.blog'))
         {
             $this->_topic->parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
 
         return $comments_node;
@@ -254,16 +266,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         else
         {
             $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
-        }
-
-        if ($this->_config->get('comments_enable'))
-        {
-            $comments_node = $this->_seek_comments();
-            if ($comments_node)
-            {
-                $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
-            }
-            // TODO: Should we tell admin to create a net.nehmer.comments folder?
         }
 
         midcom_show_style('view');

@@ -18,6 +18,10 @@
 Annehmen
 ---STRINGEND
 
+---STRING accepted
+Angenommen
+---STRINGEND
+
 ---STRING accepted by %s
 Angenommen von %s
 ---STRINGEND
@@ -118,8 +122,16 @@ Deadline
 Ablehnen
 ---STRINGEND
 
+---STRING declined
+Nicht angenommen
+---STRINGEND
+
 ---STRING declined by %s
 Abgelehnt von %s
+---STRINGEND
+
+---STRING declined tasks
+Abgelehnte Aufgaben
 ---STRINGEND
 
 ---STRING delete task
@@ -332,6 +344,10 @@ Abgelehnt von %s
 
 ---STRING reopen
 Erneut eröffnen
+---STRINGEND
+
+---STRING reopened
+wieder aufgenommen
 ---STRINGEND
 
 ---STRING report hours

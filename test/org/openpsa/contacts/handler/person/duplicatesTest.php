@@ -33,6 +33,7 @@ class org_openpsa_contacts_handler_person_duplicatesTest extends openpsa_testcas
         $data = $this->run_handler('org.openpsa.contacts', array('duplicates', 'person'));
         $this->assertEquals('person_duplicates', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

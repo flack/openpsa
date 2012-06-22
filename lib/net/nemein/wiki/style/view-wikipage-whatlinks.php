@@ -22,7 +22,7 @@ if (count($data['wikilinks']) > 0)
             continue;
         }
 
-        $page_link = $_MIDCOM->permalinks->create_permalink($page->guid);
+        $page_link = midcom::get('permalinks')->create_permalink($page->guid);
         ?>
         <li><a href="&(page_link);">&(page.title);</a></li>
         <?php

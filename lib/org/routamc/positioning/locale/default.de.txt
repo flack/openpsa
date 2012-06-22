@@ -113,8 +113,3 @@ Region
 ---STRING xep_street
 Postanschrift
 ---STRINGEND
-
----STRING yahoo_application_key
-Yahoo! Application-Key
----STRINGEND
-

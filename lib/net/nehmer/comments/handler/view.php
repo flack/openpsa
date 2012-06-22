@@ -22,33 +22,29 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * The schema database to use.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * List of comments we are currently working with.
      *
      * @var Array
-     * @access private
      */
-    var $_comments = null;
+    private $_comments = null;
 
     /**
      * A new comment just created for posting.
      *
      * @var net_nehmer_comments_comment
-     * @access private
      */
-    var $_new_comment = null;
+    private $_new_comment = null;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
-     * @access private
      */
-    var $_objectguid = null;
+    private $_objectguid = null;
 
     /**
      * The controller used to post a new comment. Only set if we have a valid user.
@@ -56,18 +52,16 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * This is a Creation Mode DM2 controller.
      *
      * @var midcom_helper_datamanager2_controller_create
-     * @access private
      */
-    var $_post_controller = null;
+    private $_post_controller = null;
 
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_display_datamanager = null;
+    private $_display_datamanager = null;
 
     var $custom_view = null;
 
@@ -81,12 +75,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_request_data['post_controller'] =& $this->_post_controller;
         $this->_request_data['display_datamanager'] =& $this->_display_datamanager;
         $this->_request_data['custom_view'] =& $this->custom_view;
-    }
-
-    function _resolve_object_title($object)
-    {
-        $ref = midcom_helper_reflector::get($object);
-        return $ref->get_object_label($object);
     }
 
     /**
@@ -111,7 +99,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 $this->_config->get('schemadb'));
 
             if (   $this->_config->get('use_captcha')
-                || (   ! $_MIDCOM->auth->user
+                || (   ! midcom::get('auth')->user
                     && $this->_config->get('use_captcha_if_anonymous')))
             {
                 $this->_schemadb['comment']->append_field
@@ -119,7 +107,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                     'captcha',
                     array
                     (
-                        'title' => $_MIDCOM->i18n->get_string('captcha field title', 'midcom'),
+                        'title' => midcom::get('i18n')->get_string('captcha field title', 'midcom'),
                         'storage' => null,
                         'type' => 'captcha',
                         'widget' => 'captcha',
@@ -144,9 +132,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_load_schemadb();
 
         $defaults = array();
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $defaults['author'] = $_MIDCOM->auth->user->name;
+            $defaults['author'] = midcom::get('auth')->user->name;
         }
 
         $this->_post_controller = midcom_helper_datamanager2_controller::create('create');
@@ -169,8 +157,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;
         //Proxy check
-        if (   isset($_SERVER["HTTP_X_FORWARDED_FOR"])
-            && !empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
+        if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
         {
             $this->_new_comment->ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
         }
@@ -179,14 +166,14 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $this->_new_comment->ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $this->_new_comment->status = NET_NEHMER_COMMENTS_NEW_USER;
-            $this->_new_comment->author = $_MIDCOM->auth->user->name;
+            $this->_new_comment->status = net_nehmer_comments_comment::NEW_USER;
+            $this->_new_comment->author = midcom::get('auth')->user->name;
         }
         else
         {
-            $this->_new_comment->status = NET_NEHMER_COMMENTS_NEW_ANONYMOUS;
+            $this->_new_comment->status = net_nehmer_comments_comment::NEW_ANONYMOUS;
         }
 
         if ($this->_config->get('enable_notify'))
@@ -201,21 +188,21 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
 
         if (   isset($_POST['subscribe'])
-            && $_MIDCOM->auth->user)
+            && midcom::get('auth')->user)
         {
             // User wants to subscribe to receive notifications about this comments thread
 
             // Get the object we're commenting
-            $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->_objectguid);
+            $parent = midcom::get('dbfactory')->get_object_by_guid($this->_objectguid);
 
             // Sudo so we can update the parent object
-            if ($_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+            if (midcom::get('auth')->request_sudo('net.nehmer.comments'))
             {
                 // Save the subscription
-                $parent->set_parameter('net.nehmer.comments:subscription', $_MIDCOM->auth->user->guid, time());
+                $parent->set_parameter('net.nehmer.comments:subscription', midcom::get('auth')->user->guid, time());
 
                 // Return back from the sudo state
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
             }
         }
 
@@ -240,7 +227,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
 
         $this->_objectguid = $args[0];
-        $_MIDCOM->cache->content->register($this->_objectguid);
+        midcom::get('cache')->content->register($this->_objectguid);
 
         if ($handler_id == 'view-comments-nonempty')
         {
@@ -267,7 +254,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $this->_comments = $this->_comments->execute();
         }
 
-        if (   $_MIDCOM->auth->user
+        if (   midcom::get('auth')->user
             || $this->_config->get('allow_anonymous'))
         {
             $this->_init_post_controller();
@@ -285,17 +272,17 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if (   $handler_id = 'view-comments-custom'
             && count($args) > 1)
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
             $this->custom_view = $args[1];
         }
 
         $this->_prepare_request_data();
-        $_MIDCOM->set_26_request_metadata($this->_get_last_modified(), $this->_objectguid);
+        midcom::get('metadata')->set_request_metadata($this->_get_last_modified(), $this->_objectguid);
 
         if (   isset($_SERVER['HTTP_X_REQUESTED_WITH'])
             && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
         {
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
     }
 
@@ -322,7 +309,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                                        "Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
             }
 
-            $_MIDCOM->cache->invalidate($comment->objectguid);
+            midcom::get('cache')->invalidate($comment->objectguid);
             $this->_relocate_to_self();
         }
     }
@@ -332,8 +319,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     function _process_post()
     {
-        if (   ! $_MIDCOM->auth->user
-            && ! $_MIDCOM->auth->request_sudo('net.nehmer.comments'))
+        if (   ! midcom::get('auth')->user
+            && ! midcom::get('auth')->request_sudo('net.nehmer.comments'))
         {
             throw new midcom_error('We were anonymous but could not acquire SUDO privileges, aborting');
         }
@@ -344,13 +331,13 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 // Check against comment spam
                 $this->_new_comment->check_spam($this->_config);
 
-                $_MIDCOM->cache->invalidate($this->_objectguid);
+                midcom::get('cache')->invalidate($this->_objectguid);
                 // Fall-through intentional
 
             case 'cancel':
-                if (! $_MIDCOM->auth->user)
+                if (! midcom::get('auth')->user)
                 {
-                    $_MIDCOM->auth->drop_sudo();
+                    midcom::get('auth')->drop_sudo();
                 }
                 $this->_relocate_to_self();
                 // This will exit();
@@ -374,11 +361,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         foreach ($this->_comments as $comment)
         {
-            // TODO: Workaround for #134
-            if (! $comment->metadata->revised)
-            {
-                $comment->metadata->revised = $comment->metadata->created;
-            }
             if ($comment->metadata->revised > $lastmod)
             {
                 $lastmod = $comment->metadata->revised;
@@ -389,20 +371,18 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         {
             return strtotime($lastmod);
         }
-        else
-        {
-            return 0;
-        }
+
+        return 0;
     }
 
     /**
-     * This is a shortcut for $_MIDCOM->relocate which relocates to the very same page we
+     * This is a shortcut for midcom::get()->relocate which relocates to the very same page we
      * are viewing right now, including all GET parameters we had in the original request.
      * We do this by taking the $_SERVER['REQUEST_URI'] variable.
      */
     function _relocate_to_self()
     {
-        $_MIDCOM->relocate($_SERVER['REQUEST_URI']);
+        midcom::get()->relocate($_SERVER['REQUEST_URI']);
         // This will exit.
     }
 
@@ -425,8 +405,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
                 midcom_show_style('comments-item');
 
-                if (   $_MIDCOM->auth->admin
-                    || (   $_MIDCOM->auth->user
+                if (   midcom::get('auth')->admin
+                    || (   midcom::get('auth')->user
                         && $comment->can_do('midgard:delete')))
                 {
                     midcom_show_style('comments-admintoolbar');
@@ -439,7 +419,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             midcom_show_style('comments-nonefound');
         }
 
-        if (   $_MIDCOM->auth->user
+        if (   midcom::get('auth')->user
             || $this->_config->get('allow_anonymous'))
         {
             midcom_show_style('post-comment');
@@ -450,7 +430,5 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         }
         midcom_show_style('comments-footer');
     }
-
 }
-
 ?>

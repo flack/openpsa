@@ -39,26 +39,8 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         parent::__construct($id);
         if (!$this->id)
         {
-            if (is_object($this))
-            {
-                $this->timestamp = $this->gmtime();
-            }
+            $this->timestamp = $this->gmtime();
         }
-    }
-
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
     function get_parent_guid_uncached()
@@ -108,7 +90,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         if (   $this->type == org_openpsa_projects_task_status_dba::DECLINED
             && $this->targetPerson)
         {
-            $qb = org_openpsa_projects_task_resource_dba();
+            $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
             $qb->add_constraint('task', '=', $this->task);
             $qb->add_constraint('person', '=', $this->targetPerson);
             $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);

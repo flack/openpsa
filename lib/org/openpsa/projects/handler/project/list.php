@@ -34,7 +34,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         // QB queries of projects by status
         $this->_request_data['view'] = 'all';
         $this->_request_data['project_list_results'] = array();
@@ -53,7 +53,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
             )
         );
 
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
+        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
         {
             $this->_node_toolbar->add_item
             (

@@ -256,10 +256,10 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                     return null;
                 }
 
-                if (!$_MIDCOM->componentloader->is_loaded($this->storage->_schema->fields[$this->name]['widget_config']['component']))
+                if (!midcom::get('componentloader')->is_loaded($this->storage->_schema->fields[$this->name]['widget_config']['component']))
                 {
                     // Ensure the corresponding component is loaded
-                    $_MIDCOM->componentloader->load($this->storage->_schema->fields[$this->name]['widget_config']['component']);
+                    midcom::get('componentloader')->load($this->storage->_schema->fields[$this->name]['widget_config']['component']);
                 }
 
                 if (   isset($this->storage->_schema->fields[$this->name]['widget_config']['id_field'])
@@ -445,7 +445,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 }
                 else
                 {
-                    return $this->selection[0];
+                    return current($this->selection);
                 }
             }
         }

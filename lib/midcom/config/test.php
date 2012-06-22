@@ -19,8 +19,8 @@ class midcom_config_test
 
     public function println($testname, $result_code, $recommendations = '&nbsp;')
     {
-        echo "  <tr>\n";
-        echo "    <td>{$testname}</td>\n";
+        echo "  <tr class=\"test\">\n";
+        echo "    <th>{$testname}</th>\n";
         switch ($result_code)
         {
             case self::OK:
@@ -36,7 +36,7 @@ class midcom_config_test
                 break;
 
             default:
-                _midcom_stop_request("Unknown error code {$result_code}. Aborting.");
+                throw new midcom_error("Unknown error code {$result_code}.");
         }
 
         echo "    <td>{$recommendations}</td>\n";
@@ -134,9 +134,14 @@ class midcom_config_test
         {
             $this->println('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for OpenPSA.');
         }
+        else if (   extension_loaded('midgard2')
+                 && version_compare(mgd_version(), '10.05.5', '<'))
+        {
+            $this->println('Midgard Version', self::ERROR, 'Midgard2 10.05.5 or greater is required for OpenPSA.');
+        }
         else
         {
-            $this->println('Midgard Version', self::OK);
+            $this->println('Midgard Version', self::OK, mgd_version());
         }
 
         // Validate the Cache Base Directory.
@@ -150,7 +155,7 @@ class midcom_config_test
         }
         else
         {
-            $this->println('MidCOM cache base directory', self::OK);
+            $this->println('MidCOM cache base directory', self::OK, $GLOBALS['midcom_config']['cache_base_directory']);
         }
 
         $this->_check_rcs();
@@ -159,19 +164,19 @@ class midcom_config_test
     public function check_php()
     {
         $this->print_header('PHP');
-        if (version_compare(phpversion(), '5.2.0', '<'))
+        if (version_compare(phpversion(), '5.3.0', '<'))
         {
-            $this->println('Version', self::ERROR, 'PHP 5.2.0 or greater is required for MidCOM.');
+            $this->println('Version', self::ERROR, 'PHP 5.3.0 or greater is required for MidCOM.');
         }
         else
         {
-            $this->println('Version', self::OK);
+            $this->println('Version', self::OK, phpversion());
         }
 
         $cur_limit = $this->ini_get_filesize('memory_limit');
         if ($cur_limit >= (40 * 1024 * 1024))
         {
-            $this->println('Setting: memory_limit', self::OK);
+            $this->println('Setting: memory_limit', self::OK, ini_get('memory_limit'));
         }
         else
         {
@@ -199,7 +204,7 @@ class midcom_config_test
         $upload_limit = $this->ini_get_filesize('upload_max_filesize');
         if ($upload_limit >= (50 * 1024 * 1024))
         {
-            $this->println('Setting: upload_max_filesize', self::OK);
+            $this->println('Setting: upload_max_filesize', self::OK, ini_get('upload_max_filesize'));
         }
         else
         {
@@ -210,7 +215,7 @@ class midcom_config_test
         $post_limit = $this->ini_get_filesize('post_max_size');
         if ($post_limit >= $upload_limit)
         {
-            $this->println('Setting: post_max_size', self::OK);
+            $this->println('Setting: post_max_size', self::OK, ini_get('post_max_size'));
         }
         else
         {
@@ -300,6 +305,7 @@ class midcom_config_test
     public function check_pear()
     {
         $this->print_header('PEAR');
+        $checked_dependencies = array();
         foreach (midcom::get('componentloader')->manifests as $manifest)
         {
             if (empty($manifest->_raw_data['package.xml']['dependencies']))
@@ -316,11 +322,16 @@ class midcom_config_test
                     }
                     continue;
                 }
+                if (array_key_exists($dependency, $checked_dependencies))
+                {
+                    continue;
+                }
+
                 $filename = str_replace('_', '/', $dependency);
                 @include_once($filename . '.php');
                 if (!class_exists($dependency))
                 {
-                    if (array_key_exists('optional', $data)
+                    if (   array_key_exists('optional', $data)
                         && $data['optional'] == 'yes')
                     {
                         $this->println($dependency, self::WARNING, 'Package ' . $dependency . ' from channel ' . $data['channel'] . ' is optionally required by ' . $manifest->name);
@@ -334,6 +345,7 @@ class midcom_config_test
                 {
                     $this->println($dependency, self::OK);
                 }
+                $checked_dependencies[$dependency] = true;
             }
         }
     }

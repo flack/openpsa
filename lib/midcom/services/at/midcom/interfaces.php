@@ -11,22 +11,9 @@
  *
  * <b>Job registration</b>
  *
- * First load this library, either via autoload_libraries or using  $_MIDCOM->componentloader->load('midcom.services.at')
- * Then call midcom_services_at_interface::register with the following parameters
- *
- * - <i>int start</i> timestamp on/after which the job is run (we have approximately
- *   one minute resolution).
- * - <i>string component</i> name of the component whichs interface class is used to run
- *   the jobs.
- * - <i>string method</i> the name of the method to cal to run the job, the method must return
- *   strict true or an error (including the return value) will be displayed and logged.
- *   The method can use the $handler->display_error() method to display better error messages.
- * - <i>array args</i> contains the arguments used by the method above, passed on to the method
- *   as an array.
- *
- * Example method (from org.openpsa.directmarketing):
+ * Example callback:
  * <code>
- *  function at_test($args, &$handler)
+ *  function cron_callback_method($args, &$handler)
  *  {
  *      $handler->print_error('got args:', $args);
  *      debug_print_r('got args:', $args);
@@ -37,9 +24,9 @@
  * Example job registration (for the method above):
  * <code>
  * midcom_services_at_interface::register(
- *   time()+120,
+ *   time() + 120,
  *   'org.openpsa.directmarketing',
- *   'at_test',
+ *   'cron_callback_method',
  *   array
  *   (
  *      'foo' => 'bar',
@@ -50,16 +37,6 @@
  */
 class midcom_services_at_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor defines constants the  library uses and loads required classes
-     */
-    public function __construct()
-    {
-        define ('MIDCOM_SERVICES_AT_STATUS_SCHEDULED', 100);
-        define ('MIDCOM_SERVICES_AT_STATUS_RUNNING', 110);
-        define ('MIDCOM_SERVICES_AT_STATUS_FAILED', 120);
-    }
-
     /**
      * Registers a job to the AT service.
      *
@@ -76,8 +53,7 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
         $entry->component = $component;
         $entry->method = $method;
         $entry->arguments = $args;
-        $ret = $entry->create();
-        return $ret;
+        return $entry->create();
     }
 }
 ?>

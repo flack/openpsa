@@ -31,8 +31,8 @@ Auslaufen einer Vereinbarung
 Aktiv
 ---STRINGEND
 
----STRING add deliverable
-Bestellung hinzufügen
+---STRING add offer
+Angebot hinzufügen
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
@@ -111,6 +111,10 @@ Kunde
 Kundenkontakt
 ---STRINGEND
 
+---STRING deliverable
+Bestellung
+---STRINGEND
+
 ---STRING deliverables
 Bestellungen
 ---STRINGEND
@@ -137,6 +141,10 @@ Geschätztes Lieferdatum
 
 ---STRING generate now
 Jetzt erstellen
+---STRINGEND
+
+---STRING go to customer
+Kunden anzeigen
 ---STRINGEND
 
 ---STRING invoice
@@ -239,6 +247,10 @@ pro %s
 pro Einheit
 ---STRINGEND
 
+---STRING planned units
+Geplante Stückzahl
+---STRINGEND
+
 ---STRING plan
 Plan
 ---STRINGEND
@@ -295,6 +307,10 @@ Verkaufsbericht für %s - %s
 Verkaufsprojekt
 ---STRINGEND
 
+---STRING salesprojects
+Verkaufsprojekte
+---STRINGEND
+
 ---STRING salesprojects active
 Aktive Verkaufsprojekte
 ---STRINGEND
@@ -317,6 +333,10 @@ Abgerechnete Verkaufsprojekte
 
 ---STRING salesprojects: %s
 Verkaufsprojekte: %s
+---STRINGEND
+
+---STRING salesprojects with %s
+Verkaufsprojekte mit %s
 ---STRINGEND
 
 ---STRING select either end date or continuous

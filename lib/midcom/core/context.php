@@ -103,12 +103,26 @@ class midcom_core_context
         self::$_currentcontext = $this->id;
     }
 
+    /**
+     * Get context, either the current one or one designated by ID
+     *
+     * If the current context is requested and doesn't exist for some reason, it is automatically created
+     *
+     * @param int $id The context ID, if any
+     * @return midcom_core_context The requested context, or false if not found
+     */
     public static function & get($id = null)
     {
         if (is_null($id))
         {
             $id = self::$_currentcontext;
+            if (!isset(self::$_contexts[$id]))
+            {
+                self::$_contexts[$id] = new self($id);
+            }
+            return self::$_contexts[$id];
         }
+
         if (   $id < 0
             || $id >= count(self::$_contexts))
         {
@@ -116,10 +130,8 @@ class midcom_core_context
             $ret = false;
             return $ret;
         }
-        else
-        {
-            return self::$_contexts[$id];
-        }
+
+        return self::$_contexts[$id];
     }
 
     /**
@@ -183,16 +195,21 @@ class midcom_core_context
      * that it actually breaks with the encapsulation I want, but I don't have a
      * better solution yet.
      *
-     * A complete example can be found with set_custom_context_data.
+     * A complete example can be found with set_custom_key.
      *
-     * @param string $component    The component name
      * @param int $key    The requested key
+     * @param string $component    The component name
      * @return mixed      The requested value, which is returned by Reference!
      * @see get_key()
      * @see set_custom_key()
      */
-    public function & get_custom_key($component, $key)
+    public function & get_custom_key($key, $component = null)
     {
+        if (null === $component)
+        {
+            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
+        }
+
         if (   !array_key_exists($component, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA])
             || !array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component]))
         {
@@ -230,25 +247,30 @@ class midcom_core_context
      * <code>
      * class my_component_class_one {
      *     function init () {
-     *         $_MIDCOM->set_custom_context_data('classone', $this);
+     *         midcom_core_context::get()->set_custom_key('classone', $this);
      *     }
      * }
      *
      * class my_component_class_two {
      *        var one;
      *     function my_component_class_two () {
-     *         $this->one =& $_MIDCOM->get_custom_context_data('classone');
+     *         $this->one =& midcom_core_context::get()->get_custom_key('classone');
      *     }
      * }
      * </code>
      *
-     * @param string $component The component associated to the key.
      * @param mixed $key        The key associated to the value.
      * @param mixed &$value    The value to store. (This is stored by-reference!)
+     * @param string $component The component associated to the key.
      * @see get_custom_key()
      */
-    function set_custom_key ($component, $key, &$value)
+    function set_custom_key($key, &$value, $component = null)
     {
+        if (null === $component)
+        {
+            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
+        }
+
         $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
     }
 
@@ -320,11 +342,17 @@ class midcom_core_context
      */
     public function run(midcom_baseclasses_components_interface $handler)
     {
-        if (!$handler->handle())
+        $result = $handler->handle();
+        if (false === $result)
         {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
         }
-
+        else if (   is_object($result)
+                 && $result instanceof midcom_response)
+        {
+            $result->send();
+            //this will exit
+        }
         // Retrieve Metadata
         $nav = new midcom_helper_nav();
         if ($nav->get_current_leaf() === false)

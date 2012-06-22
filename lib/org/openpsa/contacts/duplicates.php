@@ -132,8 +132,7 @@ class org_openpsa_contacts_duplicates
             && !empty($person1['city'])
             && $person1['firstname'] == $person2['firstname']
             && $person1['lastname'] == $person2['lastname']
-            && $person1['city'] == $person2['city']
-            )
+            && $person1['city'] == $person2['city'])
         {
             $ret['fname_lname_city_match'] = true;
             $ret['p'] += 0.5;
@@ -144,8 +143,7 @@ class org_openpsa_contacts_duplicates
             && !empty($person1['street'])
             && $person1['firstname'] == $person2['firstname']
             && $person1['lastname'] == $person2['lastname']
-            && $person1['street'] == $person2['street']
-            )
+            && $person1['street'] == $person2['street'])
         {
             $ret['fname_lname_street_match'] = true;
             $ret['p'] += 0.9;
@@ -154,8 +152,7 @@ class org_openpsa_contacts_duplicates
         if (   !empty($person1['firstname'])
             && !empty($person1['homephone'])
             && $person1['firstname'] == $person2['firstname']
-            && $person1['homephone'] == $person2['homephone']
-            )
+            && $person1['homephone'] == $person2['homephone'])
         {
             $ret['fname_hphone_match'] = true;
             $ret['p'] += 0.7;
@@ -304,8 +301,7 @@ class org_openpsa_contacts_duplicates
         if (   !empty($group1['phone'])
             && !empty($group1['street'])
             && $group1['phone'] == $group2['phone']
-            && $group1['street'] == $group2['street']
-            )
+            && $group1['street'] == $group2['street'])
         {
             $ret['phone_street_match'] = true;
             $ret['p'] += 1;
@@ -314,8 +310,7 @@ class org_openpsa_contacts_duplicates
         if (   !empty($group1['official'])
             && !empty($group1['street'])
             && $group1['official'] == $group2['official']
-            && $group1['street'] == $group2['street']
-            )
+            && $group1['street'] == $group2['street'])
         {
             $ret['official_street_match'] = true;
             $ret['p'] += 1;
@@ -324,8 +319,7 @@ class org_openpsa_contacts_duplicates
         if (   !empty($group1['official'])
             && !empty($group1['city'])
             && $group1['official'] == $group2['official']
-            && $group1['city'] == $group2['city']
-            )
+            && $group1['city'] == $group2['city'])
         {
             $ret['official_city_match'] = true;
             $ret['p'] += 0.5;
@@ -470,14 +464,9 @@ class org_openpsa_contacts_duplicates
             }
 
             if (   (   !empty($obj1->guid)
-                && is_object($obj1)
-                && method_exists($obj1, 'get_parameter')
-                && $obj1->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj2->guid))
-            || (   !empty($obj1->guid)
-                && is_object($obj2)
-                && method_exists($obj2, 'set_parameter')
-                && $obj2->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj1->guid))
-            )
+                    && $obj1->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj2->guid))
+                || (   !empty($obj1->guid)
+                    && $obj2->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj1->guid)))
             {
                 // Not-duplicate parameter found, returning zero probability
                 continue;
@@ -583,7 +572,7 @@ class org_openpsa_contacts_duplicates
         foreach ($ret_persons['p_map'] as $p1guid => $duplicates)
         {
             $person1 =& $ret_persons['objects'][$p1guid];
-            foreach($duplicates as $p2guid => $details)
+            foreach ($duplicates as $p2guid => $details)
             {
                 $person2 = $ret_persons['objects'][$p2guid];
                 $msg = "Marking persons {$p1guid} (#{$person1->id}) and {$p2guid} (#{$person2->id}) as duplicates with P {$details['p']}";
@@ -622,7 +611,7 @@ class org_openpsa_contacts_duplicates
         foreach ($ret_groups['p_map'] as $g1guid => $duplicates)
         {
             $group1 =& $ret_groups['objects'][$g1guid];
-            foreach($duplicates as $g2guid => $details)
+            foreach ($duplicates as $g2guid => $details)
             {
                 $group2 = $ret_groups['objects'][$g2guid];
                 $msg = "Marking groups {$g1guid} (#{$group1->id}) and {$g2guid} (#{$group2->id}) as duplicates with P {$details['p']}";

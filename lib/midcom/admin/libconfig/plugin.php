@@ -22,17 +22,14 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
      */
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midgard.admin.asgard');
-        $_MIDCOM->load_library('midcom.admin.libconfig');
-
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     public function get_libraries()
     {
         $libs = array();
 
-        foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
+        foreach (midcom::get('componentloader')->manifests as $name => $manifest)
         {
             if (!array_key_exists('package.xml', $manifest->_raw_data))
             {
@@ -42,8 +39,8 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
 
             if ($manifest->purecode)
             {
-                $_MIDCOM->componentloader->load_graceful($name);
-                $configpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($name)."/config/config.inc";
+                midcom::get('componentloader')->load_graceful($name);
+                $configpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($name)."/config/config.inc";
                 $lib = midcom_baseclasses_components_configuration::read_array_from_file("{$configpath}");
 
                 if (!$lib)
@@ -59,14 +56,14 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
 
     public function navigation()
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $libs = midcom_admin_libconfig_plugin::get_libraries();
 
         echo '<ul class="midgard_admin_asgard_navigation">';
 
         foreach ($libs as $name => $manifest)
         {
-            $label = $_MIDCOM->i18n->get_string($name, $name);
+            $label = midcom::get('i18n')->get_string($name, $name);
             echo "            <li class=\"status\"><a href=\"{$prefix}__mfa/asgard_midcom.admin.libconfig/view/{$name}/\">{$label}</a></li>\n";
         }
 

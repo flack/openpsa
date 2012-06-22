@@ -8,9 +8,9 @@
 
 /**
  * This class is the central access point for all registered caching services. Currently
- * this includes the NAP, Metadata and Page cache databases.
+ * this includes the NAP, Memcache, Content and PHPscripts cache databases.
  *
- * The system is two fold:
+ * The system is twofold:
  *
  * There are cache backends, which are responsible for the actual storage and retrieval of
  * cache information, and cache modules, which provide caching services to the application
@@ -58,7 +58,7 @@ class midcom_services_cache
      * It will load the content cache module as the first one, the rest will be
      * loaded in their order of appearance in the Array.
      */
-    function initialize()
+    public function __construct()
     {
         foreach ($GLOBALS['midcom_config']['cache_autoload_queue'] as $name)
         {

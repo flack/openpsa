@@ -37,6 +37,44 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'edit_query', $campaign->guid));
         $this->assertEquals('edit_campaign_query', $data['handler_id']);
 
+        $_POST = array
+        (
+            'midcom_helper_datamanager2_dummy_field_rules' => "Array
+            (
+               'type' => 'AND',
+               'groups' => 'AND',
+               'classes' => Array
+               (
+                   0 => Array
+                   (
+                       'type' => 'AND',
+                       'groups' => 'AND',
+                       'classes' => Array
+                       (
+                           3 => Array
+                           (
+                               'type' => 'AND',
+                               'class' => 'org_openpsa_contacts_person_dba',
+                               'rules' => Array
+                               (
+                                   0 => Array
+                                   (
+                                       'property' => 'email',
+                                       'match' => 'LIKE',
+                                       'value' => '%.test%',
+                                   )
+                               )
+                           ),
+                       ),
+                   ),
+               ),
+           )",
+           'midcom_helper_datamanager2_save' => true
+        );
+
+        $url = $this->run_relocate_handler('org.openpsa.directmarketing', array('campaign', 'edit_query', $campaign->guid));
+        $this->assertEquals('campaign/' . $campaign->guid . '/', $url);
+
         midcom::get('auth')->drop_sudo();
     }
 

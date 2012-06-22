@@ -28,12 +28,14 @@ class org_openpsa_invoices_handler_billingdataTest extends openpsa_testcase
 
     public function testHandler_billingdata()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $billingdata = $this->create_object('org_openpsa_invoices_billing_data_dba', array('linkGuid' => self::$_person->guid));
+
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('billingdata', $billingdata->guid));
         $this->assertEquals($billingdata->guid, $data['controller']->datamanager->storage->object->guid);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -48,6 +50,7 @@ class org_openpsa_invoices_handler_billingdataTest extends openpsa_testcase
         $this->register_object($object);
         $this->assertEquals(self::$_person->guid, $object->linkGuid);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

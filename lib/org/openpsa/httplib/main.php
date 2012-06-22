@@ -19,7 +19,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     (
         'connect_timeout' => 15,
         'timeout' => 30,
-        'ssl_verify_peer' => false
+        'ssl_verify_peer' => false,
+        'follow_redirects' => true
     );
     var $error = '';
     var $basicauth = array
@@ -43,7 +44,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * Check whether a HTTP response code is a "successful" one
      *
      * @param int $response_code HTTP response code to check
-     * @return boolean Whether HTTP response code is successfull
+     * @return boolean Whether HTTP response code is successful
      */
     private function _is_success($response_code)
     {
@@ -114,7 +115,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         if (!$this->_is_success((int)$code))
         {
             $this->error = $this->_http_code2error($code);
-            debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
+            debug_add("Got error '{$this->error}' from '{$url}'", MIDCOM_LOG_INFO);
             return '';
         }
         return $response->getBody();
@@ -136,10 +137,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         $c->setHeader('User-Agent', $this->_user_agent());
 
         // Handle basic auth
-        if (   isset($this->basicauth['user'])
-            && $this->basicauth['user'] !== false
-            && isset($this->basicauth['password'])
-            && $this->basicauth['password'] !== false)
+        if (   !empty($this->basicauth['user'])
+            && !empty($this->basicauth['password']))
         {
             // Set basic auth
             $c->setAuth($this->basicauth['user'], $this->basicauth['password']);

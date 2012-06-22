@@ -76,8 +76,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_product = new org_openpsa_products_product_dba();
 
-        $product_group = $controller->datamanager->types['productGroup']->convert_to_storage();
-        $this->_request_data['up'] = $product_group;
+        $this->_request_data['up'] = $controller->formmanager->get_value('productGroup');
         $this->_product->productGroup = $this->_request_data['up'];
 
         if (! $this->_product->create())
@@ -105,7 +104,15 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_master->find_parent($args);
 
-        $data['selected_schema'] = $args[1];
+        if ($handler_id == 'create_product')
+        {
+            $data['selected_schema'] = $args[0];
+        }
+        else
+        {
+            $data['selected_schema'] = $args[1];
+        }
+
         if (!array_key_exists($data['selected_schema'], $data['schemadb_product']))
         {
             throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found in schemadb');
@@ -121,25 +128,23 @@ implements midcom_helper_datamanager2_interfaces_create
                 if ($this->_config->get('index_products'))
                 {
                     // Index the product
-                    $indexer = $_MIDCOM->get_service('indexer');
+                    $indexer = midcom::get('indexer');
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
 
-                $_MIDCOM->cache->invalidate($this->_product->guid);
+                midcom::get('cache')->invalidate($this->_product->guid);
 
-                $_MIDCOM->relocate("product/{$this->_product->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("product/{$this->_product->guid}/");
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    $_MIDCOM->relocate('');
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    $_MIDCOM->relocate("{$this->_request_data['up']}/");
+                    return new midcom_response_relocate("{$this->_request_data['up']}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
@@ -147,12 +152,8 @@ implements midcom_helper_datamanager2_interfaces_create
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        if ($this->_product)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_product->metadata->revised, $this->_product->guid);
-        }
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }
@@ -223,7 +224,7 @@ implements midcom_helper_datamanager2_interfaces_create
             }
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
 }
 ?>

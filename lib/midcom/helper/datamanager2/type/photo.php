@@ -47,10 +47,14 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             // Copy archival as original
             $src = $this->attachments['archival']->open('r');
         }
-        else
+        else if (array_key_exists('main', $this->attachments))
         {
             // Copy main as original
             $src = $this->attachments['main']->open('r');
+        }
+        else
+        {
+            return false;
         }
         // Create tmp file and copy by handles
         $this->_original_tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_photo");
@@ -70,7 +74,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         fclose($dst);
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         return true;
     }
 
@@ -128,7 +132,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     function set_image($filename, $tmpname, $title, $autodelete = true)
     {
         // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+        $filename = midcom_db_attachment::safe_filename($filename, true);
 
         $this->_pending_attachments = $this->attachments;
 
@@ -136,7 +140,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         $this->title = $title;
         $this->_filename = $filename;
         $this->_original_tmpname = $tmpname;
-        $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
+        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         $this->_filter = new midcom_helper_imagefilter();
 
         if (array_key_exists('archival', $this->_pending_attachments))
@@ -240,17 +244,9 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         return $this->add_attachment($identifier,
                                      "{$identifier}_{$this->_filename}",
                                      $this->title,
-                                     $this->_get_mimetype($this->_original_tmpname),
+                                     midcom_helper_misc::get_mimetype($this->_original_tmpname),
                                      $this->_original_tmpname,
                                      false);
-    }
-
-    /**
-     * a wrapper for set_image
-     */
-    function set_photo($filename, $tmpname, $title, $autodelete = true)
-    {
-        return $this->set_image($filename, $tmpname, $title, $autodelete);
     }
 
     function convert_to_html()
@@ -319,7 +315,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      */
     function apply_filter_all($filter)
     {
-        foreach($this->attachments as $identifier => $image)
+        foreach ($this->attachments as $identifier => $image)
         {
             if ($identifier === 'archival')
             {

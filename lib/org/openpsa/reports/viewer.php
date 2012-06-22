@@ -15,9 +15,16 @@
  */
 class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 {
+    /**
+     * Array of available report generators
+     *
+     * @var array
+     */
+    private $_available_generators;
+
     public function _on_initialize()
     {
-        $components = org_openpsa_reports_viewer::available_component_generators();
+        $components = $this->_get_available_generators();
         foreach ($components as $component => $loc)
         {
             $parts = explode('.', $component);
@@ -88,11 +95,11 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
     }
 
     /**
-     * The CSV handlers return a posted variable with correct headers
+     * Delete the given report and redirect to front page
      *
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -102,7 +109,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     {
         $report = new org_openpsa_reports_query_dba($args[0]);
         $report->delete();
-        $_MIDCOM->relocate('');
+        return new midcom_response_relocate('');
     }
 
 
@@ -115,14 +122,14 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        if ( !isset($_POST['org_openpsa_reports_csv']) )
+        if (!isset($_POST['org_openpsa_reports_csv']))
         {
             throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST');
         }
 
         //We're outputting CSV
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('application/csv');
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->content_type('application/csv');
     }
 
     /**
@@ -133,7 +140,6 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _show_csv($handler_id, array &$data)
     {
         echo $_POST['org_openpsa_reports_csv'];
-        return true;
     }
 
     /**
@@ -143,9 +149,9 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
-        $data['available_components'] = org_openpsa_reports_viewer::available_component_generators();
+        $data['available_components'] = $this->_get_available_generators();
     }
 
     /**
@@ -156,34 +162,25 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _show_frontpage($handler_id, array &$data)
     {
         midcom_show_style('show-frontpage');
-
-        return true;
     }
 
-    function available_component_generators()
+    private function _get_available_generators()
     {
-        if (!isset($GLOBALS['available_component_generators_components_checked']))
+        if (is_array($this->_available_generators))
         {
-            $GLOBALS['available_component_generators_components_checked'] = false;
+            return $this->_available_generators;
         }
-        $components_checked =& $GLOBALS['available_component_generators_components_checked'];
-        if (!isset($GLOBALS['available_component_generators_components']))
-        {
-            $GLOBALS['available_component_generators_components'] = array
-            (
-                // TODO: better localization strings
-                'org.openpsa.projects' => $_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
-                'org.openpsa.sales' => $_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
-                'org.openpsa.invoices' => $_MIDCOM->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
-                //'org.openpsa.directmarketing' => $_MIDCOM->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.reports'),
-            );
-        }
-        $components =& $GLOBALS['available_component_generators_components'];
-        if ($components_checked)
-        {
-            reset($components);
-            return $components;
-        }
+        $this->_available_generators = array();
+
+        $components = array
+        (
+            // TODO: better localization strings
+            'org.openpsa.projects' => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+            'org.openpsa.sales' => midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'),
+            'org.openpsa.invoices' => midcom::get('i18n')->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
+            //'org.openpsa.directmarketing' => midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.reports'),
+        );
+
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
         foreach ($components as $component => $loc)
@@ -192,17 +189,16 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             try
             {
                 $topic = midcom_db_topic::get_cached($node_guid);
+                $this->_available_generators[$component] = $loc;
             }
             catch (midcom_error $e)
             {
                 debug_add("topic for component '{$component}' not found or accessible");
-                unset ($components[$component]);
             }
         }
-        $components_checked = true;
-        reset($components);
 
-        return $components;
+        $this->_available_generators = $components;
+        return $this->_available_generators;
     }
 }
 ?>

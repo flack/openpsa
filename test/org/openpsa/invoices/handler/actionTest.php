@@ -26,6 +26,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
     {
         self::$_person = self::create_user(true);
         self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
+        self::create_class_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
     }
 
     public function testHandler_process_mark_sent()
@@ -67,6 +68,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'items', self::$_invoice->guid));
         $this->assertEquals('invoice_items', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -102,6 +104,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $this->assertEquals(10, $item->units);
         $this->assertEquals('TEST DESCRIPTION', $item->description);
 
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }

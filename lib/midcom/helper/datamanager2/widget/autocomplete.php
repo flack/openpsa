@@ -6,11 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-if (! class_exists('midcom_helper_reflector'))
-{
-    $_MIDCOM->load_library('midcom.helper.reflector');
-}
-
 /**
  * Datamanager 2 Autocomplete widget
  *
@@ -212,6 +207,16 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
     }
 
+    public static function get_widget_config($type)
+    {
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+
+        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
+        $config = $widget_config[$type];
+        $config['handler_url'] = $handler_url;
+        return $config;
+    }
+
     /**
      * Adds a simple search form and place holder for results.
      * Also adds static options to results.
@@ -322,6 +327,18 @@ EOT;
         );
 
         $this->_form->addGroup($this->_widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_autocomplete'));
+        if ($this->_field['required'])
+        {
+            $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
+            $this->_form->addGroupRule($this->name, array
+            (
+                "{$this->_element_id}_selection" => array
+                (
+                    array($errmsg, 'required'),
+                    array($errmsg, 'regex', '/\[.+?\]/')
+                )
+            ));
+        }
     }
 
     private function _get_selection()

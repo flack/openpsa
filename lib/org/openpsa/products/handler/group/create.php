@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($this->_request_data['up'] == 0)
         {
-            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
         }
         else
         {
@@ -133,23 +133,21 @@ implements midcom_helper_datamanager2_interfaces_create
                 if ($this->_config->get('index_groups'))
                 {
                     // Index the group
-                    $indexer = $_MIDCOM->get_service('indexer');
+                    $indexer = midcom::get('indexer');
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
-
-                $_MIDCOM->relocate("{$this->_group->guid}/");
-                // This will exit.
+                midcom::get('cache')->invalidate($this->_topic->guid);
+                return new midcom_response_relocate("{$this->_group->guid}/");
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    $_MIDCOM->relocate('');
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    $_MIDCOM->relocate("{$this->_request_data['up']}/");
+                    return new midcom_response_relocate("{$this->_request_data['up']}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
@@ -157,12 +155,8 @@ implements midcom_helper_datamanager2_interfaces_create
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        if ($this->_group)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_group->metadata->revised, $this->_group->guid);
-        }
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }
@@ -233,7 +227,7 @@ implements midcom_helper_datamanager2_interfaces_create
             }
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
 }
 ?>

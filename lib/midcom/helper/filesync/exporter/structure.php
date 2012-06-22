@@ -60,18 +60,15 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
     function read_structure()
     {
         // Generate a safe name for the structure
-        $host = new midcom_db_host($_MIDGARD['host']);
-        $structure_name = midcom_helper_misc::generate_urlname_from_string($host->get_label());
+        $structure_name = midcom_helper_misc::generate_urlname_from_string(midcom::get()->get_page_prefix());
 
         // Prepare structure
         $structure = array();
         $structure[$structure_name] = array();
         $structure[$structure_name]['name'] = $structure_name;
-        $root_page = new midcom_db_page($host->root);
-        $structure[$structure_name]['title'] = $root_page->title;
-        $structure[$structure_name]['examples'] = array($_MIDCOM->get_page_prefix());
+        $structure[$structure_name]['title'] = $GLOBALS['midcom_config']['midcom_site_title'];
         // Read the topic data
-        $root_node = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+        $root_node = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         $structure[$structure_name]['root'] = $this->read_node($root_node);
 
         file_put_contents("{$this->root_dir}{$structure_name}.inc", $this->_draw_array($structure));

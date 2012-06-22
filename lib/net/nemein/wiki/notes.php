@@ -27,7 +27,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         parent::__construct();
 
         $this->target_node = $target_node;
-        $this->target = $_MIDCOM->dbfactory->get_object_by_guid($target_object);
+        $this->target = midcom::get('dbfactory')->get_object_by_guid($target_object);
         $this->wiki = midcom_helper_misc::find_node_by_component('net.nemein.wiki');
 
         if ($new_wikipage)
@@ -39,7 +39,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
     private function _list_related_guids_of_a_person($person)
     {
         // We're in person, so we need to also look events he/she participates to
-        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_eventmember');
+        $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_eventmember');
         $qb->add_constraint('uid', '=', $person->id);
 
         $memberships = $qb->execute();
@@ -80,7 +80,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         else if (is_subclass_of($this->target, 'midgard_group'))
         {
             // Include notes about members of the group
-            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_member');
+            $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_member');
             $qb->add_constraint('gid', '=', $this->target->id);
             $members = $qb->execute();
             foreach ($members as $member)
@@ -148,7 +148,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
     function populate_toolbar(&$toolbar)
     {
         $enable_creation = false;
-        if (   $_MIDCOM->auth->can_do('midgard:create', $this->wiki[MIDCOM_NAV_OBJECT])
+        if (   $this->wiki[MIDCOM_NAV_OBJECT]->can_do('midgard:create')
             && $this->new_wikipage)
         {
             $enable_creation = true;

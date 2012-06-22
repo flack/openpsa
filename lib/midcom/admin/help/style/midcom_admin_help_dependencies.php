@@ -1,15 +1,15 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="components">
 <?php
         if (count($data['dependencies']) > 0)
         {
-            echo "<h2>" . $_MIDCOM->i18n->get_string('component depends on', 'midcom') . "</h2>\n";
+            echo "<h2>" . midcom::get('i18n')->get_string('component depends on', 'midcom') . "</h2>\n";
             echo "<ul>\n";
             foreach ($data['dependencies'] as $dependency)
             {
-                $component_icon = $_MIDCOM->componentloader->get_component_icon($dependency);
+                $component_icon = midcom::get('componentloader')->get_component_icon($dependency);
                 if (!$component_icon)
                 {
                     echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png\" alt=\"\" /> {$dependency} <span class='alert'>Error: This component is not installed!</span></li>\n";

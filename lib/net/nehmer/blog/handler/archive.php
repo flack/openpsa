@@ -90,9 +90,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
         }
 
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
 
-        $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
     }
 
     /**
@@ -115,10 +115,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $qb->add_order('metadata.published');
         $qb->set_limit(1);
 
-        if ($_MIDCOM->auth->request_sudo())
+        if (midcom::get('auth')->request_sudo())
         {
             $result = $qb->execute_unchecked();
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
         else
         {
@@ -147,8 +147,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $data =& $this->_request_data;
         $qb = midcom_db_article::new_query_builder();
 
-        $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:M:s'));
-        $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:M:s'));
+        $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:i:s'));
+        $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:i:s'));
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'archive_welcome');
 
         return $qb->count();
@@ -161,7 +161,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _compute_welcome_data()
     {
         // Helpers
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'archive/';
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'archive/';
 
         // First step of request data: Overall info
         $total_count = 0;
@@ -354,8 +354,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 throw new midcom_error("The request handler {$handler_id} is not supported.");
         }
 
-        $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:M:s'));
-        $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:M:s'));
+        $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:i:s'));
+        $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:i:s'));
         $qb->add_order('metadata.published', $this->_config->get('archive_item_order'));
         $this->_articles = $qb->execute();
 
@@ -387,8 +387,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
         }
 
-        $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$start} - {$end}");
+        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$start} - {$end}");
     }
 
     /**
@@ -444,14 +444,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         $now = new DateTime();
-        if (strlen($month) == 1)
-        {
-            $month = "0{$month}";
-        }
-        $this->_start = new DateTime("{$year}-{$month}-01 00:00:00");
+        $this->_start = new DateTime("{$year}-" . sprintf('%02d', $month) .  "-01 00:00:00");
         if ($this->_start > $now)
         {
-            throw new midcom_error_notfound("The month '{$year}-{$month}' is in the future, no archive available.");
+            throw new midcom_error_notfound("The month '{$year}-" . sprintf('%02d', $month) .  "' is in the future, no archive available.");
         }
 
         if ($month == 12)
@@ -464,11 +460,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $endyear = $year;
             $endmonth = $month + 1;
         }
-        if (strlen($endmonth) == 1)
-        {
-            $endmonth = "0{$endmonth}";
-        }
-        $this->_end = new DateTime("{$endyear}-{$endmonth}-01 00:00:00");
+
+        $this->_end = new DateTime("{$endyear}-" . sprintf('%02d', $endmonth) .  "-01 00:00:00");
     }
 
     /**
@@ -488,12 +481,12 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $data['index_fulltext'] = $this->_config->get('index_fulltext');
             if ($this->_config->get('comments_enable'))
             {
-                $_MIDCOM->componentloader->load_graceful('net.nehmer.comments');
+                midcom::get('componentloader')->load_graceful('net.nehmer.comments');
                 $data['comments_enable'] = true;
             }
 
             $total_count = count($this->_articles);
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
             foreach ($this->_articles as $article_counter => $article)
             {

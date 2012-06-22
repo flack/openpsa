@@ -3,7 +3,7 @@
 ---LANGUAGE en
 
 ---STRING %02.2f hours (%02.2f invoiceable) reported
-%02.2f hours (%02.2f invoiceable) reported
+%02.2f hours (%02.2f billable) reported
 ---STRINGEND
 
 ---STRING create event
@@ -23,7 +23,7 @@ Day View
 ---STRINGEND
 
 ---STRING invoiceable
-Invoiceable
+Billable
 ---STRINGEND
 
 ---STRING my summary
@@ -75,7 +75,7 @@ Totals
 ---STRINGEND
 
 ---STRING uninvoiceable
-Not invoiceable
+Not billable
 ---STRINGEND
 
 ---STRING updated %s

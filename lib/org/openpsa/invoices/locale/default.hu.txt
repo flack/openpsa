@@ -50,12 +50,12 @@ Megjelölés fizetettként
 Megjelenés elküldöttként
 ---STRINGEND
 
----STRING marked invoice "%s" paid
-"%" számla megjelölése fizetetként
+---STRING marked invoice %s paid
+% számla megjelölése fizetetként
 ---STRINGEND
 
----STRING marked invoice "%s" sent
-"%s" számla megjelőlése elküldöttként
+---STRING marked invoice %s sent
+%s számla megjelőlése elküldöttként
 ---STRINGEND
 
 ---STRING not paid

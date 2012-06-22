@@ -35,11 +35,6 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      */
     private $_schema = 'default';
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * Loads and prepares the schema database.
      *
@@ -72,7 +67,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_do('midgard:update', $this->_request_data['directory']);
+        $data['directory']->require_do('midgard:update');
 
         $this->_load_edit_controller();
 
@@ -82,17 +77,15 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
                 // TODO: Update the URL name?
 
                 // Update the Index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
                 $this->_view = "default";
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
-                // This will exit()
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
 
             case 'cancel':
                 $this->_view = "default";
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
-                // This will exit()
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
         }
 
         $this->_request_data['controller'] = $this->_controller;
@@ -101,7 +94,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
+        $this->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
     }
 
     /**

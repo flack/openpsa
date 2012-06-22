@@ -52,7 +52,7 @@ class midgard_admin_asgard_schemadb
     {
         $this->_object = $object;
         $this->_config = $config;
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
+        $this->_l10n = midcom::get('i18n')->get_l10n('midgard.admin.asgard');
     }
 
     /**
@@ -65,9 +65,9 @@ class midgard_admin_asgard_schemadb
         if ($type != null)
         {
             $dba_type = $type;
-            if (!$_MIDCOM->dbclassloader->is_midcom_db_object($type))
+            if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
             {
-                $dba_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
+                $dba_type = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
             }
             $dummy_object = new $dba_type();
             $type_fields = $dummy_object->get_properties();
@@ -75,9 +75,9 @@ class midgard_admin_asgard_schemadb
         else
         {
             $type = get_class($this->_object);
-            if (!$_MIDCOM->dbclassloader->is_midcom_db_object($type))
+            if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
             {
-                $this->_object = $_MIDCOM->dbfactory->convert_midgard_to_midcom($this->_object);
+                $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
             }
             $type_fields = $this->_object->get_properties();
         }
@@ -159,7 +159,7 @@ class midgard_admin_asgard_schemadb
                     }
 
                     // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
-                    if ($_MIDCOM->dbfactory->is_a($this->_object, $type))
+                    if (midcom::get('dbfactory')->is_a($this->_object, $type))
                     {
                         $name_obj = $this->_object;
                     }
@@ -286,13 +286,13 @@ class midgard_admin_asgard_schemadb
             '_rcs_message',
             array
             (
-                'title'       => $_MIDCOM->i18n->get_string('revision comment', 'midgard.admin.asgard'),
+                'title'       => midcom::get('i18n')->get_string('revision comment', 'midgard.admin.asgard'),
                 'storage'     => '_rcs_message',
                 'type'        => 'text',
                 'widget'      => 'text',
                 'start_fieldset' => array
                 (
-                    'title' => $_MIDCOM->i18n->get_string('revision', 'midgard.admin.asgard'),
+                    'title' => midcom::get('i18n')->get_string('revision', 'midgard.admin.asgard'),
                     'css_group' => 'rcs',
                 ),
                 'end_fieldset' => '',
@@ -378,11 +378,11 @@ class midgard_admin_asgard_schemadb
                 $height = 30;
 
                 // Check the user preference and configuration
-                if (   midgard_admin_asgard_plugin::get_preference('editarea_enabled')
-                    || (   midgard_admin_asgard_plugin::get_preference('editarea_enabled') !== '0'
-                        && $this->_config->get('editarea_enabled')))
+                if (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled')
+                    || (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled') !== '0'
+                        && $this->_config->get('codemirror_enabled')))
                 {
-                    $widget = 'editarea';
+                    $widget = 'codemirror';
                 }
 
                 $dm_type = 'php';
@@ -453,7 +453,7 @@ class midgard_admin_asgard_schemadb
         $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
         foreach ($allow_unclean_name_types as $allow_unclean_name_types_type)
         {
-            if ($_MIDCOM->dbfactory->is_a($name_obj, $allow_unclean_name_types_type))
+            if (midcom::get('dbfactory')->is_a($name_obj, $allow_unclean_name_types_type))
             {
                 $type_urlname_config['allow_unclean'] = true;
                 break;
@@ -480,7 +480,7 @@ class midgard_admin_asgard_schemadb
     private function _add_component_dropdown($key)
     {
         $components = array('' => '');
-        foreach ($_MIDCOM->componentloader->manifests as $manifest)
+        foreach (midcom::get('componentloader')->manifests as $manifest)
         {
             // Skip purecode components
             if ($manifest->purecode)
@@ -488,7 +488,7 @@ class midgard_admin_asgard_schemadb
                 continue;
             }
 
-            $components[$manifest->name] = $_MIDCOM->i18n->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
+            $components[$manifest->name] = midcom::get('i18n')->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
         }
         asort($components);
 
@@ -545,12 +545,12 @@ class midgard_admin_asgard_schemadb
             case MGD_TYPE_UINT:
             case MGD_TYPE_STRING:
             case MGD_TYPE_GUID:
-                $class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
+                $class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($linked_type);
                 if (! $class)
                 {
                     break;
                 }
-                $component = $_MIDCOM->dbclassloader->get_component_for_class($linked_type);
+                $component = midcom::get('dbclassloader')->get_component_for_class($linked_type);
                 $this->_schemadb['object']->append_field
                 (
                     $key,

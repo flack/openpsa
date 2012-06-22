@@ -89,7 +89,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             if (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection'))
             {
-                $_MIDCOM->relocate("{$this->_topic->name}/edit/{$args[0]}/");
+                midcom::get()->relocate("{$this->_topic->name}/edit/{$args[0]}/");
             }
 
             foreach ($results as $guid => $array)
@@ -105,7 +105,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 $code = $this->_config->get('redirection_code');
             }
 
-            $_MIDCOM->relocate($url, $code);
+            midcom::get()->relocate($url, $code);
             // This will exit
         }
 
@@ -121,15 +121,14 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (   is_null($this->_config->get('redirection_type'))
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection')))
         {
             // No type set, redirect to config
-            $_MIDCOM->relocate("{$prefix}config/");
-            // This will exit
+            return new midcom_response_relocate("{$prefix}config/");
         }
 
         // Get the topic link and relocate accordingly
@@ -141,7 +140,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $data['redirection_url'] = $data['url'];
             $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
-            $_MIDCOM->add_meta_head
+            midcom::get('head')->add_meta_head
             (
                 array
                 (
@@ -152,8 +151,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            $_MIDCOM->relocate($data['url'], $this->_config->get('redirection_code'));
-            // This will exit
+            return new midcom_response_relocate($data['url'], $this->_config->get('redirection_code'));
         }
     }
 
@@ -223,7 +221,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 return $node[MIDCOM_NAV_FULLURL];
 
             case 'permalink':
-                $url = $_MIDCOM->permalinks->resolve_permalink($data['config']->get('redirection_guid'));
+                $url = midcom::get('permalinks')->resolve_permalink($data['config']->get('redirection_guid'));
 
                 if ($url)
                 {
@@ -246,7 +244,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 // Otherwise fall-through to config
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         return "{$prefix}config/";
     }
 }

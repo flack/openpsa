@@ -10,7 +10,7 @@ midcom::get()->disable_limits();
 echo "<h1>Cleanup deliverable AT entries:</h1>\n";
 
 $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-$qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION);
+$qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION);
 $qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED);
 $deliverables = $qb->execute();
 

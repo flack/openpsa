@@ -51,7 +51,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
     }
 
@@ -74,7 +73,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
     /**
      * This is what Datamanager calls to actually create a document
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $document = new org_openpsa_documents_document_dba();
         $document->topic = $this->_request_data['directory']->id;
@@ -98,7 +97,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_do('midgard:create', $this->_request_data['directory']);
+        $data['directory']->require_do('midgard:create');
 
         $this->_defaults = array
         (
@@ -114,11 +113,11 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         {
             case 'save':
                 /* Index the document */
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
                 // Relocate to document view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 if ($this->_document->topic != $this->_topic->id)
                 {
                     $nap = new midcom_helper_nav();
@@ -126,11 +125,10 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
                     $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
                 }
 
-                $_MIDCOM->relocate($prefix  . "document/" . $this->_document->guid . "/");
-                // This will exit
+                return new midcom_response_relocate($prefix  . "document/" . $this->_document->guid . "/");
+
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
         $this->_request_data['controller'] =& $this->_controller;
 

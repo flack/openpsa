@@ -22,20 +22,5 @@ class midcom_db_privilege extends midcom_core_dbaobject
         $this->_use_activitystream = false;
         parent::__construct($id);
     }
-
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
 }
 ?>

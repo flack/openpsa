@@ -55,13 +55,13 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             $wikiword = $this->_page->title;
             if ($this->_page->delete())
             {
-                $_MIDCOM->uimessages->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s deleted'), $wikiword), 'ok');
+                midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s deleted'), $wikiword), 'ok');
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_page->guid);
 
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
             }
             else
             {
@@ -85,7 +85,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
         $this->add_breadcrumb("delete/{$this->_page->name}/", $this->_l10n_midcom->get('delete'));
 
-        $_MIDCOM->set_pagetitle($this->_page->title);
+        midcom::get('head')->set_pagetitle($this->_page->title);
     }
 
     /**
@@ -100,7 +100,8 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         // Replace wikiwords
         if (array_key_exists('content', $this->_request_data['wikipage_view']))
         {
-            $this->_request_data['wikipage_view']['content'] = preg_replace_callback($this->_config->get('wikilink_regexp'), array($this->_page, 'replace_wikiwords'), $this->_request_data['wikipage_view']['content']);
+            $parser = new net_nemein_wiki_parser($this->_page);
+            $this->_request_data['wikipage_view']['content'] = $parser->get_markdown($this->_request_data['wikipage_view']['content']);
         }
 
         midcom_show_style('view-wikipage-delete');

@@ -20,6 +20,8 @@
 'tinymce_url' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tinymce',
 //'tinymce_default_config_snippet' => "{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/midcom.helper.datamanager2/tinymce",
 
+'codemirror_config_snippet' => "file://midcom/helper/datamanager2/config/codemirror_default",
+
 'html_purify' => true,
 'html_purify_config' => array
 (
@@ -104,54 +106,23 @@
 //Pre-made chooser configurations
 'clever_classes' => array
 (
-    'buddy' => array
-    (
-        'class' => 'net_nehmer_buddylist_entry',
-        'component' => 'net.nehmer.buddylist',
-        'headers' => array
-        (
-            'firstname',
-            'lastname',
-            'email',
-        ),
-        'constraints' => array
-        (
-            array
-            (
-                'field' => 'account',
-                'op'    => '=',
-                'value' => '__CURRENT_USER__',
-            ),
-            array
-            (
-                'field' => 'blacklisted',
-                'op'    => '=',
-                'value' => false,
-            ),
-        ),
-        'searchfields' => array
-        (
-            'buddy.firstname',
-            'buddy.lastname',
-            'buddy.username',
-        ),
-        'orders' => array
-        (
-            array('buddy.lastname' => 'ASC'),
-            array('buddy.firstname' => 'ASC'),
-        ),
-        'reflector_key' => 'buddy',
-    ),
     'contact' => array
     (
         'class' => 'org_openpsa_contacts_person_dba',
         'component' => 'org.openpsa.contacts',
-        'headers' => array
+        'result_headers' => array
         (
-            'name',
-            'email',
+            array
+            (
+                'title' => 'name',
+                'name' => 'name',
+            ),
+            array
+            (
+                'title' => 'email',
+                'name' => 'email',
+            ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'firstname',
@@ -168,12 +139,19 @@
     (
         'class' => 'net_nemein_wiki_wikipage',
         'component' => 'net.nemein.wiki',
-        'headers' => array
+        'result_headers' => array
         (
-            'revised',
-            'title',
+            array
+            (
+                'title' => 'revised',
+                'name' => 'revised',
+            ),
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'title',
@@ -189,11 +167,14 @@
     (
         'class' => 'midcom_db_article',
         'component' => 'net.nehmer.static',
-        'headers' => array
+        'result_headers' => array
         (
-            'title',
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'title'
@@ -209,12 +190,19 @@
     (
         'class' => 'midcom_db_topic',
         'component' => 'midcom.admin.folder',
-        'headers' => array
+        'result_headers' => array
         (
-            'extra',
-            'component',
+            array
+            (
+                'title' => 'extra',
+                'name' => 'extra',
+            ),
+            array
+            (
+                'title' => 'component',
+                'name' => 'component',
+            ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'extra',
@@ -232,12 +220,19 @@
     (
         'class' => 'midcom_db_group',
         'component' => 'midgard.admin.asgard',
-        'headers' => array
+        'result_headers' => array
         (
-            'name',
-            'official',
+            array
+            (
+                'title' => 'name',
+                'name' => 'name',
+            ),
+            array
+            (
+                'title' => 'official',
+                'name' => 'official',
+            ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'name',
@@ -255,14 +250,29 @@
     (
         'class' => 'net_nemein_calendar_event',
         'component' => 'net.nemein.calendar',
-        'headers' => array
+        'result_headers' => array
         (
-            'start',
-            'end',
-            'title',
-            'location',
+            array
+            (
+                'title' => 'start',
+                'name' => 'start',
+            ),
+            array
+            (
+                'title' => 'end',
+                'name' => 'end',
+            ),
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
+            array
+            (
+                'title' => 'location',
+                'name' => 'location',
+            ),
         ),
-        'constraints' => array(),
         'searchfields' => array
         (
             'title',
@@ -282,7 +292,6 @@
         'component'   => 'org.openpsa.projects',
         'titlefield'  => 'title',
         'id_field'     => 'id',
-        'constraints' => array(),
         'result_headers' => array
         (
             array

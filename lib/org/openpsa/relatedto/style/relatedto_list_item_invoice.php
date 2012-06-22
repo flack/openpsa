@@ -6,11 +6,11 @@ $invoice =& $data['other_obj'];
 $paid = '';
 if ($invoice->paid > 0)
 {
-    $paid = ", " . $_MIDCOM->i18n->get_string('paid', 'org.openpsa.invoices') . ": " . strftime('%x', $invoice->paid);
+    $paid = ", " . midcom::get('i18n')->get_string('paid', 'org.openpsa.invoices') . ": " . strftime('%x', $invoice->paid);
 }
 else if ($invoice->due < time())
 {
-    $paid = ", " . $_MIDCOM->i18n->get_string('not paid', 'org.openpsa.invoices');
+    $paid = ", " . midcom::get('i18n')->get_string('not paid', 'org.openpsa.invoices');
 }
 ?>
 
@@ -23,10 +23,10 @@ else if ($invoice->due < time())
     if ($invoice->customer)
     {
         $customer = midcom_db_group::get_cached($invoice->customer);
-        echo "<li>" . $_MIDCOM->i18n->get_string('customer', 'org.openpsa.invoices') . ": {$customer->official}</li>";
+        echo "<li>" . midcom::get('i18n')->get_string('customer', 'org.openpsa.invoices') . ": {$customer->official}</li>";
     }
 
-    echo "<li>" . $_MIDCOM->i18n->get_string('sum', 'org.openpsa.invoices') . ": " . org_openpsa_helpers::format_number($invoice->sum) . " (" . $_MIDCOM->i18n->get_string('due', 'org.openpsa.invoices') . ": " . strftime('%x', $invoice->due) . "{$paid})</li>";
+    echo "<li>" . midcom::get('i18n')->get_string('sum', 'org.openpsa.invoices') . ": " . org_openpsa_helpers::format_number($invoice->sum) . " (" . midcom::get('i18n')->get_string('due', 'org.openpsa.invoices') . ": " . strftime('%x', $invoice->due) . "{$paid})</li>";
     ?>
     </ul>
 

@@ -107,13 +107,20 @@ form.datamanager2 fieldset.checkbox label
     display: inline;
     margin: 0 10px 0 0;
     white-space: nowrap;
+    font-weight: normal;
+}
+
+form.datamanager2 fieldset.radiobox .separator-vertical,
+form.datamanager2 fieldset.checkbox .separator-vertical
+{
+    display: block;
 }
 
 form.datamanager2 fieldset.radiobox input,
 form.datamanager2 fieldset.checkbox input
 {
     display: inline;
-    vertical-align: bottom;
+    vertical-align: top;
 }
 
 form.datamanager2 div.blob_preview,
@@ -178,6 +185,12 @@ form.datamanager2 div.form_toolbar input.delete
 {
     padding-left: 18px;
     background-image: url('../stock-icons/16x16/trash.png');
+}
+
+form.datamanager2 div.form_toolbar input.preview
+{
+    padding-left: 18px;
+    background-image: url('../stock-icons/16x16/view.png');
 }
 
 /* Checkbox display */
@@ -352,4 +365,28 @@ form.datamanager2 table.jquery-enabled thead img.hover
 form.datamanager2 table.jquery-enabled thead .deleted img.delete
 {
   display: inline !important;
+}
+
+.CodeMirror-fullscreen
+{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+    opacity: 1;
+}
+
+.CodeMirror .activeline
+{
+    background-color: #f5f5f5;
+}
+
+.CodeMirror-focused .activeline
+{
+    background-color: #eff5ff;
 }

@@ -17,22 +17,16 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_comments_comment_db';
+
+    // New messages enter at 4, and can be lowered or raised
+    const JUNK = 1;
+    const ABUSE = 2;
+    const REPORTED_ABUSE = 3;
+    const NEW_ANONYMOUS = 4;
+    const NEW_USER = 5;
+    const MODERATED = 6;
+
     var $_send_notification = false;
-
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
 
     /**
      * DBA magic defaults which assign write privileges for all USERS, so that they can
@@ -68,7 +62,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * @param guid $guid The GUID of the object to bind to.
      * @return Array List of applicable comments.
      */
-    function list_by_objectguid($guid, $limit=false, $order='ASC', $paging=false, $status = false)
+    function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
     {
         if ($paging !== false)
         {
@@ -164,7 +158,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function count_by_objectguid($guid, $status = false)
     {
-
         $qb = net_nehmer_comments_comment::new_query_builder();
 
         if (!is_array($status))
@@ -189,7 +182,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function count_by_objectguid_filter_anonymous($guid, $status = false)
     {
-
         $qb = net_nehmer_comments_comment::new_query_builder();
 
         if (!is_array($status))
@@ -218,13 +210,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return;
         }
 
-        if (!$_MIDCOM->componentloader->is_installed('be.crsolutions.mollom'))
+        if (!midcom::get('componentloader')->is_installed('be.crsolutions.mollom'))
         {
             debug_add('be.crsolutions.mollom spam checker is enabled but not installed, aborting check', MIDCOM_LOG_INFO);
             return;
         }
 
-        $_MIDCOM->load_library('be.crsolutions.mollom');
+        midcom::get('componentloader')->load_library('be.crsolutions.mollom');
 
         $mollom = new be_crsolutions_mollom();
         if (!$mollom->initialize())
@@ -245,7 +237,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             // Quality content
             debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as ham with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
 
-            $this->status = NET_NEHMER_COMMENTS_MODERATED;
+            $this->status = net_nehmer_comments_comment::MODERATED;
             $this->update();
             $this->_log_moderation('reported_not_junk', 'mollom', "Quality = {$ret['quality']}");
             return;
@@ -256,7 +248,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             // Spam
             debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as spam with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
 
-            $this->status = NET_NEHMER_COMMENTS_JUNK;
+            $this->status = net_nehmer_comments_comment::JUNK;
             $this->update();
             $this->_log_moderation('confirmed_junk', 'mollom', "Quality = {$ret['quality']}");
             return;
@@ -270,7 +262,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     function report_abuse()
     {
-        if ($this->status == NET_NEHMER_COMMENTS_MODERATED)
+        if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
             return false;
         }
@@ -279,11 +271,11 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         if (   $this->can_do('net.nehmer.comments:moderation')
             && !$this->_sudo_requested)
         {
-            $this->status = NET_NEHMER_COMMENTS_ABUSE;
+            $this->status = net_nehmer_comments_comment::ABUSE;
         }
         else
         {
-            $this->status = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+            $this->status = net_nehmer_comments_comment::REPORTED_ABUSE;
         }
 
         if ($this->update())
@@ -300,7 +292,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function confirm_abuse()
     {
-        if ($this->status == NET_NEHMER_COMMENTS_MODERATED)
+        if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
             return false;
         }
@@ -311,7 +303,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return false;
         }
 
-        $this->status = NET_NEHMER_COMMENTS_ABUSE;
+        $this->status = net_nehmer_comments_comment::ABUSE;
         if ($this->update())
         {
             // Log who reported it
@@ -326,7 +318,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function confirm_junk()
     {
-        if ($this->status == NET_NEHMER_COMMENTS_MODERATED)
+        if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
             return false;
         }
@@ -338,7 +330,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return false;
         }
 
-        $this->status = NET_NEHMER_COMMENTS_JUNK;
+        $this->status = net_nehmer_comments_comment::JUNK;
         if ($this->update())
         {
             // Log who reported it
@@ -360,7 +352,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
 
         // Set the status
-        $this->status = NET_NEHMER_COMMENTS_MODERATED;
+        $this->status = net_nehmer_comments_comment::MODERATED;
         $updated = $this->update();
 
         if ($this->update())
@@ -393,7 +385,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                         $reporter = 'mollom';
                         break;
                     default:
-                        $user = $_MIDCOM->auth->get_user($log_details[0]);
+                        $user = midcom::get('auth')->get_user($log_details[0]);
                         $reporter = $user->name;
                         break;
                 }
@@ -414,9 +406,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         if ($reporter === null)
         {
-            if ($_MIDCOM->auth->user)
+            if (midcom::get('auth')->user)
             {
-                $reporter = $_MIDCOM->auth->user->guid;
+                $reporter = midcom::get('auth')->user->guid;
             }
             else
             {
@@ -451,17 +443,16 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         $view_status = array
         (
-            NET_NEHMER_COMMENTS_NEW,
-            NET_NEHMER_COMMENTS_NEW_ANONYMOUS,
-            NET_NEHMER_COMMENTS_NEW_USER,
-            NET_NEHMER_COMMENTS_MODERATED,
+            net_nehmer_comments_comment::NEW_ANONYMOUS,
+            net_nehmer_comments_comment::NEW_USER,
+            net_nehmer_comments_comment::MODERATED,
         );
 
         if (isset($this->_config))
         {
             if ($this->_config->get('show_reported_abuse_as_normal'))
             {
-                $view_status[] = NET_NEHMER_COMMENTS_REPORTED_ABUSE;
+                $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
             }
         }
 
@@ -486,8 +477,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             $value = 0;
             foreach ($comments as $comment)
             {
-                if (   isset($comment->rating)
-                    && !empty($comment->rating))
+                if (!empty($comment->rating))
                 {
                     $rating_comments++;
                     $ratings_total += $comment->rating;
@@ -496,12 +486,12 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
             // Get parent object
             $parent_property = $config->get('ratings_cache_to_object_property');
-            $_MIDCOM->auth->request_sudo('net.nehmer.comments');
+            midcom::get('auth')->request_sudo('net.nehmer.comments');
             if ($config->get('ratings_cache_total'))
             {
                 $value = $ratings_total;
             }
-            elseif ($rating_comments != 0)
+            else if ($rating_comments != 0)
             {
                 $value = $ratings_total / $rating_comments;
             }
@@ -513,7 +503,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             }
             else
             {
-                $parent_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+                $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
                 // TODO: Figure out whether to round
                 if (!$config->get('ratings_cache_to_object_use_rcs'))
                 {
@@ -536,7 +526,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             }
             else
             {
-                $parent_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+                $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
                 if (!$config->get('comment_count_cache_to_object_use_rcs'))
                 {
                     $parent_object->_use_rcs = false;
@@ -548,7 +538,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                     $parent_object->_use_rcs = true;
                 }
             }
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
     }
 
@@ -557,7 +547,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         //Get the parent object
         try
         {
-            $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+            $parent = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
         }
         catch (midcom_error $e)
         {
@@ -615,26 +605,27 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $message = array();
 
         // Resolve parent title
-        $parent_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+        $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
         $ref = midcom_helper_reflector::get($parent_object);
         $parent_title = $ref->get_object_label($parent_object);
 
         // Resolve commenting user
-        if ($_MIDCOM->auth->user)
+        $auth = midcom::get('auth');
+        if ($auth->user)
         {
-            $user_string = "{$_MIDCOM->auth->user->name} ({$_MIDCOM->auth->user->username})";
+            $user_string = "{$auth->user->name} ({$auth->user->username})";
         }
         else
         {
-            $user_string = "{$this->author} (" . $_MIDCOM->i18n->get_string('anonymous', 'midcom') . ")";
+            $user_string = "{$this->author} (" . midcom::get('i18n')->get_string('anonymous', 'midcom') . ")";
         }
 
-        $message['title'] = sprintf($_MIDCOM->i18n->get_string('page %s has been commented by %s', 'net.nehmer.comments'), $parent_title, $user_string);
+        $message['title'] = sprintf(midcom::get('i18n')->get_string('page %s has been commented by %s', 'net.nehmer.comments'), $parent_title, $user_string);
 
         $message['content']  = "{$this->title}\n";
         $message['content'] .= "{$this->content}\n\n";
-        $message['content'] .= $_MIDCOM->i18n->get_string('link to page', 'net.nemein.wiki') . ":\n";
-        $message['content'] .= $_MIDCOM->permalinks->create_permalink($this->objectguid);
+        $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get('permalinks')->create_permalink($this->objectguid);
 
         $message['abstract'] = $message['title'];
 

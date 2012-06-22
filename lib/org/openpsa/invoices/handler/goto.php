@@ -28,15 +28,15 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
                 $this->_l10n->get($_GET['query'])
             );
 
-            $_MIDCOM->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
-            $_MIDCOM->relocate('');
+            midcom::get('uimessages')->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
+            return new midcom_response_relocate('');
         }
 
         $invoicenumber = (int) $_GET['query'] ;
 
         if ($invoice = org_openpsa_invoices_invoice_dba::get_by_number($invoicenumber))
         {
-            $_MIDCOM->relocate('invoice/' . $invoice->guid . '/');
+            return new midcom_response_relocate('invoice/' . $invoice->guid . '/');
         }
 
         $MessageContent = sprintf
@@ -45,9 +45,9 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
             $this->_l10n->get($invoicenumber)
         );
 
-        $_MIDCOM->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
+        midcom::get('uimessages')->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
 
-        $_MIDCOM->relocate('');
+        return new midcom_response_relocate('');
     }
 }
 ?>

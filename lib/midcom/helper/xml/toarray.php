@@ -113,7 +113,7 @@ class midcom_helper_xml_toarray
             return false;
         }
 
-        $this->_parser = xml_parser_create($_MIDCOM->i18n->get_current_charset());
+        $this->_parser = xml_parser_create(midcom::get('i18n')->get_current_charset());
         xml_set_object($this->_parser, $this);
         xml_set_element_handler($this->_parser, "_tag_open", "_tag_closed");
         xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, 0);

@@ -74,6 +74,10 @@ Erledigt
 Offen
 ---STRINGEND
 
+---STRING entry created
+Erstellt am
+---STRINGEND
+
 ---STRING entry text
 Text
 ---STRINGEND

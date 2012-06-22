@@ -16,20 +16,23 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_products_product';
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
+    const DELIVERY_SINGLE = 1000;
+    const DELIVERY_SUBSCRIPTION = 2000;
 
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
+    /**
+     * Professional services
+     */
+    const TYPE_SERVICE = 1000;
 
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
+    /**
+     * Material goods
+     */
+    const TYPE_GOODS = 2000;
+
+    /**
+     * Solution is a nonmaterial good
+     */
+    const TYPE_SOLUTION = 2001;
 
     function get_parent_guid_uncached()
     {

@@ -37,7 +37,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => "group/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'midcom_db_group'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'midcom_db_group'),
             )
         );
     }

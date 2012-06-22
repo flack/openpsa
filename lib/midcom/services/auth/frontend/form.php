@@ -57,7 +57,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
         // Store the submitted form if the session expired, but user wants to save the data
         if (count($_POST) > 0)
         {
-            $data =& $_MIDCOM->get_custom_context_data('request_data');
+            $data =& midcom_core_context::get()->get_custom_key('request_data');
 
             $data['restored_form_data'] = array();
 
@@ -70,10 +70,10 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
 
                 $data['restored_form_data'][$key] = base64_encode(serialize($value));
             }
-            $_MIDCOM->style->data = array_merge($_MIDCOM->style->data, $data);
+            midcom::get('style')->data = array_merge(midcom::get('style')->data, $data);
         }
 
-        $_MIDCOM->style->show_midcom('midcom_services_auth_frontend_form');
+        midcom::get('style')->show_midcom('midcom_services_auth_frontend_form');
     }
 }
 ?>

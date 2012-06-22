@@ -18,7 +18,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -26,7 +25,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The article which has been created
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article = null;
 
@@ -34,7 +32,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The article link which has been created
      *
      * @var net_nehmer_static_link_dba
-     * @access private
      */
     private $_link = null;
 
@@ -118,17 +115,15 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 $this->_article = new midcom_db_article($this->_link->article);
-                $_MIDCOM->relocate("{$this->_article->name}/");
-                // This will exit
+                return new midcom_response_relocate("{$this->_article->name}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
     }
 

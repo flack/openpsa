@@ -27,7 +27,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     public function _handler_process($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (   empty($_POST['id'])
             || empty($_POST['action']))
@@ -69,7 +69,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         if (!empty($_POST['relocate']))
         {
             midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $data['message']['message'], $data['message']['type']);
-            midcom::get()->relocate('');
+            return new midcom_response_relocate('');
         }
 
         $data['next_action'] = $this->_master->render_invoice_actions($invoice);
@@ -90,12 +90,13 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $customerCard = org_openpsa_widgets_contact::get($invoice->customerContact);
         $contactDetails = $customerCard->contact_details;
         $invoice_label = $invoice->get_label();
+        $invoice_date = date($this->_l10n_midcom->get('short date'), $invoice->date);
 
         // generate pdf, only if not existing yet
         $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
         if (count($pdf_files) == 0)
         {
-            $invoice->render_and_attach_pdf();
+            org_openpsa_invoices_handler_pdf::render_and_attach_pdf($invoice);
         }
 
         $mail = new org_openpsa_mail();
@@ -104,6 +105,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $mail->parameters = array
         (
             "INVOICE_LABEL" => $invoice_label,
+            "INVOICE_DATE" => $invoice_date,
             "FIRSTNAME" => $contactDetails["firstname"],
             "LASTNAME" => $contactDetails["lastname"]
         );
@@ -150,10 +152,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         if (!$mail->send())
         {
-            throw new midcom_error("Unable to deliver mail.");
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message());
+            return false;
         }
         else
         {
+            $invoice->set_parameter($this->_component, 'sent_by_mail', time());
             return $this->_mark_as_sent($invoice);
         }
     }
@@ -162,7 +166,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * helper function - contains code to mark invoice as paid,
      * maybe move it to invoice-class ?
      *
-     * @parama org_openpsa_invoices_invoice_dba $invoice contains invoice
+     * @param org_openpsa_invoices_invoice_dba $invoice contains invoice
      */
     private function _mark_as_paid(org_openpsa_invoices_invoice_dba $invoice)
     {
@@ -171,11 +175,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $invoice->paid = time();
             if ($invoice->update())
             {
-                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice "%s" paid'), $invoice->get_label());
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice %s paid'), $invoice->get_label());
             }
             else
             {
-                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice "%s" paid'), $invoice->get_label());
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice %s paid'), $invoice->get_label());
                 return false;
             }
         }
@@ -196,11 +200,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
             if ($invoice->update())
             {
-                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice "%s" sent'), $invoice->get_label());
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice %s sent'), $invoice->get_label());
             }
             else
             {
-                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice "%s" paid'), $invoice->get_label());
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice %s paid'), $invoice->get_label());
                 return false;
             }
             $mc = new org_openpsa_relatedto_collector($invoice->guid, 'org_openpsa_projects_task_dba');
@@ -211,7 +215,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             {
                 if (org_openpsa_projects_workflow::complete($task) && !isset($args["no_redirect"]))
                 {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
+                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
                 }
             }
         }
@@ -328,7 +332,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         switch ($_POST['oper'])
         {
@@ -343,8 +347,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 {
                     $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
                 }
-                $item->units = (float) $_POST['quantity'];
-                $item->pricePerUnit = (float) $_POST['price'];
+                $item->units = (float) str_replace(',', '.', $_POST['quantity']);
+                $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
                 $item->description = $_POST['description'];
                 if (!$item->update())
                 {
@@ -355,13 +359,20 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
                 if (!$item->delete())
                 {
-                    throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
+                    throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
                 }
 
                 break;
             default:
                 throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
         }
+        $data['saved_values'] = array
+        (
+            'id' => $item->id,
+            'quantity' => $item->units,
+            'price' => $item->pricePerUnit,
+            'description' => $item->description
+        );
     }
 
     private function _verify_post_data()
@@ -395,13 +406,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_object->_recalculate_invoice_items();
 
-        $_MIDCOM->relocate("invoice/items/" . $this->_object->guid . "/");
+        return new midcom_response_relocate("invoice/items/" . $this->_object->guid . "/");
     }
 
     private function _prepare_output()
     {
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
-
         $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
         $this->add_breadcrumb
         (
@@ -416,7 +425,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
+                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             )
         );
 

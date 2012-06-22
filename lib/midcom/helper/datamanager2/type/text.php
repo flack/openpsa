@@ -79,6 +79,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      * @see http://www.php.net/htmlspecialchars
      */
     var $specialchars_quotes = ENT_QUOTES;
+
     /**
      * Define the charset to use when htmlspecialchars() is called
      *
@@ -289,6 +290,11 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
         $this->value = (string) $this->value;
 
+        if ($this->purify)
+        {
+            $this->purify_content();
+        }
+
         if (   $this->maxlength > 0
             && strlen($this->value) > $this->maxlength)
         {
@@ -297,45 +303,25 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             return false;
         }
 
-        if (   !empty($this->forbidden_patterns)
-            && is_array($this->forbidden_patterns))
+        $stat = $this->validate_forbidden_patterns(array($this->name => $this->value));
+        if (is_array($stat))
         {
-            foreach ($this->forbidden_patterns as $condition)
-            {
-                if (!isset($condition['explanation']))
-                {
-                    $condition['explanation'] = '';
-                }
-                switch ($condition['type'])
-                {
-                    case 'text':
-                        $pos = strpos($this->value, $condition['pattern']);
-                        if ($pos !== false)
-                        {
-                            $offense = substr($this->value, $pos, strlen($condition['pattern']));
-                            $this->validation_error = sprintf($this->_l10n->get('type text: value contains an expression that is not allowed: "%s". %s'), htmlentities($offense), $condition['explanation']);
-                            return false;
-                        }
-                        break;
-                    case 'regex':
-                        $matches = array();
-                        if (preg_match($condition['pattern'], $this->value, $matches))
-                        {
-                            $this->validation_error = sprintf($this->_l10n->get('type text: value contains an expression that is not allowed: "%s". %s'), htmlentities($matches[0]), $condition['explanation']);
-                            return false;
-                        }
-                        break;
-                    default:
-                        // We do not know how to handle this
-                        $msg = "Unsupported pattern type '{$condition['type']}'";
-                        debug_add($msg, MIDCOM_LOG_WARN);
-                        $this->validation_error = $msg;
-                        return false;
-                        break;
-                }
-            }
+            $this->validation_error = $stat[$this->name];
+            return false;
         }
 
+        $stat = $this->validate_allowed_patterns(array($this->name => $this->value));
+        if (is_array($stat))
+        {
+            $this->validation_error = $stat[$this->name];
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validate_allowed_patterns($fields)
+    {
         if (   !empty($this->allowed_patterns)
             && is_array($this->allowed_patterns))
         {
@@ -349,23 +335,59 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                 {
                     case 'regex':
                         $matches = array();
-                        if (!preg_match($condition['pattern'], $this->value, $matches))
+                        if (!preg_match($condition['pattern'], $fields[$this->name], $matches))
                         {
-                            $this->validation_error = sprintf($this->_l10n->get('type text: value is not allowed. %s'), $condition['explanation']);
-                            return false;
+                            return array($this->name => sprintf($this->_l10n->get('type text: value is not allowed. %s'), $condition['explanation']));
                         }
                         break;
                     default:
                         // We do not know how to handle this
                         $msg = "Unsupported pattern type '{$condition['type']}'";
                         debug_add($msg, MIDCOM_LOG_WARN);
-                        $this->validation_error = $msg;
-                        return false;
-                        break;
+                        return array($this->name => $msg);
                 }
             }
         }
+        return true;
+    }
 
+    public function validate_forbidden_patterns($fields)
+    {
+        if (empty($this->forbidden_patterns))
+        {
+            return true;
+        }
+        foreach ($this->forbidden_patterns as $condition)
+        {
+            if (!isset($condition['explanation']))
+            {
+                $condition['explanation'] = '';
+            }
+
+            switch ($condition['type'])
+            {
+                case 'text':
+                    $pos = strpos($this->value, $condition['pattern']);
+                    if ($pos !== false)
+                    {
+                        $offense = substr($fields[$this->name], $pos, strlen($condition['pattern']));
+                        return array($this->name => sprintf($this->_l10n->get('type text: value contains an expression that is not allowed: "%s". %s'), htmlentities($offense), $condition['explanation']));
+                    }
+                    break;
+                case 'regex':
+                    $matches = array();
+                    if (preg_match($condition['pattern'], $fields[$this->name], $matches))
+                    {
+                        return array($this->name => sprintf($this->_l10n->get('type text: value contains an expression that is not allowed: "%s". %s'), htmlentities($matches[0]), $condition['explanation']));
+                    }
+                    break;
+                default:
+                    // We do not know how to handle this
+                    $msg = "Unsupported pattern type '{$condition['type']}'";
+                    debug_add($msg, MIDCOM_LOG_WARN);
+                    return array($this->name => $msg);
+            }
+        }
         return true;
     }
 
@@ -394,7 +416,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                 static $markdown = null;
                 if (! $markdown)
                 {
-                    $_MIDCOM->load_library('net.nehmer.markdown');
+                    midcom::get('componentloader')->load_library('net.nehmer.markdown');
                     $markdown = new net_nehmer_markdown_markdown();
                 }
 

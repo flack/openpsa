@@ -2,7 +2,7 @@
 $project =& $data['object'];
 $project->get_members();
 $view = $data['object_view'];
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
@@ -64,7 +64,7 @@ $node = $nap->get_node($nap->get_current_node());
     &(view['description']:h);
 
     <?php
-    $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "task/list/project/{$project->guid}/");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "task/list/project/{$project->guid}/");
 
     // TODO: Show help message otherwise?
     ?>

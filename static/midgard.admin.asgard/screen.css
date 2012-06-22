@@ -28,6 +28,7 @@ p
   position: absolute;
   min-height: 100%;
   z-index: 2;
+  width: 100%;
 }
 
 * html #container-wrapper
@@ -255,7 +256,6 @@ p
 #content div.page-title h1 a
 {
   color: #ffffff;
-  text-decoration: underline;
 }
 
 #content div.page-title h1 .object_language
@@ -304,7 +304,7 @@ p
     -webkit-border-radius: 6px;
     border-radius: 6px;
     padding: 2px 6px;
-    margin-bottom: 0.5em
+    margin-bottom: 0.5em;
 }
 
 #content .object_edit .element
@@ -321,6 +321,12 @@ p
     font-size: 100%;
     padding: 0.3em 0.1em;
     display: block;
+    font-weight: bold
+}
+
+#content .object_view .value
+{
+    min-height: 1em
 }
 
 #content .object_edit label
@@ -363,21 +369,31 @@ p
 #content .object_edit .shorttext,
 #content .object_edit select,
 #content .object_edit .longtext,
-#content .object_edit input.date
+#content .object_edit input.date,
+#content .object_edit div.CodeMirror,
+.CodeMirror-fullscreen
 {
     border: 1px solid #888888;
     background-color: white;
-    padding: 1px 2px;
-    display: inline !important
 }
 
 
 #content .object_edit .shorttext:focus,
 #content .object_edit select:focus,
 #content .object_edit .longtext:focus,
-#content .object_edit input.date:focus
+#content .object_edit input.date:focus,
+#content .object_edit div.CodeMirror-focused
 {
     border: 1px solid Highlight;
+}
+
+#content .object_edit .shorttext,
+#content .object_edit select,
+#content .object_edit .longtext,
+#content .object_edit input.date
+{
+    padding: 1px 2px;
+    display: inline !important
 }
 
 #content .object_edit fieldset
@@ -395,6 +411,7 @@ p
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     padding: 4px;
+    clear: both
 }
 
 #content .object_edit fieldset.rcs .element

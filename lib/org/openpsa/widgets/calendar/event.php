@@ -79,7 +79,7 @@ class org_openpsa_widgets_calendar_event
     /**
      * Actual event object
      *
-     * @access protected
+     * @var org_openpsa_calendar_event_dba
      */
     var $event = null;
 

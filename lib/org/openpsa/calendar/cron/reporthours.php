@@ -15,7 +15,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 {
     public function _on_initialize()
     {
-        return array_key_exists('org.openpsa.projects', $_MIDCOM->componentloader->manifests);
+        return array_key_exists('org.openpsa.projects', midcom::get('componentloader')->manifests);
     }
 
     /**
@@ -35,18 +35,18 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        if (!$_MIDCOM->load_library('org.openpsa.relatedto'))
+        if (!class_exists('org_openpsa_relatedto_dba'))
         {
             debug_add('relatedto library could not be loaded', MIDCOM_LOG_WARN);
             return;
         }
 
-        if (!$_MIDCOM->componentloader->load_graceful('org.openpsa.projects'))
+        if (!midcom::get('componentloader')->load_graceful('org.openpsa.projects'))
         {
             debug_add('org.openpsa.projects could not be loaded', MIDCOM_LOG_WARN);
             return;
         }
-        if (!$_MIDCOM->auth->request_sudo('org.openpsa.calendar'))
+        if (!midcom::get('auth')->request_sudo('org.openpsa.calendar'))
         {
             $msg = "Could not get sudo, aborting operation, see error log for details";
             $this->print_error($msg);
@@ -74,7 +74,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         if (   !is_array($eventmembers)
             || count ($eventmembers) < 1)
         {
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return;
         }
 
@@ -84,7 +84,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $seen_tasks = array();
         // keyed by guid
         $event_links = array();
-        foreach($eventmembers as $member)
+        foreach ($eventmembers as $member)
         {
             // Bulletproofing: prevent duplicating hour reports
             $member->hoursReported = time();
@@ -110,7 +110,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
                 $qb2->add_constraint('toComponent', '=', 'org.openpsa.projects');
                 $qb2->add_constraint('toClass', '=', 'org_openpsa_projects_task_dba');
-                $qb2->add_constraint('status', '=', ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
+                $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
                 $event_links[$event->guid] = $qb2->execute();
             }
             $links =& $event_links[$event->guid];
@@ -121,7 +121,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 continue;
             }
 
-            foreach($links as $link)
+            foreach ($links as $link)
             {
                 //Avoid multiple loads of same task
                 if (!isset($seen_tasks[$link->toGuid]))
@@ -157,7 +157,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         debug_add('done');
         return;
     }

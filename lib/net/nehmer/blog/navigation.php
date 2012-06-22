@@ -21,7 +21,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      * unless overridden by the symlink topic feature.
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -63,17 +62,17 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         // Hide the articles that have the publish time in the future and if
         // the user is not administrator
         if (   $this->_config->get('enable_scheduled_publishing')
-            && !$_MIDCOM->auth->admin)
+            && !midcom::get('auth')->admin)
         {
             // Show the article only if the publishing time has passed or the viewer
             // is the author
             $qb->begin_group('OR');
                 $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                if (   $_MIDCOM->auth->user
-                    && isset($_MIDCOM->auth->user->guid))
+                if (   midcom::get('auth')->user
+                    && isset(midcom::get('auth')->user->guid))
                 {
-                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . $_MIDCOM->auth->user->guid . '|');
+                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get('auth')->user->guid . '|');
                 }
             $qb->end_group();
         }
@@ -165,17 +164,17 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             // Hide the articles that have the publish time in the future and if
             // the user is not administrator
             if (   $this->_config->get('enable_scheduled_publishing')
-                && !$_MIDCOM->auth->admin)
+                && !midcom::get('auth')->admin)
             {
                 // Show the article only if the publishing time has passed or the viewer
                 // is the author
                 $qb->begin_group('OR');
                     $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                    if (   $_MIDCOM->auth->user
-                        && isset($_MIDCOM->auth->user->guid))
+                    if (   midcom::get('auth')->user
+                        && isset(midcom::get('auth')->user->guid))
                     {
-                        $qb->add_constraint('metadata.authors', 'LIKE', '|' . $_MIDCOM->auth->user->guid . '|');
+                        $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get('auth')->user->guid . '|');
                     }
                 $qb->end_group();
             }
@@ -285,8 +284,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      * Set the content topic to use. This will check against the configuration setting 'symlink_topic'.
      * We don't do sanity checking here for performance reasons, it is done when accessing the topic,
      * that should be enough.
-     *
-     * @access protected
      */
     private function _determine_content_topic()
     {

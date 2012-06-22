@@ -21,13 +21,13 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
         {
             return;
         }
-        
-        if ($_MIDCOM->dbfactory->is_a($data['object'], 'midgard_style'))
+
+        if (midcom::get('dbfactory')->is_a($data['object'], 'midgard_style'))
         {
             $help_element = midgard_admin_asgard_objecthelper::get_help_style($data);
         }
 
-        if ($_MIDCOM->dbfactory->is_a($data['object'], 'midgard_element'))
+        if (midcom::get('dbfactory')->is_a($data['object'], 'midgard_element'))
         {
             $help_element = midgard_admin_asgard_objecthelper::get_help_element($data);
         }
@@ -37,9 +37,9 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
             midcom_show_style('midgard_admin_asgard_objecthelper_' . $help_element);
         }
     }
-    
+
     public static function get_help_style($data)
-    {        
+    {
         if ($data['handler_id'] == '____mfa-asgard-object_create')
         {
             // Check what type we're creating
@@ -48,11 +48,11 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
                 // We should provide suggestions on element names
                 return midgard_admin_asgard_objecthelper::get_help_style_elementnames($data['object']);
             }
-            
+
             // We have no suitable help for creating substyles
             return;
         }
-        
+
         // Provide a handy list of element names we can create
         return midgard_admin_asgard_objecthelper::get_help_style_elementnames($data['object']);
     }
@@ -65,29 +65,29 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
             // We cannot help with empty elements
             return;
         }
-        
+
         if ($data['handler_id'] == '____mfa-asgard-object_create')
         {
             // We don't have help for anything you create under an element
             return;
         }
-        
+
         if ($data['object']->name == 'ROOT')
         {
-            $data = $_MIDCOM->get_custom_context_data('request_data');
-            $element_path = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
+            $data = midcom_core_context::get()->get_custom_key('request_data');
+            $element_path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
             $data['help_style_element'] = array
             (
                 'component' => 'midcom',
                 'default'   => file_get_contents($element_path),
             );
-            $_MIDCOM->set_custom_context_data('request_data', $data);
+            midcom_core_context::get()->set_custom_key('request_data', $data);
             return 'style_element';
         }
 
         // Find the element we're looking for
-        $style_path = $_MIDCOM->style->get_style_path_from_id($data['object']->style);
-        $style_elements = $_MIDCOM->style->get_style_elements_and_nodes($style_path);
+        $style_path = midcom::get('style')->get_style_path_from_id($data['object']->style);
+        $style_elements = midcom::get('style')->get_style_elements_and_nodes($style_path);
         $element_path = null;
         $element_component = null;
         foreach ($style_elements['elements'] as $component => $elements)
@@ -99,31 +99,31 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
                 break;
             }
         }
-        
+
         if (!$element_path)
         {
             return;
         }
-        
-        $data = $_MIDCOM->get_custom_context_data('request_data');
+
+        $data = midcom_core_context::get()->get_custom_key('request_data');
         $data['help_style_element'] = array
         (
             'component' => $element_component,
             'default'   => file_get_contents($element_path),
         );
-        $_MIDCOM->set_custom_context_data('request_data', $data);
+        midcom_core_context::get()->set_custom_key('request_data', $data);
         return 'style_element';
     }
-    
+
     /**
      * Helper for suggesting element names to create under a style
      */
     public static function get_help_style_elementnames(midcom_db_style $style)
     {
-        $style_path = $_MIDCOM->style->get_style_path_from_id($style->id);
-        $data = $_MIDCOM->get_custom_context_data('request_data');
-        $data['help_style_elementnames'] = $_MIDCOM->style->get_style_elements_and_nodes($style_path);
-        $_MIDCOM->set_custom_context_data('request_data', $data);
+        $style_path = midcom::get('style')->get_style_path_from_id($style->id);
+        $data = midcom_core_context::get()->get_custom_key('request_data');
+        $data['help_style_elementnames'] = midcom::get('style')->get_style_elements_and_nodes($style_path);
+        midcom_core_context::get()->set_custom_key('request_data', $data);
         return 'style_elementnames';
     }
 }

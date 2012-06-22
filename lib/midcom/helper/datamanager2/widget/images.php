@@ -19,7 +19,7 @@
  * uploaded files somehow through multiple requests.
  *
  * The type will show a tabular view of all uploaded images. Existing images have
- * an editable tile and can be deleted or replaced. A single new upload line is displayed
+ * an editable title and can be deleted or replaced. A single new upload line is displayed
  * always. There is no preview, but there is a download link.
  *
  * <b>Available configuration options:</b>
@@ -74,7 +74,8 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
 
     /**
      * Should the user be able to set the filename and title on upload?
-     * If so , set this to true.
+     * If so, set this to true.
+     *
      * @var boolean
      */
     var $set_name_and_title_on_upload = true;
@@ -117,23 +118,23 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
         // Create sortable
         if ($this->_type->sortable)
         {
-            $_MIDCOM->enable_jquery();
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
+            midcom::get('head')->enable_jquery();
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
             // Configuration options
-            $_MIDCOM->add_jscript("
+            midcom::get('head')->add_jscript("
                 jQuery(document).ready(function()
                 {
                     jQuery('#{$this->_namespace}{$this->name}')
                         .create_tablesorter({
                             max_count: 0,
-                            sortable: true,
+                            sortable_rows: true,
                             allow_delete: false
                         });
                 });
             ");
         }
 
-        $_MIDCOM->add_jscript($this->_get_filename_validation_script());
+        midcom::get('head')->add_jscript($this->_get_filename_validation_script());
 
         return true;
     }
@@ -219,7 +220,7 @@ END;
         }
 
         // Filename column
-        $html = "         <tr >\n" .
+        $html = "         <tr>\n" .
                 $sortable .
                 "            <td class=\"new filename\">";
         $this->_elements['s_new_filename'] = HTML_QuickForm::createElement('static', 's_new_filename', '', $html);
@@ -280,10 +281,13 @@ END;
         {
             return;
         }
-
+        $html = "        <tr>\n";
+        if ($this->_type->sortable)
+        {
+             $html .= "            <td class=\"new sortable\"></td>\n";
+        }
         // Filename column
-        $html = "        <tr >\n" .
-                "            <td class=\"new text\" colspan=\"1\">";
+        $html .= "            <td class=\"new text\" colspan=\"2\">";
         $html .= sprintf("%s:", $this->_l10n->get('add new file'));
         $this->_elements['s_new_filename'] = HTML_QuickForm::createElement('static', 's_new_filename', '', $html);
 
@@ -311,7 +315,6 @@ END;
         $this->_elements['s_new_file'] = HTML_QuickForm::createElement('static', 's_new_file', '', $html);
     }
 
-
     /**
      * Adds a row for an existing image
      *
@@ -326,13 +329,13 @@ END;
         {
             $info = $this->_type->images[$identifier]['main'];
         }
-        elseif (isset($this->_type->images[$identifier]['original']))
+        else if (isset($this->_type->images[$identifier]['original']))
         {
             $info = $this->_type->images[$identifier]['original'];
         }
         else
         {
-            foreach($this->_type->images[$identifier] as $data)
+            foreach ($this->_type->images[$identifier] as $data)
             {
                 $info = $data;
                 break;
@@ -340,7 +343,6 @@ END;
         }
         if (   !isset($info['object'])
             || !is_object($info['object'])
-            || !isset($info['object']->guid)
             || empty($info['object']->guid))
         {
             //Panic, broken identifier
@@ -352,14 +354,12 @@ END;
 
         $img_title = '';
         // Some reason we're kicking out-of-sync, check explicitly for POSTed value
-        if (   isset($_POST[$this->name])
-            && is_array($_POST[$this->name])
-            && isset($_POST[$this->name]["e_exist_{$identifier}_title"]))
+        if (!empty($_POST[$this->name]["e_exist_{$identifier}_title"]))
         {
             $img_title = $_POST[$this->name]["e_exist_{$identifier}_title"];
         }
         // Otherwise use the type title if available
-        elseif (isset($this->_type->titles[$identifier]))
+        else if (isset($this->_type->titles[$identifier]))
         {
             $img_title = $this->_type->titles[$identifier];
         }
@@ -506,9 +506,7 @@ END;
         if (   $this->_type->storage->object
             && (   !$this->_type->storage->object->can_do('midgard:attachments')
                 || !$this->_type->storage->object->can_do('midgard:update')
-                || !$this->_type->storage->object->can_do('midgard:parameters')
-                )
-            )
+                || !$this->_type->storage->object->can_do('midgard:parameters')))
         {
             $frozen = true;
         }
@@ -582,8 +580,7 @@ END;
             return;
         }
 
-        if (   array_key_exists('e_new_title', $values)
-            && !empty($values['e_new_title']))
+        if (!empty($values['e_new_title']))
         {
             $title = $values['e_new_title'];
         }
@@ -592,8 +589,7 @@ END;
             $title = $file['name'];
         }
 
-        if (   array_key_exists('e_new_filename', $values)
-            && !empty($values['e_new_filename']))
+        if (!empty($values['e_new_filename']))
         {
             $filename = $values['e_new_filename'];
         }

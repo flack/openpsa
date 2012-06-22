@@ -18,72 +18,14 @@ else
     );
 }
 
-if (!function_exists('list_object_properties'))
-{
-    // PONDER: Should we support schema somehow (only for non-parameter keys), this would practically require manual parsing...
-    function list_object_properties(&$object, &$l10n)
-    {
-        // These are internal to midgard and/or not valid QB constraints
-        $skip_properties = array();
-        // These will be deprecated soon
-        $skip_properties[] = 'orgOpenpsaAccesstype';
-        $skip_properties[] = 'orgOpenpsaWgtype';
-
-        if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_person'))
-        {
-            // The info field is a special case
-            $skip_properties[] = 'info';
-            // These legacy fields are rarely used
-            $skip_properties[] = 'topic';
-            $skip_properties[] = 'subtopic';
-            $skip_properties[] = 'office';
-            // This makes very little sense as a constraint
-            $skip_properties[] = 'img';
-            // Duh
-            $skip_properties[] = 'password';
-        }
-        if ($_MIDCOM->dbfactory->is_a($object, 'midgard_member'))
-        {
-            // The info field is a special case
-            $skip_properties[] = 'info';
-        }
-        // Skip metadata for now
-        $skip_properties[] = 'metadata';
-        $ret = array();
-        while (list ($property, $value) = each($object))
-        {
-            if (   preg_match('/^_/', $property)
-                || in_array($property, $skip_properties))
-            {
-                // Skip private or otherwise invalid properties
-                continue;
-            }
-            if (is_object($value))
-            {
-                while (list ($property2, $value2) = each($value))
-                {
-                    $prop_merged = "{$property}.{$property2}";
-                    $ret[$prop_merged] = $l10n->get("property:{$prop_merged}");
-                }
-            }
-            else
-            {
-                $ret[$property] = $l10n->get("property:{$property}");
-            }
-        }
-        asort($ret);
-        return $ret;
-    }
-}
-
 $tmp_person = new org_openpsa_person();
 $tmp_group = new org_openpsa_organization();
 $tmp_member = new midgard_member();
 $properties_map = array
 (
-    'person' => list_object_properties($tmp_person, $data['l10n']),
-    'group' => list_object_properties($tmp_group, $data['l10n']),
-    'membership' => list_object_properties($tmp_member, $data['l10n']),
+    'person' => org_openpsa_directmarketing_campaign_ruleresolver::list_object_properties($tmp_person, $data['l10n']),
+    'group' => org_openpsa_directmarketing_campaign_ruleresolver::list_object_properties($tmp_group, $data['l10n']),
+    'membership' => org_openpsa_directmarketing_campaign_ruleresolver::list_object_properties($tmp_member, $data['l10n']),
 );
 ?>
 <!-- Automatically built on PHP level -->
@@ -92,43 +34,25 @@ $properties_map = array
 <?php
 $cnt = count($properties_map);
 $i = 0;
+
 foreach ($properties_map as $class => $properties)
 {
     $i++;
     echo "        '{$class}': {\n";
     echo "             localized: '" . $data['l10n']->get("class:{$class}") . "',\n";
     echo "             parameters: false,\n";
-    echo "             properties: {\n";
-    $cnt2 = count($properties);
-    $i2 = 0;
-    foreach ($properties as $property => $localized)
-    {
-        $i2++;
-        if ($i2 < $cnt2)
-        {
-            echo "                 {$property}: '{$localized}',\n";
-        }
-        else
-        {
-            echo "                 {$property}: '{$localized}'\n";
-        }
-        }
-        echo "             }\n";
+    echo "             properties: " . json_encode($properties);
+    echo "        },\n";
 
-        if ($i < $cnt)
-        {
-            echo "        },\n";
-        }
-        else
-        {
-            echo "        },\n";
-            echo "        'generic_parameters': {\n";
-            echo "            localized: '" . $data['l10n']->get("class:generic parameters") . "',\n";
-            echo "            parameters: true,\n";
-            echo "            properties: false\n";
-            echo "        }\n";
-        }
+    if ($i == $cnt)
+    {
+        echo "        'generic_parameters': {\n";
+        echo "            localized: '" . $data['l10n']->get("class:generic parameters") . "',\n";
+        echo "            parameters: true,\n";
+        echo "            properties: false\n";
+        echo "        }\n";
     }
+}
 ?>
     };
     var org_openpsa_directmarketing_edit_query_match_map = {
@@ -173,14 +97,13 @@ foreach ($properties_map as $class => $properties)
 <h2><?php echo $data['l10n']->get('rules wizard'); ?></h2>
 
 <div class="wide">
-    <form name="org_openpsa_directmarketing_rules_editor" id="org_openpsa_directmarketing_rules_editor" enctype="multipart/form-data" method="post" onsubmit="return get_rules_array(zero_group_id);" class="datamanager2 org_openpsa_directmarketing_edit_query">
+    <form name="org_openpsa_directmarketing_rules_editor" id="org_openpsa_directmarketing_rules_editor" enctype="multipart/form-data" method="post" action="" onsubmit="return get_rules_array(zero_group_id);" class="datamanager2 org_openpsa_directmarketing_edit_query">
 
 
 <textarea class="longtext" cols="50" rows="25" name="midcom_helper_datamanager2_dummy_field_rules" id="midcom_helper_datamanager2_dummy_field_rules" style="display: none;">
 </textarea>
 
-    <fieldset class="anyalll">
-    <div id="org_openpsa_directmarketing_rules_editor_container" name="org_openpsa_directmarketing_rules_editor_container">
+    <div id="dirmar_rules_editor_container">
     </div>
         <div class="form_toolbar" id="org_openpsa_directmarketing_rules_editor_form_toolbar">
             <input name="midcom_helper_datamanager2_save" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
@@ -192,17 +115,17 @@ foreach ($properties_map as $class => $properties)
         //function to display rules given of php
         function get_old_rules()
         {
-            var group_id = first_group("org_openpsa_directmarketing_rules_editor_container" ,<?php
+            var group_id = first_group("dirmar_rules_editor_container" ,<?php
             // pass type of first rule_group to javascript, if there is one
-            if (count($current_rules) > 0 )
+            if (count($current_rules) > 0)
             {
                 if(isset($current_rules['type']))
                 {
-                    echo '"'.$current_rules['type'].'"';
+                    echo '"' . $current_rules['type'] . '"';
                 }
                 else
                 {
-                    echo '"'.$current_rules['groups'].'"';
+                    echo '"' . $current_rules['groups'] . '"';
                 }
             }
             else

@@ -42,6 +42,26 @@ Termin löschen
 Endzeit
 ---STRINGEND
 
+---STRING event "%s" was updated
+Termin "%s" wurde aktualisiert
+---STRINGEND
+
+---STRING event "%s" (%s) was updated
+Termin "%s" (%s) wurde aktualisiert
+---STRINGEND
+
+---STRING event "%s" was modified, updated information below.
+Termin "%s" wurde modifiziert, aktualisierte Daten stehen weiter unten.
+---STRINGEND
+
+---STRING event "%s" was cancelled
+Termin "%s" wurde abgesagt
+---STRINGEND
+
+---STRING event "%s" (%s) was cancelled
+Termin "%s" (%s) wurde abgesagt
+---STRINGEND
+
 ---STRING event %s
 Termin %s
 ---STRINGEND
@@ -174,3 +194,26 @@ Ressourcen
 Kalenderwoche %s
 ---STRINGEND
 
+---STRING you have been added to event "%s"
+Sie wurden für den Termin "%s" eingetragen
+---STRINGEND
+
+---STRING you have been added to event "%s" (%s)
+Sie wurden für den Termin "%s" (%s) eingetragen
+---STRINGEND
+
+---STRING you have been added to event "%s" participants list, event information below.
+Sie wurden zur Teilnehmerliste des Termins "%s" hinzugefügt, Termin-Details stehen weiter unten.
+---STRINGEND
+
+---STRING you have been removed from event "%s"
+Sie wurden aus dem Termin "%s" entfernt
+---STRINGEND
+
+---STRING you have been removed from event "%s" (%s)
+Sie wurden aus dem Termin "%s" (%s) entfernt
+---STRINGEND
+
+---STRING you have been removed from event "%s" (%s) participants list.
+Sie wurden aus der Teilnehmerliste des Termins "%s" (%s) entfernt
+---STRINGEND

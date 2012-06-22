@@ -50,7 +50,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
         $object_schema = $this->_object->get_parameter('midcom.helper.datamanager2', 'schema_name');
-        $component_schema = str_replace('.', '_', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
+        $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         if (   $object_schema == ''
             || !isset($this->_schemadb[$object_schema]))
         {
@@ -86,7 +86,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      */
     public function _handler_metadata($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
 
         // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
@@ -99,7 +99,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         else
         {
             // This is a regular object, bind to view
-            $_MIDCOM->bind_view_to_object($this->_object);
+            $this->bind_view_to_object($this->_object);
         }
 
         $this->_metadata = midcom_helper_metadata::retrieve($this->_object);
@@ -115,10 +115,9 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $_MIDCOM->cache->invalidate($this->_object->guid);
+                midcom::get('cache')->invalidate($this->_object->guid);
             case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->permalinks->create_permalink($this->_object->guid));
-                // This will exit
+                return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
@@ -129,21 +128,21 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         }
         else
         {
-            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $object_label);
+            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
         }
 
         $this->add_breadcrumb("__ais/folder/metadata/{$this->_object->guid}/", $this->_l10n->get('edit metadata'));
 
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('edit metadata of %s', 'midcom.admin.folder'), $object_label);
-        $_MIDCOM->set_pagetitle($data['title']);
+        $data['title'] = sprintf(midcom::get('i18n')->get_string('edit metadata of %s', 'midcom.admin.folder'), $object_label);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
-        $help_toolbar = $_MIDCOM->toolbars->get_help_toolbar();
+        $help_toolbar = midcom::get('toolbars')->get_help_toolbar();
         $help_toolbar->add_help_item('edit_metadata', 'midcom.admin.folder', null, null, 1);
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
     }
 
     /**

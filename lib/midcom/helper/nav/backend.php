@@ -111,15 +111,7 @@ class midcom_helper_nav_backend
      * @todo Update the data structure documentation
      * @var Array
      */
-    private static $_nodes;
-
-    /**
-     * This map tracks all loaded GUIDs along with their NAP structures. This cache
-     * is used by nav's resolve_guid function to short-circut already known GUIDs.
-     *
-     * @var Array
-     */
-    private $_guid_map = Array();
+    private static $_nodes = array();
 
     /**
      * This array holds a list of all topics for which the leaves have been loaded.
@@ -155,7 +147,7 @@ class midcom_helper_nav_backend
     /**
      * A reference to the NAP cache store
      *
-     * @var midcom_services_cache_backend
+     * @var midcom_services_cache_module_nap
      */
     private $_nap_cache = null;
 
@@ -195,22 +187,22 @@ class midcom_helper_nav_backend
      */
     public function __construct($context = 0)
     {
-        $tmp = $_MIDCOM->get_context_data($context, MIDCOM_CONTEXT_ROOTTOPIC);
+        $tmp = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         $this->_root = $tmp->id;
 
-        $this->_nap_cache = $_MIDCOM->cache->nap;
+        $this->_nap_cache = midcom::get('cache')->nap;
 
-        $this->_loader = $_MIDCOM->get_component_loader();
+        $this->_loader = midcom::get('componentloader');
 
-        if (!$_MIDCOM->auth->admin)
+        if (!midcom::get('auth')->admin)
         {
-            $this->_user_id = $_MIDCOM->auth->acl->get_user_id();
+            $this->_user_id = midcom::get('auth')->acl->get_user_id();
         }
 
         $up = null;
         $node_path_candidates = array($this->_root);
         $this->_current = $this->_root;
-        foreach ($_MIDCOM->get_context_data($context, MIDCOM_CONTEXT_URLTOPICS) as $topic)
+        foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic)
         {
             $id = $this->_nodeid($topic->id, $up);
             $node_path_candidates[] = $id;
@@ -383,7 +375,7 @@ class midcom_helper_nav_backend
 
         if (    !$this->_is_object_visible($nodedata)
              || (   $this->_user_id
-                 && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $nodedata[MIDCOM_NAV_GUID], 'midcom_db_topic', $this->_user_id)))
+                 && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $nodedata[MIDCOM_NAV_GUID], 'midcom_db_topic', $this->_user_id)))
         {
             return MIDCOM_ERRFORBIDDEN;
         }
@@ -434,9 +426,9 @@ class midcom_helper_nav_backend
 
         if (!$nodedata)
         {
-            $_MIDCOM->auth->request_sudo('midcom.helper.nav');
+            midcom::get('auth')->request_sudo('midcom.helper.nav');
             $nodedata = $this->_get_node_from_database($topic_id, $up);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
 
             if (is_null($nodedata))
             {
@@ -450,9 +442,9 @@ class midcom_helper_nav_backend
 
         // Rewrite all host dependant URLs based on the relative URL within our topic tree.
         $nodedata[MIDCOM_NAV_FULLURL] = "{$GLOBALS['midcom_config']['midcom_site_url']}{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
-        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen($_MIDCOM->get_host_name()))
+        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen(midcom::get()->get_host_name()))
             . "{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
-        $nodedata[MIDCOM_NAV_PERMALINK] = $_MIDCOM->permalinks->create_permalink($nodedata[MIDCOM_NAV_GUID]);
+        $nodedata[MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($nodedata[MIDCOM_NAV_GUID]);
 
         return $nodedata;
     }
@@ -495,7 +487,7 @@ class midcom_helper_nav_backend
         // Retrieve a NAP instance
         // if we are missing the component, use the nullcomponent.
         if (   !$topic->component
-            || !array_key_exists($topic->component, $_MIDCOM->componentloader->manifests))
+            || !array_key_exists($topic->component, midcom::get('componentloader')->manifests))
         {
             debug_add("The topic {$topic->id} has no component assigned to it, using 'midcom.core.nullcomponent'.",
                 MIDCOM_LOG_INFO);
@@ -564,7 +556,8 @@ class midcom_helper_nav_backend
             $nodedata[MIDCOM_NAV_NODEID] = $up;
 
             if (   !$nodedata[MIDCOM_NAV_NODEID]
-                || !array_key_exists($nodedata[MIDCOM_NAV_NODEID], self::$_nodes))
+                || (   !array_key_exists($nodedata[MIDCOM_NAV_NODEID], self::$_nodes)
+                    && $this->_loadNode($nodedata[MIDCOM_NAV_NODEID]) !== MIDCOM_ERROK))
             {
                 return null;
             }
@@ -632,9 +625,9 @@ class midcom_helper_nav_backend
             debug_add('The leaves have not yet been loaded from the database, we do this now.');
 
             //we always write all the leaves to cache and filter for ACLs after the fact
-            $_MIDCOM->auth->request_sudo('midcom.helper.nav');
+            midcom::get('auth')->request_sudo('midcom.helper.nav');
             $leaves = $this->_get_leaves_from_database($node);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
 
             $this->_write_leaves_to_cache($node, $leaves);
         }
@@ -647,7 +640,7 @@ class midcom_helper_nav_backend
                 && $data[MIDCOM_NAV_GUID])
             {
                 if (    $this->_user_id
-                     && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id))
+                     && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id))
                 {
                     continue;
                 }
@@ -721,7 +714,7 @@ class midcom_helper_nav_backend
             {
                 try
                 {
-                    $leaf[MIDCOM_NAV_OBJECT] = $_MIDCOM->dbfactory->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
+                    $leaf[MIDCOM_NAV_OBJECT] = midcom::get('dbfactory')->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
                 }
                 catch (midcom_error $e){}
             }
@@ -756,7 +749,7 @@ class midcom_helper_nav_backend
             // complete NAV_NAMES where necessary
             if (trim($leaf[MIDCOM_NAV_NAME]) == '')
             {
-                $leaf[MIDCOM_NAV_NAME] = $_MIDCOM->i18n->get_string('unknown', 'midcom');
+                $leaf[MIDCOM_NAV_NAME] = midcom::get('i18n')->get_string('unknown', 'midcom');
             }
 
             // Some basic information
@@ -789,7 +782,7 @@ class midcom_helper_nav_backend
     private function _update_leaflist_urls(array &$leaves)
     {
         $fullprefix = "{$GLOBALS['midcom_config']['midcom_site_url']}";
-        $absoluteprefix = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen($_MIDCOM->get_host_name()));
+        $absoluteprefix = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen(midcom::get()->get_host_name()));
 
         foreach ($leaves as $id => $copy)
         {
@@ -802,7 +795,7 @@ class midcom_helper_nav_backend
             }
             else
             {
-                $leaves[$id][MIDCOM_NAV_PERMALINK] = $_MIDCOM->permalinks->create_permalink($leaves[$id][MIDCOM_NAV_GUID]);
+                $leaves[$id][MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($leaves[$id][MIDCOM_NAV_GUID]);
             }
         }
     }
@@ -836,6 +829,7 @@ class midcom_helper_nav_backend
             if (is_object($leaf[MIDCOM_NAV_OBJECT]))
             {
                 $leaves[$id][MIDCOM_NAV_OBJECT] = new midcom_core_dbaproxy($leaf[MIDCOM_NAV_OBJECT]->guid, get_class($leaf[MIDCOM_NAV_OBJECT]));
+                $this->_nap_cache->put_guid($leaf[MIDCOM_NAV_OBJECT]->guid, $leaf);
             }
         }
 
@@ -863,9 +857,9 @@ class midcom_helper_nav_backend
         $mc->add_order('metadata.created');
 
         //we always write all the subnodes to cache and filter for ACLs after the fact
-        $_MIDCOM->auth->request_sudo('midcom.helper.nav');
+        midcom::get('auth')->request_sudo('midcom.helper.nav');
         $subnodes = $mc->get_values('id');
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         $cachedata = $this->_nap_cache->get_node($parent_node);
 
@@ -893,7 +887,6 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array            An array of node IDs or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function list_nodes($parent_node, $show_noentry)
     {
         static $listed = array();
@@ -902,7 +895,7 @@ class midcom_helper_nav_backend
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK)
         {
             debug_add("Unable to load parent node $parent_node", MIDCOM_LOG_ERROR);
-            return false;
+            return array();
         }
 
         $cache_identifier = $parent_node . (($show_noentry) ? 'noentry' : '');
@@ -925,8 +918,7 @@ class midcom_helper_nav_backend
 
         if (   $up
             || (   $GLOBALS['midcom_config']['symlinks']
-                && $node != self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id)
-           )
+                && $node != self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id))
         {
             $up = $this->_nodeid($node, $up);
         }
@@ -965,14 +957,13 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array             A list of leaves found, or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function list_leaves($parent_node, $show_noentry)
     {
         static $listed = array();
 
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK)
         {
-            return false;
+            return array();
         }
 
         if (!array_key_exists($parent_node, $this->_loaded_leaves))
@@ -1006,17 +997,26 @@ class midcom_helper_nav_backend
      *
      * Access is restricted to midcom_helper_nav::resolve_guid().
      *
-     * @access protected
-     * @param GUID $guid The GUID to look up in the in-memory cache.
+     * @param string $guid The GUID to look up in the NAP cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
     function get_loaded_object_by_guid($guid)
     {
-        if (! array_key_exists($guid, $this->_guid_map))
+        $entry = $this->_nap_cache->get_guid($guid);
+        if (empty($entry))
         {
             return null;
         }
-        return $this->_guid_map[$guid];
+        if ($entry[MIDCOM_NAV_TYPE] == 'leaf')
+        {
+            return $this->get_leaf($entry[MIDCOM_NAV_ID]);
+        }
+        else
+        {
+            return $this->get_node($entry[MIDCOM_NAV_ID]);
+        }
+
+        return $entry;
     }
 
     /**
@@ -1027,7 +1027,6 @@ class midcom_helper_nav_backend
      * @param mixed $node_id    The node ID to be retrieved.
      * @return Array        The node data as outlined in the class introduction, false on failure
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_node($node_id)
     {
         $node = $node_id;
@@ -1056,7 +1055,6 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The leaf-id to be retrieved.
      * @return Array        The leaf-data as outlined in the class introduction, false on failure
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_leaf ($leaf_id)
     {
         if (! $this->_check_leaf_id($leaf_id))
@@ -1074,7 +1072,6 @@ class midcom_helper_nav_backend
      *
      * @return mixed    The ID of the node in question.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_current_node()
     {
         return $this->_current;
@@ -1088,7 +1085,6 @@ class midcom_helper_nav_backend
      *
      * @return string    The ID of the leaf in question or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_current_leaf()
     {
         return $this->_currentleaf;
@@ -1099,7 +1095,6 @@ class midcom_helper_nav_backend
      *
      * @return mixed    The ID of the node in question.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_current_upper_node()
     {
         static $upper_node = null;
@@ -1129,7 +1124,6 @@ class midcom_helper_nav_backend
      *
      * @return int    The ID of the root node.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_root_node()
     {
         return $this->_root;
@@ -1142,7 +1136,6 @@ class midcom_helper_nav_backend
      *
      * @return Array    The node path array.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_node_path()
     {
         return $this->_node_path;
@@ -1155,7 +1148,6 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The Leaf-ID to search an uplink for.
      * @return mixed             The ID of the Node for which we have a match, or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_leaf_uplink($leaf_id)
     {
         if (! $this->_check_leaf_id($leaf_id))
@@ -1174,7 +1166,6 @@ class midcom_helper_nav_backend
      * @param mixed $node_id    The node ID to search an uplink for.
      * @return mixed             The ID of the node for which we have a match, -1 for the root node, or false on failure.
      */
-    // Keep this doc in sync with midcom_helper_nav
     function get_node_uplink($node_id)
     {
         if ($this->_loadNode($node_id) !== MIDCOM_ERROK)
@@ -1183,49 +1174,6 @@ class midcom_helper_nav_backend
         }
 
         return self::$_nodes[$node_id][MIDCOM_NAV_NODEID];
-    }
-
-    /**
-     * Helper function to read a parameter without loading the corresponding object.
-     * This is primarily for improving performance, so the function does not check
-     * for privileges.
-     *
-     * @param string $objectguid The object's GUID
-     * @param string $name The parameter to look for
-     */
-    public static function get_parameter($objectguid, $name)
-    {
-        static $parameter_cache = array();
-
-        if (!isset($parameter_cache[$objectguid]))
-        {
-            $parameter_cache[$objectguid] = array();
-        }
-
-        if (isset($parameter_cache[$objectguid][$name]))
-        {
-            return $parameter_cache[$objectguid][$name];
-        }
-
-        $mc = midgard_parameter::new_collector('parentguid', $objectguid);
-        $mc->set_key_property('value');
-        $mc->add_constraint('name', '=', $name);
-        $mc->add_constraint('domain', '=', 'midcom.helper.nav');
-        $mc->set_limit(1);
-        $mc->execute();
-        $parameters = $mc->list_keys();
-
-        if (count($parameters) == 0)
-        {
-            $parameter_cache[$objectguid][$name] = null;
-            return $parameter_cache[$objectguid][$name];
-        }
-
-        $parameter_cache[$objectguid][$name] = key($parameters);
-
-        unset($mc);
-
-        return $parameter_cache[$objectguid][$name];
     }
 
     /**
@@ -1333,7 +1281,7 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Checks, if the NAP object indicated by $napdata is visible within the current
+     * Checks if the NAP object indicated by $napdata is visible within the current
      * runtime environment. It will work with both nodes and leaves.
      * This includes checks for:
      *
@@ -1341,9 +1289,8 @@ class midcom_helper_nav_backend
      * - Scheduling/Hiding (only on-site)
      * - Approval (only on-site)
      *
-     * @param Array $napdata The NAP data structure for the object to check (supports null values).
+     * @param array $napdata The NAP data structure for the object to check (supports null values).
      * @return boolean Indicating visibility.
-     * @todo Integrate with midcom_helper_metadata::is_object_visible_onsite()
      */
     private function _is_object_visible($napdata)
     {

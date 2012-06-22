@@ -6,6 +6,10 @@
 Allow commenting by anonymous users
 ---STRINGEND
 
+---STRING abuse
+Abuse
+---STRINGEND
+
 ---STRING author
 Name
 ---STRINGEND
@@ -28,6 +32,10 @@ Comment
 
 ---STRING creator: %s, created %s, source ip %s.
 Creator: %s, Created: %s, Source IP: %s.
+---STRINGEND
+
+---STRING junk
+Junk
 ---STRINGEND
 
 ---STRING net.nehmer.comments
@@ -82,6 +90,10 @@ Save total instead of average to object
 Enable ratings support
 ---STRINGEND
 
+---STRING reported_abuse
+Reported abuse
+---STRINGEND
+
 ---STRING subscribe
 Notify about new comments
 ---STRINGEND
@@ -106,6 +118,14 @@ Junks
 Latest comments
 ---STRINGEND
 
+---STRING latest comments, only new
+Latest comments, only new
+---STRINGEND
+
+---STRING latest comments, only approved
+Latest comments, only approved
+---STRINGEND
+
 ---STRING only new
 Only new
 ---STRINGEND
@@ -120,14 +140,6 @@ To object
 
 ---STRING go to parent object
 Commented object
----STRINGEND
-
----STRING latest comments, only new
-Latest comments, only new
----STRINGEND
-
----STRING latest comments, only approved
-Latest comments, only approved
 ---STRINGEND
 
 ---STRING delete

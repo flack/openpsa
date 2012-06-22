@@ -27,7 +27,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
             'arg2' => 12,
         );
 
-        $_MIDCOM->auth->request_sudo('midcom.services.at');
+        midcom::get('auth')->request_sudo('midcom.services.at');
         $entry = new midcom_services_at_entry_dba();
         $entry->arguments = $args;
         $stat = $entry->create();
@@ -36,7 +36,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
         //$this->register_object($entry);
 
         $this->assertEquals($args, $entry->arguments);
-        $this->assertEquals(MIDCOM_SERVICES_AT_STATUS_SCHEDULED, $entry->status);
+        $this->assertEquals(midcom_services_at_entry_dba::SCHEDULED, $entry->status);
 
         $args['arg2'] = 11;
         $entry->arguments = $args;
@@ -47,7 +47,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
         $stat = $entry->delete();
         $this->assertTrue($stat);
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

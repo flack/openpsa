@@ -55,11 +55,11 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            $action .= strftime('%x', $invoice->paid);
+            $action .= strftime('%Y-%m-%d', $invoice->paid);
         }
 
         // generate next action buttons
-        if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
+        if (   $invoice->can_do('midgard:update')
             && count($next_marker) > 0)
         {
             foreach ($next_marker as $mark)
@@ -96,6 +96,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 );
             }
         }
+
         if (($object->number + 1) < $object->generate_invoice_number())
         {
             $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
@@ -104,16 +105,19 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             $qb->add_order('number', 'ASC');
             $results = $qb->execute();
 
-            $toolbar->add_item
-            (
-                array
+            if (sizeof($results) == 1)
+            {
+                $toolbar->add_item
                 (
-                    MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                )
-            );
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+                    )
+                );
+            }
         }
     }
 }

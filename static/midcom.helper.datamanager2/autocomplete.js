@@ -55,6 +55,13 @@ var midcom_helper_datamanager2_autocomplete =
             success: function(data)
             {
                 response(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                $('.ui-autocomplete-loading')
+                    .addClass('ui-autocomplete-error')
+                    .prop('title', errorThrown);
+                response();
             }
         });
     },

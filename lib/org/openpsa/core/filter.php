@@ -1,230 +1,309 @@
 <?php
 /**
  * @package org.openpsa.core
- * @author The Midgard Project, http://www.midgard-project.org
- * @copyright The Midgard Project, http://www.midgard-project.org
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
 /**
- * Class to handle filters for org_openpsa_core
- * filters are applied to currentuser in the parameter-field
+ * Helper class that encapsulates a single query filter
  *
  * @package org.openpsa.core
  */
-class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
+class org_openpsa_core_filter
 {
     /**
-     * Contains filters
+     * The filter's unique name
      *
-     * @var Array
+     * @var string
      */
-    private $_filter = array();
+    public $name;
 
     /**
-     * Contains possible filter options
+     * The filter selection, if any
+     *
+     * @var array
      */
-    private $_filter_options = array();
+    private $_selection;
 
     /**
-     * constructor - calls the methods _set_filter and _apply_filter for every filter in the given array
+     * The filter's options, if any
      *
-     * @param array $filters array including the names of the wanted filters
-     * @param mixed $query the querybuilder/collector to filter
-     * @param string compare - contains the compare-symbol for the constraint
-     * @param array fitler_options - contains options to filter ( needed if the functions don't gather them theirself')
+     * @var array
      */
-    public function __construct($filters, $query, $compare = '=', $filter_options = array())
+    private $_options;
+
+    /**
+     * The filter's configuration.
+     *
+     * Currently supported keys are 'mode', 'fieldname', 'operator', 'helptext' and 'option_callback'
+     *
+     * @var array
+     */
+    private $_config = array('mode' => 'singleselect');
+
+    /**
+     * Constructor
+     *
+     * @param string $name The filter's name
+     * @param string $operator The constraint operator
+     * @param array $options The filter's options, if any
+     */
+    public function __construct($name, $operator = '=', array $options = array())
     {
-        $this->_filter_options = $filter_options;
-        if (!isset($_POST['unset_filter']))
+        $this->name = $name;
+        $this->_config['fieldname'] = $name;
+        $this->_config['operator'] = $operator;
+        $this->_options = $options;
+    }
+
+    /**
+     * Apply filter to given query
+     *
+     * @param array $selection The filter selection
+     * @param midcom_core_query $query The query object
+     */
+    public function apply(array $selection, midcom_core_query $query)
+    {
+        $this->_selection = $selection;
+
+        if ($this->_config['mode'] == 'timeframe')
         {
-            foreach ($filters as $filter)
+            $this->_apply_timeframe_constraints($query);
+            return;
+        }
+
+        $query->begin_group('OR');
+        foreach ($this->_selection as $id)
+        {
+            $query->add_constraint($this->_config['fieldname'], $this->_config['operator'], (int) $id);
+        }
+        $query->end_group();
+    }
+
+    private function _apply_timeframe_constraints($query)
+    {
+        if (is_string($this->_config['fieldname']))
+        {
+            if (!empty($this->_selection['from']))
             {
-                $this->_set_filter($filter);
-                $this->_apply_filter($filter, $query, $compare);
+                $query->add_constraint($this->_config['fieldname'], '>=', strtotime($this->_selection['from']));
+            }
+            if (!empty($this->_selection['to']))
+            {
+                $query->add_constraint($this->_config['fieldname'], '<=', strtotime($this->_selection['to']));
             }
         }
         else
         {
-            foreach ($filters as $filter)
+            if (!empty($this->_selection['to']))
             {
-                $this->_unset_filter($filter);
+                $query->add_constraint($this->_config['fieldname']['start'], '<=', strtotime($this->_selection['to']));
+            }
+            if (!empty($this->_selection['from']))
+            {
+                $query->add_constraint($this->_config['fieldname']['end'], '>=', strtotime($this->_selection['from']));
             }
         }
     }
 
-    /**
-     * Method to set the parameter "org_openpsa_core_filter" of the current-user
-     *
-     * @param string $filter_name name of the filter which will be saved as parameter "org_openpsa_core_filter""
-     *
-     */
-    private function _set_filter($filter_name)
+    public function add_head_elements()
     {
-        $current_user = $_MIDCOM->auth->user->get_storage();
-        if (isset($_POST[$filter_name]))
+        $head = midcom::get('head');
+
+        if ($this->_config['mode'] == 'multiselect')
         {
-            if (!is_array($_POST[$filter_name]))
-            {
-                $this->_filter[$filter_name] = array($_POST[$filter_name]);
-            }
-            else
-            {
-                $this->_filter[$filter_name] = $_POST[$filter_name];
-            }
-            $filter_string = implode('|', $this->_filter[$filter_name]);
-            if (!$current_user->set_parameter("org_openpsa_core_filter", $filter_name, $filter_string))
-            {
-                $_MIDCOM->uimessages->add($this->_l10n->get('filter error'), $this->_l10n->get('the handed filter for %s could not be set as parameter'), 'error');
-            }
+            $head->enable_jquery();
+            $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dropdown-check-list.1.4/css/ui.dropdownchecklist.themeroller.css");
+            $head->add_jquery_ui_theme(array('widget'));
+
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+            $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dropdown-check-list.1.4/js/ui.dropdownchecklist-1.4-min.js');
         }
-        else if ($filter_string = $current_user->get_parameter("org_openpsa_core_filter", $filter_name))
+        else if ($this->_config['mode'] == 'timeframe')
         {
-            $this->_filter[$filter_name] = explode('|', $filter_string);
+            midcom_helper_datamanager2_widget_jsdate::add_head_elements();
+        }
+    }
+
+    /**
+     * Renders the filter widget according to mode
+     *
+     * @param string $url The backend URL to send the data to
+     */
+    public function render($url)
+    {
+        echo '<form id="' . $this->name . '_filter" class="org_openpsa_filter" action="' . $url . '" method="post" style="display:inline">';
+        echo '<div class="org_openpsa_filter_widget">';
+
+        if ($this->_config['mode'] == 'timeframe')
+        {
+            $this->_render_timeframe();
         }
         else
         {
-            //no filter-options
-            $this->_filter[$filter_name] = array();
+            $options = $this->_get_options();
+
+            if (!empty($options))
+            {
+                $method = '_render_' . $this->_config['mode'];
+                $this->$method($options);
+            }
         }
+        echo "</div>\n";
+        echo "\n</form>\n";
     }
 
     /**
-     * Method to unset the parameter "org_openpsa_core_filter" of the current-user
+     * Modify filter configuration
      *
-     * @param string $filter name of the filter to set
+     * @param string $key The config key to set
+     * @param mixed $value The config value
      */
-    private function _unset_filter($filter)
+    public function set($key, $value)
     {
-        $current_user = $_MIDCOM->auth->user->get_storage();
-        if (!$current_user->set_parameter("org_openpsa_core_filter", $filter, ""))
-        {
-            $message_content = sprintf
-            (
-                $_MIDCOM->i18n->get_string('the handed filter for %s could not be set as parameter', 'org.openpsa.core'),
-                $_MIDCOM->i18n->get_string($filter, 'org.openpsa.core')
-            );
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('filter error', 'org.openpsa.core'), $message_content, 'error');
-        }
+        $this->_config[$key] = $value;
     }
 
     /**
-     * Method to edit the given querybuilder or collector
+     * Get filter configuration setting
      *
-     * @param string $filter_name name of the filter which should be applied
-     * @param mixed $query the querybuilder/collector which should the filter be applied to
+     * @param string $key The config key to get
+     * @return mixed The current config value or null
      */
-    private function _apply_filter($filter_name, &$query , $compare_symbol)
+    public function get_config($key)
     {
-        if (array_key_exists($filter_name, $this->_filter))
+        if (!isset($this->_config[$key]))
         {
-            $query->begin_group('OR');
-            foreach($this->_filter[$filter_name] as $id)
-            {
-                $query->add_constraint($filter_name, $compare_symbol, (int) $id);
-            }
-            $query->end_group();
+            return null;
         }
+        return $this->_config[$key];
     }
 
     /**
-     * Method which calls the specific list_filter-method, if available, for the parameter $filter
+     * Renderer for 'datepicker' mode
      *
-     * @param string $filter_name name of the filter
+     * @param array $options The options to render
      */
-    function list_filter($filter_name)
+    private function _render_timeframe()
     {
-        $type_function = 'list_filter_' . $filter_name;
-        if (method_exists($this, $type_function))
-        {
-             return $this->{$type_function}();
-        }
-        else
-        {
-            return $this->list_filter_unspecified($filter_name);
-        }
-    }
-
-    /**
-     * Method which creates an array with selectable persons
-     * and marks persons who are already filtered as selected
-     *
-     * @return array $person_array
-     */
-    function list_filter_person()
-    {
-        $qb_persons = midcom_db_person::new_query_builder();
-        $qb_persons->add_constraint('username', '<>', '');
-        $qb_persons->add_constraint('password', '<>', '');
-
-        $person_array = array();
-
-        if (array_key_exists('person', $this->_filter))
-        {
-            $check_array = array_flip($this->_filter['person']);
-        }
-        else
-        {
-            // no persons to filter
-            $check_array = array();
-        }
-
-        $persons = $qb_persons->execute();
-        foreach ($persons as $person)
-        {
-            $person_array[$person->id]['username'] = "{$person->firstname} {$person->lastname}";
-            $person_array[$person->id]['userid'] = $person->id;
-            $person_array[$person->id]['selected'] = false;
-
-            if (array_key_exists($person->id, $check_array))
-            {
-                $person_array[$person->id]['selected'] = true;
-            }
-        }
-        return $person_array;
-    }
-
-    /**
-     * Method for unspecified filter categories - creates an error message
-     *
-     * @param string $filter name of the filter
-     */
-    function list_filter_unspecified($filter)
-    {
-        if (!empty($this->_filter_options))
-        {
-            if (array_key_exists($filter, $this->_filter))
-            {
-                $check_array = array_flip($this->_filter[$filter]);
-            }
-            else
-            {
-                // nothing to filter
-                $check_array = array();
-            }
-            //build array with selected & non-selected options
-            $return_array = array();
-            foreach ($this->_filter_options as $id => $option)
-            {
-                $return_array[$id]['title'] = $option;
-                $return_array[$id]['id'] = $id;
-                $return_array[$id]['selected'] = false;
-                if (array_key_exists($id, $check_array))
-                {
-                    $return_array[$id]['selected'] = true;
-                }
-            }
-            return $return_array;
-        }
-        $message_content = sprintf
+        $ids = array
         (
-            $_MIDCOM->i18n->get_string('no filter available for %s', 'org.openpsa.core'),
-            $_MIDCOM->i18n->get_string($filter, 'org.openpsa.core')
+            'from' => 'datepicker_' . $this->name . '_from',
+            'to' => 'datepicker_' . $this->name . '_to',
+        );
+        $to_value = (!empty($this->_selection['to'])) ? $this->_selection['to'] : '';
+        $from_value = (!empty($this->_selection['from'])) ? $this->_selection['from'] : '';
+
+        echo $this->_config['helptext'] . ': ';
+        echo '<input class="filter_input" type="text" name="' . $this->name . '[from]" id="' . $ids['from'] . '" value="' . $from_value . '" />';
+        echo '<input class="filter_input" type="text" name="' . $this->name . '[to]" id="' . $ids['to'] . '" value="' . $to_value . '" />';
+        $this->_render_actions();
+
+        echo '<script type="text/javascript">';
+        echo "\$(document).ready(function()\n{\n\norg_openpsa_filter.init_timeframe(\n";
+        echo json_encode($ids) . " );\n});\n";
+        echo "\n</script>\n";
+    }
+
+    /**
+     * Renderer for 'singleselect' mode
+     *
+     * @param array $options The options to render
+     */
+    private function _render_singleselect(array $options)
+    {
+        echo '<select class="filter_input" onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
+
+        foreach ($options as $option)
+        {
+            echo '<option value="' .  $option['id'] . '"';
+            if ($option['selected'] == true)
+            {
+                echo " selected=\"selected\"";
+            }
+            echo '>' . $option['title'] . '</option>';
+        }
+        echo "\n</select>\n";
+    }
+
+    /**
+     * Renderer for 'multiselect' mode
+     *
+     * @param array $options The options to render
+     */
+    private function _render_multiselect(array $options)
+    {
+        echo '<select class="filter_input" id="select_' . $this->name . '" name="' . $this->name . '[]" size="1" multiple="multiple" >';
+
+        foreach ($options as $option)
+        {
+            echo '<option value="' . $option['id'] . '"';
+            if ($option['selected'] == true)
+            {
+                echo "selected=\"selected\"";
+            }
+            echo '>' . $option['title'] . "</option>\n";
+        }
+        echo "\n</select>\n";
+
+        $this->_render_actions();
+
+        $config = array
+        (
+            'maxDropHeight' => 200,
+            'emptyText' => $this->_config['helptext']
         );
 
-        $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('no filter available', 'org.openpsa.core'), $message_content, 'error');
-        return false;
+        echo '<script type="text/javascript">';
+        echo "\$('#select_" . $this->name . "').dropdownchecklist(\n";
+        echo json_encode($config) . " );\n";
+        echo "\n</script>\n";
+    }
+
+    private function _render_actions()
+    {
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.core');
+        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" class="filter_action filter_apply" alt="' . $l10n->get("apply") . '" title="' . $l10n->get("apply") . '" />';
+        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" class="filter_action filter_unset" alt="' . $l10n->get("unset") . '" title="' . $l10n->get("unset") . '" />';
+    }
+
+    /**
+     * Returns an option array for rendering,
+     *
+     * May use option_callback config setting to populate the options array
+     *
+     * @param array The options array
+     */
+    private function _get_options()
+    {
+        if (!empty($this->_options))
+        {
+            $data = $this->_options;
+        }
+        else if (isset($this->_config['option_callback']))
+        {
+            $data = call_user_func($this->_config['option_callback']);
+        }
+
+        $options = array();
+        foreach ($data as $id => $title)
+        {
+            $option = array('id' => $id, 'title' => $title);
+            if (   !empty($this->_selection)
+                && in_array($id, $this->_selection))
+            {
+                $option['selected'] = true;
+            }
+            else
+            {
+                $option['selected'] = false;
+            }
+            $options[] = $option;
+        }
+        return $options;
     }
 }
 ?>

@@ -122,7 +122,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                     throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
                 }
             }
-            $_MIDCOM->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
+            $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
         }
 
         $this->_populate_toolbar();
@@ -159,13 +159,11 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             }
         }
 
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     private function _list_group_products()
     {
-        $_MIDCOM->load_library('org.openpsa.qbpager');
-
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $product_qb->results_per_page = $this->_config->get('products_per_page');
 
@@ -219,8 +217,8 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         }
         else
         {
-            $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            $allow_create_group = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            $allow_create_product = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
 
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)
@@ -303,7 +301,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             }
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 
         if (count($data['groups']) > 0)
@@ -403,7 +401,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             unset($tmp[count($tmp) - 1]);
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
 }
 ?>

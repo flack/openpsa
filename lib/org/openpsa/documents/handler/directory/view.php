@@ -39,7 +39,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document_listview'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
     }
@@ -51,30 +50,37 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
         //check if there is another output-mode wanted
-        if(isset($args[0]))
+        if (isset($args[0]))
         {
             $this->_output_mode = $args[0];
         }
 
-        $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
+        if (isset($args[1]))
+        {
+            $current_topic = midcom_db_topic::get_cached($args[1]);
+        }
+        else
+        {
+            $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+        }
 
         switch ($this->_output_mode)
         {
             case 'xml':
-                $current_component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->component;
+                $current_component = $current_topic->component;
                 $parent_link = "";
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 //check if id of a topic is passed
                 if (isset($_POST['nodeid']))
                 {
                     $root_topic = new midcom_db_topic((int)$_POST['nodeid']);
-                    while (($root_topic->get_parent()->component == $current_component)
-                        && ($root_topic->id != $current_topic->id))
+                    while (   ($root_topic->get_parent()->component == $current_component)
+                           && ($root_topic->id != $current_topic->id))
                     {
                         $parent_link = $root_topic->name . "/" . $parent_link;
                         $root_topic = $root_topic->get_parent();
@@ -100,8 +106,8 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 //get needed directories
                 $this->_prepare_directories($root_topic, $current_component);
                 //set header & style for xml
-                $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
-                $_MIDCOM->skip_page_style = true;
+                midcom::get()->header("Content-type: text/xml; charset=UTF-8");
+                midcom::get()->skip_page_style = true;
 
                 break;
             //html
@@ -124,7 +130,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     private function _populate_toolbar()
     {
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (
@@ -145,7 +151,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 )
             );
         }
-        if ($_MIDCOM->auth->can_do('midgard:update', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item
             (
@@ -158,7 +164,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 )
             );
         }
-        if ($_MIDCOM->auth->can_do('midgard:delete', $this->_request_data['directory']))
+        if ($this->_request_data['directory']->can_do('midgard:delete'))
         {
             $this->_view_toolbar->add_item
             (
@@ -172,7 +178,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
             );
         }
 
-        $_MIDCOM->bind_view_to_object($this->_request_data['directory']);
+        $this->bind_view_to_object($this->_request_data['directory']);
     }
 
     /**
@@ -185,8 +191,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         switch ($this->_output_mode)
         {
             case 'html':
-                midcom_show_style("show-directory-header");
-                midcom_show_style("show-directory-footer");
+                midcom_show_style("show-directory");
                 break;
             case 'xml':
                 $this->_request_data['documents'] = $this->_documents;
@@ -202,7 +207,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     private function _prepare_output()
     {
-        $this->_request_data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         //load js/css for jqgrid
         org_openpsa_widgets_grid::add_head_elements();

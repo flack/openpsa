@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 
 $cities = Array();
 /*
@@ -69,13 +69,13 @@ foreach ($cities_to_add as $city)
     }
 }*/
 
-$user = $_MIDCOM->auth->user->get_storage();
+$user = midcom::get('auth')->user->get_storage();
 $user_position = new org_routamc_positioning_person($user);
 $coordinates = $user_position->get_coordinates();
 
 if (!$coordinates)
 {
-    _midcom_stop_request("Failed to get your current position.<br />");
+    throw new midcom_error("Failed to get your current position.");
 }
 
 echo "<p>".sprintf('Your position is %s', org_routamc_positioning_utils::pretty_print_coordinates($coordinates['latitude'], $coordinates['longitude']))."</p>\n";

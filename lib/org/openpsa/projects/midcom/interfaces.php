@@ -81,11 +81,11 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         switch(true)
         {
-            case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_person'):
+            case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
                 $this->_org_openpsa_relatedto_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_event'):
-            case $_MIDCOM->dbfactory->is_a($object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get('dbfactory')->is_a($object, 'midcom_db_event'):
+            case midcom::get('dbfactory')->is_a($object, 'org_openpsa_calendar_event_dba'):
                 $this->_org_openpsa_relatedto_find_suspects_event($object, $defaults, $links_array);
                 break;
 
@@ -204,7 +204,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
     function create_hour_report(&$task, $person_id, &$from_object, $from_component)
     {
-        if (!$_MIDCOM->dbfactory->is_a($task, 'org_openpsa_projects_task_dba'))
+        if (!midcom::get('dbfactory')->is_a($task, 'org_openpsa_projects_task_dba'))
         {
             debug_add('given task is not really a task', MIDCOM_LOG_ERROR);
             return false;
@@ -223,7 +223,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         switch (true)
         {
-            case $_MIDCOM->dbfactory->is_a($from_object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get('dbfactory')->is_a($from_object, 'org_openpsa_calendar_event_dba'):
                 $event =& $from_object;
                 $hr->date = $event->start;
                 $hr->hours = round((($event->end - $event->start) / 3600), 2);
@@ -305,7 +305,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / status', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($receipts as $receipt)
+        foreach ($receipts as $receipt)
         {
             debug_add("Transferred task_status #{$receipt->id} to person #{$person1->id} (from #{$receipt->person})", MIDCOM_LOG_INFO);
             $receipt->targetPerson = $person1->id;
@@ -327,7 +327,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / hours', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($logs as $log)
+        foreach ($logs as $log)
         {
             debug_add("Transferred hour_report #{$log->id} to person #{$person1->id} (from #{$log->person})", MIDCOM_LOG_INFO);
             $log->person = $person1->id;
@@ -349,7 +349,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / tasks', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($tasks as $task)
+        foreach ($tasks as $task)
         {
             debug_add("Transferred task #{$task->id} to person #{$person1->id} (from #{$task->person})", MIDCOM_LOG_INFO);
             $task->manager = $person1->id;
@@ -376,7 +376,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
         );
 
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)
@@ -408,43 +408,21 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
     }
 
     /**
-     * Iterate over all projects and create index record using the datamanager indexer
-     * method.
+     * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+        $qb_tasks = org_openpsa_projects_task_dba::new_query_builder();
+        $schemadb_tasks = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_task'));
 
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $ret = $qb->execute();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            //get guid, topic_url of passed node
-            $nav = new midcom_helper_nav();
-            $node = $nav->resolve_guid($topic->guid, true);
+        $qb_projects = org_openpsa_projects_project::new_query_builder();
+        $schemadb_projects = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
 
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schema);
+        $indexer = new org_openpsa_projects_midcom_indexer($topic, $indexer);
+        $indexer->add_query('tasks', $qb_tasks, $schemadb_tasks);
+        $indexer->add_query('projects', $qb_projects, $schemadb_projects);
 
-            foreach ($ret as $project)
-            {
-                if (!$datamanager->autoset_storage($project))
-                {
-                    debug_add("Warning, failed to initialize datamanager for project {$project->id}. See Debug Log for details.", MIDCOM_LOG_WARN);
-                    debug_print_r('Project dump:', $project);
-                    continue;
-                }
-                //create index_datamanger from datamanger
-                $index_datamanager = new midcom_services_indexer_document_datamanager2($datamanager);
-
-                $index_datamanager->topic_guid = $topic->guid;
-                $index_datamanager->topic_url = $node[MIDCOM_NAV_FULLURL];
-                $index_datamanager->component = $node[MIDCOM_NAV_COMPONENT];
-                $indexer->index($index_datamanager);
-            }
-        }
-        return true;
+        return $indexer;
     }
 }
 ?>

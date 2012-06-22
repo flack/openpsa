@@ -28,7 +28,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _handler_generator_get($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
             || !is_array($_REQUEST['org_openpsa_reports_query_data']))
         {
@@ -50,14 +50,10 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _show_generator_get($handler_id, array &$data)
     {
         $this->_show_generator($handler_id, $data);
-
-        return;
     }
 
     protected function _initialize_datamanager()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_load_schemadb();
 
         // Initialize the datamanager with the schema
@@ -146,12 +142,12 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _handler_query_form($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (isset($args[0]))
         {
             $data['query'] = $this->_load_query($args[0], $this->module);
-            $_MIDCOM->auth->require_do('midgard:update', $data['query']);
+            $data['query']->require_do('midgard:update');
 
             $this->_load_edit_controller();
         }
@@ -165,13 +161,11 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         {
             case 'save':
                 // Relocate to report view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . "/");
-                //this will exit
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+                return new midcom_response_relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . "/");
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
 
         $this->_request_data['controller'] =& $this->_controller;
@@ -211,8 +205,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
 
-        if (   !isset($args[1])
-            || empty($args[1]))
+        if (empty($args[1]))
         {
             debug_add('Filename part not specified in URL, generating');
             //We do not have filename in URL, generate one and redirect
@@ -227,10 +220,8 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['query']->title));
             }
             $filename .= $this->_request_data['query']->extension;
-            debug_add('Generated filename: ' . $filename);
 
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
+            midcom::get()->relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
             //this will exit
         }
         $this->_request_data['filename'] = $args[1];
@@ -250,7 +241,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if (!preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style']))
         {
             debug_add("appending '{$this->_request_data['query_data']['style']}' to substyle path");
-            $_MIDCOM->substyle_append($this->_request_data['query_data']['style']);
+            midcom::get('style')->append_substyle($this->_request_data['query_data']['style']);
         }
 
         //TODO: Check if we're inside DL if so do not force mimetype
@@ -258,9 +249,9 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             || empty($this->_request_data['query_data']['skip_html_headings']))
         {
             //Skip normal style, and force content type based on query data.
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
             debug_add('Forcing content type: ' . $this->_request_data['query_data']['mimetype']);
-            $_MIDCOM->cache->content->content_type($this->_request_data['query_data']['mimetype']);
+            midcom::get('cache')->content->content_type($this->_request_data['query_data']['mimetype']);
         }
     }
 
@@ -270,7 +261,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     protected function _expand_resource($resource_id, $ret = array())
     {
         debug_add('Got resource_id: ' . $resource_id);
-        $dba_obj = $_MIDCOM->auth->get_assignee($resource_id);
+        $dba_obj = midcom::get('auth')->get_assignee($resource_id);
 
         self::_verify_cache('users', $this->_request_data);
         switch (get_class($dba_obj))

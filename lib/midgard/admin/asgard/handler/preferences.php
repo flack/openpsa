@@ -29,18 +29,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     private $_status = true;
 
     /**
-     * Startup routines
-     */
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
-    /**
      * Get the user preferences schema
      */
     public function load_schemadb()
@@ -53,13 +41,13 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _process_request_data(&$data)
     {
-        $data['view_title'] = $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard');
+        $data['view_title'] = midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard');
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb('__mfa/asgard/preferences/', $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/preferences/', midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'));
 
-        if ($this->_person->guid !== $_MIDCOM->auth->user->guid)
+        if ($this->_person->guid !== midcom::get('auth')->user->guid)
         {
             $this->add_breadcrumb("__mfa/asgard/preferences/{$this->_person->guid}/", $this->_person->name);
         }
@@ -75,7 +63,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_preferences($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -98,15 +86,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('preferences saved', 'midgard.admin.asgard'));
-                $_MIDCOM->relocate($return_page);
-                // This will exit
-                break;
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('preferences saved', 'midgard.admin.asgard'));
+                return new midcom_response_relocate($return_page);
+
             case 'cancel':
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
-                $_MIDCOM->relocate($return_page);
-                // This will exit
-                break;
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
+                return new midcom_response_relocate($return_page);
         }
 
         // Load the common data
@@ -133,14 +118,12 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * Static method for getting the languages, but
-     *
-     * @static
+     * Static method for getting the languages
      */
-    public function get_languages()
+    public static function get_languages()
     {
-        $lang_str = $_MIDCOM->i18n->get_current_language();
-        $languages = $_MIDCOM->i18n->list_languages();
+        $lang_str = midcom::get('i18n')->get_current_language();
+        $languages = midcom::get('i18n')->list_languages();
 
         if (!array_key_exists($lang_str, $languages))
         {
@@ -174,7 +157,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters
-        $_MIDCOM->auth->request_sudo('midgard.admin.asgard');
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
 
         foreach ($_POST as $key => $value)
         {
@@ -186,13 +169,13 @@ implements midcom_helper_datamanager2_interfaces_edit
              if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value))
              {
                  $this->_status = false;
-                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string($key, 'midgard.admin.asgard')));
+                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), midcom::get('i18n')->get_string($key, 'midgard.admin.asgard')));
              }
 
              debug_add("Added configuration key-value pair {$key} => {$value}");
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

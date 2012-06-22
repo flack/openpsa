@@ -51,11 +51,11 @@ Invoice Status
 ---STRINGEND
 
 ---STRING invoiceable hours last month
-Invoiceable hours last month
+Billable hours last month
 ---STRINGEND
 
 ---STRING invoiceable hours this month
-Invoiceable hours this month
+Billable hours this month
 ---STRINGEND
 
 ---STRING no customer
@@ -75,7 +75,7 @@ Only approved
 ---STRINGEND
 
 ---STRING only invoiceable
-Only invoiceable
+Only billable
 ---STRINGEND
 
 ---STRING only invoiced
@@ -91,7 +91,7 @@ Only not invoiced
 ---STRINGEND
 
 ---STRING only uninvoiceable
-Only uninvoiceable
+Only unbillable
 ---STRINGEND
 
 ---STRING org.openpsa.reports
@@ -118,6 +118,10 @@ Report style
 Root project/process
 ---STRINGEND
 
+---STRING sales report %s - %s
+Sales Report %s - %s
+---STRINGEND
+
 ---STRING save query for future
 Save query for future
 ---STRINGEND
@@ -131,7 +135,7 @@ Show approved
 ---STRINGEND
 
 ---STRING show invoiceable
-Show invoiceable
+Show billable
 ---STRINGEND
 
 ---STRING show invoiced

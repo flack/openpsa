@@ -109,7 +109,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      */
     public function _show_updated($handler_id, array &$data)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (count($data['products']) > 0)
         {
@@ -160,9 +160,9 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      */
     public function _handler_feed($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
-        $_MIDCOM->skip_page_style = true;
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get()->skip_page_style = true;
 
         if ($handler_id == 'updated_products_feed_intree')
         {
@@ -185,9 +185,9 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      */
     public function _show_feed($handler_id, array &$data)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        $_MIDCOM->load_library('de.bitfolge.feedcreator'); //Load the feed library here, because we disabled autoloading.
+        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator'); //Load the feed library here, because we disabled autoloading.
 
         $data['rss_creator'] = new UniversalFeedCreator();
         $data['rss_creator']->title = $this->_topic->extra;

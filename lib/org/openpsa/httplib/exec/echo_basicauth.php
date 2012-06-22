@@ -1,6 +1,6 @@
 <?php
 // This form is usually handled by a remote transporter that Basic authenticates with some local user account
-$_MIDCOM->auth->require_valid_user('basic');
+midcom::get('auth')->require_valid_user('basic');
 ?>
 <h1>Got _GET</h1>
 <pre>

@@ -20,15 +20,6 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      */
     private $_object = null;
 
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -48,10 +39,10 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:parameters');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         // List all parameters for display
         $qb = midcom_db_parameter::new_query_builder();

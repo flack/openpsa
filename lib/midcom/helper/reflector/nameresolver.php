@@ -38,7 +38,7 @@ class midcom_helper_reflector_nameresolver
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
         }
         if (   empty($name_property)
-            || !$_MIDCOM->dbfactory->property_exists($this->_object, $name_property))
+            || !midcom::get('dbfactory')->property_exists($this->_object, $name_property))
         {
             // Could not resolve valid property
             return false;
@@ -83,7 +83,7 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety 
+     * @return boolean indicating safety
      */
     public function name_is_safe($name_property = null)
     {
@@ -185,7 +185,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // Start the magic
-        $_MIDCOM->auth->request_sudo('midcom.helper.reflector');
+        midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         if (   $parent
             && isset($parent->guid)
@@ -201,7 +201,7 @@ class midcom_helper_reflector_nameresolver
             if (!$this->_name_is_unique_check_siblings($sibling_classes, $parent))
             {
                 unset($parent, $parent_resolver, $sibling_classes);
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 return false;
             }
             unset($parent, $parent_resolver, $sibling_classes);
@@ -212,15 +212,15 @@ class midcom_helper_reflector_nameresolver
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach($root_classes as $classname)
+            foreach ($root_classes as $classname)
             {
-                if ($_MIDCOM->dbfactory->is_a($this->_object, $classname))
+                if (midcom::get('dbfactory')->is_a($this->_object, $classname))
                 {
                     $is_root_class = true;
                     if (!$this->_name_is_unique_check_roots($root_classes))
                     {
                         unset($is_root_class, $root_classes);
-                        $_MIDCOM->auth->drop_sudo();
+                        midcom::get('auth')->drop_sudo();
                         return false;
                     }
                 }
@@ -229,14 +229,14 @@ class midcom_helper_reflector_nameresolver
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
                 unset($is_root_class);
                 return true;
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         // If we get this far we know we don't have name clashes
         return true;
     }
@@ -354,7 +354,7 @@ class midcom_helper_reflector_nameresolver
             // Guard against QB failure
             if ($results === false)
             {
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
@@ -377,10 +377,11 @@ class midcom_helper_reflector_nameresolver
      * number to it (before this we make some educated guesses about a
      * good starting value)
      *
-     * @param srting $title_property, property of the object to use at title, if null will be reflected (see  midcom_helper_reflector::get_object_title())
+     * @param string $title_property, property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
+     * @param string $extension The file extension, when working with attachments
      * @return string string usable as name or boolean false on critical failures
      */
-    public function generate_unique_name($title_property = null)
+    public function generate_unique_name($title_property = null, $extension = '')
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();
@@ -420,7 +421,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // incrementer, the number to add as suffix and the base name. see _generate_unique_name_resolve_i()
-        list ($i, $base_name) = $this->_generate_unique_name_resolve_i($current_name);
+        list ($i, $base_name) = $this->_generate_unique_name_resolve_i($current_name, $extension);
 
         $this->_object->name = $base_name;
         // decrementer, do not try more than this many times (the incrementer can raise above this if we start high enough.
@@ -432,7 +433,7 @@ class midcom_helper_reflector_nameresolver
             if ($i > 1)
             {
                 // Start suffixes from -002
-                $this->_object->{$name_prop} = $base_name . sprintf('-%03d', $i);
+                $this->_object->{$name_prop} = $base_name . sprintf('-%03d', $i) . $extension;
             }
 
             // Handle the decrementer
@@ -464,11 +465,12 @@ class midcom_helper_reflector_nameresolver
      *
      * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      * @param string $current_name the "current name" of the object (might not be the actual name value see the title logic in generate_unique_name())
+     * @param string $extension The file extension, when working with attachments
      * @return array first key is the resolved $i second is the $base_name, which is $current_name without numeric suffix
      */
-    private function _generate_unique_name_resolve_i($current_name)
+    private function _generate_unique_name_resolve_i($current_name, $extension)
     {
-        if (preg_match('/(.*?)-([0-9]{3,})$/', $current_name, $name_matches))
+        if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $current_name, $name_matches))
         {
             // Name already has i and base parts, split them.
             $i = (int)$name_matches[2];
@@ -483,11 +485,10 @@ class midcom_helper_reflector_nameresolver
         }
 
         // Look for siblings with similar names and see if they have higher i.
-        $_MIDCOM->auth->request_sudo('midcom.helper.reflector');
+        midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         // TODO: Refactor to reduce duplicate code with _name_is_unique_check_siblings
         if (   $parent
-            && isset($parent->guid)
             && !empty($parent->guid))
         {
             // We have parent, check siblings
@@ -513,10 +514,9 @@ class midcom_helper_reflector_nameresolver
                 {
                     continue;
                 }
-                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%");
+                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
                 // Do not include current object in results, this is the easiest way
-                if (   isset($this->_object->guid)
-                    || !empty($this->_object->guid))
+                if (!empty($this->_object->guid))
                 {
                     $qb->add_constraint('guid', '<>', $this->_object->guid);
                 }
@@ -526,12 +526,12 @@ class midcom_helper_reflector_nameresolver
                 $siblings = $qb->execute();
                 if (empty($siblings))
                 {
-                    // we dont' care about fatal qb errors here
+                    // we don't care about fatal qb errors here
                     continue;
                 }
                 $sibling = $siblings[0];
                 $sibling_name = $sibling->{$child_name_property};
-                if (preg_match('/(.*?)-([0-9]{3,})$/', $sibling_name, $name_matches))
+                if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $sibling_name, $name_matches))
                 {
                     // Name already has i and base parts, split them.
                     $sibling_i = (int)$name_matches[2];
@@ -551,9 +551,9 @@ class midcom_helper_reflector_nameresolver
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach($root_classes as $schema_type)
+            foreach ($root_classes as $schema_type)
             {
-                if ($_MIDCOM->dbfactory->is_a($this->_object, $schema_type))
+                if (midcom::get('dbfactory')->is_a($this->_object, $schema_type))
                 {
                     $is_root_class = true;
                 }
@@ -561,7 +561,7 @@ class midcom_helper_reflector_nameresolver
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                $_MIDCOM->auth->drop_sudo();
+                midcom::get('auth')->drop_sudo();
                 debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
                 unset($root_classes, $is_root_class);
                 return array($i, $base_name);
@@ -569,7 +569,7 @@ class midcom_helper_reflector_nameresolver
             else
             {
                 // TODO: Refactor to reduce duplicate code with _name_is_unique_check_roots
-                foreach($root_classes as $schema_type)
+                foreach ($root_classes as $schema_type)
                 {
                     $dummy = new $schema_type();
                     $child_name_property = midcom_helper_reflector::get_name_property($dummy);
@@ -587,10 +587,9 @@ class midcom_helper_reflector_nameresolver
                         continue;
                     }
                     unset($deleted);
-                    $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%");
+                    $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
                     // Do not include current object in results, this is the easiest way
-                    if (   isset($this->_object->guid)
-                        || !empty($this->_object->guid))
+                    if (!empty($this->_object->guid))
                     {
                         $qb->add_constraint('guid', '<>', $this->_object->guid);
                     }
@@ -605,7 +604,7 @@ class midcom_helper_reflector_nameresolver
                     }
                     $sibling = $siblings[0];
                     $sibling_name = $sibling->{$child_name_property};
-                    if (preg_match('/(.*?)-([0-9]{3,})$/', $sibling_name, $name_matches))
+                    if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $sibling_name, $name_matches))
                     {
                         // Name already has i and base parts, split them.
                         $sibling_i = (int)$name_matches[2];
@@ -619,7 +618,7 @@ class midcom_helper_reflector_nameresolver
                 unset($root_classes, $schema_type, $child_name_property, $sibling, $sibling_name);
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         return array($i, $base_name);
     }

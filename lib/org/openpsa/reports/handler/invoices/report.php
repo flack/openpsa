@@ -29,13 +29,11 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
      */
     public function _handler_generator($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_generator_load_redirect($args);
         $this->set_active_leaf($this->_topic->id . ':generator_invoices');
         $this->_handler_generator_style();
-
-        $data['invoices'] = Array();
 
         $data['start'] = $data['query_data']['start'];
         $data['end'] = $data['query_data']['end'];
@@ -91,8 +89,8 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $invoice->sum = $invoice_sum;
 
             $invoice->sent = $time;
-            $invoice->due = ($invoice->get_default_due() * 3600 * 24) + $time;
-            $invoice->vat = $invoice->get_default_vat();
+            $invoice->due = ($invoice->get_default('due') * 3600 * 24) + $time;
+            $invoice->vat = $invoice->get_default('vat');
 
             $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
             if ($this->_sales_url)
@@ -116,7 +114,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _get_scheduled_invoices()
     {
-        $_MIDCOM->componentloader->load('org.openpsa.invoices');
         $invoices = array();
         $at_qb = midcom_services_at_entry_dba::new_query_builder();
         $at_qb->add_constraint('method', '=', 'new_subscription_cycle');
@@ -241,7 +238,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
         $data['table_class'] = $type;
-        $data['table_title'] = $_MIDCOM->i18n->get_string($type . ' invoices', 'org.openpsa.invoices');
+        $data['table_title'] = midcom::get('i18n')->get_string($type . ' invoices', 'org.openpsa.invoices');
 
         $data['invoices'] = $invoices;
 

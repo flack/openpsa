@@ -126,7 +126,3 @@ Gatuadress
 Beskrivning av platsen
 ---STRINGEND
 
----STRING yahoo_application_key
-Yahoo! aplikations nyckel
----STRINGEND
-

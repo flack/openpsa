@@ -142,8 +142,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
             )
         );
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
 
@@ -151,8 +151,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         //check if it should be saved or preview
@@ -166,13 +165,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 || !is_array($tmp_array))
             {
                 //Rule could not be parsed
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
                 return;
             }
             if (count($tmp_array) == 0)
             {
                 // Rule array is empty
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
                 return;
             }
             $rule = $tmp_array;
@@ -182,7 +181,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             //resolve rules
             $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
             $solver->resolve($tmp_array);
-            $rule_persons =  $solver->execute();
+            $rule_persons = $solver->execute();
 
 
             //if it's not preview update campaign & Schedule background members refresh'
@@ -193,19 +192,18 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 if (!$update_ret)
                 {
                     //Save failed
-                    $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
+                    midcom::get('uimessages')->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
                     break;
                 }
                 //Schedule background members refresh
                 $this->_campaign->schedule_update_smart_campaign_members();
 
                 //Save ok, relocate
-                $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
-                // This will exit()
+                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
             }
             //set data for preview & skip page_style because of javascript call
             $data['preview_persons'] = $rule_persons;
-            $_MIDCOM->skip_page_style = true;
+            midcom::get()->skip_page_style = true;
         }
 
         // Add toolbar items
@@ -213,8 +211,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
-        $_MIDCOM->bind_view_to_object($this->_campaign);
+        midcom::get('head')->set_pagetitle($this->_campaign->title);
+        $this->bind_view_to_object($this->_campaign);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -248,25 +246,21 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_prepare_request_data($handler_id);
 
-        if (   isset($_POST['midcom_helper_datamanager2_cancel'])
-            && !empty($_POST['midcom_helper_datamanager2_cancel']))
+        if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
-            // This will exit()
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
 
-        if (   isset($_POST['midcom_helper_datamanager2_save'])
-            && !empty($_POST['midcom_helper_datamanager2_save']))
+        if (!empty($_POST['midcom_helper_datamanager2_save']))
         {
             //Actual save routine
-            if (   !isset($_POST['midcom_helper_datamanager2_dummy_field_rules'])
-                || empty($_POST['midcom_helper_datamanager2_dummy_field_rules']))
+            if (empty($_POST['midcom_helper_datamanager2_dummy_field_rules']))
             {
                 //Rule code empty
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('no rule given'), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('no rule given'), 'error');
                 return;
             }
             $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
@@ -275,13 +269,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 || !is_array($tmp_array))
             {
                 //Rule could not be parsed
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
                 return;
             }
             if (count($tmp_array) == 0)
             {
                 // Rule array is empty
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
                 return;
             }
             if (array_key_exists('generated_from',  $tmp_array))
@@ -289,7 +283,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 debug_add('"generated_from" found in advanced rule, removing', MIDCOM_LOG_WARN);
                 unset ($tmp_array['generated_from']);
                 // PONDER: return to editor or save anyway ? now we overwrite the value with the modified rule and return to editor.
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('longtext:generated_from_found_in_adv_rule'), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('longtext:generated_from_found_in_adv_rule'), 'error');
                 $_POST['midcom_helper_datamanager2_dummy_field_rules'] = org_openpsa_helpers::array2code($tmp_array);
 
                 $this->_update_breadcrumb_line($handler_id);
@@ -301,7 +295,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             if (!$update_ret)
             {
                 //Save failed
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
                 return;
             }
 
@@ -309,17 +303,16 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $this->_request_data['campaign']->schedule_update_smart_campaign_members();
 
             //Save ok, relocate
-            $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+            return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . "campaign/" . $this->_request_data["campaign"]->guid . '/');
-            // This will exit()
         }
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
+        midcom::get('head')->set_pagetitle($this->_campaign->title);
 
         org_openpsa_helpers::dm2_savecancel($this);
-        $_MIDCOM->bind_view_to_object($this->_campaign);
+        $this->bind_view_to_object($this->_campaign);
 
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -353,14 +346,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         {
             case 'save':
                 // Reindex the campaign
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
@@ -378,8 +370,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         );
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
-        $_MIDCOM->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
+        midcom::get('head')->set_pagetitle($this->_campaign->title);
+        $this->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -416,19 +408,17 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
+            $indexer = midcom::get('indexer');
             $indexer->delete($this->_campaign->guid);
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         $this->set_active_leaf('campaign_' .$this->_campaign->id);
@@ -447,8 +437,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             )
         );
 
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
-        $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
+        midcom::get('head')->set_pagetitle($this->_campaign->title);
+        $this->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 

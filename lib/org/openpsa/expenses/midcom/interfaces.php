@@ -13,6 +13,19 @@
  */
 class org_openpsa_expenses_interface extends midcom_baseclasses_components_interface
 {
+    public function _on_resolve_permalink($topic, $config, $guid)
+    {
+        try
+        {
+            $event = new org_openpsa_projects_hour_report_dba($guid);
+            return "hours/edit/{$guid}/";
+        }
+        catch (midcom_error $e)
+        {
+            return null;
+        }
+    }
+
     /**
      * Support for contacts person merge
      */
@@ -45,7 +58,7 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             debug_add('QB Error / expenses', MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach($expenses as $expense)
+        foreach ($expenses as $expense)
         {
             debug_add("Transferred expense #{$expense->id} to person #{$person1->id} (from #{$expense->person})", MIDCOM_LOG_INFO);
             $expense->person = $person1->id;
@@ -56,7 +69,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
                 return false;
             }
         }
-
 
         // Transfer metadata dependencies from classes that we drive
         $classes = array
@@ -70,7 +82,7 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
         );
 
-        foreach($classes as $class)
+        foreach ($classes as $class)
         {
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)

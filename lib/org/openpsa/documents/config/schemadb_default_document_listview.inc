@@ -2,7 +2,7 @@
 
     'name'        => 'default',
     'description' => 'Document',
-    'fields'      => array 
+    'fields'      => array
     (
         'title' => array
         (
@@ -10,14 +10,14 @@
             'type'    => 'text',
             'widget' => 'text',
             'storage'    => 'title',
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'Document',
                 'css_group' => 'area',
             ),
             'required'    => true,
         ),
-        'abstract' => array 
+        'abstract' => array
         (
             'title' => 'Abstract',
             'type'    => 'text',
@@ -25,7 +25,7 @@
             'storage'    => 'abstract',
             'widget_text_inputstyle' => 'longtext',
         ),
-        'document' => array 
+        'document' => array
         (
             'title' => 'Document',
             'type'    => 'blobs',
@@ -47,28 +47,28 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_DOCUMENT_STATUS_DRAFT  => 'draft',
-                    ORG_OPENPSA_DOCUMENT_STATUS_REVIEW => 'review',
-                    ORG_OPENPSA_DOCUMENT_STATUS_FINAL  => 'final',
+                    org_openpsa_documents_document_dba::STATUS_DRAFT  => 'draft',
+                    org_openpsa_documents_document_dba::STATUS_REVIEW => 'review',
+                    org_openpsa_documents_document_dba::STATUS_FINAL  => 'final',
                 ),
             ),
             'widget'       => 'radiocheckselect',
             'index_merge_with_content' => false,
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'Metadata',
                 'css_group' => 'area meta',
             ),
-            'default' => ORG_OPENPSA_DOCUMENT_STATUS_DRAFT
+            'default' => org_openpsa_documents_document_dba::STATUS_DRAFT
         ),
-        'keywords' => array 
+        'keywords' => array
         (
             'title' => 'Keywords',
             'type'    => 'text',
             'widget' => 'text',
             'storage'    => 'keywords',
         ),
-        'author' => array 
+        'author' => array
         (
             'title' => 'author',
             'storage'    => 'author',
@@ -85,7 +85,6 @@
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array(),
                 'searchfields'  => array
                 (
                     'firstname',
@@ -112,7 +111,7 @@
 
                 ),
              ),
-             'default'     => $_MIDCOM->auth->user->id,
+             'default'     => midcom::get('auth')->user->id,
         ),
     )
 ),

@@ -8,6 +8,7 @@
 
 /**
  * MidCOM wrapped access to org_openpsa_person plus some utility methods
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_person_dba extends midcom_db_person
@@ -15,25 +16,27 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
-    static function new_query_builder()
+    private $_register_prober = false;
+
+    public function __construct($identifier = null)
     {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+        if (   $GLOBALS['midcom_config']['person_class'] != 'midgard_person'
+            && $GLOBALS['midcom_config']['person_class'] != 'openpsa_person')
+        {
+            $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
+        }
+        parent::__construct($identifier);
     }
 
-    static function new_collector($domain, $value)
+    public function __set($name, $value)
     {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    /**
-     * Retrieve a reference to a person object, uses in-request caching
-     *
-     * @param string $src GUID of person (ids work but are discouraged)
-     * @return org_openpsa_contacts_person_dba reference to device object or false
-     */
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+        if (   $name == 'homepage'
+            && !empty($value)
+            && $value != $this->homepage)
+        {
+            $this->_url_changed = true;
+        }
+        parent::__set($name, $value);
     }
 
     public function render_link()
@@ -63,15 +66,12 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     public function _on_updated()
     {
-        parent::_on_updated();
-        if ($this->homepage)
+        if ($this->_register_prober)
         {
-            // This group has a homepage, register a prober
             $args = array
             (
                 'person' => $this->guid,
             );
-            $_MIDCOM->load_library('midcom.services.at');
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
     }

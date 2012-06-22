@@ -31,7 +31,7 @@
  * the cache: The current User ID, the current language and the request's URL.
  *
  * Only on a complete match a cached page is displayed, which should take care of any
- * permission check done on the page. When you change the permissions of users, you
+ * permission checks done on the page. When you change the permissions of users, you
  * need to manually invalidate the cache though, as MidCOM currently cannot detect
  * changes like this (of course, this is true if and only if you are not using a
  * MidCOM to change permissions).
@@ -49,7 +49,7 @@
  *
  * This module is the first cache module which is initialized, and it will be the
  * last one in the shutdown sequence. Its startup code will exit with _midcom_stop_request() in case of
- * a cache hit, and it will enclose the entire request using PHPs output buffering.
+ * a cache hit, and it will enclose the entire request using PHP's output buffering.
  *
  * <b>Module configuration (see also midcom_config.php)</b>
  *
@@ -130,7 +130,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
 
     /**
-     * Set this to true, if you want to inhibit storage of the generated pages in
+     * Set this to true if you want to inhibit storage of the generated pages in
      * the cache database. All other headers will be created as usual though, so
      * 304 processing will kick in for example.
      *
@@ -140,7 +140,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public $_uncached = false;
 
     /**
-     * controls cache headers strategy
+     * Controls cache headers strategy
      * 'no-cache' activates no-cache mode that actively tries to circumvent all caching
      * 'revalidate' is the default which sets must-revalidate and expiry to current time
      * 'public' and 'private' enable caching with the cache-control header of the same name, default expiry timestamps are generated using the default_lifetime
@@ -150,7 +150,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_headers_strategy = 'revalidate';
 
     /**
-     * controls cache headers strategy for authenticated users, needed because some proxies store cookies too
+     * Controls cache headers strategy for authenticated users, needed because some proxies store cookies, too,
      * making a horrible mess when used by mix of authenticated and non-authenticated users
      *
      * @see $_headers_strategy
@@ -160,7 +160,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     /**
      * Default lifetime of page for public/private headers strategy
-     * When generating default expires header this is added to time().
+     * When generating the default expires header this is added to time().
      *
      * @var int
      */
@@ -255,9 +255,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 break;
         }
 
-        if (isset($_MIDCOM))
+        if (midcom::get())
         {
-            $identifier_source .= ';URL=' . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI);
+            $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
         }
         else
         {
@@ -666,10 +666,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $this->_live_mode = true;
-        $this->_no_cache = true;
-        _midcom_header("Cache-Control: no-store, no-cache, must-revalidate");
-        _midcom_header("Cache-Control: post-check=0, pre-check=0", false);
-        _midcom_header("Pragma: no-cache");
+        $this->no_cache();
 
         if ($this->_obrunning)
         {
@@ -752,7 +749,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $context = $_MIDCOM->get_current_context();
+        $context = midcom_core_context::get()->id;
         if ($context != 0)
         {
             // We're in a dynamic_load, register it for that as well
@@ -824,7 +821,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 // Last Modified does not match, so we cannot 304 here.
                 debug_add("The supplied HTTP Last Modified requirement does not match: {$_SERVER['HTTP_IF_MODIFIED_SINCE']}.");
                 debug_add("If-Modified-Since: ({$modified_since}) " . gmdate("D, d M Y H:i:s", $modified_since) . ' GMT');
-                debug_add("Last-Modified: ({$last_modified})" . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
+                debug_add("Last-Modified: ({$last_modified}) " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
                 return false;
             }
             $if_modified_since = true;
@@ -957,7 +954,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     {
         $entry_data = array();
         // Construct cache identifiers
-        $context = $_MIDCOM->get_current_context();
+        $context = midcom_core_context::get()->id;
         $request_id = $this->generate_request_identifier($context);
 
         if (!is_null($this->_expires))
@@ -1180,7 +1177,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (! $ranges)
         {
             $header = "Accept-Ranges: none";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
         if (! $size)
@@ -1196,7 +1193,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                     break;
                 default:
                     $header = "Content-Length: " . ob_get_length();
-                    header ($header);
+                    _midcom_header($header);
                     $this->_sent_headers[] = $header;
                     break;
             }
@@ -1207,9 +1204,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              * Fallback to time() if this fails.
              */
             $time = 0;
-            foreach ($_MIDCOM->get_all_contexts() as $id => $context)
+            foreach (midcom_core_context::get_all() as $id => $context)
             {
-                $meta = $_MIDCOM->get_26_request_metadata($id);
+                $meta = midcom::get('metadata')->get_request_metadata($id);
                 if ($meta['lastmodified'] > $time)
                 {
                     $time = $meta['lastmodified'];
@@ -1222,7 +1219,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
 
             $header = "Last-Modified: " . gmdate('D, d M Y H:i:s', $time) . ' GMT';
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
             $this->_last_modified = $time;
         }
@@ -1283,17 +1280,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // Typecast to make copy in stead of reference
             $strategy = (string)$this->_headers_strategy;
             $default_lifetime = (int)$this->_default_lifetime;
-            if (   (   isset($_MIDCOM->auth)
-                    && is_a($_MIDCOM->auth, 'midcom_services_auth')
-                    && $_MIDCOM->auth->is_valid_user())
-                || !midcom_connection::get_user()
-                )
+            if (   midcom::get('auth')->is_valid_user()
+                || !midcom_connection::get_user())
             {
                 // Typecast to make copy in stead of reference
                 $strategy = (string)$this->_headers_strategy_authenticated;
                 $default_lifetime = (int)$this->_default_lifetime_authenticated;
             }
-            switch($strategy)
+            switch ($strategy)
             {
                 // included in case _headers_strategy_authenticated sets this
                 case 'no-cache':
@@ -1331,19 +1325,19 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($cache_control !== false)
         {
             $header = "Cache-Control: {$cache_control}";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
         if ($pragma !== false)
         {
             $header = "Pragma: {$pragma}";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
         if ($expires !== false)
         {
             $header = "Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT";
-            header ($header);
+            _midcom_header($header);
             $this->_sent_headers[] = $header;
         }
     }

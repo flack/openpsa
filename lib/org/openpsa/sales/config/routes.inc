@@ -5,6 +5,13 @@
     'fixed_args' => array('list'),
     'variable_args' => 1,
 ),
+// Match /list/customer/<guid>
+'list_customer' => array
+(
+    'handler' => array('org_openpsa_sales_handler_list', 'list'),
+    'fixed_args' => array('list', 'customer'),
+    'variable_args' => 1,
+),
 
 // Match /salesproject/edit/<salesproject>
 'salesproject_edit' => array

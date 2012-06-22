@@ -33,14 +33,29 @@ implements midcom_helper_datamanager2_interfaces_create
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
     }
 
+    public function get_schema_defaults()
+    {
+        $defaults = array();
+        if ($this->_group)
+        {
+            if ($this->_group->orgOpenpsaObtype >= org_openpsa_contacts_group_dba::ORGANIZATION)
+            {
+                $defaults['organizations'] = array($this->_group->id);
+            }
+            else if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
+            {
+                $defaults['groups'] = array($this->_group->id);
+            }
+        }
+        return $defaults;
+    }
+
     /**
      * This is what Datamanager calls to actually create a person
      */
     public function & dm2_create_callback(&$datamanager)
     {
         $person = new org_openpsa_contacts_person_dba();
-        $person->firstname = "";
-        $person->lastname = "";
 
         if (! $person->create())
         {
@@ -60,15 +75,15 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
+        midcom::get('auth')->require_valid_user();
+        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
         if (count($args) > 0)
         {
             // Get the organization
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
-            $_MIDCOM->auth->require_do('midgard:create', $this->_group);
-            $_MIDCOM->set_pagetitle($this->_group->official);
+            $this->_group->require_do('midgard:create');
+            midcom::get('head')->set_pagetitle($this->_group->official);
         }
 
         $data['controller'] = $this->get_controller('create');
@@ -78,32 +93,13 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'save':
 
                 // Index the person
-                $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($data['controller']->datamanager, $indexer, $this->_topic);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+                $indexer->index($data['controller']->datamanager);
 
-                // Add person to group if requested
-                if ($this->_group)
-                {
-                    $member = new midcom_db_member();
-                    $member->uid = $this->_person->id;
-                    $member->gid = $this->_group->id;
-                    $member->create();
-
-                    if (!$member->id)
-                    {
-                        // TODO: Cleanup
-                        throw new midcom_error("Failed adding the person to group #{$this->_group->id}, reason {$member->errstr}");
-                    }
-                }
-
-                // Relocate to group view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate("{$prefix}person/{$this->_person->guid}/");
-                // This will exit
+                return new midcom_response_relocate("person/{$this->_person->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
 
 

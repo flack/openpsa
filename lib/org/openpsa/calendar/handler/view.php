@@ -49,10 +49,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _on_initialize()
     {
         org_openpsa_widgets_calendar::add_head_elements();
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
+
         // Load schema database
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
@@ -68,7 +67,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // 'New event' should always be in toolbar
         $nap = new midcom_helper_nav();
         $this_node = $nap->get_node($nap->get_current_node());
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_view_toolbar->add_item
             (
@@ -125,40 +124,13 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             );
         }
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        midcom_helper_datamanager2_widget_jsdate::add_head_elements();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
 
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.core.min.js");
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.datepicker.min.js");
-
-        $lang = $_MIDCOM->i18n->get_current_language();
-        /*
-         * The calendar doesn't have all lang files and some are named differently
-         * Since a missing lang file causes the calendar to break, let's make extra sure
-         * that this won't happen
-         */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
-        {
-            $lang = $_MIDCOM->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
-            {
-                $lang = false;
-            }
-        }
-
-        if ($lang)
-        {
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js");
-        }
-
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
-
-        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
-        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.css');
-
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $default_date = date('Y-m-d', $this->_selected_time);
 
-        $_MIDCOM->add_jscript('
+        midcom::get('head')->add_jscript('
 var org_openpsa_calendar_default_date = "' . $default_date . '",
 org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         ');
@@ -274,7 +246,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                 $label = $event->$label_field;
                 if ($label_field == 'creator')
                 {
-                    $user = $_MIDCOM->auth->get_user($event->metadata->creator);
+                    $user = midcom::get('auth')->get_user($event->metadata->creator);
                     $label = $user->name;
                 }
 
@@ -306,7 +278,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     private function _populate_calendar_contacts($from, $to)
     {
-        $user = $_MIDCOM->auth->user->get_storage();
+        $user = midcom::get('auth')->user->get_storage();
 
         if (   $this->_config->get('always_show_self')
             || $user->parameter('org_openpsa_calendar_show', $user->guid))
@@ -331,7 +303,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         if ($this->_config->get('always_show_group'))
         {
             // Add this group to display as well
-            $additional_group = & $_MIDCOM->auth->get_group($this->_config->get('always_show_group'));
+            $additional_group = & midcom::get('auth')->get_group($this->_config->get('always_show_group'));
             if ($additional_group)
             {
                 $members = $additional_group->list_members();
@@ -452,7 +424,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     public function _handler_month($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_generate_date($args);
 
         // Instantiate calendar widget
@@ -489,7 +461,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         (
             'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this_node),
         );
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_calendar->free_div_options = array
             (
@@ -514,7 +486,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             strftime('%B', $this->_selected_time)
         );
 
-        $_MIDCOM->set_pagetitle(strftime("%B %Y", $this->_selected_time));
+        midcom::get('head')->set_pagetitle(strftime("%B %Y", $this->_selected_time));
     }
 
     /**
@@ -538,7 +510,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     public function _handler_week($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_generate_date($args);
 
         // Instantiate calendar widget
@@ -577,7 +549,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         (
             'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this_node),
         );
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_calendar->free_div_options = array
             (
@@ -602,7 +574,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start))
         );
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
     }
 
     /**
@@ -628,7 +600,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      */
     public function _handler_day($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_generate_date($args);
 
         // Instantiate calendar widget
@@ -665,7 +637,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $nap = new midcom_helper_nav();
         $this_node = $nap->get_node($nap->get_current_node());
 
-        if ($_MIDCOM->auth->can_do('midgard:create', $this->_root_event))
+        if ($this->_root_event->can_do('midgard:create'))
         {
             $this->_calendar->reservation_div_options = array
             (
@@ -687,7 +659,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B', $this->_selected_time));
         $this->add_breadcrumb('day/' . date('Y-m-d', $this->_selected_time) . '/', strftime('%x', $this->_selected_time));
 
-        $_MIDCOM->set_pagetitle(strftime("%x", $this->_selected_time));
+        midcom::get('head')->set_pagetitle(strftime("%x", $this->_selected_time));
     }
 
     /**
@@ -712,7 +684,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
     public function _handler_event($handler_id, array $args, array &$data)
     {
         // We're using a popup here
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // Get the requested event object
         $this->_request_data['event'] = new org_openpsa_calendar_event_dba($args[0]);
@@ -746,7 +718,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         // Reload parent if needed
         if (array_key_exists('reload', $_GET))
         {
-            $_MIDCOM->add_jsonload('window.opener.location.reload();');
+            midcom::get('head')->add_jsonload('window.opener.location.reload();');
         }
 
         // Add toolbar items
@@ -759,7 +731,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                     MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_request_data['event']),
+                    MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
@@ -770,7 +742,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                     MIDCOM_TOOLBAR_URL => 'event/delete/' . $this->_request_data['event']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $this->_request_data['event']),
+                    MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:delete'),
                 )
             );
             $this->_view_toolbar->add_item
@@ -789,9 +761,9 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
 
             $relatedto_button_settings = null;
 
-            if ($_MIDCOM->auth->user)
+            if (midcom::get('auth')->user)
             {
-                $user = $_MIDCOM->auth->user->get_storage();
+                $user = midcom::get('auth')->user->get_storage();
                 $relatedto_button_settings = array
                 (
                     'wikinote'      => array

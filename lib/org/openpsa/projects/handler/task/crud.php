@@ -22,6 +22,16 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
+     * Method for getting URL to the current object.
+	 *
+     * @return string URL to the current object
+     */
+    public function _get_object_url()
+    {
+        return 'task/' . $this->_object->guid . '/';
+    }
+
+    /**
      * Method for adding the supported operations into the toolbar.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -107,7 +117,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 break;
         }
 
-        $_MIDCOM->set_pagetitle($view_title);
+        midcom::get('head')->set_pagetitle($view_title);
     }
 
     /**
@@ -272,7 +282,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
         //need js for chooser-widgets for list of hour - because of dynamic load loading is needed here
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/chooser/jquery.chooser_widget.js");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/chooser/jquery.chooser_widget.css");
 
         if ($handler_id == 'task_view')
@@ -308,7 +318,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         );
         $mc = new org_openpsa_relatedto_collector($this->_object->guid, 'org_openpsa_calendar_event_dba');
         $mc->add_value_property('status');
-        $mc->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         // TODO: fromClass too?
         $mc->execute();
 
@@ -324,7 +334,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 continue;
             }
 
-            if ($mc->get_subkey($guid, 'status') == ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED)
+            if ($mc->get_subkey($guid, 'status') == org_openpsa_relatedto_dba::CONFIRMED)
             {
                 $bookings['confirmed'][] = $booking;
                 $task_booked_time += ($booking->end - $booking->start) / 3600;
@@ -407,27 +417,15 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Method for adding or updating the task to the MidCOM indexer service.
      *
-     * @param $dm Datamanager2 instance containing the object
+     * @param &$dm Datamanager2 instance containing the object
      */
     public function _index_object(&$dm)
     {
-        $indexer = $_MIDCOM->get_service('indexer');
+        //Ugly workaround to http://trac.openpsa2.org/ticket/31
+        $this->_object->refresh_status();
 
-        $nav = new midcom_helper_nav();
-        //get the node to fill the required index-data for topic/component
-        $node = $nav->get_node($nav->get_current_node());
-
-        $document = $indexer->new_document($dm);
-        $document->topic_guid = $node[MIDCOM_NAV_GUID];
-        $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->storage->object);
-        $document->component = $node[MIDCOM_NAV_COMPONENT];
-
-        if($indexer->index($document))
-        {
-            return true;
-        }
-        return false;
+        $indexer = new org_openpsa_projects_midcom_indexer($this->_topic);
+        return $indexer->index($dm);
     }
 }
 ?>

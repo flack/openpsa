@@ -45,7 +45,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      */
     public function _handler_compose($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
@@ -68,7 +68,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
                 $data['member'] = new org_openpsa_directmarketing_campaign_member_dba();
                 $data['member']->person = $data['person']->id;
                 $data['member']->campaign = $data['message']->campaign;
-                $data['member']->guid = 'dummy';
             }
             else
             {
@@ -89,21 +88,21 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             && !preg_match('/^builtin:/', $data['message_array']['substyle']))
         {
             debug_add("Appending substyle {$data['message_array']['substyle']}");
-            $_MIDCOM->substyle_append($data['message_array']['substyle']);
+            midcom::get('style')->append_substyle($data['message_array']['substyle']);
         }
         //This isn't necessary for dynamic-loading, but is nice for "preview".
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
         debug_add('message type: ' . $data['message_obj']->orgOpenpsaObtype);
         switch($data['message_obj']->orgOpenpsaObtype)
         {
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
                 debug_add('Forcing content type: text/plain');
-                $_MIDCOM->cache->content->content_type('text/plain');
+                midcom::get('cache')->content->content_type('text/plain');
             break;
             //TODO: Other content type overrides ?
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

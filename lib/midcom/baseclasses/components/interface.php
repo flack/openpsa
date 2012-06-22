@@ -15,7 +15,7 @@
  * the classes behavior is widely configurable. You should not override any of
  * the base classes interface methods if you can avoid it. If you find that an
  * event handler is missing, please contact the MidCOM development team for
- * some advise.
+ * some advice.
  *
  * <b>Quick start</b>
  *
@@ -27,21 +27,17 @@
  * - Inherit the class as {$component}_interface (e.g. net_nehmer_static_interface).
  * - Prepare a component manifest for your component, see the class
  *   midcom_core_manifest for details.
- * - You need to set the values of all <i>Component configuration variables</i>
+ * - You can set the values of all <i>Component configuration variables</i>
  *   to something suitable to your component. Especially: $_autoload_files,
  *   $_autoload_libraries and $_component.
- *   The defaults of the other variables should be suitable for basic operation.
- * - The components data storage area will contain two keys when the initialized
+ *   The defaults should be suitable for basic operation.
+ * - The component's data storage area will contain two keys when the initialized
  *   event handler is called: The NAP active id, defaulting to false and stored
- *   as <i>active_leaf</i> and the components' default configuration, stored as
+ *   as <i>active_leaf</i> and the component's default configuration, stored as
  *   a midcom_helper_configuration object in the key <i>config</i>.
- *   The active leaf check now automatically returns the contents of the component
- *   data storage area, the components get_active_leaf NAP function is no longer
- *   called.
  * - Put your component wide default configuration into $component_dir/config/config.inc.
  *
  * <b>Class parameters</b>
- *
  *
  * The following options can be used to parametrize the components startup and operation.
  * See the individual member documentation for now.
@@ -58,15 +54,6 @@
  * to have the right names and places to look for. It is designed to fit in the
  * current component wildlife with as little collateral damage as possible, but as
  * always, a 100% transparent implementation is both not wanted and not sensible.
- *
- * The most important change is that all four original component interface concepts
- * have been unified into a single class supporting the full interface. Obviously,
- * MidCOM's component loader had to be adapted to this operation.
- *
- * At this time, the core will not be able to handle the original pre-2.4 interface
- * any longer. Though it would be possible to implement an according proxy class, I
- * have not yet done that, so right now all components need to be adapted to the new
- * interface.
  *
  * Actually, you should not need to overwrite any event handler for almost all components
  * I currently know of. Ultimately, this is a proxy class to the actual component code.
@@ -85,12 +72,6 @@
  * Usually you will be done at this point, as all other interaction can safely be done by
  * the component. Unless, of course, you have some special requirements.
  *
- * One thing, which I have seen quite often in components, is the initialize method loading
- * the default schema. While I actually do not endorse this behavior, schemas should only
- * be loaded on demand during runtime (especially since they are configurable), you should
- * now add code like that to the _on_initialize() event handler, which will be executed
- * at about the same time as the original implementation would have been.
- *
  * <b>Advanced notes for Core Developers</b>
  *
  * The biggest change relevant for the core is the fact, that the various interface
@@ -101,7 +82,7 @@
  * <b>Example usage</b>
  *
  * The average component will require something like this, part one is the component
- * Manifest:
+ * manifest:
  *
  * <code>
  * 'name' => 'net.nehmer.static',
@@ -124,13 +105,13 @@
  * {
  *     function __construct()
  *     {
- *         $this->_autoload_files = Array('my_special_mgd_schema_class.php');
- *         $this->_autoload_libraries = Array('midcom.helper.datamanager2');
+ *         $this->_autoload_files = array('my_special_mgd_schema_class.php');
+ *         $this->_autoload_libraries = array('midcom.helper.datamanager2');
  *     }
  *
  *     function _on_reindex($topic, $config, &$indexer)
  *     {
- *         $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
+ *         $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
  *         $qb->add_constraint('topic', '=', $topic->id);
  *         $result = $qb->execute();
  *
@@ -140,12 +121,6 @@
  *         }
  *
  *         $datamanager = new midcom_helper_datamanager2_datamanager($config->get('schemadb'));
- *         if (! $datamanager)
- *         {
- *             debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb'),
- *                MIDCOM_LOG_WARN);
- *             continue;
- *          }
  *
  *         foreach ($articles as $article)
  *         {
@@ -201,10 +176,10 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
 
     /**
-     * A list of files, relative to the components root directory, that
+     * A list of files, relative to the component's root directory, that
      * should be loaded during initialization.
      *
-     * @var Array
+     * @var array
      */
     var $_autoload_files = Array();
 
@@ -213,7 +188,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * This will be done before actually loading the script files from
      * _autoload_files.
      *
-     * @var Array
+     * @var array
      */
     var $_autoload_libraries = Array();
 
@@ -252,7 +227,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
     /**
      * Initializes the component. It will first load all dependent libraries and
-     * then include the snippets referenced by the component. The components local
+     * then include the snippets referenced by the component. The component's local
      * data storage area is initialized and referenced into the global storage area.
      * Finally, the on_init event handler is called.
      *
@@ -266,22 +241,22 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         // Preparation
         $this->_component = $component;
-        $this->_manifest = $_MIDCOM->componentloader->manifests[$this->_component];
+        $this->_manifest = midcom::get('componentloader')->manifests[$this->_component];
 
         // Load libraries
         foreach ($this->_autoload_libraries as $library)
         {
-            if (! $_MIDCOM->load_library($library))
+            if (! midcom::get('componentloader')->load_library($library))
             {
                 throw new midcom_error("Failed to load library {$library} while initializing {$this->_component}");
             }
         }
 
         // Load scripts
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         foreach ($this->_autoload_files as $file)
         {
-            require_once(MIDCOM_ROOT . $loader->path_to_snippetpath($this->_component) . '/' .$file);
+            require_once MIDCOM_ROOT . $loader->path_to_snippetpath($this->_component) . '/' . $file;
         }
 
         // Call the event handler.
@@ -292,7 +267,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
     /**
      * This variable holds the context-specific data during processing.
-     * it is indexed first by context ID and second by a string key. Currently
+     * It is indexed first by context ID and second by a string key. Currently
      * defined keys are:
      *
      * - <i>config</i> holds the configuration for this context
@@ -323,7 +298,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
         $data['config'] = $this->_config;
 
-        if (! $data['config']->store($configuration))
+        if (!$data['config']->store($configuration, false))
         {
             return false;
         }
@@ -334,7 +309,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     /**
-     * Relays the can_handle call to the component, instantiating a new Site
+     * Relays the can_handle call to the component, instantiating a new site
      * class. It will execute can_handle of that class, returning its result
      * to MidCOM.
      *
@@ -347,7 +322,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     public function can_handle($current_object, $argc, $argv, $contextid)
     {
         $data =& $this->_context_data[$contextid];
-        $loader = $_MIDCOM->get_component_loader();
+        $loader = midcom::get('componentloader');
         $class = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
         $data['handler'] = new $class($current_object, $data['config']);
         if (is_a($data['handler'], 'midcom_baseclasses_components_request'))
@@ -399,7 +374,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         if (is_null($this->_nap_instance))
         {
-            $loader = $_MIDCOM->get_component_loader();
+            $loader = midcom::get('componentloader');
             $class = $loader->path_to_prefix($this->_component) . "_{$this->_nap_class_suffix}";
             $this->_nap_instance = new $class();
             if (is_a($this->_nap_instance, 'midcom_baseclasses_components_navigation'))
@@ -465,9 +440,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @return boolean Indicating success.
      * @see _on_reindex()
      */
-    public function reindex ($topic)
+    public function reindex($topic)
     {
-        return $this->_on_reindex($topic, $this->get_config_for_topic($topic), $_MIDCOM->get_service('indexer'));
+        return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get('indexer'));
     }
 
     /**
@@ -486,12 +461,13 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     /**
-     * This interface function is used to check whether a component can handle a given GUID
-     * or not <i>on site only.</i> A topic is provided which limits the "scope" of the search
-     * accordingly. It can be safely assumed that the topic given is a valid topic in the
-     * MidCOM content tree (it is checked through NAP).
+     * This interface function is used to check whether a component can handle a given GUID.
      *
-     * If the guid could be successfully resolved, a URL local to the given topic without a
+     * A topic is provided which limits the "scope" of the search accordingly. It can be
+     * safely assumed that the topic given is a valid topic in the MidCOM content tree
+     * (it is checked through NAP).
+     *
+     * If the GUID could be successfully resolved, a URL local to the given topic without a
      * leading slash must be returned (f.x. 'article/'), empty strings ('') are allowed
      * indicating root page access. If the GUID is invalid, null will be returned.
      *
@@ -501,19 +477,19 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * Note, that this is the only event handler which has some kind of default implementation,
      * see its documentation for details.
      *
-     * @param string $guid The permalink GUID that should be looked up.
      * @param midcom_db_topic $topic the Topic to look up.
+     * @param string $guid The permalink GUID that should be looked up.
      * @return string The local URL (without leading slashes) or null on failure.
      * @see _on_resolve_permalink()
      */
-    public function resolve_permalink ($topic, $guid)
+    public function resolve_permalink($topic, $guid)
     {
         return $this->_on_resolve_permalink($topic, $this->get_config_for_topic($topic), $guid);
     }
 
     /**
      * This is a small helper function which gets the full configuration set active for a given
-     * topic. If no topic is passed, the systemwide default configuration is returned.
+     * topic. If no topic is passed, the system wide default configuration is returned.
      *
      * Be aware, that this call does not check if the passed topic is actually handled by
      * this component, as it is theoretically possible for components to drop configuration
@@ -574,8 +550,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     /**#@+
      * This is an event handler which is called during MidCOM's component interaction.
      * For most basic components, the default implementation should actually be enough.
-     *
-     * @access protected
      */
 
     /**
@@ -674,16 +648,15 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
     /**
      * Verify an indexer document's permissions. This is used for custom, advanced access control
-     * within a components domain.
+     * within a component's domain.
      *
      * The topic and configuration objects are passed for ease of use and performance, as they have already
      * been prepared by the framework.
      *
-     * Usually, you want to limit the visibility of a
-     * document in the search result. You can do this by returning false in this function, the indexer
-     * will then skip this object before returning the resultset to the callee.
-     * You may modify the document that has been passed, to limit the information available to the client,
-     * though this <i>should</i> be avoided if possible.
+     * Usually, you want to limit the visibility of a document in the search result. You can do this
+     * by returning false in this function, the indexer will then skip this object before returning
+     * the resultset to the callee. You may modify the document that has been passed, to limit the
+     * information available to the client, though this <i>should</i> be avoided if possible.
      *
      * @param midcom_services_indexer_document &$document The document to check. This object is passed by
      *     reference and may therefore be modified to match the current security policy.
@@ -698,7 +671,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
     /**
      * This interface function is used to check whether a component can handle a given GUID
-     * or not <i>on site only.</i> A topic is provided which limits the "scope" of the search
+     * or not. A topic is provided which limits the "scope" of the search
      * accordingly. It can be safely assumed that the topic given is a valid topic in the
      * MidCOM content tree (it is checked through NAP).
      *

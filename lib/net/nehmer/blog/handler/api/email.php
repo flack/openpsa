@@ -21,7 +21,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * The article to operate on
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article;
 
@@ -29,7 +28,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -37,7 +35,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * Email importer
      *
      * @var org_openpsa_mail
-     * @access private
      */
     private $_decoder;
 
@@ -68,7 +65,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         else
         {
             // TODO: This code needs a bit of rethinking
-            $author_user = $_MIDCOM->auth->get_user($author->guid);
+            $author_user = midcom::get('auth')->get_user($author->guid);
             if (!$this->_content_topic->can_do('midgard:create', $author_user))
             {
                 throw new midcom_error('Author doesn\'t have posting privileges');
@@ -92,7 +89,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             $this->_article->author = $results[0]->id;
         }
 
-        $_MIDCOM->load_library('midcom.helper.reflector');
         $resolver = new midcom_helper_reflector_nameresolver($this->_article);
         $this->_article->topic = $this->_content_topic->id;
         $this->_article->title = $title;
@@ -149,12 +145,12 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
         if ($handler_id === 'api-email-basicauth')
         {
-            $_MIDCOM->auth->require_valid_user('basic');
+            midcom::get('auth')->require_valid_user('basic');
         }
 
         //Content-Type
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->content_type('text/plain');
 
         if (!isset($this->_request_data['schemadb'][$this->_config->get('api_email_schema')]))
         {
@@ -166,7 +162,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         $this->_decode_email();
         $this->_parse_email_persons();
 
-        $_MIDCOM->auth->request_sudo('net.nehmer.blog');
+        midcom::get('auth')->request_sudo('net.nehmer.blog');
 
         // Create article
         $this->_create_article($this->_decoder->subject);
@@ -193,7 +189,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         // Try to find tags in email content
         $content = $this->_decoder->body;
         $content_tags = '';
-        $_MIDCOM->componentloader->load_graceful('net.nemein.tag');
+        midcom::get('componentloader')->load_graceful('net.nemein.tag');
         if (class_exists('net_nemein_tag_handler'))
         {
             // unconditionally tag
@@ -249,7 +245,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
 
         // Index the article
-        $indexer = $_MIDCOM->get_service('indexer');
+        $indexer = midcom::get('indexer');
         net_nehmer_blog_viewer::index($this->_datamanager, $indexer, $this->_content_topic);
 
         if ($this->_config->get('api_email_autoapprove'))
@@ -265,7 +261,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

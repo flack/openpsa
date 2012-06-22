@@ -35,7 +35,7 @@ class org_openpsa_projects_projectbroker
      */
     function find_task_prospects(&$task)
     {
-        $_MIDCOM->componentloader->load_graceful('net.nemein.tag');
+        midcom::get('componentloader')->load_graceful('net.nemein.tag');
         if (!class_exists('net_nemein_tag_handler'))
         {
             return false;
@@ -102,13 +102,13 @@ class org_openpsa_projects_projectbroker
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
             return;
         }
-        $_MIDCOM->componentloader->load_graceful('org.openpsa.calendar');
+        midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
             return;
         }
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
         foreach ($prospects as $key => $person)
         {
             $slots = org_openpsa_calendar_event_participant_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
@@ -118,7 +118,7 @@ class org_openpsa_projects_projectbroker
                 $keep_prospects[$key] = true;
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         // Clear prospects that do not fill the time slot constraint
         debug_add('clearing prospects that do not have free time from the list');
         foreach ($prospects as $key => $person)
@@ -140,7 +140,7 @@ class org_openpsa_projects_projectbroker
      */
     function save_task_prospects(&$task)
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
+        midcom::get('auth')->request_sudo('org.openpsa.projects');
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
         $task->get_members();
         $prospects = $this->find_task_prospects($task);
@@ -165,7 +165,7 @@ class org_openpsa_projects_projectbroker
             }
         }
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_COMPLETE');
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 
@@ -187,7 +187,7 @@ class org_openpsa_projects_projectbroker
             // Default to 15 minutes for minimum time here
             $minimum_time_slot = 0.25;
         }
-        $_MIDCOM->componentloader->load_graceful('org.openpsa.calendar');
+        midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);

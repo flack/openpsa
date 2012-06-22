@@ -84,9 +84,10 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     /**
      * Empty default implementation, this calls won't do much.
      *
+     * @param string $identifier The form identifier
      * @return boolean Indicating success.
      */
-    function initialize()
+    function initialize($identifier = null)
     {
         if (is_null($this->lock_timeout))
         {
@@ -158,7 +159,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             $this->datamanager = $storage;
         }
         else if (   $storage instanceof midcom_helper_datamanager2_storage
-                 || $_MIDCOM->dbclassloader->is_midcom_db_object($storage))
+                 || midcom::get('dbclassloader')->is_midcom_db_object($storage))
         {
             $this->datamanager = new midcom_helper_datamanager2_datamanager($this->schemadb);
             if ($schema === null)
@@ -200,7 +201,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      * It takes care of loading the required class files. The returned instances will be created
      * but not initialized.
      *
-     * On any error (class not found etc.) the factory method will call generate_error.
+     * On any error (class not found etc.) the factory method will throw midcom_error.
      *
      * @param string $type The type of the controller (the file name from the controller directory).
      * @return midcom_helper_datamanager2_controller A reference to the newly created controller instance.
@@ -238,7 +239,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             if ($metadata->is_locked())
             {
                 // Drop us to uncached state when locked
-                $_MIDCOM->cache->content->uncached();
+                midcom::get('cache')->content->uncached();
                 $this->show_unlock();
                 return;
             }
@@ -252,8 +253,8 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      */
     public function show_unlock()
     {
-        $_MIDCOM->style->data['handler'] = $this;
-        $_MIDCOM->style->show_midcom('midcom_helper_datamanager2_unlock');
+        midcom::get('style')->data['handler'] = $this;
+        midcom::get('style')->show_midcom('midcom_helper_datamanager2_unlock');
     }
 }
 ?>

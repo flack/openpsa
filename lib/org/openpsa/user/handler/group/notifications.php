@@ -39,7 +39,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 // Fall-through
             case 'cancel':
-                $_MIDCOM->relocate("group/" . $group->guid . "/");
+                return new midcom_response_relocate("group/" . $group->guid . "/");
         }
 
         $data['notifications_dm'] =& $controller;

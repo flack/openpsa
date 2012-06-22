@@ -35,16 +35,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private $_person_user;
 
     /**
-     * The Controller of the contact used for editing
+     * The Datamanager of the contact
      *
-     * @var midcom_helper_datamanager2_controller_simple
+     * @var midcom_helper_datamanager2_datamanager
      */
-    private $_controller = null;
-
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
+    private $_datamanager = null;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -52,25 +47,17 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['person'] =& $this->_contact;
-        $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['person_user'] =& $this->_person_user;
+        $this->_request_data['person'] = $this->_contact;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['person_user'] = $this->_person_user;
     }
 
-    private function _load_controller()
+    private function _load_datamanager()
     {
         $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
-        $this->_controller->schemadb =& $schemadb_person;
-        $this->_controller->set_storage($this->_contact, $this->_schema);
-        $this->_controller->process_ajax();
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb_person);
 
-        $this->_modify_schema();
-    }
-
-    private function _modify_schema()
-    {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $owner_guid = $siteconfig->get_my_company_guid();
         if ($owner_guid)
@@ -78,12 +65,14 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             // Figure out if user is from own organization or other org
             $this->_person_user = new midcom_core_user($this->_contact->id);
 
-            if (method_exists($this->_person_user, 'is_in_group')
+            if (   method_exists($this->_person_user, 'is_in_group')
                 && $this->_person_user->is_in_group("group:{$owner_guid}"))
             {
                 $this->_schema = 'employee';
             }
         }
+        $this->_datamanager->set_schema($this->_schema);
+        $this->_datamanager->set_storage($this->_contact);
     }
 
     /**
@@ -97,14 +86,13 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
 
-        $this->_prepare_request_data();
-        $this->_load_controller();
+        $this->_load_datamanager();
 
         $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
         if ($data['person_rss_url'])
         {
             // We've autoprobed that this contact has a RSS feed available, link it
-            $_MIDCOM->add_link_head
+            midcom::get('head')->add_link_head
             (
                 array
                 (
@@ -115,16 +103,17 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 )
             );
         }
-        // This handler uses Ajax, include the javascript
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        $this->_prepare_request_data();
+
         //enable ui_tab
         org_openpsa_widgets_ui::enable_ui_tab();
 
         $this->_populate_toolbar($handler_id);
-        $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
+
+        $this->bind_view_to_object($this->_contact, $this->_datamanager->schema_name);
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
-        $_MIDCOM->set_pagetitle($this->_contact->name);
+        midcom::get('head')->set_pagetitle($this->_contact->name);
     }
 
     /**
@@ -151,7 +140,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
-            && $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+            && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             $billing_data_url = "create/" . $this->_contact->guid . "/";
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -200,23 +189,18 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             )
         );
 
-        $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
-        $user = $_MIDCOM->auth->user->get_storage();
-        $qb->add_constraint('account', '=', $user->guid);
-        $qb->add_constraint('buddy', '=', $this->_contact->guid);
-        $qb->add_constraint('blacklisted', '=', false);
-        $buddies = $qb->count();
-        if ($buddies > 0)
+        $mycontacts = new org_openpsa_contacts_mycontacts;
+
+        if ($mycontacts->is_member($this->_contact->guid))
         {
             // We're buddies, show remove button
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "buddylist/remove/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
+                    MIDCOM_TOOLBAR_URL => "mycontacts/remove/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
                 )
             );
         }
@@ -227,10 +211,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "buddylist/add/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
+                    MIDCOM_TOOLBAR_URL => "mycontacts/add/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add to my contacts'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
                 )
             );
         }
@@ -244,9 +227,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     public function _show_view($handler_id, array &$data)
     {
-        // For AJAX handling it is the controller that renders everything
-        $data['contact_view'] = $this->_controller->get_content_html();
-        $data['datamanager'] =& $this->_controller->datamanager;
+        $data['contact_view'] = $this->_datamanager->get_content_html();
 
         midcom_show_style('show-person');
     }
@@ -267,7 +248,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $data['memberships'] = $qb->execute();
 
         // Group person listing, always work even if there are none
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
     }
 
     /**
@@ -283,22 +264,27 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             midcom_show_style("show-person-groups-header");
             foreach ($data['memberships'] as $member)
             {
+                try
+                {
+                    $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
+                    if ($data['group']->orgOpenpsaObtype == org_openpsa_contacts_group_dba::MYCONTACTS)
+                    {
+                        continue;
+                    }
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                    continue;
+                }
                 $data['member'] = $member;
-
                 if ($member->extra == "")
                 {
                     $member->extra = $this->_l10n->get('<title>');
                 }
                 $data['member_title'] = $member->extra;
-                try
-                {
-                    $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-                    midcom_show_style("show-person-groups-item");
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
+
+                midcom_show_style("show-person-groups-item");
             }
             midcom_show_style("show-person-groups-footer");
         }

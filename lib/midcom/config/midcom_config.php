@@ -53,7 +53,7 @@
  * - <b>boolean allow_sudo:</b> Set this to true (the default) to allow components to
  *   request super user privileges for certain operations. This is mainly used to allow
  *   anonymous access to the system without having to store a user account everywhere.
- * - <b>int auth_backend:</b> The authentication backend to use, the "simple"
+ * - <b>string auth_backend:</b> The authentication backend to use, the "simple"
  *   backend is used as a default.
  * - <b>boolean auth_check_client_ip:</b> Control whether to check the client IP address
  *   on each subsequent request when authentication a user. This is enabled by default
@@ -61,14 +61,14 @@
  *   you have very good reasons to do.
  * - <b>int auth_login_session_timeout:</b> The login session timeout to use, this
  *   defaults to 3600 seconds (1 hour).
- * - <b>int auth_frontend:</b> The authentication frontend to use, the "form" frontend
+ * - <b>string auth_frontend:</b> The authentication frontend to use, the "form" frontend
  *   is used by default.
  * - <b>string auth_sitegroup_mode:</b> This parameter determines in which sitegroup
  *   context the MidCOM authentication should work in. If set to 'sitegrouped', the
  *   system automatically works within the current sitegroup, appending the corresponding
  *   suffix. If set to 'not-sitegrouped', no processing is done, which means the user
  *   has to specify the correct sitegroup always. The setting 'auto', which is the default,
- *   uses sitegrouped if the current host is in a sitegroup (that is, $_MIDGARD['sitegroup']
+ *   uses sitegrouped if the current host is in a sitegroup (that is, midcom_connection::get('sitegroup')
  *   is nonzero) or non-sitegrouped mode if we are in SG0.
  * - <b>int auth_login_form_httpcode</b>: HTTP return code used in MidCOM login screens,
  *   either 403 (403 Forbidden) or 200 (200 OK), defaulting to 403.
@@ -77,7 +77,7 @@
  * - <b>auth_failure_callback:</b> value acceptable by call_user_func() (array or string), callback
  *   function/method to be called on failed login, it must take exactly one argument which is the username as string.
  * - <b>auth_success_callback:</b> value acceptable by call_user_func() (array or string), callback
- *   function/method to be called on succesfull login, no values are passed.
+ *   function/method to be called on succesful login, no values are passed.
  *
  * <b>Authentication Backend configuration: "simple"</b>
  *
@@ -223,6 +223,7 @@
  *   like when reindexing the entire site, which can require quite some amount of memory, as the complete NAP
  *   cache has to be loaded and binary indexing can take some memory, too. Defaults to -1.
  *  - <b>mixed midcom_max_execution_time:</b> The maximum execution time for resource-intensive tasks
+ *  - <b>boolean midcom_use_superglobal:</b> Activate the $_MIDCOM superglobal compatibility layer
  *
  * <b>RCS system</b>
  *
@@ -256,7 +257,7 @@
  * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_ROOT_URL/midcom.services.toolbars/simple.css
  *   and is used to set the css for the toolbars used with onsite editing.
  * - <b>boolean toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
- *   javascript-floating MidCOM toolbar that users can display with $_MIDCOM->toolbars->show();
+ *   javascript-floating MidCOM toolbar that users can display with midcom::get('toolbars')->show();
  *
  * <b>Utility Programs</b>
  *
@@ -343,7 +344,7 @@ class midcom_config implements arrayaccess
         'cache_module_content_backend' => array('driver' => 'flatfile'),
         'cache_module_memcache_backend' => 'flatfile',
         'cache_module_memcache_backend_config' => Array(),
-        'cache_module_memcache_data_groups' => Array('ACL', 'PARENT', 'L10N'),
+        'cache_module_memcache_data_groups' => Array('ACL', 'PARENT', 'L10N', 'MISC'),
 
         // Defaults:
         // 'cache_module_content_backend' => Array ('directory' => 'content/', 'driver' => 'dba'),
@@ -400,6 +401,7 @@ class midcom_config implements arrayaccess
         'midcom_temporary_resource_timeout' => 86400,
         'midcom_max_memory' => -1,
         'midcom_max_execution_time' => 0,
+        'midcom_use_superglobal' => true,
 
         // Visibility settings (NAP)
         'show_hidden_objects' => true,
@@ -424,7 +426,6 @@ class midcom_config implements arrayaccess
 
         // Service implementation defaults
         'service_midcom_core_service_urlparser' => 'midcom_core_service_implementation_urlparsertopic',
-        'service_midcom_core_service_urlgenerator' => 'midcom_core_service_implementation_urlgeneratori18n',
 
         // Public attachment caching directives
         'attachment_cache_enabled' => false,
@@ -491,8 +492,8 @@ class midcom_config implements arrayaccess
         'wrap_style_show_with_name' => false,
 
         // Related to JavaScript libraries
-        'jquery_version' => '1.6.2.min',
-        'jquery_ui_version' => '1.8.16',
+        'jquery_version' => '1.7.2.min',
+        'jquery_ui_version' => '1.8.19',
         'jquery_ui_theme' => null,
         'jquery_load_from_google' => false,
         'enable_ajax_editing' => false,
@@ -553,14 +554,14 @@ class midcom_config implements arrayaccess
 
     private function _complete_defaults()
     {
-        if (isset($_MIDGARD['config']['auth_cookie_id']))
+        if (midcom_connection::get('config', 'auth_cookie_id'))
         {
-            $auth_cookie_id = $_MIDGARD['config']['auth_cookie_id'];
+            $auth_cookie_id = midcom_connection::get('config', 'auth_cookie_id');
         }
         else
         {
             // Generate host identifier from Midgard host
-            $auth_cookie_id = "host{$_MIDGARD['host']}";
+            $auth_cookie_id = "host" . midcom_connection::get('host');
         }
         $this->_default_config['auth_backend_simple_cookie_id'] = $auth_cookie_id;
 
@@ -576,19 +577,21 @@ class midcom_config implements arrayaccess
         $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
+        $sharedir = "/var/lib/midgard";
         // TODO: Would be good to include DB name into the path
-        if ($_MIDGARD['config']['prefix'] == '/usr')
+        if (extension_loaded('midgard2'))
         {
-            $this->_default_config['midcom_services_rcs_root'] = '/var/lib/midgard/rcs';
-        }
-        else if ($_MIDGARD['config']['prefix'] == '/usr/local')
-        {
-            $this->_default_config['midcom_services_rcs_root'] = '/var/local/lib/midgard/rcs';
+            $sharedir = midgard_connection::get_instance()->config->sharedir;
         }
         else
         {
-            $this->_default_config['midcom_services_rcs_root'] =  "{$_MIDGARD['config']['prefix']}/var/lib/midgard/rcs";
+            $prefix = midcom_connection::get('config', 'prefix');
+            if ($prefix == '/usr/local')
+            {
+                $sharedir = '/var/local/lib/midgard';
+            }
         }
+        $this->_default_config['midcom_services_rcs_root'] = $sharedir . '/rcs';
     }
 
     public function offsetSet($offset, $value)
@@ -613,7 +616,6 @@ class midcom_config implements arrayaccess
 }
 
 /* ----- Include the site config ----- */
-/* This should be replaced by $_MIDGARD constructs */
 if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
 {
     include(MIDCOM_CONFIG_FILE_BEFORE);

@@ -20,7 +20,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -28,7 +27,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * The articles to display
      *
      * @var Array
-     * @access private
      */
     private $_articles = null;
 
@@ -43,7 +41,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * The de.bitfolge.feedcreator instance used.
      *
      * @var UniversalFeedCreator
-     * @access private
      */
     private $_feed = null;
 
@@ -66,11 +63,11 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _handler_feed ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->load_library('de.bitfolge.feedcreator');
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator');
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // Prepare control structures
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
@@ -121,7 +118,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         // Prepare the feed (this will also validate the handler_id)
         $this->_create_feed($handler_id);
 
-        $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
     }
 
     /**
@@ -141,7 +138,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_feed->description = $this->_config->get('rss_description');
         $this->_feed->language = $this->_config->get('rss_language');
         $this->_feed->editor = $this->_config->get('rss_webmaster');
-        $this->_feed->link = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $this->_feed->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $this->_feed->cssStyleSheet = false;
 
         switch($handler_id)
@@ -225,7 +222,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     public function _handler_index ($handler_id, array $args, array &$data)
     {
         $this->set_active_leaf(NET_NEHMER_BLOG_LEAFID_FEEDS);
-        $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
+        midcom::get('metadata')->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
     }
 
     /**

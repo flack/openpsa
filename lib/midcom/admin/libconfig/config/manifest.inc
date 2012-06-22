@@ -1,7 +1,7 @@
 'name' => 'midcom.admin.libconfig',
 'description' => 'Library configuration tool',
 'purecode' => true,
-'version' => '9.0beta1+git',
+'version' => '9.0beta3+git',
 'privileges' => array(),
 'class_mapping' => array(),
 'package.xml' => array

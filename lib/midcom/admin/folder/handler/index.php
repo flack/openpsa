@@ -32,7 +32,7 @@ class midcom_admin_folder_handler_index extends midcom_baseclasses_components_ha
         $this->add_breadcrumb("/", $this->_l10n->get('index'));
 
         $title = $this->_l10n_midcom->get('index');
-        $_MIDCOM->set_pagetitle(":: {$title}");
+        midcom::get('head')->set_pagetitle(":: {$title}");
 
         $data['sort_order'] = $this->_config->get('sort_order');
     }

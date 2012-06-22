@@ -1,12 +1,12 @@
 <?php
-$l10n =& $data['l10n'];
+$l10n = $data['l10n'];
 $report =& $data['report'];
 $link_data =& $data['use_link_data'];
 if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
 }
-$form_suffix =& $data['form_suffix'];
+$form_suffix = $data['form_suffix'];
 ?>
 <form method="post">
     <table class="link_statistics" id="org_openpsa_directmarketing_messagelinks&(form_suffix);">
@@ -20,7 +20,7 @@ $form_suffix =& $data['form_suffix'];
         </tr>
         <?php
             $total = 0;
-            foreach($link_data['counts'] as $target => $count)
+            foreach ($link_data['counts'] as $target => $count)
             {
                 $total += $count;
                 $of_clicks = $link_data['percentages']['of_links'][$target];
@@ -113,7 +113,7 @@ $form_suffix =& $data['form_suffix'];
     ?>
 <form method="post" action="&(reports_prefix);csv/&(filename);.csv" onSubmit="return table2csv('org_openpsa_directmarketing_messagelinks&(form_suffix);');">
     <input type="hidden" id="csvdata" name="org_openpsa_reports_csv" value="" />
-    <input class="button" type="submit" value="<?php echo $_MIDCOM->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
+    <input class="button" type="submit" value="<?php echo midcom::get('i18n')->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
     <?php
         }

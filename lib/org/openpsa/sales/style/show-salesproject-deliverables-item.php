@@ -1,6 +1,6 @@
 <?php
 $deliverable = $data['deliverable'];
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <li class="deliverable collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
     <span class="icon">
@@ -60,12 +60,10 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if (   $data['projects_url']
             && $data['product']
-            && $data['product']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE
             && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
         {
-            $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
-            // FIXME: This is a rather ugly hack
-            $_MIDCOM->style->enter_context(0);
+            midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
         }
         ?>
     </div>
@@ -74,9 +72,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (   $data['invoices_url']
             && $data['deliverable_object']->invoiced > 0)
         {
-            $_MIDCOM->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
-            // FIXME: This is a rather ugly hack
-            $_MIDCOM->style->enter_context(0);
+            midcom::get()->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
         }
         ?>
     </div>

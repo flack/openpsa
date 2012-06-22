@@ -131,7 +131,6 @@ class midcom_helper_metadata
      * @param mixed $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
      * @see midcom_helper_metadata::get()
-     * @access private
      */
     public function __construct(&$guid, $object, $schemadb)
     {
@@ -221,14 +220,17 @@ class midcom_helper_metadata
      */
     function load_datamanager()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
+        static $schemadbs = array();
+        if (!array_key_exists($this->_schemadb_path, $schemadbs))
+        {
+            $schemadbs[$this->_schemadb_path] = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
+        }
+        $this->_schemadb = $schemadbs[$this->_schemadb_path];
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
         $object_schema = $this->__object->get_parameter('midcom.helper.datamanager2', 'schema_name');
-        $component_schema = str_replace('.', '_', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
+        $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         if (   $object_schema == ''
             || !isset($this->_schemadb[$object_schema]))
         {
@@ -339,7 +341,7 @@ class midcom_helper_metadata
      * - created can only be set with articles.
      * - creator, editor and edited cannot be set.
      *
-     * Any error will trigger generate_error.
+     * Any error will trigger midcom_error.
      *
      * @param string $key The key to set.
      * @param mixed $value The value to set.
@@ -458,7 +460,7 @@ class midcom_helper_metadata
         // Just be intelligent here :)
         if (!empty($this->guid))
         {
-            $_MIDCOM->cache->invalidate($this->guid);
+            midcom::get('cache')->invalidate($this->guid);
         }
     }
 
@@ -655,8 +657,8 @@ class midcom_helper_metadata
      */
     function approve()
     {
-        $_MIDCOM->auth->require_do('midcom:approve', $this->__object);
-        $_MIDCOM->auth->require_do('midgard:update', $this->__object);
+        midcom::get('auth')->require_do('midcom:approve', $this->__object);
+        midcom::get('auth')->require_do('midgard:update', $this->__object);
 
         if (!is_object($this->__object))
         {
@@ -674,8 +676,8 @@ class midcom_helper_metadata
      */
     function force_approve()
     {
-        $_MIDCOM->auth->require_do('midcom:approve', $this->__object);
-        $_MIDCOM->auth->require_do('midgard:update', $this->__object);
+        midcom::get('auth')->require_do('midcom:approve', $this->__object);
+        midcom::get('auth')->require_do('midgard:update', $this->__object);
         if (!is_object($this->__object))
         {
             return false;
@@ -697,8 +699,8 @@ class midcom_helper_metadata
      */
     function unapprove()
     {
-        $_MIDCOM->auth->require_do('midcom:approve', $this->__object);
-        $_MIDCOM->auth->require_do('midgard:update', $this->__object);
+        midcom::get('auth')->require_do('midcom:approve', $this->__object);
+        midcom::get('auth')->require_do('midgard:update', $this->__object);
 
         if (!is_object($this->__object))
         {
@@ -777,7 +779,7 @@ class midcom_helper_metadata
         {
             try
             {
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {
@@ -803,7 +805,6 @@ class midcom_helper_metadata
     /**
      * Check if the requested object is locked
      *
-     * @static
      * @param mixed &$object    MgdSchema object
      * @return boolean          True if the object is locked, false if it isn't
      */
@@ -823,9 +824,8 @@ class midcom_helper_metadata
         }
 
         // Lock was created by the user, return "not locked"
-        if (   isset($_MIDCOM->auth->user)
-            && isset($_MIDCOM->auth->user->guid)
-            && $this->get('locker') === $_MIDCOM->auth->user->guid)
+        if (   !empty(midcom::get('auth')->user->guid)
+            && $this->get('locker') === midcom::get('auth')->user->guid)
         {
             return false;
         }
@@ -843,7 +843,7 @@ class midcom_helper_metadata
      */
     public function lock($timeout = null, $user = null)
     {
-        $_MIDCOM->auth->require_do('midgard:update', $this->__object);
+        midcom::get('auth')->require_do('midgard:update', $this->__object);
 
         if (!$timeout)
         {
@@ -867,7 +867,7 @@ class midcom_helper_metadata
     function can_unlock()
     {
         if (   !$this->__object->can_do('midcom:unlock')
-            && !$_MIDCOM->auth->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'))
+            && !midcom::get('auth')->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'))
         {
             return false;
         }

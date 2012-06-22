@@ -16,6 +16,7 @@ implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Wiki word we're creating page for
+     *
      * @var string
      */
     private $_wikiword = '';
@@ -77,8 +78,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _check_unique_wikiword($wikiword)
     {
-        $resolver = new net_nemein_wiki_wikipage();
-        $resolver->topic = $this->_topic->id;
+        $resolver = new net_nemein_wiki_resolver($this->_topic->id);
         $resolved = $resolver->path_to_wikipage($wikiword, true, true);
 
         if (!empty($resolved['latest_parent']))
@@ -149,7 +149,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 {
                     // Last parent is not this topic, redirect there
                     $wikiword_url = rawurlencode($resolved['remaining_path']);
-                    $_MIDCOM->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
+                    midcom::get()->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
                     // This will exit()
                 }
                 break;
@@ -204,52 +204,23 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $data['controller'] = $this->get_controller('create');
 
-        if ($handler_id == 'create_by_word_relation')
-        {
-            if (   mgd_is_guid($args[0])
-                && mgd_is_guid($args[1]))
-            {
-                // We're in "Related to" mode
-                $nap = new midcom_helper_nav();
-                $related_to_node = $nap->resolve_guid($args[1]);
-                if ($related_to_node)
-                {
-                    $data['related_to'][$related_to_node[MIDCOM_NAV_GUID]] = array
-                    (
-                        'node'   => $related_to_node,
-                        'target' => $args[1],
-                    );
-                }
-                else
-                {
-                    throw new midcom_error_notfound('The GUID ' . $args[1] . ' could not be found.');
-                }
-            }
-            else
-            {
-                throw new midcom_error_notfound('Invalid arguments.');
-            }
-        }
-
         switch ($data['controller']->process_form())
         {
             case 'save':
                 // Reindex the article
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 net_nemein_wiki_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
-                $_MIDCOM->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
+                midcom::get('uimessages')->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
 
-                $_MIDCOM->relocate("{$this->_page->name}/");
-                // This will exit.
+                return new midcom_response_relocate("{$this->_page->name}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
 
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('create wikipage %s'), $this->_wikiword);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $data['preview_mode'] = false;
 
         $this->add_breadcrumb

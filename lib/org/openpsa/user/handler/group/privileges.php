@@ -32,7 +32,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $fields =& $schemadb['default']->fields;
 
-        $group_object = $_MIDCOM->auth->get_group("group:{$this->_request_data['group']->guid}");
+        $group_object = midcom::get('auth')->get_group("group:{$this->_request_data['group']->guid}");
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();
@@ -57,7 +57,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $fields['invoices_creation']['privilege_object'] = $group_object->get_storage();
         $fields['invoices_editing']['privilege_object'] = $group_object->get_storage();
         // Load campaign classes
-        if ($_MIDCOM->componentloader->load_graceful('org.openpsa.directmarketing'))
+        if (midcom::get('componentloader')->load_graceful('org.openpsa.directmarketing'))
         {
             $fields['campaigns_creation']['privilege_object'] = $group_object->get_storage();
             $fields['campaigns_editing']['privilege_object'] = $group_object->get_storage();
@@ -82,7 +82,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // Check if we get the group
         $this->_group = new midcom_db_group($args[0]);
-        midcom::get('auth')->require_do('midgard:privileges', $this->_group);
+        $this->_group->require_do('midgard:privileges');
 
         $data['group'] = $this->_group;
 
@@ -91,13 +91,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['acl_dm']->process_form())
         {
             case 'save':
-                // Fall-thorugh
+                // Fall-through
             case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . "group/" . $this->_group->guid . "/");
         }
 
-        $_MIDCOM->set_pagetitle($this->_group->official);
+        midcom::get('head')->set_pagetitle($this->_group->official);
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);

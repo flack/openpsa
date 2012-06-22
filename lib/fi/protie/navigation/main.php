@@ -11,9 +11,6 @@
  * user preferences.
  *
  * <code>
- * // Loads the component for the first time
- * $_MIDCOM->componentloader->load('fi.protie.navigation');
- *
  * // Initializes the class
  * $navigation = new fi_protie_navigation();
  *
@@ -242,14 +239,6 @@ class fi_protie_navigation
     private $_get_params = array();
 
     /**
-     * Registered post -parameters for listening
-     * Not supported yet.
-     *
-     * @var array
-     */
-    private $_post_params = array();
-
-    /**
      * Cache for parameters to be listened
      *
      * @var string
@@ -271,75 +260,56 @@ class fi_protie_navigation
         }
     }
 
-    function listen_parameter($name, $value=false, $type='get')
+    function listen_parameter($name, $value = false)
     {
         if (empty($name))
         {
             return;
         }
 
-        $type = strtolower($type);
-
-        switch($type)
+        if (   isset($this->_get_params[$name])
+            && $this->_get_params[$name] == $value)
         {
-            case 'post':
-                if (   isset($this->_post_params[$name])
-                    && $this->_post_params[$name] == $value)
-                {
-                    return;
-                }
-                $this->_post_params[$name] = $value;
-            break;
-            case 'get':
-            default:
-                if (   isset($this->_get_params[$name])
-                    && $this->_get_params[$name] == $value)
-                {
-                    return;
-                }
-                $this->_get_params[$name] = $value;
+            return;
         }
+        $this->_get_params[$name] = $value;
 
         $this->_listen_params = true;
     }
 
-    private function _collect_parameters()
-    {
-        if (empty($this->_get_params))
-        {
-            $this->_params_cache = '';
-            return;
-        }
-
-        $_prefix = '?';
-        $this->_params_cache = '';
-
-        foreach ($this->_get_params as $key => $value)
-        {
-            if (isset($_GET[$key]))
-            {
-                if ($value)
-                {
-                    if ($_GET[$key] == $value)
-                    {
-                        $this->_params_cache .= "{$_prefix}{$key}={$value}";
-                        $_prefix = '&';
-                    }
-                }
-                elseif (! $_GET[$key])
-                {
-                    $this->_params_cache .= "{$_prefix}{$key}";
-                    $_prefix = '&';
-                }
-            }
-        }
-    }
-
     private function _get_parameter_string()
     {
-        if (! $this->_params_cache)
+        if (false !== $this->_params_cache)
         {
-            $this->_collect_parameters();
+            return $this->_params_cache;
+        }
+
+        $this->_params_cache = '';
+        $registered_params = array_intersect_key($this->_get_params, $_GET);
+        if (empty($registered_params))
+        {
+            return $this->_params_cache;
+        }
+
+        $params = array();
+        foreach ($registered_params as $key => $value)
+        {
+            if ($value)
+            {
+                if ($_GET[$key] == $value)
+                {
+                    $params[$key] = $value;
+                }
+            }
+            else if (!$_GET[$key])
+            {
+                $params[$key] = '';
+            }
+        }
+
+        if (!empty($params))
+        {
+            $this->_params_cache = '?' . http_build_query($params);
         }
 
         return $this->_params_cache;
@@ -481,9 +451,7 @@ class fi_protie_navigation
 
             if (   $item[MIDCOM_NAV_ID] === $this->_nap->get_current_node()
                 && (   !$this->_nap->get_current_leaf()
-                    || !$this->_nap->get_leaf($this->_nap->get_current_leaf())
-                   )
-               )
+                    || !$this->_nap->get_leaf($this->_nap->get_current_leaf())))
             {
                 $classes[] = $this->css_active;
             }
@@ -549,7 +517,7 @@ class fi_protie_navigation
         // Add information about the object's status
         if (   $this->object_status_to_class
             && isset($item[MIDCOM_NAV_OBJECT])
-            && $css_status_class = $_MIDCOM->metadata->get_object_classes($item[MIDCOM_NAV_OBJECT]))
+            && $css_status_class = midcom::get('metadata')->get_object_classes($item[MIDCOM_NAV_OBJECT]))
         {
             $classes[] = $css_status_class;
         }

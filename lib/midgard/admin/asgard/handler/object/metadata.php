@@ -30,15 +30,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_controller = null;
 
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -96,10 +87,10 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         if (is_a($this->_object, 'midcom_db_topic'))
         {
@@ -120,16 +111,14 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Reindex the object
-                //$indexer = $_MIDCOM->get_service('indexer');
+                //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
-                $_MIDCOM->cache->invalidate($this->_object->guid);
-                $_MIDCOM->relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
-                // This will exit.
+                midcom::get('cache')->invalidate($this->_object->guid);
+                return new midcom_response_relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
 
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/view/{$this->_object->guid}");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_object->guid}");
         }
 
         $this->_prepare_request_data();

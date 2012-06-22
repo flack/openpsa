@@ -96,15 +96,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     }
 
     /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -193,6 +184,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
+
         $this->_contact->require_do('midgard:update');
 
         $this->_load_controller();
@@ -201,21 +193,19 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         {
             case 'save':
                 // Reindex the contact
-                $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_topic);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+                $indexer->index($this->_controller->datamanager);
 
                 // *** FALL-THROUGH ***
-
             case 'cancel':
-                $_MIDCOM->relocate("person/{$this->_contact->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("person/{$this->_contact->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_contact->name);
-        $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
+        midcom::get('head')->set_pagetitle($this->_contact->name);
+        $this->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -245,6 +235,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
+
         $this->_contact->require_do('midgard:delete');
 
         $this->_load_datamanager();
@@ -258,24 +249,22 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
             }
 
             // Update the index
-            $indexer = $_MIDCOM->get_service('indexer');
-            $indexer->delete($this->_contact->guid . '_' . $_MIDCOM->i18n->get_content_language());
+            $indexer = midcom::get('indexer');
+            $indexer->delete($this->_contact->guid . '_' . midcom::get('i18n')->get_content_language());
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_contacts_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate("person/{$this->_contact->guid}/");
-            // This will exit()
+            return new midcom_response_relocate("person/{$this->_contact->guid}/");
         }
 
         $this->_prepare_request_data($handler_id);
-        $_MIDCOM->set_pagetitle($this->_contact->name);
-        $_MIDCOM->bind_view_to_object($this->_contact, $this->_datamanager->schema->name);
+        midcom::get('head')->set_pagetitle($this->_contact->name);
+        $this->bind_view_to_object($this->_contact, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 

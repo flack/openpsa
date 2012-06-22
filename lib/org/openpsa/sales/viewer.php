@@ -27,7 +27,83 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.sales/sales.css");
 
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
+    }
+
+
+    /**
+     * Function to process the notify date in the passed formdata of the datamanger
+     * creates/edits/deletes the corresponding at_entry if needed
+     *
+     * @param array $formdata The Formdata of the datamanager containing the notify_date
+     * @param org_openpsa_sales_salesproject_deliverable_dba $deliverable The current deliverable
+     */
+    public function process_notify_date($formdata, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    {
+        //check if there is already an at_entry
+        $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $deliverable->guid);
+        $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
+        $mc_entry->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_deliverable_dba');
+        $mc_entry->add_constraint('toExtra', '=', 'notify_at_entry');
+        $entry_keys = $mc_entry->get_values('fromGuid');
+
+        //check date
+        if (!$formdata['notify']->is_empty())
+        {
+            $notification_entry = null;
+
+            if (count($entry_keys) == 0)
+            {
+                $notification_entry = new midcom_services_at_entry_dba();
+                $notification_entry->create();
+                //relatedto from notifcation to deliverable
+                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', false, array('toExtra' => 'notify_at_entry'));
+            }
+            else
+            {
+                //get guid of at_entry
+                foreach ($entry_keys as $key => $entry)
+                {
+                    //check if related at_entry exists
+                    try
+                    {
+                        $notification_entry = new midcom_services_at_entry_dba($entry);
+                    }
+                    catch (midcom_error $e)
+                    {
+                        //relatedto links to a non-existing at_entry - so create a new one an link to it
+                        $notification_entry = new midcom_services_at_entry_dba();
+                        $notification_entry->create();
+                        $relatedto = new org_openpsa_relatedto_dba($key);
+                        $relatedto->fromGuid = $notification_entry->guid;
+                        $relatedto->update();
+                    }
+                    break;
+                }
+            }
+            $notification_entry->start = $formdata['notify']->value->format('U');
+            $notification_entry->method = 'new_notification_message';
+            $notification_entry->component = 'org.openpsa.sales';
+            $notification_entry->arguments = array('deliverable' => $deliverable->guid);
+            $notification_entry->update();
+        }
+        else
+        {
+            //void date - so delete existing at_entrys for this notify_date
+            foreach ($entry_keys as $key => $empty)
+            {
+                try
+                {
+                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
+                    //check if related at_entry exists & delete it
+                    $notification_entry->delete();
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                }
+            }
+        }
     }
 
     /**
@@ -43,9 +119,9 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
 
         while ($object)
         {
-            if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
+            if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
             {
-                if ($object->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                 {
                     $prefix = $handler->_l10n->get('subscription');
                 }

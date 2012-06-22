@@ -25,7 +25,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     public function _handler_index ($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -42,7 +42,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $date->modify('-' . $offset . ' days');
         $data['week_start'] = (int) $date->format('U');
 
-        $date->modify('+7 days');
+        $date->modify('+7 days -1 second');
         $data['week_end'] = (int) $date->format('U');
 
         $date->modify('+1 day');
@@ -57,46 +57,44 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $hours_mc->add_value_property('date');
         $hours_mc->add_value_property('person');
 
-        //array with filter options
-        $filters = array
-        (
-            "person"
-        );
-        $person_filter = new org_openpsa_core_filter($filters, $hours_mc);
-        $this->_request_data["filter_persons"] = $person_filter->list_filter("person");
-
+        $this->_master->add_list_filter($hours_mc);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);
         $hours_mc->add_order('task');
         $hours_mc->add_order('date');
         $hours_mc->execute();
 
-        $data['tasks'] = $this->_get_sorted_reports($hours_mc);
+        $data['rows'] = $this->_get_sorted_reports($hours_mc);
 
         $this->_populate_toolbar($previous_week, $next_week);
 
+        org_openpsa_widgets_grid::add_head_elements();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/expenses.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/dropdown-check-list.0.9/css/ui.dropdownchecklist.css");
-
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
 
         $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
     }
 
     private function _populate_toolbar($previous_week, $next_week)
     {
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
+        $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&amp;date[to]=' . $week_end,
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+            )
+        );
 
         $this->_view_toolbar->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$prefix}" . $previous_week . "/",
+                MIDCOM_TOOLBAR_URL => $previous_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
             )
@@ -105,7 +103,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$prefix}" . $next_week . "/",
+                MIDCOM_TOOLBAR_URL => $next_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
             )
@@ -117,8 +115,9 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     private function _get_sorted_reports($hours_mc)
     {
-        $tasks = array();
+        $reports = array();
         $hours = $hours_mc->list_keys();
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($hours as $guid => $empty)
         {
@@ -132,37 +131,41 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                 // Task couldn't be loaded, probably because of ACL
                 continue;
             }
-            $date = $hours_mc->get_subkey($guid, 'date');
-            $report_hours = $hours_mc->get_subkey($guid, 'hours');
             $person = $hours_mc->get_subkey($guid, 'person');
-            if (!isset($tasks[$task_id]))
-            {
-                $tasks[$task_id] = array
-                (
-                    'persons' => array(),
-                    'task_object' => $task,
-                );
-            }
-            if (!isset($tasks[$task_id]['persons'][$person]))
-            {
-                $tasks[$task_id]['persons'][$person] = array();
-            }
+            $date = $hours_mc->get_subkey($guid, 'date');
 
             $date_identifier = date('Y-m-d', $date);
-            if (!isset($tasks[$task_id][$date_identifier]))
+            $row_identifier = $task->id . '-' .  $person;
+
+            if (!isset($reports[$row_identifier]))
             {
-                $tasks[$task_id][$date_identifier] = 0;
+                $reports[$row_identifier] = array
+                (
+                    $date_identifier => 0,
+                    'task' => "<a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a>",
+                    'task_index' => $task->get_label()
+                );
+
+                try
+                {
+                    $person = org_openpsa_contacts_person_dba::get_cached($person);
+                    $reports[$row_identifier]['person'] = $person->name;
+                }
+                catch (midcom_error $e)
+                {
+                    $reports[$row_identifier]['person'] = $this->_l10n->get('no person');
+                }
             }
 
-            if (!isset($tasks[$task_id]['persons'][$person][$date_identifier]))
+            if (!isset($reports[$row_identifier][$date_identifier]))
             {
-                $tasks[$task_id]['persons'][$person][$date_identifier] = 0;
+                $reports[$row_identifier][$date_identifier] = 0;
             }
 
-            $tasks[$task_id][$date_identifier] += $report_hours;
-            $tasks[$task_id]['persons'][$person][$date_identifier] += $report_hours;
+            $reports[$row_identifier][$date_identifier] += $hours_mc->get_subkey($guid, 'hours');
         }
-        return $tasks;
+
+        return array_values($reports);
     }
 
     /**

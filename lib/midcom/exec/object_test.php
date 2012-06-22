@@ -1,6 +1,4 @@
 <?php
-$_MIDCOM->load_library('midcom.helper.reflector');
-
 function obj_cleanup(&$object)
 {
     if ($object->delete())
@@ -23,12 +21,12 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
     }
     flush();
     $dummy = new $mgdschema();
-    $midcom_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
+    $midcom_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy);
     if (empty($midcom_class))
     {
         continue;
     }
-    if (   !$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_class)
+    if (   !midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_class)
         || !class_exists($midcom_class))
     {
         echo "<h2>ERROR: Could not load handler for {$midcom_class}</h2>\n";

@@ -41,7 +41,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     private function _prepare_handler($args)
     {
         // TODO: Add smarter per-type ACL checks
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
@@ -56,7 +56,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             )
         );
 
-        $_MIDCOM->bind_view_to_object($this->_request_data['campaign']);
+        $this->bind_view_to_object($this->_request_data['campaign']);
 
         $this->_load_schemas();
     }
@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     private function _load_schemas()
     {
         // Load contacts explicitly to get constants for schema
-        $_MIDCOM->componentloader->load('org.openpsa.contacts');
+        midcom::get('componentloader')->load('org.openpsa.contacts');
 
         // We try to combine these schemas to provide a single centralized controller
         $this->_schemadbs['campaign_member'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member'));
@@ -105,7 +105,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             {
                 $this->_datamanagers[$identifier]->set_schema('default');
             }
-
         }
     }
 
@@ -123,8 +122,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             debug_add('Filename part not specified in URL, generating');
             //We do not have filename in URL, generate one and redirect
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
-            $_MIDCOM->relocate("campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
-            // This will exit
+            return new midcom_response_relocate("campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
         }
         midcom::get()->disable_limits();
 
@@ -153,8 +151,8 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         $this->_load_datamanagers();
         $this->_init_csv_variables();
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
     }
 
     private function _process_member($member)
@@ -226,23 +224,19 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     private function _init_csv_variables()
     {
-        if (   !isset($this->csv['s'])
-            || empty($this->csv['s']))
+        if (empty($this->csv['s']))
         {
             $this->csv['s'] = $this->_config->get('csv_export_separator');
         }
-        if (   !isset($this->csv['q'])
-            || empty($this->csv['q']))
+        if (empty($this->csv['q']))
         {
             $this->csv['q'] = $this->_config->get('csv_export_quote');
         }
-        if (   !isset($this->csv['d'])
-            || empty($this->csv['d']))
+        if (empty($this->csv['d']))
         {
             $this->csv['d'] = $this->_config->get('csv_export_decimal');
         }
-        if (   !isset($this->csv['nl'])
-            || empty($this->csv['nl']))
+        if (empty($this->csv['nl']))
         {
             $this->csv['nl'] = $this->_config->get('csv_export_newline');
         }
@@ -292,7 +286,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     public function _show_csv($handler_id, array &$data)
     {
         // Make absolutely sure we're in live output
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
         while(@ob_end_flush());
 
         $object_types = array('person', 'campaign_member', 'organization', 'organization_member');

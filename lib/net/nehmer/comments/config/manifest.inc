@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.comments',
-'version' => '9.0beta1+git',
+'version' => '9.0beta3+git',
 'icon' => 'stock-icons/16x16/stock-discussion.png',
 'class_mapping' => array
 (
@@ -61,11 +61,6 @@
 (
     'midcom.services.cron' => array
     (
-        array
-        (
-            'handler' => 'net_nehmer_comments_cron_buzz',
-            'recurrence' => MIDCOM_CRON_HOUR,
-        ),
         array
         (
             'handler' => 'net_nehmer_comments_cron_qaiku',

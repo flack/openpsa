@@ -11,7 +11,7 @@
  *
  * @package midcom
  */
-abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
+abstract class midcom_core_dbaobject
 {
     /**
      * MgdSchema object
@@ -83,7 +83,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     {
         if (is_object($id))
         {
-            $this->__object = $_MIDCOM->dbfactory->convert_midcom_to_midgard($id);
+            $this->__object = midcom::get('dbfactory')->convert_midcom_to_midgard($id);
         }
         else
         {
@@ -196,6 +196,41 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     public function __set($property, $value)
     {
         return $this->__object->$property = $value;
+    }
+
+    /**
+     * Shortcut for accessing MidCOM Query Builder
+     *
+     * @return midcom_core_querybuilder The initialized instance of the query builder.
+     * @see midcom_core_querybuilder
+     */
+    public static function new_query_builder()
+    {
+        return midcom::get('dbfactory')->new_query_builder(get_called_class());
+    }
+
+    /**
+     * Shortcut for accessing MidCOM Collector
+     *
+     * @param string $domain The domain property of the collector instance
+     * @param mixed $value Value match for the collector instance
+     * @return midcom_core_collector The initialized instance of the collector.
+     * @see midcom_core_collector
+     */
+    public static function new_collector($domain, $value)
+    {
+        return midcom::get('dbfactory')->new_collector(get_called_class(), $domain, $value);
+    }
+
+    /**
+     * Shortcut for accessing MidCOM object cache.
+     *
+     * @param mixed $src GUID of object (ids work but are discouraged)
+     * @return mixed Reference to the object or false
+     */
+    public static function &get_cached($src)
+    {
+        return midcom::get('dbfactory')->get_cached(get_called_class(), $src);
     }
 
     public function set_guid($guid)
@@ -416,7 +451,8 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     public static function serve_attachment($guid)
     {
         $attachment = new midcom_db_attachment($guid);
-        $_MIDCOM->serve_attachment($attachment);
+        $resolver = new midcom_core_resolver(midcom_core_context::get());
+        $resolver->serve_attachment($attachment);
     }
     public function has_parameters()
     {
@@ -492,8 +528,8 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
         {
             return true;
         }
-        $_MIDCOM->cache->invalidate($this->guid);
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
+        midcom::get('cache')->invalidate($this->guid);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
         return $this->__object->approve();
     }
     public function unapprove()
@@ -502,8 +538,8 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
         {
             return true;
         }
-        $_MIDCOM->cache->invalidate($this->guid);
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
+        midcom::get('cache')->invalidate($this->guid);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
         return $this->__object->unapprove();
     }
     public function get_properties()
@@ -528,7 +564,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     public static function new_reflection_property()
     {
         // TODO: This will work only in PHP 5.3 thanks to late static binding
-        $classname = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class(__CLASS__);
+        $classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class(__CLASS__);
         return call_user_func(array($classname, 'new_reflection_property'));
     }
 
@@ -559,19 +595,19 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     // ACL Shortcuts
     public function can_do($privilege, $user = null)
     {
-        return $_MIDCOM->auth->can_do($privilege, $this->__object, $user);
+        return midcom::get('auth')->can_do($privilege, $this, $user);
     }
     public function can_user_do($privilege, $user = null)
     {
-        return $_MIDCOM->auth->can_user_do($privilege, $user, $this->__midcom_class_name__);
+        return midcom::get('auth')->can_user_do($privilege, $user, $this->__midcom_class_name__);
     }
     public function require_do($privilege, $message = null)
     {
-        $_MIDCOM->auth->require_do($privilege, $this->__object, $message);
+        midcom::get('auth')->require_do($privilege, $this, $message);
     }
     public function require_user_do($privilege, $message = null)
     {
-        $_MIDCOM->auth->require_user_do($privilege, $message, $this->__midcom_class_name__);
+        midcom::get('auth')->require_user_do($privilege, $message, $this->__midcom_class_name__);
     }
 
     // DBA API
@@ -651,7 +687,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     {
         static $parent_mapping = array();
 
-        $class_name = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
+        $class_name = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($class_name);
         $reflector = new midgard_reflection_property($class_name);
         $up_property = midgard_object_class::get_property_up($class_name);
         if (!empty($up_property))
@@ -767,7 +803,7 @@ abstract class midcom_core_dbaobject implements midcom_core_dba_shortcuts
     {
         foreach ($this->autodelete_dependents as $classname => $link_property)
         {
-            $qb = $_MIDCOM->dbfactory->new_query_builder($classname);
+            $qb = midcom::get('dbfactory')->new_query_builder($classname);
             $qb->add_constraint($link_property, '=', $this->id);
             $results = $qb->execute();
             foreach ($results as $result)

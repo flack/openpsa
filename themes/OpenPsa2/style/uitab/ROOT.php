@@ -24,31 +24,12 @@ foreach ($link_head as $link)
 }
 
 //write the js/css-tags into js-array
-echo "<script type=\"text/javascript\">";
-echo "var scripts = " . json_encode($content_array) .";";
-echo "</script>";
- ?>
+echo "<HEAD_ELEMENTS>" . json_encode($content_array) . "</HEAD_ELEMENTS>";
+?>
 
-<script type="text/javascript">
-
-//check if array is already present to indicate if js/css-file was loaded already
-if (added_js_files == undefined)
-{
-    var added_js_files = {};
-    var added_css_files = {};
-}
-
-//add the css & js files
-parse_js(scripts["head_js"]);
-parse_css(scripts["head_css"]);
-
-</script>
 <div class="tab_div">
 <div class="org_openpsa_toolbar">
      <(toolbar-bottom)>
   </div>
   <(content)>
 </div>
-<script type="text/javascript">
-modify_content();
-</script>

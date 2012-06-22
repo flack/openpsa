@@ -17,22 +17,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_openpsa_hour_report';
 
     private $_locale_backup = '';
-    var $_skip_parent_refresh = false;
-
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
+    public $_skip_parent_refresh = false;
 
     function get_parent_guid_uncached()
     {

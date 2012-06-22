@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="main">
     <h1><?php echo $data['l10n']->get('export'); ?></h1>
@@ -42,7 +42,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                         $qb->add_constraint('code', '<>', '');
                         $qb->begin_group('OR');
                         $qb->add_constraint('productGroup', '=', $root_group->id);
-                        foreach($groups as $group)
+                        foreach ($groups as $group)
                         {
                             $qb->add_constraint('productGroup', '=', $group->id);
                         }

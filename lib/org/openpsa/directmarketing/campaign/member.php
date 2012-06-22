@@ -35,21 +35,6 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         }
     }
 
-    public static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    public static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    public static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -57,7 +42,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     {
         if ($this->person)
         {
-            $person = new midcom_db_person($this->person);
+            $person = new org_openpsa_contacts_person_dba($this->person);
             return $person->name;
         }
         return "member #{$this->id}";
@@ -108,7 +93,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
      * Substitutes magic strings in content with values from the membership
      * and/or the person.
      */
-    function personalize_message($content, $message_type=-1, &$person=false, $node=false)
+    function personalize_message($content, $message_type=-1, &$person = false, $node = false)
     {
         if (!$node)
         {
@@ -160,7 +145,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         // Callback functions
         if (preg_match_all('/' . $sep_start . 'CALLBACK:(.*?)' . $sep_end . '/', $content, $callback_matches))
         {
-            foreach($callback_matches[0] as $k => $search)
+            foreach ($callback_matches[0] as $k => $search)
             {
                 $callback_func =& $callback_matches[1][$k];
                 if (!is_callable($callback_func))
@@ -175,7 +160,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         return $content;
     }
 
-    function get_unsubscribe_url($node=false, $person=false)
+    function get_unsubscribe_url($node = false, $person = false)
     {
         if (!$node)
         {
@@ -201,7 +186,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $receipt->token = $token;
         $receipt->timestamp = time();
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
 
         $stat = $receipt->create();
 
@@ -225,7 +210,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
                 $receipt->set_parameter($param_data['domain'], $param_data['name'], $param_data['value']);
             }
         }
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

@@ -37,11 +37,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             return false;
         }
 
-        $_MIDCOM->componentloader->load('org.openpsa.relatedto');
-
         if (!$status)
         {
-            $status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
+            $status = org_openpsa_relatedto_dba::CONFIRMED;
         }
 
         $rel = new org_openpsa_relatedto_dba();
@@ -96,7 +94,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         foreach ($_REQUEST['org_openpsa_relatedto'] as $rel_array)
         {
             $rel = new org_openpsa_relatedto_dba();
-            foreach($rel_array as $k => $v)
+            foreach ($rel_array as $k => $v)
             {
                 $rel->$k = $v;
             }
@@ -157,7 +155,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $i = 0;
         foreach ($array as $rel)
         {
-            if (!$_MIDCOM->dbfactory->is_a($rel, 'org_openpsa_relatedto_dba')) //Matches also 'org_openpsa_relatedto'
+            if (!midcom::get('dbfactory')->is_a($rel, 'org_openpsa_relatedto_dba')) //Matches also 'org_openpsa_relatedto'
             {
                 //Wrong type of object found in array, cruelly abort the whole procedure
                 return false;
@@ -198,10 +196,10 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      */
     static function add_header_files()
     {
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
 
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
+        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
     }
 
     static function add_button(&$toolbar, $guid, $mode = 'both')
@@ -211,7 +209,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('view related information', 'org.openpsa.relatedto'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
             )
         );
@@ -219,7 +217,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     static function common_node_toolbar_buttons_sanitycheck(&$data, &$button_component, &$bind_object, &$calling_component)
     {
-        if (!$_MIDCOM->componentloader->load_graceful($button_component))
+        if (!midcom::get('componentloader')->load_graceful($button_component))
         {
             //For some reason the component is and can not (be) loaded
             debug_add("component {$button_component} could not be loaded", MIDCOM_LOG_ERROR);
@@ -252,7 +250,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $related_to->toClass = get_class($bind_object);
         $related_to->toComponent = $calling_component;
         $related_to->fromComponent = $button_component;
-        $related_to->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
+        $related_to->status = org_openpsa_relatedto_dba::CONFIRMED;
 
         return $related_to;
     }
@@ -324,7 +322,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "#",
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create event', $data['component']),
+                            MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create event', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                             //TODO: Check for privileges somehow
                             MIDCOM_TOOLBAR_OPTIONS  => array
@@ -341,9 +339,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}task/new/?" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create task', $data['component']),
+                            MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
+                            MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
                             MIDCOM_TOOLBAR_OPTIONS  => array
                             (
                                 //PONDER: Open in new window or not??
@@ -375,7 +373,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}create/?wikiword={$data['wikiword_encoded']}&amp;" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create note', $data['component']),
+                            MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create note', $data['component']),
                             //TODO: Different icon from new document ?
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
@@ -393,9 +391,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create document', $data['component']),
+                            MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $data['node'][MIDCOM_NAV_OBJECT]),
+                            MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
                             MIDCOM_TOOLBAR_OPTIONS  => array
                             (
                                 //PONDER: Open in new window or not ??
@@ -421,7 +419,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/html/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('view journal entries', 'org.openpsa.relatedto'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('view journal entries', 'org.openpsa.relatedto'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
             )
         );

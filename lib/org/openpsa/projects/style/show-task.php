@@ -3,7 +3,7 @@ $view_task =& $data['object_view'];
 $task =& $data['object'];
 $task->get_members();
 
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
@@ -202,7 +202,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             ?>
         </div>
         <div class="hours">
-          <?php $_MIDCOM->dynamic_load($expenses_url . "hours/task/all/" . $task->guid . "/"); ?>
+          <?php midcom::get()->dynamic_load($expenses_url . "hours/task/all/" . $task->guid . "/"); ?>
         </div>
     </div>
 

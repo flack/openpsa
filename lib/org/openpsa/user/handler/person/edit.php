@@ -38,7 +38,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_person = new midcom_db_person($args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
 
         if ($this->_person->id != midcom_connection::get_user())
         {
@@ -49,20 +49,17 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 // Fall-through
 
             case 'cancel':
-                $_MIDCOM->relocate('view/' . $this->_person->guid . '/');
-                // This will exit.
+                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
         }
-
-        $this->_master->add_password_validation_code();
 
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));
 
         org_openpsa_helpers::dm2_savecancel($this);
-        midcom::get()->bind_view_to_object($this->_person);
+        $this->bind_view_to_object($this->_person);
     }
 
     /**

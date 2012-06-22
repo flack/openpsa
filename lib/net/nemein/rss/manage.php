@@ -16,7 +16,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     public function _on_initialize()
     {
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('net.nemein.rss');
+        midcom::get('style')->prepend_component_styledir('net.nemein.rss');
 
         $this->_request_data['node'] = $this->_topic;
     }
@@ -28,17 +28,17 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      */
     public function _handler_opml($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         $qb->add_order('title');
         $qb->add_constraint('node', '=', $this->_topic->id);
         $data['feeds'] = $qb->execute();
 
-        $_MIDCOM->load_library('de.bitfolge.feedcreator');
+        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator');
     }
 
     /**
@@ -173,7 +173,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             // TODO: display error messages
             // TODO: redirect user to edit page if creation succeeded
 
-            $_MIDCOM->relocate('feeds/list/');
+            return new midcom_response_relocate('feeds/list/');
         }
 
         // OPML subscription list import support
@@ -207,7 +207,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             }
             xml_parser_free($opml_parser);
 
-            $_MIDCOM->relocate('feeds/list/');
+            return new midcom_response_relocate('feeds/list/');
         }
 
         $this->_update_breadcrumb_line($handler_id);
@@ -255,12 +255,11 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate('feeds/list/');
-                // This will exit.
+                return new midcom_response_relocate('feeds/list/');
         }
 
-        $_MIDCOM->set_26_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
-        $_MIDCOM->bind_view_to_object($data['feed']);
+        midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
+        $this->bind_view_to_object($data['feed']);
 
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -303,20 +302,18 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             }
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('feeds/list/');
-            // This will exit.
+            return new midcom_response_relocate('feeds/list/');
         }
 
         if (array_key_exists('net_nemein_rss_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate('feeds/list/');
-            // This will exit()
+            return new midcom_response_relocate('feeds/list/');
         }
 
-        $_MIDCOM->set_26_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
+        midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
         $this->_view_toolbar->bind_to($data['feed']);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$data['feed']->title}");
+        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$data['feed']->title}");
 
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -341,7 +338,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     public function _handler_fetch($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
 
         //Disable limits
         @ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
@@ -354,8 +351,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             $fetcher = new net_nemein_rss_fetch($data['feed']);
             $data['items'] = $fetcher->import();
 
-            $_MIDCOM->set_26_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
-            $_MIDCOM->bind_view_to_object($data['feed']);
+            midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
+            $this->bind_view_to_object($data['feed']);
         }
         else
         {

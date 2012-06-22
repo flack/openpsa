@@ -26,7 +26,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
      */
     public function _handler_generator($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         $this->_generator_load_redirect($args);
         $this->_handler_generator_style();
@@ -38,48 +38,48 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         $data['end'] = $this->_request_data['query_data']['end'];
 
         // List sales projects
-        $salesproject_qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-        $salesproject_qb->add_constraint('status', '<>', org_openpsa_sales_salesproject_dba::STATUS_LOST);
+        $salesproject_mc = org_openpsa_sales_salesproject_dba::new_collector('metadata.deleted', false);
+        $salesproject_mc->add_constraint('status', '<>', org_openpsa_sales_salesproject_dba::STATUS_LOST);
 
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            $salesproject_qb->begin_group('OR');
+            $salesproject_mc->begin_group('OR');
             foreach ($this->_request_data['query_data']['resource_expanded'] as $pid)
             {
-                $salesproject_qb->add_constraint('owner', '=', $pid);
+                $salesproject_mc->add_constraint('owner', '=', $pid);
             }
-            $salesproject_qb->end_group();
+            $salesproject_mc->end_group();
         }
-        $salesprojects = $salesproject_qb->execute();
+        $salesprojects = $salesproject_mc->get_values('id');
 
         // List deliverables related to the sales projects
-        $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $deliverable_qb->add_constraint('state', '<>', 'org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED');
-        $deliverable_qb->begin_group('OR');
-        foreach ($salesprojects as $salesproject)
-        {
-            $deliverable_qb->add_constraint('salesproject', '=', $salesproject->id);
-        }
-        $deliverable_qb->end_group();
-        $deliverables = $deliverable_qb->execute();
+        $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
+        $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
+        $deliverable_mc->add_constraint('salesproject', 'IN', $salesprojects);
+        $deliverables = $deliverable_mc->get_values('id');
 
-        $deliverable_guids = array();
-        foreach ($deliverables as $deliverable)
+        foreach ($deliverables as $guid => $id)
         {
-            $deliverable_guids[] = $deliverable->guid;
-            $data['invoices'][$deliverable->guid] = array();
+            $data['invoices'][$guid] = $this->_get_deliverable_invoices($id);
         }
 
-        // List relations of invoices to the deliverables we have
-        $mc = new org_openpsa_relatedto_collector($deliverable_guids, 'org_openpsa_invoices_invoice_dba');
-
-        $mc->add_object_constraint('metadata.created', '>=', strftime('%Y-%m-%d %T', $data['start']));
-        $mc->add_object_constraint('metadata.created', '<', strftime('%Y-%m-%d %T', $data['end']));
-
-        // Get invoices our deliverables are related to
-        $data['invoices'] = $mc->get_related_objects_grouped_by('toGuid');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+    }
+
+    private function _get_deliverable_invoices($id)
+    {
+        $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $id);
+        $ids = $mc->get_values('invoice');
+        if (sizeof($ids) < 1)
+        {
+            return array();
+        }
+        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', $ids);
+        $qb->add_constraint('sent', '>=', $this->_request_data['start']);
+        $qb->add_constraint('sent', '<=', $this->_request_data['end']);
+        return $qb->execute();
     }
 
     /**
@@ -92,7 +92,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         midcom_show_style('sales_report-deliverable-start');
 
         // Quick workaround to Bergies lazy determination of whether this is user's or everyone's report...
-        if ($this->_request_data['query_data']['resource'] == 'user:' . $_MIDCOM->auth->user->guid)
+        if ($this->_request_data['query_data']['resource'] == 'user:' . midcom::get('auth')->user->guid)
         {
             // My report
             $data['handler_id'] = 'deliverable_report';
@@ -151,7 +151,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
             foreach ($invoices as $invoice)
             {
                 $invoice_price += $invoice->sum;
-                $invoice_class = $invoice->get_invoice_class();
+                $invoice_class = $invoice->get_status();
 
                 if ($invoices_node)
                 {
@@ -162,7 +162,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                     $invoice_label = $invoice->get_label();
                 }
 
-                if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                 {
                     $invoice_cycle_numbers[] = (int) $invoice->parameter('org.openpsa.sales', 'cycle_number');
                 }
@@ -170,7 +170,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                 $data['invoice_string'] .= "<li class=\"{$invoice_class}\">{$invoice_label}</li>\n";
             }
 
-            if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 // This is a subscription, it should be shown only if it is the first invoice
                 if (!in_array(1, $invoice_cycle_numbers))

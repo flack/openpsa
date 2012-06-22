@@ -16,7 +16,7 @@ $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
-    if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
+    if (! midcom::get('auth')->request_sudo('midcom.services.indexer'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -24,8 +24,8 @@ if (   $ips
 }
 else
 {
-    $_MIDCOM->auth->require_valid_user('basic');
-    $_MIDCOM->auth->require_admin_user();
+    midcom::get('auth')->require_valid_user('basic');
+    midcom::get('auth')->require_admin_user();
 }
 
 if ($GLOBALS['midcom_config']['indexer_backend'] === false)
@@ -40,9 +40,9 @@ if (   !isset($_REQUEST['nodeid'])
 }
 
 //check if language is passed & set language if needed
-if(isset($_REQUEST['language']))
+if (isset($_REQUEST['language']))
 {
-    $_MIDCOM->i18n->set_language($_REQUEST['language']);
+    midcom::get('i18n')->set_language($_REQUEST['language']);
 }
 
 debug_add('Disabling script abort through client.');
@@ -51,11 +51,11 @@ ignore_user_abort(true);
 debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
 ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
 
-$loader = $_MIDCOM->get_component_loader();
-$indexer = $_MIDCOM->get_service('indexer');
+$loader = midcom::get('componentloader');
+$indexer = midcom::get('indexer');
 
 $nap = new midcom_helper_nav();
-$nodeid =& $_REQUEST['nodeid'];
+$nodeid = $_REQUEST['nodeid'];
 $node = $nap->get_node($nodeid);
 if (empty($node))
 {
@@ -83,36 +83,27 @@ if (is_null($interface))
     throw new midcom_error($msg);
 }
 
+echo "Dropping existing documents in node... ";
+flush();
 
-// Query all documents where __TOPIC_GUID is this topic and delete them (ie, drop only this topic from index)
-$existing_documents = $indexer->query("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}");
-if ($existing_documents === false)
+if (!$indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}"))
 {
-    $msg = "Query '__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}' returned false, indicating problem with indexer";
-    throw new midcom_error($msg);
+    debug_add("Failed to remove documents from index", MIDCOM_LOG_WARN);
+}
+else
+{
+    debug_add("Removed documents from index", MIDCOM_LOG_INFO);
+}
+echo "Done\n";
+flush();
+
+$stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
+if (is_a($stat, 'midcom_services_indexer_client'))
+{
+    $stat = $stat->reindex();
 }
 
-if (   is_array($existing_documents)
-    && !empty($existing_documents))
-{
-    echo "Dropping existing documents in node... ";
-    flush();
-    foreach ($existing_documents as $document)
-    {
-        if (!$indexer->delete($document->RI))
-        {
-            debug_add("Failed to remove document {$document->RI} from index", MIDCOM_LOG_WARN);
-        }
-        else
-        {
-            debug_add("Removed document {$document->RI} from index", MIDCOM_LOG_INFO);
-        }
-    }
-    echo "Done\n";
-    flush();
-}
-
-if (!$interface->reindex($node[MIDCOM_NAV_OBJECT]))
+if ($stat === false)
 {
     $msg = "Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.";
     debug_add($msg, MIDCOM_LOG_ERROR);
@@ -128,7 +119,7 @@ ignore_user_abort(false);
 
 if ($ip_sudo)
 {
-    $_MIDCOM->auth->drop_sudo();
+    midcom::get('auth')->drop_sudo();
 }
 
 echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";

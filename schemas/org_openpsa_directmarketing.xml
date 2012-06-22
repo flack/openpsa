@@ -26,7 +26,7 @@
 
     <type name="org_openpsa_campaign_member" table="org_openpsa_campaign_member">
         <property name="id" type="unsigned integer" primaryfield="id" />
-        <property name="person" link="midgard_person:id" reverse="no" type="unsigned integer" />
+        <property name="person" link="org_openpsa_person:id" reverse="no" type="unsigned integer" />
         <property name="campaign" link="org_openpsa_campaign:id" type="unsigned integer" />
         <property name="suspended" type="integer" index="yes" />
         <!-- Common OpenPSA properties -->
@@ -61,7 +61,7 @@
     <type name="org_openpsa_campaign_message_receipt" table="org_openpsa_campaign_message_receipt" parent="org_openpsa_campaign_message" parentfield="message">
         <property name="id" type="unsigned integer" primaryfield="id" />
         <property name="message" link="org_openpsa_campaign_message:id" type="unsigned integer" parentfield="message" />
-        <property name="person" link="midgard_person:id" reverse="no" type="unsigned integer" />
+        <property name="person" link="org_openpsa_person:id" reverse="no" type="unsigned integer" />
         <property name="token" type="string" />
         <property name="bounced" type="integer" />
         <property name="timestamp" type="integer" />
@@ -70,7 +70,7 @@
 
     <type name="org_openpsa_link_log" table="org_openpsa_link_log" parent="org_openpsa_campaign_message" parentfield="message">
         <property name="id" type="unsigned integer" primaryfield="id" />
-        <property name="person" link="midgard_person:id" reverse="no" type="unsigned integer" />
+        <property name="person" link="org_openpsa_person:id" reverse="no" type="unsigned integer" />
         <property name="message" link="org_openpsa_campaign_message:id" type="unsigned integer" parentfield="message" />
         <property name="target" type="string" />
         <property name="referrer" type="string" />

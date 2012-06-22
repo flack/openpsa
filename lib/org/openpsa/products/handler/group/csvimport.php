@@ -18,7 +18,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
     {
         // Mass importing is for now better left for admins only
         // TODO: Add smarter per-type ACL checks
-        $_MIDCOM->auth->require_admin_user();
+        midcom::get('auth')->require_admin_user();
         $this->_request_data['type'] = 'group';
 
         $this->_request_data['import_status'] = array
@@ -64,7 +64,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         // Convert fields from latin-1 to MidCOM charset (usually utf-8)
         foreach ($groupdata as $key => $value)
         {
-            $groupdata[$key] = iconv('ISO-8859-1', $_MIDCOM->i18n->get_current_charset(), $value);
+            $groupdata[$key] = iconv('ISO-8859-1', midcom::get('i18n')->get_current_charset(), $value);
         }
 
         $group = null;

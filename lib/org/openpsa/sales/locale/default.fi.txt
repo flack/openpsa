@@ -30,7 +30,7 @@ Käynnissä
 Käynnissä olevat myyntiprojektit
 ---STRINGEND
 
----STRING add deliverable
+---STRING add offer
 Lisää tuote
 ---STRINGEND
 

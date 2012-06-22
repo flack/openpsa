@@ -51,11 +51,18 @@
                 'master_is_id' => true,
                 'member_fieldname' => 'person',
                 'options' => array(),
-                'allow_multiple' => true,
-                'require_corresponding_option' => false,
                 'additional_fields' => array
                 (
                     'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_member_dba::TESTER,
+                ),
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'email',
+                        'op' => '<>',
+                        'value' => '',
+                    ),
                 ),
             ),
             'widget' => 'chooser',
@@ -84,15 +91,6 @@
                     (
                         'name' => 'username',
                         'title' => 'username',
-                    ),
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'email',
-                        'op' => '<>',
-                        'value' => '',
                     ),
                 ),
                 'searchfields' => array

@@ -20,12 +20,6 @@
                  ),
             ),
             'widget' => 'select',
-
-            'start_fieldset' => array
-            (
-                'title' => 'person_fieldset',
-                'css_group' => 'area meta',
-            ),
         ),
         'title' => array
         (
@@ -90,14 +84,12 @@
         ),
         'email' => array
         (
-            //REQUIRED COMPONENT
-            'required' => true,
-
             'title'    => 'email',
             'storage'  => 'email',
             'type'     => 'text',
             'widget'   => 'text',
             'validation' => 'email',
+            'required' => true,
         ),
         'workphone' => array
         (
@@ -145,17 +137,6 @@
             'widget'   => 'text',
             'validation' => 'email',
         ),
-        'person_notes' => array
-        (
-            'title' => 'notes',
-            'storage' => 'extra',
-            'type' => 'text',
-            'type_config' => array
-            (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
-        ),
         'organizations' => array
         (
             'title' => 'organizations',
@@ -163,11 +144,19 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'midcom_db_member',
+                'mapping_class_name' => 'org_openpsa_contacts_member_dba',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'allow_multiple' => true,
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'orgOpenpsaObtype',
+                        'op'    => '>=',
+                        'value' => org_openpsa_contacts_group_dba::ORGANIZATION,
+                    ),
+                ),
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -189,13 +178,64 @@
                         'name' => 'official',
                     ),
                 ),
+                'searchfields' => array
+                (
+                    'name',
+                    'official',
+                ),
+                'orders' => array
+                (
+                    array('name' => 'ASC'),
+                    array('official' => 'ASC'),
+                ),
+                'id_field' => 'id',
+            ),
+        ),
+        'groups' => array
+        (
+            'title' => 'groups',
+            'storage' => null,
+            'type' => 'mnrelation',
+            'type_config' => array
+            (
+                'mapping_class_name' => 'org_openpsa_contacts_member_dba',
+                'master_fieldname' => 'uid',
+                'member_fieldname' => 'gid',
+                'master_is_id' => true,
                 'constraints' => array
                 (
                     array
                     (
                         'field' => 'orgOpenpsaObtype',
-                        'op'    => '<>',
-                        'value' => ORG_OPENPSA_OBTYPE_OTHERGROUP,
+                        'op'    => '<',
+                        'value' => org_openpsa_contacts_group_dba::MYCONTACTS,
+                    ),
+                    array
+                    (
+                        'field' => 'owner',
+                        'op' => 'INTREE',
+                        'value' => org_openpsa_contacts_interface::find_root_group()->id
+                    )
+                ),
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class' => 'org_openpsa_contacts_group_dba',
+                'component' => 'org.openpsa.contacts',
+                'titlefield' => 'name',
+
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'official',
+                        'name' => 'official',
                     ),
                 ),
                 'searchfields' => array
@@ -227,9 +267,22 @@
                 ),
             ),
             'widget' => 'photo',
+            'widget_config' => array
+            (
+                'show_title' => false
+            ),
             'index_method' => 'noindex',
-
-            'end_fieldset' => '',
+        ),
+        'person_notes' => array
+        (
+            'title' => 'notes',
+            'storage' => 'extra',
+            'type' => 'text',
+            'type_config' => array
+            (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
         ),
     )
 ),

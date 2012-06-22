@@ -74,7 +74,7 @@ class midcom_services_permalinks
 
         try
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
         }
         catch (midcom_error $e)
         {
@@ -151,7 +151,7 @@ class midcom_services_permalinks
         // We need to try every topic for the GUID.
         $topic_qb = midcom_db_topic::new_query_builder();
         $topic_qb->add_constraint('name', '<>', '');
-        $topic_qb->add_constraint('up', 'INTREE', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC)->id);
+        $topic_qb->add_constraint('up', 'INTREE', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id);
         $topics = $topic_qb->execute();
         foreach ($topics as $topic)
         {
@@ -174,11 +174,11 @@ class midcom_services_permalinks
         // in any way, return in the same way as resolve_permalink itself.
 
         $component = $topic->component;
-        if (!$_MIDCOM->componentloader->is_installed($component))
+        if (!midcom::get('componentloader')->is_installed($component))
         {
             return null;
         }
-        $interface = $_MIDCOM->componentloader->get_interface_class($component);
+        $interface = midcom::get('componentloader')->get_interface_class($component);
         if ($interface === null)
         {
             debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",

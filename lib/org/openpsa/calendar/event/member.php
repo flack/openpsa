@@ -15,21 +15,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_eventmember';
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     function get_parent_guid_uncached()
     {
         if ($this->eid)
@@ -222,8 +207,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $workday_starts = 8;
             $workday_ends = 16;
             if (   empty($workday_starts)
-                || empty($workday_ends)
-                )
+                || empty($workday_ends))
             {
                 // No work on that day
                 continue;

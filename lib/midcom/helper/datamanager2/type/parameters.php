@@ -43,16 +43,6 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
     public $csv_export_key = false;
 
     /**
-     * Initialize the class, if necessary, create a callback instance, otherwise
-     * validate that an option array is present.
-     */
-    public function _on_initialize()
-    {
-        // todo check the headers and rows
-        return true;
-    }
-
-    /**
      * Converts storage format to live format, all invalid keys are dropped, and basic validation
      * is done to ensure constraints like allow_multiple are met.
      */
@@ -93,9 +83,9 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
 
         $rows = $this->rows;
         $this->rows = array();
-        foreach ($rows as $key => $row )
+        foreach ($rows as $key => $row)
         {
-            if (array_key_exists(3, $row ) && $row[3] == 1)
+            if (array_key_exists(3, $row) && $row[3] == 1)
             {
                 $this->storage->object->delete_parameter($row[0], $row[1]);
                 unset ($this->rows[$key]);
@@ -144,7 +134,7 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
         else
         {
             $selection = Array();
-            foreach($this->selection as $item)
+            foreach ($this->selection as $item)
             {
                 $selection[] = $this->get_name_for_key($item);
             }
@@ -160,21 +150,10 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
         }
     }
 
-    /**
-     * The validation callback ensures that we don't have an array or an object
-     * as a value, which would be wrong.
-     *
-     * @return boolean Indicating validity.
-     */
-    public function _on_validate()
-    {
-        return true;
-    }
-
     function convert_to_html()
     {
         $table = "<table border='0' cellspacing='0' ><tr>";
-        foreach ($this->headers as $header )
+        foreach ($this->headers as $header)
         {
             $table .= "<td>{$header}</td>\n";
         }
@@ -182,7 +161,7 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
         foreach ($this->rows as $row)
         {
             $table .= "<tr>\n";
-            foreach ($row as $value )
+            foreach ($row as $value)
             {
                 $table .= "<td>{$value}</td>\n";
             }

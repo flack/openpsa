@@ -1,148 +1,101 @@
-<div class="sidebar">
-   <?php
-        // is there any array with persons which could be filtered
-        if (array_key_exists ("filter_persons", $data))
-        {
-            midcom_show_style('person_filter');
-        }
-   ?>
-</div>
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-$date_totals = array();
-
-// Header line
-echo "<table class='expenses'>\n";
-
+$grid_id = 'hours_week';
 $time = $data['week_start'];
-echo "  <thead>\n";
-echo "    <tr>\n";
-echo "        <th></th>\n";
-while ($time < $data['week_end'])
-{
-    $next_time = $time + 3600 * 24;
-    echo "        <th><a href=\"{$prefix}hours/between/" . date('Y-m-d', $time) . "/" .  date('Y-m-d', $next_time) . "/\">" . strftime('%a', $time) . "</a></th>\n";
+$date_columns = array();
 
-    // Hop to next day
-    $time = $next_time;
-}
-echo "    </tr>\n";
-echo "  </thead>\n";
-$class = "even";
-foreach ($data['tasks'] as $task => $days)
-{
-    $task =& $days['task_object'];
-    $time = $data['week_start'];
+$grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
-    if ($class == "even")
-    {
-        $class = "";
-    }
-    else
-    {
-        $class = "even";
-    }
-    echo "    <tr class='{$class}'>\n";
+$grid->set_column('task', $data['l10n']->get('task'), '', 'string')
+->set_column('person', $data['l10n']->get('person'));
 
-    if (   !$task
-        || !$task->guid)
-    {
-        echo "        <th>" . $data['l10n']->get('no task') . "</th>";
-    }
-    else
-    {
-        echo "        <th><a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a></th>";
-    }
-    while ($time < $data['week_end'])
-    {
-        $date_identifier = date('Y-m-d', $time);
-        if (!isset($days[$date_identifier]))
-        {
-            echo "<th></th>\n";
-        }
-        else
-        {
-            $hours_total = $days[$date_identifier];
-
-            if (!isset($date_totals[$date_identifier]))
-            {
-                $date_totals[$date_identifier] = 0;
-            }
-            $date_totals[$date_identifier] += $hours_total;
-
-            echo "        <th class='numeric'>" . round($hours_total, 1) . "</th>\n";
-        }
-        // Hop to next day
-        $time = $time + 3600 * 24;
-    }
-    echo "    </tr>\n";
-    if (sizeof($days['persons']) < 1)
-    {
-        continue;
-    }
-
-    foreach ($days['persons'] as $person => $person_hours)
-    {
-        $time = $data['week_start'];
-
-        if ($class == "even")
-        {
-            $class = "";
-        }
-        else
-        {
-            $class = "even";
-        }
-        echo "    <tr class='{$class}'>\n";
-
-        try
-        {
-            $person = org_openpsa_contacts_person_dba::get_cached($person);
-            echo "        <td class='person'>" . $person->name . "</td>";
-        }
-        catch (midcom_error $e)
-        {
-            echo "        <td class='person'>" . $data['l10n']->get('no person') . "</td>";
-        }
-        while ($time < $data['week_end'])
-        {
-            $date_identifier = date('Y-m-d', $time);
-            if (!isset($person_hours[$date_identifier]))
-            {
-                echo "<td></td>\n";
-            }
-            else
-            {
-                $hours_total = $person_hours[$date_identifier];
-
-                echo "        <td class='numeric'>" . round($hours_total, 1) . "</td>\n";
-            }
-            // Hop to next day
-            $time = $time + 3600 * 24;
-        }
-        echo "    </tr>\n";
-    }
-}
-
-$time = $data['week_start'];
-echo "    <tr class=\"totals\">\n";
-echo "        <td></td>\n";
+$date_tooltips = array();
+$i = 4;
 while ($time < $data['week_end'])
 {
     $date_identifier = date('Y-m-d', $time);
-
-    if (!isset($date_totals[$date_identifier]))
-    {
-        echo "<th class='numeric'>0</th>\n";
-    }
-    else
-    {
-        echo "        <th class='numeric'>" . round($date_totals[$date_identifier], 1) . "</th>\n";
-    }
+    $grid->set_column($date_identifier, strftime('%a', $time), 'fixed: true, width: 40, formatter: "number", formatoptions: {defaultValue: ""}, sorttype: "float", summaryType: calculate_subtotal, align: "right"');
     // Hop to next day
+    $date_columns[] = $date_identifier;
+    $date_tooltips[$i++] = date($data['l10n_midcom']->get('short date'), $time);
     $time = $time + 3600 * 24;
 }
-echo "    </tr>\n";
-echo "</table>\n";
+$grid->set_option('footerrow', true)
+->set_option('grouping', true)
+->set_option('groupingView', array
+(
+    'groupField' => array('task'),
+    'groupColumnShow' => array(false),
+    'groupText' => array('<strong>{0}</strong> ({1})'),
+    'groupOrder' => array('asc'),
+    'groupSummary' => array(true),
+    'showSummaryOnHide' => true
+));
 ?>
+
+<div class="area">
+    <?php
+    $data['qf']->render();
+    echo midcom::get('i18n')->get_string('group by', 'org.openpsa.core') . ': ';
+    echo '<select id="chgrouping_' . $grid_id . '">';
+    echo '<option value="task">' . $data['l10n']->get('task') . "</option>\n";
+    echo '<option value="person">' . $data['l10n']->get('person') . "</option>\n";
+    echo '<option value="clear">' . midcom::get('i18n')->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
+    echo '</select>';
+    ?>
+</div>
+<script type="text/javascript">
+var &(grid_id);_grouping = "task";
+
+$("#chgrouping_&(grid_id);").change(function()
+{
+    var selection = $(this).val();
+    if (selection)
+    {
+        if (selection == "clear")
+        {
+            jQuery("#&(grid_id);").jqGrid('groupingRemove', true);
+            &(grid_id);_grouping = '';
+        }
+        else
+        {
+            &(grid_id);_grouping = selection;
+            jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
+        }
+        jQuery(window).trigger('resize');
+    }
+});
+
+function calculate_subtotal(val, name, record)
+{
+    var sum = parseFloat(val||0) + parseFloat((record[name]||0));
+    return sum || '';
+}
+</script>
+<?php
+    $grid->render($data['rows']);
+?>
+<script type="text/javascript">
+var grid = $("#&(grid_id);"),
+date_columns = <?php echo json_encode($date_columns); ?>,
+date_tooltips = <?php echo json_encode($date_tooltips); ?>,
+totals = {},
+day_total;
+$.each(date_columns, function(index, name)
+{
+    day_total = 0;
+    $.each(grid.jqGrid('getCol', name), function(i, value)
+    {
+        day_total += parseFloat(value || 0);
+    });
+    totals[name] = day_total;
+    day_total = 0;
+});
+grid.jqGrid('footerData', 'set', totals);
+
+$.each(date_tooltips, function(index, value)
+{
+    org_openpsa_grid_helper.set_tooltip("&(grid_id);", parseInt(index), value);
+});
+
+</script>
+

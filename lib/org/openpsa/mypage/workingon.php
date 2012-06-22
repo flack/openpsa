@@ -52,8 +52,8 @@ class org_openpsa_mypage_workingon
     {
         if (is_null($person))
         {
-            $_MIDCOM->auth->require_valid_user();
-            $this->person = $_MIDCOM->auth->user->get_storage();
+            midcom::get('auth')->require_valid_user();
+            $this->person = midcom::get('auth')->user->get_storage();
         }
         else
         {
@@ -97,7 +97,7 @@ class org_openpsa_mypage_workingon
     function set($task_guid = '')
     {
         $description = trim($_POST['description']);
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         $invoiceable = false;
         if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true')
         {
@@ -109,7 +109,7 @@ class org_openpsa_mypage_workingon
             // Generate a message
             if ($description == "")
             {
-                $description = sprintf($_MIDCOM->i18n->get_string('worked from %s to %s', 'org.openpsa.mypage'), strftime('%x %X', $this->start), strftime('%x %X', time()));
+                $description = sprintf(midcom::get('i18n')->get_string('worked from %s to %s', 'org.openpsa.mypage'), strftime('%x %X', $this->start), strftime('%x %X', time()));
             }
 
             // Do the actual report
@@ -120,7 +120,7 @@ class org_openpsa_mypage_workingon
             // We won't be working on anything from now on. Delete existing parameter
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
 
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return $stat;
         }
 
@@ -133,7 +133,7 @@ class org_openpsa_mypage_workingon
             'start' => gmdate('Y-m-d H:i:s', time())
         );
         $stat = $this->person->set_parameter('org.openpsa.mypage', 'workingon', json_encode($workingon));
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return $stat;
     }
 
@@ -156,12 +156,12 @@ class org_openpsa_mypage_workingon
         $stat = $hour_report->create();
         if (!$stat)
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf($_MIDCOM->i18n->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get('i18n')->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
             return false;
         }
         //apply minimum_time_slot
         $hour_report->modify_hours_by_time_slot();
-        $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf($_MIDCOM->i18n->get_string('successfully reported %d hours to task %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title), 'ok');
+        midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get('i18n')->get_string('successfully reported %d hours to task %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title), 'ok');
         return true;
     }
 }

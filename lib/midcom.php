@@ -16,7 +16,7 @@ class midcom
      *
      * @var string
      */
-    private static $_version = '9.0beta1+git';
+    private static $_version = '9.0beta3+git';
 
     /**
      * Main application singleton
@@ -41,6 +41,7 @@ class midcom
     private static $_service_classes = array
     (
         'componentloader' => 'midcom_helper__componentloader',
+        'cache' => 'midcom_services_cache',
         'dbclassloader' => 'midcom_services_dbclassloader',
         'dbfactory' => 'midcom_helper__dbfactory',
         'debug' => 'midcom_debug',
@@ -66,6 +67,12 @@ class midcom
         if (! defined('MIDCOM_ROOT'))
         {
             define('MIDCOM_ROOT', dirname(__FILE__));
+        }
+
+        if (file_exists(MIDCOM_ROOT . '/../vendor/autoload.php'))
+        {
+            $loader = require MIDCOM_ROOT . '/../vendor/autoload.php';
+            $loader->register();
         }
 
         require(MIDCOM_ROOT . '/compat/environment.php');
@@ -102,25 +109,6 @@ class midcom
         ini_set('track_errors', '1');
         require(MIDCOM_ROOT. '/errors.php');
 
-        //////////////////////////////////////////////////////////////
-        // Set the MIDCOM_XDEBUG constant accordingly, if not yet set.
-
-        if (! defined('MIDCOM_XDEBUG'))
-        {
-            if (function_exists('xdebug_start_profiling'))
-            {
-                define('MIDCOM_XDEBUG', 1);
-            }
-            else if (function_exists('xdebug_break'))
-            {
-                define('MIDCOM_XDEBUG', 2);
-            }
-            else
-            {
-                define('MIDCOM_XDEBUG', 0);
-            }
-        }
-
         // Register autoloader so we get all MidCOM classes loaded automatically
         spl_autoload_register(array('midcom', 'autoload'));
 
@@ -137,17 +125,16 @@ class midcom
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
         self::$_services['cache'] = new midcom_services_cache();
-        self::$_services['cache']->initialize();
-
-        require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
 
         /////////////////////////////////////
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
 
-        require_once(MIDCOM_ROOT . '/compat/superglobal.php');
-
-        $_MIDCOM = new midcom_compat_superglobal();
+        if (!empty($GLOBALS['midcom_config']['midcom_use_superglobal']))
+        {
+            require_once MIDCOM_ROOT . '/compat/superglobal.php';
+            $_MIDCOM = new midcom_compat_superglobal();
+        }
 
         self::$_application->initialize();
 
@@ -166,6 +153,22 @@ class midcom
     {
         static $autoloaded = 0;
 
+        //PSR-0 part
+        $class_name = ltrim($class_name, '\\');
+        if ($last_ns_pos = strripos($class_name, '\\'))
+        {
+            $basedir = MIDCOM_ROOT . '/../vendor/';
+            $namespace = substr($class_name, 0, $last_ns_pos);
+            $class_name = substr($class_name, $last_ns_pos + 1);
+            $file_name  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            $file_name .= str_replace('_', DIRECTORY_SEPARATOR, $class_name) . '.php';
+
+            require $basedir . $file_name;
+            $autoloaded++;
+            return;
+        }
+
+        //MidCOM "Classic"
         $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $class_name) . '.php';
         $path = str_replace('//', '/_', $path);
 
@@ -217,6 +220,13 @@ class midcom
         $autoloaded++;
     }
 
+    /**
+     * Get service or midcom_application singletons. Services are automatically instantiated if they
+     * were not used before
+     *
+     * @param string $name The service name as listed in the _service_classes array or null to get midcom_application
+     * @return mixed The requested instance
+     */
     public static function get($name = null)
     {
         if (is_null($name))

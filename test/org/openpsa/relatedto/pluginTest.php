@@ -21,14 +21,14 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
 {
     public function testCreate()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.relatedto');
+        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
         $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
 
         $this->assertTrue(is_a($relatedto, 'org_openpsa_relatedto_dba'));
         $this->register_object($relatedto);
-        $this->assertEquals($relatedto->status, ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
+        $this->assertEquals($relatedto->status, org_openpsa_relatedto_dba::CONFIRMED);
         $this->assertEquals($relatedto->fromGuid, $invoice->guid);
         $this->assertEquals($relatedto->fromComponent, 'org.openpsa.invoices');
         $this->assertEquals($relatedto->fromClass, 'org_openpsa_invoices_invoice_dba');
@@ -46,14 +46,13 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
         $stat = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $x, 'org.openpsa.sales');
         $this->assertFalse($stat);
 
-        $relatedto2 = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $relatedto2 = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales', org_openpsa_relatedto_dba::NOTRELATED);
         $this->assertEquals($relatedto2->guid, $relatedto->guid);
-        $this->assertEquals($relatedto2->status, ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
-
+        $this->assertEquals($relatedto2->status, org_openpsa_relatedto_dba::NOTRELATED);
 
         $stat = $relatedto->delete();
         $this->assertTrue($stat);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>

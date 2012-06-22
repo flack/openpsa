@@ -118,12 +118,20 @@ Rechnungsadresse
 Rechnungsdatum
 ---STRINGEND
 
+---STRING invoice delivery date
+Lieferdatum
+---STRINGEND
+
 ---STRING invoice %s created
 Rechnung %s wurde erstellt
 ---STRINGEND
 
 ---STRING invoice data
 Rechnungsdaten
+---STRINGEND
+
+---STRING invoice has already been sent. should it be replaced?
+Diese Rechnung wurde bereits verschickt. Soll die Datei trotzdem neu erzeugt werden?
 ---STRINGEND
 
 ---STRING invoice items
@@ -162,16 +170,16 @@ Mail versenden
 %s Arbeitsstunden als abgerechnet markiert
 ---STRINGEND
 
----STRING marked invoice "%s" paid
-Rechnung "%s" wurde als bezahlt markiert
+---STRING marked invoice %s paid
+Rechnung %s wurde als bezahlt markiert
 ---STRINGEND
 
----STRING marked invoice "%s" sent
-Rechnung "%s" wurde als verschickt markiert
+---STRING marked invoice %s sent
+Rechnung %s wurde als verschickt markiert
 ---STRINGEND
 
----STRING marked invoice "%s" sent per mail
-Rechnung "%s" wurde per E-Mail versendet
+---STRING marked invoice %s sent per mail
+Rechnung %s wurde per E-Mail versendet
 ---STRINGEND
 
 ---STRING marked task "%s" finished
@@ -235,7 +243,7 @@ Bezahlt am %s
 ---STRINGEND
 
 ---STRING pdf file
-PDF Datei
+PDF-Datei
 ---STRINGEND
 
 ---STRING price
@@ -244,6 +252,10 @@ Preis
 
 ---STRING project invoicing
 Projekt-Abrechnung
+---STRINGEND
+
+---STRING remarks
+Anmerkungen
 ---STRINGEND
 
 ---STRING quantity
@@ -288,6 +300,10 @@ Netto-Betrag
 
 ---STRING totals
 Gesamtsumme
+---STRINGEND
+
+---STRING unable to deliver mail: %s
+E-Mail konnte nicht verschickt werden: %s
 ---STRINGEND
 
 ---STRING unsent
@@ -390,6 +406,14 @@ Keine Beschreibung angegeben
 Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich ersetzt werden?
 ---STRINGEND
 
----STRING create pdf for invoice
-Erstelle PDF für Rechnung
+---STRING create pdf
+PDF erzeugen
+---STRINGEND
+
+---STRING pdf created
+PDF-Datei wurde erfolgreich erzeugt 
+---STRINGEND
+
+---STRING pdf creation failed
+PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND

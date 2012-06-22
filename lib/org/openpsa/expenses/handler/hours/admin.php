@@ -7,7 +7,7 @@
  */
 
 /**
- * Hour report create handler
+ * Hour report CRUD handler
  *
  * @package org.openpsa.expenses
  */
@@ -18,21 +18,21 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      *
      * @var org_openpsa_projects_hour_report_dba
      */
-    private $_hour_report = null;
+    private $_hour_report;
 
     /**
      * The Controller of the report used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
      */
-    private $_controller = null;
+    private $_controller;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
-     * @var Array
+     * @var array
      */
-    private $_schemadb = null;
+    private $_schemadb;
 
     /**
      * The schema to use for the new article.
@@ -44,9 +44,9 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * The defaults to use for the new report.
      *
-     * @var Array
+     * @var array
      */
-    private $_defaults = Array();
+    private $_defaults = array();
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -92,16 +92,17 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * DM2 creation callback
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba();
-        if ($this->_request_data['task'])
+
+        if ($task = $controller->formmanager->get_value('task'))
+        {
+            $this->_hour_report->task = $task;
+        }
+        else if ($this->_request_data['task'])
         {
             $this->_hour_report->task = $this->_request_data['task'];
-        }
-        else
-        {
-            $this->_hour_report->task = (int) $_POST['task'];
         }
         if (! $this->_hour_report->create())
         {
@@ -124,7 +125,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_create($handler_id, array $args, array &$data)
     {
         //load component here to be able to access its constants
-        $_MIDCOM->componentloader->load('org.openpsa.projects');
+        midcom::get('componentloader')->load('org.openpsa.projects');
 
         $this->_load_schemadb();
         $data['selected_schema'] = $args[0];
@@ -132,7 +133,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             throw new midcom_error_notfound('The requested schema ' . $args[0] . ' was not found in the schemadb');
         }
-        $this->_schema =& $data['selected_schema'];
+        $this->_schema = $data['selected_schema'];
 
         if (count($args) > 1)
         {
@@ -143,7 +144,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            $_MIDCOM->auth->require_valid_user();
+            midcom::get('auth')->require_valid_user();
             $data['task'] = 0;
         }
 
@@ -153,49 +154,36 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             case 'save':
                 $this->_hour_report->modify_hours_by_time_slot();
-                if (count($args) > 1)
-                {
-                    $_MIDCOM->relocate("hours/task/" . $parent->guid . "/");
-                }
-                else
-                {
-                    $_MIDCOM->relocate("hours/edit/{$this->_hour_report->guid}/");
-                }
-                // This will exit.
+                $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
+                return new midcom_response_relocate("hours/task/" . $task->guid . "/");
 
             case 'cancel':
                 if (count($args) > 1)
                 {
-                    $_MIDCOM->relocate("hours/task/" . $parent->guid . "/");
+                    return new midcom_response_relocate("hours/task/" . $parent->guid . "/");
                 }
                 else
                 {
-                    $_MIDCOM->relocate('');
+                    return new midcom_response_relocate('');
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
-
-        if ($this->_hour_report)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
-        }
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_update_breadcrumb_line($data['view_title']);
     }
 
     /**
      * Helper to populate the toolbar
      *
-     * @param mixed &$parent The parent object or false
+     * @param mixed $parent The parent object or false
      */
-    private function _add_toolbar_items(&$parent)
+    private function _add_toolbar_items($parent)
     {
         if (empty($parent->guid))
         {
@@ -255,14 +243,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             case 'save':
                 $this->_hour_report->modify_hours_by_time_slot();
-                // Reindex the article
-                //$indexer = $_MIDCOM->get_service('indexer');
-                //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
             case 'cancel':
                 $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
-                $_MIDCOM->relocate("hours/task/" . $task->guid . "/");
-                // This will exit.
+                return new midcom_response_relocate("hours/task/" . $task->guid . "/");
         }
 
 
@@ -287,13 +271,12 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_view_toolbar->bind_to($this->_hour_report);
 
-        $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
+        midcom::get('metadata')->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get($handler_id));
+        midcom::get('head')->set_pagetitle($this->_l10n->get($handler_id));
 
         $this->_update_breadcrumb_line($handler_id);
     }
-
 
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
@@ -307,11 +290,11 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         if (isset($this->_hour_report->task))
         {
-            $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
+            $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
         }
-        if (!empty($this->_request_data['task']))
+        else if (!empty($this->_request_data['task']))
         {
-            $task = new org_openpsa_projects_task_dba($this->_request_data['task']);
+            $task = org_openpsa_projects_task_dba::get_cached($this->_request_data['task']);
         }
 
         if ($task)
@@ -353,15 +336,13 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             }
 
             // Delete ok, relocating to welcome.
-            $_MIDCOM->relocate('');
-            // This will exit.
+            return new midcom_response_relocate('');
         }
 
         if (array_key_exists('org_openpsa_expenses_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate('');
-            // This will exit()
+            return new midcom_response_relocate('');
         }
 
         $this->_load_schemadb();
@@ -373,7 +354,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_view_toolbar->bind_to($this->_hour_report);
 
-        $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
+        midcom::get('metadata')->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
     }
 
     /**
@@ -447,7 +428,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             debug_print_r('No reports passed to action handler', $_POST);
         }
 
-        $_MIDCOM->relocate($relocate);
+        return new midcom_response_relocate($relocate);
     }
 
     private function _get_autocomplete_selection()

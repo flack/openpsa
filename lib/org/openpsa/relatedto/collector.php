@@ -75,9 +75,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     {
         $this->_set_direction($direction);
 
-        //workaround for #1684
-        $_MIDCOM->load_library('org.openpsa.relatedto');
-
         if (is_string($guids))
         {
             parent::__construct('org_openpsa_relatedto_dba', $this->_object_prefix . 'Guid', $guids);
@@ -240,7 +237,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         $this->add_value_property($key);
 
-        $this->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $this->execute();
         $relations = $this->list_keys();
 
@@ -321,7 +318,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
             $this->add_constraint($this->_other_prefix . 'Component', '=', $component);
         }
 
-        $this->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
+        $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $this->execute();
         $relations = $this->list_keys();
 

@@ -18,8 +18,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.user/usermgmt.css');
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'), $this->_request_data);
@@ -89,21 +87,19 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Show confirmation for the group
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
-                $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
-                // This will exit.
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
 
             case 'cancel':
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-                // This will exit.
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
         $data['group'] =& $this->_group;
         $data['controller'] =& $controller;
 
         $ref = new midcom_helper_reflector($this->_group);
-        $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
+        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
 
@@ -112,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/move/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move group', 'midcom.admin.user'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move group', 'midcom.admin.user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
             )
         );
@@ -122,7 +118,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('folders', 'midcom.admin.user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',
             )
         );

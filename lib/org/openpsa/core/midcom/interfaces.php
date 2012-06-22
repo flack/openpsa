@@ -38,10 +38,6 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
 
         //org.openpsa.documents object types
         define('ORG_OPENPSA_OBTYPE_DOCUMENT', 3000);
-        //org.openpsa.documents document status
-        define('ORG_OPENPSA_DOCUMENT_STATUS_DRAFT', 4000);
-        define('ORG_OPENPSA_DOCUMENT_STATUS_FINAL', 4001);
-        define('ORG_OPENPSA_DOCUMENT_STATUS_REVIEW', 4002);
 
         //org.openpsa.calendar object types
         define('ORG_OPENPSA_OBTYPE_EVENT', 5000);
@@ -62,11 +58,11 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
         {
             $GLOBALS['org_openpsa_core_acl_options'] = array
             (
-                ORG_OPENPSA_ACCESSTYPE_WGRESTRICTED => $_MIDCOM->i18n->get_string('workgroup restricted', $this->_component),
-                ORG_OPENPSA_ACCESSTYPE_WGPRIVATE => $_MIDCOM->i18n->get_string('workgroup private', $this->_component),
-                ORG_OPENPSA_ACCESSTYPE_PRIVATE => $_MIDCOM->i18n->get_string('private', $this->_component),
-                ORG_OPENPSA_ACCESSTYPE_PUBLIC => $_MIDCOM->i18n->get_string('public', $this->_component),
-                ORG_OPENPSA_ACCESSTYPE_AGGREGATED => $_MIDCOM->i18n->get_string('aggregated', $this->_component),
+                ORG_OPENPSA_ACCESSTYPE_WGRESTRICTED => $this->_l10n->get('workgroup restricted'),
+                ORG_OPENPSA_ACCESSTYPE_WGPRIVATE => $this->_l10n->get('workgroup private'),
+                ORG_OPENPSA_ACCESSTYPE_PRIVATE => $this->_l10n->get('private'),
+                ORG_OPENPSA_ACCESSTYPE_PUBLIC => $this->_l10n->get('public'),
+                ORG_OPENPSA_ACCESSTYPE_AGGREGATED => $this->_l10n->get('aggregated'),
             );
         }
     }

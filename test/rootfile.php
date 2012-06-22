@@ -41,22 +41,9 @@ $mgd_defaults = array
 
 $GLOBALS['midcom_config_local'] = array();
 
-if (   function_exists('gc_enabled')
-    && gc_enabled())
-{
-    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
-    gc_disable();
-}
-
-
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
-    if (!ini_get('midgard.superglobals_compat'))
-    {
-        throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
-    }
-
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 
     // Open connection
@@ -77,7 +64,8 @@ if (extension_loaded('midgard2'))
         $config = new midgard_config();
         $config->dbtype = 'SQLite';
         $config->database = 'openpsa_test';
-        $config->blobdir = "/tmp/openpsa_test";
+        $config->blobdir = OPENPSA_TEST_ROOT . '__output/blobs';
+        $config->logfilename = OPENPSA_TEST_ROOT . '__output/midgard2.log';
         $config->tablecreate = true;
         $config->tableupdate = true;
         $config->loglevel = 'critical';
@@ -91,18 +79,17 @@ if (extension_loaded('midgard2'))
         $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
     }
 
-    // Initialize the $_MIDGARD superglobal
     $_MIDGARD = $mgd_defaults;
 }
 else if (extension_loaded('midgard'))
 {
     if (file_exists(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php'))
     {
-        include(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php');
+        include OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php';
     }
     else
     {
-        include(OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php');
+        include OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php';
     }
     $_MIDGARD = array_merge($mgd_defaults, $_MIDGARD);
 }

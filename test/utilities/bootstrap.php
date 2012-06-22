@@ -37,6 +37,23 @@ if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache'))
 {
     throw new Exception('could not create output cache directory');
 }
+if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs'))
+{
+    throw new Exception('could not create output blob cache directory');
+}
+if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs'))
+{
+    throw new Exception('could not create output blobs directory');
+}
+$subdirs = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F');
+foreach ($subdirs as $dir)
+{
+    mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir);
+    foreach ($subdirs as $subdir)
+    {
+        mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir . '/' . $subdir);
+    }
+}
 
 if (empty($GLOBALS['midcom_config_local']['theme']))
 {
@@ -54,6 +71,9 @@ if (empty($GLOBALS['midcom_config_local']['log_filename']))
 {
     $GLOBALS['midcom_config_local']['log_filename'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log';
 }
+
+$GLOBALS['midcom_config_local']['attachment_cache_url'] = '/blobcache';
+$GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs';
 
 if (!defined('OPENPSA2_PREFIX'))
 {
@@ -73,8 +93,16 @@ $_SERVER = array
 	'SERVER_PORT' => '80',
 	'REMOTE_ADDR' => 'unittest dummy connection',
 	'REQUEST_URI' => '/midcom-test-init',
-	'REQUEST_TIME' => time()
+	'REQUEST_TIME' => time(),
+	'REMOTE_PORT' => '12345'
 );
+
+if (   function_exists('gc_enabled')
+    && gc_enabled())
+{
+    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
+    gc_disable();
+}
 
 // Include the MidCOM environment for running OpenPSA
 require MIDCOM_ROOT . '/midcom.php';

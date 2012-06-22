@@ -57,10 +57,9 @@ class midcom_services_indexer_document
     /**
      * A reference to the i18n service, used for charset conversion.
      *
-     * @access protected
      * @var midcom_services_i18n
      */
-    var $_i18n = null;
+    protected $_i18n = null;
 
     /**
      * This is the score of this document. Only populated on resultset documents,
@@ -286,9 +285,8 @@ class midcom_services_indexer_document
      */
     public function __construct()
     {
-        $this->_i18n = $_MIDCOM->get_service('i18n');
+        $this->_i18n = midcom::get('i18n');
     }
-
 
     /**
      * Returns the contents of the field name or false on failure.
@@ -296,9 +294,9 @@ class midcom_services_indexer_document
      * @param string $name The name of the field.
      * @return mixed The content of the field or false on failure.
      */
-    function get_field($name)
+    public function get_field($name)
     {
-        if (! array_key_exists($name, $this->_fields))
+        if (!array_key_exists($name, $this->_fields))
         {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
             return false;
@@ -316,9 +314,9 @@ class midcom_services_indexer_document
      * @param string $name The name of the field.
      * @return Array The full content record.
      */
-    function get_field_record($name)
+    public function get_field_record($name)
     {
-        if (! array_key_exists($name, $this->_fields))
+        if (!array_key_exists($name, $this->_fields))
         {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
             return false;
@@ -331,7 +329,7 @@ class midcom_services_indexer_document
      *
      * @return Array Fieldname list.
      */
-    function list_fields()
+    public function list_fields()
     {
         return array_keys($this->_fields);
     }
@@ -341,7 +339,7 @@ class midcom_services_indexer_document
      *
      * @param string $name The name of the field.
      */
-    function remove_field($name)
+    public function remove_field($name)
     {
         unset($this->_fields[$name]);
     }
@@ -359,7 +357,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param int $timestamp The timestamp to store.
      */
-    function add_date($name, $timestamp)
+    public function add_date($name, $timestamp)
     {
         // This is always UTF-8 conformant.
         $this->_add_field($name, 'date', strftime('%Y-%m-%dT%H:%M:%SZ', $timestamp), true);
@@ -377,7 +375,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name, "_TS" is appended for the plain-timestamp field.
      * @param int $timestamp The timestamp to store.
      */
-    function add_date_pair($name, $timestamp)
+    public function add_date_pair($name, $timestamp)
     {
         $this->add_date($name, $timestamp);
         $this->add_unindexed("{$name}_TS", $timestamp);
@@ -389,7 +387,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_keyword($name, $content)
+    public function add_keyword($name, $content)
     {
         $this->_add_field($name, 'keyword', $content);
     }
@@ -400,7 +398,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_unindexed($name, $content)
+    public function add_unindexed($name, $content)
     {
         $this->_add_field($name, 'unindexed', $content);
     }
@@ -411,9 +409,9 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_unstored($name, $content)
+    public function add_unstored($name, $content)
     {
-        $this->_add_field($name, 'unstored', $content);
+        $this->_add_field($name, 'unstored', $this->html2text($content));
     }
 
     /**
@@ -422,9 +420,9 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content.
      */
-    function add_text($name, $content)
+    public function add_text($name, $content)
     {
-        $this->_add_field($name, 'text', $content);
+        $this->_add_field($name, 'text', $this->html2text($content));
     }
 
     /**
@@ -435,11 +433,10 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content, which is <b>assumed to be UTF-8 already</b>
      */
-    function add_result($name, $content)
+    public function add_result($name, $content)
     {
         $this->_add_field($name, 'result', $content, true);
     }
-
 
     /**
      * This will translate all member variables into appropriate
@@ -449,7 +446,7 @@ class midcom_services_indexer_document
      * This call will automatically populate indexed with time()
      * and author with the name of the creator (if set).
      */
-    function members_to_fields()
+    public function members_to_fields()
     {
         // Complete fields
         $this->indexed = time();
@@ -507,7 +504,7 @@ class midcom_services_indexer_document
      * index. It will populate all relevant members with the according
      * values.
      */
-    function fields_to_members()
+    public function fields_to_members()
     {
         $this->RI = $this->get_field('__RI');
         $this->lang = $this->get_field('__LANG');
@@ -524,20 +521,12 @@ class midcom_services_indexer_document
         $this->creator = $this->get_field('__CREATOR');
         if ($this->creator != '')
         {
-            try
-            {
-                $this->creator = $_MIDCOM->dbfactory->get_object_by_guid($this->creator);
-            }
-            catch (midcom_error $e){}
+            $this->creator = $this->_read_metadata_from_object_get_person_cached($this->creator);
         }
         $this->editor = $this->get_field('__EDITOR');
         if ($this->editor != '')
         {
-            try
-            {
-                $this->editor = $_MIDCOM->dbfactory->get_object_by_guid($this->editor);
-            }
-            catch (midcom_error $e){}
+            $this->editor = $this->_read_metadata_from_object_get_person_cached($this->editor);
         }
         $this->author = $this->get_field('author');
         $this->abstract = $this->get_field('abstract');
@@ -552,9 +541,8 @@ class midcom_services_indexer_document
      * @param string $type The field's type.
      * @param string $content The field's content.
      * @param boolean $is_utf8 Set this to true explicitly, to override charset conversion and assume $content is UTF-8 already.
-     * @access protected
      */
-    function _add_field($name, $type, $content, $is_utf8 = false)
+    protected function _add_field($name, $type, $content, $is_utf8 = false)
     {
         $this->_fields[$name] = Array
         (
@@ -562,48 +550,6 @@ class midcom_services_indexer_document
             'type' => $type,
             'content' => ($is_utf8 ? $content : $this->_i18n->convert_to_utf8($content))
         );
-    }
-
-    /**
-     * Debugging helper, which will dump the documents contents to the
-     * log file using the indicated log level. It will check the log-level
-     * explicitly for performance reasons.
-     *
-     * Note: print_r'ing the entire document might not be an option, as subclasses
-     * contain reference to non-dumpable object like the datamanager.
-     *
-     * @param string $message The log message for the dump
-     * @param int $loglevel The log level
-     */
-    function dump($message, $loglevel = MIDCOM_LOG_DEBUG)
-    {
-        if (midcom::get('debug')->get_loglevel() < $loglevel)
-        {
-            return;
-        }
-
-        debug_add($message, $loglevel);
-
-        debug_add("Author: {$this->author}", $loglevel);
-        debug_add("Component: {$this->component}", $loglevel);
-        debug_add("Created: " . strftime('%x %X', $this->created), $loglevel);
-        debug_add("Creator: " . (! is_object($this->creator) ? 'none' : $this->creator->name), $loglevel);
-        debug_add("Document URL: {$this->document_url}", $loglevel);
-        debug_add("Edited: " . strftime('%x %X', $this->edited), $loglevel);
-        debug_add("Editor: " . (! is_object($this->editor) ? 'none' : $this->editor->name), $loglevel);
-        debug_add("RI: {$this->RI}", $loglevel);
-        debug_add("Language: {$this->lang}", $loglevel);
-        debug_add("Score: {$this->score}", $loglevel);
-        debug_add("Source: {$this->source}", $loglevel);
-        debug_add("Title: {$this->title}", $loglevel);
-        debug_add("Topic GUID: {$this->topic_guid}", $loglevel);
-        debug_add("Type: {$this->type}", $loglevel);
-        debug_add("Security: {$this->security}", $loglevel);
-
-        debug_print_r('Abstract:', $this->abstract, $loglevel);
-        debug_print_r('Content:', $this->content, $loglevel);
-
-        debug_print_r('Additional fields:', $this->_fields, $loglevel);
     }
 
     /**
@@ -615,8 +561,6 @@ class midcom_services_indexer_document
      *
      * Don't replace with an empty string but with a space, so that constructs like
      * <li>torben</li><li>nehmer</li> are recognized correctly.
-     * While this might result in double-spaces between words, this is better then
-     * loosing the word boundaries entirely.
      *
      * @param string $text The text to convert to text
      * @return string The converted text.
@@ -625,36 +569,16 @@ class midcom_services_indexer_document
     {
         $search = Array
         (
-            "'<script[^>]*?>.*?</script>'si", // Strip out javascript
-            "'<[\/\!]*?[^<>]*?>'si", // Strip out html tags
+            "'\s*<script[^>]*?>.*?</script>\s*'si", // Strip out javascript
+            "'\s*<[\/\!]*?[^<>]*?>\s*'si", // Strip out html tags
         );
         $replace = Array
         (
             ' ',
             ' ',
         );
-        return $this->_i18n->html_entity_decode(preg_replace($search, $replace, $text));
-    }
-
-    /**
-     * Returns a textual representation of the specified datamanager2
-     * field.
-     *
-     * Actual behavior is dependent on the datatype. The system uses
-     * the type's built-in html conversion callbacks
-     *
-     * Text fields run through the html2text converter of the document
-     * base class.
-     *
-     * @param midcom_helper_datamanager2_datamanager &$datamanager A
-     *     reference to the datamanager2 instance.
-     * @param string $name The name of the field that should be queried
-     * @return string The textual representation of the field.
-     * @see midcom_services_indexer_document::html2text()
-     */
-    function datamanager2_get_text_representation(&$datamanager, $name)
-    {
-        return $this->html2text($datamanager->types[$name]->convert_to_html());
+        $result = $this->_i18n->html_entity_decode(preg_replace($search, $replace, $text));
+        return trim(preg_replace('/\s+/s', ' ', $result));
     }
 
     /**
@@ -748,7 +672,7 @@ class midcom_services_indexer_document
      * @param string $stamp ISO or unix datetime
      * @return unixtime
      */
-    function _read_metadata_from_object_to_unixtime($stamp)
+    private function _read_metadata_from_object_to_unixtime($stamp)
     {
         if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $stamp))
         {
@@ -766,7 +690,7 @@ class midcom_services_indexer_document
      * @param string $id GUID or ID to get person for
      * @return midcom_db_person object
      */
-    function _read_metadata_from_object_get_person_cached($id)
+    private function _read_metadata_from_object_get_person_cached($id)
     {
         try
         {
@@ -786,7 +710,7 @@ class midcom_services_indexer_document
      * @param string $id GUID or ID to get person for
      * @return string $author->name
      */
-    function _read_metadata_from_object_to_authorname($id)
+    private function _read_metadata_from_object_to_authorname($id)
     {
         // Check for imploded_wrapped DM2 select storage.
         if (strpos($id, '|') !== false)
@@ -803,7 +727,7 @@ class midcom_services_indexer_document
             }
         }
 
-        $author = $_MIDCOM->auth->get_user($id);
+        $author = midcom::get('auth')->get_user($id);
         if (!$author)
         {
             return '';

@@ -65,12 +65,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         $this->_privileges[] = 'midgard:read';
         $this->_privileges[] = 'midgard:create';
         $this->_privileges[] = 'midgard:update';
@@ -84,9 +78,8 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = 'midcom:approve';
         }
 
-        $_MIDCOM->enable_jquery();
         $script = "function submit_privileges(form){jQuery('#submit_action',form).attr({name: 'midcom_helper_datamanager2_add', value: 'add'});form.submit();};function applyRowClasses(){jQuery('.maa_permissions_items tr.maa_permissions_rows_row:odd').addClass('odd');jQuery('.maa_permissions_items tr.maa_permissions_rows_row:even').addClass('even');};";
-        $_MIDCOM->add_jscript($script);
+        midcom::get('head')->add_jscript($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/permissions/layout.css');
     }
@@ -106,7 +99,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _load_component_privileges()
     {
-        $component_loader = $_MIDCOM->get_component_loader();
+        $component_loader = midcom::get('componentloader');
 
         // Store temporarily the requested object
         $tmp = $this->_object;
@@ -114,7 +107,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $i = 0;
         while (   $tmp
                && $tmp->guid
-               && !$_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic')
+               && !midcom::get('dbfactory')->is_a($tmp, 'midgard_topic')
                && $i < 100)
         {
             // Get the parent; wishing eventually to get a topic
@@ -123,13 +116,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // If the temporary object eventually reached a topic, fetch its manifest
-        if ($_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic'))
+        if (midcom::get('dbfactory')->is_a($tmp, 'midgard_topic'))
         {
             $current_manifest = $component_loader->manifests[$tmp->component];
         }
         else
         {
-            $current_manifest = $component_loader->manifests[$_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT)];
+            $current_manifest = $component_loader->manifests[midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)];
         }
 
         foreach ($current_manifest->privileges as $privilege => $default_value)
@@ -137,8 +130,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = $privilege;
         }
 
-        if (   isset($current_manifest->customdata['midgard.admin.asgard.acl'])
-            && isset($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges']))
+        if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges']))
         {
             foreach ($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'] as $privilege)
             {
@@ -153,7 +145,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // In addition, give component configuration privileges if we're in topic
-        if ($_MIDCOM->dbfactory->is_a($this->_object, 'midgard_topic'))
+        if (midcom::get('dbfactory')->is_a($this->_object, 'midgard_topic'))
         {
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
             $this->_privileges[] = 'midcom.admin.folder:template_management';
@@ -212,12 +204,12 @@ implements midcom_helper_datamanager2_interfaces_edit
             if ($privilege->is_magic_assignee())
             {
                 // This is a magic assignee
-                $label = $_MIDCOM->i18n->get_string($privilege->assignee, 'midgard.admin.asgard');
+                $label = midcom::get('i18n')->get_string($privilege->assignee, 'midgard.admin.asgard');
             }
             else
             {
                 //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
-                $assignee = $_MIDCOM->auth->get_assignee($privilege->assignee);
+                $assignee = midcom::get('auth')->get_assignee($privilege->assignee);
 
                 if (is_object($assignee))
                 {
@@ -225,7 +217,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 }
                 else
                 {
-                    $label = $_MIDCOM->i18n->get_string('ghost assignee for '. $privilege->assignee, 'midgard.admin.asgard');
+                    $label = midcom::get('i18n')->get_string('ghost assignee for '. $privilege->assignee, 'midgard.admin.asgard');
                 }
             }
 
@@ -267,18 +259,18 @@ implements midcom_helper_datamanager2_interfaces_edit
                 else
                 {
                     // This is a component-specific privilege, call component to localize it
-                    $privilege_label = $_MIDCOM->i18n->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
+                    $privilege_label = midcom::get('i18n')->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
                 }
 
                 if (! isset($header_items[$privilege_label]))
                 {
-                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $_MIDCOM->i18n->get_string($privilege_label, 'midgard.admin.asgard')) . "</span></th>\n";
+                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", midcom::get('i18n')->get_string($privilege_label, 'midgard.admin.asgard')) . "</span></th>\n";
                 }
 
                 $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(':', '_', str_replace('.', '_', $privilege)), Array
                     (
                         'title' => $privilege_label,
-                        'helptext'    => sprintf($_MIDCOM->i18n->get_string('sets privilege %s', 'midgard.admin.asgard'), $privilege),
+                        'helptext'    => sprintf(midcom::get('i18n')->get_string('sets privilege %s', 'midgard.admin.asgard'), $privilege),
                         'storage' => null,
                         'type' => 'privilege',
                         'type_config' => Array
@@ -318,14 +310,14 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:privileges');
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $script = "
             applyRowClasses();
         ";
-        $_MIDCOM->add_jquery_state_script($script);
+        midcom::get('head')->add_jquery_state_script($script);
 
         // Load possible additional component privileges
         $this->_load_component_privileges();
@@ -334,11 +326,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_controller = $this->get_controller('simple', $this->_object);
 
         if (   isset($_POST['midcom_helper_datamanager2_add'])
-            && isset($_POST['add_assignee'])
-            && $_POST['add_assignee'])
+            && !empty($_POST['add_assignee']))
         {
             $this->_object->set_privilege('midgard:read', $_POST['add_assignee']);
-            $_MIDCOM->relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
+            return new midcom_response_relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
         }
 
         switch ($this->_controller->process_form())
@@ -346,8 +337,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 //Fall-through
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
         }
 
         $this->_prepare_request_data();
@@ -356,7 +346,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch (get_class($this->_object))
         {
             case 'midcom_db_topic':
-                $type = $_MIDCOM->i18n->get_string('folder', 'midgard.admin.asgard');
+                $type = midcom::get('i18n')->get_string('folder', 'midgard.admin.asgard');
                 break;
             default:
                 $type_parts = explode('_', get_class($this->_object));
@@ -585,7 +575,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\">";
                 $actions .= "</div>";
 
-                $_MIDCOM->add_jquery_state_script("jQuery('#privilege_row_{$key}').privilege_actions('{$key}');");
+                midcom::get('head')->add_jquery_state_script("jQuery('#privilege_row_{$key}').privilege_actions('{$key}');");
 
                 $html = "      <td class=\"row_value row_actions\">{$actions}</td>\n";
 

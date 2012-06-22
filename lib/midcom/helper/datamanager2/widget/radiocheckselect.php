@@ -33,6 +33,23 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     var $othertext = 'widget select: other value';
 
     /**
+     * Controls how the selection list show be rendered, 'horizontal' means all choices will be
+     * in one line, 'vertical' means they will be below each other. 'auto' will choose one based
+     * on the number of choices
+     *
+     * @var string
+     */
+    public $render_mode = 'auto';
+
+    /**
+     * If render_mode is set to 'auto', this is the maximum number of choices that will be rendered
+     * inline
+     *
+     * @var int
+     */
+    public $list_threshold = 4;
+
+    /**
      * The initialization event handler verifies the correct type.
      *
      * @return boolean Indicating Success
@@ -48,7 +65,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
 
         if ($this->_type->allow_other)
         {
-            _midcom_stop_request("Allow Other support for radiocheckselect widget not yet implemented.");
+            throw new midcom_error("Allow Other support for radiocheckselect widget not yet implemented.");
         }
 
         return true;
@@ -88,15 +105,29 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
             }
         }
 
-        $group = $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), "<br />");
+        if ($this->render_mode == 'auto')
+        {
+            if (sizeof($elements) > $this->list_threshold)
+            {
+                $this->render_mode = 'vertical';
+            }
+            else
+            {
+                $this->render_mode = 'horizontal';
+            }
+        }
+
+        $separator = '<span class="separator separator-' . $this->render_mode . '"></span>';
+
+        $group = $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), $separator);
         if ($this->_type->allow_multiple)
         {
-            $attributes['class'] = 'checkbox';
+            $attributes['class'] = 'checkbox checkbox-' . $this->render_mode;
             $group->setAttributes($attributes);
         }
         else
         {
-            $attributes['class'] = 'radiobox';
+            $attributes['class'] = 'radiobox radiobox-' . $this->render_mode;
             $group->setAttributes($attributes);
         }
     }

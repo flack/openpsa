@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 </div>
 
@@ -7,7 +7,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 jQuery('input.delete').bind('click', function(){
     var guid = this.id.substr(29);
 
-    var loading = "<img src='" + MIDCOM_STATIC_URL + "/midcom.helper.datamanager2/ajax-loading.gif' alt='loading' />";
+    var loading = "<img src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' />";
     jQuery('#org_openpsa_relatedto_line_' + guid)
         .css('text-align', 'center')
         .css('height', jQuery('#org_openpsa_relatedto_line_' + guid).height() + 'px')

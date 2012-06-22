@@ -39,21 +39,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      */
     private $_update_parent_on_save = false;
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     function get_parent_guid_uncached()
     {
         if ($this->up != 0)
@@ -87,7 +72,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     {
         $this->calculate_price(false);
 
-        if (   $this->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
+        if (   $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
             && $this->continuous == true)
         {
             $this->end = 0;
@@ -181,9 +166,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function get_at_entries()
     {
-        $_MIDCOM->load_library('midcom.services.at');
-
         $mc = new org_openpsa_relatedto_collector($this->guid, 'midcom_services_at_entry_dba');
+        $mc->add_object_constraint('method', '=', 'new_subscription_cycle');
         $at_entries = $mc->get_related_objects();
 
         return $at_entries;
@@ -192,8 +176,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     function calculate_price($update = true)
     {
         $calculator_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
-        $calculator = new $calculator_class($this);
-        $calculator->run();
+        $calculator = new $calculator_class();
+        $calculator->run($this);
         $cost = $calculator->get_cost();
         $price = $calculator->get_price();
         if (   $price != $this->price
@@ -287,7 +271,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     function invoice()
     {
         if (   $this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED
-            || $this->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+            || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             return false;
         }
@@ -352,7 +336,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $product = org_openpsa_products_product_dba::get_cached($this->product);
         $scheduler = new org_openpsa_invoices_scheduler($this);
 
-        if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             // This is a new subscription, initiate the cycle but don't send invoice
             if (!$scheduler->run_cycle(1, false))
@@ -365,10 +349,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             // Check if we need to create task or ship goods
             switch ($product->orgOpenpsaObtype)
             {
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE:
+                case org_openpsa_products_product_dba::TYPE_SERVICE:
                     $scheduler->create_task($this->start, $this->end, $this->title);
                     break;
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS:
+                case org_openpsa_products_product_dba::TYPE_GOODS:
                     // TODO: Warehouse management: create new order
                 default:
                     break;
@@ -401,7 +385,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
 
         $product = org_openpsa_products_product_dba::get_cached($this->product);
-        if ($product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             // Subscriptions are ongoing, not one delivery
             return false;
@@ -412,7 +396,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         {
             switch ($product->orgOpenpsaObtype)
             {
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE:
+                case org_openpsa_products_product_dba::TYPE_SERVICE:
                     // Change status of tasks connected to the deliverable
                     $task_qb = org_openpsa_projects_task_dba::new_query_builder();
                     $task_qb->add_constraint('agreement', '=', $this->id);
@@ -420,10 +404,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
                     $tasks = $task_qb->execute();
                     foreach ($tasks as $task)
                     {
-                        org_openpsa_projects_workflow::close($task, sprintf($_MIDCOM->i18n->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
+                        org_openpsa_projects_workflow::close($task, sprintf(midcom::get('i18n')->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
                     }
                     break;
-                case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS:
+                case org_openpsa_products_product_dba::TYPE_GOODS:
                     // TODO: Warehouse management: mark product as shipped
                 default:
                     break;
@@ -438,7 +422,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_delivered();
 
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($_MIDCOM->i18n->get_string('marked deliverable "%s" delivered', 'org.openpsa.sales'), $this->title), 'ok');
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf(midcom::get('i18n')->get_string('marked deliverable "%s" delivered', 'org.openpsa.sales'), $this->title), 'ok');
             return true;
         }
         return false;

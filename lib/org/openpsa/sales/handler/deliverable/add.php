@@ -35,16 +35,26 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_product;
 
-
     public function load_schemadb()
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
+
+        if ($this->get_schema_name() == 'subscription')
+        {
+            $schemadb['subscription']->fields['start']['type_config']['min_date'] = strftime('%Y-%m-%d');
+        }
+        else
+        {
+            $schemadb['default']->fields['end']['type_config']['min_date'] = strftime('%Y-%m-%d');
+        }
+
+        return $schemadb;
     }
 
     public function get_schema_name()
     {
         // Set schema based on product type
-        if ($this->_product->delivery == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+        if ($this->_product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             return 'subscription';
         }
@@ -127,14 +137,15 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
+                $formdata = $data['controller']->datamanager->types;
+                $this->_master->process_notify_date($formdata, $this->_deliverable);
             case 'cancel':
-                $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
-                break;
+                return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
         }
 
         org_openpsa_helpers::dm2_savecancel($this);
         $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
-        $this->add_breadcrumb('', $this->_l10n->get('add deliverable'));
+        $this->add_breadcrumb('', $this->_l10n->get('add offer'));
     }
 
     /**

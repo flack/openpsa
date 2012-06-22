@@ -30,10 +30,9 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     /**
      * The metadata instance attached to the object to be indexed.
      *
-     * @access protected
      * @var midcom_helper_metadata
      */
-    var $_metadata = null;
+    protected $_metadata = null;
 
     /**
      * The constructor initializes the content object, loads the metadata object
@@ -71,19 +70,18 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         }
 
         $this->source = $this->_metadata->object->guid;
-        $this->lang = $_MIDCOM->i18n->get_content_language();
+        $this->lang = midcom::get('i18n')->get_content_language();
         // Add language code to RI as well so that different language versions of the object have unique identifiers
         $this->RI = "{$this->source}_{$this->lang}";
-        $this->document_url = $_MIDCOM->permalinks->create_permalink($this->source);
+        $this->document_url = midcom::get('permalinks')->create_permalink($this->source);
 
         $this->_process_metadata();
-        $this->_process_topic();
     }
 
     /**
      * Processes the information contained in the metadata instance.
      */
-    function _process_metadata()
+    private function _process_metadata()
     {
         $this->read_metadata_from_object($this->_metadata->__object);
         $datamanager = $this->_metadata->get_datamanager();
@@ -102,10 +100,10 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 
                 case 'keywords':
                 case 'tags':
-                    $this->content .= $this->datamanager2_get_text_representation($datamanager, $key) . "\n";
+                    $this->content .= $datamanager->types[$key]->convert_to_html() . "\n";
                     // Fall-through intentional
                 default:
-                    $this->add_text("META_{$key}", $this->datamanager2_get_text_representation($datamanager, $key));
+                    $this->add_text("META_{$key}", $datamanager->types[$key]->convert_to_html());
                     break;
             }
         }
@@ -113,10 +111,27 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     }
 
     /**
+     * This will translate all member variables into appropriate
+     * field records, missing topic data is auto-detected
+     */
+    public function members_to_fields()
+    {
+        if (   empty($this->topic_guid)
+            || empty($this->topic_url)
+            || empty($this->component))
+        {
+            //if one of those is missing, we override all three to ensure consistency
+            $this->_process_topic();
+        }
+
+        parent::members_to_fields();
+    }
+
+    /**
      * Tries to determine the topic GUID and component, we use NAPs
      * reverse-lookup capabilities.
      */
-    function _process_topic()
+    private function _process_topic()
     {
         $nav = new midcom_helper_nav();
         // TODO: Is there a better way ?

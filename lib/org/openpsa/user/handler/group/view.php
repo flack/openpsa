@@ -41,8 +41,10 @@ implements midcom_helper_datamanager2_interfaces_view
         midcom::get('auth')->require_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface');
 
         $this->_group = new midcom_db_group($args[0]);
+        $data['group'] = $this->_group;
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_group);
         org_openpsa_widgets_tree::add_head_elements();
+        org_openpsa_widgets_grid::add_head_elements();
 
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', $this->_group->get_label());
@@ -54,7 +56,7 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_URL => "group/edit/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("edit"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
+                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
@@ -65,7 +67,7 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_URL => "group/delete/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("delete"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $this->_group),
+                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:delete'),
             )
         );
         $this->_view_toolbar->add_item
@@ -75,7 +77,7 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_URL => "group/privileges/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:privileges', $this->_group),
+                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:privileges'),
             )
         );
 
@@ -86,10 +88,10 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_URL => "group/notifications/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
+                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
             )
         );
-        midcom::get()->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->_group);
     }
 
     /**

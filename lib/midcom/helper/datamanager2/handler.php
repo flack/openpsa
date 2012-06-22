@@ -17,7 +17,7 @@ class midcom_helper_datamanager2_handler
      * Loads the DM2 view of an object.
      *
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
-     * @param midcom_core_dbaobject The object to display
+     * @param midcom_core_dbaobject &$object The object to display
      * @return array The get_content_html output for the requested object
      */
     public static function get_view(midcom_helper_datamanager2_interfaces_view &$handler, &$object)
@@ -30,7 +30,7 @@ class midcom_helper_datamanager2_handler
      * Loads the DM2 view of an object.
      *
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
-     * @param midcom_core_dbaobject The object to display
+     * @param midcom_core_dbaobject &$object The object to display
      * @return array The get_content_html output for the requested object
      */
     public static function get_view_controller(midcom_helper_datamanager2_interfaces_view &$handler, &$object)
@@ -50,7 +50,7 @@ class midcom_helper_datamanager2_handler
      * Loads and prepares the edit controller. Any error triggers a 500.
      *
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
-     * @param midcom_core_dbaobject The object to display
+     * @param midcom_core_dbaobject &$object The object to display
      * @return midcom_helper_datamanager2_controller_simple The edit controller for the requested object
      */
     public static function get_simple_controller(midcom_helper_datamanager2_interfaces_edit &$handler, &$object)

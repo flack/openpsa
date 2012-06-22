@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING apply
-apply
----STRINGEND
-
 ---STRING date
 Date
 ---STRINGEND
@@ -22,16 +18,12 @@ Description
 Expenses in week %s
 ---STRINGEND
 
----STRING filter error
-Filter error
----STRINGEND
-
 ---STRING hour report
 Hour report
 ---STRINGEND
 
----STRING hour reports between %s and %s
-Hour reports between %s and %s
+---STRING hour reports
+Hour reports
 ---STRINGEND
 
 ---STRING hours
@@ -51,15 +43,19 @@ Edit Hour Report
 ---STRINGEND
 
 ---STRING invoiceable
-Invoiceable
+Billable
 ---STRINGEND
 
 ---STRING invoiceable reports
-Invoiceable Reports
+Billable Reports
 ---STRINGEND
 
 ---STRING invoiced reports
 Invoiced Reports
+---STRINGEND
+
+---STRING list view
+List view
 ---STRINGEND
 
 ---STRING list_hours_task %s
@@ -68,14 +64,6 @@ Hour reports for Task %s
 
 ---STRING next week
 next week
----STRINGEND
-
----STRING no filter available
-There is no filter available
----STRINGEND
-
----STRING no filter available for %s
-There is no filter available for %s
 ---STRINGEND
 
 ---STRING org.openpsa.expenses
@@ -102,8 +90,8 @@ Show task "%s"
 Task
 ---STRINGEND
 
----STRING the handed filter for %s could not be set as parameter
-The handed filter for %s could not be set as parameter
+---STRING timeframe
+Timeframe
 ---STRINGEND
 
 ---STRING total
@@ -111,15 +99,11 @@ Total
 ---STRINGEND
 
 ---STRING uninvoiceable
-Not invoiceable
+Not billable
 ---STRINGEND
 
 ---STRING uninvoiceable reports
-Uninvoiceable Reports
----STRINGEND
-
----STRING unset
-unset
+Unbillable Reports
 ---STRINGEND
 
 ---STRING invoice
@@ -139,9 +123,9 @@ Change invoice
 ---STRINGEND
 
 ---STRING mark_invoiceable
-Mark as invoiceable
+Mark as billable
 ---STRINGEND
 
 ---STRING mark_uninvoiceable
-Mark as uninvoiceable
+Mark as unbillable
 ---STRINGEND

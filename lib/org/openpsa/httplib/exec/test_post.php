@@ -1,5 +1,5 @@
 <?php
-$_MIDCOM->auth->require_valid_user();
+midcom::get('auth')->require_valid_user();
 if (!isset($_REQUEST['url']))
 {
 ?>

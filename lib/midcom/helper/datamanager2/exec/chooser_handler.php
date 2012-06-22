@@ -9,24 +9,17 @@
  */
 
 // Common variables
-$encoding = 'UTF-8';
 $items = array();
 
-// Common headers
-$_MIDCOM->cache->content->content_type('text/xml');
-$_MIDCOM->header('Content-type: text/xml; charset=' . $encoding);
-echo '<?xml version="1.0" encoding="' . $encoding . '" standalone="yes"?>' . "\n";
-echo "<response>\n";
+$response = new midcom_response_xml;
+$response->status = 0;
 
 if (! isset($_REQUEST["query"]))
 {
-    echo "    <status>0</status>\n";
-    echo "    <errstr>Search term not defined</errstr>\n"; //TODO: Localize message
-    echo "</response>\n";
+    $response->errstr = "Search term not defined"; //TODO: Localize message
 
     debug_add("Empty query string. Quitting now.");
-    $_MIDCOM->finish();
-    _midcom_stop_request();
+    $response->send();
 }
 
 $query = $_REQUEST["query"];
@@ -107,26 +100,20 @@ if (!empty($_callback_class))
 else
 {
     // Load component if possible
-    $_MIDCOM->componentloader->load_graceful($component);
+    midcom::get('componentloader')->load_graceful($component);
 
     // Could not get required class defined, abort
     if (!class_exists($class))
     {
-        echo "    <status>0</status>\n";
-        echo "    <errstr>Class {$class} could not be loaded</errstr>\n";
-        echo "</response>\n";
-        $_MIDCOM->finish();
-        _midcom_stop_request();
+        $response->errstr = "Class {$class} could not be loaded";
+        $response->send();
     }
 
     // No fields to search by, abort
     if (empty($searchfields))
     {
-        echo "    <status>0</status>\n";
-        echo "    <errstr>No fields to search for defined</errstr>\n";
-        echo "</response>\n";
-        $_MIDCOM->finish();
-        _midcom_stop_request();
+        $response->errstr = "No fields to search for defined";
+        $response->send();
     }
 
     $qb = @call_user_func(array($class, 'new_query_builder'));
@@ -143,12 +130,9 @@ else
         reset($constraints);
         foreach ($constraints as $key => $data)
         {
-            if (   !array_key_exists('field', $data)
-                || !array_key_exists('op', $data)
-                || !array_key_exists('value', $data)
+            if (   !array_key_exists('value', $data)
                 || empty($data['field'])
-                || empty($data['op'])
-                )
+                || empty($data['op']))
             {
                 debug_add("addconstraint loop: Constraint #{$key} is not correctly defined, skipping", MIDCOM_LOG_WARN);
                 continue;
@@ -179,7 +163,7 @@ else
         reset($orders);
         foreach ($orders as $data)
         {
-            foreach($data as $field => $order)
+            foreach ($data as $field => $order)
             {
                 debug_add("adding order: {$field}, {$order}");
                 $qb->add_order($field, $order);
@@ -190,28 +174,22 @@ else
     $results = $qb->execute();
     if ($results === false)
     {
-        echo "    <status>0</status>\n";
-        echo "    <errstr>Error when executing QB</errstr>\n";
-        echo "</response>\n";
-        $_MIDCOM->finish();
-        _midcom_stop_request();
+        $response->errstr = "Error when executing QB";
+        $response->send();
     }
 }
 
 if (   count($results) <= 0
     || !is_array($results))
 {
-    echo "    <status>2</status>\n";
-    echo "    <errstr>No results found</errstr>\n";
-    echo "</response>\n";
-    $_MIDCOM->finish();
-    _midcom_stop_request();
+    $response->status = 2;
+    $response->errstr = "No results found";
+    $response->send();
 }
 
-echo "    <status>1</status>\n";
-echo "    <errstr></errstr>\n";
-
-echo "    <results>\n";
+$response->status = 1;
+$response->errstr = "";
+$items = array();
 
 foreach ($results as $object)
 {
@@ -238,19 +216,20 @@ foreach ($results as $object)
 
     debug_add("adding result: id={$id} guid={$guid}");
 
-    echo "      <result>\n";
-    echo "          <id>{$id}</id>\n";
-    echo "          <guid>{$guid}</guid>\n";
+    $result = array
+    (
+        'id' => $id,
+        'guid' => $guid
+    );
 
     debug_print_r('$result_headers', $result_headers);
     if (   !is_array($result_headers)
         || (   !empty($reflector_key)
-            && !$result_headers)
-        )
+            && !$result_headers))
     {
         $value = @$object->get_label();
         debug_add("adding header item: name=label value={$value}");
-        echo "          <label><![CDATA[{$value}]]></label>\n";
+        $result['label'] = "<![CDATA[{$value}]]>";
     }
     else
     {
@@ -304,7 +283,7 @@ foreach ($results as $object)
                 || (   $class == 'midcom_db_topic'
                     && $item_name == 'extra')
                 || (   in_array($class, array('midcom_db_group', 'midcom_db_group'))
-                    && $item_name == 'name') )
+                    && $item_name == 'name'))
             {
                 $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
             }
@@ -312,17 +291,18 @@ foreach ($results as $object)
             $item_name = str_replace('.', '_', $item_name);
 
             debug_add("adding header item: name={$item_name} value={$value}");
-            echo "          <{$item_name}><![CDATA[{$value}]]></{$item_name}>\n";
+            $result[$item_name] = "<![CDATA[{$value}]]>";
         }
     }
+    $items[] = $result;
 
-    echo "      </result>\n";
 }
 
-echo "    </results>\n";
-echo "</response>\n";
+debug_print_r('Got results', $items);
+$response->results = array
+(
+    'result' => $items
+);
 
-debug_print_r('Got results', $results);
-
-$_MIDCOM->finish();
+$response->send();
 ?>

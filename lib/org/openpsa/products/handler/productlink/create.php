@@ -123,21 +123,19 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $_MIDCOM->cache->invalidate($this->_productlink->guid);
+                midcom::get('cache')->invalidate($this->_productlink->guid);
 
-                $_MIDCOM->relocate("productlink/{$this->_productlink->guid}/");
-                // This will exit.
+                return new midcom_response_relocate("productlink/{$this->_productlink->guid}/");
 
             case 'cancel':
                 if ($this->_request_data['up'] == 0)
                 {
-                    $_MIDCOM->relocate('');
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    $_MIDCOM->relocate("{$this->_request_data['up']}/");
+                    return new midcom_response_relocate("{$this->_request_data['up']}/");
                 }
-                // This will exit.
         }
 
         $this->_prepare_request_data();
@@ -147,10 +145,10 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
 
         if ($this->_productlink)
         {
-            $_MIDCOM->set_26_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
+            midcom::get('metadata')->set_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
         }
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }
@@ -221,7 +219,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
             }
         }
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
 }
 ?>

@@ -77,12 +77,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     private $_rules = null; //Copy of rules as received
     private $_result_mc = null; // Contact-qb containing results
 
-
     public function __construct($rules = false)
     {
-        // Make sure all supported classes are loaded
-        $_MIDCOM->componentloader->load_graceful('org.maemo.devcodes');
-
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
         $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
         if ($rules)
@@ -113,6 +109,11 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         if (!is_array($rules['classes']))
         {
             debug_add('rules[classes] is not an array', MIDCOM_LOG_ERROR);
+            return false;
+        }
+        if (!array_key_exists('groups', $rules))
+        {
+            debug_add('rules[groups] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
         //start with first group
@@ -147,14 +148,15 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->_result_mc->execute();
         $results = $this->_result_mc->list_keys();
         $ret = array();
-        foreach($results as $key => $value)
+        foreach ($results as $key => $value)
         {
-            $ret[$this->_result_mc->get_subkey($key, 'id')] = array(
+            $ret[$this->_result_mc->get_subkey($key, 'id')] = array
+            (
                 'lastname' => $this->_result_mc->get_subkey($key, 'lastname'),
                 'firstname' => $this->_result_mc->get_subkey($key, 'firstname'),
                 'email' => $this->_result_mc->get_subkey($key, 'email'),
                 'guid' => $key,
-                );
+            );
         }
 
         return $ret;
@@ -176,10 +178,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         }
 
         if (   $match_class
-            && (
-                $group['class'] != $match_class
-                )
-            )
+            && $group['class'] != $match_class)
         {
             debug_add("{$group['class']} != {$match_class}, unmatched classes where match required", MIDCOM_LOG_ERROR);
             return false;
@@ -259,12 +258,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 case 'org_openpsa_link_log':
                     $this->add_misc_rule($rule, $class, 'person');
                     break;
-                case 'org_maemo_devcodes_application':
-                    $this->add_misc_rule($rule, $class, 'applicant');
-                    break;
-                case 'org_maemo_devcodes_code':
-                    $this->add_misc_rule($rule, $class, 'recipient');
-                    break;
 
                 default:
                     debug_add("class " . $class . " not supported", MIDCOM_LOG_WARN);
@@ -320,7 +313,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $mc_group->execute();
         $keys = $mc_group->list_keys();
-        foreach( $keys as $key => $value)
+        foreach ($keys as $key => $value)
         {
             // get user-id
             $group_member[] = $mc_group->get_subkey($key, 'uid');
@@ -363,7 +356,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
             try
             {
-                $parent = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                $parent = midcom::get('dbfactory')->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {
@@ -376,22 +369,14 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     $this->add_person_rule($person_rule);
                     break;
-                case ($_MIDCOM->dbfactory->is_a($parent, 'midgard_group')):
+                case (midcom::get('dbfactory')->is_a($parent, 'midgard_group')):
                     $group_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     $this->add_group_rule($group_rule);
                     break;
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_member'):
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_message_receipt'):
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_link_log'):
+                case midcom::get('dbfactory')->is_a($parent, 'org_openpsa_campaign_member'):
+                case midcom::get('dbfactory')->is_a($parent, 'org_openpsa_campaign_message_receipt'):
+                case midcom::get('dbfactory')->is_a($parent, 'org_openpsa_link_log'):
                     $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->person);
-                    $this->add_person_rule($person_rule);
-                    break;
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_maemo_devcodes_application'):
-                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->applicant);
-                    $this->add_person_rule($person_rule);
-                    break;
-                case $_MIDCOM->dbfactory->is_a($parent, 'org_maemo_devcodes_code'):
-                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->recipient);
                     $this->add_person_rule($person_rule);
                     break;
 
@@ -440,13 +425,76 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $keys = $mc_misc->list_keys();
 
-        foreach( $keys as $key => $value)
+        foreach ($keys as $key => $value)
         {
             // get user-id
             $persons[] = $mc_misc->get_subkey($key, $person_property);
         }
 
         $this->_result_mc->add_constraint('id', $constraint_match, $persons);
+    }
+
+    /**
+     * List object's properties for JS rule builder
+     *
+     * PONDER: Should we support schema somehow (only for non-parameter keys), this would practically require manual parsing...
+     *
+     * @param midcom_core_dbaobject $object
+     * @param midcom_services_i18n_l10n $l10n
+     */
+    public static function list_object_properties(&$object, &$l10n)
+    {
+        // These are internal to midgard and/or not valid QB constraints
+        $skip_properties = array();
+        // These will be deprecated soon
+        $skip_properties[] = 'orgOpenpsaAccesstype';
+        $skip_properties[] = 'orgOpenpsaWgtype';
+
+        if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_person'))
+        {
+            // The info field is a special case
+            $skip_properties[] = 'info';
+            // These legacy fields are rarely used
+            $skip_properties[] = 'topic';
+            $skip_properties[] = 'subtopic';
+            $skip_properties[] = 'office';
+            // This makes very little sense as a constraint
+            $skip_properties[] = 'img';
+            // Duh
+            $skip_properties[] = 'password';
+        }
+        if (midcom::get('dbfactory')->is_a($object, 'midgard_member'))
+        {
+            // The info field is a special case
+            $skip_properties[] = 'info';
+        }
+        // Skip metadata for now
+        $skip_properties[] = 'metadata';
+        $ret = array();
+        while (list ($property, $value) = each($object))
+        {
+            if (   preg_match('/^_/', $property)
+                || in_array($property, $skip_properties))
+            {
+                // Skip private or otherwise invalid properties
+                continue;
+            }
+            if (   is_object($value)
+                && !is_a($value, 'midgard_datetime'))
+            {
+                while (list ($property2, $value2) = each($value))
+                {
+                    $prop_merged = "{$property}.{$property2}";
+                    $ret[$prop_merged] = $l10n->get("property:{$prop_merged}");
+                }
+            }
+            else
+            {
+                $ret[$property] = $l10n->get("property:{$property}");
+            }
+        }
+        asort($ret);
+        return $ret;
     }
 }
 ?>

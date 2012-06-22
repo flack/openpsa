@@ -32,9 +32,9 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         $notification = new org_openpsa_notifications_notification_dba();
         $notification->recipient = $this->recipient->id;
 
-        if ($_MIDCOM->auth->user)
+        if (midcom::get('auth')->user)
         {
-            $user = $_MIDCOM->auth->user->get_storage();
+            $user = midcom::get('auth')->user->get_storage();
             $notification->sender = $user->id;
         }
 
@@ -87,10 +87,10 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         if (   array_key_exists('from', $message)
             && !empty($message['from']))
         {
-            $_MIDCOM->auth->request_sudo();
-            $user = $_MIDCOM->auth->get_user($message['from']);
+            midcom::get('auth')->request_sudo();
+            $user = midcom::get('auth')->get_user($message['from']);
             $sender =& $user->get_storage();
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             // Avoid double dump
             unset($message['from']);
         }
@@ -151,7 +151,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
         else
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.notifications', 'org.openpsa.notifications'), sprintf($_MIDCOM->i18n->get_string('notification sent to %s', 'org.openpsa.notifications'), $growl_to));
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.notifications', 'org.openpsa.notifications'), sprintf(midcom::get('i18n')->get_string('notification sent to %s', 'org.openpsa.notifications'), $growl_to));
         }
         return $ret;
     }

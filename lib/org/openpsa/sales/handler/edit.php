@@ -82,8 +82,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
     private function _initialize_datamanager($schemadb_snippet)
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         // Initialize the datamanager with the schema
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_snippet);
 
@@ -151,9 +149,9 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
         $this->_request_data['salesproject'] = $this->_load_salesproject($args[0]);
-        $_MIDCOM->auth->require_do('midgard:update', $this->_salesproject);
+        $this->_salesproject->require_do('midgard:update');
 
         $this->_load_edit_controller();
 
@@ -162,7 +160,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             case 'save':
                 // Fall-through intentional
             case 'cancel':
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                     . "salesproject/" . $this->_salesproject->guid);
         }
         $this->_request_data['controller'] =& $this->_controller;
@@ -171,11 +169,15 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_view_toolbar->bind_to($this->_salesproject);
-
+        $customer = $this->_salesproject->get_customer();
+        if ($customer)
+        {
+            $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
+        }
         org_openpsa_sales_viewer::add_breadcrumb_path($data['salesproject'], $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
     }
 
     /**
@@ -195,8 +197,8 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     public function _handler_new($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
+        midcom::get('auth')->require_valid_user();
+        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
         $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
         $this->_defaults['owner'] = midcom_connection::get_user();
@@ -212,16 +214,15 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         {
             case 'save':
                 // Relocate to main view
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                $_MIDCOM->relocate($prefix . "salesproject/edit/" . $this->_salesproject->guid . "/");
-                // This will exit
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+                return new midcom_response_relocate($prefix . "salesproject/edit/" . $this->_salesproject->guid . "/");
+
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit
+                return new midcom_response_relocate('');
         }
         $this->_request_data['controller'] =& $this->_controller;
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

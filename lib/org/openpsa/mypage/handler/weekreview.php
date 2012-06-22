@@ -15,7 +15,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 {
     public function _on_initialize()
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
     }
 
     /**
@@ -26,7 +26,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
         $date = date('Y-m-d');
-        $_MIDCOM->relocate("weekreview/{$date}/");
+        return new midcom_response_relocate("weekreview/{$date}/");
     }
 
     private function _populate_toolbar()
@@ -163,7 +163,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             return false;
         }
 
-        $_MIDCOM->load_library('org.openpsa.positioning');
+        midcom::get('componentloader')->load_library('org.openpsa.positioning');
 
         // List user's position reports
         $qb = org_routamc_positioning_log_dba::new_query_builder();
@@ -217,7 +217,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         // Then start looking for stuff to display
         $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_task_statuses_between($data['review_data'], $_MIDCOM->auth->user, $data['week_start'], $data['week_end']);
+        $this->_list_task_statuses_between($data['review_data'], midcom::get('auth')->user, $data['week_start'], $data['week_end']);
         $this->_list_positions_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
@@ -234,7 +234,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
 
         $data['title'] = sprintf($this->_l10n->get($title_string), strftime('%W %Y', $data['requested_time']));
-        $_MIDCOM->set_pagetitle($data['title']);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         $this->_populate_toolbar();
 

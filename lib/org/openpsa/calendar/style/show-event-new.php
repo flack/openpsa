@@ -1,3 +1,3 @@
 <div class="wide">
-    <?php $data['event_dm']->display_form(); ?>
+    <?php $data['controller']->display_form(); ?>
 </div>

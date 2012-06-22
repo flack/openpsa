@@ -40,6 +40,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     var $_objects = array();
 
+    private $_totals = array();
+
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -74,14 +76,12 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        $_MIDCOM->auth->require_valid_user();
+        midcom::get('auth')->require_valid_user();
 
         midcom::get()->disable_limits();
 
         $this->_load_datamanager($this->_load_schemadb($handler_id, $args, $data));
         $this->_objects = $this->_load_data($handler_id, $args, $data);
-
-        $_MIDCOM->skip_page_style = true;
 
         if (   !isset($args[0])
             || empty($args[0]))
@@ -90,13 +90,12 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
             if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . $fname);
+                return new midcom_response_relocate(midcom_connection::get_url('uri') . $fname);
             }
             else
             {
-                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "/{$fname}");
+                return new midcom_response_relocate(midcom_connection::get_url('uri') . "/{$fname}");
             }
-            // This will exit
         }
 
         if(   !isset($data['filename'])
@@ -106,43 +105,38 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
 
         $this->_init_csv_variables();
-        $_MIDCOM->skip_page_style = true;
+        midcom::get()->skip_page_style = true;
 
         // FIXME: Use global configuration
-        //$_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
-        $_MIDCOM->cache->content->content_type('application/csv');
+        //midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
+        midcom::get('cache')->content->content_type('application/csv');
         _midcom_header('Content-Disposition: filename=' . $data['filename']);
     }
 
     private function _init_csv_variables()
     {
         // FIXME: Use global configuration
-        if (   !isset($this->csv['s'])
-            || empty($this->csv['s']))
+        if (empty($this->csv['s']))
         {
             $this->csv['s'] = ';';
             //$this->csv['s'] = $this->_config->get('csv_export_separator');
         }
-        if (   !isset($this->csv['q'])
-            || empty($this->csv['q']))
+        if (empty($this->csv['q']))
         {
             $this->csv['q'] = '"';
             //$this->csv['q'] = $this->_config->get('csv_export_quote');
         }
-        if (   !isset($this->csv['d'])
-            || empty($this->csv['d']))
+        if (empty($this->csv['d']))
         {
             //$this->csv['d'] = '.';
             $this->csv['d'] = $this->_l10n_midcom->get('decimal point');
         }
-        if (   !isset($this->csv['nl'])
-            || empty($this->csv['nl']))
+        if (empty($this->csv['nl']))
         {
             $this->csv['nl'] = "\n";
             //$this->csv['nl'] = $this->_config->get('csv_export_newline');
         }
-        if (   !isset($this->csv['charset'])
-            || empty($this->csv['charset']))
+        if (empty($this->csv['charset']))
         {
             // Default to ISO-LATIN-15 (Latin-1 with EURO sign etc)
             $this->csv['charset'] = 'ISO-8859-15';
@@ -184,8 +178,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         // Strings and numbers beginning with zero are quoted
         if (   !empty($data)
-               && (!is_numeric($data)
-                   || preg_match('/^[0+]/', $data)))
+            && (   !is_numeric($data)
+                || preg_match('/^[0+]/', $data)))
         {
             // Make sure we have only newlines in data
             $data = preg_replace("/\n\r|\r\n|\r/", "\n", $data);
@@ -218,7 +212,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     public function _show_csv($handler_id, array &$data)
     {
         // Make real sure we're dumping data live
-        $_MIDCOM->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
         while(@ob_end_flush());
 
         // Dump headers
@@ -229,7 +223,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         $i = 0;
         $datamanager =& $this->_datamanager;
-        $totals = array();
 
         foreach ($datamanager->schema->field_order as $name)
         {
@@ -238,9 +231,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             if ($this->include_totals
                 && $type == 'number')
             {
-                $totals[$name] = 0;
+                $this->_totals[$name] = 0;
             }
-            $title = $_MIDCOM->i18n->get_string($title, $this->_component);
+            $title = midcom::get('i18n')->get_string($title, $this->_component);
             $i++;
             if ($i < count($datamanager->schema->field_order))
             {
@@ -268,7 +261,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 }
                 if ($type == 'number')
                 {
-                    $value = $totals[$name];
+                    $value = $this->_totals[$name];
                 }
 
                 echo $this->_encode_csv($value, true, $last);
@@ -302,10 +295,10 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 $data = '';
                 $data = $type->convert_to_csv();
 
-                if ($this->include_totals
+                if (   $this->include_totals
                     && $typename == 'number')
                 {
-                    $totals[$fieldname] += $data;
+                    $this->_totals[$fieldname] += $data;
                 }
                 $i++;
                 if ($i < count($this->_datamanager->schema->field_order))

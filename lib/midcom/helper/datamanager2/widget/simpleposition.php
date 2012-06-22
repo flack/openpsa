@@ -39,8 +39,8 @@ class midcom_helper_datamanager2_widget_simpleposition extends midcom_helper_dat
     function add_elements_to_form($attributes)
     {
         $title = $this->_translate($this->_field['title']);
-        $this->_form->addElement('text', "{$this->name}_latitude", $_MIDCOM->i18n->get_string('latitude', 'org.routamc.positioning'), Array('class' => 'shorttext'));
-        $this->_form->addElement('text', "{$this->name}_longitude", $_MIDCOM->i18n->get_string('longitude', 'org.routamc.positioning'), Array('class' => 'shorttext'));
+        $this->_form->addElement('text', "{$this->name}_latitude", midcom::get('i18n')->get_string('latitude', 'org.routamc.positioning'), Array('class' => 'shorttext'));
+        $this->_form->addElement('text', "{$this->name}_longitude", midcom::get('i18n')->get_string('longitude', 'org.routamc.positioning'), Array('class' => 'shorttext'));
         $this->_form->addRule("{$this->name}_latitude", $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
         $this->_form->addRule("{$this->name}_longitude", $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
     }

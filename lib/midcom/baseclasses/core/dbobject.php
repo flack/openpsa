@@ -31,14 +31,17 @@
 class midcom_baseclasses_core_dbobject
 {
     static $parameter_cache = array();
+
     /**
      * "Pre-flight" checks for update method
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
-    public static function update_pre_checks($object)
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
+     */
+    public static function update_pre_checks(midcom_core_dbaobject $object)
     {
-        if (! $_MIDCOM->auth->can_do('midgard:update', $object))
+        if (!$object->can_do('midgard:update'))
         {
             debug_add("Failed to load object, update privilege on the " . get_class($object) . " {$object->id} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -64,10 +67,10 @@ class midcom_baseclasses_core_dbobject
      *    and return its value, nothing else.
      * 4. void $object->_on_updated() is executed to notify the class from a successful DB update.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function update($object)
+    public static function update(midcom_core_dbaobject $object)
     {
         if (!self::update_pre_checks($object))
         {
@@ -90,26 +93,28 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for create
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
-    public static function update_post_ops($object)
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
+     */
+    public static function update_post_ops(midcom_core_dbaobject $object)
     {
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
-            $rcs = $_MIDCOM->get_service('rcs');
+            $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
 
         $object->_on_updated();
 
-        $_MIDCOM->cache->invalidate($object->guid);
+        midcom::get('cache')->invalidate($object->guid);
 
         if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
         {
             $atts = $object->list_attachments();
             foreach ($atts as $att)
             {
-                $_MIDCOM->cache->invalidate($att->guid);
+                midcom::get('cache')->invalidate($att->guid);
                 $att->update_cache();
             }
         }
@@ -117,25 +122,24 @@ class midcom_baseclasses_core_dbobject
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
             && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement'))
-            )
+                || is_a($object, 'midcom_db_pageelement')))
         {
             debug_add('invalidating Midgard page cache');
             mgd_cache_invalidate();
         }
 
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
     }
 
     /**
      * This is an internal helper adds full privileges to the owner of the object.
      * This is essentially sets the midgard:owner privilege for the current user.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
-    private static function _set_owner_privileges($object)
+    private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
-        if (! $_MIDCOM->auth->user)
+        if (! midcom::get('auth')->user)
         {
             debug_add ("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
                 MIDCOM_LOG_INFO);
@@ -145,7 +149,7 @@ class midcom_baseclasses_core_dbobject
         // Circumvent the main privilege class as we need full access here regardless of
         // the actual circumstances.
         $privilege = new midcom_core_privilege_db();
-        $privilege->assignee = $_MIDCOM->auth->user->id;
+        $privilege->assignee = midcom::get('auth')->user->id;
         $privilege->privilegename = 'midgard:owner';
         $privilege->objectguid = $object->guid;
         $privilege->value = MIDCOM_PRIVILEGE_ALLOW;
@@ -162,17 +166,19 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for create method
      *
      * Separated so that dbfactory->import() can reuse the code
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
-    public static function create_pre_checks($object)
+    public static function create_pre_checks(midcom_core_dbaobject $object)
     {
         $parent = $object->get_parent();
         if (! is_null($parent))
         {
             // Attachments are a special case
-            if ($_MIDCOM->dbfactory->is_a($object, 'midgard_attachment'))
+            if (midcom::get('dbfactory')->is_a($object, 'midgard_attachment'))
             {
-                if (   ! $_MIDCOM->auth->can_do('midgard:attachments', $parent)
-                    || ! $_MIDCOM->auth->can_do('midgard:update', $parent))
+                if (   ! midcom::get('auth')->can_do('midgard:attachments', $parent)
+                    || ! midcom::get('auth')->can_do('midgard:update', $parent))
                 {
                     debug_add("Failed to create attachment, update or attachments privilege on the parent " . get_class($parent) . " {$parent->guid} not granted for the current user.",
                         MIDCOM_LOG_ERROR);
@@ -180,8 +186,8 @@ class midcom_baseclasses_core_dbobject
                     return false;
                 }
             }
-            elseif (   ! $_MIDCOM->auth->can_do('midgard:create', $parent)
-                && ! $_MIDCOM->auth->can_user_do('midgard:create', null, get_class($object)))
+            elseif (   ! midcom::get('auth')->can_do('midgard:create', $parent)
+                && ! midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -191,7 +197,7 @@ class midcom_baseclasses_core_dbobject
         }
         else
         {
-            if (! $_MIDCOM->auth->can_user_do('midgard:create', null, get_class($object)))
+            if (! midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
@@ -223,16 +229,15 @@ class midcom_baseclasses_core_dbobject
      *      4. if name is not URL-safe false is returned
      * </pre>
      *
-     * @param object $object reference to object to check for
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return boolean indicating whether from our point of view everything is ok
      *
      * @see midcom_helper_reflector_nameresolver::name_is_safe_or_empty()
      * @see midcom_helper_reflector_nameresolver::name_is_unique_or_empty()
      * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      */
-    private static function _pre_check_name($object)
+    private static function _pre_check_name(midcom_core_dbaobject $object)
     {
-        $_MIDCOM->componentloader->load('midcom.helper.reflector');
         // Make sure name is empty of unique if the object has such property
         $name_property = midcom_helper_reflector::get_name_property($object);
         if (empty($name_property))
@@ -309,10 +314,10 @@ class midcom_baseclasses_core_dbobject
      *    and return its value, nothing else.
      * 4. void $object->_on_created() is executed to notify the class from a successful DB creation.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function create($object)
+    public static function create(midcom_core_dbaobject $object)
     {
         if (!self::create_pre_checks($object))
         {
@@ -320,19 +325,19 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   !is_null($_MIDCOM->auth->user)
+        if (   !is_null(midcom::get('auth')->user)
             && is_object($object->metadata))
         {
             // Default the authors to current user
             if (empty($object->metadata->authors))
             {
-                $object->metadata->set('authors', "|{$_MIDCOM->auth->user->guid}|");
+                $object->metadata->set('authors', "|" . midcom::get('auth')->user->guid ."|");
             }
 
             // Default the owner to first group of current user
             if (empty($object->metadata->owner))
             {
-                $first_group = $_MIDCOM->auth->user->get_first_group_guid();
+                $first_group = midcom::get('auth')->user->get_first_group_guid();
                 if ($first_group)
                 {
                     $object->metadata->set('owner', $first_group);
@@ -364,8 +369,10 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for create
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
-    public static function create_post_ops($object)
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
+     */
+    public static function create_post_ops(midcom_core_dbaobject $object)
     {
         // WORKAROUND START
         // Auto-populate the GUID as the core sometimes forgets this (#72) or
@@ -398,11 +405,11 @@ class midcom_baseclasses_core_dbobject
         self::_set_owner_privileges($object);
 
         $object->_on_created();
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
-            $rcs = $_MIDCOM->get_service('rcs');
+            $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
 
@@ -411,14 +418,13 @@ class midcom_baseclasses_core_dbobject
             && $parent->guid)
         {
             // Invalidate parent from cache so content caches have chance to react
-            $_MIDCOM->cache->invalidate($parent->guid);
+            midcom::get('cache')->invalidate($parent->guid);
         }
 
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
             && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement'))
-            )
+                || is_a($object, 'midcom_db_pageelement')))
         {
             mgd_cache_invalidate();
         }
@@ -436,10 +442,10 @@ class midcom_baseclasses_core_dbobject
      *    and return its value, nothing else.
      * 5. void $object->_on_deleted() is executed to notify the class from a successful DB deletion.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function delete($object)
+    public static function delete(midcom_core_dbaobject $object)
     {
         if (!self::delete_pre_checks($object))
         {
@@ -504,12 +510,12 @@ class midcom_baseclasses_core_dbobject
      * 2. Delete them recursively starting from the top, working towards the root
      * 3. Finally delete the root object
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return boolean Indicating success.
      */
-    public static function delete_tree($object)
+    public static function delete_tree(midcom_core_dbaobject $object)
     {
-        $_MIDCOM->componentloader->load_graceful('midcom.helper.reflector');
+        midcom::get('componentloader')->load_graceful('midcom.helper.reflector');
 
         // Get the child nodes
         $children = midcom_helper_reflector_tree::get_child_objects($object);
@@ -546,25 +552,26 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for delete
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
-    public static function delete_post_ops($object)
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
+     */
+    public static function delete_post_ops(midcom_core_dbaobject $object)
     {
         $object->_on_deleted();
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
-            $rcs = $_MIDCOM->get_service('rcs');
+            $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
 
-        $_MIDCOM->cache->invalidate($object->guid);
+        midcom::get('cache')->invalidate($object->guid);
 
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
             && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement'))
-            )
+                || is_a($object, 'midcom_db_pageelement')))
         {
             mgd_cache_invalidate();
         }
@@ -606,7 +613,7 @@ class midcom_baseclasses_core_dbobject
             {
                 $undeleted = true;
                 // refresh
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
                 $undeleted_size += $object->metadata->size;
             }
 
@@ -621,14 +628,13 @@ class midcom_baseclasses_core_dbobject
                     && $parent->guid)
                 {
                     // Invalidate parent from cache so content caches have chance to react
-                    $_MIDCOM->cache->invalidate($parent->guid);
+                    midcom::get('cache')->invalidate($parent->guid);
                 }
 
                 // Invalidate Midgard pagecache if we touched style/page element
                 if (   function_exists('mgd_cache_invalidate')
                     && (   is_a($object, 'midcom_db_element')
-                        || is_a($object, 'midcom_db_pageelement'))
-                    )
+                        || is_a($object, 'midcom_db_pageelement')))
                 {
                     mgd_cache_invalidate();
                 }
@@ -722,11 +728,11 @@ class midcom_baseclasses_core_dbobject
             }
             if (!$undeleted)
             {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('failed undeleting attachment %s, reason %s', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'error');
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed undeleting attachment %s, reason %s', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'error');
             }
             else
             {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('attachment %s undeleted', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'ok');
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('attachment %s undeleted', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'ok');
                 $undeleted_size += $att->metadata->size;
                 $undeleted_size += self::undelete_parameters($att->guid);
             }
@@ -821,10 +827,10 @@ class midcom_baseclasses_core_dbobject
             }
             else
             {
-                $_MIDCOM->uimessages->add
+                midcom::get('uimessages')->add
                 (
-                    $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
-                    sprintf($_MIDCOM->i18n->get_string('failed purging parameter %s => %s, reason %s', 'midgard.admin.asgard'), $param->domain, $param->name, midcom_connection::get_error_string()),
+                    midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+                    sprintf(midcom::get('i18n')->get_string('failed purging parameter %s => %s, reason %s', 'midgard.admin.asgard'), $param->domain, $param->name, midcom_connection::get_error_string()),
                     'error'
                 );
             }
@@ -861,7 +867,7 @@ class midcom_baseclasses_core_dbobject
             }
             else
             {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf($_MIDCOM->i18n->get_string('failed purging attachment %s => %s, reason %s', 'midgard.admin.asgard'), $att->guid, $att->name, midcom_connection::get_error_string()), 'error');
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed purging attachment %s => %s, reason %s', 'midgard.admin.asgard'), $att->guid, $att->name, midcom_connection::get_error_string()), 'error');
             }
         }
 
@@ -871,11 +877,11 @@ class midcom_baseclasses_core_dbobject
     /**
      * Copies values from oldobject to newobject in case the types are compatible
      *
-     * @param MidgardObject &$newobject A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
-     * @param MidgardObject &$oldobject a parent object (usually a midgard_* base class) which to copy.
+     * @param midcom_core_dbaobject $newobject A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $oldobject a parent object (usually a midgard_* base class) which to copy.
      * @return bool Indicating success.
      */
-    public static function cast_object($newobject, $oldobject)
+    public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
     {
         if (is_a($oldobject, $newobject->__mgdschema_class_name__))
         {
@@ -912,7 +918,7 @@ class midcom_baseclasses_core_dbobject
      *
      * This method is usually only called from the constructor of the class.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject &$object The DBA object we're working on
      * @param mixed $id The object to load from the database. This can be either null (the default), indicating an empty object,
      *     a Midgard database row-ID or a Midgard GUID, the latter is detected using mgd_is_guid(). In addition, you can
      *     specify a parent object (usually a midgard_* base class) which will then use a copy constructor semantics instead.
@@ -920,7 +926,7 @@ class midcom_baseclasses_core_dbobject
      * @see post_db_load_checks()
      * @see cast_object()
      */
-    public static function load(&$object, $id)
+    public static function load(midcom_core_dbaobject &$object, $id)
     {
         $object->id = 0;
 
@@ -977,13 +983,13 @@ class midcom_baseclasses_core_dbobject
     /**
      * After we instantiated the midgard object do some post processing and ACL checks
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      * @see load()
      */
-    public static function post_db_load_checks($object)
+    public static function post_db_load_checks(midcom_core_dbaobject $object)
     {
-        if (! $_MIDCOM->auth->can_do('midgard:read', $object))
+        if (!$object->can_do('midgard:read'))
         {
             debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.");
             self::_clear_object($object);
@@ -992,9 +998,9 @@ class midcom_baseclasses_core_dbobject
         $object->_on_loaded();
 
         // Register the GUID as loaded in this request
-        if (isset($_MIDCOM->cache->content))
+        if (isset(midcom::get('cache')->content))
         {
-            $_MIDCOM->cache->content->register($object->guid);
+            midcom::get('cache')->content->register($object->guid);
         }
 
         return true;
@@ -1008,10 +1014,10 @@ class midcom_baseclasses_core_dbobject
      *
      * On any failure, the object is cleared.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating Success
      */
-    public static function refresh($object)
+    public static function refresh(midcom_core_dbaobject $object)
     {
         // FIXME: be GUID based, but needs further testing...
 
@@ -1034,11 +1040,11 @@ class midcom_baseclasses_core_dbobject
      * This call wraps the original get_by_id call to provide access control.
      * The calling sequence is as with the corresponding constructor.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject &$object The DBA object we're working on
      * @param int $id The id of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_id(&$object, $id)
+    public static function get_by_id(midcom_core_dbaobject &$object, $id)
     {
         if (!$id)
         {
@@ -1059,7 +1065,7 @@ class midcom_baseclasses_core_dbobject
         if (   $object->id != 0
             && $object->action != 'delete')
         {
-            if (! $_MIDCOM->auth->can_do('midgard:read', $object))
+            if (!$object->can_do('midgard:read'))
             {
                 debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -1081,18 +1087,18 @@ class midcom_baseclasses_core_dbobject
      * This call wraps the original get_by_guid call to provide access control.
      * The calling sequence is as with the corresponding constructor.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject &$object The DBA object we're working on
      * @param string $guid The guid of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_guid(&$object, $guid)
+    public static function get_by_guid(midcom_core_dbaobject &$object, $guid)
     {
         $object->__exec_get_by_guid((string) $guid);
 
         if (   $object->id != 0
             && $object->action != 'delete')
         {
-            if (! $_MIDCOM->auth->can_do('midgard:read', $object))
+            if (!$object->can_do('midgard:read'))
             {
                 debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -1114,18 +1120,18 @@ class midcom_baseclasses_core_dbobject
      * This call wraps the original get_by_guid call to provide access control.
      * The calling sequence is as with the corresponding constructor.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $path The path of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_path($object, $path)
+    public static function get_by_path(midcom_core_dbaobject $object, $path)
     {
         $object->__exec_get_by_path((string) $path);
 
         if (   $object->id != 0
             && $object->action != 'delete')
         {
-            if (! $_MIDCOM->auth->can_do('midgard:read', $object))
+            if (!$object->can_do('midgard:read'))
             {
                 self::_clear_object($object);
                 return false;
@@ -1142,8 +1148,10 @@ class midcom_baseclasses_core_dbobject
 
     /**
      * This method is deprecated. It does nothing.
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
-    private static function _clear_object($object)
+    private static function _clear_object(midcom_core_dbaobject $object)
     {
         $vars = get_object_vars($object);
         foreach ($vars as $name => $value)
@@ -1164,10 +1172,10 @@ class midcom_baseclasses_core_dbobject
      * Internal helper function, called upon successful delete. It will unconditionally
      * drop all privileges assigned to the given object.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating Success.
      */
-    private static function _delete_privileges($object)
+    private static function _delete_privileges(midcom_core_dbaobject $object)
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
@@ -1203,12 +1211,12 @@ class midcom_baseclasses_core_dbobject
      *
      * No event handlers are called here yet.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The parameter domain.
      * @param string $name The parameter name.
      * @return string The parameter value or false otherwise (remember typesafe comparisons to protect against '' strings).
      */
-    public static function get_parameter($object, $domain, $name)
+    public static function get_parameter(midcom_core_dbaobject $object, $domain, $name)
     {
         if (!$object->guid)
         {
@@ -1227,7 +1235,8 @@ class midcom_baseclasses_core_dbobject
         }
 
         // Not in cache, query from MgdSchema API directly
-        $value = $object->__object->parameter($domain, $name);
+        $value = $object->__object->get_parameter($domain, $name);
+
         return $value;
     }
 
@@ -1275,11 +1284,11 @@ class midcom_baseclasses_core_dbobject
      * In both cases an empty Array will indicate that no parameter was found, while
      * false will indicate a failure while querying the database.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The parameter domain to query, this may be null to indicate a full listing.
      * @return Array Parameter list (see above for details) or false on failure.
      */
-    public static function list_parameters($object, $domain)
+    public static function list_parameters(midcom_core_dbaobject $object, $domain)
     {
         if (! $object->id)
         {
@@ -1300,12 +1309,12 @@ class midcom_baseclasses_core_dbobject
      *
      * No event handlers are called here yet.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The parameter domain to query.
      * @return Array Parameter listing or false on failure.
      * @see list_parameters()
      */
-    private static function _list_parameters_domain($object, $domain)
+    private static function _list_parameters_domain(midcom_core_dbaobject $object, $domain)
     {
         if (!$object->guid)
         {
@@ -1352,11 +1361,11 @@ class midcom_baseclasses_core_dbobject
      *
      * No event handlers are called here yet.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return Array Parameter listing or false on failure.
      * @see list_parameters()
      */
-    private static function _list_parameters_all(&$object)
+    private static function _list_parameters_all(midcom_core_dbaobject $object)
     {
         if (!$object->guid)
         {
@@ -1428,13 +1437,13 @@ class midcom_baseclasses_core_dbobject
      *
      * The user needs both update and parameter manipulationpermission on the parent object for updates.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The Parameter Domain.
      * @param string $name The Parameter name.
      * @param string $value The Parameter value. If this is empty, the corresponding parameter is deleted.
      * @return bool Indicating success.
      */
-    public static function set_parameter($object, $domain, $name, $value)
+    public static function set_parameter(midcom_core_dbaobject $object, $domain, $name, $value)
     {
         if (! $object->guid)
         {
@@ -1452,8 +1461,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:parameters', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:parameters'))
         {
             debug_add("Failed to set parameters, midgard:update or midgard:parameters on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1461,26 +1470,26 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   isset(self::$parameter_cache[$object->guid])
-            && is_array(self::$parameter_cache[$object->guid])
-            && isset(self::$parameter_cache[$object->guid][$domain]))
+        // Set via MgdSchema API directly
+        if (!$object->__object->parameter($domain, $name, (string) $value))
         {
-            // Invalidate run-time cache
-            unset(self::$parameter_cache[$object->guid][$domain]);
+            return false;
         }
 
-        // Set via MgdSchema API directly
-        $result = $object->__object->parameter($domain, $name, (string) $value);
+        if (isset(self::$parameter_cache[$object->guid][$domain]))
+        {
+            self::$parameter_cache[$object->guid][$domain][$name] = $value;
+        }
 
         // Don't store parameter changes to activity stream
         $original_use_activitystream = $object->_use_activitystream;
         $object->_use_activitystream = false;
 
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
 
         $object->_use_activitystream = $original_use_activitystream;
 
-        return $result;
+        return true;
     }
 
     /**
@@ -1494,16 +1503,16 @@ class midcom_baseclasses_core_dbobject
      *
      * The user needs both update and parameter manipulationpermission on the parent object for updates.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The Parameter Domain.
      * @param string $name The Parameter name.
      * @return bool Indicating success.
      */
-    public static function delete_parameter($object, $domain, $name)
+    public static function delete_parameter(midcom_core_dbaobject $object, $domain, $name)
     {
         if (! $object->guid)
         {
-            debug_add('Cannot set parameters on a non-persistant object.', MIDCOM_LOG_WARN);
+            debug_add('Cannot delete parameters on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
         }
         if (   empty($domain)
@@ -1517,8 +1526,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:parameters', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:parameters'))
         {
             debug_add("Failed to delete parameters, midgard:update or midgard:parameters on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1541,7 +1550,7 @@ class midcom_baseclasses_core_dbobject
         $original_use_activitystream = $object->_use_activitystream;
         $object->_use_activitystream = false;
 
-        $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
 
         $object->_use_activitystream = $original_use_activitystream;
 
@@ -1555,20 +1564,18 @@ class midcom_baseclasses_core_dbobject
      * You need privilege access to get this information (midgard:read (tested during
      * construction) and midgard:privileges) otherwise, the call will fail.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return Array A list of midcom_core_privilege objects or false on failure.
      */
-    public static function get_privileges($object)
+    public static function get_privileges(midcom_core_dbaobject $object)
     {
-        if (! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (!$object->can_do('midgard:privileges'))
         {
             debug_add('Could not query the privileges, permission denied.', MIDCOM_LOG_WARN);
             return false;
         }
 
-        $result = midcom_core_privilege::get_all_privileges($object->guid);
-
-        return $result;
+        return midcom_core_privilege::get_all_privileges($object->guid);
     }
 
     /**
@@ -1579,7 +1586,7 @@ class midcom_baseclasses_core_dbobject
      * You can either pass a ready made privilege record or a privilege/assignee/value
      * combination suitable for usage with create_new_privilege_object() (see there).
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param mixed $privilege Either the full privilege object (midcom_core_privilege) to set or the name of the privilege (string).
      *     If the name was specified, the other parameters must be specified as well.
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW (invalid if $privilege is a midcom_core_privilege).
@@ -1590,10 +1597,10 @@ class midcom_baseclasses_core_dbobject
      * @return bool Indicating success.
      * @see midcom_services_auth
      */
-    public static function set_privilege($object, $privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
+    public static function set_privilege(midcom_core_dbaobject $object, $privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (   ! $object->can_do('midgard:update')
+            || ! $object->can_do('midgard:privileges'))
         {
             debug_add("Failed to set a privilege on object object, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1624,7 +1631,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Unset a privilege on an object (e.g. set it to INHERIT).
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param mixed $privilege Either the full privilege object (midcom_core_privilege) to set or the name of the privilege (string).
      *     If the name was specified, the other parameters must be specified as well.
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
@@ -1633,10 +1640,10 @@ class midcom_baseclasses_core_dbobject
      *     (invalid if $privilege is a midcom_core_privilege).
      * @return bool Indicating Success.
      */
-    public static function unset_privilege($object, $privilege, $assignee = null, $classname = '')
+    public static function unset_privilege(midcom_core_dbaobject $object, $privilege, $assignee = null, $classname = '')
     {
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:privileges'))
         {
             debug_add("Failed to unset a privilege on object object, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1645,13 +1652,13 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if ($_MIDCOM->auth->user === null)
+            if (midcom::get('auth')->user === null)
             {
                 $assignee = 'EVERYONE';
             }
             else
             {
-                $assignee = $_MIDCOM->auth->user;
+                $assignee = midcom::get('auth')->user;
             }
         }
 
@@ -1678,16 +1685,16 @@ class midcom_baseclasses_core_dbobject
     /**
      * Looks up a privilege by its parameters.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $privilege The name of the privilege.
      * @param mixed $assignee Either a valid magic assignee (SELF, EVERYONE, USERS, ANONYMOUS), a midcom_core_user or a
      *     midcom_core_group object or subtype thereof.
      * @param string $classname An optional class name to which a SELF privilege is restricted to.
      * @return midcom_core_privilege The privilege record from the database.
      */
-    public static function get_privilege($object, $privilege, $assignee, $classname = '')
+    public static function get_privilege(midcom_core_dbaobject $object, $privilege, $assignee, $classname = '')
     {
-        if (! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (!$object->can_do('midgard:privileges'))
         {
             debug_add("Failed to get a privilege, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1706,10 +1713,10 @@ class midcom_baseclasses_core_dbobject
     /**
      * Unsets all privilege on an object .
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function unset_all_privileges($object)
+    public static function unset_all_privileges(midcom_core_dbaobject $object)
     {
         $privileges = $object->get_privileges();
         if (! $privileges)
@@ -1733,11 +1740,11 @@ class midcom_baseclasses_core_dbobject
      * If multiple attachments match the name (should not happen in reality), the
      * first match will be returned.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $name The name of the attachment to look up.
      * @return midcom_db_attachment The attachment found, or false on failure.
      */
-    public static function get_attachment($object, $name)
+    public static function get_attachment(midcom_core_dbaobject $object, $name)
     {
         if (! $object->id)
         {
@@ -1763,11 +1770,11 @@ class midcom_baseclasses_core_dbobject
      * If multiple attachments match the name (should not happen in reality), the
      * first match will be deleted.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $name The name of the attachment to delete.
      * @return bool Indicating success.
      */
-    public static function delete_attachment($object, $name)
+    public static function delete_attachment(midcom_core_dbaobject $object, $name)
     {
         $attachment = $object->get_attachment($name);
 
@@ -1777,8 +1784,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:attachments', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:attachments'))
         {
             debug_add("Failed to set parameters, midgard:update or midgard:attachments on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1791,22 +1798,22 @@ class midcom_baseclasses_core_dbobject
     /**
      * Creates a new attachment at the current object and returns it for usage.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $name The name of the attachment.
      * @param string $title The title of the attachment.
      * @param string $mimetype The MIME-Type of the attachment.
      * @return midcom_db_attachment The created attachment or false on failure.
      */
-    public static function create_attachment($object, $name, $title, $mimetype)
+    public static function create_attachment(midcom_core_dbaobject $object, $name, $title, $mimetype)
     {
         if (! $object->id)
         {
-            debug_add('Cannot retrieve attachments on a non-persistant object.', MIDCOM_LOG_WARN);
+            debug_add('Cannot create attachments on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
         }
 
-        if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
-            || ! $_MIDCOM->auth->can_do('midgard:attachments', $object))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:attachments'))
         {
             debug_add("Failed to set parameters, midgard:update or midgard:attachments on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1836,10 +1843,10 @@ class midcom_baseclasses_core_dbobject
      * Returns a prepared query builder that is already limited to the attachments of the given
      * object.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return midgard_query_builder Prepared Query Builder or false on failure.
      */
-    public static function get_attachment_qb($object)
+    public static function get_attachment_qb(midcom_core_dbaobject $object)
     {
         if (!$object->id)
         {
@@ -1847,7 +1854,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_attachment');
+        $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_attachment');
         $qb->add_constraint('parentguid', '=', $object->guid);
 
         return $qb;
@@ -1857,10 +1864,10 @@ class midcom_baseclasses_core_dbobject
      * Returns a complete list of attachments for the current object. If there are no
      * attachments, an empty array is returned.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return Array A list of midcom_db_attachment objects or false on failure.
      */
-    public static function list_attachments($object)
+    public static function list_attachments(midcom_core_dbaobject $object)
     {
         if (! $object->id)
         {
@@ -1886,7 +1893,7 @@ class midcom_baseclasses_core_dbobject
      *
      * This call requires the <i>midgard:privileges</i> privilege.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $name The name of the privilege to add.
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW.
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
@@ -1894,9 +1901,9 @@ class midcom_baseclasses_core_dbobject
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
      * @return midcom_core_privilege The newly created privilege record or false on failure.
      */
-    public static function create_new_privilege_object($object, $name, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
+    public static function create_new_privilege_object(midcom_core_dbaobject $object, $name, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
-        if (! $_MIDCOM->auth->can_do('midgard:privileges', $object))
+        if (!$object->can_do('midgard:privileges'))
         {
             debug_add('Could not create a new privilege, permission denied.', MIDCOM_LOG_WARN);
             return false;
@@ -1904,13 +1911,13 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if ($_MIDCOM->auth->user === null)
+            if (midcom::get('auth')->user === null)
             {
                 $assignee = 'EVERYONE';
             }
             else
             {
-                $assignee =& $_MIDCOM->auth->user;
+                $assignee =& midcom::get('auth')->user;
             }
         }
 
@@ -1936,10 +1943,10 @@ class midcom_baseclasses_core_dbobject
      * This is a metadata helper that maps to the metadata onsite visibility
      * check function, making checks against visibility far easier.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating visibility state.
      */
-    public static function is_object_visible_onsite($object)
+    public static function is_object_visible_onsite(midcom_core_dbaobject $object)
     {
         $metadata =& $object->metadata;
         if (! $metadata)
@@ -1956,26 +1963,26 @@ class midcom_baseclasses_core_dbobject
      * Returns the GUID of the parent object. Tries to utilize the Memcache
      * data, loading the actual information only if it is not cached.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating visibility state.
      * @see get_parent_guid_uncached()
      * @see midcom_services_cache_module_memcache::lookup_parent_guid()
      */
-    public static function get_parent_guid($object)
+    public static function get_parent_guid(midcom_core_dbaobject $object)
     {
-        return $_MIDCOM->dbfactory->get_parent_guid($object);
+        return midcom::get('dbfactory')->get_parent_guid($object);
     }
 
     /**
      * Returns the the parent object. Tries to utilize the Memcache
      * data, loading the actual information only if it is not cached.
      *
-     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating visibility state.
      * @see get_parent_guid()
      * @todo rethink this, IMO we should trust midgard cores get_parent and then just do the object conversion if neccessary since this can return stale objects and other nastiness
      */
-    public static function get_parent($object)
+    public static function get_parent(midcom_core_dbaobject $object)
     {
         static $parents = array();
         static $parentlinks = array();
@@ -1996,7 +2003,7 @@ class midcom_baseclasses_core_dbobject
                 {
                     try
                     {
-                        $parents[$parent_guid] = $_MIDCOM->dbfactory->get_object_by_guid($parent_guid);
+                        $parents[$parent_guid] = midcom::get('dbfactory')->get_object_by_guid($parent_guid);
                     }
                     catch (midcom_error $e){}
                 }
@@ -2018,8 +2025,10 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for delete method
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
-    public static function delete_pre_checks($object)
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
+     */
+    public static function delete_pre_checks(midcom_core_dbaobject $object)
     {
         if (!$object->id)
         {
@@ -2027,7 +2036,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (! $_MIDCOM->auth->can_do('midgard:delete', $object))
+        if (!$object->can_do('midgard:delete'))
         {
             debug_add("Failed to delete object, delete privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);

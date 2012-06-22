@@ -65,12 +65,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * A special case is the visible_data array, which maps field names
      * to prepared values, which can be used in display directly. The
      * information returned is already HTML escaped.
-     *
-     * @access private
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['formmanager'] =& $this->_controller->formmanager;
+        $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['processing_msg'] = $this->_processing_msg;
         $this->_request_data['processing_msg_raw'] = $this->_processing_msg_raw;
     }
@@ -101,12 +99,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 break;
 
             case 'cancel':
-                $_MIDCOM->relocate('');
-                // This will exit.
+                return new midcom_response_relocate('');
         }
         $this->_prepare_request_data();
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get('lost password'));
+        midcom::get('head')->set_pagetitle($this->_l10n->get('lost password'));
     }
 
     /**
@@ -114,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _reset_password()
     {
-        if (! $_MIDCOM->auth->request_sudo($this->_component))
+        if (! midcom::get('auth')->request_sudo($this->_component))
         {
             throw new midcom_error('Failed to request sudo privileges.');
         }
@@ -122,7 +119,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $qb = midcom_db_person::new_query_builder();
         if (array_key_exists('username', $this->_controller->datamanager->types))
         {
-            $qb->add_constraint('username', '=', $this->_controller->datamanager->types['username']->value);
+            $user = midcom::get('auth')->get_user_by_name($this->_controller->datamanager->types['username']->value);
+            if (!$user)
+            {
+                midcom::get('auth')->drop_sudo();
+                throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
+            }
+            $qb->add_constraint('guid', '=', $user->guid);
         }
         if (array_key_exists('email', $this->_controller->datamanager->types))
         {
@@ -132,25 +135,23 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if (sizeof($results) != 1)
         {
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
         }
-
-        $user = new midcom_core_user($results[0]);
+        $person = $results[0];
+        $account = new midcom_core_account($person);
 
         // Generate a random password
         $length = max(8, $this->_config->get('password_minlength'));
         $password = org_openpsa_user_accounthelper::generate_password($length);
-
-        if (! $user->update_password($password, false))
+        $account->set_password($password);
+        if (!$account->save())
         {
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             throw new midcom_error("Could not update the password: " . midcom_connection::get_error_string());
         }
 
-        $person = $user->get_storage();
-
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
 
         $this->_send_reset_mail($person, $password);
     }

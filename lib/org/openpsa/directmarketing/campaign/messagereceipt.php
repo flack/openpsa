@@ -23,26 +23,6 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
     const RECEIVED = 8502;
     const FAILURE = 8503;
 
-    public function __construct($id = null)
-    {
-        parent::__construct($id);
-    }
-
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function _on_creating()
     {
         if (!$this->timestamp)

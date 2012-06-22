@@ -101,7 +101,6 @@
  * It will be rendered in the toolbar text as either underlining the key or stated in
  * parentheses behind the text.
  *
- *
  * <pre>
  * &lt;ul [class="$class"] [id="$id"]&gt;
  *   &lt;li class="(enabled|disabled)"&gt;
@@ -220,7 +219,7 @@ class midcom_helper_toolbar
 
         if (is_null($label))
         {
-            $label = $_MIDCOM->i18n->get_string('help', 'midcom.admin.help');
+            $label = midcom::get('i18n')->get_string('help', 'midcom.admin.help');
         }
 
         $this->add_item
@@ -241,7 +240,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function will add an Item to the toolbar.
+     * This function will add an item to the toolbar.
      *
      * Set before to the index of the element before which you want to insert
      * the item or use -1 if you want to append an item. Alternatively,
@@ -296,7 +295,7 @@ class midcom_helper_toolbar
     function add_item_to_index($item, $index)
     {
         $item = $this->clean_item($item);
-        if (! array_key_exists($index, $this->items) )
+        if (! array_key_exists($index, $this->items))
         {
             debug_add("Insert of item {$item[MIDCOM_TOOLBAR_NAME]} into index $index failed");
             return false;
@@ -399,7 +398,7 @@ class midcom_helper_toolbar
             && ! preg_match('|^https?://|', $item[MIDCOM_TOOLBAR_URL]))
         {
             $item[MIDCOM_TOOLBAR_URL] =
-                  $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                  midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . $item[MIDCOM_TOOLBAR_URL];
         }
         return $item;
@@ -561,7 +560,7 @@ class midcom_helper_toolbar
         {
             debug_add("toolbar:update_item_url: We have a relative URL, transforming it...");
             $this->items[$index][MIDCOM_TOOLBAR_URL] =
-                  $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                  midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
                 . $url;
         }
         else
@@ -689,7 +688,7 @@ class midcom_helper_toolbar
                 $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
                 $label = $new_label;
             }
-            elseif ($_MIDCOM->i18n->get_current_language() == 'en')
+            else if (midcom::get('i18n')->get_current_language() == 'en')
             {
                 // Try lowercase too
                 $position = strpos($label, $accesskey_lower);
@@ -726,7 +725,7 @@ class midcom_helper_toolbar
             {
                 $output .= " title='{$item[MIDCOM_TOOLBAR_HELPTEXT]}'";
             }
-            if ( count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0 )
+            if (count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0)
             {
                 foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
                 {
@@ -798,9 +797,9 @@ class midcom_helper_toolbar
         if ($item[MIDCOM_TOOLBAR_ENABLED])
         {
             $output .= "  <form method=\"post\" action=\"{$item[MIDCOM_TOOLBAR_URL]}\">\n";
-            $output .= "    <button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
+            $output .= "    <div><button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
 
-            if ( count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0 )
+            if (count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0)
             {
                 foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
                 {
@@ -839,7 +838,7 @@ class midcom_helper_toolbar
                     $output .= "    <input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>\n";
                 }
             }
-            $output .= "  </form>\n";
+            $output .= "  </div></form>\n";
         }
 
         if (   array_key_exists(MIDCOM_TOOLBAR_SUBMENU, $item)
@@ -924,7 +923,7 @@ class midcom_helper_toolbar
      */
     function bind_to(&$object)
     {
-        $_MIDCOM->toolbars->bind_toolbar_to_object($this, $object);
+        midcom::get('toolbars')->bind_toolbar_to_object($this, $object);
     }
 }
 ?>

@@ -33,7 +33,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      */
     public function _handler_move($handler_id, array $args, array &$data)
     {
-        $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
 
         if (   !is_a($this->_object, 'midcom_db_topic')
             && !is_a($this->_object, 'midcom_db_article'))
@@ -46,8 +46,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (isset($_POST['move_to']))
         {
             $this->_move_object((int) $_POST['move_to']);
-            $_MIDCOM->relocate($_MIDCOM->permalinks->create_permalink($this->_object->guid));
-            // This will exit
+            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
@@ -62,9 +61,9 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         else
         {
             // This is a regular object, bind to view
-            $_MIDCOM->bind_view_to_object($this->_object);
+            $this->bind_view_to_object($this->_object);
 
-            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $object_label);
+            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
 
             $data['current_folder'] = new midcom_db_topic($this->_object->topic);
@@ -72,11 +71,11 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
         $this->add_breadcrumb("__ais/folder/move/{$this->_object->guid}/", $this->_l10n->get('move'));
 
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('move %s', 'midcom.admin.folder'), $object_label);
-        $_MIDCOM->set_pagetitle($data['title']);
+        $data['title'] = sprintf(midcom::get('i18n')->get_string('move %s', 'midcom.admin.folder'), $object_label);
+        midcom::get('head')->set_pagetitle($data['title']);
 
         // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
+        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
     }
@@ -103,7 +102,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             {
                 throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
             }
-            if (!midcom_admin_folder_folder_management::is_child_listing_finite($this->_object))
+            if (!midcom_admin_folder_management::is_child_listing_finite($this->_object))
             {
                 $this->_object->up = $up;
                 $this->_object->name = $name;

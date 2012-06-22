@@ -87,7 +87,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.sales');
 
-        $this->_product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION;
+        $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();
 
         $formdata = array
@@ -108,7 +108,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
         $deliverable = $results[0];
         $this->register_object($deliverable);
-        $this->assertEquals(ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION, $deliverable->orgOpenpsaObtype);
+        $this->assertEquals(org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION, $deliverable->orgOpenpsaObtype);
 
         midcom::get('auth')->drop_sudo();
     }

@@ -17,17 +17,15 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      * Comment we are currently working with.
      *
      * @var Array
-     * @access private
      */
-    var $_comment = null;
+    private $_comment = null;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
-     * @access private
      */
-    var $_objectguid = null;
+    private $_objectguid = null;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -61,53 +59,13 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         if (!$this->_comment->can_do('midgard:update'))
         {
             $this->_comment->_sudo_requested = true;
-            $_MIDCOM->auth->request_sudo('net.nehmer.comments');
+            midcom::get('auth')->request_sudo('net.nehmer.comments');
         }
 
         switch ($_POST['mark'])
         {
             case 'abuse':
-                // Report the abuse
-                $moderators = $this->_config->get('moderators');
-                if (   $this->_comment->report_abuse()
-                    && $moderators)
-                {
-                    // Prepare notification message
-                    $_MIDCOM->load_library('org.openpsa.notifications');
-                    $message = array();
-                    $message['title'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
-                    $message['content'] = '';
-                    $logs = $this->_comment->get_logs();
-                    if (count($logs) > 0)
-                    {
-                        $message['content'] .= $data['l10n']->get('moderation history').":\n\n";
-                        foreach ($logs as $time => $log)
-                        {
-                            $reported = strftime('%x %X', strtotime("{$time}Z"));
-                            $message['content'] .= $data['l10n']->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $data['l10n']->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
-                        }
-                    }
-                    $message['content'] = "\n\n" . $_MIDCOM->permalinks->create_permalink($this->_comment->objectguid);
-
-                    $message['abstract'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
-                    $message['abstract'] = " " . $_MIDCOM->permalinks->create_permalink($this->_comment->objectguid);
-
-                    // Notify moderators
-                    $moderator_guids = explode('|', $moderators);
-                    foreach ($moderator_guids as $moderator_guid)
-                    {
-                        if (empty($moderator_guid))
-                        {
-                            continue;
-                        }
-                        org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
-                    }
-                }
-                if (isset($_POST['return_url']))
-                {
-                    $_MIDCOM->relocate($_POST['return_url']);
-                    // This will exit.
-                }
+                $this->_report_abuse($data);
                 break;
 
             case 'confirm_abuse':
@@ -116,7 +74,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 $this->_comment->confirm_abuse();
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_comment->guid);
 
                 break;
@@ -127,7 +85,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 $this->_comment->confirm_junk();
 
                 // Update the index
-                $indexer = $_MIDCOM->get_service('indexer');
+                $indexer = midcom::get('indexer');
                 $indexer->delete($this->_comment->guid);
 
                 break;
@@ -139,28 +97,63 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
                 if (isset($_POST['return_url']))
                 {
-                    $_MIDCOM->relocate($_POST['return_url']);
-                    // This will exit.
+                    return new midcom_response_relocate($_POST['return_url']);
                 }
 
-                $_MIDCOM->relocate("read/{$this->_comment->guid}/");
-                // This will exit
+                return new midcom_response_relocate("read/{$this->_comment->guid}/");
         }
         if ($this->_comment->_sudo_requested)
         {
             $this->_comment->_sudo_requested = false;
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
         }
 
 
         if (isset($_POST['return_url']))
         {
-            $_MIDCOM->relocate($_POST['return_url']);
-            // This will exit.
+            return new midcom_response_relocate($_POST['return_url']);
         }
 
-        $_MIDCOM->relocate('');
-        // This will exit.
+        return new midcom_response_relocate('');
+    }
+
+    private function _report_abuse($data)
+    {
+        // Report the abuse
+        $moderators = $this->_config->get('moderators');
+        if (   $this->_comment->report_abuse()
+            && $moderators)
+        {
+            // Prepare notification message
+            $message = array();
+            $message['title'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
+            $message['content'] = '';
+            $logs = $this->_comment->get_logs();
+            if (count($logs) > 0)
+            {
+                $message['content'] .= $data['l10n']->get('moderation history').":\n\n";
+                foreach ($logs as $time => $log)
+                {
+                    $reported = strftime('%x %X', strtotime("{$time}Z"));
+                    $message['content'] .= $data['l10n']->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $data['l10n']->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
+                }
+            }
+            $message['content'] = "\n\n" . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
+
+            $message['abstract'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
+            $message['abstract'] = " " . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
+
+            // Notify moderators
+            $moderator_guids = explode('|', $moderators);
+            foreach ($moderator_guids as $moderator_guid)
+            {
+                if (empty($moderator_guid))
+                {
+                    continue;
+                }
+                org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
+            }
+        }
     }
 }
 ?>

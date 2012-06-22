@@ -14,28 +14,28 @@ require_once 'HTTP/Request2.php';
 /**
  * Solr implementation of the indexer backend.
  *
- * This works by communicating with solr over http requests. It uses the same tcphost
- * and tcpport settings as the old TCP indexer used.
+ * This works by communicating with solr over http requests.
  *
- * @package midcom.services
  * @see midcom_services_indexer
- * @see midcom_services_indexer_backend
+ * @package midcom.services
  */
 class midcom_services_indexer_backend_solr implements midcom_services_indexer_backend
 {
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
      */
-    var $_index_name = null;
+    private $_index_name = null;
 
     /**
      * The xml factory class
+     *
      * @var midcom_services_indexer_solrDocumentFactory
      */
     private $factory = null;
 
     /**
      * The http_request wrapper
+     *
      * @var midcom_services_indexer_solrRequest
      */
     private $request = null;
@@ -72,16 +72,16 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * @param Array $documents A list of midcom_services_indexer_document objects.
      * @return boolean Indicating success.
      */
-    function index ($documents)
+    public function index($documents)
     {
         $this->factory->reset();
         if (!is_array($documents))
         {
-            $documents = array( $documents );
+            $documents = array($documents);
         }
 
         $added = false;
-        foreach ($documents as $document )
+        foreach ($documents as $document)
         {
             if (!$document->actually_index)
             {
@@ -100,47 +100,48 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     }
 
     /**
-     * Removes the document with the given resource identifier from the index.
+     * Removes the document(s) with the given resource identifier(s) from the index.
      *
-     * @param string $RI The resource identifier of the document that should be deleted.
+     * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    function delete ($RI)
+    public function delete($RIs)
     {
-        $this->factory->delete($RI);
+        $this->factory->reset();
+        if (!is_array($RIs))
+        {
+            $RIs = array($RIs);
+        }
+        foreach ($RIs as $RI)
+        {
+            $this->factory->delete($RI);
+        }
         return $this->request->execute();
     }
 
     /**
-     * Clear the index completely.
-     * This will drop the current index.
-     * NB: It is probably better to just stop the indexer and delete the data/index directory!
+     * Clear the index completely or by constraint.
+	 *
      * @return boolean Indicating success.
      */
-    function delete_all()
+    function delete_all($constraint)
     {
-        $this->factory->delete_all();
-        return $this->request->execute(true);
+        $this->factory->delete_all($constraint);
+        return $this->request->execute(empty($constraint));
     }
 
     /**
      * Query the index and, if set, restrict the query by a given filter.
+     *
      * @param string $query The query, which must suite the backends query syntax.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
      * @return Array An array of documents matching the query, or false on a failure.
      */
-    function query ($query, $filter)
+    public function query($query, midcom_services_indexer_filter $filter = null)
     {
         if ($filter !== null)
         {
-            if ($filter->type == 'datefilter')
-            {
-                $format = "Y-m-dTH:i:s"  ; //1995-12-31T23:59:59Z
-                $query .= sprintf(" AND %s:[%s TO %s]",
-                                    $filter->get_field(),
-                                    gmdate($format, $filter->get_start()) . "Z",
-                                    gmdate($format, ($filter->get_end() == 0 ) ? time() : $filter->get_end()) . "Z");
-            }
+            $query .= ' AND ' . $filter->get_query_string();
         }
 
         $url = "http://{$GLOBALS['midcom_config']['indexer_xmltcp_host']}:{$GLOBALS['midcom_config']['indexer_xmltcp_port']}/solr/select";
@@ -160,10 +161,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         if (!empty($this->_index_name))
         {
             $url->setQueryVariable('fq', '__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"');
-        }
-        if (isset($_REQUEST['debug']))
-        {
-            var_dump($url);
         }
 
         $request->setHeader('Accept-Charset', 'UTF-8');
@@ -217,7 +214,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             if (   isset($doc->source)
                 && mgd_is_guid($doc->source))
             {
-                $_MIDCOM->cache->content->register($doc->source);
+                midcom::get('cache')->content->register($doc->source);
             }
             */
             $result[] = $doc;
@@ -239,7 +236,7 @@ class midcom_services_indexer_solrDocumentFactory
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
      */
-    var $_index_name = null;
+    private $_index_name = null;
 
     /**
      * The xml document to post.
@@ -302,32 +299,38 @@ class midcom_services_indexer_solrDocumentFactory
 
     /**
      * Deletes one element
+     *
      * @param string $id the element id
      */
     public function delete($id)
     {
-        $this->reset();
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
-        $id_element = $this->xml->createElement('id');
-        $this->xml->documentElement->appendChild($id_element);
-        $id_element->nodeValue = $id;
+        $query = $this->xml->createElement('query');
+        $this->xml->documentElement->appendChild($query);
+        $query->nodeValue = 'RI:' . $id . '*';
+        if (!empty($this->_index_name))
+        {
+            $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
+        }
     }
 
     /**
      * Deletes all elements with the id defined
      * (this should be all midgard documents)
      */
-    public function delete_all()
+    public function delete_all($constraint)
     {
         $this->reset();
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
-        $element = $this->xml->createElement('delete');
-        $this->xml->documentElement->appendChild($element);
-        $query = $this->xml->createElement('delete');
-        $element->appendChild($query);
-        $query->nodeValue = "id:[ *TO* ]";
+        $query = $this->xml->createElement('query');
+        $this->xml->documentElement->appendChild($query);
+        $query->nodeValue = "id:[ * TO * ]";
+        if (!empty($constraint))
+        {
+            $query->nodeValue .= ' AND ' . $constraint;
+        }
         if (!empty($this->_index_name))
         {
             $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
@@ -339,11 +342,6 @@ class midcom_services_indexer_solrDocumentFactory
      */
     public function to_xml()
     {
-        if (isset($_REQUEST['debug']))
-        {
-            echo $this->xml->saveXML();
-            _midcom_stop_request();
-        }
         return $this->xml->saveXML();
     }
 }
@@ -358,7 +356,9 @@ class midcom_services_indexer_solrDocumentFactory
 class midcom_services_indexer_solrRequest
 {
     /**
-     * the HTTP_Request2 object
+     * The HTTP_Request2 object
+     *
+     * @var HTTP_Request2
      */
     var $request = null;
 
@@ -376,7 +376,6 @@ class midcom_services_indexer_solrRequest
     {
         return $this->do_post($this->factory->to_xml(), $optimize);
     }
-
 
     /**
      * Posts the xml to the suggested url using HTTP_Request2.
@@ -396,7 +395,14 @@ class midcom_services_indexer_solrRequest
             return false;
         }
 
-        $this->request->setBody('<commit/>');
+        if ($optimize)
+        {
+            $this->request->setBody('<optimize/>');
+        }
+        else
+        {
+            $this->request->setBody('<commit/>');
+        }
 
         if (!$this->_send_request())
         {
@@ -437,6 +443,5 @@ class midcom_services_indexer_solrRequest
         }
         return true;
     }
-
 }
 ?>

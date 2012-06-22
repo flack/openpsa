@@ -21,13 +21,13 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
     public function _handler_emailimport($handler_id, array $args, array &$data)
     {
         //Content-Type
-        $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->cache->content->content_type('text/plain');
+        midcom::get()->skip_page_style = true;
+        midcom::get('cache')->content->content_type('text/plain');
 
         //Make sure we have the components we use and the Mail_mimeDecode package
-        if (!$_MIDCOM->load_library('org.openpsa.mail'))
+        if (!class_exists('org_openpsa_mail_decoder'))
         {
-            throw new midcom_error('library org.openpsa.mail could not be loaded.');
+            throw new midcom_error('org.openpsa.mail decoder could not be loaded.');
         }
 
         if (!class_exists('Mail_mimeDecode'))
@@ -76,7 +76,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             }
         }
 
-        $_MIDCOM->auth->request_sudo();
+        midcom::get('auth')->request_sudo();
         //TODO: Create wikinote
         $wikipage = new net_nemein_wiki_wikipage();
         $wikipage->topic = $this->_topic->id;
@@ -209,7 +209,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             }
         }
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
     }
 
     /**

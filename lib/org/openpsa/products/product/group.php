@@ -15,20 +15,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_products_product_group';
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
+    const TYPE_SMART = 1000;
 
     public function _on_creating()
     {
@@ -105,11 +92,11 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             // TODO: use reflection to see what kind of property this is ?
             if ($keyproperty == 'id')
             {
-                $ret[0] = $_MIDCOM->i18n->get_string('toplevel', 'org.openpsa.products');
+                $ret[0] = midcom::get('i18n')->get_string('toplevel', 'org.openpsa.products');
             }
             else
             {
-                $ret[''] = $_MIDCOM->i18n->get_string('toplevel', 'org.openpsa.products');
+                $ret[''] = midcom::get('i18n')->get_string('toplevel', 'org.openpsa.products');
             }
         }
         if (mgd_is_guid($up))
@@ -127,7 +114,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         {
             $mc->add_value_property($keyproperty);
         }
-        foreach($label_fields as $fieldname)
+        foreach ($label_fields as $fieldname)
         {
             if (   $fieldname == 'id'
                 || $fieldname == $keyproperty)
@@ -147,7 +134,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         $mc->add_order('title');
         $mc->execute();
         $mc_keys = $mc->list_keys();
-        foreach($mc_keys as $mc_key => $dummy)
+        foreach ($mc_keys as $mc_key => $dummy)
         {
             $id = $mc->get_subkey($mc_key, 'id');
             $key = $mc->get_subkey($mc_key, $keyproperty);
@@ -166,54 +153,14 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return $ret;
     }
 
-    function list_groups_by_up($up = 0)
+    public function get_root()
     {
-        //FIXME rewrite to use collector, rewrite to use (per request) result caching
-        static $group_list = array();
-
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $qb->add_constraint('up', '=', $up);
-        $qb->add_order('code');
-        $qb->add_order('title');
-        $groups = $qb->execute();
-
-        foreach ($groups as $group)
+        $root = $this;
+        while ($root->up != 0)
         {
-            if (   !isset($group_list['id'])
-                || !is_array($group_list['id']))
-            {
-                $group_list['id'] = array();
-            }
-            $group_list['id'][$group->id] = "{$group->title}";
+            $root = self::get_cached($root->up);
         }
-
-        return $group_list['id'];
-    }
-
-    function list_groups_parent($up = 0)
-    {
-        //FIXME rewrite to use collector, rewrite to use (per request) result caching
-        static $group_list = array();
-
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        if (midcom_connection::is_admin())
-        {
-            $qb->add_constraint('up', '=', $up);
-        }
-        else
-        {
-            $qb->add_constraint('id', '=', $up);
-        }
-        $qb->add_order('code');
-        $qb->add_order('title');
-        $groups = $qb->execute();
-
-        foreach ($groups as $group)
-        {
-            $group_list[$group->code] = "{$group->title}";
-        }
-
-        return $group_list;
+        return $root;
     }
 }
 ?>

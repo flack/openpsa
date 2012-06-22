@@ -42,21 +42,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
     }
 
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
-
-    static function &get_cached($src)
-    {
-        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
-    }
-
     public function _on_loaded()
     {
         $this->_unserialize_rules();
@@ -158,7 +143,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;
         }
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', '');
         $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_started', time());
 
@@ -168,7 +153,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
             debug_add('Failed to resolve rules', MIDCOM_LOG_ERROR);
             debug_print_r("this->rules has value:", $this->rules);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return false;
         }
         //returns now the result array of collector instead array of objects of query builder
@@ -177,17 +162,8 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         {
             $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
             debug_add('Failure when executing rules based search', MIDCOM_LOG_ERROR);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return false;
-        }
-
-        //Create some useful maps
-        $wanted_persons = array();
-        $rule_persons_id_map = array();
-        foreach ($rule_persons as $id => $person)
-        {
-            $wanted_persons[] = $id;
-            $rule_persons_id_map[$id] = $person['guid'];
         }
 
         //Delete (normal) members that should not be here anymore
@@ -195,9 +171,9 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $qb_unwanted->add_constraint('campaign', '=', $this->id);
         $qb_unwanted->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
 
-        if (sizeof($wanted_persons) > 0)
+        if (sizeof($rule_persons) > 0)
         {
-            $qb_unwanted->add_constraint('person', 'NOT IN', $wanted_persons);
+            $qb_unwanted->add_constraint('person', 'NOT IN', array_keys($rule_persons));
         }
 
         $uwret = $qb_unwanted->execute();
@@ -207,8 +183,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             foreach ($uwret as $member)
             {
                 debug_add("Deleting unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}");
-                $delret = $member->delete();
-                if (!$delret)
+                if (!$member->delete())
                 {
                     debug_add("Failed to delete unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
@@ -218,6 +193,10 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         //List current non-tester members (including unsubscribed etc), and filter those out of rule_persons
         $qb_current = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_current->add_constraint('campaign', '=', $this->id);
+        if (sizeof($rule_persons) > 0)
+        {
+            $qb_current->add_constraint('person', 'IN', array_keys($rule_persons));
+        }
         $qb_current->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $cret = $qb_current->execute();
         if (   is_array($cret)
@@ -226,13 +205,8 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             foreach ($cret as $member)
             {
                 //Filter the existing member from rule_persons (if present, for example unsubscribed members might not be)
-                if (   !array_key_exists($member->person, $rule_persons_id_map)
-                    || !array_key_exists($rule_persons_id_map[$member->person], $rule_persons))
-                {
-                    continue;
-                }
-                debug_add("Removing person #{$rule_persons[$rule_persons_id_map[$member->person]]->id} ({$rule_persons[$rule_persons_id_map[$member->person]]->rname}) from rule_persons list, already a member");
-                unset($rule_persons[$rule_persons_id_map[$member->person]]);
+                debug_add("Removing person #{$member->person} ({$rule_persons[$member->person]['lastname']}, {$rule_persons[$member->person]['firstname']}) from rule_persons list, already a member");
+                unset($rule_persons[$member->person]);
             }
         }
 
@@ -245,8 +219,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
             $member->campaign = $this->id;
             $member->person = $id;
-            $mcret = $member->create();
-            if (!$mcret)
+            if (!$member->create())
             {
                 debug_add("Failed to create new member (linked to person #{$id}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
@@ -255,7 +228,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         //All done, set last updated timestamp
         $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_updated', time());
 
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 
@@ -278,16 +251,16 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;
         }
-        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         $stat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_update_campaign_members', array('campaign_guid' => $this->guid));
         if (!$stat)
         {
             debug_add('Failed to register an AT job for members update, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            $_MIDCOM->auth->drop_sudo();
+            midcom::get('auth')->drop_sudo();
             return false;
         }
         $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_scheduled', $time);
-        $_MIDCOM->auth->drop_sudo();
+        midcom::get('auth')->drop_sudo();
         return true;
     }
 

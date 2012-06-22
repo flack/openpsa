@@ -13,34 +13,19 @@
  */
 class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_handler
 {
-    var $type = '';
-
-    public function _on_initialize()
-    {
-        // Ensure we get the correct styles
-        $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
-        $_MIDCOM->skip_page_style = true;
-    }
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-    }
+    var $type;
 
     private function _prepare_qb($dummy_object)
     {
         // Figure correct MidCOM DBA class to use and get midcom QB
         $qb = false;
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (empty($midcom_dba_classname))
         {
             debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
             return $qb;
         }
-        if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
+        if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
             return $qb;
@@ -122,12 +107,12 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     {
         // Figure out the component
         $dummy = new $this->type;
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy);
         if (!$midcom_dba_classname)
         {
             throw new midcom_error("Failed to load DBA class for type {$this->type}.");
         }
-        $component = $_MIDCOM->dbclassloader->get_component_for_class($midcom_dba_classname);
+        $component = midcom::get('dbclassloader')->get_component_for_class($midcom_dba_classname);
         $help_component = $component;
         if ($component == 'midcom')
         {
@@ -151,46 +136,11 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     public function _handler_type($handler_id, array $args, array &$data)
     {
         $this->type = $args[0];
-        $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-        if (!$_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type))
+        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        if (!midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->type))
         {
             throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
         }
-
-        $this->_prepare_request_data();
-
-        $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
-        $_MIDCOM->set_pagetitle($data['view_title']);
-
-        $this->_find_component();
-        $data['documentation_component'] = $data['component'];
-        if ($data['component'] == 'midgard')
-        {
-            $data['documentation_component'] = 'midcom';
-        }
-        else
-        {
-            $data['asgard_toolbar']->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string($data['component'], $data['component']),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
-                )
-            );
-        }
-
-        $data['asgard_toolbar']->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('type documentation', 'midgard.admin.asgard'),
-                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-            )
-        );
 
         if (isset($_GET['search']))
         {
@@ -199,36 +149,45 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             //If there is exactly one result, go there directly
             if (sizeof($data['search_results']) == 1)
             {
-                  $_MIDCOM->relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
-                  //this will exit
+                return new midcom_response_relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
             }
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
+
+        $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
+        midcom::get('head')->set_pagetitle($data['view_title']);
+
+        $this->_find_component();
+        $data['documentation_component'] = $data['component'];
+        if ($data['component'] == 'midgard')
+        {
+            $data['documentation_component'] = 'midcom';
+        }
+
+        $this->_prepare_toolbar($data);
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
     }
 
-    private function _prepare_toolbar()
+    private function _prepare_toolbar(&$data)
     {
-        $toolbar = new midcom_helper_toolbar();
-
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, $this->type))
+        if (midcom::get('auth')->can_user_do('midgard:create', null, $this->type))
         {
-            $toolbar->add_item
+            $data['asgard_toolbar']->add_item
             (
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($this->type)),
+                    MIDCOM_TOOLBAR_LABEL => sprintf(midcom::get('i18n')->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($this->type)),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . midcom_helper_reflector_tree::get_create_icon($this->type),
                 )
             );
         }
 
-        if ($_MIDCOM->auth->admin)
+        if (midcom::get('auth')->admin)
         {
             $qb = new midgard_query_builder($this->type);
             $qb->include_deleted();
@@ -236,30 +195,51 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $deleted = $qb->count();
             if ($deleted > 0)
             {
-                $toolbar->add_item
+                $data['asgard_toolbar']->add_item
                 (
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('%s deleted items', 'midgard.admin.asgard'), $deleted),
+                        MIDCOM_TOOLBAR_LABEL => sprintf(midcom::get('i18n')->get_string('%s deleted items', 'midgard.admin.asgard'), $deleted),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
                     )
                 );
             }
             else
             {
-                $toolbar->add_item
+                $data['asgard_toolbar']->add_item
                 (
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('trash is empty', 'midgard.admin.asgard'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('trash is empty', 'midgard.admin.asgard'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     )
                 );
             }
         }
-        return $toolbar;
+        if ($data['component'] != 'midgard')
+        {
+            $data['asgard_toolbar']->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string($data['component'], $data['component']),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
+                )
+            );
+        }
+        $data['asgard_toolbar']->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('type documentation', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
+            )
+        );
     }
 
     /**
@@ -284,9 +264,9 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         midcom_show_style('midgard_admin_asgard_type');
 
         $data['used_types'][] = $data['type'];
-        $data['used_types'][] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type);
+        $data['used_types'][] = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->type);
 
-        $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $this->_show_headers = false;
 

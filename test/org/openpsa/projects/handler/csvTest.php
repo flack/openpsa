@@ -25,11 +25,10 @@ class org_openpsa_projects_handler_csvTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.projects');
         $project = $this->create_object('org_openpsa_projects_project');
         $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
-        $report = $this->create_object('org_openpsa_projects_hour_report_dba', array('task' => $task->id));
 
-        $_POST['guids'] = array($report->guid);
+        $_POST['guids'] = array($task->guid);
 
-        $data = $this->run_handler('org.openpsa.projects', array('csv', 'hours'));
+        $data = $this->run_handler('org.openpsa.projects', array('csv', 'task'));
         $this->assertEquals('csv', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();

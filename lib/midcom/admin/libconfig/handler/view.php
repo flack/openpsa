@@ -25,7 +25,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
      */
     private function _update_breadcrumb($name)
     {
-        $label = $_MIDCOM->i18n->get_string($name, $name);
+        $label = midcom::get('i18n')->get_string($name, $name);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $this->_request_data['view_title']);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/view/{$name}", $label);
@@ -38,7 +38,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.libconfig/edit/{$data['name']}",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             )
         );
@@ -53,12 +53,12 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['name']))
+        if (!midcom::get('componentloader')->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} is not installed.");
         }
 
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($data['name']);
+        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($data['name']);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
@@ -88,7 +88,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
 
         $this->_update_breadcrumb($data['name']);
         $this->_prepare_toolbar($data);
-        $_MIDCOM->set_pagetitle($data['view_title']);
+        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     /**
@@ -103,9 +103,9 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
 
         midcom_show_style('midcom-admin-libs-view-header');
         $data['even'] = false;
-        foreach($data['config']->_global as $key => $value)
+        foreach ($data['config']->_global as $key => $value)
         {
-            $data['key'] = $_MIDCOM->i18n->get_string($key, $data['name']);
+            $data['key'] = midcom::get('i18n')->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
 
             if (isset($data['config']->_local[$key]))
@@ -118,14 +118,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             }
 
             midcom_show_style('midcom-admin-libs-view-item');
-            if (!$data['even'])
-            {
-                $data['even'] = true;
-            }
-            else
-            {
-                $data['even'] = false;
-            }
+            $data['even'] = !$data['even'];
         }
         midcom_show_style('midcom-admin-libs-view-footer');
         midgard_admin_asgard_plugin::asgard_footer();

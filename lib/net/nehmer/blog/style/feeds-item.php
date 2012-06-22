@@ -4,16 +4,16 @@ $item->descriptionHtmlSyndicated = true;
 $authors = explode('|', substr($data['article']->metadata->authors, 1, -1));
 if ($authors)
 {
-    $author_user = $_MIDCOM->auth->get_user($authors[0]);
+    $author_user = midcom::get('auth')->get_user($authors[0]);
     if ($author_user)
     {
         $author = $author_user->get_storage();
-    
+
         if (empty($author->email))
         {
             $author->email = "webmaster@{$_SERVER['SERVER_NAME']}";
         }
-    
+
         $item->author = trim("{$author->email} ({$author->name})");
     }
 }
@@ -30,15 +30,15 @@ else
 {
     if ($data['config']->get('view_in_url'))
     {
-        $item->link = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
+        $item->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
     }
     else
     {
-        $item->link = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
+        $item->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
     }
 }
 
-$item->guid = $_MIDCOM->permalinks->create_permalink($data['article']->guid);
+$item->guid = midcom::get('permalinks')->create_permalink($data['article']->guid);
 $item->date = (int) $data['article']->metadata->published;
 $item->description = '';
 
@@ -59,7 +59,7 @@ if ($data['config']->get('rss_use_content'))
 }
 
 // Replace links
-$item->description = preg_replace(',<(a|link|img|script|form|input)([^>]+)(href|src|action)="/([^>"\s]+)",ie', '"<\1\2\3=\"' . $_MIDCOM->get_host_name() . '/\4\""', $item->description);
+$item->description = preg_replace(',<(a|link|img|script|form|input)([^>]+)(href|src|action)="/([^>"\s]+)",ie', '"<\1\2\3=\"' . midcom::get()->get_host_name() . '/\4\""', $item->description);
 
 // TODO: Figure out the RSS multi-category support for real
 $categories = explode('|', $data['article']->extra1);
