@@ -180,9 +180,6 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             mkdir($this->purify_config['Cache']['SerializerPath']);
         }
 
-        require_once('HTMLPurifier/Bootstrap.php');
-        spl_autoload_register(array('HTMLPurifier_Bootstrap', 'autoload'));
-        require_once('HTMLPurifier.func.php');
         // For some reason we lose this along the way!
         error_reporting(E_ALL);
 

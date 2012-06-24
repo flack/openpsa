@@ -6,12 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-// Include PEAR XML-RPC library
-error_reporting(E_ERROR);
-/** @ignore */
-include_once("XML/RPC/Server.php");
-error_reporting(E_ALL);
-
 /**
  * MetaWeblog API handler for the blog component
  *

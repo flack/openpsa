@@ -28,6 +28,8 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     var $_send_notification = false;
 
+    public $_sudo_requested = false;
+
     /**
      * DBA magic defaults which assign write privileges for all USERS, so that they can
      * add new comments at will.
@@ -57,12 +59,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns a list of comments applicable to a given object, ordered by creation
      * date.
      *
-     * May be called statically.
-     *
      * @param guid $guid The GUID of the object to bind to.
      * @return Array List of applicable comments.
      */
-    function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
+    public static function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
     {
         if ($paging !== false)
         {
@@ -439,7 +439,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $this->set_parameter('net.nehmer.comments:moderation_log', implode(':', $log_action), implode(':', $log_details));
     }
 
-    function get_default_status()
+    public static function get_default_status()
     {
         $view_status = array
         (
@@ -448,12 +448,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             net_nehmer_comments_comment::MODERATED,
         );
 
-        if (isset($this->_config))
+        $config = midcom_baseclasses_components_configuration::get('net.nehmer.comments', 'config');
+        if ($config->get('show_reported_abuse_as_normal'))
         {
-            if ($this->_config->get('show_reported_abuse_as_normal'))
-            {
-                $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
-            }
+            $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
         }
 
         return $view_status;

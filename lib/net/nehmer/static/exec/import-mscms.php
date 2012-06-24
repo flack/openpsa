@@ -5,7 +5,6 @@ midcom::get('cache')->content->enable_live_mode();
 
 midcom::get()->disable_limits();
 
-require('HTMLPurifier.php');
 while(@ob_end_flush());
 ?>
 <h1>Import content from MSCMS files</h1>
