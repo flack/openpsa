@@ -460,6 +460,12 @@ var org_openpsa_grid_helper =
                 }
                 config = $.extend(config, saved_values);
             }
+            if (   config.data
+                && config.data.length <= (config.rowNum * config.page))
+            {
+                config.page = Math.ceil(config.data.length / config.rowNum);
+            }
+
             if (org_openpsa_grid_helper.event_handler_added === false)
             {
                 $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
@@ -473,7 +479,7 @@ var org_openpsa_grid_helper =
         {
             var identifier = location.hostname + location.href + '#' + grid_id,
             grid = $('#' + grid_id),
-            data = 
+            data =
             {
                 'page': grid.jqGrid('getGridParam', 'page'),
                 'sortname': grid.jqGrid('getGridParam', 'sortname'),
