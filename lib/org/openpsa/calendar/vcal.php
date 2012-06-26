@@ -60,11 +60,11 @@ class org_openpsa_calendar_vcal
         // Type handling
         switch ($event->orgOpenpsaAccesstype)
         {
-            case ORG_OPENPSA_ACCESSTYPE_PUBLIC:
+            case org_openpsa_core_acl::ACCESS_PUBLIC:
                 $vcal_keys['CLASS'] = 'PUBLIC';
                 break;
             default:
-            case ORG_OPENPSA_ACCESSTYPE_PRIVATE:
+            case org_openpsa_core_acl::ACCESS_PRIVATE:
                 $vcal_keys['CLASS'] = 'PRIVATE';
                 break;
         }

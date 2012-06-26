@@ -68,26 +68,26 @@ class org_openpsa_core_acl_synchronizer
         // Handle ACL storage
         switch ($accesstype)
         {
-            case ORG_OPENPSA_ACCESSTYPE_PUBLIC:
-            case ORG_OPENPSA_ACCESSTYPE_AGGREGATED:
+            case org_openpsa_core_acl::ACCESS_PUBLIC:
+            case org_openpsa_core_acl::ACCESS_AGGREGATED:
                 debug_add("Public object, everybody can read");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
                 $this->_set_attachment_permission($object, 'midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
                 $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
-            case ORG_OPENPSA_ACCESSTYPE_PRIVATE:
+            case org_openpsa_core_acl::ACCESS_PRIVATE:
                 debug_add("Private object, only user can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->_set_attachment_permission($object, 'midgard:read', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
-            case ORG_OPENPSA_ACCESSTYPE_WGPRIVATE:
+            case org_openpsa_core_acl::ACCESS_WGPRIVATE:
                 debug_add("Private object, only workgroup members can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
-            case ORG_OPENPSA_ACCESSTYPE_WGRESTRICTED:
+            case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
                 debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);

@@ -259,7 +259,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                     'private' => false,
                 );
 
-                if ($event->orgOpenpsaAccesstype == ORG_OPENPSA_ACCESSTYPE_PRIVATE)
+                if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE)
                 {
                     $resource_array['reservations'][$event->id]['css_class'] = ' private';
                     $resource_array['reservations'][$event->id]['private'] = true;

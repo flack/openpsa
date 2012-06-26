@@ -152,7 +152,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         // Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype)
         {
-            $this->orgOpenpsaAccesstype = ORG_OPENPSA_ACCESSTYPE_PUBLIC;
+            $this->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_PUBLIC;
         }
 
         // Make sure we can actually reserve the resources we need
@@ -489,7 +489,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $this->set_privilege('midgard:privileges', $user->id, MIDCOM_PRIVILEGE_ALLOW);
         }
 
-        if ($this->orgOpenpsaAccesstype == ORG_OPENPSA_ACCESSTYPE_PRIVATE)
+        if ($this->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE)
         {
             $this->set_privilege('org.openpsa.calendar:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
         }

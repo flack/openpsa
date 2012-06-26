@@ -111,7 +111,7 @@
             'type'        => 'select',
             'type_config' => array
             (
-                'options' => $GLOBALS['org_openpsa_core_acl_options'],
+                'options' => org_openpsa_core_acl::get_options(),
             ),
             'widget'      => 'select',
         ),
