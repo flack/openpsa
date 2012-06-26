@@ -28,7 +28,7 @@
         }
     ],
     "require": {
-        "php": ">=5.2.0",
+        "php": ">=5.3.0",
         "pear-pear/XML_RPC": "*",
         "pear-pear/HTTP_Request2": "*",
         "pear-pear/Console_GetArgs": "*",
@@ -40,7 +40,8 @@
         "pear-pear/HTML_QuickForm": "*",
         "pear-hp/HTMLPurifier": "*",
         "pear-pear/Text_CAPTCHA": "*",
-        "pear-pear/Text_Diff": "*"
+        "pear-pear/Text_Diff": "*",
+        "midgard/midgardmvc-helper-urlize": "*"
     },
     "suggest": {
         "ext-midgard2": ">=10.05.5"
