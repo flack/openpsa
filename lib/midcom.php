@@ -69,12 +69,6 @@ class midcom
             define('MIDCOM_ROOT', dirname(__FILE__));
         }
 
-        if (file_exists(MIDCOM_ROOT . '/../vendor/autoload.php'))
-        {
-            $loader = require MIDCOM_ROOT . '/../vendor/autoload.php';
-            $loader->register();
-        }
-
         require(MIDCOM_ROOT . '/compat/environment.php');
         midcom_compat_environment::initialize();
 
@@ -111,6 +105,12 @@ class midcom
 
         // Register autoloader so we get all MidCOM classes loaded automatically
         spl_autoload_register(array('midcom', 'autoload'));
+
+        if (file_exists(MIDCOM_ROOT . '/../vendor/autoload.php'))
+        {
+            $loader = require MIDCOM_ROOT . '/../vendor/autoload.php';
+            $loader->register();
+        }
 
         /////////////////////
         // Start the Debugger
