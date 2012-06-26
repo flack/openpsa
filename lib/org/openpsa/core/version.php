@@ -7,13 +7,6 @@
  */
 
 /**
- * @ignore
- */
-//These two constants are on purpose in here
-define('ORG_OPENPSA_CORE_VERSION_NUMBER', midcom::get('componentloader')->get_component_version('org.openpsa.core'));
-define('ORG_OPENPSA_CORE_VERSION_NAME', 'Off the Grid');
-
-/**
  * Returns current version of OpenPSA. Three different modes are supported:
  *  version number (version name)
  *  version number
