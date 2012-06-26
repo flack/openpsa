@@ -163,9 +163,13 @@ class midcom
             $file_name  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             $file_name .= str_replace('_', DIRECTORY_SEPARATOR, $class_name) . '.php';
 
+            if (!file_exists($basedir . $file_name))
+            {
+                return false;
+            }
             require $basedir . $file_name;
             $autoloaded++;
-            return;
+            return true;
         }
 
         //MidCOM "Classic"
