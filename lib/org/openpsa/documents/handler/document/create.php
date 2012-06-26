@@ -77,7 +77,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
     {
         $document = new org_openpsa_documents_document_dba();
         $document->topic = $this->_request_data['directory']->id;
-        $document->orgOpenpsaAccesstype = ORG_OPENPSA_ACCESSTYPE_WGPRIVATE;
+        $document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
 
         if (! $document->create())
         {
