@@ -231,7 +231,7 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
             posX = $(window).width() - (root_element.width() + 4);
         }
 
-        root_element.css({ left: posX + 'px', top: posY + 'px', position: 'absolute', width: root_element.width() + 'px'});
+        root_element.css({ left: posX + 'px', top: posY + 'px', position: 'absolute', width: (root_element.width() + 25) + 'px'});
         
         jQuery('div.item', item_holder).each(function(i,n){
             debug("i: "+i+" n: "+n);
