@@ -4,6 +4,7 @@
  *
  * Usage: phpunit --no-globals-backup ./
  */
+
 $mgd_defaults = array
 (
     'argv' => array(),

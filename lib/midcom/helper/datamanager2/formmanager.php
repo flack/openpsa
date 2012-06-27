@@ -232,8 +232,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
         }
 
-        require_once "HTML/QuickForm.php";
-
         // TODO: make configurable to get URL from midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $this->_defaults = array();

@@ -17,8 +17,6 @@ class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 
     public function __construct($params)
     {
-        include_once('Mail.php');
-        include_once('Mail/sendmail.php');
         if (   !class_exists('Mail')
             || !class_exists('Mail_sendmail'))
         {

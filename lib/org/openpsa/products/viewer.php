@@ -84,11 +84,11 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      * @param midcom_db_topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    function index(&$dm, &$indexer, $topic, $config = null)
+    public static function index(&$dm, &$indexer, $topic, $config = null)
     {
         if ($config == null)
         {
-            $config = $this->_config;
+            $config = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config');
         }
         $object =& $dm->storage->object;
         if (!is_object($topic))

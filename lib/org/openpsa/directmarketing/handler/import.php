@@ -644,7 +644,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
             if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
             {
-                require_once('Contact_Vcard_Parse.php');
                 $parser = new Contact_Vcard_Parse();
                 $cards = @$parser->fromFile($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
 

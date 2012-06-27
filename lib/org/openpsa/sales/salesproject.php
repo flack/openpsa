@@ -98,7 +98,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
     }
 
-    function generate_salesproject_number()
+    public static function generate_salesproject_number()
     {
         // TODO: Make configurable
         $year = date('Y', time());

@@ -128,7 +128,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_edit_query($handler_id, array $args, array &$data)
     {
-        $this->_campaign = org_openpsa_directmarketing_viewer::load_campaign($args[0]);
+        $this->_campaign = $this->_master->load_campaign($args[0]);
         $this->_campaign->require_do('midgard:update');
 
         $this->_prepare_request_data($handler_id);

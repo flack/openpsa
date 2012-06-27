@@ -35,7 +35,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      */
     public function __construct()
     {
-         require_once('HTTP/Request2.php');
          $this->_component = 'org.openpsa.httplib';
          parent::__construct();
     }

@@ -97,7 +97,6 @@ if (substr($logger, 0, strlen("file://")) == "file://")
 elseif (   substr($logger, 0, strlen("http://")) == "http://"
         || substr($logger, 0, strlen("https://")) == "https://")
 {
-    require_once 'HTTP/Client.php';
     $client = new HTTP_Client();
     $client->post($logger, array("token" => $token, "link" => $link));
 }

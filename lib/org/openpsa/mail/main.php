@@ -158,7 +158,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function can_attach()
     {
-        @include_once('Mail/mime.php');
         if (class_exists('Mail_mime'))
         {
             debug_add('Mail_mime exists: returning true');

@@ -26,7 +26,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      * The see org.openpsa.projects for an example of how the component interface method
      * org_openpsa_relatedto_find_suspects() should work.
      */
-    function find_links_object($object, $defaults = false)
+    public static function find_links_object($object, $defaults = false)
     {
         $ret = array();
         //Copied on purpose TODO: when upgrading to PHP5 make sure this is passed as copy
@@ -58,7 +58,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      *
      * See org_openpsa_relatedto_suspect::find_links_object() for details
      */
-    function find_links_object_component($object, $component, $defaults = false)
+    public static function find_links_object_component($object, $component, $defaults = false)
     {
         $ret = array();
 
