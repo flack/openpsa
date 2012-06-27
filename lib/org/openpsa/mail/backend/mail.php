@@ -36,7 +36,7 @@ class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
             $hdr .= "{$key}: {$value}\n";
         }
 
-        $additional_parameters = midcom_baseclasses_components_configuration::get('org.openpsa.mail', 'config')->get('');
+        $additional_parameters = midcom_baseclasses_components_configuration::get('org.openpsa.mail', 'config')->get('mail_additional_params');
 
         return mail($recipients, $subject, $body, $hdr, $additional_parameters);
     }
