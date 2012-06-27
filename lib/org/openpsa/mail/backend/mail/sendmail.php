@@ -13,15 +13,8 @@
  */
 class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 {
-    private $_mail = null;
-
     public function __construct($params)
     {
-        if (   !class_exists('Mail')
-            || !class_exists('Mail_sendmail'))
-        {
-            throw new midcom_error('Classes for PEAR package "Mail" could not be found');
-        }
         $this->_mail = Mail::factory('sendmail', $params);
     }
 

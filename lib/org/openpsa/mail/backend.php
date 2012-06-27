@@ -15,6 +15,8 @@ abstract class org_openpsa_mail_backend
 {
     public $error = false;
 
+    protected $_mail;
+
     abstract function __construct(array $params);
 
     /**

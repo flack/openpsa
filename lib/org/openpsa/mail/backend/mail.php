@@ -15,10 +15,6 @@ class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
     {
-        if (!function_exists('mail'))
-        {
-            throw new midcom_error('mail() is not available');
-        }
     }
 
     public function mail($recipients, array $headers, $body)
