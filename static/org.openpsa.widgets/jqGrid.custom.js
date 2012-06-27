@@ -130,6 +130,10 @@ var org_openpsa_grid_resize =
             {
                 $(this).find('.ui-jqgrid-titlebar-maximize').trigger('click');
             }
+            if ($(this).closest('.ui-jqgrid').find('.ui-jqgrid-btable').is(':hidden'))
+            {
+                $(this).find('.ui-jqgrid-titlebar-maximize').hide();
+            }
         });
     },
     fill_width: function(items)
