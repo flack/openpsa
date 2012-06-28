@@ -20,17 +20,10 @@ if (!defined('OPENPSA_TEST_ROOT'))
 class net_nehmer_blog_handler_createTest extends openpsa_testcase
 {
     protected static $_topic;
-    protected static $_article;
 
     public static function setUpBeforeClass()
     {
         self::$_topic = self::get_component_node('net.nehmer.blog');
-        $article_properties = array
-        (
-            'topic' => self::$_topic->id,
-            'name' => __CLASS__ . time()
-        );
-        self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
     public function testHandler_create()
@@ -41,6 +34,15 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
         $this->assertEquals('create', $data['handler_id']);
 
         $this->show_handler($data);
+
+        $formdata = array
+        (
+            'title' => __CLASS__ . microtime(),
+            'content' => '<p>TEST</p>'
+        );
+
+        $url = $this->submit_dm2_form('controller', $formdata, self::$_topic, array('create', 'default'));
+        $this->assertEquals('', $url);
         midcom::get('auth')->drop_sudo();
     }
 }
