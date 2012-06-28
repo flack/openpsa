@@ -62,9 +62,12 @@ class openpsa_test_dm2_helper
         }
     }
 
-    public function get_widget($widget_class, $type_class, array $config = array())
+    public function get_widget($widget_class, $type_class, array $config = array(), $name = null)
     {
-        $name = 'test_' . $widget_class . '_' . sizeof($this->_schemadb['default']->fields);
+        if (null === $name)
+        {
+            $name = 'test_' . $widget_class . '_' . sizeof($this->_schemadb['default']->fields);
+        }
 
         $config['name'] = $name;
         $config['title'] = $name;
