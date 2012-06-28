@@ -546,7 +546,6 @@ p
     font-size: 10pt;
 }
 
-#container #toolbar ul li:hover,
 #container #toolbar ul li:hover a,
 #container #toolbar ul li:hover button,
 #container #toolbar ul li a:hover,
@@ -556,10 +555,6 @@ p
 #container #toolbar ul li.selected button
 {
     background-color: white;
-}
-#container #toolbar ul li.disabled
-{
-    background-color: #d3d7cf;
 }
 
 #breadcrumb
