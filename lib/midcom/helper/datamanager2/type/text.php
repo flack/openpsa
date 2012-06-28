@@ -180,6 +180,13 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             mkdir($this->purify_config['Cache']['SerializerPath']);
         }
 
+        //This is a bit of a bogus test, but this class needs to be loaded so that necessary constants
+        //are defined.
+        if (!class_exists('HTMLPurifier_Bootstrap'))
+        {
+            throw new midcom_error('HTMLPurifier_Bootstrap is missing, cannot continue');
+        }
+
         // For some reason we lose this along the way!
         error_reporting(E_ALL);
 
@@ -187,9 +194,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         $purifier_config_object->loadArray($this->purify_config);
 
         // Set local IDPrefix to field name...
-        if (   isset($this->purify_config['Attr'])
-            && isset($this->purify_config['Attr']['IDPrefix'])
-            && !empty($this->purify_config['Attr']['IDPrefix']))
+        if (!empty($this->purify_config['Attr']['IDPrefix']))
         {
             $purifier_config_object->set('Attr.IDPrefixLocal', "{$this->name}_");
         }
@@ -200,9 +205,8 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             && !empty($config_defs)
             && $def = $purifier_config_object->maybeGetRawHTMLDefinition(true))
         {
-            if (   isset($config_defs['addAttribute'])
-                && is_array($config_defs['addAttribute'])
-                && !empty($config_defs['addAttribute']))
+            if (   !empty($config_defs['addAttribute'])
+                && is_array($config_defs['addAttribute']))
             {
                 foreach ($config_defs['addAttribute'] as $attrdef)
                 {
@@ -213,9 +217,8 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                     call_user_func_array(array($def, 'addAttribute'), $attrdef);
                 }
             }
-            if (   isset($config_defs['addElement'])
-                && is_array($config_defs['addElement'])
-                && !empty($config_defs['addElement']))
+            if (   !empty($config_defs['addElement'])
+                && is_array($config_defs['addElement']))
             {
                 foreach ($config_defs['addElement'] as $elemdef)
                 {
@@ -301,6 +304,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
 
         $stat = $this->validate_forbidden_patterns(array($this->name => $this->value));
+
         if (is_array($stat))
         {
             $this->validation_error = $stat[$this->name];
