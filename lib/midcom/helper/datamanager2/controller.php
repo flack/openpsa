@@ -44,7 +44,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      * Set this member using the set_storage() helper function unless you
      * definitely know what you're doing.
      *
-     * @var midcom_helper_datamanager2
+     * @var midcom_helper_datamanager2_datamanager
      */
     var $datamanager = null;
 
