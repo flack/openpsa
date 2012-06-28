@@ -20,17 +20,15 @@ body div.midcom_helper_imagepopup h1
 
 ul
 {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 ul li
 {
-	height: 59px;
-	margin: 0 0 5px 0;
-	padding: 5px;
-	border-bottom: 1px solid #D7DBD1;
-	
+    height: 59px;
+    margin: 0 0 5px 0;
+    padding-top: 3px;
 }
 
 #top_navigation
@@ -47,7 +45,6 @@ ul li
     margin-left: 20px;
 }
 
-
 #top_navigation a
 {
     text-decoration: none;
@@ -62,7 +59,6 @@ ul li
     padding-right: 10px;
     display: inline;
     margin-right: 10px;
-    height: auto
 }
 
 #top_navigation ul li.selected
@@ -75,15 +71,13 @@ ul li
     color: #000000;
 }
 
-
-
 #files, #search
 {
     padding-left: 2%;
     padding-right: 2%;
     height: 88%;
     overflow: auto;
-    background-color: #ffffff; 
+    background-color: #ffffff;
 }
 #files form label span.field_text
 {
@@ -102,7 +96,7 @@ table.midcom_helper_datamanager2_widget_downloads tr
 }
 
 table.midcom_helper_datamanager2_widget_downloads th {
-	border-bottom:solid 1px #D7DBD1; 
+	border-bottom:solid 1px #D7DBD1;
 }
 
 table.midcom_helper_datamanager2_widget_downloads td
@@ -117,7 +111,7 @@ table.midcom_helper_datamanager2_widget_downloads td
 	width: 21em;
 }
 #files table .new {
-	border-top:solid 1px #D7DBD1; 
+	border-top:solid 1px #D7DBD1;
 	margin-top:7px;
 }
 
