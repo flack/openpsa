@@ -73,7 +73,7 @@ else if (!extension_loaded('midgard'))
 }
 
 // Path to the MidCOM environment
-define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
+define('MIDCOM_ROOT', __DIR__ . '/lib');
 
 $prefix = dirname($_SERVER['SCRIPT_NAME']) . '/';
 if (strpos($_SERVER['REQUEST_URI'], $prefix) !== 0)
