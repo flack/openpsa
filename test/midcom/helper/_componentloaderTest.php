@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -75,14 +75,8 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
     {
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
-        $this->assertEquals('/org/openpsa/user', $componentloader->path_to_snippetpath('org.openpsa.user'));
-    }
-
-    public function test_snippetpath_to_prefix()
-    {
-        $componentloader = new midcom_helper__componentloader();
-        $componentloader->load_all_manifests();
-        $this->assertEquals('org_openpsa_user', $componentloader->snippetpath_to_prefix('/org/openpsa/user'));
+        $this->assertEquals(MIDCOM_ROOT . '/org/openpsa/user', $componentloader->path_to_snippetpath('org.openpsa.user'));
+        $this->assertFalse($componentloader->path_to_snippetpath('non.existant.component'));
     }
 
     public function test_path_to_prefix()
@@ -92,19 +86,18 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $this->assertEquals('org_openpsa_user', $componentloader->path_to_prefix('org.openpsa.user'));
     }
 
-    public function test_validate_path()
-    {
-        $componentloader = new midcom_helper__componentloader();
-        $componentloader->load_all_manifests();
-        $this->assertTrue($componentloader->validate_path('/org/openpsa/user'));
-        $this->assertFalse($componentloader->validate_path('/nonexistant'));
-    }
-
     public function test_list_loaded_components()
     {
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
         $this->assertEquals(array(), $componentloader->list_loaded_components());
+    }
+
+    public function test_loaded_external_component()
+    {
+        $componentloader = midcom::get('componentloader');
+        $componentloader->register_component('openpsa.unittest.testcomponent', __DIR__ . '/__files/testcomponent');
+        $this->assertTrue($componentloader->load_graceful('openpsa.unittest.testcomponent'));
     }
 }
 ?>

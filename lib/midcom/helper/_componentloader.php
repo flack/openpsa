@@ -20,7 +20,7 @@
  *
  * This should actually suffice for most normal operations.
  *
- * If you develop framework tools (like administration interfaces, you will also
+ * If you develop framework tools (like administration interfaces), you will also
  * need access to the component interface class, which can be obtained by
  * get_component_class(). This class is derived from the component interface
  * baseclass and should give you everything you need to work with the component
@@ -29,7 +29,6 @@
  * Other then that, you should not have to deal with the components, perhaps with
  * the only exception of is_loaded() and load() to ensure other components are loaded
  * in case you need them and they are not a pure-code library.
- *
  *
  * <b>Loading components</b>
  *
@@ -65,7 +64,7 @@
  *
  * In case you need an instance of the component loader to verify or
  * transform component paths, use the function
- * midcom_application::get_component_loader, which returns a
+ * midcom::get('componentloader'), which returns a
  * <i>reference</i> to the loader.
  *
  * @package midcom.helper
@@ -90,19 +89,19 @@ class midcom_helper__componentloader
      * The array maps component names to loading results. The loading result is
      * either false or true as per the result of the load call.
      *
-     * @var Array
+     * @var array
      */
-    private $_tried_to_load = Array();
+    private $_tried_to_load = array();
 
     /**
      * This is a part of the component cache. It stores references to
      * the interface classes of the different loaded components, indexed by
      * their MidCOM Path.
      *
-     * @var Array
+     * @var array
      * @see midcom_baseclasses_components_interface
      */
-    private $_interface_classes = Array();
+    private $_interface_classes = array();
 
     /**
      * This lists all available components in the systems in the form of their manifests,
@@ -114,7 +113,7 @@ class midcom_helper__componentloader
      * @var array
      * @see midcom_core_manifest
      */
-    var $manifests = Array();
+    var $manifests = array();
 
     /**
      * This array contains all registered MidCOM operation watches. They are indexed by
@@ -135,7 +134,7 @@ class midcom_helper__componentloader
     /**
      * This is an array containing a list of watches that need to be executed at the end
      * of any given request. The array is indexed by artificial keys constructed out of the
-     * watched object's class type and guid values. The array always contain the object
+     * watched object's class type and guid values. The array always contains the object
      * instance in the first element, and all components that need to be notified in the
      * subsequent keys.
      *
@@ -148,6 +147,13 @@ class midcom_helper__componentloader
         MIDCOM_OPERATION_DBA_DELETE => Array(),
         MIDCOM_OPERATION_DBA_IMPORT => Array(),
     );
+
+    /**
+     * Mapping for components paths not included in the main midcom directory hierarchy
+     *
+     * @var array
+     */
+    private $_component_paths = array();
 
     /**
      * This function will invoke _load directly. If the loading process
@@ -184,7 +190,7 @@ class midcom_helper__componentloader
      * Common example:
      *
      * <code>
-     * midcom::get('componentloader')->load_library('midcom.helper.datamanager');
+     * midcom::get('componentloader')->load_library('midcom.helper.datamanager2');
      * </code>
      *
      * @param string $path    The name of the code library to load.
@@ -255,13 +261,13 @@ class midcom_helper__componentloader
         }
         $snippetpath = $this->path_to_snippetpath($path);
 
-        if (! $this->validate_path($snippetpath))
+        if (!$snippetpath)
         {
             return false;
         }
 
         // Load Snippets
-        $directory = MIDCOM_ROOT . "{$snippetpath}/midcom";
+        $directory = $snippetpath . '/midcom';
         if (! is_dir($directory))
         {
             debug_add("Failed to access {$directory}: Directory not found.", MIDCOM_LOG_CRIT);
@@ -277,7 +283,7 @@ class midcom_helper__componentloader
         require_once $directory . '/interfaces.php';
 
         // Load the component interface, try to be backwards-compatible
-        $prefix = $this->snippetpath_to_prefix($snippetpath);
+        $prefix = $this->path_to_prefix($path);
 
         if (class_exists("{$prefix}_interface"))
         {
@@ -313,7 +319,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to be queried.
      * @return boolean            true if it is loaded, false otherwise.
      */
-    function is_loaded($path)
+    public function is_loaded($path)
     {
         if ($path == 'midcom')
         {
@@ -330,7 +336,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to be queried.
      * @return boolean            true if it is loaded, false otherwise.
      */
-    function is_installed($path)
+    public function is_installed($path)
     {
         if (empty($this->manifests))
         {
@@ -347,6 +353,21 @@ class midcom_helper__componentloader
         return true;
     }
 
+    public function register_component($name, $path)
+    {
+        $filename = "{$path}/config/manifest.inc";
+        if (!file_exists($filename))
+        {
+            throw new midcom_error('Manifest not found for ' . $name);
+        }
+        if (empty($this->manifests))
+        {
+            $this->load_all_manifests();
+        }
+        $this->_register_manifest(new midcom_core_manifest($filename));
+        $this->_component_paths[$name] = $path;
+    }
+
     /**
      * Returns a reference to an instance of the specified component's
      * interface class. The component is given in $path as a MidCOM path.
@@ -358,7 +379,7 @@ class midcom_helper__componentloader
      * @return midcom_baseclasses_components_interface A reference to the concept class in question or null if
      *     the class in question does not yet support the new Interface system.
      */
-    function get_interface_class($path)
+    public function get_interface_class($path)
     {
         if (! $this->is_loaded($path))
         {
@@ -373,24 +394,23 @@ class midcom_helper__componentloader
      * Helper, converting a component path (net.nehmer.blog)
      * to a snippetpath (/net/nehmer/blog).
      *
-     * @param string $path    Input string.
+     * @param string $component_name    Input string.
      * @return string        Converted string.
      */
-    function path_to_snippetpath($path)
+    public function path_to_snippetpath($component_name)
     {
-        return "/" . strtr($path, ".", "/");
-    }
+        if (array_key_exists($component_name, $this->_component_paths))
+        {
+            return $this->_component_paths[$component_name];
+        }
+        $directory = MIDCOM_ROOT . "/" . strtr($component_name, ".", "/");
 
-    /**
-     * Helper, converting a snippetpath (/net/nehmer/blog)
-     * to a class prefix (net_nehmer_blog).
-     *
-     * @param string $snippetpath    Input string.
-     * @return string                Converted string.
-     */
-    function snippetpath_to_prefix ($snippetpath)
-    {
-        return substr(strtr($snippetpath, "/", "_"), 1);
+        if (! is_dir($directory))
+        {
+            debug_add("Failed to validate the component path {$directory}: It is no directory.", MIDCOM_LOG_CRIT);
+            return false;
+        }
+        return $directory;
     }
 
     /**
@@ -400,30 +420,9 @@ class midcom_helper__componentloader
      * @param string $path    Input string.
      * @return string        Converted string.
      */
-    function path_to_prefix ($path)
+    public function path_to_prefix ($path)
     {
         return strtr($path, ".", "_");
-    }
-
-    /**
-     * validate_path is used to validate the component located at the
-     * snippetdir Path $snippetpath. This is a fully qualified snippetdir path
-     * to the component in question.
-     *
-     * @param string $snippetpath    The path to be checked.
-     * @return boolean                 True if valid, false otherwise.
-     */
-    function validate_path($snippetpath)
-    {
-        $directory = MIDCOM_ROOT . $snippetpath;
-
-        if (! is_dir($directory))
-        {
-            debug_add("Failed to validate the component path {$directory}: It is no directory.", MIDCOM_LOG_CRIT);
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -436,7 +435,7 @@ class midcom_helper__componentloader
      * @param string $path    The path to be checked.
      * @return boolean         True if valid, false otherwise.
      */
-    function validate_url($path)
+    public function validate_url($path)
     {
         if (!preg_match("/^[a-z][a-z0-9\.]*[a-z0-9]$/", $path))
         {
@@ -453,7 +452,7 @@ class midcom_helper__componentloader
      *
      * @return Array    List of loaded components
      */
-    function list_loaded_components()
+    public function list_loaded_components()
     {
         return $this->_loaded;
     }
@@ -466,7 +465,7 @@ class midcom_helper__componentloader
      * This method is executed during system startup by the framework. Other parts of the system
      * must not access it.
      */
-    function load_all_manifests()
+    public function load_all_manifests()
     {
         $manifests = midcom::get('cache')->memcache->get('MISC', 'midcom.componentloader.manifests');
 
@@ -516,9 +515,9 @@ class midcom_helper__componentloader
      *
      * All default privileges are made known to ACL, the watches are registered
      *
-     *  @param object $manifest the manifest object to load.
+     *  @param midcom_core_manifest $manifest the manifest object to load.
      */
-    private function _register_manifest($manifest)
+    private function _register_manifest(midcom_core_manifest $manifest)
     {
         $this->manifests[$manifest->name] = $manifest;
 
@@ -588,7 +587,7 @@ class midcom_helper__componentloader
      *     is not taken by-reference but refreshed before actually executing the hook at the
      *     end of the request.
      */
-    function trigger_watches($operation, $object)
+    public function trigger_watches($operation, $object)
     {
         if ($this->_watch_notifications === null)
         {
@@ -658,7 +657,7 @@ class midcom_helper__componentloader
      *
      * This function can only be called once during a request.
      */
-    function process_pending_notifies()
+    public function process_pending_notifies()
     {
         if ($this->_watch_notifications === null)
         {
@@ -712,7 +711,7 @@ class midcom_helper__componentloader
      *     don't have customdata applicable to the component index given. This is disabled by default.
      * @return Array All found component data indexed by known components.
      */
-    function get_all_manifest_customdata($component, $showempty = false)
+    public function get_all_manifest_customdata($component, $showempty = false)
     {
         $result = Array();
         foreach ($this->manifests as $manifest)

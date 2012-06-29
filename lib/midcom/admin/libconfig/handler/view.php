@@ -58,7 +58,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             throw new midcom_error_notfound("Component {$data['name']} is not installed.");
         }
 
-        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($data['name']);
+        $componentpath = midcom::get('componentloader')->path_to_snippetpath($data['name']);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");

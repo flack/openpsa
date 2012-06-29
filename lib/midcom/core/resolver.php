@@ -428,7 +428,7 @@ class midcom_core_resolver
             }
             $componentloader->load($component);
             $this->_context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-            $path = MIDCOM_ROOT . $componentloader->path_to_snippetpath($component) . '/exec/';
+            $path = $componentloader->path_to_snippetpath($component) . '/exec/';
         }
         $path .= $this->_context->parser->argv[0];
 

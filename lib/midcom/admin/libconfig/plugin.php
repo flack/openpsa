@@ -40,7 +40,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
             if ($manifest->purecode)
             {
                 midcom::get('componentloader')->load_graceful($name);
-                $configpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($name)."/config/config.inc";
+                $configpath = midcom::get('componentloader')->path_to_snippetpath($name)."/config/config.inc";
                 $lib = midcom_baseclasses_components_configuration::read_array_from_file("{$configpath}");
 
                 if (!$lib)

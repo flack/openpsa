@@ -95,7 +95,7 @@ class midcom_baseclasses_components_configuration
         $loader = midcom::get('componentloader');
         if (!empty($loader->manifests[$component]->extends))
         {
-            $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($loader->manifests[$component]->extends);
+            $component_path = $loader->path_to_snippetpath($loader->manifests[$component]->extends);
             // Load and parse the global config
             $parent_data = self::read_array_from_file($component_path . '/config/config.inc');
             if ($parent_data)
@@ -103,7 +103,7 @@ class midcom_baseclasses_components_configuration
                 $data = $parent_data;
             }
         }
-        $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($component);
+        $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $component_data = self::read_array_from_file($component_path . '/config/config.inc');
         if ($component_data)
@@ -131,7 +131,7 @@ class midcom_baseclasses_components_configuration
     private static function _load_routes($component)
     {
         $loader = midcom::get('componentloader');
-        $component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($component);
+        $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $data = self::read_array_from_file($component_path . '/config/routes.inc');
         if (! $data)

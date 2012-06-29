@@ -84,7 +84,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _load_configs($component, $object = null)
     {
-        $componentpath = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component);
+        $componentpath = midcom::get('componentloader')->path_to_snippetpath($component);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
@@ -130,10 +130,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $schemadb = null;
         $schema = 'default';
 
-        if (file_exists(MIDCOM_ROOT . $schemadb_config_path))
+        if (file_exists($schemadb_config_path))
         {
             // Check that the schema is valid DM2 schema
-            $schema_array = midcom_baseclasses_components_configuration::read_array_from_file(MIDCOM_ROOT . $schemadb_config_path);
+            $schema_array = midcom_baseclasses_components_configuration::read_array_from_file($schemadb_config_path);
             if (isset($schema_array['config']))
             {
                 $schema = 'config';

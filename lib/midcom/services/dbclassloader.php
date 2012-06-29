@@ -207,7 +207,7 @@ class midcom_services_dbclassloader
         }
         else
         {
-            $this->_class_definition_filename = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
+            $this->_class_definition_filename = midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
         }
     }
 

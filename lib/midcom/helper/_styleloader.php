@@ -561,7 +561,7 @@ class midcom_helper__styleloader
         $_element = $path;
         $_style = false;
 
-        $this->_snippetdir = '/midcom/style';
+        $this->_snippetdir = MIDCOM_ROOT . '/midcom/style';
         $current_context = midcom_core_context::get()->id;
         if (isset($this->_styledirs_count[$current_context]))
         {
@@ -662,7 +662,7 @@ class midcom_helper__styleloader
                 $current_context = midcom_core_context::get()->id;
                 for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$current_context]; $i++)
                 {
-                    $filename = MIDCOM_ROOT . $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
+                    $filename = $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
                     if (file_exists($filename))
                     {
                         $_style = file_get_contents($filename);
@@ -819,7 +819,7 @@ class midcom_helper__styleloader
      */
     function append_styledir ($dirname)
     {
-        if (!file_exists(MIDCOM_ROOT . $dirname))
+        if (!file_exists($dirname))
         {
             throw new midcom_error("Style directory $dirname does not exist!");
         }
@@ -836,7 +836,7 @@ class midcom_helper__styleloader
      */
     function prepend_styledir ($dirname)
     {
-        if (!file_exists(MIDCOM_ROOT . $dirname))
+        if (!file_exists($dirname))
         {
             throw new midcom_error("Style directory {$dirname} does not exist.");
         }

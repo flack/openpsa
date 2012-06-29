@@ -256,7 +256,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         $loader = midcom::get('componentloader');
         foreach ($this->_autoload_files as $file)
         {
-            require_once MIDCOM_ROOT . $loader->path_to_snippetpath($this->_component) . '/' . $file;
+            require_once $loader->path_to_snippetpath($this->_component) . '/' . $file;
         }
 
         // Call the event handler.
