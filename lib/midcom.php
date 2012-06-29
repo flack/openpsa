@@ -173,8 +173,15 @@ class midcom
         }
 
         //MidCOM "Classic"
-        $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $class_name) . '.php';
-        $path = str_replace('//', '/_', $path);
+        if (preg_match('/^(.+?_.+?_.+?)_(.+?)$/', $class_name, $matches))
+        {
+            $path = midcom::get('componentloader')->path_to_snippetpath(str_replace('_', '.', $matches[1])) . '/' . $matches[2];
+        }
+        else
+        {
+            $path = MIDCOM_ROOT . '/' . $class_name;
+        }
+        $path = str_replace('//', '/_', str_replace('_', '/', $path)) . '.php';
 
         if (   basename($path) == 'dba.php'
             || basename($path) == 'db.php')
