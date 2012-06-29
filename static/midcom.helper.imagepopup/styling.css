@@ -104,14 +104,7 @@ table.midcom_helper_datamanager2_widget_downloads td
     padding: 5px;
 }
 
-#files input {
-	width: 8.5em;
-}
-#files input.file {
-	width: 21em;
-}
 #files table .new {
-	border-top:solid 1px #D7DBD1;
 	margin-top:7px;
 }
 
@@ -128,10 +121,7 @@ table.midcom_helper_datamanager2_widget_downloads td
     text-decoration: none;
     color: #204a87;
 }
-#files table td.upload
-{
-    white-space: nowrap;
-}
+
 #files table th
 {
     text-align: left;

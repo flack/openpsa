@@ -358,18 +358,18 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $this->_elements["e_exist_{$identifier}_file"] = HTML_QuickForm::createElement('file', "e_exist_{$identifier}_file", '', $attributes);
 
                 $attributes = Array
-                    (
-                        'class' => 'submit exist upload',
-                        'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
-                    );
-                if($this->show_progressbar)
+                (
+                    'class' => 'submit exist upload',
+                    'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
+                );
+                if ($this->show_progressbar)
                 {
                     $url = $GLOBALS['midcom_config']['midcom_site_url'] .
                         'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                     $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
                     $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
                 }
-
+                $this->_elements["s_exist_{$identifier}_br"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
                 $this->_elements["e_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
             }
             if ($this->_type->attachments[$identifier]->can_do('midgard:delete'))

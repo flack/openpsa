@@ -1,6 +1,5 @@
 <?php
 /**
- * Created on Mar 12, 2006
  * @author tarjei huse
  * @package midcom.helper.imagepopup
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -9,6 +8,7 @@
 
 /**
  * This handler shows the attachments attached to object $object.
+ *
  * @package midcom.helper.imagepopup
  */
 class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_components_handler
@@ -47,11 +47,11 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             {
                 return new midcom_response_relocate('__ais/imagepopup/folder/default/');
             }
-            elseif ($handler_id =='____ais-imagepopup-list_folder')
+            else if ($handler_id =='____ais-imagepopup-list_folder')
             {
                 return new midcom_response_relocate('__ais/imagepopup/folder/default/');
             }
-            elseif ($handler_id =='____ais-imagepopup-list_unified')
+            else if ($handler_id =='____ais-imagepopup-list_unified')
             {
                 return new midcom_response_relocate('__ais/imagepopup/unified/default/');
             }
