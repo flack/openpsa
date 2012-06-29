@@ -11,13 +11,6 @@
  *
  * An event member has its event as explicit parent, *not* its person.
  *
- * Note, as with all MidCOM DB layer objects, you should not use the get_by*
- * operations directly, instead, you have to use the constructor's $id parameter.
- *
- * Also, all QueryBuilder operations need to be done by the factory class
- * obtainable through the statically callable new_query_builder() DBA methods.
- *
- * @see midcom_services_dbclassloader
  * @package midcom.db
  */
 class midcom_db_eventmember extends midcom_core_dbaobject

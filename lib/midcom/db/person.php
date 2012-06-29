@@ -9,14 +9,7 @@
 /**
  * MidCOM level replacement for the Midgard Person record with framework support.
  *
- * Note, as with all MidCOM DB layer objects, you should not use the GetBy*
- * operations directly, instead, you have to use the constructor's $id parameter.
- *
- * Also, all QueryBuilder operations need to be done by the factory class
- * obtainable as midcom_application::dbfactory.
- *
  * @package midcom.db
- * @see midcom_services_dbclassloader
  */
 class midcom_db_person extends midcom_core_dbaobject
 {

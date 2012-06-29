@@ -9,10 +9,6 @@
 /**
  * MidCOM level replacement for the Midgard Article record with framework support.
  *
- * All QueryBuilder operations need to be done by the factory class
- * obtainable as midcom_application::dbfactory.
- *
- * @see midcom_services_dbclassloader
  * @package midcom.db
  */
 class midcom_db_article extends midcom_core_dbaobject
