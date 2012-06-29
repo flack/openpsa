@@ -356,5 +356,8 @@ define ('MIDCOM_CRON_DAY', 30);
 /**
  * FS path to the theme base directory
  */
-define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
+if (!defined('OPENPSA2_THEME_ROOT'))
+{
+    define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
+}
 ?>
