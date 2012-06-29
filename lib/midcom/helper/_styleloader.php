@@ -647,7 +647,7 @@ class midcom_helper__styleloader
         {
             if (isset($GLOBALS['midcom_config']['theme']))
             {
-                $filename = preg_replace('/lib$/', 'themes', MIDCOM_ROOT) . '/' . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
+                $filename = OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
                 if (file_exists($filename))
                 {
                     $_style = file_get_contents($filename);
