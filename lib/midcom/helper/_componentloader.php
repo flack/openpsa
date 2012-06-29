@@ -170,12 +170,12 @@ class midcom_helper__componentloader
     }
 
     /**
-    * This function will invoke _load directly. If the loading process
-    * is unsuccessful, false is returned.
-    *
-    * @param string $path    The component to load explicitly.
-    * @return boolean Indicating success.
-    */
+     * This function will invoke _load directly. If the loading process
+     * is unsuccessful, false is returned.
+     *
+     * @param string $path    The component to load explicitly.
+     * @return boolean Indicating success.
+     */
     function load_graceful($path)
     {
         return $this->_load($path);
