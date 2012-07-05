@@ -88,6 +88,7 @@ var org_openpsa_widgets_tabs =
     },
     load_head_elements: function(data, type)
     {
+        data = data.replace(/^[\s\S]+?<HEAD_ELEMENTS>/m, '<HEAD_ELEMENTS>');
         var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/;
         regex.exec(data);
         var head_elements = $.parseJSON(RegExp.$1);
