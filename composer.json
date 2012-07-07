@@ -41,7 +41,7 @@
         "pear-hp/HTMLPurifier": "*",
         "pear-pear/Text_CAPTCHA": "*",
         "pear-pear/Text_Diff": "*",
-        "midgard/midgardmvc-helper-urlize": "*"
+        "midgard/midgardmvc-helper-urlize": "*@dev"
     },
     "suggest": {
         "ext-midgard2": ">=10.05.5"
