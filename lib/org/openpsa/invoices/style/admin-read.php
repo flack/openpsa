@@ -32,11 +32,40 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
         <div class="org_openpsa_helper_box history status">
         <?php
-            echo "<h3>" . midcom::get('i18n')->get_l10n('org.openpsa.projects')->get('status history') . "</h3>\n";
-            echo "<div class=\"current-status {$invoice->get_status()}\">" . $data['l10n']->get('invoice status') . ': ' . $data['l10n']->get($invoice->get_status()) . "</div>\n";
+            echo "<h3>" . $data['l10n']->get('invoice status') . "</h3>\n";
+            echo "<div class=\"current-status {$invoice->get_status()}\">";
+            if (!$invoice->sent)
+            {
+                echo $data['l10n']->get('unsent');
+            }
+            else
+            {
+                if (!$invoice->paid)
+                {
+                    if ($invoice->due > time())
+                    {
+                        echo sprintf($data['l10n']->get('due on %s'), date($data['l10n_midcom']->get('short date'), $invoice->due));
+                    }
+                    else
+                    {
+                        echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), date($data['l10n_midcom']->get('short date'), $invoice->due)) . '</span>';
+                    }
+                }
+                else
+                {
+                    echo sprintf($data['l10n']->get('paid on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
+                }
+            }
+            echo "</div>\n";
+
+            if ($invoice->owner)
+            {
+                echo "<p><strong>" . $data['l10n_midcom']->get('owner') . ": </strong>\n";
+                $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
+                echo $owner_card->show_inline() . "</p>\n";
+            }
 
             echo "<ul>\n";
-
             if ($invoice->paid)
             {
                 echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->paid) . '</span>: <br />';
@@ -76,72 +105,41 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     </div>
     </div>
 <div class="main org_openpsa_invoices_invoice">
-    <p><strong><?php echo $data['l10n']->get('invoice status'); ?>: </strong>
-    <?php
-    if (!$invoice->sent)
-    {
-        echo $data['l10n']->get('unsent');
-    }
-    else
-    {
-        if (!$invoice->paid)
-        {
-            if ($invoice->due > time())
-            {
-                echo sprintf($data['l10n']->get('due on %s'), date($data['l10n_midcom']->get('short date'), $invoice->due));
-            }
-            else
-            {
-                echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), date($data['l10n_midcom']->get('short date'), $invoice->due)) . '</span>';
-            }
-        }
-        else
-        {
-            echo sprintf($data['l10n']->get('paid on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
-        }
-    }
-    echo "</p>\n";
-
-    if (   $invoice->sent
-        && !$invoice->paid)
-    {
-        echo "<p><strong>" . $data['l10n']->get('sent date') . ": </strong>\n";
-        echo date($data['l10n_midcom']->get('short date'), $invoice->sent) . "</p>\n";
-    }
-    if ($invoice->owner)
-    {
-        echo "<p><strong>" . $data['l10n_midcom']->get('owner') . ": </strong>\n";
-        $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
-        echo $owner_card->show_inline() . "</p>\n";
-    } ?>
-
-    <h2><?php echo $data['l10n']->get('invoice data'); ?></h2>
+  <div class="midcom_helper_datamanager2_view">
     <?php if ($customer)
     {
-        echo "<p><strong>" . $data['l10n']->get('customer') . ": </strong>\n";
-        echo '<a href="' . $contacts_url . 'group/' . $customer->guid . '/">' . $customer->get_label() . "</a>\n";
-        echo "</p>\n";
+        echo "<div class=\"field\"><div class=\"title\">" . $data['l10n']->get('customer') . ": </div>\n";
+        echo '<div class="value"><a href="' . $contacts_url . 'group/' . $customer->guid . '/">' . $customer->get_label() . "</a>\n</div>\n";
+        echo "</div>\n";
     }
     if ($invoice->date > 0)
     {
     ?>
-        <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
-        <?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></p>
+        <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice date'); ?>: </div>
+        <div class="value"><?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></div></div>
     <?php
     }
 
     if ($invoice->deliverydate > 0)
     {
     ?>
-        <p><strong><?php echo $data['l10n']->get('invoice delivery date'); ?>: </strong>
-        <?php echo date($data['l10n_midcom']->get('short date'), $invoice->deliverydate); ?></p>
+        <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice delivery date'); ?>: </div>
+        <div class="value"><?php echo date($data['l10n_midcom']->get('short date'), $invoice->deliverydate); ?></div></div>
     <?php
     }
     ?>
 
-    <p><strong><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </strong></p>
-    <div class="description">&(view['description']);</div>
+    <?php
+    if (   $invoice->sent
+        && !$invoice->paid)
+    {
+        echo "<div class=\"field\"><div class=\"title\">" . $data['l10n']->get('sent date') . ": </div>\n";
+        echo '<div class="value">' . date($data['l10n_midcom']->get('short date'), $invoice->sent) . "</div>\n</div>\n";
+    } ?>
 
+    <div class="field"><div class="title"><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </div>
+    <div class="description value">&(view['description']);</div></div>
+  </div>
     <?php
     if (!empty($data['invoice_items']))
     { ?>
