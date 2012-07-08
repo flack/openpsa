@@ -94,6 +94,8 @@ jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($foote
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
+</div>
+
 <script type="text/javascript">
 org_openpsa_batch_processing.initialize(
 {
@@ -101,6 +103,4 @@ org_openpsa_batch_processing.initialize(
     options: <?php echo json_encode($data['action_options']); ?>
 });
 </script>
-
-</div>
 
