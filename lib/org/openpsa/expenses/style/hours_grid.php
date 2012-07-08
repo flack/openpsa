@@ -52,7 +52,7 @@ $footer_data = array
 <div id="p_&(grid_id);"></div>
 
 <script type="text/javascript">
-jQuery("#&(grid_id);").jqGrid({
+org_openpsa_grid_helper.setup_grid("&(grid_id);", {
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', <?php
