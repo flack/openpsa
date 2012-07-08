@@ -167,7 +167,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
               <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number($invoice->sum); ?></td>
            </tr>
            <tr class="secondary">
-              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']);):</td>
+              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']:h);):</td>
               <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number(($invoice->sum / 100) * $invoice->vat); ?></td>
            </tr>
            <tr class="primary">
