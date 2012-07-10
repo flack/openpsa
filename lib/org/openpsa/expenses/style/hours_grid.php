@@ -51,6 +51,12 @@ $footer_data = array
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>
 
+<form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
+<input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
+</form>
+
+</div>
+
 <script type="text/javascript">
 org_openpsa_grid_helper.setup_grid("&(grid_id);", {
       datatype: "local",
@@ -88,15 +94,7 @@ org_openpsa_grid_helper.setup_grid("&(grid_id);", {
     });
 
 jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
-</script>
 
-<form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
-<input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
-</form>
-
-</div>
-
-<script type="text/javascript">
 org_openpsa_batch_processing.initialize(
 {
     id: '&(grid_id);',
