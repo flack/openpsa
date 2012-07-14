@@ -132,13 +132,9 @@ class org_openpsa_core_queryfilter
      */
     public function render()
     {
-        $url = midcom_connection::get_url('uri');
-        if (!empty($this->_selection))
-        {
-            $url .= '?' . http_build_query($this->_selection, '', '&amp;');
-        }
         foreach ($this->_filters as $filter)
         {
+            $url = midcom_connection::get_url('uri');
             $filter->render($url);
         }
     }

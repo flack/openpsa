@@ -6,6 +6,32 @@ $(document).ready(function()
     });
     $('form.org_openpsa_filter .filter_apply').bind('click', function()
     {
+        var filter_values = '?';
+        $('form.org_openpsa_filter input[type="text"]').each(function(index, element)
+        {
+            if (filter_values.length > 1)
+            {
+                filter_values += '&';
+            }
+            filter_values += $(element).attr('name') + '=' + $(element).val();
+        });
+        $('form.org_openpsa_filter select').each(function(index, element)
+        {
+            var filter_name = $(element).attr('name').slice(0, $(element).attr('name').length - 2);
+            $.each($(element).val(), function(i, value)
+            {
+                if (filter_values.length > 1)
+                {
+                    filter_values += '&';
+                }
+
+                filter_values += filter_name + '[' + i + ']=' + value;
+            });
+        });
+        if (filter_values.length > 1)
+        {
+            $(this).closest('form').prop('action', $(this).closest('form').prop('action') + filter_values);
+        }
         $(this).closest('form').submit();
     });
     $('form.org_openpsa_filter .filter_unset').bind('click', function()
