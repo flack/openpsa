@@ -61,7 +61,7 @@ $m_tables = array
 
 $db = mysql_connect($config->host, $config->dbuser, $config->dbpass) or die(mysql_error());
 
-mysql_select_db($argv[1], $db);
+mysql_select_db($config->database, $db);
 mysql_set_charset('utf8', $db);
 
 $res = mysql_query('SET NAMES utf8', $db) or die(mysql_error());
