@@ -51,6 +51,7 @@
         "openpsa/openpsa": "*"
     },
     "autoload": {
-        "classmap": ["lib"]
+        "classmap": ["lib"],
+        "psr-0": { "openpsa": "src/" }
     }
 }
