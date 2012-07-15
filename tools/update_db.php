@@ -43,6 +43,9 @@ foreach ($classes as $refclass)
     midgard_storage::update_class_storage($type);
     echo "  Updated storage for {$type}\n";
 }
+//No idea why this has to be listed explicitly...
+midgard_storage::update_class_storage('MidgardRepligard');
+echo "  Updated storage for MidgardRepligard\n";
 
 //Copy stuff from multilang tables by doing straight SQL
 $m_tables = array
@@ -61,7 +64,7 @@ $m_tables = array
 
 $db = mysql_connect($config->host, $config->dbuser, $config->dbpass) or die(mysql_error());
 
-mysql_select_db($argv[1], $db);
+mysql_select_db($config->database, $db);
 mysql_set_charset('utf8', $db);
 
 $res = mysql_query('SET NAMES utf8', $db) or die(mysql_error());
@@ -82,7 +85,7 @@ foreach ($m_tables as $table)
             $stmt .= 'title = ' . $table . '_i.title, ' . $table . '.content = ' . $table . '_i.content, ' . $table . '.author = ' . $table . '_i.author, ' . $table . '.owner = ' . $table . '_i.owner';
             break;
         case 'article':
-            $stmt .= 'title = ' . $table . '_i.title, ' . $table . '.abstract = ' . $table . '_i.abstract, ' . $table . '.content = ' . $table . '_i.content, ' . $table . '.author = ' . $table . '_i.author, ' . $table . '.url = ' . $table . '_i.url';
+            $stmt .= 'title = ' . $table . '_i.title, ' . $table . '.abstract = ' . $table . '_i.abstract, ' . $table . '.content = ' . $table . '_i.content, ' . $table . '.url = ' . $table . '_i.url';
             break;
         case 'pageelement':
             $stmt .= 'value = ' . $table . '_i.value';
