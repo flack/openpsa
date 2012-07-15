@@ -43,6 +43,9 @@ foreach ($classes as $refclass)
     midgard_storage::update_class_storage($type);
     echo "  Updated storage for {$type}\n";
 }
+//No idea why this has to be listed explicitly...
+midgard_storage::update_class_storage('MidgardRepligard');
+echo "  Updated storage for MidgardRepligard\n";
 
 //Copy stuff from multilang tables by doing straight SQL
 $m_tables = array
