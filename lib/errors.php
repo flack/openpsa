@@ -70,12 +70,12 @@ class midcom_exception_handler
 
         // Determine login message
         $login_warning = '';
-        if (! is_null($this->user))
+        if (! is_null(midcom::get('auth')->user))
         {
             // The user has insufficient privileges
             $login_warning = midcom::get('i18n')->get_string('login message - insufficient privileges', 'midcom');
         }
-        else if ($this->auth_credentials_found)
+        else if (midcom::get('auth')->auth_credentials_found)
         {
             $login_warning = midcom::get('i18n')->get_string('login message - user or password wrong', 'midcom');
         }
