@@ -82,7 +82,7 @@ foreach ($m_tables as $table)
             $stmt .= 'title = ' . $table . '_i.title, ' . $table . '.content = ' . $table . '_i.content, ' . $table . '.author = ' . $table . '_i.author, ' . $table . '.owner = ' . $table . '_i.owner';
             break;
         case 'article':
-            $stmt .= 'title = ' . $table . '_i.title, ' . $table . '.abstract = ' . $table . '_i.abstract, ' . $table . '.content = ' . $table . '_i.content, ' . $table . '.author = ' . $table . '_i.author, ' . $table . '.url = ' . $table . '_i.url';
+            $stmt .= 'title = ' . $table . '_i.title, ' . $table . '.abstract = ' . $table . '_i.abstract, ' . $table . '.content = ' . $table . '_i.content, ' . $table . '.url = ' . $table . '_i.url';
             break;
         case 'pageelement':
             $stmt .= 'value = ' . $table . '_i.value';
