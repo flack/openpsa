@@ -214,15 +214,7 @@ class midcom_helper_head
      */
     public function add_object_head ($script, $attributes = null)
     {
-        $output = "";
-        if (!is_null($attributes))
-        {
-            foreach ($attributes as $key => $val)
-            {
-                $output .= " $key=\"$val\" ";
-            }
-        }
-        $this->_object_head .= '<object '. $output . ' >' . $script . "</object>\n";
+        $this->_object_head .= '<object' . $this->_get_attribute_string($attributes) . '>' . $script . "</object>\n";
     }
 
     /**
@@ -235,15 +227,7 @@ class midcom_helper_head
      */
     public function add_meta_head($attributes = null)
     {
-         $output = "";
-         if (!is_null($attributes))
-         {
-             foreach ($attributes as $key => $val)
-             {
-                 $output .= " $key=\"$val\" ";
-             }
-         }
-         $this->_meta_head .= '<meta '. $output . ' />'."\n";
+         $this->_meta_head .= '<meta' . $this->_get_attribute_string($attributes) . ' />' . "\n";
     }
 
     /**
@@ -257,15 +241,21 @@ class midcom_helper_head
      */
     public function add_style_head($script, $attributes = null)
     {
-        $output = "";
-        if (!is_null($attributes))
+        $this->_style_head .= '<style type="text/css"' . $this->_get_attribute_string($attributes) . '><!--' . $script . "--></style>\n";
+    }
+
+    private function _get_attribute_string($attributes)
+    {
+        $string = '';
+        if (null === $attributes)
         {
-            foreach ($attributes as $key => $val)
-            {
-                $output .= " $key=\"$val\" ";
-            }
+            return $string;
         }
-        $this->_style_head .= '<style '. $output . ' type="text/css" ><!--' . $script . "--></style>\n";
+        foreach ($attributes as $key => $val)
+        {
+            $string .= ' ' . $key . '="' . $val . '"';
+        }
+        return $string;
     }
 
     /**
@@ -428,22 +418,18 @@ class midcom_helper_head
         {
             $attributes = $this->_link_head[$url];
             $output = '';
+            $is_conditional = false;
 
             if (array_key_exists('condition', $attributes))
             {
                 echo "<!--[if {$attributes['condition']}]>\n";
+                $is_conditional = true;
+                unset($attributes['condition']);
             }
 
-            foreach ($attributes as $key => $val)
-            {
-                if ($key != 'condition')
-                {
-                    $output .= " {$key}=\"{$val}\" ";
-                }
-            }
-            echo "<link{$output}/>\n";
+            echo "<link" . $this->_get_attribute_string($attributes) . " />\n";
 
-            if (array_key_exists('condition', $attributes))
+            if ($is_conditional)
             {
                 echo "<![endif]-->\n";
             }
