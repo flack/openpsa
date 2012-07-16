@@ -24,13 +24,13 @@ class installer
 
     public static function install_schemas($event)
     {
+        $io = $event->getIO();
         if (!method_exists('\midgard_connection', 'get_connection'))
         {
             $io->write('Linking schemas is not yet supported on mgd1, please do this manually if necessary');
             return;
         }
 
-        $io = $event->getIO();
         $options = self::get_options($event);
 
         $schemas = self::_get_grandchildren($options['vendor-dir'], 'schemas', 'file');
