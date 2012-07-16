@@ -20,9 +20,6 @@ class installer
         $options = self::get_options($event);
         self::_prepare_dir('src');
         self::_prepare_dir($options['vendor-dir']);
-        self::_prepare_dir('web/' . $options['midcom-static-dir']);
-        self::_prepare_dir($options['static-dir']);
-        self::_prepare_dir($options['themes-dir']);
     }
 
     public static function install_schemas($event)
@@ -48,6 +45,9 @@ class installer
     {
         $io = $event->getIO();
         $options = self::get_options($event);
+        self::_prepare_dir('web/' . $options['midcom-static-dir']);
+        self::_prepare_dir($options['static-dir']);
+        self::_prepare_dir($options['themes-dir']);
 
         $basepath = './web/' . $options['midcom-static-dir'] . '/';
         $static_dirs = self::_get_grandchildren($options['vendor-dir'], 'static');
