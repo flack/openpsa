@@ -47,7 +47,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "  <td>" . strftime('%x %X', $last_edit) . "</td>\n";
                 if ($persons[$file->metadata->revisor]->guid)
                 {
-                    echo "<td><a href=\"{$prefix}__mfa/asgard/object/view/{$persons[$file->metadata->revisor]->guid}/\">{$persons[$file->metadata->revisor]->name}</a></td>\n";
+                    echo "<td><a href=\"{$prefix}__mfa/asgard/object/open/{$persons[$file->metadata->revisor]->guid}/\">{$persons[$file->metadata->revisor]->name}</a></td>\n";
                 }
                 else
                 {
@@ -67,7 +67,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "      <img alt=\"{$delete_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/trash.png\"/>\n";
                 echo "    </a>\n";
                 $manage_title = midcom::get('i18n')->get_string('manage object', 'midgard.admin.asgard');
-                echo "    <a title=\"{$manage_title}\" href=\"{$prefix}__mfa/asgard/object/view/{$file->guid}/\">\n";
+                echo "    <a title=\"{$manage_title}\" href=\"{$prefix}__mfa/asgard/object/open/{$file->guid}/\">\n";
                 echo "      <img alt=\"{$manage_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/properties.png\"/>\n";
                 echo "    </a>\n";
                 echo "  </td>\n";
