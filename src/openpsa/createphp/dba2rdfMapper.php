@@ -17,7 +17,7 @@ use Midgard\CreatePHP\Entity\Property;
  *
  * @package openpsa.createphp
  */
-class dba2rdfMapper implements RdfMapper
+class dba2rdfMapper implements RdfMapperInterface
 {
     public function getByIdentifier($identifier)
     {
