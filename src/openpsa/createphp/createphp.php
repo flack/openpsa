@@ -34,6 +34,7 @@ class createphp
         $head->add_jsfile($prefix . 'deps/backbone-min.js');
         $head->add_jsfile($prefix . 'deps/vie-min.js');
         $head->add_jsfile($prefix . 'deps/hallo-min.js');
+        $head->add_jsfile($prefix . 'deps/rangy-core-1.2.3.js');
         $head->add_jsfile($prefix . 'create-min.js');
 
         $head->add_stylesheet($prefix . 'deps/font-awesome/css/font-awesome.css');
