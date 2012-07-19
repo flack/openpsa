@@ -8,7 +8,7 @@
 
 namespace openpsa\createphp;
 
-use Midgard\CreatePHP\RdfMapper;
+use Midgard\CreatePHP\RdfMapperInterface;
 use Midgard\CreatePHP\Entity\Controller;
 use Midgard\CreatePHP\Entity\Property;
 
