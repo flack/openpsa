@@ -29,9 +29,23 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get('componentloader')->load("org.openpsa.contacts");
         $person_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
         $account_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
-        foreach ($account_schema['default']->fields as $name => $value)
+        $current = 0;
+        $last = sizeof($account_schema['default']->fields);
+        foreach ($account_schema['default']->fields as $name => $field)
         {
-            $person_schema['default']->fields[$name] = $value;
+            if ($current++ == 0)
+            {
+                $field['start_fieldset'] = array
+                (
+                    'title' => 'account_fieldset',
+                    'css_group' => 'area meta',
+                );
+            }
+            else if ($current == $last)
+            {
+                $field['end_fieldset'] = '';
+            }
+            $person_schema['default']->fields[$name] = $field;
             $person_schema['default']->field_order[] = $name;
         }
         $person_schema['default']->validation = $account_schema['default']->validation;

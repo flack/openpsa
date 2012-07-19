@@ -18,12 +18,6 @@
             'storage'  => 'username',
             'type'     => 'text',
             'widget'   => 'text',
-
-            'start_fieldset' => array
-            (
-                'title' => 'account_fieldset',
-                'css_group' => 'area meta',
-            ),
         ),
 
         'password' => array
@@ -40,7 +34,6 @@
             'storage' => null,
             'type' => 'boolean',
             'widget' => 'checkbox',
-            'end_fieldset' => '',
         ),
     )
 ),

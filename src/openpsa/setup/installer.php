@@ -20,14 +20,17 @@ class installer
         $options = self::get_options($event);
         self::_prepare_dir('src');
         self::_prepare_dir($options['vendor-dir']);
-        self::_prepare_dir('web/' . $options['midcom-static-dir']);
-        self::_prepare_dir($options['static-dir']);
-        self::_prepare_dir($options['themes-dir']);
     }
 
     public static function install_schemas($event)
     {
         $io = $event->getIO();
+        if (!method_exists('\midgard_connection', 'get_instance'))
+        {
+            $io->write('Linking schemas is not yet supported on mgd1, please do this manually if necessary');
+            return;
+        }
+
         $options = self::get_options($event);
 
         $schemas = self::_get_grandchildren($options['vendor-dir'], 'schemas', 'file');
@@ -42,6 +45,9 @@ class installer
     {
         $io = $event->getIO();
         $options = self::get_options($event);
+        self::_prepare_dir('web/' . $options['midcom-static-dir']);
+        self::_prepare_dir($options['static-dir']);
+        self::_prepare_dir($options['themes-dir']);
 
         $basepath = './web/' . $options['midcom-static-dir'] . '/';
         $static_dirs = self::_get_grandchildren($options['vendor-dir'], 'static');
