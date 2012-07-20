@@ -24,6 +24,7 @@ class createphp
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.droppable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.core.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.highlight.min.js');
 
@@ -34,6 +35,7 @@ class createphp
         $head->add_jsfile($prefix . 'deps/backbone-min.js');
         $head->add_jsfile($prefix . 'deps/vie-min.js');
         $head->add_jsfile($prefix . 'deps/hallo-min.js');
+        $head->add_jsfile($prefix . 'deps/rangy-core-1.2.3.js');
         $head->add_jsfile($prefix . 'create-min.js');
 
         $head->add_stylesheet($prefix . 'deps/font-awesome/css/font-awesome.css');

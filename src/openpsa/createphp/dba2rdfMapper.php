@@ -10,7 +10,8 @@ namespace openpsa\createphp;
 
 use Midgard\CreatePHP\RdfMapperInterface;
 use Midgard\CreatePHP\Entity\Controller;
-use Midgard\CreatePHP\Entity\Property;
+use Midgard\CreatePHP\Entity\PropertyInterface;
+use Midgard\CreatePHP\Type\TypeInterface;
 
 /**
  * Default RdfMapper implementation for MidCOM DBA
@@ -19,7 +20,7 @@ use Midgard\CreatePHP\Entity\Property;
  */
 class dba2rdfMapper implements RdfMapperInterface
 {
-    public function getByIdentifier($identifier)
+    public function getBySubject($identifier)
     {
         $identifier = str_replace("{$GLOBALS['midcom_config']['midcom_site_url']}midcom-permalink-", '', $identifier);
         $identifier = trim($identifier, '<>');
@@ -35,12 +36,12 @@ class dba2rdfMapper implements RdfMapperInterface
         }
     }
 
-    public function createIdentifier($object)
+    public function createSubject($object)
     {
         return \midcom_services_permalinks::create_permalink($object->guid);
     }
 
-    public function prepareObject(Controller $controller, $parent = null)
+    public function prepareObject(TypeInterface $controller, $parent = null)
     {
         $config = $controller->getConfig();
         $class = $config['storage'];
@@ -98,20 +99,20 @@ class dba2rdfMapper implements RdfMapperInterface
         return $qb->execute();
     }
 
-    public function setPropertyValue($object, Property $node, $value)
+    public function setPropertyValue($object, PropertyInterface $node, $value)
     {
         $config = $node->getConfig();
 
         if (!array_key_exists('dba_name', $config))
         {
-            throw new midcom_error('Could not find property mapping for ' . $node->get_identifier());
+            throw new \midcom_error('Could not find property mapping for ' . $node->get_identifier());
         }
 
         $object->{$config['dba_name']} = $value;
         return $object;
     }
 
-    public function getPropertyValue($object, Property $node)
+    public function getPropertyValue($object, PropertyInterface $node)
     {
         $config = $node->getConfig();
 
