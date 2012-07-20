@@ -8,14 +8,14 @@
 
 namespace openpsa\createphp\workflow;
 
-use Midgard\CreatePHP\Workflow;
+use Midgard\CreatePHP\WorkflowInterface;
 
 /**
  * Delete workflow implementation
  *
  * @package openpsa.createphp
  */
-class delete implements Workflow
+class delete implements WorkflowInterface
 {
     public function getToolbarConfig($object)
     {
