@@ -22,61 +22,9 @@ class installer
         self::_prepare_dir($options['vendor-dir']);
         if (extension_loaded('midgard2'))
         {
-            $io = $event->getIO();
-            $config_name = $io->ask('<question>Please enter config name:</question> ');
-            $config_file = "/etc/midgard2/conf.d/" . $config_name;
-            if (   file_exists($config_file)
-                && !$io->askConfirmation('<question>' . $config_file . ' already exists, override?</question> '))
-            {
-                $config = new midgard_config();
-                if (!$config->read_file($config_name, false))
-                {
-                    throw new \Exception('Could not read config file ' . $config_file);
-                }
-            }
-            else
-            {
-                $config = self::_create_config($config_name, $io);
-            }
+            $mgd2installer = new mgd2installer($event->getIO());
+            $mgd2installer->run();
         }
-    }
-
-    private static function _create_config($config_name, $io)
-    {
-        $project_basedir = realpath('./');
-        $openpsa_basedir = realpath($project_basedir . '/vendor/openpsa/midcom/');
-
-        var_dump($project_basedir, $openpsa_basedir);
-
-        self::_prepare_dir('midgard');
-        self::_prepare_dir('midgard/var');
-        self::_prepare_dir('midgard/cache');
-        self::_prepare_dir('midgard/share');
-        self::_prepare_dir('midgard/share/views');
-        self::_prepare_dir('midgard/rcs');
-        self::_prepare_dir('midgard/blobs');
-        self::_prepare_dir('midgard/log');
-
-        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/midgard/share/midgard_auth_types.xml', $io);
-        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/midgard/share/MidgardObjects.xml', $io);
-
-        // Create a config file
-        $config = new \midgard_config();
-        $config->dbtype = 'MySQL';
-        $config->database = $config_name;
-        $config->blobdir = $project_basedir . '/midgard/blobs';
-        $config->sharedir = $project_basedir . '/midgard/share';
-        $config->vardir = $project_basedir . '/midgard/var';
-        $config->cachedir = $project_basedir . '/midgard/cache';
-        $config->logfilename = $project_basedir . 'midgard/log/midgard.log';
-        $config->loglevel = 'debug';
-        if (!$config->save_file($config_name, false))
-        {
-            throw new \Exception("Failed to save config file " . $config_name);
-        }
-
-        $io->write("Configuration file " . $config_name . " created.");
-        return $config;
     }
 
     public static function install_schemas($event)
@@ -167,7 +115,7 @@ class installer
         return $return;
     }
 
-    private static function _prepare_dir($dir)
+    protected static function _prepare_dir($dir)
     {
         if (   !is_dir('./' . $dir)
             && !mkdir('./' . $dir))
@@ -176,7 +124,7 @@ class installer
         }
     }
 
-    private static function _link($target, $linkname, $io)
+    protected static function _link($target, $linkname, $io)
     {
         if (is_link($linkname))
         {
