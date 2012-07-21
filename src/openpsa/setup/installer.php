@@ -20,11 +20,11 @@ class installer
         $options = self::get_options($event);
         self::_prepare_dir('src');
         self::_prepare_dir($options['vendor-dir']);
-        if (!extension_loaded('midgard2'))
+        if (extension_loaded('midgard2'))
         {
             $io = $event->getIO();
             $config_name = $io->ask('<question>Please enter config name:</question> ');
-            $config_file = "/etc/midgard2/conf.d/" . $this->_project_name;
+            $config_file = "/etc/midgard2/conf.d/" . $config_name;
             if (   file_exists($config_file)
                 && !$io->askConfirmation('<question>' . $config_file . ' already exists, override?</question> '))
             {
@@ -57,11 +57,11 @@ class installer
         self::_prepare_dir('midgard/blobs');
         self::_prepare_dir('midgard/log');
 
-        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/midgard/share/midgard_auth_types.xml');
-        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/midgard/share/MidgardObjects.xml');
+        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/midgard/share/midgard_auth_types.xml', $io);
+        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/midgard/share/MidgardObjects.xml', $io);
 
         // Create a config file
-        $config = new midgard_config();
+        $config = new \midgard_config();
         $config->dbtype = 'MySQL';
         $config->database = $config_name;
         $config->blobdir = $project_basedir . '/midgard/blobs';
@@ -72,10 +72,10 @@ class installer
         $config->loglevel = 'debug';
         if (!$config->save_file($config_name, false))
         {
-            throw new \Exception("Failed to save config file " . $config);
+            throw new \Exception("Failed to save config file " . $config_name);
         }
 
-        $io->write("Configuration file " . $config_file . " created.");
+        $io->write("Configuration file " . $config_name . " created.");
         return $config;
     }
 
