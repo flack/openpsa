@@ -15,15 +15,27 @@ namespace openpsa\setup;
  */
 class installer
 {
+    protected static $_client;
+
+    protected static function _get_client($event)
+    {
+        if (empty(self::$_client))
+        {
+            $options = self::get_options($event);
+            if (extension_loaded('midgard2'))
+            {
+                self::$_client = new mgd2installer($event->getIO(), $options['vendor-dir']);
+            }
+        }
+        return self::$_client;
+    }
+
     public static function setup_project($event)
     {
-        $options = self::get_options($event);
         self::_prepare_dir('src');
-        self::_prepare_dir($options['vendor-dir']);
-        if (extension_loaded('midgard2'))
+        if ($client = self::_get_client($event))
         {
-            $mgd2installer = new mgd2installer($event->getIO());
-            $mgd2installer->run();
+            $client->init_project();
         }
     }
 
@@ -36,10 +48,12 @@ class installer
             return;
         }
 
-        $options = self::get_options($event);
+        $client = self::_get_client($event);
+        $basepath = $client->get_schema_dir();
 
+        $options = self::get_options($event);
         $schemas = self::_get_grandchildren($options['vendor-dir'], 'schemas', 'file');
-        $basepath = \midgard_connection::get_instance()->config->sharedir . '/schema/';
+
         foreach ($schemas as $schema)
         {
             self::_link($schema->getRealPath(), $basepath . $schema->getFilename(), $io);

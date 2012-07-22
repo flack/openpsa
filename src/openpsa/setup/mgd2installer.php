@@ -17,23 +17,109 @@ class mgd2installer extends installer
 {
     protected $_io;
 
-    public function __construct($io)
+    protected $_vendor_dir;
+
+    protected $_config_name;
+
+    public function __construct($io, $vendor_dir)
     {
         $this->_io = $io;
+        $this->_vendor_dir = $vendor_dir;
     }
 
-    public function run()
+    protected function _get_config_name($prefer_default = true)
     {
-        $config_name = $this->_io->ask('<question>Please enter config name:</question> ');
+        if (empty($this->_config_name))
+        {
+            $default = $this->_load_default('config_name');
+            if (empty($default))
+            {
+                $midgard = \midgard_connection::get_instance();
+                if ($midgard->is_connected())
+                {
+                    // The actual config filename is not available at this point, so
+                    // we take the DB name and hope for the best...
+                    $default = $midgard->config->database;
+                }
+                else
+                {
+                    $path = ini_get('midgard.configuration_file');
+                    $default = preg_replace('/\/.+\//', '', $path);
+                }
+            }
+            if (   $prefer_default === true
+                && !empty($default))
+            {
+                $this->_config_name = $default;
+            }
+            else
+            {
+                $this->_config_name = $this->_io->ask('<question>Please enter config name:</question> ', $default);
+                $this->_save_default('config_name', $this->_config_name);
+            }
+        }
+        return $this->_config_name;
+    }
+
+    protected function _load_default($key = null)
+    {
+        $defaults = array();
+        $defaults_file = $this->_vendor_dir . '/.openpsa_installer_defaults.php';
+        if (file_exists($defaults_file))
+        {
+            $defaults = json_decode(file_get_contents($defaults_file), true);
+        }
+        if (null !== $key)
+        {
+            if (array_key_exists($key, $defaults))
+            {
+                return $defaults[$key];
+            }
+            return null;
+        }
+        return $defaults;
+    }
+
+    protected function _save_default($key, $value)
+    {
+        $defaults = $this->_load_default();
+        $defaults_file = $this->_vendor_dir . '/.openpsa_installer_defaults.php';
+        if (file_exists($defaults_file))
+        {
+            unlink($defaults_file);
+        }
+        $defaults[$key] = $value;
+        file_put_contents($defaults_file, json_encode($defaults));
+    }
+
+    protected function _load_config($config_name = null)
+    {
+        if (null === $config_name)
+        {
+            $config_name = $this->_get_config_name();
+        }
+        $config = new \midgard_config();
+        if (!$config->read_file($config_name, false))
+        {
+            throw new \Exception('Could not read config file ' . $config_name);
+        }
+        return $config;
+    }
+
+    public function get_schema_dir()
+    {
+        $config = $this->_load_config();
+        return $config->sharedir . '/schema/';
+    }
+
+    public function init_project()
+    {
+        $config_name = $this->_get_config_name(false);
         $config_file = "/etc/midgard2/conf.d/" . $config_name;
         if (   file_exists($config_file)
             && !$this->_io->askConfirmation('<question>' . $config_file . ' already exists, override?</question> '))
         {
-            $config = new \midgard_config();
-            if (!$config->read_file($config_name, false))
-            {
-                throw new \Exception('Could not read config file ' . $config_file);
-            }
+            $config = $this->_load_config($config_name);
         }
         else
         {
