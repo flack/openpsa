@@ -54,7 +54,7 @@ class mgd2installer extends installer
             }
             else
             {
-                $this->_config_name = $this->_io->ask('<question>Please enter config name:</question> ', $default);
+                $this->_config_name = $this->_io->ask('<question>Please enter config name:</question> [<info>' . $default . '</info>] ', $default);
                 $this->_save_default('config_name', $this->_config_name);
             }
         }
@@ -69,6 +69,7 @@ class mgd2installer extends installer
         {
             $defaults = json_decode(file_get_contents($defaults_file), true);
         }
+
         if (null !== $key)
         {
             if (array_key_exists($key, $defaults))
@@ -131,6 +132,7 @@ class mgd2installer extends installer
 
     private function _prepare_database(\midgard_config $config)
     {
+        $this->_io->write('Preparing storage <comment>(this may take a while)</comment>');
         $midgard = \midgard_connection::get_instance();
         $midgard->open_config($config);
         if (!$midgard->is_connected())
@@ -164,6 +166,7 @@ class mgd2installer extends installer
             \midgard_storage::create_class_storage($type);
             \midgard_storage::update_class_storage($type);
         }
+        $this->_io->write('Storage created');
     }
 
     private function _create_config($config_name)
@@ -176,6 +179,7 @@ class mgd2installer extends installer
         self::_prepare_dir('midgard/cache');
         self::_prepare_dir('midgard/share');
         self::_prepare_dir('midgard/share/views');
+        self::_prepare_dir('midgard/share/schema');
         self::_prepare_dir('midgard/rcs');
         self::_prepare_dir('midgard/blobs');
         self::_prepare_dir('midgard/log');
@@ -186,13 +190,16 @@ class mgd2installer extends installer
         // Create a config file
         $config = new \midgard_config();
         $config->dbtype = 'MySQL';
+        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<info>' . $config_name . '</info>] ', $config_name);
+        $config->dbpass = $this->_io->askAndHideAnswer('<question>DB password:</question> ');
+
         $config->database = $config_name;
         $config->blobdir = $project_basedir . '/midgard/blobs';
         $config->sharedir = $project_basedir . '/midgard/share';
         $config->vardir = $project_basedir . '/midgard/var';
         $config->cachedir = $project_basedir . '/midgard/cache';
         $config->logfilename = $project_basedir . 'midgard/log/midgard.log';
-        $config->loglevel = 'debug';
+        $config->loglevel = 'warn';
         if (!$config->save_file($config_name, false))
         {
             throw new \Exception("Failed to save config file " . $config_name);
