@@ -20,14 +20,19 @@ class installer
         $options = self::get_options($event);
         self::_prepare_dir('src');
         self::_prepare_dir($options['vendor-dir']);
+        if (extension_loaded('midgard2'))
+        {
+            $mgd2installer = new mgd2installer($event->getIO());
+            $mgd2installer->run();
+        }
     }
 
     public static function install_schemas($event)
     {
         $io = $event->getIO();
-        if (!method_exists('\midgard_connection', 'get_instance'))
+        if (!extension_loaded('midgard2'))
         {
-            $io->write('Linking schemas is not yet supported on mgd1, please do this manually if necessary');
+            $io->write('<warning>Linking schemas is not yet supported on mgd1, please do this manually if necessary</warning>');
             return;
         }
 
@@ -110,7 +115,7 @@ class installer
         return $return;
     }
 
-    private static function _prepare_dir($dir)
+    protected static function _prepare_dir($dir)
     {
         if (   !is_dir('./' . $dir)
             && !mkdir('./' . $dir))
@@ -119,7 +124,7 @@ class installer
         }
     }
 
-    private static function _link($target, $linkname, $io)
+    protected static function _link($target, $linkname, $io)
     {
         if (is_link($linkname))
         {
