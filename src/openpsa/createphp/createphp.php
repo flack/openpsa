@@ -8,6 +8,9 @@
 
 namespace openpsa\createphp;
 
+use Midgard\CreatePHP\RdfMapperInterface;
+use Midgard\CreatePHP\ArrayLoader;
+
 /**
  * MidCOM CreatePHP integration
  *
@@ -15,6 +18,21 @@ namespace openpsa\createphp;
  */
 class createphp
 {
+    private $_manager;
+
+    public function __construct(array $config, RdfMapperInterface $mapper = null)
+    {
+        if (null === $mapper)
+        {
+            $mapper = new dba2rdfMapper;
+        }
+        $loader = new ArrayLoader($config);
+        $this->_manager = $loader->getManager($mapper);
+    }
+
+    /**
+     * Add Create.js static files to midcom_helper_head
+     */
     public static function add_head_elements()
     {
         $head = \midcom::get('head');
@@ -41,6 +59,16 @@ class createphp
         $head->add_stylesheet($prefix . 'deps/font-awesome/css/font-awesome.css');
         $head->add_stylesheet($prefix . 'themes/create-ui/css/create-ui.css');
         $head->add_stylesheet($prefix . 'themes/midgard-notifications/midgardnotif.css');
+    }
+
+    public function get_controller(\midcom_core_dbaobject $object, $type)
+    {
+        return $this->_manager->getType($type, $object);
+    }
+
+    public function render_widget()
+    {
+        return $this->_manager->getWidget();
     }
 }
 ?>
