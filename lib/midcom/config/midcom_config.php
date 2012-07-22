@@ -577,21 +577,21 @@ class midcom_config implements arrayaccess
         $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
-        $sharedir = "/var/lib/midgard";
+        $basedir = "/var/lib/midgard";
         // TODO: Would be good to include DB name into the path
         if (extension_loaded('midgard2'))
         {
-            $sharedir = midgard_connection::get_instance()->config->sharedir;
+            $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
         }
         else
         {
             $prefix = midcom_connection::get('config', 'prefix');
             if ($prefix == '/usr/local')
             {
-                $sharedir = '/var/local/lib/midgard';
+                $basedir = '/var/local/lib/midgard';
             }
         }
-        $this->_default_config['midcom_services_rcs_root'] = $sharedir . '/rcs';
+        $this->_default_config['midcom_services_rcs_root'] = $basedir . '/rcs';
     }
 
     public function offsetSet($offset, $value)
