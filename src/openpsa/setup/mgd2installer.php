@@ -131,17 +131,23 @@ class mgd2installer extends installer
 
     private function _prepare_database(\midgard_config $config)
     {
+        $midgard = \midgard_connection::get_instance();
+        $midgard->open_config($config);
+        if (!$midgard->is_connected())
+        {
+            throw new \Exception("Failed to open config {$config->database}:" . $midgard->get_error_string());
+        }
         if (!$config->create_blobdir())
         {
-            throw new \Exception("Failed to create file attachment storage directory to {$config->blobdir}:" . \midgard_connection::get_instance()->get_error_string());
+            throw new \Exception("Failed to create file attachment storage directory to {$config->blobdir}:" . $midgard->get_error_string());
         }
 
         // Create storage
         if (!\midgard_storage::create_base_storage())
         {
-            if (\midgard_connection::get_instance()->get_error_string() != 'MGD_ERR_OK')
+            if ($midgard->get_error_string() != 'MGD_ERR_OK')
             {
-                throw new \Exception("Failed to create base database structures" . \midgard_connection::get_instance()->get_error_string());
+                throw new \Exception("Failed to create base database structures" . $midgard->get_error_string());
             }
         }
 
