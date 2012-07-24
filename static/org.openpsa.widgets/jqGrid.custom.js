@@ -166,7 +166,11 @@ var org_openpsa_grid_resize =
                 }
                 try
                 {
-                    $("#" + id).jqGrid().setGridWidth(new_width);
+                    var old_width = $("#" + id).jqGrid().getGridParam('width');
+                    if (new_width != old_width)
+                    {
+                        $("#" + id).jqGrid().setGridWidth(new_width);
+                    }
                 }
             catch(e){}
         });
@@ -497,7 +501,7 @@ var org_openpsa_grid_helper =
                     'maximized': grid.closest('.ui-jqgrid-maximized').length > 0
                 }
             };
-            window.localStorage.setItem(identifier, JSON.stringify(data))
+            //window.localStorage.setItem(identifier, JSON.stringify(data))
         });
     }
 };
