@@ -35,6 +35,9 @@ $grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
         function(event, ui)
         {
             refreshItemPositions();
+            //Refresh the rows alternately with the style from the class even
+            $(this).find("tbody tr.jqgrow").removeClass('even');
+            $(this).find("tbody tr.jqgrow:visible:odd").addClass('even');
         });
 
     function saveSingleItemPosition(id, pos)
@@ -83,15 +86,8 @@ $grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
                 rows = grid.jqGrid('getRowData'),
                 total = 0,
                 i = 0;
+
             grid.jqGrid('setRowData', rowid, {sum: parseFloat(price) * parseFloat(quantity)});
-
-            for (i = 0; i < rows.length; i++)
-            {
-                total += parseFloat(grid.jqGrid('getCell', rows[i].id, 7));
-            }
-
-            grid.jqGrid("footerData", "set", {sum: total});
-            org_openpsa_grid_editable.toggle(rowid, false);
 
             var return_values = $.parseJSON(response.responseText);
             //if saved row was new_... then refresh tr-id
@@ -106,12 +102,21 @@ $grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
                     saveSingleItemPosition(newId, pos);
 
                     $('#'+oldId).attr('id', newId);
-                    $('#edit_button_' + oldId).attr('id', 'edit_button_'+newId);
-                    $('#save_button_' + oldId).attr('id', 'save_button_'+newId);
-                    $('#cancel_button_' + oldId).attr('id', 'cancel_button_'+newId);
-                    $('#delete_button_' + oldId).attr('id', 'delete_button_'+newId);
+                    $('#edit_button_' + oldId).attr('id', 'edit_button_' + newId);
+                    $('#save_button_' + oldId).attr('id', 'save_button_' + newId);
+                    $('#cancel_button_' + oldId).attr('id', 'cancel_button_' + newId);
+                    $('#delete_button_' + oldId).attr('id', 'delete_button_' + newId);
                 }
             }
+
+            for (i = 0; i < rows.length; i++)
+            {
+                total += parseFloat(grid.jqGrid('getCell', rows[i].id, 7));
+            }
+
+            grid.jqGrid("footerData", "set", {sum: total});
+            org_openpsa_grid_editable.toggle(rowid, false);
+
             // enabled the (Drab&Drop) sort of the rows after save (after edit)
             $( 'tbody:first', 'table').sortable( "option", "disabled", false );
             $( 'tbody:first', 'table').disableSelection();

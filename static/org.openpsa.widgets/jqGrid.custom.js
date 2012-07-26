@@ -398,6 +398,15 @@ var org_openpsa_grid_editable =
             .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
 
     },
+    /**
+     * Input:
+     *  boolean isEdit
+     * Description:
+     *  -by true, the grid will not be sortable but the (edit) fields selectable by mouse
+     *  -by false, the grid will be sortable and the fields not selectable
+     * Notice:
+     *  this function works only if enable_sorting is set true
+     */
     toggle_mouselistener: function(isEdit) //isEdit is boolean
     {
         if (this.options.enable_sorting)
