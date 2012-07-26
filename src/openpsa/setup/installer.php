@@ -26,6 +26,10 @@ class installer
             {
                 self::$_client = new mgd2installer($event->getIO(), $options['vendor-dir']);
             }
+            else if (!extension_loaded('midgard'))
+            {
+                throw new \RunTimeException('midgard extension is not loaded');
+            }
         }
         return self::$_client;
     }
@@ -42,7 +46,7 @@ class installer
     public static function install_schemas($event)
     {
         $io = $event->getIO();
-        if (!extension_loaded('midgard2'))
+        if (extension_loaded('midgard'))
         {
             $io->write('<warning>Linking schemas is not yet supported on mgd1, please do this manually if necessary</warning>');
             return;
@@ -142,7 +146,15 @@ class installer
     {
         if (is_link($linkname))
         {
-            unlink($linkname);
+            if (realpath($linkname) === $target)
+            {
+                return;
+            }
+            else
+            {
+                $io->write('Replacing <comment>' . realpath($linkname) . '</comment> with <info>' . $target . '</info>');
+                unlink($linkname);
+            }
         }
         if (!@symlink($target, $linkname))
         {

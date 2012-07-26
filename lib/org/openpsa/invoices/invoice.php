@@ -296,14 +296,14 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     function get_invoice_items()
     {
         $mc = org_openpsa_invoices_invoice_item_dba::new_collector('invoice', $this->id);
+        $mc->add_order('position', 'DESC');
         $mc->execute();
-
         $items = $mc->list_keys();
+
         foreach ($items as $guid => $empty)
         {
             $items[$guid] = new org_openpsa_invoices_invoice_item_dba($guid);
         }
-
         return $items;
     }
 

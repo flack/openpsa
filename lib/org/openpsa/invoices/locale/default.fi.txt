@@ -233,4 +233,3 @@ ALV:n osuus
 ---STRING paid invoices
 Maksetut laskut
 ---STRINGEND
-

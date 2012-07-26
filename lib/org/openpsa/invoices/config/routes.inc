@@ -104,6 +104,13 @@
     'variable_args' => 1,
 ),
 
+// Match /invoice/itemposition/
+'invoice_item_position' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_action', 'itemposition'),
+    'fixed_args' => array('invoice', 'itemposition'),
+),
+
 // Match /invoice/pdf/<guid>
 'create_pdf' => array
 (

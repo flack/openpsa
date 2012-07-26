@@ -105,4 +105,3 @@ Nincs ügyfél
 ---STRING paid
 Fizetés ideje
 ---STRINGEND
-

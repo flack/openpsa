@@ -417,3 +417,7 @@ PDF-Datei wurde erfolgreich erzeugt
 ---STRING pdf creation failed
 PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
+
+---STRING position
+Position
+---STRINGEND

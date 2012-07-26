@@ -235,7 +235,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $this->_request_data['invoice_items'] = $this->_object->get_invoice_items();
         $this->_request_data['invoice'] = $this->_object;
         $this->_prepare_grid_data();
-
         $this->_prepare_output();
 
     }
@@ -273,6 +272,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $entry['description'] = $item->description;
             $entry['price'] = $item->pricePerUnit;
             $entry['quantity'] = $item->units;
+            $entry['position'] = $item->position;
 
             $item_sum = $item->units * $item->pricePerUnit;
             $invoice_sum += $item_sum;
@@ -350,6 +350,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 $item->units = (float) str_replace(',', '.', $_POST['quantity']);
                 $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
                 $item->description = $_POST['description'];
+
                 if (!$item->update())
                 {
                     throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
@@ -361,7 +362,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 {
                     throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
                 }
-
                 break;
             default:
                 throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
@@ -371,7 +371,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             'id' => $item->id,
             'quantity' => $item->units,
             'price' => $item->pricePerUnit,
-            'description' => $item->description
+            'description' => $item->description,
+            'position' => $item->position,
+            'oldid' => $_POST['id']
         );
     }
 
@@ -394,6 +396,25 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     public function _show_itemedit($handler_id, array &$data)
     {
         midcom_show_style('show-itemedit');
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_itemposition($handler_id, array $args, array &$data)
+    {
+        midcom::get()->skip_page_style = true;
+
+        $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
+        $item->position = $_POST['position'];
+
+        if (!$item->update())
+        {
+            throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
+        }
+        return new midcom_response_json(array());
     }
 
     /**
@@ -430,6 +451,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         );
 
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
+
+        //This Source is used (and necessary) for the Drag&Drop sorting of grids <tr>'s
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
     }
 }
 ?>
