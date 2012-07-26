@@ -198,7 +198,7 @@ class mgd2installer extends installer
         $config->sharedir = $project_basedir . '/midgard/share';
         $config->vardir = $project_basedir . '/midgard/var';
         $config->cachedir = $project_basedir . '/midgard/cache';
-        $config->logfilename = $project_basedir . 'midgard/log/midgard.log';
+        $config->logfilename = $project_basedir . '/midgard/log/midgard.log';
         $config->loglevel = 'warn';
         if (!$config->save_file($config_name, false))
         {
