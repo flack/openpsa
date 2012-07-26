@@ -146,7 +146,15 @@ class installer
     {
         if (is_link($linkname))
         {
-            unlink($linkname);
+            if (realpath($linkname) === $target)
+            {
+                return;
+            }
+            else
+            {
+                $io->write('Replacing <comment>' . realpath($linkname) . '</comment> with <info>' . $target . '</info>');
+                unlink($linkname);
+            }
         }
         if (!@symlink($target, $linkname))
         {
