@@ -181,7 +181,7 @@ var org_openpsa_grid_resize =
             }
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
             {
-                var id = $(this).attr('id')
+                var id = $(this).attr('id'),
                 panel = $("#gbox_" + id).closest('.ui-tabs-panel');
                 if (   panel.length > 0
                     && panel.hasClass('ui-tabs-hide'))
@@ -296,7 +296,7 @@ var org_openpsa_grid_resize =
                 if ($("#" + grid_id).data('vScroll'))
                 {
                     $("#" + grid_id).closest(".ui-jqgrid-bdiv").scrollTop($("#" + grid_id).data('vScroll'));
-                    $("#" + grid_id).removeData('vScroll')
+                    $("#" + grid_id).removeData('vScroll');
                 }
             }
         }
@@ -340,7 +340,8 @@ var org_openpsa_grid_editable =
         {
             var return_values = $.parseJSON(data.responseText);
             return [true, return_values, return_values.id];
-        }
+        },
+        enable_sorting: false
     },
     toggle: function(id, edit_mode)
     {
@@ -374,8 +375,22 @@ var org_openpsa_grid_editable =
             buttonicon: "ui-icon-plus",
             onClickButton: function()
             {
-                var new_id = 'new_' + self.last_added_row++;
-                $('#' + self.grid_id).jqGrid('addRowData', new_id, {}, 'last');
+                var new_id = 'new_' + self.last_added_row++,
+                    params = {};
+                if (self.options.enable_sorting)
+                {
+                    params.position = getNextPosition();
+                }
+                //create new row; now with a position-value
+                $('#' + self.grid_id).jqGrid('addRowData', new_id, params, 'last');
+
+                //Add (edit,...,delete)-Button to the new row (like in add_inline_controls)
+                current_rowid = new_id;
+                var be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />",
+                bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
+                bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
+                bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
+                $('#' + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
             }
         };
         $('#' + grid_id)
@@ -383,35 +398,69 @@ var org_openpsa_grid_editable =
             .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
 
     },
+    toggle_mouselistener: function(isEdit) //isEdit is boolean
+    {
+        if (this.options.enable_sorting)
+        {
+            $( '#'+this.grid_id+' tbody').sortable( "option", "disabled", isEdit );
+            if (isEdit)
+            {
+                $( '#'+this.grid_id+' tbody').enableSelection();
+            }
+            else
+            {
+                $( '#'+this.grid_id+' tbody').disableSelection();
+            }
+        }
+    },
     editRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('editRow', id, this.options);
         $('#cancel_button_' + id).closest("tr").find('input[type="text"]:first:visible').focus();
+        org_openpsa_grid_editable.toggle_mouselistener(true);
     },
     saveRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('saveRow', id, this.options);
+        org_openpsa_grid_editable.toggle_mouselistener(false);
     },
     restoreRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('restoreRow', id, this.options);
+        org_openpsa_grid_editable.toggle_mouselistener(false);
     },
     deleteRow: function(id)
     {
         var edit_url = $('#' + this.grid_id).jqGrid('getGridParam', 'editurl'),
-        rowdata = $('#' + this.grid_id).jqGrid('getRowData', id),
-        self = this;
-        rowdata.oper = 'del';
-
-        $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
-        {
-            $('#' + self.grid_id).jqGrid('delRowData', id);
-            if (   typeof self.options.aftersavefunc !== 'undefined'
-                && $.isFunction(self.options.aftersavefunc))
+            rowdata = $('#' + this.grid_id).jqGrid('getRowData', id),
+            self = this;
+            rowdata.oper = 'del';
+        var callAfterSave = function()
             {
-                self.options.aftersavefunc(0, []);
-            }
-        });
+                    $('#' + self.grid_id).jqGrid('delRowData', id);
+                    if (   typeof self.options.aftersavefunc !== 'undefined'
+                        && $.isFunction(self.options.aftersavefunc))
+                    {
+                        self.options.aftersavefunc(0, []);
+                    }
+            };
+     
+        if (rowdata.id == '')
+        {
+            callAfterSave();
+        }
+        else
+        {
+            $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
+            {
+                callAfterSave();
+            });
+        }
+
+        if (this.options.enable_sorting)
+        {
+            refreshItemPositions();
+        }
     },
     add_inline_controls: function()
     {

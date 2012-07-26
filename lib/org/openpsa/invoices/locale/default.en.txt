@@ -413,3 +413,7 @@ PDF file created successfully
 ---STRING pdf creation failed
 Could not create PDF
 ---STRINGEND
+
+---STRING position
+Position
+---STRINGEND

@@ -39,10 +39,10 @@
         <property name="task" link="org_openpsa_task:id" type="unsigned integer" />
         <property name="deliverable" link="org_openpsa_salesproject_deliverable:id" type="unsigned integer" />
 
+        <property name="position" type="integer" />
         <property name="description" type="text" />
         <property name="pricePerUnit" type="float" />
         <property name="units" type="float" />
-
     </type>
 
     <type name="org_openpsa_billing_data" table="org_openpsa_billing_data">
