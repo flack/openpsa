@@ -65,6 +65,7 @@ class mgd2installer extends installer
         if (file_exists($config_file))
         {
             $this->_io->write('Using config file found at <info>' . $config_file . '</info>');
+            $config = new \midgard_config();
             if (!$config->read_file_at_path($config_file))
             {
                 throw new \Exception('Could not read config file ' . $config_file);
@@ -81,7 +82,11 @@ class mgd2installer extends installer
     public function get_schema_dir()
     {
         $config = $this->_load_config();
-        return $config->sharedir . '/schema/';
+        $schema_dir = $config->sharedir . '/schema/';
+        if (!file_exists($schema_dir)) {
+            mkdir($schema_dir);
+        }
+        return $schema_dir;
     }
 
     public function init_project()
