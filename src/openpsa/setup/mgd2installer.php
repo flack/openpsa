@@ -27,40 +27,6 @@ class mgd2installer extends installer
         $this->_vendor_dir = $vendor_dir;
     }
 
-    protected function _get_config_name($prefer_default = true)
-    {
-        if (empty($this->_config_name))
-        {
-            $default = $this->_load_default('config_name');
-            if (empty($default))
-            {
-                $midgard = \midgard_connection::get_instance();
-                if ($midgard->is_connected())
-                {
-                    // The actual config filename is not available at this point, so
-                    // we take the DB name and hope for the best...
-                    $default = $midgard->config->database;
-                }
-                else
-                {
-                    $path = ini_get('midgard.configuration_file');
-                    $default = preg_replace('/\/.+\//', '', $path);
-                }
-            }
-            if (   $prefer_default === true
-                && !empty($default))
-            {
-                $this->_config_name = $default;
-            }
-            else
-            {
-                $this->_config_name = $this->_io->ask('<question>Please enter config name:</question> [<info>' . $default . '</info>] ', $default);
-                $this->_save_default('config_name', $this->_config_name);
-            }
-        }
-        return $this->_config_name;
-    }
-
     protected function _load_default($key = null)
     {
         $defaults = array();
@@ -93,17 +59,22 @@ class mgd2installer extends installer
         file_put_contents($defaults_file, json_encode($defaults));
     }
 
-    protected function _load_config($config_name = null)
+    protected function _load_config()
     {
-        if (null === $config_name)
+        $config_file = $this->_get_basedir() . "/config/midgard2.ini";
+        if (file_exists($config_file))
         {
-            $config_name = $this->_get_config_name();
+            $this->_io->write('Using config file found at <info>' . $config_file . '</info>');
+            if (!$config->read_file_at_path($config_file))
+            {
+                throw new \Exception('Could not read config file ' . $config_file);
+            }
         }
-        $config = new \midgard_config();
-        if (!$config->read_file($config_name, false))
+        else
         {
-            throw new \Exception('Could not read config file ' . $config_name);
+            $config = $this->_create_config($config_file);
         }
+
         return $config;
     }
 
@@ -115,18 +86,7 @@ class mgd2installer extends installer
 
     public function init_project()
     {
-        $config_name = $this->_get_config_name(false);
-        $config_file = "/etc/midgard2/conf.d/" . $config_name;
-        if (   file_exists($config_file)
-            && !$this->_io->askConfirmation('<question>' . $config_file . ' already exists, override?</question> '))
-        {
-            $config = $this->_load_config($config_name);
-        }
-        else
-        {
-            $config = $this->_create_config($config_name);
-        }
-
+        $config = $this->_load_config();
         $this->_prepare_database($config);
     }
 
@@ -169,9 +129,14 @@ class mgd2installer extends installer
         $this->_io->write('Storage created');
     }
 
+    private function _get_basedir()
+    {
+        return realpath('./');
+    }
+
     private function _create_config($config_name)
     {
-        $project_basedir = realpath('./');
+        $project_basedir = $this->_get_basedir();
         $openpsa_basedir = realpath($project_basedir . '/vendor/openpsa/midcom/');
 
         self::_prepare_dir('midgard');
