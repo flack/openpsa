@@ -83,9 +83,7 @@ class mgd2installer extends installer
     {
         $config = $this->_load_config();
         $schema_dir = $config->sharedir . '/schema/';
-        if (!file_exists($schema_dir)) {
-            mkdir($schema_dir);
-        }
+
         return $schema_dir;
     }
 
