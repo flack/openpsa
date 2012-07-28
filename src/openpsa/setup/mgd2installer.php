@@ -141,6 +141,7 @@ class mgd2installer extends installer
     {
         $project_basedir = $this->_get_basedir();
         $openpsa_basedir = realpath($project_basedir . '/vendor/openpsa/midcom/');
+        $project_name = basename($project_basedir);
 
         self::_prepare_dir('midgard');
         self::_prepare_dir('midgard/var');
@@ -158,10 +159,10 @@ class mgd2installer extends installer
         // Create a config file
         $config = new \midgard_config();
         $config->dbtype = 'MySQL';
-        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<info>' . $config_name . '</info>] ', $config_name);
+        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<info>' . $project_name . '</info>] ', $project_name);
         $config->dbpass = $this->_io->askAndHideAnswer('<question>DB password:</question> ');
 
-        $config->database = $config_name;
+        $config->database = $this->_io->ask('<question>DB name:</question> [<info>' . $project_name . '</info>] ', $project_name);
         $config->blobdir = $project_basedir . '/midgard/blobs';
         $config->sharedir = $project_basedir . '/midgard/share';
         $config->vardir = $project_basedir . '/midgard/var';
