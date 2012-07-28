@@ -143,15 +143,15 @@ class mgd2installer extends installer
         $openpsa_basedir = realpath($project_basedir . '/vendor/openpsa/midcom/');
         $project_name = basename($project_basedir);
 
-        self::_prepare_dir('midgard');
-        self::_prepare_dir('midgard/var');
-        self::_prepare_dir('midgard/cache');
-        self::_prepare_dir('midgard/share');
-        self::_prepare_dir('midgard/share/views');
-        self::_prepare_dir('midgard/share/schema');
-        self::_prepare_dir('midgard/rcs');
-        self::_prepare_dir('midgard/blobs');
-        self::_prepare_dir('midgard/log');
+        self::_prepare_dir('config');
+        self::_prepare_dir('config/share');
+        self::_prepare_dir('config/share/views');
+        self::_prepare_dir('config/share/schema');
+        self::_prepare_dir('var');
+        self::_prepare_dir('var/cache');
+        self::_prepare_dir('var/rcs');
+        self::_prepare_dir('var/blobs');
+        self::_prepare_dir('var/log');
 
         self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/midgard/share/midgard_auth_types.xml', $this->_io);
         self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/midgard/share/MidgardObjects.xml', $this->_io);
@@ -163,11 +163,11 @@ class mgd2installer extends installer
         $config->dbpass = $this->_io->askAndHideAnswer('<question>DB password:</question> ');
 
         $config->database = $this->_io->ask('<question>DB name:</question> [<info>' . $project_name . '</info>] ', $project_name);
-        $config->blobdir = $project_basedir . '/midgard/blobs';
-        $config->sharedir = $project_basedir . '/midgard/share';
-        $config->vardir = $project_basedir . '/midgard/var';
-        $config->cachedir = $project_basedir . '/midgard/cache';
-        $config->logfilename = $project_basedir . '/midgard/log/midgard.log';
+        $config->blobdir = $project_basedir . '/var/blobs';
+        $config->sharedir = $project_basedir . '/config/share';
+        $config->vardir = $project_basedir . '/var';
+        $config->cachedir = $project_basedir . '/var/cache';
+        $config->logfilename = $project_basedir . '/var/log/midgard.log';
         $config->loglevel = 'warn';
         if (!$config->save_file($config_name, false))
         {
