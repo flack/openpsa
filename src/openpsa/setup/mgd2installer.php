@@ -159,22 +159,25 @@ class mgd2installer extends installer
         // Create a config file
         $config = new \midgard_config();
         $config->dbtype = 'MySQL';
-        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<info>' . $project_name . '</info>] ', $project_name);
+        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<comment>' . $project_name . '</comment>] ', $project_name);
         $config->dbpass = $this->_io->askAndHideAnswer('<question>DB password:</question> ');
 
-        $config->database = $this->_io->ask('<question>DB name:</question> [<info>' . $project_name . '</info>] ', $project_name);
+        $config->database = $this->_io->ask('<question>DB name:</question> [<comment>' . $project_name . '</comment>] ', $project_name);
         $config->blobdir = $project_basedir . '/var/blobs';
         $config->sharedir = $project_basedir . '/config/share';
         $config->vardir = $project_basedir . '/var';
         $config->cachedir = $project_basedir . '/var/cache';
         $config->logfilename = $project_basedir . '/var/log/midgard.log';
         $config->loglevel = 'warn';
-        if (!$config->save_file($config_name, false))
+
+        $target_path = getenv('HOME') . '/.midgard2/conf.d/' . $project_name;
+        if (!$config->save_file($project_name, true))
         {
-            throw new \Exception("Failed to save config file " . $config_name);
+            throw new \Exception("Failed to save config file " . $target_path);
         }
 
-        $this->_io->write("Configuration file " . $config_name . " created.");
+        $this->_io->write("Configuration file <info>" . $target_path . "</info> created.");
+        self::_link($target_path, $project_basedir . '/config/midgard2.ini', $this->_io);
         return $config;
     }
 }
