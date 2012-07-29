@@ -45,11 +45,15 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     {
         if ($this->enabled)
         {
-            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version . '/lib/codemirror.css');
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version . '/lib/codemirror.js');
+            $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version;
+
+            midcom::get('head')->add_stylesheet($prefix . '/lib/codemirror.css');
+            midcom::get('head')->add_stylesheet($prefix . '/theme/eclipse.css');
+
+            midcom::get('head')->add_jsfile($prefix . '/lib/codemirror.js');
             foreach ($this->modes as $mode)
             {
-                midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version . '/mode/' . $mode . '/' . $mode . '.js');
+                midcom::get('head')->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
         }
 
