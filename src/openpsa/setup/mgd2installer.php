@@ -61,7 +61,12 @@ class mgd2installer extends installer
 
     protected function _load_config()
     {
-        $config_file = $this->_get_basedir() . "/config/midgard2.ini";
+        if (getenv('MIDCOM_MIDGARD_CONFIG_FILE')) {
+            $config_file = getenv('MIDCOM_MIDGARD_CONFIG_FILE');
+        } else {
+            $config_file = $this->_get_basedir() . "/config/midgard2.ini";
+        }
+
         if (file_exists($config_file))
         {
             $this->_io->write('Using config file found at <info>' . $config_file . '</info>');

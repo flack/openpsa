@@ -10,7 +10,7 @@ before_script:
   - php composer.phar install --dev
   - sudo cp schemas/* /usr/share/midgard2/schema
 
-script: phpunit
+script: phpunit --debug
 
 notifications:
     irc: "irc.freenode.org#midgard"
