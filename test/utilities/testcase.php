@@ -361,7 +361,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $queue[] = $object;
         }
 
-        self::_process_delete_queue($queue);
+        self::_process_delete_queue('method', $queue);
         $this->_testcase_objects = array();
         org_openpsa_mail_backend_unittest::flush();
         midcom_compat_unittest::flush_registered_headers();
@@ -369,12 +369,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public static function TearDownAfterClass()
     {
-        self::_process_delete_queue(self::$_class_objects);
+        self::_process_delete_queue('class', self::$_class_objects);
         self::$_class_objects = array();
         midcom::get('auth')->logout();
     }
 
-    private static function _process_delete_queue($queue)
+    private static function _process_delete_queue($queue_name, $queue)
     {
         midcom::get('auth')->request_sudo('midcom.core');
         $limit = sizeof($queue) * 5;
@@ -404,7 +404,21 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
             if ($iteration++ > $limit)
             {
-                throw new midcom_error('Maximum retry count for cleanup reached (' . sizeof($queue) . ' remaining entries)');
+                $classnames = array();
+                foreach ($queue as $obj) {
+                    $obj_class = get_class($obj);
+                    if ($obj->name) {
+                        $obj_class .= " {$obj->name}";
+                    }
+                    if ($obj->component) {
+                        $obj_class .= " [{$obj->component}]";
+                    }
+                    if (!in_array($obj_class, $classnames)) {
+                        $classnames[] = $obj_class;
+                    }
+                }
+                $classnames_string = implode(', ', $classnames);
+                throw new midcom_error('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries with types ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
             }
         }
 

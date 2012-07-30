@@ -625,7 +625,7 @@ class midcom_services_toolbars
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "http://www.midgard-project.org/documentation/",
+                MIDCOM_TOOLBAR_URL => "http://midgard-project.org/midcom/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('online documentation', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_internet.png',
@@ -635,7 +635,7 @@ class midcom_services_toolbars
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "http://www.midgard-project.org/discussion/user-forum/",
+                MIDCOM_TOOLBAR_URL => "http://lists.midgard-project.org/mailman/listinfo/user",
                 MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user forum', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
