@@ -43,6 +43,13 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
 
         $url = $this->submit_dm2_form('controller', $formdata, self::$_topic, array('create', 'default'));
         $this->assertEquals('', $url);
+
+        $qb = midcom_db_article::new_query_builder();
+        $qb->add_constraint('topic', '=', self::$_topic->id);
+        $results = $qb->execute();
+        $this->register_objects($results);
+        $this->assertEquals(1, sizeof($results));
+
         midcom::get('auth')->drop_sudo();
     }
 }
