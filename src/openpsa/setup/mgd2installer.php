@@ -83,9 +83,7 @@ class mgd2installer extends installer
     {
         $config = $this->_load_config();
         $schema_dir = $config->sharedir . '/schema/';
-        if (!file_exists($schema_dir)) {
-            mkdir($schema_dir);
-        }
+
         return $schema_dir;
     }
 
@@ -143,16 +141,17 @@ class mgd2installer extends installer
     {
         $project_basedir = $this->_get_basedir();
         $openpsa_basedir = realpath($project_basedir . '/vendor/openpsa/midcom/');
+        $project_name = basename($project_basedir);
 
-        self::_prepare_dir('midgard');
-        self::_prepare_dir('midgard/var');
-        self::_prepare_dir('midgard/cache');
-        self::_prepare_dir('midgard/share');
-        self::_prepare_dir('midgard/share/views');
-        self::_prepare_dir('midgard/share/schema');
-        self::_prepare_dir('midgard/rcs');
-        self::_prepare_dir('midgard/blobs');
-        self::_prepare_dir('midgard/log');
+        self::_prepare_dir('config');
+        self::_prepare_dir('config/share');
+        self::_prepare_dir('config/share/views');
+        self::_prepare_dir('config/share/schema');
+        self::_prepare_dir('var');
+        self::_prepare_dir('var/cache');
+        self::_prepare_dir('var/rcs');
+        self::_prepare_dir('var/blobs');
+        self::_prepare_dir('var/log');
 
         self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/midgard/share/midgard_auth_types.xml', $this->_io);
         self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/midgard/share/MidgardObjects.xml', $this->_io);
@@ -160,22 +159,25 @@ class mgd2installer extends installer
         // Create a config file
         $config = new \midgard_config();
         $config->dbtype = 'MySQL';
-        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<info>' . $config_name . '</info>] ', $config_name);
+        $config->dbuser = $this->_io->ask('<question>DB username:</question> [<comment>' . $project_name . '</comment>] ', $project_name);
         $config->dbpass = $this->_io->askAndHideAnswer('<question>DB password:</question> ');
 
-        $config->database = $config_name;
-        $config->blobdir = $project_basedir . '/midgard/blobs';
-        $config->sharedir = $project_basedir . '/midgard/share';
-        $config->vardir = $project_basedir . '/midgard/var';
-        $config->cachedir = $project_basedir . '/midgard/cache';
-        $config->logfilename = $project_basedir . '/midgard/log/midgard.log';
+        $config->database = $this->_io->ask('<question>DB name:</question> [<comment>' . $project_name . '</comment>] ', $project_name);
+        $config->blobdir = $project_basedir . '/var/blobs';
+        $config->sharedir = $project_basedir . '/config/share';
+        $config->vardir = $project_basedir . '/var';
+        $config->cachedir = $project_basedir . '/var/cache';
+        $config->logfilename = $project_basedir . '/var/log/midgard.log';
         $config->loglevel = 'warn';
-        if (!$config->save_file($config_name, false))
+
+        $target_path = getenv('HOME') . '/.midgard2/conf.d/' . $project_name;
+        if (!$config->save_file($project_name, true))
         {
-            throw new \Exception("Failed to save config file " . $config_name);
+            throw new \Exception("Failed to save config file " . $target_path);
         }
 
-        $this->_io->write("Configuration file " . $config_name . " created.");
+        $this->_io->write("Configuration file <info>" . $target_path . "</info> created.");
+        self::_link($target_path, $project_basedir . '/config/midgard2.ini', $this->_io);
         return $config;
     }
 }
