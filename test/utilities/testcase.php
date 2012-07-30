@@ -410,6 +410,9 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                     if ($obj->name) {
                         $obj_class .= " {$obj->name}";
                     }
+                    if ($obj->component) {
+                        $obj_class .= " ({$obj->component})";
+                    }
                     if (!in_array($obj_class, $classnames)) {
                         $classnames[] = $obj_class;
                     }
