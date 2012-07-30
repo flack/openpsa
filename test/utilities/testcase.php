@@ -408,7 +408,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 foreach ($queue as $obj) {
                     $obj_class = get_class($obj);
                     if ($obj->name) {
-                        $obj_class .= " ${obj->name}";
+                        $obj_class .= " {$obj->name}";
                     }
                     if (!in_array($obj_class, $classnames)) {
                         $classnames[] = $obj_class;
