@@ -44,7 +44,7 @@ midcom::get('auth')->require_valid_user();
         <div id="content">
             <img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/ragnaroek.gif" alt="Ragnaroek" style="float: right;" />
             <p>
-                    <a href="http://www.midgard-project.org/">Midgard CMS</a> is a Content management Toolkit. It is Free Software that can be used to construct interactive web applications. <a href="http://www.midgard-project.org/midgard/">Learn more &raquo;</a>
+                    <a href="http://www.midgard-project.org/">Midgard CMS</a> is a Content management Toolkit. It is Free Software that can be used to construct interactive web applications. <a href="http://www.midgard-project.org/">Learn more &raquo;</a>
             </p>
             <?php
             if (extension_loaded('midgard'))
@@ -69,18 +69,18 @@ midcom::get('auth')->require_valid_user();
                         <td><?php
                             if (extension_loaded('midgard2'))
                             {
-                                echo "<a href=\"http://www.midgard2.org/\">Midgard2</a>";
+                                echo "<a href=\"http://midgard-project.org/midgard2/\">Midgard2</a>";
                             }
                             else
                             {
-                                echo "<a href=\"http://www.midgard-project.org/midgard/\">Midgard</a>";
+                                echo "<a href=\"http://midgard-project.org/midgard1/\">Midgard</a>";
                             }
                             ?></td>
                         <td><?php echo mgd_version(); ?></td>
                         <td>Content Repository</td>
                     </tr>
                     <tr>
-                        <td><a href="http://www.midgard-project.org/documentation/midcom/">MidCOM</a></td>
+                        <td><a href="http://midgard-project.org/midcom/">MidCOM</a></td>
                         <td><?php echo midcom::get_version(); ?></td>
                         <td>Component Framework for PHP</td>
                     </tr>
@@ -126,7 +126,7 @@ midcom::get('auth')->require_valid_user();
 
             <div id="footer">
                 <div class="midgard">
-                    Copyright &copy; 1998&ndash;<?php echo date('Y'); ?> <a href="http://www.midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
+                    Copyright &copy; 1998&ndash;<?php echo date('Y'); ?> <a href="http://midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
                 </div>
             </div>
     </div>

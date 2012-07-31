@@ -17,7 +17,7 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
         <div id="container">
             <div id="branding">
                 <div id="title"><h1>Midgard CMS</h1><h2><?php echo $title; ?></h2></div>
-                <div id="grouplogo"><a href="http://www.midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" /></a></div>
+                <div id="grouplogo"><a href="http://midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" /></a></div>
             </div>
             <div class="clear"></div>
             <div id="content">
@@ -40,12 +40,12 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
             </div>
 
             <div id="bottom">
-                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 4); ?></div>
+                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 5); ?></div>
             </div>
 
             <div id="footer">
                 <div class="midgard">
-                    Copyright &copy; 1998-2008 <a href="http://www.midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
+                    Copyright &copy; 1998-2012 <a href="http://midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
                 </div>
             </div>
         </div>
