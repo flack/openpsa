@@ -128,7 +128,7 @@ reset($developers);
     <div id="container">
         <div id="branding">
         <div id="title"><h1>Midgard CMS</h1><h2><?php echo $title; ?></h2></div>
-        <div id="grouplogo"><a href="http://www.midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" alt="Midgard" title="Midgard" /></a></div>
+        <div id="grouplogo"><a href="http://midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" alt="Midgard" title="Midgard" /></a></div>
         </div>
         <div class="clear"></div>
         <div id="content">
@@ -144,7 +144,7 @@ reset($developers);
                     foreach ($developers as $name => $details)
                     {
                         $person_label  = "<div class=\"vcard\">\n";
-                        $person_label .= "    <h2><a href=\"http://www.midgard-project.org/community/account/view/{$details['username']}/\" class=\"url fn\">{$details['name']}</a></h2>\n";
+                        $person_label .= "    <h2><a href=\"https://github.com/{$details['username']}\" class=\"url fn\">{$details['name']}</a></h2>\n";
                         // TODO: Replace gravatar with photo from Midgard site as soon as we have a URL method for it
                         $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($details['email']) . "&amp;size=60";
                         $person_label .= "    <div><img class=\"photo\" src=\"{$gravatar_url}\" /></div>\n";
@@ -194,7 +194,7 @@ reset($developers);
 
             </div>
             <div id="bottom">
-                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 4); ?></div>
+                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 5); ?></div>
             </div>
             <div id="footer">
                 <div class="midgard">
