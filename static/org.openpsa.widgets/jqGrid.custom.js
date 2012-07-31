@@ -583,7 +583,7 @@ var org_openpsa_grid_helper =
                     'maximized': grid.closest('.ui-jqgrid-maximized').length > 0
                 }
             };
-            //window.localStorage.setItem(identifier, JSON.stringify(data))
+            window.localStorage.setItem(identifier, JSON.stringify(data))
         });
     }
 };
