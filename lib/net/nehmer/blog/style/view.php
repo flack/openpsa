@@ -16,7 +16,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <p class="excerpt">&(view['abstract']:h);</p>
 
     <div class="content">
-        <?php if (array_key_exists('image', $view) && $view['image']) { ?>
+        <?php if (!empty($view['image']))
+        { ?>
             <div style="float: right; padding: 5px;">&(view['image']:h);</div>
         <?php } ?>
 
