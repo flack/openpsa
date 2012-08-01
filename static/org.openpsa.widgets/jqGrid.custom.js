@@ -124,6 +124,7 @@ var org_openpsa_grid_resize =
                         placeholder.remove();
                         //no container is maximized
                         $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized');
+                        $(org_openpsa_grid_resize.containment).find('.ui-jqgrid-titlebar-maximize').show();
                         $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
                     }
                     else
