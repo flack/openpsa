@@ -122,6 +122,8 @@ var org_openpsa_grid_resize =
                             .insertBefore(placeholder)
                             .find('.ui-jqgrid-titlebar-close').show();
                         placeholder.remove();
+                        //no container is maximized
+                        $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized');
                         $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
                     }
                     else
@@ -133,6 +135,7 @@ var org_openpsa_grid_resize =
                             .insertAfter(container);
                         container
                             .detach()
+                            .removeClass('ui-jqgrid-maximized-background')
                             .addClass('ui-jqgrid-maximized')
                             .prependTo($(org_openpsa_grid_resize.containment))
                             .find('.ui-jqgrid-titlebar-close').hide();
@@ -525,6 +528,7 @@ var org_openpsa_grid_helper =
 {
     event_handler_added: false,
     active_grids: [],
+    maximized_grid: '',
     set_tooltip: function (grid_id, column, tooltip)
     {
         var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];
@@ -546,6 +550,16 @@ var org_openpsa_grid_helper =
                     var keys = saved_values.custom_keys;
                     delete saved_values.custom_keys;
                     $('#' + grid_id).data('vScroll', keys.vScroll);
+
+                    //only allow one maximized
+                    if (keys.maximized && org_openpsa_grid_helper.maximized_grid == '')
+                    {
+                    	org_openpsa_grid_helper.maximized_grid = grid_id;
+                    }
+                    else
+                    {
+                        keys.maximized = false;
+                    }
                     $('#' + grid_id).data('maximized', keys.maximized);
                 }
                 config = $.extend(config, saved_values);
@@ -565,6 +579,7 @@ var org_openpsa_grid_helper =
     },
     save_grid_data: function()
     {
+        var grid_maximized = false;
         $.each(org_openpsa_grid_helper.active_grids, function(index, grid_id)
         {
             var identifier = location.hostname + location.href + '#' + grid_id,
@@ -580,9 +595,14 @@ var org_openpsa_grid_helper =
                 'custom_keys':
                 {
                     'vScroll': grid.closest(".ui-jqgrid-bdiv").scrollTop(),
-                    'maximized': grid.closest('.ui-jqgrid-maximized').length > 0
+                    //only allow one maximized
+                    'maximized': (grid.closest('.ui-jqgrid-maximized').length > 0) && (grid_maximized == grid_id || grid_maximized == false)
                 }
             };
+            if (data.custom_keys['maximized'])
+            {
+                grid_maximized = grid_id;
+            }
             window.localStorage.setItem(identifier, JSON.stringify(data))
         });
     }
