@@ -583,6 +583,10 @@ var org_openpsa_grid_helper =
         var grid_maximized = false;
         $.each(org_openpsa_grid_helper.active_grids, function(index, grid_id)
         {
+            if (typeof $('#' + grid_id).jqGrid === 'undefined')
+            {
+                return;
+            }
             var identifier = location.hostname + location.href + '#' + grid_id,
             grid = $('#' + grid_id),
             data =
