@@ -138,10 +138,18 @@ class dba2rdfMapper implements RdfMapperInterface
 
         if (!array_key_exists('dba_name', $config))
         {
-            throw new \midcom_error('Could not find property mapping for ' . $node->getIdentifier());
+            $fieldname = $node->getIdentifier();
+        }
+        else
+        {
+            $fieldname = $config['dba_name'];
+        }
+        if (!\midcom::get('dbfactory')->property_exists($object, $fieldname))
+        {
+            throw new \midcom_error('Could not find property mapping for ' . $fieldname);
         }
 
-        return $object->{$config['dba_name']};
+        return $object->$fieldname;
     }
 
     public function isEditable($object)
