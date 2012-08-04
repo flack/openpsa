@@ -121,18 +121,12 @@ class dba2rdfMapper implements RdfMapperInterface
 
     public function setPropertyValue($object, PropertyInterface $node, $value)
     {
-        $config = $node->getConfig();
-
-        if (!array_key_exists('dba_name', $config))
-        {
-            throw new \midcom_error('Could not find property mapping for ' . $node->getIdentifier());
-        }
-
-        $object->{$config['dba_name']} = $value;
+        $fieldname = $this->_get_fieldname($object, $node);
+        $object->$fieldname = $value;
         return $object;
     }
 
-    public function getPropertyValue($object, PropertyInterface $node)
+    private function _get_fieldname($object, PropertyInterface $node)
     {
         $config = $node->getConfig();
 
@@ -148,7 +142,12 @@ class dba2rdfMapper implements RdfMapperInterface
         {
             throw new \midcom_error('Could not find property mapping for ' . $fieldname);
         }
+        return $fieldname;
+    }
 
+    public function getPropertyValue($object, PropertyInterface $node)
+    {
+        $fieldname = $this->_get_fieldname($object, $node);
         return $object->$fieldname;
     }
 
