@@ -89,6 +89,10 @@ class dba2rdfMapper implements RdfMapperInterface
      */
     public function getChildren($object, array $config)
     {
+        if (empty($config['storage']))
+        {
+            throw new \midcom_error('could not find storage class');
+        }
         $class = $config['storage'];
         $qb = call_user_func(array($class, 'new_query_builder'));
 
