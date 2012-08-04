@@ -38,7 +38,7 @@ class dba2rdfMapper implements RdfMapperInterface
 
     public function createSubject($object)
     {
-        return \midcom_services_permalinks::create_permalink($object->guid);
+        return \midcom::get('permalinks')->create_permalink($object->guid);
     }
 
     public function prepareObject(TypeInterface $controller, $parent = null)
