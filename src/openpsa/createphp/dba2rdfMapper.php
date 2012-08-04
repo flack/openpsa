@@ -125,7 +125,7 @@ class dba2rdfMapper implements RdfMapperInterface
 
         if (!array_key_exists('dba_name', $config))
         {
-            throw new \midcom_error('Could not find property mapping for ' . $node->get_identifier());
+            throw new \midcom_error('Could not find property mapping for ' . $node->getIdentifier());
         }
 
         $object->{$config['dba_name']} = $value;
