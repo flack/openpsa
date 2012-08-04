@@ -89,15 +89,31 @@ class dba2rdfMapper implements RdfMapperInterface
      */
     public function getChildren($object, array $config)
     {
+        if (empty($config['parentfield']))
+        {
+            throw new \midcom_error('parentfield was not defined in config');
+        }
+        $parentfield = $config['parentfield'];
+        // if storage is not defined, we assume it's the same as object
         if (empty($config['storage']))
         {
-            throw new \midcom_error('could not find storage class');
+            $storage = get_class($object);
         }
-        $class = $config['storage'];
-        $qb = call_user_func(array($class, 'new_query_builder'));
+        else
+        {
+            $storage = $config['storage'];
+        }
 
-        // match children through parent's up field
-        $qb->add_constraint($config['parentfield'], '=', $object->id);
+        $reflector = new \midgard_reflection_property(\midcom_helper_reflector::resolve_baseclass($storage));
+
+        if (!$reflector->is_link($parentfield))
+        {
+            throw new \midcom_error('could not determine storage class');
+        }
+
+        $qb = call_user_func(array($storage, 'new_query_builder'));
+
+        $qb->add_constraint($parentfield, '=', $object->id);
         // order the children by their score values
         $qb->add_order('score', 'ASC');
         return $qb->execute();
