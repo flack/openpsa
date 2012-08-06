@@ -38,7 +38,7 @@ class dba2rdfMapper implements RdfMapperInterface
 
     public function createSubject($object)
     {
-        return \midcom_services_permalinks::create_permalink($object->guid);
+        return \midcom::get('permalinks')->create_permalink($object->guid);
     }
 
     public function prepareObject(TypeInterface $controller, $parent = null)
@@ -89,11 +89,31 @@ class dba2rdfMapper implements RdfMapperInterface
      */
     public function getChildren($object, array $config)
     {
-        $class = $config['storage'];
-        $qb = call_user_func(array($class, 'new_query_builder'));
+        if (empty($config['parentfield']))
+        {
+            throw new \midcom_error('parentfield was not defined in config');
+        }
+        $parentfield = $config['parentfield'];
+        // if storage is not defined, we assume it's the same as object
+        if (empty($config['storage']))
+        {
+            $storage = get_class($object);
+        }
+        else
+        {
+            $storage = $config['storage'];
+        }
 
-        // match children through parent's up field
-        $qb->add_constraint($config['parentfield'], '=', $object->id);
+        $reflector = new \midgard_reflection_property(\midcom_helper_reflector::resolve_baseclass($storage));
+
+        if (!$reflector->is_link($parentfield))
+        {
+            throw new \midcom_error('could not determine storage class');
+        }
+
+        $qb = call_user_func(array($storage, 'new_query_builder'));
+
+        $qb->add_constraint($parentfield, '=', $object->id);
         // order the children by their score values
         $qb->add_order('score', 'ASC');
         return $qb->execute();
@@ -101,27 +121,34 @@ class dba2rdfMapper implements RdfMapperInterface
 
     public function setPropertyValue($object, PropertyInterface $node, $value)
     {
-        $config = $node->getConfig();
-
-        if (!array_key_exists('dba_name', $config))
-        {
-            throw new \midcom_error('Could not find property mapping for ' . $node->get_identifier());
-        }
-
-        $object->{$config['dba_name']} = $value;
+        $fieldname = $this->_get_fieldname($object, $node);
+        $object->$fieldname = $value;
         return $object;
     }
 
-    public function getPropertyValue($object, PropertyInterface $node)
+    private function _get_fieldname($object, PropertyInterface $node)
     {
         $config = $node->getConfig();
 
         if (!array_key_exists('dba_name', $config))
         {
-            throw new midcom_error('Could not find property mapping for ' . $node->get_identifier());
+            $fieldname = $node->getIdentifier();
         }
+        else
+        {
+            $fieldname = $config['dba_name'];
+        }
+        if (!\midcom::get('dbfactory')->property_exists($object, $fieldname))
+        {
+            throw new \midcom_error('Could not find property mapping for ' . $fieldname);
+        }
+        return $fieldname;
+    }
 
-        return $object->{$config['dba_name']};
+    public function getPropertyValue($object, PropertyInterface $node)
+    {
+        $fieldname = $this->_get_fieldname($object, $node);
+        return $object->$fieldname;
     }
 
     public function isEditable($object)

@@ -127,8 +127,9 @@ class midcom_exception_handler
         }
 
         $this->_exception = $e;
+        $trace = $e->getTraceAsString();
 
-        debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $e->getTraceAsString());
+        debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $trace);
 
         $this->show($e->getCode(), $e->getMessage());
         // This will exit

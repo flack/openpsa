@@ -51,7 +51,7 @@
             'type'     => 'text',
             'type_config' => array
             (
-                'output_mode' => 'specialchars'
+                'output_mode' => 'pre'
             ),
             'widget'   => 'textarea',
             'storage'  => 'parameter',

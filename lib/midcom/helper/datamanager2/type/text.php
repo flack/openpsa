@@ -401,6 +401,9 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             case 'code':
                 return '<pre style="overflow:auto">' . htmlspecialchars($this->value, $this->specialchars_quotes, $this->specialchars_charset) . '</pre>';
 
+            case 'pre':
+                return '<pre style="white-space: pre-wrap">' . htmlspecialchars($this->value, $this->specialchars_quotes, $this->specialchars_charset) . '</pre>';
+
             case 'specialchars':
                 return htmlspecialchars($this->value, $this->specialchars_quotes, $this->specialchars_charset);
 

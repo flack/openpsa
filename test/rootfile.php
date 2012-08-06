@@ -69,7 +69,7 @@ if (extension_loaded('midgard2'))
         $config->logfilename = OPENPSA_TEST_ROOT . '__output/midgard2.log';
         $config->tablecreate = true;
         $config->tableupdate = true;
-        $config->loglevel = 'critical';
+        $config->loglevel = 'warn';
 
         if (!$midgard->open_config($config))
         {
