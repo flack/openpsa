@@ -63,7 +63,7 @@ class createphp
 
     public function get_controller(\midcom_core_dbaobject $object, $type)
     {
-        return $this->_manager->getType($type, $object);
+        return $this->_manager->getEntity($object, $type);
     }
 
     public function render_widget()
