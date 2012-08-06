@@ -8,9 +8,9 @@
 
 namespace openpsa\createphp;
 
-use Midgard\CreatePHP\RdfMapperInterface;
-use Midgard\CreatePHP\Entity\Controller;
+use Midgard\CreatePHP\Mapper\AbstractRdfMapper;
 use Midgard\CreatePHP\Entity\PropertyInterface;
+use Midgard\CreatePHP\Entity\CollectionInterface;
 use Midgard\CreatePHP\Type\TypeInterface;
 
 /**
@@ -18,7 +18,7 @@ use Midgard\CreatePHP\Type\TypeInterface;
  *
  * @package openpsa.createphp
  */
-class dba2rdfMapper implements RdfMapperInterface
+class dba2rdfMapper extends AbstractRdfMapper
 {
     public function getBySubject($identifier)
     {
@@ -84,11 +84,12 @@ class dba2rdfMapper implements RdfMapperInterface
     /**
      *
      * @param mixed $object
-     * @param array $config
+     * @param CollectionInterface $config
      * @return array
      */
-    public function getChildren($object, array $config)
+    public function getChildren($object, CollectionInterface $collection)
     {
+        $config = $collection->getConfig();
         if (empty($config['parentfield']))
         {
             throw new \midcom_error('parentfield was not defined in config');
