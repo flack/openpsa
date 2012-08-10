@@ -38,6 +38,36 @@ implements org_openpsa_widgets_grid_provider_client
         $data['grid'] = $provider->get_grid('scheduled');
         midcom::get('head')->set_pagetitle($this->_l10n->get('scheduled invoices'));
         $this->add_breadcrumb('', $this->_l10n->get('scheduled invoices'));
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => '',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('dashboard'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+            )
+        );
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'invoice/new/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+            )
+        );
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'projects/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('project invoicing'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+            )
+        );
     }
 
     public function get_qb($field = null, $direction = 'ASC')
