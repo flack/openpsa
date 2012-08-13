@@ -41,15 +41,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         debug_add('Running cycle ' . $cycle_number . ' for deliverable "' . $this->_deliverable->title . '"');
 
-        if ($cycle_number == 1)
-        {
-            $this_cycle_start = $this->_deliverable->start;
-        }
-        else
-        {
-            $this_cycle_start = time();
-        }
-
+        $this_cycle_start = $this->get_cycle_start($cycle_number, time());
         $next_cycle_start = $this->calculate_cycle_next($this_cycle_start);
 
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
@@ -348,6 +340,24 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $next_cycle = (int) $new_date->format('U');
 
         return $next_cycle;
+    }
+    
+    public function get_cycle_start($cycle_number, $time)
+    {
+        if ($cycle_number == 1)
+        {
+            $day_of_month = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('subscription_invoice_day_of_month');
+            if ($day_of_month)
+            {
+                return gmmktime(0, 0, 0, date('n', $time) + 1, $day_of_month, date('Y', $time));
+            }
+            
+            // no explicit day of month set for invoicing, use the deliverable start date
+            return $this->_deliverable->start;
+        }
+        
+        // cycle number > 1
+        return $time;
     }
 
     public function get_cycle_identifier($time)
