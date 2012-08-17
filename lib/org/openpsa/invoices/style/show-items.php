@@ -45,7 +45,7 @@ $grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
         $.ajax(
         {
             type: 'POST',
-            url: '/invoices/invoice/itemposition/',
+            url: '&(prefix);invoice/itemposition/',
             data: {id:id, position:pos}
         });
     }//endof FUNCTION    saveSingleItemPosition(...)
