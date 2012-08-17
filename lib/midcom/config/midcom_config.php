@@ -29,7 +29,7 @@
  *     Array ('directory' => 'content/', 'driver' => 'dba');
  * </code>
  *
- * <b>Instance-specifc configuration:</b>
+ * <b>Instance-specific configuration:</b>
  *
  * After including the site itself, MidCOM also merges the contents of the global array
  * $midcom_config_local, which may hold configuration data for the website itself.
