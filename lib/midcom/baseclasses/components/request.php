@@ -500,9 +500,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         foreach ($this->_request_switch as $key => $request)
         {
             $fixed_args_count = count($request['fixed_args']);
-            $total_args_count = $fixed_args_count + $request['variable_args'];
+            $variable_args_count = $request['variable_args'];
+            $total_args_count = $fixed_args_count + $variable_args_count;
 
-            if (    ($argc != $total_args_count && ($request['variable_args'] >= 0))
+            if (    ($argc != $total_args_count && ($variable_args_count >= 0))
                  || $fixed_args_count > $argc)
             {
                 continue;
@@ -517,6 +518,37 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 }
             }
 
+            // Validation for variable args
+            for ($i = 0; $i < $variable_args_count; $i++)
+            {
+                // rule exists?
+                if (isset($request['validation'][$i]) && count(isset($request['validation'][$i])) > 0)
+                {
+                    $param = $argv[$fixed_args_count + $i];
+                    // by default we use an OR condition
+                    // so as long as one rules succeeds, we are ok..
+                    $success = false;
+                    foreach ($request['validation'][$i] as $rule)
+                    {
+                        // rule is a callable function, like mgd_is_guid or is_int
+                        if (is_callable($rule))
+                        {
+                            $stat = call_user_func($rule, $param);
+                            if ($stat)
+                            {
+                                $success = true;
+                                break;
+                            }        
+                        }    
+                    }
+                    // validation failed.. continue with next route
+                    if (!$success)
+                    {
+                        continue 2;
+                    }
+                }
+            }
+            
             // We have a match.
             $this->_handler =& $this->_request_switch[$key];
 
