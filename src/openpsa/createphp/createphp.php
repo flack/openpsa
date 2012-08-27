@@ -18,16 +18,26 @@ use Midgard\CreatePHP\ArrayLoader;
  */
 class createphp
 {
+    /**
+     * 
+     * @var RdfMapperInterface
+     */
     private $_manager;
+    
+    /**
+     * 
+     * @var RdfMapperInterface
+     */
+    private $_mapper;
 
     public function __construct(array $config, RdfMapperInterface $mapper = null)
     {
         if (null === $mapper)
         {
-            $mapper = new dba2rdfMapper;
+            $this->_mapper = new dba2rdfMapper;
         }
         $loader = new ArrayLoader($config);
-        $this->_manager = $loader->getManager($mapper);
+        $this->_manager = $loader->getManager($this->_mapper);
     }
 
     /**
@@ -60,7 +70,12 @@ class createphp
         $head->add_stylesheet($prefix . 'themes/create-ui/css/create-ui.css');
         $head->add_stylesheet($prefix . 'themes/midgard-notifications/midgardnotif.css');
     }
-
+    
+    public function get_mapper()
+    {
+        return $this->_mapper;
+    }
+        
     public function get_controller(\midcom_core_dbaobject $object, $type)
     {
         return $this->_manager->getEntity($object, $type);
@@ -69,6 +84,53 @@ class createphp
     public function render_widget()
     {
         return $this->_manager->getWidget();
+    }
+    
+    /**
+     * returns the rdf configs schema name we have to proceed on
+     * 
+     * @param array $data
+     * @return string
+     */
+    private function _get_rdf_schema_name(array $data = null)
+    {
+        if (!empty($data))
+        {
+            $object = $this->_mapper->getBySubject(trim($data['@subject'], '<>'));
+        }
+        else if (!empty($_GET['subject']))
+        {
+            $object = $this->_mapper->getBySubject(trim($_GET['subject'], '<>'));
+        }
+        return get_class($object);
+    }
+    
+    /**
+     * 
+     * @param array $data
+     * @param string $rdf_schema_name
+     */
+    public function process_rest(array $data, $rdf_schema_name = false)
+    {        
+        if (!$rdf_schema_name)
+        {
+            $rdf_schema_name = $this->_get_rdf_schema_name($data);
+        }
+        
+        $service = $this->_manager->getResthandler();
+        $controller = $this->_manager->getType($rdf_schema_name);
+        
+        return new \midcom_response_json($service->run($data, $controller));        
+    }
+    
+    public function process_workflow()
+    {        
+        if (empty($_GET["subject"]))
+        {
+            throw new midcom_error ("no subject passed");
+        }
+        
+        return new \midcom_response_json($this->_manager->getWorkflows($_GET["subject"]));
     }
 }
 ?>
