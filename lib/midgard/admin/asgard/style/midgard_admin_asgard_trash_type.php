@@ -36,9 +36,14 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     {
         $disabled = ' disabled="disabled"';
     }
-
+   
+    $object_label = $reflector->get_object_label($object);       
+    if (empty($object_label))
+    {
+        $object_label = $object->guid;
+    }
     echo "{$prefix}    <td class=\"checkbox\"><input type=\"checkbox\" name=\"undelete[]\"{$disabled} value=\"{$object->guid}\" id=\"guid_{$object->guid}\" /></td>\n";
-    echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><label for=\"guid_{$object->guid}\">{$icon}" . $reflector->get_object_label($object) . "</label></td>\n";
+    echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><label for=\"guid_{$object->guid}\">{$icon}" . $object_label . "</label></td>\n";
     echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
 
     if (isset($persons[$object->metadata->revisor]->guid))
