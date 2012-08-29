@@ -66,6 +66,10 @@ Cost
 Cost per unit
 ---STRINGEND
 
+---STRING cost per unit (percentage)
+Cost per unit (%)
+---STRINGEND
+
 ---STRING cost structure
 Cost structure
 ---STRINGEND

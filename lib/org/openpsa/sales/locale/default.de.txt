@@ -67,6 +67,10 @@ Kosten
 Stückkosten
 ---STRINGEND
 
+---STRING cost per unit (percentage)
+Stückkosten (%)
+---STRINGEND
+
 ---STRING cost structure
 Kostenstruktur
 ---STRINGEND

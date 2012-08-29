@@ -183,17 +183,8 @@
         (
             'title' => 'cost type',
             'storage' => 'costType',
-            'type' => 'select',
-            'type_config' => Array
-            (
-                'options' => Array
-                (
-                    'm' => 'per unit',
-                    '%' => '%',
-                ),
-            ),
-            'widget' => 'select',
-            'readonly' => true,
+            'type' => 'text',
+            'widget' => 'hidden',
         ),
         'cost' => Array
         (
@@ -403,18 +394,10 @@
         (
             'title' => 'cost type',
             'storage' => 'costType',
-            'type' => 'select',
-            'type_config' => Array
-            (
-                'options' => Array
-                (
-                    'm' => 'per unit',
-                    '%' => '%',
-                ),
-            ),
-            'widget' => 'select',
-            'readonly' => true,
+            'type' => 'text',
+            'widget' => 'hidden',
         ),
+        
         'cost' => Array
         (
             'title' => 'cost',
@@ -423,6 +406,7 @@
             'widget'  => 'text',
             'hidden' => true,
         ),
+        
         'at_entry' => Array
         (
             'title'   => '',
