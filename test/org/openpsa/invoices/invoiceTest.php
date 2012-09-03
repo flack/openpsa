@@ -115,17 +115,16 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $this->assertEquals(20, $invoice->sum);
         $this->assertEquals(2, $this->_count_invoice_items($invoice->id));
 
-        self::delete_linked_objects('org_openpsa_invoices_invoice_item_dba', 'task', $task1->id);
-        self::delete_linked_objects('org_openpsa_invoices_invoice_item_dba', 'task', $task2->id);
-
         midcom::get('auth')->drop_sudo();
     }
 
     private function _count_invoice_items($invoice_id)
     {
-        $mc = org_openpsa_invoices_invoice_item_dba::new_collector('invoice', $invoice_id);
-        $mc->execute();
-        return sizeof($mc->list_keys());
+        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+        $qb->add_constraint('invoice', '=', $invoice_id);
+        $items = $qb->execute();
+        $this->register_objects($items);
+        return count($items);
     }
 }
 ?>
