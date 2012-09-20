@@ -158,8 +158,8 @@ class mgd2installer extends installer
         self::_prepare_dir('var/blobs');
         self::_prepare_dir('var/log');
 
-        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/midgard/share/midgard_auth_types.xml', $this->_io);
-        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/midgard/share/MidgardObjects.xml', $this->_io);
+        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/config/share/midgard_auth_types.xml', $this->_io);
+        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/config/share/MidgardObjects.xml', $this->_io);
 
         // Create a config file
         $config = new \midgard_config();
