@@ -574,6 +574,7 @@ var org_openpsa_grid_helper =
             if (org_openpsa_grid_helper.event_handler_added === false)
             {
                 $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
+                org_openpsa_grid_helper.event_handler_added = true;
             }
         }
         $('#' + grid_id).jqGrid(config);
@@ -604,9 +605,15 @@ var org_openpsa_grid_helper =
                     'maximized': (grid.closest('.ui-jqgrid-maximized').length > 0) && (grid_maximized == grid_id || grid_maximized == false)
                 }
             };
-            if (data.custom_keys['maximized'])
+            if (data.custom_keys.maximized)
             {
                 grid_maximized = grid_id;
+            }
+
+            if (   grid.jqGrid('getGridParam', 'scroll') === 1
+                && data.custom_keys.vScroll < grid.height())
+            {
+                data.page = 1;
             }
             window.localStorage.setItem(identifier, JSON.stringify(data))
         });
