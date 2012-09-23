@@ -74,8 +74,6 @@ $grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
             });
     }
 
-    refreshItemPositions();
-
     org_openpsa_grid_editable.enable_inline("<?php echo $grid->get_identifier(); ?>",
     {
         aftersavefunc: function (rowid, response)
