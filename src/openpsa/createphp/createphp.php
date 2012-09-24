@@ -8,6 +8,7 @@
 
 namespace openpsa\createphp;
 
+use openpsa\createphp\workflow\delete;
 use Midgard\CreatePHP\RdfMapperInterface;
 use Midgard\CreatePHP\ArrayLoader;
 
@@ -19,13 +20,13 @@ use Midgard\CreatePHP\ArrayLoader;
 class createphp
 {
     /**
-     * 
+     *
      * @var RdfMapperInterface
      */
     private $_manager;
-    
+
     /**
-     * 
+     *
      * @var RdfMapperInterface
      */
     private $_mapper;
@@ -38,6 +39,7 @@ class createphp
         }
         $loader = new ArrayLoader($config);
         $this->_manager = $loader->getManager($this->_mapper);
+        $this->_manager->registerWorkflow('delete', new delete);
     }
 
     /**
@@ -58,7 +60,6 @@ class createphp
 
         $prefix = MIDCOM_STATIC_URL . '/openpsa.createphp/';
 
-        $head->add_jsfile($prefix . 'deps/modernizr.custom.80485.js"');
         $head->add_jsfile($prefix . 'deps/underscore-min.js');
         $head->add_jsfile($prefix . 'deps/backbone-min.js');
         $head->add_jsfile($prefix . 'deps/vie-min.js');
@@ -70,12 +71,12 @@ class createphp
         $head->add_stylesheet($prefix . 'themes/create-ui/css/create-ui.css');
         $head->add_stylesheet($prefix . 'themes/midgard-notifications/midgardnotif.css');
     }
-    
+
     public function get_mapper()
     {
         return $this->_mapper;
     }
-        
+
     public function get_controller(\midcom_core_dbaobject $object, $type)
     {
         return $this->_manager->getEntity($object, $type);
@@ -85,10 +86,10 @@ class createphp
     {
         return $this->_manager->getWidget();
     }
-    
+
     /**
      * returns the rdf configs schema name we have to proceed on
-     * 
+     *
      * @param array $data
      * @return string
      */
@@ -104,32 +105,36 @@ class createphp
         }
         return get_class($object);
     }
-    
+
     /**
-     * 
+     *
      * @param array $data
      * @param string $rdf_schema_name
      */
-    public function process_rest(array $data, $rdf_schema_name = false)
-    {        
+    public function process_rest($data, $rdf_schema_name = false)
+    {
+        if (null === $data)
+        {
+            $data = array();
+        }
         if (!$rdf_schema_name)
         {
             $rdf_schema_name = $this->_get_rdf_schema_name($data);
         }
-        
+
         $service = $this->_manager->getResthandler();
         $controller = $this->_manager->getType($rdf_schema_name);
-        
-        return new \midcom_response_json($service->run($data, $controller));        
+
+        return new \midcom_response_json($service->run($data, $controller));
     }
-    
+
     public function process_workflow()
-    {        
+    {
         if (empty($_GET["subject"]))
         {
             throw new midcom_error ("no subject passed");
         }
-        
+
         return new \midcom_response_json($this->_manager->getWorkflows($_GET["subject"]));
     }
 }
