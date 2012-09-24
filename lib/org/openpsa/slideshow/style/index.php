@@ -34,6 +34,7 @@ var slideshow_data = <?php echo json_encode($entries); ?>;
 $('#slideshow_container').galleria({
     width: 620, //keep this in sync with config
     height: 500,
-    dataSource: slideshow_data
+    dataSource: slideshow_data,
+    lightbox: true
 });
 </script>
