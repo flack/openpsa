@@ -37,6 +37,10 @@ class createphp
         {
             $this->_mapper = new dba2rdfMapper;
         }
+        else
+        {
+            $this->_mapper = $mapper;
+        }
         $loader = new ArrayLoader($config);
         $this->_manager = $loader->getManager($this->_mapper);
         $this->_manager->registerWorkflow('delete', new delete);
