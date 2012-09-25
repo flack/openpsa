@@ -24,7 +24,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     /**
      * Widget version
      */
-    public $version = '2.23';
+    public $version = '2.34';
 
     /**
      * The current string encapsulated by this type.
@@ -45,7 +45,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     {
         if ($this->enabled)
         {
-            $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/CodeMirror-' . $this->version;
+            $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->version;
 
             midcom::get('head')->add_stylesheet($prefix . '/lib/codemirror.css');
             midcom::get('head')->add_stylesheet($prefix . '/theme/eclipse.css');
