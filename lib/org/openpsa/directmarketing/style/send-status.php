@@ -7,51 +7,25 @@ $ajax_url = "{$prefix}message/send_status/{$msg_guid}/";
     <?php echo $data['l10n']->get('messages sent'); ?>: <div id="org_openpsa_directmarketing_send_uimessages_sent" style="display: inline">??</div> / <div id="org_openpsa_directmarketing_send_uimessages_total" style="display: inline">??</div>
 </div>
 <script type="text/javascript">
-function org_openpsa_directmarketing_get_send_status()
+function update_sent_status()
 {
-    div = document.getElementById('org_openpsa_directmarketing_send_uimessages');
-    ooAjaxGet('&(ajax_url);', false, div, 'org_openpsa_directmarketing_set_send_status', false);
+    $('#org_openpsa_directmarketing_send_uimessages').data('repeater', window.setTimeout('update_sent_status()', 10000));
+    $.get('&(ajax_url);', function(data)
+    {
+        if (data.status)
+        {
+            message =
+            {
+                title: 'Request failed',
+                message: data.status,
+                type: MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR
+            };
+            $.fn.midcom_services_uimessage(message);
+            return;
+        }
+        $('#org_openpsa_directmarketing_send_uimessages_sent').html(data.receipts);
+        $('#org_openpsa_directmarketing_send_uimessages_total').html(data.members);
+    });
 }
-
-function org_openpsa_directmarketing_set_send_status(resultList, element)
-{
-    sent_div = document.getElementById(element.id + '_sent');
-    total_div = document.getElementById(element.id + '_total');
-
-    results = resultList.getElementsByTagName('result');
-    if (   !results
-        || results.length == 0)
-    {
-        //No results, do something
-        return false;
-    }
-    result = response.getElementsByTagName('result')[0].firstChild.data;
-    if (result != 1)
-    {
-        //Error from server, do something
-        return false;
-    }
-    sent_results = resultList.getElementsByTagName('receipts');
-    if (   !sent_results
-        || sent_results.length == 0)
-    {
-        //No results, do something
-        return false;
-    }
-    total_results = resultList.getElementsByTagName('members');
-    if (   !total_results
-        || total_results.length == 0)
-    {
-        //No results, do something
-        return false;
-    }
-
-    ooRemoveChildNodes(sent_div);
-    ooRemoveChildNodes(total_div);
-    sent_div.appendChild(document.createTextNode(sent_results[0].firstChild.data));
-    total_div.appendChild(document.createTextNode(total_results[0].firstChild.data));
-    return true;
-}
-
-org_openpsa_directmarketing_get_send_status();
+update_sent_status();
 </script>

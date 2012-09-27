@@ -427,7 +427,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     public function _handler_status($handler_id, array $args, array &$data)
     {
         $this->_request_data['message_obj'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $response = new midcom_response_xml;
+        $response = new midcom_response_json;
         $result = $this->_request_data['message_obj']->send_status();
 
         if ($result == false)
@@ -439,6 +439,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $response->members = $result[0];
             $response->receipts = $result[1];
         }
+
         return $response;
     }
 }
