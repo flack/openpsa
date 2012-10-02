@@ -126,6 +126,7 @@ var org_openpsa_grid_resize =
                         $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized');
                         $(org_openpsa_grid_resize.containment).find('.ui-jqgrid-titlebar-maximize').show();
                         $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
+                        $(org_openpsa_grid_resize.containment).css('overflow', 'auto');
                     }
                     else
                     {
@@ -141,6 +142,7 @@ var org_openpsa_grid_resize =
                             .prependTo($(org_openpsa_grid_resize.containment))
                             .find('.ui-jqgrid-titlebar-close').hide();
                         $(org_openpsa_grid_resize.containment).children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
+                        $(org_openpsa_grid_resize.containment).css('overflow', 'hidden');
                     }
                     $(window).trigger('resize');
                 })
