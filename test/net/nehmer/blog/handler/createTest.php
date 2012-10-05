@@ -45,7 +45,7 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
         $this->assertEquals('', $url);
 
         $qb = midcom_db_article::new_query_builder();
-        $qb->add_constraint('topic', '=', self::$_topic->id);
+        $qb->add_constraint('title', '=', $formdata['title']);
         $results = $qb->execute();
         $this->register_objects($results);
         $this->assertEquals(1, sizeof($results));
