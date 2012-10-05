@@ -103,7 +103,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         {
             if ($send_invoice)
             {
-                $this->_notify_owner($cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
+                $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
             }
             return true;
         }
@@ -139,9 +139,9 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
     }
 
-    private function _notify_owner($cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task = null)
+    private function _notify_owner($calculator, $cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task = null)
     {
-        // Prepare notification to sales project owner
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $message = array();
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
         try
@@ -170,6 +170,14 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
         $message['content'] .= midcom::get('i18n')->get_string('invoiced', 'org.openpsa.sales') . ": {$invoiced_sum}\n\n";
+
+        if ($invoiced_sum > 0)
+        {
+            $invoice = $calculator->get_invoice();
+            $message['content'] .= midcom::get('i18n')->get_string('invoice', 'org.openpsa.invoices') . " {$invoice->number}:\n";
+            $url = $siteconfig->get_node_full_url('org.openpsa.invoices');
+            $message['content'] .= $url . 'invoice/' . $invoice->guid . "/\n\n";
+        }
 
         if (count($tasks_completed) > 0)
         {
@@ -200,7 +208,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $message['content'] .= "\n" . midcom::get('i18n')->get_string('next run', 'org.openpsa.sales') . ": {$next_run_label}\n\n";
         $message['content'] .= midcom::get('i18n')->get_string('agreement', 'org.openpsa.projects') . ":\n";
 
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $url = $siteconfig->get_node_full_url('org.openpsa.sales');
         $message['content'] .= $url . 'deliverable/' . $this->_deliverable->guid . '/';
 
@@ -341,7 +348,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         return $next_cycle;
     }
-    
+
     public function get_cycle_start($cycle_number, $time)
     {
         if ($cycle_number == 1)
@@ -351,11 +358,11 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             {
                 return gmmktime(0, 0, 0, date('n', $time) + 1, $day_of_month, date('Y', $time));
             }
-            
+
             // no explicit day of month set for invoicing, use the deliverable start date
             return $this->_deliverable->start;
         }
-        
+
         // cycle number > 1
         return $time;
     }
