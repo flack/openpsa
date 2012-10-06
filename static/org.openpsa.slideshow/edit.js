@@ -1,5 +1,12 @@
 $(document).ready(function()
 {
+    $('#reverse').bind('click', function()
+    {
+        $('#item_container > div').not('.entry-template').each(function(index, element)
+        {
+            $('#item_container').prepend(element);
+        });
+    });
     $('.existing-entry').each(function(index, item)
     {
         $(item).data('original_values',

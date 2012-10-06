@@ -26,6 +26,10 @@ OpenPSA Slideshow
 Recreate derived images
 ---STRINGEND
 
+---STRING reverse order
+Reverse sort order
+---STRINGEND
+
 ---STRING save all
 Save all changes
 ---STRINGEND

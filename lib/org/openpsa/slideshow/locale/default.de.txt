@@ -26,6 +26,10 @@ OpenPSA Slideshow
 Abgeleitete Bilder neu erstellen
 ---STRINGEND
 
+---STRING reverse order
+Sortierreihenfolge umkehren
+---STRINGEND
+
 ---STRING save all
 Alle Änderungen speichern
 ---STRINGEND
