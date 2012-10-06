@@ -3,7 +3,6 @@ fieldset
     border: none;
     margin-bottom: 20px;
     background-color: #d3d7cf;
-    -moz-border-radius: 6px;
     border-radius: 6px;
 }
 fieldset legend
@@ -25,13 +24,12 @@ fieldset legend:hover
 }
 
 
-fieldset div.description,
+fieldset div.description
 {
     margin-left: 2em;
     font-size: 0.9em;
     background-color: #eeeeec;
     padding: 1em;
-    -moz-border-radius: 6px;
     border-radius: 6px;
 }
 

@@ -2,8 +2,6 @@ form.datamanager2 fieldset.midgard_admin_asgard_object_attachments_upload,
 form.datamanager2 fieldset.midgard_admin_asgard_object_attachments_newfile
 {
     background-color: #eeeeec;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
     border-radius: 6px;
     margin-bottom: 10px;
 }

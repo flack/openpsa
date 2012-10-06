@@ -11,8 +11,6 @@ ol.org_openpsa_relatedto_list > li
     border-style: solid;
     border-width: 1px;
     border-color: #babdb6;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     border-radius: 8px;
 }
 ol.org_openpsa_relatedto_list li span.title
@@ -23,8 +21,6 @@ ol.org_openpsa_relatedto_list li span.title
   margin-left: 24px;
   border-left: solid 1px #babdb6;
   border-bottom: solid 1px #babdb6;
-  -moz-border-radius-bottomleft: 8px;
-  -webkit-border-bottom-left-radius: 8px;
   border-bottom-left-radius: 8px;
   display: block;
   line-height: 24px;

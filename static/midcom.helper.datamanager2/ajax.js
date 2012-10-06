@@ -201,7 +201,6 @@ dm2AjaxEditor.prototype = {
             'background-image'  : 'url("/midcom-static/stock-icons/32x32/ajax-loading-black.gif")',
             'background-repeat' : 'no-repeat',
             'background-position': 'top center',
-            '-moz-border-radius': '8px',
             'border-radius': '8px',
             'z-index'   : '999999',
             'display'   : 'none'           

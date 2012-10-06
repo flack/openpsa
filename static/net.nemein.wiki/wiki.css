@@ -45,7 +45,6 @@ div.net_nemein_wiki_wikipage dl.tags dd
 div.net_nemein_wiki_wikipage dl.tags dd a
 {
     padding: .1em .3em;
-    -moz-border-radius: 2px;
     border-radius: 2px;
     border: 1px solid white;
 }
@@ -77,7 +76,6 @@ div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter
     padding: 6px;
     margin-left: 10px;
     list-style: none;
-    -moz-border-radius: 5px;
     border-radius: 5px;
 }
 div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter ol
@@ -132,7 +130,6 @@ div.net_nemein_wiki_wikipage div.tip, div.net_nemein_wiki_wikipage div.note, div
     /*
     float: right;
     */
-    -moz-border-radius: 10px;
     border-radius: 10px;
     background-repeat: no-repeat;
     background-position: 8px 8px;

@@ -2,7 +2,6 @@ table.midcom_admin_libconfig
 {
   background-color: #eeeeef;
   padding: 0.5em;
-  -moz-border-radius: 10px;
   border-radius: 10px;
   width: auto;
   border-bottom: solid 1px #000;
@@ -21,7 +20,6 @@ table.midcom_admin_libconfig tr td
 table.midcom_admin_libconfig tr.odd
 {
     background: #cccccc;
-    -moz-border-radius: 6px;
     border-radius: 6px;
     border: solid 1px #000;
 }
@@ -29,7 +27,6 @@ table.midcom_admin_libconfig tr.odd
 table.midcom_admin_libconfig tr.even
 {
     background: #d3d7cf;
-    -moz-border-radius: 6px;
     border-radius: 6px;
 }
 
@@ -38,7 +35,6 @@ table.midcom_admin_libconfig tr.header th
   background-color: #dddddf;
   border-bottom: solid 1px #000;
   border-right: solid 1px #000;
-  -moz-border-radius: 6px;
   border-radius: 6px;
 }
 
@@ -91,7 +87,6 @@ table.midcom_admin_libconfig tr td span
 .processing_message
 {
     background: #eeeeef;
-    -moz-border-radius: 6px;
     border-radius: 6px;
     border: solid 1px red;
     margin-top: 1em;
@@ -100,7 +95,6 @@ table.midcom_admin_libconfig tr td span
 
 div.global
 {
-    -moz-border-radius: 6px;
     border-radius: 6px;
     border: solid 1px red;
     background:white;

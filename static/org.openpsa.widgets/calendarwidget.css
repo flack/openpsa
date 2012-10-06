@@ -81,8 +81,6 @@ table.calendarwidget tbody div.vevent {
     box-shadow: inset 0 0 5px #EFDFBF;
     text-shadow: 1px 0px 3px rgba(255, 255, 255, 0.7);
     color: #000000;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     overflow: hidden;
     padding: 1px;
@@ -122,21 +120,13 @@ table.calendarwidget div.vevent span.time, table.calendarwidget div.vevent span.
 table.calendarwidget tbody div.ending_after {
     border-right: none;
     padding-right: 2px;
-    -moz-border-radius-topright: 0px;
-    -webkit-border-top-right-radius: 0px;
     border-top-right-radius: 0px;
-    -moz-border-radius-bottomright: 0px;
-    -webkit-border-bottom-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
 table.calendarwidget tbody div.starting_before {
     border-left: none;
     padding-left: 2px;
-    -moz-border-radius-topleft: 0px;
-    -webkit-border-top-left-radius: 0px;
     border-top-left-radius: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
 
@@ -198,8 +188,6 @@ table.calendarwidget tbody span.assignee {
 #org_openpsa_widgets_calendar div.calendar_column:hover h3 {
     background-color: #4B6983;
     color: #ffffff;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
 }
 #org_openpsa_widgets_calendar div.calendar_column h3.statusinfo {
@@ -250,8 +238,6 @@ table.calendarwidget tbody span.assignee {
     list-style: none;
 }
 #org_openpsa_widgets_calendar div.reservations div, #org_openpsa_widgets_calendar ul.reservations li span.reservation {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     border: 1px solid #826647;
     background-color: #E0C39E;
@@ -289,8 +275,6 @@ table.calendarwidget tbody span.assignee {
     border-bottom: 1px solid #eeeeee;
     padding-top: 1px;
     background-color: #ffffff;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
     border-radius: 0px;
 }
 
