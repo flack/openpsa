@@ -95,19 +95,26 @@ $(document).ready(function()
             {
                 if (xhr.readyState === 4)
                 {
-                    var reply = $.parseJSON(xhr.responseText);
-                    if (!reply.success)
+                    try
                     {
-                        $.midcom_services_uimessage_add({type: 'error', message: reply.error, title: reply.title});
+                        var reply = $.parseJSON(xhr.responseText);
+                        if (!reply.success)
+                        {
+                            $.midcom_services_uimessage_add({type: 'error', message: reply.error, title: reply.title});
+                        }
+                        else
+                        {
+                            var entry = $('#item_container .entry:not(.entry-template):not(.entry-deleted)')[reply.position];
+                            $(entry)
+                                .removeClass('new-entry')
+                                .addClass('existing-entry')
+                                .attr('id', 'image-' + reply.guid)
+                                .find('.filename').text(reply.filename);
+                        }
                     }
-                    else
+                    catch (e)
                     {
-                        var entry = $('#item_container .entry:not(.entry-template):not(.entry-deleted)')[reply.position];
-                        $(entry)
-                            .removeClass('new-entry')
-                            .addClass('existing-entry')
-                            .attr('id', 'image-' + reply.guid)
-                            .find('.filename').text(reply.filename);
+                        $.midcom_services_uimessage_add({type: 'error', message: e.message, title: e.name});
                     }
                     remove_pending_request();
                 }
