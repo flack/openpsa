@@ -184,8 +184,7 @@
 .midcom_services_toolbars_fancy.type_palette .items div.item ul li.enabled {}
 .midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled img
 {
-    -moz-opacity: 0.3;
-    -webkit-opacity: 0.3;
+    opacity: 0.3;
 }
 
 .midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled abbr,

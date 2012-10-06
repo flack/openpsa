@@ -24,7 +24,7 @@
     padding: 5px 16px 5px 5px;
     margin-bottom: 10px;
     width: 312px;
-    -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
 }
 
 #midcom_services_uimessages_wrapper div.error

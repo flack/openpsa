@@ -169,8 +169,7 @@ p
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li.hidden > a
 {
-    -moz-opacity: 0.7;
-    -webkit-opacity: 0.7;
+    opacity: 0.7;
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li.readonly li a
 {

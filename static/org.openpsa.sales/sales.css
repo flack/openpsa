@@ -170,7 +170,5 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices
 
 div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .ui-jqgrid-view
 {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
     box-shadow: none;
 }

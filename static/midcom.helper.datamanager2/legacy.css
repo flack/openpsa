@@ -336,7 +336,6 @@ form.datamanager2 table.jquery-enabled .deleted textarea
   font-style: Italic;
   opacity: 0.5;
   filter:alpha(opacity=50);
-  -moz-opacity:.50;
   vertical-align: middle;
 }
 

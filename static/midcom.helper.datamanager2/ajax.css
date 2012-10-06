@@ -97,8 +97,7 @@ div.ajax_editable_window div.midcom_helper_datamanager2_ajax_toolbar input.delet
 	height: 100%;
 	z-index: 5000;
 	background-color: #000000;
-	-moz-opacity: 0.8;
-	opacity: .80;
+	opacity: .8;
 	filter: alpha(opacity=80);
 }
 #midcom_helper_datamanager2_ajax_overlay[id]
