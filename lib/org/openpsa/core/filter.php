@@ -115,12 +115,27 @@ class org_openpsa_core_filter
         if ($this->_config['mode'] == 'multiselect')
         {
             $head->enable_jquery();
-            $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dropdown-check-list.1.4/css/ui.dropdownchecklist.themeroller.css");
+            $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/jquery.multiselect.css");
             $head->add_jquery_ui_theme(array('widget'));
 
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-            $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dropdown-check-list.1.4/js/ui.dropdownchecklist-1.4-min.js');
+            $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js');
+
+            $lang = midcom::get('i18n')->get_current_language();
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js"))
+            {
+                $lang = midcom::get('i18n')->get_fallback_language();
+                if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js"))
+                {
+                    $lang = false;
+                }
+            }
+
+            if ($lang)
+            {
+                $head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js");
+            }
         }
         else if ($this->_config['mode'] == 'timeframe')
         {
@@ -253,12 +268,13 @@ class org_openpsa_core_filter
 
         $config = array
         (
-            'maxDropHeight' => 200,
-            'emptyText' => $this->_config['helptext']
+            'height' => 200,
+            'noneSelectedText' => $this->_config['helptext'],
+            'selectedList' => 2
         );
 
         echo '<script type="text/javascript">';
-        echo "\$('#select_" . $this->name . "').dropdownchecklist(\n";
+        echo "\$('#select_" . $this->name . "').multiselect(\n";
         echo json_encode($config) . " );\n";
         echo "\n</script>\n";
     }
