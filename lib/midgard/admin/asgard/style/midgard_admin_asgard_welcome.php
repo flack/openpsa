@@ -2,7 +2,7 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $type_choices = array();
-foreach (midcom_connection::get_schema_types() as $schema_type)
+foreach ($data['schema_types'] as $schema_type)
 {
     if (!isset($data['reflectors'][$schema_type]))
     {

@@ -24,17 +24,10 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     {
         $classes = array();
         $revised = array();
-        $skip = $this->_config->get('skip_in_filter');
 
         // List installed MgdSchema types and convert to DBA classes
-        foreach (midcom_connection::get_schema_types() as $schema_type)
+        foreach ($this->_request_data['schema_types'] as $schema_type)
         {
-            if (in_array($schema_type, $skip))
-            {
-                // Skip
-                continue;
-            }
-
             if (   !is_null($type)
                 && $schema_type != $type)
             {
@@ -121,6 +114,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
+        $data['schema_types'] = array_diff(midcom_connection::get_schema_types(), $this->_config->get('skip_in_filter'));
+
         $data['view_title'] = $this->_l10n->get('asgard');
         midcom::get('head')->set_pagetitle($data['view_title']);
 
