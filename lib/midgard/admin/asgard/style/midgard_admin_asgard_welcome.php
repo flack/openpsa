@@ -113,7 +113,7 @@ $revised_after_choices[$date] = midcom::get('i18n')->get_string('1 month', 'midg
     </div>
 
 <?php
-if (count($data['revised']) > 0)
+if (isset($_GET['type_filter']))
 {
     echo "    <form name=\"latest_objects_mass_action\" method=\"post\">";
     echo "<table class=\"results table_widget\" id =\"batch_process\">\n";
