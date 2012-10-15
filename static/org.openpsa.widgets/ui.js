@@ -221,7 +221,7 @@ var org_openpsa_layout =
         {
             if (provider.autocomplete)
             {
-                $('#org_openpsa_search_query').autocomplete(
+                $('#org_openpsa_search_query').category_complete(
                 {
                     source: function (request, response)
                     {

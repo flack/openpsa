@@ -199,6 +199,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         {
             $data[] = array
             (
+                'category' => $this->_l10n->get('persons'),
                 'label' => $person->get_label(),
                 'value' => $person->get_label(),
                 'url' => $prefix . 'person/' . $person->guid . '/'
@@ -208,11 +209,14 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         {
             $data[] = array
             (
+                'category' => $this->_l10n->get('groups'),
                 'label' => $group->get_label(),
                 'value' => $group->get_label(),
                 'url' => $prefix . 'group/' . $group->guid . '/'
             );
         }
+        usort($data, array('midcom_helper_datamanager2_widget_autocomplete', 'sort_items'));
+
         $response = new midcom_response_json();
 
         $response->set_data($data);
@@ -326,6 +330,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
 
         $qb_org = org_openpsa_contacts_group_dba::new_query_builder();
+        $qb_org->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $this->_apply_constraints($qb_org, $org_fields);
 
         $this->_groups = $qb_org->execute();
