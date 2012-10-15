@@ -13,7 +13,7 @@ $grid->set_column('price', $data['l10n']->get('price'), 'align: "right", width: 
 $grid->set_column('quantity', $data['l10n']->get('quantity'), 'align: "right", width: 30, formatter: "number", sortable: false, editable: true');
 $grid->set_column('sum', $data['l10n']->get('sum'), 'align: "right", width: 60, formatter: "number", sortable: false, summaryType: "sum"');
 
-$grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
+$grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
 
 ?>
 
@@ -116,8 +116,8 @@ $grid->set_column('actions', '',  'width: 60, fixed: true, sortable: false');
             org_openpsa_grid_editable.toggle(rowid, false);
 
             // enabled the (Drab&Drop) sort of the rows after save (after edit)
-            $( 'tbody:first', 'table').sortable( "option", "disabled", false );
-            $( 'tbody:first', 'table').disableSelection();
+            $( 'tbody:first', grid).sortable( "option", "disabled", false );
+            $( 'tbody:first', grid).disableSelection();
             //Specially for the case that a row was deleted
             refreshItemPositions();
         },
