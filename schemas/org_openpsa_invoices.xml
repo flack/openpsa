@@ -15,7 +15,7 @@
         <property name="deliverydate" type="integer" index="yes" />
         <property name="number" type="unsigned integer" index="yes"/>
         <property name="description" type="text"/>
-        <property name="sum" type="float"/>
+        <property name="sum" type="float" dbtype="double" />
         <property name="vat" type="integer"/>
 
         <!-- Legacy property for converting to the new number field -->
@@ -41,7 +41,7 @@
 
         <property name="position" type="integer" />
         <property name="description" type="text" />
-        <property name="pricePerUnit" type="float" />
+        <property name="pricePerUnit" type="float" dbtype="double" />
         <property name="units" type="float" />
     </type>
 
