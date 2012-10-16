@@ -636,7 +636,6 @@ input#org_openpsa_search_query
 #org_openpsa_widgets_calendar
 {
     position: absolute;
-    z-index: 101;
 }
 
 .midcom_helper_search_result h3
