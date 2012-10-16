@@ -44,7 +44,14 @@
 
 ul.ui-autocomplete
 {
-    overflow: auto
+    overflow: auto;
+    max-height: 100%
+}
+
+ul.ui-autocomplete .ui-menu-item a.ui-state-focus
+{
+    font-weight: normal;
+    border: none;
 }
 
 li.ui-autocomplete-category

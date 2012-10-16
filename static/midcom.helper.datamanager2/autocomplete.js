@@ -173,7 +173,7 @@ var midcom_helper_datamanager2_autocomplete =
             minLength: 2,
             source: midcom_helper_datamanager2_autocomplete.query,
             select: midcom_helper_datamanager2_autocomplete.select,
-            position: {collision: 'flip'},
+            position: {collision: 'flipfit'},
             autoFocus: true
         };
         autocomplete_options = $.extend({}, default_autocomplete_options, autocomplete_options || {});
