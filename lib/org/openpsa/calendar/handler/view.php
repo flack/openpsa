@@ -141,7 +141,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             (
                 MIDCOM_TOOLBAR_URL => '#',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/web-calendar.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_jump-to.png',
                 MIDCOM_TOOLBAR_OPTIONS  => array
                 (
                     'rel' => 'directlink',
@@ -164,7 +164,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             (
                 MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
             )
         );
     }
