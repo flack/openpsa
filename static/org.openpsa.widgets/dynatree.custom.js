@@ -12,6 +12,7 @@ var org_openpsa_tree =
                 cookieId: identifier,
                 clickFolderMode: 2,
                 autoCollapse: false,
+                debugLevel: -1,
     
                 onActivate: function(dtnode)
                 {
