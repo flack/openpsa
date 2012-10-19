@@ -10,7 +10,7 @@ try
     $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
     if (array_key_exists($product->unit, $unit_options))
     {
-        $unit = midcom::get('i18n')->get_string($unit_options[$product->unit], 'org.openpsa.products');
+        $unit = midcom::get('i18n')->get_string($unit_options[$data['deliverable']->unit], 'org.openpsa.products');
         $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
     }
 }
