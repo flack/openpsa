@@ -34,7 +34,7 @@ class net_nemein_wiki_wikipageTest extends openpsa_testcase
 
         $this->register_object($page);
         $page->refresh();
-        $this->assertEquals('test_title', $page->name);
+        $this->assertEquals('test-title', $page->name);
 
         $page->title = 'Test Title 2';
         $stat = $page->update();
