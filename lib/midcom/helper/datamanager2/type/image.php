@@ -567,9 +567,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         $this->_filter = new midcom_helper_imagefilter();
 
         // 1st step: original image storage and auto-conversion..
-        if (   ! $this->_save_original()
-            || ! $this->_filter->set_file($this->_original_tmpname)
-            || ! $this->_auto_convert_to_web_type())
+        if (   !$this->_save_original()
+            || !$this->_filter->set_file($this->_original_tmpname)
+            || !$this->_auto_convert_to_web_type())
         {
             // TODO: Raise uimessage
 
@@ -586,9 +586,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
 
         // Prepare all other images.
-        if (   ! $this->_save_main_image()
-            || ! $this->_add_thumbnail_to_derived_images()
-            || ! $this->_save_derived_images())
+        if (   !$this->_save_main_image()
+            || !$this->_add_thumbnail_to_derived_images()
+            || !$this->_save_derived_images())
         {
             // TODO: Raise uimessage
 
@@ -957,8 +957,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         switch ($this->output_mode)
         {
             case 'html':
-                if (   isset($main['description'])
-                    && $main['description'])
+                if (!empty($main['description']))
                 {
                     $title = $main['description'];
                 }
