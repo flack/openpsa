@@ -280,7 +280,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 }
             }
 
-            $invoice_item->description = $mc_task_agreement->get_subkey($task_id, 'title');
+            if ($invoice_item->description == '')
+            {
+                $invoice_item->description = $mc_task_agreement->get_subkey($task_id, 'title');
+            }
 
             $invoice_item->skip_invoice_update = $skip_invoice_update;
 
