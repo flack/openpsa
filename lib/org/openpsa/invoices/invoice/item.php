@@ -23,6 +23,17 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         parent::__construct($id);
     }
 
+    public function _on_creating()
+    {
+        if (   $this->invoice
+            && $this->position == 0)
+        {
+            $invoice = org_openpsa_invoices_invoice_dba::get_cached($this->invoice);
+            $this->position = count($invoice->get_invoice_items()) + 1;
+        }
+        return true;
+    }
+
     public function _on_created()
     {
         $this->_update_invoice();
@@ -37,7 +48,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     {
         $this->_update_invoice();
     }
-    
+
     /**
     * Human-readable label for cases like Asgard navigation
      */
@@ -50,7 +61,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         }
         return $label;
     }
-        
+
     public function render_link()
     {
         $url = '';
