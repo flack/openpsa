@@ -533,15 +533,15 @@ class midcom_helper_imagefilter
      */
     public function exifrotate()
     {
-        if (! function_exists("read_exif_data"))
+        if (! function_exists("exif_read_data"))
         {
-            debug_add("read_exif_data required for exifrotate.", MIDCOM_LOG_ERROR);
+            debug_add("exif_read_data required for exifrotate.", MIDCOM_LOG_ERROR);
             return false;
         }
         // Silence this, gives warnings on images that do not contain EXIF data
         try
         {
-            $exif = @read_exif_data($this->_filename);
+            $exif = @exif_read_data($this->_filename);
         }
         catch (Exception $e)
         {

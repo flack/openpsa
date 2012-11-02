@@ -156,10 +156,9 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         $this->datamanager->set_schema($this->schemaname);
         $this->datamanager->set_storage($storage);
 
-        $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
-
         if ($this->ajax_mode)
         {
+            $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
             $this->process_ajax();
         }
         else

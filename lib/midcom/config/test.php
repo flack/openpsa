@@ -284,7 +284,7 @@ class midcom_config_test
             }
         }
 
-        if (! function_exists('read_exif_data'))
+        if (! function_exists('exif_read_data'))
         {
             $this->println('EXIF reader', self::WARNING, 'PHP-EXIF is not available. It required for proper operation of Image Gallery components.');
         }
