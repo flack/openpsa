@@ -13,19 +13,7 @@
  */
 class org_openpsa_projects_projectbroker
 {
-    private $_owner_grp = false;
     var $membership_filter = array();
-
-    public function __construct()
-    {
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $owner_guid = $siteconfig->get_my_company_guid();
-        if (!$owner_guid)
-        {
-            return false;
-        }
-        $this->_owner_grp = new org_openpsa_contacts_group_dba($owner_guid);
-    }
 
     /**
      * Does a local search for persons that match the task constraints
