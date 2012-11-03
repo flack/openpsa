@@ -103,20 +103,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
-
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $owner_guid = $siteconfig->get_my_company_guid();
-
-        if ($owner_guid)
-        {
-            // Figure out if user is from own organization or other org
-            $this->_request_data['person_user'] = new midcom_core_user($this->_contact->id);
-
-            if ($this->_request_data['person_user']->is_in_group("group:{$owner_guid}"))
-            {
-                $this->_schema = 'employee';
-            }
-        }
+        $this->_schema = $this->_master->get_person_schema($this->_contact);
     }
 
     /**

@@ -278,6 +278,10 @@ andere
 Übergeordnete Gruppe
 ---STRINGEND
 
+---STRING owner organization couldnt be found
+Die Eigentümer-Gruppe konnte nicht gefunden werden
+---STRINGEND
+
 ---STRING partner
 Partner
 ---STRINGEND

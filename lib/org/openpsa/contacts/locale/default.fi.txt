@@ -194,6 +194,10 @@ Organisaation tyyppi
 Organisaatiot
 ---STRINGEND
 
+---STRING owner organization couldnt be found
+Tämän OpenPSA-asennuksen omistajaorganisaatiota ei löydy asetuksista
+---STRINGEND
+
 ---STRING partner
 Kumppani
 ---STRINGEND

@@ -237,35 +237,5 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         return $this->data[$key];
     }
-
-    /**
-     * Load "my company" or "owner company", the group that is the main user of this instance
-     *
-     * @return boolean Indicating success
-     */
-    public function get_my_company_guid()
-    {
-        $my_company_guid = $this->_config->get('owner_organization');
-        $return = false;
-
-        if (   !empty($my_company_guid)
-            && mgd_is_guid($my_company_guid))
-        {
-            $return = $my_company_guid;
-        }
-        else
-        {
-            if (midcom::get('auth')->admin)
-            {
-                midcom::get('uimessages')->add
-                (
-                    midcom::get('i18n')->get_string('org.openpsa.core', 'org.openpsa.core'),
-                    midcom::get('i18n')->get_string('owner organization couldnt be found', 'org.openpsa.core'),
-                    'error'
-                );
-            }
-        }
-        return $return;
-    }
 }
 ?>

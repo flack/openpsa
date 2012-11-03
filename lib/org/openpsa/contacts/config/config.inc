@@ -7,3 +7,4 @@
 'organization_search_fields' => 'official,email,name,customerId',
 'enable_duplicate_search' => false, /* NOTE: These are *very* heavy cron jobs run daily */
 'auto_wildcards' => 'end',
+'owner_organization' => null, // Set to GUID of org_openpsa_organization
