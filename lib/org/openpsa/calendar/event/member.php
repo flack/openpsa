@@ -119,10 +119,10 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     }
 
     /**
-     * statically called method to find amount (seconds) of free
+     * Find amount (seconds) of free
      * time for person between start and end
      */
-    function find_free_times($amount, $person, $start, $end)
+    public static function find_free_times($amount, $person, $start, $end)
     {
         static $event_cache = array();
         $slots = array();
@@ -158,7 +158,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         if (!is_array($eventmembers))
         {
             // QB error
-            continue;
+            return $slots;
         }
         $events_by_date = array();
         foreach ($eventmembers as $eventmember)
