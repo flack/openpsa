@@ -21,13 +21,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private $_contact = null;
 
     /**
-     * Schema to use for contact display
-     *
-     * @var string
-     */
-    private $_schema = null;
-
-    /**
      * The user object for the current person, if any
      *
      * @var midcom_core_user
@@ -58,20 +51,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb_person);
 
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $owner_guid = $siteconfig->get_my_company_guid();
-        if ($owner_guid)
-        {
-            // Figure out if user is from own organization or other org
-            $this->_person_user = new midcom_core_user($this->_contact->id);
-
-            if (   method_exists($this->_person_user, 'is_in_group')
-                && $this->_person_user->is_in_group("group:{$owner_guid}"))
-            {
-                $this->_schema = 'employee';
-            }
-        }
-        $this->_datamanager->set_schema($this->_schema);
+        $this->_datamanager->set_schema($this->_master->get_person_schema($this->_contact));
         $this->_datamanager->set_storage($this->_contact);
     }
 

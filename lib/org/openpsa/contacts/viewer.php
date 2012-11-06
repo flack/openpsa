@@ -42,6 +42,42 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         return $tree;
     }
 
+    /**
+     * Get schema name for person
+     *
+     * @return string Schema name
+     */
+    public function get_person_schema(org_openpsa_contacts_person_dba $contact)
+    {
+        $my_company_guid = $this->_config->get('owner_organization');
+
+        if (   empty($my_company_guid)
+            || !mgd_is_guid($my_company_guid))
+        {
+            if (midcom::get('auth')->admin)
+            {
+                midcom::get('uimessages')->add
+                (
+                    $this->_l10n->get($this->_component),
+                    $this->_l10n->get('owner organization couldnt be found'),
+                    'error'
+                );
+            }
+        }
+        else
+        {
+            // Figure out if user is from own organization or other org
+            $person_user = new midcom_core_user($contact->id);
+
+            if ($person_user->is_in_group("group:{$my_company_guid}"))
+            {
+                return 'employee';
+            }
+        }
+
+        return null;
+    }
+
     public static function add_breadcrumb_path_for_group($group, &$handler)
     {
         if (!is_object($group))

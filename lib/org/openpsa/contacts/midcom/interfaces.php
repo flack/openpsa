@@ -15,19 +15,6 @@
 class org_openpsa_contacts_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Initialize
-     *
-     * Initialize the basic data structures needed by the component
-     */
-    public function _on_initialize()
-    {
-        //org.openpsa.contacts object types
-        define('ORG_OPENPSA_OBTYPE_PERSON', 2000);
-        define('ORG_OPENPSA_OBTYPE_RESOURCE', 2001);
-        return true;
-    }
-
-    /**
      * Prepares the component's indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)

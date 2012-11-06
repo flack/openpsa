@@ -34,10 +34,6 @@ keine Gruppierung
 OpenPSA
 ---STRINGEND
 
----STRING owner organization couldnt be found
-Die Eigentümer-Gruppe konnte nicht gefunden werden
----STRINGEND
-
 ---STRING private
 Privat
 ---STRINGEND

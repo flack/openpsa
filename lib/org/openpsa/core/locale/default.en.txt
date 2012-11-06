@@ -38,10 +38,6 @@ No grouping
 OpenPSA
 ---STRINGEND
 
----STRING owner organization couldnt be found
-Owner organization for this OpenPSA installation couldn't be found from configuration
----STRINGEND
-
 ---STRING private
 Private
 ---STRINGEND

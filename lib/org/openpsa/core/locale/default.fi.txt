@@ -22,10 +22,6 @@ Tallenna CSV:ksi
 Suodatusvirhe
 ---STRINGEND
 
----STRING owner organization couldnt be found
-Tämän OpenPSA-asennuksen omistajaorganisaatiota ei löydy asetuksista
----STRINGEND
-
 ---STRING private
 Yksityinen
 ---STRINGEND
