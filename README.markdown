@@ -38,6 +38,12 @@ Next you should install OpenPSA under your document root:
 
     $ cp -R openpsa /var/www/
 
+Then, use Composer to install PHP dependencies
+
+    $ cd /var/www/openpsa
+    $ wget http://getcomposer.org/installer && php installer
+    $ php composer.phar install
+
 ## Setting up Lighttpd
 
 Enable `rewrite` and `fastcgi` modules in your Lighttpd config (by default `/etc/lighttpd/lighttpd.conf`):
