@@ -64,6 +64,13 @@
     'handler' => array('org_openpsa_user_handler_person_create', 'create'),
     'fixed_args' => 'create',
 ),
+// Match /create/<group guid>
+'user_create_group' => array
+(
+    'handler' => array('org_openpsa_user_handler_person_create', 'create'),
+    'fixed_args' => 'create',
+    'variable_args' => 1
+),
 // Match /account/create/<guid>/
 'account_create' => array
 (

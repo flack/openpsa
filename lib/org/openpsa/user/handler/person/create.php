@@ -22,6 +22,13 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_person;
 
     /**
+     * The group for our new person, if any
+     *
+     * @var midcom_db_group
+     */
+    private $_group;
+
+    /**
      * Loads and prepares the schema database.
      */
     public function load_schemadb()
@@ -52,6 +59,16 @@ implements midcom_helper_datamanager2_interfaces_create
         return $person_schema;
     }
 
+    public function get_schema_defaults()
+    {
+        $defaults = array();
+        if ($this->_group)
+        {
+            $defaults['groups'] = array($this->_group->id);
+        }
+        return $defaults;
+    }
+
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -60,6 +77,15 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+
+        if (count($args) > 0)
+        {
+            // Get the organization
+            $this->_group = new midcom_db_group($args[0]);
+            $this->_group->require_do('midgard:create');
+            midcom::get('head')->set_pagetitle($this->_group->official);
+            $this->add_breadcrumb('group/' . $this->_group->guid . '/', $this->_group->get_label());
+        }
 
         $data['controller'] = $this->get_controller('create');
         switch ($data['controller']->process_form())

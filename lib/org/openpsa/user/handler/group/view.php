@@ -91,6 +91,16 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
             )
         );
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "create/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+            )
+        );
         $this->bind_view_to_object($this->_group);
     }
 
