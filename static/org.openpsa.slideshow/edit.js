@@ -70,7 +70,7 @@ $(document).ready(function()
         update_items = {},
         fd, xhr;
 
-        $('#save_all').hide();
+        $('#save_all').closest('form').hide();
         $('#progress_bar')
             .progressbar({value: 0})
             .show()
@@ -191,7 +191,7 @@ $(document).ready(function()
             {
                 $('#progress_bar').fadeOut('slow', function()
                 {
-                    $('#save_all').show();
+                    $('#save_all').closest('form').show();
                 });
             }
         }

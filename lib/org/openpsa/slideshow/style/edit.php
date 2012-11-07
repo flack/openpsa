@@ -1,3 +1,7 @@
+<?php
+$nap = new midcom_helper_nav;
+$node = $nap->get_node($nap->get_current_node());
+?>
 <h1><?php echo sprintf($data['l10n_midcom']->get('edit %s'), $data['l10n']->get('slideshow')); ?></h1>
 
 <input type="file" multiple="multiple" id="upload_field" />
@@ -52,4 +56,8 @@ foreach ($data['images'] as $image)
 </div>
 
 <div id="progress_bar"></div>
+
+<form method="get" action="&(node[MIDCOM_NAV_FULLURL]);">
 <input type="button" name="save_all" id="save_all" value="<?php echo $data['l10n']->get('save all'); ?>" />
+<input type="submit" value="<?php echo $data['l10n_midcom']->get('back'); ?>" />
+</form>
