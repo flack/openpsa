@@ -22,18 +22,25 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         );
     }
 
-    function create_root_event()
+    public static function create_root_event()
     {
-        // Create the root event
+        midcom::get('auth')->request_sudo();
         $event = new midcom_db_event();
-
-        if (!$event->create())
+        $event->up = 0;
+        $event->title = '__org_openpsa_calendar';
+        //Fill in dummy dates to get around date range error
+        $event->start = time();
+        $event->end = time() + 1;
+        $ret = $event->create();
+        midcom::get('auth')->drop_sudo();
+        if (!$ret)
         {
+            debug_add('Failed to create OpenPSA root event, reason ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             throw new midcom_error('Failed to create the root event');
         }
 
         $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        $topic->set_parameter($this->_component, 'calendar_root_event', $event->guid);
+        $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $event->guid);
 
         return $event;
     }
@@ -41,7 +48,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     /**
      * Locates the root event
      */
-    static function find_root_event()
+    public static function find_root_event()
     {
         if (!midcom::get('componentloader')->is_loaded('org.openpsa.calendar'))
         {
@@ -56,7 +63,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
 
         //Check if we have already initialized
-        if (isset($data['calendar_root_event'])
+        if (   isset($data['calendar_root_event'])
             && is_object($data['calendar_root_event']))
         {
             return $data['calendar_root_event'];
@@ -92,26 +99,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             {
                 debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
                 //Attempt to auto-initialize
-                midcom::get('auth')->request_sudo();
-                $event = new midcom_db_event();
-                $event->up = 0;
-                $event->title = '__org_openpsa_calendar';
-                //Fill in dummy dates to get around date range error
-                $event->start = time();
-                $event->end = time() + 1;
-                $ret = $event->create();
-                midcom::get('auth')->drop_sudo();
-                if (!$ret)
-                {
-                    $root_event = false;
-                    debug_add('Failed to create OpenPSA root event, reason ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    //If we return false here ACL editor etc will choke
-                    //return false;
-                }
-                else
-                {
-                    $root_event = $event;
-                }
+                $root_event = self::create_root_event();
             }
         }
         $data['calendar_root_event'] = $root_event;
