@@ -39,8 +39,13 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             throw new midcom_error('Failed to create the root event');
         }
 
-        $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $event->guid);
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $topic_guid = $siteconfig->get_node_guid('org.openpsa.calendar');
+        if ($topic_guid)
+        {
+            $topic = new midcom_db_topic($topic_guid);
+            $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $event->guid);
+        }
 
         return $event;
     }
