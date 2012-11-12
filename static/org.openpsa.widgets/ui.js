@@ -267,7 +267,7 @@ var org_openpsa_layout =
 
                     if (old_item.data('provider').autocomplete)
                     {
-                        query.autocomplete('destroy');
+                        query.category_complete('destroy');
                     }
                     old_item.removeClass('current');
                     target.addClass('current');
