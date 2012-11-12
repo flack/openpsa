@@ -4,6 +4,10 @@ php:
   - 5.3
   - 5.4
 
+env:
+  - MIDGARD_EXT_VERSION=ratatoskr
+  - MIDGARD_EXT_VERSION=gjallarhorn
+
 before_script:
   - ./test/travis_midgard2.sh
   - wget http://getcomposer.org/composer.phar 
