@@ -1,3 +1,6 @@
+OpenPSA [![Build Status](https://secure.travis-ci.org/flack/openpsa.png?branch=master)](https://travis-ci.org/flack/openpsa)
+=======
+
 [OpenPSA](http://midgard-project.org/openpsa/) is a management suite for web agencies and consultants that provides a unified interface for handling many common business processes. It is built on a component architecture that makes it easy to integrate new components for specific requirements and is available as free software under the terms of the LGPL license.
 
 OpenPSA 1.x was initially released as Open Source under the GNU GPL license by [Nemein](http://nemein.com/) on May 8th 2004 to support the [5th anniversary](http://www.midgard-project.org/updates/midgard-5th-anniversary.html) of the [Midgard Project](http://www.midgard-project.org/). The package was originally known as Nemein.Net.
