@@ -6,10 +6,6 @@ pyrus install -f http://pear.indeyets.ru/get/pake-1.6.3.tgz
 # https://github.com/composer/composer/pull/775 lands
 pyrus install HTML_Common
 
-# Options
-MIDGARD_LIBS_VERSION=10.05.6
-MIDGARD_EXT_VERSION=ratatoskr
-
 # Install Midgard2 library dependencies
 sudo apt-get install -y dbus libgda-4.0-4 libgda-4.0-dev libxml2-dev libdbus-1-dev libdbus-glib-1-dev
 
