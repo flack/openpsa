@@ -477,13 +477,8 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         // Set the breadcrumb
         $this->add_breadcrumb
         (
-            'year/' . date('Y-01-01', $this->_calendar->get_week_start()) . '/',
-            strftime('%Y', $this->_selected_time)
-        );
-        $this->add_breadcrumb
-        (
             'month/' . date('Y-m-01', $this->_calendar->get_week_start()) . '/',
-            strftime('%B', $this->_selected_time)
+            strftime('%B %Y', $this->_selected_time)
         );
 
         midcom::get('head')->set_pagetitle(strftime("%B %Y", $this->_selected_time));
@@ -566,8 +561,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->_request_data['calendar'] =& $this->_calendar;
 
         // Set the breadcrumb
-        $this->add_breadcrumb('year/' . date('Y-01-01', $week_start) . '/', strftime('%Y', $week_start));
-        $this->add_breadcrumb('month/' . date('Y-m-01', $week_start) . '/', strftime('%B', $week_start));
+        $this->add_breadcrumb('month/' . date('Y-m-01', $week_start) . '/', strftime('%B %Y', $week_start));
         $this->add_breadcrumb
         (
             'week/' . date('Y-m-d', $week_start) . '/',
@@ -655,8 +649,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->_request_data['calendar'] =& $this->_calendar;
 
         // Set the breadcrumb
-        $this->add_breadcrumb('year/' . date('Y-01-01', $this->_selected_time) . '/', strftime('%Y', $this->_selected_time));
-        $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B', $this->_selected_time));
+        $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B %Y', $this->_selected_time));
         $this->add_breadcrumb('day/' . date('Y-m-d', $this->_selected_time) . '/', strftime('%x', $this->_selected_time));
 
         midcom::get('head')->set_pagetitle(strftime("%x", $this->_selected_time));
