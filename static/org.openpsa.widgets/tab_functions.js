@@ -50,7 +50,7 @@ var org_openpsa_widgets_tabs =
                 {
                     return;
                 }
-                var url = $.data(event.currentTarget, 'href.tabs').replace(new RegExp('/' + uiprefix + '/'), '/');
+                var url = $(this).attr('href').replace(new RegExp('/' + uiprefix + '/'), '/');
                 location.href = url;
             })
             .delegate('.ui-tabs-panel a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event);})
