@@ -566,19 +566,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
     {
-        if (!class_exists('Text_Diff'))
-        {
-            @include_once 'Text/Diff.php';
-            @include_once 'Text/Diff/Renderer.php';
-            @include_once 'Text/Diff/Renderer/unified.php';
-            @include_once 'Text/Diff/Renderer/inline.php';
-
-            if (!class_exists('Text_Diff'))
-            {
-                throw new midcom_error("Failed to load Text_Diff library.");
-            }
-        }
-
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
 
