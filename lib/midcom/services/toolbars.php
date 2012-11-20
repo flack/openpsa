@@ -712,7 +712,7 @@ class midcom_services_toolbars
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/unapprove/",
+                        MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
                         MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('unapprove', 'midcom'),
                         MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('approved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/page-approved.png',
@@ -732,7 +732,7 @@ class midcom_services_toolbars
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/approve/",
+                        MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
                         MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('approve', 'midcom'),
                         MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('unapproved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/page-notapproved.png',
@@ -754,7 +754,7 @@ class midcom_services_toolbars
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/metadata/{$object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit metadata', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'm',
@@ -764,7 +764,7 @@ class midcom_services_toolbars
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/move/{$object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                     MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
@@ -790,7 +790,7 @@ class midcom_services_toolbars
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__ais/rcs/{$object->guid}/",
+                    MIDCOM_TOOLBAR_URL => "__ais/rcs/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('show history', 'no.bergfald.rcs'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'v',
