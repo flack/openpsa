@@ -173,7 +173,7 @@ class midcom
         }
 
         //MidCOM "Classic"
-        if (preg_match('/^(.+?_.+?_.+?)_(.+?)$/', $class_name, $matches))
+        if (preg_match('/^([a-z].+?_.+?_.+?)_(.+?)$/', $class_name, $matches))
         {
             $path = midcom::get('componentloader')->path_to_snippetpath(str_replace('_', '.', $matches[1])) . '/' . $matches[2];
         }
