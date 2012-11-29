@@ -473,6 +473,11 @@ body .ui-tooltip { border-width: 2px; }
     padding: 0
 }
 
+.ui-widget-header
+{
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
 .ui-tabs .ui-widget-header
 {
     border: none;
@@ -502,6 +507,7 @@ body .ui-tooltip { border-width: 2px; }
 .ui-jqgrid .ui-widget-header
 {
     height: 1.3em;
+    padding-left: .5em
 }
 
 .jqgrow.even
