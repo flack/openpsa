@@ -173,7 +173,17 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             return;
         }
 
-        $this->_cache->put("{$data_group}-{$key}", $data, $timeout);
+        if (false !== $timeout)
+        {
+            // if a timeout is specified, we have to pass to the driver directly, since
+            // the memory cache in the baseclass would drop the timeout information
+            // TODO: This needs to be solved in a more general way at some point
+            $this->_cache->_put("{$data_group}-{$key}", $data, $timeout);
+        }
+        else
+        {
+            $this->_cache->put("{$data_group}-{$key}", $data);
+        }
     }
 
     /**
