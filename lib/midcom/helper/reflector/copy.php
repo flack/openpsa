@@ -712,9 +712,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed $source        GUID or MgdSchema object that will be copied
      * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
      * @param array $exclude       IDs that will be excluded from the copying
-     * @param boolean $parameters  Switch to determine if the parameters should be copied
-     * @param boolean $metadata    Switch to determine if the metadata should be copied (excluding created and published)
-     * @param boolean $attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
+     * @param boolean $copy_parameters  Switch to determine if the parameters should be copied
+     * @param boolean $copy_metadata    Switch to determine if the metadata should be copied (excluding created and published)
+     * @param boolean $copy_attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
     static public function copy_object_tree($source, $parent, $exclude = array(), $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
@@ -722,9 +722,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $copy = new midcom_helper_reflector_copy();
         $copy->source =& $source;
         $copy->target =& $parent;
-        $copy->copy_parameters = $parameters;
-        $copy->copy_metadata = $metadata;
-        $copy->copy_attachments = $attachments;
+        $copy->copy_parameters = $copy_parameters;
+        $copy->copy_metadata = $copy_metadata;
+        $copy->copy_attachments = $copy_attachments;
 
         if (!$copy->execute())
         {
