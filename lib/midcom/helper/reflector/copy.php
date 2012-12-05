@@ -717,14 +717,14 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param boolean $attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
-    static public function copy_object_tree($source, $parent, $exclude = array(), $parameters = true, $metadata = true, $attachments = true)
+    static public function copy_object_tree($source, $parent, $exclude = array(), $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
     {
         $copy = new midcom_helper_reflector_copy();
         $copy->source =& $source;
         $copy->target =& $parent;
-        $copy->parameters = $parameters;
-        $copy->metadata = $metadata;
-        $copy->attachments = $attachments;
+        $copy->copy_parameters = $parameters;
+        $copy->copy_metadata = $metadata;
+        $copy->copy_attachments = $attachments;
 
         if (!$copy->execute())
         {

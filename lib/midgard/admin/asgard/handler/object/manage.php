@@ -769,10 +769,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         // Copying of parameters, metadata and such
-        $copy->parameters = $this->_controller->datamanager->types['parameters']->convert_to_storage();
-        $copy->metadata = $this->_controller->datamanager->types['metadata']->convert_to_storage();
-        $copy->attachments = $this->_controller->datamanager->types['attachments']->convert_to_storage();
-        $copy->privileges = $this->_controller->datamanager->types['privileges']->convert_to_storage();
+        $copy->copy_parameters = $this->_controller->datamanager->types['parameters']->convert_to_storage();
+        $copy->copy_metadata = $this->_controller->datamanager->types['metadata']->convert_to_storage();
+        $copy->copy_attachments = $this->_controller->datamanager->types['attachments']->convert_to_storage();
+        $copy->copy_privileges = $this->_controller->datamanager->types['privileges']->convert_to_storage();
 
         if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree')
         {
