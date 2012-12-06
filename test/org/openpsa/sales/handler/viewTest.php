@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -35,7 +35,8 @@ class org_openpsa_sales_salesproject_viewTest extends openpsa_testcase
         $product_attributes = array
         (
             'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE,
-            'productGroup' => $product_group->id
+            'productGroup' => $product_group->id,
+            'name' => __CLASS__ . __FUNCTION__ . time()
         );
         $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
         $deliverable_attributes = array

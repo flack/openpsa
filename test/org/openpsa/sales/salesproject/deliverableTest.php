@@ -80,6 +80,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
     {
         $productgroup = $this->create_object('org_openpsa_products_product_group_dba');
         $attributes['product']['productGroup'] = $productgroup->id;
+        $attributes['product']['name'] = __CLASS__ . __FUNCTION__ . time();
         $product = $this->create_object('org_openpsa_products_product_dba', $attributes['product']);
 
         $attributes['deliverable']['product'] = $product->id;
