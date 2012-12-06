@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -56,6 +56,12 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
                 'm',
                 1296518400,
                 1298937600,
+            ),
+            array
+            (
+                'm',
+                1351651372,
+                1354233600
             ),
             array
             (

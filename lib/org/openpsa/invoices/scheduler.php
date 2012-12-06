@@ -311,29 +311,28 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         {
             case 'd':
                 // Daily recurring subscription
-                $offset = '+1 day';
+                $new_date = new DateTime('+1 day ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
                 break;
             case 'm':
                 // Monthly recurring subscription
-                $offset = '+1 month';
+                $new_date = $this->_add_month($time, 1);
                 break;
             case 'q':
                 // Quarterly recurring subscription
-                $offset = '+3 months';
+                $new_date = $this->_add_month($time, 3);
                 break;
             case 'hy':
                 // Half-yearly recurring subscription
-                $offset = '+6 months';
+                $new_date = $this->_add_month($time, 6);
                 break;
             case 'y':
                 // Yearly recurring subscription
-                $offset = '+1 year';
+                $new_date = new DateTime('+1 year ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
                 break;
             default:
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
                 return false;
         }
-        $new_date = new DateTime($offset . ' ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
         if ($this->_deliverable->unit != 'd')
         {
             //If previous cycle was run at the end of the month, the new one should be at the end of the month as well
@@ -347,6 +346,34 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $next_cycle = (int) $new_date->format('U');
 
         return $next_cycle;
+    }
+
+    /**
+     * Workaround for odd PHP DateTime behavior where for example
+     * 2012-10-31 + 1 month would return 2012-12-01. This function makes
+     * sure the new date is always in the exoected month (so in the example above
+     * it would return 2012-11-30)
+     *
+     * @param integer $time Original timestamp
+     * @param integer $offset number of months to add
+     * @return DateTime The new date object
+     */
+    private function _add_month($time, $offset)
+    {
+        $orig = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+        $new_date = clone $orig;
+        $new_date->modify('+' . $offset . ' months');
+        $control = clone $new_date;
+        $control->modify('-' . $offset . ' months');
+
+        while ($orig->format('m') !== $control->format('m'))
+        {
+            $new_date->modify('-1 day');
+            $control = clone $new_date;
+            $control->modify('-' . $offset . ' months');
+        }
+
+        return $new_date;
     }
 
     public function get_cycle_start($cycle_number, $time)
