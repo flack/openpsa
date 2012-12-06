@@ -86,15 +86,16 @@ if (! defined('MIDCOM_STATIC_URL'))
 
 $_SERVER = array
 (
-	'HTTP_HOST' => 'localhost',
-	'SERVER_NAME' => 'localhost',
-	'SERVER_SOFTWARE' => 'PHPUnit',
-	'HTTP_USER_AGENT' => 'PHPUnit',
-	'SERVER_PORT' => '80',
-	'REMOTE_ADDR' => 'unittest dummy connection',
-	'REQUEST_URI' => '/midcom-test-init',
-	'REQUEST_TIME' => time(),
-	'REMOTE_PORT' => '12345'
+    'HTTP_HOST' => 'localhost',
+    'SERVER_NAME' => 'localhost',
+    'SERVER_SOFTWARE' => 'PHPUnit',
+    'HTTP_USER_AGENT' => 'PHPUnit',
+    'SERVER_PORT' => '80',
+    'REMOTE_ADDR' => 'unittest dummy connection',
+    'REQUEST_URI' => '/midcom-test-init',
+    'REQUEST_TIME' => time(),
+    'REMOTE_PORT' => '12345',
+    'SCRIPT_NAME' => 'unittest-run'
 );
 
 if (   function_exists('gc_enabled')
