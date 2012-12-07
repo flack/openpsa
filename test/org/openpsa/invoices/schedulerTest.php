@@ -26,13 +26,23 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
      */
     public function testCalculate_cycle_next($unit, $start, $result)
     {
+        $old = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+        $start = strtotime($start);
+        date_default_timezone_set($old);
+
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $deliverable->unit = $unit;
 
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
         $next_cycle = $scheduler->calculate_cycle_next($start);
 
-        $this->assertEquals(gmstrftime('%Y-%m-%d %H:%M:%S', $result), gmstrftime('%Y-%m-%d %H:%M:%S', $next_cycle), 'Wrong value for unit ' . $unit . ', start value: ' . gmstrftime('%Y-%m-%d %H:%M:%S', $start));
+        if ($next_cycle !== false)
+        {
+            $next_cycle = gmstrftime('%Y-%m-%d %H:%M:%S', $next_cycle);
+        }
+
+        $this->assertEquals($result, $next_cycle, 'Wrong value for unit ' . $unit . ', start value: ' . $start);
     }
 
     public function providerCalculate_cycle_next()
@@ -42,43 +52,49 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             array
             (
                 'd',
-                1297468800,
-                1297555200,
+                '2011-02-12 00:00:00',
+                '2011-02-13 00:00:00',
             ),
             array
             (
                 'm',
-                1297468800,
-                1299888000,
+                '2011-02-12 00:00:00',
+                '2011-03-12 00:00:00',
             ),
             array
             (
                 'm',
-                1296518400,
-                1298937600,
+                '2012-09-01 02:00:00',
+                '2012-10-01 00:00:00',
             ),
             array
             (
                 'm',
-                1351651372,
-                1354233600
+                '2011-02-01 00:00:00',
+                '2011-03-01 00:00:00',
             ),
             array
             (
-               'q',
-                1297468800,
-                1305158400,
+                'm',
+                '2012-10-31 02:42:52',
+                '2012-11-30 00:00:00',
+            ),
+            array
+            (
+                'q',
+                '2011-02-12 00:00:00',
+                '2011-05-12 00:00:00',
             ),
             array
             (
                 'y',
-                1297468800,
-                1329004800,
+                '2011-02-12 00:00:00',
+                '2012-02-12 00:00:00',
             ),
             array
             (
                 'x',
-                1297468800,
+                '2011-02-12 00:00:00',
                 false,
             )
         );
