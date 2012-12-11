@@ -11,6 +11,7 @@ namespace openpsa\createphp;
 use Midgard\CreatePHP\Mapper\AbstractRdfMapper;
 use Midgard\CreatePHP\Entity\PropertyInterface;
 use Midgard\CreatePHP\Entity\CollectionInterface;
+use Midgard\CreatePHP\Entity\EntityInterface;
 use Midgard\CreatePHP\Type\TypeInterface;
 
 /**
@@ -157,7 +158,7 @@ class dba2rdfMapper extends AbstractRdfMapper
         return $object->can_do('midgard:update');
     }
 
-    public function store($object)
+    public function store(EntityInterface $object)
     {
         if (empty($object->id))
         {
