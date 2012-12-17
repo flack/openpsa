@@ -158,13 +158,22 @@ class dba2rdfMapper extends AbstractRdfMapper
         return $object->can_do('midgard:update');
     }
 
-    public function store(EntityInterface $object)
+    public function store(EntityInterface $entity)
     {
+        $object = $entity->getObject();
         if (empty($object->id))
         {
-            return $object->create();
+            $stat = $object->create();
         }
-        return $object->update();
+        else
+        {
+            $stat = $object->update();
+        }
+        if (false === $stat)
+        {
+            debug_add('Could not save entity: ' . \midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+        }
+        return $stat;
     }
 }
 ?>
