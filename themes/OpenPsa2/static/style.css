@@ -112,8 +112,6 @@ a:hover
 #nav ul > li:hover
 {
     background-color: #34537e;
-    -moz-border-radius: 0.8em;
-    -webkit-border-radius: 0.8em;
     border-radius: 0.8em;
     z-index: 6;
 }
@@ -121,8 +119,6 @@ a:hover
 #nav li:hover > ul
 {
     background-color: #34537e;
-    -moz-border-radius: 0 0.8em 0.8em 0.8em;
-    -webkit-border-radius: 0 0.8em 0.8em 0.8em;
     border-radius: 0 0.8em 0.8em 0.8em;
     z-index: 6;
     display: block;
@@ -164,8 +160,6 @@ a:hover
 
 #nav ul li a
 {
-  -moz-border-radius: 0.8em;
-  -webkit-border-radius: 0.8em;
   border-radius: 0.8em;
   background: transparent;
   -moz-transition: background .3s ease-out 0s;
@@ -275,8 +269,6 @@ a:hover
 #content-menu input.submit
 {
   background-color: #d3d7cf;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
   border-radius: 0;
   padding: 0 0.5em;
   color: #ffffff;
@@ -401,8 +393,6 @@ ul#org_openpsa_search_providers li.current
     height: 18px;
     width: 20px;
     border: 1px solid #777;
-    -moz-border-radius: .6em 0 0 .6em;
-    -webkit-border-radius: .6em 0 0 .6em;
     border-radius: .6em 0 0 .6em;
     position: absolute;
     right: 12.3em;
@@ -423,8 +413,6 @@ input#org_openpsa_search_query
     background-color: white;
     color: #000;
     border: 1px solid #777;
-    -moz-border-radius: 0 .6em .6em 0;
-    -webkit-border-radius: 0 .6em .6em 0;
     border-radius: 0 .6em .6em 0;
     padding: 0;
     text-align: left;
@@ -451,7 +439,6 @@ input#org_openpsa_search_query
 
 #org_openpsa_search_trigger.focused
 {
-    -moz-border-radius: .6em 0 0 0;
     border-radius: .6em 0 0 0;
 }
 
@@ -533,8 +520,6 @@ input#org_openpsa_search_query
   padding: .3em .5em;
   white-space: nowrap;
   overflow: visible;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
   border-radius: 0.5em;
   text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.8);
   line-height: 16px;
@@ -595,10 +580,6 @@ input#org_openpsa_search_query
   margin: 0;
   margin-top: 22px;
   padding: 5px;
-  -moz-border-radius-bottomleft: 0.5em;
-  -moz-border-radius-bottomright: 0.5em;
-  -webkit-border-bottom-left-radius: 0.5em;
-  -webkit-border-bottom-right-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   border: 1px solid #aaa;
