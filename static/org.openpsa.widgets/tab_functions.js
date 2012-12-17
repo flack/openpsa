@@ -2,38 +2,44 @@ var org_openpsa_widgets_tabs =
 {
     loaded_scripts: [],
     form_append: "&midcom_helper_datamanager2_cancel=Cancel",
-    initialize: function(uiprefix, spinner)
+    initialize: function(uiprefix)
     {
         org_openpsa_widgets_tabs.bind_events(uiprefix);
 
         $('#tabs').tabs({
-            cache: true,
-            spinner: spinner,
-            ajaxOptions:
+            beforeLoad: function(event, ui)
             {
-                dataFilter: org_openpsa_widgets_tabs.load_head_elements
+                if (ui.tab.data("loaded"))
+                {
+                    event.preventDefault();
+                    return;
+                }
+
+                ui.jqXHR.success(function()
+                {
+                    ui.tab.data("loaded", true);
+                });
+                ui.ajaxSettings.dataFilter = org_openpsa_widgets_tabs.load_head_elements
             },
             load: function()
             {
                 $(window).trigger('resize');
             },
-            show: function(event, ui)
+            activate: function(event, ui)
             {
-                var url = $(ui.tab).attr('href');
-                url = url.replace(/^.*#/, '');
-                $.history.load(url);
+                $.history.load($(ui.newPanel).attr('id'));
                 $(window).trigger('resize');
             }
         });
 
         $.history.init(org_openpsa_widgets_tabs.history_loader);
     },
-    history_loader: function(url)
+    history_loader: function(hash)
     {
         var tab_id = 0;
-        if (url !== '')
+        if (hash !== '')
         {
-            tab_id = parseInt(url.replace(/ui-tabs-/, '')) - 1;
+            tab_id = parseInt(hash.replace(/ui-tabs-/, '')) - 1;
         }
 
         if ($('#tabs').tabs('option', 'selected') != tab_id)

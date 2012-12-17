@@ -151,14 +151,12 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         echo "\n</ul>\n";
         echo "</div>\n";
 
-        $wait = midcom::get('i18n')->get_string('loading', 'org.openpsa.widgets');
-
         echo <<<JSINIT
 <script type="text/javascript">
 $(document).ready(
     function()
     {
-        org_openpsa_widgets_tabs.initialize('{$uipage}', '{$wait}...');
+        org_openpsa_widgets_tabs.initialize('{$uipage}');
     }
 );
 </script>
