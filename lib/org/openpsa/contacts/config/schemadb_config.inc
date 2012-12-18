@@ -8,6 +8,11 @@
         (
             'title' => 'owner organization',
             'type' => 'select',
+            'type_config' => array
+            (
+                'allow_other' => true,
+                'require_corresponding_option' => false,
+            ),
             'widget' => 'chooser',
             'widget_config' => array
             (
