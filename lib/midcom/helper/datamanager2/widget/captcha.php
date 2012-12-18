@@ -112,9 +112,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         $session = new midcom_services_session($this->_session_domain);
         if (! $session->exists($this->_session_key))
         {
-            $phrase = midcom_admin_user_plugin::generate_password($this->length);
-            $this->_passphrase = $phrase;
-            $session->set($this->_session_key, $phrase);
+            $this->_prepare_passphrase($session);
         }
         else
         {
@@ -122,6 +120,13 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         }
 
         return true;
+    }
+
+    private function _prepare_passphrase(midcom_services_session $session)
+    {
+        $phrase = midcom_admin_user_plugin::generate_password($this->length);
+        $this->_passphrase = $phrase;
+        $session->set($this->_session_key, $phrase);
     }
 
     /**
@@ -165,6 +170,11 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     {
         if ($fields[$this->name] != $this->_passphrase)
         {
+            $this->_element->setValue('');
+            //reset passphrase to prevent brute-forcing
+            $session = new midcom_services_session($this->_session_domain);
+            $this->_prepare_passphrase($session);
+
             return Array ("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
         }
 
@@ -172,7 +182,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     }
 
     /**
-     * When syncing data we clear the capatcha data in the session.
+     * When syncing data we clear the captcha data in the session.
      */
     function sync_type_with_widget($results)
     {
