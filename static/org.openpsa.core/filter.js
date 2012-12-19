@@ -18,15 +18,18 @@ $(document).ready(function()
         $('form.org_openpsa_filter select').each(function(index, element)
         {
             var filter_name = $(element).attr('name').slice(0, $(element).attr('name').length - 2);
-            $.each($(element).val(), function(i, value)
+            if ($.isArray($(element).val()))
             {
-                if (filter_values.length > 1)
+                $.each($(element).val(), function(i, value)
                 {
-                    filter_values += '&';
-                }
+                    if (filter_values.length > 1)
+                    {
+                        filter_values += '&';
+                    }
 
-                filter_values += filter_name + '[' + i + ']=' + value;
-            });
+                    filter_values += filter_name + '[' + i + ']=' + value;
+                });
+            }
         });
         if (filter_values.length > 1)
         {
