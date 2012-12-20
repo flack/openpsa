@@ -81,6 +81,11 @@
     white-space: nowrap
 }
 
+.autocomplete_input
+{
+    background: url("../stock-icons/16x16/search.png") no-repeat right center;
+}
+
 .ui-autocomplete-loading
 {
     background: url('../stock-icons/16x16/ajax-loading.gif') right center no-repeat;
