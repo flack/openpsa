@@ -176,10 +176,11 @@ var midcom_helper_datamanager2_autocomplete =
             });
         }
 
-        $('.autocomplete-selection-holder').on('click', '.autocomplete-action-icon', function()
+        input.parent().on('click', '.autocomplete-selection-holder .autocomplete-action-icon', function()
         {
             var item = $(this).parent(),
             item_id = item.data('id');
+
             if (item.hasClass('autocomplete-selected'))
             {
                 if (item.hasClass('autocomplete-saved'))
