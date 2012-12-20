@@ -14,7 +14,7 @@
 // Allow anonymous posting.
 'allow_anonymous' => true,
 
-'enable_mollom_check' => false,
+'enable_spam_check' => false,
 
 // Notify authors on new comments
 'enable_notify' => true,

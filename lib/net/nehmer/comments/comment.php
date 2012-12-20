@@ -204,60 +204,34 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     function check_spam(&$config)
     {
-        if (!$config->get('enable_mollom_check'))
+        if (!$config->get('enable_spam_check'))
         {
-            // Mollom spam checker is not enabled, skip check
+            // Spam checker is not enabled, skip check
             return;
         }
 
-        if (!midcom::get('componentloader')->is_installed('be.crsolutions.mollom'))
-        {
-            debug_add('be.crsolutions.mollom spam checker is enabled but not installed, aborting check', MIDCOM_LOG_INFO);
-            return;
-        }
+        $ret = net_nehmer_comments_spamchecker::check_linksleeve($this->title . ' ' . $this->content . ' ' . $this->author);
 
-        midcom::get('componentloader')->load_library('be.crsolutions.mollom');
-
-        $mollom = new be_crsolutions_mollom();
-        if (!$mollom->initialize())
-        {
-            debug_add('be.crsolutions.mollom initialization failed, aborting check', MIDCOM_LOG_INFO);
-            return;
-        }
-
-        $ret = $mollom->check_content(null, $this->title, $this->content, $this->author);
-        if (!isset($ret['spam']))
-        {
-            // No need to log here, the mollom class does that. Just abort.
-            return;
-        }
-
-        if ($ret['spam'] == 'ham')
+        if ($ret == net_nehmer_comments_spamchecker::HAM)
         {
             // Quality content
-            debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as ham with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
+            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as ham", MIDCOM_LOG_DEBUG);
 
             $this->status = net_nehmer_comments_comment::MODERATED;
             $this->update();
-            $this->_log_moderation('reported_not_junk', 'mollom', "Quality = {$ret['quality']}");
+            $this->_log_moderation('reported_not_junk', 'linksleeve');
             return;
         }
-
-        if ($ret['spam'] == 'spam')
+        else if ($ret == net_nehmer_comments_spamchecker::SPAM)
         {
             // Spam
-            debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as spam with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
+            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as spam", MIDCOM_LOG_DEBUG);
 
             $this->status = net_nehmer_comments_comment::JUNK;
             $this->update();
-            $this->_log_moderation('confirmed_junk', 'mollom', "Quality = {$ret['quality']}");
+            $this->_log_moderation('confirmed_junk', 'linksleeve');
             return;
         }
-
-        // Otherwise we let it stay in initial status, as Mollom was unsure
-        debug_add("Mollom noted comment \"{$this->title}\" ({$this->guid}) as unsure with quality {$ret['quality']}", MIDCOM_LOG_DEBUG);
-
-        return;
     }
 
     function report_abuse()
