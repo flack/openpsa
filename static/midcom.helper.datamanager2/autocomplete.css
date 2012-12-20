@@ -13,18 +13,6 @@
 .autocomplete_widget_creation_dialog
 {
     display: none;
-    position: fixed !important;
-    position: absolute;
-    top: 5%;
-    left: 50%;
-
-    margin-left: -300px;
-    width: 600px;
-
-    background-color: #EEE;
-    color: #333;
-    border: 1px solid black;
-    padding: 12px;
 }
 
 .autocomplete_helptext_shown

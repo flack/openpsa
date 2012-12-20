@@ -192,14 +192,14 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             return false;
         }
 
-        self::add_head_elements();
+        self::add_head_elements($this->creation_mode_enabled);
 
         $this->_element_id = "{$this->_namespace}{$this->name}_autocomplete_widget";
 
         return true;
     }
 
-    public static function add_head_elements()
+    public static function add_head_elements($creation_mode_enabled = false)
     {
         $head = midcom::get('head');
         $head->enable_jquery();
@@ -213,6 +213,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.menu.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.autocomplete.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
+
+        if ($creation_mode_enabled)
+        {
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
+        }
     }
 
     public static function get_widget_config($type)
