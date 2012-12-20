@@ -13,15 +13,6 @@
  */
 class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exporter
 {
-    var $root_dir = '';
-
-    public function __construct($delete_missing = false)
-    {
-        parent::__construct($delete_missing);
-
-        $this->root_dir = midcom_helper_filesync_interface::prepare_dir('snippets');
-    }
-
     private function read_snippetdir($snippetdir, $path)
     {
         $snippetdir_path = "{$path}{$snippetdir->name}";

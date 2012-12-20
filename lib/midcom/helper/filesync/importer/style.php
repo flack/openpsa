@@ -13,15 +13,6 @@
  */
 class midcom_helper_filesync_importer_style extends midcom_helper_filesync_importer
 {
-    var $root_dir = '';
-
-    public function __construct($delete_missing = false)
-    {
-        parent::__construct($delete_missing);
-
-        $this->root_dir = midcom_helper_filesync_interface::prepare_dir('style');
-    }
-
     private function read_style($path, $parent_id)
     {
         $style_name = basename($path);

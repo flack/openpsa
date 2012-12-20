@@ -13,14 +13,6 @@
  */
 class midcom_helper_filesync_importer_page extends midcom_helper_filesync_importer
 {
-    var $root_dir = '';
-
-    public function __construct($delete_missing = false)
-    {
-        parent::__construct($delete_missing);
-        $this->root_dir = midcom_helper_filesync_interface::prepare_dir('pages');
-    }
-
     private function read_page($path, $parent_id)
     {
         $page_name = basename($path);

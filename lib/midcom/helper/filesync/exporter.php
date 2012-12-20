@@ -16,7 +16,9 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
      *
      * @var boolean
      */
-    var $delete_missing = false;
+    public $delete_missing = false;
+
+    public $root_dir = '';
 
     /**
      * Initializes the class.
@@ -27,6 +29,8 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
     {
          $this->_component = 'midcom.helper.filesync';
          $this->delete_missing = $delete_missing;
+         $this->root_dir = midcom_helper_filesync_interface::prepare_dir('pages');
+
          parent::__construct();
     }
 

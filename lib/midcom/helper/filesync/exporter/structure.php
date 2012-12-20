@@ -16,12 +16,6 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
     var $structure_array = array();
     var $structure = '';
 
-    function __construct()
-    {
-        parent::__construct();
-        $this->root_dir = midcom_helper_filesync_interface::prepare_dir('structure');
-    }
-
     function read_node($node)
     {
         $node_array = array();

@@ -13,15 +13,6 @@
  */
 class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_importer
 {
-    var $root_dir = '';
-
-    public function __construct($delete_missing = false)
-    {
-        parent::__construct($delete_missing);
-
-        $this->root_dir = midcom_helper_filesync_interface::prepare_dir('structure');
-    }
-
     private function read_structure($structure, $parent_id = 0)
     {
         if ($parent_id == 0)
