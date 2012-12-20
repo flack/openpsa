@@ -355,8 +355,8 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                     case 'anonymous':
                         $reporter = 'anonymous';
                         break;
-                    case 'mollom':
-                        $reporter = 'mollom';
+                    case 'linksleeve':
+                        $reporter = 'linksleeve';
                         break;
                     default:
                         $user = midcom::get('auth')->get_user($log_details[0]);
