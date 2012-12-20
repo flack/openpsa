@@ -101,13 +101,12 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
      */
     static function & create($type)
     {
-        $filename = MIDCOM_ROOT . "/org/routamc/positioning/importer/{$type}.php";
-        $classname = "org_routamc_positioning_importer_{$type}";
-        require_once($filename);
-        /**
-         * Php 4.4.1 does not allow you to return a reference to an expression.
-         * http://www.php.net/release_4_4_0.php
-         */
+        $classname = "midcom_helper_filesync_importer_{$type}";
+        if (!class_exists($classname))
+        {
+            throw new midcom_error("Requested importer class {$type} is not installed.");
+        }
+
         $class = new $classname();
         return $class;
     }
