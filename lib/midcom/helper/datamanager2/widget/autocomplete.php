@@ -246,7 +246,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             )
         );
 
-        $preset = '';
+        $preset = array();
         if (!empty($selection))
         {
             $identifier = $selection[0];
@@ -257,7 +257,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             try
             {
                 $object = new $this->class($identifier);
-                $preset = self::create_item_label($object, $this->result_headers, $this->get_label_for);
+                $preset[$identifier] = self::create_item_label($object, $this->result_headers, $this->get_label_for);
             }
             catch (midcom_error $e)
             {
@@ -275,7 +275,6 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             (
                 'class' => 'shorttext autocomplete_input',
                 'id' => "{$this->_element_id}_search_input",
-                'value' => $preset,
             ))
         );
 
@@ -290,6 +289,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'searchfields' => $this->searchfields,
             'orders' => $this->orders,
             'auto_wildcards' => $this->auto_wildcards,
+            'preset' => $preset
         ));
 
         $script = <<<EOT
@@ -297,12 +297,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         jQuery(document).ready(
         function()
         {
-            jQuery('#{$this->_element_id}_search_input').autocomplete(
-            {
-                minLength: {$this->min_chars},
-                source: midcom_helper_datamanager2_autocomplete.query,
-                select: midcom_helper_datamanager2_autocomplete.select
-            })
+            midcom_helper_datamanager2_autocomplete.create_dm2_widget('{$this->_element_id}_search_input', {$this->min_chars});
         });
 EOT;
 
@@ -549,8 +544,10 @@ EOT;
             {
                 $value = $object->$item_name;
             }
-
-            $label[] = $value;
+            if (trim($value) !== '')
+            {
+                $label[] = $value;
+            }
         }
         return implode(', ', $label);
     }

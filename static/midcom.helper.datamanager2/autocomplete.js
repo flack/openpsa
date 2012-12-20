@@ -43,6 +43,15 @@ if (typeof JSON == 'undefined')
 
 var midcom_helper_datamanager2_autocomplete =
 {
+    get_default_options: function()
+    {
+        return {
+            minLength: 2,
+            source: midcom_helper_datamanager2_autocomplete.query,
+            select: midcom_helper_datamanager2_autocomplete.select,
+            position: {collision: 'flipfit'}
+        }
+    },
     query: function(request, response)
     {
         var query_options_var = $('.ui-autocomplete-loading').attr('id').replace(/_search_input$/, '') + '_handler_options',
@@ -68,9 +77,15 @@ var midcom_helper_datamanager2_autocomplete =
 
     select: function(event, ui)
     {
-        var selection_holder_id = $(event.target).attr('id').replace(/_search_input$/, '') + '_selection';
-        $('#' + selection_holder_id).val(JSON.stringify([ui.item.id]));
+        var identifier = $(event.target).attr('id').replace(/_search_input$/, '');
+
+        $('#' + identifier + '_selection').val(JSON.stringify([ui.item.id]));
         $(event.target).data('selected', ui.item.label);
+
+        if ($('#' + identifier + '_selection_holder').length > 0)
+        {
+            midcom_helper_datamanager2_autocomplete.add_selected(identifier, ui.item.id, ui.item.label, 'autocomplete-new');
+        }
     },
 
     open: function(event, ui)
@@ -153,6 +168,60 @@ var midcom_helper_datamanager2_autocomplete =
         jQuery('#' + identifier + '_search_input').val(input_value.replace(/, $/, ''));
     },
 
+    create_dm2_widget: function(selector, min_length)
+    {
+        var identifier = selector.replace(/_search_input$/, ''),
+        handler_options = window[identifier + '_handler_options'],
+        options =  $.extend({minLength: min_length}, midcom_helper_datamanager2_autocomplete.get_default_options()),
+        input = $('#' + selector);
+
+        input.autocomplete(options);
+        input.parent().prepend('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>')
+        if (!$.isEmptyObject(handler_options.preset))
+        {
+            $.each(handler_options.preset, function(id, text)
+            {
+                midcom_helper_datamanager2_autocomplete.add_selected(identifier, id, text, 'autocomplete-saved');
+            });
+        }
+
+        $('.autocomplete-selection-holder').on('click', '.autocomplete-action-icon', function()
+        {
+            var item = $(this).parent(),
+            item_id = item.data('id');
+            if (item.hasClass('autocomplete-selected'))
+            {
+                if (item.hasClass('autocomplete-saved'))
+                {
+                    item.removeClass('autocomplete-selected');
+                    item.addClass('autocomplete-todelete');
+                }
+                else
+                {
+                    item.remove();
+                }
+                $('#' + identifier + '_selection').val('');
+                input.show();
+            }
+            else if (item.hasClass('autocomplete-todelete'))
+            {
+                item.removeClass('autocomplete-todelete');
+                item.addClass('autocomplete-selected');
+                item.parent().find('.autocomplete-new').remove();
+                $('#' + identifier + '_selection').val(JSON.stringify([item_id]));
+                input.hide();
+            }
+        });
+    },
+
+    add_selected: function(identifier, id, text, status)
+    {
+        $('<span class="autocomplete-item autocomplete-selected ' + status + '" data-id="' + id + '"><span class="autocomplete-item-label">' + text + '</span></span>')
+            .append('<span class="autocomplete-action-icon"></span>')
+            .prependTo($('#' + identifier + '_selection_holder'));
+        $('#' + identifier + '_search_input').hide();
+    },
+
     /**
      * Generate and attach HTML for autocomplete widget (for use outside of DM2)
      */
@@ -167,16 +236,9 @@ var midcom_helper_datamanager2_autocomplete =
             default_value: ''
         },
         default_value = config.default_value || default_config.default_value,
-        helptext = config.helptext || default_config.helptext,
-        default_autocomplete_options =
-        {
-            minLength: 2,
-            source: midcom_helper_datamanager2_autocomplete.query,
-            select: midcom_helper_datamanager2_autocomplete.select,
-            position: {collision: 'flipfit'},
-            autoFocus: true
-        };
-        autocomplete_options = $.extend({}, default_autocomplete_options, autocomplete_options || {});
+        helptext = config.helptext || default_config.helptext;
+
+        autocomplete_options = $.extend({autoFocus: true}, midcom_helper_datamanager2_autocomplete.get_default_options(), autocomplete_options || {});
         window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
 
         var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" value="' + helptext + '" />';
