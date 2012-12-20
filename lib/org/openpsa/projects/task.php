@@ -95,11 +95,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::__get($property);
     }
 
-    public function __set($name, $val)
-    {
-        parent::__set($name, $val);
-    }
-
     public function _on_updating()
     {
         $this->_locale_set();

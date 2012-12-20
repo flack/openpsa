@@ -13,14 +13,6 @@
 class org_routamc_positioning_importer_instamapper extends org_routamc_positioning_importer
 {
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Seek users with instamapper API key set
      *
      * @return Array
