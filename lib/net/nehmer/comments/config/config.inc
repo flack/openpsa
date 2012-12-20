@@ -19,12 +19,6 @@
 // Notify authors on new comments
 'enable_notify' => true,
 
-// Qaiku support
-'qaiku_enable' => false,
-'qaiku_topic' => '', // GUID of topic to check Qaiku comments for
-'qaiku_apikey' => '',
-'qaiku_initial_status' => 4, // net_nehmer_comments_comment::NEW_ANONYMOUS
-
 // Atom/RSS Comments import
 'atom_comments_import_enable' => false,
 'atom_comments_topic' => '', // GUID of topic to check Atom comments for (used by cron-script)

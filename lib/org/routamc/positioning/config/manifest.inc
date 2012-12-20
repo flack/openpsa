@@ -67,10 +67,5 @@
             'handler' => 'org_routamc_positioning_cron_fetchinstamapper',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
-        array
-        (
-            'handler' => 'org_routamc_positioning_cron_fetchqaiku',
-            'recurrence' => MIDCOM_CRON_HOUR,
-        ),
     ),
 ),
