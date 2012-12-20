@@ -28,6 +28,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $class = null;
 
     /**
+     * Allow multiple selection
+     *
+     * @var boolean
+     */
+    public $allow_multiple = false;
+
+    /**
      * Which component the searched class belongs to
      *
      * @var string
@@ -249,19 +256,21 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $preset = array();
         if (!empty($selection))
         {
-            $identifier = $selection[0];
-            if ($this->id_field == 'id')
+            foreach ($selection as $identifier)
             {
-                $identifier = (int) $identifier;
-            }
-            try
-            {
-                $object = new $this->class($identifier);
-                $preset[$identifier] = self::create_item_label($object, $this->result_headers, $this->get_label_for);
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
+                if ($this->id_field == 'id')
+                {
+                    $identifier = (int) $identifier;
+                }
+                try
+                {
+                    $object = new $this->class($identifier);
+                    $preset[$identifier] = self::create_item_label($object, $this->result_headers, $this->get_label_for);
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                }
             }
         }
 
@@ -289,7 +298,8 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'searchfields' => $this->searchfields,
             'orders' => $this->orders,
             'auto_wildcards' => $this->auto_wildcards,
-            'preset' => $preset
+            'preset' => $preset,
+            'allow_multiple' => $this->allow_multiple
         ));
 
         $script = <<<EOT
@@ -362,11 +372,6 @@ EOT;
         $selection = array();
         if (!isset($data[$this->name]["{$this->_element_id}_selection"]))
         {
-            return $selection;
-        }
-        if (empty($data[$this->name]["{$this->_element_id}_search_input"]))
-        {
-            //if the input is empty, we suppose that the user tries to remove their previous selection
             return $selection;
         }
 

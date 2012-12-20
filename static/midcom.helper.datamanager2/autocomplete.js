@@ -77,14 +77,18 @@ var midcom_helper_datamanager2_autocomplete =
 
     select: function(event, ui)
     {
-        var identifier = $(event.target).attr('id').replace(/_search_input$/, '');
-
-        $('#' + identifier + '_selection').val(JSON.stringify([ui.item.id]));
-        $(event.target).data('selected', ui.item.label);
+        var identifier = $(event.target).attr('id').replace(/_search_input$/, ''),
+        handler_options = window[identifier + '_handler_options'];
 
         if ($('#' + identifier + '_selection_holder').length > 0)
         {
             midcom_helper_datamanager2_autocomplete.add_selected(identifier, ui.item.id, ui.item.label, 'autocomplete-new');
+            midcom_helper_datamanager2_autocomplete.update_selection(identifier, ui.item.id, 'add');
+        }
+        else
+        {
+            $('#' + identifier + '_selection').val(JSON.stringify([ui.item.id]));
+            $(event.target).data('selected', ui.item.label);
         }
     },
 
@@ -200,26 +204,83 @@ var midcom_helper_datamanager2_autocomplete =
                 {
                     item.remove();
                 }
-                $('#' + identifier + '_selection').val('');
-                input.show();
+                if (handler_options.allow_multiple !== true)
+                {
+                    input.show();
+                }
+                midcom_helper_datamanager2_autocomplete.update_selection(identifier, item_id, 'remove');
             }
             else if (item.hasClass('autocomplete-todelete'))
             {
-                item.removeClass('autocomplete-todelete');
-                item.addClass('autocomplete-selected');
-                item.parent().find('.autocomplete-new').remove();
-                $('#' + identifier + '_selection').val(JSON.stringify([item_id]));
-                input.hide();
+                midcom_helper_datamanager2_autocomplete.restore_item(identifier, item);
             }
         });
     },
 
-    add_selected: function(identifier, id, text, status)
+    restore_item: function(identifier, item)
     {
-        $('<span class="autocomplete-item autocomplete-selected ' + status + '" data-id="' + id + '"><span class="autocomplete-item-label">' + text + '</span></span>')
+        var handler_options = window[identifier + '_handler_options'];
+
+        item.removeClass('autocomplete-todelete');
+        item.addClass('autocomplete-selected');
+        if (handler_options.allow_multiple !== true)
+        {
+            item.parent().find('.autocomplete-new').remove();
+            input.hide();
+        }
+        midcom_helper_datamanager2_autocomplete.update_selection(identifier, item.data('id'), 'add');
+    },
+
+    add_selected: function(identifier, item_id, text, status)
+    {
+        var handler_options = window[identifier + '_handler_options'],
+        selection_holder = $('#' + identifier + '_selection_holder'),
+        existing_item;
+
+        if (selection_holder.find('[data-id="' + item_id + '"]').length > 0)
+        {
+            existing_item = selection_holder.find('[data-id="' + item_id + '"]');
+            if (existing_item.hasClass('autocomplete-todelete'))
+            {
+                midcom_helper_datamanager2_autocomplete.restore_item(identifier, existing_item);
+            }
+            return;
+        }
+
+        $('<span class="autocomplete-item autocomplete-selected ' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label">' + text + '</span></span>')
             .append('<span class="autocomplete-action-icon"></span>')
-            .prependTo($('#' + identifier + '_selection_holder'));
-        $('#' + identifier + '_search_input').hide();
+            .prependTo(selection_holder);
+
+        if (handler_options.allow_multiple !== true)
+        {
+            $('#' + identifier + '_search_input').hide();
+        }
+    },
+
+    update_selection: function(identifier, item_id, operation)
+    {
+        var selection = JSON.parse($('#' + identifier + '_selection').val()),
+        new_selection = [];
+
+        if (operation === 'add')
+        {
+            new_selection = selection;
+            if ($.inArray(item_id, new_selection) === -1)
+            {
+                new_selection.push(item_id);
+            }
+        }
+        else
+        {
+            $.each(selection, function(index, item)
+            {
+                if (item !== item_id)
+                {
+                    new_selection.push(item);
+                }
+            });
+        }
+        $('#' + identifier + '_selection').val(JSON.stringify(new_selection));
     },
 
     /**

@@ -46,6 +46,7 @@
     background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+    margin-bottom: .2em
 }
 .autocomplete-selection-holder .autocomplete-item:hover
 {
@@ -59,6 +60,7 @@
 {
     display: inline-block;
     vertical-align: middle;
+    font-size: .9em
 }
 
 .autocomplete-selection-holder .autocomplete-action-icon
