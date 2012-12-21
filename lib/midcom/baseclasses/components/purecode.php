@@ -27,7 +27,7 @@ abstract class midcom_baseclasses_components_purecode extends midcom_baseclasses
     {
         if ($this->_component == '')
         {
-            $this->_component = preg_replace('/^(.+?)_(.+?)_(.+?)_.+/', '$1.$2.$3', get_class($this));
+            $this->_component = preg_replace('/^(.+?)_(.+?)_([^_]+).*/', '$1.$2.$3', get_class($this));
         }
     }
 }
