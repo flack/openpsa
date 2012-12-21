@@ -39,8 +39,6 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
      */
     public function __construct($person)
     {
-        $this->_component = 'org.routamc.positioning';
-
         if (!is_a($person, 'midcom_db_person'))
         {
             $this->_person = null;

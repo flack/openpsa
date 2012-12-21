@@ -57,7 +57,6 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
     public function __construct($id, $type = null)
     {
         $this->id = $id;
-        $this->_component = 'org.routamc.positioning';
         parent::__construct();
 
         if (is_null($type))

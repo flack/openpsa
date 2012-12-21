@@ -14,15 +14,6 @@
 class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_geocoder
 {
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.routamc.positioning';
-         parent::__construct();
-    }
-
-    /**
      *
      * @param Array $location Parameters to geocode with, conforms to XEP-0080
      * @return Array containing geocoded information

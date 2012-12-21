@@ -34,7 +34,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function __construct($src)
     {
-        $this->_component = 'midcom.helper.reflector';
         parent::__construct();
         // Handle object vs string
         if (is_object($src))

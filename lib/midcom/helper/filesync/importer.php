@@ -27,7 +27,6 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
      */
     public function __construct($delete_missing = false)
     {
-         $this->_component = 'midcom.helper.filesync';
          $this->delete_missing = $delete_missing;
          $this->root_dir = midcom_helper_filesync_interface::prepare_dir('pages');
 

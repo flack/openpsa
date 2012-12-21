@@ -31,15 +31,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     var $files = array();
 
     /**
-     * Initializes the class
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.openpsa.httplib';
-         parent::__construct();
-    }
-
-    /**
      * Check whether a HTTP response code is a "successful" one
      *
      * @param int $response_code HTTP response code to check

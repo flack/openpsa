@@ -51,11 +51,6 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
      */
     private $_message;
 
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.mail';
-    }
-
     /**
      * Decodes MIME content from $this->body
      */

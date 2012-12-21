@@ -176,7 +176,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      */
     public function __construct($schemadb, $name = null, $schemadb_path = null)
     {
-        $this->_component = 'midcom.helper.datamanager2';
         parent::__construct();
         $this->_schemadb_path = $schemadb_path;
 

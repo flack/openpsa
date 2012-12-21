@@ -28,7 +28,6 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
 
     public function __construct($args)
     {
-        $this->_component = 'org.routamc.positioning';
         parent::__construct();
 
         $this->_data = array();

@@ -22,15 +22,6 @@
 class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning_geocoder
 {
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.routamc.positioning';
-         parent::__construct();
-    }
-
-    /**
      * Try geocoding an IP address.
      *
      * @param array $location Parameters to geocode with, conforms to XEP-0080

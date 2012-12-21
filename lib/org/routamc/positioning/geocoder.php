@@ -21,15 +21,6 @@ class org_routamc_positioning_geocoder extends midcom_baseclasses_components_pur
     var $error = 'MGD_ERR_OK';
 
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.routamc.positioning';
-         parent::__construct();
-    }
-
-    /**
      * Empty default implementation, this calls won't do much.
      *
      * @param Array $location Parameters to geocode with, conforms to XEP-0080

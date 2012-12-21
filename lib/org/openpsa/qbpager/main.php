@@ -48,7 +48,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function __construct($classname, $pager_id)
     {
-        $this->_component = 'org.openpsa.qbpager';
         parent::__construct();
 
         $this->_limit =& $this->results_per_page;
@@ -203,7 +202,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     private function _get_query_string($page_var, $page_number)
     {
         $query = array($page_var => (int) $page_number);
-        
+
         foreach ($_GET as $key => $value)
         {
             if ( $key != $page_var && $key != '' )

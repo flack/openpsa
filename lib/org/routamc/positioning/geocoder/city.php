@@ -14,15 +14,6 @@
 class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geocoder
 {
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.routamc.positioning';
-         parent::__construct();
-    }
-
-    /**
      * Empty default implementation, this calls won't do much.
      *
      * @param Array $location Parameters to geocode with, conforms to XEP-0080
@@ -31,12 +22,12 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     function geocode($location, $options=array())
     {
         $results = array();
-        
+
         $parameters = array
         (
             'maxRows' => 1,
         );
-        
+
         if (! empty($options))
         {
             foreach ($options as $key => $value)
@@ -47,31 +38,31 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
                 }
             }
         }
-        
+
         if ($parameters['maxRows'] < 1)
         {
             $parameters['maxRows'] = 1;
         }
-            
+
         if (!isset($location['city']))
         {
-            $this->error = 'POSITIONING_MISSING_ATTRIBUTES';        
+            $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
-        
+
         $city_entry = null;
         $qb = org_routamc_positioning_city_dba::new_query_builder();
         $qb->add_constraint('city', '=', $location['city']);
-        
+
         if (isset($location['country']))
         {
             $qb->add_constraint('country', '=', $location['country']);
         }
-        
+
         $qb->add_order('population', 'DESC');
         $qb->set_limit($parameters['maxRows']);
         $matches = $qb->execute();
-        
+
         if (count($matches) < 1)
         {
             // Seek the city entry by alternate names via a LIKE query
@@ -82,17 +73,17 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             {
                 $qb->add_constraint('country', '=', $location['country']);
             }
-            
+
             $qb->set_limit($parameters['maxRows']);
             $matches = $qb->execute();
-            
+
             if (count($matches) < 1)
             {
                 $this->error = 'POSITIONING_CITY_NOT_FOUND';
                 return null;
-            }            
+            }
         }
-        
+
         foreach ($matches as $city_entry)
         {
             $city_coordinates = array
@@ -115,13 +106,13 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             $position['postalcode' ] = null;
             $position['alternate_names'] = $city_entry->alternatenames;
             $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
-            
+
             $results[] = $position;
         }
-        
+
         return $results;
     }
-    
+
     /**
      * @param Array $coordinates Contains latitude and longitude values
      * @param Array $options
@@ -130,12 +121,12 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     function reverse_geocode($coordinates, $options=array())
     {
         $results = array();
-        
+
         $parameters = array
         (
             'maxRows' => 1,
         );
-        
+
         if (! empty($options))
         {
             foreach ($options as $key => $value)
@@ -153,15 +144,15 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
-        
+
         $closest = org_routamc_positioning_utils::get_closest('org_routamc_positioning_city_dba', $coordinates, $parameters['maxRows']);
-        
+
         if (empty($closest))
         {
             $this->error = 'POSITIONING_DETAILS_NOT_FOUND';
             return null;
         }
-        
+
         foreach ($closest as $city)
         {
             $city_coordinates = array
@@ -186,7 +177,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
 
             $results[] = $position;
         }
-        
+
         return $results;
     }
 }

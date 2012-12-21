@@ -31,13 +31,6 @@
  */
 class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 {
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.notifications';
-
-        parent::__construct();
-    }
-
     /**
      * Sends a notice to a selected person
      *

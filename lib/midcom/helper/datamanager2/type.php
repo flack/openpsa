@@ -83,17 +83,6 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     var $storage = null;
 
     /**
-     * Constructor.
-     *
-     * Nothing fancy, the actual startup work is done by the initialize call.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midcom.helper.datamanager2';
-        parent::__construct();
-    }
-
-    /**
      * Initializes and configures the type.
      *
      * @param string $name The name of the field to which this type is bound.

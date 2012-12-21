@@ -38,7 +38,6 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
      */
     public function __construct($object)
     {
-         $this->_component = 'org.routamc.positioning';
          $this->_object = $object;
          parent::__construct();
     }

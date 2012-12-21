@@ -127,7 +127,6 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      */
     public function __construct($renderer)
     {
-        $this->_component = 'midcom.helper.datamanager2';
         $this->_renderer = $renderer;
         parent::__construct();
     }

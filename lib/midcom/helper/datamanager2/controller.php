@@ -73,15 +73,6 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     public $lock_object = true;
 
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         $this->_component = 'midcom.helper.datamanager2';
-         parent::__construct();
-    }
-
-    /**
      * Empty default implementation, this calls won't do much.
      *
      * @param string $identifier The form identifier

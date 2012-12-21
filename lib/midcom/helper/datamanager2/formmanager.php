@@ -130,7 +130,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     public function __construct(midcom_helper_datamanager2_schema $schema, &$types, $state = 'edit')
     {
-        $this->_component = 'midcom.helper.datamanager2';
         parent::__construct();
 
         $this->_schema = $schema;

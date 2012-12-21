@@ -116,7 +116,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     public function __construct($backend = 'try_default', $backend_params = array())
     {
-        $this->_component = 'org.openpsa.mail';
         parent::__construct();
 
         $this->encoding = $this->_i18n->get_current_charset();

@@ -11,12 +11,6 @@
  */
 class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
 {
-    public function __construct()
-    {
-        $this->_component = 'net.nemein.rss';
-        parent::__construct();
-    }
-
     /**
      * Add default RSS config options to component config schema.
      *

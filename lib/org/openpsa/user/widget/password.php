@@ -16,7 +16,6 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
     public function __construct($renderer)
     {
         parent::__construct($renderer);
-        $this->_component = 'org.openpsa.user';
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
     }
 

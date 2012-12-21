@@ -14,12 +14,6 @@
  */
 class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geocoder
 {
-    public function __construct()
-    {
-         $this->_component = 'org.routamc.positioning';
-         parent::__construct();
-    }
-
     /**
      * Empty default implementation, this calls won't do much.
      *
