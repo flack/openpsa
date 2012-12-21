@@ -119,13 +119,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             if ($this->_config->get('callback_snippet'))
             {
-                // mgd_include_snippet($this->_config->get('callback_snippet'));
-                $eval = midcom_helper_misc::get_snippet_content($this->_config->get('callback_snippet'));
-
-                if ($eval)
-                {
-                    eval($eval);
-                }
+                midcom_helper_misc::include_snippet_php($this->_config->get('callback_snippet'));
             }
 
             $callback = $this->_config->get('callback_function');
