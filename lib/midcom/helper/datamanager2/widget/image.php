@@ -127,7 +127,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Creates the upload elements for empty types.
      *
-     * @param Array &$elements The array where the references to the created elements should
+     * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
     private function _create_upload_elements(&$elements)
@@ -201,7 +201,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * Creates the elements to manage an existing upload, offering "delete" and "upload new file"
      * operations.
      *
-     * @param Array &$elements The array where the references to the created elements should
+     * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
     function _create_replace_elements(&$elements)
@@ -342,7 +342,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * Constructs the widget for frozen operation: Only a single static element is added
      * indicating the current type state.
      *
-     * @param Array &$elements The array where the references to the created elements should
+     * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
     function _create_frozen_elements(&$elements)

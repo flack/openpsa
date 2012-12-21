@@ -140,7 +140,7 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
      * - latitude
      * - longitude
      *
-     * @param Array $log Log entry in Array format specific to importer
+     * @param array $log Log entry in Array format specific to importer
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */

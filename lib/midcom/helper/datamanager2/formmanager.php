@@ -125,7 +125,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * @param midcom_helper_datamanager2_schema &$schema The schema to use for processing. This
      *     variable is taken by reference.
-     * @param Array &$types A list of types matching the passed schema, used as a basis for the
+     * @param array &$types A list of types matching the passed schema, used as a basis for the
      *     form types. This variable is taken by reference.
      */
     public function __construct(midcom_helper_datamanager2_schema $schema, &$types, $state = 'edit')
@@ -493,7 +493,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @see midcom_helper_datamanager2_schema
      *
      * @param string $name
-     * @param Array $config
+     * @param array $config
      */
     private function _start_fieldset($name, $config)
     {
@@ -562,7 +562,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * defined in the schema field or at least once when the key exists in the field.
      *
      * @param string $name
-     * @param Array $config
+     * @param array $config
      */
     private function _end_fieldset($name, $config)
     {
@@ -643,7 +643,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * This helper function checks whether a given widget is visible.
      *
      * @param string $name The name of the widget.
-     * @param Array $config Widget configuration.
+     * @param array $config Widget configuration.
      * @return boolean Visibility state.
      */
     private function _is_widget_visible($name, $config)
@@ -700,7 +700,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * - required: Adds a required rule to the form, bound to the given element.
      * @param string $name The name of the widget.
-     * @param Array $config Widget configuration.
+     * @param array $config Widget configuration.
      */
     function _add_rules_and_filters($name, $config)
     {

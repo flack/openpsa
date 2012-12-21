@@ -26,8 +26,8 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_applet($handler_id, array $args, array &$data)
     {
@@ -48,8 +48,8 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_summary($handler_id, array $args, array &$data)
     {
@@ -68,8 +68,8 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {

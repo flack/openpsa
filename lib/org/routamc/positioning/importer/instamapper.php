@@ -128,7 +128,7 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
      * - device code
      * - time
      *
-     * @param Array $log Log entry in Array format specific to importer
+     * @param array $log Log entry in Array format specific to importer
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */

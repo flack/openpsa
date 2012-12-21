@@ -120,7 +120,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Fetch given RSS or Atom feed
      *
-     * @param Array Array of normalized feed items
+     * @param array Array of normalized feed items
      */
     function fetch()
     {
@@ -202,7 +202,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Imports a feed item into the database
      *
-     * @param Array $item Feed item as provided by MagpieRSS
+     * @param array $item Feed item as provided by MagpieRSS
      */
     function import_item($item)
     {
@@ -725,7 +725,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Cleans up old, removed items from feeds
-     * @param Array $item Feed item as provided by MagpieRSS
+     * @param array $item Feed item as provided by MagpieRSS
      */
     function clean($items)
     {
@@ -782,7 +782,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Parses author formats used by different feed standards and
      * and returns the information
      *
-     * @param Array $item Feed item as provided by MagpieRSS
+     * @param array $item Feed item as provided by MagpieRSS
      * @return Array Information found
      */
     function parse_item_author($item)
@@ -867,7 +867,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Parses author formats used by different feed standards and
      * tries to match to persons in database.
      *
-     * @param Array $item Feed item as provided by MagpieRSS
+     * @param array $item Feed item as provided by MagpieRSS
      * @return MidgardPerson Person object matched, or null
      */
     function match_item_author($item)
@@ -931,7 +931,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Parses additional metadata in RSS item and sets parameters accordingly
      *
      * @param midgard_article $article Imported article
-     * @param Array $item Feed item as provided by MagpieRSS
+     * @param array $item Feed item as provided by MagpieRSS
      * @return boolean
      */
     function parse_parameters($article, $item)
@@ -974,7 +974,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Parses rel-tag links in article content and tags the object based on them
      *
      * @param midgard_article $article Imported article
-     * @param Array $item Feed item as provided by MagpieRSS
+     * @param array $item Feed item as provided by MagpieRSS
      * @return boolean
      */
     function parse_tags($article, $item, $field = 'content')
@@ -1035,8 +1035,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Normalizes items provided by different feed formats.
      *
-     * @param Array $item Feed item as provided by MagpieRSS
-     * @param Array Normalized feed item
+     * @param array $item Feed item as provided by MagpieRSS
+     * @param array Normalized feed item
      */
     function normalize_item($item)
     {

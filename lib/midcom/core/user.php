@@ -477,7 +477,7 @@ class midcom_core_user
      * It loads the privileges of the given object and
      * loads all "SELF" assignee privileges into the class.
      *
-     * @param Array $privileges A list of privilege records, see mRFC 15 for details.
+     * @param array $privileges A list of privilege records, see mRFC 15 for details.
      */
     private function _merge_privileges($privileges)
     {

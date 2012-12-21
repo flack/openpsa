@@ -35,7 +35,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      *
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {

@@ -67,7 +67,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
     /**
      * Creates the upload elements for empty types.
      *
-     * @param Array &$elements The array where the references to the created elements should
+     * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
     function _create_upload_elements(&$elements)
@@ -85,7 +85,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      * operations.
      *
      * @todo adjust to be more suited for the photostream use case
-     * @param Array &$elements The array where the references to the created elements should
+     * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
     function _create_replace_elements(&$elements)

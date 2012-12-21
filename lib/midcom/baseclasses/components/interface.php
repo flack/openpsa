@@ -315,7 +315,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param midcom_db_topic $current_object The topic in question.
      * @param int $argc The count of the remaining URL arguments.
-     * @param Array $argv The argument listing
+     * @param array $argv The argument listing
      * @param int $contextid The id of the context we are operating in.
      * @return boolean True, if the component can handle the request, false otherwise.
      */

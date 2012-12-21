@@ -15,8 +15,8 @@ class org_openpsa_interviews_handler_index extends midcom_baseclasses_components
 {
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_index($handler_id, array $args, array &$data)
     {

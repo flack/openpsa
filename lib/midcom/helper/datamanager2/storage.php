@@ -89,7 +89,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      * are ignored unless they are flagged as required, in which case
      * midcom_error is called.
      *
-     * @param Array &$types A reference to an array of types matching the schema definition.
+     * @param array &$types A reference to an array of types matching the schema definition.
      * @return boolean Indicating success.
      */
     function store(&$types)
@@ -155,7 +155,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      * are ignored unless they are flagged as required, in which case
      * midcom_error is thrown.
      *
-     * @param Array &$types A reference to an array of types matching the schema definition.
+     * @param array &$types A reference to an array of types matching the schema definition.
      */
     function load(&$types)
     {

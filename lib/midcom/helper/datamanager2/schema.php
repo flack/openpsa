@@ -466,7 +466,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      * setups.
      *
      * @param string $name The name of the field to add
-     * @param Array $config The fields' full configuration set.
+     * @param array $config The fields' full configuration set.
      */
     function append_field($name, $config)
     {

@@ -86,7 +86,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * The constructor loads the schema database to use but does nothing else
      * so far.
      *
-     * @param Array &$schemadb A list of midcom_helper_datamanager2_schema instances,
+     * @param array &$schemadb A list of midcom_helper_datamanager2_schema instances,
      *     indexed by their schema name. This member is taken by reference.
      * @see midcom_helper_datamanager2_schema::load_database()
      */

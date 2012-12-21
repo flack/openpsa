@@ -580,7 +580,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Helper method for undeleting objects
      *
-     * @param Array $guids
+     * @param array $guids
      * @param string $type
      * @return boolean Indicating success
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
@@ -744,7 +744,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Helper method for purging objects
      *
-     * @param Array $guids
+     * @param array $guids
      * @param string $type
      * @return boolean Indicating success
      */

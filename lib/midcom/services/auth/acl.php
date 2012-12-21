@@ -376,7 +376,7 @@ class midcom_services_auth_acl
      * values (type array of integers) is set, the first privilege value is used for
      * default, the second one for the owner privilege set.
      *
-     * @param Array $privileges An associative privilege_name => default_values listing.
+     * @param array $privileges An associative privilege_name => default_values listing.
      */
     function register_default_privileges ($privileges)
     {

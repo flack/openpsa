@@ -304,8 +304,8 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Object editing view
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, array $args, array &$data)

@@ -140,7 +140,7 @@ abstract class midcom_services_cache_backend
      * in which all backend specific stuff should be done.
      *
      * @param string $name The name ("identifier") of the handler instance.
-     * @param Array $config The configuration to use.
+     * @param array $config The configuration to use.
      */
     function initialize($name, $config)
     {

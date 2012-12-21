@@ -181,7 +181,7 @@ class midcom_services_cron
     /**
      * This function adds a validated job to the run queue.
      *
-     * @param Array $job The job to register.
+     * @param array $job The job to register.
      */
     function _register_job($job)
     {
@@ -196,7 +196,7 @@ class midcom_services_cron
      * This function checks a jobs definition for validity.
      *
      * @param string $component The name of the component the job is associated with, used for error-tracking.
-     * @param Array $job The job to register.
+     * @param array $job The job to register.
      * @return boolean Indicating validity.
      */
     function _validate_job($component, array $job)
@@ -300,7 +300,7 @@ class midcom_services_cron
     /**
      * Executes the given job.
      *
-     * @param Array $job The job to execute.
+     * @param array $job The job to execute.
      */
     function _execute_job($job)
     {

@@ -113,8 +113,8 @@ implements midcom_helper_datamanager2_interfaces_create
      * Create a new TinyURL
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
@@ -137,7 +137,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * Show the creation form
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_create($handler_id, array &$data)
     {
@@ -148,8 +148,8 @@ implements midcom_helper_datamanager2_interfaces_create
      * Edit an existing TinyURL
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -187,7 +187,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * Show the creation form
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit($handler_id, array &$data)
     {
@@ -198,8 +198,8 @@ implements midcom_helper_datamanager2_interfaces_create
      * List TinyURLs
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
@@ -222,7 +222,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * Show the list of TinyURL's
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {

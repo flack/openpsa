@@ -17,7 +17,7 @@ interface midcom_services_indexer_backend
     /**
      * Adds a document to the index.
      *
-     * @param Array $documents A list of midcom_services_indexer_document objects.
+     * @param array $documents A list of midcom_services_indexer_document objects.
      * @return boolean Indicating success.
      */
     public function index($documents);

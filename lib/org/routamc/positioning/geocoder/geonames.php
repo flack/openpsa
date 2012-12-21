@@ -118,7 +118,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
 
     /**
      *
-     * @param Array $coordinates Contains latitude and longitude values
+     * @param array $coordinates Contains latitude and longitude values
      * @return Array containing geocoded information
      */
     function reverse_geocode($coordinates, $options=array())

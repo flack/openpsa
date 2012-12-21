@@ -251,7 +251,7 @@ class midcom_helper_toolbar
      *
      * Invalid positions will result in a MidCOM Error.
      *
-     * @param Array $item The item to add.
+     * @param array $item The item to add.
      * @param mixed $before The index before which the item should be inserted.
      *     Use -1 for appending at the end, use a string to insert
      *     it before a URL, an integer will insert it before a
@@ -664,7 +664,7 @@ class midcom_helper_toolbar
     /**
      * Helper function, generates a label for the item that includes its accesskey
      *
-     * @param Array $item The item to label
+     * @param array $item The item to label
      * @return string Item's label to display
      */
     private function _generate_item_label($item)
@@ -711,7 +711,7 @@ class midcom_helper_toolbar
     /**
      * Helper function, renders a regular a href... based link target.
      *
-     * @param Array $item The item to render
+     * @param array $item The item to render
      * @return string The rendered item
      */
     private function _render_link_item($item)
@@ -787,7 +787,7 @@ class midcom_helper_toolbar
     /**
      * Helper function, renders a form based link target.
      *
-     * @param Array $item The item to render
+     * @param array $item The item to render
      * @return string The rendered item
      */
     private function _render_post_item($item)

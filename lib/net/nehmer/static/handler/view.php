@@ -102,8 +102,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * Not applicable for the "index" handler, where the article name is fixed (see handle).
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
     public function _can_handle_view ($handler_id, array $args, array &$data)
@@ -161,8 +161,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * If create privileges apply, we relocate to the index creation article
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_view ($handler_id, array $args, array &$data)
     {

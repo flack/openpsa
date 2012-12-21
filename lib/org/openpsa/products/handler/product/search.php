@@ -17,8 +17,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * Redirector moving user to the search form of first schema
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_search_redirect($handler_id, array $args, array &$data)
     {
@@ -395,8 +395,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * Looks up a product to display.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_search($handler_id, array $args, array &$data)
     {

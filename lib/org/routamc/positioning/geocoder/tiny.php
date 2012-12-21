@@ -82,7 +82,7 @@ class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geoc
     /**
      * Empty default implementation, this calls won't do much.
      *
-     * @param Array $coordinates Contains latitude and longitude values
+     * @param array $coordinates Contains latitude and longitude values
      * @return Array containing geocoded information
      */
     function reverse_geocode($coordinates)

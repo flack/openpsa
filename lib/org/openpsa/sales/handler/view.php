@@ -102,8 +102,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      * Looks up a salesproject to display.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {

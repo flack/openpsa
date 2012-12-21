@@ -35,8 +35,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      * Handler for deleted objects
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean Indicating success
      */
     public function _handler_deleted($handler_id, array $args, array &$data)

@@ -21,7 +21,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      *
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _handler_index ($handler_id, array $args, array &$data)
     {

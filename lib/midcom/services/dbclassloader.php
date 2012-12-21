@@ -172,7 +172,7 @@ class midcom_services_dbclassloader
      *
      * Where possible, missing elements are completed with sensible defaults.
      *
-     * @param Array $definition_list A reference to the definition list to verify.
+     * @param array $definition_list A reference to the definition list to verify.
      */
     function _validate_class_definition_list(array &$definition_list)
     {

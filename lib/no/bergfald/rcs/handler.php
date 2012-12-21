@@ -230,8 +230,8 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      * Show the changes done to the object
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
     public function _handler_history($handler_id, array $args, array &$data)

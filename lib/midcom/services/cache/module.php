@@ -40,7 +40,7 @@ abstract class midcom_services_cache_module
      * Initialize the module. This will initialize the class configuration
      * and call the corresponding event handler.
      *
-     * @param Array $config Configuration to use.
+     * @param array $config Configuration to use.
      */
     function initialize()
     {
@@ -76,7 +76,7 @@ abstract class midcom_services_cache_module
      * Any duplicate instantiation will be intercepted, throwing a critical error.
      *
      * @param string $name The name of the backend, must be unique throughout the system.
-     * @param Array $config The configuration of the backend to create. It must contain
+     * @param array $config The configuration of the backend to create. It must contain
      *     the key 'driver', which indicates which backend to use.
      * @return midcom_services_cache_backend A reference to the new backend.
      * @access protected

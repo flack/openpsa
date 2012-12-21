@@ -579,7 +579,7 @@ class midcom_helper_nav_backend
      * It will relay the code to _get_leaves() and check the object visibility upon
      * return.
      *
-     * @param Array $node The NAP node data structure to load the nodes for.
+     * @param array $node The NAP node data structure to load the nodes for.
      */
     private function _load_leaves($node)
     {
@@ -611,7 +611,7 @@ class midcom_helper_nav_backend
      *
      * No visibility checks are made at this point.
      *
-     * @param Array $node The node data structure for which to retrieve the leaves.
+     * @param array $node The node data structure for which to retrieve the leaves.
      * @return Array All leaves found for that node, in complete post processed leave data structures.
      */
     private function _get_leaves($node)
@@ -666,7 +666,7 @@ class midcom_helper_nav_backend
      * - The IDs constructed for the leaves are the concatenation of the ID delivered by the component
      *   and the topics' GUID.
      *
-     * @param Array $node The node data structure for which to retrieve the leaves.
+     * @param array $node The node data structure for which to retrieve the leaves.
      * @return Array All leaves found for that node, in complete post processed leave data structures.
      */
     private function _get_leaves_from_database($node)
@@ -777,7 +777,7 @@ class midcom_helper_nav_backend
      * FULLURL, ABSOLUTEURL and PERMALINK are built upon RELATIVEURL, NAV_NAME
      * and NAV_URL are populated based on the administration mode with NAV_SITE values
      *
-     * @param Array $leaves A reference to the list of leaves which has to be processed.
+     * @param array $leaves A reference to the list of leaves which has to be processed.
      */
     private function _update_leaflist_urls(array &$leaves)
     {
@@ -807,8 +807,8 @@ class midcom_helper_nav_backend
      * The function will bail out on any critical error. Data inconsistencies will be
      * logged and overwritten silently otherwise.
      *
-     * @param Array $node The node data structure to which the leaves should be assigned.
-     * @param Array $leaves The leaves to store in the cache.
+     * @param array $node The node data structure to which the leaves should be assigned.
+     * @param array $leaves The leaves to store in the cache.
      */
     private function _write_leaves_to_cache($node, $leaves)
     {

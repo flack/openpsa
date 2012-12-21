@@ -237,7 +237,7 @@ class midcom_application
      * rule will result to weird cache behavior.
      *
      * @param string $url                The URL, relative to the Midgard Page, that is to be requested.
-     * @param Array $config              A key=>value array with any configuration overrides.
+     * @param array $config              A key=>value array with any configuration overrides.
      * @return int                       The ID of the newly created context.
      */
     public function dynamic_load($url, $config = array(), $pass_get = false)

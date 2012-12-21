@@ -21,8 +21,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * accepts all argument count matches unconditionally.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
     public function _can_handle_list($handler_id, array $args, array &$data)
@@ -128,7 +128,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      *
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {

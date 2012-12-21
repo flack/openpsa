@@ -186,8 +186,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * See the usort() documentation for further details.
      *
      * @access protected
-     * @param Array $a The first attachment info array.
-     * @param Array $b The second attachment info array.
+     * @param array $a The first attachment info array.
+     * @param array $b The second attachment info array.
      * @return int A value according to the rules from strcmp().
      */
     static function _sort_attachments_info_callback($a, $b)

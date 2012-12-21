@@ -66,8 +66,8 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * HTTP-Basic authenticated, requires valid user, normal ACL restrictions apply
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_user_events($handler_id, array $args, array &$data)
     {
@@ -134,8 +134,8 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * Most values are stripped before display
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_user_busy($handler_id, array $args, array &$data)
     {

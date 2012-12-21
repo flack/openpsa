@@ -74,7 +74,7 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
     /**
      * Run the actual import
      *
-     * @param Array $logs Log entries in Array format specific to importer
+     * @param array $logs Log entries in Array format specific to importer
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */

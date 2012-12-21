@@ -461,7 +461,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Checks whether a new file has been uploaded. If yes, it is processed.
      *
-     * @param Array $values The values associated with our element group (not the full submit value list).
+     * @param array $values The values associated with our element group (not the full submit value list).
      */
     private function _check_new_upload($values)
     {
@@ -516,7 +516,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      * or during addition of new elements.
      *
      * @param string $identifier The attachment identifier to check for updates.
-     * @param Array $values The values associated with our element group (not the full submit value list).
+     * @param array $values The values associated with our element group (not the full submit value list).
      */
     private function _check_for_update($identifier, $values)
     {

@@ -119,8 +119,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * If create privileges apply, we relocate to the edit view
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
@@ -223,8 +223,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * Looks up an hour_report to edit.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -319,8 +319,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * The delete handler.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
@@ -372,8 +372,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * executes passed action for passed reports & relocates to passed url
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {

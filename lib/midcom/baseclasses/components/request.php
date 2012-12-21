@@ -104,8 +104,8 @@
  * /**
  *  * can_handle example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
- *  * @param Array $args The argument list.
- *  * @param Array &$data The local request data.
+ *  * @param array $args The argument list.
+ *  * @param array &$data The local request data.
  *  * @return boolean True if the request can be handled, false otherwise.
  *  {@*}
  * function _can_handle_xxx ($handler_id, array $args, array &$data) {}
@@ -113,15 +113,15 @@
  * /**
  *  * Exec handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
- *  * @param Array $args The argument list.
- *  * @param Array &$data The local request data.
+ *  * @param array $args The argument list.
+ *  * @param array &$data The local request data.
  *  {@*}
  * function _handler_xxx ($handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Show handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
- *  * @param Array &$data The local request data.
+ *  * @param array &$data The local request data.
  *  {@*}
  * function _show_xxx ($handler_id, array &$data) {}
  * </code>
@@ -760,7 +760,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param mixed $handler The ID (array key) of the handler that is responsible to handle
      *   the request.
-     * @param Array $args The argument list.
+     * @param array $args The argument list.
      * @return boolean Return false to abort the handle phase, true to continue normally.
      */
     public function _on_handle($handler, $args)
@@ -785,7 +785,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * to MidCOM.
      *
      * @param int $argc The argument count as passed by the Core.
-     * @param Array $argv The argument list.
+     * @param array $argv The argument list.
      * @return boolean Return false to abort the handle phase, true to continue normally.
      */
     public function _on_can_handle($argc, $argv)
@@ -824,7 +824,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace, checked against $args[0] during
      *     URL parsing.
-     * @param Array $config The configuration of the plugin namespace as outlined in
+     * @param array $config The configuration of the plugin namespace as outlined in
      *     the class introduction
      */
     public function register_plugin_namespace($namespace, $config)

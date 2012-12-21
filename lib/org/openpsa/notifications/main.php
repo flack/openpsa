@@ -36,7 +36,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      *
      * @param string $component_action Key of the event in format component:event
      * @param string $recipient GUID of the receiving person
-     * @param Array $message Notification message in array format
+     * @param array $message Notification message in array format
      */
     public static function notify($component_action, $recipient, $message)
     {

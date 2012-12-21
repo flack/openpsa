@@ -23,8 +23,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_opml($handler_id, array $args, array &$data)
     {
@@ -64,8 +64,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
@@ -154,8 +154,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_subscribe($handler_id, array $args, array &$data)
     {
@@ -238,8 +238,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -283,8 +283,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * If create privileges apply, we relocate to the index creation downloadpage
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
@@ -332,8 +332,8 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_fetch($handler_id, array $args, array &$data)
     {

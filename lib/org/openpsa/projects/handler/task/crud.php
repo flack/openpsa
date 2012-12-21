@@ -274,8 +274,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * Add CSS
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_callback($handler_id, array $args, array &$data)
     {

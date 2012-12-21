@@ -64,7 +64,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * Note, that $document may also be an array of documents without further
      * changes to this backend.
      *
-     * @param Array $documents A list of midcom_services_indexer_document objects.
+     * @param array $documents A list of midcom_services_indexer_document objects.
      * @return boolean Indicating success.
      */
     public function index($documents)

@@ -21,8 +21,8 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_generator($handler_id, array $args, array &$data)
     {

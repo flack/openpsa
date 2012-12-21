@@ -17,8 +17,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * and the campaign member as bounced.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_bounce($handler_id, array $args, array &$data)
     {
@@ -120,8 +120,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * and creates received and read receipts as well
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_link($handler_id, array $args, array &$data)
     {
@@ -196,8 +196,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * and handles the logging mentioned above as well.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {

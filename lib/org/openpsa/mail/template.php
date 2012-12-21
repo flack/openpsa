@@ -102,7 +102,7 @@ class org_openpsa_mail_template
     /**
      * Constructs the template engine and parses the passed parameters
      *
-     * @param Array $parameters The parameters to replace
+     * @param array $parameters The parameters to replace
      */
     public function __construct (array $parameters)
     {
@@ -214,7 +214,7 @@ class org_openpsa_mail_template
      *
      * Uses word wrapping and skips recursive Arrays or objects.
      *
-     * @param Array $array    The array to be dumped.
+     * @param array $array    The array to be dumped.
      * @return string        String representation.
      */
     private function _format_array(array $array)

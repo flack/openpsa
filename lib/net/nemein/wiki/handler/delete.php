@@ -42,8 +42,8 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_delete($handler_id, $args, &$data, $delete_mode = true)
     {

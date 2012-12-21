@@ -104,8 +104,8 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * Component list view
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, array $args, array &$data)
@@ -164,8 +164,8 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * Component display
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
     public function _handler_component($handler_id, array $args, array &$data)

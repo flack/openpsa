@@ -22,8 +22,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_process($handler_id, array $args, array &$data)
     {
@@ -224,8 +224,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_items($handler_id, array $args, array &$data)
     {
@@ -323,8 +323,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_itemedit($handler_id, array $args, array &$data)
     {
@@ -400,8 +400,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_itemposition($handler_id, array $args, array &$data)
     {
@@ -419,8 +419,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_recalculation($handler_id, array $args, array &$data)
     {

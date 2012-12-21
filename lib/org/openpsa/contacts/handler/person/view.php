@@ -59,8 +59,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * Looks up a contact to display.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
@@ -215,8 +215,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_group_memberships($handler_id, array $args, array &$data)
     {

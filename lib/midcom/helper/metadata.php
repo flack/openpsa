@@ -301,7 +301,7 @@ class midcom_helper_metadata
     /**
      * Frontend for setting multiple metadata options
      *
-     * @param Array $properties Array of key => value properties.
+     * @param array $properties Array of key => value properties.
      */
     function set_multiple($properties)
     {

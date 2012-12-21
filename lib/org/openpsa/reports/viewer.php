@@ -102,8 +102,8 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * Delete the given report and redirect to front page
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_delete_report($handler_id, array $args, array &$data)
     {
@@ -117,8 +117,8 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * The CSV handlers return a posted variable with correct headers
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
@@ -144,8 +144,8 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {

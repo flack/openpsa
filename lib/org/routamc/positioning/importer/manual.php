@@ -25,7 +25,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
      * - aerodrome
      * - timestamp
      *
-     * @param Array $log Log entry in Array format specific to importer
+     * @param array $log Log entry in Array format specific to importer
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */

@@ -81,7 +81,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      *
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _handler_updated($handler_id, array $args, array &$data)
     {
@@ -156,7 +156,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      *
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
-     * @param Array &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _handler_feed($handler_id, array $args, array &$data)
     {

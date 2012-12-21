@@ -135,7 +135,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * Initializes and configures the widget.
      *
      * @param string $name The name of the field to which this widget is bound.
-     * @param Array $config The configuration data which should be used to customize the widget.
+     * @param array $config The configuration data which should be used to customize the widget.
      * @param midcom_helper_datamanager2_schema $schema The full schema object.
      * @param midcom_helper_datamanager2_type $type The type to which we are bound.
      * @param string $namespace The namespace to use including the trailing underscore.
@@ -274,7 +274,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * Form validation has already been done before, this function will only be called
      * if and only if the form validation succeeds.
      *
-     * @param Array $results The complete form results, you need to extract all values
+     * @param array $results The complete form results, you need to extract all values
      *     relevant for your type yourself.
      */
     abstract function sync_type_with_widget($results);
@@ -293,7 +293,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * The implementation of this handler is optional.
      *
-     * @param Array $results The complete form results, you need to extract all values
+     * @param array $results The complete form results, you need to extract all values
      *     relevant for your type yourself.
      */
     function on_submit($results) {}

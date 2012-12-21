@@ -86,7 +86,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * Initializes and configures the type.
      *
      * @param string $name The name of the field to which this type is bound.
-     * @param Array $config The configuration data which should be used to customize the type.
+     * @param array $config The configuration data which should be used to customize the type.
      * @param midcom_helper_datamanager2_storage &$storage A reference to the storage object to use.
      * @return boolean Indicating success. If this is false, the type will be unusable.
      */
@@ -143,7 +143,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * This function, is called  before the configuration keys are merged into the types
      * configuration.
      *
-     * @param Array $config The configuration passed to the type.
+     * @param array $config The configuration passed to the type.
      */
     public function _on_configuring($config) {}
 

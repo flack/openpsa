@@ -15,8 +15,8 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
 {
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
