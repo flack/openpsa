@@ -45,7 +45,6 @@ implements midcom_helper_datamanager2_interfaces_view
         if (array_key_exists('org_openpsa_user_deleteok', $_POST))
         {
             $delete_succeeded = $this->_group->delete();
-            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             if ($delete_succeeded)
             {
                 // Update the index
@@ -58,7 +57,7 @@ implements midcom_helper_datamanager2_interfaces_view
             {
                 // Failure, give a message
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
-                return new midcom_response_relocate($prefix . 'group/' . $this->_group->guid . '/');
+                return new midcom_response_relocate('group/' . $this->_group->guid . '/');
             }
         }
 

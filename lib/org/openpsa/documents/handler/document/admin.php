@@ -126,8 +126,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 return new midcom_response_relocate($prefix  . "document/" . $this->_document->guid . "/");
 
             case 'cancel':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                                   . "document/" . $this->_document->guid . "/");
+                return new midcom_response_relocate("document/" . $this->_document->guid . "/");
         }
 
         $this->_request_data['controller'] =& $this->_controller;

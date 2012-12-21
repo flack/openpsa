@@ -440,7 +440,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // If nothing helps, try the topic's front page
                 else
                 {
-                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    return new midcom_response_relocate('');
                 }
         }
 

@@ -93,8 +93,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
                 $indexer->index($this->_controller->datamanager);
 
                 // Relocate to the new directory view
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                    . $this->_request_data["directory"]->name. "/");
+                return new midcom_response_relocate($this->_request_data["directory"]->name. "/");
 
             case 'cancel':
                 return new midcom_response_relocate('');

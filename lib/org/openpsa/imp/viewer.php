@@ -236,10 +236,9 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         switch ($controller->process_form())
         {
             case 'save':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-
+                //Fall-through
             case 'cancel':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
+                return new midcom_response_relocate('');
         }
 
         $data['controller'] = $controller;
@@ -268,8 +267,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_check_imp_settings())
         {
             debug_add("Horde/Imp settings incomplete, redirecting to settings page.");
-            return new midcom_response_relocate( midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                                . 'settings/');
+            return new midcom_response_relocate('settings/');
         }
 
         $this->_populate_toolbar();

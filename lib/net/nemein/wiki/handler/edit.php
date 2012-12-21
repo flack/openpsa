@@ -99,11 +99,11 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             case 'cancel':
                 if ($this->_page->name == 'index')
                 {
-                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
+                    return new midcom_response_relocate('');
                 }
                 else
                 {
-                    return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$this->_page->name}/");
+                    return new midcom_response_relocate("{$this->_page->name}/");
                 }
         }
 

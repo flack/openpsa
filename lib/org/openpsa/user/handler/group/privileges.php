@@ -93,8 +93,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'save':
                 // Fall-through
             case 'cancel':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                    . "group/" . $this->_group->guid . "/");
+                return new midcom_response_relocate("group/" . $this->_group->guid . "/");
         }
 
         midcom::get('head')->set_pagetitle($this->_group->official);

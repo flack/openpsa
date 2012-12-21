@@ -78,17 +78,14 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         switch($this->_config->get('start_view'))
         {
             case 'day':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . 'day/' . date('Y-m-d', $selected_time) . '/');
+                return new midcom_response_relocate('day/' . date('Y-m-d', $selected_time) . '/');
 
             case 'month':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . 'month/' . date('Y-m-d', $selected_time) . '/');
+                return new midcom_response_relocate('month/' . date('Y-m-d', $selected_time) . '/');
 
             default:
             case 'week':
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . 'week/' . date('Y-m-d', $selected_time) . '/');
+                return new midcom_response_relocate('week/' . date('Y-m-d', $selected_time) . '/');
         }
     }
 }

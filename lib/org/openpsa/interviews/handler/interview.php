@@ -46,14 +46,14 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Redirect to next interviewee
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "next/{$data['campaign']->guid}/");
+                return new midcom_response_relocate("next/{$data['campaign']->guid}/");
 
             case 'cancel':
                 // Clear lock and return to summary
                 $this->_member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
                 $this->_member->update();
 
-                return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$data['campaign']->guid}/");
+                return new midcom_response_relocate("campaign/{$data['campaign']->guid}/");
         }
     }
 

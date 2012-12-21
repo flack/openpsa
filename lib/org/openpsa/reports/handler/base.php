@@ -161,8 +161,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         {
             case 'save':
                 // Relocate to report view
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                return new midcom_response_relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . "/");
+                return new midcom_response_relocate($this->module . '/' . $this->_request_data['query']->guid . "/");
 
             case 'cancel':
                 return new midcom_response_relocate('');

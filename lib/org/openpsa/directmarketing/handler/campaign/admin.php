@@ -248,8 +248,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . "campaign/" . $this->_request_data["campaign"]->guid . '/');
+            return new midcom_response_relocate("campaign/" . $this->_request_data["campaign"]->guid . '/');
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
@@ -303,8 +302,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $this->_request_data['campaign']->schedule_update_smart_campaign_members();
 
             //Save ok, relocate
-            return new midcom_response_relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-                . "campaign/" . $this->_request_data["campaign"]->guid . '/');
+            return new midcom_response_relocate("campaign/" . $this->_request_data["campaign"]->guid . '/');
         }
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);

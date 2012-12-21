@@ -140,8 +140,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         if ($auto_relocate)
         {
             // Relocate to group view
-            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            midcom::get()->relocate("{$prefix}view/{$this->_person->guid}/");
+            midcom::get()->relocate("view/{$this->_person->guid}/");
             // This will exit
         }
         else
@@ -450,18 +449,18 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     public function close_account()
     {
         $this->_account = midcom_core_account::get($this->_person);
-    
+
         if (!$this->_account->get_password())
         {
             // the account is already blocked, so skip the rest
             return true;
         }
-    
+
         $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $this->_account->get_password());
         $this->_account->set_password('', false);
         return $this->_account->save();
     }
-        
+
      /**
      * Function to delete account
      *

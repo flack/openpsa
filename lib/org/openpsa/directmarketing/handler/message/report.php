@@ -343,8 +343,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             return false;
         }
         $campaign->schedule_update_smart_campaign_members();
-        midcom::get()->relocate(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-            . "campaign/edit/{$campaign->guid}/");
+        midcom::get()->relocate("campaign/edit/{$campaign->guid}/");
         // This will exit()
     }
 

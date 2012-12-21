@@ -121,14 +121,12 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         if (   is_null($this->_config->get('redirection_type'))
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection')))
         {
             // No type set, redirect to config
-            return new midcom_response_relocate("{$prefix}config/");
+            return new midcom_response_relocate("config/");
         }
 
         // Get the topic link and relocate accordingly
