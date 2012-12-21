@@ -37,14 +37,8 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    public function __construct($person)
+    public function __construct(midcom_db_person $person)
     {
-        if (!is_a($person, 'midcom_db_person'))
-        {
-            $this->_person = null;
-            return false;
-        }
-
         $this->_person = $person;
 
         parent::__construct();
