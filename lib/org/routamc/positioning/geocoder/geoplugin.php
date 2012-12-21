@@ -25,9 +25,10 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
      * Try geocoding an IP address.
      *
      * @param array $location Parameters to geocode with, conforms to XEP-0080
-     * @return org_routamc_positioning_spot containing geocoded information
+     * @param array $options Implementation-specific configuration
+     * @return array containing geocoded information
      */
-    public function geocode(array $location)
+    public function geocode(array $location, array $options = array())
     {
         if (!isset($location['ip']))
         {

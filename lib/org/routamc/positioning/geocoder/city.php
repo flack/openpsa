@@ -16,10 +16,11 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     /**
      * Empty default implementation, this calls won't do much.
      *
-     * @param Array $location Parameters to geocode with, conforms to XEP-0080
-     * @return Array containing geocoded information
+     * @param array $location Parameters to geocode with, conforms to XEP-0080
+     * @param array $options Implementation-specific configuration
+     * @return array containing geocoded information
      */
-    function geocode($location, $options=array())
+    function geocode(array $location, array $options = array())
     {
         $results = array();
 

@@ -11,7 +11,7 @@
  *
  * @package org.routamc.positioning
  */
-class org_routamc_positioning_geocoder extends midcom_baseclasses_components_purecode
+abstract class org_routamc_positioning_geocoder extends midcom_baseclasses_components_purecode
 {
     /**
      * Error code from trying to geocode. Either a midcom_connection::get_error_string() or an additional error code from component
@@ -21,15 +21,13 @@ class org_routamc_positioning_geocoder extends midcom_baseclasses_components_pur
     var $error = 'MGD_ERR_OK';
 
     /**
-     * Empty default implementation, this calls won't do much.
+     * Geocode information
      *
-     * @param Array $location Parameters to geocode with, conforms to XEP-0080
-     * @return Array containing geocoded information
+     * @param array $location Parameters to geocode with, conforms to XEP-0080
+     * @param array $options Implementation-specific configuration
+     * @return array containing geocoded information
      */
-    function geocode($location)
-    {
-        return null;
-    }
+    abstract function geocode($location, $options = array());
 
     /**
      * This is a static factory method which lets you dynamically create geocoder instances.
@@ -41,18 +39,12 @@ class org_routamc_positioning_geocoder extends midcom_baseclasses_components_pur
      */
     static function & create($type)
     {
-        $filename = MIDCOM_ROOT . "/org/routamc/positioning/geocoder/{$type}.php";
-        if (!file_exists($filename))
+        $classname = "org_routamc_positioning_geocoder_{$type}";
+        if (!class_exists($classname))
         {
             throw new midcom_error("Geocoder {$type} not available.");
         }
 
-        $classname = "org_routamc_positioning_geocoder_{$type}";
-        require_once($filename);
-        /**
-         * Php 4.4.1 does not allow you to return a reference to an expression.
-         * http://www.php.net/release_4_4_0.php
-         */
         $class = new $classname();
         return $class;
     }
