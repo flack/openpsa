@@ -11,7 +11,7 @@ Read more in <http://openpsa2.org/>
 
 ## Dependencies
 
-* PHP 5.2 or newer
+* PHP 5.3 or newer
 * Apache (or Lighttpd with the midgard2 backend)
 * Midgard2
   * Midgard2 Content Repository (`libmidgard2-2010`)
@@ -58,7 +58,7 @@ Enable `rewrite` and `fastcgi` modules in your Lighttpd config (by default `/etc
 
 Also enable FastCGI to talk to your PHP installation:
 
-    fastcgi.server = ( 
+    fastcgi.server = (
         ".php" => (
             (
                 "bin-path" => "/usr/bin/php-cgi",
@@ -69,7 +69,7 @@ Also enable FastCGI to talk to your PHP installation:
 
 Then just configure your Lighttpd to pass all requests to the OpenPSA "rootfile":
 
-    url.rewrite-once = ( 
+    url.rewrite-once = (
         "^/openpsa2-static/OpenPsa2/(.*)$" => "/openpsa/themes/OpenPsa2/static/$1",
         "^/openpsa2-static/(.*)$" => "/openpsa/static/$1",
         "^([^\?]*)(\?(.+))?$" => "openpsa/rootfile.php$2"
