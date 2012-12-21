@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.interviews',
 'icon' => 'stock-icons/16x16/stock_landline-phone.png',
 'purecode' => false,
-'version' => '9.0beta3+git',
+'version' => '9.0beta4',
 'privileges' => array(),
 'class_mapping' => array(),
 'package.xml' => array
