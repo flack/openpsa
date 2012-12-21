@@ -13,14 +13,6 @@
  */
 class org_openpsa_projects_interface extends midcom_baseclasses_components_interface
 {
-    public function __construct()
-    {
-        $this->_autoload_libraries = array
-        (
-            'org.openpsa.core',
-        );
-    }
-
     public function _on_initialize()
     {
         //With the plentyness of typecasting around any other numeric locale calls for trouble with floats

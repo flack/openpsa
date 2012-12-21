@@ -22,7 +22,7 @@ class org_openpsa_documents_navigation extends midcom_baseclasses_components_nav
         $qb = org_openpsa_documents_document_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('nextVersion', '=', 0);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
         $ret = $qb->execute();
         if (   is_array($ret)
             && count($ret) > 0)

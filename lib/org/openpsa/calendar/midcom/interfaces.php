@@ -14,14 +14,6 @@
  */
 class org_openpsa_calendar_interface extends midcom_baseclasses_components_interface
 {
-    public function __construct()
-    {
-        $this->_autoload_libraries = array
-        (
-            'org.openpsa.core',
-        );
-    }
-
     public static function create_root_event()
     {
         midcom::get('auth')->request_sudo();

@@ -13,6 +13,10 @@
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 {
+    const WGTYPE_NONE = 0;
+    const WGTYPE_INACTIVE = 1;
+    const WGTYPE_ACTIVE = 3;
+
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task';
 
@@ -314,7 +318,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         if ($this->orgOpenpsaWgtype == ORG_OPENPSA_OBTYPE_TASK)
         {
-            $this->orgOpenpsaWgtype = ORG_OPENPSA_WGTYPE_NONE;
+            $this->orgOpenpsaWgtype = self::WGTYPE_NONE;
         }
 
         if ($this->agreement)

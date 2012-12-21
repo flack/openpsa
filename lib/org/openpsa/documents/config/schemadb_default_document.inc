@@ -119,7 +119,7 @@
         'object_type'  => array
         (
             'title' => 'object type',
-            'default'  => ORG_OPENPSA_OBTYPE_DOCUMENT,
+            'default'  => org_openpsa_documents_document_dba::OBTYPE_DOCUMENT,
             'hidden'   => true,
             //'readonly'   => true,
             'storage' => 'orgOpenpsaObtype',

@@ -58,7 +58,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         // Event must be directly under openpsa calendar root event
         $qb->add_constraint('eid.up', '=', $root_event->id);
         // Member type must not be resource
-        $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_EVENTRESOURCE);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_calendar_event_participant_dba::OBTYPE_EVENTRESOURCE);
         // Event must have ended
         $qb->add_constraint('eid.end', '<', time());
         // Event can be at most week old

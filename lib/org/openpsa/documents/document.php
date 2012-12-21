@@ -23,6 +23,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     const STATUS_FINAL = 4001;
     const STATUS_REVIEW = 4002;
 
+    const OBTYPE_DOCUMENT = 3000;
+
     function get_parent_guid_uncached()
     {
         // FIXME: Midgard Core should do this
@@ -53,7 +55,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_DOCUMENT;
+        $this->orgOpenpsaObtype = self::OBTYPE_DOCUMENT;
         if (!$this->author)
         {
             $user = midcom::get('auth')->user->get_storage();

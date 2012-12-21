@@ -11,7 +11,7 @@
             'type' => 'number',
             'storage' => 'orgOpenpsaObtype',
             'widget' =>  'text',
-            'default' => ORG_OPENPSA_OBTYPE_EVENT,
+            'default' => org_openpsa_calendar_event_dba::OBTYPE_EVENT,
             'hidden' => true,
         ),
         'title' => array

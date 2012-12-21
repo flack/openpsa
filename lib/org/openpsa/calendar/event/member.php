@@ -133,7 +133,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         // Get current events for person
         $qb = org_openpsa_calendar_event_participant_dba::new_query_builder();
         $qb->begin_group('OR');
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_EVENTPARTICIPANT);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_calendar_event_participant_dba::OBTYPE_EVENTPARTICIPANT);
             $qb->add_constraint('orgOpenpsaObtype', '=', 0);
         $qb->end_group();
         $qb->add_constraint('uid', '=', $person->id);

@@ -59,7 +59,7 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
         }
         $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
 
         if (!is_null($field))
         {
@@ -201,7 +201,7 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
             $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
         }
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
         $this->_request_data['document_versions'] = $qb->count();
 
         $this->set_active_leaf($this->_document->id);

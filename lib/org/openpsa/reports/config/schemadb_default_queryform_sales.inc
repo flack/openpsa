@@ -117,12 +117,12 @@
                 (
                     'options' => array
                     (
-                        ORG_OPENPSA_OBTYPE_REPORT => 'yes',
-                        ORG_OPENPSA_OBTYPE_REPORT_TEMPORARY => 'no',
+                        org_openpsa_reports_query_dba::OBTYPE_REPORT => 'yes',
+                        org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY => 'no',
                     ),
                 ),
                 'widget'        => 'radiocheckselect',
-                'default'       => ORG_OPENPSA_OBTYPE_REPORT,
+                'default'       => org_openpsa_reports_query_dba::OBTYPE_REPORT,
                 'start_fieldset'  => array
                 (
                     'title'     => 'Metadata',

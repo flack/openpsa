@@ -13,6 +13,9 @@
  */
 class org_openpsa_reports_query_dba extends midcom_core_dbaobject
 {
+    const OBTYPE_REPORT = 7000;
+    const OBTYPE_REPORT_TEMPORARY = 7001;
+
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_query';
 
@@ -20,7 +23,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     {
         if (!$this->orgOpenpsaObtype)
         {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_REPORT_TEMPORARY;
+            $this->orgOpenpsaObtype = org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY;
         }
         if (!$this->extension)
         {
@@ -63,7 +66,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     {
         $qb = self::new_query_builder();
         $qb->add_constraint('component', '=', 'org.openpsa.reports');
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_REPORT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_reports_query_dba::OBTYPE_REPORT);
         $qb->add_constraint('relatedcomponent', '=', $component);
         $qb->add_order('title');
         return $qb->execute();

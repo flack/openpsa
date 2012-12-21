@@ -112,7 +112,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 break;
             //html
             default:
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+                $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
                 $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
                 $this->_prepare_output();
                 break;

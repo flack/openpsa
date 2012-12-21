@@ -17,12 +17,15 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     var $person;
     var $participant;
 
+    const OBTYPE_EVENTPARTICIPANT = 5001;
+    const OBTYPE_EVENTRESOURCE = 5002;
+
     public function __construct($identifier = null)
     {
         parent::__construct($identifier);
         if (!$this->orgOpenpsaObtype)
         {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_EVENTPARTICIPANT;
+            $this->orgOpenpsaObtype = self::OBTYPE_EVENTPARTICIPANT;
         }
     }
 

@@ -112,7 +112,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                         continue;
                     }
                     $participant = new org_openpsa_calendar_event_member_dba();
-                    $participant->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_EVENTPARTICIPANT;
+                    $participant->orgOpenpsaObtype = org_openpsa_calendar_event_participant_dba::OBTYPE_EVENTPARTICIPANT;
                     $participant->uid = $prospect->person;
                     $participant->eid = $event->id;
                     $participant->create();

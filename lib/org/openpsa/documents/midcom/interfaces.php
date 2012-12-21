@@ -13,14 +13,6 @@
  */
 class org_openpsa_documents_interface extends midcom_baseclasses_components_interface
 {
-    public function __construct()
-    {
-        $this->_autoload_libraries = array
-        (
-            'org.openpsa.core',
-        );
-    }
-
     /**
      * Prepare the indexer client
      */
@@ -29,7 +21,7 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
         $qb_documents = org_openpsa_documents_document_dba::new_query_builder();
         $qb_documents->add_constraint('topic', '=', $topic->id);
         $qb_documents->add_constraint('nextVersion', '=', 0);
-        $qb_documents->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+        $qb_documents->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
         $schemadb_documents = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_document'));
 
         $qb_directories = org_openpsa_documents_directory::new_query_builder();
