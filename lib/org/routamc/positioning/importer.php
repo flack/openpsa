@@ -11,7 +11,7 @@
  *
  * @package org.routamc.positioning
  */
-class org_routamc_positioning_importer extends midcom_baseclasses_components_purecode
+abstract class org_routamc_positioning_importer extends midcom_baseclasses_components_purecode
 {
     /**
      * The imported log entries
@@ -33,15 +33,6 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
      * @var string
      */
     var $error_string = '';
-
-    /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.routamc.positioning';
-         parent::__construct();
-    }
 
     /**
      * Normalize coordinates into decimal values
@@ -81,15 +72,13 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
     }
 
     /**
-     * Empty default implementation, this calls won't do much.
+     * Run the actual import
      *
      * @param Array $logs Log entries in Array format specific to importer
+     * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */
-    function import($logs)
-    {
-        return true;
-    }
+    abstract function import($logs, $person_id);
 
     /**
      * This is a static factory method which lets you dynamically create importer instances.

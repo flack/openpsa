@@ -26,23 +26,15 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
      * - timestamp
      *
      * @param Array $log Log entry in Array format specific to importer
+     * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */
-    function import($log)
+    function import($log, $person_id)
     {
         $this->log = new org_routamc_positioning_log_dba();
         $this->log->importer = 'manual';
+        $this->log->person = $person_id;
 
-        // Set different person if required
-        if (array_key_exists('person', $log))
-        {
-            $this->log->person = $log['person'];
-        }
-        else
-        {
-            $this->log->person = midcom_connection::get_user();
-        }
-        
         if (array_key_exists('timestamp', $log))
         {
             $this->log->date = (int) $log['timestamp'];
@@ -113,7 +105,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
             }
             $geocoder = org_routamc_positioning_geocoder::create($log['geocoder']);
             $position = $geocoder->geocode($log);
-            
+
             if (   !$position['latitude']
                 || !$position['longitude'])
             {
@@ -150,7 +142,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
             // Probably an ISO code
             return $country;
         }
-        
+
         $qb = org_routamc_positioning_country_dba::new_query_builder();
         $qb->add_constraint('name', '=', $country);
         $countries = $qb->execute();
@@ -158,7 +150,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         {
             return $countries[0]->code;
         }
-        
+
         return '';
     }
 }

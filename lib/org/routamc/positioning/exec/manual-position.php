@@ -118,11 +118,10 @@ if (   array_key_exists('msisdn', $_GET)
     $params = explode(',', $_GET['msg']);
     if (count($params) == 2)
     {
-        $manual = org_routamc_positioning_importer::create('manual');
+        $manual = org_routamc_positioning_importer::create('manual', $person->id);
         $manual_position = Array();
         $manual_position['city'] = trim($params[0]);
         $manual_position['country'] = trim($params[1]);
-        $manual_position['person'] = $person->id;
 
         $import = $manual->import($manual_position);
 
@@ -165,7 +164,7 @@ $user = midcom::get('auth')->user->get_storage();
 
 if (array_key_exists('add_position', $_POST))
 {
-    $manual = org_routamc_positioning_importer::create('manual');
+    $manual = org_routamc_positioning_importer::create('manual', $user->id);
 
     $manual_position = Array();
 
