@@ -115,7 +115,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);
 
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = '';
                 if ($this->_document->topic != $this->_topic->id)
                 {
                     $nap = new midcom_helper_nav();
