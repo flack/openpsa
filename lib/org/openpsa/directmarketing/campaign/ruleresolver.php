@@ -77,14 +77,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     private $_rules = null; //Copy of rules as received
     private $_result_mc = null; // Contact-qb containing results
 
-    public function __construct($rules = false)
+    public function __construct()
     {
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
         $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
-        if ($rules)
-        {
-            return $this->resolve($rules);
-        }
     }
 
     /**
@@ -95,12 +91,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function resolve(array $rules)
     {
-        $this->_rules = $rules;
-        if (!is_array($rules))
-        {
-            debug_add('rules is not an array', MIDCOM_LOG_ERROR);
-            return false;
-        }
         if (!array_key_exists('classes', $rules))
         {
             debug_add('rules[classes] is not defined', MIDCOM_LOG_ERROR);
@@ -116,6 +106,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_add('rules[groups] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
+        $this->_rules = $rules;
+
         //start with first group
         $this->_result_mc->begin_group(strtoupper($rules['groups']));
         reset ($rules['classes']);
@@ -169,14 +161,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param string $match_class wanted class in group
      * @return boolean indicating success/failure
      */
-    private function _resolve_rule_group($group, $match_class = false)
+    private function _resolve_rule_group(array $group, $match_class = false)
     {
-        if (!is_array($group))
-        {
-            debug_add('group is not an array', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         if (   $match_class
             && $group['class'] != $match_class)
         {
@@ -221,7 +207,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param array $rules array containing rules
      * @param string $class containing name of class for the rules
      */
-    function add_rules($rules, $class)
+    function add_rules(array $rules, $class)
     {
         debug_add("try to build rules for class: {$class}");
 
@@ -271,7 +257,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      *
      * @param array $rule contains the rule
      */
-    function add_person_rule($rule)
+    function add_person_rule(array $rule)
     {
         $this->_result_mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
     }
@@ -281,7 +267,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      *
      * @param array $rule contains the group-rule
      */
-    function add_group_rule($rule)
+    function add_group_rule(array $rule)
     {
         //TODO: better way to preserve IN-Constraint on an empty array
         $group_member = array ( 0 => -1);
