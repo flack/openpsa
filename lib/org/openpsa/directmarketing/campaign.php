@@ -191,23 +191,12 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
 
         //List current non-tester members (including unsubscribed etc), and filter those out of rule_persons
-        $qb_current = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb_current->add_constraint('campaign', '=', $this->id);
-        if (sizeof($rule_persons) > 0)
+        $mc_current = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->id);
+        $mc_current->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
+        $current = $mc_current->get_values('person');
+        if (!empty($current))
         {
-            $qb_current->add_constraint('person', 'IN', array_keys($rule_persons));
-        }
-        $qb_current->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $cret = $qb_current->execute();
-        if (   is_array($cret)
-            && !empty($cret))
-        {
-            foreach ($cret as $member)
-            {
-                //Filter the existing member from rule_persons (if present, for example unsubscribed members might not be)
-                debug_add("Removing person #{$member->person} ({$rule_persons[$member->person]['lastname']}, {$rule_persons[$member->person]['firstname']}) from rule_persons list, already a member");
-                unset($rule_persons[$member->person]);
-            }
+            $rule_persons = array_diff_key($rule_persons, array_flip($current));
         }
 
         //Finally, create members of each person matched by rule left
