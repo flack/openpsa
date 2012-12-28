@@ -340,9 +340,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $this->_topic->require_do('midgard:create');
         midcom::get('cache')->content->enable_live_mode();
 
-        //Disable limits
-        @ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
-        @ini_set('max_execution_time', 0);
+        midcom::get()->disable_limits();
 
         if ($handler_id == 'feeds_fetch')
         {

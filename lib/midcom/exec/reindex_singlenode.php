@@ -48,8 +48,7 @@ if (isset($_REQUEST['language']))
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 
-debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
-ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+midcom::get()->disable_limits();
 
 $loader = midcom::get('componentloader');
 $indexer = midcom::get('indexer');
@@ -63,10 +62,6 @@ if (empty($node))
 }
 
 debug_dump_mem("Initial Memory Usage");
-
-// Update script execution time
-// This should suffice for really large topics as well.
-set_time_limit(5000);
 
 // Disable ob
 while(@ob_end_flush());

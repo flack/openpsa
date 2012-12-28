@@ -43,8 +43,7 @@ ignore_user_abort(true);
 // Disable ob
 while(@ob_end_flush());
 
-debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
-ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+midcom::get()->disable_limits();
 
 $nap = new midcom_helper_nav();
 $nodes = Array();
@@ -59,10 +58,6 @@ debug_dump_mem("Initial Memory Usage");
 
 while (! is_null($nodeid))
 {
-    // Update script execution time
-    // This should suffice for really large topics as well.
-    set_time_limit(5000);
-
     // Reindex the node...
     $node = $nap->get_node($nodeid);
 

@@ -79,8 +79,7 @@ if (!class_exists('org_openpsa_httplib'))
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 
-debug_add("Setting memory limit to configured value of {$GLOBALS['midcom_config']['midcom_max_memory']}");
-ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+midcom::get()->disable_limits();
 $start = microtime(true);
 
 $nap = new midcom_helper_nav();
@@ -121,10 +120,6 @@ if (   isset($_SERVER['PHP_AUTH_USER'])
 
 while (! is_null($nodeid))
 {
-    // Update script execution time
-    // This should suffice for really large topics as well.
-    set_time_limit(5000);
-
     // Reindex the node...
     $node = $nap->get_node($nodeid);
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";

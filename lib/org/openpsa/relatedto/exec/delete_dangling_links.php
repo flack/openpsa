@@ -11,7 +11,7 @@
  */
 midcom::get('auth')->require_admin_user();
 
-@ini_set('max_execution_time', 0);
+midcom::get()->disable_limits();
 while(@ob_end_flush());
 echo "<pre>\n";
 flush();
