@@ -52,7 +52,6 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         midcom::get('auth')->drop_sudo();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

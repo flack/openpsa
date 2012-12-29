@@ -185,7 +185,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         {
             $this->_offset = 0;
         }
-        return;
     }
 
     /**
@@ -254,8 +253,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         }
 
         echo "\n</div>\n";
-
-        return;
     }
 
     /**
@@ -333,8 +330,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         }
 
         echo "\n</div>\n";
-
-        return;
     }
 
     /**
@@ -527,8 +522,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         echo "\n    </ul>\n";
         echo "</div>\n";
-
-        return;
     }
 
     /**
@@ -547,7 +540,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $qb->set_limit($this->_limit);
         $qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->_limit}");
-        return;
     }
 
     function execute()

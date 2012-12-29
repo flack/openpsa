@@ -38,7 +38,6 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
         midcom::get('auth')->drop_sudo();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

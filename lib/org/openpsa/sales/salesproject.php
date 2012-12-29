@@ -223,7 +223,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         {
             $this->prev_action = $sort_prev[0];
         }
-        return;
     }
 
     public function __get($property)

@@ -349,8 +349,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
                 }
             }
         }
-
-        return;
     }
 
     /**
@@ -410,7 +408,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         debug_add('done');
-        return;
     }
 
     //TODO: move these options elsewhere

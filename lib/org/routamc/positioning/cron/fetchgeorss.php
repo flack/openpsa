@@ -23,7 +23,6 @@ class org_routamc_positioning_cron_fetchgeorss extends midcom_baseclasses_compon
         $georss->seek_georss_users();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

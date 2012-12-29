@@ -235,7 +235,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $this->_defaults['resources'] = array_keys($this->_parent->resources);
             $this->_defaults['contacts'] = array_keys($this->_parent->contacts);
         }
-        return;
     }
 
     /**

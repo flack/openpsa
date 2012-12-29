@@ -220,7 +220,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             $this->status = net_nehmer_comments_comment::MODERATED;
             $this->update();
             $this->_log_moderation('reported_not_junk', 'linksleeve');
-            return;
         }
         else if ($ret == net_nehmer_comments_spamchecker::SPAM)
         {
@@ -230,7 +229,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             $this->status = net_nehmer_comments_comment::JUNK;
             $this->update();
             $this->_log_moderation('confirmed_junk', 'linksleeve');
-            return;
         }
     }
 

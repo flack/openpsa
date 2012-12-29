@@ -23,7 +23,6 @@ class org_routamc_positioning_cron_fetchinstamapper extends midcom_baseclasses_c
         $html->seek_instamapper_users();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

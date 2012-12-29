@@ -23,7 +23,6 @@ class org_routamc_positioning_cron_fetchfireeagle extends midcom_baseclasses_com
         $fireeagle->seek_fireeagle_users();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

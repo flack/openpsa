@@ -70,7 +70,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
                 break;
                 //TODO: groups ? other objects ?
         }
-        return;
     }
 
     /**
@@ -136,8 +135,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
             $links_array[] = $to_array;
         }
-
-        return;
     }
 
     /**

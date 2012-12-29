@@ -1165,7 +1165,6 @@ class midcom_baseclasses_core_dbobject
             }
             $object->$name = null;
         }
-        return;
     }
 
     /**

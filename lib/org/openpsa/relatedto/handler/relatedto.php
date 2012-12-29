@@ -452,7 +452,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private static function _render_line_hour_report(&$link, &$other_obj)
     {
-        return;
     }
 
     /**

@@ -23,7 +23,6 @@ class org_routamc_positioning_cron_fetchplazes extends midcom_baseclasses_compon
         $plazes->seek_plazes_users();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

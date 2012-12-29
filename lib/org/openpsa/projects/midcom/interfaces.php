@@ -83,8 +83,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
                 //TODO: groups ? other objects ?
         }
-
-        return;
     }
 
     /**
@@ -153,7 +151,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
             $links_array[] = $to_array;
         }
-        return;
     }
 
     /**
@@ -191,7 +188,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
             $links_array[] = $to_array;
         }
-        return;
     }
 
     function create_hour_report(org_openpsa_projects_task_dba &$task, $person_id, &$from_object, $from_component)

@@ -369,7 +369,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $qb->add_order('person.firstname', 'ASC');
         $qb->add_order('person.username', 'ASC');
         $qb->add_order('person.id', 'ASC');
-        return;
     }
 
     /**

@@ -26,7 +26,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
         }
 
         // Untill the FIXME below is handled we abort
-        debug_add('Duplicate cleanup disabled since it needs code cleanup for 1.8 Midgfard, aborting', MIDCOM_LOG_ERROR);
+        debug_add('Duplicate cleanup disabled since it needs code cleanup for 1.8 Midgard, aborting', MIDCOM_LOG_ERROR);
         return;
 
         ignore_user_abort();
@@ -52,7 +52,6 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
         }
 
         debug_add('Done');
-        return;
     }
 }
 ?>

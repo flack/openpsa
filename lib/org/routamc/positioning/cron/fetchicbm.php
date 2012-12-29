@@ -23,7 +23,6 @@ class org_routamc_positioning_cron_fetchicbm extends midcom_baseclasses_componen
         $html->seek_icbm_users();
 
         debug_add('Done');
-        return;
     }
 }
 ?>

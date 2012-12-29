@@ -147,7 +147,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 
         midcom::get('auth')->drop_sudo();
         debug_add('done');
-        return;
     }
 }
 ?>
