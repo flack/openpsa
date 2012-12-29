@@ -58,38 +58,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         $this->bind_view_to_object($this->_request_data['campaign']);
 
-        $this->_load_schemas();
-    }
-
-    /**
-     * This function prepares the schemadb
-     */
-    private function _load_schemas()
-    {
-        // Load contacts explicitly to get constants for schema
-        midcom::get('componentloader')->load('org.openpsa.contacts');
-
-        // We try to combine these schemas to provide a single centralized controller
-        $this->_schemadbs['campaign_member'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member'));
-        if (!$this->_schemadbs['campaign_member'])
-        {
-            throw new midcom_error('Could not load campaign member schema database.');
-        }
-        $this->_schemadbs['person'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
-        if (!$this->_schemadbs['person'])
-        {
-            throw new midcom_error('Could not load person schema database.');
-        }
-        $this->_schemadbs['organization_member'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member'));
-        if (!$this->_schemadbs['organization_member'])
-        {
-            throw new midcom_error('Could not load organization member schema database.');
-        }
-        $this->_schemadbs['organization'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization'));
-        if (!$this->_schemadbs['organization'])
-        {
-            throw new midcom_error('Could not load organization schema database.');
-        }
+        $this->_schemadbs = $this->_master->load_schemas();
     }
 
     private function _load_datamanagers()

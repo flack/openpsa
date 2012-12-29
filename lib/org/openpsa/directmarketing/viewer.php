@@ -52,6 +52,32 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     }
 
     /**
+     * This function prepares the schemadb
+     */
+    public function load_schemas()
+    {
+        // Make sure component is loaded so that constants are defined
+        midcom::get('componentloader')->load('org.openpsa.contacts');
+
+        $schemadbs = array
+        (
+            'campaign_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member')),
+            'person' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person')),
+            'organization_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member')),
+            'organization' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization')),
+        );
+
+        foreach ($schemadbs as $name => $db)
+        {
+            if (!$db)
+            {
+                throw new midcom_error('Could not load ' . $name . ' schema database.');
+            }
+        }
+        return $schemadbs;
+    }
+
+    /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
