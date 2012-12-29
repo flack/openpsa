@@ -106,7 +106,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         //Each event participant is either manager or member (resource/contact) in task
         $qb->begin_group('OR');
             $qb->add_constraint('owner', 'IN', array_keys($object->participants));
-            if (empty($guids))
+            if (!empty($guids))
             {
                 $qb->add_constraint('guid', 'IN', $guids);
             }
@@ -160,11 +160,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             {
                 foreach ($qbret as $salesproject)
                 {
-                    if (isset($seen_sp[$salesproject->id]))
-                    {
-                        //Only process one salesproject once (someone might be both resource and contact for example)
-                        continue;
-                    }
                     $seen_sp[$salesproject->id] = true;
                     $to_array = array('other_obj' => false, 'link' => false);
                     $link = new org_openpsa_relatedto_dba();
@@ -179,17 +174,15 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         $qb2 = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb2->add_constraint('owner', '=', $object->id);
         $qb2->add_constraint('status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
+        if (!empty($seen_sp))
+        {
+            $qb2->add_constraint('id', 'NOT IN', array_keys($seen_sp));
+        }
         $qb2ret = @$qb2->execute();
         if (is_array($qb2ret))
         {
             foreach ($qb2ret as $sp)
             {
-                if (isset($seen_sp[$sp->id]))
-                {
-                    //Only process one task once (someone might be both resource and contact for example)
-                    continue;
-                }
-                $seen_sp[$sp->id] = true;
                 $to_array = array('other_obj' => false, 'link' => false);
                 $link = new org_openpsa_relatedto_dba();
                 org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $sp);
