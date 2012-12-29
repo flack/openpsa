@@ -78,11 +78,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        // keyed by id
-        $seen_events = array();
-        // keyed by guid
-        $seen_tasks = array();
-        // keyed by guid
+        // keyed by event guid
         $event_links = array();
         foreach ($eventmembers as $member)
         {
@@ -96,11 +92,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 continue;
             }
             //Avoid multiple loads of same event
-            if (!isset($seen_events[$member->eid]))
-            {
-                $seen_events[$member->eid] = new org_openpsa_calendar_event_dba($member->eid);
-            }
-            $event =& $seen_events[$member->eid];
+            $event = org_openpsa_calendar_event_dba::get_cached($member->eid);
 
             // Avoid multiple queries of events links
             if (!isset($event_links[$event->guid]))
@@ -124,11 +116,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             foreach ($links as $link)
             {
                 //Avoid multiple loads of same task
-                if (!isset($seen_tasks[$link->toGuid]))
-                {
-                    $seen_tasks[$link->toGuid] = new org_openpsa_projects_task_dba($link->toGuid);
-                }
-                $task =& $seen_tasks[$link->toGuid];
+                $task = org_openpsa_projects_task_dba::get_cached($link->toGuid);
 
                 debug_add("processing task #{$task->id} ({$task->title}) for person #{$member->uid} from event #{$event->id} ({$event->title})");
 

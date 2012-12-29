@@ -194,13 +194,8 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         return;
     }
 
-    function create_hour_report(&$task, $person_id, &$from_object, $from_component)
+    function create_hour_report(org_openpsa_projects_task_dba &$task, $person_id, &$from_object, $from_component)
     {
-        if (!midcom::get('dbfactory')->is_a($task, 'org_openpsa_projects_task_dba'))
-        {
-            debug_add('given task is not really a task', MIDCOM_LOG_ERROR);
-            return false;
-        }
         if (empty($person_id))
         {
             debug_add('person_id is "empty"', MIDCOM_LOG_ERROR);
@@ -229,8 +224,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         }
         debug_print_r("about to create hour_report", $hr);
 
-        $stat = $hr->create();
-        if (!$stat)
+        if (!$hr->create())
         {
             debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
             return false;
