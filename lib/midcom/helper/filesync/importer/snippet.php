@@ -15,27 +15,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
 {
     private function read_snippetdir($path, $parent_id)
     {
-        $snippetdir_name = basename($path);
-
-        $object_qb = midcom_db_snippetdir::new_query_builder();
-        $object_qb->add_constraint('up', '=', $parent_id);
-        $object_qb->add_constraint('name', '=', $snippetdir_name);
-        if ($object_qb->count() == 0)
-        {
-            // New snippetdir
-            $snippetdir = new midcom_db_snippetdir();
-            $snippetdir->up = $parent_id;
-            $snippetdir->name = $snippetdir_name;
-            if (!$snippetdir->create())
-            {
-                return false;
-            }
-        }
-        else
-        {
-            $snippetdirs = $object_qb->execute();
-            $snippetdir = $snippetdirs[0];
-        }
+        $snippetdir = $this->_get_node('midcom_db_snippetdir', $parent_id, $path);
 
         $directory = dir($path);
         $foldernames = array();

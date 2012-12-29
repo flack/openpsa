@@ -15,27 +15,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
 {
     private function read_style($path, $parent_id)
     {
-        $style_name = basename($path);
-
-        $object_qb = midcom_db_style::new_query_builder();
-        $object_qb->add_constraint('up', '=', $parent_id);
-        $object_qb->add_constraint('name', '=', $style_name);
-        if ($object_qb->count() == 0)
-        {
-            // New style
-            $style = new midcom_db_style();
-            $style->up = $parent_id;
-            $style->name = $style_name;
-            if (!$style->create())
-            {
-                return false;
-            }
-        }
-        else
-        {
-            $styles = $object_qb->execute();
-            $style = $styles[0];
-        }
+        $style = $this->_get_node('midcom_db_style', $parent_id, $path);
 
         $directory = dir($path);
         $foldernames = array();

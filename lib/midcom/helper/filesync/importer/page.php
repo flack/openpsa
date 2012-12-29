@@ -15,27 +15,7 @@ class midcom_helper_filesync_importer_page extends midcom_helper_filesync_import
 {
     private function read_page($path, $parent_id)
     {
-        $page_name = basename($path);
-
-        $object_qb = midcom_db_page::new_query_builder();
-        $object_qb->add_constraint('up', '=', $parent_id);
-        $object_qb->add_constraint('name', '=', $page_name);
-        if ($object_qb->count() == 0)
-        {
-            // New page
-            $page = new midcom_db_page();
-            $page->up = $parent_id;
-            $page->name = $page_name;
-            if (!$page->create())
-            {
-                return false;
-            }
-        }
-        else
-        {
-            $pages = $object_qb->execute();
-            $page = $pages[0];
-        }
+        $page = $this->_get_node('midcom_db_page', $parent_id, $path);
 
         $directory = dir($path);
         $foldernames = array();

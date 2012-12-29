@@ -33,6 +33,31 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
          parent::__construct();
     }
 
+    protected function _get_node($classname, $parent_id, $path)
+    {
+        $name = basename($path);
+        $object_qb = midcom::get('dbfactory')->new_query_builder($classname);
+        $object_qb->add_constraint('up', '=', $parent_id);
+        $object_qb->add_constraint('name', '=', $name);
+        if ($object_qb->count() == 0)
+        {
+            // New node
+            $node = new $classname();
+            $node->up = $parent_id;
+            $node->name = $name;
+            if (!$node->create())
+            {
+                throw new midcom_error(midcom_connection::get_error_string());
+            }
+        }
+        else
+        {
+            $nodes = $object_qb->execute();
+            $node = $nodes[0];
+        }
+        return $node;
+    }
+
     /**
      * This is a static factory method which lets you dynamically create importer instances.
      * It takes care of loading the required class files. The returned instances will be created
