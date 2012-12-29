@@ -83,14 +83,4 @@
         ),
     ),
 ),
-'watches' => array
-(
-    array
-    (
-        'classes' => array
-        (
-            'net_nemein_discussion_post_dba',
-        ),
-        'operations' => MIDCOM_OPERATION_DBA_CREATE,
-    ),
-),
+'watches' => array(),

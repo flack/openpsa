@@ -123,7 +123,6 @@
         'midgard_snippetdir',
         'midgard_style',
         'midgard_page',
-        'net_nemein_discussion_thread',
         'org_openpsa_products_product_group',
     ),
     'stock_people.png' => array
@@ -145,7 +144,6 @@
     ),
     'stock-discussion.png' => array
     (
-        'net_nemein_discussion_post',
         'net_nehmer_comments_comment_db',
     ),
     'package.png' => array
@@ -170,7 +168,6 @@
         'midgard_page',
         'midgard_snippetdir',
         'midgard_style',
-        'net_nemein_discussion_thread',
     ),
     'stock_people-new.png' => array
     (
