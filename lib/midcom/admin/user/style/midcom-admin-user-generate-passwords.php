@@ -47,6 +47,7 @@ if (!isset($_GET['ajax-form']))
     }
 ?>
         </form>
+    <pre id="midcom_admin_user_generated_passwords_random">
 <?php
 }
 
@@ -68,14 +69,13 @@ else
     {
         $password = midcom_admin_user_plugin::generate_password($length, $no_similars, $strong);
 
-        echo "    <input type=\"text\" class=\"plain-text\" value=\"{$password}\" onclick=\"this.select();\" />\n";
-
-        echo "\n";
+        echo "<input type=\"text\" class=\"plain-text\" value=\"{$password}\" onclick=\"this.select();\" />\n";
     }
 }
 
 if (!isset($_GET['ajax-form']))
 {
+    echo '</pre>';
     if (isset($_GET['ajax']))
     {
 ?>

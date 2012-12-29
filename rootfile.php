@@ -80,6 +80,7 @@ if (strpos($_SERVER['REQUEST_URI'], $prefix) !== 0)
 {
     $prefix = '/';
 }
+$prefix = '/';
 define('OPENPSA2_PREFIX', $prefix);
 
 header('Content-Type: text/html; charset=utf-8');
