@@ -29,7 +29,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
 
         $th = time() - ($days * 3600 * 24);
         $qb = org_openpsa_reports_query_dba::new_query_builder();
-        $qb->add_constraint('metadata.created', '<', $th);
+        $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $th));
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY);
         $ret = $qb->execute_unchecked();
         if (   $ret === false
