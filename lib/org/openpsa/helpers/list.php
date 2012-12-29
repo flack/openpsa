@@ -13,6 +13,8 @@
  */
 class org_openpsa_helpers_list
 {
+    private static $_seen = array();
+
     /**
      * Function for listing groups tasks contacts are members of
      *
@@ -23,7 +25,7 @@ class org_openpsa_helpers_list
     {
         //TODO: Localize something for the empty choice ?
         $ret = array(0 => '');
-        $seen = array();
+        self::$_seen = array();
 
         if (!midcom::get('componentloader')->load_graceful('org.openpsa.contacts'))
         {
@@ -32,15 +34,12 @@ class org_openpsa_helpers_list
         }
 
         //Make sure the currently selected customer (if any) is listed
-        if (   $task->customer
-            && !isset($ret[$task->customer]))
+        if ($task->customer > 0)
         {
             //Make sure we can read the current customer for the name
             midcom::get('auth')->request_sudo();
-            $company = new org_openpsa_contacts_group_dba($task->customer);
+            self::task_groups_put($ret, $mode, $task->customer);
             midcom::get('auth')->drop_sudo();
-            $seen[$company->id] = true;
-            self::task_groups_put($ret, $mode, $company);
         }
         $task->get_members();
 
@@ -63,54 +62,40 @@ class org_openpsa_helpers_list
 
         foreach ($memberships as $gid)
         {
-            if (   isset($seen[$gid])
-                && $seen[$gid] == true)
-            {
-                continue;
-            }
-            try
-            {
-                $company = new org_openpsa_contacts_group_dba($gid);
-            }
-            catch (midcom_error $e)
-            {
-                continue;
-            }
-            $seen[$company->id] = true;
-            self::task_groups_put($ret, $mode, $company);
+            self::task_groups_put($ret, $mode, $gid);
         }
         reset($ret);
         asort($ret);
         return $ret;
     }
 
-    static function task_groups_put(&$ret, &$mode, &$company)
+    static function task_groups_put(&$ret, $mode, $company_id)
     {
-        if ($company->official)
+        if (!empty(self::$_seen[$company_id]))
         {
-            $name = $company->official;
+            return;
         }
-        else if (   !$company->official
-                && $company->name)
+        try
         {
-            $name = $company->name;
+            $company = new org_openpsa_contacts_group_dba($company_id);
         }
-        else
+        catch (midcom_error $e)
         {
-            $name = "#{$company->id}";
+            return;
         }
+        self::$_seen[$company->id] = true;
+
         switch ($mode)
         {
             case 'id':
-                $ret[$company->id] = $name;
+                $ret[$company->id] = $company->official;
                 break;
             case 'guid':
-                $ret[$company->guid] = $name;
+                $ret[$company->guid] = $company->official;
                 break;
             default:
-                //Mode not supported
+                debug_add('Mode ' . $mode . ' not supported', MIDCOM_LOG_ERROR);
                 return;
-                break;
         }
     }
 
