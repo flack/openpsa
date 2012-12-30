@@ -419,7 +419,15 @@ class midcom_connection
             {
                 if ($refclass->isSubclassOf('midgard_object'))
                 {
-                    self::$_data['schema_types'][] = $refclass->getName();
+                    $name = $refclass->getName();
+                    if (   class_exists('MidgardReflectorObject')
+                        && (   MidgardReflectorObject::is_abstract($name)
+                            || MidgardReflectorObject::is_mixin($name)
+                            || MidgardReflectorObject::is_interface($name)))
+                    {
+                        continue;
+                    }
+                    self::$_data['schema_types'][] = $name;
                 }
             }
         }
