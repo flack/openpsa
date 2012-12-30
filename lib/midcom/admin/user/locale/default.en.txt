@@ -178,6 +178,10 @@ Move group
 No email address defined for %s
 ---STRINGEND
 
+---STRING no username defined for %s
+No username address defined for %s
+---STRINGEND
+
 ---STRING official
 Official name
 ---STRINGEND

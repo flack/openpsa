@@ -170,6 +170,10 @@ Gruppe verschieben
 Für %s ist keine E-Mail-Adresse hinterlegt
 ---STRINGEND
 
+---STRING no username defined for %s
+Für %s ist kein Benutzername hinterlegt
+---STRINGEND
+
 ---STRING official
 Offizieller Name
 ---STRINGEND

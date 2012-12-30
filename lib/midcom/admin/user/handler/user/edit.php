@@ -272,6 +272,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             try
             {
                 $person = new midcom_db_person($id);
+                $account = midcom_core_account::get($person);
             }
             catch (midcom_error $e)
             {
@@ -290,11 +291,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 continue;
             }
 
+            // if account has no username, we don't need to set a password either
+            if ($account->get_username() == '')
+            {
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no username defined for %s'), $person_edit_url), 'error');
+                continue;
+            }
+
             // Recipient
             $mail->to = $person->email;
 
             // Store the old password
-            $person->set_parameter('midcom.admin.user', 'old_password', $person->password);
+            $person->set_parameter('midcom.admin.user', 'old_password', $account->get_password());
 
             // Get a new password
             $password = midcom_admin_user_plugin::generate_password(8);
@@ -319,9 +327,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             if ($mail->send())
             {
                 // Set the password
-                $person->password = "**{$password}";
+                $account->set_password($password);
 
-                if (!$person->update())
+                if (!$account->save())
                 {
                     midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url));
                     $success = false;
