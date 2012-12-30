@@ -42,6 +42,13 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
     public $height = 6;
 
     /**
+     * Language of code in editor
+     *
+     * @var string
+     */
+    public $language = 'php';
+
+    /**
      * Whether to actually enable the widget
      */
     var $enabled = true;
