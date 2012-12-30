@@ -11,7 +11,7 @@
     'username',
     'email',
     'city',
-    'postcode',    
+    'postcode',
 ),
 'list_fields' => array
 (
@@ -19,12 +19,12 @@
     'lastname',
     'username',
     'email',
-    'city', 
+    'city',
 ),
 'message_subject' => 'your password has been changed',
 'message_body' => "Your password has been changed. Your new password is __PASSWORD__
 
--- 
+--
 __FROM__ - __LONGDATE__
 ",
-'message_sender' => 'www-data@localhost',
+'message_sender' => 'noreply@openpsa2.org',
