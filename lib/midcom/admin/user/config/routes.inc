@@ -39,14 +39,14 @@
     'fixed_args' => array('password', 'batch'),
 ),
 /**
- * Edit a user's password
+ * Edit a user's account
  *
- * Match /user-editor/edit/<guid>/
+ * Match /user-editor/account/<guid>/
  */
-'user_edit_password' => array
+'user_edit_account' => array
 (
-    'handler' => array('midcom_admin_user_handler_user_edit', 'edit'),
-    'fixed_args' => 'password',
+    'handler' => array('midcom_admin_user_handler_user_edit', 'edit_account'),
+    'fixed_args' => 'account',
     'variable_args' => 1,
 ),
 /**

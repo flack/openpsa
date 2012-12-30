@@ -27,7 +27,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _prepare_toolbar(&$data, $handler_id)
     {
-        if (   $handler_id !== '____mfa-asgard_midcom.admin.user-user_edit_password'
+        if (   $handler_id !== '____mfa-asgard_midcom.admin.user-user_edit_account'
             && $this->_config->get('allow_manage_accounts')
             && $this->_person)
         {
@@ -44,7 +44,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/password/{$this->_person->guid}/",
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/account/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit account', 'midcom.admin.user'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
@@ -84,22 +84,60 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:update');
 
-        if ($handler_id == '____mfa-asgard_midcom.admin.user-user_edit_password')
-        {
-            if (!$this->_config->get('allow_manage_accounts'))
-            {
-                throw new midcom_error('Account management is disabled');
-            }
-            $this->_schemadb_name = 'schemadb_account';
-        }
-
         $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
         midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_toolbar($data, $handler_id);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
 
-        // Add jQuery Form handling for generating passwords with AJAX
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
+        $data['controller'] = $this->get_controller('simple', $this->_person);
+
+        switch ($data['controller']->process_form())
+        {
+            case 'save':
+                // Show confirmation for the user
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
+
+            case 'cancel':
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
+        }
+    }
+
+    /**
+     * Show list of the style elements for the currently edited topic component
+     *
+     * @param string $handler_id Name of the used handler
+     * @param mixed &$data Data passed to the show method
+     */
+    public function _show_edit($handler_id, array &$data)
+    {
+        midgard_admin_asgard_plugin::asgard_header();
+
+        $data['handler_id'] = $handler_id;
+        $data['l10n'] =& $this->_l10n;
+        $data['person'] =& $this->_person;
+        midcom_show_style('midcom-admin-user-person-edit');
+
+        midgard_admin_asgard_plugin::asgard_footer();
+    }
+
+    /**
+     * Handler method for listing style elements for the currently used component topic
+     *
+     * @param string $handler_id Name of the used handler
+     * @param mixed $args Array containing the variable arguments passed to the handler
+     * @param mixed &$data Data passed to the show method
+     */
+    public function _handler_edit_account($handler_id, array $args, array &$data)
+    {
+        if (!$this->_config->get('allow_manage_accounts'))
+        {
+            throw new midcom_error('Account management is disabled');
+        }
+        $this->_schemadb_name = 'schemadb_account';
+
+        $this->_person = new midcom_db_person($args[0]);
+        $this->_person->require_do('midgard:update');
 
         // Manually check the username to prevent duplicates
         if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
@@ -145,6 +183,14 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'cancel':
                 return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
+
+        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
+        midcom::get('head')->set_pagetitle($data['view_title']);
+        $this->_prepare_toolbar($data, $handler_id);
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
+
+        // Add jQuery Form handling for generating passwords with AJAX
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
     }
 
     /**
@@ -153,14 +199,14 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_edit($handler_id, array &$data)
+    public function _show_edit_account($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
         $data['handler_id'] = $handler_id;
         $data['l10n'] =& $this->_l10n;
         $data['person'] =& $this->_person;
-        midcom_show_style('midcom-admin-user-person-edit');
+        midcom_show_style('midcom-admin-user-person-edit-account');
 
         if (isset($_GET['f_submit']))
         {
