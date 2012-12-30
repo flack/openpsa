@@ -254,7 +254,10 @@ implements midcom_helper_datamanager2_interfaces_edit
                 'LONGDATE' => strftime('%c'),
                 'SHORTDATE' => strftime('%x'),
                 'TIME' => strftime('%X'),
-                'PERSON' => $person
+                'FIRSTNAME' => $person->firstname,
+                'LASTNAME' => $person->lastname,
+                'USERNAME' => $person->username,
+                'EMAIL' => $person->email,
             );
 
             // Send the message
