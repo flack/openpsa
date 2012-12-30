@@ -5,8 +5,7 @@
     (
         Array
         (
-            'callback' => 'username_exists',
-            'autoload_snippet' => 'file:/org/openpsa/user/config/validation_callbacks.inc',
+            'callback' => array(new org_openpsa_user_validator, 'username_exists'),
         ),
     ),
     'fields' => array
@@ -28,8 +27,7 @@
     (
         Array
         (
-            'callback' => 'email_exists',
-            'autoload_snippet' => 'file:/org/openpsa/user/config/validation_callbacks.inc',
+            'callback' => array(new org_openpsa_user_validator, 'email_exists'),
         ),
     ),
     'fields' => array
@@ -52,8 +50,7 @@
     (
         Array
         (
-            'callback' => 'email_and_username_exist',
-            'autoload_snippet' => 'file:/org/openpsa/user/config/validation_callbacks.inc',
+            'callback' => array(new org_openpsa_user_validator, 'email_and_username_exist'),
         ),
     ),
     'fields' => array

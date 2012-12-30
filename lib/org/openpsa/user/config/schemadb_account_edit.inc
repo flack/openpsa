@@ -5,8 +5,7 @@
     (
         array
         (
-            'callback' => 'validate_edit_form',
-            'autoload_snippet' => 'file:/org/openpsa/user/config/validation_callbacks.inc',
+            'callback' => array(new org_openpsa_user_validator, 'validate_edit_form'),
         ),
     ),
 

@@ -5,8 +5,7 @@
     (
         Array
         (
-            'callback' => 'is_username_available',
-            'autoload_snippet' => 'file:/org/openpsa/user/config/validation_callbacks.inc',
+            'callback' => array(new org_openpsa_user_validator, 'is_username_available'),
         ),
     ),
 
