@@ -12,9 +12,11 @@
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
+implements midcom_helper_datamanager2_interfaces_nullstorage
 {
-    private $_person = null;
+    private $_person;
+
+    private $_account;
 
     private $_schemadb_name = 'schemadb_person';
 
@@ -27,8 +29,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _prepare_toolbar(&$data, $handler_id)
     {
-        if (   $handler_id !== '____mfa-asgard_midcom.admin.user-user_edit_account'
-            && $this->_config->get('allow_manage_accounts')
+        if (   $this->_config->get('allow_manage_accounts')
             && $this->_person)
         {
             $data['asgard_toolbar']->add_item
@@ -45,21 +46,12 @@ implements midcom_helper_datamanager2_interfaces_edit
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/account/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit account', 'midcom.admin.user'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
             );
 
         }
-        $data['asgard_toolbar']->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('midcom.admin.user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            )
-        );
 
         midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
     }
@@ -69,7 +61,32 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function load_schemadb()
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get($this->_schemadb_name));
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get($this->_schemadb_name));
+        if ($this->_schemadb_name == 'schemadb_account')
+        {
+            if (   isset($_POST['username'])
+                && trim($_POST['username']) == '')
+            {
+                // Remove the password requirement if there is no username present
+                foreach ($schemadb as $key => $schema)
+                {
+                    if (isset($schema->fields['password']))
+                    {
+                        $schemadb[$key]->fields['password']['widget_config']['require_password'] = false;
+                    }
+                }
+            }
+        }
+        return $schemadb;
+    }
+
+    public function get_schema_defaults()
+    {
+        return array
+        (
+            'username' => $this->_account->get_username(),
+            'person' => $this->_person->guid
+        );
     }
 
     /**
@@ -84,11 +101,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:update');
 
-        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
-        midcom::get('head')->set_pagetitle($data['view_title']);
-        $this->_prepare_toolbar($data, $handler_id);
-        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
-
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
         switch ($data['controller']->process_form())
@@ -101,6 +113,12 @@ implements midcom_helper_datamanager2_interfaces_edit
             case 'cancel':
                 return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
+
+        $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_person->name);
+        midcom::get('head')->set_pagetitle($data['view_title']);
+        $this->_prepare_toolbar($data, $handler_id);
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
+        $this->add_breadcrumb("", $data['view_title']);
     }
 
     /**
@@ -134,48 +152,18 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             throw new midcom_error('Account management is disabled');
         }
-        $this->_schemadb_name = 'schemadb_account';
 
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:update');
+        $this->_account = new midcom_core_account($this->_person);
+        $this->_schemadb_name = 'schemadb_account';
 
-        // Manually check the username to prevent duplicates
-        if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
-            && isset($_POST['username']))
-        {
-            // If there was a username, check against duplicates
-            if ($_POST['username'])
-            {
-                $qb = midcom_db_person::new_query_builder();
-                $qb->add_constraint('username', '=', $_POST['username']);
-                $qb->add_constraint('guid', '<>', $this->_person->guid);
-
-                // If matches were found, add an error message
-                if ($qb->count() > 0)
-                {
-                    midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.admin.user', 'midcom.admin.user'), sprintf(midcom::get('i18n')->get_string('username %s is already in use', 'midcom.admin.user'), $_REQUEST['username']));
-                    unset($_POST['midcom_helper_datamanager2_save']);
-                    unset($_REQUEST['midcom_helper_datamanager2_save']);
-                }
-            }
-            else
-            {
-                // Remove the password requirement if there is no username present
-                foreach ($this->_schemadb as $key => $schema)
-                {
-                    if (isset($schema->fields['password']))
-                    {
-                        $this->_schemadb[$key]->fields['password']['widget_config']['require_password'] = false;
-                    }
-                }
-            }
-        }
-
-        $data['controller'] = $this->get_controller('simple', $this->_person);
+        $data['controller'] = $this->get_controller('nullstorage');
 
         switch ($data['controller']->process_form())
         {
             case 'save':
+                $this->_save_account($data['controller']);
                 // Show confirmation for the user
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
@@ -186,11 +174,32 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
         midcom::get('head')->set_pagetitle($data['view_title']);
-        $this->_prepare_toolbar($data, $handler_id);
-        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
+        midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
+
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/edit/" . $this->_person->guid . '/', $this->_person->name);
+        $this->add_breadcrumb("", $data['view_title']);
 
         // Add jQuery Form handling for generating passwords with AJAX
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
+    }
+
+    public function _save_account(midcom_helper_datamanager2_controller $controller)
+    {
+        $password = $controller->formmanager->_types['password']->value;
+        $username = $controller->formmanager->_types['username']->value;
+
+        if (   trim($username) == ''
+            || trim($password) == '')
+        {
+            $this->_account->delete();
+        }
+        else
+        {
+            $this->_account->set_username($username);
+            $this->_account->set_password($password);
+            $this->_account->save();
+        }
     }
 
     /**

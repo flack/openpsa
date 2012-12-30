@@ -1,11 +1,16 @@
-// This is for a midcom_db_person object
-'default' => array 
+'default' => array
 (
-    'description' => 'person',
-    'l10n_db' => 'midcom.admin.user',
-    'fields' => array 
+    'description' => 'account schema',
+    'validation' => array
     (
-        'username' => array 
+        array
+        (
+            'callback' => array(new midcom_admin_user_validator, 'is_username_available'),
+        ),
+    ),
+    'fields' => array
+    (
+        'username' => array
         (
             // COMPONENT-REQUIRED
             'title' => 'username',
@@ -14,14 +19,21 @@
             'widget' => 'text',
             'index_method' => 'noindex',
         ),
-        'password' => array 
+        'password' => array
         (
             // COMPONENT-REQUIRED
             'title' => 'password',
-            'storage' => 'password',
+            'storage' => null,
             'type' => 'password',
             'widget' => 'password',
             'index_method' => 'noindex',
+        ),
+        'person' => array
+        (
+            'title'    => 'person',
+            'storage'  => null,
+            'type'     => 'text',
+            'widget'   => 'hidden',
         ),
     )
 )

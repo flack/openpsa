@@ -32,7 +32,7 @@ class midcom_admin_user_validator
                 && (   !isset($fields['person'])
                     || $user->guid != $fields['person']))
             {
-                $result["username"] = midcom::get('i18n')->get_string("username_already_exists", "midcom.admin.user");
+                $result["username"] = sprintf(midcom::get('i18n')->get_string("username %s is already in use", "midcom.admin.user"), $fields['username']);
             }
         }
 
