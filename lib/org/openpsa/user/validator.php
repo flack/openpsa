@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.user
  */
-class org_openpsa_user_validator
+class org_openpsa_user_validator extends midcom_admin_user_validator
 {
     /**
      * Validation rules for edit forms
@@ -49,34 +49,6 @@ class org_openpsa_user_validator
             (
                 'current_password' => midcom::get('i18n')->get_string("wrong current password", "org.openpsa.user")
             );
-        }
-        return true;
-    }
-
-    /**
-     * Test is username is available
-     *
-     * @var array $fields The form's data
-     * @return mixed True on success, array of error messages otherwise
-     */
-    public function is_username_available(array $fields)
-    {
-        $result = array();
-        if (!empty($fields["username"]))
-        {
-            $user = midcom::get('auth')->get_user_by_name($fields["username"]);
-
-            if (   $user
-                && (   !isset($fields['person'])
-                    || $user->guid != $fields['person']))
-            {
-                $result["username"] = midcom::get('i18n')->get_string("username_already_exists", "org.openpsa.user");
-            }
-        }
-
-        if (!empty($result))
-        {
-            return $result;
         }
         return true;
     }

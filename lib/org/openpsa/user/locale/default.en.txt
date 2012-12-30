@@ -146,10 +146,6 @@ Send welcome mail?
 User is online
 ---STRINGEND
 
----STRING username_already_exists
-This username is already taken.
----STRINGEND
-
 ---STRING password_too_weak
 Password too weak.
 ---STRINGEND

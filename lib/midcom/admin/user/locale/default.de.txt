@@ -266,6 +266,10 @@ Benutzerkonto von %s wurde entzogen
 Benutzername
 ---STRINGEND
 
+---STRING username %s is already in use
+Der Benutzername "%s" ist bereits vergeben
+---STRINGEND
+
 ---STRING variable
 Variable
 ---STRINGEND

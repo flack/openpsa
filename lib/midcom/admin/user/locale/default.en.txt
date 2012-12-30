@@ -278,6 +278,10 @@ User account revoked for %s
 Username
 ---STRINGEND
 
+---STRING username %s is already in use
+This username "%s" is already taken.
+---STRINGEND
+
 ---STRING variable
 Variable
 ---STRINGEND

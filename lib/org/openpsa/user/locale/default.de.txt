@@ -154,10 +154,6 @@ Willkommens-Mail schicken?
 Der Benutzer ist online
 ---STRINGEND
 
----STRING username_already_exists
-Dieser Benutzername ist bereits vergeben
----STRINGEND
-
 ---STRING password_too_weak
 Passwort zu schwach
 ---STRINGEND
