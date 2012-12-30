@@ -106,9 +106,14 @@ form.datamanager2 fieldset input
 #midcom_admin_user_passwords label,
 #midcom_admin_user_action_passwords label
 {
-  font-weight: bold;
   display: block;
   margin-top: 1em;
+}
+
+#midcom_admin_user_passwords label .label,
+#midcom_admin_user_action_passwords label
+{
+  font-weight: bold;
 }
 
 #midcom_admin_user_action_passwords h1
