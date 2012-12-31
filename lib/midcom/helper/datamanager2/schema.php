@@ -313,7 +313,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     /**
      * Get snippet link. A small helper for generating link for the requested schemadb
      *
-     * @param String $schemadb
+     * @param String $path
      * @return String Link tag to the loaded object
      */
     private function _get_snippet_link($path)

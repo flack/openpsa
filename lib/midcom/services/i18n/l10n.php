@@ -398,9 +398,9 @@ class midcom_services_i18n_l10n
      * @param string $charset    Charset name.
      * @see midcom_services_i18n::set_charset()
      */
-    function set_charset ($encoding)
+    function set_charset ($charset)
     {
-        $this->_charset = strtolower($encoding);
+        $this->_charset = strtolower($charset);
     }
 
     /**

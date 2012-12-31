@@ -29,7 +29,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */
-    function import($log, $person_id)
+    function import(array $log, $person_id)
     {
         $this->log = new org_routamc_positioning_log_dba();
         $this->log->importer = 'manual';

@@ -216,7 +216,7 @@ class midcom_helper_nav
      * Checks if the given node is within the tree of another node.
      *
      * @param int    $node_id    The node in question.
-     * @param int    $root_node    The root node to use.
+     * @param int    $root_id    The root node to use.
      * @return boolean                True, if the node is a subnode of the root node, false otherwise.
      */
     function is_node_in_tree($node_id, $root_id)

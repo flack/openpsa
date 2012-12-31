@@ -563,13 +563,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * Update an existing attachment with a new file (this keeps GUIDs stable).
      *
      * @param string $identifier The identifier of the attachment to update.
-     * @param string $tmpname The name of the source file.
      * @param string $filename The filename to use after processing.
      * @param string $title The new title of the attachment, set this to null to
      *     keep the original title unchanged.
      * @param string $mimetype The new MIME Type of the file, set this to null to
      *     keep the original title unchanged. If you are unsure of the mime type,
      *     set this to '' not null, this will enforce a redetection.
+     * @param string $tmpname The name of the source file.
      * @param boolean $autodelete Set this to true (the default) to automatically delete the
      *     file after successful processing.
      * @return boolean Indicating success.
@@ -640,12 +640,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * Update an existing attachment with a new file (this keeps GUIDs stable).
      *
      * @param string $identifier The identifier of the new attachment.
-     * @param resource $handle A file handle prepared to read of the the source file.
+     * @param string $filename The filename of the new attachment.
      * @param string $title The new title of the attachment, set this to null to
      *     keep the original title unchanged.
      * @param string $mimetype The new MIME Type of the file, set this to null to
      *     keep the original title unchanged. If you are unsure of the mime type,
      *     set this to '' not null, this will enforce a redetection.
+     * @param resource $source A file handle prepared to read of the source file.
      * @param boolean $autoclose Set this to true if the file handle should automatically be closed
      *     after successful processing.
      * @param string $tmpfile In case you have a filename to the source handle, you should specify

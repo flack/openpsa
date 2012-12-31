@@ -751,6 +751,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Rotates applies a rotational filter to all images under given main identifier
      *
+     * @param string $images_identifier image to rotate
      * @param string $direction direction to rotate to
      * @return boolean indicating success/failure
      */

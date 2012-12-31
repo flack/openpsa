@@ -17,9 +17,10 @@ interface midcom_services_rcs_backend
      * This function saves a revision of an object, creating a revision
      * if none exists
      *
+     * @param midcom_core_dbaobject &$object the object to save.
+     * @param string $updatemessage the message to be saved with the object.
      * @return boolean true if save succeeded.
-     * @throws MIDCOM_ERRCRIT on serious errors.
-     * @param string $comment the message to be saved with the object.
+     * @throws midcom_error on serious errors.
      */
     public function update(&$object, $updatemessage = null);
 

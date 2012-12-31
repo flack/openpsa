@@ -105,7 +105,7 @@ class org_openpsa_projects_workflow
      * Shortcut for creating status object
      *
      * @param org_openpsa_projects_task_dba &$task The task we're working on
-     * @param integer $status The status to convert
+     * @param integer $status_type The status to convert
      * @param integer $target_person The person ID, if any
      * @param string $comment The status comment, if any
      */

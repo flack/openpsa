@@ -362,8 +362,8 @@ EOT;
      *
      * Be liberal with input, strict with output
      *
-     * @param mixed $input  User input
-     * @return String       Formatted date
+     * @param array $results  User input
+     * @return string       Formatted date
      */
     public function check_user_input($results)
     {

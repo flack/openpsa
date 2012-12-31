@@ -128,11 +128,11 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
      * - device code
      * - time
      *
-     * @param array $log Log entry in Array format specific to importer
+     * @param array $position Log entry in Array format specific to importer
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */
-    function import($position, $person_id)
+    function import(array $position, $person_id)
     {
         $this->log = new org_routamc_positioning_log_dba();
         $this->log->importer = 'instamapper';

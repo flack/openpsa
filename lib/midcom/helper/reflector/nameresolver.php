@@ -377,7 +377,7 @@ class midcom_helper_reflector_nameresolver
      * number to it (before this we make some educated guesses about a
      * good starting value)
      *
-     * @param string $title_property, property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
+     * @param string $title_property Property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
      * @param string $extension The file extension, when working with attachments
      * @return string string usable as name or boolean false on critical failures
      */

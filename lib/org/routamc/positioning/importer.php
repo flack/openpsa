@@ -78,7 +78,7 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
      * @param integer $person_id ID of the person to import logs for
      * @return boolean Indicating success.
      */
-    abstract function import($logs, $person_id);
+    abstract function import(array $logs, $person_id);
 
     /**
      * This is a static factory method which lets you dynamically create importer instances.

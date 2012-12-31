@@ -382,6 +382,7 @@ class midcom_core_context
      * attached to $object. The assigned component is used to determine which
      * parameter domain has to be used.
      *
+     * @param int $context_id The context ID
      * @param midcom_db_topic $object    The node from which to load the configuration.
      * @return midcom_helper_configuration    Reference to the newly constructed configuration object.
      */

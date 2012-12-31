@@ -169,8 +169,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     /**
      * Helper function that saves object QB constraints for later use
      *
-     * @param string $field The DB field
-     * @param string $direction The direction (ASC, DESC)
+     * @param integer $limit The query limit
      */
     public function set_object_limit($limit)
     {

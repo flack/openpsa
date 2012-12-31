@@ -60,7 +60,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * Populate the toolbar
      *
-     * @param String $today_path    Path to the today's calendar
+     * @param string $path    Path to calendar
      */
     private function _populate_toolbar($path = null)
     {
@@ -574,8 +574,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
     /**
      * Show the week view
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
+     * @param string $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */

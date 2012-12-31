@@ -80,7 +80,8 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     /**
      * Find out how a person prefers to get the event notification
      *
-     * @param string $action Key of the event in format component:event
+     * @param string $component Component name
+     * @param string $action Event name
      * @param string $recipient GUID of the receiving person
      * @return Array options supported by user
      */

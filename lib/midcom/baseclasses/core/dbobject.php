@@ -1588,9 +1588,9 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param mixed $privilege Either the full privilege object (midcom_core_privilege) to set or the name of the privilege (string).
      *     If the name was specified, the other parameters must be specified as well.
-     * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW (invalid if $privilege is a midcom_core_privilege).
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
      *     active user if authenticated or to 'EVERYONE' otherwise (invalid if $privilege is a midcom_core_privilege).
+     * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW (invalid if $privilege is a midcom_core_privilege).
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges
      *     (invalid if $privilege is a midcom_core_privilege).
      * @return bool Indicating success.

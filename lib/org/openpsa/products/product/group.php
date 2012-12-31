@@ -72,6 +72,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
      * @param mixed $up            Either the ID or GUID of the product group
      * @param string $prefix       Prefix for the code
      * @param string $keyproperty  Property to use as the key of the resulting array
+     * @param boolean $order_by_score Set to true to sort by metadata score
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      * @return array
      */

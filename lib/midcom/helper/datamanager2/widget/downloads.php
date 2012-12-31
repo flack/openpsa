@@ -305,9 +305,11 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Adds a row for an existing attachment
      *
+     * @param string $identifier Row identifier
+     * @param array $info Row data
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
      */
-    private function _add_attachment_row($identifier, $info, $frozen)
+    private function _add_attachment_row($identifier, array $info, $frozen)
     {
         // Initialize the string
         $sortable = '';

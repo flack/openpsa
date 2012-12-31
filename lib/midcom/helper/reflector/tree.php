@@ -313,7 +313,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Method to get rendered path for object
      *
-     * @param midgard_object $object, the object to get path for
+     * @param midgard_object &$object, the object to get path for
      * @param string $separator the string used to separate path components
      * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return string resolved path
@@ -347,7 +347,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get path components for object
      *
-     * @param midgard_object $object, the object to get path for
+     * @param midgard_object &$object, the object to get path for
      * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return array path components
      */

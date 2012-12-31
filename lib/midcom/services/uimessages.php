@@ -225,7 +225,7 @@ class midcom_services_uimessages
     /**
      * Show the message stack via javascript calls or simple html
      *
-     * @param boolean $show Show simple HTML
+     * @param boolean $show_simple Show simple HTML
      */
     function show($show_simple = false)
     {

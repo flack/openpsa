@@ -204,7 +204,8 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * This is a little helper that tries to look up a parent GUID in the memory
      * cache's PARENT data group. If it is not found, false is returned.
      *
-     * @param string $guid The guid of which a parent is searched.
+     * @param string $object_guid The guid of which a parent is saved.
+     * @param string $parent_guid The guid of the parent which is saved.
      * @return string The parent GUID, -1 if there is no parent object or false on failure.
      */
     function update_parent_guid($object_guid, $parent_guid)

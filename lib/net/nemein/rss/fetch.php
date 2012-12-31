@@ -725,7 +725,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Cleans up old, removed items from feeds
-     * @param array $item Feed item as provided by MagpieRSS
+     *
+     * @param array $items Feed item as provided by MagpieRSS
      */
     function clean($items)
     {

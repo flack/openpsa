@@ -700,9 +700,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * if you override the function, you shouldn't call the base class implementation unless
      * you really need it.
      *
-     * @param string $guid The permalink GUID that should be looked up.
      * @param midcom_db_topic $topic the Topic to look up.
      * @param midcom_helper_configuration $config The configuration used for the given topic.
+     * @param string $guid The permalink GUID that should be looked up.
      * @return string The local URL (without leading slashes) or null on failure.
      */
     public function _on_resolve_permalink($topic, $config, $guid)

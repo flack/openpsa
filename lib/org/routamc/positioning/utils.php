@@ -283,13 +283,13 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      * Note: If you set a max distance you may not always get the number of items specified in the limit.
      *
      * @param string $class MidCOM DBA class to query
-     * @param array $position Center position
+     * @param array $center Center position
      * @param integer $limit How many results to return
      * @param integer $max_distance Maximum distance of returned objects in kilometers, or null if any
      * @param float $modifier
      * @return array array of MidCOM DBA objects sorted by proximity
      */
-    function get_closest($class, $center, $limit, $max_distance = null, $modifier = 0.15)
+    function get_closest($class, array $center, $limit, $max_distance = null, $modifier = 0.15)
     {
         $classname = org_routamc_positioning_utils::get_positioning_class($class);
         $direct = false;

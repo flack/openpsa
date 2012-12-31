@@ -206,8 +206,8 @@ class midcom_helper__styleloader
      * "/rootstyle/style/style/element".
      *
      * @todo complete documentation
-     * @param string $path        The path to retrieve
-     * @param int $rootstyle_id    ???
+     * @param string $path      The path to retrieve
+     * @param int $rootstyle    ???
      * @return    int ID of the matching style or false
      */
     public function get_style_id_from_path($path, $rootstyle = 0)
