@@ -499,34 +499,21 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     private function _object_to_jsdata(&$object)
     {
-        $id = @$object->id;
-        $guid = @$object->guid;
+        $jsdata = array
+        (
+            'id' => (string) @$object->id,
+            'guid' => @$object->guid,
+            'pre_selected' => true
+        );
 
-        $jsdata = "{";
-
-        $jsdata .= "id: '{$id}',";
-        $jsdata .= "guid: '{$guid}',";
-        $jsdata .= "pre_selected: true,";
-
-        $hi_count = count($this->_schemadb['object']->fields);
-        $i = 1;
         foreach ($this->_schemadb['object']->fields as $field => $field_data)
         {
             $value = @$object->$field;
             $value = rawurlencode($value);
-            $jsdata .= "{$field}: '{$value}'";
-
-            if ($i < $hi_count)
-            {
-                $jsdata .= ", ";
-            }
-
-            $i++;
+            $jsdata[$field] = $value;
         }
 
-        $jsdata .= "}";
-
-        return $jsdata;
+        return json_encode($jsdata);
     }
 
     /**
