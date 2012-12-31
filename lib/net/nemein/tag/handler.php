@@ -542,7 +542,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             default:
                 // Invalid match rule
                 return false;
-                break;
         }
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('fromClass', 'IN', $classes);
