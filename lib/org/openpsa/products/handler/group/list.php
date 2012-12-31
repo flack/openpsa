@@ -328,10 +328,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
-        }
-
-        if ($this->_request_data['group'])
-        {
             $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
             $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
 
@@ -346,33 +342,28 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $allow_create_product = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
 
-        foreach (array_keys($this->_request_data['schemadb_group']) as $name)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['parent_group']}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb_group'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                    MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
-                )
-            );
-        }
+        $this->_add_schema_buttons('schemadb_group', 'new-dir', '', $allow_create_group);
+        $this->_add_schema_buttons('schemadb_product', 'new-text', 'product/', $allow_create_product);
 
-        foreach (array_keys($this->_request_data['schemadb_product']) as $name)
+        if (   $this->_config->get('enable_productlinks')
+            && isset($this->_request_data['schemadb_productlink']))
         {
-            if (isset($this->_request_data['schemadb_product'][$name]->customdata['icon']))
+            $this->_request_data['datamanager_productlink'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_productlink']);
+            $this->_add_schema_buttons('schemadb_productlink', 'new-text', 'productlink/', $allow_create_product);
+        }
+    }
+
+    private function _add_schema_buttons($schemadb_name, $default_icon, $prefix, $allowed)
+    {
+        foreach (array_keys($this->_request_data[$schemadb_name]) as $name)
+        {
+            if (isset($this->_request_data[$schemadb_name][$name]->customdata['icon']))
             {
-                $icon = $this->_request_data['schemadb_product'][$name]->customdata['icon'];
+                $icon = $this->_request_data[$schemadb_name][$name]->customdata['icon'];
             }
             else
             {
-                $icon = 'stock-icons/16x16/new-text.png';
+                $icon = 'stock-icons/16x16/' . $default_icon . '.png';
             }
             $create_url = $name;
 
@@ -380,53 +371,21 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 $create_url = $this->_request_data['parent_group'] . '/' . $create_url;
             }
+
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "product/create/{$create_url}/",
+                    MIDCOM_TOOLBAR_URL => $prefix . "create/{$create_url}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
+                        $this->_l10n->get($this->_request_data[$schemadb_name][$name]->description)
                     ),
                     MIDCOM_TOOLBAR_ICON => $icon,
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
+                    MIDCOM_TOOLBAR_ENABLED => $allowed,
                 )
             );
-        }
-
-        if (   $this->_config->get('enable_productlinks')
-            && isset($this->_request_data['schemadb_productlink']))
-        {
-            $this->_request_data['datamanager_productlink'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_productlink']);
-            foreach (array_keys($this->_request_data['schemadb_productlink']) as $name)
-            {
-                if (isset($this->_request_data['schemadb_productlink'][$name]->customdata['icon']))
-                {
-                    $icon = $this->_request_data['schemadb_productlink'][$name]->customdata['icon'];
-                }
-                else
-                {
-                    $icon = 'stock-icons/16x16/new-text.png';
-                }
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "productlink/create/{$this->_request_data['parent_group']}/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($this->_request_data['schemadb_productlink'][$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                        MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-                    )
-                );
-            }
         }
     }
 
