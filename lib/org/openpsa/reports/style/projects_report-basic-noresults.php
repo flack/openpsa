@@ -12,7 +12,8 @@ if (   !array_key_exists('title', $report)
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
     <head>
         <title>OpenPSA - &(report['title']);</title>
-        <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/projects-common.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/common.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/projects.css" />
     </head>
     <body>
         <div class="error">
