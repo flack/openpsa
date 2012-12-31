@@ -116,56 +116,24 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         return $args;
     }
 
-    // metaWeblog.newPost
-    function newPost($message)
+    private function _apply_data(array $data, midcom_db_article $article)
     {
-        $args = $this->_params_to_args($message);
-
-        if (count($args) != 5)
-        {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Invalid arguments.');
-        }
-
-        if ($args[0] != $this->_content_topic->guid)
-        {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Blog ID does not match this folder.');
-        }
-
-        if (!midcom::get('auth')->login($args[1], $args[2]))
-        {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
-        }
-        midcom::get('auth')->initialize();
-
-        if (   !array_key_exists('title', $args[3])
-            || $args[3]['title'] == '')
-        {
-            // Create article with title coming from datetime
-            $new_title = strftime('%x %X');
-        }
-        else
-        {
-            $new_title = html_entity_decode($args[3]['title'], ENT_QUOTES, 'UTF-8');
-        }
-
-        $article = $this->_create_article($new_title);
-        if (   !$article
-            || !$article->guid)
-        {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create article: ' . midgard_connection::get_error_string());
-        }
-
         if (!$this->_datamanager->autoset_storage($article))
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to initialize DM2 for article: ' . midgard_connection::get_error_string());
         }
 
-        foreach ($args[3] as $field => $value)
+        foreach ($data as $field => $value)
         {
             switch ($field)
             {
                 case 'title':
-                    $this->_datamanager->types['title']->value = $new_title;
+                    $value = trim(html_entity_decode($value, ENT_QUOTES, 'UTF-8'));
+                    if ($value == '')
+                    {
+                        $value = strftime('%x %X');
+                    }
+                    $this->_datamanager->types['title']->value = $value;
                     break;
 
                 case 'mt_excerpt':
@@ -178,7 +146,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
                 case 'link':
                     // TODO: We may have to bulletproof this a bit
-                    $this->_datamanager->types['name']->value = str_replace('.html', '', basename($args[3]['link']));
+                    $this->_datamanager->types['name']->value = str_replace('.html', '', basename($value));
                     break;
 
                 case 'categories':
@@ -218,11 +186,46 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
                     break;
             }
         }
-
         if (!$this->_datamanager->save())
         {
-            $article->delete();
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to update article: ' . midgard_connection::get_error_string());
+        }
+        return true;
+    }
+
+    // metaWeblog.newPost
+    function newPost($message)
+    {
+        $args = $this->_params_to_args($message);
+
+        if (count($args) != 5)
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Invalid arguments.');
+        }
+
+        if ($args[0] != $this->_content_topic->guid)
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Blog ID does not match this folder.');
+        }
+
+        if (!midcom::get('auth')->login($args[1], $args[2]))
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
+        }
+        midcom::get('auth')->initialize();
+
+        $article = $this->_create_article($new_title);
+        if (   !$article
+            || !$article->guid)
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create article: ' . midgard_connection::get_error_string());
+        }
+
+        $response = $this->_apply_data($args[3], $article);
+        if (true !== $response)
+        {
+            $article->delete();
+            return $response;
         }
 
         // TODO: Map the publish property to approval
@@ -335,73 +338,11 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . $e->getMessage());
         }
 
-        if (!$this->_datamanager->autoset_storage($article))
+        $response = $this->_apply_data($args[3], $article);
+        if (true !== $response)
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to initialize DM2 for article: ' . midgard_connection::get_error_string());
-        }
-
-        foreach ($args[3] as $field => $value)
-        {
-            switch ($field)
-            {
-                case 'title':
-                    $this->_datamanager->types['title']->value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-                    break;
-
-                case 'mt_excerpt':
-                    $this->_datamanager->types['abstract']->value = $value;
-                    break;
-
-                case 'description':
-                    $this->_datamanager->types['content']->value = $value;
-                    break;
-
-                case 'link':
-                    // TODO: We may have to bulletproof this a bit
-                    $this->_datamanager->types['name']->value = str_replace('.html', '', basename($args[3]['link']));
-                    break;
-
-                case 'categories':
-                    if (array_key_exists('categories', $this->_datamanager->types))
-                    {
-                        $this->_datamanager->types['categories']->selection = $value;
-                        break;
-                    }
-
-                case 'http://www.georss.org/georss/':
-                    if ($this->_positioning)
-                    {
-                        foreach ($value as $feature => $val)
-                        {
-                            switch ($feature)
-                            {
-                                case 'point':
-
-                                    $coordinates = explode(' ', $val);
-                                    if (count($coordinates) != 2)
-                                    {
-                                        break;
-                                    }
-
-                                    $log = new org_routamc_positioning_log_dba();
-                                    $log->date = $article->metadata->published;
-                                    $log->latitude = (float) $coordinates[0];
-                                    $log->longitude = (float) $coordinates[1];
-                                    $log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_MANUAL;
-                                    $log->create();
-
-                                    break;
-                            }
-                            // TODO: Handle different relationshiptags as per http://georss.org/simple/
-                        }
-                    }
-                    break;
-            }
-        }
-
-        if (!$this->_datamanager->save())
-        {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to update article: ' . midgard_connection::get_error_string());
+            $article->delete();
+            return $response;
         }
 
         // TODO: Map the publish property to approval
