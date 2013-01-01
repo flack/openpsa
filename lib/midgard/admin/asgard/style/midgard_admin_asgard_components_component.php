@@ -20,11 +20,10 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     $status = 'passive';
                 }
 
-                // TODO: Replace gravatar with photo from Midgard site as soon as we have a URL method for it
                 $gravatar_url  = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($maintainer['email']) . "&amp;size=20";
-                $gravatar_url .= '&amp;default=' . urlencode('http://www.midgard-project.org/midcom-static/stock-icons/16x16/stock_person.png');
+                $gravatar_url .= '&amp;default=' . urlencode(midcom::get()->get_host_prefix() . 'midcom-static/stock-icons/16x16/stock_person.png');
 
-                echo "<li class=\"{$status} vcard\"><span class=\"photoarea\"><img class=\"photo\" src=\"{$gravatar_url}\" /></span><a href=\"mailto:{$maintainer['email']}\" class=\"email\"><span class=\"fn\">{$maintainer['name']}</a></a> (<a href=\"http://www.midgard-project.org/community/account/view/{$username}/\">{$username}</a>)</li>\n";
+                echo "<li class=\"{$status} vcard\"><span class=\"photoarea\"><img class=\"photo\" src=\"{$gravatar_url}\" /></span><a href=\"mailto:{$maintainer['email']}\" class=\"email\"><span class=\"fn\">{$maintainer['name']}</a></a> (<a href=\"https://github.com/{$username}/\">{$username}</a>)</li>\n";
             }
 
             echo "</ul>\n";
