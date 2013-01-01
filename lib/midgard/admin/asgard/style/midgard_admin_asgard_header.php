@@ -18,8 +18,8 @@ $pref_found = false;
 
 if (($width = midgard_admin_asgard_plugin::get_preference('offset')))
 {
-    $navigation_width = $width - 40;
-    $content_offset = $width + 2;
+    $navigation_width = $width - 31;
+    $content_offset = $width + 1;
     $pref_found = true;
 }
 

@@ -92,6 +92,7 @@ p
 #navigation div.chapter h3
 {
   background-color: #d3d7cf;
+  color: #663;
   text-align:center;
   font-size: 100%;
   margin-bottom: 6px;
@@ -144,6 +145,7 @@ p
     display: block !important;
     margin: 1px 3px;
     border-radius: 3px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .7);
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li a img
 {
@@ -410,6 +412,12 @@ p
     display: none;
 }
 
+#content .object_edit fieldset.radiobox label
+{
+    float: none;
+    display: inline;
+}
+
 #content select.language_chooser option.exists
 {
     font-weight: bold;
@@ -441,7 +449,7 @@ p
     border-left: 2px solid #ffffff;
     border-right: 3px solid #babdb6;
     border-bottom: 3px solid #babdb6;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 #container a:link,
@@ -493,7 +501,7 @@ p
 #container #toolbar ul li button
 {
   display: inline-block;
-  border-radius: 3px;
+  border-radius: 6px;
   padding: 4px;
   margin: 0;
   white-space: nowrap;
@@ -515,7 +523,8 @@ p
 
 #container #toolbar ul li span.toolbar_label
 {
-    padding-right: 3px
+    padding-right: 3px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .7);
 }
 
 #container #toolbar ul li button
@@ -540,9 +549,10 @@ p
 
 #breadcrumb
 {
+  color: #663;
   margin-bottom: 0.5em;
+  margin-left: 0.5em;
   font-size: 90%;
-  border-bottom: solid 1px black;
   width: 100%;
 }
 
@@ -593,9 +603,10 @@ p
 
 #object_metadata
 {
+  color: #663;
   font-size: 80%;
   margin-top: 2em;
-  border-top: solid 1px black;
+  margin-left: .5em;
   clear: right;
 }
 
@@ -661,7 +672,6 @@ p
   top: 0;
   bottom: 0;
   left: 230px;
-  margin-left: -6px;
   width: 10px;
   cursor: w-resize;
   cursor: col-resize;
@@ -684,6 +694,7 @@ p
 {
   background-color: #eeeeef;
   visibility: visible;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .4);
 }
 
 #container #content div.quicklinks
@@ -770,6 +781,7 @@ p
 #midgard_admin_asgard_copytree
 {
   float: right;
+  margin-left: 1em
 }
 
 div.midgard_admin_asgard_tree ul
@@ -789,7 +801,8 @@ div.midgard_admin_asgard_tree li.readonly
   font-style: italic;
 }
 
-div.midgard_admin_asgard_tree label
+div.midgard_admin_asgard_tree label,
+.datamanager2 div.midgard_admin_asgard_tree label
 {
   display: inline;
   font-weight: normal;
