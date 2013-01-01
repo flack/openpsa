@@ -77,13 +77,8 @@ p
 
 #navigation ul
 {
-  padding: 0 0 0 1.3em;
+  padding: 0;
   margin: 0;
-}
-
-#navigation ul li
-{
-    position: relative;
 }
 
 #navigation ul li .metadata
@@ -117,16 +112,19 @@ p
   padding-bottom: 1em;
 }
 
+#navigation div.section div.section_content
+{
+  overflow: auto;
+  padding: 5px 0;
+}
 #navigation div.section ul.midgard_admin_asgard_navigation
 {
-  padding: 5px;
   list-style-type: none;
-  overflow: auto;
+  float: left;
+  min-width: 100%
 }
 #navigation div.section ul.midgard_admin_asgard_navigation ul
 {
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
   list-style-type: none;
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li
@@ -142,14 +140,19 @@ p
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li a
 {
+    padding: 1px 0 1px 5px;
     display: block !important;
-    width: 100%;
-    margin-top: 1px;
-    border-radius: 6px;
+    margin: 1px;
+    border-radius: 3px;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li a img
+{
+    vertical-align: text-bottom
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li a:hover
 {
     background-color: white;
+    text-decoration: none;
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li.current a
 {
@@ -526,6 +529,7 @@ p
 #container #toolbar ul li.selected button
 {
     background-color: white;
+    text-decoration: none
 }
 
 #breadcrumb
