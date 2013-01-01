@@ -140,9 +140,9 @@ p
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li a
 {
-    padding: 1px 0 1px 5px;
+    padding: 1px 0 1px 3px;
     display: block !important;
-    margin: 1px;
+    margin: 1px 3px;
     border-radius: 3px;
 }
 #navigation div.section ul.midgard_admin_asgard_navigation li a img
@@ -184,7 +184,7 @@ p
     margin: 0;
     padding: 0.2em 0.5em;
     font-size: 100%;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 #navigation div.expanded h3
@@ -222,10 +222,12 @@ p
   background-color: #555753;
   color: #ffffff;
   padding: 0.5em;
-  margin-left: -0.5em;
-  margin-right: -0.5em;
   margin-bottom: 0;
-  border-radius: 6px;
+  border-radius: 4px;
+}
+#content div.page-title-with-toolbar
+{
+  border-radius: 4px 4px 0 0;
 }
 
 * html #content div.page-title
@@ -286,7 +288,7 @@ p
 {
     clear: left;
     background-color: #EEEEEC;
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 2px 6px;
     margin-bottom: 0.5em;
 }
@@ -391,7 +393,7 @@ p
 {
     border: none;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 4px;
     clear: both
 }
@@ -468,24 +470,22 @@ p
   display: block;
   list-style: none;
   background-color: #eeeeef;
-  padding: 0.4em 1em;
-  line-height: 22px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  padding: 0.4em 0 0 0.4em;
+  line-height: 18px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 * html #container #toolbar ul
 {
-    padding: 0.4em 0;
     width: 100%;
 }
 
 #container #toolbar ul li,
 #container #toolbar ul li form
 {
-  display: inline;
+  display: inline-block;
   margin: 0;
-  margin-right: 2px;
 }
 
 #container #toolbar ul li a,
@@ -493,10 +493,12 @@ p
 #container #toolbar ul li button
 {
   display: inline-block;
-  border-radius: 6px;
+  border-radius: 3px;
   padding: 4px;
   margin: 0;
   white-space: nowrap;
+  margin-bottom: .4em;
+  margin-right: .2em
 }
 
 #container #toolbar ul li abbr
@@ -508,8 +510,12 @@ p
 #container #toolbar ul li img
 {
     border: none;
-    vertical-align: middle;
-    margin-bottom: 3px;
+    vertical-align: text-bottom;
+}
+
+#container #toolbar ul li span.toolbar_label
+{
+    padding-right: 3px
 }
 
 #container #toolbar ul li button
@@ -721,8 +727,8 @@ p
     background-color: #3465a4;
     color: #ffffff;
     font-family: sans-serif;
-    padding: 2px !important;
-    border-radius: 6px;
+    padding: 2px 4px !important;
+    border-radius: 4px;
     margin-bottom: 4px;
     width: 70%;
     margin-left: auto;

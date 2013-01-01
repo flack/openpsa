@@ -1,11 +1,10 @@
 #content div.components h2
 {
     font-size: 1.2em;
-    margin-bottom: 0px;
     background-color: #eeeeef;
     padding: 0.4em 1em;
     line-height: 22px;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 #content div.components hr
@@ -32,7 +31,7 @@
     overflow: hidden;
     float: left;
     background-color: #EEEEEC;
-    border-radius: 6px;
+    border-radius: 4px;
     margin: 6px;
 }
 
@@ -41,28 +40,36 @@
     margin: 0px;
     margin-bottom: 2px;
     white-space: nowrap;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     background-color: #BABDB6;
     font-size: 100%;
     padding: 0.2em 0.5em;
 }
 
+#content div.components ul li .details
+{
+    padding: 4px 6px;
+}
+
 #content div.components ul li h3 a
 {
-	width: 100%;
-	display:block
+    width: 100%;
+    display:block
 }
- 
+
 #content div.components ul li h3 img
 {
     border: none;
     vertical-align: middle;
 }
 
-#content div.components ul li span
+#content div.components ul li span.version
 {
-	padding-left: 6px;
+    margin-right: 1em;
+    font-family: monospace;
+    font-size: small;
+    color: #222
 }
 
 #content div.components ul.midcom_toolbar
@@ -76,6 +83,7 @@
     white-space: nowrap;
     font-size: smaller;
     height: auto;
+    margin-left: 0;
 }
 
 #content div.components ul.midcom_toolbar li img

@@ -2,11 +2,10 @@ table.midcom_admin_libconfig
 {
   background-color: #eeeeef;
   padding: 0.5em;
-  border-radius: 10px;
+  border-radius: 4px;
   width: auto;
-  border-bottom: solid 1px #000;
-  border-right: solid 1px #000;
-
+  border-bottom: solid 1px #555;
+  border-right: solid 1px #555;
 }
 
 table.midcom_admin_libconfig tr td
@@ -15,27 +14,26 @@ table.midcom_admin_libconfig tr td
     text-align: left;
     vertical-align:top;
     min-width:50%;
+    border-radius: 3px;
 }
 
-table.midcom_admin_libconfig tr.odd
+table.midcom_admin_libconfig tr.odd td
 {
-    background: #cccccc;
-    border-radius: 6px;
-    border: solid 1px #000;
+     background: #cccccc;
+     border: solid 1px #555;
 }
 
-table.midcom_admin_libconfig tr.even
+table.midcom_admin_libconfig tr.even td
 {
-    background: #d3d7cf;
-    border-radius: 6px;
+     background: #d3d7cf;
 }
 
 table.midcom_admin_libconfig tr.header th
 {
   background-color: #dddddf;
-  border-bottom: solid 1px #000;
-  border-right: solid 1px #000;
-  border-radius: 6px;
+  border-bottom: solid 1px #555;
+  border-right: solid 1px #555;
+  border-radius: 3px;
 }
 
 table.midcom_admin_libconfig tr td.key
@@ -51,10 +49,7 @@ table.midcom_admin_libconfig tr td.global
 table.midcom_admin_libconfig tr td.local
 {
     color: #336633;
-
 }
-
-
 
 table.midcom_admin_libconfig tr td ul,
 table.midcom_admin_libconfig tr td ul ul
@@ -87,7 +82,7 @@ table.midcom_admin_libconfig tr td span
 .processing_message
 {
     background: #eeeeef;
-    border-radius: 6px;
+    border-radius: 4px;
     border: solid 1px red;
     margin-top: 1em;
     padding-left: 0.5em;
@@ -98,7 +93,7 @@ div.global
     border-radius: 6px;
     border: solid 1px red;
     background:white;
-    padding: 5px;
+    padding: 4px;
     color: red;
 }
 

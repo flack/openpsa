@@ -1,5 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-toolbar' : '';
 ?>
                 <div id="content">
 
@@ -15,7 +16,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     midcom::get('uimessages')->show_simple();
                     ?>
 
-                    <div class="page-title">
+                    <div class="page-title&(extra_class);">
                         <?php
                         if (midgard_admin_asgard_plugin::get_preference('enable_quicklinks') !== 'no')
                         {
