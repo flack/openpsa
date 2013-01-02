@@ -118,8 +118,6 @@ class midcom_services_permalinks
 
         // Ok, unfortunately, this is not an immediate topic. We try to traverse
         // upwards in the object chain to find a topic.
-        $topic = null;
-
         $parent = $object->get_parent();
 
         while ($parent)
@@ -131,20 +129,15 @@ class midcom_services_permalinks
                 // which point to the outside f.x.
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node()))
                 {
-                    $topic = $parent;
+                    $return_value = $this->_resolve_permalink_in_topic($parent, $guid);
+                    if ($return_value != null)
+                    {
+                        return $return_value;
+                    }
                     break;
                 }
             }
             $parent = $parent->get_parent();
-        }
-
-        if ($topic !== null)
-        {
-            $return_value = $this->_resolve_permalink_in_topic($topic, $guid);
-            if ($return_value != null)
-            {
-                return $return_value;
-            }
         }
 
         // Bad, this means a full scan,
