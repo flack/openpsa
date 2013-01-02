@@ -345,32 +345,21 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         $config =& $data['config'];
         // GUIDs of topics to list articles from.
-        $guids_array = array();
-        $guids_array[] = $data['content_topic']->guid;
+        $guids_array = array($data['content_topic']->guid);
+
         // Resolve any other topics we may need
         $list_from_folders = $config->get('list_from_folders');
         if ($list_from_folders)
         {
             // We have specific folders to list from, therefore list from them and current node
             $guids = explode('|', $config->get('list_from_folders'));
-            foreach ($guids as $guid)
-            {
-                if (   !$guid
-                    || !mgd_is_guid($guid))
-                {
-                    // Skip empty and broken guids
-                    continue;
-                }
-
-                $guids_array[] = $guid;
-            }
+            $guids_array = array_merge($guids_array, array_filter($guids, 'mgd_is_guid'));
         }
 
         /**
          * Ref #1776, expands GUIDs before adding them as constraints, should save query time
          */
-        $topic_ids = array();
-        $topic_ids[] = $data['content_topic']->id;
+        $topic_ids = array($data['content_topic']->id);
         if (!empty($guids_array))
         {
             $mc = midcom_db_topic::new_collector('metadata.deleted', false);
@@ -385,13 +374,11 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $mc = net_nehmer_blog_link_dba::new_collector('topic', $data['content_topic']->id);
             $mc->add_constraint('topic', '=', $data['content_topic']->id);
             $mc->add_order('metadata.published', 'DESC');
-
             $mc->set_limit((int) $config->get('index_entries'));
 
             // Get the results
-            $mc->execute();
-
             $links = $mc->get_values('article');
+
             $qb->begin_group('OR');
                 $qb->add_constraint('id', 'IN', $links);
                 $qb->add_constraint('topic', 'IN', $topic_ids);
