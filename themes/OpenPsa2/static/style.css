@@ -213,13 +213,6 @@ a:hover
   width: 2px;
 }
 
-* html #container #template_openpsa2_resizer
-{
-  position: absolute;
-  top: 0;
-  height: 100%;
-}
-
 #container #template_openpsa2_resizer:hover,
 #container #template_openpsa2_resizer.hover,
 #container #template_openpsa2_resizer.ui-draggable-dragging

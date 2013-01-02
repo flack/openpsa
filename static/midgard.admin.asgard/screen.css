@@ -31,11 +31,6 @@ p
   width: 100%;
 }
 
-* html #container-wrapper
-{
-  height: expression(document.body.offsetHeight - 58);
-}
-
 #container
 {
   padding: 10px 10px 58px;
@@ -230,11 +225,6 @@ p
 #content div.page-title-with-toolbar
 {
   border-radius: 4px 4px 0 0;
-}
-
-* html #content div.page-title
-{
-      width: 100%;
 }
 
 #content div.page-title h1
@@ -484,11 +474,6 @@ p
   border-bottom-right-radius: 4px;
 }
 
-* html #container #toolbar ul
-{
-    width: 100%;
-}
-
 #container #toolbar ul li,
 #container #toolbar ul li form
 {
@@ -680,13 +665,6 @@ p
 #content table.deleted tr td a img
 {
     border: none;
-}
-
-* html #midgard_admin_asgard_resizer
-{
-  position: absolute;
-  top: 0;
-  height: 100%;
 }
 
 #midgard_admin_asgard_resizer:hover,
