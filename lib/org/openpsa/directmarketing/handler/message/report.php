@@ -166,58 +166,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
             if (!isset($link_data['rules'][$link->target]))
             {
-                $link_data['rules'][$link->target] = array
-                (
-                    'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_request_data['message']->campaign),
-                    'type' => 'AND',
-                    'classes' => array
-                    (
-                        array
-                        (
-                            'comment' => $this->_l10n->get('link and message limits'),
-                            'type' => 'AND',
-                            'class' => 'org_openpsa_directmarketing_link_log_dba',
-                            'rules' => array
-                            (
-                                array
-                                (
-                                    'property' => 'target',
-                                    'match' => '=',
-                                    'value' => $link->target,
-                                ),
-                                // PONDER: do we want to limit to this message only ??
-                                array
-                                (
-                                    'property' => 'message',
-                                    'match' => '=',
-                                    'value' => $link->message,
-                                ),
-                            ),
-                        ),
-                        // Add rule that prevents unsubscribed persons from ending up to the smart-campaign ??
-                        array
-                        (
-                            'comment' => $this->_l10n->get('not-unsubscribed -limits'),
-                            'type' => 'AND',
-                            'class' => 'org_openpsa_directmarketing_campaign_member_dba',
-                            'rules' => array
-                            (
-                                array
-                                (
-                                    'property' => 'orgOpenpsaObtype',
-                                    'match' => '<>',
-                                    'value' => org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED,
-                                ),
-                                array
-                                (
-                                    'property' => 'campaign',
-                                    'match' => '=',
-                                    'value' => $this->_request_data['message']->campaign,
-                                ),
-                            ),
-                        ),
-                    ),
-                );
+                $link_data['rules'][$link->target] = $this->_generate_link_rules($link);
             }
             if (!isset($segment_data['rules'][$link->target]))
             {
@@ -273,6 +222,62 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 arsort($segment_data['percentages']['of_recipients']);
             }
         }
+    }
+
+    private function _generate_link_rules(org_openpsa_directmarketing_link_log_dba $link)
+    {
+        return array
+        (
+            'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_request_data['message']->campaign),
+            'type' => 'AND',
+            'classes' => array
+            (
+                array
+                (
+                    'comment' => $this->_l10n->get('link and message limits'),
+                    'type' => 'AND',
+                    'class' => 'org_openpsa_directmarketing_link_log_dba',
+                    'rules' => array
+                    (
+                        array
+                        (
+                            'property' => 'target',
+                            'match' => '=',
+                            'value' => $link->target,
+                        ),
+                        // PONDER: do we want to limit to this message only ??
+                        array
+                        (
+                            'property' => 'message',
+                            'match' => '=',
+                            'value' => $link->message,
+                        ),
+                    ),
+                ),
+                // Add rule that prevents unsubscribed persons from ending up to the smart-campaign ??
+                array
+                (
+                    'comment' => $this->_l10n->get('not-unsubscribed -limits'),
+                    'type' => 'AND',
+                    'class' => 'org_openpsa_directmarketing_campaign_member_dba',
+                    'rules' => array
+                    (
+                        array
+                        (
+                            'property' => 'orgOpenpsaObtype',
+                            'match' => '<>',
+                            'value' => org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED,
+                        ),
+                        array
+                        (
+                            'property' => 'campaign',
+                            'match' => '=',
+                            'value' => $this->_request_data['message']->campaign,
+                        ),
+                    ),
+                ),
+            ),
+        );
     }
 
     private function _calculate_percentages(&$array, &$link)
