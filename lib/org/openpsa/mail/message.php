@@ -143,11 +143,6 @@ class org_openpsa_mail_message
     {
         if (!class_exists('Mail_mime'))
         {
-            @include_once('Mail/mime.php');
-        }
-
-        if (!class_exists('Mail_mime'))
-        {
             debug_add('Mail_mime does not exist, setting text body and aborting', MIDCOM_LOG_WARN);
             $this->_body = $text_body;
             return false;
