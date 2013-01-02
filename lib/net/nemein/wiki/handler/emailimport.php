@@ -36,8 +36,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         }
 
         //Make sure the message_source is POSTed
-        if (   !array_key_exists('message_source', $_POST)
-            || empty($_POST['message_source']))
+        if (empty($_POST['message_source']))
         {
             throw new midcom_error('_POST[\'message_source\'] not present or empty.');
         }

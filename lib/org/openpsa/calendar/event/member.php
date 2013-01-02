@@ -124,7 +124,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     public static function find_free_times($amount, $person, $start, $end)
     {
-        static $event_cache = array();
         $slots = array();
         if (!is_object($person))
         {
@@ -163,18 +162,14 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $events_by_date = array();
         foreach ($eventmembers as $eventmember)
         {
-            if (!array_key_exists($eventmember->eid, $event_cache))
+            try
             {
-                try
-                {
-                    $event_cache[$eventmember->eid] = new org_openpsa_calendar_event_dba($eventmember->eid);
-                }
-                catch (midcom_error $e)
-                {
-                    continue;
-                }
+                $event = org_openpsa_calendar_event_dba::get_cached($eventmember->eid);
             }
-            $event =& $event_cache[$eventmember->eid];
+            catch (midcom_error $e)
+            {
+                continue;
+            }
             $ymd = date('Ymd', $event->start);
             if (array_key_exists($ymd, $events_by_date))
             {
@@ -196,22 +191,16 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             debug_add('none found, adding a dummy one');
             $dummy = new org_openpsa_calendar_event_dba();
             $dummy->start = $stamp;
-            $dummy->end = $stamp+1;
+            $dummy->end = $stamp + 1;
             $events_by_date[$ymd] = array($dummy);
         }
         foreach ($events_by_date as $ymd => $events)
         {
             preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})/', $ymd, $ymd_matches);
-            // TODO: get from persons data based on events weekday
+            // TODO: get from person's data based on event's weekday
             // PONDER: What to do with persons that do not have this data defined ??
             $workday_starts = 8;
             $workday_ends = 16;
-            if (   empty($workday_starts)
-                || empty($workday_ends))
-            {
-                // No work on that day
-                continue;
-            }
 
             $workday_starts_ts = mktime($workday_starts, 0, 0, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
             $workday_ends_ts = mktime($workday_ends, 0, 0, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
@@ -219,18 +208,14 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $last_event = false;
             foreach ($events as $event_key => $event)
             {
-                if ($event->end <= $workday_starts_ts)
+                if (   $event->end <= $workday_starts_ts
+                    || $event->start >= $workday_ends_ts)
                 {
-                    // We need not to consider this event, it ends before we start working
+                    // We need not to consider this event, it is outside the defined workday
                     unset($events[$event_key]);
                     continue;
                 }
-                if ($event->start >= $workday_ends_ts)
-                {
-                    // We need not to consider this event, it starts after we stop working
-                    unset($events[$event_key]);
-                    continue;
-                }
+
                 debug_add("checking event #{$event->id} ({$event->title})");
                 if ($last_end_time === false)
                 {
@@ -252,16 +237,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 if ($diff >= $amount)
                 {
                     // slot found
-                    $slot = array
-                    (
-                        'start' => $last_end_time,
-                        'end' => $event->start,
-                        // PHP5-TODO: These must be copy-by-value
-                        'previous' => $last_event,
-                        'next' => $event,
-                    );
-                    // PHP5-TODO: This must be copy-by-value
-                    $slots[] = $slot;
+                    $slots[] = $this->_create_slot($last_end_time, $event->start, $last_event, $event);
                 }
                 $last_end_time = $event->end;
                 $last_event = $event;
@@ -274,20 +250,22 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             if (   $last_end_time < $workday_ends_ts
                 && (($workday_ends_ts- $last_end_time) >= $amount))
             {
-                $slot = array
-                (
-                    'start' => $last_end_time,
-                    'end' => $workday_ends_ts,
-                    // PHP5-TODO: These must be copy-by-value
-                    'previous' => $last_event,
-                    'next' => false,
-                );
-                // PHP5-TODO: This must be copy-by-value
-                $slots[] = $slot;
+                $slots[] = $this->_create_slot($last_end_time, $workday_ends_ts, $last_event);
             }
         }
 
         return $slots;
+    }
+
+    private function _create_slot($start, $end, $previous, $next = false)
+    {
+        return array
+        (
+            'start' => $start,
+            'end' => $end,
+            'previous' => $previous,
+            'next' => $next,
+        );
     }
 }
 ?>

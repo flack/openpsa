@@ -71,8 +71,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         // Must not have hours reported already
         $qb->add_constraint('hoursReported', '=', 0);
         $eventmembers = $qb->execute();
-        if (   !is_array($eventmembers)
-            || count ($eventmembers) < 1)
+        if (empty($eventmembers))
         {
             midcom::get('auth')->drop_sudo();
             return;
@@ -107,8 +106,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             }
             $links =& $event_links[$event->guid];
             // These checks are done here (in stead of few lines above) on purpose
-            if (   !is_array($links)
-                || count ($links) < 1)
+            if (empty($links))
             {
                 continue;
             }
