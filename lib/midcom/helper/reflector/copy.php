@@ -478,13 +478,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             && !$resolver->name_is_safe_or_empty($name_property))
         {
             debug_add('Source object ' . get_class($source) . " {$source->guid} has unsafe name, rewriting to safe form for the target", MIDCOM_LOG_WARN);
-            $name_property = midcom_helper_reflector::get_name_property($target);
-
-            if (empty($name_property))
-            {
-                $this->errors[] = sprintf($this->_l10n->get('cannot fix unsafe name for source object %s, skipping'), get_class($source) . " {$source->guid}");
-                return false;
-            }
 
             $name_parts = explode('.', $target->$name_property, 2);
             if (isset($name_parts[1]))
@@ -518,7 +511,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $target->allow_name_catenate = true;
         if (!$target->create())
         {
-            $this->errors[] = $this->_l10n->get('failed to create object: ' . mgd_errstr());
+            $this->errors[] = $this->_l10n->get('failed to create object: ' . midcom_connection::get_error_string());
             return false;
         }
 
@@ -527,39 +520,35 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         unset($name_property);
 
-        // Copy parameters
-        if (   !$this->copy_parameters($source, $target)
-            && $this->halt_on_errors)
+        if (   !$this->_copy_data('parameters', $source, $target)
+            || !$this->_copy_data('metadata', $source, $target)
+            || !$this->_copy_data('attachments', $source, $target)
+            || !$this->_copy_data('privileges', $source, $target))
         {
-            $this->errors[] = $this->_l10n->get('failed to copy parameters');
-            return false;
-        }
-
-        // Copy metadata
-        if (   !$this->copy_metadata($source, $target)
-            && $this->halt_on_errors)
-        {
-            $this->errors[] = $this->_l10n->get('failed to copy metadata');
-            return false;
-        }
-
-        // Copy attachments
-        if (   !$this->copy_attachments($source, $target)
-            && $this->halt_on_errors)
-        {
-            $this->errors[] = $this->_l10n->get('failed to copy attachments');
-            return false;
-        }
-
-        // Copy privileges
-        if (   !$this->copy_privileges($source, $target)
-            && $this->halt_on_errors)
-        {
-            $this->errors[] = $this->_l10n->get('failed to copy privileges');
             return false;
         }
 
         return $target;
+    }
+
+    /**
+     * Copy object data
+     *
+     * @param string $type        The type of data to copy
+     * @param mixed &$source      MgdSchema object for reading the parameters
+     * @param mixed &$target      MgdSchema object for storing the parameters
+     * @return boolean Indicating success
+     */
+    private function _copy_data($type, $source, &$target)
+    {
+        $method = 'copy_' . $type;
+        if (   !$this->$method($source, $target)
+            && $this->halt_on_errors)
+        {
+            $this->errors[] = $this->_l10n->get('failed to copy ' . $type);
+            return false;
+        }
+        return true;
     }
 
     /**

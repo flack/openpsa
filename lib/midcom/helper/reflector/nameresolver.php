@@ -28,7 +28,7 @@ class midcom_helper_reflector_nameresolver
     /**
      * Resolves the "name" of given object
      *
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
+     * @param string $name_property property to use as "name", if left to default (null), will be reflected
      * @return string value of name property or boolean false on failure
      */
     public function get_object_name($name_property = null)
@@ -111,7 +111,7 @@ class midcom_helper_reflector_nameresolver
      * Checks for URL-safe name, this variant accepts empty name
      *
      * @see http://trac.midgard-project.org/ticket/809
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
+     * @param string $name_property property to use as "name", if left to default (null), will be reflected
      * @return boolean indicating safety
      */
     public function name_is_safe_or_empty($name_property = null)
