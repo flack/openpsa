@@ -106,18 +106,78 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             midcom::get()->skip_page_style = true;
         }
 
+        $this->_load_product($handler_id, $args);
+
+        if ($GLOBALS['midcom_config']['enable_ajax_editing'])
+        {
+            $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
+            $data['controller']->schemadb =& $data['schemadb_product'];
+            $data['controller']->set_storage($this->_product);
+            $data['controller']->process_ajax();
+            $data['datamanager'] =& $data['controller']->datamanager;
+        }
+        else
+        {
+            $data['controller'] = null;
+            $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
+            if (! $data['datamanager']->autoset_storage($this->_product))
+            {
+                throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
+            }
+        }
+
+        $this->_prepare_request_data();
+        $this->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
+
+        $product_group = null;
+
+        if ($this->_request_data['is_linked_from'] != '')
+        {
+            $linked_product = new org_openpsa_products_product_link_dba($data['is_linked_from']);
+
+            if ($linked_product->productGroup != 0)
+            {
+                $product_group = new org_openpsa_products_product_group_dba($linked_product->productGroup);
+            }
+        }
+
+        $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_product, $product_group);
+
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
+
+        midcom::get('metadata')->set_request_metadata($this->_product->metadata->revised, $this->_product->guid);
+
+        $title = $this->_config->get('product_page_title');
+
+        if (strstr($title, '<PRODUCTGROUP'))
+        {
+            try
+            {
+                $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
+                $title = str_replace('<PRODUCTGROUP_TITLE>', $productgroup->title, $title);
+                $title = str_replace('<PRODUCTGROUP_CODE>', $productgroup->code, $title);
+            }
+            catch (midcom_error $e)
+            {
+                $title = str_replace('<PRODUCTGROUP_TITLE>', '', $title);
+                $title = str_replace('<PRODUCTGROUP_CODE>', '', $title);
+            }
+        }
+
+        $title = str_replace('<PRODUCT_CODE>', $this->_product->code, $title);
+        $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
+        $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
+
+        midcom::get('head')->set_pagetitle($title);
+    }
+
+    private function _load_product($handler_id, array $args)
+    {
         $qb = org_openpsa_products_product_dba::new_query_builder();
         if (preg_match('/^view_product_intree/', $handler_id))
         {
             $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            if (mgd_is_guid($args[0]))
-            {
-                $group_qb->add_constraint('guid', '=', $args[0]);
-            }
-            else
-            {
-                $group_qb->add_constraint('code', '=', $args[0]);
-            }
+            $this->_add_identifier_constraint($group_qb, $args[0]);
             $groups = $group_qb->execute();
 
             if (empty($groups))
@@ -131,8 +191,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             if (count($categories_in) == 0)
             {
                 /* No matching categories belonging to this group
-                 * So we can search for the application using only
-                 * this group id
+                 * So we can search for the application using only this group id
                  */
                 $qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
             }
@@ -141,36 +200,20 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 $categories_in[] = $groups[0]->id;
                 $qb->add_constraint('productGroup', 'IN', $categories_in);
             }
-
-            if (mgd_is_guid($args[1]))
-            {
-                $qb->add_constraint('guid', '=', $args[1]);
-            }
-            else
-            {
-                $qb->add_constraint('code', '=', $args[1]);
-            }
+            $this->_add_identifier_constraint($qb, $args[1]);
         }
         else
         {
-            if (mgd_is_guid($args[0]))
-            {
-                $qb->add_constraint('guid', '=', $args[0]);
-            }
-            else
-            {
-                $qb->add_constraint('code', '=', $args[0]);
-            }
+            $this->_add_identifier_constraint($qb, $args[0]);
         }
 
         if ($this->_config->get('enable_scheduling'))
         {
+            /* List products that either have no defined end-of-market dates
+             * or are still in market
+             */
             $qb->add_constraint('start', '<=', time());
             $qb->begin_group('OR');
-                /*
-                 * List products that either have no defined end-of-market dates
-                 * or are still in market
-                 */
                 $qb->add_constraint('end', '=', 0);
                 $qb->add_constraint('end', '>=', time());
             $qb->end_group();
@@ -228,73 +271,18 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 $this->_product = new org_openpsa_products_product_dba($args[0]);
             }
         }
+    }
 
-        if ($GLOBALS['midcom_config']['enable_ajax_editing'])
+    private function _add_identifier_constraint(midcom_core_query &$qb, $identifier)
+    {
+        if (mgd_is_guid($identifier))
         {
-            $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-            $data['controller']->schemadb =& $data['schemadb_product'];
-            $data['controller']->set_storage($this->_product);
-            $data['controller']->process_ajax();
-            $data['datamanager'] =& $data['controller']->datamanager;
+            $qb->add_constraint('guid', '=', $identifier);
         }
         else
         {
-            $data['controller'] = null;
-            $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-            if (! $data['datamanager']->autoset_storage($this->_product))
-            {
-                throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
-            }
+            $qb->add_constraint('code', '=', $identifier);
         }
-
-        $this->_prepare_request_data();
-        $this->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
-
-        if (isset($product_group))
-        {
-            unset($product_group);
-        }
-
-        $product_group = null;
-
-        if ($this->_request_data['is_linked_from'] != '')
-        {
-            $linked_product = new org_openpsa_products_product_link_dba($data['is_linked_from']);
-
-            if ($linked_product->productGroup != 0)
-            {
-                $product_group = new org_openpsa_products_product_group_dba($linked_product->productGroup);
-            }
-        }
-
-        $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_product, $product_group);
-
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
-
-        midcom::get('metadata')->set_request_metadata($this->_product->metadata->revised, $this->_product->guid);
-
-        $title = $this->_config->get('product_page_title');
-
-        if (strstr($title, '<PRODUCTGROUP'))
-        {
-            try
-            {
-                $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
-                $title = str_replace('<PRODUCTGROUP_TITLE>', $productgroup->title, $title);
-                $title = str_replace('<PRODUCTGROUP_CODE>', $productgroup->code, $title);
-            }
-            catch (midcom_error $e)
-            {
-                $title = str_replace('<PRODUCTGROUP_TITLE>', '', $title);
-                $title = str_replace('<PRODUCTGROUP_CODE>', '', $title);
-            }
-        }
-
-        $title = str_replace('<PRODUCT_CODE>', $this->_product->code, $title);
-        $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
-        $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
-
-        midcom::get('head')->set_pagetitle($title);
     }
 
     /**
