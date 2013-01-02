@@ -1053,8 +1053,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   !isset($object->__object)
-            || !$object->__object)
+        if (empty($object->__object))
         {
             debug_add("Failed to load " . get_class($object) . " object #{$id}, it seems to be instantiated in wrong way as the DBA object doesn't contain the decorated MgdSchema object.", MIDCOM_LOG_ERROR);
             self::_clear_object($object);
@@ -1379,11 +1378,8 @@ class midcom_baseclasses_core_dbobject
         if (isset(self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all']))
         {
             $copy = self::$parameter_cache[$object->guid];
-            if (isset($copy['__midcom_baseclasses_core_dbobject_all']))
-            {
-                // Clean up internal marker
-                unset($copy['__midcom_baseclasses_core_dbobject_all']);
-            }
+            // Clean up internal marker
+            unset($copy['__midcom_baseclasses_core_dbobject_all']);
             return $copy;
         }
 

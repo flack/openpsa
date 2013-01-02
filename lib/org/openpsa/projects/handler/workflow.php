@@ -68,8 +68,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
 
     private function _redirect()
     {
-        if (   !isset($this->_request_data['redirect_to'])
-            || empty($this->_request_data['redirect_to']))
+        if (empty($this->_request_data['redirect_to']))
         {
             //Cannot redirect, throw error
         }

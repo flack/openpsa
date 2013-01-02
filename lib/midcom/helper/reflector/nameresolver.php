@@ -187,9 +187,7 @@ class midcom_helper_reflector_nameresolver
         // Start the magic
         midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
-        if (   $parent
-            && isset($parent->guid)
-            && !empty($parent->guid))
+        if (!empty($parent->guid))
         {
             // We have parent, check siblings
             $parent_resolver = new midcom_helper_reflector_tree($parent);

@@ -191,8 +191,7 @@ class org_openpsa_contacts_duplicates
         $person2_memberships =& $this->_membership_cache[$person2['guid']];
         foreach ($person1_memberships as $gid)
         {
-            if (   isset($person2_memberships[$gid])
-                && !empty($person2_memberships[$gid]))
+            if (!empty($person2_memberships[$gid]))
             {
                 $ret['fname_lname_company_match'] = true;
                 $ret['p'] += 0.5;

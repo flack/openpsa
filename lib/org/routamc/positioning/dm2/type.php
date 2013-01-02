@@ -60,8 +60,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         }
 
         $this->location->relation = $this->relation;
-        if (   isset($this->location->guid)
-            && $this->location->guid)
+        if (!empty($this->location->guid))
         {
             $this->location->update();
         }

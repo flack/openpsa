@@ -100,9 +100,7 @@ class midcom_compat_default extends midcom_compat_environment
             $redirect_test_uri = preg_replace('/\.html$/', '', $redirect_test_uri);
         }
         if (   !preg_match('%\?|/$|midcom-.+-|/.*\.[^/]+$%', $redirect_test_uri)
-            && (   !isset($_POST)
-                || empty($_POST))
-            )
+            && (empty($_POST)))
         {
             $this->header('HTTP/1.0 301 Moved Permanently');
             $this->header("Location: {$redirect_test_uri}/");

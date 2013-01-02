@@ -38,8 +38,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $data['start'] = $data['query_data']['start'];
         $data['end'] = $data['query_data']['end'];
 
-        if (    !isset($data['query_data']['date_field'])
-             || $data['query_data']['date_field'] == '')
+        if (empty($data['query_data']['date_field']))
         {
             $data['query_data']['date_field'] = $data['query']->get_parameter('midcom.helper.datamanager2', 'date_field');
         }

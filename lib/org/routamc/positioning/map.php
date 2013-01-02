@@ -111,8 +111,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             $marker['icon'] = $icon;
         }
 
-        if (   isset($object->abstract_allow_html)
-            && $object->abstract_allow_html)
+        if (!empty($object->abstract_allow_html))
         {
             $marker['abstract_allow_html'] = true;
         }
@@ -147,8 +146,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             return false;
         }
 
-        if (   !isset($marker['title'])
-            || empty($marker['title']))
+        if (empty($marker['title']))
         {
             return false;
         }
@@ -345,8 +343,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
 
         if (isset($marker['abstract']))
         {
-            if (   isset($marker['abstract_allow_html'])
-                && $marker['abstract_allow_html'] = true)
+            if (!empty($marker['abstract_allow_html']))
             {
                 $abstract = $marker['abstract'];
             }

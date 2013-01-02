@@ -372,8 +372,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 continue;
             }
             $images_identifier = $info[0];
-            if (   isset($this->attachments_info[$blobs_identifier])
-                && isset($this->attachments_info[$blobs_identifier]['object'])
+            if (   !empty($this->attachments_info[$blobs_identifier]['object'])
                 && is_object($this->attachments_info[$blobs_identifier]['object']))
             {
                 $this->titles[$images_identifier] = $this->attachments_info[$blobs_identifier]['object']->title;
@@ -448,9 +447,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                             $main = array_shift($images_copy);
                             break;
                     }
-                    if (   !isset($main['object'])
-                        || !is_object($main['object'])
-                        || empty($main['object']->guid))
+                    if (empty($main['object']->guid))
                     {
                         //Panic, broken identifier
                         debug_add("Identifier '{$identifier}' does not have a valid object behind it",  MIDCOM_LOG_ERROR);

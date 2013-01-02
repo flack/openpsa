@@ -64,8 +64,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 );
             }
 
-            if (   !isset($this->_libconfig->_local[$key])
-                || !$this->_libconfig->_local[$key])
+            if (empty($this->_libconfig->_local[$key]))
             {
                 $schemadb['default']->fields[$key]['static_prepend'] = "<div class='global'><span>Global value</span>";
                 $schemadb['default']->fields[$key]['static_append'] = "</div>";

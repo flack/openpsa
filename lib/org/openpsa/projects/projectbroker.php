@@ -138,8 +138,7 @@ class org_openpsa_projects_projectbroker
         }
         foreach ($prospects as $person)
         {
-            if (   isset($task->resources[$person->id])
-                && $task->resources[$person->id])
+            if (!empty($task->resources[$person->id]))
             {
                 continue;
             }

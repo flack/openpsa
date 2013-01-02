@@ -21,8 +21,7 @@ $weekly_data['uninvoiceable_total_by_customer'] = array(); // Keyed by group id
 
 //TODO: Check style context somehow (are we inside DL or not, and change output accordingly
 
-if (   !isset($query['skip_html_headings'])
-    || empty($query['skip_html_headings']))
+if (empty($query['skip_html_headings']))
 {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

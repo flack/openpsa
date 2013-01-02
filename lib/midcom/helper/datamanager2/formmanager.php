@@ -528,8 +528,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
             $html = "<fieldset class=\"fieldset {$class}\">\n";
 
-            if (isset($fieldset['title'])
-                && $fieldset['title'])
+            if (!empty($fieldset['title']))
             {
                 if (isset($fieldset['css_title']))
                 {

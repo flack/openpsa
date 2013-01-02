@@ -89,9 +89,7 @@ class midcom_services_metadata
     {
         $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
-        if (   !is_object($topic)
-            || !isset($topic->id)
-            || empty($topic->id))
+        if (empty($topic->id))
         {
             $this->_metadata[$context_id] = Array();
             $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
@@ -454,8 +452,7 @@ class midcom_services_metadata
             $object = $this->_metadata[$context_id][MIDCOM_METADATA_VIEW]->object;
         }
 
-        if (   !isset($object->guid)
-            || !$object->guid)
+        if (empty($object->guid))
         {
             // Non-persistent or non-Midgard object
             return '';

@@ -271,13 +271,11 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
             $dataArr['part'] =& $part;
             $dataArr['mimetype'] = $part->ctype_primary . "/" . $part->ctype_secondary;
             $dataArr['content'] =& $dataArr['part']->body;
-            if (   isset($part->d_parameters['filename'])
-                && !empty($part->d_parameters['filename']))
+            if (!empty($part->d_parameters['filename']))
             {
                 $dataArr['name'] = $part->d_parameters['filename'];
             }
-            else if (   isset($part->ctype_parameters['name'])
-                    && !empty($part->ctype_parameters['name']))
+            else if (!empty($part->ctype_parameters['name']))
             {
                 $dataArr['name'] = $part->ctype_parameters['name'];
             }

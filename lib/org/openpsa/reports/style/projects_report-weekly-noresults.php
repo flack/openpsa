@@ -8,8 +8,7 @@ if (   !array_key_exists('title', $report)
     $report['title'] = sprintf($data['l10n']->get('weekly report for %s - %s'), strftime('%x', $query['start']), strftime('%x', $query['end']));
 }
 
-if (   !isset($query['skip_html_headings'])
-    || empty($query['skip_html_headings']))
+if (empty($query['skip_html_headings']))
 {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -22,8 +21,7 @@ if (   !isset($query['skip_html_headings'])
     <body>
 <?php
 }
-if (   !isset($query['resource_expanded'])
-    || empty($query['resource_expanded']))
+if (empty($query['resource_expanded']))
 {
 ?>
         <div class="error">
@@ -42,8 +40,7 @@ else
 {
     /* TODO: Iterate trough $query['resource_expanded'] and draw empty tables for each person */
 }
-if (   !isset($query['skip_html_headings'])
-    || empty($query['skip_html_headings']))
+if (empty($query['skip_html_headings']))
 {
 ?>
     </body>

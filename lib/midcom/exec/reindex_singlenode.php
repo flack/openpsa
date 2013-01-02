@@ -33,8 +33,7 @@ if ($GLOBALS['midcom_config']['indexer_backend'] === false)
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
-if (   !isset($_REQUEST['nodeid'])
-    || empty($_REQUEST['nodeid']))
+if (empty($_REQUEST['nodeid']))
 {
     throw new midcom_error("\$_REQUEST['nodeid'] must be set to valid node ID");
 }

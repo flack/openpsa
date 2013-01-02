@@ -136,8 +136,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
             $object = midcom::get('tmp')->request_object($tmpid);
 
             if (   $object
-                && isset($object->guid)
-                && $object->guid)
+                && !empty($object->guid))
             {
                 $storage = new midcom_helper_datamanager2_storage_tmp($this->schemadb[$this->schemaname], $this->defaults, $object);
             }
@@ -369,8 +368,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
             $tmp_object = $this->datamanager->storage->object;
 
             if (   !$tmp_object
-                || !isset($tmp_object->guid)
-                || !$tmp_object->guid)
+                || empty($tmp_object->guid))
             {
                 throw new midcom_error('Failed to get the temporary object');
             }

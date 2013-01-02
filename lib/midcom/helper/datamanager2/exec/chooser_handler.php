@@ -42,8 +42,7 @@ debug_print_r('extra params', $extra_params);
 
 foreach ($map as $map_key)
 {
-    if (   isset($extra_params[$map_key])
-        && !empty($extra_params[$map_key]))
+    if (!empty($extra_params[$map_key]))
     {
         $$map_key = $extra_params[$map_key];
     }
@@ -193,8 +192,7 @@ $items = array();
 
 foreach ($results as $object)
 {
-    if (   isset($reflector_key)
-        && !empty($reflector_key))
+    if (!empty($reflector_key))
     {
         debug_add("Using reflector with key {$reflector_key}");
         $reflector_type = get_class($object);

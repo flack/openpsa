@@ -772,8 +772,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // Decorated object instance
             $parent_class = get_class($class_instance->__object);
         }
-        else if (   isset($class_instance->__mgdschema_class_name__)
-                 && !empty($class_instance->__mgdschema_class_name__))
+        else if (!empty($class_instance->__mgdschema_class_name__))
         {
             // Decorator without object
             $parent_class = $object->__mgdschema_class_name__;

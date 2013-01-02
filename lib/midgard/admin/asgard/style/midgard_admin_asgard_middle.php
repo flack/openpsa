@@ -44,8 +44,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                         }
                         echo "<h1>";
 
-                        if (   isset($data['object'])
-                            && isset($data['object']->__mgdschema_class_name__))
+                        if (!empty($data['object']->__mgdschema_class_name__))
                         {
                             $ref = midcom_helper_reflector::get($data['object']);
                             $type_icon = $ref->get_object_icon($data['object']);

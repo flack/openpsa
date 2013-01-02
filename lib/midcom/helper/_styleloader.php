@@ -735,8 +735,7 @@ class midcom_helper__styleloader
         {
             $_st = $this->get_style_id_from_path($topic->style);
         }
-        elseif (   isset($GLOBALS['midcom_style_inherited'])
-                 && ($GLOBALS['midcom_style_inherited']))
+        elseif (!empty($GLOBALS['midcom_style_inherited']))
         {
             // FIXME: This GLOBALS is set by urlparser. Should be removed
             // get user defined style inherited from topic tree

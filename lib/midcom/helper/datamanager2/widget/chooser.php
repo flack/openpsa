@@ -351,8 +351,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && empty($this->component)
             && empty($this->clever_class))
         {
-            if (   !isset($this->_callback_class)
-                || empty($this->_callback_class))
+            if (empty($this->_callback_class))
             {
                 debug_add("Warning, the field {$this->name} does not have proper class definitions set.",
                 MIDCOM_LOG_WARN);
@@ -498,8 +497,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         $this->_renderer_callback_class = $this->renderer['class'];
         $this->_renderer_callback_args = array();
-        if (   isset($this->renderer['args'])
-            && !empty($this->renderer['args']))
+        if (!empty($this->renderer['args']))
         {
             $this->_renderer_callback_args = $this->renderer['args'];
         }

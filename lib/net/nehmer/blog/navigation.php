@@ -69,8 +69,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $qb->begin_group('OR');
                 $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                if (   midcom::get('auth')->user
-                    && isset(midcom::get('auth')->user->guid))
+                if (!empty(midcom::get('auth')->user->guid))
                 {
                     $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get('auth')->user->guid . '|');
                 }
@@ -171,8 +170,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
                 $qb->begin_group('OR');
                     $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                    if (   midcom::get('auth')->user
-                        && isset(midcom::get('auth')->user->guid))
+                    if (!empty(midcom::get('auth')->user->guid))
                     {
                         $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get('auth')->user->guid . '|');
                     }

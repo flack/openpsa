@@ -20,9 +20,7 @@ else
 {
     $client = new org_openpsa_httplib();
     eval("\$vars = array({$_REQUEST['variables']});");
-    if (   isset($_REQUEST['username'])
-        && !empty($_REQUEST['username'])
-        && isset($_REQUEST['password'])
+    if (   !empty($_REQUEST['username'])
         && !empty($_REQUEST['password']))
     {
         $client->basicauth['user'] = $_REQUEST['username'];

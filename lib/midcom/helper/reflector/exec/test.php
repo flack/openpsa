@@ -6,8 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-if (   !isset($_GET['guid'])
-    || empty($_GET['guid']))
+if (empty($_GET['guid']))
 {
     throw new midcom_error_notfound('Specify $guid via GET for info');
 }

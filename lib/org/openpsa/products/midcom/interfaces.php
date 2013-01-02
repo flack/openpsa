@@ -127,15 +127,12 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $category_qb->add_constraint('id', '=', $product->productGroup);
                 $category = $category_qb->execute_unchecked();
                 //Check if the product is in a nested category.
-                if (   $category
-                    && isset($category[0]->up)
-                    && $category[0]->up > 0)
+                if (!empty($category[0]->up))
                 {
                     $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
                     $parent_category_qb->add_constraint('id', '=', $category[0]->up);
                     $parent_category = $parent_category_qb->execute_unchecked();
-                    if (   $parent_category
-                        && isset($parent_category[0]->code))
+                    if (!empty($parent_category[0]->code))
                     {
                         return "product/{$parent_category[0]->code}/{$product->code}/";
                     }
@@ -198,8 +195,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                     $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
                     $parent_category_qb->add_constraint('id', '=', $category[0]->up);
                     $parent_category = $parent_category_qb->execute_unchecked();
-                    if (   $parent_category
-                        && isset($parent_category[0]->code))
+                    if (!empty($parent_category[0]->code))
                     {
                         return "productlink/{$productlink->guid}/";
                     }

@@ -3,8 +3,7 @@ midcom::get('auth')->require_admin_user();
 
 echo "<p>\n";
 
-if (   !isset($_POST['decodepath'])
-    || empty($_POST['decodepath']))
+if (empty($_POST['decodepath']))
 {
 ?>
     <h2>Decode test email</h2>

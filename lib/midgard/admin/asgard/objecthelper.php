@@ -16,8 +16,7 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
     public static function get_help($data)
     {
         $help_element = null;
-        if (   !isset($data['object'])
-            || !$data['object']->id)
+        if (empty($data['object']->id))
         {
             return;
         }

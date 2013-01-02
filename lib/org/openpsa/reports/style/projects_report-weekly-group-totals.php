@@ -48,8 +48,7 @@ $weekly_data_group['total'] = $weekly_data_group['invoiceable_total']+$weekly_da
                         <td><?php echo $data['l10n']->get('uninvoiceable hours'); ?></td>
                         <?php
                         $extra_classes = false;
-                        if (   isset($weekly_data_group['person_target'])
-                            && $weekly_data_group['person_target']
+                        if (   !empty($weekly_data_group['person_target'])
                             // Avoid divisions by zero...
                             && $weekly_data_group['uninvoiceable_total'])
                         {
@@ -115,8 +114,7 @@ $weekly_data_group['total'] = $weekly_data_group['invoiceable_total']+$weekly_da
                         <td class="numeric"><?php printf('%01.2f', $weekly_data_group['total']); ?></td>
                         <!-- TODO: display slash (or 'of') persons workhours -->
                         <td class="numeric"><?php
-                            if (   isset($weekly_data_group['person_workhours'])
-                                && !empty($weekly_data_group['person_workhours']))
+                            if (!empty($weekly_data_group['person_workhours']))
                             {
                                 echo sprintf($data['l10n']->get('of %01.2f'), $weekly_data_group['person_workhours']);
                             }

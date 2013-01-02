@@ -24,8 +24,7 @@ class midcom_db_article extends midcom_core_dbaobject
      */
     function get_parent_guid_uncached()
     {
-        if (   isset($this->up)
-            && $this->up != 0)
+        if (!empty($this->up))
         {
             return self::_get_parent_guid_uncached_static_article($this->up);
         }
@@ -134,8 +133,7 @@ class midcom_db_article extends midcom_core_dbaobject
 
     function get_dba_parent_class()
     {
-        if (   isset($this->up)
-            && $this->up != 0)
+        if (!empty($this->up))
         {
             return 'midcom_db_article';
         }

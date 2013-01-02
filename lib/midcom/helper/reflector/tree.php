@@ -701,8 +701,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     function get_child_classes()
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;
@@ -729,8 +728,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     function _resolve_child_classes()
     {
         // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
+        if (empty($this->mgdschema_class))
         {
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
             return false;

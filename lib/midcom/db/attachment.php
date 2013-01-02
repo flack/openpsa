@@ -421,14 +421,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
             // Check uniqueness
             $qb = midcom_db_attachment::new_query_builder();
             $qb->add_constraint('location', '=', $location);
-            if (   isset($this->id)
-                && !empty($this->id))
+            if (!empty($this->id))
             {
                 // Add this one if and only if we are persistent already.
                 $qb->add_constraint('id', '<>', $this->id);
             }
-            elseif (   isset($this->guid)
-                    && !empty($this->guid))
+            elseif (!empty($this->guid))
             {
                 // Add this one if and only if we are persistent already.
                 $qb->add_constraint('guid', '<>', $this->guid);

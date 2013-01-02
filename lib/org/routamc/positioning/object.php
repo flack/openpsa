@@ -78,8 +78,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
         }
         elseif (is_null($person))
         {
-            if (   isset($this->_object->metadata->authors)
-                && $this->_object->metadata->authors)
+            if (!empty($this->_object->metadata->authors))
             {
                 $authors = explode('|', substr($this->_object->metadata->authors, 1, -1));
                 if (!$authors)
@@ -88,13 +87,11 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
                 }
                 $person_guid = $authors[0];
             }
-            elseif (   isset($this->_object->metadata->creator)
-                    && $this->_object->metadata->creator)
+            elseif (!empty($this->_object->metadata->creator))
             {
                 $person_guid = $this->_object->metadata->creator;
             }
-            elseif (   isset($this->_object->author)
-                    && $this->_object->author)
+            elseif (!empty($this->_object->author))
             {
                 $person_guid = $this->_object->author;
             }

@@ -74,8 +74,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         if (   isset($_POST['midcom_admin_user_action'])
             && $_POST['midcom_admin_user_action'] === 'passwords')
         {
-            if (   !isset($_POST['midcom_admin_user'])
-                || count($_POST['midcom_admin_user']) === 0)
+            if (empty($_POST['midcom_admin_user']))
             {
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('empty selection'));
             }

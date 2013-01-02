@@ -620,8 +620,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $city = new org_routamc_positioning_city_dba();
             $city->city = $city_name;
 
-            if (   isset($results["{$this->_element_id}_input_place_country"])
-                && $results["{$this->_element_id}_input_place_country"])
+            if (!empty($results["{$this->_element_id}_input_place_country"]))
             {
                 $city->country = $results["{$this->_element_id}_input_place_country"];
             }
@@ -629,13 +628,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             {
                 $city->region = $results["{$this->_element_id}_input_place_region"];
             }
-            if (   isset($results["{$this->_element_id}_input_coordinates_latitude"])
-                && $results["{$this->_element_id}_input_coordinates_latitude"] != '')
+            if (!empty($results["{$this->_element_id}_input_coordinates_latitude"]))
             {
                 $city->latitude = $results["{$this->_element_id}_input_coordinates_latitude"];
             }
-            if (   isset($results["{$this->_element_id}_input_coordinates_longitude"])
-                && $results["{$this->_element_id}_input_coordinates_longitude"] != '')
+            if (!empty($results["{$this->_element_id}_input_coordinates_longitude"]))
             {
                 $city->longitude = $results["{$this->_element_id}_input_coordinates_longitude"];
             }
@@ -674,13 +671,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $this->_type->location->postalcode = $results["{$this->_element_id}_input_place_postalcode"];
         }
 
-        if (   isset($results["{$this->_element_id}_input_coordinates_latitude"])
-            && $results["{$this->_element_id}_input_coordinates_latitude"] != '')
+        if (!empty($results["{$this->_element_id}_input_coordinates_latitude"]))
         {
             $this->_type->location->latitude = $results["{$this->_element_id}_input_coordinates_latitude"];
         }
-        if (   isset($results["{$this->_element_id}_input_coordinates_longitude"])
-            && $results["{$this->_element_id}_input_coordinates_longitude"] != '')
+        if (!empty($results["{$this->_element_id}_input_coordinates_longitude"]))
         {
             $this->_type->location->longitude = $results["{$this->_element_id}_input_coordinates_longitude"];
         }

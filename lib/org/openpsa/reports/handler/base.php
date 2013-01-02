@@ -244,8 +244,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         }
 
         //TODO: Check if we're inside DL if so do not force mimetype
-        if (   !isset($this->_request_data['query_data']['skip_html_headings'])
-            || empty($this->_request_data['query_data']['skip_html_headings']))
+        if (empty($this->_request_data['query_data']['skip_html_headings']))
         {
             //Skip normal style, and force content type based on query data.
             midcom::get()->skip_page_style = true;

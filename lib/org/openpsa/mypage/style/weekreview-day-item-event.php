@@ -2,8 +2,7 @@
 $event = $data['object'];
 
 $event_label = $event->title;
-if (   isset($data['calendar_node'])
-       && $data['calendar_node'])
+if (!empty($data['calendar_node']))
 {
     $event_url = "{$data['calendar_node'][MIDCOM_NAV_FULLURL]}event/{$event->guid}";
     $event_js = org_openpsa_calendar_interface::calendar_editevent_js($event->guid, $data['calendar_node']);

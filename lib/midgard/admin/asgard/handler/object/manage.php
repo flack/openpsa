@@ -729,8 +729,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $copy->source = $this->_object;
 
         // Set the target - if available
-        if (   isset($target['id'])
-            && $target['id'])
+        if (!empty($target['id']))
         {
             $link_properties = $target['reflector']->get_link_properties();
             $parent = $target['parent'];

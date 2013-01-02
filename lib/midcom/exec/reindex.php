@@ -109,9 +109,7 @@ $reindex_topic_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-
 
 $http_client = new org_openpsa_httplib();
 $http_client->set_param('timeout', 300);
-if (   isset($_SERVER['PHP_AUTH_USER'])
-    && !empty($_SERVER['PHP_AUTH_USER'])
-    && isset($_SERVER['PHP_AUTH_PW'])
+if (   !empty($_SERVER['PHP_AUTH_USER'])
     && !empty($_SERVER['PHP_AUTH_PW']))
 {
     $http_client->basicauth['user'] = $_SERVER['PHP_AUTH_USER'];

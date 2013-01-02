@@ -50,8 +50,7 @@ if (isset($data['search_results']))
 {
     function resolve_label(&$object)
     {
-        if (!isset($object->guid)
-            || $object->guid == "")
+        if (empty($object->guid))
         {
             return;
         }

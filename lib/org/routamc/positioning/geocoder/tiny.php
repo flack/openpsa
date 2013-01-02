@@ -68,8 +68,7 @@ class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geoc
         }
 
         $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
-        if (   isset($location['street'])
-            && !empty($location['street']))
+        if (!empty($location['street']))
         {
             $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_STREET;
         }

@@ -194,8 +194,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_article->topic);
 
-            if (   $node
-                && isset($node[MIDCOM_NAV_FULLURL]))
+            if (!empty($node[MIDCOM_NAV_FULLURL]))
             {
                 return new midcom_response_relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
             }

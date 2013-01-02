@@ -137,8 +137,7 @@ class midcom_db_member extends midcom_core_dbaobject
         $activity->target = $target->guid;
         $activity->actor = $actor->id;
         $this->verb = 'http://activitystrea.ms/schema/1.0/join';
-        if (   isset(midcom::get('auth')->user)
-            && isset(midcom::get('auth')->user->guid)
+        if (   !empty(midcom::get('auth')->user->guid)
             && $actor->guid == midcom::get('auth')->user->guid)
         {
             $this->summary = sprintf(midcom::get('i18n')->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);

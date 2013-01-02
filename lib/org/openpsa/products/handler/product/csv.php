@@ -31,8 +31,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $data['schemadb_to_use'] = str_replace('.csv', '', $args[0]);
             $data['filename'] = $group_name_to_filename . $data['schemadb_to_use'] . '_' . date('Y-m-d') . '.csv';
         }
-        else if (   isset($_POST)
-                 && array_key_exists('org_openpsa_products_export_schema', $_POST))
+        else if (array_key_exists('org_openpsa_products_export_schema', $_POST))
         {
             //We do not have filename in URL, generate one and redirect
             $schemaname = $_POST['org_openpsa_products_export_schema'];
@@ -82,8 +81,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         if ($root_group_guid)
         {
             $root_group = new org_openpsa_products_product_group_dba($root_group_guid);
-            if (   !isset($_POST['org_openpsa_products_export_all'])
-                || empty($_POST['org_openpsa_products_export_all']))
+            if (empty($_POST['org_openpsa_products_export_all']))
             {
                 $qb->add_constraint('productGroup', '=', $root_group->id);
                 // We have data only from one product group, though this seems to be too late...

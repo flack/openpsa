@@ -283,8 +283,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function generate_content_identifier($context)
     {
-        if (   !isset($this->context_guids[$context])
-            || empty($this->context_guids[$context]))
+        if (empty($this->context_guids[$context]))
         {
             // Error pages and such have no GUIDs in some cases
             $identifier_source = $this->generate_request_identifier($context);

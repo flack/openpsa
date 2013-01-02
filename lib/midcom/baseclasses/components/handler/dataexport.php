@@ -83,8 +83,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $this->_load_datamanager($this->_load_schemadb($handler_id, $args, $data));
         $this->_objects = $this->_load_data($handler_id, $args, $data);
 
-        if (   !isset($args[0])
-            || empty($args[0]))
+        if (empty($args[0]))
         {
             //We do not have filename in URL, generate one and redirect
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
@@ -98,8 +97,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             }
         }
 
-        if(   !isset($data['filename'])
-           || $data['filename'] == '')
+        if (empty($data['filename']))
         {
             $data['filename'] = str_replace('.csv', '', $args[0]);
         }
@@ -228,7 +226,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         {
             $title =& $datamanager->schema->fields[$name]['title'];
             $type =& $datamanager->schema->fields[$name]['type'];
-            if ($this->include_totals
+            if (   $this->include_totals
                 && $type == 'number')
             {
                 $this->_totals[$name] = 0;

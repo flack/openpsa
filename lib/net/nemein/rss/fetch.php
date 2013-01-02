@@ -132,8 +132,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             return array();
         }
 
-        if (   isset($rss->etag)
-            && !empty($rss->etag))
+        if (!empty($rss->etag))
         {
             // Etag checking
             $etag = trim($rss->etag);
@@ -1048,8 +1047,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         // Fix missing titles
-        if (   !isset($item['title'])
-            || !$item['title'])
+        if (empty($item['title']))
         {
             $item['title'] = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
 
@@ -1077,35 +1075,27 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         // Fix missing links
-        if (   !isset($item['link'])
-            || !$item['link'])
+        if (empty($item['link']))
         {
-            $item['link'] = '';
             if (isset($item['guid']))
             {
                 $item['link'] = $item['guid'];
             }
-        }
-
-        if (!array_key_exists('link', $item))
-        {
-            // No link or GUID defined
-            // TODO: Generate a "link" using channel URL
-            $item['link'] = '';
-        }
-
-        // Fix missing GUIDs
-        if (   !isset($item['guid'])
-            || !$item['guid'])
-        {
-            if (isset($item['link']))
+            else
             {
-                $item['guid'] = $item['link'];
+                // No link or GUID defined
+                // TODO: Generate a "link" using channel URL
+                $item['link'] = '';
             }
         }
 
-        if (   !isset($item['description'])
-            || !$item['description'])
+        // Fix missing GUIDs
+        if (empty($item['guid']))
+        {
+            $item['guid'] = $item['link'];
+        }
+
+        if (empty($item['description']))
         {
             // Ensure description is always set
             $item['description'] = '';

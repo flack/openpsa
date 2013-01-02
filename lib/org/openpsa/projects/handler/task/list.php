@@ -384,8 +384,7 @@ implements org_openpsa_widgets_grid_provider_client
     private function _handler_list_all($args)
     {
         // Default to open tasks list if none specified
-        if (   !isset($args[1])
-            || empty($args[1]))
+        if (empty($args[1]))
         {
             $this->_request_data['view_identifier'] = 'open';
             $args[1] = 'open';

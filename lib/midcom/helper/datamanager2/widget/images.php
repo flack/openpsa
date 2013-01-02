@@ -341,9 +341,7 @@ END;
                 break;
             }
         }
-        if (   !isset($info['object'])
-            || !is_object($info['object'])
-            || empty($info['object']->guid))
+        if (empty($info['object']->guid))
         {
             //Panic, broken identifier
             debug_add("Identifier '{$identifier}' does not have a valid object behind it",  MIDCOM_LOG_ERROR);

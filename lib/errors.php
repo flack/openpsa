@@ -305,8 +305,7 @@ class midcom_exception_handler
 
     private function _log($httpcode, $msg)
     {
-        if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
-            || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']))
+        if (empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']))
         {
             // No log file specified, skip
             return;
@@ -327,8 +326,7 @@ class midcom_exception_handler
 
     private function _send_email($httpcode, $msg)
     {
-        if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['email'])
-            || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
+        if (empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
         {
             // No recipient specified, skip
             return;

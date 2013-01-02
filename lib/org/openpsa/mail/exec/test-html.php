@@ -3,10 +3,8 @@ midcom::get('auth')->require_admin_user();
 
 echo "<p>\n";
 
-if (   !isset($_POST['to'])
-    || empty($_POST['to'])
-    || !isset($_POST['from'])
-    && empty($_POST['from']))
+if (   empty($_POST['to'])
+    || empty($_POST['from']))
 {
 ?>
     <h2>Send test email</h2>
