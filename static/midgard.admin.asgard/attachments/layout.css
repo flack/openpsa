@@ -1,9 +1,20 @@
-form.datamanager2 fieldset.midgard_admin_asgard_object_attachments_upload,
-form.datamanager2 fieldset.midgard_admin_asgard_object_attachments_newfile
+form.datamanager2 fieldset.fieldset,
+form.urlform fieldset
 {
     background-color: #eeeeec;
-    border-radius: 6px;
+    border-radius: 4px;
     margin-bottom: 10px;
+    border: 1px solid #BABDB6;
+    padding: 0.5em 1em;
+}
+
+form.datamanager2 fieldset legend,
+form.urlform fieldset legend
+{
+    padding: .1em .5em;
+    background-color: #BABDB6;
+    border-radius: 3px 3px 3px 3px;
+    font-weight: bold;
 }
 
 /** File management styles */
@@ -46,17 +57,7 @@ div.file-manager div.main form hr
     height: 1px;
     background-color: #555753;
 }
-fieldset
-{
-    border: none;
-    margin-bottom: 6px;
-}
-fieldset legend
-{
-    margin-left: 0px;
-    padding-left: 0px;
-    text-transform: uppercase;
-}
+
 div.file-manager div.main form label span
 {
     margin-top: 6px;

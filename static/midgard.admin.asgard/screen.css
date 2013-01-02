@@ -353,11 +353,15 @@ p
 #content .object_edit select,
 #content .object_edit .longtext,
 #content .object_edit input.date,
+#content .object_edit input.jsdate,
+#content .object_edit input.jsdate_hours,
+#content .object_edit input.jsdate_minutes,
 #content .object_edit div.CodeMirror-scroll,
 .CodeMirror-fullscreen
 {
     border: 1px solid #aaa;
     background-color: white;
+    border-radius: 2px
 }
 
 #content .object_edit .shorttext:focus,
