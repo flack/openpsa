@@ -290,6 +290,14 @@ p
     padding-bottom: 0.4em
 }
 
+#content .object_view .field:after,
+#content .object_edit .element:after
+{
+    clear: left;
+    display: table;
+    content: ''
+}
+
 #content .object_view .title,
 #content .object_edit label
 {
@@ -307,14 +315,18 @@ p
     min-height: 1em
 }
 
-#content .object_edit label
+#content .object_view .field > .title,
+#content .object_edit .element > label
 {
-    padding: .5em .1em 0 .1em
+    padding: .5em .1em 0 .1em;
+    color: #333;
+    text-align: right;
+    margin-right: 1em
 }
 
-#content .object_edit .element_textarea label
+#content .object_edit .element > label .field_text
 {
-    float: none;
+    margin-right: 0
 }
 
 #content .object_edit .input
@@ -338,23 +350,15 @@ p
 }
 
 #content .object_edit .shorttext,
-#content .object_view textarea,
-#content .object_edit textarea
-{
-    font-family: monospace;
-}
-
-#content .object_edit .shorttext,
 #content .object_edit select,
 #content .object_edit .longtext,
 #content .object_edit input.date,
-#content .object_edit div.CodeMirror,
+#content .object_edit div.CodeMirror-scroll,
 .CodeMirror-fullscreen
 {
-    border: 1px solid #888888;
+    border: 1px solid #aaa;
     background-color: white;
 }
-
 
 #content .object_edit .shorttext:focus,
 #content .object_edit select:focus,
@@ -370,8 +374,19 @@ p
 #content .object_edit .longtext,
 #content .object_edit input.date
 {
-    padding: 1px 2px;
-    display: inline !important
+    padding: 2px;
+    display: inline;
+    width: 70%
+}
+
+#content .object_edit .element_checkbox .input
+{
+    display: block;
+}
+
+#content .object_edit .element_checkbox .input input
+{
+    margin-left: 0;
 }
 
 #content .object_edit fieldset
@@ -406,6 +421,12 @@ p
 {
     float: none;
     display: inline;
+    font-weight: normal
+}
+
+#content .object_edit fieldset.radiobox input
+{
+    margin-left: 0;
 }
 
 #content select.language_chooser option.exists
