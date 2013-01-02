@@ -12,6 +12,10 @@
  */
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
+    /**
+     * @param mixed $src classname or object
+     * @return midcom_helper_reflector_tree Reflector instance
+     */
     public static function &get($src)
     {
         if (is_object($src))
@@ -34,7 +38,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @access private
      */
-    function &_root_objects_qb(&$deleted)
+    function &_root_objects_qb($deleted)
     {
         $schema_type =& $this->mgdschema_class;
         $root_classes = midcom_helper_reflector_tree::get_root_classes();
@@ -123,12 +127,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function count_root_objects($deleted = false)
     {
-        // Check against static calling
-        if (empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !midcom_connection::is_admin())
@@ -148,36 +146,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $count;
     }
 
-    function has_root_objects()
+    function has_root_objects($deleted = false)
     {
-        // Check against static calling
-        if (empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        // PONDER: Check for some generic user privilege instead  ??
-        if (   $deleted
-            && !midcom_connection::is_admin())
-        {
-            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $qb = $this->_root_objects_qb($deleted);
-        if (!$qb)
-        {
-            debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $qb->set_limit(1);
-        if ($qb->count())
-        {
-            unset($qb);
-            return true;
-        }
-        unset($qb);
-        return false;
+        return (int) $this->count_root_objects($deleted) > 0;
     }
 
     /**
@@ -191,12 +162,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public function get_root_objects($deleted = false)
     {
-        // Check against static calling
-        if (empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !midcom_connection::is_admin())
@@ -553,22 +518,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 return $qb;
             }
 
-            $qb_callback = array($midcom_dba_classname, 'new_query_builder');
-            if (!is_callable($qb_callback))
-            {
-                debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-                return $qb;
-            }
-            $qb = call_user_func($qb_callback);
+            $qb = call_user_func(array($midcom_dba_classname, 'new_query_builder'));
         }
 
-        // Sanity-check
-        if (!$qb)
-        {
-            debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
-        }
         // Deleted constraints
         if ($deleted)
         {

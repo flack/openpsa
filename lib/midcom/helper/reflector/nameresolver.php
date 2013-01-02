@@ -253,52 +253,27 @@ class midcom_helper_reflector_nameresolver
 
         foreach ($sibling_classes as $schema_type)
         {
-            $dummy = new $schema_type();
-            $child_name_property = midcom_helper_reflector::get_name_property($dummy);
-            unset($dummy);
-            if (empty($child_name_property))
+            $qb = $this->_get_sibling_qb($schema_type, $parent);
+            if (!$qb)
             {
-                // This sibling class does not use names
-                /**
-                 * Noise, useful when something is going wrong in *weird* way
-                 *
-                debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks");
-                */
                 continue;
             }
-            $resolver = midcom_helper_reflector_tree::get($schema_type);
-            $qb =& $resolver->_child_objects_type_qb($schema_type, $parent, false);
-            if (!is_object($qb))
-            {
-                debug_add("\$resolver->_child_objects_type_qb('{$schema_type}', \$parent, false) did not return object", MIDCOM_LOG_WARN);
-                continue;
-            }
+            $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+
             $qb->add_constraint($child_name_property, '=', $name_copy);
-            // Do not include current object in results, this is the easiest way
-            if (   isset($this->_object->guid)
-                && !empty($this->_object->guid))
-            {
-                $qb->add_constraint('guid', '<>', $this->_object->guid);
-            }
-            // One result is enough to know we have a clash
-            $qb->set_limit(1);
             $results = $qb->count();
             // Guard against QB failure
             if ($results === false)
             {
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                unset($sibling_classes, $schema_type, $qb, $results);
                 return false;
             }
             if ($results > 0)
             {
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
-                unset($sibling_classes, $schema_type, $qb, $results);
                 return false;
             }
-            unset($qb, $results);
         }
-        unset($name_copy, $schema_type, $sibling_classes);
         return true;
     }
 
@@ -320,36 +295,14 @@ class midcom_helper_reflector_nameresolver
 
         foreach ($sibling_classes as $schema_type)
         {
-            $dummy = new $schema_type();
-            $child_name_property = midcom_helper_reflector::get_name_property($dummy);
-            unset($dummy);
-            if (empty($child_name_property))
-            {
-                // This sibling class does not use names
-                /**
-                 * Noise, useful when something is going wrong in *weird* way
-                 *
-                debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks");
-                */
-                continue;
-            }
-            $resolver =& midcom_helper_reflector_tree::get($schema_type);
-            $deleted = false;
-            $qb =& $resolver->_root_objects_qb($deleted);
-            unset($deleted);
-            if (!is_object($qb))
+            $qb = $this->_get_root_qb($schema_type);
+            if (!$qb)
             {
                 continue;
             }
+            $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+
             $qb->add_constraint($child_name_property, '=', $name_copy);
-            // Do not include current object in results, this is the easiest way
-            if (   isset($this->_object->guid)
-                || !empty($this->_object->guid))
-            {
-                $qb->add_constraint('guid', '<>', $this->_object->guid);
-            }
-            // One result is enough to know we have a clash
-            $qb->set_limit(1);
             $results = $qb->count();
             // Guard against QB failure
             if ($results === false)
@@ -440,7 +393,7 @@ class midcom_helper_reflector_nameresolver
             --$d;
             if ($d < 1)
             {
-                // Decrementer undeflowed
+                // Decrementer underflowed
                 debug_add("Maximum number of tries exceeded, current name was: " . $this->_object->{$name_prop}, MIDCOM_LOG_ERROR);
                 $this->_object->{$name_prop} = $original_name;
                 unset($i, $d, $name_prop, $original_name, $base_name);
@@ -460,6 +413,76 @@ class midcom_helper_reflector_nameresolver
         return $ret;
     }
 
+    private function _get_sibling_qb($schema_type, $parent)
+    {
+        $dummy = new $schema_type();
+        $child_name_property = midcom_helper_reflector::get_name_property($dummy);
+        if (empty($child_name_property))
+        {
+            // This sibling class does not use names
+            return false;
+        }
+        $resolver = midcom_helper_reflector_tree::get($schema_type);
+        $qb =& $resolver->_child_objects_type_qb($schema_type, $parent, false);
+        if (!is_object($qb))
+        {
+            return false;
+        }
+        // Do not include current object in results, this is the easiest way
+        if (!empty($this->_object->guid))
+        {
+            $qb->add_constraint('guid', '<>', $this->_object->guid);
+        }
+        $qb->add_order($child_name_property, 'DESC');
+        // One result should be enough
+        $qb->set_limit(1);
+        return $qb;
+    }
+
+    private function _get_root_qb($schema_type)
+    {
+        $dummy = new $schema_type();
+        $child_name_property = midcom_helper_reflector::get_name_property($dummy);
+        if (empty($child_name_property))
+        {
+            // This sibling class does not use names
+            return false;
+        }
+        $resolver =& midcom_helper_reflector_tree::get($schema_type);
+        $qb =& $resolver->_root_objects_qb(false);
+        if (!$qb)
+        {
+            return false;
+        }
+
+        // Do not include current object in results, this is the easiest way
+        if (!empty($this->_object->guid))
+        {
+            $qb->add_constraint('guid', '<>', $this->_object->guid);
+        }
+        $qb->add_order($child_name_property, 'DESC');
+        // One result should be enough
+        $qb->set_limit(1);
+        return $qb;
+    }
+
+    private function _parse_filename($name, $extension, $default = 0)
+    {
+        if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches))
+        {
+            // Name already has i and base parts, split them.
+            $i = (int)$name_matches[2];
+            $base_name = (string)$name_matches[1];
+        }
+        else
+        {
+            // Defaults
+            $i = $default;
+            $base_name = $name;
+        }
+        return array($i, $base_name);
+    }
+
     /**
      * Helper to resolve the base value for the incrementing suffix and for the name.
      *
@@ -470,24 +493,11 @@ class midcom_helper_reflector_nameresolver
      */
     private function _generate_unique_name_resolve_i($current_name, $extension)
     {
-        if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $current_name, $name_matches))
-        {
-            // Name already has i and base parts, split them.
-            $i = (int)$name_matches[2];
-            $base_name = (string)$name_matches[1];
-            unset($name_matches);
-        }
-        else
-        {
-            // Defaults
-            $i = 1;
-            $base_name = $current_name;
-        }
+        list ($i, $base_name) = $this->_parse_filename($current_name, $extension, 1);
 
         // Look for siblings with similar names and see if they have higher i.
         midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
-        // TODO: Refactor to reduce duplicate code with _name_is_unique_check_siblings
         if (   $parent
             && !empty($parent->guid))
         {
@@ -500,54 +510,33 @@ class midcom_helper_reflector_nameresolver
             }
             foreach ($sibling_classes as $schema_type)
             {
-                $dummy = new $schema_type();
-                $child_name_property = midcom_helper_reflector::get_name_property($dummy);
-                unset($dummy);
-                if (empty($child_name_property))
-                {
-                    // This sibling class does not use names
-                    continue;
-                }
-                $resolver = midcom_helper_reflector_tree::get($schema_type);
-                $qb =& $resolver->_child_objects_type_qb($schema_type, $parent, false);
-                if (!is_object($qb))
+                $qb = $this->_get_sibling_qb($schema_type, $parent);
+                if (!$qb)
                 {
                     continue;
                 }
+                $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+
                 $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
-                // Do not include current object in results, this is the easiest way
-                if (!empty($this->_object->guid))
-                {
-                    $qb->add_constraint('guid', '<>', $this->_object->guid);
-                }
-                $qb->add_order('name', 'DESC');
-                // One result should be enough
-                $qb->set_limit(1);
                 $siblings = $qb->execute();
                 if (empty($siblings))
                 {
                     // we don't care about fatal qb errors here
                     continue;
                 }
+
                 $sibling = $siblings[0];
                 $sibling_name = $sibling->{$child_name_property};
-                if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $sibling_name, $name_matches))
-                {
-                    // Name already has i and base parts, split them.
-                    $sibling_i = (int)$name_matches[2];
 
-                    if ($sibling_i >= $i)
-                    {
-                        $i = $sibling_i + 1;
-                    }
-                    unset($sibling_i, $name_matches);
+                list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
+                if ($sibling_i >= $i)
+                {
+                    $i = $sibling_i + 1;
                 }
             }
-            unset($parent, $parent_resolver, $sibling_classes, $schema_type, $child_name_property, $sibling, $sibling_name);
         }
         else
         {
-            unset($parent);
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
@@ -556,6 +545,7 @@ class midcom_helper_reflector_nameresolver
                 if (midcom::get('dbfactory')->is_a($this->_object, $schema_type))
                 {
                     $is_root_class = true;
+                    break;
                 }
             }
             if (!$is_root_class)
@@ -563,39 +553,20 @@ class midcom_helper_reflector_nameresolver
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get('auth')->drop_sudo();
                 debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
-                unset($root_classes, $is_root_class);
                 return array($i, $base_name);
             }
             else
             {
-                // TODO: Refactor to reduce duplicate code with _name_is_unique_check_roots
                 foreach ($root_classes as $schema_type)
                 {
-                    $dummy = new $schema_type();
-                    $child_name_property = midcom_helper_reflector::get_name_property($dummy);
-                    unset($dummy);
-                    if (empty($child_name_property))
-                    {
-                        // This sibling class does not use names
-                        continue;
-                    }
-                    $resolver =& midcom_helper_reflector_tree::get($schema_type);
-                    $deleted = false;
-                    $qb =& $resolver->_root_objects_qb($deleted);
+                    $qb = $this->_get_root_qb($schema_type);
                     if (!$qb)
                     {
                         continue;
                     }
-                    unset($deleted);
+                    $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+
                     $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
-                    // Do not include current object in results, this is the easiest way
-                    if (!empty($this->_object->guid))
-                    {
-                        $qb->add_constraint('guid', '<>', $this->_object->guid);
-                    }
-                    $qb->add_order($child_name_property, 'DESC');
-                    // One result should be enough
-                    $qb->set_limit(1);
                     $siblings = $qb->execute();
                     if (empty($siblings))
                     {
@@ -604,18 +575,13 @@ class midcom_helper_reflector_nameresolver
                     }
                     $sibling = $siblings[0];
                     $sibling_name = $sibling->{$child_name_property};
-                    if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $sibling_name, $name_matches))
+
+                    list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
+                    if ($sibling_i >= $i)
                     {
-                        // Name already has i and base parts, split them.
-                        $sibling_i = (int)$name_matches[2];
-                        if ($sibling_i >= $i)
-                        {
-                            $i = $sibling_i + 1;
-                        }
-                        unset($sibling_i, $name_matches);
+                        $i = $sibling_i + 1;
                     }
                 }
-                unset($root_classes, $schema_type, $child_name_property, $sibling, $sibling_name);
             }
         }
         midcom::get('auth')->drop_sudo();
