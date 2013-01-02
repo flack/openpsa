@@ -326,6 +326,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         {
             $_POST = array();
         }
+        if (!empty($_FILES))
+        {
+            $_FILES = array();
+        }
         if (!empty($_GET))
         {
             $_GET = array();

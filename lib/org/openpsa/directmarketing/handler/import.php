@@ -20,6 +20,13 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private $_schemadbs = array();
 
+    /**
+     * Flag to track whether an import was successfully performed
+     *
+     * @var boolean
+     */
+    private $_import_success = false;
+
     private function _prepare_handler($args)
     {
         midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
@@ -60,14 +67,14 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         switch ($handler_id)
         {
             case 'import_simpleemails':
-                $this->add_breadcrumb("campaign/import/simpleemails/{$args[0]}/", $this->_l10n->get('email addresses'));
+                $this->add_breadcrumb("", $this->_l10n->get('email addresses'));
                 break;
             case 'import_vcards':
-                $this->add_breadcrumb("campaign/import/vcards/{$args[0]}/", $this->_l10n->get('vcards'));
+                $this->add_breadcrumb("", $this->_l10n->get('vcards'));
                 break;
             case 'import_csv_file_select':
             case 'import_csv_field_select':
-                $this->add_breadcrumb("campaign/import/csv/{$args[0]}/", $this->_l10n->get('csv'));
+                $this->add_breadcrumb("", $this->_l10n->get('csv'));
                 break;
         }
     }
@@ -183,7 +190,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         if (count($this->_request_data['contacts']) > 0)
         {
             $importer = new org_openpsa_directmarketing_importer($this->_schemadbs);
-            $this->_request_data['import-status'] = $importer->import_subscribers($this->_request_data['contacts'], $this->_request_data['campaign']);
+            $this->_request_data['import_status'] = $importer->import_subscribers($this->_request_data['contacts'], $this->_request_data['campaign']);
+            if (   $this->_request_data['import_status']['subscribed_new'] > 0
+                || $this->_request_data['import_status']['subscribed_existing'] > 0)
+            {
+                $this->_import_success = true;
+            }
         }
 
         $this->_request_data['time_end'] = time();
@@ -197,8 +209,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _show_simpleemails($handler_id, array &$data)
     {
-        if (   $this->_request_data['import_status']['subscribed_new'] == 0
-            && $this->_request_data['import_status']['subscribed_existing'] == 0)
+        if (!$this->_import_success)
         {
             midcom_show_style('show-import-simpleemails-form');
         }
@@ -342,8 +353,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _show_vcards($handler_id, array &$data)
     {
-        if (   $this->_request_data['import_status']['subscribed_new'] == 0
-            && $this->_request_data['import_status']['subscribed_existing'] == 0)
+        if (!$this->_import_success)
         {
             midcom_show_style('show-import-vcard-form');
         }

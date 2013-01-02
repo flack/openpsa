@@ -46,7 +46,6 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
      */
     public function __construct(array $schemadbs)
     {
-        $this->_campaign = $campaign;
         $this->_schemadbs = $schemadbs;
         $this->_datamanagers['campaign_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['campaign_member']);
         $this->_datamanagers['person'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['person']);
@@ -366,8 +365,6 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             'failed_create' => 0,
             'failed_add' => 0,
         );
-
-        $this->_load_datamanagers();
 
         foreach ($subscribers as $subscriber)
         {

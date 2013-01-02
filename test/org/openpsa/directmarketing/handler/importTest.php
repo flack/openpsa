@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
 
@@ -49,6 +49,23 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'import', 'simpleemails', $campaign->guid));
         $this->assertEquals('import_simpleemails', $data['handler_id']);
+        $this->show_handler($data);
+
+        $_POST = array
+        (
+            'org_openpsa_directmarketing_import_separator' => 'N',
+            'org_openpsa_directmarketing_import_textarea' => __METHOD__ . '.' . time() . '@' . __CLASS__ . '.org',
+        );
+        $_FILES = array
+        (
+            'org_openpsa_directmarketing_import_upload' => array
+            (
+                'tmp_name' => null
+            )
+        );
+        $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'import', 'simpleemails', $campaign->guid));
+        $this->assertArrayHasKey('import_status', $data);
+        $this->assertEquals(1, $data['import_status']['subscribed_new']);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -62,7 +79,7 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'import', 'csv', $campaign->guid));
         $this->assertEquals('import_csv_file_select', $data['handler_id']);
-
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 
@@ -75,7 +92,7 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'import', 'vcards', $campaign->guid));
         $this->assertEquals('import_vcards', $data['handler_id']);
-
+        $this->show_handler($data);
         midcom::get('auth')->drop_sudo();
     }
 }
