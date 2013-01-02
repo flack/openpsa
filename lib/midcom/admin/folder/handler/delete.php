@@ -203,7 +203,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     private function _delete_children($object)
     {
         $children = self::_get_child_objects($object);
-        if ($children === false)
+        if (empty($children))
         {
             return false;
         }
@@ -274,10 +274,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         {
             $topic = new midcom_db_topic($id);
             $children = self::_get_child_objects($topic);
-            if ($children === false)
-            {
-                $children = array();
-            }
         }
         catch (midcom_error $e)
         {
@@ -292,7 +288,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         if (   $qb_topic->count() === 0
             && $qb_article->count() === 0
-            && !$children)
+            && empty($children))
         {
             return false;
         }
@@ -301,14 +297,10 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         foreach ($qb_topic->execute_unchecked() as $topic)
         {
-            $topic_title = $topic->extra;
-            if (!$topic_title)
-            {
-                $topic_title = $topic->name;
-            }
+            $topic_title = $topic->get_label();
 
             echo "    <li class=\"node\">\n";
-            echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/stock_folder.png\" alt=\"\" /> {$topic_title}\n";
+            echo "        <img src=\"" . MIDCOM_STATIC_URL."/stock-icons/16x16/stock_folder.png\" alt=\"\" /> {$topic_title}\n";
 
             self::list_children($topic->id);
 
@@ -318,7 +310,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         foreach ($qb_article->execute_unchecked() as $article)
         {
             echo "    <li class=\"leaf article\">\n";
-            echo "        <img src=\"".MIDCOM_STATIC_URL . "/stock-icons/16x16/document.png\" alt=\"\" /> {$article->title}\n";
+            echo "        <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/document.png\" alt=\"\" /> {$article->title}\n";
 
             // Check for the reply articles
             $qb = midcom_db_article::new_query_builder();
@@ -326,23 +318,14 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
             if ($qb->count() > 0)
             {
-                $reply_ul = false;
+                echo "        <ul>\n";
                 foreach ($qb->execute_unchecked() as $reply)
                 {
-                    if (!$reply_ul)
-                    {
-                        echo "        <ul>\n";
-                        $reply_ul = true;
-                    }
-
                     echo "            <li class=\"leaf_child reply_article\">{$reply->title}\n";
                     self::_list_leaf_children($reply);
                     echo "            </li>\n";
                 }
-                if ($reply_ul)
-                {
-                    echo "        </ul>\n";
-                }
+                echo "        </ul>\n";
             }
 
             self::_list_leaf_children($article, array('midgard_article'));
@@ -365,7 +348,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             {
                 $title = midcom_helper_reflector::get($class)->get_object_label($object);
                 echo "    <li class=\"leaf $class\"$style>\n";
-                echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/document.png\" alt=\"\" /> {$title}\n";
+                echo "        <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/document.png\" alt=\"\" /> {$title}\n";
                 self::_list_leaf_children($object);
                 echo "    </li>\n";
             }
@@ -376,42 +359,45 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
     private function _list_leaf_children($object, $skip = array())
     {
-        if ($children = self::_get_child_objects($object))
+        $children = self::_get_child_objects($object, $skip);
+        if (empty($children))
         {
-            if ($skip)
+            return;
+        }
+
+        echo "        <ul>\n";
+        foreach ($children as $class => $objects)
+        {
+            foreach ($objects as $object)
             {
-                foreach ($children as $class => $objects)
-                {
-                    if (in_array($class, $skip))
-                    {
-                        unset($children[$class]);
-                    }
-                }
+                $title = midcom_helper_reflector::get($class)->get_object_label($object);
+                echo "            <li class=\"leaf_child $class\" style=\"display: none;\">{$title}\n";
+                self::_list_leaf_children($object);
+                echo "            </li>\n";
             }
         }
-        if ($children)
-        {
-            echo "        <ul>\n";
-            foreach ($children as $class => $objects)
-            {
-                foreach ($objects as $object)
-                {
-                    $title = midcom_helper_reflector::get($class)->get_object_label($object);
-                    echo "            <li class=\"leaf_child $class\" style=\"display: none;\">{$title}\n";
-                    self::_list_leaf_children($object);
-                    echo "            </li>\n";
-                }
-            }
-            echo "        </ul>\n";
-        }
+        echo "        </ul>\n";
+
     }
 
-    private static function _get_child_objects($object)
+    private static function _get_child_objects($object, $skip = array())
     {
         $children = midcom_helper_reflector_tree::get_child_objects($object);
         if ($children === false)
         {
             debug_add('Failed to query the children of object {$object->guid}: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            $children = array();
+        }
+
+        if (!empty($skip))
+        {
+            foreach ($children as $class => $objects)
+            {
+                if (in_array($class, $skip))
+                {
+                    unset($children[$class]);
+                }
+            }
         }
 
         return $children;
