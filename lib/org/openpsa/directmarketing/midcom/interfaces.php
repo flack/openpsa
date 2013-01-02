@@ -116,19 +116,17 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        switch($mode)
+        switch ($mode)
         {
             case 'all':
                 break;
             case 'future':
                 // DirMar does not have future references so we have nothing to transfer...
                 return true;
-                break;
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
                 return false;
-                break;
         }
 
         // Transfer links from classes we drive

@@ -226,21 +226,15 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        switch($mode)
+        //TODO Calendar should have future mode but we don't support it yet
+        switch ($mode)
         {
             case 'all':
                 break;
-            /*
-            case 'future':
-                // Calendar should have future mode but we don't support it yet
-
-                break;
-            */
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
                 return false;
-                break;
         }
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->begin_group('OR');

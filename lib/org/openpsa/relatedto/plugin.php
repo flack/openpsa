@@ -351,8 +351,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     );
                     break;
                 case 'wikinote':
-                    if (   !array_key_exists('wikiword', $data)
-                        || empty($data['wikiword']))
+                    if (empty($data['wikiword']))
                     {
                         //Wikiword to use not given
                         debug_add("data['wikiword'] not given, skipping", MIDCOM_LOG_WARN);
