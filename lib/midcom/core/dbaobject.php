@@ -302,8 +302,7 @@ abstract class midcom_core_dbaobject
      */
     public static function undelete($guid)
     {
-        // TODO: This will work only in PHP 5.3 thanks to late static bindingss
-        return midcom_baseclasses_core_dbobject::undelete(array($guid), __CLASS__);
+        return midcom_baseclasses_core_dbobject::undelete(array($guid), get_called_class());
     }
 
     /**
@@ -563,8 +562,7 @@ abstract class midcom_core_dbaobject
     }
     public static function new_reflection_property()
     {
-        // TODO: This will work only in PHP 5.3 thanks to late static binding
-        $classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class(__CLASS__);
+        $classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class(get_called_class());
         return call_user_func(array($classname, 'new_reflection_property'));
     }
 
