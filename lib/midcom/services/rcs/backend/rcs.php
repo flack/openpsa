@@ -596,7 +596,10 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 $lines1 = explode ("\n", $oldest_value);
                 $lines2 = explode ("\n", $newest[$attribute]);
 
+                // Ignore deprecation warnings caused by Text_Diff
+                $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
                 $diff = new Text_Diff($lines1, $lines2);
+                error_reporting($old_value);
 
                 if ($renderer_style == 'unified')
                 {
