@@ -171,7 +171,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     }
 
     /**
-     * Sends the 'abstract' version of the message as a Jabber message to subscribers via org.openpsa.jabber
+     * Sends the 'abstract' version of the message as a Jabber message to subscribers
      */
     public function send_xmpp($message)
     {
