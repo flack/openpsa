@@ -61,10 +61,10 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
 
         $schemadbs = array
         (
-            'campaign_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member')),
             'person' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person')),
-            'organization_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member')),
+            'campaign_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member')),
             'organization' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization')),
+            'organization_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member')),
         );
 
         foreach ($schemadbs as $name => $db)

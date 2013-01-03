@@ -15,7 +15,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
     public $include_totals = true;
     public $_schema = 'default';
 
-    function _load_schemadb($handler_id, &$args, &$data)
+    public function _load_schemadbs($handler_id, &$args, &$data)
     {
         if (isset($args[0]))
         {
@@ -28,7 +28,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
             $data['filename'] = $_GET['filename'];
         }
 
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get($data['schemadb_to_use']));
+        return array(midcom_helper_datamanager2_schema::load_database($this->_config->get($data['schemadb_to_use'])));
     }
 
     function _load_data($handler_id, &$args, &$data)
@@ -57,7 +57,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
 
         $results = $qb->execute();
 
-        return $results;
+        return array($results);
     }
 }
 ?>

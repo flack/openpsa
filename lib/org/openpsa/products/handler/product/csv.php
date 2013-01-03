@@ -11,7 +11,7 @@
  */
 class org_openpsa_products_handler_product_csv extends midcom_baseclasses_components_handler_dataexport
 {
-    function _load_schemadb($handler_id, &$args, &$data)
+    function _load_schemadbs($handler_id, &$args, &$data)
     {
         $data['session'] = new midcom_services_session('org_openpsa_products_csvexport');
         if (!empty($_POST))
@@ -59,7 +59,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
 
         $this->_schema_fields_to_skip = explode(',', $this->_config->get('export_skip_fields'));
 
-        return $this->_request_data['schemadb_product'];
+        return array($this->_request_data['schemadb_product']);
     }
 
     function _load_data($handler_id, &$args, &$data)
@@ -114,7 +114,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $products[] = $product;
         }
 
-        return $products;
+        return array($products);
     }
 }
 ?>

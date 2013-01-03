@@ -16,12 +16,12 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * The Datamanager of the objects to export.
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var array Array of midcom_helper_datamanager2_datamanager instances
      */
-    private $_datamanager = null;
+    private $_datamanagers = array();
 
     /**
-     * Flag indicating whether or not the GUID should be included in exports.
+     * Flag indicating whether or not the GUID of the first type should be included in exports.
      *
      * @var boolean
      */
@@ -36,9 +36,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     public $csv = array();
 
-    var $_schema = null;
+    var $_schema;
 
-    var $_objects = array();
+    var $_rows = array();
 
     private $_totals = array();
 
@@ -48,40 +48,47 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      */
     public function _prepare_request_data()
     {
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['objects'] =& $this->_objects;
+        $this->_request_data['datamanagers'] =& $this->_datamanagers;
+        $this->_request_data['rows'] =& $this->_rows;
     }
 
     /**
-     * Internal helper, loads the datamanager for the current type. Any error triggers a 500.
+     * Internal helper, loads the datamanagers for the given types. Any error triggers a 500.
      */
-    public function _load_datamanager($schemadb)
+    public function _load_datamanagers(array $schemadbs)
     {
         if (empty($this->_schema))
         {
             throw new midcom_error('Export schema ($this->_schema) must be defined, hint: do it in "_load_schemadb"');
         }
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->set_schema($this->_schema))
+        foreach ($schemadbs as $type => $schemadb)
         {
-            throw new midcom_error("Failed to create a DM2 instance for schemadb schema '{$this->_schema}'.");
+            $this->_datamanagers[$type] = new midcom_helper_datamanager2_datamanager($schemadb);
+
+            if (array_key_exists($this->_schema, $schemadb))
+            {
+                $schema_name = $this->_schema;
+            }
+            else
+            {
+                $schema_name = key($schemadb);
+            }
+
+            if (!$this->_datamanagers[$type]->set_schema($schema_name))
+            {
+                throw new midcom_error("Failed to create a DM2 instance for schemadb schema '{$schema_name}'.");
+            }
         }
     }
 
-    abstract function _load_schemadb($handler_id, &$args, &$data);
+    abstract function _load_schemadbs($handler_id, &$args, &$data);
 
     abstract function _load_data($handler_id, &$args, &$data);
 
     public function _handler_csv($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-
-        midcom::get()->disable_limits();
-
-        $this->_load_datamanager($this->_load_schemadb($handler_id, $args, $data));
-        $this->_objects = $this->_load_data($handler_id, $args, $data);
+        $this->_load_datamanagers($this->_load_schemadbs($handler_id, $args, $data));
 
         if (empty($args[0]))
         {
@@ -97,6 +104,11 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             }
         }
 
+        midcom::get()->disable_limits();
+
+        $this->_rows = $this->_load_data($handler_id, $args, $data);
+
+
         if (empty($data['filename']))
         {
             $data['filename'] = str_replace('.csv', '', $args[0]);
@@ -105,35 +117,157 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $this->_init_csv_variables();
         midcom::get()->skip_page_style = true;
 
-        // FIXME: Use global configuration
-        //midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
-        midcom::get('cache')->content->content_type('application/csv');
+        midcom::get('cache')->content->content_type($this->csv['mimetype']);
         _midcom_header('Content-Disposition: filename=' . $data['filename']);
+    }
+
+    public function _show_csv($handler_id, array &$data)
+    {
+        // Make real sure we're dumping data live
+        midcom::get('cache')->content->enable_live_mode();
+        while(@ob_end_flush());
+
+        // Dump headers
+        reset($this->_datamanagers);
+        $first_type = key($this->_datamanagers);
+        $multiple_types = count($this->_datamanagers) > 1;
+        $row = array();
+        if ($this->include_guid)
+        {
+            $row[] = $first_type . ' GUID';
+        }
+
+        foreach ($this->_datamanagers as $type => $datamanager)
+        {
+            foreach ($datamanager->schema->field_order as $name)
+            {
+                $title =& $datamanager->schema->fields[$name]['title'];
+                $fieldtype =& $datamanager->schema->fields[$name]['type'];
+                if (   $this->include_totals
+                    && $fieldtype == 'number')
+                {
+                    $this->_totals[$type . '-' . $name] = 0;
+                }
+                $title = midcom::get('i18n')->get_string($title, $this->_component);
+                if ($multiple_types)
+                {
+                    $title = midcom::get('i18n')->get_string($type, $this->_component) . ': ' . $title;
+                }
+                $row[] = $title;
+            }
+        }
+        $this->_print_row($row);
+
+        $this->_dump_rows();
+
+        if ($this->include_totals)
+        {
+            $row = array();
+            foreach ($this->_datamanagers as $type => $datamanager)
+            {
+                foreach ($datamanager->schema->field_order as $name)
+                {
+                    $fieldtype =& $datamanager->schema->fields[$name]['type'];
+                    $value = "";
+                    if ($fieldtype == 'number')
+                    {
+                        $value = $this->_totals[$type . '-' . $name];
+                    }
+                    $row[] = $value;
+                }
+            }
+            $this->_print_row($row);
+        }
+        // restart ob to keep MidCOM happy
+        ob_start();
+    }
+
+    private function _dump_rows()
+    {
+        reset($this->_datamanagers);
+        $first_type = key($this->_datamanagers);
+        // Output each row
+        foreach ($this->_rows as $num => $row)
+        {
+            $output = array();
+            foreach ($this->_datamanagers as $type => $datamanager)
+            {
+                if (!array_key_exists($type, $row))
+                {
+                    debug_add("row #{$num} does not have {$type} set", MIDCOM_LOG_INFO);
+                    $i2_tgt = count($datamanager->schema->field_order);
+                    for ($i2 = 0; $i2 < $i2_tgt; $i2++)
+                    {
+                        $output[] = '';
+                    }
+                    continue;
+                }
+                $object =& $row[$type];
+
+                if (!$datamanager->set_storage($object))
+                {
+                    // Major error, panic
+                    throw new midcom_error( "Could not set_storage for row #{$num} ({$type} {$object->guid})");
+                }
+
+                if (   $this->include_guid
+                    && $type == $first_type)
+                {
+                    $output[] = $object->guid;
+                }
+
+                foreach ($datamanager->schema->field_order as $fieldname)
+                {
+                    $fieldtype = $datamanager->schema->fields[$fieldname]['type'];
+                    $data = '';
+                    $data = $datamanager->types[$fieldname]->convert_to_csv();
+                    if (   $this->include_totals
+                        && $fieldtype == 'number')
+                    {
+                        $this->_totals[$type . '-' . $fieldname] += $data;
+                    }
+                    $output[] = $data;
+                }
+            }
+            $this->_print_row($output);
+        }
+    }
+
+    private function _print_row(array $row)
+    {
+        $row = array_map(array($this, 'encode_csv'), $row);
+        echo implode($this->csv['s'], $row);
+        echo $this->csv['nl'];
+        flush();
     }
 
     private function _init_csv_variables()
     {
         // FIXME: Use global configuration
+        $this->csv['s'] = $this->_config->get('csv_export_separator');
         if (empty($this->csv['s']))
         {
             $this->csv['s'] = ';';
-            //$this->csv['s'] = $this->_config->get('csv_export_separator');
         }
+        $this->csv['q'] = $this->_config->get('csv_export_quote');
         if (empty($this->csv['q']))
         {
             $this->csv['q'] = '"';
-            //$this->csv['q'] = $this->_config->get('csv_export_quote');
         }
         if (empty($this->csv['d']))
         {
-            //$this->csv['d'] = '.';
             $this->csv['d'] = $this->_l10n_midcom->get('decimal point');
         }
+        if ($this->csv['s'] == $this->csv['d'])
+        {
+            throw new midcom_error("CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
+        }
+        $this->csv['nl'] = $this->_config->get('csv_export_newline');
         if (empty($this->csv['nl']))
         {
             $this->csv['nl'] = "\n";
-            //$this->csv['nl'] = $this->_config->get('csv_export_newline');
         }
+        $this->csv['charset'] = $this->_config->get('csv_export_charset');
         if (empty($this->csv['charset']))
         {
             // Default to ISO-LATIN-15 (Latin-1 with EURO sign etc)
@@ -144,15 +278,15 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 // Excep when not on windows, then default to UTF-8
                 $this->csv['charset'] = 'UTF-8';
             }
-            //$this->csv['charset'] = $this->_config->get('csv_export_charset');
         }
-        if ($this->csv['s'] == $this->csv['d'])
+        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type');
+        if (empty($this->csv['mimetype']))
         {
-            throw new midcom_error("CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
+            $this->csv['mimetype'] = 'appplication/csv';
         }
     }
 
-    private function _encode_csv($data, $add_separator = true, $add_newline = false)
+    public function encode_csv($data)
     {
         /* START: Quick'n'Dirty on-the-fly charset conversion */
         if (   $this->csv['charset'] !== 'UTF-8'
@@ -188,131 +322,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             // Quote
             $data = "{$this->csv['q']}{$data}{$this->csv['q']}";
         }
-        if ($add_separator)
-        {
-            $data .= $this->csv['s'];
-        }
-        if ($add_newline)
-        {
-            $data .= $this->csv['nl'];
-        }
+
         return $data;
-    }
-
-    /**
-     * Sets given object as storage object for DM2
-     */
-    function set_dm_storage(&$object)
-    {
-        return $this->_datamanager->set_storage($object);
-    }
-
-    public function _show_csv($handler_id, array &$data)
-    {
-        // Make real sure we're dumping data live
-        midcom::get('cache')->content->enable_live_mode();
-        while(@ob_end_flush());
-
-        // Dump headers
-        if ($this->include_guid)
-        {
-            echo $this->_encode_csv('GUID', true, false);
-        }
-
-        $i = 0;
-        $datamanager =& $this->_datamanager;
-
-        foreach ($datamanager->schema->field_order as $name)
-        {
-            $title =& $datamanager->schema->fields[$name]['title'];
-            $type =& $datamanager->schema->fields[$name]['type'];
-            if (   $this->include_totals
-                && $type == 'number')
-            {
-                $this->_totals[$name] = 0;
-            }
-            $title = midcom::get('i18n')->get_string($title, $this->_component);
-            $i++;
-            if ($i < count($datamanager->schema->field_order))
-            {
-                echo $this->_encode_csv($title, true, false);
-            }
-            else
-            {
-                echo $this->_encode_csv($title, false, true);
-            }
-        }
-
-        $this->_dump_objects();
-
-        if ($this->include_totals)
-        {
-            foreach ($datamanager->schema->field_order as $name)
-            {
-                $type =& $datamanager->schema->fields[$name]['type'];
-                $value = "";
-                $last = false;
-                $i++;
-                if ($i < count($datamanager->schema->field_order))
-                {
-                    $last = true;
-                }
-                if ($type == 'number')
-                {
-                    $value = $this->_totals[$name];
-                }
-
-                echo $this->_encode_csv($value, true, $last);
-            }
-            flush();
-        }
-        // restart ob to keep MidCOM happy
-        ob_start();
-    }
-
-    private function _dump_objects()
-    {
-        foreach ($this->_objects as $object)
-        {
-            if (!$this->set_dm_storage($object))
-            {
-                // Object failed to load, skip
-                continue;
-            }
-
-            if ($this->include_guid)
-            {
-                echo $this->_encode_csv($object->guid, true, false);
-            }
-
-            $i = 0;
-            foreach ($this->_datamanager->schema->field_order as $fieldname)
-            {
-                $type =& $this->_datamanager->types[$fieldname];
-                $typename =& $this->_datamanager->schema->fields[$fieldname]['type'];
-                $data = '';
-                $data = $type->convert_to_csv();
-
-                if (   $this->include_totals
-                    && $typename == 'number')
-                {
-                    $this->_totals[$fieldname] += $data;
-                }
-                $i++;
-                if ($i < count($this->_datamanager->schema->field_order))
-                {
-                    echo $this->_encode_csv($data, true, false);
-                }
-                else
-                {
-                    echo $this->_encode_csv($data, false, true);
-                }
-                $data = '';
-                // Prevent buggy types from leaking their old value over
-                $this->_datamanager->types[$fieldname]->value = false;
-            }
-            flush();
-        }
     }
 }
 ?>

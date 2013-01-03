@@ -38,13 +38,6 @@
     'handler' => array('org_openpsa_directmarketing_handler_import', 'vcards'),
 ),
 
-// Match /campaign/export/csv/<guid>/<filename>
-'export_csv1' => array
-(
-    'fixed_args' => array('campaign', 'export', 'csv'),
-    'variable_args' => 2,
-    'handler' => array('org_openpsa_directmarketing_handler_export', 'csv'),
-),
 // Match /campaign/export/csv/<guid>/
 'export_csv2' => array
 (

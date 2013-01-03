@@ -7,95 +7,34 @@
  */
 
 /**
- * org.openpsa.directmarketing campaign handler and viewer class.
+ * org.openpsa.directmarketing campaign handler class.
+ *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_components_handler
+class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_components_handler_dataexport
 {
     /**
-     * The schema databases used for importing to various objects like persons and organizations
-     *
-     * @var Array
-     */
-    private $_schemadbs = array();
-
-    /**
-     * Datamanagers used for saving various objects like persons and organizations
-     *
-     * @var Array
-     */
-    private $_datamanagers = array();
-
-    /**
-     * Holds our configured CSV related variables (separators etc)
-     * @var array
-     */
-    var $csv = array();
-
-    /**
      * config key csv_export_memberships cached
+     *
      * @var string
      */
     var $membership_mode = false;
 
-    private function _prepare_handler($args)
+    public function _load_schemadbs($handler_id, &$args, &$data)
     {
-        // TODO: Add smarter per-type ACL checks
-        midcom::get('auth')->require_valid_user();
-
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            )
-        );
+        $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
 
-        $this->bind_view_to_object($this->_request_data['campaign']);
+        $this->_schema = 'export';
 
-        $this->_schemadbs = $this->_master->load_schemas();
+        return $this->_master->load_schemas();
     }
 
-    private function _load_datamanagers()
+    public function _load_data($handler_id, &$args, &$data)
     {
-        foreach ($this->_schemadbs as $identifier => $schemadb)
-        {
-            $this->_datamanagers[$identifier] = new midcom_helper_datamanager2_datamanager($schemadb);
-            if (array_key_exists('export', $schemadb))
-            {
-                $this->_datamanagers[$identifier]->set_schema('export');
-            }
-            else
-            {
-                $this->_datamanagers[$identifier]->set_schema('default');
-            }
-        }
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_csv($handler_id, array $args, array &$data)
-    {
-        $this->_prepare_handler($args);
-
-        if (empty($args[1]))
-        {
-            debug_add('Filename part not specified in URL, generating');
-            //We do not have filename in URL, generate one and redirect
-            $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
-            return new midcom_response_relocate("campaign/export/csv/{$this->_request_data['campaign']->guid}/{$fname}");
-        }
-        midcom::get()->disable_limits();
-
-        $this->_request_data['export_rows'] = array();
+        $rows = array();
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_members->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
         $qb_members->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
@@ -110,59 +49,58 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         $this->membership_mode = $this->_config->get('csv_export_memberships');
 
+        if ($this->membership_mode == 'all')
+        {
+            $this->_include_guid = true;
+        }
+
         foreach ($members as $k => $member)
         {
             if ($row = $this->_process_member($member))
             {
-                $this->_request_data['export_rows'][] = $row;
+                $rows[] = $row;
             }
         }
-
-        $this->_load_datamanagers();
-        $this->_init_csv_variables();
-        midcom::get()->skip_page_style = true;
-        midcom::get('cache')->content->content_type($this->_config->get('csv_export_content_type'));
+        return $rows;
     }
 
     private function _process_member($member)
     {
-        $adder = array();
-        $adder['campaign_member'] = $member;
+        $row = array();
+        $row['campaign_member'] = $member;
         try
         {
-            $adder['person'] = org_openpsa_contacts_person_dba::get_cached($member->person);
+            $row['person'] = org_openpsa_contacts_person_dba::get_cached($member->person);
         }
         catch (midcom_error $e)
         {
             $e->log();
-            return false;
+            return $row;
         }
         $qb_memberships = midcom_db_member::new_query_builder();
         $qb_memberships->add_constraint('uid', '=', $member->person);
         $memberships = $qb_memberships->execute_unchecked();
-        if (   !is_array($memberships)
-            || count($memberships) == 0)
+        if (empty($memberships))
         {
-            return $adder;
+            return $row;
         }
         switch ($this->membership_mode)
         {
             case 'all':
                 foreach ($memberships as $k2 => $membership)
                 {
-                    $adder['organization_member'] = $membership;
+                    $row['organization_member'] = $membership;
                     try
                     {
-                        $adder['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
+                        $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
                     }
                     catch (midcom_error $e)
                     {
                         debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
-                        return false;
+                        continue;
                     }
-                    return $adder;
+                    return $row;
                 }
-                break;
             default:
                 // Fall-trough intentional
             case 'first':
@@ -170,15 +108,15 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             case 'last':
                 foreach ($memberships as $k2 => $membership)
                 {
-                    $adder['organization_member'] = $membership;
+                    $row['organization_member'] = $membership;
                     try
                     {
-                        $adder['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
+                        $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
                     }
                     catch (midcom_error $e)
                     {
                         debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
-                        return false;
+                        continue;
                     }
                     // Get only first or last membership
                     if ($this->membership_mode != 'last')
@@ -186,167 +124,8 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
                         break;
                     }
                 }
-                return $adder;
-                break;
+                return $row;
         }
-    }
-
-    private function _init_csv_variables()
-    {
-        if (empty($this->csv['s']))
-        {
-            $this->csv['s'] = $this->_config->get('csv_export_separator');
-        }
-        if (empty($this->csv['q']))
-        {
-            $this->csv['q'] = $this->_config->get('csv_export_quote');
-        }
-        if (empty($this->csv['d']))
-        {
-            $this->csv['d'] = $this->_config->get('csv_export_decimal');
-        }
-        if (empty($this->csv['nl']))
-        {
-            $this->csv['nl'] = $this->_config->get('csv_export_newline');
-        }
-        if ($this->csv['s'] == $this->csv['d'])
-        {
-            throw new midcom_error( "CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
-        }
-    }
-
-    private function _encode_csv($data, $add_separator = true, $add_newline = false)
-    {
-        // Strings and numbers beginning with zero are quoted
-        if (   (   !is_numeric($data)
-                || preg_match('/^[0+]/', $data))
-            && !empty($data))
-        {
-            // Make sure we have only newlines in data
-            $data = preg_replace("/\n\r|\r\n|\r/", "\n", $data);
-            // Escape quotes (PONDER: make configurable between doubling the character and escaping)
-            $data = str_replace($this->csv['q'], '\\' . $this->csv['q'], $data);
-            // Escape newlines
-            $data = str_replace("\n", '\\n', $data);
-            // Quote
-            $data = "{$this->csv['q']}{$data}{$this->csv['q']}";
-        }
-        else
-        {
-            // Decimal point format
-            $data = str_replace('.', $this->csv['s'], $data);
-        }
-        if ($add_separator)
-        {
-            $data .= $this->csv['s'];
-        }
-        if ($add_newline)
-        {
-            $data .= $this->csv['nl'];
-        }
-        return $data;
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_csv($handler_id, array &$data)
-    {
-        // Make absolutely sure we're in live output
-        midcom::get('cache')->content->enable_live_mode();
-        while(@ob_end_flush());
-
-        $object_types = array('person', 'campaign_member', 'organization', 'organization_member');
-        $type_headers = array();
-        $type_headers_count = 0;
-        foreach ($object_types as $type)
-        {
-            $type_headers[$type] = array();
-            $datamanager =& $this->_datamanagers[$type];
-            foreach ($datamanager->schema->field_order as $name)
-            {
-                $type_headers[$type][$name] = $datamanager->schema->fields[$name]['title'];
-                $type_headers_count++;
-            }
-        }
-
-        // Output header
-        $i = 0;
-        if ($this->membership_mode == 'all')
-        {
-            // If membership mode is 'all' we add person guid as a way to reliably recognize individuals from among the memberships
-            echo $this->_encode_csv('person: GUID', true, false);
-        }
-        foreach ($object_types as $type)
-        {
-            foreach ($type_headers[$type] as $header)
-            {
-                $i++;
-                if ($i < $type_headers_count)
-                {
-                    echo $this->_encode_csv("{$type}: {$header}", true, false);
-                }
-                else
-                {
-                    echo $this->_encode_csv("{$type}: {$header}", false, true);
-                }
-            }
-        }
-
-        // Output each row
-        foreach ($this->_request_data['export_rows'] as $num => $row)
-        {
-            if ($this->membership_mode == 'all')
-            {
-                echo $this->_encode_csv($row['person']->guid, true, false);
-            }
-            $i = 0;
-            foreach ($object_types as $type)
-            {
-                if (!array_key_exists($type, $row))
-                {
-                    debug_add("row #{$num} does not have {$type} set", MIDCOM_LOG_INFO);
-                    $i2_tgt = count($type_headers[$type]);
-                    for ($i2 = 0; $i2 < $i2_tgt; $i2++)
-                    {
-                        $i++;
-                        if ($i < $type_headers_count)
-                        {
-                            echo $this->csv['s'];
-                        }
-                    }
-                    continue;
-                }
-                $object =& $row[$type];
-                $datamanager =& $this->_datamanagers[$type];
-                if (!$datamanager->set_storage($object))
-                {
-                    // Major error, panic
-                    throw new midcom_error( "Could not set_storage for row #{$num} ({$type} {$object->guid})");
-                }
-                //$this->_init_csv_variables();
-                foreach ($datamanager->schema->field_order as $fieldname)
-                {
-                    $i++;
-                    $data = '';
-                    $data = $datamanager->types[$fieldname]->convert_to_csv();
-                    if ($i < $type_headers_count)
-                    {
-                        echo $this->_encode_csv($data, true, false);
-                    }
-                    else
-                    {
-                        echo $this->_encode_csv($data, false, false);
-                    }
-                }
-            }
-            echo $this->csv['nl'];
-            flush();
-        }
-        // The output context thingamagjick insists on buffering things, make it happy
-        ob_start();
     }
 }
 ?>

@@ -15,7 +15,7 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
     public $include_totals = true;
     public $_schema = 'hour_report';
 
-    function _load_schemadb($handler_id, &$args, &$data)
+    public function _load_schemadbs($handler_id, &$args, &$data)
     {
         //We need the constants...
         midcom::get('componentloader')->load('org.openpsa.projects');
@@ -26,10 +26,10 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
         {
             $data['filename'] = $_GET['filename'];
         }
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
+        return array(midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours')));
     }
 
-    function _load_data($handler_id, &$args, &$data)
+    public function _load_data($handler_id, &$args, &$data)
     {
         midcom::get('auth')->require_valid_user();
         if (   empty($_POST['guids'])
@@ -49,7 +49,7 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
             }
         }
 
-        return $qb->execute();
+        return array($qb->execute());
     }
 }
 ?>
