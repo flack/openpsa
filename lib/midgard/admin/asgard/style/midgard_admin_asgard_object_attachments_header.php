@@ -45,7 +45,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "  </td>\n";
                 $last_edit = ($file->metadata->revised == 0) ? $file->metadata->created : $file->metadata->revised;
                 echo "  <td>" . strftime('%x %X', $last_edit) . "</td>\n";
-                if ($persons[$file->metadata->revisor]->guid)
+                if (!empty($persons[$file->metadata->revisor]->guid))
                 {
                     echo "<td><a href=\"{$prefix}__mfa/asgard/object/open/{$persons[$file->metadata->revisor]->guid}/\">{$persons[$file->metadata->revisor]->name}</a></td>\n";
                 }
