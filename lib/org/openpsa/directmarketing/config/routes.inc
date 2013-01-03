@@ -39,7 +39,7 @@
 ),
 
 // Match /campaign/export/csv/<guid>/
-'export_csv2' => array
+'export_csv' => array
 (
     'fixed_args' => array('campaign', 'export', 'csv'),
     'variable_args' => 1,
