@@ -496,8 +496,7 @@ class midcom_helper_reflector_nameresolver
         // Look for siblings with similar names and see if they have higher i.
         midcom::get('auth')->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
-        if (   $parent
-            && !empty($parent->guid))
+        if (!empty($parent->guid))
         {
             // We have parent, check siblings
             $parent_resolver = new midcom_helper_reflector_tree($parent);

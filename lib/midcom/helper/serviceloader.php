@@ -46,8 +46,7 @@ class midcom_helper_serviceloader
         // Start by checking what implementation is to be used
         $implementation_class = $this->get_implementation($service);
 
-        if (   is_null($implementation_class)
-            || empty($implementation_class))
+        if (empty($implementation_class))
         {
             // Service disabled for this site
             return false;
@@ -78,8 +77,7 @@ class midcom_helper_serviceloader
             return $this->instances[$service];
         }
         $implementation_class = $this->get_implementation($service);
-        if (   is_null($implementation_class)
-            || empty($implementation_class))
+        if (empty($implementation_class))
         {
             // Service disabled for this site
             throw new midcom_error("Service implementation for {$service} not defined");

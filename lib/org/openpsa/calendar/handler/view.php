@@ -331,8 +331,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             $selected = @unserialize($value);
 
             // Skip empty
-            if (   !$selected
-                || empty($selected))
+            if (empty($selected))
             {
                 continue;
             }

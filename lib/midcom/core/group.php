@@ -160,8 +160,7 @@ class midcom_core_group
     {
         $return = array();
 
-        if (   !is_object($this->_storage)
-            || empty($this->_storage->id))
+        if (empty($this->_storage->id))
         {
             debug_add('$this->storage is not object or id is empty', MIDCOM_LOG_ERROR);
             return $return;

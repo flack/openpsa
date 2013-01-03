@@ -95,8 +95,7 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
         {
             $positions = $this->_fetch_instamapper_positions($instamapper_url);
 
-            if (   is_null($positions)
-                || empty($positions))
+            if (empty($positions))
             {
                 return null;
             }

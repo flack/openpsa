@@ -168,14 +168,12 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $page_var = $this->_prefix . 'page';
         $results_var =  $this->_prefix . 'results';
-        if (   array_key_exists($page_var, $_REQUEST)
-            && !empty($_REQUEST[$page_var]))
+        if (!empty($_REQUEST[$page_var]))
         {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
             $this->_current_page = (int)$_REQUEST[$page_var];
         }
-        if (   array_key_exists($results_var, $_REQUEST)
-            && !empty($_REQUEST[$results_var]))
+        if (!empty($_REQUEST[$results_var]))
         {
             debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
             $this->results_per_page = (int)$_REQUEST[$results_var];

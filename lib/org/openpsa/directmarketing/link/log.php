@@ -30,7 +30,6 @@ class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
             $this->timestamp = time();
         }
         if (   !$this->referrer
-            && array_key_exists('HTTP_REFERER', $_SERVER)
             && !empty($_SERVER['HTTP_REFERER']))
         {
             $this->referrer = $_SERVER['HTTP_REFERER'];

@@ -2,8 +2,7 @@
 //If we need to do any specific mangling etc, we do it here.
 $query =& $data['query_data'];
 $report =& $data['report'];
-if (   !array_key_exists('title', $report)
-    || empty($report['title']))
+if (empty($report['title']))
 {
     $report['title'] = sprintf($data['l10n']->get('weekly report for %s - %s'), strftime('%x', $query['start']), strftime('%x', $query['end']));
 }

@@ -46,9 +46,7 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
         setlocale(LC_NUMERIC, 'C');
 
         $user_data = $fireeagle->user();
-        if (   !$user_data
-            || !$user_data->user
-            || empty($user_data->user->location_hierarchy))
+        if (empty($user_data->user->location_hierarchy))
         {
             return $position;
         }

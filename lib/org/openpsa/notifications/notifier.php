@@ -82,8 +82,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
 
         $sender = null;
 
-        if (   array_key_exists('from', $message)
-            && !empty($message['from']))
+        if (!empty($message['from']))
         {
             midcom::get('auth')->request_sudo();
             $user = midcom::get('auth')->get_user($message['from']);
@@ -99,8 +98,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         {
             $mail->from = '"' . $sender->name . '" <' . $sender->email . '>';
         }
-        else if (   !is_null($default_sender)
-                 && !empty($default_sender))
+        else if (!empty($default_sender))
         {
             $mail->from = $default_sender;
         }

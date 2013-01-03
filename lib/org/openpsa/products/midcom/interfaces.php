@@ -189,8 +189,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $category_qb->add_constraint('id', '=', $productlink->productGroup);
                 $category = $category_qb->execute_unchecked();
                 //Check if the product is in a nested category.
-                if (   $category
-                    && !empty($category[0]->up))
+                if (!empty($category[0]->up))
                 {
                     $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
                     $parent_category_qb->add_constraint('id', '=', $category[0]->up);

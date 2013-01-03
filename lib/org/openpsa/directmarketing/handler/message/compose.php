@@ -83,8 +83,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         }
         //Substyle handling
         @debug_add("\$data['message_array']['substyle']='{$data['message_array']['substyle']}'");
-        if (   array_key_exists('substyle', $data['message_array'])
-            && !empty($data['message_array']['substyle'])
+        if (   !empty($data['message_array']['substyle'])
             && !preg_match('/^builtin:/', $data['message_array']['substyle']))
         {
             debug_add("Appending substyle {$data['message_array']['substyle']}");
@@ -130,8 +129,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     private function _real_show_compose($handler_id, array &$data)
     {
         $prefix='';
-        if (   array_key_exists('substyle', $data['message_array'])
-            && !empty($data['message_array']['substyle'])
+        if (   !empty($data['message_array']['substyle'])
             && preg_match('/^builtin:(.*)/', $data['message_array']['substyle'], $matches_style))
         {
             $prefix = $matches_style[1].'-';

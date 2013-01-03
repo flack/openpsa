@@ -196,10 +196,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     private static function _popup_verify_node($node)
     {
-        if (   !is_array($node)
-            || !array_key_exists(MIDCOM_NAV_FULLURL, $node)
-            || !array_key_exists(MIDCOM_NAV_CONFIGURATION, $node)
-            || empty($node[MIDCOM_NAV_FULLURL])
+        if (   empty($node[MIDCOM_NAV_FULLURL])
             || empty($node[MIDCOM_NAV_CONFIGURATION]))
         {
             debug_add('given node is not valid', MIDCOM_LOG_ERROR);

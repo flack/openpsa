@@ -66,8 +66,7 @@ class midcom_helper__dbfactory
             return $cache[$classname][$src];
         }
         $object = new $classname($src);
-        if (   !$object
-            && empty($object->guid))
+        if (empty($object->guid))
         {
             $x = false;
             return $x;

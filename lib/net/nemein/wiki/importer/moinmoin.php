@@ -35,8 +35,7 @@ class net_nemein_wiki_importer_moinmoin
         {
             return false;
         }
-        if (   !is_object($this->root_topic)
-            || empty($this->root_topic->id))
+        if (empty($this->root_topic->id))
         {
             return false;
         }

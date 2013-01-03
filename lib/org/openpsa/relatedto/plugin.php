@@ -223,8 +223,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             debug_add("component {$button_component} could not be loaded", MIDCOM_LOG_ERROR);
             return false;
         }
-        if (   !array_key_exists('node', $data)
-            || empty($data['node']))
+        if (empty($data['node']))
         {
             debug_add("data['node'] not given, trying with siteconfig", MIDCOM_LOG_DEBUG);
             $siteconfig = org_openpsa_core_siteconfig::get_instance();

@@ -188,14 +188,12 @@ if (array_key_exists('add_position', $_POST))
         $manual_position['country'] = $_POST['country'];
     }
 
-    if (   array_key_exists('latitude', $_POST)
-        && !empty($_POST['latitude']))
+    if (!empty($_POST['latitude']))
     {
         $manual_position['latitude'] = $_POST['latitude'];
     }
 
-    if (   array_key_exists('longitude', $_POST)
-        && !empty($_POST['longitude']))
+    if (!empty($_POST['longitude']))
     {
         $manual_position['longitude'] = $_POST['longitude'];
     }

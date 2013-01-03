@@ -35,8 +35,7 @@ class org_openpsa_core_acl_synchronizer
         }
 
         $owner_object = midcom::get('auth')->get_assignee($owner_id);
-        if (!$owner_object
-            || empty($owner_object->id))
+        if (empty($owner_object->id))
         {
             debug_add('Given owner was invalid, aborting');
             return false;
@@ -95,8 +94,7 @@ class org_openpsa_core_acl_synchronizer
 
                 // Process a possible subscribers group
                 $subscriber_group = midcom::get('auth')->get_group($owner_id.'subscribers');
-                if ($subscriber_group
-                    && !empty($subscriber_group->id))
+                if (!empty($subscriber_group->id))
                 {
                     // Allow them to read the object
                     $object->set_privilege('midgard:read', $subscriber_group->id, MIDCOM_PRIVILEGE_ALLOW);

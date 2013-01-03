@@ -488,8 +488,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     private function _sanity_check_person(&$person, &$member)
     {
-        if (   !$person
-            || empty($person->guid))
+        if (empty($person->guid))
         {
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
@@ -524,14 +523,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $data_array['mail_send_backend_params'] = array();
         }
         //Check for bounce detector usage
-        if (   array_key_exists('bounce_detector_address', $data_array)
-            && !empty($data_array['bounce_detector_address']))
+        if (!empty($data_array['bounce_detector_address']))
         {
             $bounce_address = str_replace('TOKEN', $token, $data_array['bounce_detector_address']);
             $mail->headers['Return-Path'] = $bounce_address;
             //Force bouncer as backend if default specified
-            if (   !array_key_exists('mail_send_backend', $data_array)
-                || empty($data_array['mail_send_backend'])
+            if (   empty($data_array['mail_send_backend'])
                 || $data_array['mail_send_backend'] == 'try_default')
             {
                 $data_array['mail_send_backend'] = 'bouncer';
@@ -572,14 +569,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                     $mail->body = $member->personalize_message($data_array['htmlemail_force_text_body'], $this->orgOpenpsaObtype, $person);
                 }
                 // Allow sensing only HTML body if requested
-                if (   array_key_exists('htmlemail_onlyhtml', $data_array)
-                    && !empty($data_array['htmlemail_onlyhtml']))
+                if (!empty($data_array['htmlemail_onlyhtml']))
                 {
                     $mail->allow_only_html = true;
                 }
                 // Skip embedding if requested
-                if (   array_key_exists('htmlemail_donotembed', $data_array)
-                    && !empty($data_array['htmlemail_donotembed']))
+                if (!empty($data_array['htmlemail_donotembed']))
                 {
                     // Skip embedding, do something else ??
                 }
@@ -590,8 +585,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 }
 
                 //Handle link detection
-                if (   array_key_exists('link_detector_address', $data_array)
-                    && !empty($data_array['link_detector_address']))
+                if (!empty($data_array['link_detector_address']))
                 {
                     $link_address = str_replace('TOKEN', $token, $data_array['link_detector_address']);
                     $mail->html_body = $this->_insert_link_detector($mail->html_body, $link_address);

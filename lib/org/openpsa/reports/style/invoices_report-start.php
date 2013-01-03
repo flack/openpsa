@@ -6,8 +6,7 @@ if (!is_array($report))
 {
     $report = array();
 }
-if (   !array_key_exists('title', $report)
-    || empty($report['title']))
+if (empty($report['title']))
 {
     $report['title'] = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
 }

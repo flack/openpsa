@@ -45,8 +45,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
             }
         }
         $parent = new $class($this->fromGuid);
-        if (   !is_object($parent)
-            || empty($parent->guid))
+        if (empty($parent->guid))
         {
             return null;
         }

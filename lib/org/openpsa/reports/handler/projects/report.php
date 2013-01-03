@@ -345,8 +345,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         debug_print_r("query data after mangle:", $this->_request_data['query_data']);
         //Handle grouping
         debug_add('checking grouping');
-        if (   array_key_exists('grouping', $this->_request_data['query_data'])
-            && !empty($this->_request_data['query_data']['grouping']))
+        if (!empty($this->_request_data['query_data']['grouping']))
         {
             debug_add("checking validity of grouping value '{$this->_request_data['query_data']['grouping']}'");
             if (array_key_exists($this->_request_data['query_data']['grouping'], $this->_valid_groupings))

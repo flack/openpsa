@@ -22,8 +22,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_bounce($handler_id, array $args, array &$data)
     {
-        if (   !array_key_exists('token', $_POST)
-            || empty($_POST['token']))
+        if (empty($_POST['token']))
         {
             throw new midcom_error('Token not present in POST or empty');
         }
@@ -125,13 +124,11 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_link($handler_id, array $args, array &$data)
     {
-        if (   !array_key_exists('token', $_POST)
-            || empty($_POST['token']))
+        if (empty($_POST['token']))
         {
             throw new midcom_error('Token not present in POST or empty');
         }
-        if (   !array_key_exists('link', $_POST)
-            || empty($_POST['link']))
+        if (empty($_POST['link']))
         {
             throw new midcom_error('Link not present in POST or empty');
         }
@@ -209,8 +206,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             //Due to the way browsers handle the URLs this form only works for root pages
             $this->_request_data['target'] = $args[1];
         }
-        else if (   array_key_exists('link', $_GET)
-                && !empty($_GET['link']))
+        else if (!empty($_GET['link']))
         {
             $this->_request_data['target'] = $_GET['link'];
         }
