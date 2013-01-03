@@ -10,6 +10,11 @@
             'widget'   => 'text',
             'storage'  => 'title',
             'required' => true,
+            'start_fieldset' => array
+            (
+                'title' => 'description',
+                'css_group' => 'area meta',
+            ),
         ),
         'description' => array
         (
@@ -21,6 +26,7 @@
                 'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
+            'end_fieldset' => ''
         ),
         'subject' => array
         (
@@ -29,6 +35,11 @@
             'widget'   => 'text',
             'storage'  => 'parameter',
             'required' => true,
+            'start_fieldset' => array
+            (
+                'title' => 'email message',
+                'css_group' => 'area meta',
+            ),
         ),
         'from' => array
         (
@@ -62,6 +73,7 @@
             'title'    => 'files to attach',
             'type'     => 'blobs',
             'widget'   => 'downloads',
+            'end_fieldset' => ''
         ),
     ),
     'customdata'  => array
@@ -81,6 +93,11 @@
             'widget'   => 'text',
             'storage'  => 'title',
             'required' => true,
+            'start_fieldset' => array
+            (
+                'title' => 'description',
+                'css_group' => 'area meta',
+            ),
         ),
         'description' => array
         (
@@ -92,6 +109,7 @@
                 'output_mode' => 'markdown'
             ),
             'widget' => 'textarea',
+            'end_fieldset' => ''
         ),
         'subject' => array
         (
@@ -100,6 +118,11 @@
             'widget'   => 'text',
             'storage'  => 'parameter',
             'required' => true,
+            'start_fieldset' => array
+            (
+                'title' => 'email message',
+                'css_group' => 'area meta',
+            ),
         ),
         'from' => array
         (
@@ -127,6 +150,7 @@
             'widget'   => 'tinymce',
             'storage'  => 'parameter',
             'required' => true,
+            'end_fieldset' => ''
         ),
     ),
     'customdata'  => array
