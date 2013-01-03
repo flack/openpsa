@@ -139,7 +139,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         return $icon;
     }
 
-    function get_messagetype_css_class($type)
+    public static function get_messagetype_css_class($type)
     {
         $class = 'email';
         switch ($type)
