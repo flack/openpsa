@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -19,20 +19,51 @@ if (!defined('OPENPSA_TEST_ROOT'))
  */
 class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
 {
+    protected static $_object;
+
+    public static function setUpBeforeClass()
+    {
+        self::create_user(true);
+        self::$_object = self::create_class_object('midcom_db_page', array('_use_rcs' => true));
+        self::$_object->update();
+        self::$_object->content = 'test';
+        self::$_object->update();
+    }
 
     public function testHandler_history()
     {
-        $this->create_user(true);
-        $object_with_history = self::create_class_object('midcom_db_topic', array('_use_rcs' => true));
         $object_without_history = self::create_class_object('midcom_db_topic', array('_use_rcs' => false));
 
         midcom::get('auth')->request_sudo('midgard.admin.asgard');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', $object_with_history->guid));
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', self::$_object->guid));
         $this->assertEquals('____mfa-asgard-object_rcs_history', $data['handler_id']);
 
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', $object_without_history->guid));
+        $this->show_handler($data);
         $this->assertEquals('____mfa-asgard-object_rcs_history', $data['handler_id']);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_preview()
+    {
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', 'preview', self::$_object->guid, '1.1'));
+        $this->assertEquals('____mfa-asgard-object_rcs_preview', $data['handler_id']);
+        $this->show_handler($data);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_diff()
+    {
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'rcs', 'diff', self::$_object->guid, '1.1', '1.2'));
+        $this->assertEquals('____mfa-asgard-object_rcs_diff', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

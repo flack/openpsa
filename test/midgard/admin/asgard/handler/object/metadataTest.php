@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -33,6 +33,7 @@ class midgard_admin_asgard_handler_object_metadataTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'metadata', self::$_object->guid));
         $this->assertEquals('____mfa-asgard-object_metadata', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

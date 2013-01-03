@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -20,10 +20,23 @@ if (!defined('OPENPSA_TEST_ROOT'))
 class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testcase
 {
     protected static $_object;
+    protected static $_attachment;
+
+    protected static $_filename = 'test.txt';
 
     public static function setUpBeforeClass()
     {
         self::$_object = self::create_class_object('midcom_db_topic');
+        $parameters = array
+        (
+            'parentguid' => self::$_object->guid,
+            'name' => self::$_filename
+        );
+
+        self::$_attachment = self::create_class_object('midcom_db_attachment', $parameters);
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+        self::$_attachment->copy_from_file(dirname(dirname(dirname(__FILE__))) . '/__files/' . self::$_filename);
+        midcom::get('auth')->drop_sudo();
     }
 
     public function testHandler_create()
@@ -33,6 +46,30 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
 
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'attachments', self::$_object->guid));
         $this->assertEquals('____mfa-asgard-object_attachments', $data['handler_id']);
+        $this->show_handler($data);
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_edit()
+    {
+        $this->create_user(true);
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'attachments', self::$_object->guid, self::$_filename));
+        $this->assertEquals('____mfa-asgard-object_attachments_edit', $data['handler_id']);
+        $this->show_handler($data);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_delete()
+    {
+        $this->create_user(true);
+        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'attachments', 'delete', self::$_object->guid, self::$_filename));
+        $this->assertEquals('____mfa-asgard-object_attachments_delete', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

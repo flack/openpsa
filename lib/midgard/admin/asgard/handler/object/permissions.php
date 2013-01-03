@@ -105,8 +105,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $tmp = $this->_object;
 
         $i = 0;
-        while (   $tmp
-               && $tmp->guid
+        while (   !empty($tmp->guid)
                && !midcom::get('dbfactory')->is_a($tmp, 'midgard_topic')
                && $i < 100)
         {
