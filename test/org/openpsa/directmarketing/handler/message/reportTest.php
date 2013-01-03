@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
 
@@ -31,11 +31,26 @@ class org_openpsa_directmarketing_handler_message_reportTest extends openpsa_tes
     {
         $helper = new openpsa_test_campaign_helper($this);
         $message = $helper->get_message();
+        $log = $helper->get_log($message, self::$_person);
+        $receipt = $helper->get_receipt($message, self::$_person);
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'report', $message->guid));
         $this->assertEquals('message_report', $data['handler_id']);
+        $this->show_handler($data);
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_status()
+    {
+        $helper = new openpsa_test_campaign_helper($this);
+        $message = $helper->get_message();
+
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+
+        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'send_status', $message->guid));
+        $this->assertEquals('message_send_status', $data['handler_id']);
 
         midcom::get('auth')->drop_sudo();
     }

@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
 
@@ -31,6 +31,7 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
     {
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
+        $member = $helper->get_member(self::$_person);
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
 

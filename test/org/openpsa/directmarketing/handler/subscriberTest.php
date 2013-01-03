@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
 
@@ -33,6 +33,7 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'list'));
         $this->assertEquals('list_campaign', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -43,6 +44,7 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'list', self::$_person->guid));
         $this->assertEquals('list_campaign_person', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -56,6 +58,7 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'unsubscribe', $member->guid));
         $this->assertEquals('subscriber_unsubscribe', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -69,6 +72,7 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'unsubscribe_all', self::$_person->guid));
         $this->assertEquals('subscriber_unsubscribe_all', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -82,6 +86,21 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'unsubscribe_all_future', self::$_person->guid, 'test'));
         $this->assertEquals('subscriber_unsubscribe_all_future', $data['handler_id']);
+        $this->show_handler($data);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testHandler_list_unsubscribe_ajax()
+    {
+        $helper = new openpsa_test_campaign_helper($this);
+        $campaign = $helper->get_campaign();
+        $member = $helper->get_member(self::$_person);
+        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+
+        $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'unsubscribe', 'ajax', $member->guid));
+        $this->assertEquals('subscriber_unsubscribe_ajax', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

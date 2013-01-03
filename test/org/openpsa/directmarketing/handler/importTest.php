@@ -36,6 +36,7 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'import', $campaign->guid));
         $this->assertEquals('import_main', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

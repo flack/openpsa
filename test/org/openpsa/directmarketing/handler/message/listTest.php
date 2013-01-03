@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
 
@@ -36,6 +36,7 @@ class org_openpsa_directmarketing_handler_message_listTest extends openpsa_testc
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'list', 'textemail', $campaign->guid));
         $this->assertEquals('message_list_dynamic_type', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

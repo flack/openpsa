@@ -51,6 +51,32 @@ class openpsa_test_campaign_helper
         return $this->_member;
     }
 
+    public function get_log(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person)
+    {
+        $parameters = array
+        (
+            'message' => $message->id,
+            'person' => $person->id,
+            'timestamp' => time(),
+            'token' => __CLASS__ . __FUNCTION__,
+            'target' => 'http://openpsa2.org'
+        );
+        return $this->_testcase->create_object('org_openpsa_directmarketing_link_log_dba', $parameters);
+    }
+
+    public function get_receipt(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person)
+    {
+        $parameters = array
+        (
+            'message' => $message->id,
+            'person' => $person->id,
+            'timestamp' => time(),
+            'token' => __CLASS__ . __FUNCTION__,
+            'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT
+        );
+        return $this->_testcase->create_object('org_openpsa_directmarketing_campaign_messagereceipt_dba', $parameters);
+    }
+
     public function get_message()
     {
         if (!$this->_message)
