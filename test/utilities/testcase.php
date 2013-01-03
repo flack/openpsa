@@ -68,7 +68,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 return $result[0];
             }
 
-            $root_topic = midcom_db_topic::get_cached($GLOBALS['midcom_config']['root_topic']);
+            $root_topic = midcom_db_topic::get_cached($GLOBALS['midcom_config']['midcom_root_topic_guid']);
+
             $topic_attributes = array
             (
                 'up' => $root_topic->id,
