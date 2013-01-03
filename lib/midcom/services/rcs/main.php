@@ -92,5 +92,42 @@ class midcom_services_rcs
         }
         return true;
     }
+
+
+    /**
+     * Static method for determining if we should display a particular field
+     * in the diff or preview states
+     */
+    public static function is_field_showable($field)
+    {
+        switch ($field)
+        {
+            case '_use_rcs':
+            case '_topic':
+            case 'realm':
+            case 'guid':
+            case 'id':
+            case 'sitegroup':
+            case 'action':
+            case 'errno':
+            case 'errstr':
+            case 'revised':
+            case 'revisor':
+            case 'revision':
+            case 'created':
+            case 'creator':
+            case 'approved':
+            case 'approver':
+            case 'locked':
+            case 'locker':
+            case 'lang':
+            case 'sid':
+                return false;
+            case 'password':
+                return midcom::get('auth')->admin;
+            default:
+                return true;
+        }
+    }
 }
 ?>

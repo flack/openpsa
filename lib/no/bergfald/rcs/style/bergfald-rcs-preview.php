@@ -41,7 +41,7 @@ foreach ($preview as $attribute => $value)
         continue;
     }
 
-    if (!no_bergfald_rcs_handler::is_field_showable($attribute))
+    if (!midcom_services_rcs::is_field_showable($attribute))
     {
         continue;
     }

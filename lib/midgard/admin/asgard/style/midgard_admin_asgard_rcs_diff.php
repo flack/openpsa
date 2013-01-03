@@ -20,7 +20,7 @@ foreach ($diff as $attribute => $values)
         continue;
     }
 
-    if (!midgard_admin_asgard_handler_object_rcs::is_field_showable($attribute))
+    if (!midcom_services_rcs::is_field_showable($attribute))
     {
         continue;
     }

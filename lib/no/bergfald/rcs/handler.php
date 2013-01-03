@@ -62,40 +62,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Static method for determining if we should display a particular field
-     * in the diff or preview states
-     */
-    function is_field_showable($field)
-    {
-        switch ($field)
-        {
-            case '_use_rcs':
-            case '_topic':
-            case 'realm':
-            case 'guid':
-            case 'id':
-            case 'sitegroup':
-            case 'action':
-            case 'errno':
-            case 'errstr':
-            case 'revised':
-            case 'revisor':
-            case 'revision':
-            case 'created':
-            case 'creator':
-            case 'approved':
-            case 'approver':
-            case 'locked':
-            case 'locker':
-            case 'lang':
-            case 'sid':
-                return false;
-            default:
-                return true;
-        }
-    }
-
-    /**
      * Load the text_diff libaries needed to show diffs.
      */
     public function _on_initialize()
