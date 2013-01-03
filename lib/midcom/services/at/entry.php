@@ -92,7 +92,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         if ($unserRet === false)
         {
             //Unserialize failed (probably newline/encoding issue), try to fix the serialized string and unserialize again
-            $unserRet = @unserialize($this->_fix_serialization($this->argumentsstore));
+            $unserRet = @unserialize(midcom_helper_misc::fix_serialization($this->argumentsstore));
             if ($unserRet === false)
             {
                 debug_add('Failed to unserialize argumentsstore', MIDCOM_LOG_WARN);
@@ -109,44 +109,6 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     function _serialize_arguments()
     {
         $this->argumentsstore = serialize($this->arguments);
-    }
-
-    /**
-     * Fixes newline etc encoding issues in serialized data
-     *
-     * @param string $data The data to fix.
-     * @return string $data with serializations fixed.
-     */
-    function _fix_serialization($data = null)
-    {
-        //Skip on empty data
-        if (empty($data))
-        {
-            return $data;
-        }
-
-        $preg = '/s:([0-9]+):"(.*?)";/ms';
-        preg_match_all($preg, $data, $matches);
-        $cache = array();
-
-        foreach ($matches[0] as $k => $origFullStr)
-        {
-              $origLen = $matches[1][$k];
-              $origStr = $matches[2][$k];
-              $newLen = strlen($origStr);
-              if ($newLen != $origLen)
-              {
-                 $newFullStr="s:$newLen:\"$origStr\";";
-                 //For performance we cache information on which strings have already been replaced
-                 if (!array_key_exists($origFullStr, $cache))
-                 {
-                     $data = str_replace($origFullStr, $newFullStr, $data);
-                     $cache[$origFullStr] = true;
-                 }
-              }
-        }
-
-        return $data;
     }
 
     /**
