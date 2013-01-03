@@ -86,9 +86,9 @@ class openpsa_test_campaign_helper
             (
                 'campaign' => $campaign->id,
             );
-            $this->_member = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_message_dba', $parameters);
+            $this->_message = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_message_dba', $parameters);
         }
-        return $this->_member;
+        return $this->_message;
     }
 }
 ?>
