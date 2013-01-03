@@ -47,14 +47,18 @@ class midcom_helper__dbfactory
     /**
      * Retrieve a reference to an object, uses in-request caching
      *
-     * @param string $classname Which DBA are we dealing with (PHP 5.3 could figure this
-                                out with late static bindings, but...)
+     * @param string $classname Which DBA are we dealing with
      * @param mixed $src GUID of object (ids work but are discouraged)
-     * @return mixed reference to device object or false
+     * @return midcom_core_dbaobject reference to object
      */
     function &get_cached($classname, $src)
     {
         static $cache = array();
+
+        if (empty($src))
+        {
+            throw new midcom_error('invalid source identifier');
+        }
 
         if (!isset($cache[$classname]))
         {
@@ -66,11 +70,6 @@ class midcom_helper__dbfactory
             return $cache[$classname][$src];
         }
         $object = new $classname($src);
-        if (empty($object->guid))
-        {
-            $x = false;
-            return $x;
-        }
         $cache[$classname][$object->guid] = $object;
         $cache[$classname][$object->id] =& $cache[$classname][$object->guid];
         return $cache[$classname][$object->guid];
