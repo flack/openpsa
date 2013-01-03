@@ -14,29 +14,6 @@
 class midcom_helper_misc
 {
     /**
-     * Pure-PHP implementation of Midgard1 APIs required by OpenPSA that are not present in Midgard2.
-     */
-    private static $_filters = array
-    (
-       'h' => 'html',
-       'H' => 'html',
-       'p' => 'php',
-       'u' => 'rawurlencode',
-       'f' => 'nl2br',
-       's' => 'unmodified',
-    );
-
-    /**
-     * Register PHP function as string formatter to the Midgard formatting engine.
-     *
-     * @see http://www.midgard-project.org/documentation/reference-other-mgd_register_filter/
-     */
-    public static function register_filter($name, $function)
-    {
-        self::$_filters["x{$name}"] = $function;
-    }
-
-    /**
      * Helper function to turn typical midcom config files into PHP arrays
      *
      * @param string $data The data to parse
@@ -160,79 +137,8 @@ class midcom_helper_misc
         // Get style elements
         $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $code);
         // Echo variables
-        $code = preg_replace_callback("%&\(([^)]*)\);%i", array('self', 'expand_variable'), $code);
+        $code = preg_replace_callback("%&\(([^)]*)\);%i", array('midcom_helper_formatter', 'convert_to_php'), $code);
         return $code;
-    }
-
-    /**
-     * Return a string as formatted by a Midgard formatter
-     * @see http://www.midgard-project.org/documentation/reference-other-mgd_format/
-     */
-    public static function format_variable($content, $name)
-    {
-        if (!isset(self::$_filters[$name]))
-        {
-            return $content;
-        }
-
-        ob_start();
-        switch ($name)
-        {
-            case 's':
-                //display as-is
-            case 'h':
-            case 'H':
-                //According to documentation, these two should do something, but actually they don't...
-                echo $content;
-                break;
-            case 'p':
-                eval('?>' . $content);
-                break;
-            default:
-                call_user_func($GLOBALS['midgard_filters'][$name], $content);
-                break;
-            }
-        return ob_get_clean();
-    }
-
-    public static function expand_variable($variable)
-    {
-        $variable_parts = explode(':', $variable[1]);
-        $variable = '$' . $variable_parts[0];
-
-        if (strpos($variable, '.') !== false)
-        {
-            $parts = explode('.', $variable);
-            $variable = $parts[0] . '->' . $parts[1];
-        }
-
-        if (    isset($variable_parts[1])
-             && array_key_exists($variable_parts[1], self::$_filters))
-        {
-            switch ($variable_parts[1])
-            {
-                case 's':
-                    //display as-is
-                case 'h':
-                case 'H':
-                    //According to documentation, these two should do something, but actually they don't...
-                    $command = 'echo ' . $variable;
-                    break;
-                case 'p':
-                    $command = 'eval(\'?>\' . ' . $variable . ')';
-                    break;
-                default:
-                    $function = self::$_filters[$variable_parts[1]];
-                    $command = $function . '(' . $variable . ')';
-                    break;
-            }
-        }
-        else
-        {
-            $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get(\'i18n\')->get_current_charset())';
-        }
-
-        return "<?php $command; ?>";
     }
 
     /**

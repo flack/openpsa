@@ -1,11 +1,20 @@
 <?php
 /**
+ * Compat wrappers for deprecated mgd1 functionality
+ *
+ * @package midcom
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+
+/**
  * Register PHP function as string formatter to the Midgard formatting engine.
  * @see http://www.midgard-project.org/documentation/reference-other-mgd_register_filter/
  */
 function mgd_register_filter($name, $function)
 {
-    midcom_helper_misc::register_filter($name, $function);
+    midcom_helper_formatter::register($name, $function);
 }
 
 /**
@@ -14,7 +23,15 @@ function mgd_register_filter($name, $function)
  */
 function mgd_format($content, $name)
 {
-    return midcom_helper_misc::format_variable($content, $name);
+    return midcom_helper_formatter::format($content, $name);
+}
+
+/**
+ * Show a variable
+ */
+function mgd_variable($variable)
+{
+    return midcom_helper_formatter::convert_to_php($variable);
 }
 
 /**
@@ -37,14 +54,6 @@ function mgd_template($var)
 function mgd_element($name)
 {
     return midcom_helper_misc::include_element($name);
-}
-
-/**
- * Show a variable
- */
-function mgd_variable($variable)
-{
-    return midcom_helper_misc::expand_variable($variable);
 }
 
 /**

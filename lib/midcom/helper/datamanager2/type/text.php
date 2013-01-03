@@ -411,10 +411,10 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                 return nl2br(htmlentities($this->value, $this->specialchars_quotes, $this->specialchars_charset));
 
             case 'midgard_f':
-                return midcom_helper_misc::format_variable($this->value, 'f');
+                return midcom_helper_formatter::format($this->value, 'f');
 
             case 'midgard_F':
-                return midcom_helper_misc::format_variable($this->value, 'F');
+                return midcom_helper_formatter::format($this->value, 'F');
 
             case 'markdown':
                 static $markdown = null;
@@ -436,7 +436,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
             case (substr($this->output_mode, 0, 1) == 'x'):
                 // Run the contents through a custom formatter registered via mgd_register_filter
-                return midcom_helper_misc::format_variable($this->value, $this->output_mode);
+                return midcom_helper_formatter::format($this->value, $this->output_mode);
 
             default:
             case 'html':
