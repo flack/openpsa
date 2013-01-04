@@ -82,7 +82,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             throw new midcom_error('"content" not defined in schema');
         }
         //Substyle handling
-        @debug_add("\$data['message_array']['substyle']='{$data['message_array']['substyle']}'");
         if (   !empty($data['message_array']['substyle'])
             && !preg_match('/^builtin:/', $data['message_array']['substyle']))
         {
@@ -92,13 +91,13 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         midcom::get()->skip_page_style = true;
         debug_add('message type: ' . $data['message_obj']->orgOpenpsaObtype);
-        switch($data['message_obj']->orgOpenpsaObtype)
+        switch ($data['message_obj']->orgOpenpsaObtype)
         {
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
                 debug_add('Forcing content type: text/plain');
                 midcom::get('cache')->content->content_type('text/plain');
-            break;
+                break;
             //TODO: Other content type overrides ?
         }
         midcom::get('auth')->drop_sudo();

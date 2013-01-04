@@ -37,7 +37,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
-        $data['message_obj'] =& $data['message'];
 
         //Check other paramerers
         if (   !isset($args[1])
@@ -52,12 +51,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         }
         $job = new midcom_services_at_entry_dba($args[2]);
 
-        $data['message_array'] = $this->_datamanager->get_content_raw();
-        $data['message_array']['dm_types'] =& $this->_datamanager->types;
-        if (!array_key_exists('content', $data['message_array']))
-        {
-            throw new midcom_error('"content" not defined in schema');
-        }
         ignore_user_abort();
         midcom::get()->skip_page_style = true;
         midcom::get('auth')->drop_sudo();
@@ -73,10 +66,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         midcom::get('auth')->request_sudo();
         debug_add('Forcing content type: text/plain');
         midcom::get('cache')->content->content_type('text/plain');
+        $data['sender'] = $this->_get_sender($data);
+        $data['sender']->test_mode = false;
+        $data['sender']->send_output = false;
         $composed = $this->_prepare_send($data);
-        $data['message_obj']->test_mode = false;
-        $data['message_obj']->send_output = false;
-        $bgstat = $data['message_obj']->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed, $data['compose_from'], $data['compose_subject'], $data['message_array']);
+        $bgstat = $data['sender']->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed, $data['compose_from'], $data['compose_subject']);
         if (!$bgstat)
         {
             echo "ERROR\n";
@@ -92,8 +86,8 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
-        $data['compose_url'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message_obj']->guid;
-        $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message_obj']->guid;
+        $data['compose_url'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message']->guid;
+        $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid;
         debug_add("compose_url: {$data['compose_url']}");
         debug_add("batch_url base: {$data['batch_url_base_full']}");
         $de_backup = ini_get('display_errors');
@@ -122,51 +116,52 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             $data['compose_from'] = &$data['message_array']['from'];
         }
 
-        //Get SMS/MMS settings from component configuration
-        if ($smslib_api = $this->_config->get('smslib_api'))
-        {
-            $data['message_obj']->sms_lib_api = $smslib_api;
-        }
-        if ($smslib_uri = $this->_config->get('smslib_uri'))
-        {
-            $data['message_obj']->sms_lib_location = $smslib_uri;
-        }
-        else if ($email2sms_address = $this->_config->get('email2sms_address'))
-        {
-            $data['message_obj']->sms_lib_location = $email2sms_address;
-        }
-        if ($smslib_client_id = $this->_config->get('smslib_client_id'))
-        {
-            $data['message_obj']->sms_lib_client_id = $smslib_client_id;
-        }
-        if ($smslib_user = $this->_config->get('smslib_user'))
-        {
-            $data['message_obj']->sms_lib_user = $smslib_user;
-        }
-        if ($smslib_password = $this->_config->get('smslib_password'))
-        {
-            $data['message_obj']->sms_lib_password = $smslib_password;
-        }
-
-        if ($mail_send_backend = $this->_config->get('mail_send_backend'))
-        {
-            $data['message_array']['mail_send_backend'] = $mail_send_backend;
-        }
-        if ($bouncer_address = $this->_config->get('bouncer_address'))
-        {
-            $data['message_array']['bounce_detector_address'] = $bouncer_address;
-        }
-        if ($link_detector_address = $this->_config->get('linkdetector_address'))
-        {
-            $data['message_array']['link_detector_address'] = $link_detector_address;
-        }
-        if ($token_size = $this->_config->get('token_size'))
-        {
-            $data['message_obj']->token_size = $token_size;
-        }
-
         return $composed;
     }
+
+    private function _get_sender(array &$data)
+    {
+        $data['message_array'] = $this->_datamanager->get_content_raw();
+        $data['message_array']['dm_types'] =& $this->_datamanager->types;
+        if (!array_key_exists('content', $data['message_array']))
+        {
+            throw new midcom_error('"content" not defined in schema');
+        }
+
+        $settings = array
+        (
+            'smslib_api' => 'sms_lib_api',
+            'smslib_uri' => 'sms_lib_location',
+            'smslib_client_id' => 'smslib_client_id',
+            'smslib_user' => 'sms_lib_user',
+            'smslib_password' => 'sms_lib_password',
+            'mail_send_backend' => 'mail_send_backend',
+            'bouncer_address' => 'bounce_detector_address',
+            'linkdetector_address' => 'link_detector_address',
+        );
+
+        foreach ($settings as $config_name => $target_name)
+        {
+            if ($value = $this->_config->get($config_name))
+            {
+                $data['message_array'][$target_name] = $value;
+            }
+        }
+
+        if (    empty($data['message_array']['sms_lib_location'])
+             && $email2sms_address = $this->_config->get('email2sms_address'))
+        {
+            $data['message_array']['sms_lib_location'] = $email2sms_address;
+        }
+
+        $sender = new org_openpsa_directmarketing_sender($data['message'], $data['message_array']);
+        if ($token_size = $this->_config->get('token_size'))
+        {
+            $sender->token_size = $token_size;
+        }
+        return $sender;
+    }
+
 
     /**
      * @param mixed $handler_id The ID of the handler.
@@ -187,7 +182,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
-        $data['message_obj'] =& $data['message'];
 
         if ($handler_id === 'delayed_send_message')
         {
@@ -205,22 +199,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             $this->_request_data['delayed_send'] = false;
         }
 
-        if ($handler_id === 'test_send_message')
-        {
-            $data['message']->test_mode = true;
-        }
-        else
-        {
-            $data['message']->test_mode = false;
-        }
-
-        $data['message_array'] = $this->_datamanager->get_content_raw();
-        $data['message_array']['dm_types'] =& $this->_datamanager->types;
-        if (!array_key_exists('content', $data['message_array']))
-        {
-            throw new midcom_error('"content" not defined in schema');
-        }
-
         ignore_user_abort();
     }
 
@@ -231,14 +209,16 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _show_send($handler_id, array &$data)
     {
+        $data['sender'] = $this->_get_sender($data);
         $composed = $this->_prepare_send($data);
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
         switch ($handler_id)
         {
             case 'test_send_message':
-                // on-line sned
-                $data['message_obj']->send_output = true;
-                $data['message_obj']->send($composed, $data['compose_from'], $data['compose_subject'], $data['message_array']);
+                // on-line send
+                $data['sender']->test_mode = true;
+                $data['sender']->send_output = true;
+                $data['sender']->send($data['compose_subject'], $composed, $data['compose_from']);
                 break;
             default:
                 // Schedule background send
@@ -248,7 +228,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                     'batch' => 1,
                     'url_base' => $data['batch_url_base_full'],
                 );
-                debug_add("---SHOW SEND---".$data['batch_url_base_full'], MIDCOM_LOG_ERROR);
+                debug_add("---SHOW SEND---" . $data['batch_url_base_full'], MIDCOM_LOG_ERROR);
                 $bool = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'background_send_message', $at_handler_arguments);
                 debug_add("--- RESULT register:" . $bool,  MIDCOM_LOG_ERROR);
                 midcom_show_style('send-start');

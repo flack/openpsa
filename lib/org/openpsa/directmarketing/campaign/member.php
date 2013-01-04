@@ -93,17 +93,10 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
      * Substitutes magic strings in content with values from the membership
      * and/or the person.
      */
-    function personalize_message($content, $message_type=-1, &$person = false, $node = false)
+    function personalize_message($content, $message_type, org_openpsa_contacts_person_dba $person)
     {
-        if (!$node)
-        {
-            $nap = new midcom_helper_nav();
-            $node = $nap->get_node($nap->get_current_node());
-        }
-        if (!is_object($person))
-        {
-            $person =& org_openpsa_contacts_person_dba::get_cached($this->person);
-        }
+        $nap = new midcom_helper_nav();
+        $node = $nap->get_node($nap->get_current_node());
 
         $sep_start = '<';
         $sep_end = '>';
@@ -115,7 +108,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         }
 
         // Unsubscribe URL
-        $content = str_replace($sep_start . 'UNSUBSCRIBE_URL' . $sep_end, $this->get_unsubscribe_url($node, $person), $content);
+        $content = str_replace($sep_start . 'UNSUBSCRIBE_URL' . $sep_end, $this->get_unsubscribe_url($node), $content);
         // Unsubscribe from all URL
         $content = str_replace($sep_start . 'UNSUBSCRIBE_ALL_URL' . $sep_end, "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all/{$person->guid}/", $content);
         // Unsubscribe from all URL
@@ -160,17 +153,14 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         return $content;
     }
 
-    function get_unsubscribe_url($node = false, $person = false)
+    function get_unsubscribe_url($node = false)
     {
         if (!$node)
         {
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($nap->get_current_node());
         }
-        if (!is_object($person))
-        {
-            $person = new org_openpsa_contacts_person_dba($this->person);
-        }
+
         return "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe/{$this->guid}/";
     }
 

@@ -32,7 +32,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         }
         midcom::get('auth')->request_sudo();
 
-        $batch_url = "{$args['url_base']}/{$args['batch']}/{$args['midcom_services_at_entry_object']->guid}";
+        $batch_url = "{$args['url_base']}/{$args['batch']}/{$args['midcom_services_at_entry_object']->guid}/";
         debug_add("batch_url: {$batch_url}");
 
         ob_start();
