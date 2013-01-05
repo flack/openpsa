@@ -189,15 +189,20 @@ div.area ul.comments li div {
    padding: 6px;
    padding-right: 20px;
    border-radius: 6px;
-   background-image: url('../stock-icons/16x16/stock_mail.png');
+   background-image: url('../stock-icons/16x16/stock_mail-open.png');
    background-position: top right;
    background-repeat: no-repeat;
    margin-bottom: 6px;
 }
+div.area ul.comments li div.email-started {
+    background-image: url('../stock-icons/16x16/stock_mail.png');
+}
+div.area ul.comments li div.email-completed {
+    background-image: url('../stock-icons/16x16/stock_mail-reply.png');
+}
 div.area ul.comments li div.mobile {
     background-image: url('../stock-icons/16x16/stock_cell-phone.png');
 }
-
 
 /* Datamanager-generated view handling*/
 div.midcom_helper_datamanager2_view
