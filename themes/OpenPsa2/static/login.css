@@ -46,8 +46,6 @@ div.login-header h1 {
 
 .login-form-container:hover
 {
-    -moz-box-shadow: 1px 5px 7px rgba(0,0,0,0.2);
-    -webkit-box-shadow: 1px 5px 7px #ccc;
     box-shadow: 1px 5px 7px #ccc;
 }
 
