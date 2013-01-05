@@ -13,7 +13,7 @@
  */
 class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 {
-    public function __construct($params)
+    public function __construct(array $params)
     {
         $this->_mail = Mail::factory('sendmail', $params);
     }
