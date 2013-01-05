@@ -1,6 +1,6 @@
 <?php
-$l10n =& $data['l10n'];
-$report =& $data['report']
+$l10n = $data['l10n'];
+$report = $data['report'];
 ?>
 <h1><?php printf($l10n->get('report for message %s'), $data['message']->title); ?></h1>
 <?php
