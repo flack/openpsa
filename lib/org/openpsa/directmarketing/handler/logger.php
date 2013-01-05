@@ -26,8 +26,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             throw new midcom_error('Token not present in POST or empty');
         }
-        $messages = array();
-        $campaigns = array();
         $this->_request_data['update_status'] = array('receipts' => array(), 'members' => array());
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
@@ -48,26 +46,15 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             $this->_request_data['update_status']['receipts'][$receipt->guid] = $receipt->update();
 
             //Mark member(s) as bounced (first get campaign trough message)
-            if (!array_key_exists($receipt->message, $campaigns))
-            {
-                $messages[$receipt->message] = new org_openpsa_directmarketing_campaign_message_dba($receipt->message);
-            }
-            $message =& $messages[$receipt->message];
-            if (!array_key_exists($message->campaign, $campaigns))
-            {
-                $campaigns[$message->campaign] = new org_openpsa_directmarketing_campaign_dba($message->campaign);
-            }
-            $campaign =& $campaigns[$message->campaign];
+            $message = org_openpsa_directmarketing_campaign_message_dba::get_cached($receipt->message);
+            $campaign = org_openpsa_directmarketing_campaign_dba::get_cached($message->campaign);
+
             debug_add("Receipt belongs to message '{$message->title}' (#{$message->id}) in campaign '{$campaign->title}' (#{$campaign->id})");
 
             $qb2 = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
             $qb2->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
             //PONDER: or should be just mark the person bounced in ALL campaigns while we're at it ?
-            //Just in case we somehow miss the campaign
-            if (isset($campaign->id))
-            {
-                $qb2->add_constraint('campaign', '=', $campaign->id);
-            }
+            $qb2->add_constraint('campaign', '=', $campaign->id);
             $qb2->add_constraint('person', '=', $receipt->person);
             $ret2 = $qb2->execute();
             if (empty($ret2))
