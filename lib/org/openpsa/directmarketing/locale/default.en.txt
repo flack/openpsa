@@ -726,6 +726,10 @@ semicolon
 Send
 ---STRINGEND
 
+---STRING send failures
+Send failures
+---STRINGEND
+
 ---STRING send message
 Send message
 ---STRINGEND

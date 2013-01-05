@@ -185,8 +185,12 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        $this->_request_data['target'] = false;
-        $this->_request_data['token'] = false;
+        if (empty($args[0]))
+        {
+            throw new midcom_error('Token empty');
+        }
+        $this->_request_data['token'] = $args[0];
+
         if (   count($args) == 2
             && !empty($args[1]))
         {
@@ -197,15 +201,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             $this->_request_data['target'] = $_GET['link'];
         }
-        if (!empty($args[0]))
-        {
-            $this->_request_data['token'] = $args[0];
-        }
-        if (!$this->_request_data['token'])
-        {
-            throw new midcom_error('Token empty');
-        }
-        if (!$this->_request_data['target'])
+        else
         {
             throw new midcom_error('Target not present in address or GET, or is empty');
         }

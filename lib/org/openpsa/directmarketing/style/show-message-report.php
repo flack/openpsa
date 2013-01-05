@@ -4,7 +4,7 @@ $report =& $data['report']
 ?>
 <h2><?php printf($l10n->get('report for message %s'), $data['message']->title); ?></h2>
 <?php
-if ($report['receipt_data']['sent'] == 0)
+if ($report['receipt_data']['first_send'] == 0)
 {
     echo '<p>' . $l10n->get('nothing sent yet') . '</p>';
 }
@@ -29,6 +29,10 @@ else
     <tr>
         <th><?php echo $l10n->get('bounced recipients'); ?></th>
         <td class="numeric"><?php echo round($report['receipt_data']['bounced'], 2); ?></td>
+    </tr>
+    <tr>
+        <th><?php echo $l10n->get('send failures'); ?></th>
+        <td class="numeric"><?php echo round($report['receipt_data']['failed'], 2); ?></td>
     </tr>
     <tr>
     <?php

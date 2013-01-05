@@ -686,6 +686,10 @@ Semikolon
 Versenden
 ---STRINGEND
 
+---STRING send failures
+Sendefehler
+---STRINGEND
+
 ---STRING send message
 Nachricht versenden
 ---STRINGEND

@@ -16,9 +16,16 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     /**
      * The message which has been created
      *
-     * @var org_openpsa_directmarketing_message
+     * @var org_openpsa_directmarketing_campaign_message_dba
      */
-    private $_message = null;
+    private $_message;
+
+    /**
+     * The message's campaign
+     *
+     * @var org_openpsa_directmarketing_campaign_dba
+     */
+    private $_campaign;
 
     private $_datamanager = false;
 
@@ -38,26 +45,27 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     {
         midcom::get('auth')->require_valid_user();
 
-        $this->_request_data['report'] = array();
+        $this->_request_data['report'] = array
+        (
+            'campaign_data' => array(),
+            'receipt_data' => array()
+        );
         $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
-        $qb_receipts->add_constraint('message', '=', $this->_request_data['message']->id);
+        $qb_receipts->add_constraint('message', '=', $this->_message->id);
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $receipts = $qb_receipts->execute_unchecked();
-        $this->_request_data['report']['receipt_data'] = array();
         $receipt_data =& $this->_request_data['report']['receipt_data'];
-        $receipt_data['first_send'] = false;
-        $receipt_data['last_send'] = false;
+        $receipt_data['first_send'] = $this->_message->sendStarted;
+        $receipt_data['last_send'] = 0;
         $receipt_data['sent'] = count($receipts);
         $receipt_data['bounced'] = 0;
         foreach ($receipts as $receipt)
         {
-            if (   $receipt_data['first_send'] === false
-                || $receipt->timestamp < $receipt_data['first_send'])
+            if ($receipt->timestamp < $receipt_data['first_send'])
             {
                 $receipt_data['first_send'] = $receipt->timestamp;
             }
-            if (   $receipt_data['last_send'] === false
-                || $receipt->timestamp > $receipt_data['last_send'])
+            if ($receipt->timestamp > $receipt_data['last_send'])
             {
                 $receipt_data['last_send'] = $receipt->timestamp;
             }
@@ -66,6 +74,11 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 $receipt_data['bounced']++;
             }
         }
+
+        $qb_failed = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
+        $qb_failed->add_constraint('message', '=', $this->_message->id);
+        $qb_failed->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILED);
+        $receipt_data['failed'] = $qb_failed->count();
 
         $this->_get_campaign_data($receipt_data['first_send']);
 
@@ -79,24 +92,21 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
     private function _get_campaign_data($first_send)
     {
-        $this->_request_data['report']['campaign_data'] = array();
         $campaign_data =& $this->_request_data['report']['campaign_data'];
-        $campaign_data['unsubscribed'] = 0;
         $qb_unsub = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb_unsub->add_constraint('campaign', '=', $this->_request_data['message']->campaign);
+        $qb_unsub->add_constraint('campaign', '=', $this->_message->campaign);
         $qb_unsub->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $qb_unsub->add_constraint('metadata.revised', '>', date('Y-m-d H:i:s', $first_send));
         $campaign_data['next_message'] = false;
         // Find "next message" and if present use its sendStarted as constraint for this query
         $qb_messages = org_openpsa_directmarketing_campaign_message_dba::new_query_builder();
-        $qb_messages->add_constraint('campaign', '=',  $this->_request_data['message']->campaign);
-        $qb_messages->add_constraint('id', '<>',  $this->_request_data['message']->id);
+        $qb_messages->add_constraint('campaign', '=',  $this->_message->campaign);
+        $qb_messages->add_constraint('id', '<>',  $this->_message->id);
         $qb_messages->add_constraint('sendStarted', '>', $first_send);
         $qb_messages->add_order('sendStarted', 'DESC');
         $qb_messages->set_limit(1);
         $messages = $qb_messages->execute_unchecked();
-        if (   is_array($messages)
-            && isset($messages[0]))
+        if (!empty($messages[0]))
         {
             $campaign_data['next_message'] = $messages[0];
             $qb_unsub->add_constraint('metadata.revised', '<', date('Y-m-d H:i:s', $messages[0]->sendStarted));
@@ -124,7 +134,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $segment_prototype['tokens'] = array();
 
         $qb_links = org_openpsa_directmarketing_link_log_dba::new_query_builder();
-        $qb_links->add_constraint('message', '=', $this->_request_data['message']->id);
+        $qb_links->add_constraint('message', '=', $this->_message->id);
         $qb_links->add_constraint('target', 'NOT LIKE', '%unsubscribe%');
         $links = $qb_links->execute_unchecked();
 
@@ -202,7 +212,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                         ),
                     );
                     // On a second thought, we cannot query for empty parameter values...
-                    $segment_data['rules'][$link->target]['comment'] = sprintf($this->_l10n->get('all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $segment, $link->target, $link->message, $this->_request_data['message']->campaign);
+                    $segment_data['rules'][$link->target]['comment'] = sprintf($this->_l10n->get('all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $segment, $link->target, $link->message, $this->_message->campaign);
                     $segment_data['rules'][$link->target]['classes'][] = $segment;
                 }
             }
@@ -228,7 +238,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     {
         return array
         (
-            'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_request_data['message']->campaign),
+            'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_message->campaign),
             'type' => 'AND',
             'classes' => array
             (
@@ -272,7 +282,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                         (
                             'property' => 'campaign',
                             'match' => '=',
-                            'value' => $this->_request_data['message']->campaign,
+                            'value' => $this->_message->campaign,
                         ),
                     ),
                 ),
@@ -363,12 +373,12 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $data['message'] =& $this->_message;
 
         $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($data['message']);
+        $this->_datamanager->autoset_storage($this->_message);
         $data['message_array'] = $this->_datamanager->get_content_raw();
 
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
         $data['campaign'] =& $this->_campaign;
-        $this->set_active_leaf('campaign_' . $data['campaign']->id);
+        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])
             && !empty($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']]))
@@ -384,7 +394,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "message/{$this->_request_data['message']->guid}/",
+                MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get("back"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
