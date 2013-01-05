@@ -82,5 +82,33 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $this->title = 'untitled';
         }
     }
+
+    public function get_css_class()
+    {
+        $class = 'email';
+        switch ($this->orgOpenpsaObtype)
+        {
+            case self::SMS:
+            case self::MMS:
+                $class = 'mobile';
+                break;
+            case self::CALL:
+            case self::FAX:
+                $class = 'telephone';
+                break;
+            case self::SNAILMAIL:
+                $class = 'postal';
+                break;
+        }
+        if ($this->sendCompleted)
+        {
+            $class .= ' ' . $class . '-completed';
+        }
+        else if ($this->sendStarted)
+        {
+            $class .= ' ' . $class . '-started';
+        }
+        return $class;
+    }
 }
 ?>

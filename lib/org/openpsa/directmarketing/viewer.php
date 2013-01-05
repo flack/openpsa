@@ -139,26 +139,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         return $icon;
     }
 
-    public static function get_messagetype_css_class($type)
-    {
-        $class = 'email';
-        switch ($type)
-        {
-            case org_openpsa_directmarketing_campaign_message_dba::SMS:
-            case org_openpsa_directmarketing_campaign_message_dba::MMS:
-                $class = 'mobile';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::CALL:
-            case org_openpsa_directmarketing_campaign_message_dba::FAX:
-                $class = 'telephone';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
-                $class = 'postal';
-                break;
-        }
-        return $class;
-    }
-
     public function load_campaign($identifier)
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba($identifier);
