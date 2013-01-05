@@ -77,7 +77,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         $qb_failed = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb_failed->add_constraint('message', '=', $this->_message->id);
-        $qb_failed->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILED);
+        $qb_failed->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILURE);
         $receipt_data['failed'] = $qb_failed->count();
 
         $this->_get_campaign_data($receipt_data['first_send']);
