@@ -55,7 +55,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $receipts = $qb_receipts->execute_unchecked();
         $receipt_data =& $this->_request_data['report']['receipt_data'];
-        $receipt_data['first_send'] = $this->_message->sendStarted;
+        $receipt_data['first_send'] = time();
         $receipt_data['last_send'] = 0;
         $receipt_data['sent'] = count($receipts);
         $receipt_data['bounced'] = 0;
@@ -386,9 +386,11 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $this->_create_campaign_from_link();
         }
 
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+
         $this->add_breadcrumb("campaign/{$this->_campaign->guid}/", $this->_campaign->title);
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
-        $this->add_breadcrumb("message/report/{$this->_message->guid}/", $this->_l10n->get('message report'));
+        $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
 
         $this->_view_toolbar->add_item
         (
