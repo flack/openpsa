@@ -163,7 +163,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    function send_bg($url_base, $batch, &$content, &$from, &$subject, &$data_array)
+    function send_bg($url_base, $batch, &$content, &$from, &$subject)
     {
         if (!$from)
         {
@@ -195,10 +195,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             }
         }
         $results = $this->_qb_single_chunk();
-        if (!$this->_backend->check_results($results))
-        {
-            return false;
-        }
         //The method above might have incremented the counter for internal reasons
         $batch = $this->_chunk_num + 1;
         if ($results === false)
