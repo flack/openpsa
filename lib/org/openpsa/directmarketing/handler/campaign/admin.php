@@ -158,23 +158,16 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         if (   !empty($_POST['midcom_helper_datamanager2_save'])
             || isset($_POST['show_rule_preview']))
         {
-            $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-            $eval_ret = eval($eval);
+            try
+            {
+                $rule = $this->_load_rules_from_post();
+            }
+            catch (midcom_error $e)
+            {
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get($e->getMessage()), 'error');
+                return;
+            }
 
-            if (   $eval_ret === false
-                || !is_array($tmp_array))
-            {
-                //Rule could not be parsed
-                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
-                return;
-            }
-            if (count($tmp_array) == 0)
-            {
-                // Rule array is empty
-                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
-                return;
-            }
-            $rule = $tmp_array;
             //add rule was generated with wizard
             $rule['generated'] = 'wizard';
 
@@ -188,12 +181,11 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             if (!isset($_POST['show_rule_preview']))
             {
                 $this->_campaign->rules = $rule;
-                $update_ret = $this->_campaign->update();
-                if (!$update_ret)
+                if (!$this->_campaign->update())
                 {
                     //Save failed
                     midcom::get('uimessages')->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
-                    break;
+                    return;
                 }
                 //Schedule background members refresh
                 $this->_campaign->schedule_update_smart_campaign_members();
@@ -214,6 +206,27 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         midcom::get('head')->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign);
         $this->_update_breadcrumb_line($handler_id);
+    }
+
+    private function _load_rules_from_post()
+    {
+        if (empty($_POST['midcom_helper_datamanager2_dummy_field_rules']))
+        {
+            throw new midcom_error('no rule given');
+        }
+        $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
+        $eval_ret = eval($eval);
+
+        if (   $eval_ret === false
+            || !is_array($tmp_array))
+        {
+            throw new midcom_error('given rule could not be parsed');
+        }
+        if (count($tmp_array) == 0)
+        {
+            throw new midcom_error('given rule is empty');
+        }
+        return $tmp_array;
     }
 
     /**
@@ -248,50 +261,37 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         if (!empty($_POST['midcom_helper_datamanager2_cancel']))
         {
-            return new midcom_response_relocate("campaign/" . $this->_request_data["campaign"]->guid . '/');
+            return new midcom_response_relocate("campaign/" . $this->_campaign->guid . '/');
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
 
         if (!empty($_POST['midcom_helper_datamanager2_save']))
         {
+            try
+            {
+                $rules = $this->_load_rules_from_post();
+            }
+            catch (midcom_error $e)
+            {
+                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get($e->getMessage()), 'error');
+                return;
+            }
             //Actual save routine
-            if (empty($_POST['midcom_helper_datamanager2_dummy_field_rules']))
-            {
-                //Rule code empty
-                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('no rule given'), 'error');
-                return;
-            }
-            $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-            $eval_ret = @eval($eval);
-            if (   $eval_ret === false
-                || !is_array($tmp_array))
-            {
-                //Rule could not be parsed
-                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
-                return;
-            }
-            if (count($tmp_array) == 0)
-            {
-                // Rule array is empty
-                midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
-                return;
-            }
-            if (array_key_exists('generated_from',  $tmp_array))
+            if (array_key_exists('generated_from',  $rules))
             {
                 debug_add('"generated_from" found in advanced rule, removing', MIDCOM_LOG_WARN);
-                unset ($tmp_array['generated_from']);
+                unset ($rules['generated_from']);
                 // PONDER: return to editor or save anyway ? now we overwrite the value with the modified rule and return to editor.
                 midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('longtext:generated_from_found_in_adv_rule'), 'error');
-                $_POST['midcom_helper_datamanager2_dummy_field_rules'] = org_openpsa_helpers::array2code($tmp_array);
+                $_POST['midcom_helper_datamanager2_dummy_field_rules'] = org_openpsa_helpers::array2code($rules);
 
                 $this->_update_breadcrumb_line($handler_id);
                 org_openpsa_helpers::dm2_savecancel($this);
                 return;
             }
-            $this->_request_data['campaign']->rules = $tmp_array;
-            $update_ret = $this->_request_data['campaign']->update();
-            if (!$update_ret)
+            $this->_campaign->rules = $rules;
+            if (!$this->_campaign->update())
             {
                 //Save failed
                 midcom::get('uimessages')->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
@@ -299,10 +299,10 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             }
 
             //Schedule background members refresh
-            $this->_request_data['campaign']->schedule_update_smart_campaign_members();
+            $this->_campaign->schedule_update_smart_campaign_members();
 
             //Save ok, relocate
-            return new midcom_response_relocate("campaign/" . $this->_request_data["campaign"]->guid . '/');
+            return new midcom_response_relocate("campaign/" . $this->_campaign->guid . '/');
         }
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
@@ -369,7 +369,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_prepare_request_data($handler_id);
         midcom::get('head')->set_pagetitle($this->_campaign->title);
-        $this->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
+        $this->bind_view_to_object($this->_campaign, $this->_controller->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -419,7 +419,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
-        $this->set_active_leaf('campaign_' .$this->_campaign->id);
+        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $this->_prepare_request_data($handler_id);
 
