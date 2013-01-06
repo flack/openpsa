@@ -213,7 +213,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         try
         {
             $data = $this->run_handler($component, $args);
-            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'handler did not relocate');
+            if (!array_key_exists('__openpsa_testcase_response', $data))
+            {
+                $data['__openpsa_testcase_response'] = null;
+            }
+            $this->assertInstanceOf('midcom_response_relocate', $data['__openpsa_testcase_response'], 'handler did not relocate');
             $url = $data['__openpsa_testcase_response']->url;
         }
         catch (openpsa_test_relocate $e)
