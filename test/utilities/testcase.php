@@ -93,8 +93,13 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $component = $topic;
             $topic = $this->get_component_node($component);
         }
+        $root = $topic;
+        while ($root->get_parent())
+        {
+            $root = $root->get_parent();
+        }
 
-        $context = new midcom_core_context(null, $topic);
+        $context = new midcom_core_context(null, $root);
         $context->set_current();
         $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . '/' . implode('/', $args) . '/');
 
