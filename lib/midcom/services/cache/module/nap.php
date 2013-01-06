@@ -7,34 +7,25 @@
  */
 
 /**
- * This is the NAP/Metadata caching module. It provides the basic management functionality
+ * This is the NAP caching module. It provides the basic management functionality
  * for the various backend databases which will be created based on the root topic of the
  * NAP trees.
  *
- * The actual handling of the various db's is done with nav/backend.php and metadata.php, this
- * class is responsible for the creation of backend instances and invalidation for both NAP
- * and Metadata cache objects. (Which implies that it is fully aware of the data structures
+ * The actual handling of the various dbs is done with nav/backend.php, this
+ * class is responsible for the creation of backend instances and invalidation for NAP
+ * cache objects. (Which implies that it is fully aware of the data structures
  * stored in the cache.)
  *
  * All entries are indexed by their Midgard Object GUID. The entries in the NAP cache
- * basically resemble the arrays within the NAP backend node/leaf cache, while the metadata
- * cache is a copy of the actual metadata property cache of the midcom_helper_metadata object.
+ * basically resemble the arrays within the NAP backend node/leaf cache
  *
- * NAP/Metadata caches can be shared over multiple sites, as all site specific data (like
+ * NAP caches can be shared over multiple sites, as all site specific data (like
  * site prefixes) are evaluated during runtime.
  *
  * Most of the cache update work is done in midcom_helper_nav_backend,
  * so you should look there for details about the caching strategy.
  *
- * <b>Implementation notes:</b>
- *
- * Currently, the metadata object is not cached. Instead it relies on the NAP object copies
- * to work in a cached fashion: It uses the members of the object copy from the cache for
- * all basic operations (using the $object->$domain_$name feature of Midgard in combination
- * with variable variables).
- *
  * @see midcom_helper_nav_backend
- * @see midcom_helper_metadata
  *
  * @package midcom.services
  */
@@ -88,8 +79,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     }
 
     /**
-     * Invalidates all cache objects related to the GUID specified. This function is aware for
-     * NAP / Metadata caches. It will invalidate the node/leaf record pair upon each invalidation.
+     * Invalidates all cache objects related to the GUID specified. This function is aware of
+     * NAP caches. It will invalidate the node/leaf record pair upon each invalidation.
      *
      * This function only works within the current context, because it looks on the invalidated
      * GUID to handle the invalidation correctly.
@@ -109,9 +100,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * directly after object creation, not during the regular safe cycle.
      *
      * See the automatic index invalidation code of the Datamanager for additional details.
-     *
-     * @todo Find a way to propagate leaf additions/deletions to a topic which must be invalidated in all
-     * places necessary, or MIDCOM_NAV_LEAVES will be broken.
      *
      * @param string $guid The GUID to invalidate.
      */
