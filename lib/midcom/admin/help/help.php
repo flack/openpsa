@@ -128,7 +128,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     static function get_help_title($help_id, $component)
     {
-        $subject = midcom::get('i18n')->get_string("help_" . $help_id, 'midcom.admin.help');
+        $subject = $this->_l10n->get("help_" . $help_id);
         $path = self::generate_file_path($help_id, $component);
         if (!$path)
         {
@@ -216,7 +216,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                     'index' => array
                     (
                         'path' => '/',
-                        'subject' => midcom::get('i18n')->get_string('help_index', 'midcom.admin.help'),
+                        'subject' => $this->_l10n->get('help_index'),
                         'lang' => 'en',
                     ),
                 ),
@@ -235,7 +235,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['mgdschemas'] = array
             (
                 'path' => '/mgdschemas',
-                'subject' => midcom::get('i18n')->get_string('help_mgdschemas', 'midcom.admin.help'),
+                'subject' => $this->_l10n->get('help_mgdschemas'),
                 'lang' => 'en',
             );
         }
@@ -247,7 +247,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['urlmethods'] = array
             (
                 'path' => '/urlmethods',
-                'subject' => midcom::get('i18n')->get_string('help_urlmethods', 'midcom.admin.help'),
+                'subject' => $this->_l10n->get('help_urlmethods'),
                 'lang' => 'en',
             );
         }
@@ -266,7 +266,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['handlers'] = array
             (
                 'path' => '/handlers',
-                'subject' => midcom::get('i18n')->get_string('help_handlers', 'midcom.admin.help'),
+                'subject' => $this->_l10n->get('help_handlers'),
                 'lang' => 'en',
             );
         }
@@ -278,7 +278,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['dependencies'] = array
             (
                 'path' => '/dependencies',
-                'subject' => midcom::get('i18n')->get_string('help_dependencies', 'midcom.admin.help'),
+                'subject' => $this->_l10n->get('help_dependencies'),
                 'lang' => 'en',
             );
         }
@@ -612,7 +612,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         midcom::get('auth')->require_valid_user();
 
-        $data['view_title'] = midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help');
+        $data['view_title'] = $this->_l10n->get($this->_component);
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_list_components();
@@ -668,7 +668,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             midcom::get('componentloader')->load($data['component']);
         }
 
-        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('help for %s', 'midcom.admin.help'), midcom::get('i18n')->get_string($data['component'], $data['component']));
+        $data['view_title'] = sprintf($this->_l10n->get('help for %s'), midcom::get('i18n')->get_string($data['component'], $data['component']));
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['help_files'] = $this->list_files($data['component']);
@@ -728,7 +728,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // Table of contents navi
         $data['view_title'] = sprintf
         (
-            midcom::get('i18n')->get_string('help for %s in %s', 'midcom.admin.help'),
+            $this->_l10n->get('help for %s in %s'),
             self::get_help_title($data['help_id'], $data['component']),
             midcom::get('i18n')->get_string($data['component'], $data['component'])
         );

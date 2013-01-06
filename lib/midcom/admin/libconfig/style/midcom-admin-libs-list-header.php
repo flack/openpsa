@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>&nbsp;</th>
-                <th><?php echo midcom::get('i18n')->get_string('library', 'midcom.admin.libconfig'); ?></th>
+                <th><?php echo $data['l10n']->get('library'); ?></th>
             </tr>
         </thead>
         <tbody>

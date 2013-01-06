@@ -35,6 +35,6 @@ if (isset($_REQUEST['midcom_admin_user']))
 </div>
 <div class="form_toolbar">
     <input type="submit" name="f_process" value="<?php echo $data['l10n']->get('change passwords'); ?>" class="save" />
-    <input type="submit" name="f_cancel" value="<?php echo midcom::get('i18n')->get_string('cancel', 'midcom'); ?>" class="cancel" />
+    <input type="submit" name="f_cancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" class="cancel" />
 </div>
 </form>

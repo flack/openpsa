@@ -30,7 +30,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Form has been handled if cancel has been pressed
         if (isset($_POST['f_cancel']))
         {
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.admin.folder'), midcom::get('i18n')->get_string('cancelled'));
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
             midcom::get()->relocate('');
             // This will exit
         }
@@ -69,7 +69,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         if ($success)
         {
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.admin.folder'), midcom::get('i18n')->get_string('order saved'));
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('order saved'));
             midcom::get()->relocate('');
             // This will exit
         }
@@ -176,7 +176,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         {
             $folder_title = $data['folder']->name;
         }
-        $data['title'] = sprintf(midcom::get('i18n')->get_string('order navigation in folder %s', 'midcom.admin.folder'), $folder_title);
+        $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $folder_title);
         midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
@@ -206,10 +206,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Navorder list for the selection
         $data['navorder_list'] = array
         (
-            MIDCOM_NAVORDER_DEFAULT => midcom::get('i18n')->get_string('default sort order', 'midcom.admin.folder'),
-            MIDCOM_NAVORDER_TOPICSFIRST => midcom::get('i18n')->get_string('folders first', 'midcom.admin.folder'),
-            MIDCOM_NAVORDER_ARTICLESFIRST => midcom::get('i18n')->get_string('pages first', 'midcom.admin.folder'),
-            MIDCOM_NAVORDER_SCORE => midcom::get('i18n')->get_string('by score', 'midcom.admin.folder'),
+            MIDCOM_NAVORDER_DEFAULT => $this->_l10n->get('default sort order'),
+            MIDCOM_NAVORDER_TOPICSFIRST => $this->_l10n->get('folders first'),
+            MIDCOM_NAVORDER_ARTICLESFIRST => $this->_l10n->get('pages first'),
+            MIDCOM_NAVORDER_SCORE => $this->_l10n->get('by score'),
         );
 
         if (!isset($_GET['ajax']))

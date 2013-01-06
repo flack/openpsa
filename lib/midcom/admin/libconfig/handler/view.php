@@ -38,7 +38,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.libconfig/edit/{$data['name']}",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             )
         );

@@ -1,7 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-echo "<h1>" . sprintf(midcom::get('i18n')->get_string('mgdschemas in %s', 'midcom.admin.help'),
-                midcom::get('i18n')->get_string($data['component'], $data['component'])) . "</h1>\n";
+echo "<h1>" . sprintf($data['l10n']->get('mgdschemas in %s'), midcom::get('i18n')->get_string($data['component'], $data['component'])) . "</h1>\n";
 
 if (count($data['mgdschemas']) > 0)
 {
@@ -14,8 +13,8 @@ if (count($data['mgdschemas']) > 0)
         echo "    <table>\n";
         echo "        <tbody>\n";
         echo "            <tr>\n";
-        echo "                <th class='property'>" . midcom::get('i18n')->get_string('property', 'midcom.admin.help') . "</th>\n";
-        echo "                <th>" . midcom::get('i18n')->get_string('description', 'midcom.admin.help') . "</th>\n";
+        echo "                <th class='property'>" . $data['l10n']->get('property') . "</th>\n";
+        echo "                <th>" . $data['l10n']->get('description') . "</th>\n";
         echo "            </tr>\n";
 
         $i = 1;
@@ -64,8 +63,8 @@ if (count($data['mgdschemas']) > 0)
             echo "    <table>\n";
             echo "        <tbody>\n";
             echo "            <tr>\n";
-            echo "                <th class='property'>" . midcom::get('i18n')->get_string('signature', 'midcom.admin.help') . "</th>\n";
-            echo "                <th>" . midcom::get('i18n')->get_string('description', 'midcom.admin.help') . "</th>\n";
+            echo "                <th class='property'>" . $data['l10n']->get('signature') . "</th>\n";
+            echo "                <th>" . $data['l10n']->get('description') . "</th>\n";
             echo "            </tr>\n";
 
             foreach ($reflectionmethods as $reflectionmethod)
@@ -126,6 +125,6 @@ if (count($data['mgdschemas']) > 0)
 }
 else
 {
-    echo "<p>" . midcom::get('i18n')->get_string('no mgdschema found', 'midcom.admin.help') . "</p>";
+    echo "<p>" . $data['l10n']->get('no mgdschema found') . "</p>";
 }
 ?>

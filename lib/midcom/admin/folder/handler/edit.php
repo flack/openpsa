@@ -412,7 +412,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         {
             debug_print_r('Failed to create a new style due to ' . midcom_connection::get_error_string(), $style, MIDCOM_LOG_WARN);
 
-            midcom::get('uimessages')->add('edit folder', sprintf(midcom::get('i18n')->get_string('failed to create a new style template: %s', 'midcom.admin.folder'), midcom_connection::get_error_string()), 'error');
+            midcom::get('uimessages')->add('edit folder', sprintf($this->_l10n->get('failed to create a new style template: %s'), midcom_connection::get_error_string()), 'error');
             return '';
         }
 

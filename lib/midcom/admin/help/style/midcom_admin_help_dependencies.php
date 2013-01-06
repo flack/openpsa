@@ -5,7 +5,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <?php
         if (count($data['dependencies']) > 0)
         {
-            echo "<h2>" . midcom::get('i18n')->get_string('component depends on', 'midcom') . "</h2>\n";
+            echo "<h2>" . $data['l10n_midcom']->get('component depends on') . "</h2>\n";
             echo "<ul>\n";
             foreach ($data['dependencies'] as $dependency)
             {

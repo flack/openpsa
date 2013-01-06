@@ -184,10 +184,10 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         static $style_array = array();
 
-        $style_array[''] = midcom::get('i18n')->get_string('default', 'midcom.admin.folder');
+        $style_array[''] = $this->_l10n->get('default');
 
         // Give an option for creating a new layout template
-        $style_array['__create'] = midcom::get('i18n')->get_string('new layout template', 'midcom.admin.folder');
+        $style_array['__create'] = $this->_l10n->get('new layout template');
 
         if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
             && $up == 0)

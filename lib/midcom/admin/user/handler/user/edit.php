@@ -172,7 +172,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
-        $data['view_title'] = sprintf(midcom::get('i18n')->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
+        $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_person->name);
         midcom::get('head')->set_pagetitle($data['view_title']);
         midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
 
@@ -379,7 +379,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             if (isset($_POST['f_cancel']))
             {
-                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n_midcom->get('cancelled'));
                 return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
             }
             $this->_process_batch_change();

@@ -70,10 +70,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
-        $data['view_title'] = midcom::get('i18n')->get_string('create user', 'midcom.admin.user');
+        $data['view_title'] = $this->_l10n->get('create user');
         midcom::get('head')->set_pagetitle($data['view_title']);
 
-        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/create/", $data['view_title']);
     }
 

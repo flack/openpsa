@@ -6,7 +6,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <table>
     <thead>
         <?php
-        echo "<th>" . midcom::get('i18n')->get_string('folders', 'midcom.admin.user') . "</th>\n";
+        echo "<th>" . $data['l10n']->get('folders') . "</th>\n";
         foreach ($data['privileges'] as $privilege)
         {
             echo "<th>" . midcom::get('i18n')->get_string($privilege, 'midgard.admin.asgard') . "</th>\n";
@@ -43,11 +43,11 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
                 if ($privs[$privilege] == 1)
                 {
-                    echo midcom::get('i18n')->get_string('yes', 'midcom');
+                    echo $data['l10n_midcom']->get('yes');
                 }
                 elseif ($privs[$privilege] == 2)
                 {
-                    echo midcom::get('i18n')->get_string('no', 'midcom');
+                    echo $data['l10n_midcom']->get('no');
                 }
 
                 echo "</td>\n";
