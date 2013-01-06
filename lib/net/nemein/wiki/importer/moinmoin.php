@@ -47,7 +47,7 @@ class net_nemein_wiki_importer_moinmoin
         {
             return false;
         }
-        $resolver = net_nemein_wiki_resolver($this->root_topic->id);
+        $resolver = new net_nemein_wiki_resolver($this->root_topic->id);
         // Make sure this is clean
         $this->add_parameters = array();
         $content = trim(file_get_contents($revision_path)) . "\n";
