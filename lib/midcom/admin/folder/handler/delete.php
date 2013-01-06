@@ -181,7 +181,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         }
         $this->_delete_topic_update_index();
 
-        if (!self::_delete_children($this->_topic))
+        if (!$this->_delete_children($this->_topic))
         {
             midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder contents: %s'), midcom_connection::get_error_string()), 'error');
             return false;
@@ -212,7 +212,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         {
             foreach ($objects as $object)
             {
-                if (!self::_delete_children($object))
+                if (!$this->_delete_children($object))
                 {
                     return false;
                 }
