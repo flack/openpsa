@@ -205,7 +205,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $children = self::_get_child_objects($object);
         if (empty($children))
         {
-            return false;
+            return true;
         }
 
         foreach ($children as $objects)
