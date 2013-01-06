@@ -160,7 +160,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         {
             try
             {
-                $rule = $this->_load_rules_from_post();
+                $rules = $this->_load_rules_from_post();
             }
             catch (midcom_error $e)
             {
@@ -169,18 +169,18 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             }
 
             //add rule was generated with wizard
-            $rule['generated'] = 'wizard';
+            $rules['generated'] = 'wizard';
 
             //resolve rules
             $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
-            $solver->resolve($tmp_array);
+            $solver->resolve($rules);
             $rule_persons = $solver->execute();
 
 
             //if it's not preview update campaign & Schedule background members refresh'
             if (!isset($_POST['show_rule_preview']))
             {
-                $this->_campaign->rules = $rule;
+                $this->_campaign->rules = $rules;
                 if (!$this->_campaign->update())
                 {
                     //Save failed
