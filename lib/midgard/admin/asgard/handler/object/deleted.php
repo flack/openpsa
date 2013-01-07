@@ -55,14 +55,14 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
                 array
                 (
                     MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/',
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('trash', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
                 )
             );
         }
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
         $this->add_breadcrumb("", $this->_l10n->get('object deleted'));
     }
 

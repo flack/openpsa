@@ -1,15 +1,15 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h2>";
-echo midcom::get('i18n')->get_string('trash', 'midgard.admin.asgard');
+echo $data['l10n']->get('trash');
 echo "</h2>";
 ?>
 
 <table class="deleted table_widget" id="deleted">
     <thead>
         <tr>
-            <th><?php echo midcom::get('i18n')->get_string('type', 'midgard.admin.asgard'); ?></th>
-            <th><?php echo midcom::get('i18n')->get_string('items in trash', 'midgard.admin.asgard'); ?></th>
+            <th><?php echo $data['l10n']->get('type'); ?></th>
+            <th><?php echo $data['l10n']->get('items in trash'); ?></th>
         </tr>
     </thead>
     <tbody>

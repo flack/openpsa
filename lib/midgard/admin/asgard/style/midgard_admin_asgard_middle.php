@@ -33,10 +33,10 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                 }
                                 ?>
                                 <li>
-                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/configuration.png" alt="<?php echo midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'); ?>" /></a>
+                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo $data['l10n']->get('user preferences'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/configuration.png" alt="<?php echo $data['l10n']->get('user preferences'); ?>" /></a>
                                 </li>
                                 <li>
-                                    <a href="&(prefix);" title="<?php echo midcom::get('i18n')->get_string('back to site', 'midgard.admin.asgard'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/gohome.png" alt="<?php echo midcom::get('i18n')->get_string('back to site', 'midgard.admin.asgard'); ?>" /></a>
+                                    <a href="&(prefix);" title="<?php echo $data['l10n']->get('back to site'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/gohome.png" alt="<?php echo $data['l10n']->get('back to site'); ?>" /></a>
                                 </li>
                             </ul>
                         </div>

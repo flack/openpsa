@@ -1,7 +1,7 @@
 <form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midgard_admin_asgard_navigation_form">
     <p>
     <select name="midgard_type" id="midgard_admin_asgard_navigation_chooser">
-        <option value=""><?php echo midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'); ?></option>
+        <option value=""><?php echo $data['l10n']->get('midgard.admin.asgard'); ?></option>
 <?php
 foreach ($data['label_mapping'] as $type => $label)
 {
@@ -18,7 +18,7 @@ foreach ($data['label_mapping'] as $type => $label)
 }
 ?>
     </select>
-    <input type="submit" name="midgard_type_change" class="submit" value="<?php echo midcom::get('i18n')->get_string('go', 'midgard.admin.asgard'); ?>" />
+    <input type="submit" name="midgard_type_change" class="submit" value="<?php echo $data['l10n']->get('go'); ?>" />
     </p>
 </form>
 <script type="text/javascript">

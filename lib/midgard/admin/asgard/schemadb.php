@@ -286,13 +286,13 @@ class midgard_admin_asgard_schemadb
             '_rcs_message',
             array
             (
-                'title'       => midcom::get('i18n')->get_string('revision comment', 'midgard.admin.asgard'),
+                'title'       => $this->_l10n->get('revision comment'),
                 'storage'     => '_rcs_message',
                 'type'        => 'text',
                 'widget'      => 'text',
                 'start_fieldset' => array
                 (
-                    'title' => midcom::get('i18n')->get_string('revision', 'midgard.admin.asgard'),
+                    'title' => $this->_l10n->get('revision'),
                     'css_group' => 'rcs',
                 ),
                 'end_fieldset' => '',

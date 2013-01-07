@@ -1,7 +1,7 @@
 <?php
 $label = $data['label_property'];
 echo "<h2>";
-echo sprintf(midcom::get('i18n')->get_string('%s trash', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type']));
+echo sprintf($data['l10n']->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']));
 echo "</h2>";
 
 $shown = array();
@@ -36,8 +36,8 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     {
         $disabled = ' disabled="disabled"';
     }
-   
-    $object_label = $reflector->get_object_label($object);       
+
+    $object_label = $reflector->get_object_label($object);
     if (empty($object_label))
     {
         $object_label = $object->guid;
@@ -93,27 +93,27 @@ if ($data['trash'])
     echo "    <thead>\n";
     echo "        <tr>\n";
     echo "            <th>&nbsp;</th>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('title', 'midcom') . "</th>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('deleted on', 'midgard.admin.asgard') . "</th>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('deleted by', 'midgard.admin.asgard') . "</th>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('size', 'midgard.admin.asgard') . "</th>\n";
+    echo "            <th>" . $data['l10n_midcom']->get('title') . "</th>\n";
+    echo "            <th>" . $data['l10n']->get('deleted on') . "</th>\n";
+    echo "            <th>" . $data['l10n']->get('deleted by') . "</th>\n";
+    echo "            <th>" . $data['l10n']->get('size') . "</th>\n";
     echo "        </tr>\n";
     echo "    </thead>\n";
     echo "    <tfoot>\n";
     echo "            <tr>\n";
     echo "            <td colspan=\"5\">\n";
     echo "                <label for=\"select_all\">\n";
-    echo "                    <input type=\"checkbox\" name=\"select_all\" id=\"select_all\" value=\"\" onclick=\"jQuery(this).check_all('#batch_process tbody');\" />" . midcom::get('i18n')->get_string('select all', 'midgard.admin.asgard');
+    echo "                    <input type=\"checkbox\" name=\"select_all\" id=\"select_all\" value=\"\" onclick=\"jQuery(this).check_all('#batch_process tbody');\" />" . $data['l10n']->get('select all');
     echo "                </label>\n";
     echo "                <label for=\"invert_selection\">\n";
-    echo "                    <input type=\"checkbox\" name=\"invert_selection\" id=\"invert_selection\" value=\"\" onclick=\"jQuery(this).invert_selection('#batch_process tbody');\" />" . midcom::get('i18n')->get_string('invert selection', 'midgard.admin.asgard');
+    echo "                    <input type=\"checkbox\" name=\"invert_selection\" id=\"invert_selection\" value=\"\" onclick=\"jQuery(this).invert_selection('#batch_process tbody');\" />" . $data['l10n']->get('invert selection');
     echo "                </label>\n";
     echo "            </td>\n";
     echo "        </tr>\n";
     echo "        <tr>\n";
     echo "            <td colspan=\"5\">\n";
-    echo "                <input type=\"submit\" value=\"" . midcom::get('i18n')->get_string('undelete', 'midgard.admin.asgard') . "\" />\n";
-    echo "                <input type=\"submit\" name=\"purge\" value=\"" . midcom::get('i18n')->get_string('purge', 'midgard.admin.asgard') . "\" />\n";
+    echo "                <input type=\"submit\" value=\"" . $data['l10n']->get('undelete') . "\" />\n";
+    echo "                <input type=\"submit\" name=\"purge\" value=\"" . $data['l10n']->get('purge') . "\" />\n";
     echo "            </td>\n";
     echo "        </tr>\n";
     echo "    </tfoot>\n";
@@ -140,6 +140,6 @@ if ($data['trash'])
 }
 else
 {
-    echo "<p>" . midcom::get('i18n')->get_string('trash is empty', 'midgard.admin.asgard') . "</p>\n";
+    echo "<p>" . $data['l10n']->get('trash is empty') . "</p>\n";
 }
 ?>

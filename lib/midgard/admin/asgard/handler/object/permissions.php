@@ -203,7 +203,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             if ($privilege->is_magic_assignee())
             {
                 // This is a magic assignee
-                $label = midcom::get('i18n')->get_string($privilege->assignee, 'midgard.admin.asgard');
+                $label = $this->_l10n->get($privilege->assignee);
             }
             else
             {
@@ -216,7 +216,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 }
                 else
                 {
-                    $label = midcom::get('i18n')->get_string('ghost assignee for '. $privilege->assignee, 'midgard.admin.asgard');
+                    $label = $this->_l10n->get('ghost assignee for '. $privilege->assignee);
                 }
             }
 
@@ -263,13 +263,13 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 if (! isset($header_items[$privilege_label]))
                 {
-                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", midcom::get('i18n')->get_string($privilege_label, 'midgard.admin.asgard')) . "</span></th>\n";
+                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $this->_l10n->get($privilege_label)) . "</span></th>\n";
                 }
 
                 $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(':', '_', str_replace('.', '_', $privilege)), Array
                     (
                         'title' => $privilege_label,
-                        'helptext'    => sprintf(midcom::get('i18n')->get_string('sets privilege %s', 'midgard.admin.asgard'), $privilege),
+                        'helptext'    => sprintf($this->_l10n->get('sets privilege %s'), $privilege),
                         'storage' => null,
                         'type' => 'privilege',
                         'type_config' => Array
@@ -345,7 +345,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch (get_class($this->_object))
         {
             case 'midcom_db_topic':
-                $type = midcom::get('i18n')->get_string('folder', 'midgard.admin.asgard');
+                $type = $this->_l10n->get('folder');
                 break;
             default:
                 $type_parts = explode('_', get_class($this->_object));

@@ -2,8 +2,8 @@
         <table class="midcom_admin_libconfig">
         <thead>
             <tr class="header">
-                <th><?php echo midcom::get('i18n')->get_string('global', 'midgard.admin.asgard'); ?></th>
-                <th><?php echo midcom::get('i18n')->get_string('local', 'midgard.admin.asgard'); ?></th>
+                <th><?php echo $data['l10n']->get('global'); ?></th>
+                <th><?php echo $data['l10n']->get('local'); ?></th>
             </tr>
         </thead>
         <tbody>

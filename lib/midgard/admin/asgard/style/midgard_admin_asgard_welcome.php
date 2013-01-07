@@ -252,7 +252,7 @@ else
             $approved_str = strftime('%x %X', $approved);
             if ($approved == 0  || $approved < $object->metadata->revised)
             {
-                $approved_str = midcom::get('i18n')->get_string('not approved', 'midgard.admin.asgard');
+                $approved_str = $data['l10n']->get('not approved');
             }
 
             echo "        <tr>\n";

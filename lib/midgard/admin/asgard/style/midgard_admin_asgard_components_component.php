@@ -8,7 +8,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if (count($component['maintainers']) > 0)
         {
-            echo "<h3>" . midcom::get('i18n')->get_string('created by', 'midgard.admin.asgard') . "</h3>\n";
+            echo "<h3>" . $data['l10n']->get('created by') . "</h3>\n";
             echo "<ul>\n";
 
             foreach ($component['maintainers'] as $username => $maintainer)
@@ -43,7 +43,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if (count($data['component_dependencies']) > 0)
         {
-            echo "<h2>" . midcom::get('i18n')->get_string('component depends on', 'midcom') . "</h2>\n";
+            echo "<h2>" . $data['l10n_midcom']->get('component depends on') . "</h2>\n";
             echo "<ul>\n";
             foreach ($data['component_dependencies'] as $dependency)
             {

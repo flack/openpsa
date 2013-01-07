@@ -1,8 +1,8 @@
-<h1><?php echo sprintf(midcom::get('i18n')->get_string('edit file %s', 'midgard.admin.asgard'), $data['filename']); ?></h1>
+<h1><?php echo sprintf($data['l10n']->get('edit file %s'), $data['filename']); ?></h1>
 
 <form method="post" enctype="multipart/form-data" class="datamanager2" action="<?php echo midcom_connection::get_url('uri'); ?>" onsubmit="midgard_admin_asgard_file_edit.toggleEditor();">
     <fieldset class="fieldset">
-        <legend><?php echo midcom::get('i18n')->get_string('upload file', 'midgard.admin.asgard'); ?></legend>
+        <legend><?php echo $data['l10n']->get('upload file'); ?></legend>
 
         <input type="file" name="midgard_admin_asgard_file" />
     </fieldset>
@@ -13,15 +13,15 @@
         ?>
         <hr />
         <fieldset class="fieldset">
-            <legend><?php echo midcom::get('i18n')->get_string('edit text file', 'midgard.admin.asgard'); ?></legend>
+            <legend><?php echo $data['l10n']->get('edit text file'); ?></legend>
 
             <label>
-                <span><?php echo midcom::get('i18n')->get_string('filename', 'midgard.admin.asgard'); ?></span>
+                <span><?php echo $data['l10n']->get('filename'); ?></span>
                 <input class="text" type="text" name="midgard_admin_asgard_filename" value="<?php echo $data['file']->name; ?>" />
             </label>
 
             <label>
-                <span><?php echo midcom::get('i18n')->get_string('file contents', 'midgard.admin.asgard'); ?></span>
+                <span><?php echo $data['l10n']->get('file contents'); ?></span>
                 <textarea name="midgard_admin_asgard_contents" cols="60" rows="30" wrap="none" id="midgard_admin_asgard_file_edit" class="codemirror &(data['file_syntax']);"><?php
                     $f = $data['file']->open('r');
                     if ($f)
@@ -36,7 +36,7 @@
     }
     ?>
     <div class="form_toolbar">
-        <input type="submit" class="save" name="midgard_admin_asgard_save" accesskey="s" value="<?php echo midcom::get('i18n')->get_string('save', 'midcom'); ?>" />
+        <input type="submit" class="save" name="midgard_admin_asgard_save" accesskey="s" value="<?php echo $data['l10n_midcom']->get('save'); ?>" />
     </div>
 </form>
 
@@ -46,7 +46,7 @@
     $mime_icon = midcom_helper_misc::get_mime_icon($data['file']->mimetype);
     ?>
     <fieldset>
-        <legend><?php echo midcom::get('i18n')->get_string('file information', 'midgard.admin.asgard'); ?></legend>
+        <legend><?php echo $data['l10n']->get('file information'); ?></legend>
 
         <div class="icon">
             <a href="&(file_url);">
@@ -55,10 +55,10 @@
             </a>
         </div>
 
-        <label><span><?php echo midcom::get('i18n')->get_string('url', 'midgard.admin.asgard'); ?></span>
+        <label><span><?php echo $data['l10n']->get('url'); ?></span>
             <input class="text" type="text" value="&(file_url);" readonly="readonly" />
         </label>
         <br />
-        <input type="submit" class="delete" name="f_delete" value="<?php echo midcom::get('i18n')->get_string('delete', 'midcom'); ?>" />
+        <input type="submit" class="delete" name="f_delete" value="<?php echo $data['l10n_midcom']->get('delete'); ?>" />
     </fieldset>
 </form>

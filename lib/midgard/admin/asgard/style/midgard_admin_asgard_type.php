@@ -9,7 +9,7 @@ else
     $component_label = midcom::get('i18n')->get_string($data['component'], $data['component']);
 }
 echo "<h2>";
-echo sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'),
+echo sprintf($data['l10n_midcom']->get('%s in %s'),
         midgard_admin_asgard_plugin::get_type_label($data['type']),
         $component_label);
 echo "</h2>";
@@ -17,16 +17,16 @@ echo "</h2>";
 echo "<p>";
 if ($data['parent_type'])
 {
-    echo sprintf(midcom::get('i18n')->get_string('%s is under type %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
+    echo sprintf($data['l10n']->get('%s is under type %s'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
 }
 
 if ($data['component'] == 'midgard')
 {
-    echo midcom::get('i18n')->get_string('this is a midgard core type', 'midgard.admin.asgard') . "</p>\n";
+    echo $data['l10n']->get('this is a midgard core type') . "</p>\n";
 }
 else
 {
-    echo sprintf(midcom::get('i18n')->get_string('this type belongs to %s component', 'midgard.admin.asgard'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
+    echo sprintf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
 }
 ?>
 
@@ -35,10 +35,10 @@ else
 <form method="get">
 <div id="search_bar">
     <label>
-        <?php echo midcom::get('i18n')->get_string('search', 'midgard.admin.asgard'); ?>
+        <?php echo $data['l10n']->get('search'); ?>
         <input id="search_field" type="text" name="search" class="search"<?php if (isset($_GET['search'])) { echo " value=\"{$_GET['search']}\""; } ?> />
     </label>
-    <input class="search" type="submit" value="<?php echo midcom::get('i18n')->get_string('go', 'midgard.admin.asgard'); ?>" />
+    <input class="search" type="submit" value="<?php echo $data['l10n']->get('go'); ?>" />
 </div>
 </form>
 <script type="text/javascript">
@@ -70,7 +70,7 @@ if (isset($data['search_results']))
     }
     if (!$data['search_results'])
     {
-        echo "<p>" . midcom::get('i18n')->get_string('no results', 'midgard.admin.asgard') . "</p>\n";
+        echo "<p>" . $data['l10n']->get('no results') . "</p>\n";
     }
 
     else
@@ -78,9 +78,9 @@ if (isset($data['search_results']))
         echo "<table class=\"table_widget\" id=\"search_results\">\n";
         echo "    <thead>\n";
         echo "        <tr>\n";
-        echo "            <th>" . midcom::get('i18n')->get_string('title', 'midcom') . "</th>\n";
-        echo "            <th>" . midcom::get('i18n')->get_string('created on', 'midgard.admin.asgard') . "</th>\n";
-        echo "            <th>" . midcom::get('i18n')->get_string('created by', 'midgard.admin.asgard') . "</th>\n";
+        echo "            <th>" . $data['l10n_midcom']->get('title') . "</th>\n";
+        echo "            <th>" . $data['l10n']->get('created on') . "</th>\n";
+        echo "            <th>" . $data['l10n']->get('created by') . "</th>\n";
         echo "        </tr>\n";
         echo "    </thead>\n";
         echo "    <tbody>\n";

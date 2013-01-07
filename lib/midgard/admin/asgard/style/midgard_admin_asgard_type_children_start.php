@@ -1,1 +1,1 @@
-<h2><?php echo sprintf(midcom::get('i18n')->get_string('child types of %s', 'midgard.admin.asgard'), $data['type_translated']); ?></h2>
+<h2><?php echo sprintf($data['l10n']->get('child types of %s'), $data['type_translated']); ?></h2>

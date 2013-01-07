@@ -41,11 +41,11 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _process_request_data(&$data)
     {
-        $data['view_title'] = midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard');
+        $data['view_title'] = $this->_l10n->get('user preferences');
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb('__mfa/asgard/preferences/', midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/preferences/', $this->_l10n->get('user preferences'));
 
         if ($this->_person->guid !== midcom::get('auth')->user->guid)
         {
@@ -86,11 +86,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('preferences saved', 'midgard.admin.asgard'));
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
                 return new midcom_response_relocate($return_page);
 
             case 'cancel':
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), midcom::get('i18n')->get_string('cancelled', 'midcom'));
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
                 return new midcom_response_relocate($return_page);
         }
 
@@ -169,7 +169,7 @@ implements midcom_helper_datamanager2_interfaces_edit
              if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value))
              {
                  $this->_status = false;
-                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed to save the preference for %s', 'midgard.admin.asgard'), midcom::get('i18n')->get_string($key, 'midgard.admin.asgard')));
+                 midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to save the preference for %s'), $this->_l10n->get($key)));
              }
 
              debug_add("Added configuration key-value pair {$key} => {$value}");

@@ -180,7 +180,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             array
             (
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/preferences/',
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('user preferences'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
             )
         );
@@ -192,7 +192,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 array
                 (
                     MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/',
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('trash', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
                 )
             );
@@ -203,7 +203,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             array
             (
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/components/',
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('components', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('components'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
             )
         );
@@ -214,7 +214,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             array
             (
                 MIDCOM_TOOLBAR_URL => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('back to site', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('back to site'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/gohome.png',
             )
         );
@@ -224,7 +224,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             array
             (
                 MIDCOM_TOOLBAR_URL => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "midcom-logout-",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('logout', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('logout'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
             )
         );

@@ -2,7 +2,7 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="midgard_admin_asgard_objecthelper_help">
-    <h3><a href="#"><?php echo midcom::get('i18n')->get_string('creating new style element', 'midgard.admin.asgard'); ?></a></h3>
+    <h3><a href="#"><?php echo $data['l10n']->get('creating new style element'); ?></a></h3>
     <div>
         <?php
         echo "<ul>\n";

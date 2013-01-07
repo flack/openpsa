@@ -49,7 +49,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$name}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('component configuration', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             )
         );
@@ -110,13 +110,13 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $data['view_title'] = midcom::get('i18n')->get_string('components', 'midgard.admin.asgard');
+        $data['view_title'] = $this->_l10n->get('components');
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_list_components();
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
     }
 
@@ -187,13 +187,13 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$data['component']}",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('component configuration', 'midcom'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             )
         );
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
         $this->add_breadcrumb("__mfa/asgard/components/{$data['component']}", $data['component_data']['title']);
     }
