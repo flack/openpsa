@@ -219,7 +219,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $name = $filename;
             $ext = '';
         }
-        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
+        return midcom::get('serviceloader')->load('midcom_core_service_urlgenerator')->from_string($name) . $ext;
     }
 
     /**

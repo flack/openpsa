@@ -23,7 +23,8 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Backwards compatibility
         if ($this->name == '')
         {
-            $this->name = midcom_helper_misc::generate_urlname_from_string($this->title);
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $this->name = $generator->from_string($this->title);
             $this->update();
         }
     }
@@ -51,7 +52,8 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Generate URL-clean name
         if ($this->name != 'index')
         {
-            $this->name = midcom_helper_misc::generate_urlname_from_string($this->title);
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $this->name = $generator->from_string($this->title);
         }
         return true;
     }

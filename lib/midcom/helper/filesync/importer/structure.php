@@ -152,7 +152,8 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
     public function import()
     {
         // Generate a safe name for the structure
-        $structure_name = midcom_helper_misc::generate_urlname_from_string(midcom::get()->get_page_prefix());
+        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $structure_name = $generator->from_string(midcom::get()->get_page_prefix());
         $path = "{$this->root_dir}{$structure_name}.inc";
 
         if (!file_exists($path))

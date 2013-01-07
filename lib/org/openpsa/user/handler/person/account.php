@@ -66,7 +66,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         else
         {
             // Otherwise use cleaned up firstname.lastname
-            $this->_request_data['default_username'] = midcom_helper_misc::generate_urlname_from_string($this->_person->firstname) . '.' . midcom_helper_misc::generate_urlname_from_string($this->_person->lastname);
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $this->_request_data['default_username'] = $generator->from_string($this->_person->firstname) . '.' . $generator->from_string($this->_person->lastname);
         }
 
         midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");

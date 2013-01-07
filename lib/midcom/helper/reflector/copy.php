@@ -478,20 +478,20 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             && !$resolver->name_is_safe_or_empty($name_property))
         {
             debug_add('Source object ' . get_class($source) . " {$source->guid} has unsafe name, rewriting to safe form for the target", MIDCOM_LOG_WARN);
-
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
             $name_parts = explode('.', $target->$name_property, 2);
             if (isset($name_parts[1]))
             {
-                $target->$name_property = midcom_helper_misc::generate_urlname_from_string($name_parts[0]) . ".{$name_parts[1]}";
+                $target->$name_property = $generator->from_string($name_parts[0]) . ".{$name_parts[1]}";
                 // Doublecheck safety and fall back if needed
                 if (!$resolver->name_is_safe_or_empty())
                 {
-                    $target->$name_property = midcom_helper_misc::generate_urlname_from_string($target->$name_property);
+                    $target->$name_property = $generator->from_string($target->$name_property);
                 }
             }
             else
             {
-                $target->$name_property = midcom_helper_misc::generate_urlname_from_string($target->$name_property);
+                $target->$name_property = $generator->from_string($target->$name_property);
             }
             unset($name_parts, $name_property);
         }

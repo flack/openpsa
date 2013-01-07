@@ -111,6 +111,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
         }
         else
         {
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
             $encoder = new org_openpsa_calendar_vcal();
             $vcal_data = $encoder->get_headers();
             $vcal_data .= $encoder->export_event($event);
@@ -119,7 +120,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
             (
                 array
                 (
-                    'name' => midcom_helper_misc::generate_urlname_from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
+                    'name' => $generator->from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
                     'mimetype' => 'text/calendar',
                     'content' => $vcal_data,
                 ),

@@ -410,6 +410,13 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $this->_feed->update();
         }
 
+        // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
+        if (empty($article->name))
+        {
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $article->name = $generator->from_string($article->title);
+            $updated = true;
+        }
         if ($article->id)
         {
             // store <link rel="replies"> url in parameter
@@ -422,13 +429,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 && !$article_data_tweaked)
             {
                 $article->metadata->published = $article_date;
-                $updated = true;
-            }
-
-            // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
-            if (empty($article->name))
-            {
-                $article->name = midcom_helper_misc::generate_urlname_from_string($article->title);
                 $updated = true;
             }
 
@@ -457,11 +457,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
         else
         {
-            // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
-            if (empty($article->name))
-            {
-                $article->name = midcom_helper_misc::generate_urlname_from_string($article->title);
-            }
             // This is a new item
             $node = new midcom_db_topic($this->_feed->node);
             $node_lang_code = $node->get_parameter('net.nehmer.blog', 'language');

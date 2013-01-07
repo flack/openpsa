@@ -104,13 +104,14 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
         $copy = $this->_copy_object($this->storage->object);
         $property = $schema['storage']['location'];
         $resolver = new midcom_helper_reflector_nameresolver($copy);
+        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
 
         if (empty($this->value))
         {
             if (   isset($this->_datamanager->types[$this->title_field])
                 && $this->_datamanager->types[$this->title_field]->value)
             {
-                $copy->{$property} = midcom_helper_misc::generate_urlname_from_string($this->_datamanager->types[$this->title_field]->value);
+                $copy->{$property} = $generator->from_string($this->_datamanager->types[$this->title_field]->value);
                 $this->value = $resolver->generate_unique_name();
             }
         }
@@ -119,14 +120,14 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
 
         if (!$resolver->name_is_safe($property))
         {
-            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "URL-safe", try "%s"'), midcom_helper_misc::generate_urlname_from_string($this->value));
+            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "URL-safe", try "%s"'), $generator->from_string($this->value));
             return false;
         }
 
         if (   !$this->allow_unclean
             && !$resolver->name_is_clean($property))
         {
-            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "clean", try "%s"'), midcom_helper_misc::generate_urlname_from_string($this->value));
+            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "clean", try "%s"'), $generator->from_string($this->value));
             return false;
         }
 

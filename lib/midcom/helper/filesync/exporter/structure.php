@@ -54,7 +54,8 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
     function read_structure()
     {
         // Generate a safe name for the structure
-        $structure_name = midcom_helper_misc::generate_urlname_from_string(midcom::get()->get_page_prefix());
+        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $structure_name = $generator->from_string(midcom::get()->get_page_prefix());
 
         // Prepare structure
         $structure = array();

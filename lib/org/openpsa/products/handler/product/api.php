@@ -63,13 +63,14 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         // Generate URL name
         if ($product->code == '')
         {
-            $product->code = midcom_helper_misc::generate_urlname_from_string($product->title);
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $product->code = $generator->from_string($product->title);
             $tries = 0;
             $maxtries = 999;
             while(   !$product->update()
                   && $tries < $maxtries)
             {
-                $product->code = midcom_helper_misc::generate_urlname_from_string($product->title);
+                $product->code = $generator->from_string($product->title);
                 if ($tries > 0)
                 {
                     // Append an integer if products with same name exist

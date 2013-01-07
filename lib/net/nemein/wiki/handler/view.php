@@ -233,8 +233,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         // We need to get the node from NAP for safe redirect
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_topic->id);
-
-        $urlized_wikiword = midcom_helper_misc::generate_urlname_from_string($wikiword);
+        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $urlized_wikiword = $generator->from_string($wikiword);
         if ($urlized_wikiword != $wikiword)
         {
             // Lets see if the page for the wikiword exists
