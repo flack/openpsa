@@ -86,11 +86,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_snippet);
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (!$this->_datamanager)
-        {
-            throw new midcom_error("Datamanager could not be instantiated.");
-        }
     }
 
     /**
@@ -108,10 +103,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         $this->_salesproject =& $salesproject;
 
-        if (!isset($this->_datamanager))
-        {
-            $this->_initialize_datamanager($this->_config->get('schemadb_salesproject'));
-        }
+        $this->_initialize_datamanager($this->_config->get('schemadb_salesproject'));
 
         $this->_modify_schema();
 
@@ -199,13 +191,9 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         midcom::get('auth')->require_valid_user();
         midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
-        $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
-        $this->_defaults['owner'] = midcom_connection::get_user();
+        $this->_load_defaults($args);
 
-        if (!isset($this->_datamanager))
-        {
-            $this->_initialize_datamanager($this->_config->get('schemadb_salesproject'));
-        }
+        $this->_initialize_datamanager($this->_config->get('schemadb_salesproject'));
 
         $this->_load_create_controller();
 
@@ -222,8 +210,31 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
 
+        $this->add_breadcrumb('', $this->_l10n->get('create salesproject'));
+
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
+    }
+
+    private function _load_defaults(array $args)
+    {
+        $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
+        $this->_defaults['owner'] = midcom_connection::get_user();
+
+        if (!empty($args[0]))
+        {
+            try
+            {
+                $customer = new org_openpsa_contacts_group_dba($args[0]);
+                $this->_defaults['customer'] = $customer->id;
+            }
+            catch (midcom_error $e)
+            {
+                $customer = new org_openpsa_contacts_person_dba($args[0]);
+                $this->_defaults['customerContact'] = $customer->id;
+            }
+            $this->add_breadcrumb("list/customer/{$customer->guid}/", sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
+        }
     }
 
     /**

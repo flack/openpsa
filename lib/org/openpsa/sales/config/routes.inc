@@ -28,6 +28,14 @@
     'fixed_args' => array('salesproject', 'new'),
 ),
 
+// Match /salesproject/new/<guid>
+'salesproject_new' => array
+(
+    'handler' => array('org_openpsa_sales_handler_edit', 'new'),
+    'fixed_args' => array('salesproject', 'new'),
+    'variable_args' => 1,
+),
+
 // Match /salesproject/<salesproject>
 'salesproject_view' => array
 (

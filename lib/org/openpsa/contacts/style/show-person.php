@@ -43,18 +43,12 @@ $node = $nap->get_node($nap->get_current_node());
     }
     if ($sales_url)
     {
-        $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-        $qb->add_constraint('customerContact', '=', $data['person']->id);
-        $qb->set_limit(1);
-        if ($qb->count() > 0)
-        {
-            $tabs[] = array
-            (
-                'url' => $sales_url . "list/customer/{$data['person']->guid}/",
-                'title' => midcom::get('i18n')->get_string('salesprojects', 'org.openpsa.sales'),
-            );
-        }
-        }
+        $tabs[] = array
+        (
+            'url' => $sales_url . "list/customer/{$data['person']->guid}/",
+            'title' => midcom::get('i18n')->get_string('salesprojects', 'org.openpsa.sales'),
+        );
+    }
     org_openpsa_widgets_ui::render_tabs($data['person']->guid, $tabs);
 ?>
 </div>

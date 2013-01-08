@@ -60,6 +60,16 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
                     )
                 );
             }
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => 'salesproject/new/' . $data['customer']->guid . '/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
+                )
+            );
         }
 
         $this->_salesprojects = $qb->execute();
