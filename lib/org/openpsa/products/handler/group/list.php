@@ -371,6 +371,10 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 $create_url = $this->_request_data['parent_group'] . '/' . $create_url;
             }
+            else if ($schemadb_name == 'schemadb_group')
+            {
+                $create_url = '0/' . $create_url;
+            }
 
             $this->_view_toolbar->add_item
             (
