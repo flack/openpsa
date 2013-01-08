@@ -29,7 +29,7 @@
 ),
 
 // Match /salesproject/new/<guid>
-'salesproject_new' => array
+'salesproject_new_customer' => array
 (
     'handler' => array('org_openpsa_sales_handler_edit', 'new'),
     'fixed_args' => array('salesproject', 'new'),
