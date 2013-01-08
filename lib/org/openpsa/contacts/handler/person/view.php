@@ -223,8 +223,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         // Check if we get the person
         $data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
-        $qb = midcom_db_member::new_query_builder();
+        $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);
+        $qb->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $data['memberships'] = $qb->execute();
 
         // Group person listing, always work even if there are none
@@ -247,10 +248,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 try
                 {
                     $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-                    if ($data['group']->orgOpenpsaObtype == org_openpsa_contacts_group_dba::MYCONTACTS)
-                    {
-                        continue;
-                    }
                 }
                 catch (midcom_error $e)
                 {
