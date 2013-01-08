@@ -47,10 +47,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
 
     public function add_member($guid)
     {
-        $qb = midcom_db_member::new_query_builder();
-        $qb->add_constraint('gid', '=', $this->id);
-        $qb->add_constraint('uid.guid', '=', $guid);
-        if ($qb->count() > 1)
+        if ($this->is_member($guid))
         {
             debug_add('Person ' . $guid . ' is already on the user\'s contact list, skipping');
             return;
