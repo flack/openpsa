@@ -144,8 +144,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 debug_add("Transferred membership #{$member->id} to person #{$person1->id} (from #{$member->uid})");
                 $member->uid = $person1->id;
             }
-            if (   !isset($membership_map[$member->gid])
-                || !is_array($membership_map[$member->gid]))
+            if (empty($membership_map[$member->gid]))
             {
                 $membership_map[$member->gid] = array();
             }

@@ -177,8 +177,7 @@ class org_openpsa_contacts_duplicates
             }
         }
         $person1_memberships =& $this->_membership_cache[$person1['guid']];
-        if (   !isset($this->_membership_cache[$person2['guid']])
-            || !is_array($this->_membership_cache[$person2['guid']]))
+        if (empty($this->_membership_cache[$person2['guid']]))
         {
             $this->_membership_cache[$person2['guid']] = array();
             $mc = midcom_db_member::new_collector('uid', $person2['id']);
