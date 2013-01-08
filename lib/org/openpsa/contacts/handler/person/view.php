@@ -225,8 +225,13 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);
-        $qb->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $data['memberships'] = $qb->execute();
+        $qb->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $data['organizations'] = $qb->execute();
+
+        $qb = org_openpsa_contacts_member_dba::new_query_builder();
+        $qb->add_constraint('uid', '=', $data['person']->id);
+        $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $data['groups'] = $qb->execute();
 
         // Group person listing, always work even if there are none
         midcom::get()->skip_page_style = true;
@@ -240,35 +245,48 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     public function _show_group_memberships($handler_id, array &$data)
     {
         // This is most likely a dynamic_load
-        if (count($data['memberships']) > 0)
+        if (   count($data['organizations']) == 0
+            && count($data['groups']) == 0)
         {
-            midcom_show_style("show-person-groups-header");
-            foreach ($data['memberships'] as $member)
-            {
-                try
-                {
-                    $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                    continue;
-                }
-                $data['member'] = $member;
-                if ($member->extra == "")
-                {
-                    $member->extra = $this->_l10n->get('<title>');
-                }
-                $data['member_title'] = $member->extra;
+            midcom_show_style("show-person-groups-empty");
 
-                midcom_show_style("show-person-groups-item");
-            }
-            midcom_show_style("show-person-groups-footer");
         }
         else
         {
-            midcom_show_style("show-person-groups-empty");
+            $this->_show_memberships('organizations');
+            $this->_show_memberships('groups');
         }
+    }
+
+    private function _show_memberships($identifier)
+    {
+        if (empty($this->_request_data[$identifier]))
+        {
+            return;
+        }
+        $this->_request_data['title'] = $this->_l10n->get($identifier);
+        midcom_show_style("show-person-groups-header");
+        foreach ($this->_request_data[$identifier] as $member)
+        {
+            try
+            {
+                $this->_request_data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
+            $this->_request_data['member'] = $member;
+            if ($member->extra == "")
+            {
+                $member->extra = $this->_l10n->get('<title>');
+            }
+            $this->_request_data['member_title'] = $member->extra;
+
+            midcom_show_style("show-person-groups-item");
+        }
+        midcom_show_style("show-person-groups-footer");
     }
 }
 ?>
