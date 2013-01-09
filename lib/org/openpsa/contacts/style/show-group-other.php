@@ -8,9 +8,9 @@ $grid->set_option('height', 600);
 $grid->set_option('viewrecords', true);
 $grid->set_option('url', $prefix . 'group/json/' . $data['group']->guid . '/');
 
-$grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
-    ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
-    ->set_column('username', $data['l10n']->get('username'), 'width: 100, classes: "ui-ellipsis"')
+$grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classes: "title ui-ellipsis"', 'string')
+    ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 80, classes: "ui-ellipsis"', 'string')
+    ->set_column('homepage', $data['l10n']->get('homepage'), 'width: 100, classes: "ui-ellipsis"')
     ->set_column('email', $data['l10n']->get('email'), 'width: 100, classes: "ui-ellipsis"');
 
 ?>

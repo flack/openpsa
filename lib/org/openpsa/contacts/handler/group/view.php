@@ -253,14 +253,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
         if (!is_null($field))
         {
-            if ($field == 'username')
-            {
-                midcom_core_account::add_username_order($qb, $direction);
-            }
-            else
-            {
-                $qb->add_order($field, $direction);
-            }
+            $qb->add_order($field, $direction);
         }
         $qb->add_order('lastname');
         $qb->add_order('firstname');
@@ -286,9 +279,18 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $entry['index_lastname'] = $lastname;
         $entry['firstname'] = "<a href='" . $prefix . 'person/' . $user->guid . "/' >" . $user->firstname . "</a>";
         $entry['index_firstname'] = $user->firstname;
-        $account = new midcom_core_account($user);
-        $entry['username'] = "<a href='" . $prefix . 'person/' . $user->guid . "/' >" . $account->get_username() . "</a>";
-        $entry['index_username'] = $account->get_username();
+        $entry['homepage'] = '';
+        $entry['index_homepage'] = $user->homepage;
+        if (!empty($user->homepage))
+        {
+            $url = $user->homepage;
+            if (!preg_match('/https?:\/\//', $url))
+            {
+                $url = 'http://' . $user->homepage;
+            }
+            $entry['homepage'] = '<a href="' . $url . '">' . $user->homepage . '</a>';
+        }
+
         $entry['email'] = "<a href='mailto:" . $user->email . "' >" . $user->email . "</a>";
         $entry['index_email'] = $user->email;
 
