@@ -116,7 +116,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
         else
         {
-            $this->_rows = $row;
+            $this->_rows = $rows;
         }
 
         if (empty($data['filename']))
