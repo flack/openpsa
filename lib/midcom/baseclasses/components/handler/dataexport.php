@@ -106,8 +106,18 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         midcom::get()->disable_limits();
 
-        $this->_rows = $this->_load_data($handler_id, $args, $data);
-
+        $rows = $this->_load_data($handler_id, $args, $data);
+        if (count($this->_datamanagers) == 1)
+        {
+            foreach ($rows as $row)
+            {
+                $this->_rows[] = array($row);
+            }
+        }
+        else
+        {
+            $this->_rows = $row;
+        }
 
         if (empty($data['filename']))
         {
