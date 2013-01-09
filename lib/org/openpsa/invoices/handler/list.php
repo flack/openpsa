@@ -275,17 +275,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private function _add_filters(&$qb)
     {
-        if ($this->_customer)
-        {
-            if (is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
-            {
-                $qb->add_constraint('customer', '=', $this->_customer->id);
-            }
-            else
-            {
-                $qb->add_constraint('customerContact', '=', $this->_customer->id);
-            }
-        }
         if ($this->_deliverable)
         {
             $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
@@ -298,6 +287,17 @@ implements org_openpsa_widgets_grid_provider_client
             else
             {
                 $qb->add_constraint('id', '=', 0);
+            }
+        }
+        else if ($this->_customer)
+        {
+            if (is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
+            {
+                $qb->add_constraint('customer', '=', $this->_customer->id);
+            }
+            else
+            {
+                $qb->add_constraint('customerContact', '=', $this->_customer->id);
             }
         }
     }
@@ -366,7 +366,7 @@ implements org_openpsa_widgets_grid_provider_client
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "invoice/new/{$this->_request_data['customer']->guid}/",
+                    MIDCOM_TOOLBAR_URL => "invoice/new/{$this->_customer->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
                 )
@@ -399,14 +399,14 @@ implements org_openpsa_widgets_grid_provider_client
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$this->_request_data['customer']->guid}/",
+                    MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$this->_customer->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                 )
             );
         }
 
-        $title = sprintf($this->_l10n->get('all invoices for customer %s'), $this->_request_data['customer']->get_label());
+        $title = sprintf($this->_l10n->get('all invoices for customer %s'), $this->_customer->get_label());
 
         midcom::get('head')->set_pagetitle($title);
 
@@ -443,6 +443,9 @@ implements org_openpsa_widgets_grid_provider_client
         // We're displaying invoices of a specific deliverable
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $data['deliverable'] = $this->_deliverable;
+        $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
+        $this->_customer = $salesproject->get_customer();
+        $data['customer'] = $this->_customer;
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
@@ -453,14 +456,14 @@ implements org_openpsa_widgets_grid_provider_client
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$data['deliverable']->guid}/",
+                    MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                 )
             );
         }
 
-        $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $data['deliverable']->title);
+        $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $this->_deliverable->title);
         midcom::get('head')->set_pagetitle($title);
         $this->add_breadcrumb("", $title);
     }
