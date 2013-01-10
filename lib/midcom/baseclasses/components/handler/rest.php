@@ -19,31 +19,31 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	 * storing request data
 	 * @var array
 	 */
-	protected $request = array();
+	protected $_request = array();
 	
 	/**
 	 * storing response data
 	 * @var array
 	 */
-	protected $response = null;
+	protected $_response = null;
 	
 	/**
 	 * the response status
 	 * @var int
 	 */
-	protected $responseStatus = 0;
+	protected $_responseStatus = 0;
 	
 	/**
 	 * the object we're working on
 	 * @var midcom_baseclasses_core_dbobject
 	 */
-	protected $object;
+	protected $_object;
 	
 	/**
-	 * the mode we're in (reflecting the called methods name)
+	 * the request mode (get, create, update, delete)
 	 * @var string
 	 */
-    protected $mode;
+    protected $_mode;
 	
 	/**
 	 * (non-PHPdoc)
@@ -56,6 +56,8 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	}
 	
 	/**
+	 * the base handler that should be pointed to by the routes
+	 * 
 	 * @param mixed $handler_id The ID of the handler.
 	 * @param array $args The argument list.
 	 * @param array &$data The local request data.
@@ -67,118 +69,153 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	}
 
 	/**
-	 * on init start processing raw HTTP request headers & body
+	 * on init start processing the request data
 	 */
 	protected function _init()
-	{	    
-	    $this->request['resource'] = (isset($_GET['RESTurl']) && !empty($_GET['RESTurl'])) ? $_GET['RESTurl'] : 'index';
+	{	    	    
+	    $this->_request['method'] = strtolower($_SERVER['REQUEST_METHOD']);
 	    
-	    $this->request['method'] = strtolower($_SERVER['REQUEST_METHOD']);
-	    
-	    switch($this->request['method'])
+	    switch($this->_request['method'])
 	    {
 	        case 'get':
-	            $this->request['params'] = $_GET;
+	            $this->_request['params'] = $_GET;
 	            break;
 	        case 'post':
-	            $this->request['params'] = array_merge($_POST, $_GET);
+	            $this->_request['params'] = array_merge($_POST, $_GET);
 	            break;
 	        case 'put':
-	            parse_str(file_get_contents('php://input'), $this->request['params']);
+	            parse_str(file_get_contents('php://input'), $this->_request['params']);
 	            break;
 	        case 'delete':
-	            $this->request['params'] = $_GET;
+	            $this->_request['params'] = $_GET;
 	            break;
 	        default:
 	            break;
 	    }
 	    
-	    // parse values
-	    foreach ($this->request['params'] as $key => $value)
+	    foreach ($this->_request['params'] as $key => $value)
 	    {
-	        $this->request['params'][$key] = $this->_parse_value($value);
+	        $this->_request['params'][$key] = $this->_parse_value($value);
 	    }
 	}
-		
+
+	/**
+	 * helper function for parsing the request parameters
+	 * 
+	 * @param string $value
+	 * @return string
+	 */
 	private function _parse_value($value)
 	{
 	    return trim($value);
 	}
 	
 	/**
+	 * retrieve the object based on classname and request parameters
+	 * if we got an id, it will try to find an existing one, otherwhise it will create a new one
+	 *
+	 * @param string $classname the dba object classname
+	 * @return midcom_baseclasses_core_dbobject
+	 */
+	public function retrieve_object($classname)
+	{
+	    if (isset($this->_request['params']['id']))
+	    {
+	        // try finding existing object
+	        try
+	        {
+	            $obj_id = intval($this->_request['params']['id']);  
+	            $this->_object = new $classname($obj_id);
+	            return $this->_object;  
+	        }
+	        catch (Exception $e)
+            {
+                $this->_stop($e->getMessage(), $e->getCode());
+            }
+	    }
+	    
+	    // no id given, create new
+	    $this->_object = new $classname();
+	    return $this->_object;
+	}
+		
+	/**
 	 * binds the request data to the object
 	 */
-	protected function bind_data()
+	public function bind_data()
 	{
 	     $this->_check_object();
 	     
-	     foreach ($this->request['params'] as $field => $value)
+	     foreach ($this->_request['params'] as $field => $value)
 	     {
-	         $this->object->{$field} = $value;
+	         $this->_object->{$field} = $value;
 	     }
 	}
 	
 	/**
-	 * sets the current object
-	 * if a id was passed by the request, try to initiate that object
-	 * 
-	 * @param string $classname the dba object classname
+	 * writes the changes to the dba object to the db
 	 */
-	protected function retrieve_object($classname)
+	public function persist_object()
 	{
-	    if (isset($this->request['params']['id']))
+	    $this->_check_object();
+	
+	    $stat = false;
+	    if ($this->_mode == "create")
 	    {
-	        $qb = $classname::new_query_builder();
-	        $qb->add_constraint("id", "=", $this->request['params']['id']);
-	        $results = $qb->execute();
-	        
-	        if (count($results) == 0)
-	        {
-	            $this->_stop("Unable to find object", 500);
-	        }
-	        $this->object = $results[0];
-	        return true;
+	        $stat = $this->_object->create();
 	    }
-	    // no id given, create new
-	    $this->object = new $classname();
-	    return true;
+	    if ($this->_mode == "update")
+	    {
+	        $stat = $this->_object->update();
+	    }
+	
+	    if ($stat)
+	    {
+	        $this->_response = array("id" => $this->_object->id, "message" => $this->_mode . " ok");
+	        $this->_responseStatus = 200;
+	    }
+	    else
+	    {
+	        $this->_response = array("error" => "Failed to " . $this->_mode . " object");
+	        $this->_responseStatus = 500;
+	    }
 	}
 			
 	/**
-	 * do the processing
+	 * do the processing: will call the corresponding handler method and set the mode
 	 */
 	protected function _process_request()
 	{
 	    try
 	    {        
 	        // call corresponding method
-	        if ($this->request['method'] == 'get')
+	        if ($this->_request['method'] == 'get')
 	        {
-	            $this->mode = 'get';
+	            $this->_mode = 'get';
 	            $this->handle_get();
 	        }
 	        // post and put might be used for create/update
-	        if ($this->request['method'] == 'post' || $this->request['method'] == 'put')
+	        if ($this->_request['method'] == 'post' || $this->_request['method'] == 'put')
 	        {
-	            if (isset($this->request['params']['id']))
+	            if (isset($this->_request['params']['id']))
 	            {
-	                $this->mode = 'update';
+	                $this->_mode = 'update';
 	                $this->handle_update();
 	            }
 	            else
 	            {
-	                $this->mode = 'create';
+	                $this->_mode = 'create';
 	                $this->handle_create();
 	            }
 	        }
-	        if ($this->request['method'] == 'delete')
+	        if ($this->_request['method'] == 'delete')
 	        {
-	            $this->mode = 'delete';
+	            $this->_mode = 'delete';
 	            $this->handle_delete();
 	        }
 	        	    
 	        // no response has been set
-	        if(is_null($this->response))
+	        if(is_null($this->_response))
 	        {
 	            throw new Exception('Method not allowed', 405);
 	        }
@@ -188,27 +225,39 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	        $this->_stop($e->getMessage(), $e->getCode());
 	    }
 	    
-	    // send the response
-        $this->_finish();
+        $this->_send_response();
 	}
 
-	protected function _finish()
+	/**
+	 * sends the response as json
+	 * containing the current response data
+	 */
+	protected function _send_response()
 	{	     	    	
-	    $response = new midcom_response_json($this->response);
+	    $response = new midcom_response_json($this->_response);
 	    $response->send();
 	}
 	
+	/**
+	 * stops the application and outputs the info message with corresponding statuscode
+	 * 
+	 * @param string $message
+	 * @param int $statuscode
+	 */
 	protected function _stop($message, $statuscode)
 	{
-	    $this->responseStatus = $statuscode;
-	    $this->response = array('code' => $statuscode, 'message' => $message);
-        $this->_finish();
+	    $this->_responseStatus = $statuscode;
+	    $this->_response = array('code' => $statuscode, 'message' => $message);
+        $this->_send_response();
 	}
 	
-	
+	/**
+	 * helper function for checking if an object has been
+	 * retrieved before using a function that needs one
+	 */
 	private function _check_object()
 	{
-	    if (!$this->object)
+	    if (!$this->_object)
 	    {
 	        $this->_stop("No object given", 500);
 	    }	    
@@ -219,7 +268,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	 * 
 	 * @param string $classname
 	 */
-	protected function perform($classname)
+	public function perform($classname)
 	{
 	    // get a object (create new or find existing)
 	    $this->retrieve_object($classname);
@@ -228,36 +277,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	    // and submit changes to db
 	    $this->persist_object();
 	}
-	
-	/**
-	 * writes the changes to the dba object to the db
-	 */
-	protected function persist_object()
-	{
-        $this->_check_object();
-        
-        $stat = false;
-        if ($this->mode == "create")
-        {
-	        $stat = $this->object->create();
-        }
-        if ($this->mode == "update")
-        {
-            $stat = $this->object->update();
-        }
-        
-	    if ($stat)
-	    {
-	        $this->response = array("id" => $this->object->id, "message" => $this->mode . " ok");
-	        $this->responseStatus = 200;
-	    }
-	    else
-	    {
-	        $this->response = array("error" => "Failed to " . $this->mode . " object");
-	        $this->responseStatus = 500;
-	    }
-	}
-		
+			
 	// these RESTful methods need to be overwritten
 	abstract public function handle_get();
 	abstract public function handle_create();

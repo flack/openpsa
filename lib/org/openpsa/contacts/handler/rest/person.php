@@ -16,26 +16,22 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         
 	public function handle_get() 
 	{
-
+        // not implemented
     }
         
     public function handle_create() 
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
         $this->perform('org_openpsa_contacts_person_dba');
-        midcom::get('auth')->drop_sudo();
     }
     
     public function handle_update() 
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
         $this->perform('org_openpsa_contacts_person_dba');
-        midcom::get('auth')->drop_sudo();
     }
 
     public function handle_delete() 
     {
-        
+        // not implemented
     }
 }
 ?>
