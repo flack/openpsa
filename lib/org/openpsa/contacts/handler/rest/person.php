@@ -13,25 +13,10 @@
  */
 class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_components_handler_rest
 {
-        
-	public function handle_get() 
-	{
-        // not implemented
-    }
-        
-    public function handle_create() 
-    {
-        $this->perform('org_openpsa_contacts_person_dba');
-    }
-    
-    public function handle_update() 
-    {
-        $this->perform('org_openpsa_contacts_person_dba');
-    }
 
-    public function handle_delete() 
+    public function get_object_classname()
     {
-        // not implemented
+        return "org_openpsa_contacts_person_dba";
     }
 }
 ?>

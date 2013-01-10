@@ -31,13 +31,13 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	 * the response status
 	 * @var int
 	 */
-	protected $_responseStatus = 0;
+	protected $_responseStatus = 500;
 	
 	/**
 	 * the object we're working on
 	 * @var midcom_baseclasses_core_dbobject
 	 */
-	protected $_object;
+	protected $_object = false;
 	
 	/**
 	 * the request mode (get, create, update, delete)
@@ -114,29 +114,41 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	 * retrieve the object based on classname and request parameters
 	 * if we got an id, it will try to find an existing one, otherwhise it will create a new one
 	 *
-	 * @param string $classname the dba object classname
 	 * @return midcom_baseclasses_core_dbobject
 	 */
-	public function retrieve_object($classname)
+	public function retrieve_object()
 	{
-	    if (isset($this->_request['params']['id']))
+	    // already got an object
+	    if ($this->_object)
 	    {
-	        // try finding existing object
-	        try
-	        {
-	            $obj_id = intval($this->_request['params']['id']);  
-	            $this->_object = new $classname($obj_id);
-	            return $this->_object;  
-	        }
-	        catch (Exception $e)
-            {
-                $this->_stop($e->getMessage(), $e->getCode());
-            }
+	        return $this->_object;
 	    }
 	    
-	    // no id given, create new
-	    $this->_object = new $classname();
-	    return $this->_object;
+	    $classname = $this->get_object_classname();
+	    // create mode
+	    if ($this->_mode == "create")
+	    {
+            $this->_object = new $classname();
+            return $this->_object;
+	    }
+	    
+	    // for all other modes, we need an id
+	    if (!isset($this->_request['params']['id']))
+	    {
+	        $this->_stop("Missing id for " . $this->_mode . " mode", 500);
+	    }
+	    
+        // try finding existing object
+        try
+        {
+            $obj_id = intval($this->_request['params']['id']);  
+            $this->_object = new $classname($obj_id);
+            return $this->_object;  
+        }
+        catch (Exception $e)
+        {
+            $this->_stop($e->getMessage(), $e->getCode());
+        }
 	}
 		
 	/**
@@ -171,13 +183,12 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	
 	    if ($stat)
 	    {
-	        $this->_response = array("id" => $this->_object->id, "message" => $this->_mode . " ok");
-	        $this->_responseStatus = 200;
+	        $this->_response["id"] = $this->_object->id;
+	        $this->_stop($this->_mode . " ok", 200);
 	    }
 	    else
 	    {
-	        $this->_response = array("error" => "Failed to " . $this->_mode . " object");
-	        $this->_responseStatus = 500;
+	        $this->_stop("Failed to " . $this->_mode . " object", 500);
 	    }
 	}
 			
@@ -215,7 +226,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	        }
 	        	    
 	        // no response has been set
-	        if(is_null($this->_response))
+	        if (is_null($this->_response))
 	        {
 	            throw new Exception('Method not allowed', 405);
 	        }
@@ -231,9 +242,15 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	/**
 	 * sends the response as json
 	 * containing the current response data
+	 * 
+	 * @param string $message
 	 */
-	protected function _send_response()
+	protected function _send_response($message = "")
 	{	     	    	
+	    // always add status code and message
+	    $this->_response['code'] = $this->_responseStatus;
+	    $this->_response['message'] = $message;
+	    
 	    $response = new midcom_response_json($this->_response);
 	    $response->send();
 	}
@@ -247,8 +264,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	protected function _stop($message, $statuscode)
 	{
 	    $this->_responseStatus = $statuscode;
-	    $this->_response = array('code' => $statuscode, 'message' => $message);
-        $this->_send_response();
+        $this->_send_response($message);
 	}
 	
 	/**
@@ -262,26 +278,46 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	        $this->_stop("No object given", 500);
 	    }	    
 	}
+
+	// the classname of the object we expect
+	abstract public function get_object_classname();
 	
-	/**
-	 * wrapper for quickly managing the dba object
-	 * 
-	 * @param string $classname
-	 */
-	public function perform($classname)
+	// these RESTful methods might be overwritten, but contain a default implementation
+	public function handle_get()
 	{
-	    // get a object (create new or find existing)
-	    $this->retrieve_object($classname);
-	    // bind the request data
+	    $this->retrieve_object();
+        $this->_response["object"] = $this->_object;
+        $this->_stop("get ok", 200);    
+	}
+	
+	public function handle_create()
+	{
+	    $this->retrieve_object();
 	    $this->bind_data();
-	    // and submit changes to db
 	    $this->persist_object();
 	}
-			
-	// these RESTful methods need to be overwritten
-	abstract public function handle_get();
-	abstract public function handle_create();
-	abstract public function handle_update();
-	abstract public function handle_delete();	    
+	
+	public function handle_update()
+	{
+	    $this->retrieve_object();
+	    $this->bind_data();
+	    $this->persist_object();	    
+	}
+	
+	public function handle_delete()
+	{
+	    $this->retrieve_object();
+	    $stat = $this->_object->delete();
+	    if ($stat)
+	    {
+	        // on success, return id
+	        $this->_response["id"] = $this->_object->id;
+	        $this->_stop($this->_mode . " ok", 200);
+	    }
+	    else
+	    {
+	        $this->_stop("Failed to delete object", 500);
+	    }    
+	}	    
 }
 ?>
