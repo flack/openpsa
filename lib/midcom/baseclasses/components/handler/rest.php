@@ -183,8 +183,9 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	
 	    if ($stat)
 	    {
+	        $this->_responseStatus = 200;
 	        $this->_response["id"] = $this->_object->id;
-	        $this->_stop($this->_mode . " ok", 200);
+	        $this->_response["message"] = $this->_mode . " ok";
 	    }
 	    else
 	    {
@@ -245,11 +246,14 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	 * 
 	 * @param string $message
 	 */
-	protected function _send_response($message = "")
+	protected function _send_response($message = false)
 	{	     	    	
 	    // always add status code and message
 	    $this->_response['code'] = $this->_responseStatus;
-	    $this->_response['message'] = $message;
+	    if ($message)
+	    {
+	        $this->_response['message'] = $message;
+	    }
 	    
 	    $response = new midcom_response_json($this->_response);
 	    $response->send();
@@ -286,8 +290,9 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	public function handle_get()
 	{
 	    $this->retrieve_object();
+	    $this->_responseStatus = 200;
         $this->_response["object"] = $this->_object;
-        $this->_stop("get ok", 200);    
+        $this->_response["message"] = "get ok";
 	}
 	
 	public function handle_create()
@@ -311,8 +316,9 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	    if ($stat)
 	    {
 	        // on success, return id
+	        $this->_responseStatus = 200;
 	        $this->_response["id"] = $this->_object->id;
-	        $this->_stop($this->_mode . " ok", 200);
+	        $this->_response["message"] = $this->_mode . "ok";
 	    }
 	    else
 	    {
