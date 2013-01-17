@@ -19,8 +19,28 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         return "org_openpsa_contacts_person_dba";
     }
     
-    public function handle_create()
+    // testing
+    /*
+    public function _handler_process($handler_id, array $args, array &$data)
     {
+        // testing
+        $this->_request['method'] = "post";
+        $this->_mode = "create";
+        $this->_request['params'] = array(   
+            'firstname' => 'Ima',
+            'lastname' => 'Frontpage4',
+            'username' => 'frontpage4',
+            'group_id' => '171',
+            'salesproject_title' => 'Fermate Kunde: ',
+            'product_id' => '2935',
+            'deliverable_units' => '1'
+        );
+        
+        $this->handle_create();
+    }
+    */
+    public function handle_create()
+    {    
         parent::handle_create();
         
         // add to group
@@ -47,7 +67,7 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         $salesproject->customerContact = $this->_object->id;
         
         // add logged in user as salesproject owner
-        $salesproject->owner = midcom::get('auth')->user->id;
+        $salesproject->owner = midcom::get('auth')->user->get_storage()->id;
         
         $salesproject->title = "";
         if (isset($this->_request['params']['salesproject_title']))
@@ -56,7 +76,11 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         }
         // add username to salesproject title
         $salesproject->title .= $this->_object->username; 
-        $salesproject->create();
+        $stat = $salesproject->create();
+        if (!$stat)
+        {
+            $this->_stop("Failed creating salesproject: " . midcom_connection::get_error_string());
+        }
         
         // ..and add a deliverable to the salesproject
         if (isset($this->_request['params']['product_id']))
@@ -69,33 +93,50 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
                 $deliverable->salesproject = $salesproject->id;
                 $deliverable->product = $product->id;
                 $deliverable->title = $product->title;
-                $deliverable->plannedUnits = 1;
                 if (isset($this->_request['params']['deliverable_units']))
                 {
-                    $deliverable->plannedUnits = intval($this->_request['params']['deliverable_units']);
+                    $num_units = intval($this->_request['params']['deliverable_units']);
+                    $deliverable->units = $num_units;
                 }
-                $deliverable->pricePerUnit = $product->price;
+                
+                $deliverable->unit = $product->unit;
+                $deliverable->costPerUnit = $product->cost;
                 $deliverable->costType = $product->costType;
                 if ($product->costType == 'm')
                 {
                     $deliverable->invoiceByActualUnits = true;
                 }
+                
                 $deliverable->orgOpenpsaObtype = $product->delivery;
                 $deliverable->description = $product->description;
                 $deliverable->supplier = $product->supplier;
                 
                 $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
                 $deliverable->start = gmmktime(0, 0, 0, gmdate('n'), gmdate('j'), gmdate('Y'));
-                              
+                
+                // causes "Failed to create the privilege. See debug level log for details."                
+                $deliverable->pricePerUnit = $product->price;
+                
+                $stat = $deliverable->create();
+                if (!$stat)
+                {
+                    $this->_stop("Failed creating deliverable: " . midcom_connection::get_error_string());
+                }
+                
+                // is a subscription?
                 if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                 {
                     $deliverable->continuous = true;
+                    // setting schema parameter to subscription
+                    $deliverable->set_parameter('midcom.helper.datamanager2', 'schema_name', 'subscription');
                 }
-                $stat = $deliverable->create();
+
+                // order the product
+                $stat = $deliverable->order();
                 
-                if ($stat)
+                if (!$stat)
                 {
-                    // $deliverable->order();
+                    $this->_stop("Failed ordering deliverable: " . midcom_connection::get_error_string());
                 }
             }
         }
