@@ -93,8 +93,7 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
                 
                 $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
                 $deliverable->start = gmmktime(0, 0, 0, gmdate('n'), gmdate('j'), gmdate('Y'));
-                
-                // causes "Failed to create the privilege. See debug level log for details."                
+                              
                 $deliverable->pricePerUnit = $product->price;
                 
                 $stat = $deliverable->create();
