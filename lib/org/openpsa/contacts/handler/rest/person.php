@@ -19,26 +19,6 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         return "org_openpsa_contacts_person_dba";
     }
     
-    // testing
-    /*
-    public function _handler_process($handler_id, array $args, array &$data)
-    {
-        // testing
-        $this->_request['method'] = "post";
-        $this->_mode = "create";
-        $this->_request['params'] = array(   
-            'firstname' => 'Ima',
-            'lastname' => 'Frontpage4',
-            'username' => 'frontpage4',
-            'group_id' => '171',
-            'salesproject_title' => 'Fermate Kunde: ',
-            'product_id' => '2935',
-            'deliverable_units' => '1'
-        );
-        
-        $this->handle_create();
-    }
-    */
     public function handle_create()
     {    
         parent::handle_create();
