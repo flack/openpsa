@@ -28,6 +28,11 @@
     cursor: pointer
 }
 
+.ui-jqgrid tr.jqgrow td a img
+{
+    border: none;
+}
+
 .ui-jqgrid tr.jqgrow td.longtext
 {
     white-space: pre-wrap
