@@ -150,6 +150,12 @@
     'variable_args' => 1,
 ),
 
+'person_rest' => array(
+    'handler' => array('org_openpsa_contacts_handler_rest_person', 'process'),
+    'fixed_args' => array('rest', 'person'),
+    'variable_args' => 0,
+),
+
 // Match /
 'frontpage' => array
 (

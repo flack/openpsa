@@ -154,42 +154,44 @@ form.datamanager2 div.form_toolbar input
 {
     background-image: url('');
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: 1px center;
+    border-style: outset;
+    padding: 0 .3em;
 }
 
 form.datamanager2 div.form_toolbar input.save
 {
-    padding-left: 18px;
+    padding-left: 19px;
     background-image: url('../stock-icons/16x16/save.png');
 }
 
 form.datamanager2 div.form_toolbar input.cancel
 {
-    padding-left: 18px;
+    padding-left: 19px;
     background-image: url('../stock-icons/16x16/cancel.png');
 }
 
 form.datamanager2 div.form_toolbar input.previous
 {
-    padding-left: 18px;
+    padding-left: 19px;
     background-image: url('../stock-icons/16x16/previous.png');
 }
 
 form.datamanager2 div.form_toolbar input.next
 {
-    padding-left: 18px;
+    padding-left: 19px;
     background-image: url('../stock-icons/16x16/next.png');
 }
 
 form.datamanager2 div.form_toolbar input.delete
 {
-    padding-left: 18px;
+    padding-left: 19px;
     background-image: url('../stock-icons/16x16/trash.png');
 }
 
 form.datamanager2 div.form_toolbar input.preview
 {
-    padding-left: 18px;
+    padding-left: 19px;
     background-image: url('../stock-icons/16x16/view.png');
 }
 
