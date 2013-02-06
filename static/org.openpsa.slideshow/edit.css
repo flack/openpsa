@@ -69,6 +69,11 @@
     padding-top: 3px;
 }
 
+#item_container .entry .controls
+{
+    z-index: 2
+}
+
 #item_container .entry .controls .action
 {
     float: right;
