@@ -83,7 +83,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             // Indexer is not configured.
             return;
         }
-
+        midcom::get()->disable_limits();
 
         debug_add("Dropping all NAP registered objects from the index.");
 
@@ -96,8 +96,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         while (count($node_list) > 0)
         {
-            set_time_limit(30);
-
             // Add the node being processed.
             $nodeid = array_shift($node_list);
             debug_add("Processing node {$nodeid}");
@@ -129,8 +127,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $indexer = midcom::get('indexer');
         foreach ($guids as $guid)
         {
-            set_time_limit(60);
-
             try
             {
                 $object = midcom::get('dbfactory')->get_object_by_guid($guid);
