@@ -163,7 +163,7 @@ Storno-Rechnung
 ---STRINGEND
 
 ---STRING create cancelation for invoice
-Storno erzeugen
+stornieren
 ---STRINGEND
 
 ---STRING cancelation for invoice %s already exists
