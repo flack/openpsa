@@ -139,16 +139,17 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for getting URL to the current object.
+     * Method for getting URL to an object.
      *
      * <b>Note</b>: This implementation uses MidCOM's permalink resolution service for generating the
      * link, which is slow. Overriding this with a local implementation is recommended.
      *
+     * @param midcom_core_dbaobject $object The object in question
      * @return string URL to the current object
      */
-    public function _get_object_url()
+    public function _get_object_url(midcom_core_dbaobject $object)
     {
-        return midcom::get('permalinks')->resolve_permalink($this->_object->guid);
+        return midcom::get('permalinks')->resolve_permalink($object->guid);
     }
 
     /**
@@ -429,7 +430,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         {
             case 'save':
                 $this->_index_object($this->_controller->datamanager);
-                return new midcom_response_relocate($this->_get_object_url());
+                return new midcom_response_relocate($this->_get_object_url($this->_object));
 
             case 'cancel':
                 // Redirect to parent page, if any.
@@ -559,7 +560,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
             case 'cancel':
                 // Redirect to view page.
-                return new midcom_response_relocate($this->_get_object_url());
+                return new midcom_response_relocate($this->_get_object_url($this->_object));
         }
 
         $this->_prepare_request_data();
@@ -628,11 +629,19 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // Show user interface message
                 // midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
-                // Delete ok, relocating to welcome.
-                return new midcom_response_relocate('');
+                // Delete ok, relocating
+                $url = '';
+                $this->_load_parent($handler_id, $args, $data);
+
+                if ($this->_parent)
+                {
+                    $url = $this->_get_object_url($this->_parent);
+                }
+
+                return new midcom_response_relocate($url);
 
             case 'cancel':
-                return new midcom_response_relocate($this->_get_object_url());
+                return new midcom_response_relocate($this->_get_object_url($this->_object));
         }
 
         $this->_prepare_request_data();

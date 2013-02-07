@@ -22,7 +22,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         return true;
     }
 
-
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         try

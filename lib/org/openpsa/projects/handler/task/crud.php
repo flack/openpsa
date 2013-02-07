@@ -22,13 +22,15 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Method for getting URL to the current object.
-	 *
-     * @return string URL to the current object
+     * @inheritdoc
      */
-    public function _get_object_url()
+    public function _get_object_url(midcom_core_dbaobject $object)
     {
-        return 'task/' . $this->_object->guid . '/';
+        if ($object instanceof org_openpsa_projects_project)
+        {
+            return 'project/' . $object->guid . '/';
+        }
+        return 'task/' . $object->guid . '/';
     }
 
     /**
@@ -234,6 +236,17 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
             $this->_defaults['resources'] = array_keys($this->_parent->resources);
             $this->_defaults['contacts'] = array_keys($this->_parent->contacts);
+        }
+        else if ($this->_mode == 'delete')
+        {
+            try
+            {
+                $this->_parent = new org_openpsa_projects_project($this->_object->project);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
     }
 

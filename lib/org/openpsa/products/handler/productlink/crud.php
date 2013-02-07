@@ -20,14 +20,16 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
 
     /**
      * Return the URL to the productlink view handler
+     *
+     * @inheritdoc
      */
-    public function _get_object_url()
+    public function _get_object_url(midcom_core_dbaobject $object)
     {
-        if ($this->_object->code)
+        if ($object->code)
         {
-            if ($this->_object->productGroup)
+            if ($object->productGroup)
             {
-                $this->_group = new org_openpsa_products_product_group_dba($this->_object->productGroup);
+                $this->_group = new org_openpsa_products_product_group_dba($object->productGroup);
                 if ($this->_group->up)
                 {
                     $this->_group_up = new org_openpsa_products_product_group_dba($this->_group->up);
@@ -36,14 +38,14 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
             if (   isset($this->_group_up)
                 && isset($this->_group))
             {
-                return "productlink/{$this->_group_up->code}/{$this->_object->code}/";
+                return "productlink/{$this->_group_up->code}/{$object->code}/";
             }
             else
             {
-                return "productlink/{$this->_object->code}/";
+                return "productlink/{$object->code}/";
             }
         }
-        return "productlink/{$this->_object->guid}/";
+        return "productlink/{$object->guid}/";
     }
 
     public function _update_breadcrumb($handler_id)
