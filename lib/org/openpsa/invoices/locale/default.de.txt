@@ -154,6 +154,30 @@ Abgerechnete Stunden-Berichte
 Rechnungsdaten
 ---STRINGEND
 
+---STRING canceled invoice
+Dies ist die Storno-Rechnung für
+---STRINGEND
+
+---STRING cancelation invoice
+Storno-Rechnung
+---STRINGEND
+
+---STRING create cancelation for invoice
+Storno erzeugen
+---STRINGEND
+
+---STRING cancelation for invoice %s already exists
+Für Rechnung %s liegt bereits eine Storno Rechnung vor
+---STRINGEND
+
+---STRING could not create cancelation for invoice %s
+Für Rechnung %s konnte keine Storno Rechnung erzeugt werden
+---STRINGEND
+
+---STRING cancelation for invoice %s
+Storno zur Rechnung %s
+---STRINGEND
+
 ---STRING mark paid
 bezahlt
 ---STRINGEND

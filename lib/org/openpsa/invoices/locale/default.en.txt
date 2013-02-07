@@ -166,6 +166,30 @@ Invoiced hour reports
 Invoicing information
 ---STRINGEND
 
+---STRING canceled invoice
+This is the cancelation for
+---STRINGEND
+
+---STRING cancelation invoice
+Cancelation invoice
+---STRINGEND
+
+---STRING create cancelation for invoice
+Create cancelation
+---STRINGEND
+
+---STRING cancelation for invoice %s already exists
+Invoice %s has already been canceled
+---STRINGEND
+
+---STRING could not create cancelation for invoice %s
+Failed to create cancelation for invoice %s
+---STRINGEND
+
+---STRING cancelation for invoice %s
+Cancelation for invoice %s
+---STRINGEND
+
 ---STRING mark paid
 Mark paid
 ---STRINGEND

@@ -28,6 +28,58 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
         self::create_class_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
     }
+    
+    public function testHandler_process_create_cancelation()
+    {
+        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+   
+        $person = $this->create_object('de_vioworld_account_person_dba');
+        
+        $data = array
+        (
+            'customerContact' => $person->id,
+            'sum' => 300,
+            'date' => gmmktime(0, 0, 0, date('n'), date('j'), date('Y')),
+            'vat' => 19,
+        );
+        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', $data);
+        
+        // we got a fresh invoice, it should be cancelable
+        $this->assertTrue($invoice->is_cancelable());
+        
+        // process
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = array
+        (
+            'action' => 'create_cancelation',
+            'id' => $invoice->id,
+            'relocate' => true
+        );
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'process'));
+                
+        // now we should got a cancelation invoice
+        $this->assertTrue(($invoice->cancelationInvoice > 0), 'Missing cancelation invoice');
+        $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
+        
+        // check the backlink
+        $canceled_invoice = $cancelation_invoice->get_canceled_invoice();
+        $this->assertEquals($invoice->id, $canceled_invoice->id);
+        
+        // check url after cancelation
+        $cancelation_invoice_url = midcom::get()->get_host_name() . '/invoice/invoice/' . $cancelation_invoice->guid . '/';
+        $this->assertEquals($cancelation_invoice_url, $url, 'After processing the cancelation invoice, this should relocate to "' . $cancelation_invoice_url . '"!');
+        
+        // the cancelation should have the same vat and reversed sum
+        $this->assertEquals($invoice->vat, $cancelation_invoice->vat, 'Wrong vat for cancelation invoice');
+        $reverse_sum = $invoice->sum * (-1);
+        $this->assertEquals($reverse_sum, $cancelation_invoice->sum, 'Wrong sum for cancelation invoice');
+    
+        // the invoice should be marked as paid now, the cancelation should still be unsent
+        $this->assertEquals('unsent', $cancelation_invoice->get_status());
+        $this->assertEquals('paid', $invoice->get_status());
+        
+        midcom::get('auth')->drop_sudo();
+    }
 
     public function testHandler_process_mark_sent()
     {

@@ -57,6 +57,12 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         {
             $action .= strftime('%Y-%m-%d', $invoice->paid);
         }
+        
+        // if invoice is no storno
+        if ($invoice->sum > 0)
+        {
+            $next_marker[] = 'create_cancelation';
+        }
 
         // generate next action buttons
         if (   $invoice->can_do('midgard:update')
@@ -73,7 +79,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     }
 
     public function add_next_previous($object, $toolbar, $urlprefix)
-    {
+    {        
         if ($object->number > 1)
         {
             $qb = org_openpsa_invoices_invoice_dba::new_query_builder();

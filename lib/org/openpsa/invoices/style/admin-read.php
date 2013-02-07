@@ -139,6 +139,31 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
     <div class="field"><div class="title"><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </div>
     <div class="description value">&(view['description']:h);</div></div>
+  
+    <?php 
+    // does the invoice has a cancelation invoice?
+    if ($invoice->cancelationInvoice)
+    {
+        $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
+        $cancelation_invoice_link = midcom::get()->get_host_name() . '/invoice/invoice/' . $cancelation_invoice->guid . '/';
+        
+        echo "<div class=\"field\">";
+        echo "<div class=\"title\">" . midcom::get('i18n')->get_string('cancelation invoice') .":</div>";
+        echo "<div class=\"value\"><a href=\"" . $cancelation_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $cancelation_invoice->get_label() . "</a></div>";
+        echo "</div>";
+    }
+    // is the invoice a cancelation invoice itself?
+    $canceled_invoice = $invoice->get_canceled_invoice();
+    if ($canceled_invoice)
+    {
+        $canceled_invoice_link = midcom::get()->get_host_name() . '/invoice/invoice/' . $canceled_invoice->guid . '/';
+        
+        echo "<div class=\"field\">";
+        echo "<div class=\"title\">" . midcom::get('i18n')->get_string('canceled invoice') .":</div>";
+        echo "<div class=\"value\"><a href=\"" . $canceled_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $canceled_invoice->get_label() . "</a></div>";
+        echo "</div>";
+    }
+    ?>
   </div>
     <?php
     if (!empty($data['invoice_items']))

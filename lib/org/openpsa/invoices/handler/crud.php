@@ -364,6 +364,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 )
             );
         }
+                
         if (   !$this->_object->paid
             && $this->_config->get('invoice_pdfbuilder_class'))
         {
@@ -399,8 +400,29 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 );
             }
         }
-
+            
+        if ($this->_object->is_cancelable())
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "invoice/process/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create cancelation for invoice'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
+                    MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        'action' => 'create_cancelation',
+                        'id' => $this->_object->id,
+                        'relocate' => true
+                    ),
+                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
+                )
+            );
+        }
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
+                
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/');
     }
 

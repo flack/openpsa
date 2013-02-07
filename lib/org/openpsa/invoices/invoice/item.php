@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.openpsa.invoices
- * @copyright
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 

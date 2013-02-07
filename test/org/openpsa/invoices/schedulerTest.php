@@ -64,6 +64,12 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             array
             (
                 'm',
+                '2013-01-01 00:00:00',
+                '2013-02-01 00:00:00',
+            ),
+            array
+            (
+                'm',
                 '2012-09-01 02:00:00',
                 '2012-10-01 00:00:00',
             ),

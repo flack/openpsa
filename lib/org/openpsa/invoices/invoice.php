@@ -200,7 +200,36 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $billing_data = $this->get_billing_data();
         return $billing_data->{$attribute};
     }
-
+    
+    /**
+     * an invoice is cancelable if it is no cancelation invoice
+     * itself and got no related cancelation invoice
+     * 
+     * @return boolean
+     */
+    public function is_cancelable()
+    {
+        return (!$this->cancelationInvoice && !$this->get_canceled_invoice());    
+    }
+    
+    /**
+     * returns the invoice that got canceled through this invoice, if any
+     * 
+     * @return org_openpsa_invoices_invoice_dba|false
+     */
+    public function get_canceled_invoice()
+    {
+        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb->add_constraint('cancelationInvoice', '=', $this->id);
+        $results = $qb->execute();
+        
+        if (count($results) == 0)
+        {
+            return false;
+        }
+        return $results[0];
+    }
+    
     /**
      * Helper function to create & recalculate existing invoice_items by tasks
      *

@@ -56,6 +56,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             case 'mark_paid':
                 $data['success'] = $this->_mark_as_paid($invoice);
                 break;
+            case 'create_cancelation':
+                $data['success'] = $this->_create_cancelation($invoice);
+                break;
             default:
                 debug_add("The action " . $_POST["action"] . " is unknown");
                 throw new midcom_error_notfound('Unknown operation');
@@ -83,6 +86,73 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     public function _show_process($handler_id, array &$data)
     {
         midcom_show_style('admin-process');
+    }
+    
+    private function _create_cancelation(org_openpsa_invoices_invoice_dba $invoice)
+    {        
+        // can be canceled?        
+        if (!$invoice->is_cancelable())
+        {
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('cancelation for invoice %s already exists'), $invoice->get_label());
+            return false;            
+        }
+        
+        // process
+        $reverse_sum = $invoice->sum * (-1);
+        
+        $cancelation_invoice = new org_openpsa_invoices_invoice_dba();
+        $cancelation_invoice->customerContact = $invoice->customerContact;
+        $cancelation_invoice->sum = $reverse_sum;
+        $cancelation_invoice->number = $cancelation_invoice->generate_invoice_number();
+        $cancelation_invoice->vat = $invoice->vat;
+        $stat = $cancelation_invoice->create();
+        
+        $error_msg = sprintf($this->_l10n->get('could not create cancelation for invoice %s'), $invoice->get_label());
+        if (!$stat)
+        {
+            $this->_request_data['message']['message'] = $error_msg;
+            return false;
+        }
+        
+        // add invoice item to cancelation invoice
+        $invoice_item = new org_openpsa_invoices_invoice_item_dba();
+        $invoice_item->invoice = $cancelation_invoice->id;
+        $invoice_item->description = sprintf($this->_l10n->get('cancelation for invoice %s'), $invoice->number);
+        $invoice_item->units = 1;
+        $invoice_item->pricePerUnit = $reverse_sum;
+        $stat = $invoice_item->create();
+        
+        if (!$stat)
+        {
+            // cleanup
+            $cancelation_invoice->delete();
+            $this->_request_data['message']['message'] = $error_msg;
+            return false;
+        }
+        
+        // if storno invoice was created, mark the related invoice as sent and paid
+        $time = time();
+
+        if (!$invoice->sent)
+        {
+            $invoice->sent = $time;
+        }
+        if (!$invoice->paid)
+        {
+            $invoice->paid = $time;
+        }
+        $invoice->cancelationInvoice = $cancelation_invoice->id;
+        $invoice->update();
+        if (!$stat)
+        {
+            // cleanup
+            $cancelation_invoice->delete();
+            $this->_request_data['message']['message'] = $error_msg;
+            return false;            
+        }
+        
+        // redirect to invoice page
+        midcom::get()->relocate("/invoice/invoice/" . $cancelation_invoice->guid . "/");        
     }
 
     private function _send_by_mail(org_openpsa_invoices_invoice_dba $invoice)
