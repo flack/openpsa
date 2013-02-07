@@ -22,13 +22,11 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Method for getting URL to the current object.
-	 *
-     * @return string URL to the current object
+     * @inheritdoc
      */
-    public function _get_object_url()
+    public function _get_object_url(midcom_core_dbaobject $object)
     {
-        return 'task/' . $this->_object->guid . '/';
+        return 'task/' . $object->guid . '/';
     }
 
     /**
