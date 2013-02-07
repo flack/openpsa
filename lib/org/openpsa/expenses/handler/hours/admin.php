@@ -327,28 +327,30 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
         $this->_hour_report->require_do('midgard:delete');
 
-        if (array_key_exists('org_openpsa_expenses_deleteok', $_REQUEST))
-        {
-            // Deletion confirmed.
-            if (! $this->_hour_report->delete())
-            {
-                throw new midcom_error("Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
+        $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
 
-            // Delete ok, relocating to welcome.
-            return new midcom_response_relocate('');
-        }
-
-        if (array_key_exists('org_openpsa_expenses_deletecancel', $_REQUEST))
+        switch ($this->_controller->process_form())
         {
-            // Redirect to view page.
-            return new midcom_response_relocate('');
+            case 'delete':
+                // Deletion confirmed.
+                if (! $this->_hour_report->delete())
+                {
+                    throw new midcom_error("Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
+                }
+
+                // Delete ok, relocating to welcome.
+                return new midcom_response_relocate('');
+
+            case 'cancel':
+                // Redirect to view page.
+                return new midcom_response_relocate('');
         }
 
         $this->_load_schemadb();
         $dm = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         $dm->autoset_storage($this->_hour_report);
         $data['datamanager'] =& $dm;
+        $data['controller'] = $this->_controller;
 
         $this->_update_breadcrumb_line($handler_id);
 
