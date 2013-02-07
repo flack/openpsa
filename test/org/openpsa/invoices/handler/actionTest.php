@@ -32,12 +32,10 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
     public function testHandler_process_create_cancelation()
     {
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
-   
-        $person = $this->create_object('de_vioworld_account_person_dba');
-        
+           
         $data = array
         (
-            'customerContact' => $person->id,
+            'customerContact' => self::$_person->id,
             'sum' => 300,
             'date' => gmmktime(0, 0, 0, date('n'), date('j'), date('Y')),
             'vat' => 19,
