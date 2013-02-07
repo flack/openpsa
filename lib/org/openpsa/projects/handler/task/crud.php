@@ -26,6 +26,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _get_object_url(midcom_core_dbaobject $object)
     {
+        if ($object instanceof org_openpsa_projects_project)
+        {
+            return 'project/' . $object->guid . '/';
+        }
         return 'task/' . $object->guid . '/';
     }
 
@@ -232,6 +236,17 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
             $this->_defaults['resources'] = array_keys($this->_parent->resources);
             $this->_defaults['contacts'] = array_keys($this->_parent->contacts);
+        }
+        else if ($this->_mode == 'delete')
+        {
+            try
+            {
+                $this->_parent = new org_openpsa_projects_project($this->_object->project);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
     }
 

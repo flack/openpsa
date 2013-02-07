@@ -629,8 +629,16 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // Show user interface message
                 // midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
-                // Delete ok, relocating to welcome.
-                return new midcom_response_relocate('');
+                // Delete ok, relocating
+                $url = '';
+                $this->_load_parent($handler_id, $args, $data);
+
+                if ($this->_parent)
+                {
+                    $url = $this->_get_object_url($this->_parent);
+                }
+
+                return new midcom_response_relocate($url);
 
             case 'cancel':
                 return new midcom_response_relocate($this->_get_object_url($this->_object));
