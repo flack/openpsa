@@ -155,11 +155,11 @@ Rechnungsdaten
 ---STRINGEND
 
 ---STRING canceled invoice
-Dies ist die Storno-Rechnung für
+Storno-Rechnung für
 ---STRINGEND
 
 ---STRING cancelation invoice
-Storno-Rechnung
+Storniert durch
 ---STRINGEND
 
 ---STRING create cancelation for invoice
@@ -435,7 +435,7 @@ PDF erzeugen
 ---STRINGEND
 
 ---STRING pdf created
-PDF-Datei wurde erfolgreich erzeugt 
+PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
 ---STRING pdf creation failed
