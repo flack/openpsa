@@ -79,7 +79,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Static method for checikng if help file exists
+     * Static method for checking if help file exists
      *
      * @param string $help_id Help name ID
      * @param string $component Component name
@@ -128,7 +128,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     static function get_help_title($help_id, $component)
     {
-        $subject = $this->_l10n->get("help_" . $help_id);
+        $subject = midcom::get('i18n')->get_string("help_" . $help_id, 'midcom.admin.help');
         $path = self::generate_file_path($help_id, $component);
         if (!$path)
         {
