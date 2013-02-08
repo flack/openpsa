@@ -287,9 +287,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
         );
 
         // Get url to search handler
-        $nav = new midcom_helper_nav();
-        $root_node = $nav->get_node($nav->get_root_node());
-        $this->_handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/tags_handler.php';
+        $this->_handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/tags_handler.php';
 
         $this->_jscript .= '<script type="text/javascript">';
         $this->_jscript .= 'jQuery().ready(function(){';

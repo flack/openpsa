@@ -846,13 +846,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     function add_elements_to_form($attributes)
     {
         // Get url to search handler
-        $nav = new midcom_helper_nav();
-        $root_node = $nav->get_node($nav->get_root_node());
-        if (empty($root_node))
-        {
-            return;
-        }
-        $this->_handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/chooser_handler.php';
+        $this->_handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/chooser_handler.php';
 
         $this->widget_elements[] = HTML_QuickForm::createElement
         (

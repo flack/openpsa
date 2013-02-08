@@ -239,13 +239,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     function add_elements_to_form($attributes)
     {
         // Get url to search handler
-        $nav = new midcom_helper_nav();
-        $root_node = $nav->get_node($nav->get_root_node());
-        if (empty($root_node))
-        {
-            return;
-        }
-        $handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
         $selection = $this->_get_selection();
 
         $this->_widget_elements[] = HTML_QuickForm::createElement

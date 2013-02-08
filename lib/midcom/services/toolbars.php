@@ -989,7 +989,7 @@ class midcom_services_toolbars
 
         echo "<div class=\"{$toolbar_class} type_{$this->type}\" style=\"{$toolbar_style}\">\n";
         echo "    <div class=\"logos\">\n";
-        echo "        <a href=\"" . midcom::get()->get_page_prefix() . "midcom-exec-midcom/about.php\">\n";
+        echo "        <a href=\"" . midcom_connection::get_url('self') . "midcom-exec-midcom/about.php\">\n";
         echo "            <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/logos/midgard-16x16.png\" width=\"16\" height=\"16\" alt=\"Midgard\" />\n";
         echo "        </a>\n";
         echo "    </div>\n";
