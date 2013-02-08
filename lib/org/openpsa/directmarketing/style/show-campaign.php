@@ -2,7 +2,6 @@
 $view = $data['view_campaign'];
 
 $nap = new midcom_helper_nav();
-
 $node = $nap->get_node($nap->get_current_node());
 ?>
 <script type="text/javascript">

@@ -1,10 +1,9 @@
 <?php
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="area" id="document_search">
     <h2><?php echo $data['l10n']->get('search title'); ?></h2>
-    <form method="get" action="&(node[MIDCOM_NAV_FULLURL]);search/">
+    <form method="get" action="&(prefix);search/">
         <input type="text" name="query"<?php
         if (array_key_exists('query', $_GET))
         {

@@ -3,8 +3,7 @@ $view = $data['document_dm'];
 $att = $data['document_attachment'];
 
 $document_type = midcom_helper_misc::filesize_to_string($att['filesize']) . ' ' . org_openpsa_documents_document_dba::get_file_type($att['mimetype']);
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $score = round($data['document_search']->score * 100);
 
 $url = $data['document_search']->topic_url . 'document/' . $data['document']->guid . '/';
@@ -21,7 +20,7 @@ if ($att)
 <?php if ($icon)
 {
     ?>
-    <div class="icon"><a style="text-decoration: none;" href="&(node[MIDCOM_NAV_FULLURL]);document/<?php echo $data['document']->guid; ?>/"><img src="&(icon);" <?php
+    <div class="icon"><a style="text-decoration: none;" href="&(prefix);document/<?php echo $data['document']->guid; ?>/"><img src="&(icon);" <?php
         if ($view['document'])
         {
             echo 'title="' . $document_type . '" ';

@@ -1,6 +1,5 @@
 <?php
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $view_group = $data['group'];
 $group_guid = $data['group']->guid;
@@ -8,7 +7,7 @@ $group_guid = $data['group']->guid;
 if ($data['member']->can_do('midgard:update'))
 {
     $view_title_form = "<input id=\"editable_title_{$group_guid}_ajaxDefault\" value=\"" . $data['l10n']->get('<title>') . "\" type=\"hidden\" />\n";
-    $view_title_form .= "<input id=\"editable_title_{$group_guid}_ajaxUrl\" value=\"{$node[MIDCOM_NAV_FULLURL]}group/{$group_guid}/update_member_title/\" type=\"hidden\" />\n";
+    $view_title_form .= "<input id=\"editable_title_{$group_guid}_ajaxUrl\" value=\"{$prefix}group/{$group_guid}/update_member_title/\" type=\"hidden\" />\n";
     $view_title_form .= "<input id=\"editable_title_{$group_guid}\" name=\"member_title[{$data['member']->id}]\" class=\"ajax_editable\" style=\"width: 80%;\" onfocus=\"ooAjaxFocus(this)\" onblur=\"ooAjaxBlur(this)\" value=\"{$data['member_title']}\" />\n";
 }
 else
@@ -24,7 +23,7 @@ if ($view_group_name == '')
 ?>
 <div class="vcard">
     <div class="organization-name">
-        <a href="&(node[MIDCOM_NAV_FULLURL]);group/&(view_group.guid);/">&(view_group_name);</a>
+        <a href="&(prefix);group/&(view_group.guid);/">&(view_group_name);</a>
     </div>
     <ul>
         <?php

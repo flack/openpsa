@@ -1,6 +1,5 @@
 <?php
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $view_group = $data['subgroup'];
 $view_group_name = $view_group->official;
 if ($view_group_name == '')
@@ -10,7 +9,7 @@ if ($view_group_name == '')
 ?>
 <div class="vcard">
     <div class="organization-name">
-        <a href="&(node[MIDCOM_NAV_FULLURL]);group/&(view_group.guid);/">&(view_group_name);</a>
+        <a href="&(prefix);group/&(view_group.guid);/">&(view_group_name);</a>
     </div>
     <ul>
         <?php
