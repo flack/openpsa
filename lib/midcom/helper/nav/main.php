@@ -696,7 +696,7 @@ class midcom_helper_nav
             $node = $this->get_node($curr_node);
             $result[$node[MIDCOM_NAV_ID]] = Array
             (
-                MIDCOM_NAV_URL => $node[MIDCOM_NAV_FULLURL],
+                MIDCOM_NAV_URL => $node[MIDCOM_NAV_ABSOLUTEURL],
                 MIDCOM_NAV_NAME => $node[MIDCOM_NAV_NAME],
                 MIDCOM_NAV_TYPE => 'node',
                 MIDCOM_NAV_ID => $curr_node,
@@ -709,7 +709,7 @@ class midcom_helper_nav
             $leaf = $this->get_leaf($curr_leaf);
             $result[$leaf[MIDCOM_NAV_ID]] = Array
             (
-                MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_FULLURL],
+                MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_ABSOLUTEURL],
                 MIDCOM_NAV_NAME => $leaf[MIDCOM_NAV_NAME],
                 MIDCOM_NAV_TYPE => 'leaf',
                 MIDCOM_NAV_ID => $curr_leaf,

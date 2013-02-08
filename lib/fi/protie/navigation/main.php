@@ -549,7 +549,7 @@ class fi_protie_navigation
         }
 
         echo "{$indent}    <li{$class}>\n";
-        echo "{$indent}        <a href=\"{$item[MIDCOM_NAV_FULLURL]}{$get_params}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>\n";
+        echo "{$indent}        <a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}{$get_params}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>\n";
         // If either of the follow nodes switches is on, follow all the nodes
 
         if (   $item[MIDCOM_NAV_TYPE] === 'node'
