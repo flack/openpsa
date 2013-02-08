@@ -11,6 +11,7 @@ catch (midcom_error $e)
     $customer = false;
 }
 
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
 $expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
@@ -139,14 +140,14 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
     <div class="field"><div class="title"><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </div>
     <div class="description value">&(view['description']:h);</div></div>
-  
-    <?php 
+
+    <?php
     // does the invoice has a cancelation invoice?
     if ($invoice->cancelationInvoice)
     {
         $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
-        $cancelation_invoice_link = midcom::get()->get_host_name() . '/invoice/invoice/' . $cancelation_invoice->guid . '/';
-        
+        $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
+
         echo "<div class=\"field\">";
         echo "<div class=\"title\">" . midcom::get('i18n')->get_string('cancelation invoice') .":</div>";
         echo "<div class=\"value\"><a href=\"" . $cancelation_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $cancelation_invoice->get_label() . "</a></div>";
@@ -156,8 +157,8 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     $canceled_invoice = $invoice->get_canceled_invoice();
     if ($canceled_invoice)
     {
-        $canceled_invoice_link = midcom::get()->get_host_name() . '/invoice/invoice/' . $canceled_invoice->guid . '/';
-        
+        $canceled_invoice_link = $prefix . 'invoice/' . $canceled_invoice->guid . '/';
+
         echo "<div class=\"field\">";
         echo "<div class=\"title\">" . midcom::get('i18n')->get_string('canceled invoice') .":</div>";
         echo "<div class=\"value\"><a href=\"" . $canceled_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $canceled_invoice->get_label() . "</a></div>";

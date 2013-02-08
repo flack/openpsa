@@ -59,13 +59,14 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $invoice->refresh();
         $this->assertTrue(($invoice->cancelationInvoice > 0), 'Missing cancelation invoice');
         $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
+        $this->register_object($cancelation_invoice);
 
         // check the backlink
         $canceled_invoice = $cancelation_invoice->get_canceled_invoice();
         $this->assertEquals($invoice->id, $canceled_invoice->id);
 
         // check url after cancelation
-        $cancelation_invoice_url = midcom::get()->get_host_name() . '/invoice/invoice/' . $cancelation_invoice->guid . '/';
+        $cancelation_invoice_url = 'invoice/' . $cancelation_invoice->guid . '/';
         $this->assertEquals($cancelation_invoice_url, $url, 'After processing the cancelation invoice, this should relocate to "' . $cancelation_invoice_url . '"!');
 
         // the cancelation should have the same vat and reversed sum

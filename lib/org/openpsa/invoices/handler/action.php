@@ -87,33 +87,33 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     {
         midcom_show_style('admin-process');
     }
-    
+
     private function _create_cancelation(org_openpsa_invoices_invoice_dba $invoice)
-    {        
-        // can be canceled?        
+    {
+        // can be canceled?
         if (!$invoice->is_cancelable())
         {
             $this->_request_data['message']['message'] = sprintf($this->_l10n->get('cancelation for invoice %s already exists'), $invoice->get_label());
-            return false;            
+            return false;
         }
-        
+
         // process
         $reverse_sum = $invoice->sum * (-1);
-        
+
         $cancelation_invoice = new org_openpsa_invoices_invoice_dba();
         $cancelation_invoice->customerContact = $invoice->customerContact;
         $cancelation_invoice->sum = $reverse_sum;
         $cancelation_invoice->number = $cancelation_invoice->generate_invoice_number();
         $cancelation_invoice->vat = $invoice->vat;
         $stat = $cancelation_invoice->create();
-        
+
         $error_msg = sprintf($this->_l10n->get('could not create cancelation for invoice %s'), $invoice->get_label());
         if (!$stat)
         {
             $this->_request_data['message']['message'] = $error_msg;
             return false;
         }
-        
+
         // add invoice item to cancelation invoice
         $invoice_item = new org_openpsa_invoices_invoice_item_dba();
         $invoice_item->invoice = $cancelation_invoice->id;
@@ -121,7 +121,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $invoice_item->units = 1;
         $invoice_item->pricePerUnit = $reverse_sum;
         $stat = $invoice_item->create();
-        
+
         if (!$stat)
         {
             // cleanup
@@ -129,7 +129,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $this->_request_data['message']['message'] = $error_msg;
             return false;
         }
-        
+
         // if storno invoice was created, mark the related invoice as sent and paid
         $time = time();
 
@@ -148,11 +148,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             // cleanup
             $cancelation_invoice->delete();
             $this->_request_data['message']['message'] = $error_msg;
-            return false;            
+            return false;
         }
-        
+
         // redirect to invoice page
-        midcom::get()->relocate("/invoice/invoice/" . $cancelation_invoice->guid . "/");        
+        midcom::get()->relocate("invoice/" . $cancelation_invoice->guid . "/");
     }
 
     private function _send_by_mail(org_openpsa_invoices_invoice_dba $invoice)
@@ -522,7 +522,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
 
-        //This Source is used (and necessary) for the Drag&Drop sorting of grids <tr>'s
+        //This Source is used (and necessary) for the Drag&Drop sorting of grid's <tr>s
         midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
     }
 }
