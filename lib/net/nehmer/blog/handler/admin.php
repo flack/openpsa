@@ -194,9 +194,9 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_article->topic);
 
-            if (!empty($node[MIDCOM_NAV_FULLURL]))
+            if (!empty($node[MIDCOM_NAV_ABSOLUTEURL]))
             {
-                return new midcom_response_relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
+                return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$args[0]}/");
             }
             throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
         }

@@ -155,7 +155,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
                 if ($invoices_node)
                 {
-                    $invoice_label = "<a class=\"{$invoice_class}\" href=\"{$invoices_node[MIDCOM_NAV_FULLURL]}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
+                    $invoice_label = "<a class=\"{$invoice_class}\" href=\"{$invoices_node[MIDCOM_NAV_ABSOLUTEURL]}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
                 }
                 else
                 {

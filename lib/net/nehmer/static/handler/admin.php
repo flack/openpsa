@@ -194,9 +194,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_article->topic);
 
-            if (!empty($node[MIDCOM_NAV_FULLURL]))
+            if (!empty($node[MIDCOM_NAV_ABSOLUTEURL]))
             {
-                return new midcom_response_relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
+                return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$args[0]}/");
             }
             throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
         }
@@ -328,9 +328,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_article->topic);
 
-        $data['topic_url'] = $node[MIDCOM_NAV_FULLURL];
+        $data['topic_url'] = $node[MIDCOM_NAV_ABSOLUTEURL];
         $data['topic_name'] = $node[MIDCOM_NAV_NAME];
-        $data['delete_url'] = "{$node[MIDCOM_NAV_FULLURL]}delete/{$this->_article->guid}/";
+        $data['delete_url'] = "{$node[MIDCOM_NAV_ABSOLUTEURL]}delete/{$this->_article->guid}/";
 
         midcom_show_style('admin-delete-link');
     }

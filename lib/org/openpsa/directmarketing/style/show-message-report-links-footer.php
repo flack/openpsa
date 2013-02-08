@@ -15,7 +15,7 @@ $form_suffix =& $data['form_suffix'];
         $reports_node = midcom_helper_misc::find_node_by_component('org.openpsa.reports');
         if (!empty($reports_node))
         {
-            $reports_prefix = $reports_node[MIDCOM_NAV_FULLURL];
+            $reports_prefix = $reports_node[MIDCOM_NAV_ABSOLUTEURL];
             $filename = 'org_openpsa_directmarketing_' . date('Ymd_Hi');
     ?>
 <script type="text/javascript" src="<?php echo MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js'; ?>"></script>

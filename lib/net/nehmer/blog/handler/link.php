@@ -275,9 +275,9 @@ implements midcom_helper_datamanager2_interfaces_create
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_article->topic);
 
-        $data['topic_url'] = $node[MIDCOM_NAV_FULLURL];
+        $data['topic_url'] = $node[MIDCOM_NAV_ABSOLUTEURL];
         $data['topic_name'] = $node[MIDCOM_NAV_NAME];
-        $data['delete_url'] = "{$node[MIDCOM_NAV_FULLURL]}delete/{$this->_article->guid}/";
+        $data['delete_url'] = "{$node[MIDCOM_NAV_ABSOLUTEURL]}delete/{$this->_article->guid}/";
 
         midcom_show_style('admin-delete-link');
     }

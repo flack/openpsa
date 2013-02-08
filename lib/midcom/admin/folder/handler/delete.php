@@ -38,15 +38,12 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             return new midcom_response_relocate('');
         }
 
-        if (array_key_exists('f_submit', $_REQUEST))
+        if (   array_key_exists('f_submit', $_REQUEST)
+            && $this->_process_delete_form())
         {
             $nav = new midcom_helper_nav();
             $upper_node = $nav->get_node($nav->get_current_upper_node());
-
-            if ($this->_process_delete_form())
-            {
-                return new midcom_response_relocate($upper_node[MIDCOM_NAV_FULLURL]);
-            }
+            return new midcom_response_relocate($upper_node[MIDCOM_NAV_ABSOLUTEURL]);
         }
 
         $this->_request_data['topic'] = $this->_topic;

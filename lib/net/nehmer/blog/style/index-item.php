@@ -36,7 +36,7 @@ elseif (array_key_exists('comments_enable', $data))
             <?php
             if ($data['linked'])
             {
-                echo $data['l10n']->get('to') ." <a href=\"{$data['node'][MIDCOM_NAV_FULLURL]}\">{$data['node'][MIDCOM_NAV_NAME]}</a>\n";
+                echo $data['l10n']->get('to') ." <a href=\"{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}\">{$data['node'][MIDCOM_NAV_NAME]}</a>\n";
             }
             ?>
     </p>

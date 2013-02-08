@@ -7,7 +7,7 @@ $node = $nap->get_node($nap->get_current_node());
 <script type="text/javascript">
 function org_openpsa_directmarketing_ajax_unsubscribe(person_guid, membership_guid)
 {
-    url = '&(node[MIDCOM_NAV_FULLURL]);campaign/unsubscribe/ajax/' + membership_guid;
+    url = '&(node[MIDCOM_NAV_ABSOLUTEURL]);campaign/unsubscribe/ajax/' + membership_guid;
     ooAjaxPost(url, 'org_openpsa_ajax_mode=unsubscribe&amp;org_openpsa_ajax_person_guid=' + person_guid, document.getElementById('org_openpsa_directmarketing_unsubscribe-' +  person_guid), false, 'org_openpsa_directmarketing_ajax_unsubscribe_callback');
 }
 function org_openpsa_directmarketing_ajax_unsubscribe_callback(response, element)

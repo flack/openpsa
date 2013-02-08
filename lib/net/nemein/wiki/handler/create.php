@@ -150,7 +150,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 {
                     // Last parent is not this topic, redirect there
                     $wikiword_url = rawurlencode($resolved['remaining_path']);
-                    midcom::get()->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
+                    midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
                     // This will exit()
                 }
                 break;

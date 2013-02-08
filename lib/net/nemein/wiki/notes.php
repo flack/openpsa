@@ -168,7 +168,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
        (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$this->wiki[MIDCOM_NAV_FULLURL]}create/{$this->new_wikipage}/{$this->target_node[MIDCOM_NAV_GUID]}/{$this->target->guid}/",
+                MIDCOM_TOOLBAR_URL => "{$this->wiki[MIDCOM_NAV_ABSOLUTEURL]}create/{$this->new_wikipage}/{$this->target_node[MIDCOM_NAV_GUID]}/{$this->target->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create note'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                 MIDCOM_TOOLBAR_ENABLED => $enable_creation,
@@ -201,7 +201,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             }
             foreach ($this->related as $wikipage)
             {
-                echo "<li><a rel=\"note\" target=\"{$this->link_target}\" href=\"{$this->wiki[MIDCOM_NAV_FULLURL]}{$wikipage->name}/\">{$wikipage->title}</a></li>\n";
+                echo "<li><a rel=\"note\" target=\"{$this->link_target}\" href=\"{$this->wiki[MIDCOM_NAV_ABSOLUTEURL]}{$wikipage->name}/\">{$wikipage->title}</a></li>\n";
             }
             echo "</ul>\n";
             echo "</div>\n";

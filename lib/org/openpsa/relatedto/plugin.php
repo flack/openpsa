@@ -337,7 +337,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     (
                         array
                         (
-                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}task/new/?" . self::relatedto2get(array($related_to)),
+                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                             MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
@@ -370,7 +370,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     (
                         array
                         (
-                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}create/?wikiword={$data['wikiword_encoded']}&amp;" . self::relatedto2get(array($related_to)),
+                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&amp;" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create note', $data['component']),
                             //TODO: Different icon from new document ?
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
@@ -388,7 +388,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     (
                         array
                         (
-                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)),
+                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),

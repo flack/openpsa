@@ -175,7 +175,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         }
         foreach ($pages as $page)
         {
-            $url = $node[MIDCOM_NAV_FULLURL] . "{$page->name}/";
+            $url = $node[MIDCOM_NAV_ABSOLUTEURL] . "{$page->name}/";
             $ret .= "    <li class=\"page\"><a href=\"{$url}\">{$page->title}</a></li>\n";
         }
         $ret .= "</ul>\n";
@@ -232,7 +232,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
                 // We only wish to link to wiki pages
                 continue;
             }
-            $url = $node[MIDCOM_NAV_FULLURL] . "{$page->name}/";
+            $url = $node[MIDCOM_NAV_ABSOLUTEURL] . "{$page->name}/";
             $ret .= "    <li class=\"page\"><a href=\"{$url}\">{$page->title}</a></li>\n";
         }
         $ret .= "</ul>\n";
@@ -332,7 +332,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
                 && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
             {
                 $wikilink = rawurlencode($wikilink);
-                return "<a href=\"{$folder[MIDCOM_NAV_FULLURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . midcom::get('i18n')->get_string('click to create', 'net.nemein.wiki') . "\">{$text}</a>";
+                return "<a href=\"{$folder[MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . midcom::get('i18n')->get_string('click to create', 'net.nemein.wiki') . "\">{$text}</a>";
             }
             else
             {
