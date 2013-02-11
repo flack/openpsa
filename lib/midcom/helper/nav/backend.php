@@ -782,7 +782,7 @@ class midcom_helper_nav_backend
     private function _update_leaflist_urls(array &$leaves)
     {
         $fullprefix = "{$GLOBALS['midcom_config']['midcom_site_url']}";
-        $absoluteprefix = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen(midcom::get()->get_host_name()));
+        $absoluteprefix = midcom_connection::get_url('self');
 
         foreach ($leaves as $id => $copy)
         {
