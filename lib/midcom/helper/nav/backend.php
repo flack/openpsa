@@ -442,8 +442,7 @@ class midcom_helper_nav_backend
 
         // Rewrite all host dependant URLs based on the relative URL within our topic tree.
         $nodedata[MIDCOM_NAV_FULLURL] = "{$GLOBALS['midcom_config']['midcom_site_url']}{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
-        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen(midcom::get()->get_host_name()))
-            . "{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
+        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = midcom_connection::get_url('self') . "{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
         $nodedata[MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($nodedata[MIDCOM_NAV_GUID]);
 
         return $nodedata;
