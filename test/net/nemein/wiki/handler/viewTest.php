@@ -44,9 +44,7 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('net.nemein.wiki');
 
         $url = $this->run_relocate_handler(self::$_topic);
-        //the anchor prefix is not yet available when the relocate is triggered, so the
-        //URL will look differently
-        $this->assertEquals(midcom::get()->get_page_prefix() . 'notfound/index/', $url);
+        $this->assertEquals('notfound/index/', $url);
 
         midcom::get('auth')->drop_sudo();
     }

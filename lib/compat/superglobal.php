@@ -475,7 +475,6 @@ class midcom_compat_superglobal
      * generate_error     - Generate HTTP Error
      * serve_snippet      - Serves snippet including all necessary headers
      * serve_attachment   - Serves attachment including all necessary headers
-     * _l10n_edit_wrapper - Invokes the l10n string editor
      * add_jsfile         - Add a JavaScript URL to the load queue
      * add_jscript        - Add JavaScript code to the load queue
      * add_jsonload       - Add a JavaScript method call to the bodies onload tag
@@ -486,8 +485,53 @@ class midcom_compat_superglobal
      * print jsonload     - Prints the onload command if required (for inclusion as a BODY attribute)
      * check_memberships  - Checks whether the user is in a given group
      * relocate           - executes a HTTP relocation to the given URL
-     * _showdebuglog      - internal helper for the debuglog URL method.
      */
+
+    /**
+     * Relocate to another URL.
+     *
+     * Helper function to facilitate HTTP relocation (Location: ...) headers. The helper
+     * actually can distinguish between site-local, absolute redirects and external
+     * redirects. If you add an absolute URL starting with a "/", it will
+     * automatically add an http[s]://$servername:$server_port in front of that URL;
+     * note that the server_port is optional and only added if non-standard ports are
+     * used. If the url does not start with http[s], it is taken as a URL relative to
+     * the current anchor prefix, which gets prepended automatically (no other characters
+     * as the anchor prefix get inserted).
+     *
+     * Fully qualified urls (starting with http[s]) are used as-is.
+     *
+     * Note, that this function automatically makes the page uncacheable, calls
+     * midcom_finish and exit, so it will never return. If the headers have already
+     * been sent, this will leave you with a partially completed page, so beware.
+     *
+     * @param string $url    The URL to redirect to, will be preprocessed as outlined above.
+     * @param string $response_code HTTP response code to send with the relocation, from 3xx series
+     */
+    function relocate($url, $response_code = 302)
+    {
+        if (! preg_match('|^https?://|', $url))
+        {
+            if (   $url == ''
+                || substr($url, 0, 1) != "/")
+            {
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+                if ($prefix == '')
+                {
+                    $prefix = midcom::get()->get_page_prefix();
+                }
+                $url =  "{$prefix}{$this->url}";
+                debug_add("This is a relative URL from the local site, prepending anchor prefix: {$url}");
+            }
+            else
+            {
+                $this->url = midcom::get()->get_host_name() . $url;
+                debug_add("This is an absolute URL from the local host, prepending host name: {$url}");
+            }
+        }
+        $response = new midcom_response_relocate($url, $response_code);
+        $response->send();
+    }
 
     /**
      * Binds the current page view to a particular object. This will automatically connect such things like

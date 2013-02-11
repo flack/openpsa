@@ -622,10 +622,7 @@ class midcom_application
      *
      * Helper function to facilitate HTTP relocation (Location: ...) headers. The helper
      * actually can distinguish between site-local, absolute redirects and external
-     * redirects. If you add an absolute URL starting with a "/", it will
-     * automatically add an http[s]://$servername:$server_port in front of that URL;
-     * note that the server_port is optional and only added if non-standard ports are
-     * used. If the url does not start with http[s], it is taken as a URL relative to
+     * redirects. If the url does not start with http[s] or /, it is taken as a URL relative to
      * the current anchor prefix, which gets prepended automatically (no other characters
      * as the anchor prefix get inserted).
      *
