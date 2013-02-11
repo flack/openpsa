@@ -137,8 +137,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         $elements = Array();
 
         $alt = $this->_l10n->get('captcha image alt text');
-        $url = $GLOBALS['midcom_config']['midcom_site_url'] .
-            'midcom-exec-midcom.helper.datamanager2/captcha.php/' .
+        $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/captcha.php/' .
             $this->_session_key;
 
         $static_html = "<img src='{$url}' alt='{$alt}' text='{$alt}' class='captcha' />";

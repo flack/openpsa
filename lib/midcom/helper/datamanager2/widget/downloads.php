@@ -283,8 +283,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             );
             if ($this->show_progressbar)
             {
-                $url = $GLOBALS['midcom_config']['midcom_site_url'] .
-                    'midcom-exec-midcom.helper.datamanager2/get_progress.php';
+                $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                 $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
                 $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
             }
@@ -366,8 +365,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 );
                 if ($this->show_progressbar)
                 {
-                    $url = $GLOBALS['midcom_config']['midcom_site_url'] .
-                        'midcom-exec-midcom.helper.datamanager2/get_progress.php';
+                    $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                     $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
                     $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
                 }
