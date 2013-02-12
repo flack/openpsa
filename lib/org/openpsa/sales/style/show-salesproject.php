@@ -44,11 +44,11 @@ $salesproject = $data['salesproject'];
     <?php } ?>
     <tr>
      <th><?php echo $data['l10n']->get('value'); ?></th>
-     <td><?php echo org_openpsa_helpers::format_number($view['value']); ?></td>
+     <td><?php echo org_openpsa_helpers::format_number($salesproject->value); ?></td>
     </tr>
     <tr>
      <th><?php echo $data['l10n']->get('profit'); ?></th>
-     <td><?php echo org_openpsa_helpers::format_number($view['profit']); ?></td>
+     <td><?php echo org_openpsa_helpers::format_number($salesproject->profit); ?></td>
     </tr>
     <?php
      $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
