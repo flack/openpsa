@@ -130,27 +130,27 @@ catch (midcom_error $e)
                       <tbody>
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('price'); ?></td>
-                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['pricePerUnit']); ?></td>
+                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->pricePerUnit); ?></td>
                           <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                           <td class="numeric"><?php echo $view['units']; ?></td>
-                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['price']); ?></td>
+                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->price); ?></td>
                         </tr>
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
                           <?php
                           if ($data['deliverable']->costType == 'm')
                           { ?>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['costPerUnit']); ?></td>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->costPerUnit); ?></td>
                               <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                               <td class="numeric"><?php echo $view['units']; ?></td>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['cost']); ?></td>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->cost); ?></td>
                           <?php }
                           else
                           { ?>
                               <td class="numeric"><?php echo $view['costPerUnit']; ?> %</td>
                               <td class="numeric">&nbsp;</td>
                               <td class="numeric">&nbsp;</td>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['cost']); ?></td>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->cost); ?></td>
                           <?php } ?>
                         </tr>
                       </tbody>

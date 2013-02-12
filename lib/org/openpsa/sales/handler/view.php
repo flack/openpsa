@@ -224,7 +224,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
         {
             //started, ordered
-            if (   $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
             {
                 $entries = $deliverable->get_at_entries();
                 if (isset($entries[0]))
