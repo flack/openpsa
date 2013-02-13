@@ -206,9 +206,4 @@ $.fn.extend({
     
 });
 
-// fix ie6 background flicker problem.
-// if ( $.browser.msie == true ) {
-//     document.execCommand('BackgroundImageCache', false, true);    
-// }
-
 })(jQuery);
