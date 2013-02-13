@@ -117,6 +117,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         if (!file_exists($rcsfilename))
         {
+            $message = str_replace('|Updated ', '|Created ', $message);
             // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
             return $this->rcs_create($object, $message);
         }
@@ -514,7 +515,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $this->rcs_writefile($object->guid, $data);
         $filepath = $this->_generate_rcs_filename($object->guid);
 
-        $command = 'ci -q -i -t-' . escapeshellarg($description) . " {$filepath}";
+        $command = 'ci -q -i -t-' . escapeshellarg($description) . ' -m' . escapeshellarg($description) . " {$filepath}";
+
         $status = $this->exec($command);
 
         $filename = $filepath . ",v";
