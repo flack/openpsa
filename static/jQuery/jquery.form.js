@@ -1,6 +1,6 @@
 /*!
  * jQuery Form Plugin
- * version: 3.24 (26-DEC-2012)
+ * version: 3.27.0-2013.02.06
  * @requires jQuery v1.5 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
@@ -222,13 +222,14 @@ $.fn.ajaxSubmit = function(options) {
     function deepSerialize(extraData){
         var serialized = $.param(extraData).split('&');
         var len = serialized.length;
-        var result = {};
+        var result = [];
         var i, part;
         for (i=0; i < len; i++) {
             // #252; undo param space replacement
             serialized[i] = serialized[i].replace(/\+/g,' ');
             part = serialized[i].split('=');
-            result[decodeURIComponent(part[0])] = decodeURIComponent(part[1]);
+            // #278; use array instead of object storage, favoring array serializations
+            result.push([decodeURIComponent(part[0]), decodeURIComponent(part[1])]);
         }
         return result;
     }
@@ -243,9 +244,9 @@ $.fn.ajaxSubmit = function(options) {
 
         if (options.extraData) {
             var serializedData = deepSerialize(options.extraData);
-            for (var p in serializedData)
-                if (serializedData.hasOwnProperty(p))
-                    formdata.append(p, serializedData[p]);
+            for (i=0; i < serializedData.length; i++)
+                if (serializedData[i])
+                    formdata.append(serializedData[i][0], serializedData[i][1]);
         }
 
         options.data = null;
@@ -262,7 +263,7 @@ $.fn.ajaxSubmit = function(options) {
             s.xhr = function() {
                 var xhr = jQuery.ajaxSettings.xhr();
                 if (xhr.upload) {
-                    xhr.upload.onprogress = function(event) {
+                    xhr.upload.addEventListener('progress', function(event) {
                         var percent = 0;
                         var position = event.loaded || event.position; /*event.position is deprecated*/
                         var total = event.total;
@@ -270,7 +271,7 @@ $.fn.ajaxSubmit = function(options) {
                             percent = Math.ceil(position / total * 100);
                         }
                         options.uploadProgress(event, position, total, percent);
-                    };
+                    }, false);
                 }
                 return xhr;
             };
@@ -291,14 +292,6 @@ $.fn.ajaxSubmit = function(options) {
         var form = $form[0], el, i, s, g, id, $io, io, xhr, sub, n, timedOut, timeoutHandle;
         var useProp = !!$.fn.prop;
         var deferred = $.Deferred();
-
-        if ($('[name=submit],[id=submit]', form).length) {
-            // if there is an input with a name or id of 'submit' then we won't be
-            // able to invoke the submit fn on the form (at least not x-browser)
-            alert('Error: Form elements must not have name or id of "submit".');
-            deferred.reject();
-            return deferred;
-        }
 
         if (a) {
             // ensure that every serialized input is still enabled
@@ -485,7 +478,9 @@ $.fn.ajaxSubmit = function(options) {
                         io.addEventListener('load', cb, false);
                 }
                 setTimeout(checkState,15);
-                form.submit();
+                // just in case form has element with name/id of 'submit'
+                var submitFn = document.createElement('form').submit;
+                submitFn.apply(form);
             }
             finally {
                 // reset attrs and remove "extra" input elements
@@ -1045,13 +1040,13 @@ $.fn.clearFields = $.fn.clearInputs = function(includeHidden) {
         else if (tag == 'select') {
             this.selectedIndex = -1;
         }
-		else if (t == "file") {
-			if ($.browser.msie) {
-				$(this).replaceWith($(this).clone());
-			} else {
-				$(this).val('');
-			}
-		}
+        else if (t == "file") {
+            if (/MSIE/.test(navigator.userAgent)) {
+                $(this).replaceWith($(this).clone());
+            } else {
+                $(this).val('');
+            }
+        }
         else if (includeHidden) {
             // includeHidden can be the value true, or it can be a selector string
             // indicating a special test; for example:
