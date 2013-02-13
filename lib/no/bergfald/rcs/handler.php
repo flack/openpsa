@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** Simple styling class to make html out of diffs and get a simple way
+/**
+ * Simple styling class to make html out of diffs and get a simple way
  * to provide rcs functionality
  *
  * This handler can be added to your module by some simple steps. Add this to your
@@ -20,7 +21,6 @@
  * </code>
  *
  * If you want to have the handler do a callback to your class to add toolbars or other stuff,
- *
  *
  * Links and urls
  * Linking is done with the format rcs/rcs_action/handler_name/object_guid/<more params>
@@ -39,19 +39,21 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      *
      * @var string
      */
-    private $_guid = null;
+    private $_guid;
 
     /**
      * RCS backend
+     *
+     * @var midcom_services_rcs_backend
      */
-    private $_backend = null;
+    private $_backend;
 
     /**
      * Pointer to midgard object
      *
      * @var midcom_db_object
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * Get the localized strings

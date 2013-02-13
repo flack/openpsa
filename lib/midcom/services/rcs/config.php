@@ -33,6 +33,8 @@
 
     /**
      * Factory function for the handler object.
+     *
+     * @return midcom_services_rcs_backend
      */
     function get_handler(&$object)
     {
@@ -61,6 +63,7 @@
     /**
      * If the RCS service is enabled
      * (set by midcom_services_rcs_use)
+     *
      * @return boolean true if it is enabled
      */
     function use_rcs()

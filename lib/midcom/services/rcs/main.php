@@ -53,6 +53,8 @@ class midcom_services_rcs
 
     /**
      * Loads the handler
+     *
+     * @return midcom_services_rcs_backend
      */
     function load_handler(&$object)
     {
