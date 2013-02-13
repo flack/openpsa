@@ -124,8 +124,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     public static function render_tabs($guid = null, $tabdata = array())
     {
         $uipage = self::get_config_value('ui_page');
-        $host_prefix = substr(midcom::get()->get_host_prefix(), strlen(midcom::get()->get_host_name()));
-        $prefix = $host_prefix . $uipage . '/';
+        $prefix = midcom_connection::get_url('self') . $uipage . '/';
 
         if (null !== $guid)
         {
