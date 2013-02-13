@@ -374,31 +374,6 @@ class midcom_baseclasses_core_dbobject
      */
     public static function create_post_ops(midcom_core_dbaobject $object)
     {
-        // WORKAROUND START
-        // Auto-populate the GUID as the core sometimes forgets this (#72) or
-        // reports the wrong guid in case we have another case of duplicate guids (#118) in the
-        // repligard table (can happen before 1.7.3, with 1.7.3 midgard fails to create
-        // records, which could be even worse and is not covered here):
-        if (! $object->guid)
-        {
-            $tmp = new $object->__mgdschema_class_name__();
-            if (   !$object->id
-                || !$tmp->get_by_id($object->id))
-            {
-                debug_add('Workaround for #72/#118/#1251, failed to get_by_id to load the GUID, this is bad. We abort.',
-                    MIDCOM_LOG_CRIT);
-                debug_add("We tried to load object {$object->id} and got: " . midcom_connection::get_error_string());
-                $object->delete();
-                throw new midcom_error
-                (
-                    "Workaround for #72/#118/#1251: Failed to load GUID for ID {$object->id} ("
-                    . midcom_connection::get_error_string()
-                    . '). Object could not be created.');
-            }
-            $object->guid = $tmp->guid;
-        }
-        // END WORKAROUND
-
         // Now assign all midgard privileges to the creator, this is necessary to get
         // an owner like scheme to work by default.
         // TODO: Check if there is a better solution like this.
@@ -429,7 +404,6 @@ class midcom_baseclasses_core_dbobject
             mgd_cache_invalidate();
         }
     }
-
 
     /**
      * Execute a DB delete of the object passed. This will call the corresponding
