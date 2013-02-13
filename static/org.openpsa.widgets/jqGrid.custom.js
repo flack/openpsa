@@ -493,22 +493,22 @@ var org_openpsa_grid_editable =
             $("#" + this.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
         }
 
-        $(".row_edit").live('click', function()
+        $("#" + this.grid_id).on('click', ".row_edit", function()
         {
             var id = $(this).attr('id').replace(/^edit_button_/, '');
             self.editRow(id);
         });
-        $(".row_delete").live('click', function()
+        $("#" + this.grid_id).on('click', ".row_delete", function()
         {
             var id = $(this).attr('id').replace(/^delete_button_/, '');
             self.deleteRow(id);
         });
-        $(".row_save").live('click', function()
+        $("#" + this.grid_id).on('click', ".row_save", function()
         {
             var id = $(this).attr('id').replace(/^save_button_/, '');
             self.saveRow(id);
         });
-        $(".row_cancel").live('click', function()
+        $("#" + this.grid_id).on('click', ".row_cancel", function()
         {
             var id = $(this).attr('id').replace(/^cancel_button_/, '');
             self.restoreRow(id);
