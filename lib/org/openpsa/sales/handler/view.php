@@ -67,7 +67,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         if (!empty($this->_request_data['projects_url']))
         {
-            $prefix = midcom::get()->get_page_prefix() . $this->_request_data['projects_url'];
+            $prefix = midcom_connection::get_url('self') . $this->_request_data['projects_url'];
             $this->_view_toolbar->add_item
             (
                 array
