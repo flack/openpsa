@@ -520,12 +520,12 @@ class midcom_compat_superglobal
                 {
                     $prefix = midcom::get()->get_page_prefix();
                 }
-                $url =  "{$prefix}{$this->url}";
+                $url =  "{$prefix}{$url}";
                 debug_add("This is a relative URL from the local site, prepending anchor prefix: {$url}");
             }
             else
             {
-                $this->url = midcom::get()->get_host_name() . $url;
+                $url = midcom::get()->get_host_name() . $url;
                 debug_add("This is an absolute URL from the local host, prepending host name: {$url}");
             }
         }
