@@ -239,11 +239,6 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
             var handle = jQuery('.midcom_services_toolbars_topic_title',item);
             var children = jQuery('ul',item);
             
-            if (jQuery.browser.ie)
-            {
-                jQuery('li', children).css({ width: '9em' });
-            }
-            
             item.bind('mouseover',function(e){
                 jQuery(item_holder).stopTime("hide");
                 jQuery('.item ul', item_holder).hide();
