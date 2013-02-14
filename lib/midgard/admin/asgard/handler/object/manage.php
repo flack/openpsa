@@ -601,15 +601,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
-        // Add Thickbox
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css', 'screen');
-        midcom::get('head')->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
-
-        // Add jQuery file for the checkbox operations
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
-        midcom::get('head')->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
+        $this->_add_jscripts();
     }
 
     /**
@@ -691,15 +683,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
         }
 
-        // Add Thickbox
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css', 'screen');
-        midcom::get('head')->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
-
-        // Add jQuery file for the checkbox operations
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
-        midcom::get('head')->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
+        $this->_add_jscripts();
 
         // Common hooks for Asgard
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -715,6 +699,21 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         $data['target'] = $target;
+    }
+
+    /**
+     * Helper function that adds the necessary static files for copy/delete operations
+     */
+    private function _add_jscripts()
+    {
+        // Add Colorbox
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/colorbox/jquery.colorbox-min.js');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/colorbox/colorbox.css', 'screen');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
+
+        // Add jQuery file for the checkbox operations
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
+        midcom::get('head')->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
     }
 
     private function _process_copy($target)
