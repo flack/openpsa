@@ -57,11 +57,6 @@ if ($mode == 'object')
 {
     midcom::get('componentloader')->load_library('net.nemein.tag');
 
-    // Load component if required
-    if (!class_exists($class))
-    {
-        midcom::get('componentloader')->load_graceful($component);
-    }
     // Could not get required class defined, abort
     if (!class_exists($class))
     {
@@ -96,18 +91,6 @@ if ($mode == 'object')
 }
 else
 {
-    if (! class_exists($callback))
-    {
-        // Try auto-load.
-        $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $callback) . '.php';
-        if (! file_exists($path))
-        {
-            debug_add("Auto-loading of the callback class {$callback} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        require_once($path);
-    }
-
     if (! class_exists($callback))
     {
         debug_add("The callback class {$callback} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
