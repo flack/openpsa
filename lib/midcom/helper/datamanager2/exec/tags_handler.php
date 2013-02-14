@@ -66,7 +66,7 @@ if ($mode == 'object')
     if (!class_exists($class))
     {
         $response->errstr = "Class {$class} could not be loaded";
-        $reponse->send();
+        $response->send();
     }
 
     $qb = call_user_func(array($class, 'new_query_builder'));
@@ -76,7 +76,7 @@ if ($mode == 'object')
     if ($results === false)
     {
         $response->errstr = "Error when executing QB";
-        $reponse->send();
+        $response->send();
     }
 
     $object = $results[0];

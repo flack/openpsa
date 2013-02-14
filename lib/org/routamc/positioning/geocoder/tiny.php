@@ -110,7 +110,7 @@ class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geoc
             return null;
         }
         $position = array();
-        // Walk the reponse parts in reverse order putting to fields as specified by the response_fields below
+        // Walk the response parts in reverse order putting to fields as specified by the response_fields below
         $response_parts = explode(',', $response);
         $response_parts = array_reverse($response_parts);
         $response_fields = array
