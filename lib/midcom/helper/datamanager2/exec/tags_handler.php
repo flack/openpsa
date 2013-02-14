@@ -143,7 +143,7 @@ if (empty($results))
 {
     $response->errstr = "No results"; //TODO: Localize message
     debug_add("No results.");
-    $reponse->send();
+    $response->send();
 }
 $response->status = 1;
 $items = array('result');
