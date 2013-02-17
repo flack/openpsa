@@ -168,7 +168,7 @@ class openpsa_installer
         $config->vardir = '/var/lib/' . $this->_project_name;
         $config->cachedir = '/var/cache/' . $this->_project_name;
         $config->logfilename = '/var/log/' . $this->_project_name . '/midgard.log';
-        $config->loglevel = 'debug';
+        $config->loglevel = 'warn';
         if (!$config->save_file($this->_project_name, false))
         {
             $this->fail("Failed to save " . $config_file);
