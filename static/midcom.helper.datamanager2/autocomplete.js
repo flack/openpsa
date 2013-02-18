@@ -16,7 +16,7 @@ $.widget( "custom.category_complete", $.ui.autocomplete,
     }
 });
 
-if (JSON === undefined)
+if (typeof JSON === 'undefined')
 {
     JSON =
     {
