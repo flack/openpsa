@@ -21,6 +21,8 @@ class mgd2installer extends installer
 
     protected $_config_name;
 
+    protected $_sharedir = '/usr/share/midgard2';
+
     public function __construct($io, $vendor_dir)
     {
         $this->_io = $io;
@@ -158,8 +160,8 @@ class mgd2installer extends installer
         self::_prepare_dir('var/blobs');
         self::_prepare_dir('var/log');
 
-        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $project_basedir . '/config/share/midgard_auth_types.xml', $this->_io);
-        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $project_basedir . '/config/share/MidgardObjects.xml', $this->_io);
+        self::_link($openpsa_basedir . '/config/midgard_auth_types.xml', $this->_sharedir . '/midgard_auth_types.xml', $this->_io);
+        self::_link($openpsa_basedir . '/config/MidgardObjects.xml', $this->_sharedir . '/MidgardObjects.xml', $this->_io);
 
         // Create a config file
         $config = new \midgard_config();
@@ -169,7 +171,7 @@ class mgd2installer extends installer
 
         $config->database = $this->_io->ask('<question>DB name:</question> [<comment>' . $project_name . '</comment>] ', $project_name);
         $config->blobdir = $project_basedir . '/var/blobs';
-        $config->sharedir = $project_basedir . '/config/share';
+        $config->sharedir = $this->_sharedir;
         $config->vardir = $project_basedir . '/var';
         $config->cachedir = $project_basedir . '/var/cache';
         $config->logfilename = $project_basedir . '/var/log/midgard.log';
