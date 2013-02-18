@@ -6,6 +6,8 @@ class openpsa_installer
 
     protected $_user;
 
+    protected $_sharedir = '/usr/share/midgard2';
+
     public function __construct($args)
     {
         if (!extension_loaded('midgard2'))
@@ -26,7 +28,7 @@ class openpsa_installer
                     && strpos($fileinfo->getFilename(), 'xml'))
                 {
                     //@todo: how to determine correct schema dir?
-                    $this->_link_file('schemas', $fileinfo->getFilename(), '/usr/share/midgard2/schema');
+                    $this->_link_file('schemas', $fileinfo->getFilename(), $this->_sharedir . '/schema');
                 }
             }
             $this->output('Schemas linked. Re-run installer to continue');
@@ -153,9 +155,9 @@ class openpsa_installer
     {
         $this->_check_dir('/var/lib/' . $this->_project_name);
         $this->_check_dir('/var/cache/' . $this->_project_name);
-        $this->_link_file('config', 'midgard_auth_types.xml', '/var/lib/' . $this->_project_name . '/share');
-        $this->_link_file('config', 'MidgardObjects.xml', '/var/lib/' . $this->_project_name . '/share');
-        $this->_check_dir('/var/lib/' . $this->_project_name . '/share/views');
+        $this->_link_file('config', 'midgard_auth_types.xml', $this->_sharedir);
+        $this->_link_file('config', 'MidgardObjects.xml', $this->_sharedir);
+        $this->_check_dir($this->_sharedir . '/views');
         $this->_check_dir('/var/lib/' . $this->_project_name . '/rcs');
 
         // Create a config file
@@ -164,7 +166,7 @@ class openpsa_installer
         $config->database = $this->_project_name;
         $config->dbdir = '/var/lib/' . $this->_project_name;
         $config->blobdir = '/var/lib/' . $this->_project_name . '/blobs';
-        $config->sharedir = '/var/lib/' . $this->_project_name . '/share';
+        $config->sharedir = $this->_sharedir;
         $config->vardir = '/var/lib/' . $this->_project_name;
         $config->cachedir = '/var/cache/' . $this->_project_name;
         $config->logfilename = '/var/log/' . $this->_project_name . '/midgard.log';
