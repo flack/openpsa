@@ -56,8 +56,27 @@ class midcom_helper_misc
             $filename = MIDCOM_ROOT . substr($path, 5);
             if (! file_exists($filename))
             {
-                $cached_snippets[$path] = null;
-                return null;
+                //If we can't find the file in-tree, we look for out-of-tree components before giving up
+                $found = false;
+                $filename = substr($path, 6);
+                if (preg_match('|.+?/.+?/.+?/|', $filename))
+                {
+                    $component_name = preg_replace('|(.+?)/(.+?)/(.+?)/.+|', '$1.$2.$3', $filename);
+                    if (midcom::get('componentloader')->is_installed($component_name))
+                    {
+                        $filename = substr($filename, strlen($component_name));
+                        $filename = midcom::get('componentloader')->path_to_snippetpath($component_name) . $filename;
+                        if (file_exists($filename))
+                        {
+                            $found = true;
+                        }
+                    }
+                }
+                if (!$found)
+                {
+                    $cached_snippets[$path] = null;
+                    return null;
+                }
             }
             $data = file_get_contents($filename);
         }
