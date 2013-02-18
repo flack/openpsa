@@ -542,7 +542,8 @@ var org_openpsa_grid_helper =
         var identifier = location.hostname + location.href + '#' + grid_id,
         saved_values = {};
         if (   typeof window.localStorage !== 'undefined'
-            && window.localStorage)
+            && window.localStorage
+            && typeof JSON !== 'undefined')
         {
             org_openpsa_grid_helper.active_grids.push(grid_id);
             saved_values = $.parseJSON(window.localStorage.getItem(identifier));
