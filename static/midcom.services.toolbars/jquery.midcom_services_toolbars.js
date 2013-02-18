@@ -271,15 +271,6 @@ jQuery.midcom_services_toolbars = function(root, settings, with_items) {
         
         root_element.show();
 
-        if (jQuery.browser.msie && jQuery.browser.version < 8)
-        {
-            var width = 0;
-            root_element.children().each(function()
-            {
-                width += jQuery(this).width();
-            });
-            root_element.width(width + 30);
-        }
         debug('enable_toolbar finished', 'info');
     }
     
