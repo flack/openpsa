@@ -444,11 +444,6 @@ class midcom_services_i18n
             $obj = new midcom_services_i18n_l10n($component, $database);
         }
 
-        if (! $obj)
-        {
-            throw new midcom_error("Failed to load L10n database {$cacheid}, see the log file for possible reasons.");
-        }
-
         $obj->set_language($this->_current_language);
         $obj->set_charset($this->_current_charset);
         $obj->set_fallback_language($this->_fallback_language);

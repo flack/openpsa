@@ -134,19 +134,15 @@ class midcom_services_i18n_l10n
      */
     public function __construct($library, $database)
     {
-        $path = str_replace('.', '/', $library);
+        $path = midcom::get('componentloader')->path_to_snippetpath($library) . "/locale/";
 
-        if (substr($path, -1) != "/")
+        if (!is_dir($path))
         {
-            $path = "/{$path}/locale/{$database}";
-        }
-        else
-        {
-            $path = "/{$path}locale/{$database}";
+            throw new midcom_error("Failed to load L10n database {$library}/{$database}, see the log file for possible reasons.");
         }
 
-        $this->_library_filename = MIDCOM_ROOT . $path;
-        $this->_library = $path;
+        $this->_library_filename = $path . $database;
+        $this->_library = $library . $database;
         $this->_component_name = $library;
 
         $this->_language_db = midcom::get('i18n')->get_language_db();
