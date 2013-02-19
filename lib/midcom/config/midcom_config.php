@@ -401,7 +401,7 @@ class midcom_config implements arrayaccess
         'midcom_temporary_resource_timeout' => 86400,
         'midcom_max_memory' => -1,
         'midcom_max_execution_time' => 0,
-        'midcom_compat_ragnaroek' => true,
+        'midcom_compat_ragnaroek' => false,
 
         // Visibility settings (NAP)
         'show_hidden_objects' => true,
