@@ -22,11 +22,6 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        if (extension_loaded('midgard2'))
-        {
-            //we need to provide replacements for some deprecated mgd1 functions
-            require('midgard1.php');
-        }
         require('ragnaroek.php');
 
         if (class_exists('midgardmvc_core'))
