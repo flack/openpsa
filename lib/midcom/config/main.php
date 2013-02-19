@@ -595,6 +595,20 @@ class midcom_config implements arrayaccess
         $this->_default_config['midcom_services_rcs_root'] = $basedir . '/rcs';
     }
 
+    public function get($key)
+    {
+        if (!$this->offsetExists($key))
+        {
+            return null;
+        }
+        return $this->offsetGet($key);
+    }
+
+    public function set($key, $value)
+    {
+        $this->offsetSet($key, $value);
+    }
+
     public function offsetSet($offset, $value)
     {
         $this->_merged_config[$offset] = $value;
