@@ -223,7 +223,7 @@
  *   like when reindexing the entire site, which can require quite some amount of memory, as the complete NAP
  *   cache has to be loaded and binary indexing can take some memory, too. Defaults to -1.
  *  - <b>mixed midcom_max_execution_time:</b> The maximum execution time for resource-intensive tasks
- *  - <b>boolean midcom_use_superglobal:</b> Activate the $_MIDCOM superglobal compatibility layer
+ *  - <b>boolean midcom_compat_ragnaroek:</b> Activate the Ragnaroek compatibility layer
  *
  * <b>RCS system</b>
  *
@@ -401,7 +401,7 @@ class midcom_config implements arrayaccess
         'midcom_temporary_resource_timeout' => 86400,
         'midcom_max_memory' => -1,
         'midcom_max_execution_time' => 0,
-        'midcom_use_superglobal' => true,
+        'midcom_compat_ragnaroek' => true,
 
         // Visibility settings (NAP)
         'show_hidden_objects' => true,

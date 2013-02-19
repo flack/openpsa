@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.compat
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,7 +9,7 @@
 /**
  * Interface for interactions with environment (PHP SAPI, framework, Midgard version, etc)
  *
- * @package midcom
+ * @package midcom.compat
  */
 abstract class midcom_compat_environment
 {
@@ -55,7 +55,7 @@ abstract class midcom_compat_environment
 /**
  * Default environment support
  *
- * @package midcom
+ * @package midcom.compat
  */
 class midcom_compat_default extends midcom_compat_environment
 {
@@ -143,7 +143,7 @@ class midcom_compat_default extends midcom_compat_environment
 /**
  * Support for running under PHPunit
  *
- * @package midcom
+ * @package midcom.compat
  */
 class midcom_compat_unittest extends midcom_compat_environment
 {
@@ -182,7 +182,7 @@ class midcom_compat_unittest extends midcom_compat_environment
 /**
  * MidgardMVC Ragnaland support
  *
- * @package midcom
+ * @package midcom.compat
  */
 class midcom_compat_ragnaland extends midcom_compat_default
 {

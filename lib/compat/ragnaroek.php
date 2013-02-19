@@ -2,7 +2,7 @@
 /**
  * MidCOM Ragnaroek compatibility functions
  *
- * @package midcom
+ * @package midcom.compat
  */
 function _midcom_header($string, $replace = true, $http_response_code = null)
 {
@@ -12,7 +12,7 @@ function _midcom_header($string, $replace = true, $http_response_code = null)
 /**
  * MidCOM Ragnaroek compatibility functions
  *
- * @package midcom
+ * @package midcom.compat
  */
 function _midcom_stop_request($message = '')
 {
@@ -22,7 +22,7 @@ function _midcom_stop_request($message = '')
 /**
  * MidCOM Ragnaroek compatibility functions
  *
- * @package midcom
+ * @package midcom.compat
  */
 function _midcom_headers_sent()
 {
@@ -32,7 +32,7 @@ function _midcom_headers_sent()
 /**
  * MidCOM Ragnaroek compatibility functions
  *
- * @package midcom
+ * @package midcom.compat
  */
 function _midcom_setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
 {

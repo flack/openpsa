@@ -130,17 +130,21 @@ class midcom
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
 
-        if (!empty($GLOBALS['midcom_config']['midcom_use_superglobal']))
+        if (!empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek']))
         {
-            require_once MIDCOM_ROOT . '/compat/superglobal.php';
-            $_MIDCOM = new midcom_compat_superglobal();
+            require_once MIDCOM_ROOT . '/compat/bootstrap.php';
         }
+
+        // Current MidCOM configuration.
+        // TODO: Replace this with midcom::get('config')
+        $GLOBALS['midcom_config'] = new midcom_config;
 
         self::$_application->initialize();
 
-        if (file_exists(MIDCOM_CONFIG_FILE_AFTER))
+        if (   !empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek'])
+            && file_exists(MIDCOM_CONFIG_FILE_AFTER))
         {
-            include(MIDCOM_CONFIG_FILE_AFTER);
+            include MIDCOM_CONFIG_FILE_AFTER;
         }
     }
 

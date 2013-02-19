@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.compat
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,7 +9,7 @@
 /**
  * Compatibility wrapper that provides the API found in Ragnaroek's $_MIDCOM superglobal
  *
- * @package midcom
+ * @package midcom.compat
  * @property midcom_helper_serviceloader $serviceloader
  * @property midcom_services_i18n $i18n
  * @property midcom_helper__componentloader $componentloader

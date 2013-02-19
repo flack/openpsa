@@ -2,7 +2,7 @@
 /**
  * Compat wrappers for deprecated mgd1 functionality
  *
- * @package midcom
+ * @package midcom.compat
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
