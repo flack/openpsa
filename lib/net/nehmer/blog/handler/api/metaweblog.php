@@ -34,7 +34,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             throw new midcom_error('XML-RPC Server libraries not installer, aborting.');
         }
 
-        if ($GLOBALS['midcom_config']['positioning_enable'])
+        if (midcom::get('config')->get('positioning_enable'))
         {
             if (!class_exists('org_routamc_positioning_object'))
             {
@@ -529,7 +529,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         $attachment_array = array
         (
-            'url'  => new XML_RPC_Value("{$GLOBALS['midcom_config']['midcom_site_url']}midcom-serveattachmentguid-{$attachment->guid}/{$attachment->name}", 'string'),
+            'url'  => new XML_RPC_Value(midcom::get('config')->get('midcom_site_url') . "midcom-serveattachmentguid-{$attachment->guid}/{$attachment->name}", 'string'),
             'guid' => new XML_RPC_Value($attachment->guid, 'string'),
         );
         return new XML_RPC_Response(new XML_RPC_Value($attachment_array, 'struct'));

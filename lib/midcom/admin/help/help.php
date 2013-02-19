@@ -112,10 +112,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $file = self::get_documentation_dir($component) . "{$help_id}.{$language}.txt";
         if (!file_exists($file))
         {
-            if ($language != $GLOBALS['midcom_config']['i18n_fallback_language'])
+            if ($language != midcom::get('config')->get('i18n_fallback_language'))
             {
                 // Try MidCOM's default fallback language
-                $file = self::generate_file_path($help_id, $component, $GLOBALS['midcom_config']['i18n_fallback_language']);
+                $file = self::generate_file_path($help_id, $component, midcom::get('config')->get('i18n_fallback_language'));
             }
             else
             {
@@ -319,7 +319,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
 
             if (   $filename_parts[1] != midcom::get('i18n')->get_current_language()
-                && $filename_parts[1] != $GLOBALS['midcom_config']['i18n_fallback_language'])
+                && $filename_parts[1] != midcom::get('config')->get('i18n_fallback_language'))
             {
                 // Wrong language
                 continue;

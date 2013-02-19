@@ -229,7 +229,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     static function get_cache_path(midcom_db_attachment $attachment, $check_privileges = true)
     {
-        if (!$GLOBALS['midcom_config']['attachment_cache_enabled'])
+        if (!midcom::get('config')->get('attachment_cache_enabled'))
         {
             return null;
         }
@@ -242,18 +242,19 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         // Copy the file to the static directory
-        if (!file_exists($GLOBALS['midcom_config']['attachment_cache_root']))
+        $cacheroot = midcom::get('config')->get('attachment_cache_root');
+        if (!file_exists($cacheroot))
         {
-            mkdir($GLOBALS['midcom_config']['attachment_cache_root']);
+            mkdir($cacheroot);
         }
 
         $subdir = substr($attachment->guid, 0, 1);
-        if (!file_exists("{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}"))
+        if (!file_exists("{$cacheroot}/{$subdir}"))
         {
-            mkdir("{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}");
+            mkdir("{$cacheroot}/{$subdir}");
         }
 
-        $filename = "{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}/{$attachment->guid}_{$attachment->name}";
+        $filename = "{$cacheroot}/{$subdir}/{$attachment->guid}_{$attachment->name}";
 
         return $filename;
     }
@@ -276,13 +277,13 @@ class midcom_db_attachment extends midcom_core_dbaobject
             throw new midcom_error('Invalid attachment identifier');
         }
 
-        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
+        if (midcom::get('config')->get('attachment_cache_enabled'))
         {
             $subdir = substr($guid, 0, 1);
 
-            if (file_exists($GLOBALS['midcom_config']['attachment_cache_root'] . '/' . $subdir . '/' . $guid . '_' . $name))
+            if (file_exists(midcom::get('config')->get('attachment_cache_root') . '/' . $subdir . '/' . $guid . '_' . $name))
             {
-                return  $GLOBALS['midcom_config']['attachment_cache_url'] . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
+                return  midcom::get('config')->get('attachment_cache_url') . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
             }
         }
 
@@ -305,7 +306,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     function file_to_cache()
     {
         // Check if the attachment can be read anonymously
-        if (!$GLOBALS['midcom_config']['attachment_cache_enabled'])
+        if (!midcom::get('config')->get('attachment_cache_enabled'))
         {
             return;
         }
@@ -483,12 +484,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
     function update_cache()
     {
         // Check if the attachment can be read anonymously
-        if (   $GLOBALS['midcom_config']['attachment_cache_enabled']
+        if (   midcom::get('config')->get('attachment_cache_enabled')
             && !$this->can_do('midgard:read', 'EVERYONE'))
         {
             // Not public file, ensure it is removed
             $subdir = substr($this->guid, 0, 1);
-            $filename = "{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}/{$this->guid}_{$this->name}";
+            $filename = midcom::get('config')->get('attachment_cache_root') . "/{$subdir}/{$this->guid}_{$this->name}";
             if (file_exists($filename))
             {
                 @unlink($filename);
@@ -514,7 +515,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
+        if (midcom::get('config')->get('attachment_cache_enabled'))
         {
             // Remove attachment cache
             $filename = midcom_db_attachment::get_cache_path($this, false);

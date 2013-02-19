@@ -36,10 +36,11 @@ class midcom_helper__dbfactory
 
             throw new midcom_error_midgard($e, $guid);
         }
+        $person_class =  midcom::get('config')->get('person_class');
         if (   get_class($tmp) == 'midgard_person'
-            && $GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+            && $person_class != 'midgard_person')
         {
-            $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
+            $tmp = new $person_class($guid);
         }
         return $this->convert_midgard_to_midcom($tmp);
     }

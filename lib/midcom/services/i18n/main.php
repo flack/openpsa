@@ -144,7 +144,7 @@ class midcom_services_i18n
             return false;
         }
 
-        $this->_fallback_language = $GLOBALS['midcom_config']['i18n_fallback_language'];
+        $this->_fallback_language = midcom::get('config')->get('i18n_fallback_language');
         $this->set_language($this->_fallback_language);
 
         $this->_set_startup_langs();
@@ -613,7 +613,7 @@ class midcom_services_i18n
      */
     private function _load_language_db()
     {
-        $path = $GLOBALS['midcom_config']['i18n_language_db_path'];
+        $path = midcom::get('config')->get('i18n_language_db_path');
 
         if (substr($path, 0, 5) == 'file:')
         {

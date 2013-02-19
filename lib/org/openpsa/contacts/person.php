@@ -22,10 +22,10 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     public function __construct($identifier = null)
     {
-        if (   $GLOBALS['midcom_config']['person_class'] != 'midgard_person'
-            && $GLOBALS['midcom_config']['person_class'] != 'openpsa_person')
+        if (   midcom::get('config')->get('person_class') != 'midgard_person'
+            && midcom::get('config')->get('person_class') != 'openpsa_person')
         {
-            $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
+            $this->__mgdschema_class_name__ = midcom::get('config')->get('person_class');
         }
         parent::__construct($identifier);
     }

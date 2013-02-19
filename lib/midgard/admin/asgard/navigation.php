@@ -402,7 +402,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     function draw()
     {
-        $this->_request_data['chapter_name'] = $GLOBALS['midcom_config']['midcom_site_title'];
+        $this->_request_data['chapter_name'] = midcom::get('config')->get('midcom_site_title');
         midcom_show_style('midgard_admin_asgard_navigation_chapter');
 
         $this->_draw_plugins();

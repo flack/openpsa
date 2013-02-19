@@ -207,7 +207,7 @@ class midcom_core_account
     {
         if (method_exists('midgard_user', 'login'))
         {
-            $mc = new midgard_collector('midgard_user', 'authtype', $GLOBALS['midcom_config']['auth_type']);
+            $mc = new midgard_collector('midgard_user', 'authtype', midcom::get('config')->get('auth_type'));
             $mc->set_key_property('person');
             $mc->add_constraint('login', $operator, $value);
             $mc->execute();
@@ -258,9 +258,9 @@ class midcom_core_account
         {
             return false;
         }
-        $this->_user->authtype = $GLOBALS['midcom_config']['auth_type'];
+        $this->_user->authtype = midcom::get('config')->get('auth_type');
 
-        if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+        if (midcom::get('config')->get('person_class') != 'midgard_person')
         {
             $mgd_person = new midgard_person($this->_person->guid);
         }
@@ -351,7 +351,7 @@ class midcom_core_account
                 new midgard_query_constraint (
                     new midgard_query_property ('authtype'),
                     '=',
-                    new midgard_query_value ($GLOBALS['midcom_config']['auth_type'])));
+                    new midgard_query_value (midcom::get('config')->get('auth_type'))));
             $qs->set_constraint($group);
             $qs->toggle_readonly(false);
             $qs->execute();
@@ -375,11 +375,11 @@ class midcom_core_account
         {
             $qb = new midgard_query_builder('midgard_user');
             $qb->add_constraint('login', '=', $this->get_username());
-            $qb->add_constraint('authtype', '=', $GLOBALS['midcom_config']['auth_type']);
+            $qb->add_constraint('authtype', '=', midcom::get('config')->get('auth_type'));
         }
         else
         {
-            $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+            $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
             $qb->add_constraint('username', '=', $this->get_username());
         }
         $qb->add_constraint('guid', '<>', $this->_user->guid);

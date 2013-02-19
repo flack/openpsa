@@ -484,17 +484,17 @@ class midcom_helper_head
 
         if (!$version)
         {
-            $version = $GLOBALS['midcom_config']['jquery_version'];
+            $version = midcom::get('config')->get('jquery_version');
         }
 
         $this->_jquery_init_scripts .= "\n";
 
-        if ($GLOBALS['midcom_config']['jquery_load_from_google'])
+        if (midcom::get('config')->get('jquery_load_from_google'))
         {
             // Use Google's hosted jQuery version
             $this->_jquery_init_scripts .= "<script src=\"http://www.google.com/jsapi\"></script>\n";
             $this->_jquery_init_scripts .= "<script>\n";
-            $this->_jquery_init_scripts .= "    google.load('jquery', '{$GLOBALS['midcom_config']['jquery_version']}');\n";
+            $this->_jquery_init_scripts .= "    google.load('jquery', '{$version}');\n";
             $this->_jquery_init_scripts .= "</script>\n";
         }
         else
@@ -505,7 +505,7 @@ class midcom_helper_head
 
         if (!defined('MIDCOM_JQUERY_UI_URL'))
         {
-            define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}");
+            define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-" . midcom::get('config')->get('jquery_ui_version'));
         }
 
         $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
@@ -559,9 +559,9 @@ class midcom_helper_head
      */
     public function add_jquery_ui_theme(array $components = array())
     {
-        if (!empty($GLOBALS['midcom_config']['jquery_ui_theme']))
+        if (midcom::get('config')->get('jquery_ui_theme'))
         {
-            $this->add_stylesheet($GLOBALS['midcom_config']['jquery_ui_theme']);
+            $this->add_stylesheet(midcom::get('config')->get('jquery_ui_theme'));
         }
         else
         {

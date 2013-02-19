@@ -172,12 +172,11 @@ class midcom_services_auth
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
 
-            if (   !empty($GLOBALS['midcom_config']['auth_failure_callback'])
-                && is_callable($GLOBALS['midcom_config']['auth_failure_callback']))
+            if (is_callable(midcom::get('config')->get('auth_failure_callback')))
             {
-                debug_print_r('Calling auth failure callback: ', $GLOBALS['midcom_config']['auth_failure_callback']);
+                debug_print_r('Calling auth failure callback: ', midcom::get('config')->get('auth_failure_callback'));
                 // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
-                call_user_func($GLOBALS['midcom_config']['auth_failure_callback'], $credentials['username']);
+                call_user_func(midcom::get('config')->get('auth_failure_callback'), $credentials['username']);
             }
 
             return false;
@@ -187,9 +186,9 @@ class midcom_services_auth
 
         $this->_sync_user_with_backend();
 
-        $person_class = $GLOBALS['midcom_config']['person_class'];
+        $person_class = midcom::get('config')->get('person_class');
         $person = new $person_class($this->user->guid);
-        if (   $GLOBALS['midcom_config']['auth_save_prev_login']
+        if (   midcom::get('config')->get('auth_save_prev_login')
             && $person->parameter('midcom', 'last_login'))
         {
             $person->parameter('midcom', 'prev_login', $person->parameter('midcom', 'last_login'));
@@ -202,12 +201,11 @@ class midcom_services_auth
             $person->parameter('midcom', 'first_login', time());
         }
 
-        if (   !empty($GLOBALS['midcom_config']['auth_success_callback'])
-            && is_callable($GLOBALS['midcom_config']['auth_success_callback']))
+        if (is_callable(midcom::get('config')->get('auth_success_callback')))
         {
-            debug_print_r('Calling auth success callback:', $GLOBALS['midcom_config']['auth_success_callback']);
+            debug_print_r('Calling auth success callback:', midcom::get('config')->get('auth_success_callback'));
             // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
-            call_user_func($GLOBALS['midcom_config']['auth_success_callback']);
+            call_user_func(midcom::get('config')->get('auth_success_callback'));
         }
 
         // There was form data sent before authentication was re-required
@@ -302,19 +300,19 @@ class midcom_services_auth
      */
     private function _prepare_authentication_drivers()
     {
-        $classname = "midcom_services_auth_backend_{$GLOBALS['midcom_config']['auth_backend']}";
+        $classname = 'midcom_services_auth_backend_' . midcom::get('config')->get('auth_backend');
         // dont prepend
-        if (strpos($GLOBALS['midcom_config']['auth_backend'], "_"))
+        if (strpos(midcom::get('config')->get('auth_backend'), "_"))
         {
-            $classname = $GLOBALS['midcom_config']['auth_backend'];
+            $classname = midcom::get('config')->get('auth_backend');
         }
         $this->_auth_backend = new $classname($this);
 
-        $classname = "midcom_services_auth_frontend_{$GLOBALS['midcom_config']['auth_frontend']}";
+        $classname = 'midcom_services_auth_frontend_' . midcom::get('config')->get('auth_frontend');
         // dont prepend
-        if (strpos($GLOBALS['midcom_config']['auth_frontend'], "_"))
+        if (strpos(midcom::get('config')->get('auth_frontend'), "_"))
         {
-            $classname = $GLOBALS['midcom_config']['auth_frontend'];
+            $classname = midcom::get('config')->get('auth_frontend');
         }
         $this->_auth_frontend = new $classname();
     }
@@ -449,7 +447,7 @@ class midcom_services_auth
      */
     function request_sudo ($domain = null)
     {
-        if (! $GLOBALS['midcom_config']['auth_allow_sudo'])
+        if (! midcom::get('config')->get('auth_allow_sudo'))
         {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
             return false;
@@ -755,17 +753,18 @@ class midcom_services_auth
      */
     function get_user_by_name($name)
     {
+        $person_class = midcom::get('config')->get('person_class');
         if (method_exists('midgard_user', 'login'))
         {
             //Midgard2
             $mc = new midgard_collector('midgard_user', 'login', $name);
             $mc->set_key_property('person');
-            $mc->add_constraint('authtype', '=', $GLOBALS['midcom_config']['auth_type']);
+            $mc->add_constraint('authtype', '=', midcom::get('config')->get('auth_type'));
         }
         else
         {
             //Midgard1
-            $mc = new midgard_collector($GLOBALS['midcom_config']['person_class'], 'username', $name);
+            $mc = new midgard_collector($person_class, 'username', $name);
             $mc->set_key_property('guid');
         }
         $mc->execute();
@@ -775,7 +774,7 @@ class midcom_services_auth
             return false;
         }
 
-        $person = new $GLOBALS['midcom_config']['person_class'](key($keys));
+        $person = new $person_class(key($keys));
 
         return $this->get_user($person);
     }
@@ -803,7 +802,7 @@ class midcom_services_auth
         }
 
         // Seek user based on the primary email field
-        $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+        $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
         $qb->add_constraint('email', '=', $email);
 
         // FIXME: Some sites like maemo.org instead of deleting users just remove their account and prefix firstname by "DELETE "
@@ -831,7 +830,7 @@ class midcom_services_auth
                 return false;
             }
 
-            $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+            $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
             $qb->add_constraint('guid', 'IN', $person_guids);
 
             // FIXME: Some sites like maemo.org instead of deleting users just remove their account and prefix firstname by "DELETE "
@@ -1045,7 +1044,7 @@ class midcom_services_auth
 
     public function trusted_login($username)
     {
-        if ($GLOBALS['midcom_config']['auth_allow_trusted'] !== true)
+        if (midcom::get('config')->get('auth_allow_trusted') !== true)
         {
             debug_add("Trusted logins are prohibited", MIDCOM_LOG_ERROR);
             return false;
@@ -1090,7 +1089,7 @@ class midcom_services_auth
 
     private function _generate_http_response()
     {
-        if ($GLOBALS['midcom_config']['auth_login_form_httpcode'] == 200)
+        if (midcom::get('config')->get('auth_login_form_httpcode') == 200)
         {
             _midcom_header('HTTP/1.0 200 OK');
             return;

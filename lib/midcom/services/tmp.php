@@ -97,7 +97,7 @@ class midcom_services_tmp
         }
 
         // Check if the object has timeouted already.
-        $timeout = time() - $GLOBALS['midcom_config']['midcom_temporary_resource_timeout'];
+        $timeout = time() - midcom::get('config')->get('midcom_temporary_resource_timeout');
         if ($tmp->timestamp < $timeout)
         {
             debug_add("The temporary object {$id}  has exceeded its maximum lifetime, rejecting access and dropping it",

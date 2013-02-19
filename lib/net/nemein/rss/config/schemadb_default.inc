@@ -34,7 +34,7 @@
             'storage' => 'autoapprove',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-            'hidden' => !$GLOBALS['midcom_config']['metadata_approval'],
+            'hidden' => !midcom::get('config')->get('metadata_approval'),
         ),
         'defaultauthor' => array
         (

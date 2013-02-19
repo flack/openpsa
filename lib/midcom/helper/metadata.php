@@ -641,9 +641,9 @@ class midcom_helper_metadata
     function is_object_visible_onsite()
     {
         return
-        (   (   $GLOBALS['midcom_config']['show_hidden_objects']
+        (   (   midcom::get('config')->get('show_hidden_objects')
              || $this->is_visible())
-         && (   $GLOBALS['midcom_config']['show_unapproved_objects']
+         && (   midcom::get('config')->get('show_unapproved_objects')
              || $this->is_approved())
         );
     }
@@ -791,9 +791,9 @@ class midcom_helper_metadata
         }
 
         // $object is now populated too
-        $meta = new midcom_helper_metadata($guid, $object, $GLOBALS['midcom_config']['metadata_schema']);
+        $meta = new midcom_helper_metadata($guid, $object, midcom::get('config')->get('metadata_schema'));
 
-        if (count($_object_cache) >= $GLOBALS['midcom_config']['cache_module_nap_metadata_cachesize'])
+        if (count($_object_cache) >= midcom::get('config')->get('cache_module_nap_metadata_cachesize'))
         {
             array_shift($_object_cache);
         }
@@ -816,7 +816,7 @@ class midcom_helper_metadata
             return false;
         }
 
-        if (($this->get('locked') + ($GLOBALS['midcom_config']['metadata_lock_timeout'] * 60)) < time())
+        if (($this->get('locked') + (midcom::get('config')->get('metadata_lock_timeout') * 60)) < time())
         {
             // lock expired, explicitly clear lock
             $this->unlock();
@@ -847,7 +847,7 @@ class midcom_helper_metadata
 
         if (!$timeout)
         {
-            $timeout = $GLOBALS['midcom_config']['metadata_lock_timeout'];
+            $timeout = midcom::get('config')->get('metadata_lock_timeout');
         }
 
         if (!is_object($this->__object))

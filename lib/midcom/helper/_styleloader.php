@@ -181,7 +181,7 @@ class midcom_helper__styleloader
                         break;
                     }
 
-                    if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
+                    if (   midcom::get('config')->get('styleengine_relative_paths')
                         && $style->up == midcom_connection::get('style'))
                     {
                         // Relative path, stop before going to main Midgard style
@@ -214,7 +214,7 @@ class midcom_helper__styleloader
     {
         static $cached = array();
 
-        if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
+        if (   midcom::get('config')->get('styleengine_relative_paths')
             && $rootstyle == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host
@@ -645,9 +645,9 @@ class midcom_helper__styleloader
         }
         else
         {
-            if (isset($GLOBALS['midcom_config']['theme']))
+            if (midcom::get('config')->get('theme'))
             {
-                $filename = OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
+                $filename = OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') .  "/style/{$_element}.php";
                 if (file_exists($filename))
                 {
                     $_style = file_get_contents($filename);
@@ -684,7 +684,7 @@ class midcom_helper__styleloader
         $data =& midcom_core_context::get()->get_custom_key('request_data');
         $instance_id = false;
 
-        if (in_array('style', $GLOBALS['midcom_config']['cache_module_memcache_data_groups']))
+        if (in_array('style', midcom::get('config')->get('cache_module_memcache_data_groups')))
         {
             // Cache style elements
             $instance_id = $path;
@@ -696,7 +696,7 @@ class midcom_helper__styleloader
             }
         }
 
-        if ($GLOBALS['midcom_config']['wrap_style_show_with_name'])
+        if (midcom::get('config')->get('wrap_style_show_with_name'))
         {
             $_style = "\n<!-- Start of style '{$path}' -->\n" . $_style;
             $_style .= "\n<!-- End of style '{$path}' -->\n";
@@ -744,12 +744,12 @@ class midcom_helper__styleloader
         else
         {
             // Get style from sitewide per-component defaults.
-            $component = $topic->component;
-            if (isset($GLOBALS['midcom_config']['styleengine_default_styles'][$component]))
+            $styleengine_default_styles = midcom::get('config')->get('styleengine_default_styles');
+            if (isset($styleengine_default_styles[$topic->component]))
             {
-                $_st = $this->get_style_id_from_path($GLOBALS['midcom_config']['styleengine_default_styles'][$component]);
+                $_st = $this->get_style_id_from_path($styleengine_default_styles[$topic->component]);
             }
-            else if ($GLOBALS['midcom_config']['styleengine_relative_paths'])
+            else if (midcom::get('config')->get('styleengine_relative_paths'))
             {
                 $_st = midcom_connection::get('style');
             }

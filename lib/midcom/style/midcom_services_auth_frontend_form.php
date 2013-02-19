@@ -37,7 +37,7 @@ if (   isset($data['restored_form_data'])
     </div>
 </form>
 <?php
-if ($GLOBALS['midcom_config']['auth_openid_enable'])
+if (midcom::get('config')->get('auth_openid_enable'))
 {
     midcom::get('componentloader')->load_library('net.nemein.openid');
     $url = midcom::get()->get_host_prefix() . 'midcom-exec-net.nemein.openid/initiate.php';

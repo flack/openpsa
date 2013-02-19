@@ -82,7 +82,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     {
         if (is_null($this->lock_timeout))
         {
-            $this->lock_timeout = $GLOBALS['midcom_config']['metadata_lock_timeout'];
+            $this->lock_timeout = midcom::get('config')->get('metadata_lock_timeout');
         }
 
         return true;

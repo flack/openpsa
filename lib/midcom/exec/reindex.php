@@ -13,7 +13,7 @@
  */
 
 // IP Address Checks
-$ips = $GLOBALS['midcom_config']['indexer_reindex_allowed_ips'];
+$ips = midcom::get('config')->get('indexer_reindex_allowed_ips');
 $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
@@ -30,7 +30,7 @@ else
     midcom::get('auth')->require_admin_user();
 }
 
-if ($GLOBALS['midcom_config']['indexer_backend'] === false)
+if (midcom::get('config')->get('indexer_backend') === false)
 {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }

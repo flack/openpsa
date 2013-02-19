@@ -24,7 +24,7 @@
  *   to 80.
  * - <i>string mce_config_snippet:</i> Indicates the name of the snippet which holds the base
  *   configuration. This is looked up in the DM2 directory in SG-Config. This defaults to
- *   '$GLOBALS['midcom_config']['midcom_sgconfig_basedir']/midcom.helper.datamanager2/tinymce'.
+ *   midcom::get('config')->get('midcom_sgconfig_basedir') . '/midcom.helper.datamanager2/tinymce'.
  *   Any valid option for midcom_helper_misc::get_snippet_content() is allowed at this point.
  * - <i>string local_config:</i> Local configuration options which should overwrite the defaults
  *   from the config snippet. This defaults to an empty string.

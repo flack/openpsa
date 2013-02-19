@@ -341,7 +341,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
 
         // Save image to a temp file
-        $tmp_name = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'net_nehmer_blog_handler_api_email_');
+        $tmp_name = tempnam(midcom::get('config')->get('midcom_tempdir'), 'net_nehmer_blog_handler_api_email_');
         $fp = fopen($tmp_name, 'w');
 
         if (!fwrite($fp, $att['content']))

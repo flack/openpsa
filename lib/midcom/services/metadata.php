@@ -114,7 +114,7 @@ class midcom_services_metadata
         $context = midcom_core_context::get($context_id);
 
         // Append current topic to page class if enabled
-        if ($GLOBALS['midcom_config']['page_class_include_component'])
+        if (midcom::get('config')->get('page_class_include_component'))
         {
             $page_class .= ' ' . str_replace('.', '_', $context->get_key(MIDCOM_CONTEXT_COMPONENT));
         }
@@ -169,15 +169,15 @@ class midcom_services_metadata
         }
 
         // Approval attributes
-        if (   $GLOBALS['midcom_config']['metadata_approval']
+        if (   midcom::get('config')->get('metadata_approval')
             && !$object->metadata->is_approved())
         {
             $css_classes[] = 'unapproved';
         }
 
         // Hiding and scheduling attributes
-        if (   (   !$GLOBALS['midcom_config']['show_hidden_objects']
-                || $GLOBALS['midcom_config']['metadata_scheduling'])
+        if (   (   !midcom::get('config')->get('show_hidden_objects')
+                || midcom::get('config')->get('metadata_scheduling'))
             && !$object->metadata->is_visible())
         {
             $css_classes[] = 'hidden';
@@ -275,7 +275,7 @@ class midcom_services_metadata
         $view_metadata = $this->get_view_metadata();
         if ($view_metadata)
         {
-            foreach ($GLOBALS['midcom_config']['metadata_head_elements'] as $property => $metatag)
+            foreach (midcom::get('config')->get('metadata_head_elements') as $property => $metatag)
             {
                 $content = $view_metadata->get($property);
                 if ($content)
@@ -304,12 +304,12 @@ class midcom_services_metadata
             }
             // TODO: Add support for tags here
 
-            if ($GLOBALS['midcom_config']['metadata_opengraph'])
+            if (midcom::get('config')->get('metadata_opengraph'))
             {
                 $this->_add_opengraph_metadata($view_metadata);
             }
 
-            if ($GLOBALS['midcom_config']['positioning_enable'])
+            if (midcom::get('config')->get('positioning_enable'))
             {
                 // Load the positioning library
                 midcom::get('componentloader')->load_library('org.routamc.positioning');
@@ -380,7 +380,7 @@ class midcom_services_metadata
      */
     public function get_opengraph_types()
     {
-        if (!$GLOBALS['midcom_config']['metadata_opengraph'])
+        if (!midcom::get('config')->get('metadata_opengraph'))
         {
             return array();
         }
@@ -435,7 +435,7 @@ class midcom_services_metadata
      */
     public function get_opengraph_type_default($object = null)
     {
-        if (!$GLOBALS['midcom_config']['metadata_opengraph'])
+        if (!midcom::get('config')->get('metadata_opengraph'))
         {
             return '';
         }

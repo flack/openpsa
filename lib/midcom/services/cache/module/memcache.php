@@ -78,12 +78,12 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function _on_initialize()
     {
-        $this->_backend = $GLOBALS['midcom_config']['cache_module_memcache_backend'];
+        $this->_backend = midcom::get('config')->get('cache_module_memcache_backend');
 
         if ($this->_backend)
         {
-            $this->_data_groups = $GLOBALS['midcom_config']['cache_module_memcache_data_groups'];
-            $config = $GLOBALS['midcom_config']['cache_module_memcache_backend_config'];
+            $this->_data_groups = midcom::get('config')->get('cache_module_memcache_data_groups');
+            $config = midcom::get('config')->get('cache_module_memcache_backend_config');
             $config['driver'] = $this->_backend;
             $this->_cache = $this->_create_backend('module_memcache', $config);
         }

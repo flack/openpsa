@@ -487,7 +487,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_load_object($handler_id, $args, $data);
 
         $this->_load_schemadb();
-        if ($GLOBALS['midcom_config']['enable_ajax_editing'])
+        if (midcom::get('config')->get('enable_ajax_editing'))
         {
             // AJAX editing is possible
             $this->_load_controller('ajax');

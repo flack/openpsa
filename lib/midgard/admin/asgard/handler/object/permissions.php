@@ -73,7 +73,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_privileges[] = 'midgard:parameters';
         $this->_privileges[] = 'midgard:owner';
 
-        if ($GLOBALS['midcom_config']['metadata_approval'])
+        if (midcom::get('config')->get('metadata_approval'))
         {
             $this->_privileges[] = 'midcom:approve';
         }
@@ -150,7 +150,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = 'midcom.admin.folder:template_management';
             $this->_privileges[] = 'midcom:component_config';
             $this->_privileges[] = 'midcom:urlname';
-            if ($GLOBALS['midcom_config']['symlinks'])
+            if (midcom::get('config')->get('symlinks'))
             {
                 $this->_privileges[] = 'midcom.admin.folder:symlinks';
             }

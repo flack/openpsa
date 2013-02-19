@@ -253,7 +253,7 @@ class midcom_services_dbclassloader
 
             if (   substr($mgdschema_class, 0, 8) == 'midgard_'
                 || substr($mgdschema_class, 0, 12) == 'midcom_core_'
-                || $mgdschema_class == $GLOBALS['midcom_config']['person_class'])
+                || $mgdschema_class == midcom::get('config')->get('person_class'))
             {
                 $this->_midgard_classes[$mgdschema_class] = $midcom_class;
             }
@@ -435,7 +435,7 @@ class midcom_services_dbclassloader
         }
 
         $component = false;
-        if ($classname == $GLOBALS['midcom_config']['person_class'])
+        if ($classname == midcom::get('config')->get('person_class'))
         {
             $component = 'midcom';
         }

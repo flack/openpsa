@@ -179,11 +179,11 @@ class midcom_helper_misc
         switch ($element)
         {
             case 'title':
-                return $GLOBALS['midcom_config']['midcom_site_title'];
+                return midcom::get('config')->get('midcom_site_title');
             case 'content':
                 return '<(content)>';
             default:
-                $element_file = OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style' . midcom_connection::get_url('page_style') . "/{$element}.php";
+                $element_file = OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') . '/style' . midcom_connection::get_url('page_style') . "/{$element}.php";
 
                 if (!file_exists($element_file))
                 {
@@ -258,7 +258,7 @@ class midcom_helper_misc
      */
     public static function get_mimetype($filename)
     {
-        return exec("{$GLOBALS['midcom_config']['utility_file']} -ib {$filename} 2>/dev/null");
+        return exec(midcom::get('config')->get('utility_file') . " -ib {$filename} 2>/dev/null");
     }
 
     /**

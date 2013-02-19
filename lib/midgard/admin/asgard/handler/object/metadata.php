@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function load_schemadb()
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
+        $schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get('config')->get('metadata_schema'));
 
         if (   $this->_config->get('enable_review_dates')
             && !isset($schemadb['metadata']->fields['review_date']))

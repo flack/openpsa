@@ -202,7 +202,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
             );
         }
 
-        if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
+        if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
             && $object->_use_rcs)
         {
@@ -294,14 +294,14 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
             )
         );
         /** COPIED from midcom_services_toolbars */
-        if ($GLOBALS['midcom_config']['metadata_approval'])
+        if (midcom::get('config')->get('metadata_approval'))
         {
             $metadata = midcom_helper_metadata::retrieve($object);
             if (   $metadata
                 && $metadata->is_approved())
             {
                 $icon = 'stock-icons/16x16/page-approved.png';
-                if (   !$GLOBALS['midcom_config']['show_hidden_objects']
+                if (   !midcom::get('config')->get('show_hidden_objects')
                     && !$metadata->is_visible())
                 {
                     // Take scheduling into account
@@ -329,7 +329,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
             else
             {
                 $icon = 'stock-icons/16x16/page-notapproved.png';
-                if (   !$GLOBALS['midcom_config']['show_hidden_objects']
+                if (   !midcom::get('config')->get('show_hidden_objects')
                     && !$metadata->is_visible())
                 {
                     // Take scheduling into account

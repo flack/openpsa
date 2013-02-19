@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             return false;
         }
 
-        $tmpfile = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midcom_helper_datamanager2_type_php_');
+        $tmpfile = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom_helper_datamanager2_type_php_');
         $fp = fopen($tmpfile, 'w');
         fwrite($fp, $this->value);
         fclose($fp);

@@ -162,7 +162,7 @@ abstract class midcom_services_cache_backend
             $this->_auto_serialize = $this->_config['auto_serialize'];
         }
 
-        $this->_cache_dir = "{$GLOBALS['midcom_config']['cache_base_directory']}{$this->_config['directory']}";
+        $this->_cache_dir = midcom::get('config')->get('cache_base_directory') . $this->_config['directory'];
         $this->_check_cache_dir();
 
         $this->_on_initialize();
@@ -234,8 +234,8 @@ abstract class midcom_services_cache_backend
      */
     private function _check_cache_dir()
     {
-        if (   !file_exists($GLOBALS['midcom_config']['cache_base_directory'])
-            && !@mkdir($GLOBALS['midcom_config']['cache_base_directory'], 0755))
+        if (   !file_exists(midcom::get('config')->get('cache_base_directory'))
+            && !@mkdir(midcom::get('config')->get('cache_base_directory'), 0755))
         {
             throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
         }

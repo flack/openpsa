@@ -44,7 +44,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private function _load_datamanager()
     {
-        if ($GLOBALS['midcom_config']['enable_ajax_editing'])
+        if (midcom::get('config')->get('enable_ajax_editing'))
         {
             $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
             $this->_controller->schemadb =& $this->_request_data['schemadb'];

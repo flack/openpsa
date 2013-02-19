@@ -188,7 +188,7 @@ class midcom_core_user
      */
     private function _load($id)
     {
-        $person_class = $GLOBALS['midcom_config']['person_class'];
+        $person_class = midcom::get('config')->get('person_class');
 
         if (is_string($id))
         {

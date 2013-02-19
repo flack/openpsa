@@ -57,7 +57,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
      */
     private function _is_ajax_editable()
     {
-        if (!$GLOBALS['midcom_config']['enable_ajax_editing'])
+        if (!midcom::get('config')->get('enable_ajax_editing'))
         {
             // AJAX editing is globally disabled
             $this->_editable = false;

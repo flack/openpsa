@@ -60,7 +60,7 @@ class midcom_services_cache
      */
     public function __construct()
     {
-        foreach ($GLOBALS['midcom_config']['cache_autoload_queue'] as $name)
+        foreach (midcom::get('config')->get('cache_autoload_queue') as $name)
         {
             $this->load_module($name);
         }

@@ -57,7 +57,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         $return = parent::get_plugin_handlers();
 
-        if ($GLOBALS['midcom_config']['symlinks'])
+        if (midcom::get('config')->get('symlinks'))
         {
             /**
              * Create a new topic symlink
@@ -157,16 +157,14 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
             if (   $component !== $parent_component
                 && !$all)
             {
-                if (   isset($GLOBALS['midcom_config']['component_listing_allowed'])
-                    && is_array($GLOBALS['midcom_config']['component_listing_allowed'])
-                    && !in_array($component, $GLOBALS['midcom_config']['component_listing_allowed']))
+                if (   is_array(midcom::get('config')->get('component_listing_allowed'))
+                    && !in_array($component, midcom::get('config')->get('component_listing_allowed')))
                 {
                     continue;
                 }
 
-                if (   isset($GLOBALS['midcom_config']['component_listing_excluded'])
-                    && is_array($GLOBALS['midcom_config']['component_listing_excluded'])
-                    && in_array($component, $GLOBALS['midcom_config']['component_listing_excluded']))
+                if (   is_array(midcom::get('config')->get('component_listing_excluded'))
+                    && in_array($component, midcom::get('config')->get('component_listing_excluded')))
                 {
                     continue;
                 }
@@ -189,7 +187,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         // Give an option for creating a new layout template
         $style_array['__create'] = midcom::get('i18n')->get_string('new layout template', 'midcom.admin.folder');
 
-        if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
+        if (   midcom::get('config')->get('styleengine_relative_paths')
             && $up == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host

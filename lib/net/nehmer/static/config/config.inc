@@ -32,7 +32,7 @@
 'simple_name_handling' => true,
 
 // Set this to true if you want to enable on-site AJAX editing
-'enable_ajax_editing' => $GLOBALS['midcom_config']['enable_ajax_editing'],
+'enable_ajax_editing' => midcom::get('config')->get('enable_ajax_editing'),
 
 // Page linking system
 'enable_article_links' => false,

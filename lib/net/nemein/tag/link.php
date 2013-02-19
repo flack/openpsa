@@ -146,7 +146,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
      */
     private function _geotag()
     {
-        if (!$GLOBALS['midcom_config']['positioning_enable'])
+        if (!midcom::get('config')->get('positioning_enable'))
         {
             return false;
         }

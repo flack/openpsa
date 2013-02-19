@@ -259,7 +259,7 @@ class midcom_helper_nav
         }
 
         $guid = $parent_node[MIDCOM_NAV_GUID];
-        if ($GLOBALS['midcom_config']['symlinks'])
+        if (midcom::get('config')->get('symlinks'))
         {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }

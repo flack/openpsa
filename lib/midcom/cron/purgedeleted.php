@@ -14,7 +14,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
     public function _on_execute()
     {
         debug_add('called!');
-        $cut_off = mktime(23, 59, 59, date('n'), date('j')-$GLOBALS['midcom_config']['cron_purge_deleted_after'], date('Y'));
+        $cut_off = mktime(23, 59, 59, date('n'), date('j') - midcom::get('config')->get('cron_purge_deleted_after'), date('Y'));
         foreach (midcom_connection::get_schema_types() as $mgdschema)
         {
             if (substr($mgdschema, 0, 2) == '__')

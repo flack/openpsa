@@ -111,7 +111,7 @@ abstract class midcom_core_dbaobject
             }
 
             //Some useful information for performance tuning
-            if (   $GLOBALS['midcom_config']['log_level'] >= MIDCOM_LOG_DEBUG
+            if (   midcom::get('config')->get('log_level') >= MIDCOM_LOG_DEBUG
                 && $this->__object->guid)
             {
                 static $guids = array();

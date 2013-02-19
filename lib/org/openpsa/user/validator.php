@@ -84,7 +84,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
     public function email_exists(array $fields)
     {
         $result = array();
-        $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+        $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
         $qb->add_constraint('email', '=', $fields["email"]);
         $count = $qb->count();
         if ($count == 0)
@@ -119,7 +119,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
         }
         else
         {
-            $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+            $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
             $qb->add_constraint('email', '=', $fields["email"]);
             $qb->add_constraint('guid', '=', $user->guid);
             $count = $qb->count();

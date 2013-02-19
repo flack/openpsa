@@ -78,7 +78,7 @@
             (
                 'title' => 'display settings'
             ),
-            'hidden' => $GLOBALS['midcom_config']['symlinks'],
+            'hidden' => midcom::get('config')->get('symlinks'),
         ),
 
         'sort_order' => array
@@ -131,7 +131,7 @@
                 ),
             ),
             'widget' => 'select',
-            'hidden' => !$GLOBALS['midcom_config']['enable_ajax_editing'],
+            'hidden' => !midcom::get('config')->get('enable_ajax_editing'),
         ),
 
         'hide_navigation' => array

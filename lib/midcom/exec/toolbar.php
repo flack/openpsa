@@ -12,7 +12,7 @@ $y = 'false';
 if (   !isset($_REQUEST['position_x'])
     || !isset($_REQUEST['position_y']))
 {
-    switch ($GLOBALS['midcom_config']['toolbars_position_storagemode'])
+    switch (midcom::get('config')->get('toolbars_position_storagemode'))
     {
         case 'parameter':
             $person = new midcom_db_person(midcom::get('auth')->user);
@@ -42,7 +42,7 @@ if (   !isset($_REQUEST['position_x'])
 }
 
 // Interface for storing the toolbar position
-switch ($GLOBALS['midcom_config']['toolbars_position_storagemode'])
+switch (midcom::get('config')->get('toolbars_position_storagemode'))
 {
     case 'parameter':
         $person = new midcom_db_person(midcom::get('auth')->user);

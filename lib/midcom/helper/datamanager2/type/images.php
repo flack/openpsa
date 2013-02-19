@@ -844,7 +844,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         switch (strtolower($extension))
         {
             case 'zip':
-                $extract_cmd = "{$GLOBALS['midcom_config']['utility_unzip']} -q -b -L -o {$new_name} -d {$tmp_dir}";
+                $extract_cmd = midcom::get('config')->get('utility_unzip') . " -q -b -L -o {$new_name} -d {$tmp_dir}";
                 break;
             case 'tgz':
             case 'tar.gz':

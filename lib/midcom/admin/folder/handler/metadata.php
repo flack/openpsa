@@ -43,7 +43,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      */
     private function _load_datamanager()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
+        $this->_schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get('config')->get('metadata_schema'));
 
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;

@@ -109,7 +109,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/{$component}/config");
         if ($cfg !== false)
         {
             $config->store($cfg, false);
@@ -300,7 +300,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _check_config($config)
     {
-        $tmpfile = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midgard_admin_asgard_handler_component_configuration_');
+        $tmpfile = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
         $fp = fopen($tmpfile, 'w');
         fwrite($fp, "<?php\n\$data = array({$config}\n);\n?>");
         fclose($fp);
@@ -322,25 +322,26 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _save_snippet($config)
     {
+        $basedir = midcom::get('config')->get('midcom_sgconfig_basedir');
         $sg_snippetdir = new midcom_db_snippetdir();
-        $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
+        $sg_snippetdir->get_by_path($basedir);
         if (!$sg_snippetdir->guid)
         {
             // Create SG config snippetdir
             $sd = new midcom_db_snippetdir();
             $sd->up = 0;
-            $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
+            $sd->name = $basedir;
             // remove leading slash from name
             $sd->name = preg_replace("/^\//", "", $sd->name);
             if (!$sd->create())
             {
-                throw new midcom_error("Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create snippetdir {$basedir}: " . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
         $lib_snippetdir = new midcom_db_snippetdir();
-        $lib_snippetdir->get_by_path("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$this->_request_data['name']}");
+        $lib_snippetdir->get_by_path("{$basedir}/{$this->_request_data['name']}");
         if (!$lib_snippetdir->guid)
         {
             $sd = new midcom_db_snippetdir();
@@ -348,13 +349,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sd->name = $this->_request_data['name'];
             if (!$sd->create())
             {
-                throw new midcom_error("Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}: " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create snippetdir {$basedir}/{$data['name']}: " . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
         $snippet = new midcom_db_snippet();
-        $snippet->get_by_path("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$this->_request_data['name']}/config");
+        $snippet->get_by_path("{$basedir}/{$this->_request_data['name']}/config");
         if ($snippet->id == false)
         {
             $sn = new midcom_db_snippet();

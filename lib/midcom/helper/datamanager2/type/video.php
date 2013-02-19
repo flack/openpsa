@@ -294,7 +294,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             $src = $this->attachments['main']->open('r');
         }
         // Create tmp file and copy by handles
-        $this->_original_tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_image");
+        $this->_original_tmpname = tempnam(midcom::get('config')->get('midcom_tempdir'), "midcom_helper_datamanager2_type_image");
         $dst = fopen($this->_original_tmpname, 'w+');
         if (   !$src
             || !$dst)

@@ -278,7 +278,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name']))
             {
                 // Copy the file for later processing
-                $data['tmp_file'] = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'org_openpsa_products_import_csv');
+                $data['tmp_file'] = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_products_import_csv');
                 $src = fopen($_FILES['org_openpsa_products_import_upload']['tmp_name'], 'r');
                 $dst = fopen($data['tmp_file'], 'w+');
                 while (! feof($src))

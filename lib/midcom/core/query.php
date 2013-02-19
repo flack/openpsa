@@ -117,7 +117,7 @@ abstract class midcom_core_query
             return;
         }
 
-        if (!$GLOBALS['midcom_config']['show_hidden_objects'])
+        if (!midcom::get('config')->get('show_hidden_objects'))
         {
             $this->add_constraint('metadata.hidden', '=', false);
             $now = strftime('%Y-%m-%d %H:%M:%S');

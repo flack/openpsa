@@ -75,7 +75,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     private function _delete_topic_update_index()
     {
-        if ($GLOBALS['midcom_config']['indexer_backend'] === false)
+        if (midcom::get('config')->get('indexer_backend') === false)
         {
             // Indexer is not configured.
             return;
@@ -152,7 +152,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     private function _process_delete_form()
     {
-        if ($GLOBALS['midcom_config']['symlinks'])
+        if (midcom::get('config')->get('symlinks'))
         {
             midcom::get('auth')->request_sudo('midcom.admin.folder');
             $qb_topic = midcom_db_topic::new_query_builder();

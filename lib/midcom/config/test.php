@@ -84,7 +84,7 @@ class midcom_config_test
 
     public function check_for_utility ($testname, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')
     {
-        $executable = $GLOBALS['midcom_config']["utility_{$testname}"];
+        $executable = midcom::get('config')->get("utility_{$testname}");
         if (is_null($executable))
         {
             $this->println($testname, $fail_code, "The path to the utility {$testname} is not configured. {$fail_recommendations}");
@@ -145,17 +145,18 @@ class midcom_config_test
         }
 
         // Validate the Cache Base Directory.
-        if  (! is_dir($GLOBALS['midcom_config']['cache_base_directory']))
+        $cachedir = midcom::get('config')->get('cache_base_directory');
+        if  (! is_dir($cachedir))
         {
-            $this->println('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$GLOBALS['midcom_config']['cache_base_directory']}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
+            $this->println('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
         }
-        else if (! is_writable($GLOBALS['midcom_config']['cache_base_directory']))
+        else if (! is_writable($cachedir))
         {
-            $this->println('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$GLOBALS['midcom_config']['cache_base_directory']}) is not writable by the Apache user. You have to create it as a directory writable by the Apache user.");
+            $this->println('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) is not writable by the Apache user. You have to create it as a directory writable by the Apache user.");
         }
         else
         {
-            $this->println('MidCOM cache base directory', self::OK, $GLOBALS['midcom_config']['cache_base_directory']);
+            $this->println('MidCOM cache base directory', self::OK, $cachedir);
         }
 
         $this->_check_rcs();
@@ -267,7 +268,7 @@ class midcom_config_test
         }
         else
         {
-            if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] == '')
+            if (!midcom::get('config')->get('cache_module_memcache_backend'))
             {
                 $this->println('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
             }

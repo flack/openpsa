@@ -150,7 +150,7 @@ class midcom_core_querybuilder extends midcom_core_query
 
             // Check approval
             if (   $this->hide_invisible
-                && !$GLOBALS['midcom_config']['show_unapproved_objects']
+                && !midcom::get('config')->get('show_unapproved_objects')
                 && !$object->__object->is_approved())
             {
                 continue;

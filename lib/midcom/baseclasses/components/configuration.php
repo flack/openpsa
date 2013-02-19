@@ -85,7 +85,7 @@ class midcom_baseclasses_components_configuration
      *
      * 1. The component's default configuration, placed in $prefix/config/config.inc
      * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/config.inc.
-     * 3. Any site configuration in the snippet $GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/config.
+     * 3. Any site configuration in the snippet midcom::get('config')->get('midcom_sgconfig_basedir')/$component/config.
      *
      * @see midcom_helper_configuration
      */
@@ -119,7 +119,7 @@ class midcom_baseclasses_components_configuration
         }
 
         // Finally, check the sitegroup config
-        $sn_data = self::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
+        $sn_data = self::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/{$component}/config");
         if ($sn_data !== false)
         {
             $data = array_merge($data, $sn_data);

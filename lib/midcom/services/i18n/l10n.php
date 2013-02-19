@@ -201,7 +201,7 @@ class midcom_services_i18n_l10n
         $this->_stringdb[$lang] = array();
         $filename = "{$this->_library_filename}.{$lang}.txt";
 
-        if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
+        if (midcom::get('config')->get('cache_module_memcache_backend') != 'flatfile')
         {
             $stringtable = midcom::get('cache')->memcache->get('L10N', $filename);
             if (is_array($stringtable))
@@ -225,7 +225,7 @@ class midcom_services_i18n_l10n
         $data = file($filename);
 
         // get site-specific l10n
-        $component_locale = midcom_helper_misc::get_snippet_content_graceful($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name . "/l10n/" . $lang);
+        $component_locale = midcom_helper_misc::get_snippet_content_graceful(midcom::get('config')->get('midcom_sgconfig_basedir') . "/" . $this->_component_name . "/l10n/" . $lang);
         if (!empty($component_locale))
         {
             $data = array_merge($data, explode("\n", $component_locale));
@@ -301,7 +301,7 @@ class midcom_services_i18n_l10n
 
                         default:
                             $line++; // Array is 0-indexed
-                            if (   empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek'])
+                            if (   !midcom::get('config')->get('midcom_compat_ragnaroek')
                                 || $command !== 'CVS')
                             {
                                 throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
@@ -352,7 +352,7 @@ class midcom_services_i18n_l10n
         ksort($stringtable, SORT_STRING);
         $this->_stringdb[$lang] = array_merge($this->_stringdb[$lang], $stringtable);
 
-        if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
+        if (midcom::get('config')->get('cache_module_memcache_backend') != 'flatfile')
         {
             midcom::get('cache')->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
         }

@@ -48,7 +48,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     {
         parent::__construct();
 
-        if ($GLOBALS['midcom_config']['indexer_backend'] == false)
+        if (!midcom::get('config')->get('indexer_backend'))
         {
             return;
         }

@@ -78,7 +78,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
         }
 
         // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}/config");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/{$data['name']}/config");
         if ($cfg !== false)
         {
             $config->store($cfg, false);

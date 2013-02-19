@@ -52,8 +52,8 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
      */
     public function _on_initialize()
     {
-        $this->_cache_dir = $GLOBALS['midcom_config']['cache_base_directory']
-            . $GLOBALS['midcom_config']['cache_module_phpscripts_directory'];
+        $this->_cache_dir = midcom::get('config')->get('cache_base_directory')
+            . midcom::get('config')->get('cache_module_phpscripts_directory');
 
         if (! file_exists($this->_cache_dir))
         {

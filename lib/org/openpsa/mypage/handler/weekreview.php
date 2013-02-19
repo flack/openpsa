@@ -158,7 +158,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     private function _list_positions_between(&$data_array, $person, $from, $to)
     {
-        if (!$GLOBALS['midcom_config']['positioning_enable'])
+        if (!midcom::get('config')->get('positioning_enable'))
         {
             return false;
         }

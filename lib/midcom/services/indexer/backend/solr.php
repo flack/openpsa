@@ -42,7 +42,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     {
         if (is_null($index_name))
         {
-            $this->_index_name = $GLOBALS['midcom_config']['indexer_index_name'];
+            $this->_index_name = midcom::get('config')->get('indexer_index_name');
             if ($this->_index_name == 'auto')
             {
                 $this->_index_name = midcom_connection::get_unique_host_name();
@@ -139,7 +139,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             $query .= ' AND ' . $filter->get_query_string();
         }
 
-        $url = "http://{$GLOBALS['midcom_config']['indexer_xmltcp_host']}:{$GLOBALS['midcom_config']['indexer_xmltcp_port']}/solr/select";
+        $url = 'http://' . midcom::get('config')->get('indexer_xmltcp_host') . ':' . midcom::get('config')->get('indexer_xmltcp_port') . '/solr/select';
 
         $request = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
         $url = $request->getUrl();
@@ -242,7 +242,7 @@ class midcom_services_indexer_solrDocumentFactory
     {
         if (is_null($index_name))
         {
-            $this->_index_name = $GLOBALS['midcom_config']['indexer_index_name'];
+            $this->_index_name = midcom::get('config')->get('indexer_index_name');
             if ($this->_index_name == 'auto')
             {
                 $this->_index_name = midcom_connection::get_unique_host_name();
@@ -377,8 +377,8 @@ class midcom_services_indexer_solrRequest
      */
     function do_post($xml, $optimize = false)
     {
-        $url = "http://" . $GLOBALS['midcom_config']['indexer_xmltcp_host'] .
-            ":" . $GLOBALS['midcom_config']['indexer_xmltcp_port'] . "/solr/update";
+        $url = "http://" . midcom::get('config')->get('indexer_xmltcp_host') .
+            ":" . midcom::get('config')->get('indexer_xmltcp_port') . "/solr/update";
         $this->request = new HTTP_Request2($url, HTTP_Request2::METHOD_POST);
 
         $this->request->setBody($xml);

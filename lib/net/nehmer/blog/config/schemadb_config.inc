@@ -327,7 +327,7 @@
                     ),
                 ),
                 'widget' => 'radiocheckselect',
-                'hidden' => !$GLOBALS['midcom_config']['enable_ajax_editing'],
+                'hidden' => !midcom::get('config')->get('enable_ajax_editing'),
             ),
             'rss_subscription_enable' => array
             (
@@ -442,7 +442,7 @@
                     ),
                 ),
                 'end_fieldset' => 1,
-                'hidden' => $GLOBALS['midcom_config']['symlinks'],
+                'hidden' => midcom::get('config')->get('symlinks'),
             ),
             'show_latest_in_navigation' => array
             (

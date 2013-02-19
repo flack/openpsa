@@ -430,10 +430,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         if (   $this->_config
             && $this->_config->get('include_metadata_required')
             && $this->_schemadb_path
-            && $this->_schemadb_path != $GLOBALS['midcom_config']['metadata_schema'])
+            && $this->_schemadb_path != midcom::get('config')->get('metadata_schema'))
         {
             // Include required fields from metadata schema to the schema
-            $metadata_schema = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
+            $metadata_schema = midcom_helper_datamanager2_schema::load_database(midcom::get('config')->get('metadata_schema'));
             if (isset($metadata_schema['metadata']))
             {
                 $prepended = false;

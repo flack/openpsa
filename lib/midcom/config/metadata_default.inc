@@ -29,7 +29,7 @@
                 'name'     => 'opengraph_type',
             ),
             'default' => midcom::get('metadata')->get_opengraph_type_default(),
-            'hidden' => ! $GLOBALS['midcom_config']['metadata_opengraph'],
+            'hidden' => ! midcom::get('config')->get('metadata_opengraph'),
         ),
         'navnoentry' => array
         (
@@ -55,11 +55,11 @@
                 'name' => "do_not_index",
             ),
             'widget' => 'checkbox',
-            'hidden' => !$GLOBALS['midcom_config']['indexer_backend'],
+            'hidden' => !midcom::get('config')->get('indexer_backend'),
         ),
         'schedulestart' => array
         (
-            'hidden' => ! $GLOBALS['midcom_config']['metadata_scheduling'],
+            'hidden' => ! midcom::get('config')->get('metadata_scheduling'),
             'title' => 'schedule start',
             'type' => 'date',
             'type_config' => array
@@ -72,7 +72,7 @@
         ),
         'scheduleend' => array
         (
-            'hidden' => ! $GLOBALS['midcom_config']['metadata_scheduling'],
+            'hidden' => ! midcom::get('config')->get('metadata_scheduling'),
             'title' => 'schedule end',
             'type' => 'date',
             'type_config' => array
@@ -365,11 +365,11 @@
             ),
             'widget' => 'jsdate',
             'readonly' => true,
-            'hidden' => ! $GLOBALS['midcom_config']['metadata_approval'],
+            'hidden' => ! midcom::get('config')->get('metadata_approval'),
         ),
         'approver' => array
         (
-            'hidden' => ! $GLOBALS['midcom_config']['metadata_approval'],
+            'hidden' => ! midcom::get('config')->get('metadata_approval'),
             'title' => 'approver',
             'storage' => 'metadata',
             'type' => 'select',

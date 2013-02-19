@@ -767,7 +767,7 @@ class midcom_services_auth_acl
         }
 
         // printing debug-statements if object doesn't override base privileges
-        if ($GLOBALS['midcom_config']['log_level'] >= MIDCOM_LOG_DEBUG)
+        if (midcom::get('config')->get('log_level') >= MIDCOM_LOG_DEBUG)
         {
             foreach ($base_privileges as $name => $value)
             {

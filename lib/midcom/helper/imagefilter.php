@@ -78,7 +78,7 @@ class midcom_helper_imagefilter
      */
     function create_tmp_copy($input)
     {
-        $tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midcom_helper_imagefilter_');
+        $tmpname = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom_helper_imagefilter_');
 
         if (is_string($input))
         {
@@ -144,7 +144,7 @@ class midcom_helper_imagefilter
         {
             return $return;
         }
-        $convert_cmd = escapeshellcmd("{$GLOBALS['midcom_config']['utility_imagemagick_base']}convert -version");
+        $convert_cmd = escapeshellcmd(midcom::get('config')->get('utility_imagemagick_base') . "convert -version");
         $output = array();
         $ret = null;
         exec($convert_cmd, $output, $ret);
@@ -165,12 +165,12 @@ class midcom_helper_imagefilter
         {
             return $return;
         }
-        if (empty($GLOBALS['midcom_config']['utility_jpegtran']))
+        if (!midcom::get('config')->get('utility_jpegtran'))
         {
             $return = false;
             return $return;
         }
-        $convert_cmd = escapeshellcmd("{$GLOBALS['midcom_config']['utility_jpegtran']} -h");
+        $convert_cmd = escapeshellcmd(midcom::get('config')->get('utility_jpegtran') . " -h");
         $output = array();
         $ret = null;
         exec($convert_cmd, $output, $ret);
@@ -398,7 +398,7 @@ class midcom_helper_imagefilter
      */
     private function _get_tempfile()
     {
-        return tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_imagefilter");
+        return tempnam(midcom::get('config')->get('midcom_tempdir'), "midcom_helper_imagefilter");
     }
 
     /**
@@ -468,7 +468,7 @@ class midcom_helper_imagefilter
      */
     public function gamma($gamma)
     {
-        $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -gamma "
+        $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -gamma "
             . escapeshellarg($gamma) . " " . escapeshellarg($this->_filename);
 
         exec($cmd, $output, $exit_code);
@@ -502,7 +502,7 @@ class midcom_helper_imagefilter
     {
         $tempfile = $this->_get_tempfile();
 
-        $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}convert {$this->_quality} "
+        $cmd = midcom::get('config')->get('utility_imagemagick_base') . "convert {$this->_quality} "
             . escapeshellarg("{$this->_filename}[0]") . " {$format}:{$tempfile}";
 
         exec($cmd, $output, $exit_code);
@@ -588,7 +588,7 @@ class midcom_helper_imagefilter
 
             $tmpfile = $this->_get_tempfile();
             $do_unlink = true;
-            $cmd = "{$GLOBALS['midcom_config']['utility_jpegtran']} -copy all {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
+            $cmd = midcom::get('config')->get('utility_jpegtran') . " -copy all {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
         }
         else
         {
@@ -610,7 +610,7 @@ class midcom_helper_imagefilter
                     return true;
             }
 
-            $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} {$rotate} "
+            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} {$rotate} "
                 . escapeshellarg($this->_filename);
         }
 
@@ -674,14 +674,14 @@ class midcom_helper_imagefilter
         {
             $tmpfile = $this->_get_tempfile();
             $do_unlink = true;
-            $cmd = "{$GLOBALS['midcom_config']['utility_jpegtran']} -copy all -rotate {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
+            $cmd = midcom::get('config')->get('utility_jpegtran') . " -copy all -rotate {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
         }
         else
         {
             /* Mogrify */
             debug_add("jpegtran not found or rotation incompatible, falling back to mogrify.");
 
-            $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -rotate {$rotate} " . escapeshellarg($this->_filename);
+            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -rotate {$rotate} " . escapeshellarg($this->_filename);
         }
 
         debug_add("We have to rotate clockwise by {$rotate} degrees, do_unlink: {$do_unlink}");
@@ -744,7 +744,7 @@ class midcom_helper_imagefilter
         }
         $geo = "-geometry " . escapeshellarg($geo);
 
-        $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} {$geo} "
+        $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} {$geo} "
             . escapeshellarg($this->_filename);
 
         $output = null;
@@ -802,7 +802,7 @@ class midcom_helper_imagefilter
         else
         {
             // If image data was not available, try to get it with identify program
-            $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}identify -verbose {$this->_filename}";
+            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "identify -verbose {$this->_filename}";
             exec($cmd, $output, $exit_code);
 
             if ($exit_code !== 0)
@@ -824,7 +824,7 @@ class midcom_helper_imagefilter
 
         // Get resize ratio in relations to the original
         $ratio = str_replace(',', '.', 100 * max($x / $size_x, $y / $size_y));
-        $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -resize {$ratio}% -gravity {$gravity} -crop {$x}x{$y}+0+0 +repage " . escapeshellarg($this->_filename);
+        $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -resize {$ratio}% -gravity {$gravity} -crop {$x}x{$y}+0+0 +repage " . escapeshellarg($this->_filename);
         exec($cmd, $output, $exit_code);
 
         if ($exit_code !== 0)
@@ -855,7 +855,7 @@ class midcom_helper_imagefilter
             return false;
         }
 
-        $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -resize '{$x}x{$y}' -background '{$color}' -gravity {$gravity} -extent {$x}x{$y} +repage " . escapeshellarg($this->_filename);
+        $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -resize '{$x}x{$y}' -background '{$color}' -gravity {$gravity} -extent {$x}x{$y} +repage " . escapeshellarg($this->_filename);
 
         $output = null;
         $exit_code = 0;

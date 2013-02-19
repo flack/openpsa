@@ -443,7 +443,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private function _get_mimetype($content, $name = 'unknown')
     {
-        $filename = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'org_openpsa_mail_') . "_{$name}";
+        $filename = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_mail_') . "_{$name}";
         $fp = fopen($filename, 'w');
         if (!$fp)
         {

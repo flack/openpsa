@@ -68,7 +68,7 @@ if (count($categories) > 1)
     $item->category = $categories[1];
 }
 
-if ($GLOBALS['midcom_config']['positioning_enable'])
+if (midcom::get('config')->get('positioning_enable'))
 {
     // Attach coordinates to the item if available
     $object_position = new org_routamc_positioning_object($data['article']);

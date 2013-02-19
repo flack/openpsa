@@ -112,7 +112,7 @@ class midcom_services_permalinks
             }
             else
             {
-                return "{$GLOBALS['midcom_config']['midcom_site_url']}midcom-serveattachmentguid-{$object->guid}/{$object->name}";
+                return midcom::get('config')->get('midcom_site_url') . "midcom-serveattachmentguid-{$object->guid}/{$object->name}";
             }
         }
 
@@ -209,7 +209,7 @@ class midcom_services_permalinks
      */
     function create_permalink($guid)
     {
-        return "{$GLOBALS['midcom_config']['midcom_site_url']}midcom-permalink-{$guid}";
+        return midcom::get('config')->get('midcom_site_url') . "midcom-permalink-{$guid}";
     }
 }
 ?>

@@ -41,7 +41,7 @@ else
         }
 
         // Save image to a temp file
-        $tmp_name = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'org_openpsa_products_product_oldimage_');
+        $tmp_name = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_products_product_oldimage_');
         $fp = fopen($tmp_name, 'w');
 
         if (!fwrite($fp, $image))

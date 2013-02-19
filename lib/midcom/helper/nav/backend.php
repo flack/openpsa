@@ -441,8 +441,8 @@ class midcom_helper_nav_backend
         }
 
         // Rewrite all host dependant URLs based on the relative URL within our topic tree.
-        $nodedata[MIDCOM_NAV_FULLURL] = "{$GLOBALS['midcom_config']['midcom_site_url']}{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
-        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = midcom_connection::get_url('self') . "{$nodedata[MIDCOM_NAV_RELATIVEURL]}";
+        $nodedata[MIDCOM_NAV_FULLURL] = midcom::get('config')->get('midcom_site_url') . $nodedata[MIDCOM_NAV_RELATIVEURL];
+        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = midcom_connection::get_url('self') . $nodedata[MIDCOM_NAV_RELATIVEURL];
         $nodedata[MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($nodedata[MIDCOM_NAV_GUID]);
 
         return $nodedata;
@@ -471,7 +471,7 @@ class midcom_helper_nav_backend
         $urltopic = $topic;
         $id = $this->_nodeid($urltopic->id, $up);
 
-        if (   $GLOBALS['midcom_config']['symlinks']
+        if (   midcom::get('config')->get('symlinks')
             && !empty($urltopic->symlink))
         {
             $topic = new midcom_core_dbaproxy($urltopic->symlink, 'midcom_db_topic');
@@ -780,7 +780,7 @@ class midcom_helper_nav_backend
      */
     private function _update_leaflist_urls(array &$leaves)
     {
-        $fullprefix = "{$GLOBALS['midcom_config']['midcom_site_url']}";
+        $fullprefix = midcom::get('config')->get('midcom_site_url');
         $absoluteprefix = midcom_connection::get_url('self');
 
         foreach ($leaves as $id => $copy)
@@ -844,7 +844,7 @@ class midcom_helper_nav_backend
 
         // Use midgard_collector to get the subnodes
         $id = (int) $parent_node;
-        if ($GLOBALS['midcom_config']['symlinks'])
+        if (midcom::get('config')->get('symlinks'))
         {
             $id = self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id;
         }
@@ -916,7 +916,7 @@ class midcom_helper_nav_backend
         $node = (int) $parent_node;
 
         if (   $up
-            || (   $GLOBALS['midcom_config']['symlinks']
+            || (   midcom::get('config')->get('symlinks')
                 && $node != self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id))
         {
             $up = $this->_nodeid($node, $up);
@@ -1301,8 +1301,8 @@ class midcom_helper_nav_backend
 
         // Check the Metadata if and only if we are configured to do so.
         if (   is_object($napdata[MIDCOM_NAV_OBJECT])
-            && (   $GLOBALS['midcom_config']['show_hidden_objects'] == false
-                || $GLOBALS['midcom_config']['show_unapproved_objects'] == false))
+            && (   midcom::get('config')->get('show_hidden_objects') == false
+                || midcom::get('config')->get('show_unapproved_objects') == false))
         {
             // Check Hiding, Scheduling and Approval
             $metadata = $napdata[MIDCOM_NAV_OBJECT]->metadata;

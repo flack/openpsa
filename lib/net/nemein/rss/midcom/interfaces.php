@@ -20,7 +20,7 @@ class net_nemein_rss_interface extends midcom_baseclasses_components_interface
     {
         // RSS bandwidth usage settings
         define('MAGPIE_CACHE_ON', false);
-        define('MAGPIE_CACHE_DIR', $GLOBALS['midcom_config']['midcom_tempdir']);
+        define('MAGPIE_CACHE_DIR', midcom::get('config')->get('midcom_tempdir'));
         // $midcom->cache->expires must match this
         //define('MAGPIE_CACHE_AGE', 1800);
 

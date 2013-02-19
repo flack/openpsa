@@ -108,7 +108,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $this->_load_product($handler_id, $args);
 
-        if ($GLOBALS['midcom_config']['enable_ajax_editing'])
+        if (midcom::get('config')->get('enable_ajax_editing'))
         {
             $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
             $data['controller']->schemadb =& $data['schemadb_product'];

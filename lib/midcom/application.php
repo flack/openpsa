@@ -86,7 +86,7 @@ class midcom_application
         // Initialize Root Topic
         try
         {
-            $root_node = midcom_db_topic::get_cached($GLOBALS['midcom_config']['midcom_root_topic_guid']);
+            $root_node = midcom_db_topic::get_cached(midcom::get('config')->get('midcom_root_topic_guid'));
         }
         catch (midcom_error $e)
         {
@@ -106,7 +106,7 @@ class midcom_application
                 {
                     throw new midcom_error
                     (
-                        "Fatal error: Unable to load website root folder with GUID '{$GLOBALS['midcom_config']['midcom_root_topic_guid']}'.<br />" .
+                        "Fatal error: Unable to load website root folder with GUID '" . midcom::get('config')->get('midcom_root_topic_guid') . "<br />" .
                         'Last Midgard Error was: ' . midcom_connection::get_error_string()
                     );
                 }
@@ -118,11 +118,9 @@ class midcom_application
         $context->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
 
         // Check the midcom_config site prefix for absolute local urls
-        if ($GLOBALS['midcom_config']['midcom_site_url'][0] == '/')
+        if (substr(midcom::get('config')->get('midcom_site_url'), 0, 1) == '/')
         {
-            $GLOBALS['midcom_config']['midcom_site_url'] =
-                $this->get_page_prefix()
-                . substr($GLOBALS['midcom_config']['midcom_site_url'], 1);
+            midcom::get('config')->set('midcom_site_url', $this->get_page_prefix() . substr(midcom::get('config')->get('midcom_site_url'), 1));
         }
     }
 
@@ -342,7 +340,7 @@ class midcom_application
         // Store any unshown messages
         midcom::get('uimessages')->store();
 
-        if ($GLOBALS['midcom_config']['enable_included_list'])
+        if (midcom::get('config')->get('enable_included_list'))
         {
             $included = get_included_files();
             echo "<p>" . count($included) . " included files:</p>\n";
@@ -646,15 +644,15 @@ class midcom_application
      */
     public function disable_limits()
     {
-        $stat = @ini_set('max_execution_time', $GLOBALS['midcom_config']['midcom_max_execution_time']);
+        $stat = @ini_set('max_execution_time', midcom::get('config')->get('midcom_max_execution_time'));
         if (false === $stat)
         {
-            debug_add('ini_set("max_execution_time", ' . $GLOBALS['midcom_config']['midcom_max_execution_time'] . ') returned false', MIDCOM_LOG_WARN);
+            debug_add('ini_set("max_execution_time", ' . midcom::get('config')->get('midcom_max_execution_time') . ') returned false', MIDCOM_LOG_WARN);
         }
-        $stat = @ini_set('memory_limit', $GLOBALS['midcom_config']['midcom_max_memory']);
+        $stat = @ini_set('memory_limit', midcom::get('config')->get('midcom_max_memory'));
         if (false === $stat)
         {
-            debug_add('ini_set("memory_limit", ' . $GLOBALS['midcom_config']['midcom_max_memory'] . ') returned false', MIDCOM_LOG_WARN);
+            debug_add('ini_set("memory_limit", ' . midcom::get('config')->get('midcom_max_memory') . ') returned false', MIDCOM_LOG_WARN);
         }
     }
 }

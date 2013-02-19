@@ -4,7 +4,7 @@ if (isset($data['symlink']))
 {
     ?><p><?php
     echo sprintf($data['l10n']->get('this folder is a symlink to: <a href="%s">%s</a>'), $data['symlink'], $data['symlink']);
-    if (!$GLOBALS['midcom_config']['symlinks'])
+    if (!midcom::get('config')->get('symlinks'))
     {
         ?><p><?php
         echo sprintf($data['l10n']->get('symlinks are currently disabled'));

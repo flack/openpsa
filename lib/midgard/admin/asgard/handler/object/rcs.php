@@ -76,7 +76,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     {
         $this->_object = midcom::get('dbfactory')->get_object_by_guid($this->_guid);
 
-        if (   !$GLOBALS['midcom_config']['midcom_services_rcs_enable']
+        if (   !midcom::get('config')->get('midcom_services_rcs_enable')
             || !$this->_object->_use_rcs)
         {
             throw new midcom_error_notfound("Revision control not supported for " . get_class($this->_object) . ".");

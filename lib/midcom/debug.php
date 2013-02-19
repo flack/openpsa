@@ -76,14 +76,14 @@ class midcom_debug
     {
         if (null === $filename)
         {
-            $filename = $GLOBALS['midcom_config']['log_filename'];
+            $filename = midcom::get('config')->get('log_filename');
         }
         $this->_filename = $filename;
         $this->_enabled = true;
-        $this->_loglevel = $GLOBALS['midcom_config']['log_level'];
+        $this->_loglevel = midcom::get('config')->get('log_level');
 
         // Load FirePHP logger if enabled
-        if ($GLOBALS['midcom_config']['log_firephp'])
+        if (midcom::get('config')->get('log_firephp'))
         {
             include_once('FirePHPCore/FirePHP.class.php');
             if (class_exists('FirePHP'))

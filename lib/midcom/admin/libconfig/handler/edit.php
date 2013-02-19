@@ -124,7 +124,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/$this->_component_name/config");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/$this->_component_name/config");
         if ($cfg !== false)
         {
             $this->_libconfig->store($cfg, false);
@@ -163,23 +163,24 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _save_configuration()
     {
+        $basedir = midcom::get('config')->get('midcom_sgconfig_basedir');
         $sg_snippetdir = new midcom_db_snippetdir();
-        $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
+        $sg_snippetdir->get_by_path($basedir);
         if ($sg_snippetdir->id == false)
         {
             $sd = new midcom_db_snippetdir();
             $sd->up = 0;
-            $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
+            $sd->name = $basedir;
             if (!$sd->create())
             {
-                throw new midcom_error("Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}" . midcom_connection::get_error_string());
+                throw new midcom_error('Failed to create ' . $basedir . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
             unset($sd);
         }
 
         $lib_snippetdir = new midcom_db_snippetdir();
-        $lib_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name);
+        $lib_snippetdir->get_by_path($basedir . "/" . $this->_component_name);
         if ($lib_snippetdir->id == false)
         {
             $sd = new midcom_db_snippetdir();
@@ -194,7 +195,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $snippet = new midcom_db_snippet();
-        $snippet->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name . "/config");
+        $snippet->get_by_path($basedir . "/" . $this->_component_name . "/config");
         if ($snippet->id == false)
         {
             $sn = new midcom_db_snippet();

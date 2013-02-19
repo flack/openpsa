@@ -147,7 +147,7 @@ class midcom_connection
             $login_tokens = array
             (
                 'login' => $username,
-                'authtype' => $GLOBALS['midcom_config']['auth_type'],
+                'authtype' => midcom::get('config')->get('auth_type'),
             );
 
             if (!$trusted)
@@ -174,7 +174,7 @@ class midcom_connection
         {
             // Ragnaroek
             $sg_name = '';
-            $mode = $GLOBALS['midcom_config']['auth_sitegroup_mode'];
+            $mode = midcom::get('config')->get('auth_sitegroup_mode');
 
             if ($mode == 'auto')
             {
@@ -188,7 +188,7 @@ class midcom_connection
             }
             $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
             if (   !$stat
-                && $GLOBALS['midcom_config']['auth_type'] == 'Plaintext'
+                && midcom::get('config')->get('auth_type') == 'Plaintext'
                 && strlen($password) > 11)
             {
                 //mgd1 has the password field defined with length 13, but it doesn't complain
@@ -204,7 +204,7 @@ class midcom_connection
     {
         if (method_exists('midgard_user', 'login'))
         {
-            switch ($GLOBALS['midcom_config']['auth_type'])
+            switch (midcom::get('config')->get('auth_type'))
             {
                 case 'Plaintext':
                     // Compare plaintext to plaintext
@@ -230,7 +230,7 @@ class midcom_connection
         }
         else
         {
-            switch ($GLOBALS['midcom_config']['auth_type'])
+            switch (midcom::get('config')->get('auth_type'))
             {
                 case 'Plaintext':
                     //do not add the ** for empty passwords - in case it was set to empty do disable account
@@ -491,9 +491,9 @@ class midcom_connection
                 continue;
             }
 
-            if (    isset($GLOBALS['midcom_config']['theme'])
+            if (    midcom::get('config')->get('theme')
                  && !$args_started
-                 && is_dir(OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style/' . $part))
+                 && is_dir(OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') . '/style/' . $part))
             {
                 $page_style .= '/' . $part;
                 $self .= $part . '/';

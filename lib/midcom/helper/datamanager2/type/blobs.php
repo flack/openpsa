@@ -909,7 +909,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     private function _index_attachment($attachment)
     {
         if (   $this->storage->object
-            && $GLOBALS['midcom_config']['indexer_backend'])
+            && midcom::get('config')->get('indexer_backend'))
         {
             $index_attachment = true;
             //check if there is an index_method set

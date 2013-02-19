@@ -135,7 +135,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         $pdf_builder = new $client_class($invoice);
 
         // tmp filename
-        $tmp_dir = $GLOBALS["midcom_config"]["midcom_tempdir"];
+        $tmp_dir = midcom::get('config')->get('midcom_tempdir');
         $title = str_replace("#", "", $invoice->get_label());
 
         $tmp_file = $tmp_dir . "/". $title . ".pdf";

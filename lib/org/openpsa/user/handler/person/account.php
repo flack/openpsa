@@ -118,7 +118,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_su($handler_id, array $args, array &$data)
     {
-        if (!$GLOBALS['midcom_config']['auth_allow_trusted'])
+        if (!midcom::get('config')->get('auth_allow_trusted'))
         {
             throw new midcom_error_forbidden('Trusted logins are disabled by configuration');
         }

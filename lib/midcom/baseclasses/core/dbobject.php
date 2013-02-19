@@ -98,7 +98,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function update_post_ops(midcom_core_dbaobject $object)
     {
-        if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
+        if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
             $rcs = midcom::get('rcs');
@@ -109,7 +109,7 @@ class midcom_baseclasses_core_dbobject
 
         midcom::get('cache')->invalidate($object->guid);
 
-        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
+        if (midcom::get('config')->get('attachment_cache_enabled'))
         {
             $atts = $object->list_attachments();
             foreach ($atts as $att)
@@ -381,7 +381,7 @@ class midcom_baseclasses_core_dbobject
 
         $object->_on_created();
         midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
-        if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
+        if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
             $rcs = midcom::get('rcs');
@@ -533,7 +533,7 @@ class midcom_baseclasses_core_dbobject
     {
         $object->_on_deleted();
         midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
-        if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
+        if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
             $rcs = midcom::get('rcs');

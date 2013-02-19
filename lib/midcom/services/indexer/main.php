@@ -53,7 +53,7 @@ class midcom_services_indexer
      */
     public function __construct($backend = null)
     {
-        if ($GLOBALS['midcom_config']['indexer_backend'] == false)
+        if (!midcom::get('config')->get('indexer_backend'))
         {
             $this->_disabled = true;
             return;
@@ -61,16 +61,13 @@ class midcom_services_indexer
 
         if (is_null($backend))
         {
-            if (strpos($GLOBALS['midcom_config']['indexer_backend'], '_') === false)
+            $class = midcom::get('config')->get('indexer_backend');
+            if (strpos($class, '_') === false)
             {
                 // Built-in backend called using the shorthand notation
-                $class = "midcom_services_indexer_backend_{$GLOBALS['midcom_config']['indexer_backend']}";
+                $class = "midcom_services_indexer_backend_" . $class;
             }
-            else
-            {
-                // Longhand notation of backend class used, let autoloader handle it
-                $class = $GLOBALS['midcom_config']['indexer_backend'];
-            }
+
             $this->_backend = new $class();
         }
         else

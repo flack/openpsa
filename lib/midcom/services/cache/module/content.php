@@ -206,7 +206,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function generate_request_identifier($context, $customdata = null)
     {
-        $module_name = $GLOBALS['midcom_config']['cache_module_content_name'];
+        $module_name = midcom::get('config')->get('cache_module_content_name');
         if ($module_name == 'auto')
         {
             $module_name = midcom_connection::get_unique_host_name();
@@ -223,7 +223,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         if (!isset($customdata['cache_module_content_caching_strategy']))
         {
-            $cache_strategy = $GLOBALS['midcom_config']['cache_module_content_caching_strategy'];
+            $cache_strategy = midcom::get('config')->get('cache_module_content_caching_strategy');
         }
         else
         {
@@ -311,7 +311,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function _on_initialize()
     {
-        $backend_config = $GLOBALS['midcom_config']['cache_module_content_backend'];
+        $backend_config = midcom::get('config')->get('cache_module_content_backend');
         if (!isset($backend_config['directory']))
         {
             $backend_config['directory'] = 'content/';
@@ -330,31 +330,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $backend_config['auto_serialize'] = false;
         $this->_data_cache = $this->_create_backend($data_backend_name, $backend_config);
 
-        if (isset($GLOBALS['midcom_config']['cache_module_content_uncached']))
-        {
-            $this->_uncached = $GLOBALS['midcom_config']['cache_module_content_uncached'];
-        }
-
-        if (isset($GLOBALS['midcom_config']['cache_module_content_headers_strategy']))
-        {
-            $this->_headers_strategy = strtolower($GLOBALS['midcom_config']['cache_module_content_headers_strategy']);
-        }
-        if (isset($GLOBALS['midcom_config']['cache_module_content_headers_strategy_authenticated']))
-        {
-            $this->_headers_strategy_authenticated = strtolower($GLOBALS['midcom_config']['cache_module_content_headers_strategy_authenticated']);
-        }
-        if (isset($GLOBALS['midcom_config']['cache_module_content_default_lifetime']))
-        {
-            $this->_default_lifetime = (int)$GLOBALS['midcom_config']['cache_module_content_default_lifetime'];
-        }
-        if (isset($GLOBALS['midcom_config']['cache_module_content_default_lifetime_authenticated']))
-        {
-            $this->_default_lifetime_authenticated = (int)$GLOBALS['midcom_config']['cache_module_content_default_lifetime_authenticated'];
-        }
-        if (isset($GLOBALS['midcom_config']['cache_module_content_headers_force']))
-        {
-            $this->_force_headers = $GLOBALS['midcom_config']['cache_module_content_headers_force'];
-        }
+        $this->_uncached = midcom::get('config')->get('cache_module_content_uncached');
+        $this->_headers_strategy = strtolower(midcom::get('config')->get('cache_module_content_headers_strategy'));
+        $this->_headers_strategy_authenticated = strtolower(midcom::get('config')->get('cache_module_content_headers_strategy_authenticated'));
+        $this->_default_lifetime = (int)midcom::get('config')->get('cache_module_content_default_lifetime');
+        $this->_default_lifetime_authenticated = (int)midcom::get('config')->get('cache_module_content_default_lifetime_authenticated');
+        $this->_force_headers = midcom::get('config')->get('cache_module_content_headers_force');
 
         switch ($this->_headers_strategy)
         {

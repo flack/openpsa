@@ -119,7 +119,7 @@ class midcom_services_toolbars
             return;
         }
 
-        if (   !$GLOBALS['midcom_config']['toolbars_enable_centralized']
+        if (   !midcom::get('config')->get('toolbars_enable_centralized')
             || !midcom::get('auth')->can_user_do('midcom:centralized_toolbar', null, $this))
         {
             $still_initializing = false;
@@ -139,7 +139,7 @@ class midcom_services_toolbars
 
             midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
-            $this->type = $GLOBALS['midcom_config']['toolbars_type'];
+            $this->type = midcom::get('config')->get('toolbars_type');
 
             if ($this->type == 'menu')
             {
@@ -154,7 +154,7 @@ class midcom_services_toolbars
         }
         else
         {
-            midcom::get('head')->add_stylesheet($GLOBALS['midcom_config']['toolbars_simple_css_path'], 'screen');
+            midcom::get('head')->add_stylesheet(midcom::get('config')->get('toolbars_simple_css_path'), 'screen');
 
             $this->type = 'normal';
         }
@@ -247,27 +247,27 @@ class midcom_services_toolbars
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE] =
             new midcom_helper_toolbar
             (
-                $GLOBALS['midcom_config']['toolbars_node_style_class'],
-                $GLOBALS['midcom_config']['toolbars_node_style_id']
+                midcom::get('config')->get('toolbars_node_style_class'),
+                midcom::get('config')->get('toolbars_node_style_id')
             );
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW] =
             new midcom_helper_toolbar
             (
-                $GLOBALS['midcom_config']['toolbars_view_style_class'],
-                $GLOBALS['midcom_config']['toolbars_view_style_id']
+                midcom::get('config')->get('toolbars_view_style_class'),
+                midcom::get('config')->get('toolbars_view_style_id')
             );
 
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST] =
             new midcom_helper_toolbar
             (
-                $GLOBALS['midcom_config']['toolbars_host_style_class'],
-                $GLOBALS['midcom_config']['toolbars_host_style_id']
+                midcom::get('config')->get('toolbars_host_style_class'),
+                midcom::get('config')->get('toolbars_host_style_id')
             );
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HELP] =
             new midcom_helper_toolbar
             (
-                $GLOBALS['midcom_config']['toolbars_help_style_class'],
-                $GLOBALS['midcom_config']['toolbars_help_style_id']
+                midcom::get('config')->get('toolbars_help_style_class'),
+                midcom::get('config')->get('toolbars_help_style_id')
             );
         $this->add_topic_management_commands($this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE], $context_id);
         $this->add_host_management_commands($this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST], $context_id);
@@ -339,7 +339,7 @@ class midcom_services_toolbars
             && $urltopic->can_do('midcom.admin.folder:topic_management'))
         {
             // Allow to move other than root folder
-            if ($urltopic->guid !== $GLOBALS['midcom_config']['midcom_root_topic_guid'])
+            if ($urltopic->guid !== midcom::get('config')->get('midcom_root_topic_guid'))
             {
                 $toolbar->add_item
                 (
@@ -379,14 +379,14 @@ class midcom_services_toolbars
             );
         }
 
-        if (   $GLOBALS['midcom_config']['metadata_approval']
+        if (   midcom::get('config')->get('metadata_approval')
             && $topic->can_do('midcom:approve'))
         {
             $metadata = midcom_helper_metadata::retrieve($topic);
             if ($metadata->is_approved())
             {
                 $icon = 'stock-icons/16x16/page-approved.png';
-                if (   !$GLOBALS['midcom_config']['show_hidden_objects']
+                if (   !midcom::get('config')->get('show_hidden_objects')
                     && !$metadata->is_visible())
                 {
                     // Take scheduling into account
@@ -412,7 +412,7 @@ class midcom_services_toolbars
             else
             {
                 $icon = 'stock-icons/16x16/page-notapproved.png';
-                if (   !$GLOBALS['midcom_config']['show_hidden_objects']
+                if (   !midcom::get('config')->get('show_hidden_objects')
                     && !$metadata->is_visible())
                 {
                     // Take scheduling into account
@@ -486,7 +486,7 @@ class midcom_services_toolbars
                     MIDCOM_TOOLBAR_ACCESSKEY => 'f',
                 )
             );
-            if (   $GLOBALS['midcom_config']['symlinks']
+            if (   midcom::get('config')->get('symlinks')
                 && $topic->can_do('midcom.admin.folder:symlinks'))
             {
                 $toolbar->add_item
@@ -501,7 +501,7 @@ class midcom_services_toolbars
                 );
             }
         }
-        if (   $urltopic->guid !== $GLOBALS['midcom_config']['midcom_root_topic_guid']
+        if (   $urltopic->guid !== midcom::get('config')->get('midcom_root_topic_guid')
             && $urltopic->can_do('midgard:delete')
             && $urltopic->can_do('midcom.admin.folder:topic_management'))
         {
@@ -701,7 +701,7 @@ class midcom_services_toolbars
         $reflector = new midcom_helper_reflector($object);
         $this->_view_toolbar_label = $reflector->get_class_label();
 
-        if (   $GLOBALS['midcom_config']['metadata_approval']
+        if (   midcom::get('config')->get('metadata_approval')
             && $object->can_do('midcom:approve'))
         {
             $metadata = midcom_helper_metadata::retrieve($object);
@@ -782,7 +782,7 @@ class midcom_services_toolbars
             );
         }
 
-        if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
+        if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
             && $object->_use_rcs)
         {

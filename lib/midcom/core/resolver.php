@@ -148,12 +148,12 @@ class midcom_core_resolver
      */
     public function serve_attachment(&$attachment, $expires = -1)
     {
-        if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
+        if (midcom::get('config')->get('attachment_cache_enabled'))
         {
             $path = '/' . substr($attachment->guid, 0, 1) . "/{$attachment->guid}_{$attachment->name}";
-            if (file_exists($GLOBALS['midcom_config']['attachment_cache_root'] . $path))
+            if (file_exists(midcom::get('config')->get('attachment_cache_root') . $path))
             {
-                $response = new midcom_response_relocate($GLOBALS['midcom_config']['attachment_cache_url'] . $path, 301);
+                $response = new midcom_response_relocate(midcom::get('config')->get('attachment_cache_url') . $path, 301);
                 $response->send();
             }
         }
@@ -221,7 +221,7 @@ class midcom_core_resolver
         $cache->content->cache_control_headers();
 
         $send_att_body = true;
-        if ($GLOBALS['midcom_config']['attachment_xsendfile_enable'])
+        if (midcom::get('config')->get('attachment_xsendfile_enable'))
         {
             $blob = new midgard_blob($attachment->__object);
             $att_local_path = $blob->get_path();
@@ -317,8 +317,8 @@ class midcom_core_resolver
     {
         if ($value == 'invalidate')
         {
-            if (   empty($GLOBALS['midcom_config']['indexer_reindex_allowed_ips'])
-                || !in_array($_SERVER['REMOTE_ADDR'], $GLOBALS['midcom_config']['indexer_reindex_allowed_ips']))
+            if (   !is_array(midcom::get('config')->get('indexer_reindex_allowed_ips'))
+                || !in_array($_SERVER['REMOTE_ADDR'], midcom::get('config')->get('indexer_reindex_allowed_ips')))
             {
                 midcom::get('auth')->require_valid_user('basic');
                 midcom::get('auth')->require_admin_user();

@@ -106,7 +106,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         if ($data['group'])
         {
-            if ($GLOBALS['midcom_config']['enable_ajax_editing'])
+            if (midcom::get('config')->get('enable_ajax_editing'))
             {
                 $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
                 $data['controller']->schemadb =& $data['schemadb_group'];
