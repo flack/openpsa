@@ -173,18 +173,7 @@ class midcom
         }
 
         //MidCOM "Classic"
-        if (preg_match('/^([a-z].+?_.+?_.+?)_(.+?)$/', $class_name, $matches))
-        {
-            $path = midcom::get('componentloader')->path_to_snippetpath(str_replace('_', '.', $matches[1])) . '/' . $matches[2];
-        }
-        else
-        {
-            $path = MIDCOM_ROOT . '/' . $class_name;
-        }
-        $path = str_replace('//', '/_', str_replace('_', '/', $path)) . '.php';
-
-        if (   basename($path) == 'dba.php'
-            || basename($path) == 'db.php')
+        if (preg_match('/_dba?$/', $class_name))
         {
             // DBA object files are named objectname.php
 
@@ -199,36 +188,66 @@ class midcom
                 return;
             }
 
-            $path = dirname($path) . '.php';
+            $class_name = preg_replace('/_dba?$/', '', $class_name);
         }
-
-        if (   preg_match('/^[^_]+?_[^_]+?_[^_]+?_interface$/', $class_name)
-            && $class_name != 'midcom_baseclasses_components_interface')
+        else if (   preg_match('/^[^_]+?_[^_]+?_[^_]+?_interface$/', $class_name)
+                 && $class_name != 'midcom_baseclasses_components_interface')
         {
             // MidCOM component interfaces are named midcom/interface.php
             self::get('dbclassloader')->load_component_for_class($class_name);
             return;
         }
 
-        if (!file_exists($path))
-        {
-            $alternative_path = str_replace('.php', '/main.php', $path);
+        $path = self::_resolve_path($class_name);
 
-            if (!file_exists($alternative_path))
-            {
-                /**
-                 * Enable when debugging autoloading issues, otherwise it's just noise
-                 *
-                 debug_add("Autoloader got '{$path}' and tried {$alternative_path} but neither was not found, aborting");
-                 debug_print_function_stack("Failed to autoload {$class_name}, called from");
-                */
-              return;
-            }
-            $path = $alternative_path;
+        if (!$path)
+        {
+            return;
         }
 
-        require($path);
+        require $path;
         $autoloaded++;
+    }
+
+    private static function _resolve_path($classname)
+    {
+        $path = str_replace('//', '/_', str_replace('_', '/', $classname)) . '.php';
+        if (file_exists(MIDCOM_ROOT . '/' . $path))
+        {
+            return MIDCOM_ROOT . '/' . $path;
+        }
+        else
+        {
+            $alternative_path = str_replace('.php', '/main.php', $path);
+            if (file_exists(MIDCOM_ROOT . '/' . $alternative_path))
+            {
+                return MIDCOM_ROOT . '/' . $alternative_path;
+            }
+        }
+        // file was not found in-tree, let's look somewhere else
+        $component = preg_replace('|^([a-z].+?)/(.+?)/([^/\.]+).*$|', '$1.$2.$3', $path);
+
+        if (self::get('componentloader')->is_installed($component))
+        {
+            $component_path = self::get('componentloader')->path_to_snippetpath($component);
+            $class_part = preg_replace('|^/|', '', substr($path, strlen($component)));
+            $path = str_replace('/.php', '.php', $component_path . '/' . $class_part);
+
+            if (file_exists($path))
+            {
+                return $path;
+            }
+            else
+            {
+                $alternative_path = str_replace('.php', '/main.php', $path);
+                if (file_exists($alternative_path))
+                {
+                    return $alternative_path;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
