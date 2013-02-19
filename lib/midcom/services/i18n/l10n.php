@@ -301,7 +301,11 @@ class midcom_services_i18n_l10n
 
                         default:
                             $line++; // Array is 0-indexed
-                            throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
+                            if (   empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek'])
+                                || $command !== 'CVS')
+                            {
+                                throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
+                            }
                     }
                 }
                 else
