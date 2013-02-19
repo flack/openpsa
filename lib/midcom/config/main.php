@@ -615,17 +615,4 @@ class midcom_config implements arrayaccess
         return isset($this->_merged_config[$offset]) ? $this->_merged_config[$offset] : null;
     }
 }
-
-/* ----- Include the site config ----- */
-if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
-{
-    include(MIDCOM_CONFIG_FILE_BEFORE);
-}
-
-/**
- * Current MidCOM configuration
- *
- * @global Array $GLOBALS['midcom_config']
- */
-$GLOBALS['midcom_config'] = new midcom_config;
 ?>

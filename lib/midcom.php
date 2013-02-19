@@ -42,6 +42,7 @@ class midcom
     (
         'componentloader' => 'midcom_helper__componentloader',
         'cache' => 'midcom_services_cache',
+        'config' => 'midcom_config',
         'dbclassloader' => 'midcom_services_dbclassloader',
         'dbfactory' => 'midcom_helper__dbfactory',
         'debug' => 'midcom_debug',
@@ -99,7 +100,12 @@ class midcom
         //Constants, Globals and Configuration
         require(MIDCOM_ROOT . '/constants.php');
         require(MIDCOM_ROOT. '/midcom/connection.php');
-        require(MIDCOM_ROOT. '/midcom/config/midcom_config.php');
+        require(MIDCOM_ROOT. '/midcom/config/main.php');
+
+        self::$_services['config'] = new midcom_config;
+        // TODO: Move this to compat layer
+        $GLOBALS['midcom_config'] =& self::$_services['config'];
+
         ini_set('track_errors', '1');
         require(MIDCOM_ROOT. '/errors.php');
 
@@ -134,10 +140,6 @@ class midcom
         {
             require_once MIDCOM_ROOT . '/compat/bootstrap.php';
         }
-
-        // Current MidCOM configuration.
-        // TODO: Replace this with midcom::get('config')
-        $GLOBALS['midcom_config'] = new midcom_config;
 
         self::$_application->initialize();
 
