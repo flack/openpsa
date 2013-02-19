@@ -22,6 +22,10 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
+        if (extension_loaded('midgard2'))
+        {
+            require_once MIDCOM_ROOT . '/compat/midgard1.php';
+        }
         require('ragnaroek.php');
 
         if (class_exists('midgardmvc_core'))
@@ -56,10 +60,6 @@ class midcom_compat_default extends midcom_compat_environment
 {
     public function __construct()
     {
-        if (extension_loaded('midgard2'))
-        {
-            require_once MIDCOM_ROOT . '/compat/midgard1.php';
-        }
         if (   php_sapi_name() != 'cli'
             || !empty($_SERVER['REMOTE_ADDR']))
         {
