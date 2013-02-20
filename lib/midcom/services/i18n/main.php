@@ -338,7 +338,7 @@ class midcom_services_i18n
         if (count($this->_language_hosts) == 0)
         {
             $qb = new midgard_query_builder('midgard_host');
-            $qb->add_constraint('root', '=', $_MIDGARD['page']);
+            $qb->add_constraint('root', '=', midcom_connection::get('page'));
 
             // TODO: Check online status?
 
