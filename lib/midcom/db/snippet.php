@@ -20,22 +20,34 @@ class midcom_db_snippet extends midcom_core_dbaobject
 
     public function __set($property, $value)
     {
-        if (   $property == 'up'
-            && extension_loaded('midgard2'))
+        if ($property == 'up')
         {
-            $property = 'snippetdir';
+            $property = self::get_parent_fieldname();
         }
         return parent::__set($property, $value);
     }
 
     public function __get($property)
     {
-        if (   $property == 'up'
-            && extension_loaded('midgard2'))
+        if ($property == 'up')
         {
-            $property = 'snippetdir';
+            $property = self::get_parent_fieldname();
         }
         return parent::__get($property);
+    }
+
+    /**
+     * Compat workaround for schema change between mgd1 and mgd2
+     *
+     * @return string 'up' under Midgard1, otherwise 'snippetdir'
+     */
+    public static function get_parent_fieldname()
+    {
+        if (extension_loaded('midgard'))
+        {
+            return 'up';
+        }
+        return 'snippetdir';
     }
 
     /**

@@ -70,7 +70,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
             }
 
             $qb = midcom_db_snippet::new_query_builder();
-            $qb->add_constraint('up', '=', $snippetdir->id);
+            $qb->add_constraint(midcom_db_snippet::get_parent_fieldname(), '=', $snippetdir->id);
             $qb->add_constraint('name', '=', $snippet_name);
             if ($qb->count() == 0)
             {
@@ -160,7 +160,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
         }
 
         $qb = midcom_db_snippet::new_query_builder();
-        $qb->add_constraint('up', '=', $snippetdir_id);
+        $qb->add_constraint(midcom_db_snippet::get_parent_fieldname(), '=', $snippetdir_id);
 
         if (!empty($filenames))
         {
