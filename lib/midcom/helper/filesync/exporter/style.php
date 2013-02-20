@@ -57,16 +57,14 @@ class midcom_helper_filesync_exporter_style extends midcom_helper_filesync_expor
         {
             $style_id = (int)$style_id;
         }
-        try
-        {
-            $style = new midcom_db_style($style_id);
-        }
-        catch (midcom_error $e)
-        {
-            return;
-        }
+        $style = new midcom_db_style($style_id);
 
+        if (!$style->can_do('midgard:update'))
+        {
+            return false;
+        }
         $this->read_style($style, $this->root_dir);
+        return true;
     }
 
     public function export()

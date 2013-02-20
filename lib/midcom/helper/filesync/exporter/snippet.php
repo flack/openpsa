@@ -68,6 +68,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
             return false;
         }
         $this->read_snippetdir($rootdir, $this->root_dir);
+        return true;
     }
 
     public function export()
