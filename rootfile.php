@@ -9,38 +9,6 @@ if (extension_loaded('midgard2'))
         throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
     }
 
-    // Initialize the $_MIDGARD superglobal
-    $_MIDGARD = array
-    (
-        'argv' => array(),
-
-        'user' => 0,
-        'admin' => false,
-        'root' => false,
-
-        'auth' => false,
-        'cookieauth' => false,
-
-        // General host setup
-        'page' => 0,
-        'debug' => false,
-
-        'host' => 0,
-        'style' => 0,
-        'author' => 0,
-        'config' => array
-        (
-            'prefix' => '',
-            'quota' => false,
-            'unique_host_name' => 'openpsa',
-            'auth_cookie_id' => 1,
-        ),
-
-        'schema' => array
-        (
-        ),
-    );
-
     $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 
     $midgard = midgard_connection::get_instance();

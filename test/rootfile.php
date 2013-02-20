@@ -5,41 +5,6 @@
  * Usage: phpunit --no-globals-backup ./
  */
 
-$mgd_defaults = array
-(
-    'argv' => array(),
-
-    'user' => 0,
-    'admin' => false,
-    'root' => false,
-
-    'auth' => false,
-    'cookieauth' => false,
-
-    // General host setup
-    'page' => 0,
-    'debug' => false,
-
-    'self' => '/',
-    'prefix' => '',
-
-    'host' => 0,
-    'style' => 0,
-    'author' => 0,
-    'config' => array
-    (
-        'prefix' => '',
-        'quota' => false,
-        'unique_host_name' => 'openpsa',
-        'auth_cookie_id' => 1,
-    ),
-
-    'schema' => array
-    (
-        'types' => array(),
-    ),
-);
-
 $GLOBALS['midcom_config_local'] = array();
 
 // Check that the environment is a working one
@@ -79,8 +44,6 @@ if (extension_loaded('midgard2'))
         openpsa_prepare_database($config);
         $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
     }
-
-    $_MIDGARD = $mgd_defaults;
 }
 else if (extension_loaded('midgard'))
 {
@@ -92,7 +55,6 @@ else if (extension_loaded('midgard'))
     {
         include OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php';
     }
-    $_MIDGARD = array_merge($mgd_defaults, $_MIDGARD);
 }
 else
 {
