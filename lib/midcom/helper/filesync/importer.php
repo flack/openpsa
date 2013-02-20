@@ -23,12 +23,13 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
     /**
      * Initializes the class.
      *
+     * @param string $type The importer type
      * @param boolean $delete_missing whether to delete missing items from database
      */
-    public function __construct($delete_missing = false)
+    public function __construct($type, $delete_missing = false)
     {
          $this->delete_missing = $delete_missing;
-         $this->root_dir = midcom_helper_filesync_interface::prepare_dir('pages');
+         $this->root_dir = midcom_helper_filesync_interface::prepare_dir($type);
 
          parent::__construct();
     }
@@ -74,7 +75,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
             throw new midcom_error("Requested importer class {$type} is not installed.");
         }
 
-        $class = new $classname();
+        $class = new $classname($type);
         return $class;
     }
 
