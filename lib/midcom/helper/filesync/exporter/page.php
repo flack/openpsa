@@ -50,6 +50,12 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
         }
     }
 
+    /**
+     * Export a page tree
+     *
+     * @param integer $id Page ID
+     * @return boolean Indicating success
+     */
     public function read_root($id)
     {
         if (is_numeric($id))
@@ -62,6 +68,7 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
             return false;
         }
         $this->read_page($rootdir, $this->root_dir);
+        return true;
     }
 
     public function export()
