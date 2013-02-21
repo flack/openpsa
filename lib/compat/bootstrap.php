@@ -9,43 +9,47 @@
 require_once MIDCOM_ROOT . '/compat/superglobal.php';
 require_once MIDCOM_ROOT . '/compat/componentdata.php';
 
-if (   extension_loaded('midgard2')
-    && isset($_MIDGARD))
+if (extension_loaded('midgard2'))
 {
-    $_MIDGARD = array
-    (
-        'argv' => array(),
+    require_once MIDCOM_ROOT . '/compat/midgard1.php';
 
-        'user' => 0,
-        'admin' => false,
-        'root' => false,
-
-        'auth' => false,
-        'cookieauth' => false,
-
-        // General host setup
-        'page' => 0,
-        'debug' => false,
-
-        'self' => '/',
-        'prefix' => '',
-
-        'host' => 0,
-        'style' => 0,
-        'author' => 0,
-        'config' => array
+    if (isset($_MIDGARD))
+    {
+        $_MIDGARD = array
         (
+            'argv' => array(),
+
+            'user' => 0,
+            'admin' => false,
+            'root' => false,
+
+            'auth' => false,
+            'cookieauth' => false,
+
+            // General host setup
+            'page' => 0,
+            'debug' => false,
+
+            'self' => '/',
             'prefix' => '',
-            'quota' => false,
-            'unique_host_name' => 'openpsa',
-            'auth_cookie_id' => 1,
-        ),
 
-        'schema' => array
-        (
-            'types' => array(),
-        ),
-    );
+            'host' => 0,
+            'style' => 0,
+            'author' => 0,
+            'config' => array
+            (
+                'prefix' => '',
+                'quota' => false,
+                'unique_host_name' => 'openpsa',
+                'auth_cookie_id' => 1,
+            ),
+
+            'schema' => array
+            (
+                'types' => array(),
+            ),
+        );
+    }
 }
 
 /* ----- Include the site config ----- */

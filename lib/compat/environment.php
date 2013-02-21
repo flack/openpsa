@@ -22,10 +22,6 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        if (extension_loaded('midgard2'))
-        {
-            require_once MIDCOM_ROOT . '/compat/midgard1.php';
-        }
         require('ragnaroek.php');
 
         if (class_exists('midgardmvc_core'))

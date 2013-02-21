@@ -149,7 +149,8 @@ class midcom_helper_misc
     /**
      * Preparse a string to handle element inclusion and variable
      *
-     * @see mgd_preparse
+     * @param string $code The unprocessed code
+     * @return string The processed code
      */
     public static function preparse($code)
     {
