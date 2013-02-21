@@ -21,8 +21,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         }
         else
         {
-            $object_qb = midcom_db_topic::new_query_builder();
-            $object_qb->add_constraint('up', '=', $parent_id);
+            $object_qb = $this->get_node_qb($parent_id);
             $object_qb->add_constraint('name', '=', $structure['name']);
             if ($object_qb->count() == 0)
             {
@@ -128,25 +127,16 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         }
     }
 
-    private function delete_missing_folders($foldernames, $topic_id)
+    public function get_leaf_qb($parent_id)
     {
-        if (!$this->delete_missing)
-        {
-            return;
-        }
+        throw new midcom_error('deleting leaves is not supported by this importer');
+    }
 
+    public function get_node_qb($parent_id)
+    {
         $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('up', '=', $topic_id);
-
-        if (!empty($foldernames))
-        {
-            $qb->add_constraint('name', 'NOT IN', $foldernames);
-        }
-        $folders = $qb->execute();
-        foreach ($folders as $folder)
-        {
-            $folder->delete();
-        }
+        $qb->add_constraint('up', '=', $parent_id);
+        return $qb;
     }
 
     public function import()

@@ -79,9 +79,56 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         return $class;
     }
 
+    public function delete_missing_folders($foldernames, $parent_id)
+    {
+        $qb = $this->get_node_qb($parent_id);
+
+        if (!empty($foldernames))
+        {
+            $qb->add_constraint('name', 'NOT IN', $foldernames);
+        }
+        $folders = $qb->execute();
+        foreach ($folders as $folder)
+        {
+            $folder->delete();
+        }
+    }
+
+    public function delete_missing_files($filenames, $parent_id)
+    {
+        $qb = $this->get_leaf_qb($parent_id);
+
+        if (!empty($filenames))
+        {
+            $qb->add_constraint('name', 'NOT IN', $filenames);
+        }
+
+        $files = $qb->execute();
+        foreach ($files as $file)
+        {
+            $file->delete();
+        }
+    }
+
     /**
      * Run the import
      */
     abstract public function import();
+
+    /**
+     * Returns node QB
+     *
+     * @param integer $parent_id The parent's ID
+     * @return midcom_core_querybuilder The prepared QB instance
+     */
+    abstract public function get_node_qb($parent_id);
+
+    /**
+     * Returns leaf QB
+     *
+     * @param integer $parent_id The parent's ID
+     * @return midcom_core_querybuilder The prepared QB instance
+     */
+    abstract public function get_leaf_qb($parent_id);
 }
 ?>
