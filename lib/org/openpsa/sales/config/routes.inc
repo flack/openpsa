@@ -76,6 +76,18 @@
     'variable_args' => 1,
 ),
 
+'deliverable_rest' => array(
+    'handler' => array('org_openpsa_sales_handler_rest_deliverable', 'process'),
+    'fixed_args' => array('rest', 'deliverable'),
+    'variable_args' => 0,
+),
+
+'sales_order_rest' => array(
+    'handler' => array('org_openpsa_sales_handler_rest_order', 'process'),
+    'fixed_args' => array('rest', 'order'),
+    'variable_args' => 0,
+),
+
 // Match /
 'frontpage' => array
 (
