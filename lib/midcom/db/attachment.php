@@ -295,7 +295,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 && $parent[MIDCOM_NAV_TYPE] == 'node')
             {
                 //Serve from topic
-                return midcom_connection::get_url('self') . $parent[MIDCOM_NAV_RELATIVEURL] . urlencode($name);
+                return $parent[MIDCOM_NAV_ABSOLUTEURL] . urlencode($name);
             }
         }
 

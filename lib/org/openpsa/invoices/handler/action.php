@@ -163,10 +163,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $invoice_date = date($this->_l10n_midcom->get('short date'), $invoice->date);
 
         // generate pdf, only if not existing yet
-        $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
+        $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");
         if (count($pdf_files) == 0)
         {
             org_openpsa_invoices_handler_pdf::render_and_attach_pdf($invoice);
+            //refresh to get new file. TODO: This should be optimized by changing the render interface
+            $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");
         }
 
         $mail = new org_openpsa_mail();
@@ -188,35 +190,30 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         // attach pdf to mail
         if ($mail->can_attach())
         {
-            $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
-
-            if (count($pdf_files) > 0)
+            foreach ($pdf_files as $attachment)
             {
-                foreach ($pdf_files as $guid => $url)
+                $att = array();
+                $att['name'] = $attachment->name . ".pdf";
+                $att['mimetype'] = "application/pdf";
+
+                $fp = $attachment->open("r");
+                if (!$fp)
                 {
-                    $att = array();
-                    $att['name'] = basename($url) . ".pdf";
-                    $att['mimetype'] = "application/pdf";
-
-                    $fp = fopen($url, "r");
-                    if (!$fp)
-                    {
-                        //Failed to open attachment for reading, skip the file
-                        continue;
-                    }
-
-                    $att['content'] = '';
-
-                    while (!feof($fp))
-                    {
-                        $att['content'] .=  fread($fp, 4096);
-                    }
-                    fclose($fp);
-                    debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
-
-                    $mail->attachments[] = $att;
-                    unset($att);
+                    //Failed to open attachment for reading, skip the file
+                    continue;
                 }
+
+                $att['content'] = '';
+
+                while (!feof($fp))
+                {
+                    $att['content'] .=  fread($fp, 4096);
+                }
+                $attachment->close();
+                debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
+
+                $mail->attachments[] = $att;
+                unset($att);
             }
         }
 

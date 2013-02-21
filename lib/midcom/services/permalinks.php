@@ -112,7 +112,7 @@ class midcom_services_permalinks
             }
             else
             {
-                return midcom::get('config')->get('midcom_site_url') . "midcom-serveattachmentguid-{$object->guid}/{$object->name}";
+                return $this->create_attachment_link($object->guid, $object->name);
             }
         }
 
@@ -205,11 +205,24 @@ class midcom_services_permalinks
      * points to the live site (given correct system configuration).
      *
      * @param string $guid The Guid to link to.
-     * @return string The absolute URL of the Permalink.
+     * @return string The full URL of the Permalink.
      */
     function create_permalink($guid)
     {
         return midcom::get('config')->get('midcom_site_url') . "midcom-permalink-{$guid}";
+    }
+
+    /**
+     * This small helper should be used to create Permalink URLs for attachments. It always
+     * points to the live site (given correct system configuration).
+     *
+     * @param string $guid The GUID to link to.
+     * @param string $filename The attachment's filename
+     * @return string The full URL of the Permalink.
+     */
+    function create_attachment_link($guid, $filename)
+    {
+        return midcom::get('config')->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
     }
 }
 ?>

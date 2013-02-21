@@ -69,8 +69,8 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         debug_print_r("Processing this attachment:", $attachment);
 
         $this->source = $this->_source->guid;
-        $this->RI = $this->_attachment->guid;
-        $this->document_url = midcom::get('config')->get('midcom_site_url') . "midcom-serveattachmentguid-{$this->RI}/{$this->_attachment->name}";
+        $this->RI = $attachment->guid;
+        $this->document_url = midcom::get('permalinks')->create_attachment_link($this->RI, $attachment->name);
 
         $this->_process_attachment();
         $this->_process_topic();

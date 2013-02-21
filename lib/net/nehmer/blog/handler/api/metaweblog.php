@@ -529,7 +529,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         $attachment_array = array
         (
-            'url'  => new XML_RPC_Value(midcom::get('config')->get('midcom_site_url') . "midcom-serveattachmentguid-{$attachment->guid}/{$attachment->name}", 'string'),
+            'url'  => new XML_RPC_Value(midcom::get('permalinks')->create_attachment_link($attachment->guid, $attachment->name), 'string'),
             'guid' => new XML_RPC_Value($attachment->guid, 'string'),
         );
         return new XML_RPC_Response(new XML_RPC_Value($attachment_array, 'struct'));

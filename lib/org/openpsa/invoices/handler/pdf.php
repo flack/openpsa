@@ -144,13 +144,12 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         $render = $pdf_builder->render($tmp_file);
 
         // cleanup old attachments
-        $pdf_files = org_openpsa_helpers::get_attachment_urls($invoice, "pdf_file");
+        $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");
 
         if (count($pdf_files) > 0)
         {
-            foreach ($pdf_files as $guid => $url)
+            foreach ($pdf_files as $attachment)
             {
-                $attachment = new midcom_db_attachment($guid);
                 $attachment->delete();
             }
         }

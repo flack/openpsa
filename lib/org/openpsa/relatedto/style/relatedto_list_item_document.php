@@ -1,7 +1,7 @@
 <?php
 $link =& $data['link'];
 $document =& $data['other_obj'];
-$atts = $document->list_attachments();
+$atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
 ?>
 
 <li class="document" id="org_openpsa_relatedto_line_&(link['guid']);">
@@ -11,19 +11,16 @@ $atts = $document->list_attachments();
     <li class="time"><?php echo strftime('%x', $document->metadata->created); ?></li>
     <li class="file">
     <?php
-    if (count($atts) == 0)
+    if (empty($atts))
     {
         echo midcom::get('i18n')->get_string('no files', 'org.openpsa.documents');
     }
     else
     {
+        $prefix = midcom_connection::get_url('self');
         foreach ($atts as $file)
         {
-            // FIXME: This is a messy way of linking into DM-managed files
-            if ($file->parameter('midcom.helper.datamanager2.type.blobs', 'fieldname') == 'document')
-            {
-                echo "<a target=\"document_{$document->guid}\" href=\"" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf(midcom::get('i18n')->get_string('%s document', 'org.openpsa.documents'), midcom::get('i18n')->get_string($file->mimetype, 'org.openpsa.documents')).")";
-            }
+            echo "<a target=\"document_{$document->guid}\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf(midcom::get('i18n')->get_string('%s document', 'org.openpsa.documents'), midcom::get('i18n')->get_string($file->mimetype, 'org.openpsa.documents')).")";
         }
     }
     ?>

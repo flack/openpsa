@@ -67,77 +67,54 @@ class org_openpsa_helpers
     public static function render_fileinfo($object, $field)
     {
         $output = '';
-        $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
-        if (empty($identifiers))
+        $attachments = self::get_dm2_attachments($object, $field);
+        foreach ($attachments as $attachment)
         {
-            return $output;
-        }
-        $host_prefix = midcom::get()->get_host_prefix();
-        foreach ($identifiers as $identifier)
-        {
-            $parts = explode(':', $identifier);
-            if (sizeof($parts) != 2)
-            {
-                continue;
-            }
-            $guid = $parts[1];
-            try
-            {
-                $attachment = new midcom_db_attachment($guid);
-                $url = $host_prefix . '/midcom-serveattachmentguid-' . $attachment->guid . '/' . $attachment->name;
-                $stat = $attachment->stat();
-                $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
-                $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
-                $mimetype_icon = midcom_helper_misc::get_mime_icon($attachment->mimetype);
+            $stat = $attachment->stat();
+            $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
+            $url = midcom::get('permalinks')->create_attachment_link($attachment->guid, $attachment->name);
+            $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
+            $mimetype_icon = midcom_helper_misc::get_mime_icon($attachment->mimetype);
 
-                $output .= '<span class="org_openpsa_helpers_fileinfo">';
-                $output .= '<a href="' . $url . '" class="icon"><img src="' . $mimetype_icon . '" alt="' . $mimetype . '" /></a>';
-                $output .= '<a href="' . $url . '" class="filename">' . $attachment->name . '</a>';
-                $output .= '<span class="mimetype">' . $mimetype . '</span>';
-                $output .= '<span class="filesize">' . $filesize . '</span>';
-                $output .= "</span>\n";
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-                continue;
-            }
-            $output .= '';
+            $output .= '<span class="org_openpsa_helpers_fileinfo">';
+            $output .= '<a href="' . $url . '" class="icon"><img src="' . $mimetype_icon . '" alt="' . $mimetype . '" /></a>';
+            $output .= '<a href="' . $url . '" class="filename">' . $attachment->name . '</a>';
+            $output .= '<span class="mimetype">' . $mimetype . '</span>';
+            $output .= '<span class="filesize">' . $filesize . '</span>';
+            $output .= "</span>\n";
         }
 
         return $output;
      }
 
-    public static function get_attachment_urls($object, $field)
-    {
-        $urls = array();
-        $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
-        if (empty($identifiers))
-        {
-            return false;
-        }
-        $host_prefix = midcom::get()->get_host_prefix();
-        foreach ($identifiers as $identifier)
-        {
-            $parts = explode(':', $identifier);
-            if (sizeof($parts) != 2)
-            {
-                continue;
-            }
-            $guid = $parts[1];
-            try
-            {
-                $attachment = new midcom_db_attachment($guid);
-                $urls[$guid] = $host_prefix . '/midcom-serveattachmentguid-' . $attachment->guid . '/' . $attachment->name;
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-                continue;
-            }
-        }
+     public static function get_dm2_attachments($object, $field)
+     {
+         $attachments = array();
+         $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
+         if (empty($identifiers))
+         {
+             return $attachments;
+         }
+         foreach ($identifiers as $identifier)
+         {
+             $parts = explode(':', $identifier);
+             if (sizeof($parts) != 2)
+             {
+                 continue;
+             }
+             $guid = $parts[1];
+             try
+             {
+                 $attachments[] = midcom_db_attachment::get_cached($guid);
+             }
+             catch (midcom_error $e)
+             {
+                 $e->log();
+                 continue;
+             }
+         }
 
-        return $urls;
+         return $attachments;
      }
 
     /**

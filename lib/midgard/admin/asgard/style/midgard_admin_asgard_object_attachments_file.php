@@ -42,7 +42,7 @@
 
 <form class="urlform" method="post" action="&(data['delete_url']:h);">
     <?php
-    $file_url = midcom::get()->get_host_prefix() . "midcom-serveattachmentguid-{$data['file']->guid}/{$data['file']->name}";
+    $file_url = midcom::get('permalinks')->create_attachment_link($data['file']->guid, $data['file']->name);
     $mime_icon = midcom_helper_misc::get_mime_icon($data['file']->mimetype);
     ?>
     <fieldset>
