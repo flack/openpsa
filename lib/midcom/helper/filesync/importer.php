@@ -34,6 +34,35 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
          parent::__construct();
     }
 
+    public function run()
+    {
+        $ip_sudo = false;
+        $trusted_ips = $this->_config->get('trusted_ips');
+
+        if (   $trusted_ips
+            && in_array($_SERVER['REMOTE_ADDR'], $trusted_ips))
+        {
+            if (!midcom::get('auth')->request_sudo('midcom.helper.filesync'))
+            {
+                throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
+            }
+            $ip_sudo = true;
+        }
+        else
+        {
+            midcom::get('auth')->require_admin_user();
+        }
+        midcom::get('cache')->content->enable_live_mode();
+        midcom::get()->header('Content-Type: text/plain');
+
+        $this->import();
+        echo "Import from {$this->root_dir} completed\n";
+        if ($ip_sudo)
+        {
+            midcom::get('auth')->drop_sudo();
+        }
+    }
+
     protected function _get_node($classname, $parent_id, $path)
     {
         $name = basename($path);
@@ -79,9 +108,56 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         return $class;
     }
 
+    public function delete_missing_folders($foldernames, $parent_id)
+    {
+        $qb = $this->get_node_qb($parent_id);
+
+        if (!empty($foldernames))
+        {
+            $qb->add_constraint('name', 'NOT IN', $foldernames);
+        }
+        $folders = $qb->execute();
+        foreach ($folders as $folder)
+        {
+            $folder->delete();
+        }
+    }
+
+    public function delete_missing_files($filenames, $parent_id)
+    {
+        $qb = $this->get_leaf_qb($parent_id);
+
+        if (!empty($filenames))
+        {
+            $qb->add_constraint('name', 'NOT IN', $filenames);
+        }
+
+        $files = $qb->execute();
+        foreach ($files as $file)
+        {
+            $file->delete();
+        }
+    }
+
     /**
      * Run the import
      */
     abstract public function import();
+
+    /**
+     * Returns node QB
+     *
+     * @param integer $parent_id The parent's ID
+     * @return midcom_core_querybuilder The prepared QB instance
+     */
+    abstract public function get_node_qb($parent_id);
+
+    /**
+     * Returns leaf QB
+     *
+     * @param integer $parent_id The parent's ID
+     * @return midcom_core_querybuilder The prepared QB instance
+     */
+    abstract public function get_leaf_qb($parent_id);
 }
 ?>

@@ -119,8 +119,11 @@ class midcom_services_cache
             $this->_modules[$name]->invalidate_all();
         }
 
-        // Invalidate Midgard cache too
-        mgd_cache_invalidate();
+        // Invalidate Midgard cache, too
+        if (extension_loaded('midgard'))
+        {
+            mgd_cache_invalidate();
+        }
     }
 
     /**

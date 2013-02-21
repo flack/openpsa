@@ -67,8 +67,7 @@ class midcom_helper_filesync_importer_page extends midcom_helper_filesync_import
                 $file_contents = @iconv($encoding, 'UTF-8', $file_contents);
             }
 
-            $qb = midcom_db_pageelement::new_query_builder();
-            $qb->add_constraint('page', '=', $page->id);
+            $qb = $this->get_leaf_qb($page->id);
             $qb->add_constraint('name', '=', $pageelement_name);
             if ($qb->count() == 0)
             {
@@ -129,47 +128,18 @@ class midcom_helper_filesync_importer_page extends midcom_helper_filesync_import
         }
     }
 
-    private function delete_missing_folders($foldernames, $page_id)
+    public function get_leaf_qb($parent_id)
     {
-        if (!$this->delete_missing)
-        {
-            return;
-        }
-
-        $qb = midcom_db_page::new_query_builder();
-        $qb->add_constraint('up', '=', $page_id);
-
-        if (!empty($foldernames))
-        {
-            $qb->add_constraint('name', 'NOT IN', $foldernames);
-        }
-        $folders = $qb->execute();
-        foreach ($folders as $folder)
-        {
-            $folder->delete();
-        }
+        $qb = midcom_db_pageelement::new_query_builder();
+        $qb->add_constraint('page', '=', $parent_id);
+        return $qb;
     }
 
-    private function delete_missing_files($filenames, $page_id)
+    public function get_node_qb($parent_id)
     {
-        if (!$this->delete_missing)
-        {
-            return;
-        }
-
-        $qb = midcom_db_pageelement::new_query_builder();
-        $qb->add_constraint('up', '=', $page_id);
-
-        if (!empty($filenames))
-        {
-            $qb->add_constraint('name', 'NOT IN', $filenames);
-        }
-
-        $files = $qb->execute();
-        foreach ($files as $file)
-        {
-            $file->delete();
-        }
+        $qb = midcom_db_page::new_query_builder();
+        $qb->add_constraint('up', '=', $parent_id);
+        return $qb;
     }
 
     public function import()

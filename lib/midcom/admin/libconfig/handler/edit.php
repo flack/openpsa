@@ -137,7 +137,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case 'save':
                 if ($this->_save_configuration())
                 {
-                    mgd_cache_invalidate();
                     midcom::get('uimessages')->add($this->_l10n->get('host configuration'),
                     $this->_l10n->get('settings saved successfully')
                     . $this->_codeinit->id,
@@ -210,8 +209,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $snippet->code = $this->_get_config($this->_controller);
 
-        if (   $snippet->code == ''
-            || !$snippet->code)
+        if (empty($snippet->code))
         {
             throw new midcom_error("code-init content generation failed.");
         }

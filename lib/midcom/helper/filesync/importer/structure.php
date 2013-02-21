@@ -15,45 +15,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
 {
     private function read_structure($structure, $parent_id = 0)
     {
-        if ($parent_id == 0)
-        {
-            $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-        }
-        else
-        {
-            $object_qb = midcom_db_topic::new_query_builder();
-            $object_qb->add_constraint('up', '=', $parent_id);
-            $object_qb->add_constraint('name', '=', $structure['name']);
-            if ($object_qb->count() == 0)
-            {
-                // New style
-                $topic = new midcom_db_topic();
-                $topic->up = $parent_id;
-                $topic->name = $structure['name'];
-                $topic->extra = $structure['title'];
-                $topic->title = $structure['title'];
-                $topic->component = $structure['component'];
-                if (!$topic->create())
-                {
-                    return false;
-                }
-
-                if (!empty($structure['create_index']))
-                {
-                    // Create index article for n.n.static
-                    $article = new midcom_db_article();
-                    $article->name = 'index';
-                    $article->title = $structure['title'];
-                    $article->topic = $topic->id;
-                    $article->create();
-                }
-            }
-            else
-            {
-                $topics = $object_qb->execute();
-                $topic = $topics[0];
-            }
-        }
+        $topic = $this->_load_topic($structure, $parent_id);
 
         // Update this folder properly
         $updated = false;
@@ -88,28 +50,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
             $topic->update();
         }
 
-        // Remove parameters that are not in the topic
-        $existing_params = $topic->list_parameters();
-        foreach ($existing_params as $domain => $params)
-        {
-            foreach ($params as $name => $value)
-            {
-                if (   !isset($structure['parameters'][$domain])
-                    || !isset($structure['parameters'][$domain][$name]))
-                {
-                    $topic->set_parameter($domain, $name, '');
-                }
-            }
-        }
-
-        // Set all new parameters
-        foreach ($structure['parameters'] as $domain => $params)
-        {
-            foreach ($params as $name => $value)
-            {
-                $topic->set_parameter($domain, $name, $value);
-            }
-        }
+        $this->_process_parameters($topic, $structure['parameters']);
 
         // FIXME: Implement ACLs
 
@@ -128,25 +69,84 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         }
     }
 
-    private function delete_missing_folders($foldernames, $topic_id)
+    private function _load_topic($structure, $parent_id)
     {
-        if (!$this->delete_missing)
+        if ($parent_id == 0)
         {
-            return;
+            return midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        }
+        else
+        {
+            $object_qb = $this->get_node_qb($parent_id);
+            $object_qb->add_constraint('name', '=', $structure['name']);
+            if ($object_qb->count() == 0)
+            {
+                // New style
+                $topic = new midcom_db_topic();
+                $topic->up = $parent_id;
+                $topic->name = $structure['name'];
+                $topic->extra = $structure['title'];
+                $topic->title = $structure['title'];
+                $topic->component = $structure['component'];
+                if (!$topic->create())
+                {
+                    throw new midcom_error('Failed to create topic: ' . midcom_connection::get_error_string());
+                }
+
+                if (!empty($structure['create_index']))
+                {
+                    // Create index article for n.n.static
+                    $article = new midcom_db_article();
+                    $article->name = 'index';
+                    $article->title = $structure['title'];
+                    $article->topic = $topic->id;
+                    $article->create();
+                }
+            }
+            else
+            {
+                $topics = $object_qb->execute();
+                $topic = $topics[0];
+            }
+        }
+        return $topic;
+    }
+
+    private function process_parameters(midcom_db_topic $topic, $parameters)
+    {
+        // Remove parameters that are not in the topic
+        $existing_params = $topic->list_parameters();
+        foreach ($existing_params as $domain => $params)
+        {
+            foreach ($params as $name => $value)
+            {
+                if (empty($parameters[$domain][$name]))
+                {
+                    $topic->delete_parameter($domain, $name);
+                }
+            }
         }
 
+        // Set all new parameters
+        foreach ($parameters as $domain => $params)
+        {
+            foreach ($params as $name => $value)
+            {
+                $topic->set_parameter($domain, $name, $value);
+            }
+        }
+    }
+
+    public function get_leaf_qb($parent_id)
+    {
+        throw new midcom_error('deleting leaves is not supported by this importer');
+    }
+
+    public function get_node_qb($parent_id)
+    {
         $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('up', '=', $topic_id);
-
-        if (!empty($foldernames))
-        {
-            $qb->add_constraint('name', 'NOT IN', $foldernames);
-        }
-        $folders = $qb->execute();
-        foreach ($folders as $folder)
-        {
-            $folder->delete();
-        }
+        $qb->add_constraint('up', '=', $parent_id);
+        return $qb;
     }
 
     public function import()

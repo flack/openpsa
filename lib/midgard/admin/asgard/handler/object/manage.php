@@ -213,14 +213,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     }
                 }
 
-                if (   is_a($this->_object, 'midcom_db_style')
-                    || is_a($this->_object, 'midcom_db_element')
-                    || is_a($this->_object, 'midcom_db_page')
-                    || is_a($this->_object, 'midcom_db_pageelement'))
-                {
-                    mgd_cache_invalidate();
-                }
-
                 // Reindex the object
                 //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
@@ -427,12 +419,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 break;
 
             case 'save':
-                if (   is_a($this->_new_object, 'midcom_db_style')
-                    || is_a($this->_new_object, 'midcom_db_element'))
-                {
-                    mgd_cache_invalidate();
-                }
-
                 // Reindex the object
                 //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
@@ -573,12 +559,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             if (!$this->_object->delete_tree())
             {
                 throw new midcom_error("Failed to delete object {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
-            if (   is_a($this->_object, 'midcom_db_style')
-                || is_a($this->_object, 'midcom_db_element'))
-            {
-                mgd_cache_invalidate();
             }
 
             // Update the index

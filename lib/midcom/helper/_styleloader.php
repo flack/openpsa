@@ -684,14 +684,14 @@ class midcom_helper__styleloader
         $data =& midcom_core_context::get()->get_custom_key('request_data');
         $instance_id = false;
 
-        if (in_array('style', midcom::get('config')->get('cache_module_memcache_data_groups')))
+        if (in_array('STYLE', midcom::get('config')->get('cache_module_memcache_data_groups')))
         {
             // Cache style elements
             $instance_id = $path;
 
-            if (midcom::get('cache')->memcache->exists('style', $instance_id))
+            if (midcom::get('cache')->memcache->exists('STYLE', $instance_id))
             {
-                eval('?>' . midcom::get('cache')->memcache->get('style', $instance_id));
+                eval('?>' . midcom::get('cache')->memcache->get('STYLE', $instance_id));
                 return;
             }
         }
@@ -714,7 +714,7 @@ class midcom_helper__styleloader
         if ($instance_id)
         {
             // This element will be cached after display (if no errors occured)
-            midcom::get('cache')->memcache->put('style', $instance_id, $preparsed);
+            midcom::get('cache')->memcache->put('STYLE', $instance_id, $preparsed);
         }
     }
 

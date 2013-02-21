@@ -119,15 +119,6 @@ class midcom_baseclasses_core_dbobject
             }
         }
 
-        // Invalidate Midgard pagecache if we touched style/page element
-        if (   function_exists('mgd_cache_invalidate')
-            && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement')))
-        {
-            debug_add('invalidating Midgard page cache');
-            mgd_cache_invalidate();
-        }
-
         midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
     }
 
@@ -395,14 +386,6 @@ class midcom_baseclasses_core_dbobject
             // Invalidate parent from cache so content caches have chance to react
             midcom::get('cache')->invalidate($parent->guid);
         }
-
-        // Invalidate Midgard pagecache if we touched style/page element
-        if (   function_exists('mgd_cache_invalidate')
-            && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement')))
-        {
-            mgd_cache_invalidate();
-        }
     }
 
     /**
@@ -541,14 +524,6 @@ class midcom_baseclasses_core_dbobject
         }
 
         midcom::get('cache')->invalidate($object->guid);
-
-        // Invalidate Midgard pagecache if we touched style/page element
-        if (   function_exists('mgd_cache_invalidate')
-            && (   is_a($object, 'midcom_db_element')
-                || is_a($object, 'midcom_db_pageelement')))
-        {
-            mgd_cache_invalidate();
-        }
     }
 
     /**
@@ -598,19 +573,17 @@ class midcom_baseclasses_core_dbobject
             else
             {
                 $parent = $object->get_parent();
-                if (   $parent
-                    && $parent->guid)
+                if (!empty($parent->guid))
                 {
                     // Invalidate parent from cache so content caches have chance to react
                     midcom::get('cache')->invalidate($parent->guid);
                 }
 
                 // Invalidate Midgard pagecache if we touched style/page element
-                if (   function_exists('mgd_cache_invalidate')
-                    && (   is_a($object, 'midcom_db_element')
-                        || is_a($object, 'midcom_db_pageelement')))
+                if (   extension_loaded('midgard')
+                    && is_a($object, 'midcom_db_cachemember'))
                 {
-                    mgd_cache_invalidate();
+                    $object->_on_updated();
                 }
             }
             $stats[$guid] = $undeleted;
