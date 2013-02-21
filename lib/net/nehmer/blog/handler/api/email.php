@@ -229,9 +229,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                         $body_switched = true;
                         break;
                     }
-                    // Fall-through if not switching
-                default:
-                    $this->_add_attachment($att);
+                // TODO: Add generic attachment handling here
             }
         }
 
@@ -336,8 +334,8 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
     {
         if (!array_key_exists('image_field', $this->_request_data))
         {
-            // No image fields in schema, revert to regular attachment handling
-            return $this->_add_attachment($att);
+            // No image fields in schema, TODO: revert to regular attachment handling
+            return false;
         }
 
         // Save image to a temp file
@@ -355,63 +353,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         return $this->_datamanager->types[$this->_request_data['image_field']]->set_image($att['name'], $tmp_name, $att['name']);
     }
 
-    /**
-     * @todo This function does nothing (and would throw notices if it did)
-     */
-    private function _add_attachment($att)
-    {
-        return false;
-
-        $attobj = $this->_article->create_attachment($att['name'], $att['name'], $att['mimetype']);
-        if (!$attobj)
-        {
-            //Could not create attachment
-            debug_add("Could not create attachment '{$att['name']}', errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            continue;
-        }
-        $fp = @$attobj->open('w');
-        if (!$fp)
-        {
-            //Could not open for writing, clean up and continue
-            debug_add("Could not open attachment {$attobj->guid} for writing, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            $attobj->delete();
-            continue;
-        }
-        if (!fwrite($fp, $att['content'], strlen($att['content'])))
-        {
-            //Could not write, clean up and continue
-            debug_add("Error when writing attachment {$attobj->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            fclose($fp);
-            $attobj->delete();
-            continue;
-        }
-        fclose($fp);
-
-        if (   isset($att['part'])
-            && isset($att['part']->headers)
-            && isset($att['part']->headers['content-id']))
-        {
-            //Attachment is embed, add tag to end of note
-            if (!$embeds_added)
-            {
-                $this->_article->content .= "<p>";
-                $embeds_added = true;
-            }
-            $this->_article->content .= "<a href=\"" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}\">{$attobj->title}</a><br />";
-        }
-        else
-        {
-            //Add normal attachments as links to end of note
-            if (!$attachments_added)
-            {
-                //We hope the client handles these so that embeds come first and attachments then so we can avoid double pass over this array
-                $this->_article->content .= "\n\n";
-                $attachments_added = true;
-            }
-            $this->_article->content .= "[{$attobj->title}](" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}), ";
-        }
-    }
-
     private function _find_email_person($email, $prefer_user = true)
     {
         // TODO: Use the new helpers for finding persons by email (a person might have multiple ones...)
@@ -422,17 +363,16 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         {
             return false;
         }
-        if (!$prefer_user)
+        if ($prefer_user)
         {
-            return $results[0];
-        }
-        foreach ($results as $person)
-        {
-            if (!empty($person->username))
+            foreach ($results as $person)
             {
-                return $person;
+                if (!empty($person->username))
+                {
+                    return $person;
+                }
             }
         }
-        return $person;
+        return $results[0];
     }
 }
