@@ -9,7 +9,8 @@
 require_once MIDCOM_ROOT . '/compat/superglobal.php';
 require_once MIDCOM_ROOT . '/compat/componentdata.php';
 
-if (!isset($_MIDGARD))
+if (   extension_loaded('midgard2')
+    && isset($_MIDGARD))
 {
     $_MIDGARD = array
     (
