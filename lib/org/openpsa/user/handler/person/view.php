@@ -38,8 +38,6 @@ implements midcom_helper_datamanager2_interfaces_view
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         $this->_person = new org_openpsa_contacts_person_dba($args[0]);
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_person);
         $this->add_breadcrumb('', $this->_person->get_label());
