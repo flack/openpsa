@@ -9,7 +9,7 @@
 if (!defined('OPENPSA_TEST_ROOT'))
 {
     define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
-    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+    require_once OPENPSA_TEST_ROOT . 'rootfile.php';
 }
 
 /**
@@ -66,6 +66,19 @@ class org_openpsa_sales_salesproject_deliverable_adminTest extends openpsa_testc
         $this->assertTrue($group instanceof HTML_Quickform_group, ' next cycle widget missing');
         $elements = $group->getElements();
         $this->assertEquals($year . '-10-15', $elements[0]->getValue());
+
+        $formdata = array
+        (
+            'next_cycle_date' => '',
+            'title' => 'test',
+            'start_date' => '2012-10-10',
+            'end_date' => $year . '-10-10'
+        );
+
+        $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.sales', array('deliverable', 'edit', $deliverable->guid));
+
+        $this->assertEquals('deliverable/' . $deliverable->guid . '/', $url);
+        $this->assertEquals(0, count($deliverable->get_at_entries()));
 
         midcom::get('auth')->drop_sudo();
     }

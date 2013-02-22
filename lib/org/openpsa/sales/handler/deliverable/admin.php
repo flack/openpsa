@@ -9,8 +9,6 @@
 /**
  * Projects edit/delete deliverable handler
  *
- * Originally copied from net.nehmer.blog
- *
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_components_handler
@@ -202,28 +200,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         {
             case 'save':
                 $formdata = $this->_controller->datamanager->types;
-
-                if (!empty($formdata['at_entry']->value))
-                {
-                    $entry = new midcom_services_at_entry_dba((int) $formdata['at_entry']->value);
-
-                    $next_cycle = 0;
-                    if (   isset($formdata['next_cycle'])
-                        && !$formdata['next_cycle']->is_empty())
-                    {
-                        $next_cycle =  (int) $formdata['next_cycle']->value->format('U');
-                    }
-
-                    //@todo If next_cycle is changed to be in the past, should we check if this would lead
-                    //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to
-                    //one year in the past, this would trigger twelve consecutive runs and maybe
-                    //the user needs to be warned about that...
-                    if ($next_cycle != $entry->start)
-                    {
-                        $entry->start = $next_cycle;
-                        $entry->update();
-                    }
-                }
+                $this->_process_at_entry($formdata);
                 $this->_master->process_notify_date($formdata, $this->_deliverable);
 
                 // Reindex the deliverable
@@ -246,6 +223,38 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
     }
 
+    private function _process_at_entry(array $formdata)
+    {
+        $entry = null;
+        $next_cycle = 0;
+        if (!empty($formdata['at_entry']->value))
+        {
+            $entry = new midcom_services_at_entry_dba((int) $formdata['at_entry']->value);
+        }
+        if (   isset($formdata['next_cycle'])
+            && !$formdata['next_cycle']->is_empty())
+        {
+            $next_cycle = (int) $formdata['next_cycle']->value->format('U');
+        }
+
+        if (null !== $entry)
+        {
+            if ($next_cycle == 0)
+            {
+                $entry->delete();
+            }
+            else if ($next_cycle != $entry->start)
+            {
+                //@todo If next_cycle is changed to be in the past, should we check if this would lead
+                //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to
+                //one year in the past, this would trigger twelve consecutive runs and maybe
+                //the user needs to be warned about that...
+
+                $entry->start = $next_cycle;
+                $entry->update();
+            }
+        }
+    }
 
     /**
      * Shows the loaded deliverable.
