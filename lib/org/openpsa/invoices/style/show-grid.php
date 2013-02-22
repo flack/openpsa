@@ -45,7 +45,7 @@ $grid->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center",
 
 if ($data['list_type'] != 'paid')
 {
-    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center", title: false');
+    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center", title: false, sortable: false');
 }
 else
 {
