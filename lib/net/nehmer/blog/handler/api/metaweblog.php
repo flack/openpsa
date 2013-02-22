@@ -121,7 +121,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     {
         if (!$this->_datamanager->autoset_storage($article))
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to initialize DM2 for article: ' . midgard_connection::get_error_string());
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to initialize DM2 for article: ' . midcom_connection::get_error_string());
         }
 
         foreach ($data as $field => $value)
@@ -189,7 +189,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
         if (!$this->_datamanager->save())
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to update article: ' . midgard_connection::get_error_string());
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to update article: ' . midcom_connection::get_error_string());
         }
         return true;
     }
@@ -219,7 +219,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         if (   !$article
             || !$article->guid)
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create article: ' . midgard_connection::get_error_string());
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create article: ' . midcom_connection::get_error_string());
         }
 
         $response = $this->_apply_data($args[3], $article);
@@ -518,13 +518,13 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
             if (!$attachment)
             {
-                return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create attachment: ' . midgard_connection::get_error_string());
+                return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create attachment: ' . midcom_connection::get_error_string());
             }
         }
 
         if (!$attachment->copy_from_memory($args[3]['bits']))
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to store contents to attachment: ' . midgard_connection::get_error_string());
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to store contents to attachment: ' . midcom_connection::get_error_string());
         }
 
         $attachment_array = array
@@ -562,7 +562,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         if (!$article->delete())
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to delete article: ' . midgard_connection::get_error_string());
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to delete article: ' . midcom_connection::get_error_string());
         }
 
         // Update the index
