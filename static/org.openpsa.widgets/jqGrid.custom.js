@@ -413,10 +413,11 @@ var org_openpsa_grid_editable =
      * Notice:
      *  this function works only if enable_sorting is set true
      */
-    toggle_mouselistener: function(isEdit) //isEdit is boolean
+    toggle_mouselistener: function()
     {
         if (this.options.enable_sorting)
         {
+            var isEdit = $('#' + this.grid_id + ' tr.jqgrid-editing').length > 0;
             $( '#'+this.grid_id+' tbody').sortable( "option", "disabled", isEdit );
             if (isEdit)
             {
@@ -431,18 +432,22 @@ var org_openpsa_grid_editable =
     editRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('editRow', id, this.options);
-        $('#cancel_button_' + id).closest("tr").find('input[type="text"]:first:visible').focus();
-        org_openpsa_grid_editable.toggle_mouselistener(true);
+        $('#cancel_button_' + id).closest("tr")
+            .addClass('jqgrid-editing')
+            .find('input[type="text"]:first:visible').focus();
+        this.toggle_mouselistener();
     },
     saveRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('saveRow', id, this.options);
-        org_openpsa_grid_editable.toggle_mouselistener(false);
+        $('#cancel_button_' + id).closest("tr").removeClass('jqgrid-editing')
+        this.toggle_mouselistener();
     },
     restoreRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('restoreRow', id, this.options);
-        org_openpsa_grid_editable.toggle_mouselistener(false);
+        $('#cancel_button_' + id).closest("tr").removeClass('jqgrid-editing')
+        this.toggle_mouselistener();
     },
     deleteRow: function(id)
     {
