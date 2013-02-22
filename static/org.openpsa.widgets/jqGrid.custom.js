@@ -354,6 +354,9 @@ var org_openpsa_grid_editable =
         $('#save_button_' + id).toggleClass('hidden', !edit_mode);
         $('#cancel_button_' + id).toggleClass('hidden', !edit_mode);
         $('#edit_button_' + id).toggleClass('hidden', edit_mode);
+        $('#cancel_button_' + id).closest("tr")
+            .toggleClass('jqgrid-editing', edit_mode);
+        this.toggle_mouselistener();
     },
 
     enable_inline: function (grid_id, custom_options)
@@ -405,13 +408,7 @@ var org_openpsa_grid_editable =
 
     },
     /**
-     * Input:
-     *  boolean isEdit
-     * Description:
-     *  -by true, the grid will not be sortable but the (edit) fields selectable by mouse
-     *  -by false, the grid will be sortable and the fields not selectable
-     * Notice:
-     *  this function works only if enable_sorting is set true
+     * This function works only if enable_sorting is set true
      */
     toggle_mouselistener: function()
     {
@@ -433,21 +430,15 @@ var org_openpsa_grid_editable =
     {
         $('#' + this.grid_id).jqGrid('editRow', id, this.options);
         $('#cancel_button_' + id).closest("tr")
-            .addClass('jqgrid-editing')
-            .find('input[type="text"]:first:visible').focus();
-        this.toggle_mouselistener();
+            .find('textarea, input[type="text"]').filter(':first:visible').focus();
     },
     saveRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('saveRow', id, this.options);
-        $('#cancel_button_' + id).closest("tr").removeClass('jqgrid-editing')
-        this.toggle_mouselistener();
     },
     restoreRow: function(id)
     {
         $('#' + this.grid_id).jqGrid('restoreRow', id, this.options);
-        $('#cancel_button_' + id).closest("tr").removeClass('jqgrid-editing')
-        this.toggle_mouselistener();
     },
     deleteRow: function(id)
     {
