@@ -145,7 +145,7 @@ class org_openpsa_projects_projectbroker
             $prospect = new org_openpsa_projects_task_resource_dba();
             $prospect->person = $person->id;
             $prospect->task = $task->id;
-            $prospect->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECTPROSPECT;
+            $prospect->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::PROSPECT;
             if (!$prospect->create())
             {
                 // TODO: Error reporting

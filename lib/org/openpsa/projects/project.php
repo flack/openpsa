@@ -118,7 +118,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
         $mc->add_value_property('role');
         $mc->add_value_property('person');
-        $mc->add_constraint('role', '<>', ORG_OPENPSA_OBTYPE_PROJECTPROSPECT);
+        $mc->add_constraint('role', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
         $mc->execute();
         $ret = $mc->list_keys();
 
@@ -129,12 +129,12 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             {
                 switch ($mc->get_subkey($guid, 'role'))
                 {
-                    case ORG_OPENPSA_OBTYPE_PROJECTCONTACT:
+                    case org_openpsa_projects_task_resource_dba::CONTACT:
                         $varName = 'contacts';
                         break;
                     default:
                         //fall-trough intentional
-                    case ORG_OPENPSA_OBTYPE_PROJECTRESOURCE:
+                    case org_openpsa_projects_task_resource_dba::RESOURCE:
                         $varName = 'resources';
                         break;
                 }

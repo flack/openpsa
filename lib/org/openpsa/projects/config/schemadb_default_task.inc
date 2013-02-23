@@ -253,7 +253,7 @@
                 'master_fieldname' => 'task',
                 'member_fieldname' => 'person',
                 'master_is_id' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
+                'additional_fields' => array('orgOpenpsaObtype' => org_openpsa_projects_task_resource_dba::RESOURCE)
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -314,7 +314,7 @@
                 'master_fieldname' => 'task',
                 'member_fieldname' => 'person',
                 'master_is_id' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
+                'additional_fields' => array('orgOpenpsaObtype' => org_openpsa_projects_task_resource_dba::CONTACT)
             ),
             'widget' => 'chooser',
             'widget_config' => array

@@ -97,7 +97,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                         // Slot not selected, skip
                         continue;
                     }
-                    $prospect->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECTRESOURCE;
+                    $prospect->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::RESOURCE;
                     $update_prospect = true;
                     // Create event from slot
                     $event = new org_openpsa_calendar_event_dba();
@@ -169,8 +169,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('task', '=', $this->_task->id);
         $qb->begin_group('OR');
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTPROSPECT);
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::PROSPECT);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
         $qb->end_group('OR');
         $qb->add_order('orgOpenpsaObtype');
         $data['prospects'] = $qb->execute();

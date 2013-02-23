@@ -16,6 +16,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     const WGTYPE_NONE = 0;
     const WGTYPE_INACTIVE = 1;
     const WGTYPE_ACTIVE = 3;
+    const OBTYPE = 6002;
 
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task';
@@ -46,7 +47,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         $this->_locale_set();
-        $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_TASK;
+        $this->orgOpenpsaObtype = self::OBTYPE;
         if (!$this->manager)
         {
             $this->manager = midcom_connection::get_user();
@@ -221,7 +222,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
         $mc->add_value_property('orgOpenpsaObtype');
         $mc->add_value_property('person');
-        $mc->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_PROJECTPROSPECT);
+        $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
         $mc->execute();
         $ret = $mc->list_keys();
 
@@ -232,12 +233,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             {
                 switch ($mc->get_subkey($guid, 'orgOpenpsaObtype'))
                 {
-                    case ORG_OPENPSA_OBTYPE_PROJECTCONTACT:
+                    case org_openpsa_projects_task_resource_dba::CONTACT:
                         $varName = 'contacts';
                         break;
                     default:
                         //fall-trough intentional
-                    case ORG_OPENPSA_OBTYPE_PROJECTRESOURCE:
+                    case org_openpsa_projects_task_resource_dba::RESOURCE:
                         $varName = 'resources';
                         break;
                 }
@@ -266,10 +267,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             switch ($property)
             {
                 case 'contacts':
-                    $resource->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECTCONTACT;
+                    $resource->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::CONTACT;
                     break;
                 case 'resources':
-                    $resource->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECTRESOURCE;
+                    $resource->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::RESOURCE;
                     break;
                 default:
                     continue;
@@ -316,7 +317,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return false;
         }
 
-        if ($this->orgOpenpsaWgtype == ORG_OPENPSA_OBTYPE_TASK)
+        if ($this->orgOpenpsaWgtype == self::OBTYPE)
         {
             $this->orgOpenpsaWgtype = self::WGTYPE_NONE;
         }
@@ -571,7 +572,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $view_data['task']->id);
-        $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
+        $mc->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
         $resources = $mc->get_values('person');
 
         foreach ($resources as $resource)

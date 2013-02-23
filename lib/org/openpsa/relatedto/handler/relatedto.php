@@ -623,7 +623,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _render_line_task(&$link, &$other_obj)
     {
-        if ($other_obj->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_TASK)
+        if ($other_obj->orgOpenpsaObtype == org_openpsa_projects_task_dba::OBTYPE)
         {
             $type = 'task';
         }

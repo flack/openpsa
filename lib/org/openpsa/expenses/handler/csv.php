@@ -17,9 +17,6 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
 
     public function _load_schemadbs($handler_id, &$args, &$data)
     {
-        //We need the constants...
-        midcom::get('componentloader')->load('org.openpsa.projects');
-
         if (   isset($_GET['filename'])
             && is_string($_GET['filename'])
             && strpos($_GET['filename'], '.csv'))

@@ -32,6 +32,11 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     const APPROVED = 6570;
     const CLOSED = 6580;
 
+    //org.openpsa.projects acceptance negotiation types
+    const ACCEPTANCE_ALLACCEPT = 6700;
+    const ACCEPTANCE_ONEACCEPT = 6701;
+    const ACCEPTANCE_ONEACCEPTDROP = 6702;
+
     public function __construct($id = null)
     {
         $this->_use_rcs = false;
@@ -87,13 +92,13 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         //Remove the resource if necessary
-        if (   $this->type == org_openpsa_projects_task_status_dba::DECLINED
+        if (   $this->type == self::DECLINED
             && $this->targetPerson)
         {
             $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
             $qb->add_constraint('task', '=', $this->task);
             $qb->add_constraint('person', '=', $this->targetPerson);
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
+            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
             if ($qb->count() > 0)
             {
                 $results = $qb->execute();
@@ -112,7 +117,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         $task = org_openpsa_projects_task_dba::get_cached($this->task);
 
-        if ($this->type == org_openpsa_projects_task_status_dba::PROPOSED)
+        if ($this->type == self::PROPOSED)
         {
             try
             {
@@ -143,17 +148,17 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         if ($task->status < $this->type)
         {
             // This doesn't really do anything yet, it's moved here from workflow.php
-            if ($this->type == org_openpsa_projects_task_status_dba::ACCEPTED)
+            if ($this->type == self::ACCEPTED)
             {
                 switch ($task->acceptanceType)
                 {
-                    case ORG_OPENPSA_TASKACCEPTANCE_ALLACCEPT:
-                    case ORG_OPENPSA_TASKACCEPTANCE_ONEACCEPTDROP:
+                    case self::ACCEPTANCE_ALLACCEPT:
+                    case self::ACCEPTANCE_ONEACCEPTDROP:
                         debug_add('Acceptance mode not implemented', MIDCOM_LOG_ERROR);
                         return false;
                         break;
                     default:
-                    case ORG_OPENPSA_TASKACCEPTANCE_ONEACCEPT:
+                    case self::ACCEPTANCE_ONEACCEPT:
                         //PONDER: Should this be superseded by generic method for querying the status objects to set the latest status ??
                         debug_add("Required accept received, setting task status to accepted");
                         //
@@ -186,25 +191,25 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         switch ($this->type)
         {
-            case org_openpsa_projects_task_status_dba::PROPOSED:
+            case self::PROPOSED:
                 return 'proposed to %s by %s';
-            case org_openpsa_projects_task_status_dba::DECLINED:
+            case self::DECLINED:
                 return 'declined by %s';
-            case org_openpsa_projects_task_status_dba::ACCEPTED:
+            case self::ACCEPTED:
                 return 'accepted by %s';
-            case org_openpsa_projects_task_status_dba::ONHOLD:
+            case self::ONHOLD:
                 return 'put on hold by %s';
-            case org_openpsa_projects_task_status_dba::STARTED:
+            case self::STARTED:
                 return 'work started by %s';
-            case org_openpsa_projects_task_status_dba::REJECTED:
+            case self::REJECTED:
                 return 'rejected by %s';
-            case org_openpsa_projects_task_status_dba::REOPENED:
+            case self::REOPENED:
                 return 're-opened by %s';
-            case org_openpsa_projects_task_status_dba::COMPLETED:
+            case self::COMPLETED:
                 return 'marked as completed by %s';
-            case org_openpsa_projects_task_status_dba::APPROVED:
+            case self::APPROVED:
                 return 'approved by %s';
-            case org_openpsa_projects_task_status_dba::CLOSED:
+            case self::CLOSED:
                 return 'closed by %s';
             default:
                 return "{$this->type} by %s";

@@ -127,7 +127,7 @@
                 'mapping_class_name' => 'org_openpsa_contacts_role_dba',
                 'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
+                'additional_fields' => array('role' => org_openpsa_projects_task_resource_dba::CONTACT)
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -232,7 +232,7 @@
                 'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
                 'allow_multiple' => true,
-                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
+                'additional_fields' => array('role' => org_openpsa_projects_task_resource_dba::RESOURCE)
             ),
             'widget' => 'chooser',
             'widget_config' => array

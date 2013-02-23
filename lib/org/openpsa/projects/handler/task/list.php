@@ -252,8 +252,8 @@ implements org_openpsa_widgets_grid_provider_client
         );
 
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-        $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
+        $mc->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
+        $mc->add_constraint('task.orgOpenpsaObtype', '=', org_openpsa_projects_task_dba::OBTYPE);
         $mc->add_constraint('task.status', 'IN', $resource_statuses);
 
         $resource_tasks = $mc->get_values('task');
