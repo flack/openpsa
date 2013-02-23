@@ -82,8 +82,8 @@ var midcom_helper_datamanager2_autocomplete =
 
         if ($('#' + identifier + '_selection_holder').length > 0)
         {
-            midcom_helper_datamanager2_autocomplete.add_selected(identifier, ui.item.id, ui.item.label, 'autocomplete-new');
             midcom_helper_datamanager2_autocomplete.update_selection(identifier, ui.item.id, 'add');
+            midcom_helper_datamanager2_autocomplete.add_item(identifier, ui.item.id, ui.item.label, 'autocomplete-new');
         }
         else
         {
@@ -155,8 +155,8 @@ var midcom_helper_datamanager2_autocomplete =
                 input_value += data[value.name] + ', ';
             }
         });
-        midcom_helper_datamanager2_autocomplete.add_selected(identifier, data[handler_options.id_field], input_value.replace(/, $/, ''), 'autocomplete-new');
         midcom_helper_datamanager2_autocomplete.update_selection(identifier, data[handler_options.id_field], 'add');
+        midcom_helper_datamanager2_autocomplete.add_item(identifier, data[handler_options.id_field], input_value.replace(/, $/, ''), 'autocomplete-new');
     },
 
     create_dm2_widget: function(selector, min_length)
@@ -166,23 +166,29 @@ var midcom_helper_datamanager2_autocomplete =
         options =  $.extend({minLength: min_length}, midcom_helper_datamanager2_autocomplete.get_default_options()),
         input = $('#' + selector);
 
-        input.autocomplete(options);
         input.parent().prepend('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>');
         if (!$.isEmptyObject(handler_options.preset))
         {
             $.each(handler_options.preset, function(id, text)
             {
-                midcom_helper_datamanager2_autocomplete.add_selected(identifier, id, text, 'autocomplete-saved');
+                midcom_helper_datamanager2_autocomplete.add_item(identifier, id, text, 'autocomplete-saved');
             });
         }
+        input.autocomplete(options);
 
         input.parent().on('click', '.autocomplete-selection-holder .autocomplete-action-icon', function()
         {
             var item = $(this).parent(),
-            item_id = item.data('id');
+            item_id = item.data('id'),
+            todelete = item.hasClass('autocomplete-selected');
 
-            if (item.hasClass('autocomplete-selected'))
+            if (todelete === true)
             {
+                midcom_helper_datamanager2_autocomplete.update_selection(identifier, item_id, 'remove');
+                if (handler_options.allow_multiple !== true)
+                {
+                    input.show().focus();
+                }
                 if (item.hasClass('autocomplete-saved'))
                 {
                     item.removeClass('autocomplete-selected');
@@ -192,59 +198,82 @@ var midcom_helper_datamanager2_autocomplete =
                 {
                     item.remove();
                 }
-                if (handler_options.allow_multiple !== true)
-                {
-                    input.show();
-                }
-                midcom_helper_datamanager2_autocomplete.update_selection(identifier, item_id, 'remove');
             }
             else if (item.hasClass('autocomplete-todelete'))
             {
+                midcom_helper_datamanager2_autocomplete.update_selection(identifier, item_id, 'add');
                 midcom_helper_datamanager2_autocomplete.restore_item(identifier, item);
+            }
+            else
+            {
+                midcom_helper_datamanager2_autocomplete.hide_input(identifier, true);
+            }
+
+            if (handler_options.allow_multiple !== true)
+            {
+                if (todelete === true)
+                {
+                    input.show().focus();
+                }
+                else
+                {
+                    input.hide();
+                    input.closest('.form .element').nextAll().find('input:visible, textarea:visible').first().focus();
+                }
             }
         });
     },
 
     restore_item: function(identifier, item)
     {
-        var handler_options = window[identifier + '_handler_options'];
+        midcom_helper_datamanager2_autocomplete.hide_input(identifier, true);
 
         item.removeClass('autocomplete-todelete');
         item.addClass('autocomplete-selected');
-        if (handler_options.allow_multiple !== true)
-        {
-            item.parent().find('.autocomplete-new').remove();
-            $('#' + identifier + '_search_input').hide();
-        }
-        midcom_helper_datamanager2_autocomplete.update_selection(identifier, item.data('id'), 'add');
     },
 
-    add_selected: function(identifier, item_id, text, status)
+    hide_input: function(identifier, switch_focus)
+    {
+        var handler_options = window[identifier + '_handler_options'];
+
+        if (handler_options.allow_multiple !== true)
+        {
+            $('#' + identifier + '_search_input').hide();
+            $('#' + identifier + '_selection_holder').find('.autocomplete-new').remove();
+            if (switch_focus === true)
+            {
+                $('#' + identifier + '_search_input').closest('.form .element').nextAll().find('input:visible, textarea:visible').first().focus();
+            }
+
+        }
+    },
+
+    add_item: function(identifier, item_id, text, status)
     {
         var handler_options = window[identifier + '_handler_options'],
         selection_holder = $('#' + identifier + '_selection_holder'),
-        existing_item;
+        existing_item = selection_holder.find('[data-id="' + item_id + '"]'),
+        selected = midcom_helper_datamanager2_autocomplete.is_selected(identifier, item_id);
 
-        if (selection_holder.find('[data-id="' + item_id + '"]').length > 0)
+        if (existing_item.length === 0)
         {
-            existing_item = selection_holder.find('[data-id="' + item_id + '"]');
-            if (existing_item.hasClass('autocomplete-todelete'))
-            {
-                midcom_helper_datamanager2_autocomplete.restore_item(identifier, existing_item);
-            }
-            return;
+            midcom_helper_datamanager2_autocomplete.hide_input(identifier, status !== 'autocomplete-saved');
+
+            status = (selected === true ? 'selected ' : 'todelete ') + status;
+            $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label">' + text + '</span></span>')
+                .append('<span class="autocomplete-action-icon"></span>')
+                .prependTo(selection_holder);
         }
-
-        $('<span class="autocomplete-item autocomplete-selected ' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label">' + text + '</span></span>')
-            .append('<span class="autocomplete-action-icon"></span>')
-            .prependTo(selection_holder);
-
-        if (handler_options.allow_multiple !== true)
+        else if (existing_item.hasClass('autocomplete-todelete'))
         {
-            $('#' + identifier + '_search_input').hide();
+            midcom_helper_datamanager2_autocomplete.restore_item(identifier, existing_item);
         }
     },
-
+    is_selected: function(identifier, item_id)
+    {
+        var selection = JSON.parse($('#' + identifier + '_selection').val());
+        return ($.inArray(item_id, selection) !== -1);
+    },
     update_selection: function(identifier, item_id, operation)
     {
         var selection = JSON.parse($('#' + identifier + '_selection').val()),
