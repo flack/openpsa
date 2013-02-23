@@ -72,20 +72,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         $this->_locale_restore();
-        //Try to mark the parent task as started
-        try
-        {
-            $parent = new org_openpsa_projects_task_dba($this->task);
-            $parent->update_cache();
-            org_openpsa_projects_workflow::start($parent, $this->person);
-            //Add person to resources if necessary
-            $parent->get_members();
-            if (!array_key_exists($this->person, $parent->resources))
-            {
-                $parent->add_members('resources', array($this->person));
-            }
-        }
-        catch (midcom_error $e){}
+        $this->_update_parent(true);
     }
 
     public function _on_updating()
@@ -99,26 +86,38 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     {
         $this->_locale_restore();
 
-        if ($this->_skip_parent_refresh)
+        if (!$this->_skip_parent_refresh)
         {
-            return;
+            $this->_update_parent();
         }
-        try
-        {
-            $parent = new org_openpsa_projects_task_dba($this->task);
-            $parent->update_cache();
-        }
-        catch (midcom_error $e){}
     }
 
     public function _on_deleted()
+    {
+        $this->_update_parent();
+    }
+
+    private function _update_parent($start = false)
     {
         try
         {
             $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
         }
-        catch (midcom_error $e){}
+        catch (midcom_error $e)
+        {
+            return false;
+        }
+        if ($start)
+        {
+            org_openpsa_projects_workflow::start($parent, $this->person);
+            //Add person to resources if necessary
+            $parent->get_members();
+            if (!array_key_exists($this->person, $parent->resources))
+            {
+                $parent->add_members('resources', array($this->person));
+            }
+        }
     }
 
     /**
