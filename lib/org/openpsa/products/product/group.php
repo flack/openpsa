@@ -79,6 +79,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     public static function list_groups($up = 0, $prefix = '', $keyproperty = 'id', $order_by_score = false, $label_fields = array('code', 'title'))
     {
         static $result_cache = array();
+
         $cache_key = md5($up . $keyproperty . $prefix . $order_by_score . implode('', $label_fields));
         if (isset($result_cache[$cache_key]))
         {
@@ -146,7 +147,8 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
                 $ret[$key] .= "{$field_val} ";
             }
             unset($fieldname, $field_val);
-            $ret = $ret + org_openpsa_products_product_group_dba::list_groups($id, "{$prefix} > ", $keyproperty, $label_fields);
+
+            $ret = $ret + self::list_groups($id, "{$prefix} > ", $keyproperty, $order_by_score, $label_fields);
             unset($id, $key);
         }
         unset($mc, $mc_keys, $dummy, $mc_key);
