@@ -3,6 +3,40 @@
     'description' => 'task',
     'fields'      => array
     (
+        'project' => array
+        (
+            'title'   => 'project',
+            'storage' => 'project',
+            'required' => true,
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_projects_project',
+                'titlefield'  => 'title',
+                'id_field'     => 'id',
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'title',
+                        'name' => 'title',
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'title'
+                ),
+                'orders'        => array
+                (
+                    array('title'    => 'ASC')
+                ),
+            ),
+        ),
         'title' => array
         (
             'title'    => 'title',

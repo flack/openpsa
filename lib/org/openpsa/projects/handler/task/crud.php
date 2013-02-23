@@ -403,25 +403,28 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     function & dm2_create_callback(&$controller)
     {
-        $task = new org_openpsa_projects_task_dba();
-
-        if ($this->_parent)
+        $this->_object = new org_openpsa_projects_task_dba();
+        $project = $controller->formmanager->get_value('project');
+        if ($project)
         {
-            // Add the task to the project
-            $task->project = (int) $this->_parent->id;
-
-            // Populate some default data from parent as needed
-            $task->orgOpenpsaAccesstype = $this->_parent->orgOpenpsaAccesstype;
-            $task->orgOpenpsaOwnerWg = $this->_parent->orgOpenpsaOwnerWg;
+            $project = org_openpsa_projects_project::get_cached((int) $project);
+        }
+        else
+        {
+            $project = $this->_parent;
         }
 
-        if (! $task->create())
-        {
-            debug_print_r('We operated on this object:', $task);
-            throw new midcom_error("Failed to create a new task under project #{$this->_request_data['project']->id}. Error: " . midcom_connection::get_error_string());
-        }
+        $this->_object->project = $project->id;
 
-        $this->_object = new org_openpsa_projects_task_dba($task->id);
+        // Populate some default data from parent as needed
+        $this->_object->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
+        $this->_object->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
+
+        if (! $this->_object->create())
+        {
+            debug_print_r('We operated on this object:', $this->_object);
+            throw new midcom_error("Failed to create a new task under project #{$project->id}. Error: " . midcom_connection::get_error_string());
+        }
 
         return $this->_object;
     }
