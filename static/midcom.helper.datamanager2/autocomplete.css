@@ -26,7 +26,7 @@
     border: 1px solid #ccc;
     border-radius: .2em;
     margin-right: .5em;
-    padding: .1em .5em;
+    padding: .2em .3em;
     background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
@@ -38,9 +38,10 @@
 }
 .autocomplete-selection-holder .autocomplete-item:hover
 {
-    border-top-color: #ddd;
-    border-bottom-color: #bbb;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, .2)
+    border-left-color: #bbb;
+    border-bottom-color: #aaa;
+    border-right-color: #aaa;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .1)
 }
 
 
@@ -48,7 +49,6 @@
 {
     display: inline-block;
     vertical-align: middle;
-    font-size: .9em
 }
 
 .autocomplete-selection-holder .autocomplete-action-icon
@@ -60,6 +60,19 @@
     background-repeat: no-repeat;
     margin-left: .5em;
     vertical-align: middle;
+}
+
+.autocomplete-action-icon
+{
+    opacity: .3
+}
+.autocomplete-item:hover .autocomplete-action-icon
+{
+    opacity: .7
+}
+.autocomplete-item:hover .autocomplete-action-icon:hover
+{
+    opacity: 1
 }
 
 .autocomplete-selected .autocomplete-action-icon
