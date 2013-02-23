@@ -97,6 +97,7 @@
 .autocomplete_input
 {
     background: url("../stock-icons/16x16/search.png") no-repeat right center;
+    margin-bottom: .3em
 }
 
 .ui-autocomplete-loading

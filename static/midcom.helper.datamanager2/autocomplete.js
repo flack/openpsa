@@ -166,7 +166,7 @@ var midcom_helper_datamanager2_autocomplete =
         options =  $.extend({minLength: min_length}, midcom_helper_datamanager2_autocomplete.get_default_options()),
         input = $('#' + selector);
 
-        input.parent().prepend('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>');
+        input.parent().append('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>');
         if (!$.isEmptyObject(handler_options.preset))
         {
             $.each(handler_options.preset, function(id, text)
@@ -207,19 +207,6 @@ var midcom_helper_datamanager2_autocomplete =
             else
             {
                 midcom_helper_datamanager2_autocomplete.hide_input(identifier, true);
-            }
-
-            if (handler_options.allow_multiple !== true)
-            {
-                if (todelete === true)
-                {
-                    input.show().focus();
-                }
-                else
-                {
-                    input.hide();
-                    input.closest('.form .element').nextAll().find('input:visible, textarea:visible').first().focus();
-                }
             }
         });
     },
