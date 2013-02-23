@@ -504,18 +504,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!class_exists($this->_renderer_callback_class))
         {
-            // Try auto-load.
-            $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $this->_renderer_callback_class) . '.php';
-            if (!file_exists($path))
-            {
-                debug_add("Auto-loading of the renderer callback class {$this->_renderer_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-            require_once($path);
-        }
-
-        if (!class_exists($this->_renderer_callback_class))
-        {
             debug_add("The renderer callback class {$this->_renderer_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
             return false;
         }

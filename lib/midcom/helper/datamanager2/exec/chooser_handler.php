@@ -78,18 +78,6 @@ if (!empty($_callback_class))
 {
     if (! class_exists($_callback_class))
     {
-        // Try auto-load.
-        $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $_callback_class) . '.php';
-        if (! file_exists($path))
-        {
-            debug_add("Auto-loading of the callback class {$_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        require_once($path);
-    }
-
-    if (! class_exists($_callback_class))
-    {
         debug_add("The callback class {$_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
         return false;
     }

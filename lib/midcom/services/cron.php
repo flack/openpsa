@@ -262,17 +262,6 @@ class midcom_services_cron
             return true;
         }
 
-        // Try auto-load.
-        $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $handler_name) . '.php';
-        if (! file_exists($path))
-        {
-            $msg = "Auto-loading of the class {$handler_name} from {$path} failed: File does not exist.";
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            echo "ERROR: {$msg}\n";
-            return false;
-        }
-        require_once($path);
-
         if (! class_exists($handler_name))
         {
             $msg = "Failed to register a job using {$handler_name}: Handler class is not declared.";

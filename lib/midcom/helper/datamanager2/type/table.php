@@ -75,14 +75,6 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
         {
             $classname = $this->callback;
 
-            // Try auto-load.
-            $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $classname) . '.php';
-            if (! file_exists($path))
-            {
-                debug_add("Auto-loading of the class {$classname} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-            require_once($path);
             if (! class_exists($classname))
             {
                 debug_add("The class {$classname} was defined as option callback for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
