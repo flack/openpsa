@@ -16,7 +16,6 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_hour_report';
 
-    private $_locale_backup = '';
     public $_skip_parent_refresh = false;
 
     function get_parent_guid_uncached()
@@ -52,40 +51,24 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         return true;
     }
 
-    private function _locale_set()
-    {
-        $this->_locale_backup = setlocale(LC_NUMERIC, '0');
-        setlocale(LC_NUMERIC, 'C');
-    }
-
-    private function _locale_restore()
-    {
-        setlocale(LC_NUMERIC, $this->_locale_backup);
-    }
-
     public function _on_creating()
     {
-        $this->_locale_set();
         return $this->_prepare_save();
     }
 
     public function _on_created()
     {
-        $this->_locale_restore();
         $this->_update_parent(true);
     }
 
     public function _on_updating()
     {
-        $this->_locale_set();
         $this->modify_hours_by_time_slot(false);
         return $this->_prepare_save();
     }
 
     public function _on_updated()
     {
-        $this->_locale_restore();
-
         if (!$this->_skip_parent_refresh)
         {
             $this->_update_parent();

@@ -29,7 +29,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     var $contacts = null; //Shorthand access for contact members
     var $resources = null; // --''--
-    private $_locale_backup = '';
     public $_skip_acl_refresh = false;
     public $_skip_parent_refresh = false;
     private $_status = null;
@@ -46,18 +45,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        $this->_locale_set();
         $this->orgOpenpsaObtype = self::OBTYPE;
         if (!$this->manager)
         {
             $this->manager = midcom_connection::get_user();
         }
         return $this->_prepare_save();
-    }
-
-    public function _on_created()
-    {
-        $this->_locale_restore();
     }
 
     public function _on_loaded()
@@ -102,14 +95,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        $this->_locale_set();
-        if ($this->_prepare_save())
-        {
-            return true;
-        }
-        //If we return false here then _on_updated() never gets called
-        $this->_locale_restore();
-        return false;
+        return $this->_prepare_save();
     }
 
     public function _on_updated()
@@ -137,8 +123,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         $this->_update_parent();
-
-        $this->_locale_restore();
     }
 
     public function _on_deleting()
@@ -347,17 +331,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->update_cache(false);
 
         return true;
-    }
-
-    private function _locale_set()
-    {
-        $this->_locale_backup = setlocale(LC_NUMERIC, '0');
-        setlocale(LC_NUMERIC, 'C');
-    }
-
-    private function _locale_restore()
-    {
-        setlocale(LC_NUMERIC, $this->_locale_backup);
     }
 
     /**
