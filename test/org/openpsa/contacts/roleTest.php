@@ -30,17 +30,17 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $member1 = new org_openpsa_contacts_role_dba();
         $member1->objectGuid = $salesproject->guid;
         $member1->person = $person1->id;
-        $member1->role = ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER;
+        $member1->role = org_openpsa_sales_salesproject_dba::ROLE_MEMBER;
         $stat = $member1->create();
         $this->assertTrue($stat);
         $this->register_object($member1);
-        $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER, $member1->role);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::ROLE_MEMBER, $member1->role);
         $this->assertEquals(array($person1->id => true), $salesproject->contacts);
 
         $stat = $member1->delete();
         $this->assertTrue($stat);
 
-        $stat = org_openpsa_contacts_role_dba::add($salesproject->guid, $person2->id, ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
+        $stat = org_openpsa_contacts_role_dba::add($salesproject->guid, $person2->id, org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
         $this->assertTrue($stat);
 
         $qb = org_openpsa_contacts_role_dba::new_query_builder();
@@ -49,7 +49,7 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
 
         $members = $qb->execute();
         $member2 = $members[0];
-        $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER, $member2->role);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::ROLE_MEMBER, $member2->role);
         $this->assertEquals($person2->id, $member2->person);
 
         $salesproject->refresh();

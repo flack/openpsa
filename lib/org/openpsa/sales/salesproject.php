@@ -29,6 +29,9 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     const STATUS_DELIVERED = 11200;
     const STATUS_INVOICED = 11300;
 
+    //org.openpsa.sales role types
+    const ROLE_MEMBER = 10500;
+
     /**
      * Shorthand access for contact members
      */
@@ -312,7 +315,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $this->_contacts = array();
 
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
-        $mc->add_constraint('role', '=', ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
+        $mc->add_constraint('role', '=', self::ROLE_MEMBER);
 
         $members = $mc->get_values('person');
 

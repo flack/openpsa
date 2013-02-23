@@ -13,15 +13,6 @@
  */
 class org_openpsa_sales_interface extends midcom_baseclasses_components_interface
 {
-    public function _on_initialize()
-    {
-        //org.openpsa.sales object types
-        define('ORG_OPENPSA_OBTYPE_SALESPROJECT', 10000);
-        define('ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER', 10500);
-
-        return true;
-    }
-
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         try
@@ -85,7 +76,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             //We have invalid list or less than two participants, abort
             return;
         }
-        $mc = org_openpsa_contacts_role_dba::new_collector('role', ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
+        $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
         $mc->add_constraint('person', 'IN', array_keys($object->participants));
         $guids = $mc->get_values('objectGuid');
 
@@ -142,7 +133,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     private function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
     {
         $seen_sp = array();
-        $mc = org_openpsa_contacts_role_dba::new_collector('role', ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
+        $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
         $mc->add_constraint('person', '=', array_keys($object->id));
         $guids = $mc->get_values('objectGuid');
 

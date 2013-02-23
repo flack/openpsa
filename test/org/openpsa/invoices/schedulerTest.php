@@ -287,7 +287,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         (
             'person' => $member->id,
             'objectGuid' => $salesproject->guid,
-            'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
+            'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
         );
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
 

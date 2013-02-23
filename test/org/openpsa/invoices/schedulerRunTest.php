@@ -57,7 +57,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         (
             'person' => $this->_member->id,
             'objectGuid' => $this->_salesproject->guid,
-            'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
+            'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
         );
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
 
@@ -286,9 +286,6 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
     public function providerRun_cycle()
     {
-        //get the necessary constants
-        midcom::get('componentloader')->load('org.openpsa.sales');
-
         $now = time();
         $this_month = gmdate('n', $now);
         $this_day = gmdate('j', $now);

@@ -56,9 +56,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      */
     public function load_schemas()
     {
-        // Make sure component is loaded so that constants are defined
-        midcom::get('componentloader')->load('org.openpsa.contacts');
-
         $schemadbs = array
         (
             'person' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person')),

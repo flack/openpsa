@@ -218,7 +218,7 @@
                 'mapping_class_name' => 'org_openpsa_contacts_role_dba',
                 'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER),
+                'additional_fields' => array('role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER),
             ),
             'widget' => 'chooser',
             'widget_config' => array
