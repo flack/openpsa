@@ -1149,9 +1149,20 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         $qb->add_constraint($this->id_field, '=', $key);
+
+        $mgd2 = extension_loaded('midgard2');
         foreach ($this->constraints as $constraint)
         {
-            $qb->add_constraint($constraint['field'], $constraint['op'], $constraint['value']);
+            if (   $mgd2
+                && $constraint['field'] === 'username')
+            {
+                debug_add("enable workaround for mg2 username constraint", MIDCOM_LOG_INFO);
+                midcom_core_account::add_username_constraint($qb, $constraint['op'], $constraint['value']);
+            }
+            else
+            {
+                $qb->add_constraint($constraint['field'], $constraint['op'], $constraint['value']);
+            }
         }
         $results = $qb->execute();
 
