@@ -488,12 +488,6 @@ EOT;
                     continue;
                 }
 
-                if (!class_exists('midcom_helper_reflector'))
-                {
-                     $selection[] = get_class($object) . " #{$object->id}";
-                     continue;
-                }
-
                 $ref = new midcom_helper_reflector($object);
                 $selection[] = $ref->get_object_label($object);
             }

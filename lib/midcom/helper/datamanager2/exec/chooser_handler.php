@@ -283,7 +283,7 @@ foreach ($results as $object)
                 || (   in_array($class, array('midcom_db_group', 'midcom_db_group'))
                     && $item_name == 'name'))
             {
-                $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
+                $value = midcom_helper_reflector_tree::resolve_path($object);
             }
 
             $item_name = str_replace('.', '_', $item_name);

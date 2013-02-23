@@ -1064,7 +1064,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $value = @$object->$item_name;
                 if ($item_name === $this->generate_path_for)
                 {
-                    $value = self::resolve_path($object, $value);
+                    $value = midcom_helper_reflector_tree::resolve_path($object);
                 }
                 $this->_static_items_html .= "<td class=\"{$item_name}\">{$value}&nbsp;</td>";
             }
@@ -1081,10 +1081,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
     private function _resolve_object_name($object)
     {
-        if (!class_exists('midcom_helper_reflector'))
-        {
-            return get_class($object) . " #{$object->id}";
-        }
         $ref = new midcom_helper_reflector($object);
         return $ref->get_object_label($object);
     }
@@ -1115,7 +1111,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $value = @$object->$item_name;
                 if ($item_name === $this->generate_path_for)
                 {
-                    $value = self::resolve_path($object, $value);
+                    $value = midcom_helper_reflector_tree::resolve_path($object);
                 }
                 $tmp = str_replace('.', '_', $item_name);
 
@@ -1322,18 +1318,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         $output .= "</table>\n";
         return $output;
-    }
-
-    /**
-     * Helper method to resolve path for an object
-     */
-    public static function resolve_path(&$object, $title)
-    {
-        if (!class_exists('midcom_helper_reflector_tree'))
-        {
-            return $title;
-        }
-        return midcom_helper_reflector_tree::resolve_path($object);
     }
 }
 ?>
