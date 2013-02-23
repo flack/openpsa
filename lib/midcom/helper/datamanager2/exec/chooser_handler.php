@@ -133,44 +133,6 @@ foreach ($results as $object)
         {
             $item_name = $header_item['name'];
 
-            if (preg_match('/^metadata\.(.+)$/', $item_name, $regs))
-            {
-                $metadata_property = $regs[1];
-                $value = @$object->metadata->$metadata_property;
-
-                switch ($metadata_property)
-                {
-                    case 'created':
-                    case 'revised':
-                    case 'published':
-                    case 'schedulestart':
-                    case 'scheduleend':
-                    case 'imported':
-                    case 'exported':
-                    case 'approved':
-                        if ($value)
-                        {
-                            $value = strftime('%x %X', $value);
-                        }
-                        break;
-
-                    case 'creator':
-                    case 'revisor':
-                    case 'approver':
-                    case 'locker':
-                        if ($value)
-                        {
-                            $person = new midcom_db_person($value);
-                            $value = $person->name;
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                $value = @$object->$item_name;
-            }
-
             if (   $generate_path_for == $item_name
                 /**
                  * Shouldn't these be handled by the 'clever' classes ?
@@ -182,6 +144,10 @@ foreach ($results as $object)
                     && $item_name == 'name'))
             {
                 $value = midcom_helper_reflector_tree::resolve_path($object);
+            }
+            else
+            {
+                $value = midcom_helper_datamanager2_ajax_autocomplete::get_property_string($object, $item_name);
             }
 
             $item_name = str_replace('.', '_', $item_name);
