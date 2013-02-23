@@ -334,19 +334,13 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         foreach ($projects_suspect_links as $linkdata)
         {
-            debug_add("processing task/project #{$linkdata['other_obj']->id}, type: {$linkdata['other_obj']->orgOpenpsaObtype} (class: " . get_class($linkdata['other_obj']) . ")");
-            //Only save links to tasks
-            if ($linkdata['other_obj']->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_TASK)
+            if ($linkdata['link']->create())
             {
-                $stat = $linkdata['link']->create();
-                if ($stat)
-                {
-                    debug_add("saved link to task #{$linkdata['other_obj']->id} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
-                }
-                else
-                {
-                    debug_add("could not save link to task #{$linkdata['other_obj']->id}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                }
+                debug_add("saved link to task #{$linkdata['other_obj']->id} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
+            }
+            else
+            {
+                debug_add("could not save link to task #{$linkdata['other_obj']->id}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
     }

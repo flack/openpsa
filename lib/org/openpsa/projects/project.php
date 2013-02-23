@@ -160,7 +160,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             'rejected' => 0
         );
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
-        $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $statuses = $task_mc->get_values('status');
         foreach ($statuses as $status)
         {
@@ -183,7 +182,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             'reportedHours' => 0
         );
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
-        $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $task_mc->add_value_property('plannedHours');
         $task_mc->add_value_property('reportedHours');
         $task_mc->execute();

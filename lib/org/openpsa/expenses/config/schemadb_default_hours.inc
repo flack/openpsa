@@ -67,15 +67,6 @@
                 'component'   => 'org.openpsa.projects',
                 'titlefield'  => 'title',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'orgOpenpsaObtype',
-                        'op'    => '=',
-                        'value' => ORG_OPENPSA_OBTYPE_TASK,
-                    ),
-                ),
                 'result_headers' => array
                 (
                     array

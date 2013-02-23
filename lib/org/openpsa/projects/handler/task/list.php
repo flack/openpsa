@@ -64,7 +64,6 @@ implements org_openpsa_widgets_grid_provider_client
         //get possible priorities from schema
         $this->_get_priorities();
         $this->_qb = org_openpsa_projects_task_dba::new_query_builder();
-        $this->_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
 
         switch ($args[0])
         {
@@ -260,7 +259,6 @@ implements org_openpsa_widgets_grid_provider_client
         $resource_tasks = $mc->get_values('task');
 
         $this->_qb = org_openpsa_projects_task_dba::new_query_builder();
-        $this->_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
 
         $this->_qb->begin_group('OR');
             if (!empty($resource_tasks))

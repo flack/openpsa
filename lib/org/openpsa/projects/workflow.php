@@ -339,7 +339,6 @@ class org_openpsa_projects_workflow
                 $task_qb->add_constraint('agreement', '=', $task->agreement);
                 $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
                 $task_qb->add_constraint('id', '<>', $task->id);
-                $task_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
                 if ($task_qb->count() == 0)
                 {
                     // No other open tasks, mark as delivered

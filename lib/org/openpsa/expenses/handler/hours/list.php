@@ -220,16 +220,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private function _prepare_batch_options()
     {
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
-
-        //Make sure we have the needed constants
-        midcom::get('componentloader')->load('org.openpsa.projects');
-        $task_conf['constraints'][] = array
-        (
-            'field' => 'orgOpenpsaObtype',
-            'op'    => '=',
-            'value' => ORG_OPENPSA_OBTYPE_TASK,
-        );
-
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
         $options = array
