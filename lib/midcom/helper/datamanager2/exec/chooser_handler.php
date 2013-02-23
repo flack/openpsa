@@ -14,17 +14,21 @@ $items = array();
 $response = new midcom_response_xml;
 $response->status = 0;
 
-if (! isset($_REQUEST["query"]))
-{
-    $response->errstr = "Search term not defined"; //TODO: Localize message
+$extra_params = unserialize(base64_decode($_REQUEST['extra_params']));
 
-    debug_add("Empty query string. Quitting now.");
+debug_print_r('extra params', $extra_params);
+
+try
+{
+    $extra_params['term'] = $_REQUEST['query'];
+    $extra_params['limit'] = $_REQUEST['limit'];
+    $handler = new midcom_helper_datamanager2_ajax_autocomplete($extra_params);
+}
+catch (midcom_error $e)
+{
+    $response->errstr = $e->getMessage(); //TODO: Localize message
     $response->send();
 }
-
-$query = $_REQUEST["query"];
-$query = str_replace("*", "%", $query);
-$query = preg_replace('/%+/', '%', $query);
 
 $map = array
 (
@@ -36,9 +40,6 @@ $map = array
     'auto_wildcards',
     'reflector_key'
 );
-$extra_params = unserialize(base64_decode($_REQUEST['extra_params']));
-
-debug_print_r('extra params', $extra_params);
 
 foreach ($map as $map_key)
 {
@@ -52,28 +53,6 @@ foreach ($map as $map_key)
     }
 }
 
-
-// Handle automatic wildcards
-if (   !empty($auto_wildcards)
-    && strpos($query, '%') === false)
-{
-    switch($auto_wildcards)
-    {
-        case 'both':
-            $query = "%{$query}%";
-            break;
-        case 'start':
-            $query = "%{$query}";
-            break;
-        case 'end':
-            $query = "{$query}%";
-            break;
-        default:
-            debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
-            break;
-    }
-}
-
 if (!empty($_callback_class))
 {
     if (! class_exists($_callback_class))
@@ -82,92 +61,23 @@ if (!empty($_callback_class))
         return false;
     }
     $_callback = new $_callback_class($_callback_args);
+    $query = $handler->get_querystring();
     $results = $_callback->run_search($query, $_REQUEST);
 }
 else
 {
-    // Load component if possible
-    midcom::get('componentloader')->load_graceful($component);
-
-    // Could not get required class defined, abort
-    if (!class_exists($class))
+    try
     {
-        $response->errstr = "Class {$class} could not be loaded";
-        $response->send();
+        $results = $handler->get_objects();
     }
-
-    // No fields to search by, abort
-    if (empty($searchfields))
+    catch (midcom_error $e)
     {
-        $response->errstr = "No fields to search for defined";
-        $response->send();
-    }
-
-    $qb = @call_user_func(array($class, 'new_query_builder'));
-    if (! $qb)
-    {
-        debug_add("use midgard_query_builder");
-        $qb = new midgard_query_builder($class);
-    }
-
-    if (   is_array($constraints)
-        && !empty($constraints))
-    {
-        ksort($constraints);
-        reset($constraints);
-        foreach ($constraints as $key => $data)
-        {
-            if (   !array_key_exists('value', $data)
-                || empty($data['field'])
-                || empty($data['op']))
-            {
-                debug_add("addconstraint loop: Constraint #{$key} is not correctly defined, skipping", MIDCOM_LOG_WARN);
-                continue;
-            }
-            debug_add("Adding constraint: {$data['field']} {$data['op']} " . gettype($data['value']) . " '{$data['value']}'");
-            $qb->add_constraint($data['field'], $data['op'], $data['value']);
-        }
-    }
-
-    if (preg_match('/^%+$/', $query))
-    {
-        debug_add('$query is all wildcards, don\'t waste time in adding LIKE constraints');
-    }
-    else
-    {
-        $qb->begin_group('OR');
-        foreach ($searchfields as $field)
-        {
-            debug_add("adding search (ORed) constraint: {$field} LIKE '{$query}'");
-            $qb->add_constraint($field, 'LIKE', $query);
-        }
-        $qb->end_group();
-    }
-
-    if (is_array($orders))
-    {
-        ksort($orders);
-        reset($orders);
-        foreach ($orders as $data)
-        {
-            foreach ($data as $field => $order)
-            {
-                debug_add("adding order: {$field}, {$order}");
-                $qb->add_order($field, $order);
-            }
-        }
-    }
-
-    $results = $qb->execute();
-    if ($results === false)
-    {
-        $response->errstr = "Error when executing QB";
+        $response->errstr = $e->getMessage(); //TODO: Localize message
         $response->send();
     }
 }
 
-if (   count($results) <= 0
-    || !is_array($results))
+if (count($results) == 0)
 {
     $response->status = 2;
     $response->errstr = "No results found";

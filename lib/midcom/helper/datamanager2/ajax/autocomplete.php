@@ -49,11 +49,6 @@ class midcom_helper_datamanager2_ajax_autocomplete
             $error = "Empty query string.";
         }
 
-        if (empty($this->_request["id_field"]))
-        {
-            $error = "Empty ID field.";
-        }
-
         if ($error != '')
         {
             throw new midcom_error($error);
@@ -67,8 +62,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     private function _prepare_qb()
     {
-        $query = $this->_request["term"];
-        $wildcard_query = $this->_add_wildcards($query);
+        $wildcard_query = $this->get_querystring();
 
         $qb = @call_user_func(array($this->_request['class'], 'new_query_builder'));
         if (! $qb)
@@ -96,13 +90,14 @@ class midcom_helper_datamanager2_ajax_autocomplete
             }
         }
 
-        if (preg_match('/^%+$/', $query))
+        if (preg_match('/^%+$/', $wildcard_query))
         {
-            debug_add('$query is all wildcards, don\'t waste time in adding LIKE constraints');
+            debug_add('query is all wildcards, don\'t waste time in adding LIKE constraints');
         }
         else
         {
             $reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_request['class']));
+            $query = $this->_request["term"];
 
             $qb->begin_group('OR');
             foreach ($this->_request['searchfields'] as $field)
@@ -152,8 +147,9 @@ class midcom_helper_datamanager2_ajax_autocomplete
         return $qb;
     }
 
-    private function _add_wildcards($query)
+    public function get_querystring()
     {
+        $query = $this->_request["term"];
         $wildcard_query = $query;
         if (   isset($this->_request['auto_wildcards'])
             && strpos($query, '%') === false)
@@ -179,7 +175,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
         return $wildcard_query;
     }
 
-    public function get_results()
+    public function get_objects()
     {
         $qb = $this->_prepare_qb();
         $results = $qb->execute();
@@ -188,7 +184,17 @@ class midcom_helper_datamanager2_ajax_autocomplete
         {
             throw new midcom_error('Error when executing QB');
         }
+        return $results;
+    }
 
+    public function get_results()
+    {
+        if (empty($this->_request["id_field"]))
+        {
+            throw new midcom_error("Empty ID field.");
+        }
+
+        $results = $this->get_objects();
         $items = array();
 
         foreach ($results as $object)
