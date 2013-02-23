@@ -62,8 +62,6 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     private function _prepare_qb()
     {
-        $wildcard_query = $this->get_querystring();
-
         $qb = @call_user_func(array($this->_request['class'], 'new_query_builder'));
         if (! $qb)
         {
@@ -74,60 +72,14 @@ class midcom_helper_datamanager2_ajax_autocomplete
         if (   !empty($this->_request['constraints'])
             && is_array($this->_request['constraints']))
         {
-            $constraints = $this->_request['constraints'];
-            ksort($constraints);
-            reset($constraints);
-            foreach ($constraints as $key => $data)
-            {
-                if (   !array_key_exists('value', $data)
-                    || empty($data['field'])
-                    || empty($data['op']))
-                {
-                    debug_add("Constraint #{$key} is not correctly defined, skipping", MIDCOM_LOG_WARN);
-                    continue;
-                }
-                $qb->add_constraint($data['field'], $data['op'], $data['value']);
-            }
+            $this->_apply_constraints($qb, $this->_request['constraints']);
         }
 
-        if (preg_match('/^%+$/', $wildcard_query))
+        $constraints = $this->_get_search_constraints();
+        if (!empty($constraints))
         {
-            debug_add('query is all wildcards, don\'t waste time in adding LIKE constraints');
-        }
-        else
-        {
-            $reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_request['class']));
-            $query = $this->_request["term"];
-
             $qb->begin_group('OR');
-            foreach ($this->_request['searchfields'] as $field)
-            {
-                $field_type = $reflector->get_midgard_type($field);
-                $operator = 'LIKE';
-                if (strpos($field, '.'))
-                {
-                    //TODO: This should be resolved properly
-                    $field_type = MGD_TYPE_STRING;
-                }
-                switch ($field_type)
-                {
-                    case MGD_TYPE_GUID:
-                    case MGD_TYPE_STRING:
-                    case MGD_TYPE_LONGTEXT:
-                        debug_add("adding search (ORed) constraint: {$field} LIKE '{$wildcard_query}'");
-                        $qb->add_constraint($field, 'LIKE', $wildcard_query);
-                        break;
-                    case MGD_TYPE_INT:
-                    case MGD_TYPE_UINT:
-                    case MGD_TYPE_FLOAT:
-                        debug_add("adding search (ORed) constraint: {$field} = {$query}'");
-                        $qb->add_constraint($field, '=', $query);
-                        break;
-                    default:
-                        debug_add("can't handle field type " . $field_type, MIDCOM_LOG_WARN);
-                        break;
-                }
-            }
+            $this->_apply_constraints($qb, $constraints);
             $qb->end_group();
         }
 
@@ -145,6 +97,81 @@ class midcom_helper_datamanager2_ajax_autocomplete
             }
         }
         return $qb;
+    }
+
+    private function _apply_constraints(midcom_core_query &$query, array $constraints)
+    {
+        $mgd2 = extension_loaded('midgard2');
+        ksort($constraints);
+        reset($constraints);
+        foreach ($constraints as $key => $data)
+        {
+            if (   !array_key_exists('value', $data)
+                || empty($data['field'])
+                || empty($data['op']))
+            {
+                debug_add("Constraint #{$key} is not correctly defined, skipping", MIDCOM_LOG_WARN);
+                continue;
+            }
+            if (   $mgd2
+                && $data['field'] === 'username')
+            {
+                debug_add("enable workaround for mg2 username constraint", MIDCOM_LOG_INFO);
+                midcom_core_account::add_username_constraint($query, $data['op'], $data['value']);
+            }
+            else
+            {
+                $query->add_constraint($data['field'], $data['op'], $data['value']);
+            }
+        }
+    }
+
+    private function _get_search_constraints()
+    {
+        $constraints = array();
+        $query = $this->_request["term"];
+        if (preg_match('/^%+$/', $query))
+        {
+            debug_add('query is all wildcards, don\'t waste time in adding LIKE constraints');
+            return $constraints;
+        }
+
+        $reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_request['class']));
+
+        foreach ($this->_request['searchfields'] as $field)
+        {
+            $field_type = $reflector->get_midgard_type($field);
+            $operator = 'LIKE';
+            if (strpos($field, '.'))
+            {
+                //TODO: This should be resolved properly
+                $field_type = MGD_TYPE_STRING;
+            }
+            switch ($field_type)
+            {
+                case MGD_TYPE_GUID:
+                case MGD_TYPE_STRING:
+                case MGD_TYPE_LONGTEXT:
+                    $query = $this->get_querystring();
+                    break;
+                case MGD_TYPE_INT:
+                case MGD_TYPE_UINT:
+                case MGD_TYPE_FLOAT:
+                    $operator = '=';
+                    break;
+                default:
+                    debug_add("can't handle field type " . $field_type, MIDCOM_LOG_WARN);
+                    continue;
+            }
+            debug_add("adding search (ORed) constraint: {$field} {$operator} '{$query}'");
+            $constraints[] = array
+            (
+                'field' => $field,
+                'op' => $operator,
+                'value' => $query
+            );
+        }
+        return $constraints;
     }
 
     public function get_querystring()
