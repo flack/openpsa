@@ -688,8 +688,8 @@ class midcom_services_auth
     {
         if (!isset($_SERVER['PHP_AUTH_USER']))
         {
-            _midcom_header("WWW-Authenticate: Basic realm=\"Midgard\"");
-            _midcom_header('HTTP/1.0 401 Unauthorized');
+            midcom::get()->header("WWW-Authenticate: Basic realm=\"Midgard\"");
+            midcom::get()->header('HTTP/1.0 401 Unauthorized');
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
             midcom::get()->finish();

@@ -122,8 +122,7 @@ class midcom_core_resolver
      *
      * This is a replacement for mgd_serve_attachment that should work around most of
      * its bugs: It is missing all important HTTP Headers concerning file size,
-     * modification date and expiration. It will not call _midcom_stop_request() when it is finished,
-     * you still have to do that yourself. It will add the following HTTP Headers:
+     * modification date and expiration. It will add the following HTTP Headers:
      *
      * - Cache-Control: public max-age=$expires
      * - Expires: GMT Date $now+$expires

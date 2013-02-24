@@ -96,7 +96,7 @@
             }
 
             if (!$pass)
-                _midcom_stop_request('hKit error: these required functions are not available: <strong>' . implode(', ', $missing) . '</strong>');
+                throw new midcom_error('hKit error: these required functions are not available: <strong>' . implode(', ', $missing) . '</strong>');
 
         }
 

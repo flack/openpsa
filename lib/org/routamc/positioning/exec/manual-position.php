@@ -69,8 +69,7 @@ if (   array_key_exists('msisdn', $_GET)
         // Check where the request is from
         if ($_SERVER['REMOTE_ADDR'] != $config->get('sms_import_ip'))
         {
-            midcom::get()->finish();
-            _midcom_stop_request();
+            throw new midcom_error_forbidden('IP address does not match');
         }
     }
 
@@ -111,8 +110,7 @@ if (   array_key_exists('msisdn', $_GET)
             org_routamc_positioning_send_sms($person->handphone, 'Failed to delete log, reason ' . midcom_connection::get_error_string(), $config->get('smslib_from'), $config);
         }
         midcom::get('auth')->drop_sudo();
-        midcom::get()->finish();
-        _midcom_stop_request();
+        return;
     }
 
     $params = explode(',', $_GET['msg']);
@@ -155,8 +153,7 @@ if (   array_key_exists('msisdn', $_GET)
         }
     }
     midcom::get('auth')->drop_sudo();
-    midcom::get()->finish();
-    _midcom_stop_request();
+    return;
 }
 midcom::get('auth')->require_valid_user();
 

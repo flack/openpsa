@@ -78,7 +78,7 @@ function _recaptcha_http_post($host, $path, $data, $port = 80) {
 
         $response = '';
         if( false == ( $fs = @fsockopen($host, $port, $errno, $errstr, 10) ) ) {
-                _midcom_stop_request('Could not open socket');
+                throw new midcom_error('Could not open socket');
         }
 
         fwrite($fs, $http_request);
@@ -106,7 +106,7 @@ function _recaptcha_http_post($host, $path, $data, $port = 80) {
 function recaptcha_get_html ($pubkey, $error = null, $use_ssl = false)
 {
     if ($pubkey == null || $pubkey == '') {
-        _midcom_stop_request("To use reCAPTCHA you must get an API key from <a href='http://recaptcha.net/api/getkey'>http://recaptcha.net/api/getkey</a>");
+        throw new midcom_error_forbidden("To use reCAPTCHA you must get an API key from <a href='http://recaptcha.net/api/getkey'>http://recaptcha.net/api/getkey</a>");
     }
 
     if ($use_ssl) {
@@ -152,11 +152,11 @@ class ReCaptchaResponse {
 function recaptcha_check_answer ($privkey, $remoteip, $challenge, $response, $extra_params = array())
 {
     if ($privkey == null || $privkey == '') {
-        _midcom_stop_request("To use reCAPTCHA you must get an API key from <a href='http://recaptcha.net/api/getkey'>http://recaptcha.net/api/getkey</a>");
+        throw new midcom_error_forbidden("To use reCAPTCHA you must get an API key from <a href='http://recaptcha.net/api/getkey'>http://recaptcha.net/api/getkey</a>");
     }
 
     if ($remoteip == null || $remoteip == '') {
-        _midcom_stop_request("For security reasons, you must pass the remote ip to reCAPTCHA");
+        throw new midcom_error_forbidden("For security reasons, you must pass the remote ip to reCAPTCHA");
     }
 
 
@@ -213,7 +213,7 @@ function _recaptcha_aes_pad($val) {
 
 function _recaptcha_aes_encrypt($val,$ky) {
     if (! function_exists ("mcrypt_encrypt")) {
-        _midcom_stop_request("To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.");
+        throw new midcom_error("To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.");
     }
     $mode=MCRYPT_MODE_CBC;
     $enc=MCRYPT_RIJNDAEL_128;
@@ -229,7 +229,7 @@ function _recaptcha_mailhide_urlbase64 ($x) {
 /* gets the reCAPTCHA Mailhide url for a given email, public key and private key */
 function recaptcha_mailhide_url($pubkey, $privkey, $email) {
     if ($pubkey == '' || $pubkey == null || $privkey == "" || $privkey == null) {
-        _midcom_stop_request("To use reCAPTCHA Mailhide, you have to sign up for a public and private key, " .
+        throw new midcom_error_forbidden("To use reCAPTCHA Mailhide, you have to sign up for a public and private key, " .
              "you can do so at <a href='http://mailhide.recaptcha.net/apikey'>http://mailhide.recaptcha.net/apikey</a>");
     }
 

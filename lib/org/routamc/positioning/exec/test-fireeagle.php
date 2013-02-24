@@ -38,8 +38,7 @@ if (   !$access_key
         <p><a href="<?php echo $fireeagle->getAuthorizeURL($request_token['oauth_token']); ?>" target="_blank">Authorize this application</a></p>
         <p><a href="?f=callback">And then click here</a></p>
         <?php
-        midcom::get()->finish();
-        _midcom_stop_request();
+        return;
     }
     elseif (   isset($_GET['f'])
             && $_GET['f'] == 'callback')
@@ -71,8 +70,7 @@ if (   !$access_key
     ?>
     <p><a href="?f=start">Start Fire Eagle authentication</a></p>
     <?php
-    midcom::get()->finish();
-    _midcom_stop_request();
+    return;
 }
 
 $fireeagle = org_routamc_positioning_importer::create('fireeagle');

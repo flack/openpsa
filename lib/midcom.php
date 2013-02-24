@@ -79,7 +79,7 @@ class midcom
             if ($pos === false)
             {
                 // No slash, this is strange
-                _midcom_stop_request('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
+                throw new midcom_error('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
             }
             define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
         }
