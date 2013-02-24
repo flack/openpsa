@@ -1,8 +1,7 @@
 <?php
 if (!isset($_POST['org_openpsa_export_csv_data']))
 {
-    debug_add('Variable org_openpsa_reports_csv not set in _POST, aborting');
-    die;
+    throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST, aborting');
 }
 
 $filename = 'export.csv';
@@ -16,7 +15,7 @@ if (isset($_POST['org_openpsa_export_csv_filename']))
     $filename = str_replace(' ', '_', $filename);
 }
 
-_midcom_header('Content-type: application/csv; charset=utf-8');
-_midcom_header('Content-Disposition: attachment;Filename=' . $filename);
+midcom::get()->header('Content-type: application/csv; charset=utf-8');
+midcom::get()->header('Content-Disposition: attachment;Filename=' . $filename);
 echo $_POST['org_openpsa_export_csv_data'];
 ?>
