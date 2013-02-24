@@ -13,8 +13,6 @@
  */
 class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handler
 {
-    private $_datamanager;
-
     /**
      * The Controller of the document used for creating or editing
      *
@@ -55,12 +53,13 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     private function _load_edit_controller()
     {
+        $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_salesproject, $this->_schema);
         if (! $this->_controller->initialize())
         {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
+            throw new midcom_error("Failed to initialize a DM2 controller instance for salesproject {$this->_salesproject->id}.");
         }
     }
 
@@ -69,6 +68,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     private function _load_create_controller()
     {
+        $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schemaname = $this->_schema;
@@ -80,40 +80,15 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         }
     }
 
-    private function _initialize_datamanager($schemadb_snippet)
+    private function _load_schemadb()
     {
-        // Initialize the datamanager with the schema
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_snippet);
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-    }
-
-    /**
-     * Helper function to alter the schema based on the current operation
-     */
-    private function _modify_schema()
-    {
-        $fields =& $this->_schemadb['default']->fields;
-        $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups($this->_salesproject);
-    }
-
-    private function _load_salesproject($identifier)
-    {
-        $salesproject = new org_openpsa_sales_salesproject_dba($identifier);
-
-        $this->_salesproject =& $salesproject;
-
-        $this->_initialize_datamanager($this->_config->get('schemadb_salesproject'));
-
-        $this->_modify_schema();
-
-        // Load the project to datamanager
-        if (!$this->_datamanager->autoset_storage($salesproject))
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_salesproject'));
+        if ($this->_salesproject)
         {
-            return false;
+            $fields =& $schemadb['default']->fields;
+            $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups($this->_salesproject);
         }
-
-        return $salesproject;
+        $this->_schemadb = $schemadb;
     }
 
     /**
@@ -121,17 +96,15 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     function & dm2_create_callback(&$datamanager)
     {
-        $salesproject = new org_openpsa_sales_salesproject_dba();
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba();
 
-        if (! $salesproject->create())
+        if (! $this->_salesproject->create())
         {
-            debug_print_r('We operated on this object:', $salesproject);
+            debug_print_r('We operated on this object:', $this->_salesproject);
             throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_salesproject =& $salesproject;
-
-        return $salesproject;
+        return $this->_salesproject;
     }
 
     /**
@@ -142,7 +115,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $this->_request_data['salesproject'] = $this->_load_salesproject($args[0]);
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $this->_salesproject->require_do('midgard:update');
 
         $this->_load_edit_controller();
@@ -155,6 +128,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
                 return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
         }
         $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['salesproject'] = $this->_salesproject;
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -165,7 +139,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         {
             $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
         }
-        org_openpsa_sales_viewer::add_breadcrumb_path($data['salesproject'], $this);
+        org_openpsa_sales_viewer::add_breadcrumb_path($this->_salesproject, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
@@ -192,9 +166,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
         $this->_load_defaults($args);
-
-        $this->_initialize_datamanager($this->_config->get('schemadb_salesproject'));
-
         $this->_load_create_controller();
 
         switch ($this->_controller->process_form())
