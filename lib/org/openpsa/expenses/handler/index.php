@@ -9,9 +9,6 @@
 /**
  * This is a URL handler class for org.openpsa.expenses
  *
- * The midcom_baseclasses_components_handler class defines a bunch of helper vars
- *
- * @see midcom_baseclasses_components_handler
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_handler
@@ -139,33 +136,72 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
             if (!isset($reports[$row_identifier]))
             {
-                $reports[$row_identifier] = array
-                (
-                    $date_identifier => 0,
-                    'task' => "<a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a>",
-                    'task_index' => $task->get_label()
-                );
-
                 try
                 {
-                    $person = org_openpsa_contacts_person_dba::get_cached($person);
-                    $reports[$row_identifier]['person'] = $person->name;
+                    $person_object = org_openpsa_contacts_person_dba::get_cached($person);
+                    $person_label = $this->_get_list_link($person_object->name, null, null, $person);
+                    $person_name = $person_object->name;
                 }
                 catch (midcom_error $e)
                 {
-                    $reports[$row_identifier]['person'] = $this->_l10n->get('no person');
+                    $person_label = $this->_l10n->get('no person');
+                    $person_name = '';
                 }
-            }
 
+                $reports[$row_identifier] = array
+                (
+                    'task' => $this->_get_list_link($task->get_label(), null, $task->guid),
+                    'task_index' => $task->get_label(),
+                    'person' => $person_label,
+                    'index_person' => $person_name
+                );
+            }
             if (!isset($reports[$row_identifier][$date_identifier]))
             {
-                $reports[$row_identifier][$date_identifier] = 0;
+                $reports[$row_identifier][$date_identifier] = '';
+                $reports[$row_identifier][$date_identifier . '_index'] = 0;
             }
+            $reports[$row_identifier][$date_identifier . '_index'] += $hours_mc->get_subkey($guid, 'hours');
 
-            $reports[$row_identifier][$date_identifier] += $hours_mc->get_subkey($guid, 'hours');
+            $reports[$row_identifier][$date_identifier] = $this->_get_list_link(org_openpsa_helpers::format_number($reports[$row_identifier][$date_identifier . '_index']), $date_identifier, $task->guid, $person);
+
         }
 
         return array_values($reports);
+    }
+
+    private function _get_list_link($label, $date = null, $task_guid = null, $person_id = null)
+    {
+        $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'hours/';
+        if ($task_guid !== null)
+        {
+            $url .= 'task/' . $task_guid . '/';
+        }
+
+        $filters = array();
+
+        if ($date !== null)
+        {
+            $filters['date'] = array('from' => $date, 'to' => $date);
+        }
+        else
+        {
+            $start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
+            $end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
+            $filters['date'] = array('from' => $start, 'to' => $end);
+        }
+        if ($person_id !== null)
+        {
+            $filters['person'] = array($person_id);
+        }
+        if (!empty($filters))
+        {
+            $url .= '?' . http_build_query($filters);
+        }
+
+        $link = "<a href=\"{$url}\">" . $label . "</a>";
+
+        return $link;
     }
 
     /**

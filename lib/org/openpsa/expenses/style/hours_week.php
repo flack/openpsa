@@ -6,18 +6,19 @@ $date_columns = array();
 $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
 $grid->set_column('task', $data['l10n']->get('task'), '', 'string')
-->set_column('person', $data['l10n']->get('person'));
+->set_column('person', $data['l10n']->get('person'), '', 'string');
 
 $date_tooltips = array();
-$i = 4;
+$i = 6;
 while ($time < $data['week_end'])
 {
     $date_identifier = date('Y-m-d', $time);
-    $grid->set_column($date_identifier, strftime('%a', $time), 'fixed: true, width: 40, formatter: "number", formatoptions: {defaultValue: ""}, sorttype: "float", summaryType: calculate_subtotal, align: "right"');
+    $grid->set_column($date_identifier, strftime('%a', $time), 'fixed: true, width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
     // Hop to next day
     $date_columns[] = $date_identifier;
-    $date_tooltips[$i++] = date($data['l10n_midcom']->get('short date'), $time);
+    $date_tooltips[$i] = date($data['l10n_midcom']->get('short date'), $time);
     $time = $time + 3600 * 24;
+    $i += 2;
 }
 $grid->set_option('footerrow', true)
 ->set_option('grouping', true)
