@@ -528,6 +528,35 @@ var org_openpsa_grid_helper =
     event_handler_added: false,
     active_grids: [],
     maximized_grid: '',
+    previous_groupings: [],
+    bind_grouping_switch: function(grid_id)
+    {
+        var group_conf = $('#' + grid_id).jqGrid('getGridParam', 'groupingView');
+        org_openpsa_grid_helper.previous_groupings[grid_id] = group_conf.groupField[0];
+        $("#chgrouping_" + grid_id).bind('change', function()
+        {
+            var selection = $(this).val();
+            if (selection)
+            {
+                if (selection == "clear")
+                {
+                    $("#" + grid_id).jqGrid('groupingRemove', true);
+                    // Workaround for https://github.com/tonytomov/jqGrid/issues/431
+                    $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
+                }
+                else
+                {
+                    $("#" + grid_id).jqGrid('groupingGroupBy', selection);
+                    if (selection !== org_openpsa_grid_helper.previous_groupings[grid_id])
+                    {
+                        // Workaround for https://github.com/tonytomov/jqGrid/issues/431
+                        $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
+                    }
+                }
+                jQuery(window).trigger('resize');
+            }
+        });
+    },
     set_tooltip: function (grid_id, column, tooltip)
     {
         var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];

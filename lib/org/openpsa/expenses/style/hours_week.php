@@ -45,26 +45,6 @@ $grid->set_option('footerrow', true)
     ?>
 </div>
 <script type="text/javascript">
-var &(grid_id);_grouping = "task";
-
-$("#chgrouping_&(grid_id);").change(function()
-{
-    var selection = $(this).val();
-    if (selection)
-    {
-        if (selection == "clear")
-        {
-            jQuery("#&(grid_id);").jqGrid('groupingRemove', true);
-            &(grid_id);_grouping = '';
-        }
-        else
-        {
-            &(grid_id);_grouping = selection;
-            jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
-        }
-        jQuery(window).trigger('resize');
-    }
-});
 
 function calculate_subtotal(val, name, record)
 {
@@ -72,10 +52,14 @@ function calculate_subtotal(val, name, record)
     return sum || '';
 }
 </script>
+<div class="full-width">
 <?php
     $grid->render($data['rows']);
 ?>
+</div>
 <script type="text/javascript">
+org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+
 var grid = $("#&(grid_id);"),
 date_columns = <?php echo json_encode($date_columns); ?>,
 date_tooltips = <?php echo json_encode($date_tooltips); ?>,

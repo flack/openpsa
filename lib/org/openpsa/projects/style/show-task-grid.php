@@ -80,26 +80,8 @@ $grid->set_footer_data($footer_data);
 </div>
 
 <script type="text/javascript">
-var &(grid_id);_grouping = "&(grouping);";
+org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
 
-jQuery("#chgrouping_&(grid_id);").change(function()
-{
-    var selection = $(this).val();
-    if (selection)
-    {
-        if (selection == "clear")
-        {
-            jQuery("#&(grid_id);").jqGrid('groupingRemove', true);
-            &(grid_id);_grouping = '';
-        }
-        else
-        {
-            &(grid_id);_grouping = selection;
-            jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
-        }
-	jQuery(window).trigger('resize');
-    }
-});
 org_openpsa_grid_footer.set_field('&(grid_id);', 'planned_hours', 'sum');
 org_openpsa_grid_footer.set_field('&(grid_id);', 'reported_hours', 'sum');
 org_openpsa_grid_footer.set_field('&(grid_id);', 'invoiced_hours', 'sum');
