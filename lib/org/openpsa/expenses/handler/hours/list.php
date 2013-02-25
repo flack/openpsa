@@ -24,13 +24,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private $reporters = array();
 
     /**
-     * The task cache
-     *
-     * @var Array
-     */
-    private $tasks = array();
-
-    /**
      * The handler for the list view
      *
      * @param mixed $handler_id the array key from the request array
@@ -95,7 +88,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->_load_hour_data($data['hours']);
 
         $data['mode'] = $mode;
-        $data['tasks'] = $this->tasks;
         $data['qb'] = $qb;
 
         org_openpsa_widgets_grid::add_head_elements();
@@ -148,13 +140,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                     $e->log();
                     $this->reporters[$report->person] = '';
                 }
-            }
-
-            if (!array_key_exists($report->task, $this->tasks))
-            {
-                $task = new org_openpsa_projects_task_dba($report->task);
-                $task_html = "<a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a>";
-                $this->tasks[$report->task] = $task_html;
             }
 
             switch (true)

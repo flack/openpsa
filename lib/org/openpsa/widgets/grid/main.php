@@ -216,9 +216,10 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         return $this;
     }
 
-    public function add_pager()
+    public function add_pager($rows_per_page = 30)
     {
         $this->set_option('pager', '#p_' . $this->_identifier);
+        $this->set_option('rowNum', $rows_per_page);
     }
 
     /**

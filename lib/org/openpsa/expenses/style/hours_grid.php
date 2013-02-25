@@ -1,7 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $reporters = $data['reporters'];
-$tasks = $data['tasks'];
 $reports = $data['reports'];
 
 $entries = array();
@@ -23,7 +22,9 @@ foreach ($reports['reports'] as $report)
 
     if ($data['mode'] != 'simple')
     {
-        $entry['task'] = $tasks[$report->task];
+        $task = org_openpsa_projects_task_dba::get_cached($report->task);
+        $entry['task'] = "<a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a>";
+        $entry['index_task'] = $task->get_label();
     }
 
     $entry['index_description'] = $description;
@@ -36,20 +37,37 @@ foreach ($reports['reports'] as $report)
 
     $entries[] = $entry;
 }
-echo '<script type="text/javascript">//<![CDATA[';
-echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
-echo "\n//]]></script>";
+$grid = new org_openpsa_widgets_grid($grid_id, 'local');
+
+$grid->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'center', formatter: 'date', fixed: true")
+    ->set_column('reporter', $data['l10n']->get('person'), "width: 80, classes: 'ui-ellipsis'");
+
+if ($data['mode'] != 'simple')
+{
+    $grid->set_column('task', $data['l10n']->get('task'), "classes: 'ui-ellipsis'", 'string');
+}
+$grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right'", 'integer')
+    ->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'ui-ellipsis'", 'string');
+
+$grid->set_option('loadonce', true)
+    ->set_option('caption', $data['subheading'])
+    ->set_option('sortname', 'date')
+    ->set_option('sortorder', 'desc')
+    ->set_option('multiselect', true);
+
+$grid->add_pager();
 
 $footer_data = array
 (
     'date' => $data['l10n']->get('total'),
     'hours' => $reports['hours']
 );
+
+$grid->set_footer_data($footer_data);
 ?>
 <div class="org_openpsa_expenses <?php echo $data['status']; ?> batch-processing full-width fill-height" style="margin-bottom: 1em">
 
-<table id="&(grid_id);"></table>
-<div id="p_&(grid_id);"></div>
+<?php $grid->render($entries); ?>
 
 <form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
@@ -58,42 +76,6 @@ $footer_data = array
 </div>
 
 <script type="text/javascript">
-org_openpsa_grid_helper.setup_grid("&(grid_id);", {
-      datatype: "local",
-      data: &(grid_id);_entries,
-      colNames: ['id', <?php
-                 echo '"' . $data['l10n']->get('date') . '",';
-                 echo '"' . $data['l10n']->get('person') . '",';
-                 if ($data['mode'] != 'simple')
-                 {
-                     echo '"' . $data['l10n']->get('task') . '",';
-                 }
-                 echo '"index_hours", "' . $data['l10n']->get('hours') . '",';
-                 echo '"index_description", "' . $data['l10n']->get('description') . '",';
-      ?>],
-      colModel:[
-          {name:'id', index:'id', hidden: true, key: true},
-          {name:'date', index: 'date', width: 80, align: 'center', formatter: 'date', fixed: true},
-          {name:'reporter', index: 'reporter', width: 80, classes: 'ui-ellipsis'},
-          <?php if ($data['mode'] != 'simple')
-          { ?>
-              {name:'task', index: 'task', classes: 'ui-ellipsis'},
-          <?php } ?>
-          {name:'index_hours', index: 'index_hours', sorttype: "integer", hidden: true },
-          {name:'hours', index: 'index_hours', width: 50, align: 'right'},
-          {name:'index_description', index: 'index_description', hidden: true},
-          {name:'description', index: 'index_description', width: 250, classes: 'ui-ellipsis'}
-       ],
-       sortname: 'date',
-       sortorder: 'desc',
-       pager: "#p_&(grid_id);",
-       loadonce: true,
-       caption: "&(data['subheading']:h);",
-       footerrow: true,
-       multiselect: true
-    });
-
-jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
 
 org_openpsa_batch_processing.initialize(
 {
