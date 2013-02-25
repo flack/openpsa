@@ -29,15 +29,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     var $_open_write_mode = false;
 
-    /**
-     * This switch will tell the checkup routines whether the current creation is going to
-     * duplicate the object or not. It is used to create a new blob entry when copying an object
-     * containing this attachment.
-     *
-     * @var boolean
-     */
-    public $_duplicate = false;
-
     public function __construct($id = null)
     {
         $this->_use_rcs = false;
@@ -405,14 +396,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             $base = get_class($this);
             $base .= microtime();
-            if (isset($this->id))
-            {
-                $base .= $this->id;
-            }
-            else if (isset($this->guid))
-            {
-                $base .= $this->guid;
-            }
             $base .= $_SERVER['SERVER_NAME'];
             $base .= $_SERVER['REMOTE_ADDR'];
             $base .= $_SERVER['REMOTE_PORT'];
@@ -422,16 +405,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
             // Check uniqueness
             $qb = midcom_db_attachment::new_query_builder();
             $qb->add_constraint('location', '=', $location);
-            if (!empty($this->id))
-            {
-                // Add this one if and only if we are persistent already.
-                $qb->add_constraint('id', '<>', $this->id);
-            }
-            elseif (!empty($this->guid))
-            {
-                // Add this one if and only if we are persistent already.
-                $qb->add_constraint('guid', '<>', $this->guid);
-            }
             $result = $qb->count_unchecked();
 
             if ($result == 0)
@@ -461,10 +434,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $this->mimetype = 'application/octet-stream';
         }
 
-        if (!$this->_duplicate)
-        {
-            $this->location = $this->_create_attachment_location();
-        }
+        $this->location = $this->_create_attachment_location();
 
         return true;
     }
