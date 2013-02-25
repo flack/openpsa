@@ -152,7 +152,7 @@ class midcom_connection
 
             if (!$trusted)
             {
-                $login_tokens['password'] = self::prepare_password($password);
+                $login_tokens['password'] = self::prepare_password($password, $username);
             }
 
             try
@@ -200,7 +200,7 @@ class midcom_connection
         }
     }
 
-    public static function prepare_password($password)
+    public static function prepare_password($password, $username = null)
     {
         if (method_exists('midgard_user', 'login'))
         {
@@ -211,7 +211,19 @@ class midcom_connection
                     break;
                 case 'Legacy':
                     // Midgard1 legacy auth
-                    $salt = ''; //TODO: How to determine the correct one?
+                    $salt = '';
+                    if (null !== $username)
+                    {
+                        $mc = new midgard_collector('midgard_user', 'login', $username);
+                        $mc->set_key_property('password');
+                        $mc->add_constraint('authtype', '=', 'Legacy');
+                        $mc->execute();
+                        $keys = $mc->list_keys();
+                        if (count($keys) == 1)
+                        {
+                            $salt = substr($keys[0], 0, 2);
+                        }
+                    }
                     $password = crypt($password, $salt);
                     break;
                 case 'SHA1':
