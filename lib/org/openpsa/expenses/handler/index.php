@@ -151,7 +151,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                 $reports[$row_identifier] = array
                 (
                     'task' => $this->_get_list_link($task->get_label(), null, $task->guid),
-                    'task_index' => $task->get_label(),
+                    'index_task' => $task->get_label(),
                     'person' => $person_label,
                     'index_person' => $person_name
                 );
@@ -159,12 +159,11 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             if (!isset($reports[$row_identifier][$date_identifier]))
             {
                 $reports[$row_identifier][$date_identifier] = '';
-                $reports[$row_identifier][$date_identifier . '_index'] = 0;
+                $reports[$row_identifier]['index_' . $date_identifier] = 0;
             }
-            $reports[$row_identifier][$date_identifier . '_index'] += $hours_mc->get_subkey($guid, 'hours');
+            $reports[$row_identifier]['index_' . $date_identifier] += $hours_mc->get_subkey($guid, 'hours');
 
-            $reports[$row_identifier][$date_identifier] = $this->_get_list_link(org_openpsa_helpers::format_number($reports[$row_identifier][$date_identifier . '_index']), $date_identifier, $task->guid, $person);
-
+            $reports[$row_identifier][$date_identifier] = $this->_get_list_link(org_openpsa_helpers::format_number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $person);
         }
 
         return array_values($reports);

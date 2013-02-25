@@ -68,11 +68,11 @@ day_total;
 $.each(date_columns, function(index, name)
 {
     day_total = 0;
-    $.each(grid.jqGrid('getCol', name), function(i, value)
+    $.each(grid.jqGrid('getCol', 'index_' + name), function(i, value)
     {
         day_total += parseFloat(value || 0);
     });
-    totals[name] = day_total;
+    totals[name] = Math.round(day_total * 100) / 100;
     day_total = 0;
 });
 grid.jqGrid('footerData', 'set', totals);
