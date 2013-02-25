@@ -63,7 +63,7 @@ if (!is_null($workingon->task))
          <script type="text/javascript">
              jQuery('#org_openpsa_mypage_workingon_time').epiclock({
                    mode: $.epiclock.modes.countup,
-                   target: <?php echo $workingon->start * 1000; ?>,
+                   target: <?php echo $workingon->start; ?>000,
                    format: 'x:i:s'
              });
          </script>
