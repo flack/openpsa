@@ -88,22 +88,22 @@ class org_openpsa_core_filter
         {
             if (!empty($this->_selection['from']))
             {
-                $query->add_constraint($this->_config['fieldname'], '>=', strtotime($this->_selection['from']));
+                $query->add_constraint($this->_config['fieldname'], '>=', strtotime($this->_selection['from'] . '00:00:00'));
             }
             if (!empty($this->_selection['to']))
             {
-                $query->add_constraint($this->_config['fieldname'], '<=', strtotime($this->_selection['to']));
+                $query->add_constraint($this->_config['fieldname'], '<=', strtotime($this->_selection['to'] . ' 23:59:59'));
             }
         }
         else
         {
             if (!empty($this->_selection['to']))
             {
-                $query->add_constraint($this->_config['fieldname']['start'], '<=', strtotime($this->_selection['to']));
+                $query->add_constraint($this->_config['fieldname']['start'], '<=', strtotime($this->_selection['to'] . ' 23:59:59'));
             }
             if (!empty($this->_selection['from']))
             {
-                $query->add_constraint($this->_config['fieldname']['end'], '>=', strtotime($this->_selection['from']));
+                $query->add_constraint($this->_config['fieldname']['end'], '>=', strtotime($this->_selection['from'] . ' 00:00:00'));
             }
         }
     }
