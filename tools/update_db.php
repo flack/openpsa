@@ -136,20 +136,23 @@ $GLOBALS['midcom_config']['auth_type'] = 'Plaintext';
 function _migrate_account($person)
 {
     $user = new midgard_user();
+    $user->authtype = $GLOBALS['midcom_config']['auth_type'];
     $db_password = $person->password;
 
     if (substr($person->password, 0, 2) == '**')
     {
-        $db_password = substr($db_password, 2);
+        $db_password = midcom_connection::prepare_password(substr($db_password, 2));
     }
     else
     {
-        echo '    Legacy password detected for user ' . $person->username . ". Resetting to 'password', please change ASAP\n";
-        $db_password = 'password';
+        if ($user->authtype !== 'Legacy')
+        {
+            echo '    Legacy password detected for user ' . $person->username . "Resetting to 'password', please change ASAP\n";
+            $db_password = midcom_connection::prepare_password('password');
+        }
     }
-    $user->authtype = $GLOBALS['midcom_config']['auth_type'];
 
-    $user->password = midcom_connection::prepare_password($db_password);
+    $user->password = $db_password;
     $user->login = $person->username;
 
     if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
