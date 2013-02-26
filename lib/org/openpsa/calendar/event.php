@@ -347,7 +347,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     function get_suspected_sales_links()
     {
-        debug_add('called');
         //Safety
         if (!$this->_suspects_classes_present())
         {
@@ -371,26 +370,21 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $sales_suspect_links = org_openpsa_relatedto_suspect::find_links_object_component($this, 'org.openpsa.sales', $link_def);
         foreach ($sales_suspect_links as $linkdata)
         {
-            debug_add("processing sales link {$linkdata['other_obj']->guid}, (class: " . get_class($linkdata['other_obj']) . ")");
-            $stat = $linkdata['link']->create();
-            if ($stat)
+            if ($linkdata['link']->create())
             {
-                debug_add("saved link to {$linkdata['other_obj']->guid} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
+                debug_add("saved sales link to {$linkdata['other_obj']->guid} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
             }
             else
             {
-                debug_add("could not save link to {$linkdata['other_obj']->guid}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("could not save sales link to {$linkdata['other_obj']->guid}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
-
-        debug_add('done');
     }
 
     //TODO: move these options elsewhere
     public function _on_updating($ignorebusy_em = false, $rob_tentantive = false)
     {
         //TODO: Handle repeats
-
         if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive))
         {
             return false;
@@ -540,15 +534,13 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     function search_vCal_uid($uid)
     {
-        //TODO: MidCOM DBAize
-        $qb = new midgard_query_builder('org_openpsa_event');
+        $qb = self::new_query_builder();
         $qb->begin_group('OR');
             $qb->add_constraint('guid', '=', $uid);
             $qb->add_constraint('externalGuid', '=', $uid);
         $qb->end_group();
-        $ret = @$qb->execute();
-        if (   $ret
-            && count($ret) > 0)
+        $ret = $qb->execute();
+        if (!empty($ret))
         {
             //It's unlikely to have more than one result and this should return an object (or false)
             return $ret[0];
@@ -654,29 +646,16 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a comma separated list of persons from array
      */
-    function implode_members($array)
+    function implode_members(array $array)
     {
-        if (!is_array($array))
-        {
-            debug_add('input was not an array, aborting', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $str = '';
+        $output = array();
         reset($array);
-        $cnt = count($array) - 1;
-        $i = 0;
         foreach ($array as $pid => $bool)
         {
             $person = org_openpsa_contacts_person_dba::get_cached($pid);
-            debug_add('pid: ' . $pid . ', person->id: ' . $person->id . ', person->firstname: ' . $person->firstname . ', person->lastname: ' . $person->lastname . ', person->name: ' . $person->name . ', person->rname: ' . $person->rname);
-            $str .= $person->name;
-            if ($i != $cnt)
-            {
-                $str .= ', ';
-            }
-            $i++;
+            $output[] = $person->name;
         }
-        return $str;
+        return implode(', ', $output);
     }
 }
 ?>
