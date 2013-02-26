@@ -575,7 +575,10 @@ class midcom_config implements arrayaccess
         {
             $this->_default_config['indexer_reindex_allowed_ips'][] = $_SERVER['SERVER_ADDR'];
         }
-        $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
+        if (!empty($_SERVER['SERVER_NAME']))
+        {
+            $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
+        }
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
         $basedir = "/var/lib/midgard";

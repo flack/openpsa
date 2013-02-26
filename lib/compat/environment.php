@@ -28,7 +28,7 @@ abstract class midcom_compat_environment
         {
             self::$_implementation = new midcom_compat_ragnaland();
         }
-        else if ($_SERVER['REQUEST_URI'] == '/midcom-test-init')
+        else if (defined('OPENPSA2_UNITTEST_RUN'))
         {
             self::$_implementation = new midcom_compat_unittest();
         }
