@@ -68,6 +68,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     var $notify_force_add = false;
     var $search_relatedtos = true;
 
+    public $ignorebusy_em = false;
+    public $rob_tentantive = false;
+
     public function get_label()
     {
         if ($this->start == 0)
@@ -147,7 +150,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Preparations related to all save operations (=create/update)
      */
-    private function _prepare_save($ignorebusy_em = false, $rob_tentantive = false)
+    private function _prepare_save()
     {
         // Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype)
@@ -182,10 +185,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         //check for busy participants/resources
-        if (!$ignorebusy_em)
+        if (!$this->ignorebusy_em)
         {
             $conflictmanager = new org_openpsa_calendar_conflictmanager($this);
-            if (!$conflictmanager->run($rob_tentantive))
+            if (!$conflictmanager->run($this->rob_tentantive))
             {
                 debug_add("Unresolved resource conflicts, aborting", MIDCOM_LOG_WARN);
                 return false;
@@ -247,10 +250,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return true;
     }
 
-    //TODO: Move these options elsewhere
-    public function _on_creating($ignorebusy_em = false, $rob_tentantive = false)
+    public function _on_creating()
     {
-        return $this->_prepare_save($ignorebusy_em, $rob_tentantive);
+        return $this->_prepare_save();
     }
 
     public function _on_created()
@@ -381,64 +383,38 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
     }
 
-    //TODO: move these options elsewhere
-    public function _on_updating($ignorebusy_em = false, $rob_tentantive = false)
+    public function _on_updating()
     {
         //TODO: Handle repeats
-        if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive))
+        if (!$this->_prepare_save())
         {
             return false;
         }
 
-        if (!$this->_check_timerange())
-        {
-            return false;
-        }
-
-        return true;
+        return $this->_check_timerange();
     }
 
     public function _on_updated()
     {
         $this->_get_em();
-
         if ($this->send_notify)
         {
-            foreach ($this->participants as $id => $selected)
+            $message_type = 'update';
+            if ($this->notify_force_add)
             {
-                $res_object = $this->_get_member_by_personid($id);
-                if (!$res_object)
-                {
-                    continue;
-                }
-                debug_add("Notifying participant #{$id}");
-                if ($this->notify_force_add)
-                {
-                    $res_object->notify('add', $this);
-                }
-                else
-                {
-                    $res_object->notify('update', $this);
-                }
+                $message_type = 'add';
             }
 
-            foreach ($this->resources as $id => $selected)
+            foreach ($this->_get_participants() as $res_object)
             {
-                $res_object =  $this->_get_member_by_personid($id, 'resource');
-                if (!$res_object)
-                {
-                    continue;
-                }
+                debug_add("Notifying participant #{$id}");
+                $res_object->notify($message_type, $this);
+            }
 
+            foreach ($this->_get_resources() as $res_object)
+            {
                 debug_add("Notifying resource #{$res_object->id}");
-                if ($this->notify_force_add)
-                {
-                    $res_object->notify('add', $this);
-                }
-                else
-                {
-                    $res_object->notify('update', $this);
-                }
+                $res_object->notify($message_type, $this);
             }
         }
 
@@ -472,21 +448,18 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
     }
 
-    private function _get_member_by_personid($id, $type='participant')
+    private function _get_participants()
     {
-        if (!$this->id)
-        {
-            return false;
-        }
         $qb = org_openpsa_calendar_event_participant_dba::new_query_builder();
         $qb->add_constraint('eid', '=', $this->id);
-        $qb->add_constraint('uid', '=', $id);
-        $results = $qb->execute_unchecked();
-        if (empty($results))
-        {
-            return false;
-        }
-        return $results[0];
+        return $qb->execute_unchecked();
+    }
+
+    private function _get_resources()
+    {
+        $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();
+        $qb->add_constraint('event', '=', $this->id);
+        return $qb->execute_unchecked();
     }
 
     public function _on_deleting()
@@ -494,33 +467,23 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $this->_get_em();
         //Remove participants
         midcom::get('auth')->request_sudo('org.openpsa.calendar');
-        reset ($this->participants);
-        while (list ($id, $bool) = each ($this->participants))
+        foreach ($this->_get_participants() as $obj)
         {
-            $obj =  $this->_get_member_by_personid($id, 'participant');
-            if (is_object($obj))
+            if ($this->send_notify)
             {
-                if ($this->send_notify)
-                {
-                    $obj->notify('cancel', $this);
-                }
-                $obj->delete(false);
+                $obj->notify('cancel', $this);
             }
+            $obj->delete(false);
         }
 
         //Remove resources
-        reset ($this->resources);
-        while (list ($id, $bool) = each ($this->resources))
+        foreach ($this->_get_resources() as $obj)
         {
-            $obj =  $this->_get_member_by_personid($id, 'resource');
-            if (is_object($obj))
+            if ($this->send_notify)
             {
-                if ($this->send_notify)
-                {
-                    $obj->notify('cancel', $this);
-                }
-                $obj->delete(false);
+                $obj->notify('cancel', $this);
             }
+            $obj->delete(false);
         }
 
         //Remove event parameters
