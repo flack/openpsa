@@ -154,8 +154,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     public function _handler_set($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user('basic');
-
         $relocate = '';
         if (array_key_exists('url', $_POST))
         {

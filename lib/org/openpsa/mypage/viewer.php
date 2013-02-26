@@ -15,11 +15,19 @@
  */
 class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler_id, $args)
     {
         // Always run in uncached mode
         midcom::get('cache')->content->no_cache();
-        org_openpsa_widgets_contact::add_head_elements();
+        if ($handler_id == 'workingon_set')
+        {
+            midcom::get('auth')->require_valid_user('basic');
+        }
+        else
+        {
+            midcom::get('auth')->require_valid_user();
+            org_openpsa_widgets_contact::add_head_elements();
+        }
     }
 
     /**
@@ -55,8 +63,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_updates($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-        // Instantiate indexer
         $indexer = midcom::get('indexer');
 
         $start = mktime(0, 0, 0, date('m'), date('d'), date('Y'));

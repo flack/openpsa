@@ -15,11 +15,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 {
     var $user = null;
 
-    public function _on_initialize()
-    {
-        midcom::get('auth')->require_valid_user();
-    }
-
     private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item

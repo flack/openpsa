@@ -13,11 +13,6 @@
  */
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
-    public function _on_initialize()
-    {
-        midcom::get('auth')->require_valid_user();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
