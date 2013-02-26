@@ -59,11 +59,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return array_shift($result2);
     }
 
-    function get_dba_parent_class()
-    {
-        return 'org_openpsa_directmarketing_campaign_dba';
-    }
-
     public function _on_created()
     {
         if (!$this->orgOpenpsaObtype)

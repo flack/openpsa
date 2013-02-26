@@ -791,12 +791,6 @@ abstract class midcom_core_dbaobject
         return null;
     }
 
-    public function get_dba_parent_class()
-    {
-        // TODO: Try to figure this out via reflection (NOTE: this must return a midcom DBA class...)
-        return null;
-    }
-
     private function _delete_dependents()
     {
         foreach ($this->autodelete_dependents as $classname => $link_property)

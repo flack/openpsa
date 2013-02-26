@@ -101,10 +101,5 @@ class midcom_db_topic extends midcom_core_dbaobject
         }
         return $parent_guid;
     }
-
-    function get_dba_parent_class()
-    {
-        return 'midcom_db_topic';
-    }
 }
 ?>
