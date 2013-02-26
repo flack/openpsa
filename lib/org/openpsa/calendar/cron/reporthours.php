@@ -49,11 +49,9 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        $qb = org_openpsa_calendar_event_participant_dba::new_query_builder();
+        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         // Event must be directly under openpsa calendar root event
         $qb->add_constraint('eid.up', '=', $root_event->id);
-        // Member type must not be resource
-        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_calendar_event_participant_dba::OBTYPE_EVENTRESOURCE);
         // Event must have ended
         $qb->add_constraint('eid.end', '<', time());
         // Event can be at most week old
@@ -62,7 +60,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                  is nearer, though it has the issue with creating events after the fact
                  (which can happen when synchronizing from other systems for example)
         */
-        $qb->add_constraint('eid.start', '>', time() - 24*3600*7);
+        $qb->add_constraint('eid.start', '>', time() - 24 * 3600 * 7);
         // Must not have hours reported already
         $qb->add_constraint('hoursReported', '=', 0);
         $eventmembers = $qb->execute();
@@ -78,7 +76,8 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         {
             // Bulletproofing: prevent duplicating hour reports
             $member->hoursReported = time();
-            if (!$member->update(false))
+            $member->notify_person = false;
+            if (!$member->update())
             {
                 $msg = "Could not set hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string() . " skipping this member";
                 $this->print_error($msg);
@@ -128,7 +127,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                     // Failed to create hour_report, unset hoursReported so that we might have better luck next time
                     // PONDER: This might be an issue in case be have multiple tasks linked and only one of them fails... figure out a more granular way to flag reported hours ?
                     $member->hoursReported = 0;
-                    if (!$member->update(false))
+                    if (!$member->update())
                     {
                         $msg = "Could not UNSET hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string();
                         $this->print_error($msg);

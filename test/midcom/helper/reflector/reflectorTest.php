@@ -288,7 +288,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
         return array
         (
             1 => array('org_openpsa_calendar_event_dba', 'org_openpsa_event'),
-            2 => array('org_openpsa_calendar_event_participant_dba', 'org_openpsa_eventmember'),
+            2 => array('org_openpsa_calendar_event_member_dba', 'org_openpsa_eventmember'),
             3 => array('org_openpsa_contacts_person_dba', 'org_openpsa_person'),
         );
     }

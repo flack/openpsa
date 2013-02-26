@@ -64,13 +64,12 @@ class org_openpsa_projects_projectbroker
                 default:
                     try
                     {
-                        $tmpobj = new org_openpsa_contacts_person_dba($obj->id);
+                        $return[] = new org_openpsa_contacts_person_dba($obj->id);
                     }
                     catch (midcom_error $e)
                     {
-                        break;
+                        $e->log();
                     }
-                    $return[] = $tmpobj;
                     break;
             }
         }
@@ -90,7 +89,7 @@ class org_openpsa_projects_projectbroker
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
             return;
         }
-        if (!class_exists('org_openpsa_calendar_event_participant_dba'))
+        if (!class_exists('org_openpsa_calendar_event_member_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
             return;
@@ -98,7 +97,7 @@ class org_openpsa_projects_projectbroker
         midcom::get('auth')->request_sudo('org.openpsa.projects');
         foreach ($prospects as $key => $person)
         {
-            $slots = org_openpsa_calendar_event_participant_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
+            $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
             if (   is_array($slots)
                 && count($slots > 0))
             {
@@ -173,12 +172,12 @@ class org_openpsa_projects_projectbroker
             // Default to 15 minutes for minimum time here
             $minimum_time_slot = 0.25;
         }
-        if (!class_exists('org_openpsa_calendar_event_participant_dba'))
+        if (!class_exists('org_openpsa_calendar_event_member_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
             return false;
         }
-        $slots = org_openpsa_calendar_event_participant_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
+        $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
         return $slots;
     }
 }

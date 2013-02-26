@@ -8,12 +8,26 @@
 
 /**
  * MidCOM wants this class present and QB etc use this, so keep logic here
+ *
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 {
+    const OBTYPE_EVENTPARTICIPANT = 5001;
+
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_eventmember';
+
+    public $notify_person = true;
+
+    public function __construct($identifier = null)
+    {
+        parent::__construct($identifier);
+        if (!$this->orgOpenpsaObtype)
+        {
+            $this->orgOpenpsaObtype = self::OBTYPE_EVENTPARTICIPANT;
+        }
+    }
 
     function get_parent_guid_uncached()
     {
@@ -29,57 +43,126 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
     }
 
-    /**
-     * Wrapped so we can hook notifications
-     */
-    function create($notify = true, $event = false)
+    public function _on_created()
     {
-        $ret = parent::create();
-        if (   $ret
-            && $notify)
+        if ($this->notify_person)
         {
-            $this->notify('add', $event);
+            $this->notify('add');
         }
-        return $ret;
     }
 
-    /**
-     * Wrapped so we can hook notifications
-     */
-    function update($notify = true, $event = false)
+    public function _on_updating()
     {
-        if ($notify)
+        if ($this->notify_person)
         {
-            $this->notify('update', $event);
+            $this->notify('update');
         }
-        return parent::update();
+        return true;
     }
 
-    /**
-     * Wrapped so we can hook notifications and also because current core doesn't support deletes
-     */
-    function delete($notify = true, $event = false)
+    public function _on_deleted()
     {
-        if ($notify)
+        if ($this->notify_person)
         {
-            $this->notify('remove', $event);
+            $this->notify('remove');
         }
-        return parent::delete();
     }
 
-    /**
-     * The subclasses need to override this method
-     */
-    function notify($repeat_handler = 'this', $event = false)
+    function notify($type, org_openpsa_calendar_event_dba $event = null, $nl = "\n")
     {
-        debug_add('This method must be overridden in a subclass', MIDCOM_LOG_ERROR);
-        return false;
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
+        $recipient = $this->get_person_obj();
+
+        if (!$recipient)
+        {
+            debug_add('recipient could not be gotten, aborting', MIDCOM_LOG_WARN);
+            return false;
+        }
+
+        if (null === $event)
+        {
+            $event = new org_openpsa_calendar_event_dba($this->eid);
+        }
+
+        if (    $recipient->id == midcom_connection::get_user()
+             && !$event->send_notify_me)
+        {
+            //Do not send notification to current user
+            debug_add('event->send_notify_me is false and recipient is current user, aborting notify');
+            return false;
+        }
+
+        $message = array();
+        $action = 'org.openpsa.calendar:noevent';
+
+        switch ($type)
+        {
+            //Event information was updated
+            case 'update':
+                //PONDER: This in theory should have the old event title
+                $action = 'org.openpsa.calendar:event_update';
+                $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
+                $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $event->format_timeframe());
+                $message['content'] = sprintf($l10n->get('event "%s" was modified, updated information below.') . "{$nl}{$nl}", $event->title);
+                $message['content'] .= $event->details_text(false, $this, $nl);
+                break;
+                //Participant was added to the event
+            case 'add':
+                $action = 'org.openpsa.calendar:event_add';
+                $message['title'] = sprintf($l10n->get('you have been added to event "%s"'), $event->title);
+                $message['abstract'] = sprintf($l10n->get('you have been added to event "%s" (%s)'), $event->title, $event->format_timeframe());
+                $message['content'] = sprintf($l10n->get('you have been added to event "%s" participants list, event information below.') . "{$nl}{$nl}", $event->title);
+                $message['content'] .= $event->details_text(false, $this, $nl);
+                break;
+                //Participant was removed from event
+            case 'remove':
+                $action = 'org.openpsa.calendar:event_remove';
+                $message['title'] = sprintf($l10n->get('you have been removed from event "%s"'), $event->title);
+                $message['abstract'] = sprintf($l10n->get('you have been removed from event "%s" (%s)'), $event->title, $event->format_timeframe());
+                $message['content'] = sprintf($l10n->get('you have been removed from event "%s" (%s) participants list.'), $event->title, $event->format_timeframe());
+                break;
+                //Event was cancelled (=deleted)
+            case 'cancel':
+                $action = 'org.openpsa.calendar:event_cancel';
+                $message['title'] = sprintf($l10n->get('event "%s" was cancelled'), $event->title);
+                $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was cancelled'), $event->title, $event->format_timeframe());
+                $message['content'] = sprintf($l10n->get('event "%s" (%s) was cancelled.'), $event->title, $event->format_timeframe());
+                break;
+            default:
+                debug_add("action '{$type}' is invalid, aborting notification", MIDCOM_LOG_ERROR);
+                return false;
+        }
+
+        if (   $type == 'cancel'
+            || $type == 'remove')
+        {
+            // TODO: Create iCal export with correct delete commands
+        }
+        else
+        {
+            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $encoder = new org_openpsa_calendar_vcal();
+            $vcal_data = $encoder->get_headers();
+            $vcal_data .= $encoder->export_event($event);
+            $vcal_data .= $encoder->get_footers();
+            $message['attachments'] = array
+            (
+                array
+                (
+                    'name' => $generator->from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
+                    'mimetype' => 'text/calendar',
+                    'content' => $vcal_data,
+                ),
+            );
+        }
+
+        return org_openpsa_notifications::notify($action, $recipient->guid, $message);
     }
 
     /**
      * Returns the person this member points to if that person can be used for notifications
      */
-    function &get_person_obj()
+    function get_person_obj()
     {
         try
         {
@@ -89,82 +172,56 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             if (empty($person->email))
             {
                 debug_add('person #' . $person->id . 'has no email address, aborting');
-                $x = false;
-                return $x;
+                return false;
             }
         }
         catch (midcom_error $e)
         {
-            $x = false;
-            return $x;
+            return false;
         }
 
         return $person;
     }
 
     /**
-     * Returns the event this eventmember points to
-     */
-    function get_event_obj()
-    {
-        $event = new org_openpsa_calendar_event_dba($this->eid);
-        return $event;
-    }
-
-    public function _on_loaded()
-    {
-        // Make sure we have correct class
-        $x =& $this;
-        $x = new org_openpsa_calendar_event_participant_dba($this->id);
-    }
-
-    /**
      * Find amount (seconds) of free
      * time for person between start and end
      */
-    public static function find_free_times($amount, $person, $start, $end)
+    public static function find_free_times($amount, org_openpsa_contacts_person_dba $person, $start, $end)
     {
         $slots = array();
-        if (!is_object($person))
-        {
-            $person = org_openpsa_contacts_person_dba::get_cached($person);
-        }
+
         // Get current events for person
-        $qb = org_openpsa_calendar_event_participant_dba::new_query_builder();
-        $qb->begin_group('OR');
-            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_calendar_event_participant_dba::OBTYPE_EVENTPARTICIPANT);
-            $qb->add_constraint('orgOpenpsaObtype', '=', 0);
-        $qb->end_group();
-        $qb->add_constraint('uid', '=', $person->id);
+        $mc = self::new_collector('uid', $person->id);
         // All events that somehow overlap the given time.
-        $qb->begin_group('OR');
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.start', '>=', $start);
-                $qb->add_constraint('eid.start', '<=', $end);
-            $qb->end_group();
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.end', '<=', $end);
-                $qb->add_constraint('eid.end', '>=', $start);
-            $qb->end_group();
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.start', '<=', $start);
-                $qb->add_constraint('eid.end', '>=', $end);
-            $qb->end_group();
-        $qb->end_group();
-        $qb->add_order('eid.start', 'ASC');
-        $qb->add_order('eid.end', 'ASC');
-        $eventmembers = $qb->execute();
+        $mc->begin_group('OR');
+            $mc->begin_group('AND');
+                $mc->add_constraint('eid.start', '>=', $start);
+                $mc->add_constraint('eid.start', '<=', $end);
+            $mc->end_group();
+            $mc->begin_group('AND');
+                $mc->add_constraint('eid.end', '<=', $end);
+                $mc->add_constraint('eid.end', '>=', $start);
+            $mc->end_group();
+            $mc->begin_group('AND');
+                $mc->add_constraint('eid.start', '<=', $start);
+                $mc->add_constraint('eid.end', '>=', $end);
+            $mc->end_group();
+        $mc->end_group();
+        $mc->add_order('eid.start', 'ASC');
+        $mc->add_order('eid.end', 'ASC');
+        $eventmembers = $mc->get_values('eid');
         if (!is_array($eventmembers))
         {
             // QB error
             return $slots;
         }
         $events_by_date = array();
-        foreach ($eventmembers as $eventmember)
+        foreach ($eventmembers as $eid)
         {
             try
             {
-                $event = org_openpsa_calendar_event_dba::get_cached($eventmember->eid);
+                $event = org_openpsa_calendar_event_dba::get_cached($eid);
             }
             catch (midcom_error $e)
             {

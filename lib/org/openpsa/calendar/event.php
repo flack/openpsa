@@ -450,7 +450,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     private function _get_participants()
     {
-        $qb = org_openpsa_calendar_event_participant_dba::new_query_builder();
+        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->add_constraint('eid', '=', $this->id);
         return $qb->execute_unchecked();
     }
@@ -464,7 +464,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_deleting()
     {
-        $this->_get_em();
         //Remove participants
         midcom::get('auth')->request_sudo('org.openpsa.calendar');
         foreach ($this->_get_participants() as $obj)
@@ -473,7 +472,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             {
                 $obj->notify('cancel', $this);
             }
-            $obj->delete(false);
+            $obj->notify_person = false;
+            $obj->delete();
         }
 
         //Remove resources
@@ -483,7 +483,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             {
                 $obj->notify('cancel', $this);
             }
-            $obj->delete(false);
+            $obj->delete();
         }
 
         //Remove event parameters
@@ -524,13 +524,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             return;
         }
 
-        //Create shorthand references to the arrays wanted
-        $part =& $this->participants;
-        $res =& $this->resources;
-
         //Reset to empty arrays
-        $res = array();
-        $part = array();
+        $this->resources = array();
+        $this->participants = array();
 
         // Participants
         $mc = org_openpsa_calendar_event_member_dba::new_collector('eid', $this->id);
@@ -540,7 +536,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         {
             foreach ($members as $member)
             {
-                $part[$member] = true;
+                $this->participants[$member] = true;
             }
         }
         // Resources
@@ -551,11 +547,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         {
             foreach ($resources as $resource)
             {
-                $res[$resource] = true;
+                $this->resources[$resource] = true;
             }
         }
-
-        return true;
     }
 
     /**
