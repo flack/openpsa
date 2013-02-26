@@ -1,29 +1,35 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <!-- org.openpsa.reports objects -->
     <type name="org_openpsa_query" table="org_openpsa_query">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
 
-        <!-- title for a report meant for long-term storage -->
-        <property name="title" type="string" />
-        <!-- start timestamp for report window -->
-        <property name="start" type="integer" />
-        <!-- end timestamp for report window -->
-        <property name="end" type="integer" />
-        <!-- style used to display report -->
-        <property name="style" type="string" />
-        <!-- component this query belongs to -->
-        <property name="component" type="string" />
-        <!-- component this query is related to -->
-        <property name="relatedcomponent" type="string" />
-        <!-- mimetype for output (in case it's not 'text/html') -->
-        <property name="mimetype" type="string" />
-        <!-- file-extension (helps browsers, if not '.html') -->
-        <property name="extension" type="string" />
-
-        <!-- used to distinguish between temporary and long-term storage -->
-        <property name="orgOpenpsaObtype" type="integer"/>
+        <property name="title" type="string">
+            <description>title for a report meant for long-term storage</description>
+        </property>
+        <property name="start" type="integer">
+            <description>start timestamp for report window</description>
+        </property>
+        <property name="end" type="integer">
+            <description> end timestamp for report window</description>
+        </property>
+        <property name="style" type="string">
+            <description>style used to display report</description>
+        </property>
+        <property name="component" type="string">
+            <description>component this query belongs to</description>
+        </property>
+        <property name="relatedcomponent" type="string">
+            <description> component this query is related to</description>        
+        </property>
+        <property name="mimetype" type="string">
+            <description>mimetype for output (in case it's not 'text/html')</description>
+        </property>
+        <property name="extension" type="string">
+            <description>file-extension (helps browsers, if not '.html')</description>
+        </property>
+        <property name="orgOpenpsaObtype" type="integer">
+            <description>used to distinguish between temporary and long-term storage</description>
+        </property>
     </type>
-    <!-- /org.openpsa.reports objects -->
 </Schema>

@@ -11,7 +11,6 @@
 
         <!-- Does this work as expected (like article->up) ?? -->
         <property name="nextVersion" upfield="nextVersion" type="unsigned integer" link="org_openpsa_document:id"/>
-        <!-- Note: non-ML title -->
         <property name="title" type="string"/>
         <property name="abstract" type="text"/>
         <property name="keywords" type="text"/>

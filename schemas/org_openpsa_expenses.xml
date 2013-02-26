@@ -2,13 +2,11 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
 
     <type name="org_openpsa_expense" table="org_openpsa_expense" parent="org_openpsa_task">
-        <!-- Copied NewMidgardEventmember properties -->
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
         <property name="task" link="org_openpsa_task:id" type="unsigned integer" parentfield="task"/>
         <property name="person" link="midgard_person:id" type="unsigned integer"/>
-        <!-- /Copied NewMidgardEventmember properties -->
 
         <!-- PONDER: Should we have separate "approved" like property ?
              To distinguish between customer and internal approvals -->
@@ -19,10 +17,6 @@
         <property name="date" type="integer"/>
 
         <property name="description" type="text"/>
-        <!-- Is this property actually necessary to be a link, couldn't we
-             just use a string pull-down defined in MidCOM schema ?
-        <property name="reportType" link="org_openpsa_reporttype" type="unsigned integer" />
-        -->
         <property name="reportType" type="string"/>
         <property name="invoiceable" type="boolean"/>
 

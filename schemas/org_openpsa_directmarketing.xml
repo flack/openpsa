@@ -1,5 +1,4 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <!-- org.openpsa.spammer objects  -->
     <type name="org_openpsa_campaign" table="org_openpsa_campaign" parent="midgard_topic">
         <property name="id" type="unsigned integer" primaryfield="id" />
         <property name="title" type="string" />

@@ -58,7 +58,6 @@
     </type>
 
     <type name="org_openpsa_task" table="org_openpsa_task" parent="org_openpsa_project">
-        <!-- Copied from NewMidgardevent -->
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -69,7 +68,6 @@
         <property name="end" type="integer"/>
         <property name="title" type="string"/>
         <property name="description" type="text"/>
-        <!-- /Copied from NewMidgardevent -->
 
         <property name="affectsSaldo" type="boolean"/>
         <property name="plannedHours" type="float"/>
@@ -84,7 +82,6 @@
 
         <property name="agreement" link="org_openpsa_salesproject_deliverable:id" type="unsigned integer"/>
         <property name="customer" link="midgard_group:id" type="unsigned integer"/>
-        <!-- Customer contacts are handled as members to project -->
 
         <property name="manager" link="midgard_person:id" type="unsigned integer"/>
 
@@ -98,10 +95,6 @@
         <!-- Define max values (for warnings etc) for price & cost -->
         <property name="maxPrice" type="float"/>
         <property name="maxCost" type="float"/>
-
-        <!-- support for this will be implemented much later
-        <property name="pricelist" link="org_openpsa_pricelist" type="unsigned integer"/>
-        -->
 
         <!-- Caches for various values that otherwise would have to be queried runtime -->
         <property name="costCache" type="float"/>
@@ -175,13 +168,11 @@
     </type>
 
     <type name="org_openpsa_hour_report" table="org_openpsa_hour_report" parent="org_openpsa_task">
-        <!-- Copied NewMidgardEventmember properties -->
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
         <property name="task" link="org_openpsa_task:id" type="unsigned integer" parentfield="task"/>
         <property name="person" link="midgard_person:id" type="unsigned integer"/>
-        <!-- /Copied NewMidgardEventmember properties -->
 
         <property name="invoice" link="org_openpsa_invoice:id" type="unsigned integer" upfield="invoice"/>
 
@@ -190,15 +181,8 @@
 
         <property name="date" type="integer" index="yes"/>
 
-        <!-- Is this property actually necessary to be a link, couldn't we
-             just use a string pull-down defined in MidCOM schema ?
-        <property name="reportType" link="org_openpsa_reporttype:id" type="unsigned integer" />
-        -->
         <property name="reportType" type="string"/>
-        <!-- It might be good to have this flag here as well -->
         <property name="invoiceable" type="boolean" index="yes"/>
-
-        <!-- TODO: how to handle "percentages" [as in the 1.x Projects] ? I think the plugins should handle them as they see fit -->
 
         <!-- Caches for various values that other would have to be queried/calculated runtime -->
         <property name="costCache" type="float"/>
@@ -215,20 +199,11 @@
     </type>
 
     <type name="org_openpsa_task_resource" table="org_openpsa_task_resource" parent="org_openpsa_task">
-        <!-- Copied NewMidgardEventmember properties -->
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
         <property name="person" link="midgard_person:id" type="unsigned integer"/>
         <property name="task" link="org_openpsa_task:id" type="unsigned integer" parentfield="task"/>
-        <!-- /Copied NewMidgardEventmember properties -->
-
-        <!-- Link to resource type, the types themselves have a magic number our reports etc can use in the future
-        <property name="resourceType" link="org_openpsa_resource_type" />
-        -->
-
-        <!-- Here we can also add mapping properties for pricelist person classes
-             (1.x pricelists property) like features or even individual pricing not based on pricelists -->
 
         <!-- Common OpenPSA properties -->
         <property name="orgOpenpsaObtype" type="integer">

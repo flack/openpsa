@@ -1,5 +1,4 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <!-- org.openpsa.calendar objects -->
     <type name="org_openpsa_event" table="event">
         <!-- Copied from NewMidgardevent -->
         <property name="id" type="unsigned integer" primaryfield="id">
@@ -81,5 +80,4 @@
 
         <property name="description" type="text"/>
     </type>
-    <!-- /org.openpsa.calendar objects -->
 </Schema>

@@ -101,7 +101,6 @@
         <property name="homepage" type="string" />
         <property name="email" type="string" index="yes" />
         <property name="extra" type="text" />
-        <!-- <property name="img" link="midgard_person:image" type="unsigned integer" /> -->
         <property name="info" type="string" dbtype="set('auth')" />
         <property name="topic" link="midgard_topic:id" type="unsigned integer" />
         <property name="subtopic" link="midgard_topic:id" type="unsigned integer" />
