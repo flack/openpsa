@@ -221,7 +221,7 @@ class midcom_connection
                         $keys = $mc->list_keys();
                         if (count($keys) == 1)
                         {
-                            $salt = substr($keys[0], 0, 2);
+                            $salt = substr(key($keys), 0, 2);
                         }
                     }
                     $password = crypt($password, $salt);
