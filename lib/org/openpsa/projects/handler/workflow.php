@@ -85,9 +85,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     {
         midcom::get('auth')->require_valid_user();
         //Look for action among POST variables, then load main handler...
-        if (   !isset($_POST['org_openpsa_projects_workflow_action'])
-            || !is_array($_POST['org_openpsa_projects_workflow_action'])
-            || count($_POST['org_openpsa_projects_workflow_action']) == 0)
+        if (   empty($_POST['org_openpsa_projects_workflow_action'])
+            || !is_array($_POST['org_openpsa_projects_workflow_action']))
         {
             throw new midcom_error('Incomplete request');
         }

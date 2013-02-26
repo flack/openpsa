@@ -41,6 +41,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
+        midcom::get('auth')->require_valid_user();
         org_openpsa_widgets_contact::add_head_elements();
     }
 
@@ -51,8 +52,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         if (isset($args[1]))
         {
             $this->_request_data['view_identifier'] = $args[1];
@@ -223,8 +222,6 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _handler_list_user($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         $this->_request_data['view'] = 'grid';
         $this->_request_data['view_identifier'] = 'my_tasks';
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

@@ -27,10 +27,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
                 'handler' => 'notinitialized',
             );
         }
-        else
-        {
-            //If you need any custom switches add them here
-        }
     }
 
     /**

@@ -39,6 +39,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
 
     public function _on_initialize()
     {
+        midcom::get('auth')->require_valid_user();
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document_listview'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
     }
@@ -50,8 +51,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
         //check if there is another output-mode wanted
