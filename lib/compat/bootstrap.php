@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once MIDCOM_ROOT . '/compat/superglobal.php';
 require_once MIDCOM_ROOT . '/compat/componentdata.php';
 
 if (extension_loaded('midgard2'))
@@ -58,12 +57,17 @@ if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
     include MIDCOM_CONFIG_FILE_BEFORE;
 }
 
-/**
- * MidCOM superglobal
- *
- * @global midcom_compat_superglobal
- */
-$_MIDCOM = new midcom_compat_superglobal;
+if (isset($_MIDCOM))
+{
+    require_once MIDCOM_ROOT . '/compat/superglobal.php';
+
+    /**
+     * MidCOM superglobal
+     *
+     * @global midcom_compat_superglobal
+     */
+    $_MIDCOM = new midcom_compat_superglobal;
+}
 
 /**
  * Component configuration array
