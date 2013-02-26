@@ -151,9 +151,6 @@ class mgd2installer extends installer
         $project_name = basename($project_basedir);
 
         self::_prepare_dir('config');
-        self::_prepare_dir('config/share');
-        self::_prepare_dir('config/share/views');
-        self::_prepare_dir('config/share/schema');
         self::_prepare_dir('var');
         self::_prepare_dir('var/cache');
         self::_prepare_dir('var/rcs');
