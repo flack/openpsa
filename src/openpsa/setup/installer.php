@@ -153,8 +153,16 @@ class installer
             else
             {
                 $io->write('Replacing <comment>' . realpath($linkname) . '</comment> with <info>' . $target . '</info>');
-                unlink($linkname);
+                if (!unlink($linkname))
+                {
+                    throw new \Exception('could not remove old link ' . $linkname);
+                }
             }
+        }
+        else if (is_file($linkname))
+        {
+            $io->write('File <comment>' . realpath($linkname) . '</comment> already exists, skipping link to <info>' . $target . '</info>');
+            return;
         }
         if (!@symlink($target, $linkname))
         {
