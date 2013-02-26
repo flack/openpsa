@@ -175,7 +175,7 @@ class org_openpsa_calendar_conflictmanager
                     $qb->add_constraint('uid', '=', $uid);
                 }
             $qb->end_group();
-            $ret_ev = $qb->execute();
+            $ret = $qb->execute();
             unset($qb);
         }
         return $ret;
