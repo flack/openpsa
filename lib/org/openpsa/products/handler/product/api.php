@@ -57,7 +57,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         if (! $product->create())
         {
             debug_print_r('We operated on this object:', $product);
-            return null;
+            throw new midcom_error('Failed to create product: ' . midcom_connection::get_error_string());
         }
 
         // Generate URL name
@@ -211,11 +211,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         }
 
         $this->_product = $this->_create_product($_POST['title'], (int) $_POST['productgroup']);
-        if (   !$this->_product
-            || !$this->_product->guid)
-        {
-            throw new midcom_error('Failed to create product: ' . midcom_connection::get_error_string());
-        }
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {

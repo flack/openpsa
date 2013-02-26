@@ -90,7 +90,6 @@ class org_openpsa_projects_projectbroker
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
             return;
         }
-        midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
@@ -174,7 +173,6 @@ class org_openpsa_projects_projectbroker
             // Default to 15 minutes for minimum time here
             $minimum_time_slot = 0.25;
         }
-        midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);

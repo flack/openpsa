@@ -27,12 +27,6 @@ class org_openpsa_helpers_list
         $ret = array(0 => '');
         self::$_seen = array();
 
-        if (!midcom::get('componentloader')->load_graceful('org.openpsa.contacts'))
-        {
-            //PONDER: Maybe we should raise a fatal error ??
-            return $ret;
-        }
-
         //Make sure the currently selected customer (if any) is listed
         if ($task->customer > 0)
         {

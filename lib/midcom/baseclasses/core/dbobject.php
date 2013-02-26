@@ -472,8 +472,6 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_tree(midcom_core_dbaobject $object)
     {
-        midcom::get('componentloader')->load_graceful('midcom.helper.reflector');
-
         // Get the child nodes
         $children = midcom_helper_reflector_tree::get_child_objects($object);
 

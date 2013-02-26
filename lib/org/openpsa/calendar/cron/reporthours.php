@@ -41,11 +41,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        if (!midcom::get('componentloader')->load_graceful('org.openpsa.projects'))
-        {
-            debug_add('org.openpsa.projects could not be loaded', MIDCOM_LOG_WARN);
-            return;
-        }
         if (!midcom::get('auth')->request_sudo('org.openpsa.calendar'))
         {
             $msg = "Could not get sudo, aborting operation, see error log for details";

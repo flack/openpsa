@@ -47,16 +47,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     public static function find_root_event()
     {
-        if (!midcom::get('componentloader')->is_loaded('org.openpsa.calendar'))
-        {
-            midcom::get('componentloader')->load_graceful('org.openpsa.calendar');
-            //Doublecheck
-            if (!midcom::get('componentloader')->is_loaded('org.openpsa.calendar'))
-            {
-                return false;
-            }
-        }
-
         $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
 
         //Check if we have already initialized
