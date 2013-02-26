@@ -20,8 +20,6 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         $data['tree'] = $this->_master->get_group_tree();
 

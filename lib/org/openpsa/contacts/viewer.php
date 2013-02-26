@@ -26,9 +26,12 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         if ($handler != 'mycontacts_xml')
         {
             midcom::get('auth')->require_valid_user();
+            org_openpsa_widgets_contact::add_head_elements();
         }
-
-        org_openpsa_widgets_contact::add_head_elements();
+        else
+        {
+            midcom::get('auth')->require_valid_user('basic');
+        }
     }
 
     public function get_group_tree()

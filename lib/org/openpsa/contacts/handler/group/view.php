@@ -156,9 +156,6 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
-        // Get the requested group object
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $data['group'] = $this->_group;
 
@@ -218,7 +215,6 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _handler_json($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
         midcom::get()->skip_page_style = true;
         $this->_request_data['group'] = new org_openpsa_contacts_group_dba($args[0]);
     }

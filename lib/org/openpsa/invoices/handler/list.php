@@ -37,6 +37,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
+        midcom::get('auth')->require_valid_user();
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
@@ -158,7 +159,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_json($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
         midcom::get()->skip_page_style = true;
         $this->_list_type = $args[0];
     }
@@ -181,8 +181,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_dashboard($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         $this->_view_toolbar->add_item
         (
             array
@@ -348,8 +346,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_customer($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         try
         {
             $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
@@ -433,8 +429,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_deliverable($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         if (count($args) != 1)
         {
             throw new midcom_error('Incomplete request data');

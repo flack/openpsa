@@ -102,8 +102,6 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-
         $this->_type = $args[0];
 
         $this->_parent_group = false;

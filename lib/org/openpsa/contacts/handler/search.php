@@ -110,7 +110,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_search_type($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
         $this->_parse_query();
 
         switch ($args[0])
@@ -153,7 +152,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_search($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
         $this->_query_mode = 'both';
         $this->_parse_query();
 

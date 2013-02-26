@@ -59,8 +59,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-        // Check if we get the group
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $this->_group->require_do('midgard:update');
 
