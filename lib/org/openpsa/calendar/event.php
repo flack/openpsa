@@ -83,8 +83,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     function get_parent_guid_uncached()
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
-        if ( $root_event
-            && $this->id != $root_event->id)
+        if ($this->id != $root_event->id)
         {
             return $root_event->guid;
         }
@@ -99,8 +98,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
 
         // Check for empty title in existing events
-        if (   $this->id
-            && !$this->title)
+        if (!$this->title)
         {
             $this->title = $l10n->get('untitled');
         }
@@ -168,40 +166,30 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $checker->resource = $id;
             if (!$checker->verify_can_reserve())
             {
-                $msg = "Cannot reserve resource #{$id}, returning false";
-                $this->errstr = $msg;
-                debug_add($msg, MIDCOM_LOG_ERROR);
+                debug_add("Cannot reserve resource #{$id}, returning false", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
-                unset ($id, $checker, $msg);
                 return false;
             }
             unset ($id, $checker);
         }
 
         //Check up
-        if (!$this->up
+        if (   !$this->up
             && $this->title != '__org_openpsa_calendar')
         {
             $root_event = org_openpsa_calendar_interface::find_root_event();
             $this->up = $root_event->id;
         }
-        //Doublecheck
-        if (!$this->up)
-        {
-            debug_add('Event up not set, aborting');
-            $this->errstr = 'Event UP not set';
-            return false; //Calendar events must always be under some other event
-        }
-
-        $conflictmanager = new org_openpsa_calendar_conflictmanager($this);
 
         //check for busy participants/resources
-        if (   !$conflictmanager->run($rob_tentantive)
-            && !$ignorebusy_em)
+        if (!$ignorebusy_em)
         {
-            debug_print_r("Unresolved resource conflicts, aborting");
-            $this->errstr = 'Resource conflict with busy event';
-            return false;
+            $conflictmanager = new org_openpsa_calendar_conflictmanager($this);
+            if (!$conflictmanager->run($rob_tentantive))
+            {
+                debug_add("Unresolved resource conflicts, aborting", MIDCOM_LOG_WARN);
+                return false;
+            }
         }
 
         /*
@@ -262,13 +250,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     //TODO: Move these options elsewhere
     public function _on_creating($ignorebusy_em = false, $rob_tentantive = false)
     {
-        if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive))
-        {
-            //Some requirement for an update failed, see $this->__errstr;
-            debug_add('prepare_save failed, aborting', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        return true;
+        return $this->_prepare_save($ignorebusy_em, $rob_tentantive);
     }
 
     public function _on_created()
@@ -411,8 +393,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive))
         {
-            //Some requirement for an update failed, see $this->__errstr;
-            debug_add('prepare_save failed, aborting', MIDCOM_LOG_ERROR);
             return false;
         }
 
