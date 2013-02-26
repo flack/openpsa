@@ -23,7 +23,7 @@ class dba2rdfMapper extends AbstractRdfMapper
 {
     public function getBySubject($identifier)
     {
-        $identifier = str_replace(midcom::get('config')->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
+        $identifier = str_replace(\midcom::get('config')->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
         $identifier = trim($identifier, '<>');
 
         try
