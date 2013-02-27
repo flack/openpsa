@@ -51,7 +51,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         }
         // add username to salesproject title
         $person = new org_openpsa_contacts_person_dba($person_id);
-        $salesproject->title .= $person->get_name();
+        $salesproject->title .= $person->lastname . ", " . $person->firstname;
         $stat = $salesproject->create();
         if (!$stat)
         {
