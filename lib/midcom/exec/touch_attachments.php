@@ -12,10 +12,19 @@ $atts = $qb->execute_unchecked();
 
 echo "<p>" . count($atts) . " attachments to process...</p>\n";
 
+echo "<pre>\n";
 foreach ($atts as $att)
 {
-    $att->file_to_cache();
+    try
+    {
+        $att->file_to_cache();
+    }
+    catch (midcom_error $e)
+    {
+        echo 'Error: ' . $e->getMessage() . "\n";
+    }
 }
+echo "</pre>\n";
 
 echo "<p>DONE</p>\n";
 ?>
