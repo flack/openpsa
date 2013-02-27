@@ -35,22 +35,23 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     public function __construct($src)
     {
         parent::__construct();
-        // Handle object vs string
-        if (is_object($src))
-        {
-            $original_class = get_class($src);
-        }
-        else
-        {
-            $original_class = $src;
-        }
 
         // Resolve root class name
-        $this->mgdschema_class = self::resolve_baseclass($original_class);
+        $this->mgdschema_class = self::resolve_baseclass($src);
 
         // Could not resolve root class name
         if (empty($this->mgdschema_class))
         {
+            // Handle object vs string
+            if (is_object($src))
+            {
+                $original_class = get_class($src);
+            }
+            else
+            {
+                $original_class = $src;
+            }
+
             debug_add("Could not determine MgdSchema baseclass for '{$original_class}'", MIDCOM_LOG_ERROR);
             return;
         }
