@@ -420,19 +420,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             {
                 $classnames = array();
                 foreach ($queue as $obj) {
-                    $obj_class = get_class($obj);
-                    if ($obj->name) {
-                        $obj_class .= " {$obj->name}";
-                    }
-                    if ($obj->component) {
-                        $obj_class .= " [{$obj->component}]";
-                    }
+                    $ref = midcom_helper_reflector::get($obj);
+                    $obj_class = get_class($obj) . ' ' . $ref->get_object_label($obj);
                     if (!in_array($obj_class, $classnames)) {
                         $classnames[] = $obj_class;
                     }
                 }
                 $classnames_string = implode(', ', $classnames);
-                throw new midcom_error('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries with types ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
+                throw new midcom_error('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
             }
         }
 
