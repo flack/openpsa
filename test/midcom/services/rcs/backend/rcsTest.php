@@ -19,15 +19,15 @@ if (!defined('OPENPSA_TEST_ROOT'))
  */
 class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
 {
-    protected static $_conf_backup;
     protected static $_config;
 
     public static function setUpBeforeClass()
     {
-        self::$_conf_backup = $GLOBALS['midcom_config']['midcom_services_rcs_enable'];
+        $conf = new midcom_config;
+        $conf['midcom_services_rcs_enable'] = true;
         $GLOBALS['midcom_config']['midcom_services_rcs_enable'] = true;
 
-        self::$_config = new midcom_services_rcs_config($GLOBALS['midcom_config']);
+        self::$_config = new midcom_services_rcs_config($conf);
     }
 
     public function test_list_history()
@@ -44,11 +44,6 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
         $handler = self::$_config->get_handler($topic);
 
         $this->assertEquals(1, sizeof($handler->list_history()));
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $GLOBALS['midcom_config']['midcom_services_rcs_enable'] = self::$_conf_backup;
     }
 }
 ?>
