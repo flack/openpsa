@@ -218,16 +218,9 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @return string
      */
-    static function get_cache_path(midcom_db_attachment $attachment, $check_privileges = true)
+    public function get_cache_path()
     {
         if (!midcom::get('config')->get('attachment_cache_enabled'))
-        {
-            return null;
-        }
-
-        // Check if the attachment can be read anonymously
-        if (   $check_privileges
-            && !$attachment->can_do('midgard:read', 'EVERYONE'))
         {
             return null;
         }
@@ -239,13 +232,13 @@ class midcom_db_attachment extends midcom_core_dbaobject
             mkdir($cacheroot);
         }
 
-        $subdir = substr($attachment->guid, 0, 1);
+        $subdir = substr($this->guid, 0, 1);
         if (!file_exists("{$cacheroot}/{$subdir}"))
         {
             mkdir("{$cacheroot}/{$subdir}");
         }
 
-        $filename = "{$cacheroot}/{$subdir}/{$attachment->guid}_{$attachment->name}";
+        $filename = "{$cacheroot}/{$subdir}/{$this->guid}_{$this->name}";
 
         return $filename;
     }
@@ -308,7 +301,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             return;
         }
 
-        $filename = midcom_db_attachment::get_cache_path($this);
+        $filename = $this->get_cache_path();
 
         if (!$filename)
         {
@@ -488,9 +481,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (midcom::get('config')->get('attachment_cache_enabled'))
         {
             // Remove attachment cache
-            $filename = midcom_db_attachment::get_cache_path($this, false);
-            if (   !is_null($filename)
-                && file_exists($filename))
+            $filename = $this->get_cache_path();
+            if (file_exists($filename))
             {
                 @unlink($filename);
             }

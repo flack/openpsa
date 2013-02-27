@@ -78,13 +78,13 @@ class midcom_db_attachmentTest extends openpsa_testcase
         $attachment->copy_from_file(self::$_filepath . 'attach.png');
 
         $GLOBALS['midcom_config']['attachment_cache_enabled'] = false;
-        $stat = midcom_db_attachment::get_cache_path($attachment);
+        $stat = $attachment->get_cache_path();
         $this->assertNull($stat);
 
         $GLOBALS['midcom_config']['attachment_cache_enabled'] = true;
         $expected_path = $GLOBALS['midcom_config']['attachment_cache_root'] . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
 
-        $stat = midcom_db_attachment::get_cache_path($attachment);
+        $stat = $attachment->get_cache_path();
         $this->assertEquals($expected_path, $stat);
     }
 
