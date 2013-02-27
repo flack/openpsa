@@ -828,7 +828,7 @@ class midcom_helper_nav_backend
             if (is_object($leaf[MIDCOM_NAV_OBJECT]))
             {
                 $leaves[$id][MIDCOM_NAV_OBJECT] = new midcom_core_dbaproxy($leaf[MIDCOM_NAV_OBJECT]->guid, get_class($leaf[MIDCOM_NAV_OBJECT]));
-                $this->_nap_cache->put_guid($leaf[MIDCOM_NAV_OBJECT]->guid, $leaf);
+                $this->_nap_cache->put_guid($leaf[MIDCOM_NAV_OBJECT]->guid, $leaves[$id]);
             }
         }
 
