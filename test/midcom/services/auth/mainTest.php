@@ -115,9 +115,11 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $this->assertTrue($auth->request_sudo('some_string'));
         $auth->drop_sudo();
 
+        midcom::get('config')->set('auth_allow_sudo', false);
         $GLOBALS['midcom_config']['auth_allow_sudo'] = false;
-        $this->assertFalse($auth->request_sudo());
-        $GLOBALS['midcom_config']['auth_allow_sudo'] = true;
+        $stat = $auth->request_sudo();
+        midcom::get('config')->set('auth_allow_sudo', true);
+        $this->assertFalse($stat);
     }
 }
 ?>

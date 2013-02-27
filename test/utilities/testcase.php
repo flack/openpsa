@@ -353,9 +353,9 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             midcom_core_context::get(0)->set_current();
         }
 
-        if (!$GLOBALS['midcom_config']['auth_allow_sudo'])
+        if (!midcom::get('config')->get('auth_allow_sudo'))
         {
-            $GLOBALS['midcom_config']['auth_allow_sudo'] = true;
+            midcom::get('config')->set('auth_allow_sudo', true);
         }
 
         while (midcom::get('auth')->is_component_sudo())
