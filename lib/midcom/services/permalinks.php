@@ -144,7 +144,7 @@ class midcom_services_permalinks
         // We need to try every topic for the GUID.
         $topic_qb = midcom_db_topic::new_query_builder();
         $topic_qb->add_constraint('name', '<>', '');
-        $topic_qb->add_constraint('up', 'INTREE', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id);
+        $topic_qb->add_constraint('up', 'INTREE', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID));
         $topics = $topic_qb->execute();
         foreach ($topics as $topic)
         {

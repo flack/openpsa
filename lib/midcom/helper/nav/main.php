@@ -673,48 +673,34 @@ class midcom_helper_nav
                 $curr_node = $this->get_node($curr_leaf[MIDCOM_NAV_NODEID]);
             }
         }
-        $root_node = $this->get_root_node();
-
-        $node = $this->get_node($curr_node);
-        if ($curr_leaf === false)
+        foreach ($this->get_node_path($curr_node) as $node_id)
         {
-            $leaf = null;
-        }
-        else
-        {
-            $leaf = $this->get_leaf($curr_leaf);
-
-            // Ignore Index Article Leaves
-            if ($leaf[MIDCOM_NAV_URL] == '')
-            {
-                $leaf = null;
-            }
-        }
-
-        foreach ($this->get_node_path() as $curr_node)
-        {
-            $node = $this->get_node($curr_node);
+            $node = $this->get_node($node_id);
             $result[$node[MIDCOM_NAV_ID]] = Array
             (
                 MIDCOM_NAV_URL => $node[MIDCOM_NAV_ABSOLUTEURL],
                 MIDCOM_NAV_NAME => $node[MIDCOM_NAV_NAME],
                 MIDCOM_NAV_TYPE => 'node',
-                MIDCOM_NAV_ID => $curr_node,
+                MIDCOM_NAV_ID => $node_id,
                 'napobject' => $node,
             );
         }
-
-        if (! is_null($leaf))
+        if ($curr_leaf !== false)
         {
             $leaf = $this->get_leaf($curr_leaf);
-            $result[$leaf[MIDCOM_NAV_ID]] = Array
-            (
-                MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_ABSOLUTEURL],
-                MIDCOM_NAV_NAME => $leaf[MIDCOM_NAV_NAME],
-                MIDCOM_NAV_TYPE => 'leaf',
-                MIDCOM_NAV_ID => $curr_leaf,
-                'napobject' => $leaf,
-            );
+
+            // Ignore Index Article Leaves
+            if ($leaf[MIDCOM_NAV_URL] != '')
+            {
+                $result[$leaf[MIDCOM_NAV_ID]] = Array
+                (
+                    MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_ABSOLUTEURL],
+                    MIDCOM_NAV_NAME => $leaf[MIDCOM_NAV_NAME],
+                    MIDCOM_NAV_TYPE => 'leaf',
+                    MIDCOM_NAV_ID => $curr_leaf,
+                    'napobject' => $leaf,
+                );
+            }
         }
 
         $customdata = midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
@@ -752,9 +738,20 @@ class midcom_helper_nav
      *
      * @return Array    The node path array.
      */
-    function get_node_path()
+    function get_node_path($node_id = null)
     {
-        return $this->_backend->get_node_path();
+        if ($node_id === null)
+        {
+            return $this->_backend->get_node_path();
+        }
+        $path = array();
+        $node = $this->get_node($node_id);
+        while ($node)
+        {
+            $path[] = $node[MIDCOM_NAV_ID];
+            $node = $this->get_node($node[MIDCOM_NAV_NODEID]);
+        }
+        return array_reverse($path);
     }
 
     /**

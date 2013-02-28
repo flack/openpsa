@@ -16,7 +16,7 @@
  * midcom_helper_nav as a node cache. The framework should ensure that
  * only one class of this type is active at one time.
  *
- * Basicnav will give you a very abstract view of the content tree, modified
+ * It will give you a very abstract view of the content tree, modified
  * by the NAP classes of the components. You can retrieve a node/leaf tree
  * of the content, and for each element you can retrieve a URL name and a
  * long name for navigation display.
@@ -187,8 +187,7 @@ class midcom_helper_nav_backend
      */
     public function __construct($context = 0)
     {
-        $tmp = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-        $this->_root = $tmp->id;
+        $this->_root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPICID);
 
         $this->_nap_cache = midcom::get('cache')->nap;
 
@@ -341,7 +340,7 @@ class midcom_helper_nav_backend
         }
 
         if (   !is_null($lastgoodnode)
-            && (!isset($this->_lastgoodnode) || !$this->_lastgoodnode || $this->_lastgoodnode <= 0))
+            && (empty($this->_lastgoodnode) || $this->_lastgoodnode < 0))
         {
             $this->_lastgoodnode = $lastgoodnode;
         }
