@@ -153,17 +153,17 @@ class org_openpsa_widgets_grid_provider
         }
         return $this->_rows;
     }
-    
-    public function set_query($query)
+
+    public function set_query(midcom_core_query $query)
     {
         $this->_rows = null;
         $this->_total_rows = null;
         $this->_query = $query;
     }
-    
+
     /**
      * returns the query (uncached)
-     * 
+     *
      */
     public function get_query()
     {
@@ -176,8 +176,8 @@ class org_openpsa_widgets_grid_provider
         {
             $field = str_replace('index_', '', $field);
         }
-        
-        return $this->_client->get_qb($field, $this->_sort_direction);        
+
+        return $this->_client->get_qb($field, $this->_sort_direction);
     }
 
     public function count_rows()
@@ -287,7 +287,7 @@ class org_openpsa_widgets_grid_provider
             $this->_sort_direction = strtoupper($query['sord']);
         }
     }
-    
+
     private function _prepare_query()
     {
         if (is_null($this->_query))
@@ -300,7 +300,7 @@ class org_openpsa_widgets_grid_provider
     private function _get_rows()
     {
         $qb = $this->_prepare_query();
-        
+
         $this->_total_rows = $qb->count();
 
         if (   $this->_datatype == 'json'
