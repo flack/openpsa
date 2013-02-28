@@ -55,14 +55,14 @@ header('Content-Type: text/html; charset=utf-8');
 
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
-if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
+if (file_exists(__DIR__ . '/config.inc.php'))
 {
-    include MIDCOM_ROOT . '/../config.inc.php';
+    include __DIR__ . '/config.inc.php';
 }
 else
 {
     //TODO: Hook in an installation wizard here, once it is written
-    include MIDCOM_ROOT . '/../config-default.inc.php';
+    include __DIR__ . '/config-default.inc.php';
 }
 
 if (! defined('MIDCOM_STATIC_URL'))
@@ -70,9 +70,9 @@ if (! defined('MIDCOM_STATIC_URL'))
     define('MIDCOM_STATIC_URL', '/openpsa2-static');
 }
 
-if (file_exists(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php'))
+if (file_exists(__DIR__ . '/themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php'))
 {
-    include MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php';
+    include __DIR__ . '/themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php';
 }
 
 // Include the MidCOM environment for running OpenPSA

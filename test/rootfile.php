@@ -82,5 +82,5 @@ if (!defined('MIDCOM_ROOT'))
 }
 
 //Get required helpers
-require_once MIDCOM_ROOT . '/../test/utilities/bootstrap.php';
+require_once OPENPSA_TEST_ROOT . '/utilities/bootstrap.php';
 ?>
