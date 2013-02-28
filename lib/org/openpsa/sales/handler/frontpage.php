@@ -33,41 +33,17 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
 
         org_openpsa_widgets_ui::enable_ui_tab();
 
+        $data['tabs'] = array();
         $sales_url = org_openpsa_core_siteconfig::get_instance()->get_node_relative_url('org.openpsa.sales');
-
-        $data['tabs'] = array
-        (
-            array
+        $states = array('active', 'won', 'delivered', 'invoiced', 'canceled', 'lost');
+        foreach ($states as $state)
+        {
+            $data['tabs'][] = array
             (
-                'url' => $sales_url . "list/active/",
-                'title' => $this->_l10n->get('active'),
-            ),
-            array
-            (
-                'url' => $sales_url . "list/won/",
-                'title' => $this->_l10n->get('won'),
-            ),
-            array
-            (
-                'url' => $sales_url . "list/delivered/",
-                'title' => $this->_l10n->get('delivered'),
-            ),
-            array
-            (
-                'url' => $sales_url . "list/invoiced/",
-                'title' => $this->_l10n->get('invoiced'),
-            ),
-            array
-            (
-                'url' => $sales_url . "list/canceled/",
-                'title' => $this->_l10n->get('canceled'),
-            ),
-            array
-            (
-                'url' => $sales_url . "list/lost/",
-                'title' => $this->_l10n->get('lost'),
-            )
-        );
+                'url' => $sales_url . 'list/' . $state . '/',
+                'title' => $this->_l10n->get($state),
+            );
+        }
     }
 
     /**
