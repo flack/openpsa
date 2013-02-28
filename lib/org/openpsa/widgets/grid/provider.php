@@ -153,6 +153,32 @@ class org_openpsa_widgets_grid_provider
         }
         return $this->_rows;
     }
+    
+    public function set_query($query)
+    {
+        $this->_rows = null;
+        $this->_total_rows = null;
+        $this->_query = $query;
+    }
+    
+    /**
+     * returns the query (uncached)
+     * 
+     */
+    public function get_query()
+    {
+        if ($this->_datatype == 'json')
+        {
+            $this->_parse_query($_GET);
+        }
+        $field = $this->_sort_field;
+        if (!is_null($field))
+        {
+            $field = str_replace('index_', '', $field);
+        }
+        
+        return $this->_client->get_qb($field, $this->_sort_direction);        
+    }
 
     public function count_rows()
     {
@@ -261,22 +287,12 @@ class org_openpsa_widgets_grid_provider
             $this->_sort_direction = strtoupper($query['sord']);
         }
     }
-
+    
     private function _prepare_query()
     {
         if (is_null($this->_query))
         {
-            if ($this->_datatype == 'json')
-            {
-                $this->_parse_query($_GET);
-            }
-            $field = $this->_sort_field;
-            if (!is_null($field))
-            {
-                $field = str_replace('index_', '', $field);
-            }
-
-            $this->_query = $this->_client->get_qb($field, $this->_sort_direction);
+            $this->_query = $this->get_query();
         }
         return $this->_query;
     }
@@ -284,7 +300,7 @@ class org_openpsa_widgets_grid_provider
     private function _get_rows()
     {
         $qb = $this->_prepare_query();
-
+        
         $this->_total_rows = $qb->count();
 
         if (   $this->_datatype == 'json'

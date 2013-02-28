@@ -74,7 +74,7 @@ implements org_openpsa_widgets_grid_provider_client
                 $qb->add_constraint('due', '>', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
                 break;
         }
-
+        
         $qb->add_order('number');
         return $qb;
     }
@@ -309,6 +309,7 @@ implements org_openpsa_widgets_grid_provider_client
         {
             return;
         }
+        
         switch ($this->_list_type)
         {
             case 'paid':

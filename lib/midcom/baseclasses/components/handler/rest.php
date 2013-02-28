@@ -180,7 +180,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	    {
 	        $stat = $this->_object->update();
 	    }
-	
+
 	    if ($stat)
 	    {
 	        $this->_responseStatus = 200;
@@ -256,6 +256,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 	    }
 	    
 	    $response = new midcom_response_json($this->_response);
+	    $response->code = $this->_response['code'];
 	    $response->send();
 	}
 	
