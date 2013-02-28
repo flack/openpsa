@@ -64,11 +64,6 @@
  * ?>
  * </code>
  *
- * The component does not need to load the class automatically, instead, it can resort on the
- * auto-loading feature of the service. It will look for the handler in a file named after it,
- * by replacing the underscores with slashes: The above handler net_nehmer_static_cron_test
- * would be searched in net/nehmer/static/cron/test.php, relative to MIDCOM_ROOT.
- *
  * <b>Cron Job implementation suggestions</b>
  *
  * You should keep output to stdout to an absolute minimum. Normally, no output whatsoever

@@ -210,17 +210,11 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             throw new midcom_error("The field {$name} is missing type");
         }
 
-        if (strpos($config['type'], '_') === false)
+        $classname = $config['type'];
+        if (strpos($classname, '_') === false)
         {
             // Built-in type called using the shorthand notation
-            $filename = MIDCOM_ROOT . "/midcom/helper/datamanager2/type/{$config['type']}.php";
             $classname = "midcom_helper_datamanager2_type_{$config['type']}";
-            require_once($filename);
-        }
-        else
-        {
-            // Longhand notation of type class used, let autoloader handle it
-            $classname = $config['type'];
         }
 
         $this->types[$name] = new $classname();

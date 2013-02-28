@@ -149,17 +149,11 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function _load_widget($name, $initialize_dependencies = false)
     {
         $config = $this->_schema->fields[$name];
-        if (strpos($config['widget'], '_') === false)
+        $classname = $config['widget'];
+        if (strpos($classname, '_') === false)
         {
             // Built-in widget called using the shorthand notation
-            $filename = MIDCOM_ROOT . "/midcom/helper/datamanager2/widget/{$config['widget']}.php";
             $classname = "midcom_helper_datamanager2_widget_{$config['widget']}";
-            require_once($filename);
-        }
-        else
-        {
-            // Longhand notation of widget class used, let autoloader handle it
-            $classname = $config['widget'];
         }
 
         $this->widgets[$name] = new $classname($this->renderer);
@@ -625,8 +619,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
         else
         {
-            $filename = MIDCOM_ROOT . "/midcom/helper/datamanager2/renderer/{$name}.php";
-            require_once($filename);
             $classname = "midcom_helper_datamanager2_renderer_{$name}";
             $this->renderer = new $classname($this->namespace);
         }
