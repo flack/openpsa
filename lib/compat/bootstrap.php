@@ -12,43 +12,40 @@ if (extension_loaded('midgard2'))
 {
     require_once MIDCOM_ROOT . '/compat/midgard1.php';
 
-    if (isset($_MIDGARD))
-    {
-        $_MIDGARD = array
+    $_MIDGARD = array
+    (
+        'argv' => array(),
+
+        'user' => 0,
+        'admin' => false,
+        'root' => false,
+
+        'auth' => false,
+        'cookieauth' => false,
+
+        // General host setup
+        'page' => 0,
+        'debug' => false,
+
+        'self' => '/',
+        'prefix' => '',
+
+        'host' => 0,
+        'style' => 0,
+        'author' => 0,
+        'config' => array
         (
-            'argv' => array(),
-
-            'user' => 0,
-            'admin' => false,
-            'root' => false,
-
-            'auth' => false,
-            'cookieauth' => false,
-
-            // General host setup
-            'page' => 0,
-            'debug' => false,
-
-            'self' => '/',
             'prefix' => '',
+            'quota' => false,
+            'unique_host_name' => 'openpsa',
+            'auth_cookie_id' => 1,
+        ),
 
-            'host' => 0,
-            'style' => 0,
-            'author' => 0,
-            'config' => array
-            (
-                'prefix' => '',
-                'quota' => false,
-                'unique_host_name' => 'openpsa',
-                'auth_cookie_id' => 1,
-            ),
-
-            'schema' => array
-            (
-                'types' => array(),
-            ),
-        );
-    }
+        'schema' => array
+        (
+            'types' => array(),
+        ),
+    );
 }
 
 /* ----- Include the site config ----- */
@@ -57,17 +54,14 @@ if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
     include MIDCOM_CONFIG_FILE_BEFORE;
 }
 
-if (isset($_MIDCOM))
-{
-    require_once MIDCOM_ROOT . '/compat/superglobal.php';
+require_once MIDCOM_ROOT . '/compat/superglobal.php';
 
-    /**
-     * MidCOM superglobal
-     *
-     * @global midcom_compat_superglobal
-     */
-    $_MIDCOM = new midcom_compat_superglobal;
-}
+/**
+ * MidCOM superglobal
+ *
+ * @global midcom_compat_superglobal
+ */
+$_MIDCOM = new midcom_compat_superglobal;
 
 /**
  * Component configuration array
