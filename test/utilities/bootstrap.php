@@ -8,8 +8,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once OPENPSA_TEST_ROOT . '/utilities/testcase.php';
-require_once OPENPSA_TEST_ROOT . '/utilities/helpers.php';
+require_once __DIR__ . '/testcase.php';
+require_once __DIR__ . '/helpers.php';
 
 define('OPENPSA2_UNITTEST_RUN', true);
 define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
