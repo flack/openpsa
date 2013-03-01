@@ -215,9 +215,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $help_toolbar = midcom::get('toolbars')->get_help_toolbar();
         $help_toolbar->add_help_item('edit_folder', 'midcom.admin.folder', null, null, 1);
 
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
     }
 

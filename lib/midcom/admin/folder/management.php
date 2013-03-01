@@ -25,7 +25,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      */
     public function _on_initialize()
     {
-        midcom::get('componentloader')->load_library('midcom.admin.folder');
         $config = $this->_request_data['plugin_config'];
         if ($config)
         {

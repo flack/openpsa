@@ -74,9 +74,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $data['title'] = sprintf($this->_l10n->get('move %s'), $object_label);
         midcom::get('head')->set_pagetitle($data['title']);
 
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
     }
 

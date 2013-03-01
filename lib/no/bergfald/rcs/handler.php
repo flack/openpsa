@@ -68,6 +68,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      */
     public function _on_initialize()
     {
+        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/no.bergfald.rcs/rcs.css");
     }
 
@@ -211,9 +212,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         // Disable the "Show history" button when we're at its view
         $this->_view_toolbar->hide_item("__ais/rcs/{$this->_guid}/");
 
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
-
         $this->_prepare_breadcrumb();
 
         $data['view_title'] = sprintf($this->_l10n->get('revision history of %s'), $this->_resolve_object_title());
@@ -256,9 +254,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     {
         $this->_guid = $args[0];
         $this->_load_object();
-
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         if (   !$this->_backend->version_exists($args[1])
             || !$this->_backend->version_exists($args[2]))
@@ -312,9 +307,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_guid = $args[0];
         $this->_args = $args;
 
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
-
         $revision = $args[1];
 
         $this->_load_object();
@@ -356,9 +348,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
         $this->_object->require_do('midgard:update');
         // TODO: set another privilege for restoring?
-
-        // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
 
         $this->_prepare_toolbars($args[1]);
 

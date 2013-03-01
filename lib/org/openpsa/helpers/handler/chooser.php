@@ -49,9 +49,8 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_object = null;
 
-    public function __construct()
+    public function _on_initialize()
     {
-        parent::__construct();
         midcom::get('style')->prepend_component_styledir('org.openpsa.helpers');
     }
 
