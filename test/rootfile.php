@@ -1,10 +1,9 @@
 <?php
 /**
  * Setup file for running unit tests
- *
- * Usage: phpunit --no-globals-backup ./
  */
 
+define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 $GLOBALS['midcom_config_local'] = array();
 
 // Check that the environment is a working one

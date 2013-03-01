@@ -4,6 +4,7 @@
 <phpunit
     backupGlobals="false"
     colors="true"
+    bootstrap="test/rootfile.php"
 >
 
     <testsuites>
