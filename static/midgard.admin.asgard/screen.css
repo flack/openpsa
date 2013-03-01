@@ -855,7 +855,7 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
 }
 
 /* Object editing help */
-#content div.midgard_admin_asgard_objecthelper_help
+#content div.midgard_admin_asgard_stylehelper_help
 {
     background-color: #888a85;
     background-color: #d3d7cf;
@@ -863,12 +863,12 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
     padding: 12px;
     margin-bottom: 12px;
 }
-#content div.midgard_admin_asgard_objecthelper_help h3
+#content div.midgard_admin_asgard_stylehelper_help h3
 {
     margin: 0px;
     padding: 0px;
 }
-#content div.midgard_admin_asgard_objecthelper_help h3 a
+#content div.midgard_admin_asgard_stylehelper_help h3 a
 {
     color: #000000;
 }
@@ -884,7 +884,7 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
 {
     background-image: url('../stock-icons/16x16/list-remove.png');
 }
-#content div.midgard_admin_asgard_objecthelper_help > div
+#content div.midgard_admin_asgard_stylehelper_help > div
 {
     margin-top: 6px;
     background-color: #babdb6;
@@ -892,18 +892,18 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
     padding: 6px;
 }
 
-#content div.midgard_admin_asgard_objecthelper_help div ul li.component
+#content div.midgard_admin_asgard_stylehelper_help div ul li.component
 {
     font-weight: bold;
     margin-bottom: 1em;
 }
-#content div.midgard_admin_asgard_objecthelper_help div ul li.component:last-child
+#content div.midgard_admin_asgard_stylehelper_help div ul li.component:last-child
 {
     margin-bottom: 0px;
 }
 
-#content div.midgard_admin_asgard_objecthelper_help div ul,
-#content div.midgard_admin_asgard_objecthelper_help div ul li.component ul
+#content div.midgard_admin_asgard_stylehelper_help div ul,
+#content div.midgard_admin_asgard_stylehelper_help div ul li.component ul
 {
      list-style: none;
      margin-left: 0px;
@@ -911,7 +911,7 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
      margin-top: 0px;
      margin-bottom: 0px;
 }
-#content div.midgard_admin_asgard_objecthelper_help div ul li.component ul li
+#content div.midgard_admin_asgard_stylehelper_help div ul li.component ul li
 {
      display: inline;
      font-weight: normal;
@@ -919,17 +919,17 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
      padding-left: 0px;
      margin-right: 1em;
 }
-#content div.midgard_admin_asgard_objecthelper_help div ul li.component ul li a
+#content div.midgard_admin_asgard_stylehelper_help div ul li.component ul li a
 {
     color: #000000;
 }
 
-#content div.midgard_admin_asgard_objecthelper_help label
+#content div.midgard_admin_asgard_stylehelper_help label
 {
     font-weight: bold;
     display: block;
 }
-#content div.midgard_admin_asgard_objecthelper_help textarea
+#content div.midgard_admin_asgard_stylehelper_help textarea
 {
     width: 90%;
     height: 16em;
@@ -937,7 +937,7 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
     background-color: #d3d7cf;
     color: #555753;
 }
-#content div.midgard_admin_asgard_objecthelper_help button.copy
+#content div.midgard_admin_asgard_stylehelper_help button.copy
 {
     background-image: url('../stock-icons/16x16/editcopy.png');
     background-position: left;

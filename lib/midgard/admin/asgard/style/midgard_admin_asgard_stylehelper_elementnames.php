@@ -1,7 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
-<div class="midgard_admin_asgard_objecthelper_help">
+<div class="midgard_admin_asgard_stylehelper_help">
     <h3><a href="#"><?php echo $data['l10n']->get('creating new style element'); ?></a></h3>
     <div>
         <?php
@@ -46,7 +46,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <script type="text/javascript">
 // <![CDATA[
 $(document).ready(function(){
-        $(".midgard_admin_asgard_objecthelper_help").accordion({ header: 'h3', active: false, collapsible: true });
+        $(".midgard_admin_asgard_stylehelper_help").accordion({ header: 'h3', active: false, collapsible: true });
 });
 // ]]>
 </script>

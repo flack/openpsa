@@ -1,5 +1,5 @@
 <?php
-midgard_admin_asgard_objecthelper::get_help($data);
+$data['style_helper']->render_help();
 ?>
 <div class="object_view">
     <?php $data['datamanager']->display_view(); ?>

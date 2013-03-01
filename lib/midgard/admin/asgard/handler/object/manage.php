@@ -162,14 +162,14 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_view($handler_id, array &$data)
     {
+        $data['view_object'] = $this->_datamanager->get_content_html();
+        $data['style_helper'] = new midgard_admin_asgard_stylehelper($data);
         if (isset($_GET['ajax']))
         {
-            $data['view_object'] = $this->_datamanager->get_content_html();
             midcom_show_style('midgard_admin_asgard_object_view');
             return;
         }
 
-        $data['view_object'] = $this->_datamanager->get_content_html();
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_view');
@@ -252,6 +252,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_edit($handler_id, array &$data)
     {
+        $data['style_helper'] = new midgard_admin_asgard_stylehelper($data);
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_edit');
@@ -460,6 +461,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_create($handler_id, array &$data)
     {
+        $data['style_helper'] = new midgard_admin_asgard_stylehelper($data);
         if ($handler_id == '____mfa-asgard-object_create_chooser')
         {
             midcom_show_style('midgard_admin_asgard_popup_header');

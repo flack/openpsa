@@ -9,7 +9,7 @@
 /**
  * This class is responsible for all style management and replaces
  * the old <[...]> syntax. It is instantiated by the MidCOM framework
- * and accessible through the $midcom->style object.
+ * and accessible through the midcom::get('style') object.
  *
  * The method show ($style) returns the style element $style for the current
  * component:
@@ -279,93 +279,6 @@ class midcom_helper__styleloader
         return false;
     }
 
-    private function _get_nodes_inheriting_style($node)
-    {
-        $nodes = array();
-        $child_qb = midcom_db_topic::new_query_builder();
-        $child_qb->add_constraint('up', '=', $node->id);
-        $child_qb->add_constraint('style', '=', '');
-        $children = $child_qb->execute();
-
-        foreach ($children as $child_node)
-        {
-            $nodes[] = $child_node;
-            $subnodes = $this->_get_nodes_inheriting_style($child_node);
-            $nodes = array_merge($nodes, $subnodes);
-        }
-
-        return $nodes;
-    }
-
-    /**
-     * Get list of topics using a particular style
-     *
-     * @param string $style Style path
-     * @return array List of folders
-     */
-    function get_nodes_using_style($style)
-    {
-        $style_nodes = array();
-        // Get topics directly using the style
-        $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('style', '=', $style);
-        $nodes = $qb->execute();
-
-        foreach ($nodes as $node)
-        {
-            $style_nodes[] = $node;
-
-            if ($node->styleInherit)
-            {
-                $child_nodes = $this->_get_nodes_inheriting_style($node);
-                $style_nodes = array_merge($style_nodes, $child_nodes);
-            }
-        }
-
-        return $style_nodes;
-    }
-
-    /**
-     * List the default template elements shipped with a component
-     * @param string $component Component to look elements for
-     * @return array List of elements found indexed by the element name
-     */
-    function get_component_default_elements($component)
-    {
-        $elements = array();
-
-        // Path to the file system
-        $path = MIDCOM_ROOT . '/' . str_replace('.', '/', $component) . '/style';
-
-        if (!is_dir($path))
-        {
-            debug_add("Directory {$path} not found.");
-            return $elements;
-        }
-
-        $directory = dir($path);
-
-        if (!$directory)
-        {
-            debug_add("Failed to read directory {$path}");
-            return $elements;
-        }
-
-        while (($file = $directory->read()) !== false)
-        {
-            if (!preg_match('/\.php$/i', $file))
-            {
-                continue;
-            }
-
-            $elements[str_replace('.php', '', $file)] = "{$path}/{$file}";
-        }
-
-        $directory->close();
-
-        return $elements;
-    }
-
     /**
      * Returns a style element that matches $name and is in style $id.
      * Unlike mgd_get_element_by_name2 it also returns an element if it is not in
@@ -428,67 +341,6 @@ class midcom_helper__styleloader
 
         $cached[$id][$name] = false;
         return $cached[$id][$name];
-    }
-
-    function get_style_elements_and_nodes($style)
-    {
-        $results = array
-        (
-            'elements' => array(),
-            'nodes' => array(),
-        );
-
-        $style_id = $this->get_style_id_from_path($style);
-        if (!$style_id)
-        {
-            return $results;
-        }
-
-        $style_nodes = midcom::get('style')->get_nodes_using_style($style);
-
-        foreach ($style_nodes as $node)
-        {
-            if (!isset($results['nodes'][$node->component]))
-            {
-                $results['nodes'][$node->component] = array();
-            }
-
-            $results['nodes'][$node->component][] = $node;
-        }
-
-        foreach ($results['nodes'] as $component => $nodes)
-        {
-            // Get the list of style elements for the component
-            $results['elements'][$component] = midcom::get('style')->get_component_default_elements($component);
-
-            // Arrange elements in alphabetical order
-            ksort($results['elements'][$component]);
-        }
-
-        $results['elements']['midcom'] = array
-        (
-            'style-init' => '',
-            'style-finish' => '',
-        );
-
-        if ($style_id == midcom_connection::get('style'))
-        {
-            // We're in site main style, append elements from there to the list of "common elements"
-            $mc = midcom_db_element::new_collector('style', midcom_connection::get('style'));
-            $elements = $mc->get_values('name');
-            foreach ($elements as $name)
-            {
-                $results['elements']['midcom'][$name] = '';
-            }
-
-            if (!isset($results['elements']['midcom']['ROOT']))
-            {
-                // There should always be the ROOT element available
-                $results['elements']['midcom']['ROOT'] = '';
-            }
-        }
-
-        return $results;
     }
 
     /**
