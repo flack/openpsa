@@ -672,36 +672,27 @@ class midcom_helper_toolbar
         $label = $item[MIDCOM_TOOLBAR_LABEL];
         $label = htmlentities($label, ENT_COMPAT, "UTF-8");
 
-        if (!is_null($item[MIDCOM_TOOLBAR_ACCESSKEY]))
+        if (!empty($item[MIDCOM_TOOLBAR_ACCESSKEY]))
         {
             // Try finding uppercase version of the accesskey first
-            $accesskey_upper = strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
-            $accesskey_lower = strtolower($item[MIDCOM_TOOLBAR_ACCESSKEY]);
-            $position = strpos($label, $accesskey_upper);
+            $accesskey = strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
+            $position = strpos($label, $accesskey);
+            if (   $position === false
+                && midcom::get('i18n')->get_current_language() == 'en')
+            {
+                // Try lowercase, too
+                $accesskey = strtlower($item[MIDCOM_TOOLBAR_ACCESSKEY]);
+                $position = strpos($label, $accesskey);
+            }
             if ($position !== false)
             {
                 $new_label  = substr($label, 0, $position);
                 // FIXME: This is an ugly IE rendering fix
                 $new_label = str_replace(' ', '&nbsp;', $new_label);
-                $new_label .= "<span style=\"text-decoration: underline;\">{$accesskey_upper}</span>";
+                $new_label .= "<span style=\"text-decoration: underline;\">{$accesskey}</span>";;
                 // FIXME: This is an ugly IE rendering fix
                 $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
                 $label = $new_label;
-            }
-            else if (midcom::get('i18n')->get_current_language() == 'en')
-            {
-                // Try lowercase too
-                $position = strpos($label, $accesskey_lower);
-                if ($position !== false)
-                {
-                    $new_label  = substr($label, 0, $position);
-                    // FIXME: This is an ugly IE rendering fix
-                    $new_label = str_replace(' ', '&nbsp;', $new_label);
-                    $new_label .= "<span style=\"text-decoration: underline;\">{$accesskey_lower}</span>";
-                    // FIXME: This is an ugly IE rendering fix
-                    $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
-                    $label = $new_label;
-                }
             }
         }
 
