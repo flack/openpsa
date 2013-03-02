@@ -87,20 +87,15 @@ class midcom_services_metadata
      */
     function _create_metadata ($context_id)
     {
-        $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-
-        if (empty($topic->id))
-        {
-            $this->_metadata[$context_id] = Array();
-            $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
-            $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
-            return;
-        }
-
         $this->_metadata[$context_id] = Array();
-
-        $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = midcom_helper_metadata::retrieve($topic);
         $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
+        $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
+
+        $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+        if (!empty($topic->id))
+        {
+            $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = midcom_helper_metadata::retrieve($topic);
+        }
     }
 
     /**
