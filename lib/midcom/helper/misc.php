@@ -80,6 +80,16 @@ class midcom_helper_misc
             }
             $data = file_get_contents($filename);
         }
+        else if (substr($path, 0, 5) == 'conf:')
+        {
+            $filename = midcom::get('config')->get('midcom_config_basedir') . substr($path, 5);
+            if (! file_exists($filename))
+            {
+                $cached_snippets[$path] = null;
+                return null;
+            }
+            $data = file_get_contents($filename);
+        }
         else
         {
             $snippet = new midgard_snippet();
