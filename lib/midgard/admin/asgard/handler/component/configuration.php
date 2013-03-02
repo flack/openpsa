@@ -110,6 +110,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         // Finally, check the sitegroup config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/{$component}/config");
+
         if ($cfg !== false)
         {
             $config->store($cfg, false);
@@ -117,7 +118,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if (isset($topic_config))
         {
-            $config->store($topic_config->_local);
+            $config->store($topic_config->_local, false);
         }
 
         return $config;
