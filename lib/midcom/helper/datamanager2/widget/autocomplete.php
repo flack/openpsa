@@ -204,7 +204,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $head = midcom::get('head');
         $head->enable_jquery();
 
-        $head->add_jquery_ui_theme(array('autocomplete'));
+        $theme_files = array('autocomplete');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
@@ -216,11 +216,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
 
         if ($creation_mode_enabled)
         {
+            $theme_files[] = 'dialog';
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
         }
+        $head->add_jquery_ui_theme($theme_files);
     }
 
     public static function get_widget_config($type)
