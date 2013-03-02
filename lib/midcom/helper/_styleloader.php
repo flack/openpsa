@@ -553,7 +553,7 @@ class midcom_helper__styleloader
      * @param midcom_db_topic $topic    Current topic
      * @return int Database ID if the style to use in current view or false
      */
-    private function _getComponentStyle($topic)
+    private function _get_component_style($topic)
     {
         // get user defined style for component
         // style inheritance
@@ -616,7 +616,7 @@ class midcom_helper__styleloader
      * @param MidgardTopic $topic the current component topic.
      * @return mixed the path to the components style directory.
      */
-    private function _getComponentSnippetdir($topic)
+    private function _get_component_snippetdir($topic)
     {
         // get component's snippetdir (for default styles)
         $loader = midcom::get('componentloader');
@@ -820,13 +820,13 @@ class midcom_helper__styleloader
             $this->_styledirs_count[$context] = 0;
         }
 
-        $_st = $this->_getComponentStyle($this->_topic);
+        $_st = $this->_get_component_style($this->_topic);
         if (isset($_st))
         {
             array_unshift($this->_scope, $_st);
         }
 
-        $this->_snippetdir = $this->_getComponentSnippetdir($this->_topic);
+        $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
 
         $this->_merge_styledirs($this->_snippetdir);
         return true;
@@ -842,7 +842,7 @@ class midcom_helper__styleloader
     function leave_context()
     {
         /* does this cause an extra, not needed call to ->parameter ? */
-        $_st = $this->_getComponentStyle($this->_topic);
+        $_st = $this->_get_component_style($this->_topic);
         if (isset($_st))
         {
             array_shift($this->_scope);
@@ -851,10 +851,10 @@ class midcom_helper__styleloader
         array_shift($this->_context);
 
         // get our topic again
-        // FIXME: does this have to be above _getComponentStyle($this->_topic) ??
+        // FIXME: does this have to be above _get_component_style($this->_topic) ??
         $this->_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
-        $this->_snippetdir = $this->_getComponentSnippetdir($this->_topic);
+        $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
         return true;
     }
 
