@@ -167,6 +167,10 @@ var midcom_helper_datamanager2_autocomplete =
         input = $('#' + selector);
 
         input.parent().append('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>');
+        if (handler_options.creation_mode_enabled)
+        {
+            midcom_helper_datamanager2_autocomplete.enable_creation_mode(identifier, handler_options.creation_handler);
+        }
         if (!$.isEmptyObject(handler_options.preset))
         {
             $.each(handler_options.preset, function(id, text)
@@ -188,6 +192,10 @@ var midcom_helper_datamanager2_autocomplete =
                 if (handler_options.allow_multiple !== true)
                 {
                     input.show().focus();
+                    if (handler_options.creation_mode_enabled)
+                    {
+                        $('#' + identifier + '_create_button').show();
+                    }
                 }
                 if (item.hasClass('autocomplete-saved'))
                 {
@@ -226,6 +234,10 @@ var midcom_helper_datamanager2_autocomplete =
         if (handler_options.allow_multiple !== true)
         {
             $('#' + identifier + '_search_input').hide();
+            if (handler_options.creation_mode_enabled)
+            {
+                $('#' + identifier + '_create_button').hide();
+            }
             $('#' + identifier + '_selection_holder').find('.autocomplete-new').remove();
             if (switch_focus === true)
             {

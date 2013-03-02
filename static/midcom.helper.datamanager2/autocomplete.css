@@ -20,8 +20,15 @@
     color: #aaa;
 }
 
+.autocomplete-selection-holder
+{
+    display: block;
+    clear: both;
+}
+
 .autocomplete-selection-holder .autocomplete-item
 {
+    position: relative;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: .2em;
@@ -41,14 +48,19 @@
     border-left-color: #bbb;
     border-bottom-color: #aaa;
     border-right-color: #aaa;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, .1)
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .1);
 }
-
 
 .autocomplete-item .autocomplete-item-label
 {
     display: inline-block;
     vertical-align: middle;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 20px;
+    max-width: 20em
 }
 
 .autocomplete-selection-holder .autocomplete-action-icon
@@ -60,6 +72,8 @@
     background-repeat: no-repeat;
     margin-left: .5em;
     vertical-align: middle;
+    position: absolute;
+    right: .3em;
 }
 
 .autocomplete-action-icon

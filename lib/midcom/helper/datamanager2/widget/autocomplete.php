@@ -300,7 +300,9 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'orders' => $this->orders,
             'auto_wildcards' => $this->auto_wildcards,
             'preset' => $preset,
-            'allow_multiple' => $this->allow_multiple
+            'allow_multiple' => $this->allow_multiple,
+            'creation_mode_enabled' => $this->creation_mode_enabled,
+            'creation_handler' => $this->creation_handler
         ));
 
         $script = <<<EOT
@@ -311,17 +313,6 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             midcom_helper_datamanager2_autocomplete.create_dm2_widget('{$this->_element_id}_search_input', {$this->min_chars});
         });
 EOT;
-
-        if ($this->creation_mode_enabled)
-        {
-            $script .= <<<EOT
-            jQuery(document).ready(
-                function()
-                {
-                    midcom_helper_datamanager2_autocomplete.enable_creation_mode('{$this->_element_id}', '{$this->creation_handler}');
-                });
-EOT;
-        }
 
         $script = '<script type="text/javascript">' . $script . '</script>';
 
