@@ -90,15 +90,6 @@ class midcom_services_i18n
     private $_current_language;
 
     /**
-     * Current language for content.
-     *
-     * May be different than the UI language
-     *
-     * @var string
-     */
-    private $_current_content_language;
-
-    /**
      * Current character set
      *
      * @var string
@@ -176,14 +167,10 @@ class midcom_services_i18n
      * have to override it manually using midcom_services_i18n::set_charset()
      * after calling this method.
      *
-     * If <i>$switch_content_lang</i> is set, this call will also synchronize
-     * the Midgard content language with the MidCOM language.
-     *
      * @param string $lang    Language ISO 639-1 code
-     * @param boolean $switch_content_lang Whether to switch content language as well
      * @see _synchronize_midgard_language()
      */
-    function set_language($lang, $switch_content_lang = false)
+    function set_language($lang)
     {
         if (!array_key_exists($lang, $this->_language_db))
         {
@@ -192,13 +179,6 @@ class midcom_services_i18n
         }
 
         $this->_current_language = $lang;
-
-        if ($switch_content_lang)
-        {
-            // In the future we may allow changing UI language without changing content language
-            $this->_current_content_language = $lang;
-        }
-
         $this->_current_charset = strtolower($this->_language_db[$lang]['encoding']);
 
         /**
