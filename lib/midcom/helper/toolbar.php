@@ -681,7 +681,7 @@ class midcom_helper_toolbar
                 && midcom::get('i18n')->get_current_language() == 'en')
             {
                 // Try lowercase, too
-                $accesskey = strtlower($item[MIDCOM_TOOLBAR_ACCESSKEY]);
+                $accesskey = strtolower($item[MIDCOM_TOOLBAR_ACCESSKEY]);
                 $position = strpos($label, $accesskey);
             }
             if ($position !== false)
