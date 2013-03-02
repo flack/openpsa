@@ -117,7 +117,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_libconfig = new midcom_helper_configuration($cfg);
 
         // Go for the sitewide default
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("/etc/midgard/midcom/$this->_component_name}/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file(midcom::get('config')->get('midcom_config_basedir') . "/midcom/$this->_component_name}/config.inc");
         if ($cfg !== false)
         {
             $this->_libconfig->store($cfg, false);

@@ -87,14 +87,6 @@ class midcom
         {
             define('MIDCOM_STATIC_URL', '/midcom-static');
         }
-        if (! defined('MIDCOM_CONFIG_FILE_BEFORE'))
-        {
-            define('MIDCOM_CONFIG_FILE_BEFORE', '/etc/midgard/midcom.conf');
-        }
-        if (! defined('MIDCOM_CONFIG_FILE_AFTER'))
-        {
-            define('MIDCOM_CONFIG_FILE_AFTER', '/etc/midgard/midcom-after.conf');
-        }
 
         ///////////////////////////////////////
         //Constants, Globals and Configuration

@@ -102,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         // Go for the sitewide default
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file(midcom::get('config')->get('midcom_config_basedir') . "/midcom/{$component}/config.inc");
         if ($cfg !== false)
         {
             $config->store($cfg, false);

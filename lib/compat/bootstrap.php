@@ -48,6 +48,15 @@ if (extension_loaded('midgard2'))
     );
 }
 
+if (! defined('MIDCOM_CONFIG_FILE_BEFORE'))
+{
+    define('MIDCOM_CONFIG_FILE_BEFORE', midcom::get('config')->get('midcom_config_basedir') . '/midcom.conf');
+}
+if (! defined('MIDCOM_CONFIG_FILE_AFTER'))
+{
+    define('MIDCOM_CONFIG_FILE_AFTER', midcom::get('config')->get('midcom_config_basedir') . '/midcom-after.conf');
+}
+
 /* ----- Include the site config ----- */
 if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))
 {

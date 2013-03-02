@@ -14,9 +14,9 @@
  *
  * <b>Site-specific configuration:</b>
  *
- * MidCOM will include the file <i>/etc/midgard/midcom.conf</i> which must be a regular
+ * MidCOM will include the file <i>midcom::get('config')->get('midcom_config_basedir') . /midcom.conf</i> which must be a regular
  * PHP file. You may populate the global array $midcom_config_site in this file. It should
- * list all options that apply to all MidCOM installations (like the Cache backend selection
+ * list all options that apply to all installations (like the Cache backend selection
  * or the indexer host).
  *
  * Example:
@@ -260,8 +260,7 @@
  *
  * The various paths set here lead to the utility programs required by MidCOM, both
  * mandatory and optional applications are listed here. To indicate that a certain
- * application is unavailable, set it to null. It is recommended to set this in the
- * /etc/midgard/midcom.conf file. The defaults assume that the files are within the
+ * application is unavailable, set it to null. The defaults assume that the files are within the
  * $PATH of the Apache user and should be sufficient in most cases. Package maintainers
  * are encouraged to make the paths explicit.
  *
@@ -391,6 +390,7 @@ class midcom_config implements arrayaccess
 
         // Core configuration
         'midcom_root_topic_guid' => '',
+        'midcom_config_basedir' => '/etc/midgard/',
         'midcom_sgconfig_basedir' => '/sitegroup-config',
         'midcom_site_url' => '/',
         'midcom_site_title' => '',

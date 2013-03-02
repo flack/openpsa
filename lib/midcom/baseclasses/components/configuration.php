@@ -84,7 +84,7 @@ class midcom_baseclasses_components_configuration
      * Three files will be loaded in order:
      *
      * 1. The component's default configuration, placed in $prefix/config/config.inc
-     * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/config.inc.
+     * 2. Any systemwide default configuration, currently placed in midcom::get('config')->get('midcom_config_basedir')/midcom/$component/config.inc.
      * 3. Any site configuration in the snippet midcom::get('config')->get('midcom_sgconfig_basedir')/$component/config.
      *
      * @see midcom_helper_configuration
@@ -112,7 +112,7 @@ class midcom_baseclasses_components_configuration
         }
 
         // Go for the sitewide default
-        $fs_data = self::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
+        $fs_data = self::read_array_from_file(midcom::get('config')->get('midcom_config_basedir') . "/midcom/{$component}/config.inc");
         if ($fs_data !== false)
         {
             $data = array_merge($data, $fs_data);
