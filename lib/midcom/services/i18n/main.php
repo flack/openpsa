@@ -57,16 +57,6 @@ class midcom_services_i18n
     private $_http_charset;
 
     /**
-     * Stores the associative array stored in the cookie "midcom_services_i18n"
-     *
-     * Contains the keys "language" and
-     * "charset" or null if the cookie was not set.
-     *
-     * @var Array
-     */
-    private $_cookie_data;
-
-    /**
      * Fallback language, in case the selected language is not available.
      *
      * @var string
@@ -126,7 +116,6 @@ class midcom_services_i18n
     {
         $this->_http_lang = Array();
         $this->_http_charset = Array();
-        $this->_cookie_data = null;
         $this->_obj_l10n = Array();
 
         if (!$this->_load_language_db())
@@ -414,15 +403,7 @@ class midcom_services_i18n
     private function _load_l10n_db($component, $database)
     {
         $cacheid = "{$component}/{$database}";
-
-        if ($component == 'midcom')
-        {
-            $obj = new midcom_services_i18n_l10n('midcom', $database);
-        }
-        else
-        {
-            $obj = new midcom_services_i18n_l10n($component, $database);
-        }
+        $obj = new midcom_services_i18n_l10n($component, $database);
 
         $obj->set_language($this->_current_language);
         $obj->set_charset($this->_current_charset);
@@ -436,11 +417,11 @@ class midcom_services_i18n
      */
     private function _set_startup_langs()
     {
-        $this->_read_cookie();
-        if (!is_null ($this->_cookie_data))
+        $cookie_data = $this->_read_cookie();
+        if (!is_null($cookie_data))
         {
-            $this->_current_language = $this->_cookie_data['language'];
-            $this->_current_charset = $this->_cookie_data['charset'];
+            $this->_current_language = $cookie_data['language'];
+            $this->_current_charset = $cookie_data['charset'];
             return;
         }
 
@@ -465,12 +446,7 @@ class midcom_services_i18n
      */
     private function _read_cookie()
     {
-        if (!isset ($_COOKIE))
-        {
-            return;
-        }
-
-        if (!array_key_exists("midcom_services_i18n", $_COOKIE))
+        if (empty($_COOKIE['midcom_services_i18n']))
         {
             return;
         }
@@ -485,7 +461,7 @@ class midcom_services_i18n
             return;
         }
 
-        $this->_cookie_data = $array;
+        return $array;
     }
 
     /**
