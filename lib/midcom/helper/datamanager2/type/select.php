@@ -239,22 +239,20 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 // This is probably chooser
                 // FIXME: This is not exactly an elegant way to do this
                 if (    $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
-                    || !isset($this->storage->_schema->fields[$this->name]['widget_config']['class'])
-                    || !isset($this->storage->_schema->fields[$this->name]['widget_config']['titlefield']))
+                    || empty($this->storage->_schema->fields[$this->name]['widget_config']['class'])
+                    || empty($this->storage->_schema->fields[$this->name]['widget_config']['titlefield']))
+                {
+                    return null;
+                }
+
+                if (!$key)
+
                 {
                     return null;
                 }
 
                 $class = $this->storage->_schema->fields[$this->name]['widget_config']['class'];
                 $titlefield = $this->storage->_schema->fields[$this->name]['widget_config']['titlefield'];
-
-                if (   !$key
-                    || !$titlefield
-                    || !$class)
-
-                {
-                    return null;
-                }
 
                 if (!midcom::get('componentloader')->is_loaded($this->storage->_schema->fields[$this->name]['widget_config']['component']))
                 {
