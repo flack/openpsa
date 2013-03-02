@@ -508,7 +508,7 @@ class midcom_helper__styleloader
             }
 
             $current_context = midcom_core_context::get()->id;
-            for ($i = 0; ! $i < $this->_styledirs_count[$current_context]; $i++)
+            for ($i = 0; $i < $this->_styledirs_count[$current_context]; $i++)
             {
                 $filename = $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
                 if (file_exists($filename))
