@@ -54,11 +54,6 @@ midcom::get('head')->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get
                 }
             </style>
         <?php } ?>
-        <!--[if IE 6]>
-            <script type="text/javascript">
-                var ie6 = true;
-            </script>
-        <![endif]-->
     </head>
     <body class="asgard"<?php midcom::get('head')->print_jsonload(); ?>>
         <div id="container-wrapper">

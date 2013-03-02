@@ -1,5 +1,3 @@
-var ie6 = false;
-
 if (!jQuery)
 {
     jQuery = jQuery.noConflict();
