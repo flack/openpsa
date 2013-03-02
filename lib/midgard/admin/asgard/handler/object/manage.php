@@ -70,7 +70,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         {
             if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
             {
-                $relocate = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
+                $relocate = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid . '/';
                 midcom::get()->relocate($relocate);
             }
 
@@ -216,10 +216,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // Reindex the object
                 //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                return new midcom_response_relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
+                //Fall-through
 
             case 'cancel':
-                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
+                return $this->_prepare_relocate($this->_object);
 
             case 'edit':
                 $qf =& $this->_controller->formmanager->form;
@@ -426,27 +426,24 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // *** FALL-THROUGH ***
                 $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
 
-                if ($handler_id != '____mfa-asgard-object_create_chooser')
+                if ($handler_id == '____mfa-asgard-object_create_chooser')
                 {
-                    $redirect_url = str_replace('//', '/', "__mfa/asgard/object/edit/{$this->_new_object->guid}/");
-                    return new midcom_response_relocate($redirect_url);
+                    return $this->_prepare_relocate($this->_new_object);
                 }
                 break;
 
             case 'cancel':
                 $data['cancelled'] = true;
-                if ($this->_object)
-                {
-                    $objecturl = "object/{$this->_request_data['default_mode']}/{$this->_object->guid}/";
-                }
-                else
-                {
-                    $objecturl = $args[0];
-                }
-
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
-                    return new midcom_response_relocate("__mfa/asgard/{$objecturl}/");
+                    if ($this->_object)
+                    {
+                        return $this->_prepare_relocate($this->_object);
+                    }
+                    else
+                    {
+                        return new midcom_response_relocate("__mfa/asgard/{$args[0]}/");
+                    }
                 }
         }
 
@@ -504,6 +501,50 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         return json_encode($jsdata);
     }
 
+    private function _prepare_relocate(midcom_core_dbaobject $object, $mode = 'default')
+    {
+        // Redirect parameters to overview
+        if (is_a($object, 'midcom_db_parameter'))
+        {
+            return new midcom_response_relocate("__mfa/asgard/object/parameters/{$object->parentguid}/");
+        }
+
+        if ($mode == 'delete')
+        {
+            // Redirect person deletion to user management
+            if (is_a($object, 'midcom_db_person'))
+            {
+                return new midcom_response_relocate("../asgard_midcom.admin.user/");
+            }
+            $parent = $object->get_parent();
+            if ($parent)
+            {
+                return $this->_prepare_relocate($parent);
+            }
+
+            $type = $object->__mgdschema_class_name__;
+            $url = $type;
+
+            $class_extends = $this->_config->get('class_extends');
+            if (   is_array($class_extends)
+                && array_key_exists($type, $class_extends))
+            {
+                $url = $class_extends[$type];
+            }
+        }
+        else
+        {
+            // Redirect persons to user management
+            if (is_a($object, 'midcom_db_person'))
+            {
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$object->guid}/");
+            }
+            // Redirect to default object mode page.
+            $url = "__mfa/asgard/object/{$this->_request_data['default_mode']}/{$object->guid}/";
+        }
+        return new midcom_response_relocate($url);
+    }
+
     /**
      * Object display
      *
@@ -519,25 +560,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_object->require_do('midgard:delete');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        $type = $this->_object->__mgdschema_class_name__;
-
-        $relocate_url = $type;
-        $cancel_url = "__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/";
-
-        $class_extends = $this->_config->get('class_extends');
-        if (   is_array($class_extends)
-            && array_key_exists($type, $class_extends))
-        {
-            $relocate_url = $class_extends[$type];
-        }
-
-        // Redirect person deletion to user management
-        if (is_a($this->_object, 'midcom_db_person'))
-        {
-            $relocate_url = "../asgard_midcom.admin.user/";
-            $cancel_url = "__mfa/asgard_midcom.admin.user/edit/{$args[0]}/";
-        }
-
         $this->_prepare_request_data();
 
         $this->_load_schemadb();
@@ -551,8 +573,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (array_key_exists('midgard_admin_asgard_deleteok', $_REQUEST))
         {
             // Deletion confirmed.
-            $parent = $this->_object->get_parent();
-
             if (array_key_exists('midgard_admin_asgard_disablercs', $_REQUEST))
             {
                 $this->_object->_use_rcs = false;
@@ -567,18 +587,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $indexer = midcom::get('indexer');
             $indexer->delete($this->_object->guid);
 
-            if ($parent)
-            {
-                return new midcom_response_relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
-            }
-
-            return new midcom_response_relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
+            return $this->_prepare_relocate($this->_object, 'delete');
         }
 
         if (array_key_exists('midgard_admin_asgard_deletecancel', $_REQUEST))
         {
-            // Redirect to default object mode page.
-            return new midcom_response_relocate($cancel_url);
+            return $this->_prepare_relocate($this->_object);
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -659,10 +673,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             case 'save':
                 $new_object = $this->_process_copy($target);
                 // Relocate to the newly created object
-                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
+                return $this->_prepare_relocate($new_object);
 
             case 'cancel':
-                return new midcom_response_relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
+                return $this->_prepare_relocate($this->_object);
         }
 
         $this->_add_jscripts();
