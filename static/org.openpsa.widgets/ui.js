@@ -182,9 +182,9 @@ var org_openpsa_layout =
         $('#template_openpsa2_resizer').draggable({
             axis: 'axis-x',
             containment: 'window',
-            stop: function()
+            stop: function(event, ui)
             {
-                var offset = Math.max(($(this).offset().left + 4), 0),
+                var offset = Math.max((ui.offset.left + 4), 0),
                 navigation_width = offset,
                 content_margin_left = offset + 2;
 
