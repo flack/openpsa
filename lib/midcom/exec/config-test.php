@@ -33,7 +33,6 @@ $runner = new midcom_config_test();
 
 $runner->check_midcom();
 $runner->check_php();
-$runner->check_pear();
 $runner->print_header('External Utilities');
 // ImageMagick
 $cmd = midcom::get('config')->get('utility_imagemagick_base') . "identify -version";
