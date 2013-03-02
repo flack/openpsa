@@ -1,4 +1,5 @@
-<h1></h1>
+<div class="object_edit component-configuration">
 <?php
 $data['controller']->display_form();
 ?>
+</div>
