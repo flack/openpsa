@@ -527,19 +527,6 @@ class midcom_helper__styleloader
     private function _parse_element($_style, $path)
     {
         $data =& midcom_core_context::get()->get_custom_key('request_data');
-        $instance_id = false;
-
-        if (in_array('STYLE', midcom::get('config')->get('cache_module_memcache_data_groups')))
-        {
-            // Cache style elements
-            $instance_id = $path;
-
-            if (midcom::get('cache')->memcache->exists('STYLE', $instance_id))
-            {
-                eval('?>' . midcom::get('cache')->memcache->get('STYLE', $instance_id));
-                return;
-            }
-        }
 
         if (midcom::get('config')->get('wrap_style_show_with_name'))
         {
@@ -555,11 +542,6 @@ class midcom_helper__styleloader
             // Note that src detection will be semi-reliable, as it depends on all errors being
             // found before caching kicks in.
             throw new midcom_error("Failed to parse style element '{$path}', content was loaded from '{$src}', see above for PHP errors.");
-        }
-        if ($instance_id)
-        {
-            // This element will be cached after display (if no errors occured)
-            midcom::get('cache')->memcache->put('STYLE', $instance_id, $preparsed);
         }
     }
 
