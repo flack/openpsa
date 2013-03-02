@@ -112,7 +112,7 @@ class midcom_baseclasses_components_configuration
         }
 
         // Go for the sitewide default
-        $fs_data = self::read_array_from_file(midcom::get('config')->get('midcom_config_basedir') . "/midcom/{$component}/config.inc");
+        $fs_data = self::read_array_from_snippet("conf:/{$component}/config.inc");
         if ($fs_data !== false)
         {
             $data = array_merge($data, $fs_data);

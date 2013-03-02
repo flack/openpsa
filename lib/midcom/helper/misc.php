@@ -82,7 +82,7 @@ class midcom_helper_misc
         }
         else if (substr($path, 0, 5) == 'conf:')
         {
-            $filename = midcom::get('config')->get('midcom_config_basedir') . substr($path, 5);
+            $filename = midcom::get('config')->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
             if (! file_exists($filename))
             {
                 $cached_snippets[$path] = null;
