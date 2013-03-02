@@ -274,10 +274,6 @@ Katalog
 Hämta hjälp
 ---STRINGEND
 
----STRING get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
-Hämta fler komponenter från <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
----STRINGEND
-
 ---STRING hidden
 Dold
 ---STRINGEND

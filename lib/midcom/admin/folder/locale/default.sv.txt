@@ -174,10 +174,6 @@ Importerad
 Ärv template till underkataloger
 ---STRINGEND
 
----STRING install more %s from %s
-Du kan installera flera <a href="%s">MidCOM komponenter</a> från <a href="%s">PEAR trädet</a>.
----STRINGEND
-
 ---STRING list of %s folders using the same style template path
 Lista över "%s" kataloger som använder samma stilmalls sökväg
 ---STRINGEND

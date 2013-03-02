@@ -178,10 +178,6 @@ Tuotu sisään
 Periytä ulkoasupohja alikansioille
 ---STRINGEND
 
----STRING install more %s from %s
-Lisää <a href="%s">MidCOM-komponentteja</a> voi asentaa <a href="%s">PEAR-paketeista</a>.
----STRINGEND
-
 ---STRING list of %s folders using the same style template path
 Lista komponenttia "%s" käyttävistä kansioista, joissa käytetään samaa tyylipolkua
 ---STRINGEND

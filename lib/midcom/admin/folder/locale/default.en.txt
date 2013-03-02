@@ -178,10 +178,6 @@ Imported
 Inherit template to subfolders
 ---STRINGEND
 
----STRING install more %s from %s
-You can install more <a href="%s">MidCOM components</a> from the <a href="%s">PEAR repository</a>.
----STRINGEND
-
 ---STRING list of %s folders using the same style template path
 List of "%s" folders using the same style template path
 ---STRINGEND

@@ -178,10 +178,6 @@ Importowano
 Dziedzicz szablon do podfolderów
 ---STRINGEND
 
----STRING install more %s from %s
-Więcej <a href="%s">Komponentów MidCOM'a</a> znajdziesz w <a href="%s">repozytorium PEAR</a>.
----STRINGEND
-
 ---STRING list of %s folders using the same style template path
 Foldery typu "%s" korzystające z tego samego stylu
 ---STRINGEND

@@ -178,10 +178,6 @@ Importiert
 Stilvorlage an Unterordner vererben
 ---STRINGEND
 
----STRING install more %s from %s
-Weitere <a href="%s">MidCOM-Komponenten</a> können Sie aus dem <a href="%s">PEAR-Repository</a> installieren.
----STRINGEND
-
 ---STRING list of %s folders using the same style template path
 Zeige alle "%s"-Ordner, die den selben Stilvorlagen-Pfad benutzen
 ---STRINGEND

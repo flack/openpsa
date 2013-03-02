@@ -290,10 +290,6 @@ Ordner
 Hilfe
 ---STRINGEND
 
----STRING get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
-Laden Sie weitere Komponenten aus dem <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
----STRINGEND
-
 ---STRING hidden
 Versteckt
 ---STRINGEND
