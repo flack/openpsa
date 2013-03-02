@@ -27,17 +27,6 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
      */
     public $auto_context = null;
 
-    /**
-     * This event handler is called after construction, so passing references to $this to the
-     * outside is safe at this point.
-     *
-     * @return boolean Indicating success, false will abort the type construction sequence.
-     */
-    public function _on_initialize()
-    {
-        return midcom::get('componentloader')->load_library('net.nemein.tag');
-    }
-
     public function convert_from_storage($source)
     {
         if (! $this->storage->object)

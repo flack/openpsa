@@ -187,11 +187,6 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
      */
     private function _run_macro_tagged($macro_content, $fulltag, $after)
     {
-        if (!midcom::get('componentloader')->load_library('net.nemein.tag'))
-        {
-            // TODO: do something to explain that we can't load n.n.tag...
-            return $fulltag;
-        }
         $tags_exploded = explode(',', $macro_content);
         $tags = array();
         foreach ($tags_exploded as $tagname)

@@ -35,10 +35,10 @@ else
                 if ($history['user'])
                 {
                     $user = midcom::get('auth')->get_user($history['user']);
-                    if(is_object($user))
+                    if (is_object($user))
                     {
                         $person = $user->get_storage();
-                        if (midcom::get('componentloader')->load_library('org.openpsa.widgets'))
+                        if (class_exists('org_openpsa_widgets_contact'))
                         {
                             $user_card = new org_openpsa_widgets_contact($person);
                             $person_label = $user_card->show_inline();
