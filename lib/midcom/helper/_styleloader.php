@@ -414,17 +414,17 @@ class midcom_helper__styleloader
         $_style = false;
 
         $this->_snippetdir = MIDCOM_ROOT . '/midcom/style';
-        $current_context = midcom_core_context::get()->id;
-        if (isset($this->_styledirs_count[$current_context]))
+        $context = midcom_core_context::get();
+        if (isset($this->_styledirs_count[$context->id]))
         {
             $styledirs_count_backup = $this->_styledirs_count;
             $styledirs_backup = $this->_styledirs;
         }
 
-        $this->_styledirs_count[$current_context] = 1;
-        $this->_styledirs[$current_context][0] = $this->_snippetdir;
+        $this->_styledirs_count[$context->id] = 1;
+        $this->_styledirs[$context->id][0] = $this->_snippetdir;
 
-        $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
 
         if (   $root_topic
             && $root_topic->style)
