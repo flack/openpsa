@@ -355,7 +355,7 @@ class midcom_helper_toolbar
         }
 
         // Check that access keys get registered only once
-        if (   ! array_key_exists(MIDCOM_TOOLBAR_ACCESSKEY, $item)
+        if (   empty($item[MIDCOM_TOOLBAR_ACCESSKEY])
             || array_key_exists($item[MIDCOM_TOOLBAR_ACCESSKEY], $used_access_keys))
         {
             $item[MIDCOM_TOOLBAR_ACCESSKEY] = null;
@@ -734,7 +734,7 @@ class midcom_helper_toolbar
             }
             if (! is_null($item[MIDCOM_TOOLBAR_ACCESSKEY]))
             {
-                $output .= " class=\"accesskey \" accesskey='{$item[MIDCOM_TOOLBAR_ACCESSKEY]}' ";
+                $output .= " class=\"accesskey\" accesskey='{$item[MIDCOM_TOOLBAR_ACCESSKEY]}' ";
             }
             $output .= ">\n";
         }
@@ -806,6 +806,7 @@ class midcom_helper_toolbar
                     $output .= " $key=\"$val\" ";
                 }
             }
+
             if ($item[MIDCOM_TOOLBAR_ACCESSKEY])
             {
                 $output .= " class=\"accesskey\" accesskey=\"{$item[MIDCOM_TOOLBAR_ACCESSKEY]}\" ";

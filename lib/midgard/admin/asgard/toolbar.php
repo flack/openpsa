@@ -293,69 +293,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_ACCESSKEY => 'm',
             )
         );
-        /** COPIED from midcom_services_toolbars */
-        if (midcom::get('config')->get('metadata_approval'))
-        {
-            $metadata = midcom_helper_metadata::retrieve($object);
-            if (   $metadata
-                && $metadata->is_approved())
-            {
-                $icon = 'stock-icons/16x16/page-approved.png';
-                if (   !midcom::get('config')->get('show_hidden_objects')
-                    && !$metadata->is_visible())
-                {
-                    // Take scheduling into account
-                    $icon = 'stock-icons/16x16/page-approved-notpublished.png';
-                }
-                $this->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('unapprove', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('approved', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                        (
-                            'guid' => $object->guid,
-                            'return_to' => $_SERVER['REQUEST_URI'],
-                        ),
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'u',
-                        MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
-                    )
-                );
-            }
-            else
-            {
-                $icon = 'stock-icons/16x16/page-notapproved.png';
-                if (   !midcom::get('config')->get('show_hidden_objects')
-                    && !$metadata->is_visible())
-                {
-                    // Take scheduling into account
-                    $icon = 'stock-icons/16x16/page-notapproved-notpublished.png';
-                }
-                $this->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('approve', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('unapproved', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                        (
-                            'guid' => $object->guid,
-                            'return_to' => $_SERVER['REQUEST_URI'],
-                        ),
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'a',
-                        MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
-                    )
-                );
-            }
-        }
-        /** /COPIED from midcom_services_toolbars */
+        midcom::get('toolbars')->add_approval_controls($this, $object);
 
         $this->add_item
         (

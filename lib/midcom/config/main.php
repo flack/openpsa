@@ -9,9 +9,6 @@
 /**
  * Core configuration defaults.
  *
- * The global variable <i>midcom_config</i> will hold the current values of all these
- * options.
- *
  * As always, you must not change this file. Instead, you have two levels of customization,
  * merged in the order listed here:
  *
