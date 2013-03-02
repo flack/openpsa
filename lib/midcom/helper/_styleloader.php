@@ -502,26 +502,19 @@ class midcom_helper__styleloader
                 $filename = OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') .  "/style/{$_element}.php";
                 if (file_exists($filename))
                 {
-                    $_style = file_get_contents($filename);
-                    $src = $filename;
-                    $this->_snippets[$src] = $_style;
-                    return $this->_snippets[$src];
+                    $this->_snippets[$filename] = file_get_contents($filename);
+                    return $this->_snippets[$filename];
                 }
             }
 
-            if (!isset($_style))
+            $current_context = midcom_core_context::get()->id;
+            for ($i = 0; ! $i < $this->_styledirs_count[$current_context]; $i++)
             {
-                $current_context = midcom_core_context::get()->id;
-                for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$current_context]; $i++)
+                $filename = $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
+                if (file_exists($filename))
                 {
-                    $filename = $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
-                    if (file_exists($filename))
-                    {
-                        $_style = file_get_contents($filename);
-                        $src = $filename;
-                        $this->_snippets[$src] = $_style;
-                        return $this->_snippets[$src];
-                    }
+                    $this->_snippets[$filename] = file_get_contents($filename);
+                    return $this->_snippets[$filename];
                 }
             }
         }
