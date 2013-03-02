@@ -9,8 +9,6 @@
 /**
  * directmarketing edit/delete message handler
  *
- * Originally copied from net.nehmer.blog
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclasses_components_handler

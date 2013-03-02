@@ -1,6 +1,5 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
     <type name="org_openpsa_event" table="event">
-        <!-- Copied from NewMidgardevent -->
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -12,7 +11,6 @@
         <property name="extra" type="text"/>
         <property name="busy" type="boolean"/>
         <property name="up" upfield="up" type="unsigned integer" link="org_openpsa_event:id"/>
-        <!-- /Copied from NewMidgardevent -->
 
         <property name="location" type="string" />
         <property name="tentative" type="boolean" />

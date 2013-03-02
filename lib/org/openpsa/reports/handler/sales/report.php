@@ -102,7 +102,6 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
             // Generic report
             $data['handler_id'] = 'sales_report';
         }
-        /*** Copied from sales/handler/deliverable/report.php ***/
         midcom_show_style('sales_report-deliverable-header');
 
         $invoices_node = midcom_helper_misc::find_node_by_component('org.openpsa.invoices');
@@ -248,7 +247,6 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         $data['sums_per_person'] = $sums_per_person;
         $data['sums_all'] = $sums_all;
         midcom_show_style('sales_report-deliverable-footer');
-        /*** /Copied from sales/handler/deliverable/report.php ***/
         midcom_show_style('sales_report-deliverable-end');
     }
 }

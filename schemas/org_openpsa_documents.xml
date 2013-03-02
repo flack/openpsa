@@ -1,13 +1,11 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
 
     <type name="org_openpsa_document" table="org_openpsa_document">
-        <!-- Copied from NewMidgardArticle -->
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
         <property name="author" link="midgard_person:id" type="unsigned integer"/>
         <property name="topic" link="midgard_topic:id" type="unsigned integer" parentfield="topic"/>
-        <!-- /Copied from NewMidgardArticle -->
 
         <!-- Does this work as expected (like article->up) ?? -->
         <property name="nextVersion" upfield="nextVersion" type="unsigned integer" link="org_openpsa_document:id"/>

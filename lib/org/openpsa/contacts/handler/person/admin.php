@@ -9,8 +9,6 @@
 /**
  * Contacts edit/delete person handler
  *
- * Originally copied from net.nehmer.blog
- *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_components_handler
