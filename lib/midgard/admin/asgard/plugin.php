@@ -129,7 +129,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 $title_string = sprintf(midcom::get('i18n')->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, midgard_admin_asgard_handler_object_permissions::resolve_object_title($object));
                 break;
             case '____mfa-asgard-object_create':
-                $title_string = sprintf(midcom::get('i18n')->get_string('create %s under %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']), '%s %s');
+                $title_string = sprintf(midcom::get('i18n')->get_string('create %s under %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['current_type']), '%s %s');
                 break;
             case '____mfa-asgard-object_delete':
                 $title_string = midcom::get('i18n')->get_string('delete %s %s', 'midgard.admin.asgard');
@@ -324,7 +324,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 );
                 break;
             case '____mfa-asgard-object_create':
-                if ($data['new_type_arg'] == 'midgard_parameter')
+                if ($data['current_type'] == 'midgard_parameter')
                 {
                     // Add "parameters" list to breadcrumb if we're creating a param
                     $breadcrumb[] = array
@@ -335,8 +335,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 }
                 $breadcrumb[] = array
                 (
-                    MIDCOM_NAV_URL => self::_generate_url('create' . $data['new_type_arg'], $object->guid),
-                    MIDCOM_NAV_NAME => sprintf(midcom::get('i18n')->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg'])),
+                    MIDCOM_NAV_URL => self::_generate_url('create' . $data['current_type'], $object->guid),
+                    MIDCOM_NAV_NAME => sprintf(midcom::get('i18n')->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['current_type'])),
                 );
                 break;
             case '____mfa-asgard-object_delete':

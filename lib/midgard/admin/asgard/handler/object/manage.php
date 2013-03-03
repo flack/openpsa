@@ -339,7 +339,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         {
             throw new midcom_error_notfound("Component handling MgdSchema type '{$args[0]}' was not found.");
         }
-        $data['new_type_arg'] = $args[0];
+        $data['current_type'] = $args[0];
 
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
@@ -349,7 +349,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         {
             midcom::get('auth')->require_user_do('midgard:create', null, $this->_new_type);
 
-            $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
+            $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['current_type']));
         }
         else
         {

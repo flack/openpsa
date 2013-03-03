@@ -255,7 +255,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                 $this->disable_item($this->_generate_url('permissions', $object));
                 break;
             case '____mfa-asgard-object_create':
-                $this->disable_item($this->_generate_url('create' . $data['new_type_arg'], $object));
+                $this->disable_item($this->_generate_url('create' . $data['current_type'], $object));
                 break;
             case '____mfa-asgard-object_delete':
                 $this->disable_item($this->_generate_url('delete', $object));

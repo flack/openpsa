@@ -35,7 +35,7 @@ class midgard_admin_asgard_stylehelper
 
         if (   midcom::get('dbfactory')->is_a($this->_data['object'], 'midgard_style')
             && (   $this->_data['handler_id'] !== '____mfa-asgard-object_create'
-                || $this->_data['new_type_arg'] == 'midgard_element'))
+                || $this->_data['current_type'] == 'midgard_element'))
         {
             $help_element = $this->_get_help_style_elementnames($this->_data['object']);
         }
