@@ -250,8 +250,8 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         if (!array_key_exists('original', $this->attachments))
         {
             // Allow main image only be recreated if we have original stored
-            debug_add("Image {$this->name} has no 'original' image, skipping recreation.", MIDCOM_LOG_INFO);
-            return false;
+            debug_add("Image {$this->name} has no 'original' image, recreating derived images only.", MIDCOM_LOG_INFO);
+            return $this->recreate_derived_images();
         }
         if (!$this->_prepare_recreate())
         {
