@@ -876,7 +876,7 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
 #content div.midgard_admin_asgard_stylehelper_help > div
 {
     margin-top: 6px;
-    background-color: #babdb6;
+    background: #babdb6;
     border-radius: 6px;
     padding: 6px;
 }

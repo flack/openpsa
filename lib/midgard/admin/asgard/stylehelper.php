@@ -23,6 +23,11 @@ class midgard_admin_asgard_stylehelper
     public function __construct(&$data)
     {
         $this->_data =& $data;
+
+        midcom::get('head')->add_jquery_ui_theme(array('accordion'));
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.accordion.min.js');
     }
 
     public function render_help()

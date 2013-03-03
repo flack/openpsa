@@ -78,14 +78,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
     }
 
-    public function _on_initialize()
-    {
-        // Accordion is needed for per-type help when available
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.accordion.min.js');
-    }
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -97,6 +89,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_request_data['schemadb'] = $this->_schemadb;
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['asgard_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
+        $this->_request_data['style_helper'] = new midgard_admin_asgard_stylehelper($this->_request_data);
     }
 
     /**
@@ -163,7 +156,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     public function _show_view($handler_id, array &$data)
     {
         $data['view_object'] = $this->_datamanager->get_content_html();
-        $data['style_helper'] = new midgard_admin_asgard_stylehelper($data);
         if (isset($_GET['ajax']))
         {
             midcom_show_style('midgard_admin_asgard_object_view');
@@ -252,7 +244,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_edit($handler_id, array &$data)
     {
-        $data['style_helper'] = new midgard_admin_asgard_stylehelper($data);
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_edit');
@@ -458,7 +449,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_create($handler_id, array &$data)
     {
-        $data['style_helper'] = new midgard_admin_asgard_stylehelper($data);
         if ($handler_id == '____mfa-asgard-object_create_chooser')
         {
             midcom_show_style('midgard_admin_asgard_popup_header');
