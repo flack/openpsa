@@ -80,7 +80,7 @@ class midgard_admin_asgard_stylehelper
         $style_elements = $this->_get_style_elements_and_nodes($this->_data['object']->style);
         foreach ($style_elements['elements'] as $component => $elements)
         {
-            if (isset($elements[$this->_data['object']->name]))
+            if (!empty($elements[$this->_data['object']->name]))
             {
                 $element_path = $elements[$this->_data['object']->name];
                 $this->_data['help_style_element'] = array
