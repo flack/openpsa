@@ -426,7 +426,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // *** FALL-THROUGH ***
                 $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
 
-                if ($handler_id == '____mfa-asgard-object_create_chooser')
+                if ($handler_id !== '____mfa-asgard-object_create_chooser')
                 {
                     return $this->_prepare_relocate($this->_new_object);
                 }
@@ -434,7 +434,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             case 'cancel':
                 $data['cancelled'] = true;
-                if ($handler_id != '____mfa-asgard-object_create_chooser')
+                if ($handler_id !== '____mfa-asgard-object_create_chooser')
                 {
                     if ($this->_object)
                     {
