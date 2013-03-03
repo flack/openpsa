@@ -51,7 +51,12 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         if (array_key_exists('current_type', $this->_request_data))
         {
-            $this->expanded_root_types[] = $this->_request_data['current_type'];
+            $expanded_type = $this->_request_data['current_type'];
+            if (!in_array($expanded_type, $this->root_types))
+            {
+                $expanded_type = midcom_helper_reflector_tree::get($expanded_type)->get_parent_class();
+            }
+            $this->expanded_root_types[] = $expanded_type;
         }
         else if (isset($this->_object))
         {
