@@ -16,6 +16,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     private $_controller;
 
+    private $_schema_name = 'default';
+
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
@@ -140,11 +142,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $schema = 'config';
             }
 
-            if (!isset($schema_array[$schema]['name']))
-            {
-                // This looks like DM2 schema
-                $schemadb = midcom_helper_datamanager2_schema::load_database("file:/{$schemadb_config_path}");
-            }
+            $schemadb = midcom_helper_datamanager2_schema::load_database("file:/" . str_replace('.', '/', $this->_request_data['name']) . '/config/config_schemadb.inc');
 
             // TODO: Log error on deprecated config schema?
         }
@@ -197,7 +195,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             }
         }
 
+        $this->_schema_name = $schema;
+
         return $schemadb;
+    }
+
+    public function get_schema_name()
+    {
+        return $this->_schema_name;
     }
 
     /**
