@@ -514,7 +514,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             // Redirect person deletion to user management
             if (is_a($object, 'midcom_db_person'))
             {
-                return new midcom_response_relocate("../asgard_midcom.admin.user/");
+                return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/");
             }
             $parent = $object->get_parent();
             if ($parent)
@@ -531,6 +531,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             {
                 $url = $class_extends[$type];
             }
+            $url = '__mfa/asgard/' . $url;
         }
         else
         {
