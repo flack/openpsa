@@ -34,9 +34,7 @@ foreach ($diff as $attribute => $values)
 
     // Three fold fallback in localization
     echo "<dt>". $data['l10n_midcom']->get($data['l10n']->get($attribute)) ."</dt>\n";
-    echo "    <dd>\n";
-    echo nl2br($values['diff']);
-    echo "    </dd>\n";
+    echo "    <dd>" . $values['diff'] . "</dd>\n";
 }
 
 if (!$changes)

@@ -13,6 +13,11 @@ dl.midgard_admin_asgard_rcs_diff span.inserted
     color: #000000;
 }
 
+dl.midgard_admin_asgard_rcs_diff dd
+{
+    white-space: pre-wrap
+}
+
 div.rcs_navigation
 {
   text-align: center;
