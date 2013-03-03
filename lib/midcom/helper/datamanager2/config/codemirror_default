@@ -1,4 +1,4 @@
-var editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
+editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
   mode: "application/x-httpd-php",
   lineNumbers: true,
   theme: "eclipse",
@@ -40,3 +40,6 @@ var editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
       }
 });
 var hlLine = editor.setLineClass(0, "activeline");
+
+window.editors = window.editors ? window.editors : [];
+window.editors["{$id}"] = editor;
