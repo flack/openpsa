@@ -85,7 +85,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
     /**
      * The validation callback ensures that we don't have an array or an object
-     * as a value, which would be wrong.
+     * as a value, which would be wrong. It also checks for syntax errors
      *
      * @return boolean Indicating validity.
      */
@@ -105,14 +105,21 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         $return_status = 0;
         $parse_results = array();
         exec("php -l {$tmpfile} 2>&1", $parse_results, $return_status);
-        $parse_results = implode("\n", $parse_results);
-
-        debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
         unlink($tmpfile);
+
+        debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
 
         if ($return_status !== 0)
         {
-            $line = preg_replace('/^.+?on line (\d+).*?$/s', '\1', $parse_results);
+            $parse_result = array_pop($parse_results);
+            if (strpos($parse_result, 'No syntax errors detected in ' . $tmpfile) !== false)
+            {
+                // We have an error, but it's most likely a false positive, 
+                // e.g. a PHP startup error under mgd2
+                return true;
+            }
+            $parse_result = array_pop($parse_results);
+            $line = preg_replace('/^.+?on line (\d+).*?$/s', '\1', $parse_result);
             $this->validation_error = sprintf($this->_l10n->get('type php: parse error in line %s'), $line);
 
             return false;
