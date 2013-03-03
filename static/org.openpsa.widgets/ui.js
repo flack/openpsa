@@ -348,6 +348,48 @@ var org_openpsa_layout =
     },
     bind_admin_toolbar_loader: function()
     {
+        function save_state(visible)
+        {
+            if (   typeof window.localStorage !== 'undefined'
+                && window.localStorage)
+            {
+                window.localStorage.setItem('org_openpsa_toolbar_visible', visible)
+            }
+        }
+        function is_visible()
+        {
+            if (   typeof window.localStorage !== 'undefined'
+                && window.localStorage)
+            {
+                return window.localStorage.getItem('org_openpsa_toolbar_visible')
+            }
+            return false;
+        }
+
+        function initialize_toolbar()
+        {
+            if (typeof document.createStyleSheet === 'object')
+            {
+                //Compatibility for IE
+                document.createStyleSheet(MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css');
+            }
+            else
+            {
+                var head = document.getElementsByTagName('head')[0];
+                $(document.createElement('link')).attr({
+                    type: 'text/css',
+                    href: MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css',
+                    rel: 'stylesheet',
+                    media: 'screen, projection'
+                }).appendTo(head);
+            }
+            $.getScript(MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js', function(){
+                $('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
+            });
+            $('#org_openpsa_toolbar_trigger').addClass('active');
+            save_state(true);
+        }
+
         $('#org_openpsa_toolbar_trigger').bind('click', function(e)
         {
             if ($('#org_openpsa_toolbar_trigger').hasClass('active'))
@@ -355,35 +397,24 @@ var org_openpsa_layout =
                 $('body div.midcom_services_toolbars_fancy').hide();
                 $('#org_openpsa_toolbar_trigger').removeClass('active');
                 $('#org_openpsa_toolbar_trigger').addClass('inactive');
+                save_state(false);
             }
             else if ($('#org_openpsa_toolbar_trigger').hasClass('inactive'))
             {
                 $('body div.midcom_services_toolbars_fancy').show();
                 $('#org_openpsa_toolbar_trigger').removeClass('inactive');
                 $('#org_openpsa_toolbar_trigger').addClass('active');
+                save_state(true);
             }
             else
             {
-                if (typeof document.createStyleSheet === 'object')
-                {
-                    //Compatibility for IE
-                    document.createStyleSheet(MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css');
-                }
-                else
-                {
-                    var head = document.getElementsByTagName('head')[0];
-                    $(document.createElement('link')).attr({
-                        type: 'text/css',
-                        href: MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css',
-                        rel: 'stylesheet',
-                        media: 'screen, projection'
-                    }).appendTo(head);
-                }
-                $.getScript(MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js', function(){
-                    $('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
-                });
-                $('#org_openpsa_toolbar_trigger').addClass('active');
+                initialize_toolbar();
             }
         });
+
+        if (is_visible())
+        {
+            initialize_toolbar();
+        }
     }
 };
