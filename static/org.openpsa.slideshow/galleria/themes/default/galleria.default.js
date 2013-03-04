@@ -8,11 +8,9 @@
  * Licensed under the MIT license.
  */
 
-/*global jQuery, Galleria */
-
-Galleria.requires(1.25, 'This theme requires Galleria 1.2.5 or later');
-
 (function($) {
+
+/*global jQuery, Galleria */
 
 Galleria.addTheme({
     name: 'default',
@@ -27,6 +25,7 @@ Galleria.addTheme({
     },
     init: function(options) {
 
+        Galleria.requires(1.28, 'This version of Classic theme requires Galleria 1.2.8 or later');
         var keys = {
             left: this.prev,
             right: this.next,

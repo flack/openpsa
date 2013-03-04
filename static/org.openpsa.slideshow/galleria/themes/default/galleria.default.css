@@ -1,3 +1,8 @@
+#galleria-loader
+{
+    height:1px! important
+}
+
 .galleria-container {
     position: relative;
     overflow: hidden;
