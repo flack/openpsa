@@ -74,7 +74,7 @@ implements org_openpsa_widgets_grid_provider_client
                 $qb->add_constraint('due', '>', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
                 break;
         }
-        
+
         $qb->add_order('number');
         return $qb;
     }
@@ -101,10 +101,12 @@ implements org_openpsa_widgets_grid_provider_client
             {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
                 $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\">" . $customer->get_label() . "</a>";
+                $entry['index_customer'] = $customer->get_label();
             }
             catch (midcom_error $e)
             {
                 $entry['customer'] = '';
+                $entry['index_customer'] = '';
             }
         }
 
@@ -114,10 +116,12 @@ implements org_openpsa_widgets_grid_provider_client
             {
                 $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
                 $entry['contact'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$contact->guid}/\">" . $contact->get_label() . "</a>";
+                $entry['index_contact'] = $contact->get_label();
             }
             catch (midcom_error $e)
             {
                 $entry['contact'] = '';
+                $entry['index_contact'] = '';
             }
         }
 
@@ -309,7 +313,7 @@ implements org_openpsa_widgets_grid_provider_client
         {
             return;
         }
-        
+
         switch ($this->_list_type)
         {
             case 'paid':
