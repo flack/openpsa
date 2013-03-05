@@ -9,10 +9,6 @@ editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
   enterMode: "keep",
   tabMode: "shift",
   readOnly: {$read_only},
-  onCursorActivity: function() {
-      editor.setLineClass(hlLine, null, null);
-      hlLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
-  },
   extraKeys: {
       "F11": function() {
           var scroller = editor.getScrollerElement();
@@ -39,7 +35,13 @@ editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
           }
       }
 });
-var hlLine = editor.setLineClass(0, "activeline");
+var hlLine = editor.addLineClass(0, 'background', "activeline");
+
+editor.on('cursorActivity', function(instance)
+{
+    instance.removeLineClass(hlLine, 'background', 'activeline');
+    hlLine = instance.addLineClass(instance.getCursor().line, 'background', "activeline");
+});
 
 window.editors = window.editors ? window.editors : [];
 window.editors["{$id}"] = editor;

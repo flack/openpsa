@@ -368,7 +368,7 @@ p
 #content .object_edit select:focus,
 #content .object_edit .longtext:focus,
 #content .object_edit input.date:focus,
-#content .object_edit div.CodeMirror-focused
+#content .object_edit div.CodeMirror-focused .CodeMirror-scroll
 {
     border: 1px solid Highlight;
 }

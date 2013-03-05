@@ -78,10 +78,12 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
             {
                 midcom::get('head')->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
-            midcom::get('head')->add_jsfile($prefix . '/lib/util/dialog.js');
-            midcom::get('head')->add_stylesheet($prefix . '/lib/util/dialog.css');
-            midcom::get('head')->add_jsfile($prefix . '/lib/util/searchcursor.js');
-            midcom::get('head')->add_jsfile($prefix . '/lib/util/search.js');
+            midcom::get('head')->add_jsfile($prefix . '/addon/edit/matchbrackets.js');
+            midcom::get('head')->add_jsfile($prefix . '/addon/dialog/dialog.js');
+            midcom::get('head')->add_stylesheet($prefix . '/addon/dialog/dialog.css');
+            midcom::get('head')->add_jsfile($prefix . '/addon/search/searchcursor.js');
+            midcom::get('head')->add_jsfile($prefix . '/addon/search/match-highlighter.js');
+            midcom::get('head')->add_jsfile($prefix . '/addon/search/search.js');
         }
 
         return true;

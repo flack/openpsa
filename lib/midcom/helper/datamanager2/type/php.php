@@ -24,7 +24,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     /**
      * Widget version
      */
-    public $version = '2.34';
+    public $version = '3.1';
 
     /**
      * The current string encapsulated by this type.
@@ -114,7 +114,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             $parse_result = array_pop($parse_results);
             if (strpos($parse_result, 'No syntax errors detected in ' . $tmpfile) !== false)
             {
-                // We have an error, but it's most likely a false positive, 
+                // We have an error, but it's most likely a false positive,
                 // e.g. a PHP startup error under mgd2
                 return true;
             }
