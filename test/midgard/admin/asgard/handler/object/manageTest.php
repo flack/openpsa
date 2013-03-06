@@ -51,6 +51,10 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'copy', self::$_object->guid));
         $this->assertEquals('____mfa-asgard-object_copy', $data['handler_id']);
 
+        $formdata = array();
+
+        $url = $this->submit_dm2_form('controller', $formdata, 'net.nehmer.static', array('__mfa', 'asgard', 'object', 'copy', self::$_object->guid));
+
         midcom::get('auth')->drop_sudo();
     }
 
