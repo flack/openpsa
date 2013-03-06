@@ -219,24 +219,8 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
     private function _resolve_object_title()
     {
-        if (method_exists($this->_object, 'get_label'))
-        {
-            return $this->_object->get_label();
-        }
-
-        $vars = get_object_vars($this->_object->__object);
-        if ( array_key_exists('title', $vars))
-        {
-            return $this->_object->title;
-        }
-        else if ( array_key_exists('name', $vars))
-        {
-            return $this->_object->name;
-        }
-        else
-        {
-            return "#{$this->_object->id}";
-        }
+        $reflector = midcom_helper_reflector::get($this->_object);
+        return $reflector->get_object_label($this->_object);
     }
 
     /**

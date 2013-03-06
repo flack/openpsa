@@ -403,20 +403,8 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
     private function _resolve_object_title()
     {
-        $vars = get_object_vars($this->_object);
-
-        if ( array_key_exists('title', $vars))
-        {
-            return $this->_object->title;
-        }
-        elseif ( array_key_exists('name', $vars))
-        {
-            return $this->_object->name;
-        }
-        else
-        {
-            return "#{$this->_object->id}";
-        }
+        $reflector = midcom_helper_reflector::get($this->_object);
+        return $reflector->get_object_label($this->_object);
     }
 
     /**
