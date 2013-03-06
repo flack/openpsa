@@ -68,11 +68,6 @@ EOX;
     {
         return array
         (
-            'attributes' => array
-            (
-                'id' => '352',
-                'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4'
-            ),
             'midcom_helper_metadata' => array
             (
                 'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4'

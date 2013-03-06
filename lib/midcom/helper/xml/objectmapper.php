@@ -49,14 +49,8 @@ class midcom_helper_xml_objectmapper
      * @param the object in question.
      * @return object the updated object (not saved)
      */
-    function data2object($data, $object)
+    public function data2object(array $data, $object)
     {
-        if (!is_array($data))
-        {
-            debug_add("Missing data cannot unserialize");
-            return false;
-        }
-
         if (!is_object($object))
         {
             debug_add("Missing object, cannot unserialize");
@@ -84,7 +78,7 @@ class midcom_helper_xml_objectmapper
 
             // skip read_only fields
             if (   $field_name == 'guid'
-                && $field_name == 'id')
+                || $field_name == 'id')
             {
                 continue;
             }
@@ -121,72 +115,35 @@ class midcom_helper_xml_objectmapper
     {
         if (!is_string($data))
         {
-            if (!is_string($data))
-            {
-                debug_add("Missing data cannot unserialize");
-            }
+            debug_add("Missing data cannot unserialize");
             return false;
         }
 
-        $parser = new midcom_helper_xml_toarray();
+        return $this->_xml_to_array(new SimpleXMLIterator($data));
+    }
 
-        $array = $parser->parse($data);
-
-        if (!$array)
+    private function _xml_to_array(SimpleXMLIterator $sxi)
+    {
+        $data = array();
+        foreach ($sxi as $key => $val)
         {
-            debug_add("Error on parsing XML:  ".$parser->errstr);
-            debug_add("Data: $data");
-            return false;
-        }
-        /* the xml is prefixed with either the old midcom class or the new one. We solve this
-         * by just jumping over it as we already got the object.
-         */
-        $this->classname = key($array);
-
-        // move the values from _content to the index.
-        foreach ($array[$this->classname] as $fieldname => $value)
-        {
-            if (!isset($value['_content']))
+            if ($sxi->hasChildren())
             {
-                continue;
-                // No content, skip
-            }
-            if ($fieldname == 'attributes')
-            {
-                continue;
-                // We're not interested in attribs
-            }
-
-            $value['_content'] = trim($value['_content']);
-
-            if (   is_array($value)
-                && empty($value['_content'])
-                && count($value) > 1)
-            {
-                // This should be dealt as an array
-                $array[$this->classname][$fieldname] = array();
-                foreach ($value as $subfield => $subvalue)
-                {
-                    if (!isset($subvalue['_content']))
-                    {
-                        continue;
-                    }
-
-                    $array[$this->classname][$fieldname][$subfield] = $subvalue['_content'];
-                }
-            }
-            elseif (is_array($value)
-                && array_key_exists('_content', $value))
-            {
-                $array[$this->classname][$fieldname] = $value['_content'];
+                $data[$key] = $this->_xml_to_array($val);
             }
             else
             {
-                unset($array[$this->classname][$fieldname]);
+                $val = trim($val);
+                //TODO: This is mainly here for backward-compatibility. Its main effect
+                // is that 0 is replaced by an empty string. The question is: Do we want/need this?
+                if (!$val)
+                {
+                    $val = '';
+                }
+                $data[$key] = trim($val);
             }
         }
-
-        return $array[$this->classname];
+        return $data;
     }
 
     /**
@@ -216,15 +173,8 @@ class midcom_helper_xml_objectmapper
      * @param array $array
      * @return xmldata
      */
-    function array2data($array, $root_node = 'array', $prefix = '')
+    function array2data(array $array, $root_node = 'array', $prefix = '')
     {
-        if (!is_array($array))
-        {
-            debug_add("This function must get an array as its parameter not: " . gettype($array));
-            $this->errstr = "This function must get an array as its parameter not: " . gettype($array);
-            return false;
-        }
-
         $data  = "{$prefix}<{$root_node}>\n";
 
         foreach ($array as $key => $field)
