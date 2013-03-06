@@ -190,7 +190,7 @@ class midcom_helper_xml_objectmapper
             }
             elseif (is_object($field))
             {
-                $data .= $this->object2data($field, null, "{$prefix}    ");
+                $data .= $this->object2data($field, "{$prefix}    ");
             }
             elseif (is_array($field))
             {
@@ -217,18 +217,16 @@ class midcom_helper_xml_objectmapper
     /**
      * Make XML out of an object.
      *
-     * @param object $object
+     * @param midcom_core_dbaobject $object
      * @return xmldata
      */
-    function object2data($object, $classname = null, $prefix = '')
+    function object2data($object, $prefix = '')
     {
         if (!is_object($object))
         {
-            debug_add("This function must get an object as its parameter not: " . gettype($object));
-            $this->errstr = "This function must get an object as its parameter not: " . gettype($object);
+            debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
             return false;
         }
-
         if (method_exists($object, 'get_properties'))
         {
             // MidCOM DBA decorator object
@@ -248,10 +246,7 @@ class midcom_helper_xml_objectmapper
             }
         }
 
-        if (is_null($classname))
-        {
-            $classname = $this->_get_classname($object);
-        }
+        $classname = $this->_get_classname($object);
 
         if (isset($object->guid))
         {
@@ -266,7 +261,7 @@ class midcom_helper_xml_objectmapper
         {
             if (is_object($object->$key))
             {
-                $data .= $this->object2data($object->$key, null, "{$prefix}    ");
+                $data .= $this->object2data($object->$key, "{$prefix}    ");
             }
 
             else if (   is_numeric($object->$key)
