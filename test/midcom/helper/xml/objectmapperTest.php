@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+require_once __DIR__ . '/__files/xml_constraint.php';
+
 /**
  * OpenPSA testcase
  *
@@ -61,7 +63,13 @@ test]]></value>
 </midgard_element>
 EOX;
 
-        $this->assertEquals($expected, $string);
+        $this->assert_xml_data($expected, $string);
+    }
+
+    private function assert_xml_data($expected, $actual)
+    {
+        $constraint = new xml_comparison($expected);
+        self::assertThat($actual, $constraint);
     }
 
     private function _get_data_array()
