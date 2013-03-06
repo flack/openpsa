@@ -457,26 +457,17 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         {
             return '';
         }
-
-        $fd = fopen ($filename, "r");
-        $data = fread ($fd, filesize ($filename));
-        fclose ($fd);
-        return $data;
+        return file_get_contents($filename);
     }
 
     /**
      * Make xml out of an object.
      *
-     * @param object
+     * @param midcom_core_dbaobject $object
      * @return xmldata
      */
-    private function rcs_object2data($object)
+    private function rcs_object2data(midcom_core_dbaobject $object)
     {
-        if (!is_object($object))
-        {
-            debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
-            return false;
-        }
         $mapper = new midcom_helper_xml_objectmapper();
         $result = $mapper->object2data($object);
         if ($result)
@@ -499,14 +490,12 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *      3 on missing object->guid
      *      nonzero on error in one of the commands.
      */
-    private function rcs_create($object, $description)
+    private function rcs_create(midcom_core_dbaobject $object, $description)
     {
         $output = null;
         $status = null;
 
-        $type = get_class($object);
-
-        $data = $this->rcs_object2data($object, $type);
+        $data = $this->rcs_object2data($object);
 
         if (empty($object->guid))
         {
