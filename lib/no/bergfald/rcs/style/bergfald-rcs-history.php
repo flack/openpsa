@@ -16,11 +16,11 @@ else
         <table>
             <thead>
                 <tr>
-                    <th><?php echo midcom::get('i18n')->get_string('revision', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo midcom::get('i18n')->get_string('date', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo midcom::get('i18n')->get_string('user', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo midcom::get('i18n')->get_string('lines', 'no.bergfald.rcs'); ?></th>
-                    <th><?php echo midcom::get('i18n')->get_string('message', 'no.bergfald.rcs'); ?></th>
+                    <th><?php echo $data['l10n']->get('revision'); ?></th>
+                    <th><?php echo $data['l10n']->get('date'); ?></th>
+                    <th><?php echo $data['l10n']->get('user'); ?></th>
+                    <th><?php echo $data['l10n']->get('lines'); ?></th>
+                    <th><?php echo $data['l10n']->get('message'); ?></th>
                     <th></th>
                 </tr>
             </thead>

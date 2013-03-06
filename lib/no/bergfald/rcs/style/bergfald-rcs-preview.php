@@ -1,7 +1,7 @@
 <?php
 $preview = $data['preview'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$l10n = midcom::get('i18n')->get_l10n('no.bergfald.rcs');
+$l10n = $data['l10n'];
 ?>
 <h1>&(data['view_title']:h);</h1>
 <div class="rcs_navigation">
