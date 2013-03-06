@@ -67,6 +67,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $this->_dummy_object = new $this->mgdschema_class;
     }
 
+    /**
+     * Get cached reflector instance
+     *
+     * @param mixed $src Object or classname
+     * @return midcom_helper_reflector
+     */
     public static function &get($src)
     {
         if (is_object($src))
