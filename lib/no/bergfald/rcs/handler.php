@@ -56,14 +56,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     private $_object;
 
     /**
-     * Get the localized strings
-     */
-    private function _l10n_get($string_id)
-    {
-        return midcom::get('i18n')->get_string($string_id, 'no.bergfald.rcs');
-    }
-
-    /**
      * Load the text_diff libaries needed to show diffs.
      */
     public function _on_initialize()
@@ -151,7 +143,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$first}/{$second}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('view %s differences with previous (%s)'), $second, $first),
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with previous (%s)'), $second, $first),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 )
             );
@@ -162,7 +154,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/preview/{$this->_guid}/{$revision}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('view this revision (%s)'), $revision),
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view this revision (%s)'), $revision),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
             )
         );
@@ -175,7 +167,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/restore/{$this->_guid}/{$revision}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('restore this revision (%s)'), $revision),
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore this revision (%s)'), $revision),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 )
@@ -186,7 +178,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('view %s differences with next (%s)'), $revision, $after),
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with next (%s)'), $revision, $after),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
                 )
             );
