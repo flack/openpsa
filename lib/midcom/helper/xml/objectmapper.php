@@ -248,7 +248,7 @@ class midcom_helper_xml_objectmapper
 
         $classname = $this->_get_classname($object);
 
-        if (isset($object->guid))
+        if (!empty($object->guid))
         {
             $data = "{$prefix}<{$classname} id=\"{$object->id}\" guid=\"{$object->guid}\">\n";
         }
