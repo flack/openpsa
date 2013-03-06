@@ -281,19 +281,16 @@ class midcom_helper__dbfactory
     {
         if (is_object($object))
         {
-            if (!isset($object->guid))
-            {
-                $object_guid = null;
-            }
-            else if (   isset($object->__guid)
-                    && !$object->guid)
-            {
-                $object_guid = $object->__guid;
-            }
-            else
+            $object_guid = null;
+            if (!empty($object->guid))
             {
                 $object_guid = $object->guid;
             }
+            else if (isset($object->__guid))
+            {
+                $object_guid = $object->__guid;
+            }
+
             $the_object = $object;
         }
         else

@@ -100,7 +100,7 @@ if (isset($data['search_results']))
             echo "            <td><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$result->guid}/\">{$icon} {$label}</a></td>\n";
             echo "            <td>" . strftime('%x %X', $result->metadata->created) . "</td>\n";
 
-            if (isset($persons[$result->metadata->creator]->guid))
+            if (!empty($persons[$result->metadata->creator]->guid))
             {
                 echo "            <td><a href=\"{$prefix}__mfa/asgard/object/view/{$persons[$result->metadata->creator]->guid}/\">{$persons[$result->metadata->creator]->name}</a></td>\n";
             }

@@ -415,7 +415,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Override requested root object properties
-        if (   isset($this->target->guid)
+        if (   !empty($this->target->guid)
             && $target->guid === $this->target->guid)
         {
             foreach ($this->root_object_values as $name => $value)

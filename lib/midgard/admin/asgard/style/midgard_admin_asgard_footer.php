@@ -1,7 +1,7 @@
                     </div>
                     <div id="object_metadata">
                         <?php
-                        if (isset($data['object']->guid))
+                        if (!empty($data['object']->guid))
                         {
                             echo "GUID: {$data['object']->guid}, ID: {$data['object']->id}.\n";
                         }

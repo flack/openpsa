@@ -220,9 +220,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     {
         // Prevent temporary objects from failing
         if (   $this->lock_object
-            && isset($this->datamanager->storage)
-            && isset($this->datamanager->storage->object)
-            && isset($this->datamanager->storage->object->guid))
+            && !empty($this->datamanager->storage->object->guid))
         {
             // Get the metadata object
             $metadata = $this->datamanager->storage->object->metadata;

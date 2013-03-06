@@ -46,7 +46,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><label for=\"guid_{$object->guid}\">{$icon}" . $object_label . "</label></td>\n";
     echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
 
-    if (isset($persons[$object->metadata->revisor]->guid))
+    if (!empty($persons[$object->metadata->revisor]->guid))
     {
         echo "{$prefix}    <td><a href=\"{$url_prefix}__mfa/asgard/object/view/{$persons[$object->metadata->revisor]->guid}/\">{$persons[$object->metadata->revisor]->name}</a></td>\n";
     }
