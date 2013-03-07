@@ -344,8 +344,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     public static function article_qb_constraints(&$qb, &$data, $handler_id)
     {
         $config =& $data['config'];
-        // GUIDs of topics to list articles from.
-        $guids_array = array($data['content_topic']->guid);
+        $guids_array = array();
 
         // Resolve any other topics we may need
         $list_from_folders = $config->get('list_from_folders');
@@ -353,7 +352,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         {
             // We have specific folders to list from, therefore list from them and current node
             $guids = explode('|', $config->get('list_from_folders'));
-            $guids_array = array_merge($guids_array, array_filter($guids, 'mgd_is_guid'));
+            $guids_array = array_filter($guids, 'mgd_is_guid');
         }
 
         /**
