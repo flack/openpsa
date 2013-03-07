@@ -146,18 +146,15 @@ class installer
     {
         if (is_link($linkname))
         {
-            if (realpath($linkname) === $target)
+            if (realpath($linkname) !== $target)
             {
-                return;
+                $io->write('Skipping <info>' . $target . '</info>: Found Link <info>' . $linkname . '</info> to <comment>' . realpath($linkname) . '</comment>');
             }
-            else
-            {
-                $io->write('<info>' . $linkname . '</info> already exists and points to <comment>' . realpath($linkname) . '</comment> skipping link to <info>' . $target . '</info>');
-            }
+            return;
         }
         else if (is_file($linkname))
         {
-            $io->write('File <comment>' . realpath($linkname) . '</comment> already exists, skipping link to <info>' . $target . '</info>');
+            $io->write('Skipping <info>' . $target . '</info>: Found file <comment>' . $linkname . '</comment>');
             return;
         }
         if (!@symlink($target, $linkname))
@@ -166,7 +163,7 @@ class installer
         }
         if ($io->isVerbose())
         {
-            $io->write('linked ' . $target . ' to ' . $linkname);
+            $io->write('Linked <info>' . $target . '</info> to <omment>' . $linkname . '</comment>');
         }
     }
 
