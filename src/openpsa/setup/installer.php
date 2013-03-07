@@ -68,6 +68,7 @@ class installer
     {
         $io = $event->getIO();
         $options = self::get_options($event);
+        self::_prepare_dir('web');
         self::_prepare_dir('web/' . $options['midcom-static-dir']);
         self::_prepare_dir($options['static-dir']);
         self::_prepare_dir($options['themes-dir']);
