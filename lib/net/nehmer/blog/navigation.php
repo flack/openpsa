@@ -29,12 +29,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      */
     function get_leaves()
     {
-        // Check for symlink
-        if (!$this->_content_topic)
-        {
-            $this->_determine_content_topic();
-        }
-
         $leaves = array();
 
         if (!$this->_content_topic->guid)
