@@ -288,8 +288,7 @@ class midcom_helper_xml_objectmapper
      */
     function _get_classname( $object)
     {
-        $vars = get_object_vars($object);
-        if (array_key_exists( '__mgdschema_class_name__', $vars))
+        if (!empty($object->__mgdschema_class_name__))
         {
             return $object->__mgdschema_class_name__;
         }
