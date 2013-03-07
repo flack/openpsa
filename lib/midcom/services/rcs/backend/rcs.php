@@ -661,7 +661,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         {
             return true;
         }
-        $this->error[]  = "Object {$this->_guid} not updated: " . midcom_connection::get_error_string();
         return false;
     }
 }

@@ -32,26 +32,12 @@ class midcom_helper_xml
      * Take xml and move it into an object
      *
      * @param array xmldata
-     * @param the object in question.
+     * @param midcom_core_dbaobject The object in question.
      * @return object the updated object (not saved)
      */
-    public function data2object(array $data, $object)
+    public function data2object(array $data, midcom_core_dbaobject $object)
     {
-        if (!is_object($object))
-        {
-            debug_add("Missing object, cannot unserialize");
-            return false;
-        }
-
-        if (method_exists($object, 'get_properties'))
-        {
-            // MidCOM DBA decorator object
-            $fields = $object->get_properties();
-        }
-        else
-        {
-            $fields = array_keys(get_object_vars($object));
-        }
+        $fields = $object->get_properties();
 
         // set the object's values to the ones from xml.
         foreach ($fields as $field_name)
@@ -174,17 +160,16 @@ class midcom_helper_xml
             {
                $data .= "{$prefix}    <{$key}/>\n";
             }
-            elseif (is_object($field))
+            else if (is_object($field))
             {
                 $data .= $this->object2data($field, "{$prefix}    ");
             }
-            elseif (is_array($field))
+            else if (is_array($field))
             {
                 $data .= $this->array2data($field, $key, "{$prefix}    ") . "\n";
             }
-            elseif (   is_numeric($field)
-                    || is_null($field)
-                    || is_bool($field))
+            else if (   is_numeric($field)
+                     || is_bool($field))
             {
                 $data .= "{$prefix}    <{$key}>{$field}</{$key}>\n";
             }
@@ -223,15 +208,6 @@ class midcom_helper_xml
             $fields = array_keys(get_object_vars($object));
         }
 
-        // Remove private fields
-        foreach ($fields as $id => $key)
-        {
-            if (substr($key, 0, 1) == '_')
-            {
-                unset($fields[$id]);
-            }
-        }
-
         $classname = $this->_get_classname($object);
 
         if (!empty($object->guid))
@@ -245,6 +221,11 @@ class midcom_helper_xml
 
         foreach ($fields as $key)
         {
+            if (substr($key, 0, 1) == '_')
+            {
+                // Remove private fields
+                continue;
+            }
             if (is_object($object->$key))
             {
                 $data .= $this->object2data($object->$key, "{$prefix}    ");
@@ -272,7 +253,7 @@ class midcom_helper_xml
      * @param object $object the object
      * @return string the mgdschmea classname
      */
-    function _get_classname( $object)
+    private function _get_classname( $object)
     {
         if (!empty($object->__mgdschema_class_name__))
         {

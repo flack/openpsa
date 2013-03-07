@@ -77,13 +77,8 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      *
      * @param midcom_dba_object $object The object to transfer the extensions to.
      */
-    function move_extensions_to_object($object)
+    function move_extensions_to_object(midcom_dba_object $object)
     {
-        if (! midcom::get('dbclassloader')->is_midcom_db_object($object))
-        {
-            throw new midcom_error('The object passed is no valid for move_extensions_to_object.');
-        }
-
         // Validate Privileges
         $object->require_do('midgard:update');
         $object->require_do('midgard:privileges');
