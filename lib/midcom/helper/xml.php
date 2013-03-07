@@ -1,7 +1,7 @@
 <?php
 /**
  * @author tarjei huse
- * @package midcom.helper.xml
+ * @package midcom.helper
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -12,7 +12,7 @@
  *
  * Usage:
  * To get data from xml:
- * $mapper = new midcom_helper_xml_objectmapper;
+ * $mapper = new midcom_helper_xml;
  * $data = "<midcom_db_topic><id>7</id><name>Test</name></midcom_db_topic>"
  * $object = new midcom_db_topic(7);
  * $object2 = $mapper->data2object($data, $object);
@@ -20,13 +20,13 @@
  *
  * To get data to xml:
  * $object = new midcom_db_topic(7);
- * $mapper = new midcom_helper_xml_objectmapper;
+ * $mapper = new midcom_helper_xml;
  * $xml = $mapper->object2data($object);
  * echo $xml ; // outputs: "<midcom_db_topic><id>7</id><name>Test</name></midcom_db_topic>"
  *
- * @package midcom.helper.xml
+ * @package midcom.helper
  */
-class midcom_helper_xml_objectmapper
+class midcom_helper_xml
 {
     /**
      * Take xml and move it into an object

@@ -13,12 +13,12 @@ require_once __DIR__ . '/__files/xml_constraint.php';
  *
  * @package openpsa.test
  */
-class midcom_helper_xml_objectmapperTest extends openpsa_testcase
+class midcom_helper_xmlTest extends openpsa_testcase
 {
     public function test_data2array()
     {
         $data = file_get_contents(__DIR__ . '/__files/task.xml');
-        $mapper = new midcom_helper_xml_objectmapper();
+        $mapper = new midcom_helper_xml();
         $array = $mapper->data2array($data);
         $expected = $this->_get_data_array();
         $this->assertEquals($expected, $array);
@@ -27,7 +27,7 @@ class midcom_helper_xml_objectmapperTest extends openpsa_testcase
     public function test_data2object()
     {
         $data = $this->_get_data_array();
-        $mapper = new midcom_helper_xml_objectmapper();
+        $mapper = new midcom_helper_xml();
         $object = new org_openpsa_projects_task_dba;
         $object = $mapper->data2object($data, $object);
         $this->assertInstanceOf('org_openpsa_projects_task_dba', $object);
@@ -37,7 +37,7 @@ class midcom_helper_xml_objectmapperTest extends openpsa_testcase
 
     public function test_object2data()
     {
-        $mapper = new midcom_helper_xml_objectmapper();
+        $mapper = new midcom_helper_xml();
         $object = new midcom_db_element;
         $object->value = "test\n\ntest";
         $object->style = 33;

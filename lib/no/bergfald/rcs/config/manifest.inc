@@ -32,7 +32,6 @@
     ),
     'dependencies' => array
     (
-        'midcom.helper.xml' => array(),
         'Text_Diff' => array
         (
             'channel' => 'pear.php.net',

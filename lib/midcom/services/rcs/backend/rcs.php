@@ -160,7 +160,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $data = $this->rcs_readfile($this->_guid);
 
-        $mapper = new midcom_helper_xml_objectmapper();
+        $mapper = new midcom_helper_xml();
         $revision = $mapper->data2array($data);
 
         $command = "rm -f {$filepath}";
@@ -468,7 +468,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_object2data(midcom_core_dbaobject $object)
     {
-        $mapper = new midcom_helper_xml_objectmapper();
+        $mapper = new midcom_helper_xml();
         $result = $mapper->object2data($object);
         if ($result)
         {
@@ -652,7 +652,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             debug_add("{$this->_guid} could not be resolved to object", MIDCOM_LOG_ERROR);
             return false;
         }
-        $mapper = new midcom_helper_xml_objectmapper();
+        $mapper = new midcom_helper_xml();
         $object = $mapper->data2object($new, $object);
 
         $object->set_rcs_message("Reverted to revision {$revision}");
