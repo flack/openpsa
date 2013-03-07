@@ -164,7 +164,7 @@ class installer
         }
         if ($io->isVerbose())
         {
-            $io->write('Linked <info>' . $target . '</info> to <omment>' . $linkname . '</comment>');
+            $io->write('Linked <info>' . $target . '</info> to <comment>' . $linkname . '</comment>');
         }
     }
 
