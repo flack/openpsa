@@ -74,22 +74,23 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         {
             $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->add_constraint('up', '=', 0);
-
-            $qb->add_order('metadata.published', 'DESC');
-            $qb->set_limit((int) $this->_config->get('index_entries'));
-
-            $results = $qb->execute();
         }
         else
         {
-            // Amount of articles needed
-            $limit = (int) $this->_config->get('index_entries');
-
-            $results = array();
-            $offset = 0;
-
-            self::_get_linked_articles($this->_content_topic->id, $offset, $limit, $results);
+            $mc = net_nehmer_blog_link_dba::new_collector('topic', $topic_id);
+            $links = $mc->get_values('article');
+            $qb->begin_group('OR');
+            if (count($links) > 0)
+            {
+                $qb->add_constraint('id', 'IN', $links);
+            }
+            $qb->add_constraint('topic', '=', $this->_content_topic->id);
+            $qb->end_group();
         }
+        $qb->add_order('metadata.published', 'DESC');
+        $qb->set_limit((int) $this->_config->get('index_entries'));
+
+        $results = $qb->execute();
 
         // Checkup for the url prefix
         if ($this->_config->get('view_in_url'))
@@ -194,72 +195,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             }
             $leaves = array_reverse($leaves);
         }
-    }
-
-    /**
-     * Helper for fetching enough of articles
-     *
-     * @param int $topic_id     ID of the content topic
-     * @param int $offset       Offset for the query
-     * @param int $limit        How many results should be returned
-     * @param array &$results   Result set
-     * @return Array            Containing results
-     */
-    private static function _get_linked_articles($topic_id, $offset, $limit, &$results)
-    {
-        $mc = net_nehmer_blog_link_dba::new_collector('topic', $topic_id);
-        $mc->add_constraint('topic', '=', $topic_id);
-        $mc->add_order('metadata.published', 'DESC');
-        $mc->set_offset($offset);
-
-        // Double the limit, a sophisticated guess that there might be missing articles
-        // and this should include enough of articles for us
-        $mc->set_limit($limit * 2);
-
-        // Get the results
-        $links = $mc->add_value_property('article');
-
-        // Return the empty result set
-        if (empty($links))
-        {
-            return $results;
-        }
-
-        $i = 0;
-
-        foreach ($links as $id)
-        {
-            try
-            {
-                $article = new midcom_db_article($id);
-            }
-            catch (midcom_error $e)
-            {
-                // If the article was not found, it is probably due to ACL
-                $e->log();
-                continue;
-            }
-
-            $results[$id] = $article;
-            $i++;
-
-            // Break when we have enough of articles
-            if ($i >= $limit)
-            {
-                break;
-            }
-        }
-
-        // Quit the function if there is no possibility for more matches
-        if (count($links) < $limit)
-        {
-            return $results;
-        }
-
-        // Push the offset
-        $offset = $offset + $limit;
-
-        self::_get_linked_articles($topic_id, $offset, $limit, $results);
     }
 
     /**
