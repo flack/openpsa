@@ -128,9 +128,8 @@ echo "  ... Done.\n";
 //You'll have to specify authtype manually if you don't want the default one
 $rootdir = realpath(dirname(__FILE__)) . '/../';
 
-$GLOBALS['midcom_config']['person_class'] = 'openpsa_person';
-$GLOBALS['midcom_config']['cache_autoload_queue'] = array();
-$GLOBALS['midcom_config']['auth_type'] = 'Plaintext';
+$GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
+$GLOBALS['midcom_config_local']['auth_type'] = 'Plaintext';
 
 require $rootdir . 'lib/midcom.php';
 
