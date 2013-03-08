@@ -34,7 +34,6 @@
     'request_handler_plugin' => array
     (
         'class' => 'org_openpsa_helpers_plugin',
-        'src' => 'file:/org/openpsa/helpers/plugin.php',
         'name' => 'OpenPSA helpers',
         'config' => '',
     ),

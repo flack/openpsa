@@ -39,7 +39,6 @@
     'asgard_plugin' => array
     (
         'class' => 'midcom_admin_user_plugin',
-        'src' => 'file:/midcom/admin/user/plugin.php',
         'name' => 'User Management',
         'config' => '',
     ),

@@ -835,7 +835,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $config The configuration of the plugin namespace as outlined in
      *     the class introduction
      */
-    public function register_plugin_namespace($namespace, $config)
+    public function register_plugin_namespace($namespace, array $config)
     {
         if (array_key_exists($namespace, self::$_plugin_namespace_config))
         {
@@ -996,28 +996,24 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 'folder' => Array
                 (
                     'class' => 'midcom_admin_folder_management',
-                    'src' => 'file:/midcom/admin/folder/management.php',
                     'name' => 'Folder administration',
                     'config' => null,
                 ),
                 'rcs' => Array
                 (
                     'class' => 'no_bergfald_rcs_handler',
-                    'src' => 'file:/no/bergfald/rcs/handler.php',
                     'name' => 'Revision control',
                     'config' => null,
                 ),
                 'imagepopup' => Array
                 (
                     'class' => 'midcom_helper_imagepopup_viewer',
-                    'src' => 'file:/midcom/helper/imagepopup/viewer.php',
                     'name' => 'Image pop-up',
                     'config' => null,
                 ),
                 'help' => array
                 (
                     'class' => 'midcom_admin_help_help',
-                    'src' => 'file:/midcom/admin/help/help.php',
                     'name' => 'On-site help',
                     'config' => null,
                 ),
@@ -1044,7 +1040,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             'asgard' => array
             (
                 'class' => 'midgard_admin_asgard_plugin',
-                'src' => 'file:/midgard/admin/asgard/plugin.php',
                 'name' => 'Asgard',
                 'config' => null,
             ),

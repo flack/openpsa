@@ -65,7 +65,6 @@
     'request_handler_plugin' => array
     (
         'class' => 'org_openpsa_relatedto_plugin',
-        'src' => 'file:/org/openpsa/relatedto/plugin.php',
         'name' => 'Related information',
         'config' => '',
     ),
