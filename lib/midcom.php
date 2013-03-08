@@ -106,8 +106,7 @@ class midcom
 
         if (file_exists(MIDCOM_ROOT . '/../vendor/autoload.php'))
         {
-            $loader = require MIDCOM_ROOT . '/../vendor/autoload.php';
-            $loader->register();
+            require MIDCOM_ROOT . '/../vendor/autoload.php';
         }
 
         /////////////////////
