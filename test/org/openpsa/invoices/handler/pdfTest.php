@@ -22,6 +22,10 @@ class org_openpsa_invoices_handler_pdfTest extends openpsa_testcase
         self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
     }
 
+    /**
+     * @expectedException midcom_error
+     * @todo: Once we have a way to inject config values, we should add a mock object here
+     */
     public function testHandler_pdf()
     {
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
