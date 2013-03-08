@@ -570,42 +570,17 @@ class midcom_services_i18n
     private function _load_language_db()
     {
         $path = midcom::get('config')->get('i18n_language_db_path');
-
-        if (substr($path, 0, 5) == 'file:')
+        try
         {
-            $filename = MIDCOM_ROOT . substr($path, 5);
-            if (! file_exists($filename))
-            {
-                $cached_snippets[$path] = null;
-                return null;
-            }
-            $data = file_get_contents($filename);
+            $data = midcom_helper_misc::get_snippet_content($path);
+            $this->_language_db = midcom_helper_misc::parse_config($data);
+            return true;
         }
-        else
+        catch (midcom_error $e)
         {
-            $snippet = new midgard_snippet();
-            try
-            {
-                $snippet->get_by_path($path);
-            }
-            catch (Exception $e)
-            {
-                $cached_snippets[$path] = null;
-                return null;
-            }
-
-            if (isset(midcom::get('cache')->content))
-            {
-                midcom::get('cache')->content->register($snippet->guid);
-            }
-
-            $data = $snippet->code;
+            $e->log();
+            return false;
         }
-
-        eval ("\$layout = Array(\n{$data}\n);");
-        $this->_language_db = $layout;
-
-        return true;
     }
 
     /**
