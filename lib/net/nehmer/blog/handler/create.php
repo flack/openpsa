@@ -42,15 +42,12 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_schema = null;
 
-    private $_indexmode = false;
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['indexmode'] =& $this->_indexmode;
         $this->_request_data['schema'] =& $this->_schema;
     }
 
@@ -90,16 +87,6 @@ implements midcom_helper_datamanager2_interfaces_create
         return $this->_schema;
     }
 
-    public function get_schema_defaults()
-    {
-        $defaults = array();
-        if ($this->_request_data['handler_id'] == 'createindex')
-        {
-            $defaults['name'] = 'index';
-        }
-        return $defaults;
-    }
-
     /**
      * DM2 creation callback, binds to the current content topic.
      */
@@ -130,12 +117,9 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Displays an article edit view.
+     * Displays an article create view.
      *
-     * Note, that the article for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation article
+     * If create privileges apply, we relocate to the created article
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -146,10 +130,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_content_topic->require_do('midgard:create');
 
         $this->_schema = $args[0];
-        if ($handler_id == 'createindex')
-        {
-            $this->_indexmode = true;
-        }
 
         $data['controller'] = $this->get_controller('create');
 

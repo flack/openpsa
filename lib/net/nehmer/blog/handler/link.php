@@ -36,15 +36,6 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_link = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['indexmode'] =& $this->_indexmode;
-    }
-
-    /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      *
@@ -174,7 +165,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('');
         }
 
-        $this->_prepare_request_data();
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
         midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->_update_breadcrumb_line($handler_id);

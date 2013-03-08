@@ -43,7 +43,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
-        $this->_request_data['config'] =& $this->_config;
     }
 
     /**
