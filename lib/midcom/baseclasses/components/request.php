@@ -901,8 +901,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
 
-        // Sanity check, we return directly if the configured class name is already
-        // available (dynamic_load could trigger this).
+        // If class can be autoloaded, we're done here
         if (class_exists($plugin_config['class']))
         {
             return;
