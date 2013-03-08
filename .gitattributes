@@ -1,5 +1,5 @@
-*.txt   text
-*.js    text
-*.html  text
-*.css   text
-*.php   text
+*.txt   text eol=lf
+*.js    text eol=lf
+*.html  text eol=lf
+*.css   text eol=lf
+*.php   text eol=lf
