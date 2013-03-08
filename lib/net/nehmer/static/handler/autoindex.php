@@ -182,45 +182,41 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         {
             if ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_images)
             {
-                foreach ($datamanager->types[$name]->images as $identifier => $data)
+                foreach ($datamanager->types[$name]->images as $data)
                 {
                     $filename = "{$article->name}/{$data['filename']}";
-                    $view[$filename]['name'] = $filename;
-                    $view[$filename]['url'] = $data['url'];
-                    $view[$filename]['size'] = $data['formattedsize'];
-                    $view[$filename]['desc'] = $data['filename'];
-                    $view[$filename]['type'] = $data['mimetype'];
-                    $view[$filename]['lastmod'] = strftime('%x %X', $data['lastmod']);
+                    $view[$filename] = $this->_get_attachment_data($filename, $data);
                 }
             }
-            elseif ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_image)
+            else if (   $datamanager->types[$name] instanceof midcom_helper_datamanager2_type_image
+                     && $datamanager->types[$name]->attachments_info)
             {
-                if ($datamanager->types[$name]->attachments_info)
-                {
-                    $data = $datamanager->types[$name]->attachments_info['main'];
-                    $filename = "{$article->name}/{$data['filename']}";
-                    $view[$filename]['name'] = $filename;
-                    $view[$filename]['url'] = $data['url'];
-                    $view[$filename]['size'] = $data['formattedsize'];
-                    $view[$filename]['desc'] = $data['filename'];
-                    $view[$filename]['type'] = $data['mimetype'];
-                    $view[$filename]['lastmod'] = strftime('%x %X', $data['lastmod']);
-                }
+                $data = $datamanager->types[$name]->attachments_info['main'];
+                $filename = "{$article->name}/{$data['filename']}";
+                $view[$filename] = $this->_get_attachment_data($filename, $data);
             }
-            elseif ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_blobs)
+            else if ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_blobs)
             {
-                foreach ($datamanager->types[$name]->attachments_info as $identifier => $data)
+                foreach ($datamanager->types[$name]->attachments_info as $data)
                 {
                     $filename = "{$article->name}/{$data['filename']}";
-                    $view[$filename]['name'] = $filename;
-                    $view[$filename]['url'] = $data['url'];
-                    $view[$filename]['size'] = $data['formattedsize'];
-                    $view[$filename]['desc'] = $data['filename'];
-                    $view[$filename]['type'] = $data['mimetype'];
-                    $view[$filename]['lastmod'] = strftime('%x %X', $data['lastmod']);
+                    $view[$filename] = $this->_get_attachment_data($filename, $data);
                 }
             }
         }
+    }
+
+    private function _get_attachment_data($filename, array $data)
+    {
+        return array
+        (
+            'name' => $filename,
+            'url' => $data['url'],
+            'size' => $data['formattedsize'],
+            'desc' => $data['filename'],
+            'url' => $data['mimetype'],
+            'lastmod' => strftime('%x %X', $data['lastmod'])
+        );
     }
 }
 ?>
