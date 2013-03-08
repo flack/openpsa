@@ -256,7 +256,7 @@ class midcom
      */
     public static function get($name = null)
     {
-        if (is_null($name))
+        if (null === $name)
         {
             return self::$_application;
         }
