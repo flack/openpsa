@@ -183,5 +183,37 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
         $this->_populate_node_toolbar();
     }
+
+    /**
+     *
+     * @param midcom_helper_configuration $config
+     * @param integer $id The topic ID
+     * @return midcom_core_querybuilder The querybuilder instance
+     */
+    public static function get_topic_qb(midcom_helper_configuration $config, $id)
+    {
+        $qb = midcom_db_article::new_query_builder();
+
+        // Include the article links to the indexes if enabled
+        if ($config->get('enable_article_links'))
+        {
+            $mc = net_nehmer_static_link_dba::new_collector('topic', $id);
+            $mc->add_constraint('topic', '=', $id);
+            $links = $mc->get_values('article');
+
+            $qb->begin_group('OR');
+            if (count($links) > 0)
+            {
+                $qb->add_constraint('id', 'IN', $links);
+            }
+            $qb->add_constraint('topic', '=', $id);
+            $qb->end_group();
+        }
+        else
+        {
+            $qb->add_constraint('topic', '=', $id);
+        }
+        return $qb;
+    }
 }
 ?>

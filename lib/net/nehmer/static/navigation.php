@@ -27,7 +27,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
      * Returns all leaves for the current content topic.
      *
      * It will hide the index leaf from the NAP information unless we are in Autoindex
-     * mode. The leaves' title are used as a description within NAP, and the toolbar will
+     * mode. The leaves' titles are used as a description within NAP, and the toolbar will
      * contain edit and delete links.
      */
     public function get_leaves()
@@ -38,31 +38,9 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             return $leaves;
         }
 
-        // Get the required information with midgard_collector
-        $qb = midcom_db_article::new_query_builder();
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+
         $qb->add_constraint('up', '=', 0);
-
-        // Check whether to include the linked articles to navigation list
-        if (!$this->_config->get('enable_article_links'))
-        {
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        }
-        else
-        {
-            // Get the linked articles as well
-            $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            $links = $mc->get_values('article');
-
-            $qb->begin_group('OR');
-                if (count($links) > 0)
-                {
-                    $qb->add_constraint('id', 'IN', $links);
-                }
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-            $qb->end_group();
-        }
-
         $qb->add_constraint('metadata.navnoentry', '=', 0);
         $qb->add_constraint('name', '<>', '');
 

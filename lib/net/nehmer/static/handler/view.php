@@ -113,34 +113,14 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             return true;
         }
 
-        $qb = midcom_db_article::new_query_builder();
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
         $qb->add_constraint('name', '=', $args[0]);
         $qb->add_constraint('up', '=', 0);
         $qb->set_limit(1);
 
-        // Include the article links to the indexes if enabled
-        if ($this->_config->get('enable_article_links'))
-        {
-            $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            $links = $mc->get_values('article');
-
-            $qb->begin_group('OR');
-                if (count($links) > 0)
-                {
-                    $qb->add_constraint('id', 'IN', $links);
-                }
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-            $qb->end_group();
-        }
-        else
-        {
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        }
-
         $result = $qb->execute();
 
-        if ($result)
+        if (!empty($result))
         {
             $this->_article = $result[0];
             return true;
@@ -232,31 +212,11 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
     private function _load_index_article()
     {
-        $qb = midcom_db_article::new_query_builder();
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
         $qb->add_constraint('name', '=', 'index');
         $qb->set_limit(1);
-
-        // Include the article links to the indexes if enabled
-        if ($this->_config->get('enable_article_links'))
-        {
-            $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            $links = $mc->get_values('article');
-
-            $qb->begin_group('OR');
-                if (count($links) > 0)
-                {
-                    $qb->add_constraint('id', 'IN', $links);
-                }
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-            $qb->end_group();
-        }
-        else
-        {
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        }
-
         $result = $qb->execute();
+
         if (empty($result))
         {
             if ($this->_content_topic->can_do('midgard:create'))

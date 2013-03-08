@@ -47,27 +47,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     public function _handler_autoindex ($handler_id, array $args, array &$data)
     {
         // Get last modified timestamp
-        $qb = midcom_db_article::new_query_builder();
-
-        // Include the article links to the indexes if enabled
-        if ($this->_config->get('enable_article_links'))
-        {
-            $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            $links = $mc->get_values('article');
-
-            $qb->begin_group('OR');
-                if (count($links) > 0)
-                {
-                    $qb->add_constraint('id', 'IN', $links);
-                }
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-            $qb->end_group();
-        }
-        else
-        {
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        }
+		$qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
 
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
@@ -134,11 +114,9 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     private function _load_autoindex_data()
     {
-        $view = Array();
-
+        $view = array();
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-
-        $qb = midcom_db_article::new_query_builder();
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
 
         $sort_order = 'ASC';
         $sort_property = $this->_config->get('sort_order');
@@ -159,26 +137,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
         $qb->add_order('title');
         $qb->add_order('name');
-
-        // Include the article links to the indexes if enabled
-        if ($this->_config->get('enable_article_links'))
-        {
-            $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            $links = $mc->get_values('article');
-
-            $qb->begin_group('OR');
-                if (count($links) > 0)
-                {
-                    $qb->add_constraint('id', 'IN', $links);
-                }
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-            $qb->end_group();
-        }
-        else
-        {
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        }
 
         $result = $qb->execute();
 
