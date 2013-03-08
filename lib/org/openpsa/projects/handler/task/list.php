@@ -499,62 +499,38 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function get_table_row_data(&$task, &$data)
     {
-        $ret = array();
-
-        static $row_cache = array
+        $ret = array
         (
-            'parent' => array(),
-            'index_parent' => array(),
-            'customer' => array(),
-            'index_customer' => array(),
+            'parent' => '&nbsp;',
+            'index_parent' => '',
         );
 
-        // Get parent object
-        if (!array_key_exists($task->project, $row_cache['parent']))
+        try
         {
-            $html = "&nbsp;";
-            $row_cache['index_parent'][$task->project] = '';
+            $project = org_openpsa_projects_project::get_cached($task->project);
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $ret['parent'] = '<a href="' . $prefix . 'project/{$project->guid}/">' . $project->title . '</a>';
 
-            if ($parent = $task->get_parent())
-            {
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                if (is_a($parent, 'org_openpsa_projects_project'))
-                {
-                    $parent_url = $prefix . "project/{$parent->guid}/";
-                }
-                else
-                {
-                    $parent_url = $prefix . "task/{$parent->guid}/";
-                }
-                $row_cache['index_parent'][$task->project] = $parent->title;
-                $html = "<a href=\"{$parent_url}\">{$parent->title}</a>";
-            }
-            $row_cache['parent'][$task->project] = $html;
         }
-        $ret['parent'] =& $row_cache['parent'][$task->project];
-        $ret['index_parent'] =& $row_cache['index_parent'][$task->project];
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
 
-        // Get agreement and customer (if applicable)
         if ($this->_request_data['view_identifier'] != 'agreement')
         {
-            if (!array_key_exists($task->customer, $row_cache['customer']))
+            try
             {
-                try
-                {
-                    $customer = new org_openpsa_contacts_group_dba($task->customer);
-                    $customer_url = "{$this->_request_data['contacts_url']}group/{$customer->guid}/";
-                    $html = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->name}</a>";
-                    $row_cache['index_customer'][$task->customer] = $customer->name;
-                }
-                catch (midcom_error $e)
-                {
-                    $html = '';
-                    $row_cache['index_customer'][$task->customer] = $html;
-                }
-                $row_cache['customer'][$task->customer] = $html;
+                $customer = org_openpsa_contacts_group_dba::get_cached($task->customer);
+                $customer_url = "{$this->_request_data['contacts_url']}group/{$customer->guid}/";
+                $ret['customer'] = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->name}</a>";
+                $ret['index_customer'] = $customer->name;
             }
-            $ret['customer'] =& $row_cache['customer'][$task->customer];
-            $ret['index_customer'] =& $row_cache['index_customer'][$task->customer];
+            catch (midcom_error $e)
+            {
+                $ret['customer'] = '';
+                $ret['index_customer'] = '';
+            }
         }
 
         return $ret;
