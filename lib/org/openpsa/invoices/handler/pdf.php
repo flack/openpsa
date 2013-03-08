@@ -129,16 +129,12 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
         if (!class_exists($client_class))
         {
-            debug_add('Could not find PDF renderer, aborting silently', MIDCOM_LOG_INFO);
-            return false;
+            throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }
         $pdf_builder = new $client_class($invoice);
 
         // tmp filename
-        $tmp_dir = midcom::get('config')->get('midcom_tempdir');
-        $title = str_replace("#", "", $invoice->get_label());
-
-        $tmp_file = $tmp_dir . "/". $title . ".pdf";
+        $tmp_file = midcom::get('config')->get('midcom_tempdir') . "/". $invoice->number . ".pdf";
 
         // render pdf to tmp filename
         $render = $pdf_builder->render($tmp_file);
@@ -154,7 +150,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             }
         }
 
-        $attachment = $invoice->create_attachment($title . '.pdf', $title, "application/pdf");
+        $attachment = $invoice->create_attachment($invoice->number . '.pdf', $invoice->get_label(), "application/pdf");
 
         if (!$attachment)
         {
