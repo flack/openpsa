@@ -20,33 +20,35 @@ class net_nemein_wiki_navigation  extends midcom_baseclasses_components_navigati
      */
     public function get_leaves()
     {
-        // Get the required information with midgard_collector
-        $qb = midcom_db_article::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_constraint('view', '=', 1);
-
-        // Set the order of navigation
-        $qb->add_order('metadata.score', 'DESC');
-        $qb->add_order('title');
-        $qb->add_order('name');
-
-        // Return an empty result set
-        if ($qb->count() === 0)
-        {
-            return array();
-        }
-
         $leaves = array();
 
-        // Get the leaves
-        foreach ($qb->execute() as $article)
+        // Get the required information with midgard_collector
+        $mc = net_nemein_wiki_wikipage::new_collector('topic', $this->_topic->id);
+        $mc->add_value_property('id');
+        $mc->add_value_property('name');
+        $mc->add_value_property('title');
+        // Set the order of navigation
+        $mc->add_order('metadata.score', 'DESC');
+        $mc->add_order('title');
+        $mc->add_order('name');
+        $guids = $mc->list_keys();
+
+        // Return an empty result set
+        if (count($guids) === 0)
         {
-            $leaves[$article->id] = array
+            return $leaves;
+        }
+
+        // Get the leaves
+        foreach ($guids as $guid => $empty)
+        {
+            $values = $mc->get($guid);
+            $leaves[$values['id']] = array
             (
-                MIDCOM_NAV_URL => $article->name,
-                MIDCOM_NAV_NAME => ($article->title) ? $article->title : $article->name,
-                MIDCOM_NAV_GUID => $article->guid,
-                MIDCOM_NAV_OBJECT => $article,
+                MIDCOM_NAV_URL => $values['name'],
+                MIDCOM_NAV_NAME => ($values['title']) ? $values['title'] : $values['name'],
+                MIDCOM_NAV_GUID => $guid,
+                MIDCOM_NAV_OBJECT => new midcom_core_dbaproxy($guid, 'net_nemein_wiki_wikipage'),
             );
         }
 
