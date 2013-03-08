@@ -29,8 +29,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         $this->_determine_content_topic();
         $this->_request_data['content_topic'] =& $this->_content_topic;
 
-        $GLOBALS['net_nehmer_static_mode'] = 'view';
-
         // View mode handler, set index viewer according to autoindex setting.
         // These, especially the general view handler, must come last, otherwise we'll hide other
         // handlers
@@ -164,22 +162,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, $args)
     {
-        $GLOBALS['net_nehmer_static_mode'] = $handler;
-
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-
-        $GLOBALS['net_nehmer_static_schemadbs'] = array();
-        $GLOBALS['net_nehmer_static_schemadbs'][''] = $this->_l10n_midcom->get('default setting');
-
-        $config_schemadbs = $this->_config->get('schemadbs');
-        if (is_array($config_schemadbs))
-        {
-            foreach ($config_schemadbs as $key => $description)
-            {
-                $GLOBALS['net_nehmer_static_schemadbs'][$key] = $this->_l10n->get($description);
-            }
-        }
-        unset($config_schemadbs);
 
         $this->_populate_node_toolbar();
     }
