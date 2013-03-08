@@ -271,7 +271,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
             }
         }
 
-        if (is_object($attachment))
+        if (    midcom::get('config')->get('midcom_compat_ragnaroek')
+             && is_object($attachment))
         {
             $nap = new midcom_helper_nav();
             $parent = $nap->resolve_guid($attachment->parentguid);
