@@ -1,18 +1,13 @@
 <?php
 // Check the user preference and configuration
-$config = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config');
 if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
     || (   midgard_admin_asgard_plugin::get_preference('escape_frameset') !== '0'
-        && $config->get('escape_frameset')))
+        && $data['config']->get('escape_frameset')))
 {
     midcom::get('head')->add_jsonload('if(top.frames.length != 0 && top.location.href != this.location.href){top.location.href = this.location.href}');
 }
 
-//don't send an XML prolog for IE, it knocks IE6 into quirks mode
-if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 6.') !== false)
-{
-    echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-}
+echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 
 $pref_found = false;
 
