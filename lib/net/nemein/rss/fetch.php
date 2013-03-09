@@ -1031,7 +1031,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * @param array $item Feed item as provided by MagpieRSS
      * @param array Normalized feed item
      */
-    function normalize_item($item)
+    public static function normalize_item($item)
     {
         if (!is_array($item))
         {
@@ -1045,15 +1045,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $item['title'] = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
 
             $item_date = $item['date_timestamp'];
-
-            // Check if this item is newer than the others
-            if (isset($this))
-            {
-                if ($item_date > $this->_feed_updated)
-                {
-                    $this->_feed_updated = $item_date;
-                }
-            }
 
             if (isset($item['description']))
             {
@@ -1094,9 +1085,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $item['description'] = '';
         }
 
-        if (   isset($item['content'])
-            && is_array($item['content'])
-            && isset($item['content']['encoded']))
+        if (!empty($item['content']['encoded']))
         {
             // Some RSS feeds use "content:encoded" for storing HTML-formatted full item content,
             // so we prefer this instead of simpler description
@@ -1106,8 +1095,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         if ($item['description'] == '')
         {
             // Empty description, fallbacks for some feed formats
-            if (   isset($item['dc'])
-                && isset($item['dc']['description']))
+            if (!empty($item['dc']['description']))
             {
                 $item['description'] = $item['dc']['description'];
             }
