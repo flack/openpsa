@@ -176,17 +176,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         midcom::get('auth')->drop_sudo();
-    }
-
-    /**
-     * Possible user output besides the UI message that was set
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_ajax($handler_id, array &$data)
-    {
-        // Do nothing at the moment
+        return new midcom_response_json;
     }
 }
 ?>
