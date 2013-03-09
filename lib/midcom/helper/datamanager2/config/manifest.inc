@@ -67,12 +67,6 @@
         (
             'channel' => 'htmlpurifier.org',
         ),
-        'Text_CAPTCHA' => array
-        (
-            'channel' => 'pear.php.net',
-            'min' => '0.2.1',
-            'max' => '0.2.1',
-        ),
         'midcom' => array(),
         'midcom.helper.imagepopup' => array(),
         'midcom.helper.reflector' => array

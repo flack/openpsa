@@ -9,7 +9,7 @@
 /**
  * Datamanager 2 captcha widget
  *
- * Uses the PEAR Text_CAPTCHA package to provide Captcha authentification to a form.
+ * Uses the Gregwar/Captcha package to provide Captcha authentification to a form.
  * Uses midcom_admin_user_plugin method to generate a captcha passphrase.
  *
  * The captcha is completely auto-generated, you should not have to worry about any

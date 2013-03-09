@@ -39,9 +39,9 @@
         "pear-pear/Auth_SASL": "*",
         "pear-pear/HTML_QuickForm": "*",
         "pear-hp/HTMLPurifier": "*",
-        "pear-pear/Text_CAPTCHA": "*",
         "pear-pear/Text_Diff": "*",
-        "midgard/midgardmvc-helper-urlize": "@dev"
+        "midgard/midgardmvc-helper-urlize": "@dev",
+        "gregwar/captcha": ">=1.0"
     },
     "suggest": {
         "ext-midgard2": ">=10.05.5"

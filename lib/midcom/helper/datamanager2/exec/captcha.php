@@ -11,6 +11,7 @@
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
+use Gregwar\Captcha\CaptchaBuilder;
 
 global $argc, $argv;
 
@@ -33,42 +34,10 @@ if (empty($passphrase))
     throw new midcom_error('Failed to generate CAPTCHA, no passphrase in session.');
 }
 
-// Set Captcha options (font must exist!)
-$options = Array
-(
-    'width' => 200,
-    'height' => 80,
-    'phrase' => $passphrase,
-    'imageOptions' => array
-    (
-        'font_path' => MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/',
-        'font_file' => 'captcha-font.ttf',
-        'background_color' => '#000000',
-        'text_color'       => '#FFFFFF',
-    ),
-);
-
-/* Generate a new Text_CAPTCHA object, Image driver
- * This is working at least with Text_CAPTCHAS latest alpha version. Older versions
- * give missing font error
- */
-
-   $captcha = Text_CAPTCHA::factory('Image');
-   $result = $captcha->init($options);
-
-if (PEAR::isError($result))
-{
-    throw new midcom_error('Failed to generate CAPTCHA, class init call failed: ' . $result->getMessage());
-}
-
-// Get Captcha GD Handle
-$image = $captcha->getCAPTCHA();
-if (! is_resource($image))
-{
-    throw new midcom_error('Failed to generate CAPTCHA, rendering failed. Reason: '.$image->getMessage());
-}
+$builder = new CaptchaBuilder($passphrase);
+$builder->build(200, 80);
 
 // Render the Captcha
-_midcom_header('Content-Type: image/png');
-imagepng($image);
+_midcom_header('Content-Type: image/jpeg');
+$builder->output();
 ?>

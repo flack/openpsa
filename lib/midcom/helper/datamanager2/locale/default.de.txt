@@ -32,7 +32,7 @@ Dies ist ein Captcha (http://de.wikipedia.org/wiki/Captcha), Sie benötigen eine
 
 ---STRING captcha message
 Dies ist ein <a target='_new' href="http://de.wikipedia.org/wiki/Captcha">Captcha.</a> Sie müssen die im Bild
-dargestellten Buchstaben <em>unter Berücksichtigung der Gross- und Kleinschreibung</em> eingeben.
+dargestellten Buchstaben <em>unter Berücksichtigung der Groß- und Kleinschreibung</em> eingeben.
 ---STRINGEND
 
 ---STRING captcha validation failed
