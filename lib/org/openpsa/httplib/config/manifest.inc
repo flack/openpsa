@@ -30,10 +30,6 @@
         (
             'channel' => 'pear.php.net',
         ),
-        'Console_Getargs' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),
