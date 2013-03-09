@@ -54,7 +54,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      * Prepares the request data
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['comments'] =& $this->_comments;
         $this->_request_data['objectguid'] =& $this->_objectguid;
@@ -64,48 +64,42 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
     /**
      * Prepares the _display_datamanager member.
-     *
-     * @access private
      */
-    function _init_display_datamanager()
+    private function _init_display_datamanager()
     {
         $this->_load_schemadb();
         $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
 
     /**
-     * Loads the schemadb (unless it has already been loaded).
+     * Loads the schemadb
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
-        if (! $this->_schemadb)
+        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+
+        if (   $this->_config->get('use_captcha')
+            || (   ! midcom::get('auth')->user
+                && $this->_config->get('use_captcha_if_anonymous')))
         {
-            $this->_schemadb = midcom_helper_datamanager2_schema::load_database(
-                $this->_config->get('schemadb'));
-
-            if (   $this->_config->get('use_captcha')
-                || (   ! midcom::get('auth')->user
-                    && $this->_config->get('use_captcha_if_anonymous')))
-            {
-                $this->_schemadb['comment']->append_field
+            $this->_schemadb['comment']->append_field
+            (
+                'captcha',
+                array
                 (
-                    'captcha',
-                    array
-                    (
-                        'title' => $this->_l10n_midcom->get('captcha field title'),
-                        'storage' => null,
-                        'type' => 'captcha',
-                        'widget' => 'captcha',
-                        'widget_config' => $this->_config->get('captcha_config'),
-                    )
-                );
-            }
+                    'title' => $this->_l10n_midcom->get('captcha field title'),
+                    'storage' => null,
+                    'type' => 'captcha',
+                    'widget' => 'captcha',
+                    'widget_config' => $this->_config->get('captcha_config'),
+                )
+            );
+        }
 
-            if (   $this->_config->get('ratings_enable')
-                && array_key_exists('rating', $this->_schemadb['comment']->fields))
-            {
-                $this->_schemadb['comment']->fields['rating']['hidden'] = false;
-            }
+        if (   $this->_config->get('ratings_enable')
+            && array_key_exists('rating', $this->_schemadb['comment']->fields))
+        {
+            $this->_schemadb['comment']->fields['rating']['hidden'] = false;
         }
     }
 
@@ -145,7 +139,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      *
      * As of this point, this tool assumes at least owner level privileges for all
      */
-    function _process_admintoolbar()
+    private function _process_admintoolbar()
     {
         if (! array_key_exists('net_nehmer_comment_adminsubmit', $_REQUEST))
         {
@@ -162,19 +156,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             }
 
             midcom::get('cache')->invalidate($comment->objectguid);
-            $this->_relocate_to_self();
+            midcom::get()->relocate($_SERVER['REQUEST_URI']);
+            // This will exit.
         }
-    }
-
-    /**
-     * This is a shortcut for midcom::get()->relocate which relocates to the very same page we
-     * are viewing right now, including all GET parameters we had in the original request.
-     * We do this by taking the $_SERVER['REQUEST_URI'] variable.
-     */
-    function _relocate_to_self()
-    {
-        midcom::get()->relocate($_SERVER['REQUEST_URI']);
-        // This will exit.
     }
 
     /**
