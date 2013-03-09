@@ -20,8 +20,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      */
     public function __construct()
     {
-        define('NET_NEHMER_BLOG_LEAFID_FEEDS', 2);
-
         if (midcom::get('config')->get('positioning_enable'))
         {
             $this->_autoload_libraries = array('org.routamc.positioning');

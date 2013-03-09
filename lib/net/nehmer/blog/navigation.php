@@ -16,6 +16,8 @@
 
 class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigation
 {
+    const LEAFID_FEEDS = 2;
+
     /**
      * The topic in which to look for articles. This defaults to the current content topic
      * unless overridden by the symlink topic feature.
@@ -128,7 +130,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         if (   $this->_config->get('rss_enable')
             && $this->_config->get('feeds_in_navigation'))
         {
-            $leaves[NET_NEHMER_BLOG_LEAFID_FEEDS] = array
+            $leaves[self::LEAFID_FEEDS] = array
             (
                 MIDCOM_NAV_URL => "feeds/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('available feeds'),

@@ -221,7 +221,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _handler_index ($handler_id, array $args, array &$data)
     {
-        $this->set_active_leaf(NET_NEHMER_BLOG_LEAFID_FEEDS);
+        $this->set_active_leaf(net_nehmer_blog_navigation::LEAFID_FEEDS);
         midcom::get('metadata')->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
     }
 
