@@ -654,8 +654,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             if (count($location_parts) > 0)
             {
                 $country = org_routamc_positioning_country_dba::get_by_name($location_parts[0]);
-                if (   $country
-                    && $country->code)
+                if (!empty($country->code))
                 {
                     $this->_datamanager->types['location']->location->county = $country->code;
                 }
@@ -663,8 +662,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             if (count($location_parts) > 1)
             {
                 $city = org_routamc_positioning_city_dba::get_by_name($location_parts[1]);
-                if (   $city
-                    && $city->id)
+                if (!empty($city->id))
                 {
                     $this->_datamanager->types['location']->location->city = $city->id;
                 }
@@ -804,7 +802,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                     }
                 }
             }
-            elseif (strstr($item['author'], '('))
+            else if (strstr($item['author'], '('))
             {
                 // The classic "email (Full Name)" format
                 $regex = '/^([a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+) \((.+)\)$/';
@@ -870,9 +868,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // Parse the item for author information
         $author_info = $this->parse_item_author($item);
 
-        // Start matching the information found to person entries in the database
-        $matched_person = null;
-
         if (isset($author_info['email']))
         {
             // Email is a pretty good identifier, start with it
@@ -881,12 +876,11 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $persons = $person_qb->execute();
             if (count($persons) > 0)
             {
-                $matched_person = $persons[0];
+                return $persons[0];
             }
         }
 
-        if (   is_null($matched_person)
-            && isset($author_info['username']))
+        if (isset($author_info['username']))
         {
             // Email is a pretty good identifier, start with it
             $person_qb = midcom_db_person::new_query_builder();
@@ -894,12 +888,11 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $persons = $person_qb->execute();
             if (count($persons) > 0)
             {
-                $matched_person = $persons[0];
+                return $persons[0];
             }
         }
 
-        if (   is_null($matched_person)
-            && isset($author_info['full_name']))
+        if (isset($author_info['full_name']))
         {
             $name_parts = explode(' ', $author_info['full_name']);
             if (count($name_parts) > 1)
@@ -914,12 +907,12 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $persons = $person_qb->execute();
                 if (count($persons) > 0)
                 {
-                    $matched_person = $persons[0];
+                    return $persons[0];
                 }
             }
         }
 
-        return $matched_person;
+        return null;
     }
 
     /**
