@@ -32,8 +32,15 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        if (   is_null($config->get('symlink_topic'))
-            && !$config->get('disable_indexing'))
+        if ($config->get('symlink_topic'))
+        {
+            debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
+        }
+        else if (!$config->get('disable_indexing'))
+        {
+            debug_add("The topic {$topic->id} is is not to be indexed, skipping indexing.");
+        }
+        else
         {
             $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
@@ -56,15 +63,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
                 }
             }
         }
-        elseif (is_null($config->get('symlink_topic'))
-                && !$config->get('disable_search'))
-        {
-            debug_add("The topic {$topic->id} is is not to be indexed, skipping indexing.");
-        }
-        else
-        {
-            debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
-        }
 
         return true;
     }
@@ -74,15 +72,13 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      */
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        if (   isset($config)
-            && $config->get('disable_permalinks'))
+        if ($config->get('disable_permalinks'))
         {
             return null;
         }
 
         $topic_guid = $config->get('symlink_topic');
-        if (   !empty($topic_guid)
-            && mgd_is_guid($topic_guid))
+        if (mgd_is_guid($topic_guid))
         {
             try
             {
