@@ -46,12 +46,12 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
 
         if ($this->_config->get('show_latest_in_navigation'))
         {
-            $this->_add_article_leaves();
+            $this->_add_article_leaves($leaves);
         }
         return $leaves;
     }
 
-    private function _add_article_leaves(&$leaves)
+    private function _add_article_leaves(array &$leaves)
     {
         $qb = midcom_db_article::new_query_builder();
 
@@ -116,7 +116,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         }
     }
 
-    private function _add_pseudo_leaves(&$leaves)
+    private function _add_pseudo_leaves(array &$leaves)
     {
         if (   $this->_config->get('archive_enable')
             && $this->_config->get('archive_in_navigation'))
