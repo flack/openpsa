@@ -1111,22 +1111,10 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             {
                 $item['description'] = $item['dc']['description'];
             }
-            elseif (isset($item['atom_content']))
+            else if (isset($item['atom_content']))
             {
                 // Atom 1.0 feeds store content in the atom_content field
                 $item['description'] = $item['atom_content'];
-            }
-            elseif (strpos($item['link'], 'cws.huginonline.com') !== false)
-            {
-                // Deal with the funky RSS format provided by Hugin Online
-                // Link points to actual news item in hexML format
-                $http_client = new org_openpsa_httplib();
-                $news_xml = $http_client->get($item['link']);
-                $news = simplexml_load_string($news_xml);
-                if (isset($news->body->press_releases->press_release->main))
-                {
-                    $item['description'] = (string) $news->body->press_releases->press_release->main;
-                }
             }
         }
 
