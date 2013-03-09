@@ -27,12 +27,6 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
         {
             $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-            if (! $datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $config->get('schemadb'),
-                    MIDCOM_LOG_WARN);
-                continue;
-            }
 
             foreach ($result as $wikipage)
             {
