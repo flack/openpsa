@@ -353,7 +353,9 @@ var org_openpsa_layout =
             if (   typeof window.localStorage !== 'undefined'
                 && window.localStorage)
             {
-                window.localStorage.setItem('org_openpsa_toolbar_visible', visible)
+                // it seems most browser engines can only store strings ATM, so...
+                visible = (state === true) ? 'true' : 'false';
+                window.localStorage.setItem('org_openpsa_toolbar_visible', visible);
             }
         }
         function is_visible()
@@ -361,7 +363,7 @@ var org_openpsa_layout =
             if (   typeof window.localStorage !== 'undefined'
                 && window.localStorage)
             {
-                return window.localStorage.getItem('org_openpsa_toolbar_visible')
+                return (window.localStorage.getItem('org_openpsa_toolbar_visible') === 'true');
             }
             return false;
         }
