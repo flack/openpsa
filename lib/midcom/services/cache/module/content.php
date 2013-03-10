@@ -74,7 +74,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var boolean
      */
-    public $_no_cache = false;
+    private $_no_cache = false;
 
     /**
      * Page expiration in seconds. If null (unset), the page does
@@ -134,10 +134,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * the cache database. All other headers will be created as usual though, so
      * 304 processing will kick in for example.
      *
-     * @todo When this is set to private, blobs do not get saved. Why?
      * @var boolean
      */
-    public $_uncached = false;
+    private $_uncached = false;
 
     /**
      * Controls cache headers strategy
@@ -568,10 +567,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function uncached()
     {
-        if ($this->_uncached)
-        {
-            return;
-        }
         $this->_uncached = true;
     }
 
@@ -909,7 +904,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
          *   Stuff below here is executed *after* we have flushed output,
          *   so here we should only write out our caches but do nothing else
          */
-
         if ($this->_uncached)
         {
             debug_add('Not writing cache file, we are in uncached operation mode.');
@@ -918,7 +912,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             /**
              * See the FIXME in generate_content_identifier on why we use the content hash
-            $content_id = $this->generate_content_identifier($context);
+             * $content_id = $this->generate_content_identifier($context);
              */
             $content_id = 'C-' . $etag;
             $this->write_meta_cache($content_id, $etag);
@@ -930,8 +924,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Writes meta-cache entry from context data using given content id
      * Used to be part of _finish_caching, but needed by serve-attachment method in midcom_application as well
      */
-    function write_meta_cache($content_id, $etag)
+    public function write_meta_cache($content_id, $etag)
     {
+        if (   $this->_uncached
+            || $this->_no_cache)
+        {
+            return;
+        }
         $entry_data = array();
         // Construct cache identifiers
         $context = midcom_core_context::get()->id;

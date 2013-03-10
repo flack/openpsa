@@ -233,11 +233,7 @@ class midcom_core_resolver
         }
 
         // Store metadata in cache so _check_hit() can help us
-        if (   !$cache->content->_uncached
-            && !$cache->content->_no_cache)
-        {
-            $cache->content->write_meta_cache('A-' . $etag, $etag);
-        }
+        $cache->content->write_meta_cache('A-' . $etag, $etag);
 
         while(@ob_end_flush());
 
