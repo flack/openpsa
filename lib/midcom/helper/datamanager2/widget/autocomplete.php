@@ -351,6 +351,12 @@ EOT;
         {
             $selection = array_merge($selection, $form_selection);
         }
+        if ($this->id_field == 'id')
+        {
+            // This is a workaround mainly for default values, which are always strings
+            // for some reason
+            $selection = array_map('intVal', $selection);
+        }
         return $selection;
     }
 
