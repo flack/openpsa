@@ -60,7 +60,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-right: 20px;
-    max-width: 20em
+    max-width: 20em;
+    white-space: nowrap
 }
 
 .autocomplete-selection-holder .autocomplete-action-icon
@@ -105,12 +106,11 @@
     max-width: 6em;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap
 }
 
 .autocomplete_input
 {
-    background: url("../stock-icons/16x16/search.png") no-repeat right center;
+    background: url("../stock-icons/16x16/search.png") no-repeat 99% center;
     margin-bottom: .3em
 }
 

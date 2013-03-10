@@ -263,7 +263,7 @@ var midcom_helper_datamanager2_autocomplete =
             midcom_helper_datamanager2_autocomplete.hide_input(identifier, status !== 'autocomplete-saved');
 
             status = (selected === true ? 'selected ' : 'todelete ') + status;
-            $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label">' + text + '</span></span>')
+            $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>')
                 .append('<span class="autocomplete-action-icon"></span>')
                 .prependTo(selection_holder);
         }
