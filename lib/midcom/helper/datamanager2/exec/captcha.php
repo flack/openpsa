@@ -15,27 +15,16 @@ use Gregwar\Captcha\CaptchaBuilder;
 
 global $argc, $argv;
 
-$session = new midcom_services_session('midcom_helper_datamanager2_widget_captcha');
-
 if (!isset($argv[0]))
 {
     throw new midcom_error_notfound("Missing CAPTCHA session key.");
 }
 
-if (   $argc == 0
-    || !$session->exists($argv[0]))
-{
-    throw new midcom_error('Failed to generate CAPTCHA, the session key passed is invalid.');
-}
-
-$passphrase = $session->get($argv[0]);
-if (empty($passphrase))
-{
-    throw new midcom_error('Failed to generate CAPTCHA, no passphrase in session.');
-}
-
-$builder = new CaptchaBuilder($passphrase);
+$builder = new CaptchaBuilder();
 $builder->build(200, 80);
+
+$session = new midcom_services_session('midcom_helper_datamanager2_widget_captcha');
+$session->set($argv[0], $builder->getPhrase());
 
 // Render the Captcha
 _midcom_header('Content-Type: image/jpeg');

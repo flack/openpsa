@@ -10,7 +10,6 @@
  * Datamanager 2 captcha widget
  *
  * Uses the Gregwar/Captcha package to provide Captcha authentification to a form.
- * Uses midcom_admin_user_plugin method to generate a captcha passphrase.
  *
  * The captcha is completely auto-generated, you should not have to worry about any
  * defaults. The captcha rendering is done using a midcom-exec callback linking into
@@ -24,10 +23,6 @@
  * passphrase is only valid for a single submission call. Every successful submit will
  * invalidate the passphrase in the user's session thus triggering a new captcha being
  * generated.
- *
- * <b>Available configuration options:</b>
- *
- * - <i>int length</i> sets the length of the Captcha passphrase, defaults to 6.
  *
  * <b>Implementation Limitation:</b>
  *
@@ -56,20 +51,6 @@
  */
 class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanager2_widget
 {
-    /**
-     * The length of the passphrase.
-     *
-     * @var int
-     */
-    var $length = 6;
-
-    /**
-     * The passphrase currently in use.
-     *
-     * @var string
-     */
-    private $_passphrase = null;
-
     /**
      * The session key in use for this Formmanager instance.
      *
@@ -109,24 +90,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
             $this->_session_key = md5($hash);
         }
 
-        $session = new midcom_services_session($this->_session_domain);
-        if (! $session->exists($this->_session_key))
-        {
-            $this->_prepare_passphrase($session);
-        }
-        else
-        {
-            $this->_passphrase = $session->get($this->_session_key);
-        }
-
         return true;
-    }
-
-    private function _prepare_passphrase(midcom_services_session $session)
-    {
-        $phrase = midcom_admin_user_plugin::generate_password($this->length);
-        $this->_passphrase = $phrase;
-        $session->set($this->_session_key, $phrase);
     }
 
     /**
@@ -167,12 +131,15 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
      */
     function validate($fields)
     {
-        if ($fields[$this->name] != $this->_passphrase)
+        $session = new midcom_services_session($this->_session_domain);
+        if (! $session->exists($this->_session_key))
+        {
+            return array("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
+        }
+        $passphrase = $session->get($this->_session_key);
+        if ($fields[$this->name] != $passphrase)
         {
             $this->_element->setValue('');
-            //reset passphrase to prevent brute-forcing
-            $session = new midcom_services_session($this->_session_domain);
-            $this->_prepare_passphrase($session);
 
             return Array ("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
         }
