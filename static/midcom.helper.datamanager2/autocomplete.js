@@ -175,6 +175,10 @@ var midcom_helper_datamanager2_autocomplete =
         {
             $.each(handler_options.preset, function(id, text)
             {
+                if (handler_options.id_field === 'id')
+                {
+                    id = parseInt(id);
+                }
                 midcom_helper_datamanager2_autocomplete.add_item(identifier, id, text, 'autocomplete-saved');
             });
         }
