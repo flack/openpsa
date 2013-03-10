@@ -209,7 +209,7 @@ var midcom_helper_datamanager2_autocomplete =
                 }
                 else
                 {
-                    item.remove();
+                    item.fadeOut('fast', function(){item.remove()});
                 }
             }
             else if (item.hasClass('autocomplete-todelete'))
