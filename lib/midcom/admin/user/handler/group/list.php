@@ -192,7 +192,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
             if (!$data['title'])
             {
-                $data['title'] = $this->_l10n->get('unknown');
+                $data['title'] = midcom::get('i18n')->get_string('unknown', 'midcom');
             }
 
             // Show the group
