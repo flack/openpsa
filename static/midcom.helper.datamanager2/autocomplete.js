@@ -241,7 +241,7 @@ var midcom_helper_datamanager2_autocomplete =
             $('#' + identifier + '_selection_holder').find('.autocomplete-new').remove();
             if (switch_focus === true)
             {
-                $('#' + identifier + '_search_input').closest('.form .element').nextAll().find('input:visible, textarea:visible').first().focus();
+                $('#' + identifier + '_search_input').closest('.form .element').nextAll().find(':focusable:visible').first().focus();
             }
 
         }
