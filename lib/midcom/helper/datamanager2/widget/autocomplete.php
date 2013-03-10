@@ -28,13 +28,6 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $class = null;
 
     /**
-     * Allow multiple selection
-     *
-     * @var boolean
-     */
-    public $allow_multiple = false;
-
-    /**
      * Which component the searched class belongs to
      *
      * @var string
@@ -302,7 +295,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'orders' => $this->orders,
             'auto_wildcards' => $this->auto_wildcards,
             'preset' => $preset,
-            'allow_multiple' => $this->allow_multiple,
+            'allow_multiple' => $this->_type->allow_multiple,
             'creation_mode_enabled' => $this->creation_mode_enabled,
             'creation_handler' => $this->creation_handler
         ));
@@ -382,7 +375,7 @@ EOT;
                 }
             }
         }
-        else if (!$this->allow_multiple)
+        else if (!$this->_type->allow_multiple)
         {
             $selection[] = $real_results;
         }
