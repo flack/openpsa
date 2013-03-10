@@ -110,7 +110,7 @@ var org_openpsa_widgets_tabs =
                 && $.inArray(jscall.url, org_openpsa_widgets_tabs.loaded_scripts) === -1)
             {
                 org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
-                $('head').append('<script type="text/javascript" src="' + jscall.url + '"></script>');
+                $.ajax({url: jscall.url, cache: true, dataType: 'script', async: false});
             }
             else if (   typeof jscall.content !== 'undefined'
                      && jscall.content.length > 0)
