@@ -117,12 +117,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
                 $qb = new midgard_query_builder('midgard_parameter');
             }
 
-            $qb->begin_group('OR');
-            foreach ($this->_related_guids as $guid => $related)
-            {
-                $qb->add_constraint('name', '=', $guid);
-            }
-            $qb->end_group();
+            $qb->add_constraint('name', 'IN', array_keys($this->_related_guids));
 
             $qb->add_constraint('domain', '=', 'net.nemein.wiki:related_to');
             $ret = @$qb->execute();
