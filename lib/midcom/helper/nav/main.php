@@ -749,6 +749,10 @@ class midcom_helper_nav
         while ($node)
         {
             $path[] = $node[MIDCOM_NAV_ID];
+            if ($node[MIDCOM_NAV_NODEID] === -1)
+            {
+                break;
+            }
             $node = $this->get_node($node[MIDCOM_NAV_NODEID]);
         }
         return array_reverse($path);
