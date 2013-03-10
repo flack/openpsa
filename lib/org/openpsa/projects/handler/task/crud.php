@@ -231,9 +231,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 return false;
             }
 
+            $this->_defaults['project'] = $this->_parent->id;
             // Copy resources and contacts from project
             $this->_parent->get_members();
-
             $this->_defaults['resources'] = array_keys($this->_parent->resources);
             $this->_defaults['contacts'] = array_keys($this->_parent->contacts);
         }
