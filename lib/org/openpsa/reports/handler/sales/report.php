@@ -44,7 +44,10 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            $salesproject_mc->add_constraint('owner', 'IN', $this->_request_data['query_data']['resource_expanded']);
+            if (!empty($this->_request_data['query_data']['resource_expanded']))
+            {
+                $salesproject_mc->add_constraint('owner', 'IN', $this->_request_data['query_data']['resource_expanded']);
+            }
         }
         $salesprojects = $salesproject_mc->get_values('id');
 
