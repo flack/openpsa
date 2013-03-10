@@ -241,29 +241,5 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         midcom::get('auth')->drop_sudo();
         return true;
     }
-
-    /**
-     * Checks the parameters related to members update and returns string describing status or false if this is not
-     * a smart campaign.
-     * For example:
-     *  - Running (started on yyyy-mm-dd H:i)
-     *  - Last run on yyyy-mm-dd H:i
-     *  - Last run on --, next scheduled run on --
-     *  - Last run failed on --, last successful run on --
-     */
-    function members_update_status()
-    {
-        if (!$this->id)
-        {
-            debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        if ($this->orgOpenpsaObtype != self::TYPE_SMART)
-        {
-            debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        return false;
-    }
 }
 ?>
