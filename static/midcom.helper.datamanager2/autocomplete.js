@@ -84,6 +84,7 @@ var midcom_helper_datamanager2_autocomplete =
         {
             midcom_helper_datamanager2_autocomplete.update_selection(identifier, ui.item.id, 'add');
             midcom_helper_datamanager2_autocomplete.add_item(identifier, ui.item.id, ui.item.label, 'autocomplete-new');
+            event.preventDefault();
         }
         else
         {
@@ -247,7 +248,6 @@ var midcom_helper_datamanager2_autocomplete =
             {
                 $('#' + identifier + '_search_input').closest('.form .element').nextAll().find(':focusable:visible').first().focus();
             }
-
         }
     },
 
