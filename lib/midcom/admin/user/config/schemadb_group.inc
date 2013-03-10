@@ -81,7 +81,7 @@
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
 	            'class' => 'midcom_db_person',

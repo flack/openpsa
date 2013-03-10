@@ -68,8 +68,9 @@
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
+                'allow_multiple' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_group',

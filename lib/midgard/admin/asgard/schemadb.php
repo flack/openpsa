@@ -566,7 +566,7 @@ class midgard_admin_asgard_schemadb
                             'allow_other' => true,
                             'allow_multiple' => false,
                         ),
-                        'widget' => 'chooser',
+                        'widget' => 'autocomplete',
                         'widget_config' => array
                         (
                             'class' => $class,
