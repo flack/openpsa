@@ -6,7 +6,7 @@
     <script type="text/javascript">
     document.getElementById('midcom_admin_user_search').focus();
     </script>
-    <input type="submit" value="<?php $data['l10n']->get('go'); ?>" />
+    <input type="submit" value="<?php echo $data['l10n']->get('go'); ?>" />
     <div class="helptext">
         <?php
         $data['search_fields_l10n'] = array();
