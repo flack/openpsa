@@ -354,7 +354,7 @@ var org_openpsa_layout =
                 && window.localStorage)
             {
                 // it seems most browser engines can only store strings ATM, so...
-                visible = (state === true) ? 'true' : 'false';
+                visible = (visible === true) ? 'true' : 'false';
                 window.localStorage.setItem('org_openpsa_toolbar_visible', visible);
             }
         }
