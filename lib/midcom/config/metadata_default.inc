@@ -163,7 +163,7 @@
                 'allow_multiple' => true,
                 'multiple_storagemode' => 'imploded_wrapped',
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
@@ -200,7 +200,7 @@
                 'allow_other' => true,
                 'allow_multiple' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_group',
@@ -257,7 +257,7 @@
                 'options' => array (),
                 'allow_other' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
@@ -298,7 +298,6 @@
         ),
         'revisor' => array
         (
-            // chooser
             'title' => 'revisor',
             'storage' => 'metadata',
             'type' => 'select',
@@ -308,7 +307,7 @@
                 'options' => array (),
                 'allow_other' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
@@ -379,7 +378,7 @@
                 'options' => array (),
                 'allow_other' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
@@ -390,6 +389,12 @@
                 (
                     'firstname',
                     'lastname',
+                ),
+                'result_headers' => array
+                (
+                    array('name' => 'firstname', 'title' => 'firstname'),
+                    array('name' => 'lastname', 'title' => 'lastname'),
+                    array('name' => 'email', 'title' => 'email'),
                 ),
                 'orders' => array(array('lastname', 'ASC')),
             ),
@@ -427,7 +432,7 @@
                 'options' => array (),
                 'allow_other' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
