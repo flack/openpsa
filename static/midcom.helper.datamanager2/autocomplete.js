@@ -165,9 +165,16 @@ var midcom_helper_datamanager2_autocomplete =
         var identifier = selector.replace(/_search_input$/, ''),
         handler_options = window[identifier + '_handler_options'],
         options =  $.extend({minLength: min_length}, midcom_helper_datamanager2_autocomplete.get_default_options()),
-        input = $('#' + selector);
+        input = $('#' + selector),
+        readonly = (input.attr('type') === 'hidden') ? true : false,
+        selection_holder_class = 'autocomplete-selection-holder';
 
-        input.parent().append('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>');
+        if (readonly)
+        {
+            selection_holder_class += ' autocomplete-selection-holder-readonly';
+        }
+
+        input.parent().append('<span class="' + selection_holder_class + '" id="' + identifier + '_selection_holder"></span>');
         if (handler_options.creation_mode_enabled)
         {
             midcom_helper_datamanager2_autocomplete.enable_creation_mode(identifier, handler_options.creation_handler);
@@ -182,6 +189,10 @@ var midcom_helper_datamanager2_autocomplete =
                 }
                 midcom_helper_datamanager2_autocomplete.add_item(identifier, id, text, 'autocomplete-saved');
             });
+        }
+        if (readonly)
+        {
+            return;
         }
         input.autocomplete(options);
 
@@ -256,16 +267,20 @@ var midcom_helper_datamanager2_autocomplete =
         var handler_options = window[identifier + '_handler_options'],
         selection_holder = $('#' + identifier + '_selection_holder'),
         existing_item = selection_holder.find('[data-id="' + item_id + '"]'),
-        selected = midcom_helper_datamanager2_autocomplete.is_selected(identifier, item_id);
+        selected = midcom_helper_datamanager2_autocomplete.is_selected(identifier, item_id),
+        item;
 
         if (existing_item.length === 0)
         {
             midcom_helper_datamanager2_autocomplete.hide_input(identifier, status !== 'autocomplete-saved');
 
             status = (selected === true ? 'selected ' : 'todelete ') + status;
-            $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>')
-                .append('<span class="autocomplete-action-icon"></span>')
-                .prependTo(selection_holder);
+            item = $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>');
+            if (!selection_holder.hasClass('autocomplete-selection-holder-readonly'))
+            {
+                item.append('<span class="autocomplete-action-icon"></span>');
+            }
+            item.prependTo(selection_holder);
         }
         else if (existing_item.hasClass('autocomplete-todelete'))
         {
