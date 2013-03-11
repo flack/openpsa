@@ -31,7 +31,7 @@
 /**
  * Generate random passwords
  *
- * Match /user-editor/password/email/
+ * Match /user-editor/password/batch/
  */
 'user_passwords_batch' => array
 (
@@ -105,7 +105,7 @@
 /**
  * Create new user
  *
- * Match /create/
+ * Match /group/create/
  */
 'group_create' => array
 (

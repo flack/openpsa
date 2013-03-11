@@ -50,10 +50,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
             );
-
+            midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
         }
-
-        midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
     }
 
     /**

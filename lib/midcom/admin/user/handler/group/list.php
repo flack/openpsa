@@ -31,7 +31,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         if (preg_match('/group_move$/', $handler_id))
         {
             $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/{$this->_request_data['group']->guid}/", $this->_request_data['group']->official);
-            $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/move/{$this->_request_data['group']->guid}/", $this->_l10n_midcom->get_string('move'));
+            $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/move/{$this->_request_data['group']->guid}/", $this->_l10n_midcom->get('move'));
         }
     }
 
