@@ -340,7 +340,7 @@ EOT;
         foreach ($this->_type->selection as $value)
         {
             if (   $value != "0"
-                && $value != 0)
+                && $value !== 0)
             {
                 $selection[] = $value;
             }
