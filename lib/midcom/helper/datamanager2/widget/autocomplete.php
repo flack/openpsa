@@ -339,8 +339,7 @@ EOT;
         $selection = array();
         foreach ($this->_type->selection as $value)
         {
-            if (   $value != "0"
-                && $value !== 0)
+            if (!empty($value))
             {
                 $selection[] = $value;
             }
