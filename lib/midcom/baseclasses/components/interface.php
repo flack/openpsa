@@ -72,13 +72,6 @@
  * Usually you will be done at this point, as all other interaction can safely be done by
  * the component. Unless, of course, you have some special requirements.
  *
- * <b>Advanced notes for Core Developers</b>
- *
- * The biggest change relevant for the core is the fact, that the various interface
- * directives for on-site and content-admin usage have changed (they were named equally in
- * both of the original concepts). Therefore, if you handle components directly, you need
- * to adapt your code to match the new interface outlined below.
- *
  * <b>Example usage</b>
  *
  * The average component will require something like this, part one is the component
@@ -271,7 +264,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * defined keys are:
      *
      * - <i>config</i> holds the configuration for this context
-     * - <i>admin</i> A flag indicating whether we are in Admin mode or not (set during configure)
      * - <i>handler</i> The class handling the request.
      */
     public $_context_data = Array();
@@ -637,7 +629,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * The default event handler does nothing.
      *
      * @param midcom_db_topic $topic The topic to reindex.
-     * @param midgard_helper_config $config The configuration associated with this topic.
+     * @param midcom_helper_configuration $config The configuration associated with this topic.
      * @param midcom_services_indexer The indexer object to use for indexing. (Passed by reference!)
      * @return boolean Indicating success.
      */

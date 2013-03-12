@@ -229,7 +229,7 @@
  *         'folder' => Array
  *         (
  *             'class' => 'midcom_admin_folder_management',
- *             'src' => 'file:/midcom/admin/folder/folder_management.php',
+ *             'src' => 'file:/midcom/admin/folder/management.php',
  *             'name' => 'Folder administration',
  *             'config' => null,
  *         ),
