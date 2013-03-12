@@ -64,6 +64,11 @@
     white-space: nowrap
 }
 
+.autocomplete-selection-holder-readonly .autocomplete-item-label
+{
+    margin-right: 0;
+}
+
 .autocomplete-selection-holder .autocomplete-action-icon
 {
     display: inline-block;
