@@ -802,7 +802,6 @@ class midcom_helper__componentloader
 
         $core_components = array
         (
-            'de.bitfolge.feedcreator',
             'fi.protie.navigation',
             'midcom.admin.folder',
             'midcom.admin.help',

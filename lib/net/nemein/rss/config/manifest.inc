@@ -25,7 +25,6 @@
     (
         'org.openpsa.httplib' => array(),
         'net.nemein.tag' => array(),
-        'de.bitfolge.feedcreator' => array(),
         'midcom' => array(),
     ),
 ),

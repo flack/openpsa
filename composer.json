@@ -40,7 +40,8 @@
         "pear-hp/HTMLPurifier": "*",
         "pear-pear/Text_Diff": "*",
         "midgard/midgardmvc-helper-urlize": "@dev",
-        "gregwar/captcha": ">=1.0"
+        "gregwar/captcha": ">=1.0",
+        "openpsa/universalfeedcreator": "dev-master"
     },
     "suggest": {
         "ext-midgard2": ">=10.05.5"

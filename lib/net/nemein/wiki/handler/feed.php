@@ -20,8 +20,6 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _handler_rss($handler_id, array $args, array &$data)
     {
-        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator');
-
         $data['nap'] = new midcom_helper_nav();
         $data['node'] = $data['nap']->get_node($this->_topic->id);
 

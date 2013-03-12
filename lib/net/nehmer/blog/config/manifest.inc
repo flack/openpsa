@@ -36,7 +36,6 @@
     ),
     'dependencies' => array
     (
-        'de.bitfolge.feedcreator' => array(),
         'midcom.helper.datamanager2' => array(),
         'net.nehmer.comments' => array(),
         'org.openpsa.mail' => array(),

@@ -37,8 +37,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $qb->add_order('title');
         $qb->add_constraint('node', '=', $this->_topic->id);
         $data['feeds'] = $qb->execute();
-
-        midcom::get('componentloader')->load_library('de.bitfolge.feedcreator');
     }
 
     /**

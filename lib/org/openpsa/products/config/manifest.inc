@@ -48,7 +48,6 @@
     ),
     'dependencies' => array
     (
-        'de.bitfolge.feedcreator' => array(),
         'midcom.helper.datamanager2' => array(),
         'org.openpsa.qbpager' => array(),
         'org.openpsa.helpers' => array(),

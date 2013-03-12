@@ -30,7 +30,6 @@
     'dependencies' => array
     (
         'midcom.helper.datamanager2' => array(),
-        'de.bitfolge.feedcreator' => array(),
         'no.bergfald.rcs' => array(),
         'org.openpsa.widgets' => array(),
         'org.openpsa.notifications' => array(),
