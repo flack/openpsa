@@ -43,15 +43,9 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         if (!$this->_config->get('enable_page'))
         {
-            if ($handler_id == '____ais-imagepopup-list_object')
-            {
-                return new midcom_response_relocate('__ais/imagepopup/folder/default/');
-            }
-            else if ($handler_id =='____ais-imagepopup-list_folder')
-            {
-                return new midcom_response_relocate('__ais/imagepopup/folder/default/');
-            }
-            else if ($handler_id =='____ais-imagepopup-list_unified')
+            if (   $handler_id == '____ais-imagepopup-list_object'
+                || $handler_id == '____ais-imagepopup-list_folder'
+                || $handler_id == '____ais-imagepopup-list_unified')
             {
                 return new midcom_response_relocate('__ais/imagepopup/unified/default/');
             }
@@ -74,18 +68,18 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             case '____ais-imagepopup-list_folder_noobject':
             case '____ais-imagepopup-list_folder':
                 $data['list_type'] = 'folder';
-                $data['list_title'] = midcom::get('i18n')->get_string('folder attachments', 'midcom.helper.imagepopup');
+                $data['list_title'] = $this->_l10n->get('folder attachments');
                 break;
 
             case '____ais-imagepopup-list_object':
                 $data['list_type'] = 'page';
-                $data['list_title'] = midcom::get('i18n')->get_string('page attachments', 'midcom.helper.imagepopup');
+                $data['list_title'] = $this->_l10n->get('page attachments');
                 break;
 
             case '____ais-imagepopup-list_unified_noobject':
             case '____ais-imagepopup-list_unified':
                 $data['list_type'] = 'unified';
-                $data['list_title'] = midcom::get('i18n')->get_string('unified search', 'midcom.helper.imagepopup');
+                $data['list_title'] = $this->_l10n->get('unified search');
                 $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
                 break;
         }
@@ -97,12 +91,9 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         {
             $this->_create_controller($data);
         }
-        else
+        else if ($data['query'] != '')
         {
-            if($data['query'] != '')
-            {
-                $this->_run_search($data);
-            }
+            $this->_run_search($data);
         }
 
         midcom::get('head')->enable_jquery();
@@ -240,7 +231,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             // No image fields natively in the schema, add one
             $schema['fields']['midcom_helper_imagepopup_images'] = Array
             (
-                'title' => midcom::get('i18n')->get_string('images', 'midcom.helper.imagepopup'),
+                'title' => $this->_l10n->get('images'),
                 'storage' => null,
                 'type' => 'images',
                 'widget' => 'images',
@@ -252,7 +243,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
             $schema['fields']['midcom_helper_imagepopup_files'] = Array
             (
-                'title' => midcom::get('i18n')->get_string('files', 'midcom.helper.imagepopup'),
+                'title' => $this->_l10n->get('files'),
                 'storage' => null,
                 'type' => 'blobs',
                 'widget' => 'downloads',

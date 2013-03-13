@@ -46,10 +46,7 @@
     ),
     'dependencies' => array
     (
-        'midcom.helper.datamanager2' => array
-        (
-            'min' => '0.8.16',
-        ),
+        'midcom.helper.datamanager2' => array(),
         'midcom' => array(),
     ),
 ),
