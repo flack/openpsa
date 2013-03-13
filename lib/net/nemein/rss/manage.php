@@ -161,7 +161,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $data['feeds_updated'] = array();
 
         // Single feed addition
-        if (!emtpy($_POST['net_nemein_rss_manage_newfeed']['url']))
+        if (!empty($_POST['net_nemein_rss_manage_newfeed']['url']))
         {
             $this->_subscribe_feed($_POST['net_nemein_rss_manage_newfeed']['url']);
             // TODO: display error messages
