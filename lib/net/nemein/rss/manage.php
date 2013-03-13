@@ -15,7 +15,9 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        // Ensure we get the correct styles
+        // Ensure we get the correct styles and config
+        // @todo: This should be done by midcom core
+        $this->_component = 'net.nemein.rss';
         midcom::get('style')->prepend_component_styledir('net.nemein.rss');
 
         $this->_request_data['node'] = $this->_topic;

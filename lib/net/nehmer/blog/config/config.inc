@@ -1,6 +1,5 @@
 // Schema database to use
 'schemadb' => 'file:/net/nehmer/blog/config/schemadb_default.inc',
-'schemadb_feed' => 'file:/net/nemein/rss/config/schemadb_default.inc',
 'schemadbs'      => array
 (
     'file:/net/nehmer/blog/config/schemadb_default.inc' => 'Default Schema Database',
