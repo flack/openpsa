@@ -734,10 +734,9 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $qb->add_constraint('extra1', 'LIKE', "%|feed:{$feed_category}|%");
         if (!empty($item_guids))
         {
-            $qb->add_constraint($guid_property, 'NOT IN', $item_guids);
+            $qb->add_constraint($this->_guid_property, 'NOT IN', $item_guids);
         }
         $local_items = $qb->execute_unchecked();
-        $guid_property = $this->_guid_property;
         $purge_guids = array();
         foreach ($local_items as $item)
         {
