@@ -5,6 +5,8 @@ body {
     background-image: url(../org.openpsa.core/rorschach.png);
     background-position: bottom right;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: auto;
     padding: 40px 10% 5% 10%;
 }
 
