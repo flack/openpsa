@@ -2,19 +2,19 @@
 if (isset($data['feed']))
 {
     ?>
-    <h1><?php echo sprintf(midcom::get('i18n')->get_string('fetch feed %s', 'net.nemein.rss'), $data['feed']->title); ?></h1>
+    <h1><?php echo sprintf($data['l10n']->get('fetch feed %s'), $data['feed']->title); ?></h1>
     <?php
 }
 else
 {
     ?>
-    <h1><?php echo midcom::get('i18n')->get_string('fetch feeds', 'net.nemein.rss'); ?></h1>
+    <h1><?php echo $data['l10n']->get('fetch feeds'); ?></h1>
     <?php
 }
 
 if (count($data['items']) == 0)
 {
-    echo '<p>' . midcom::get('i18n')->get_string('no items found in feed', 'net.nemein.rss') . "</p>\n";
+    echo '<p>' . $data['l10n']->get('no items found in feed') . "</p>\n";
     if (isset($GLOBALS['MAGPIE_ERROR']))
     {
         echo "<p class=\"error\">{$GLOBALS['MAGPIE_ERROR']}</p>\n";
@@ -25,9 +25,9 @@ else
     echo "<table>\n";
     echo "    <thead>\n";
     echo "        <tr>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('date', 'midcom') . "</th>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('remote item', 'net.nemein.rss') . "</th>\n";
-    echo "            <th>" . midcom::get('i18n')->get_string('local item', 'net.nemein.rss') . "</th>\n";
+    echo "            <th>" . $data['l10n_midcom']->get('date') . "</th>\n";
+    echo "            <th>" . $data['l10n']->get('remote item') . "</th>\n";
+    echo "            <th>" . $data['l10n']->get('local item') . "</th>\n";
     echo "        </tr>\n";
     echo "    </thead>\n";
     echo "    <tbody>\n";
@@ -44,7 +44,7 @@ else
         }
         if ($date == 0)
         {
-            echo "    <td>" . midcom::get('i18n')->get_string('n/a', 'net.nemein.rss') . "</td>\n";
+            echo "    <td>" . $data['l10n']->get('n/a') . "</td>\n";
         }
         else
         {
@@ -54,7 +54,7 @@ else
 
         if (!$item['local_guid'])
         {
-            echo "    <td>" . midcom::get('i18n')->get_string('not in local database', 'net.nemein.rss') . "</td>\n";
+            echo "    <td>" . $data['l10n']->get('not in local database') . "</td>\n";
         }
         else
         {
