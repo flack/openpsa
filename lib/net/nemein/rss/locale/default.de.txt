@@ -127,7 +127,7 @@ RSS und Atom News-Aggregator
 ---STRINGEND
 
 ---STRING no items found in feed
-Der Feed enthält keine einträge
+Keine Einträge im Feed gefunden
 ---STRINGEND
 
 ---STRING opml file
