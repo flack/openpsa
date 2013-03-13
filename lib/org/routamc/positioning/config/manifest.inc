@@ -49,11 +49,6 @@
         ),
         array
         (
-            'handler' => 'org_routamc_positioning_cron_fetchfireeagle',
-            'recurrence' => MIDCOM_CRON_MINUTE,
-        ),
-        array
-        (
             'handler' => 'org_routamc_positioning_cron_fetchicbm',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),

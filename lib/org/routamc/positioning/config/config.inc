@@ -39,6 +39,3 @@
 // By default we use OpenLayers with OpenStreetMap as this doesn't require API key
 'map_provider' => 'openlayers',
 'map_api_key'  => '',
-
-'fireeagle_consumer_key' => '9YVbfRKjulCt',
-'fireeagle_consumer_secret' => '7WKhSLjV0fOnEoVv2SxJ8FosS46WiSoJ',
