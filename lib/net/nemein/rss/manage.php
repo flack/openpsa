@@ -107,13 +107,10 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         {
             // If we didn't get the channel title preset
             $feed_title = '';
-            if ($rss)
+            if (   $rss
+                && isset($rss->channel['title']))
             {
-                // Get the channel title from the feed
-                if (isset($rss->channel['title']))
-                {
-                    $feed_title = $rss->channel['title'];
-                }
+                $feed_title = $rss->channel['title'];
             }
         }
 
@@ -164,8 +161,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $data['feeds_updated'] = array();
 
         // Single feed addition
-        if (   array_key_exists('net_nemein_rss_manage_newfeed', $_POST)
-            && $_POST['net_nemein_rss_manage_newfeed']['url'])
+        if (!emtpy($_POST['net_nemein_rss_manage_newfeed']['url']))
         {
             $this->_subscribe_feed($_POST['net_nemein_rss_manage_newfeed']['url']);
             // TODO: display error messages

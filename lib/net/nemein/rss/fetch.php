@@ -271,13 +271,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             // This is a new item
             $article = new midcom_db_article();
         }
-        // Sanity check
-        if (!is_a($article, 'midcom_db_article'))
-        {
-            debug_add('$article is not an instance of midgard_article (or subclass), see debug level logs for object dump', MIDCOM_LOG_ERROR);
-            debug_print_r('$article: ', $article);
-            return false;
-        }
         $article->allow_name_catenate = true;
 
         $updated = false;
@@ -739,31 +732,30 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $qb = midcom_db_article::new_query_builder();
         $feed_category = md5($this->_feed->url);
         $qb->add_constraint('extra1', 'LIKE', "%|feed:{$feed_category}|%");
+        if (!empty($item_guids))
+        {
+            $qb->add_constraint($guid_property, 'NOT IN', $item_guids);
+        }
         $local_items = $qb->execute_unchecked();
         $guid_property = $this->_guid_property;
         $purge_guids = array();
         foreach ($local_items as $item)
         {
-            if (!in_array($item->$guid_property, $item_guids))
+            if (   midcom::get('componentloader')->is_installed('net.nemein.favourites')
+                && midcom::get('componentloader')->load_graceful('net.nemein.favourites'))
             {
-                // This item has been removed from the feed.
-
-                if (   midcom::get('componentloader')->is_installed('net.nemein.favourites')
-                    && midcom::get('componentloader')->load_graceful('net.nemein.favourites'))
+                // If it has been favorited keep it
+                $qb = net_nemein_favourites_favourite_dba::new_query_builder();
+                $qb->add_constraint('objectGuid', '=', $item->guid);
+                if ($qb->count_unchecked() > 0)
                 {
-                    // If it has been favorited keep it
-                    $qb = net_nemein_favourites_favourite_dba::new_query_builder();
-                    $qb->add_constraint('objectGuid', '=', $item->guid);
-                    if ($qb->count_unchecked() > 0)
-                    {
-                        continue;
-                        // Skip deleting this one
-                    }
+                    continue;
+                    // Skip deleting this one
                 }
-
-                $purge_guids[] = $item->guid;
-                $item->delete();
             }
+
+            $purge_guids[] = $item->guid;
+            $item->delete();
         }
 
         midcom_baseclasses_core_dbobject::purge($purge_guids, 'midgard_article');
