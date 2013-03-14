@@ -1,10 +1,10 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__feeds/rss/';
 
 echo "<li><a href=\"{$data['feed']->url}\"><img src=\"" . MIDCOM_STATIC_URL . "/net.nemein.rss/feed-icon-14x14.png\" alt=\"{$data['feed']->url}\" title=\"{$data['feed']->url}\" /></a>";
 if ($data['feed']->can_do('midgard:update'))
 {
-    echo "<a href=\"{$prefix}feeds/edit/{$data['feed']->guid}/\">{$data['feed']->title}</a>\n";
+    echo "<a href=\"{$prefix}edit/{$data['feed']->guid}/\">{$data['feed']->title}</a>\n";
 }
 else
 {
@@ -41,7 +41,7 @@ if ($data['feed']->can_do('midgard:update'))
     (
         array
         (
-            MIDCOM_TOOLBAR_URL => "feeds/edit/{$data['feed']->guid}/",
+            MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$data['feed']->guid}/",
             MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('edit'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
         )
@@ -54,7 +54,7 @@ if ($data['topic']->can_do('midgard:create'))
     (
         array
         (
-            MIDCOM_TOOLBAR_URL => "feeds/fetch/{$data['feed']->guid}/",
+            MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$data['feed']->guid}/",
             MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('refresh feed'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
         )
@@ -67,7 +67,7 @@ if ($data['feed']->can_do('midgard:delete'))
     (
         array
         (
-            MIDCOM_TOOLBAR_URL => "feeds/delete/{$data['feed']->guid}/",
+            MIDCOM_TOOLBAR_URL => "__feeds/rss/delete/{$data['feed']->guid}/",
             MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('delete feed'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
         )

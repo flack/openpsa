@@ -47,9 +47,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if ($this->_config->get('rss_subscription_enable'))
         {
-            midcom::get('componentloader')->load_library('net.nemein.rss');
-            $rss_switches = midcom_baseclasses_components_configuration::get('net.nemein.rss', 'routes');
-            $this->_request_switch = array_merge($this->_request_switch, $rss_switches);
+            net_nemein_rss_manage::register_plugin($this);
         }
     }
 
@@ -123,36 +121,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if ($this->_config->get('rss_subscription_enable'))
         {
-            $this->_node_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'feeds/subscribe/',
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('subscribe feeds', 'net.nemein.rss'),
-                    MIDCOM_TOOLBAR_ICON => 'net.nemein.rss/rss-16.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
-                )
-            );
-            $this->_node_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'feeds/list/',
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('manage feeds', 'net.nemein.rss'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
-                )
-            );
-            $this->_node_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "feeds/fetch/all",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('refresh all feeds', 'net.nemein.rss'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
-                )
-            );
+            net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar, $this->_topic->can_do('midgard:create'));
         }
 
         if (   $this->_config->get('enable_article_links')
