@@ -25,7 +25,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
 
         midcom::get()->disable_limits();
 
-        if ($handler_id == 'feeds_fetch')
+        if ($handler_id == '____feeds-rss-feeds_fetch')
         {
             $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
 
@@ -75,13 +75,14 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
 
         switch ($handler_id)
         {
-            case 'feeds_fetch_all':
+            case '____feeds-rss-feeds_fetch_all':
                 $this->add_breadcrumb("__feeds/rss/fetch/all/", $this->_l10n->get('refresh all feeds'));
                 break;
-            case 'feeds_fetch':
+            case '____feeds-rss-feeds_fetch':
                 $this->add_breadcrumb("__feeds/rss/fetch/{$this->_request_data['feed']->guid}/", $this->_l10n->get('refresh feed'));
                 break;
         }
+        net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
     }
 }
 ?>

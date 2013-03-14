@@ -252,16 +252,17 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         switch ($handler_id)
         {
-            case 'feeds_subscribe':
+            case '____feeds-rss-feeds_subscribe':
                 $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
                 break;
-            case 'feeds_edit':
+            case '____feeds-rss-feeds_edit':
                 $this->add_breadcrumb("__feeds/rss/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
-            case 'feeds_delete':
+            case '____feeds-rss-feeds_delete':
                 $this->add_breadcrumb("__feeds/rss/delete/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('delete'));
                 break;
         }
+        net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
     }
 }
 ?>
