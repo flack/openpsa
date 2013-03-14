@@ -6,7 +6,7 @@ php:
 
 env:
   - MIDGARD_EXT_VERSION=ratatoskr
-  - MIDGARD_EXT_VERSION=gjallarhorn
+  - MIDGARD_EXT_VERSION=master
 
 before_script:
   - ./test/travis_midgard2.sh
