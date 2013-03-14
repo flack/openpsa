@@ -58,22 +58,6 @@ Biblioteka geopozyjonowania
 Miejsce
 ---STRINGEND
 
----STRING plazes
-Pozycja wg Plazes
----STRINGEND
-
----STRING plazes_developer_key
-Klucz dewelopera Plazes
----STRINGEND
-
----STRING plazes_password
-Hasło
----STRINGEND
-
----STRING plazes_username
-Użytkownik
----STRINGEND
-
 ---STRING postalcode
 Kod pocztowy
 ---STRINGEND

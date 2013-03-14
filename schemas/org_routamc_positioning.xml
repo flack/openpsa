@@ -134,7 +134,6 @@
             <description>Source is the name of the position source module log entry comes from. These correspond to org_routamc_positioning_importer_X classes
             
             - gpx: GPS track log entry imported in GPX format
-            - plazes: Plazes information
             - manual: Manually entered position
             - objectlocation: Location acquired through an object's location
             </description>

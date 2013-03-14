@@ -44,11 +44,6 @@
     (
         array
         (
-            'handler' => 'org_routamc_positioning_cron_fetchplazes',
-            'recurrence' => MIDCOM_CRON_HOUR,
-        ),
-        array
-        (
             'handler' => 'org_routamc_positioning_cron_fetchicbm',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),

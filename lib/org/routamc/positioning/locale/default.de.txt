@@ -54,18 +54,6 @@ Karten-Provider
 Geopositionierungs-Toolkit
 ---STRINGEND
 
----STRING plazes_developer_key
-Plazes.com Developer-Key
----STRINGEND
-
----STRING plazes_password
-Plazes-Passwort
----STRINGEND
-
----STRING plazes_username
-Plazes-Benutzername
----STRINGEND
-
 ---STRING postalcode
 Postleitzahl
 ---STRINGEND

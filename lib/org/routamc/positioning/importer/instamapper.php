@@ -83,7 +83,7 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
     /**
      * Get instamapper location for a user
      *
-     * @param midcom_db_person $user Person to fetch Plazes data for
+     * @param midcom_db_person $user Person to fetch instamapper data for
      * @param boolean $cache Whether to cache the position to a log object
      * @return Array
      */

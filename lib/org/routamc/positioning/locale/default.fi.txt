@@ -50,22 +50,6 @@ Paikkatiedon käsittelykirjasto
 Paikka
 ---STRINGEND
 
----STRING plazes
-Plazes-verkko
----STRINGEND
-
----STRING plazes_developer_key
-Plazes.com -palvelun kehittäjäavain
----STRINGEND
-
----STRING plazes_password
-Plazes salasana
----STRINGEND
-
----STRING plazes_username
-Plazes käyttäjätunnus
----STRINGEND
-
 ---STRING select your country
 Valitse maa
 ---STRINGEND

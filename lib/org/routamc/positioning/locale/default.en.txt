@@ -58,22 +58,6 @@ Geospatial toolkit
 Place
 ---STRINGEND
 
----STRING plazes
-Plazes network position
----STRINGEND
-
----STRING plazes_developer_key
-Plazes.com developer key
----STRINGEND
-
----STRING plazes_password
-Plazes password
----STRINGEND
-
----STRING plazes_username
-Plazes username
----STRINGEND
-
 ---STRING postalcode
 postal code
 ---STRINGEND

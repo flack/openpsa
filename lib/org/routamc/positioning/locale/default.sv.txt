@@ -58,22 +58,6 @@ Geospatial verktyg
 Plats
 ---STRINGEND
 
----STRING plazes
-Plazes nätverks position
----STRINGEND
-
----STRING plazes_developer_key
-Plazes.com utvecklar nyckel
----STRINGEND
-
----STRING plazes_password
-Plazes lösenord
----STRINGEND
-
----STRING plazes_username
-Plazes anvvändarnamn
----STRINGEND
-
 ---STRING postalcode
 postnummer
 ---STRINGEND

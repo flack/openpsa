@@ -23,7 +23,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
     }
 
     /**
-     * Seek users with Plazes account settings set
+     * Seek users with GeoRSS account settings set
      *
      * @return Array
      */
@@ -120,9 +120,9 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
     }
 
     /**
-     * Get plazes location for a user
+     * Get GeoRSS location for a user
      *
-     * @param midcom_db_person $user Person to fetch Plazes data for
+     * @param midcom_db_person $user Person to fetch GeoRSS data for
      * @param boolean $cache Whether to cache the position to a log object
      * @return Array
      */
@@ -155,7 +155,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
     }
 
     /**
-     * Import plazes log entry. The entries are associative arrays containing
+     * Import GeoRSS log entry. The entries are associative arrays containing
      * all of the following keys:
      *
      * - latitude
