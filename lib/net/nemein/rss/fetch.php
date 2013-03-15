@@ -851,14 +851,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * tries to match to persons in database.
      *
      * @param array $item Feed item as provided by MagpieRSS
-     * @return MidgardPerson Person object matched, or null
+     * @return midcom_db_person Person object matched, or null
      */
-    function match_item_author($item)
+    function match_item_author(array $item)
     {
         // Parse the item for author information
         $author_info = $this->parse_item_author($item);
 
-        if (isset($author_info['email']))
+        if (!empty($author_info['email']))
         {
             // Email is a pretty good identifier, start with it
             $person_qb = midcom_db_person::new_query_builder();
@@ -870,19 +870,16 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
         }
 
-        if (isset($author_info['username']))
+        if (!empty($author_info['username']))
         {
-            // Email is a pretty good identifier, start with it
-            $person_qb = midcom_db_person::new_query_builder();
-            $person_qb->add_constraint('username', '=', strtolower($author_info['username']));
-            $persons = $person_qb->execute();
-            if (count($persons) > 0)
+            $person = midcom::get('auth')->get_user_by_name($author_info['username']);
+            if ($person)
             {
-                return $persons[0];
+                return $person->get_storage();
             }
         }
 
-        if (isset($author_info['full_name']))
+        if (!empty($author_info['full_name']))
         {
             $name_parts = explode(' ', $author_info['full_name']);
             if (count($name_parts) > 1)

@@ -71,4 +71,51 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $feed->refresh();
         $this->assertEquals($now, $feed->latestupdate);
     }
+
+    public function test_match_item_author()
+    {
+        $topic = self::get_component_node('net.nehmer.blog');
+        $feed = new net_nemein_rss_feed_dba;
+        $feed->node = $topic->id;
+        $fetcher = new net_nemein_rss_fetch($feed);
+
+        $person = self::create_user();
+        $user = midcom::get('auth')->get_user($person->id);
+
+        $input = array
+        (
+            'author' => $user->username
+        );
+
+        $author = $fetcher->match_item_author($input);
+        $this->assertInstanceOf('midcom_db_person', $author);
+        $this->assertEquals($person->guid, $author->guid);
+
+        $email = microtime(true) . '@openpsa2.org';
+        $person = $this->create_object('midcom_db_person', array('email' => $email));
+
+        $input = array
+        (
+            'author' => 'test <' . $email . '>'
+        );
+        $author = $fetcher->match_item_author($input);
+        $this->assertInstanceOf('midcom_db_person', $author);
+        $this->assertEquals($person->guid, $author->guid);
+
+        $attributes = array
+        (
+            'firstname' => microtime(true),
+            'lastname' => microtime(true)
+        );
+
+        $person = $this->create_object('midcom_db_person', $attributes);
+
+        $input = array
+        (
+            'author' => $attributes['firstname'] . ' ' . $attributes['lastname']
+        );
+        $author = $fetcher->match_item_author($input);
+        $this->assertInstanceOf('midcom_db_person', $author);
+        $this->assertEquals($person->guid, $author->guid);
+    }
 }
