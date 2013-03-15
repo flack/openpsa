@@ -61,7 +61,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Initializes the class with a given feed
      */
-    public function __construct($feed)
+    public function __construct(net_nemein_rss_feed_dba $feed)
     {
         $this->_feed = $feed;
 
@@ -206,6 +206,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     function import_item($item)
     {
         $this->normalize_item_link($item);
+
         switch ($this->_node->component)
         {
             case 'net.nehmer.blog':
@@ -270,6 +271,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
             // This is a new item
             $article = new midcom_db_article();
+            $article->topic = $this->_feed->node;
         }
         $article->allow_name_catenate = true;
 
@@ -294,8 +296,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $article->content = $item['description'];
             $updated = true;
         }
-
-        $article->topic = $this->_feed->node;
 
         if ($article->url != $item['link'])
         {
@@ -371,8 +371,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
         }
 
-        if (   is_object($article_author)
-            && $article_author->guid)
+        if (!empty($article_author->guid))
         {
             if ($article->metadata->authors != "|{$article_author->guid}|")
             {
