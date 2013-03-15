@@ -44,6 +44,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             midcom::get('auth')->_sync_user_with_backend();
         }
         self::$_class_objects[$person->guid] = $person;
+        //Sync to get password under mgd1
+        $person->refresh();
         return $person;
     }
 
