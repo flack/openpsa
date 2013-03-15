@@ -24,12 +24,17 @@
     foreach ($data['list_fields'] as $field)
     {
         $value = $data['person']->$field;
+        if ($field == 'username')
+        {
+            $account = new midcom_core_account($data['person']);
+            $value = $account->get_username();
+        }
         if (   $linked < 2
             && $data['person']->can_do('midgard:update'))
         {
             if (!$value)
             {
-                $value = "&lt;{$field}&gt;";
+                $value = '&lt;' . $data['l10n']->get($field) . '&gt;';
             }
             $value = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/edit/{$data['person']->guid}/\">{$value}</a>";
             $linked++;
@@ -43,15 +48,17 @@
     $groups = array();
     foreach ($memberships as $member)
     {
-        // Quick and dirty on-demand group-loading
-        if (   $member->gid != 0
-            && (   !isset($data['groups'][$member->gid])
-                || !is_object($data['groups'][$member->gid])))
+        try
         {
-            $data['groups'][$member->gid] = new midcom_db_group((int)$member->gid);
+            $group = midcom_db_group::get_cached($member->gid);
+            $value = $group->official;
+            if ($group->can_do('midgard:update'))
+            {
+                $value = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/group/edit/{$group->guid}/\">{$value}</a>";
+            }
+            $groups[] = $value;
         }
-        if (   !isset($data['groups'][$member->gid])
-            || !is_object($data['groups'][$member->gid]))
+        catch (midcom_error $e)
         {
             if ($member->gid == 0)
             {
@@ -61,15 +68,7 @@
             {
                 $groups[] = "#{$member->gid}";
             }
-            continue;
         }
-
-        $value = $data['groups'][$member->gid]->official;
-        if ($data['groups'][$member->gid]->can_do('midgard:update'))
-        {
-            $value = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/group/edit/{$data['groups'][$member->gid]->guid}/\">{$value}</a>";
-        }
-        $groups[] = $value;
     }
     echo "<td>" . implode(', ', $groups) . "</td>\n";
     ?>

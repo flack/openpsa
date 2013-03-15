@@ -66,10 +66,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        // See what fields we want to use in the search
-        $data['search_fields'] = $this->_config->get('search_fields');
-        $data['list_fields'] = $this->_config->get('list_fields');
-
         // Set the passwords elsewhere, but check the request first
         if (   isset($_POST['midcom_admin_user_action'])
             && $_POST['midcom_admin_user_action'] === 'passwords')
@@ -85,6 +81,9 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/password/batch/?midcom_admin_user[]={$get}");
             }
         }
+        // See what fields we want to use in the search
+        $data['search_fields'] = $this->_config->get('search_fields');
+        $data['list_fields'] = $this->_config->get('list_fields');
 
         if (   isset($_POST['midcom_admin_user'])
             && is_array($_POST['midcom_admin_user'])
@@ -122,31 +121,34 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     private function _list_persons()
     {
+        $qb = midcom_db_person::new_query_builder();
+        $qb->add_order('lastname');
+        $qb->add_order('firstname');
+
         if (isset($_REQUEST['midcom_admin_user_search']))
         {
             // Run the person-seeking QB
-            $qb = midcom_db_person::new_query_builder();
             $qb->begin_group('OR');
                 foreach ($this->_request_data['search_fields'] as $field)
                 {
-                    $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
+                    if ($field == 'username')
+                    {
+                        midcom_core_account::add_username_constraint($qb, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
+                    }
+                    else
+                    {
+                        $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
+                    }
                 }
             $qb->end_group('OR');
-            $qb->add_order('lastname');
-            $qb->add_order('firstname');
 
             $this->_persons = $qb->execute();
         }
         else
         {
             // List all persons if there are less than N of them
-            $qb = midcom_db_person::new_query_builder();
-
             if ($qb->count_unchecked() < $this->_config->get('list_without_search'))
             {
-                $qb->add_order('lastname');
-                $qb->add_order('firstname');
-
                 $this->_persons = $qb->execute();
             }
         }
@@ -156,16 +158,13 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     {
         foreach ($_POST['midcom_admin_user'] as $person_id)
         {
+            if (is_numeric($person_id))
+            {
+                $person_id = (int) $person_id;
+            }
             try
             {
-                if (is_numeric($person_id))
-                {
-                    $person = new midcom_db_person((int) $person_id);
-                }
-                else
-                {
-                    $person = new midcom_db_person($person_id);
-                }
+                $person = new midcom_db_person($person_id);
             }
             catch (midcom_error $e)
             {
@@ -180,9 +179,8 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                         break;
                     }
                     $person->parameter('midcom.admin.user', 'username', $person->username);
-                    $person->username = '';
-                    $person->password = '';
-                    if ($person->update())
+                    $account = new midcom_core_account($person);
+                    if ($account->delete())
                     {
                         midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
                     }
@@ -272,6 +270,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     public function _show_list($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
+
         $data['config'] =& $this->_config;
 
         $data['persons'] =& $this->_persons;

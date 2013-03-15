@@ -317,7 +317,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 'TIME' => strftime('%X'),
                 'FIRSTNAME' => $person->firstname,
                 'LASTNAME' => $person->lastname,
-                'USERNAME' => $person->username,
+                'USERNAME' => $account->get_username(),
                 'EMAIL' => $person->email,
             );
 
@@ -357,6 +357,19 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         midcom::get('auth')->require_admin_user();
 
+        if (   isset($_POST['midcom_admin_user'])
+            && count($_POST['midcom_admin_user']) > 0)
+        {
+            if (isset($_POST['f_cancel']))
+            {
+                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n_midcom->get('cancelled'));
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
+            }
+            $this->_process_batch_change();
+            // Relocate to the user administration front page
+            return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
+        }
+
         // Set page title and default variables
         $data['view_title'] = $this->_l10n->get('batch generate passwords');
         $data['variables'] = array
@@ -371,19 +384,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), strftime('%x')),
             '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), strftime('%X')),
         );
-
-        if (   isset($_POST['midcom_admin_user'])
-            && count($_POST['midcom_admin_user']) > 0)
-        {
-            if (isset($_POST['f_cancel']))
-            {
-                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n_midcom->get('cancelled'));
-                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
-            }
-            $this->_process_batch_change();
-            // Relocate to the user administration front page
-            return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
-        }
 
         if (isset($_GET['ajax']))
         {
