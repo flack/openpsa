@@ -228,13 +228,30 @@ class midcom_helper_metadata
         $this->_schemadb = $schemadbs[$this->_schemadb_path];
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
+        $object_schema = self::find_schemaname($this->_schemadb, $this->__object);
+        $this->_datamanager->set_schema($object_schema);
+        if (! $this->_datamanager->set_storage($this->__object))
+        {
+            throw new midcom_error('Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
+        }
+    }
+
+    /**
+     * Helper function to determine the schema to use for a particular object
+     *
+     * @param array $schemadb The schema DB
+     * @param midcom_core_dbaobject $object the object to work on
+     * @return string The schema name
+     */
+    public static function find_schemaname(array $schemadb, midcom_core_dbaobject $object)
+    {
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
-        $object_schema = $this->__object->get_parameter('midcom.helper.datamanager2', 'schema_name');
+        $object_schema = $object->get_parameter('midcom.helper.datamanager2', 'schema_name');
         $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         if (   $object_schema == ''
-            || !isset($this->_schemadb[$object_schema]))
+            || !isset($schemadb[$object_schema]))
         {
-            if (isset($this->_schemadb[$component_schema]))
+            if (isset($schemadb[$component_schema]))
             {
                 // No specific metadata schema for object, fall back to component-specific metadata schema
                 $object_schema = $component_schema;
@@ -245,11 +262,7 @@ class midcom_helper_metadata
                 $object_schema = 'metadata';
             }
         }
-        $this->_datamanager->set_schema($object_schema);
-        if (! $this->_datamanager->set_storage($this->__object))
-        {
-            throw new midcom_error('Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
-        }
+        return $object_schema;
     }
 
     function release_datamanager()

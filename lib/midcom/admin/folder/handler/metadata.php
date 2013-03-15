@@ -48,26 +48,9 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
 
-        // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
-        $object_schema = $this->_object->get_parameter('midcom.helper.datamanager2', 'schema_name');
-        $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
-        if (   $object_schema == ''
-            || !isset($this->_schemadb[$object_schema]))
-        {
-            if (isset($this->_schemadb[$component_schema]))
-            {
-                // No specific metadata schema for object, fall back to component-specific metadata schema
-                $object_schema = $component_schema;
-            }
-            else
-            {
-                // No metadata schema for component, fall back to default
-                $object_schema = 'metadata';
-            }
-        }
+        $object_schema = midcom_helper_metadata::find_schemaname($this->_schemadb, $this->_object);
 
         $this->_controller->set_storage($this->_object, $object_schema);
-
 
         if (! $this->_controller->initialize())
         {
