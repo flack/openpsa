@@ -192,7 +192,7 @@ class midcom_core_user
 
         if (is_string($id))
         {
-            $this->_load_from_string($id, $person_class);
+            $this->_storage = $this->_load_from_string($id, $person_class);
         }
         else if (is_numeric($id))
         {
@@ -225,7 +225,8 @@ class midcom_core_user
             throw new midcom_error('storage GUID is not set');
         }
 
-        $this->username = $this->_storage->username;
+        $account = midcom_core_account::get($this->_storage);
+        $this->username = $account->get_username();
         $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");
         $this->rname = trim("{$this->_storage->lastname}, {$this->_storage->firstname}");
         if (empty($this->name))
@@ -258,7 +259,7 @@ class midcom_core_user
         {
             try
             {
-                $this->_storage = new $person_class($id);
+                return new $person_class($id);
             }
             catch (midgard_error_exception $e)
             {
@@ -266,11 +267,8 @@ class midcom_core_user
                 throw new midcom_error_midgard($e, $id);
             }
         }
-        else
-        {
-            debug_print_r('Passed argument was:', $id);
-            throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
-        }
+        debug_print_r('Passed argument was:', $id);
+        throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
     }
 
     /**
