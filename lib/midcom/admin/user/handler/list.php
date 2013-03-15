@@ -276,19 +276,10 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $data['persons'] =& $this->_persons;
         midcom_show_style('midcom-admin-user-personlist-header');
 
-        $data['even'] = false;
         foreach ($data['persons'] as $person)
         {
             $data['person'] = $person;
             midcom_show_style('midcom-admin-user-personlist-item');
-            if (!$data['even'])
-            {
-                $data['even'] = true;
-            }
-            else
-            {
-                $data['even'] = false;
-            }
         }
 
         midcom_show_style('midcom-admin-user-personlist-footer');

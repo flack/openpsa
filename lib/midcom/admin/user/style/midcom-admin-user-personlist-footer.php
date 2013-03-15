@@ -15,10 +15,10 @@ if (count($data['persons']) > 0)
             <tr>
                 <td colspan="<?php echo count($data['list_fields']) + 1; ?>">
                     <label for="select_all">
-                        <input type="checkbox" name="select_all" id="select_all" value="" onclick="jQuery(this).check_all('#midcom_admin_user_batch_process table tbody');" /> <?php echo $data['l10n']->get('select all'); ?>
+                        <input type="checkbox" name="select_all" id="select_all" value="" /> <?php echo $data['l10n']->get('select all'); ?>
                     </label>
                     <label for="invert_selection">
-                        <input type="checkbox" name="invert_selection" id="invert_selection" value="" onclick="jQuery(this).invert_selection('#midcom_admin_user_batch_process table tbody');" /> <?php echo $data['l10n']->get('invert selection'); ?>
+                        <input type="checkbox" name="invert_selection" id="invert_selection" value="" /> <?php echo $data['l10n']->get('invert selection'); ?>
                     </label>
                 </td>
             </tr>

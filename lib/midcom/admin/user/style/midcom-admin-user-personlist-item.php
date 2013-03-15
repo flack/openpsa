@@ -1,4 +1,4 @@
-<tr<?php if ($data['even']) { echo ' class="even"'; } ?>>
+<tr>
     <?php
     $checked = '';
     if (isset($_POST['midcom_admin_user'])
