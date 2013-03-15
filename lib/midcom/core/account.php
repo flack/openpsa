@@ -60,11 +60,20 @@ class midcom_core_account
         $this->_user = $this->_get_user();
     }
 
-    public static function &get(midcom_db_person &$person)
+    public static function &get(&$person)
     {
+        if (empty($person->guid))
+        {
+            throw new midcom_error('Empty person GUID');
+        }
         if (!array_key_exists($person->guid, self::$_instances))
         {
-            self::$_instances[$person->guid] = new self($person);
+            $dbperson = $person;
+            if (!($person instanceof midcom_db_person))
+            {
+                $dbperson = new midcom_db_person($person);
+            }
+            self::$_instances[$person->guid] = new self($dbperson);
         }
         return self::$_instances[$person->guid];
     }
