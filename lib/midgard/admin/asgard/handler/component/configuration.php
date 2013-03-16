@@ -152,7 +152,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
         }
-        $schemadb[$schema]->l10n_schema = $this->_request_data['name'];
+        $schemadb[$schema]->l10n_schema = midcom::get('i18n')->get_l10n($this->_request_data['name']);
 
         foreach ($this->_request_data['config']->_global as $key => $value)
         {
@@ -164,14 +164,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     $key,
                     $this->_detect_schema($key, $value)
                 );
-                $schemadb[$schema]->fields[$key]['title'] = midcom::get('i18n')->get_string($schemadb[$schema]->fields[$key]['title'], $schemadb[$schema]->l10n_schema);
+                $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
             }
 
             if (   !isset($this->_request_data['config']->_local[$key])
                 || $this->_request_data['config']->_local[$key] == $this->_request_data['config']->_global[$key])
             {
                 // No local configuration setting, note to user that this is the global value
-                $schemadb[$schema]->fields[$key]['title'] = midcom::get('i18n')->get_string($schemadb[$schema]->fields[$key]['title'], $schemadb[$schema]->l10n_schema);
+                $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
                 $schemadb[$schema]->fields[$key]['title'] .= " <span class=\"global\">(" . $this->_l10n->get('global value') .")</span>";
             }
         }
