@@ -15,7 +15,7 @@ if (!class_exists('HTML_QuickForm_Rule'))
 /**
  * @package midcom.helper.datamanager2
  */
-class midcom_helper_datamanager2_qfrule_select_manager
+class midcom_helper_datamanager2_qfrule_select
 {
     var $rules = array
     (

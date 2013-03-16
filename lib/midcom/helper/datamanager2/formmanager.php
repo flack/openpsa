@@ -176,7 +176,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         static $initialized = array();
 
         $config = $this->_schema->fields[$fieldname];
-        $classname = "midcom_helper_datamanager2_qfrule_{$config['type']}_manager";
+        $classname = "midcom_helper_datamanager2_qfrule_{$config['type']}";
         if (!isset($initialized[$classname]))
         {
             // We have already initialized rules for this type
