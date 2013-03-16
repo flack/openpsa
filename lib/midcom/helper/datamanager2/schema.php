@@ -94,7 +94,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var midcom_services_i18n_l10n
      */
-    var $l10n_schema = null;
+    public $l10n_schema = null;
 
     /**
      * The raw schema array as read by the system. This is a reference
@@ -399,7 +399,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
-        $this->_l10n_schema = midcom::get('i18n')->get_l10n($l10n_name);
+        $this->l10n_schema = midcom::get('i18n')->get_l10n($l10n_name);
 
         if (array_key_exists('operations', $this->_raw_schema))
         {
@@ -624,10 +624,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         $translate_string = strtolower($string);
 
-        if (   $this->_l10n_schema !== null
-            && $this->_l10n_schema->string_available($translate_string))
+        if (   $this->l10n_schema !== null
+            && $this->l10n_schema->string_available($translate_string))
         {
-            return $this->_l10n_schema->get($translate_string);
+            return $this->l10n_schema->get($translate_string);
         }
         else if ($this->_l10n->string_available($translate_string))
         {

@@ -482,7 +482,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
         {
             $form_identifier = $this->_creation_controllers[$name]->form_identifier;
             echo "<button name=\"create_{$name}\" id=\"{$form_identifier}_button\" class=\"midcom_helper_datamanager2_composite_create_button\">\n";
-            echo sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$name]->_l10n_schema->get($this->_schemadb[$name]->description));
+            echo sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$name]->l10n_schema->get($this->_schemadb[$name]->description));
             echo "</button>\n";
         }
 
