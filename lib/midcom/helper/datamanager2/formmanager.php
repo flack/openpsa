@@ -176,19 +176,13 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         static $initialized = array();
 
         $config = $this->_schema->fields[$fieldname];
-        $filename = MIDCOM_ROOT . "/midcom/helper/datamanager2/QuickForm_rules/{$config['type']}.php";
         $classname = "midcom_helper_datamanager2_qfrule_{$config['type']}_manager";
         if (!isset($initialized[$classname]))
         {
             // We have already initialized rules for this type
             return;
         }
-        if (!file_exists($filename))
-        {
-            // no file for this type found, skip silently
-            return;
-        }
-        include($filename);
+
         $manager = new $classname();
         $manager->register_rules($this->form);
         $initialized[$classname] = true;

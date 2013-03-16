@@ -25,14 +25,11 @@ class midcom_helper_datamanager2_qfrule_date_manager
 
     function register_rules(&$form)
     {
-        $current_file = __FILE__;
-        debug_add('called');
         foreach ($this->rules as $rule_name)
         {
             $rule_class = "midcom_helper_datamanager2_qfrule_date_{$rule_name}";
 
-            debug_add("form->registerRule('{$rule_name}', null, '{$rule_class}', '{$current_file}')");
-            $stat = $form->registerRule($rule_name, null, $rule_class, $current_file);
+            $stat = $form->registerRule($rule_name, null, $rule_class, __FILE__);
             if (is_a($stat, 'pear_error'))
             {
                 $msg = $stat->getMessage();
