@@ -398,7 +398,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $callback = Array(&$callback_object, 'execute');
 
             // Compute the field list.
-            if (array_key_exists('fields', $config))
+            if (!empty($config['fields']))
             {
                 $fields = $config['fields'];
                 if (is_string($fields))
@@ -407,11 +407,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 }
             }
             else
-            {
-                $fields = null;
-            }
-
-            if (! $fields)
             {
                 $fields = $this->_schema->field_order;
             }
