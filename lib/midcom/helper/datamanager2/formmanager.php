@@ -142,9 +142,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * @param string $name The name of the field for which we should load the widget.
      * @return boolean Indicating success
-     * @access protected
      */
-    function _load_widget($name, $initialize_dependencies = false)
+    private function _load_widget($name, $initialize_dependencies = false)
     {
         $config = $this->_schema->fields[$name];
         $classname = $config['widget'];
@@ -681,7 +680,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * This is called during the initialize code and will make the renderer
      * available immediately after startup.
      */
-    function _create_default_renderer()
+    private function _create_default_renderer()
     {
         $default = $this->_config->get('default_renderer');
         if ($default == 'none')

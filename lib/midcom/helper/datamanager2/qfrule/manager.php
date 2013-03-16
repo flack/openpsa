@@ -111,7 +111,6 @@ class midcom_helper_datamanager2_qfrule_manager
      *
      * @param midcom_helper_datamanager2_type $type
      * @param array $config
-     * @param midcom_helper_datamanager2_schema $schema The schema to use
      */
     public function add_type_rules(midcom_helper_datamanager2_type $type, array $config)
     {
@@ -134,7 +133,7 @@ class midcom_helper_datamanager2_qfrule_manager
                 // Match all other blobs types (those allow multiple uploads which are kind of hard to validate)
                 case (is_a($type, 'midcom_helper_datamanager2_type_blobs')):
                     // PONDER: How will you require-validate N uploads ?? (also see the point about existing files above)
-                    debug_add("types with multiple files cannot have required validation (field name: {$name})", MIDCOM_LOG_ERROR);
+                    debug_add("types with multiple files cannot have required validation (field name: {$type->name})", MIDCOM_LOG_ERROR);
                     break;
                 // Other types should be fine with the default string validation offered by 'required'
                 default:
@@ -145,15 +144,14 @@ class midcom_helper_datamanager2_qfrule_manager
 
         foreach ($config['validation'] as $rule)
         {
+            $message = $type->translate($rule['message']);
             switch ($rule['type'])
             {
                 case 'compare':
-                    $message = $type->translate($rule['message']);
                     $this->_form->addRule(array($rule['compare_with'], $type->name), $message, $rule['type'], $rule['format']);
                     break;
 
                 default:
-                    $message = $type->translate($rule['message']);
                     $this->_form->addRule($type->name, $message, $rule['type'], $rule['format']);
                     break;
             }
