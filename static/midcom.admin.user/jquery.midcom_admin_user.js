@@ -1,4 +1,3 @@
-var active = null;
 $(document).ready(function()
 {
     $('#midcom_admin_user_batch_process tbody tr td:first').addClass('first');
@@ -8,8 +7,12 @@ $(document).ready(function()
     $("#midcom_admin_user_batch_process tbody").on('change', 'input[type="checkbox"]', function()
     {
         $(this).closest('tr').toggleClass('row_selected', $(this).prop('checked'));
-        var all_selected = ($('#midcom_admin_user_batch_process tbody input[type="checkbox"]:not(":checked")').length === 0);
+        var all_selected = ($('#midcom_admin_user_batch_process tbody input[type="checkbox"]:not(":checked")').length === 0),
+        none_selected = ($('#midcom_admin_user_batch_process tbody input[type="checkbox"]:checked').length === 0);
         $('#select_all').prop('checked', all_selected);
+        $('#midcom_admin_user_action')
+            .prop('disabled', none_selected)
+            .trigger('change');
     });
 
     $('#invert_selection').on('click', function(event)
@@ -33,35 +36,36 @@ $(document).ready(function()
         {
             // Skip the write protected
             if (   !$(this).prop('disabled')
-                   && $(this).prop('checked') !== checked)
+                && $(this).prop('checked') !== checked)
             {
                 $(this).click();
             }
         });
     });
 
+    $('#midcom_admin_user_batch_process').submit(function()
+    {
+        var action = MIDCOM_PAGE_PREFIX + '__mfa/asgard_midcom.admin.user/batch/' + $('#midcom_admin_user_action').val() + '/';
+
+        if ($('#midcom_admin_user_search').val())
+        {
+            action += '?midcom_admin_user_search=' + $('#midcom_admin_user_search').val();
+        }
+        $(this).attr('action', action);
+        return true;
+    });
+
     // Change on the user action
     $('#midcom_admin_user_action').change(function()
     {
-        if (active)
-        {
-            $(active).hide();
-        }
-
         // On each change the passwords field has to go - otherwise it might
         // change secretly all the passwords of selected people
         $('#midcom_admin_user_action_passwords').remove();
-        $('#midcom_admin_user_batch_process').submit(function()
-        {
-            var action = MIDCOM_PAGE_PREFIX + '__mfa/asgard_midcom.admin.user/';
-            $(this).attr('action', action);
-        });
 
-        $(this).attr('value');
-        switch ($(this).attr('value'))
+        switch ($(this).val())
         {
             case 'passwords':
-                active = '#midcom_admin_user_action_passwords';
+                $('#midcom_admin_user_group').hide();
 
                 $('<div></div>')
                     .attr('id', 'midcom_admin_user_action_passwords')
@@ -69,32 +73,18 @@ $(document).ready(function()
 
                 // Load the form for outputting the style
                 date = new Date();
-                $('#midcom_admin_user_action_passwords').load(MIDCOM_PAGE_PREFIX + '__mfa/asgard_midcom.admin.user/password/batch/?ajax&timestamp=' + date.getTime());
+                $('#midcom_admin_user_action_passwords').load(MIDCOM_PAGE_PREFIX + '__mfa/asgard_midcom.admin.user/password/email/');
 
-                $('#midcom_admin_user_batch_process').submit(function()
-                {
-                    var action = MIDCOM_PAGE_PREFIX + '__mfa/asgard_midcom.admin.user/password/batch/?ajax';
-                    $(this).attr('action', action);
-                });
                 break;
 
             case 'groupadd':
                 $('#midcom_admin_user_group').css({display: 'inline'});
-                active = '#midcom_admin_user_group';
                 break;
-
-            default:
-                active = null;
-
-                // Return the original submit functionality
-                $('#midcom_admin_user_batch_process').submit(function()
-                {
-                    var action = MIDCOM_PAGE_PREFIX + '__mfa/asgard_midcom.admin.user/';
-                    $(this).attr('action', action);
-                    return true;
-                });
         }
+        $(this).nextAll('input[type="submit"]').prop('disabled', !$(this).val());
     });
+
+    $('#midcom_admin_user_batch_process table tbody input[type="checkbox"]:first').trigger('change');
 
     $('#midcom_admin_user_batch_process table').tablesorter(
     {

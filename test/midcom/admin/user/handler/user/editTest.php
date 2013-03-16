@@ -49,15 +49,5 @@ class midcom_admin_user_handler_user_editTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
-
-    public function testHandler_batch()
-    {
-        midcom::get('auth')->request_sudo('midcom.admin.user');
-
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midcom.admin.user', 'password', 'batch'));
-        $this->assertEquals('____mfa-asgard_midcom.admin.user-user_passwords_batch', $data['handler_id']);
-
-        midcom::get('auth')->drop_sudo();
-    }
 }
 ?>

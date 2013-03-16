@@ -1,14 +1,6 @@
 <?php
 if (count($data['persons']) > 0)
 {
-    if ($data['enabled'] == 0)
-    {
-        $disabled = ' disabled="disabled"';
-    }
-    else
-    {
-        $disabled = '';
-    }
     ?>
         </tbody>
         <tfoot>
@@ -25,7 +17,7 @@ if (count($data['persons']) > 0)
             <tr>
                 <td>&nbsp;</td>
                 <td colspan="<?php echo count($data['list_fields']); ?>">
-                    <select id="midcom_admin_user_action" name="midcom_admin_user_action"<?php echo $disabled; ?>>
+                    <select id="midcom_admin_user_action" name="midcom_admin_user_action">
                         <option value=""><?php echo $data['l10n']->get('choose action'); ?></option>
                         <?php
                         if ($data['config']->get('allow_manage_accounts'))
@@ -38,7 +30,7 @@ if (count($data['persons']) > 0)
                         <option value="groupadd"><?php echo $data['l10n']->get('add to group'); ?></option>
                         <option value="passwords"><?php echo $data['l10n']->get('generate new passwords'); ?></option>
                     </select>
-                    <select name="midcom_admin_user_group" id="midcom_admin_user_group" style="display: none;"<?php echo $disabled; ?>>
+                    <select name="midcom_admin_user_group" id="midcom_admin_user_group" style="display: none;">
                         <?php
                         foreach ($data['groups_for_select'] as $group)
                         {
@@ -67,7 +59,7 @@ if (count($data['persons']) > 0)
                         }
                         ?>
                     </select>
-                    <input type="submit" value="<?php echo $data['l10n']->get('apply to selected'); ?>"<?php echo $disabled; ?> />
+                    <input type="submit" value="<?php echo $data['l10n']->get('apply to selected'); ?>"/>
                 </td>
             </tr>
         </tfoot>

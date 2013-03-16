@@ -8,6 +8,27 @@
     'handler' => array('midcom_admin_user_handler_list', 'list'),
 ),
 /**
+ * Batch process users
+ *
+ * Match /user-editor/batch/action
+ */
+'user_batch' => array
+(
+    'handler' => array('midcom_admin_user_handler_list', 'batch'),
+    'fixed_args' => 'batch',
+    'variable_args' => 1,
+),
+/**
+ * Generate random passwords
+ *
+ * Match /user-editor/password/batch/
+ */
+'user_password_email' => array
+(
+    'handler' => array('midcom_admin_user_handler_list', 'password_email'),
+    'fixed_args' => array('password', 'email'),
+),
+/**
  * Edit a user
  *
  * Match /user-editor/edit/<guid>/
@@ -27,16 +48,6 @@
 (
     'handler' => array('midcom_admin_user_handler_user_edit', 'passwords'),
     'fixed_args' => 'password',
-),
-/**
- * Generate random passwords
- *
- * Match /user-editor/password/batch/
- */
-'user_passwords_batch' => array
-(
-    'handler' => array('midcom_admin_user_handler_user_edit', 'batch'),
-    'fixed_args' => array('password', 'batch'),
 ),
 /**
  * Edit a user's account

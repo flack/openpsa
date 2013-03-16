@@ -22,5 +22,15 @@ class midcom_admin_user_handler_listTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
+
+    public function testHandler_password_email()
+    {
+        midcom::get('auth')->request_sudo('midcom.admin.user');
+
+        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midcom.admin.user', 'password', 'email'));
+        $this->assertEquals('____mfa-asgard_midcom.admin.user-user_password_email', $data['handler_id']);
+
+        midcom::get('auth')->drop_sudo();
+    }
 }
 ?>

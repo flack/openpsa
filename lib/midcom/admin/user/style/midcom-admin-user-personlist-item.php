@@ -3,7 +3,7 @@
     $checked = '';
     if (isset($_POST['midcom_admin_user'])
         && is_array($_POST['midcom_admin_user'])
-        && in_array($data['person']->id, $_POST['midcom_admin_user']))
+        && in_array($data['person']->guid, $_POST['midcom_admin_user']))
     {
         $checked = ' checked="checked"';
     }
@@ -12,12 +12,8 @@
     {
         $checked .= ' disabled="disabled"';
     }
-    else
-    {
-        $data['enabled']++;
-    }
     ?>
-    <td><input type="checkbox" name="midcom_admin_user[]" value="<?php echo $data['person']->id; ?>" <?php echo $checked; ?>/></td>
+    <td><input type="checkbox" name="midcom_admin_user[]" value="<?php echo $data['person']->guid; ?>" <?php echo $checked; ?>/></td>
     <?php
     $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     $linked = 0;
