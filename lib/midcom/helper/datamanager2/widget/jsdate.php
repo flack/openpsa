@@ -211,7 +211,7 @@ EOT;
                 )
             ));
         }
-        $this->_form->addRule($this->name, $this->_translate('validation failed: date'), 'checkjsdate');
+        $this->_form->addRule($this->name . '_date', $this->_translate('validation failed: date'), 'checkjsdate');
     }
 
     /**

@@ -161,7 +161,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                 }
                 else
                 {
-                    $label = $this->formmanager->_schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
+                    $label = $this->datamanager->schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
                 }
 
                 midcom::get('uimessages')->add

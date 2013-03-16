@@ -172,7 +172,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *     to use.
      * @param string $name The name of the Schema to use. It must be a member in the
      *     specified schema database. If unspecified, the default schema is used.
-     * @see midcom_helper_misc::get_snippet_content()
      */
     public function __construct($schemadb, $name = null, $schemadb_path = null)
     {
@@ -196,7 +195,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @param mixed $schemadb Either the path or the already loaded schema database
      *     to use.
-     * @see midcom_helper_misc::get_snippet_content()
      */
     private function _load_schemadb($schemadb)
     {
@@ -345,6 +343,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @param mixed $schemadb    Path of the schemadb or raw schema array
      * @return array             Containing schemadb definitions
+     * @see midcom_helper_misc::get_snippet_content()
      */
     private function _load_schemadb_contents($schemadb)
     {
@@ -607,42 +606,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     }
 
     /**
-     * Schema translation helper, usable by components from the outside.
-     *
-     * The l10n db from the schema is used first, the Datamanager l10n db second and
-     * the MidCOM core l10n db last. If the string is not found in both databases,
-     * the string is returned unchanged.
-     *
-     * Note, that the string is translated to <i>lower case</i> before
-     * translation, as this is the usual form how strings are in the
-     * l10n database. (This is for backwards compatibility mainly.)
-     *
-     * @param string $string The string to be translated.
-     * @return string The translated string.
-     */
-    function translate_schema_string ($string)
-    {
-        $translate_string = strtolower($string);
-
-        if (   $this->l10n_schema !== null
-            && $this->l10n_schema->string_available($translate_string))
-        {
-            return $this->l10n_schema->get($translate_string);
-        }
-        else if ($this->_l10n->string_available($translate_string))
-        {
-            return $this->_l10n->get($translate_string);
-        }
-        else if ($this->_l10n_midcom->string_available($translate_string))
-        {
-            return $this->_l10n_midcom->get($translate_string);
-        }
-
-        return $string;
-    }
-
-
-    /**
      * Helper function which transforms a raw schema database (either already parsed or
      * based on a URL to a schemadb) into a list of schema class instances.
      *
@@ -685,10 +648,45 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
         foreach ($raw_db as $name => $raw_schema)
         {
-            $schemadb[$name] = new midcom_helper_datamanager2_schema($raw_db, $name, $path);
+            $schemadb[$name] = new static($raw_db, $name, $path);
         }
 
         return $schemadb;
+    }
+
+    /**
+     * Schema translation helper, usable by components from the outside.
+     *
+     * The l10n db from the schema is used first, the Datamanager l10n db second and
+     * the MidCOM core l10n db last. If the string is not found in both databases,
+     * the string is returned unchanged.
+     *
+     * Note, that the string is translated to <i>lower case</i> before
+     * translation, as this is the usual form how strings are in the
+     * l10n database. (This is for backwards compatibility mainly.)
+     *
+     * @param string $string The string to be translated.
+     * @return string The translated string.
+     */
+    public function translate_schema_string ($string)
+    {
+        $translate_string = strtolower($string);
+
+        if (   !empty($this->l10n_schema)
+            && $this->l10n_schema->string_available($translate_string))
+        {
+            return $this->l10n_schema->get($translate_string);
+        }
+        else if ($this->_l10n->string_available($translate_string))
+        {
+            return $this->_l10n->get($translate_string);
+        }
+        else if ($this->_l10n_midcom->string_available($translate_string))
+        {
+            return $this->_l10n_midcom->get($translate_string);
+        }
+
+        return $string;
     }
 
     /**

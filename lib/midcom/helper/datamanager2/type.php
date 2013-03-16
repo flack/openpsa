@@ -25,6 +25,8 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
 {
     /**
      * Reference to the datamanager instance this type belongs to
+     *
+     * @var midcom_helper_datamanager2_datamanager
      */
     protected $_datamanager = null;
 
@@ -88,9 +90,10 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @param string $name The name of the field to which this type is bound.
      * @param array $config The configuration data which should be used to customize the type.
      * @param midcom_helper_datamanager2_storage &$storage A reference to the storage object to use.
+     * @param midcom_helper_datamanager2_datamanager $datamanager The current DM2 instance
      * @return boolean Indicating success. If this is false, the type will be unusable.
      */
-    function initialize($name, $config, $storage, $datamanager)
+    function initialize($name, $config, $storage, midcom_helper_datamanager2_datamanager $datamanager)
     {
         $this->_datamanager = $datamanager;
         $this->name = $name;
@@ -268,6 +271,18 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     public function _on_validate()
     {
         return true;
+    }
+
+    /**
+     * This is a shortcut to the translate_schema_string function.
+     *
+     * @param string $string The string to be translated.
+     * @return string The translated string.
+     * @see midcom_helper_datamanager2_schema::translate_schema_string()
+     */
+    public function translate($string)
+    {
+        return $this->_datamanager->schema->translate_schema_string($string);
     }
 
     /**

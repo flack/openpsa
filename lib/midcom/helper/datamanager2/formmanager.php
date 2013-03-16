@@ -26,9 +26,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * This variable will always contain a parsed representation of the schema,
      * so that one can swiftly switch between individual schemas of the Database.
      *
-     * This member is initialized by-reference.
-     *
-     * @var Array
+     * @var midcom_helper_datamanager2_schema
      * @access protected
      */
     var $_schema = null;
@@ -171,23 +169,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         return true;
     }
 
-    function _load_type_qfrules($fieldname)
-    {
-        static $initialized = array();
-
-        $config = $this->_schema->fields[$fieldname];
-        $classname = "midcom_helper_datamanager2_qfrule_{$config['type']}";
-        if (!isset($initialized[$classname]))
-        {
-            // We have already initialized rules for this type
-            return;
-        }
-
-        $manager = new $classname();
-        $manager->register_rules($this->form);
-        $initialized[$classname] = true;
-    }
-
     /**
      * This function fully initializes the class for operation. This is not done during the
      * constructor call, to allow for full reference safety.
@@ -231,6 +212,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
     private function _create_form()
     {
+        $rulemanager = new midcom_helper_datamanager2_qfrule_manager($this->form, $this->_l10n);
         // iterate over all widgets so that they can add their piece to the form
         foreach ($this->_schema->field_order as $name)
         {
@@ -264,13 +246,17 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $this->widgets[$name]->set_state($this->state);
 
             //Load custom QF rules, so that they can be used in widgets' add_element_to_form calls
-            $this->_load_type_qfrules($name);
+            $rulemanager->load_type_rules($this->_schema->fields[$name]['type']);
             $attributes = array
             (
                 'helptext' => $this->_translate($config['helptext']),
             );
             $this->widgets[$name]->add_elements_to_form($attributes);
-            $this->_add_rules_and_filters($name, $config);
+            if (!$this->_check_freeze_status($name, $config))
+            {
+                // rules make only sense if an element is not frozen, e.g. editable by the user
+                $rulemanager->add_type_rules($this->_types[$name], $config);
+            }
 
             $this->_load_field_default($name, $config);
 
@@ -294,7 +280,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
 
         $this->_add_operation_buttons();
-        $this->_add_validation_rules();
+        $rulemanager->add_validation_rules($this->_schema->validation);
         $this->_add_filter_rules();
 
         // Translate the required note
@@ -353,7 +339,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     $label = "form submit: {$operation}";
                 }
                 $buttonname = "midcom_helper_datamanager2_{$operation}[{$key}]";
-                $buttonlabel = $this->_schema->translate_schema_string($label);
+                $buttonlabel = $this->_translate($label);
 
                 $class = 'submit '.$operation;
                 $accesskey = '';
@@ -372,35 +358,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
 
         $this->form->addGroup($buttons, 'form_toolbar', null, '&nbsp;', false);
-    }
-
-    /**
-     * Add form-wide validation rules
-     */
-    private function _add_validation_rules()
-    {
-        foreach ($this->_schema->validation as $config)
-        {
-            if (! is_callable($config['callback']))
-            {
-                // Try autoload:
-                if (array_key_exists('autoload_snippet', $config))
-                {
-                    midcom_helper_misc::include_snippet_php($config['autoload_snippet']);
-                }
-                if (array_key_exists('autoload_file', $config))
-                {
-                    require_once($config['autoload_file']);
-                }
-
-                if (! function_exists($config['callback']))
-                {
-                    debug_add("Failed to register the callback {$config['callback']} for validation, the function is not defined.", MIDCOM_LOG_CRIT);
-                    continue;
-                }
-            }
-            $this->form->addFormRule($config['callback']);
-        }
     }
 
     /**
@@ -674,14 +631,13 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     }
 
     /**
-     * This helper function adds all rules and filters which are deducible from the schema
-     * to the form. It recognizes the following schema options:
+     * Checks if widget is editable and sets freeze status accordingly
      *
-     * - required: Adds a required rule to the form, bound to the given element.
      * @param string $name The name of the widget.
      * @param array $config Widget configuration.
+     * @return True when widget is frozen, false otherwise
      */
-    function _add_rules_and_filters($name, $config)
+    private function _check_freeze_status($name, array $config)
     {
         $widget = $this->widgets[$name];
         if ($config['readonly'])
@@ -701,59 +657,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $widget->freeze();
             }
         }
-
-        if ($widget->is_frozen())
-        {
-            // We skip the rest, as these rules make only sense if an element is
-            // not frozen, e.g. editable by the user. It makes no sense having rules
-            // for read-only fields
-            return;
-        }
-
-        if ($config['required'])
-        {
-            $message = sprintf
-            (
-                $this->_l10n->get('field %s is required'),
-                $this->_schema->translate_schema_string($config['title'])
-            );
-            $type = $this->_types[$name];
-            switch (true)
-            {
-                // Match single image types (image & photo ATM)
-                case (   is_a($type, 'midcom_helper_datamanager2_type_image')
-                      && !is_a($type, 'midcom_helper_datamanager2_type_images')):
-                    // 'required' does not work for uploads -> use 'uploadedfile'
-                    // OTOH: Does this mean it requires new upload each time ?? TODO: Test
-                    $this->form->addRule("{$name}_file", $message, 'uploadedfile', '');
-                    break;
-                // Match all other blobs types (those allow multiple uploads which are kind of hard to validate)
-                case (is_a($type, 'midcom_helper_datamanager2_type_blobs')):
-                    // PONDER: How will you require-validate N uploads ?? (also see the point about existing files above)
-                    debug_add("types with multiple files cannot have required validation (field name: {$name})", MIDCOM_LOG_ERROR);
-                    break;
-                // Other types should be fine with the default string validation offered by 'required'
-                default:
-                    $this->form->addRule($name, $message, 'required', '');
-                    break;
-            }
-        }
-
-        foreach ($config['validation'] as $rule)
-        {
-            switch ($rule['type'])
-            {
-                case 'compare':
-                    $message = $this->_schema->translate_schema_string($rule['message']);
-                    $this->form->addRule(array($rule['compare_with'], $name), $message, $rule['type'], $rule['format']);
-                    break;
-
-                default:
-                    $message = $this->_schema->translate_schema_string($rule['message']);
-                    $this->form->addRule($name, $message, $rule['type'], $rule['format']);
-                    break;
-            }
-        }
+        return $widget->is_frozen();
     }
 
     /**

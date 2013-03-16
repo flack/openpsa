@@ -661,7 +661,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         $values = $this->combine_values();
         foreach ($values as $value)
         {
-            $values_localized[] = $this->_datamanager->schema->translate_schema_string($value);
+            $values_localized[] = $this->translate($value);
         }
         return implode($values_localized, ', ');
     }

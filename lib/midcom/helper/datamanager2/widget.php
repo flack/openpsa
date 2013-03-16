@@ -69,9 +69,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * This variable will always contain a parsed representation of the schema, so that
      * one can swiftly switch between individual schemas of the Database.
      *
-     * This member is initialized by-reference.
-     *
-     * @var Array
+     * @var midcom_helper_datamanager2_schema
      * @access protected
      */
     var $_schema = null;

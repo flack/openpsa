@@ -90,9 +90,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
 
         if ($this->value < $this->_datamanager->types[$this->later_than]->value)
         {
-
-            //And the award for most horrible API call goes to...
-            $earlier_field_label = $this->_datamanager->schema->translate_schema_string($this->_datamanager->schema->fields[$this->later_than]['title']);
+            $earlier_field_label = $this->translate($this->_datamanager->schema->fields[$this->later_than]['title']);
 
             $this->validation_error = sprintf($this->_l10n->get('type date: this date must be later than %s'), $earlier_field_label);
             return false;
