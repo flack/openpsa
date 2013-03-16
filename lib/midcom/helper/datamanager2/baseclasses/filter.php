@@ -20,25 +20,22 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
      * A reference to the Formmanager instance.
      *
      * @var midcom_helper_datamanager2_formmanager
-     * @access protected
      */
-    var $_formmanager = null;
+    protected $_formmanager = null;
 
     /**
      * Configuration as passed from the callback.
      *
      * @var mixed
-     * @access protected
      */
-    var $_config = null;
+    protected $_config = null;
 
     /**
      * The name of the schema field we are currently processing.
      *
      * @var string
-     * @access protected
      */
-    var $_fieldname = null;
+    protected $_fieldname = null;
 
     var $_lastfield = null;
 
