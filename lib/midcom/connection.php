@@ -211,19 +211,7 @@ class midcom_connection
                     break;
                 case 'Legacy':
                     // Midgard1 legacy auth
-                    $salt = '';
-                    if (null !== $username)
-                    {
-                        $mc = new midgard_collector('midgard_user', 'login', $username);
-                        $mc->set_key_property('password');
-                        $mc->add_constraint('authtype', '=', 'Legacy');
-                        $mc->execute();
-                        $keys = $mc->list_keys();
-                        if (count($keys) == 1)
-                        {
-                            $salt = substr(key($keys), 0, 2);
-                        }
-                    }
+                    $salt = self::_crypt_password($password, $username);
                     $password = crypt($password, $salt);
                     break;
                 case 'SHA1':
@@ -252,19 +240,8 @@ class midcom_connection
                     }
                     break;
                 case 'Legacy':
-                    /*
-                      It seems having nonprintable characters in the password breaks replication
-                      Here we recreate salt and hash until we have a combination where only
-                      printable characters exist
-                    */
-                    $crypted = false;
-                    while (   empty($crypted)
-                           || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
-                    {
-                        $salt = chr(rand(33, 125)) . chr(rand(33, 125));
-                        $crypted = crypt($password, $salt);
-                    }
-                    $password = $crypted;
+
+                    $password = self::_crypt_password($password);
                     unset($crypted);
                     break;
                 default:
@@ -273,6 +250,40 @@ class midcom_connection
         }
 
         return $password;
+    }
+
+    private static function _crypt_password($password, $username = null)
+    {
+        $crypted = false;
+
+        if (   null !== $username
+            && method_exists('midgard_user', 'login'))
+        {
+            $mc = new midgard_collector('midgard_user', 'login', $username);
+            $mc->set_key_property('password');
+            $mc->add_constraint('authtype', '=', 'Legacy');
+            $mc->execute();
+            $keys = $mc->list_keys();
+            if (count($keys) == 1)
+            {
+                $crypted = crypt($password, substr(key($keys), 0, 2));
+            }
+        }
+        if (!$crypted)
+        {
+            /*
+             It seems having nonprintable characters in the password breaks replication
+             Here we recreate salt and hash until we have a combination where only
+             printable characters exist
+             */
+            while (   empty($crypted)
+                   || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
+            {
+                $salt = chr(rand(33, 125)) . chr(rand(33, 125));
+                $crypted = crypt($password, $salt);
+            }
+        }
+        return $crypted;
     }
 
     public static function is_user($person)
