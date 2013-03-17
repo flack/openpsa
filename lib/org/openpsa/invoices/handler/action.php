@@ -354,32 +354,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     }
 
     /**
-     * Helper function to create invoice items from POST data
-     */
-    private function _create_invoice_items()
-    {
-        if (!array_key_exists('invoice_items_new', $_POST))
-        {
-            return;
-        }
-        foreach ($_POST['invoice_items_new'] as $item)
-        {
-            //check if needed properties are passed
-            if(    !empty($item['description'])
-                && !empty($item['price_per_unit'])
-                && !empty($item['units']))
-            {
-                $new_item = new org_openpsa_invoices_invoice_item_dba();
-                $new_item->invoice = $this->_object->id;
-                $new_item->description = $item['description'];
-                $new_item->pricePerUnit = (float) str_replace(',', '.', $item['price_per_unit']);
-                $new_item->units = (float) str_replace(',', '.', $item['units']);
-                $new_item->create();
-            }
-        }
-    }
-
-    /**
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */

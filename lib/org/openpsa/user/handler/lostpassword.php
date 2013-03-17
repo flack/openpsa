@@ -41,14 +41,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      *
      * @var string
      */
-    private $_processing_message;
+    private $_processing_msg;
 
     /**
      * The raw processing message
      *
      * @var string
      */
-    private $_processing_message_raw;
+    private $_processing_msg_raw;
 
     public function load_schemadb()
     {

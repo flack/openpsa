@@ -112,7 +112,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         return $topic;
     }
 
-    private function process_parameters(midcom_db_topic $topic, $parameters)
+    private function _process_parameters(midcom_db_topic $topic, $parameters)
     {
         // Remove parameters that are not in the topic
         $existing_params = $topic->list_parameters();

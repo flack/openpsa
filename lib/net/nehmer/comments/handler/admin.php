@@ -28,13 +28,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     private $_comments = null;
 
     /**
-     * A new comment just created for posting.
-     *
-     * @var net_nehmer_comments_comment
-     */
-    private $_new_comment = null;
-
-    /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID

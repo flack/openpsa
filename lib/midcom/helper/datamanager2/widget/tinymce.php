@@ -294,7 +294,7 @@ EOT;
     /**
      * Returns the "advanced" configuration
      */
-    function _get_advanced_configuration ()
+    private function _get_advanced_configuration ()
     {
         $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
@@ -317,7 +317,7 @@ EOT;
     /**
      * Returns the "tiny" configuration
      */
-    function _get_tiny_configuration ()
+    private function _get_tiny_configuration ()
     {
         $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT

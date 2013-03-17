@@ -28,20 +28,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_group = null;
 
-    /**
-     * The Controller of the organization used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));

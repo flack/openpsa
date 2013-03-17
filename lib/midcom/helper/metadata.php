@@ -111,13 +111,6 @@ class midcom_helper_metadata
     private $_datamanager = null;
 
     /**
-     * Translation array for the object
-     *
-     * @var array
-     */
-    private $_translations = null;
-
-    /**
      * This will construct a new metadata object for an existing content object.
      *
      * You must never use this constructor directly, it is considered private

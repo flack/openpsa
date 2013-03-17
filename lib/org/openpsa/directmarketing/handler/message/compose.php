@@ -47,14 +47,14 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     {
         midcom::get('auth')->request_sudo();
         //Load message
-        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($data['message']);
-        $data['message_obj'] =& $data['message'];
+        $this->_datamanager->autoset_storage($this->_message);
+        $data['message'] =& $this->_message;
         $data['message_dm'] =& $this->_datamanager;
 
         if ($handler_id === 'compose4person')
@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             {
                 $data['member'] = new org_openpsa_directmarketing_campaign_member_dba();
                 $data['member']->person = $data['person']->id;
-                $data['member']->campaign = $data['message']->campaign;
+                $data['member']->campaign = $this->_message->campaign;
             }
             else
             {
@@ -90,8 +90,8 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         }
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         midcom::get()->skip_page_style = true;
-        debug_add('message type: ' . $data['message_obj']->orgOpenpsaObtype);
-        switch ($data['message_obj']->orgOpenpsaObtype)
+        debug_add('message type: ' . $this->_message->orgOpenpsaObtype);
+        switch ($this->_message->orgOpenpsaObtype)
         {
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
@@ -118,7 +118,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             $this->_real_show_compose($handler_id, $data);
             $composed = ob_get_contents();
             ob_end_clean();
-            $personalized = $data['member']->personalize_message($composed, $data['message']->orgOpenpsaObtype, $data['person']);
+            $personalized = $data['member']->personalize_message($composed, $this->_message->orgOpenpsaObtype, $data['person']);
             echo $personalized;
             return;
         }

@@ -18,7 +18,7 @@ class org_openpsa_calendar_vcal
      *
      * @var string
      */
-    private $newline;
+    private $_newline;
 
     public function __construct($newline = "\r\n")
     {

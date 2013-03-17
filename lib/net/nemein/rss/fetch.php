@@ -28,11 +28,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     private $_feed;
 
     /**
-     * Timestamp, when was the latest item in the feed updated
-     */
-    private $_feed_updated;
-
-    /**
      * Property of midcom_db_article we're using for storing the feed item GUIDs
      */
     private $_guid_property = 'extra2';

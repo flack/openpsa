@@ -17,8 +17,6 @@
 class org_openpsa_invoices_handler_scheduled extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
-    private $_reports_url;
-
     private $_sales_url;
 
     /**

@@ -73,8 +73,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     private $_js_widget_options = array();
 
-    private $_input_element = null;
-
     /**
      * Class to search for
      *
