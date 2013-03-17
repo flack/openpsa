@@ -73,18 +73,18 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             case 'in-paged':
                 //Fall-trough intentional
             case 'in':
-                $this->_get_object_links_in($this->_links['incoming'], $this->_object);
+                $this->_get_object_links($this->_links['incoming'], $this->_object, true);
                 break;
             case 'out-paged':
                 //Fall-trough intentional
             case 'out':
-                $this->_get_object_links_out($this->_links['outgoing'], $this->_object);
+                $this->_get_object_links($this->_links['outgoing'], $this->_object, false);
                 break;
             case 'both-paged':
                 //Fall-trough intentional
             case 'both':
-                $this->_get_object_links_in($this->_links['incoming'], $this->_object);
-                $this->_get_object_links_out($this->_links['outgoing'], $this->_object);
+                $this->_get_object_links($this->_links['incoming'], $this->_object, true);
+                $this->_get_object_links($this->_links['outgoing'], $this->_object, false);
                 break;
             default:
                 throw new midcom_error('Mode ' . $this->_mode . ' not supported');
@@ -142,22 +142,29 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
 
     /**
-     * Default method for getting object's relatedtos (inbound ie toGuid == $obj->guid)
+     * Method for getting object's relatedtos
      *
-     * Components handlers may need to override this to account
-     * for specific object types and possible traversing of their children
+     * @param array &$arr
+     * @param midcom_core_dbaobject $obj
+     * @param boolean $inbound True means toGuid == $obj->guid, false fromGuid == $obj->guid
+     * @return boolean Indicating success
      */
-    private function _get_object_links_in(&$arr, $obj)
+    private function _get_object_links(array &$arr, midcom_core_dbaobject $obj, $inbound = true)
     {
-        if (   !is_object($obj)
-            || !is_array($arr))
+        if ($inbound)
         {
-            return false;
+            $object_prefix = 'from';
+            $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $obj->guid);
         }
-        $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $obj->guid);
-        $mc->add_value_property('fromGuid');
-        $mc->add_value_property('fromClass');
-        $mc->add_value_property('fromComponent');
+        else
+        {
+            $object_prefix = 'to';
+            $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $obj->guid);
+        }
+
+        $mc->add_value_property($object_prefix . 'Guid');
+        $mc->add_value_property($object_prefix . 'Class');
+        $mc->add_value_property($object_prefix . 'Component');
         $mc->add_value_property('status');
         $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $mc->execute();
@@ -174,71 +181,19 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $to_arr['link'] = array
             (
                 'guid' => $guid,
-                'component' => $mc->get_subkey($guid, 'fromComponent'),
-                'class' => $mc->get_subkey($guid, 'fromClass'),
+                'component' => $mc->get_subkey($guid, $object_prefix . 'Component'),
+                'class' => $mc->get_subkey($guid, $object_prefix . 'Class'),
                 'status' => $mc->get_subkey($guid, 'status')
             );
             try
             {
-                $to_arr['other_obj'] = midcom::get('dbfactory')->get_object_by_guid($mc->get_subkey($guid, 'fromGuid'));
+                $to_arr['other_obj'] = midcom::get('dbfactory')->get_object_by_guid($mc->get_subkey($guid, $object_prefix . 'Guid'));
             }
             catch (midcom_error $e)
             {
                 continue;
             }
 
-            $to_arr['sort_time'] = $this->_get_object_links_sort_time($to_arr['other_obj']);
-            $arr[] = $to_arr;
-        }
-        return true;
-    }
-
-    /**
-     * Default method for getting object's relatedtos (outbound ie fromGuid == $obj->guid)
-     *
-     * Components handlers may need to override this to account
-     * for specific object types and possible traversing of their children
-     */
-    private function _get_object_links_out(&$arr, $obj)
-    {
-        if (   !is_object($obj)
-            || !is_array($arr))
-        {
-            return false;
-        }
-        $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $obj->guid);
-        $mc->add_value_property('toGuid');
-        $mc->add_value_property('toClass');
-        $mc->add_value_property('toComponent');
-        $mc->add_value_property('status');
-        $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $mc->execute();
-        $links = $mc->list_keys();
-        if (!is_array($links))
-        {
-            return false;
-        }
-
-        foreach ($links as $guid => $link)
-        {
-            //TODO: check for duplicates ?
-            $to_arr = array('link' => false, 'other_obj' => false, 'sort_time' => false);
-
-            $to_arr['link'] = array
-            (
-                'guid' => $guid,
-                'component' => $mc->get_subkey($guid, 'toComponent'),
-                'class' => $mc->get_subkey($guid, 'toClass'),
-                'status' => $mc->get_subkey($guid, 'status')
-            );
-            try
-            {
-                $to_arr['other_obj'] = midcom::get('dbfactory')->get_object_by_guid($mc->get_subkey($guid, 'toGuid'));
-            }
-            catch (midcom_error $e)
-            {
-                continue;
-            }
             $to_arr['sort_time'] = $this->_get_object_links_sort_time($to_arr['other_obj']);
             $arr[] = $to_arr;
         }
