@@ -281,7 +281,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $this->_request_data['linked_objects'] = array();
                 $this->_request_data['linked_raw_objects'] = array();
 
-                foreach ($this->_request_data['entries'] as $entry)
+                foreach ($this->_request_data['entries'] as $i => $entry)
                 {
                     if (array_key_exists($entry->linkGuid, $this->_request_data['linked_objects']))
                     {
@@ -294,6 +294,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                     catch (midcom_error $e)
                     {
+                        unset($this->_request_data['entries'][$i]);
                         $e->log();
                         continue;
                     }
