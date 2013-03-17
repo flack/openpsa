@@ -16,7 +16,7 @@ $.widget( "custom.category_complete", $.ui.autocomplete,
     }
 });
 
-if (typeof JSON === 'undefined')
+if (JSON === undefined)
 {
     JSON =
     {
@@ -54,15 +54,51 @@ var midcom_helper_datamanager2_autocomplete =
     },
     query: function(request, response)
     {
-        var query_options_var = $('.ui-autocomplete-loading').attr('id').replace(/_search_input$/, '') + '_handler_options',
+        var identifier = $('.ui-autocomplete-loading').attr('id').replace(/_search_input$/, ''),
+        query_options_var = identifier + '_handler_options',
         query_options = window[query_options_var];
-        query_options.term = request.term;
+        query_options.term = request.term,
+        cache = $('.ui-autocomplete-loading').data('cache'),
+        term = request.term;
+
+        if (cache === undefined)
+        {
+            cache = {};
+        }
+        if (term in cache)
+        {
+            response(filter_existing(cache[term]));
+            return;
+        }
+
+        function filter_existing(data)
+        {
+            if ($('#' + identifier + '_selection_holder').length === 0)
+            {
+                return data;
+            }
+            var filtered = [];
+
+            $.each(data, function(index, element)
+            {
+                if ($('#' + identifier + '_selection_holder span.autocomplete-selected[data-id="' + element.id + '"]').length === 0)
+                {
+                    filtered.push(element);
+                }
+            });
+
+            return filtered
+        }
+
         $.ajax({
             url: query_options.handler_url,
             dataType: "json",
             data: query_options,
             success: function(data)
             {
+                cache[term] = data;
+                data = filter_existing(data);
+                $('.ui-autocomplete-loading').data('cache', cache);
                 response(data);
             },
             error: function(jqXHR, textStatus, errorThrown)
@@ -164,7 +200,13 @@ var midcom_helper_datamanager2_autocomplete =
     {
         var identifier = selector.replace(/_search_input$/, ''),
         handler_options = window[identifier + '_handler_options'],
-        options =  $.extend({minLength: min_length}, midcom_helper_datamanager2_autocomplete.get_default_options()),
+        dm2_defaults =
+        {
+            minLength: min_length,
+            //Don't change input field during keyboard navigation:
+            focus: function(event, ui){event.preventDefault();}
+        },
+        options =  $.extend(dm2_defaults, midcom_helper_datamanager2_autocomplete.get_default_options()),
         input = $('#' + selector),
         readonly = (input.attr('type') === 'hidden') ? true : false,
         selection_holder_class = 'autocomplete-selection-holder';
@@ -220,7 +262,7 @@ var midcom_helper_datamanager2_autocomplete =
                 }
                 else
                 {
-                    item.fadeOut('fast', function(){item.remove()});
+                    item.find('.autocomplete-item-label').animate({width: 0}, {duration: 200, complete: function(){item.remove();}});
                 }
             }
             else if (item.hasClass('autocomplete-todelete'))
@@ -332,13 +374,12 @@ var midcom_helper_datamanager2_autocomplete =
             default_value: ''
         },
         default_value = config.default_value || default_config.default_value,
-        helptext = config.helptext || default_config.helptext;
+        helptext = config.helptext || default_config.helptext,
+        widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" value="' + helptext + '" />';
 
+        widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />';
         autocomplete_options = $.extend({autoFocus: true}, midcom_helper_datamanager2_autocomplete.get_default_options(), autocomplete_options || {});
         window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
-
-        var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" value="' + helptext + '" />';
-        widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />';
 
         if (config.insertAfter !== undefined)
         {
