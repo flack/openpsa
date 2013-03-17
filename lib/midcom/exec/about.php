@@ -38,7 +38,7 @@ midcom::get('auth')->require_valid_user();
     <div id="container">
         <div id="branding">
         <div id="title"><h1>Midgard CMS</h1><h2><?php echo $title; ?></h2></div>
-        <div id="grouplogo"><a href="http://www.midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" alt="Midgard" title="Midgard" /></a></div>
+        <div id="grouplogo"><a href="http://www.midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.png" width="104" height="104" alt="Midgard" title="Midgard" /></a></div>
         </div>
         <div class="clear"></div>
         <div id="content">
