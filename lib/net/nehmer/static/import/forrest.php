@@ -208,14 +208,11 @@ class net_nehmer_static_import_forrest
 
     function list_files($path)
     {
-        $files = array();
         $directory = dir($path);
 
         $folder = new net_nehmer_static_import_forrest_folder();
         $folder->name = basename($path);
         $folder->title = ucfirst(basename($path));
-
-        $index = false;
 
         if (file_exists("{$path}/site.xml"))
         {

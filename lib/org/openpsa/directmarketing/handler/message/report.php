@@ -211,7 +211,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                     );
                     // On a second thought, we cannot query for empty parameter values...
                     $segment_data['rules'][$link->target]['comment'] = sprintf($this->_l10n->get('all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $segment, $link->target, $link->message, $this->_message->campaign);
-                    $segment_data['rules'][$link->target]['classes'][] = $segment;
+                    $segment_data['rules'][$link->target]['classes'][] = $segmentrule;
                 }
             }
         }

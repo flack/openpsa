@@ -503,7 +503,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         else if (array_key_exists("{$this->name}_rotate", $results))
         {
             // The direction is the key (since the value is the point clicked on the image input)
-            list ($direction, $dummy) = each($results["{$this->name}_rotate"]);
+            $direction = key($results["{$this->name}_rotate"]);
             if (! $this->_type->rotate($direction))
             {
                 debug_add("Failed to rotate image on the field {$this->name}.",

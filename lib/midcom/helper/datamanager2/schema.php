@@ -350,13 +350,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         if (is_string($schemadb))
         {
             $data = midcom_helper_misc::get_snippet_content($schemadb);
-            $result = eval ("\$contents = array ( {$data}\n );");
-            if ($result === false)
-            {
-                throw new midcom_error("Failed to parse the schema definition in '{$schemadb}', see above for PHP errors.");
-            }
-
-            return $contents;
+            return midcom_helper_misc::parse_config($data);
         }
         else if (is_array($schemadb))
         {

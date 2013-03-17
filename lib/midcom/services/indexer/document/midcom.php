@@ -100,10 +100,10 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 
                 case 'keywords':
                 case 'tags':
-                    $this->content .= $datamanager->types[$key]->convert_to_html() . "\n";
+                    $this->content .= $instance->convert_to_html() . "\n";
                     // Fall-through intentional
                 default:
-                    $this->add_text("META_{$key}", $datamanager->types[$key]->convert_to_html());
+                    $this->add_text("META_{$key}", $instance->convert_to_html());
                     break;
             }
         }

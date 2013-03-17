@@ -322,10 +322,6 @@ class midcom_core_context
         $prefix = $this->parser->get_url();
         $this->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
 
-        $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
-
-        $handler = midcom::get('componentloader')->get_interface_class($path);
-
         $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
 

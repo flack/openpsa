@@ -218,7 +218,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 $main_info = $this->_type->attachments_info['view'];
                 break;
             default:
-                list($main_key, $main_info) = each($this->_type->attachments_info);
+                $main_info = end($this->_type->attachments_info);
         }
 
         $static_html = $this->_get_preview_html($main_info);
@@ -417,7 +417,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         else if (array_key_exists("{$this->name}_rotate", $results))
         {
             // The direction is the key (since the value is the point clicked on the image input)
-            list ($direction, $dummy) = each($results["{$this->name}_rotate"]);
+            $direction = key($results["{$this->name}_rotate"]);
             if (! $this->_type->rotate($direction))
             {
                 debug_add("Failed to rotate image on the field {$this->name}.",

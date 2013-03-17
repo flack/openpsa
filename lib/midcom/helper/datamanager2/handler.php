@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_handler
 
         if (! $controller->initialize())
         {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for object {$object->guid}.");
+            throw new midcom_error("Failed to initialize a DM2 delete controller.");
         }
         return $controller;
     }

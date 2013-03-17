@@ -355,7 +355,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sd->name = $this->_request_data['name'];
             if (!$sd->create())
             {
-                throw new midcom_error("Failed to create snippetdir {$basedir}/{$data['name']}: " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create snippetdir {$basedir}/{$sd->name}: " . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
@@ -517,7 +517,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
-    private function _save_configuration($data)
+    private function _save_configuration(array &$data)
     {
         $config_array = $this->_get_config_from_controller($this->_controller);
 
@@ -539,7 +539,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // Get back to form
         }
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
+        if ($data['handler_id'] == '____mfa-asgard-components_configuration_edit_folder')
         {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);

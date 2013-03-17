@@ -301,9 +301,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $mail->from = $this->_config->get('message_sender');
         $mail->encoding = 'UTF-8';
 
-        // Success switch
-        $success = true;
-
         // Get the context prefix
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -313,7 +310,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         }
         catch (midcom_error $e)
         {
-            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $person->id), 'error');
             return;
         }
 

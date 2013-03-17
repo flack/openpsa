@@ -585,13 +585,7 @@ class midcom_services_i18n_l10n
         $found_strings = Array();
         foreach ($this->_stringdb as $stringtable)
         {
-            foreach ($stringtable as $string => $translation)
-            {
-                if (! array_key_exists($string, $found_strings))
-                {
-                    $found_strings[] = $string;
-                }
-            }
+            $found_strings = array_unique(array_merge($stringtable, $found_strings));
         }
         sort($found_strings, SORT_STRING);
         return $found_strings;

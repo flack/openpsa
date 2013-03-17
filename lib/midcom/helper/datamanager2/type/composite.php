@@ -316,7 +316,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
         }
 
         $object = $this->objects[$identifier];
-        if (! $object>delete())
+        if (! $object->delete())
         {
             debug_add("Failed to delete the object: DBA delete call returned false.", MIDCOM_LOG_INFO);
             return false;
@@ -338,11 +338,17 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
     {
         foreach ($this->objects as $identifier => $object)
         {
-            if (! $this->delete_object($identifier))
+            if (! $object->delete())
             {
+                debug_add("Failed to delete the object: DBA delete call returned false.", MIDCOM_LOG_INFO);
                 return false;
             }
+
+            unset($this->objects[$identifier]);
         }
+        // Notify parent of changes
+        $this->storage->object->update();
+
         return true;
     }
 

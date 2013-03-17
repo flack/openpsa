@@ -184,7 +184,7 @@ class org_openpsa_mail_message
     private function _process_attachments($attachments, $method)
     {
         reset($attachments);
-        while (list ($k, $att) = each ($attachments))
+        while ($att = next($attachments))
         {
             if (!isset($att['mimetype']) || $att['mimetype'] == null)
             {
@@ -248,7 +248,7 @@ class org_openpsa_mail_message
             debug_print_r("matches[0]", $matches);
             $cache = array();
             $newSubj = $subject;
-            while (list ($k, $char) = each ($matches[0]))
+            while ($char = next($matches[0]))
             {
                 $hex = str_pad(strtoupper(dechex(ord($char))), 2, '0', STR_PAD_LEFT);
                 if (isset($cache[$hex]))

@@ -39,7 +39,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
         {
             try
             {
-                $obj = midcom::get('dbfactory')->get_object_by_guid($param->name);
+                midcom::get('dbfactory')->get_object_by_guid($param->name);
             }
             catch (midcom_error $e)
             {

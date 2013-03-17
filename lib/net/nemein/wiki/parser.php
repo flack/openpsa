@@ -257,7 +257,6 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $fulltext = $match[1];
         $after = $match[2] or '';
         $wikilink = null;
-        $class = null;
 
         // See what kind of tag we have hit
         switch (true)
@@ -266,11 +265,11 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             case (preg_match("/[\(:\[]/", $after)):
                 // TODO: should by str match (array) instead
                 return $match[0];
-                break;
+
             // Escaped tag [!!text]
             case (preg_match("/^\!\!(.*)/", $fulltext, $parts)):
                 return "[{$parts[1]}]{$after}";
-                break;
+
             // MediaWiki-style link [wikipage|label]
             case (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)):
                 $text = $parts[2];
@@ -281,7 +280,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
                   && ($method = "_run_macro_{$macro_parts[1]}")
                   && method_exists($this, $method)):
                 return $this->$method($macro_parts[2], $match[0], $after);
-                break;
+
             // MediaWiki-style link [wikipage] (no text)
             // TODO: it is possible that this wasn't originally intended to be default, but the if/elseif tree was complex and this ended up being resolved as the last else
             default:

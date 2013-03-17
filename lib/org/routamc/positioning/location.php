@@ -75,15 +75,12 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
         $mc->set_key_property('parent');
         $mc->execute();
         $link_values = $mc->list_keys();
-        if (!$link_values)
+        if (empty($link_values))
         {
             return null;
         }
 
-        foreach ($link_values as $key => $value)
-        {
-            return $key;
-        }
+        return key($link_values);
     }
 
     /**

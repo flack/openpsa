@@ -189,8 +189,8 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
 
         //Finally, create members of each person matched by rule left
-        reset ($rule_persons);
-        foreach ($rule_persons as $id => $person)
+        $persons = array_keys($rule_persons);
+        foreach ($persons as $id)
         {
             debug_add("Creating new member (linked to person #{$id}) to campaign #{$this->id}");
             $member = new org_openpsa_directmarketing_campaign_member_dba();

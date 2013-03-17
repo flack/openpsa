@@ -172,8 +172,6 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public static function topic_links_to(&$data)
     {
-        $config =& $data['config'];
-
         switch ($data['config']->get('redirection_type'))
         {
             case 'node':

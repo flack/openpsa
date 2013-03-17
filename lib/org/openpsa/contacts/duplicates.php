@@ -29,6 +29,7 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Find duplicates for given org_openpsa_contacts_person_dba object
+     *
      * @param org_openpsa_contacts_person_dba $person object (does not need id)
      * @return array array of possible duplicates
      */

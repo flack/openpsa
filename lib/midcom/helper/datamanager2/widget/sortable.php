@@ -216,22 +216,13 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
      */
     function sync_type_with_widget($results)
     {
-        $temp = array();
-
-        asort($results["{$this->name}_order"]);
-
-        foreach ($results["{$this->name}_order"] as $key => $value)
+        $this->_type->selection = array();
+        if (empty($results[$this->name]))
         {
-            if (   !isset($results[$this->name])
-                || !in_array($key, $results[$this->name]))
-            {
-                continue;
-            }
-
-            $temp[] = $key;
+            return;
         }
-
-        $this->_type->selection = $temp;
+        $this->_type->selection = array_intersect(array_keys($results["{$this->name}_order"], $results[$this->name]));
+        sort($this->_type->selection);
     }
 }
 ?>

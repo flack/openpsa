@@ -41,15 +41,11 @@ class midcom_db_parameter extends midcom_core_dbaobject
         $mc->set_key_property('parentguid');
         $mc->execute();
         $link_values = $mc->list_keys();
-        if (!$link_values)
+        if (empty($link_values))
         {
             return null;
         }
-
-        foreach ($link_values as $key => $value)
-        {
-            return $key;
-        }
+        return key($link_values);
     }
 
     /**

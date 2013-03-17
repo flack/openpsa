@@ -62,12 +62,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     private function _prepare_qb()
     {
-        $qb = @call_user_func(array($this->_request['class'], 'new_query_builder'));
-        if (! $qb)
-        {
-            debug_add("use midgard_query_builder");
-            $qb = new midgard_query_builder($class);
-        }
+        $qb = call_user_func(array($this->_request['class'], 'new_query_builder'));
 
         if (   !empty($this->_request['constraints'])
             && is_array($this->_request['constraints']))

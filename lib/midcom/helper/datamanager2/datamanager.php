@@ -539,7 +539,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 {
                     $fieldsets = $config['start_fieldset'];
                 }
-                foreach ($fieldsets as $key => $fieldset)
+                foreach ($fieldsets as $fieldset)
                 {
                     if (isset($fieldset['css_group']))
                     {

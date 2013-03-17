@@ -497,7 +497,6 @@ class midcom_helper__componentloader
         $directories = array();
         $manifests = array();
         exec('find ' . MIDCOM_ROOT . ' -follow -type d -name "config"', $directories);
-        $code = "";
         foreach ($directories as $directory)
         {
             $filename = "{$directory}/manifest.inc";

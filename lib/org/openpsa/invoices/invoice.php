@@ -157,14 +157,14 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             $hour->invoice = 0;
             $hour->_skip_parent_refresh = true;
-            $tasks_to_update[$hour->task] = true;
+            $tasks_to_update[] = $hour->task;
             if (!$hour->update())
             {
                 debug_add("Failed to remove invoice hour record {$hour->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 
-        foreach ($tasks_to_update as $id => $boolean)
+        foreach (array_unique($tasks_to_update) as $id)
         {
             try
             {

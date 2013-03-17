@@ -218,6 +218,11 @@ class midcom_helper_imagefilter
         return true;
     }
 
+    public function get_file()
+    {
+        return $this->_filename;
+    }
+
     /**
      * This function will process a string-based filter chain.
      *

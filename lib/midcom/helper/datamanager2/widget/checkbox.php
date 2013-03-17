@@ -89,7 +89,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
         {
             foreach ($this->jsevents as $event => $action)
             {
-                $attr[$event] = $action;
+                $attributes[$event] = $action;
             }
         }
 

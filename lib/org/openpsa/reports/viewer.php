@@ -178,7 +178,6 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             'org.openpsa.projects' => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
             'org.openpsa.sales' => midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'),
             'org.openpsa.invoices' => midcom::get('i18n')->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
-            //'org.openpsa.directmarketing' => midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.reports'),
         );
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -188,7 +187,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             $node_guid = $siteconfig->get_node_guid($component);
             try
             {
-                $topic = midcom_db_topic::get_cached($node_guid);
+                midcom_db_topic::get_cached($node_guid);
                 $this->_available_generators[$component] = $loc;
             }
             catch (midcom_error $e)

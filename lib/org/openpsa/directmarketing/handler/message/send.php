@@ -49,7 +49,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         {
             throw new midcom_error('Job GUID missing');
         }
-        $job = new midcom_services_at_entry_dba($args[2]);
+        midcom_services_at_entry_dba::get_cached($args[2]);
 
         ignore_user_abort();
         midcom::get()->skip_page_style = true;

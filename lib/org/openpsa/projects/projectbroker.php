@@ -43,7 +43,7 @@ class org_openpsa_projects_projectbroker
         }
         $tags = array();
         // Resolve tasks tags (with contexts) into single array of tags without contexts
-        foreach ($tag_map as $tagname => $url)
+        foreach (array_keys($tag_map) as $tagname)
         {
             $tag = net_nemein_tag_handler::resolve_tagname($tagname);
             $tags[$tag] = $tag;

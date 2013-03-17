@@ -110,11 +110,10 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     /**
      * Sort the reports by task and day
      */
-    private function _get_sorted_reports($hours_mc)
+    private function _get_sorted_reports(midcom_core_collector $hours_mc)
     {
         $reports = array();
         $hours = $hours_mc->list_keys();
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($hours as $guid => $empty)
         {

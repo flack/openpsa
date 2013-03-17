@@ -22,10 +22,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      */
     public function _handler_search_redirect($handler_id, array $args, array &$data)
     {
-        foreach ($data['schemadb_product'] as $name => $schema)
-        {
-            return new midcom_response_relocate("search/{$name}/");
-        }
+        return new midcom_response_relocate('search/' . key($data['schemadb_product']) . '/');
     }
 
     private function _validate_operator($operator)

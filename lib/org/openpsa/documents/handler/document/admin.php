@@ -147,19 +147,16 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     private function _backup_attachment()
     {
         // First, look at post data (from in-form replace/delete buttons)
-        if (array_key_exists('document', $_POST))
+        if (!empty($_POST['document']))
         {
-            if (sizeof($_POST['document']) > 0)
+            foreach ($_POST['document'] as $key => $value)
             {
-                foreach ($_POST['document'] as $key => $value)
+                if (    strpos($key, '_delete')
+                    || (    strpos($key, '_upload')
+                        && !strpos($key, 'new_upload')))
                 {
-                    if (    strpos($key, '_delete')
-                        || (strpos($key, '_upload')
-                            && !strpos($key, 'new_upload')))
-                    {
-                        $this->_document->backup_version();
-                        return;
-                    }
+                    $this->_document->backup_version();
+                    return;
                 }
             }
         }

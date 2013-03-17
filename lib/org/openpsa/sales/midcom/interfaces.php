@@ -120,7 +120,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             $to_array = array('other_obj' => false, 'link' => false);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
-            $to_array['other_obj'] = $salespoject;
+            $to_array['other_obj'] = $salesproject;
             $to_array['link'] = $link;
 
             $links_array[] = $to_array;

@@ -256,7 +256,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             //Exact matche(s) found, return first
             return $results[0];
         }
-        list ($user, $domain) = explode('@', $email, 2);
+        $domain = preg_replace('/^.+?@(.*)$/', '$1', $email);
         $qb = midcom_db_group::new_query_builder();
         $qb->add_constraint('email', 'LIKE', "%@{$domain}");
         $results = $qb->execute();

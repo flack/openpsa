@@ -268,14 +268,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function list_history_numeric()
     {
         $revs = $this->list_history();
-        $i = 0;
-        $revisions = array();
-        foreach ($revs as $id => $desc)
-        {
-            $revisions[$i] = $id;
-            $i++;
-        }
-        return $revisions;
+        return array_keys($revs);
     }
 
     /**
@@ -492,7 +485,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_create(midcom_core_dbaobject $object, $description)
     {
-        $output = null;
         $status = null;
 
         $data = $this->rcs_object2data($object);

@@ -306,7 +306,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     public function calculate_cycle_next($time)
     {
-        $offset = '';
         switch ($this->_deliverable->unit)
         {
             case 'd':

@@ -96,12 +96,10 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         $qb->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $qb->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         //Each event participant is either manager or member (resource/contact) in task
-        foreach ($object->participants as $pid => $bool)
+        if (!empty($object->participants))
         {
-            $qb->begin_group('OR');
-                $qb->add_constraint('task.manager', '=', $pid);
-                $qb->add_constraint('person', '=', $pid);
-            $qb->end_group();
+            $qb->add_constraint('task.manager', 'IN', array_keys($object->participants));
+            $qb->add_constraint('person', 'IN', array_keys($object->participants));
         }
         $qbret = @$qb->execute();
         if (!is_array($qbret))

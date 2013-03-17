@@ -36,7 +36,7 @@
  *
  * Any configuration key in the local configuration, which is not present in the
  * global "template", will be logged as a warning. This should normally not happen.
- * Originally, this case threw a critical error, but that made upgrading 
+ * Originally, this case threw a critical error, but that made upgrading
  * configurations quite difficult.
  *
  * @package midcom.helper
@@ -187,12 +187,10 @@ class midcom_helper_configuration
         if (   !empty($array)
             && is_array($array))
         {
-            foreach ($array as $key => $value)
+            $diff = array_keys(array_diff_key($array, $this->_global));
+            foreach (diff as $key)
             {
-                if (! array_key_exists($key, $this->_global))
-                {
-                    debug_add("The key {$key} is not present in the global configuration array.", MIDCOM_LOG_INFO);
-                }
+                debug_add("The key {$key} is not present in the global configuration array.", MIDCOM_LOG_INFO);
             }
         }
     }

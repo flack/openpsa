@@ -36,7 +36,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         {
             try
             {
-                $node = new midcom_db_topic($feed->node);
+                midcom_db_topic::get_cached($feed->node);
             }
             catch (midcom_error $e)
             {

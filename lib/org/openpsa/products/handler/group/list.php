@@ -568,7 +568,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             midcom_show_style('group_header');
 
-            $products_counter = 0;
             $data['products_count'] = count($data['products']);
 
             midcom_show_style('group_products_grid');

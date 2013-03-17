@@ -99,7 +99,7 @@ class org_openpsa_directmarketing_sender_backend_sms implements org_openpsa_dire
         $person->handphone = $this->_normalize_phone($person->handphone);
 
         //TODO: Add sender support
-        $status = $this->_smsbroker->send_sms($person->handphone, $content_p, $from);
+        $status = $this->_smsbroker->send_sms($person->handphone, $content, $from);
 
         if ($status)
         {

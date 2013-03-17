@@ -79,7 +79,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         }
         else
         {
-            $mc = net_nehmer_blog_link_dba::new_collector('topic', $topic_id);
+            $mc = net_nehmer_blog_link_dba::new_collector('topic', $this->_content_topic->id);
             $links = $mc->get_values('article');
             $qb->begin_group('OR');
             if (count($links) > 0)

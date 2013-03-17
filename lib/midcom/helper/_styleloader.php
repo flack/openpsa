@@ -541,7 +541,7 @@ class midcom_helper__styleloader
         {
             // Note that src detection will be semi-reliable, as it depends on all errors being
             // found before caching kicks in.
-            throw new midcom_error("Failed to parse style element '{$path}', content was loaded from '{$src}', see above for PHP errors.");
+            throw new midcom_error("Failed to parse style element '{$path}', content was loaded from '{$_style}', see above for PHP errors.");
         }
     }
 
@@ -882,7 +882,7 @@ class midcom_helper__styleloader
         $mc->add_constraint('mimetype', '=', 'text/css');
         $attachments = $mc->get_values('name');
 
-        foreach ($attachments as $filename)
+        foreach ($attachments as $guid => $filename)
         {
             // TODO: Support media types
             midcom::get('head')->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");

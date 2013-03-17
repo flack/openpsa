@@ -439,10 +439,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             // Process those hCard values that are interesting for us
             foreach ($data['hcards'] as $hcard)
             {
-                foreach ($hcard as $key => $val)
-                {
-                    $person = $this->_update_from_hcard($person, $hcard);
-                }
+                $person = $this->_update_from_hcard($person, $hcard);
             }
 
             $person->update();

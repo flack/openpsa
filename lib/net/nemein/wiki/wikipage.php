@@ -108,14 +108,9 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // Check links in content versus matched links to see what needs to be added
-        foreach ($links_in_content as $wikilink => $label)
+        $links_in_content = array_keys(array_diff_key($links_in_content, $links_matched));
+        foreach ($links_in_content as $wikilink)
         {
-            if (array_key_exists($wikilink, $links_matched))
-            {
-                // This is already in DB, skip
-                continue;
-            }
-
             $link = new net_nemein_wiki_link_dba();
             $link->frompage = $this->id;
             $link->topage = $wikilink;

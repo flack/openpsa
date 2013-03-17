@@ -29,10 +29,9 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
     public static function find_links_object($object, $defaults = false)
     {
         $ret = array();
-        //Copied on purpose TODO: when upgrading to PHP5 make sure this is passed as copy
-        $manifests = midcom::get('componentloader')->manifests;
+        $components = array_keys(midcom::get('componentloader')->manifests);
         //Check all installed components
-        foreach ($manifests as $component => $manifest)
+        foreach ($components as $component)
         {
             if ($component == 'midcom')
             {
@@ -51,7 +50,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
 
         return $ret;
     }
-
 
     /**
      * Query all specific component for objects related to given object

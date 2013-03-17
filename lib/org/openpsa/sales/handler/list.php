@@ -72,7 +72,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 
         $this->_salesprojects = $qb->execute();
 
-        foreach ($this->_salesprojects as $key => $salesproject)
+        foreach ($this->_salesprojects as $salesproject)
         {
             // Populate previous/next actions in the project
             $salesproject->get_actions();

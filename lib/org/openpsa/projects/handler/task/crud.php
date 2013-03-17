@@ -258,7 +258,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _update_breadcrumb($handler_id)
     {
-        $tmp = array();
         if ($this->_object)
         {
             org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
@@ -329,32 +328,22 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             'suspected' => array(),
         );
         $mc = new org_openpsa_relatedto_collector($this->_object->guid, 'org_openpsa_calendar_event_dba');
-        $mc->add_value_property('status');
-        $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        // TODO: fromClass too?
-        $mc->execute();
+        $events = $mc->get_related_objects_grouped_by('status');
 
-        $relations = $mc->list_keys();
-        foreach ($relations as $guid => $empty)
+        foreach ($events as $status => $list)
         {
-            try
+            if ($status == org_openpsa_relatedto_dba::CONFIRMED)
             {
-                $booking = new org_openpsa_calendar_event_dba($mc->get_subkey($guid, 'fromGuid'));
-            }
-            catch (midcom_error $e)
-            {
-                continue;
-            }
-
-            if ($mc->get_subkey($guid, 'status') == org_openpsa_relatedto_dba::CONFIRMED)
-            {
-                $bookings['confirmed'][] = $booking;
-                $task_booked_time += ($booking->end - $booking->start) / 3600;
+                $bookings['confirmed'] = $list;
             }
             else
             {
-                $bookings['suspected'][] = $booking;
+                $bookings['suspected'] = $list;
             }
+        }
+        foreach ($bookings['confirmed'] as $booking)
+        {
+            $task_booked_time += ($booking->end - $booking->start) / 3600;
         }
 
         usort($bookings['confirmed'], array('self', '_sort_by_time'));

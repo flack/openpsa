@@ -179,8 +179,6 @@ class midcom_helper_misc
      */
     public static function include_element($name)
     {
-        static $style = null;
-
         if (is_array($name))
         {
             $element = $name[1];

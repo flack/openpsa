@@ -116,11 +116,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
         echo "ERROR ({$class}): {$message}\n";
         if (!is_null($var))
         {
-            ob_start();
             print_r($var);
-            $varstring = ob_get_contents();
-            ob_end_clean();
-            echo $var . "\n";
         }
     }
 }

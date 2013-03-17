@@ -84,7 +84,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         {
             $data['category'] = trim(strip_tags($args[0]));
 
-            if (!$constraint = $this->_process_category_constraint($qb))
+            if (!$this->_process_category_constraint($qb))
             {
                 throw new midcom_error('Failed to process category constraint');
             }

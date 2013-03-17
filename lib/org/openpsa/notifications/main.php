@@ -182,6 +182,10 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                         'options' => $notifiers,
                     ),
                 );
+                if (!empty($settings['default']))
+                {
+                    $field_config['default'] = $settings['default'];
+                }
                 if ($i == 0)
                 {
                     $field_config['start_fieldset'] = array

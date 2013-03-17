@@ -160,7 +160,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
                 debug_add("Attachment entry '{$item}' is broken!", MIDCOM_LOG_ERROR);
                 continue;
             }
-            $identifier = $info[0];
             $guid = $info[1];
 
             try
@@ -281,7 +280,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
                 {
                     if ($name == 'identifier')
                     {
-                        $value = $identifier = md5(time() . $backup_attachment->name);
+                        $value = md5(time() . $backup_attachment->name);
                     }
                     $backup->set_parameter($domain, $name, $value);
                 }

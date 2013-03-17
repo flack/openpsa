@@ -149,7 +149,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
     {
         preg_match('/HTTP\/[0-9.]+\s([0-9]+)\s(.*)/', $headers[0], $matches_hdr);
         $code = $matches_hdr[1];
-        $string = $matches_hdr[2];
         switch ((int)$code)
         {
             case 200:

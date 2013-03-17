@@ -137,7 +137,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         $tmp_file = midcom::get('config')->get('midcom_tempdir') . "/". $invoice->number . ".pdf";
 
         // render pdf to tmp filename
-        $render = $pdf_builder->render($tmp_file);
+        $pdf_builder->render($tmp_file);
 
         // cleanup old attachments
         $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");

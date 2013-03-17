@@ -58,7 +58,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product_group->id);
-                $results = $qb_intree->execute();
 
                 if ($qb_intree->count() > 0)
                 {
@@ -113,7 +112,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product->productGroup);
-                $results = $qb_intree->execute();
 
                 if ($qb_intree->count() > 0)
                 {
@@ -175,7 +173,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $productlink->productGroup);
-                $results = $qb_intree->execute();
 
                 if ($qb_intree->count() > 0)
                 {

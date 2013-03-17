@@ -280,7 +280,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             // Close "Send invoice" task
             foreach ($tasks as $task)
             {
-                if (org_openpsa_projects_workflow::complete($task) && !isset($args["no_redirect"]))
+                if (org_openpsa_projects_workflow::complete($task))
                 {
                     midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
                 }

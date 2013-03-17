@@ -18,7 +18,7 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
         try
         {
             $event = new org_openpsa_projects_hour_report_dba($guid);
-            return "hours/edit/{$guid}/";
+            return "hours/edit/{$event->guid}/";
         }
         catch (midcom_error $e)
         {

@@ -54,7 +54,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             $this->_include_guid = true;
         }
 
-        foreach ($members as $k => $member)
+        foreach ($members as $member)
         {
             if ($row = $this->_process_member($member))
             {

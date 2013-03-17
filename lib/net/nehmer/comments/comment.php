@@ -325,7 +325,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
         // Set the status
         $this->status = net_nehmer_comments_comment::MODERATED;
-        $updated = $this->update();
 
         if ($this->update())
         {

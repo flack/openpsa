@@ -87,28 +87,22 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
 
         foreach ($matches as $city_entry)
         {
-            $city_coordinates = array
+            $results[] = array
             (
-                'latitude'  => $city_entry->latitude,
+                'latitude' => $city_entry->latitude,
                 'longitude' => $city_entry->longitude,
+                'distance' => array
+                (
+                    'meters' => 0,
+                    'bearing' => null,
+                ),
+                'city' => $city_entry->city,
+                'region' => $city_entry->region,
+                'country' => $city_entry->country,
+                'postalcode' => null,
+                'alternate_names' => $city_entry->alternatenames,
+                'accuracy' => ORG_ROUTAMC_POSITIONING_ACCURACY_CITY
             );
-
-            $position = array();
-            $position['latitude' ] = $city_entry->latitude;
-            $position['longitude' ] = $city_entry->longitude;
-            $position['distance'] = array
-            (
-                'meters' => 0,
-                'bearing' => null,
-            );
-            $position['city' ] = $city_entry->city;
-            $position['region' ] = $city_entry->region;
-            $position['country' ] = $city_entry->country;
-            $position['postalcode' ] = null;
-            $position['alternate_names'] = $city_entry->alternatenames;
-            $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
-
-            $results[] = $position;
         }
 
         return $results;

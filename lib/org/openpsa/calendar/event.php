@@ -407,7 +407,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
             foreach ($this->_get_participants() as $res_object)
             {
-                debug_add("Notifying participant #{$id}");
+                debug_add("Notifying participant #{$res_object->id}");
                 $res_object->notify($message_type, $this);
             }
 

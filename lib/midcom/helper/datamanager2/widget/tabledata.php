@@ -339,15 +339,13 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
      */
     function sync_type_with_widget($results)
     {
-        if (isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'])
-            && isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name]))
+        if (!empty($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name]))
         {
             $this->_type->_storage_data = $_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name];
         }
 
         // Deleted rows
-        if (isset($_REQUEST['___midcom_helper_datamanager2_type_tabledata'])
-            && isset($_REQUEST['___midcom_helper_datamanager2_type_tabledata'][$this->name])
+        if (   !empty($_REQUEST['___midcom_helper_datamanager2_type_tabledata'][$this->name])
             && is_array($_REQUEST['___midcom_helper_datamanager2_type_tabledata'][$this->name]))
         {
             foreach ($_REQUEST['___midcom_helper_datamanager2_type_tabledata'][$this->name] as $row => $columns)
@@ -360,8 +358,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         }
 
         if ($this->_type->sortable_rows
-            && isset($_REQUEST['midcom_helper_datamanager2_sortable'])
-            && isset($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name]))
+            && !empty($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name]))
         {
             foreach ($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name] as $row_name)
             {
@@ -369,9 +366,8 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             }
         }
 
-        if ($this->_type->sortable_columns
-            && isset($_REQUEST['midcom_helper_datamanager2_sortable_column'])
-            && isset($_REQUEST['midcom_helper_datamanager2_sortable_column'][$this->name]))
+        if (   $this->_type->sortable_columns
+            && !empty($_REQUEST['midcom_helper_datamanager2_sortable_column'][$this->name]))
         {
             foreach ($_REQUEST['midcom_helper_datamanager2_sortable_column'][$this->name] as $key => $column_name)
             {
@@ -379,8 +375,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             }
         }
 
-        if (isset($_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'])
-            && isset($_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'][$this->name]))
+        if (!empty($_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'][$this->name]))
         {
             $this->_type->_remove_columns = $_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'][$this->name];
         }

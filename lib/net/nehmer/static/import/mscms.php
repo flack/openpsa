@@ -142,14 +142,11 @@ class net_nehmer_static_import_mscms
 
     function list_files($path)
     {
-        $files = array();
         $directory = dir($path);
 
         $folder = new net_nehmer_static_import_mscms_folder();
         $folder->name = basename($path);
         $folder->title = ucfirst(basename($path));
-
-        $index = false;
 
         if (file_exists("{$path}/site.xml"))
         {

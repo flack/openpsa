@@ -70,10 +70,9 @@ class org_openpsa_contacts_duplicates_merge
                 break;
         }
 
-        //Copied on purpose TODO: when upgrading to PHP5 make sure this is passed as copy
-        $manifests = midcom::get('componentloader')->manifests;
+        $components = array_keys(midcom::get('componentloader')->manifests);
         //Check all installed components
-        foreach ($manifests as $component => $manifest)
+        foreach ($components as $component)
         {
             if ($component == 'midcom')
             {

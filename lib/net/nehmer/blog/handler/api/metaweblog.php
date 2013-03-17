@@ -215,9 +215,8 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
         midcom::get('auth')->initialize();
 
-        $article = $this->_create_article($new_title);
-        if (   !$article
-            || !$article->guid)
+        $article = $this->_create_article($args[3]['title']);
+        if (empty($article->guid))
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to create article: ' . midcom_connection::get_error_string());
         }

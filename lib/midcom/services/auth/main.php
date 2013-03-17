@@ -952,13 +952,12 @@ class midcom_services_auth
      */
     function get_group($id)
     {
-        $group = false;
         if (   is_object($id)
             && (   is_a($id, 'midcom_db_group')
                 || is_a($id, 'midgard_group')))
         {
             $object = $id;
-            $id = "group:{$id->guid}";
+            $id = "group:{$object->guid}";
             if (! array_key_exists($id, $this->_group_cache))
             {
                 $this->_group_cache[$id] = new midcom_core_group($object->id);

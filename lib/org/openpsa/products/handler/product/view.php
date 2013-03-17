@@ -251,10 +251,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                         $results = $mc_intree->list_keys();
                         if (count($results) > 0)
                         {
-                            foreach ($results as $guid => $array)
-                            {
-                                $this->_request_data['is_linked_from'] = $guid;
-                            }
+                            $this->_request_data['is_linked_from'] = key($results);
                         }
                     }
                 }

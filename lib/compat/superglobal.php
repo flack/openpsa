@@ -148,7 +148,7 @@ class midcom_compat_superglobal
         // TODO: This should be made aware of the cache headers strategy for content cache module
         if ($expire > 0)
         {
-            $midcom->header("Cache-Control: public max-age=$expires");
+            $midcom->header("Cache-Control: public max-age=$expire");
             $midcom->header("Expires: " . gmdate("D, d M Y H:i:s", (time()+$expire)) . " GMT" );
             midcom::get('cache')->content->expires(time()+$expire);
         }

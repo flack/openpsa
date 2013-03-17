@@ -200,7 +200,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         try
         {
             $event = new org_openpsa_calendar_event_dba($guid);
-            return "event/{$guid}/";
+            return "event/{$event->guid}/";
         }
         catch (midcom_error $e)
         {

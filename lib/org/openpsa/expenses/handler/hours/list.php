@@ -123,7 +123,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 'reports' => array(),
             ),
         );
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($hours as $report)
         {

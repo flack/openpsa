@@ -37,7 +37,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
         ob_start();
         midcom::get()->dynamic_load($batch_url);
-        $output = ob_get_contents();
         ob_end_clean();
 
         midcom::get('auth')->drop_sudo();
@@ -219,7 +218,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         foreach ($classes as $class)
         {
             // TODO: 1.8 metadata format support
-            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
+            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, array());
             if (!$ret)
             {
                 // Failure updating metadata

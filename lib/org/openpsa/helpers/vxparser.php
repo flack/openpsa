@@ -540,11 +540,11 @@ class org_openpsa_helpers_vxparser
         $setMode = false;
         $setData = '';
         $rows = explode("\n", $data);
-        while (list ($k, $v) = each ($rows))
+        while ($v = next($rows))
         {
             if (!$v)
             {
-                continue; //Skip empthy lines
+                continue; //Skip empty lines
             }
             if ($setMode)
             {
@@ -602,7 +602,7 @@ class org_openpsa_helpers_vxparser
         $keyTmp = explode(";", $keyTmp);
         $key = $keyTmp[0];
         unset($keyTmp[0]);
-        while (list ($kk, $vv) = each ($keyTmp))
+        while ($vv = next($keyTmp))
         {
             list ($kpName, $kpVal) = explode("=", $vv, 2);
             $kpVal = preg_replace("/^([\"']?)(.*?)(\\1?)$/", "\\2",  $kpVal); //Strip outmost quotes from value

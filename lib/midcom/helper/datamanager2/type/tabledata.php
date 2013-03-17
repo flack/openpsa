@@ -432,7 +432,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         $keys = $mc->get_values($this->link_row_property);
 
         // List the name fields and get the row data
-        foreach ($keys as $guid => $row_object_id)
+        foreach ($keys as $row_object_id)
         {
             try
             {
@@ -473,12 +473,11 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
         if ($this->storage_mode == 'link')
         {
-            $columns = array();
+            $this->columns = array();
             foreach ($this->link_columns as $name)
             {
-                $columns[$name] = $name;
+                $this->columns[$name] = $name;
             }
-            $this->columns = $columns;
             return $this->columns;
         }
         else if (!($raw_data = $this->storage->object->get_parameter("{$this->parameter_domain}.type.tabledata.order", "{$this->name}:columns")))
@@ -505,7 +504,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         foreach ($this->columns as $key => $name)
         {
             // Key exists, skip
-            if (array_key_exists($key, $columns)
+            if (   array_key_exists($key, $columns)
                 || in_array($key, $columns))
             {
                 continue;
@@ -526,7 +525,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
      */
     public function get_row($row)
     {
-        $column = array();
+        $columns = array();
 
         // Create an empty column placeholder
         foreach ($this->columns as $column => $title)
@@ -565,7 +564,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     // Special handling for determined rows
                     if (isset($this->rows[$row]))
                     {
-                        return $column;
+                        return $columns;
                     }
 
                     return false;
@@ -575,9 +574,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 return $serialized_data[$row];
 
             case 'parameter':
-                // Initialize the returned column
-                $column = array();
-
                 $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
                 $mc->add_value_property('name');
                 $mc->add_value_property('value');
@@ -603,7 +599,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     $name = $mc->get_subkey($guid, 'name');
                     $value = $mc->get_subkey($guid, 'value');
 
-                    if (!$name
+                    if (   !$name
                         || !$value)
                     {
                         continue;
@@ -612,13 +608,14 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     $key = substr($name, 0, $length);
 
                     // Not available in the column set, skipping
-                    if (!isset($column[$key]))
+                    if (!isset($columns[$key]))
                     {
                         continue;
                     }
 
-                    $column[$key] = $value;
+                    $columns[$key] = $value;
                 }
+                return $columns;
         }
     }
 

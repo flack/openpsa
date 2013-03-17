@@ -415,7 +415,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
         if (!$this->update_image_from_file($identifier))
         {
-            debug_add("Failed to update image '{$identifier}' from file '{$tmpfile}', aborting", MIDCOM_LOG_ERROR);
+            debug_add("Failed to update image '{$identifier}' from file '" . $this->_filter->get_file() . "', aborting", MIDCOM_LOG_ERROR);
             // Clean up
             $this->_filter = null;
             return false;
@@ -432,10 +432,9 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      * Overwrites image content from file, recalculates size etc
      *
      * @param string $identifier image identifier to update
-     * @param string $file file to use
      * @return boolean indicating success/failure
      */
-    function update_image_from_file($identifier, $file)
+    function update_image_from_file($identifier)
     {
         if (!$this->_filter->write($this->attachments[$identifier]))
         {
@@ -443,7 +442,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         }
 
         // Failing these is bad, but it's too late now that we already have overwritten the actual image data...
-        $this->_set_attachment_info_additional($identifier, $file);
+        $this->_set_attachment_info_additional($identifier, $this->_filter->get_file());
         $this->_update_attachment_info($identifier);
         return true;
     }

@@ -39,7 +39,6 @@
     function get_handler(&$object)
     {
         $class = $this->_get_handler_class();
-        $config = $this->_get_config();
         return new $class($object, $this);
     }
 

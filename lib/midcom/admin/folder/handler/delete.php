@@ -380,13 +380,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         if (!empty($skip))
         {
-            foreach ($children as $class => $objects)
-            {
-                if (in_array($class, $skip))
-                {
-                    unset($children[$class]);
-                }
-            }
+            $children = array_diff_key($children, array_flip($skip));
         }
 
         return $children;

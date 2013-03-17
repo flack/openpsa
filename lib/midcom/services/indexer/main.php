@@ -121,7 +121,7 @@ class midcom_services_indexer
         {
             // We don't have a document. Try auto-cast to a suitable document.
             // arg to _cast_to_document is passed by-reference.
-            if (! is_a($documents[$key], 'midcom_services_indexer_document'))
+            if (! is_a($value, 'midcom_services_indexer_document'))
             {
                 $this->_index_cast_to_document($documents[$key]);
             }
@@ -274,7 +274,7 @@ class midcom_services_indexer
             {
                 try
                 {
-                    $topic = midcom_db_topic::get_cached($document->topic_guid);
+                    midcom_db_topic::get_cached($document->topic_guid);
                 }
                 catch (midcom_error $e)
                 {
@@ -291,7 +291,7 @@ class midcom_services_indexer
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
                 try
                 {
-                    $object = midcom::get('dbfactory')->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
+                    midcom::get('dbfactory')->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
                 }
                 catch (midcom_error $e)
                 {

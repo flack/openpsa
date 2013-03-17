@@ -176,20 +176,14 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
      */
     function sync_type_with_widget($results)
     {
+        $this->_type->selection = Array();
+
         if ($this->_type->allow_multiple)
         {
-            $this->_type->selection = Array();
-
             if ($results[$this->name])
             {
                 $all_elements = $this->_type->list_all();
-                foreach ($all_elements as $key => $value)
-                {
-                    if (array_key_exists($key, $results[$this->name]))
-                    {
-                        $this->_type->selection[] = $key;
-                    }
-                }
+                $this->_type->selection = array_keys(array_intersect_key($all_elements, $results[$this->name]));
             }
         }
         else

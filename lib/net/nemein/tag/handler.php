@@ -175,14 +175,14 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         // first get the context out
         if (strpos($tagname, ':'))
         {
-            list ($context, $tag) = explode(':', $tagname, 2);
-            $tagname = $tag;
+            $exploded = explode(':', $tagname, 2);
+            $tagname = $exploded[1];
         }
         // then get rid of value
         if (strpos($tagname, '='))
         {
-            list ($tag, $value) = explode('=', $tagname, 2);
-            $tagname = $tag;
+            $exploded = explode('=', $tagname, 2);
+            $tagname = $exploded[0];
         }
         return trim($tagname);
     }
@@ -198,16 +198,16 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         // first get the context out
         if (strpos($tagname, ':'))
         {
-            list ($context, $tag) = explode(':', $tagname, 2);
-            $tagname = $tag;
+            $exploded = explode(':', $tagname, 2);
+            $tagname = $exploded[1];
         }
         // then see if we have value
         if (strpos($tagname, '='))
         {
-            list ($tag, $value) = explode('=', $tagname, 2);
-            return trim($value);
+            $exploded = explode('=', $tagname, 2);
+            $tagname = $exploded[1];
         }
-        return '';
+        return trim($tagname);
     }
 
     /**

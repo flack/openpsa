@@ -417,7 +417,6 @@ class midcom_helper_head
         foreach ($this->_linkhrefs as $url)
         {
             $attributes = $this->_link_head[$url];
-            $output = '';
             $is_conditional = false;
 
             if (array_key_exists('condition', $attributes))

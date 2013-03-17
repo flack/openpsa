@@ -47,29 +47,20 @@ class midcom_db_article extends midcom_core_dbaobject
         $mc_article = self::new_collector('guid', $guid);
         $mc_article->add_value_property('up');
         $mc_article->add_value_property('topic');
-        if (!$mc_article->execute())
+        $mc_article->execute();
+        $keys = $mc_article->list_keys();
+        if (empty($keys))
         {
             // Error
             return null;
         }
-        $mc_article_keys = $mc_article->list_keys();
-        list ($key, $copy) = each ($mc_article_keys);
-        $up = $mc_article->get_subkey($key, 'up');
-        if ($up === false)
-        {
-            // error
-            return null;
-        }
+
+        $up = $mc_article->get_subkey($guid, 'up');
         if (!empty($up))
         {
             return self::_get_parent_guid_uncached_static_article($up);
         }
-        $topic = $mc_article->get_subkey($key, 'topic');
-        if ($topic === false)
-        {
-            // error
-            return null;
-        }
+        $topic = $mc_article->get_subkey($guid, 'topic');
         return self::_get_parent_guid_uncached_static_topic($topic);
     }
 

@@ -767,8 +767,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         $headers = array();
-        $header_count = count($this->result_headers);
-        foreach ($this->result_headers as $k => $header_item)
+        foreach ($this->result_headers as $header_item)
         {
             $header_title = midcom::get('i18n')->get_string(midcom::get('i18n')->get_string($header_item['title'], $this->component), 'midcom');
 
@@ -1042,7 +1041,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !$this->result_headers)
         {
             $value = @$object->get_label();
-            $title = midcom::get('i18n')->get_string('label', 'midcom');
             $this->_static_items_html .= "<td class=\"label\">{$value}&nbsp;</td>\n";
         }
         else
