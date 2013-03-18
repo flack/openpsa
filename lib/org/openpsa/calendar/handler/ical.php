@@ -83,13 +83,13 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     public function _show_user_events($handler_id, array &$data)
     {
-        $encoder = new org_openpsa_calendar_vcal();
-        echo $encoder->get_headers();
+        $encoder = new org_openpsa_calendar_vcal;
+
         foreach ($this->_request_data['events'] as $event)
         {
-            echo $encoder->export_event($event);
+            $encoder->add_event($event);
         }
-        echo $encoder->get_footers();
+        echo $encoder;
     }
 
     /**
@@ -144,8 +144,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     public function _show_user_busy($handler_id, array &$data)
     {
-        $encoder = new org_openpsa_calendar_vcal();
-        echo $encoder->get_headers();
+        $encoder = new org_openpsa_calendar_vcal;
         foreach ($this->_request_data['events'] as $event)
         {
             // clear all data not absolutely required for busy listing
@@ -176,9 +175,9 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             $event->participants[$data['person']->id] =  true;
             // Always force busy in this view
             $event->busy = true;
-            echo $encoder->export_event($event);
+            echo $encoder->add_event($event);
         }
-        echo $encoder->vcal_footers();
+        echo $encoder;
     }
 }
 ?>

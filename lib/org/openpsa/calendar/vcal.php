@@ -6,154 +6,139 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Sabre\VObject\Component;
+use Sabre\VObject\Property\DateTime as VDateTime;
+use Sabre\VObject\Component\VEvent;
+
 /**
- * vCalendar helper function
+ * vCalendar helper class
  *
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_vcal
 {
     /**
-     * newline format, defaults to \r\n
+     * The calendar object
      *
-     * @var string
+     * @var Sabre\VObject\Component
      */
-    private $_newline;
+    private $_calendar;
 
-    public function __construct($newline = "\r\n")
+    /**
+     * @param string method vCalendar method (defaults to "publish")
+     */
+    public function __construct($method = "PUBLISH")
     {
-        $this->_newline = $newline;
+        $method = strtoupper($method);
+
+        $this->_calendar = Component::create('VCALENDAR');
+        $this->_calendar->VERSION = '2.0';
+        $this->_calendar->PRODID = "PRODID:-//OpenPSA/Calendar " . org_openpsa_core_version::get_version_number() . "//" . strtoupper(midcom::get('i18n')->get_current_language());
+        $this->_calendar->METHOD = $method;
+        //TODO: Determine server timezone and output correct header (we still send all times as UTC)
     }
 
     /**
      * Method for exporting event in vCalendar format
      *
      * @param org_openpsa_calendar_event_dba $event The event we're working on
-     * @param array compatibility options to override
      * @return string vCalendar data
      */
-    public function export_event(org_openpsa_calendar_event_dba $event, $compatibility = array())
+    public function add_event(org_openpsa_calendar_event_dba $event)
     {
-        $encoder = new org_openpsa_helpers_vxparser();
-        $encoder->merge_compatibility($compatibility);
-
-        // Simple key/value pairs, for multiple occurrences of same key use array as value
-        $vcal_keys = array();
-        // For extended key data, like charset
-        $vcal_key_parameters = array();
+        $vevent = Component::create('VEVENT');
 
         // TODO: handle UID smarter
-        $vcal_keys['UID'] = "{$event->guid}-midgardGuid";
+        $vevent->UID = "{$event->guid}-midgardGuid";
 
-        $revised = $event->metadata->revised;
-        $created = $event->metadata->created;
+        $this->_add_date_fields($vevent, $event);
 
-        $vcal_keys['LAST-MODIFIED'] = $encoder->vcal_stamp($revised, array('TZID' => 'UTC')) . 'Z';
-        $vcal_keys['CREATED'] = $encoder->vcal_stamp($created, array('TZID' => 'UTC')) . 'Z';
-        /**
-         * The real meaning of the DTSTAMP is fuzzy at best
-         * http://www.kanzaki.com/docs/ical/dtstamp.html is less than helpful
-         * http://lists.osafoundation.org/pipermail/ietf-calsify/2007-July/001750.html
-         * seems to suggest that using the revision would be best
-         */
-        $vcal_keys['DTSTAMP'] =& $vcal_keys['LAST-MODIFIED'];
         // Type handling
         switch ($event->orgOpenpsaAccesstype)
         {
             case org_openpsa_core_acl::ACCESS_PUBLIC:
-                $vcal_keys['CLASS'] = 'PUBLIC';
+                $vevent->{'CLASS'} = 'PUBLIC';
                 break;
             default:
             case org_openpsa_core_acl::ACCESS_PRIVATE:
-                $vcal_keys['CLASS'] = 'PRIVATE';
+                $vevent->{'CLASS'} = 'PRIVATE';
                 break;
         }
         // "busy" or "transparency" as vCalendar calls it
         if ($event->busy)
         {
-            $vcal_keys['TRANSP'] = 'OPAQUE';
+            $vevent->TRANSP = 'OPAQUE';
         }
         else
         {
-            $vcal_keys['TRANSP'] = 'TRANSPARENT';
+            $vevent->TRANSP = 'TRANSPARENT';
         }
         // tentative vs confirmed
-        $vcal_keys['STATUS'] = 'CONFIRMED';
+        $vevent->STATUS = 'CONFIRMED';
         // we don't categorize events, at least yet
-        $vcal_keys['CATEGORIES'] = 'MEETING';
+        $vevent->CATEGORIES = 'MEETING';
         // we don't handle priorities
-        $vcal_keys['PRIORITY'] = 1;
+        $vevent->PRIORITY = 1;
         // Basic fields
-        $vcal_keys['SUMMARY'] = $encoder->escape_separators($event->title);
-        $vcal_keys['DESCRIPTION'] = $encoder->escape_separators($event->description);
-        $vcal_keys['LOCATION'] = $encoder->escape_separators($event->location);
-        // Start & End in UTC
-        $vcal_keys['DTSTART'] = $encoder->vcal_stamp($event->start, array('TZID' => 'UTC')) . 'Z';
-        $vcal_keys['DTEND'] = $encoder->vcal_stamp($event->end, array('TZID' => 'UTC')) . 'Z';
-        // Participants
-        $vcal_keys['ATTENDEE'] = array();
-        $vcal_key_parameters['ATTENDEE'] = array();
-        // Safety, otherwise the notice will make output invalid
-        if (!is_array($event->participants))
+        $vevent->SUMMARY = $event->title;
+        $vevent->DESCRIPTION = $event->description;
+        $vevent->LOCATION = $event->location;
+
+        $this->_add_participants($vevent, $event->participants);
+        $this->_calendar->add($vevent);
+    }
+
+    private function _add_participants(VEvent $vevent, array $participants)
+    {
+        $participants = array_filter($participants);
+        foreach ($participants as $uid => $bool)
         {
-            $event->participants = array();
-        }
-        foreach ($event->participants as $uid => $bool)
-        {
-            // Just a safety
-            if (!$bool)
-            {
-                continue;
-            }
             $person = midcom_db_person::get_cached($uid);
             if (empty($person->email))
             {
                 // Attendee must have email address of valid format, these must also be unique.
                 $person->email = preg_replace('/[^0-9_\x61-\x7a]/i', '_', strtolower($person->name)) . '_is_not@openpsa2.org';
             }
-            $vcal_keys['ATTENDEE'][] = "mailto:{$person->email}";
-            $vcal_key_parameters['ATTENDEE'][] = array
+            $parameters = array
             (
                 'ROLE' => 'REQ-PARTICIPANT',
                 'CUTYPE' => 'INDIVIDUAL',
                 'PARTSTAT' => 'ACCEPTED',
-                'CN' => $encoder->escape_separators($person->rname, true),
+                'CN' => $person->rname,
             );
+            $vevent->add('ATTENDEE', "mailto:{$person->email}", $parameters);
         }
-        $ret = "BEGIN:VEVENT{$this->_newline}";
-        $ret .= $encoder->export_vx_variables_recursive($vcal_keys, $vcal_key_parameters, false, $this->_newline);
-        $ret .= "END:VEVENT{$this->_newline}";
-        return $ret;
     }
 
-    /**
-     * Method for getting correct vcal file headers
-     *
-     * @param string method vCalendar method (defaults to "publish")
-     * @return string vCalendar data
-     */
-    public function get_headers($method = "publish")
+    private function _add_date_fields(VEvent $vevent, org_openpsa_calendar_event_dba $event)
     {
-        $method = strtoupper($method);
-        $ret = '';
-        $ret .= "BEGIN:VCALENDAR{$this->_newline}";
-        $ret .= "VERSION:2.0{$this->_newline}";
-        $ret .= "PRODID:-//OpenPSA/Calendar V2.0.0//EN{$this->_newline}";
-        $ret .= "METHOD:{$method}{$this->_newline}";
-        //TODO: Determine server timezone and output correct header (we still send all times as UTC)
-        return $ret;
+        $revised = new DateTime('@' . $event->metadata->revised);
+        $created = new DateTime('@' . $event->metadata->created);
+        $start = new DateTime('@' . $event->start);
+        $end = new DateTime('@' . $event->end);
+
+        $vevent->add(new VDateTime('CREATED'));
+        $vevent->add(new VDateTime('LAST-MODIFIED'));
+        $vevent->add(new VDateTime('DTSTAMP'));
+        $vevent->add(new VDateTime('DTSTART'));
+        $vevent->add(new VDateTime('DTEND'));
+
+        $vevent->CREATED->setDateTime($created, VDateTime::UTC);
+        /**
+         * The real meaning of the DTSTAMP is fuzzy at best
+         * http://www.kanzaki.com/docs/ical/dtstamp.html is less than helpful
+         * http://lists.osafoundation.org/pipermail/ietf-calsify/2007-July/001750.html
+         * seems to suggest that using the revision would be best
+         */
+        $vevent->DTSTAMP->setDateTime($revised, VDateTime::UTC);
+        $vevent->{'LAST-MODIFIED'}->setDateTime($revised, VDateTime::UTC);
+        $vevent->DTSTART->setDateTime($start, VDateTime::UTC);
+        $vevent->DTEND->setDateTime($end, VDateTime::UTC);
     }
 
-    /**
-     * Method for getting correct vcal file footers
-     *
-     * @return string vCalendar data
-     */
-    public function get_footers()
+    public function __toString()
     {
-        $ret = '';
-        $ret .= "END:VCALENDAR{$this->_newline}";
-        return $ret;
+        return $this->_calendar->serialize();
     }
 }
 ?>

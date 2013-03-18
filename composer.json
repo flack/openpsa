@@ -41,7 +41,8 @@
         "pear-pear/Text_Diff": "*",
         "midgard/midgardmvc-helper-urlize": "@dev",
         "gregwar/captcha": ">=1.0",
-        "openpsa/universalfeedcreator": "dev-master"
+        "openpsa/universalfeedcreator": "dev-master",
+        "sabre/vobject" : "2.0.*"
     },
     "suggest": {
         "ext-midgard2": ">=10.05.5"
