@@ -18,7 +18,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     private function _strip_extension($str)
     {
-        return preg_replace('/\.(.*?)$/', '', $str);
+        return preg_replace('/\..{2,3}$/', '', $str);
     }
 
     /**
@@ -27,25 +27,22 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     private function _get_events()
     {
         $this->_request_data['events'] = array();
-        if (!is_object($this->_request_data['person']))
-        {
-            return;
-        }
+
         $root_event = org_openpsa_calendar_interface::find_root_event();
 
-        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        $qb->add_constraint('eid.up', '=', $root_event->id);
+        $mc = org_openpsa_calendar_event_member_dba::new_collector('uid', $this->_request_data['person']->id);
+        $mc->add_constraint('eid.up', '=', $root_event->id);
         // Display events two weeks back
-        $qb->add_constraint('eid.start', '>', mktime(0, 0, 0, date('n'), date('j')-14, date('Y')));
-        $qb->add_constraint('uid', '=', $this->_request_data['person']->id);
-        $qb->add_order('eid.start', 'ASC');
-        $members = $qb->execute();
-        if (is_array($members))
+        $mc->add_constraint('eid.start', '>', mktime(0, 0, 0, date('n'), date('j') - 14, date('Y')));
+
+        $members = $mc->get_values('eid');
+
+        if (!empty($members))
         {
-            foreach ($members as $member)
-            {
-                $this->_request_data['events'][] = new org_openpsa_calendar_event_dba($member->eid);
-            }
+            $qb = org_openpsa_calendar_event_dba::new_query_builder();
+            $qb->add_constraint('id', 'IN', $members);
+            $qb->add_order('start', 'ASC');
+            $this->_request_data['events'] = $qb->execute();
         }
     }
 
@@ -73,10 +70,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
 
         $username = $this->_strip_extension($args[0]);
         $data['person'] = $this->_find_person_by_name($username);
-        if (!is_object($data['person']))
-        {
-            throw new midcom_error_notfound('Could not find person with username ' . $username);
-        }
 
         $this->_get_events();
 
@@ -96,7 +89,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         {
             echo $encoder->export_event($event);
         }
-        echo $event->get_footers();
+        echo $encoder->get_footers();
     }
 
     /**
@@ -111,17 +104,16 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     {
         if (empty($username))
         {
-            return false;
+            throw new midcom_error('Username missing');
         }
-        midcom::get('auth')->request_sudo();
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $qb->add_constraint('username', '=', $username);
+        midcom_core_account::add_username_constraint($qb, '=', $username);
+        midcom::get('auth')->request_sudo();
         $persons = $qb->execute();
         midcom::get('auth')->drop_sudo();
         if (empty($persons))
         {
-            // Error getting user object
-            return false;
+            throw new midcom_error_notfound('Could not find person with username ' . $username);
         }
         return $persons[0];
     }
