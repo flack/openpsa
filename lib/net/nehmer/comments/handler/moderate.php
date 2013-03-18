@@ -43,7 +43,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     function _handler_report($handler_id, array $args, array &$data)
     {

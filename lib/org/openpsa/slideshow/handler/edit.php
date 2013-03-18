@@ -29,8 +29,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
      * Handler for recreating derived images
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed $args Array containing the variable arguments passed to the handler
-     * @param mixed &$data Data passed to the show method
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
      */
     public function _handler_recreate($handler_id, array $args, array &$data)
     {
@@ -66,8 +66,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
      * Handler method for edit page
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed $args Array containing the variable arguments passed to the handler
-     * @param mixed &$data Data passed to the show method
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param  &$data Data passed to the show method
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -117,7 +117,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
      * Show edit page
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed &$data Data passed to the show method
+     * @param array &$data Data passed to the show method
      */
     public function _show_edit($handler_id, array &$data)
     {
@@ -128,8 +128,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
      * Handler editing AJAX requests
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed $args Array containing the variable arguments passed to the handler
-     * @param mixed &$data Data passed to the show method
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
      */
     public function _handler_edit_ajax($handler_id, array $args, array &$data)
     {

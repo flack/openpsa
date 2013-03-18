@@ -330,7 +330,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_history($handler_id, array $args, array &$data)
     {
@@ -413,7 +412,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_diff($handler_id, array $args, array &$data)
     {
@@ -466,7 +464,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_preview($handler_id, array $args, array &$data)
     {
@@ -508,7 +505,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_restore($handler_id, array $args, array &$data)
     {

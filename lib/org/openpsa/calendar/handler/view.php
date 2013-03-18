@@ -575,7 +575,6 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
      *
      * @param string $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _show_week($handler_id, array &$data)
     {

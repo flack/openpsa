@@ -110,7 +110,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {

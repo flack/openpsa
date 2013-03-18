@@ -99,7 +99,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      *
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _show_index($handler_id, array &$data)
     {
@@ -448,9 +447,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
      *
      * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _show_csv_select($handler_id, array &$data)
     {

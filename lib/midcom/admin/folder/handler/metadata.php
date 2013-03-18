@@ -65,7 +65,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success
      */
     public function _handler_metadata($handler_id, array $args, array &$data)
     {

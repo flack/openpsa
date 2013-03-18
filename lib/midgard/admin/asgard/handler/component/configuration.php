@@ -209,7 +209,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
@@ -232,7 +231,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * Show list of the style elements for the currently edited topic component
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed &$data Data passed to the show method
+     * @param array &$data Data passed to the show method
      */
     public function _show_view($handler_id, array &$data)
     {
@@ -457,7 +456,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -577,7 +575,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * Show list of the style elements for the currently edited topic component
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed &$data Data passed to the show method
+     * @param array &$data Data passed to the show method
      */
     public function _show_edit($handler_id, array &$data)
     {

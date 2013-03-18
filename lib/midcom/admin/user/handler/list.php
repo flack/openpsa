@@ -61,8 +61,8 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      * Handler method for listing style elements for the currently used component topic
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed $args Array containing the variable arguments passed to the handler
-     * @param mixed &$data Data passed to the show method
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
@@ -195,7 +195,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      * Show list of the style elements for the currently edited topic component
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed &$data Data passed to the show method
+     * @param array &$data Data passed to the show method
      */
     public function _show_list($handler_id, array &$data)
     {
@@ -220,8 +220,8 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      * Handler method for listing style elements for the currently used component topic
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed $args Array containing the variable arguments passed to the handler
-     * @param mixed &$data Data passed to the show method
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {

@@ -606,7 +606,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
@@ -650,7 +649,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_component($handler_id, array $args, array &$data)
     {
@@ -696,7 +694,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_help($handler_id, array $args, array &$data)
     {

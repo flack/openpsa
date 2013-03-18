@@ -59,7 +59,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_preferences($handler_id, array $args, array &$data)
     {
@@ -147,7 +146,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_ajax($handler_id, array $args, array &$data)
     {

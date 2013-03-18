@@ -50,8 +50,8 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      * Handler method for listing style elements for the currently used component topic
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed $args Array containing the variable arguments passed to the handler
-     * @param mixed &$data Data passed to the show method
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
      */
     public function _handler_folders($handler_id, array $args, array &$data)
     {
@@ -88,7 +88,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      * Show list of the style elements for the currently edited topic component
      *
      * @param string $handler_id Name of the used handler
-     * @param mixed &$data Data passed to the show method
+     * @param array &$data Data passed to the show method
      */
     public function _show_folders($handler_id, array &$data)
     {
