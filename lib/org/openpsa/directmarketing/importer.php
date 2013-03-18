@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_importer extends midcom_baseclasses_components_purecode
+abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_components_purecode
 {
     /**
      * Datamanagers used for saving various objects like persons and organizations
@@ -25,7 +25,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
      *
      * @var array
      */
-    private $_schemadbs = array();
+    protected $_schemadbs = array();
 
     /**
      * Object registry
@@ -42,10 +42,19 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
     private $_import_status = array();
 
     /**
-     * @param array $schemadbs The datamanager schemadbs to work on
+     * Importer configuration, if any
+     *
+     * @var array
      */
-    public function __construct(array $schemadbs)
+    protected $_settings = array();
+
+    /**
+     * @param array $schemadbs The datamanager schemadbs to work on
+     * @param array $settings Importer configuration, if any
+     */
+    public function __construct(array $schemadbs, array $settings = array())
     {
+        $this->_settings = $settings;
         $this->_schemadbs = $schemadbs;
         $this->_datamanagers['campaign_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['campaign_member']);
         $this->_datamanagers['person'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['person']);
@@ -53,6 +62,13 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
         $this->_datamanagers['organization'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['organization']);
     }
 
+    /**
+     * Converts input into the importer array format
+     *
+     * @param mixed $input
+     * @return array
+     */
+    abstract function parse($input);
 
     /**
      * Process the datamanager
@@ -63,8 +79,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
      */
     private function _datamanager_process($type, array $subscriber, midcom_core_dbaobject $object)
     {
-        if (   !array_key_exists($type, $subscriber)
-            || count($subscriber[$type]) == 0)
+        if (empty($subscriber[$type]))
         {
             // No fields for this type, skip DM phase
             return;
@@ -289,7 +304,6 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
     private function _import_subscribers_organization_member(array $subscriber, org_openpsa_contacts_person_dba $person, org_openpsa_contacts_group_dba $organization)
     {
         // Check if person is already in organization
-        $member = null;
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('uid', '=', $person->id);
         $qb->add_constraint('gid', '=', $organization->id);
@@ -299,8 +313,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             // Match found, use it
             $member = $members[0];
         }
-
-        if (!$member)
+        else
         {
             // We didn't have person matching the email in DB. Create a new one.
             $member = new midcom_db_member();

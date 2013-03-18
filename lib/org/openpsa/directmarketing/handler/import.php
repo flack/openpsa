@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private $_import_success = false;
 
-    private function _prepare_handler($args)
+    private function _prepare_handler(array $args)
     {
         midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
@@ -122,20 +122,19 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST))
         {
             $this->_request_data['time_start'] = time();
-
             $this->_request_data['contacts'] = array();
 
             switch ($_POST['org_openpsa_directmarketing_import_separator'])
             {
                 case 'N':
-                    $this->_request_data['separator'] = "\n";
+                    $separator = "\n";
                     break;
                 case ';':
-                    $this->_request_data['separator'] = ";";
+                    $separator = ";";
                     break;
                 case ',':
                 default:
-                    $this->_request_data['separator'] = ",";
+                    $separator = ",";
                     break;
             }
 
@@ -154,41 +153,18 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
             if ($contacts_raw)
             {
-                // Make sure we only have NL linebreaks
-                $contacts_raw = preg_replace("/\n\r|\r\n|\r/", "\n", $contacts_raw);
-                $contacts = explode($this->_request_data['separator'], $contacts_raw);
-                if (count($contacts) > 0)
-                {
-                    foreach ($contacts as $contact)
-                    {
-                        $contact = trim($contact);
-
-                        // Skip the empty lines already now
-                        if (!$contact)
-                        {
-                            continue;
-                        }
-
-                        $this->_request_data['contacts'][] = array
-                        (
-                            'person' => array
-                            (
-                                'email' => strtolower($contact),
-                            )
-                        );
-                    }
-                }
+                $importer = new org_openpsa_directmarketing_importer_simpleemails($this->_schemadbs, array('separator' => $separator));
+                $this->_run_import($importer, $contacts_raw);
             }
-
-            $this->_run_import();
+            $this->_request_data['separator'] = $separator;
         }
     }
 
-    private function _run_import()
+    private function _run_import(org_openpsa_directmarketing_importer $importer, $input)
     {
+        $this->_request_data['contacts'] = $importer->parse($input);
         if (count($this->_request_data['contacts']) > 0)
         {
-            $importer = new org_openpsa_directmarketing_importer($this->_schemadbs);
             $this->_request_data['import_status'] = $importer->import_subscribers($this->_request_data['contacts'], $this->_request_data['campaign']);
             if (   $this->_request_data['import_status']['subscribed_new'] > 0
                 || $this->_request_data['import_status']['subscribed_existing'] > 0)
@@ -235,112 +211,13 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         if (array_key_exists('org_openpsa_directmarketing_import', $_POST))
         {
             $this->_request_data['contacts'] = array();
-
             $this->_request_data['time_start'] = time();
 
             if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
             {
-                $parser = new Contact_Vcard_Parse();
-                $cards = @$parser->fromFile($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
-
-                if (count($cards) > 0)
-                {
-                    foreach ($cards as $card)
-                    {
-                        // Empty the person array before going through vCard data
-                        $contact = array
-                        (
-                            'person'              => array(),
-                            'organization'        => array(),
-                            'organization_member' => array(),
-                        );
-
-                        // Start parsing
-                        if (   array_key_exists('N', $card)
-                            && array_key_exists('value', $card['N'][0])
-                            && is_array($card['N'][0]['value']))
-                        {
-                            // FIXME: We should do something about character encodings
-                            $contact['person']['lastname'] = $card['N'][0]['value'][0][0];
-                            $contact['person']['firstname'] = $card['N'][0]['value'][1][0];
-                        }
-
-                        if (array_key_exists('TEL', $card))
-                        {
-                            foreach ($card['TEL'] as $number)
-                            {
-                                if (array_key_exists('param', $number))
-                                {
-                                    if (array_key_exists('TYPE', $number['param']))
-                                    {
-                                        switch ($number['param']['TYPE'][0])
-                                        {
-                                            case 'CELL':
-                                                $contact['person']['handphone'] = $number['value'][0][0];
-                                                break;
-                                            case 'HOME':
-                                                $contact['person']['homephone'] = $number['value'][0][0];
-                                                break;
-                                            case 'WORK':
-                                                $contact['person']['workphone'] = $number['value'][0][0];
-                                                break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (array_key_exists('ORG', $card))
-                        {
-                            $contact['organization']['official'] = $card['ORG'][0]['value'][0][0];
-                        }
-
-                        if (array_key_exists('TITLE', $card))
-                        {
-                            $contact['organization_member']['title'] = $card['TITLE'][0]['value'][0][0];
-                        }
-
-                        if (array_key_exists('EMAIL', $card))
-                        {
-                            $contact['person']['email'] = $card['EMAIL'][0]['value'][0][0];
-                        }
-
-                        if (array_key_exists('X-SKYPE-USERNAME', $card))
-                        {
-                            $contact['person']['skype'] = $card['X-SKYPE-USERNAME'][0]['value'][0][0];
-                        }
-
-                        if (array_key_exists('UID', $card))
-                        {
-                            $contact['person']['external-uid'] = $card['UID'][0]['value'][0][0];
-                        }
-                        elseif (array_key_exists('X-ABUID', $card))
-                        {
-                            $contact['person']['external-uid'] = $card['X-ABUID'][0]['value'][0][0];
-                        }
-
-                        if (count($contact['person']) > 0)
-                        {
-                            // We have parsed some contact info.
-
-                            // Convert fields from latin-1 to MidCOM charset (usually utf-8)
-                            foreach ($contact as $type => $fields)
-                            {
-                                foreach ($fields as $key => $value)
-                                {
-                                    $contact[$type][$key] = iconv('ISO-8859-1', midcom::get('i18n')->get_current_charset(), $value);
-                                }
-                            }
-
-                            // TODO: Make sanity checks before adding
-
-                            $this->_request_data['contacts'][] = $contact;
-                        }
-                    }
-                }
+                $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
+                $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
             }
-
-            $this->_run_import();
         }
     }
 
@@ -399,15 +276,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             {
                 // Copy the file for later processing
                 $data['tmp_file'] = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_directmarketing_import_csv');
-                $src = fopen($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], 'r');
-                $dst = fopen($data['tmp_file'], 'w+');
-                while (! feof($src))
-                {
-                    $buffer = fread($src, 131072); /* 128 kB */
-                    fwrite($dst, $buffer, 131072);
-                }
-                fclose($src);
-                fclose($dst);
+                move_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], $data['tmp_file']);
 
                 // Read cell headers from the file
                 $read_rows = 0;
@@ -494,87 +363,14 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         $data['rows'] = array();
         $data['separator'] = $_POST['org_openpsa_directmarketing_import_separator'];
+        $config = array
+        (
+            'fields' => $_POST['org_openpsa_directmarketing_import_csv_field'],
+            'separator' => $data['separator'],
+        );
+        $importer = new org_openpsa_directmarketing_importer_csv($this->_schemadbs, $config);
 
-        // Start processing the file
-        $read_rows = 0;
-        $total_columns = 0;
-        $handle = fopen($_POST['org_openpsa_directmarketing_import_tmp_file'], 'r');
-        $separator = $data['separator'];
-
-        while ($csv_line = fgetcsv($handle, 1000, $separator))
-        {
-            if ($total_columns == 0)
-            {
-                $total_columns = count($csv_line);
-            }
-            $columns_with_content = 0;
-            foreach ($csv_line as $value)
-            {
-                if ($value != '')
-                {
-                    $columns_with_content++;
-                }
-            }
-            $percentage = round(100 / $total_columns * $columns_with_content);
-
-            if ($percentage >= 20)
-            {
-                $data['rows'][] = $csv_line;
-                $read_rows++;
-            }
-            else
-            {
-                // This line has no proper content, skip
-                continue;
-            }
-
-            $contact = array();
-
-            if ($read_rows == 1)
-            {
-                // First line is headers, skip
-                continue;
-            }
-            foreach ($csv_line as $field => $value)
-            {
-                // Process the row accordingly
-                $field_matching = $_POST['org_openpsa_directmarketing_import_csv_field'][$field];
-                if (   $field_matching
-                    && strstr($field_matching, ':'))
-                {
-                    $matching_parts = explode(':', $field_matching);
-                    $schemadb = $matching_parts[0];
-                    $schema_field = $matching_parts[1];
-
-                    if (   !array_key_exists($schemadb, $this->_schemadbs)
-                        || !array_key_exists($schema_field, $this->_schemadbs[$schemadb]['default']->fields))
-                    {
-                        // Invalid matching, skip
-                        continue;
-                    }
-
-                    if ($value == '')
-                    {
-                        // No value, skip
-                        continue;
-                    }
-
-                    if (!array_key_exists($schemadb, $contact))
-                    {
-                        $contact[$schemadb] = array();
-                    }
-
-                    $contact[$schemadb][$schema_field] = $value;
-                }
-            }
-
-            if (count($contact) > 0)
-            {
-                $data['contacts'][] = $contact;
-            }
-        }
-
-        $this->_run_import();
+        $this->_run_import($importer, $_POST['org_openpsa_directmarketing_import_tmp_file']);
     }
 
     /**
