@@ -95,7 +95,6 @@ class midcom_services_rcs
         return true;
     }
 
-
     /**
      * Static method for determining if we should display a particular field
      * in the diff or preview states

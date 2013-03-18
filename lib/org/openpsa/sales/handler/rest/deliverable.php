@@ -18,15 +18,15 @@ class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_comp
     {
         return "org_openpsa_sales_salesproject_deliverable_dba";
     }
-    
+
     public function handle_update()
-    {    
+    {
         // if endtime was set, we need to set continuous to false
         if (isset($this->_request['params']['end']))
         {
             $this->_request['params']['continuous'] = false;
         }
-                
+
         parent::handle_update();
     }
 }

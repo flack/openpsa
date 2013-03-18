@@ -34,7 +34,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @var org_openpsa_products_product_dba
      */
     private $_product;
-    
+
     /**
      * The DM2 controller to use
      *
@@ -114,11 +114,11 @@ implements midcom_helper_datamanager2_interfaces_create
     }
     /**
      * loads the controller instance
-     */ 
+     */
     private function _prepare_datamanager()
     {
         $this->_controller = $this->get_controller('create');
-        
+
         // adjust cost per unit label
         // we have a percentage here?
         if ($this->_product->costType != "m")
@@ -126,8 +126,8 @@ implements midcom_helper_datamanager2_interfaces_create
             $cost_per_unit_title = "cost per unit (percentage)";
             $this->_controller->schemadb["default"]->fields['costPerUnit']['title'] = $this->_l10n->get($cost_per_unit_title);
         }
-         
-        $this->_controller->initialize();      
+
+        $this->_controller->initialize();
     }
 
     /**
@@ -155,7 +155,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);
 
         $this->_prepare_datamanager();
-                
+
         $data['controller'] = $this->_controller;
 
         // Process form

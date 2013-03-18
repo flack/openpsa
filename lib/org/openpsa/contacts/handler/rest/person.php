@@ -18,20 +18,20 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
     {
         return "org_openpsa_contacts_person_dba";
     }
-    
+
     public function handle_create()
-    {    
+    {
         parent::handle_create();
-        
+
         // add to group
         if (isset($this->_request['params']['group_id']))
         {
             $group = new midcom_db_group(intval($this->_request['params']['group_id']));
-     
+
             $member = new midcom_db_member();
             $member->uid = $this->_object->id;
             $member->gid = $group->id;
-    
+
             // deactivating activitystream and RCS entries generation (performance)
             $member->_use_activitystream = false;
             $member->_use_rcs = false;

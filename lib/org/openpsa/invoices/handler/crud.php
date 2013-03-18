@@ -364,7 +364,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 )
             );
         }
-                
+
         if (   !$this->_object->paid
             && $this->_config->get('invoice_pdfbuilder_class'))
         {
@@ -400,7 +400,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 );
             }
         }
-            
+
         if ($this->_object->is_cancelable())
         {
             $this->_view_toolbar->add_item
@@ -422,7 +422,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             );
         }
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
-                
+
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/');
     }
 
