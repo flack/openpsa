@@ -59,22 +59,21 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
      *
      * @param String $type        Subscription type
      * @param array $subscriber
-     * @param mixed $object
-     * @return boolean            Indicating success
+     * @param midcom_core_dbaobject $object
      */
-    private function _datamanager_process($type, array $subscriber, $object)
+    private function _datamanager_process($type, array $subscriber, midcom_core_dbaobject $object)
     {
         if (   !array_key_exists($type, $subscriber)
-                || count($subscriber[$type]) == 0)
+            || count($subscriber[$type]) == 0)
         {
             // No fields for this type, skip DM phase
-            return true;
+            return;
         }
 
         // Load datamanager2 for the object
         if (!$this->_datamanagers[$type]->autoset_storage($object))
         {
-            return false;
+            throw new midcom_error('Failed to set DM2 storage');
         }
 
         // Set all given values into DM2
@@ -89,10 +88,8 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
         // Save the object
         if (!$this->_datamanagers[$type]->save())
         {
-            return false;
+            throw new midcom_error('DM2 save returned false');
         }
-
-        return true;
     }
 
     /**
@@ -106,13 +103,12 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
         }
     }
 
-    private function _import_subscribers_person($subscriber)
+    private function _import_subscribers_person(array $subscriber)
     {
         $person = null;
         if ($this->_config->get('csv_import_check_duplicates'))
         {
-            if (   array_key_exists('email', $subscriber['person'])
-                    && $subscriber['person']['email'])
+            if (!empty($subscriber['person']['email']))
             {
                 // Perform a simple email test. More complicated duplicate checking is best left to the o.o.contacts duplicate checker
                 $qb = org_openpsa_contacts_person_dba::new_query_builder();
@@ -126,8 +122,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             }
 
             if (   !$person
-                    && array_key_exists('handphone', $subscriber['person'])
-                    && $subscriber['person']['handphone'])
+                && !empty($subscriber['person']['handphone']))
             {
                 // Perform a simple cell phone test. More complicated duplicate checking is best left to the o.o.contacts duplicate checker
                 $qb = org_openpsa_contacts_person_dba::new_query_builder();
@@ -148,7 +143,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
 
             // Populate at least one field for the new person
             if (   isset($subscriber['person'])
-                    && isset($subscriber['person']['email']))
+                && isset($subscriber['person']['email']))
             {
                 $person->email = $subscriber['person']['email'];
             }
@@ -156,22 +151,17 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             if (!$person->create())
             {
                 $this->_new_objects['person'] =& $person;
-                debug_add("Failed to create person, reason " . midcom_connection::get_error_string());
                 $this->_import_status['failed_create']++;
-                return false;
-                // This will skip to next
+                throw new midcom_error("Failed to create person, reason " . midcom_connection::get_error_string());
             }
         }
 
-        if (!$this->_datamanager_process('person', $subscriber, $person))
-        {
-            return false;
-        }
+        $this->_datamanager_process('person', $subscriber, $person);
 
         return $person;
     }
 
-    private function _import_subscribers_campaign_member($subscriber, $person, org_openpsa_directmarketing_campaign_dba $campaign)
+    private function _import_subscribers_campaign_member(array $subscriber, org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_dba $campaign)
     {
         // Check if person is already in campaign
         $member = null;
@@ -219,7 +209,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
                 else
                 {
                     $this->_import_status['failed_add']++;
-                    return false;
+                    throw new midcom_error('Failed to save membership: ' . midcom_connection::get_error_string());
                 }
             }
         }
@@ -234,34 +224,28 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             if (!$member->create())
             {
                 $this->_import_status['failed_add']++;
-                return false;
+                throw new midcom_error('Failed to create membership: ' . midcom_connection::get_error_string());
             }
             $this->_new_objects['campaign_member'] =& $member;
             $this->_import_status['subscribed_new']++;
         }
 
-        if (!$this->_datamanager_process('campaign_member', $subscriber, $person))
-        {
-            // Failed to handle campaign member via DM
-            return false;
-        }
+        $this->_datamanager_process('campaign_member', $subscriber, $person);
 
         return $member;
     }
 
-    private function _import_subscribers_organization($subscriber)
+    private function _import_subscribers_organization(array $subscriber)
     {
         $organization = null;
-        if (   array_key_exists('official', $subscriber['organization'])
-                && $subscriber['organization']['official'])
+        if (!empty($subscriber['organization']['official']))
         {
             // Perform a simple check for existing organization. More complicated duplicate checking is best left to the o.o.contacts duplicate checker
 
             $qb = org_openpsa_contacts_group_dba::new_query_builder();
 
             if (   array_key_exists('company_id', $this->_schemadbs['organization']['default']->fields)
-                    && array_key_exists('company_id', $subscriber['organization'])
-                    && $subscriber['organization']['company_id'])
+                && !empty($subscriber['organization']['company_id']))
             {
                 // Imported data has a company id, we use that instead of name
                 $qb->add_constraint($this->_schemadbs['organization']['default']->fields['company_id']['storage']['location'], '=', $subscriber['organization']['company_id']);
@@ -272,8 +256,7 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
                 $qb->add_constraint('official', '=', $subscriber['organization']['official']);
 
                 if (   array_key_exists('city', $this->_schemadbs['organization']['default']->fields)
-                        && array_key_exists('city', $subscriber['organization'])
-                        && $subscriber['organization']['city'])
+                    && !empty($subscriber['organization']['city']))
                 {
                     // Imported data has a city, we use also that for matching
                     $qb->add_constraint($this->_schemadbs['organization']['default']->fields['city']['storage']['location'], '=', $subscriber['organization']['city']);
@@ -284,8 +267,6 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             if (count($organizations) > 0)
             {
                 // Match found, use it
-
-                // Use first match
                 $organization = array_shift($organizations);
             }
         }
@@ -296,21 +277,16 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             $organization = new org_openpsa_contacts_group_dba();
             if (!$organization->create())
             {
-                $this->_new_objects['organization'] =& $organization;
-                debug_add("Failed to create organization, reason " . midcom_connection::get_error_string());
-                return null;
+                throw new midcom_error("Failed to create organization, reason " . midcom_connection::get_error_string());
             }
         }
 
-        if (!$this->_datamanager_process('organization', $subscriber, $organization))
-        {
-            return null;
-        }
+        $this->_datamanager_process('organization', $subscriber, $organization);
 
         return $organization;
     }
 
-    private function _import_subscribers_organization_member($subscriber, $person, $organization)
+    private function _import_subscribers_organization_member(array $subscriber, org_openpsa_contacts_person_dba $person, org_openpsa_contacts_group_dba $organization)
     {
         // Check if person is already in organization
         $member = null;
@@ -321,8 +297,6 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
         if (count($members) > 0)
         {
             // Match found, use it
-
-            // Use first match
             $member = $members[0];
         }
 
@@ -334,16 +308,11 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             $member->gid = $organization->id;
             if (!$member->create())
             {
-                $this->_new_objects['organization_member'] =& $member;
-                debug_add("Failed to create organization member, reason " . midcom_connection::get_error_string());
-                return false;
+                throw new midcom_error("Failed to create organization member, reason " . midcom_connection::get_error_string());
             }
         }
 
-        if (!$this->_datamanager_process('organization_member', $subscriber, $member))
-        {
-            return false;
-        }
+        $this->_datamanager_process('organization_member', $subscriber, $member);
 
         return $member;
     }
@@ -371,52 +340,25 @@ class org_openpsa_directmarketing_importer extends midcom_baseclasses_components
             // Submethods will register any objects they create to this array so we can clean them up as needed
             $this->_new_objects = array();
 
-            // Create or update person
-            $person = $this->_import_subscribers_person($subscriber);
-            if (!$person)
+            try
             {
-                // Clean up possible created data
+                $person = $this->_import_subscribers_person($subscriber);
+                $this->_import_subscribers_campaign_member($subscriber, $person, $campaign);
+
+                if (!empty($subscriber['organization']))
+                {
+                    $organization = $this->_import_subscribers_organization($subscriber);
+                    $this->_import_subscribers_organization_member($subscriber, $person, $organization);
+                }
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                // Clean up possibly created data
                 $this->_clean_new_objects();
 
                 // Skip to next
                 continue;
-            }
-
-            // Create or update membership
-            $campaign_member = $this->_import_subscribers_campaign_member($subscriber, $person, $campaign);
-            if (!$campaign_member)
-            {
-                // Clean up possible created data
-                $this->_clean_new_objects();
-
-                // Skip to next
-                continue;
-            }
-
-            if (   array_key_exists('organization', $subscriber)
-                    && count($subscriber['organization']) > 0)
-            {
-                // Create or update organization
-                $organization = $this->_import_subscribers_organization($subscriber);
-                if (is_null($organization))
-                {
-                    // Clean up possible created data
-                    $this->_clean_new_objects();
-
-                    // Skip to next
-                    continue;
-                }
-
-                // Create or update organization member
-                $organization_member = $this->_import_subscribers_organization_member($subscriber, $person, $organization);
-                if (!$organization_member)
-                {
-                    // Clean up possible created data
-                    $this->_clean_new_objects();
-
-                    // Skip to next
-                    continue;
-                }
             }
 
             // All done, import the next one
