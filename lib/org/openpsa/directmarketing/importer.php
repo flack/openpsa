@@ -199,7 +199,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
                 $this->_import_status['already_subscribed']++;
                 $this->_import_status['subscribed_existing']++;
                 // PONDER: Should we skip any updates, they're usually redundant but ne never knows..
-                return $member;
+                return;
             }
             else if ($member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::NORMAL)
             {
@@ -246,8 +246,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         }
 
         $this->_datamanager_process('campaign_member', $subscriber, $person);
-
-        return $member;
     }
 
     private function _import_subscribers_organization(array $subscriber)
@@ -326,8 +324,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         }
 
         $this->_datamanager_process('organization_member', $subscriber, $member);
-
-        return $member;
     }
 
     /**
