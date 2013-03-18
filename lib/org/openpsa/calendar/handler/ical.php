@@ -18,7 +18,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     private function _strip_extension($str)
     {
-        return preg_replace('/\..{2,3}$/', '', $str);
+        return preg_replace('/\.(i|v)cs$/', '', $str);
     }
 
     /**
