@@ -644,9 +644,9 @@ abstract class midcom_core_dbaobject
                     unset($mc, $guids);
                     return null;
                 }
-                list ($parent_guid, $dummy) = each($guids);
+                $parent_guid = key($guids);
 
-                unset($mc, $guids, $dummy);
+                unset($mc, $guids);
                 return $parent_guid;
             }
         }
@@ -668,8 +668,8 @@ abstract class midcom_core_dbaobject
                     unset($mc, $guids);
                     return null;
                 }
-                list ($parent_guid, $dummy) = each($guids);
-                unset($mc, $guids, $dummy);
+                $parent_guid = key($guids);
+                unset($mc, $guids);
                 return $parent_guid;
             }
         }
@@ -700,8 +700,8 @@ abstract class midcom_core_dbaobject
 
             if (!empty($link_values))
             {
-                list ($link_value, $dummy) = each($link_values);
-                unset($mc, $link_values, $dummy);
+                $link_value = key($link_values);
+                unset($mc, $link_values);
                 if (!empty($link_value))
                 {
                     if (!array_key_exists($class_name, $parent_mapping))
@@ -723,10 +723,10 @@ abstract class midcom_core_dbaobject
                         $parent_mapping[$class_name][$link_value] = null;
                         return $parent_mapping[$class_name][$link_value];
                     }
-                    list ($parent_guid, $dummy) = each($guids);
+                    $parent_guid = key($guids);
                     $parent_mapping[$class_name][$link_value] = $parent_guid;
 
-                    unset($mc2, $guids, $link_value, $dummy);
+                    unset($mc2, $guids, $link_value);
 
                     return $parent_guid;
                 }
@@ -750,8 +750,8 @@ abstract class midcom_core_dbaobject
             $link_values = $mc->list_keys();
             if (!empty($link_values))
             {
-                list ($link_value, $dummy) = each($link_values);
-                unset($mc, $link_values, $dummy);
+                $link_value = key($link_values);
+                unset($mc, $link_values);
                 if (!empty($link_value))
                 {
                     if (!array_key_exists($target_class, $parent_mapping))
@@ -773,10 +773,9 @@ abstract class midcom_core_dbaobject
                         $parent_mapping[$target_class][$link_value] = null;
                         return $parent_mapping[$target_class][$link_value];
                     }
-                    list ($parent_guid, $dummy) = each($guids);
+                    $parent_guid = key($guids);
                     $parent_mapping[$target_class][$link_value] = $parent_guid;
-
-                    unset($mc2, $guids, $link_value, $dummy);
+                    unset($mc2, $guids, $link_value);
 
                     return $parent_guid;
                 }
