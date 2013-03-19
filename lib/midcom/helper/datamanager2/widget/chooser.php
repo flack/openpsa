@@ -1132,7 +1132,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return $this->_object_to_jsdata($results);
         }
 
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->component);
 
         if (!class_exists($this->class))
         {

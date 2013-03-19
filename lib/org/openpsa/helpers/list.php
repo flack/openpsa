@@ -31,7 +31,7 @@ class org_openpsa_helpers_list
         if ($task->customer > 0)
         {
             //Make sure we can read the current customer for the name
-            midcom::get('auth')->request_sudo();
+            midcom::get('auth')->request_sudo('org.openpsa.helpers');
             self::task_groups_put($ret, $mode, $task->customer);
             midcom::get('auth')->drop_sudo();
         }

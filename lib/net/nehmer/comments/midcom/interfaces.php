@@ -48,7 +48,7 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
      */
     function _on_watched_dba_delete($object)
     {
-        $sudo = midcom::get('auth')->request_sudo();
+        $sudo = midcom::get('auth')->request_sudo($this->_component);
 
         $result = net_nehmer_comments_comment::list_by_objectguid($object->guid);
 

@@ -97,7 +97,7 @@ class org_openpsa_mypage_workingon
     function set($task_guid = '')
     {
         $description = trim($_POST['description']);
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo('org.openpsa.mypage');
         $invoiceable = false;
         if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true')
         {

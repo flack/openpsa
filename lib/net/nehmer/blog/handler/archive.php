@@ -115,7 +115,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $qb->add_order('metadata.published');
         $qb->set_limit(1);
 
-        if (midcom::get('auth')->request_sudo())
+        if (midcom::get('auth')->request_sudo($this->_component))
         {
             $result = $qb->execute_unchecked();
             midcom::get('auth')->drop_sudo();

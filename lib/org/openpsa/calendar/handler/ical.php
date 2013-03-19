@@ -108,7 +108,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         }
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
         midcom_core_account::add_username_constraint($qb, '=', $username);
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
         $persons = $qb->execute();
         midcom::get('auth')->drop_sudo();
         if (empty($persons))

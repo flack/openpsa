@@ -187,7 +187,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
 
         $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['membership']->campaign);
@@ -225,7 +225,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe_ajax($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
         $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $this->_request_data['campaign'] = $this->_master->load_campaign($this->_request_data['membership']->campaign);
 
@@ -259,7 +259,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe_all($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
         if ($handler_id === 'subscriber_unsubscribe_all_future')

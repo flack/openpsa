@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send_bg($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
 
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
@@ -63,7 +63,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _show_send_bg($handler_id, array &$data)
     {
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
         debug_add('Forcing content type: text/plain');
         midcom::get('cache')->content->content_type('text/plain');
         $data['sender'] = $this->_get_sender($data);

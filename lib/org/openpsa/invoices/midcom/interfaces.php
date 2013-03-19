@@ -33,7 +33,7 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
      */
     public function _on_watched_dba_delete($object)
     {
-        midcom::get('auth')->request_sudo();
+        midcom::get('auth')->request_sudo($this->_component);
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
         $result = $qb_billing_data->execute();
