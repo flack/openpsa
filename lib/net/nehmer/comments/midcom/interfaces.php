@@ -62,13 +62,5 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
             midcom::get('auth')->drop_sudo();
         }
     }
-
-    /**
-     * Reindex everything, try to conserve as much memory as possible.
-     */
-    function _on_reindex($topic, $config, &$indexer)
-    {
-        // TODO
-    }
 }
 ?>
