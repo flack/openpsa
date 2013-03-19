@@ -1,6 +1,6 @@
 <?php
 /**
- * @package net.nemein.tag 
+ * @package net.nemein.tag
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -8,7 +8,7 @@
 
 /**
  * Tag handling library interface class
- * 
+ *
  * @package net.nemein.tag
  */
 class net_nemein_tag_interface extends midcom_baseclasses_components_interface
@@ -24,12 +24,13 @@ class net_nemein_tag_interface extends midcom_baseclasses_components_interface
         {
             return;
         }
-        
+        midcom::get('auth')->request_sudo();
         $tag_links = $qb->execute();
         foreach ($tag_links as $tag_link)
         {
             $tag_link->delete();
         }
+        midcom::get('auth')->drop_sudo();
     }
 }
 ?>
