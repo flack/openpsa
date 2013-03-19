@@ -346,14 +346,6 @@ class midcom_helper__dbfactory
                 $parent_guid = $the_object->get_parent_guid_uncached();
             }
 
-            // Checking for old-behaviour
-            if (is_object($parent_guid))
-            {
-                debug_add('Warning, get_parent_guid_uncached should not return an object. This feature is deprecated.',
-                    MIDCOM_LOG_INFO);
-                $parent_guid = $parent_guid->guid;
-            }
-
             if (mgd_is_guid($object_guid))
             {
                 midcom::get('cache')->memcache->update_parent_guid($object_guid, $parent_guid);

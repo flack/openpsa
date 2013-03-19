@@ -628,7 +628,7 @@ abstract class midcom_core_dbaobject
             $target_property = $reflector->get_link_target($up_property);
 
             /**
-             * Taken out from the generated code as this will cause infinite loop in ACL resolving, using direct QB in stead
+             * Using direct collector to avoid infinite loop in ACL resolving
              * (when instantiating the parent ACLs will be checked in any case)
              *
             $mc = {$this->__midcom_class_name__}::new_collector($target_property, $this->{$up_property});
