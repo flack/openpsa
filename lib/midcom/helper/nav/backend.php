@@ -993,8 +993,6 @@ class midcom_helper_nav_backend
      * memory and returns it, if available. This should speed up GUID lookup heavy
      * code.
      *
-     * Access is restricted to midcom_helper_nav::resolve_guid().
-     *
      * @param string $guid The GUID to look up in the NAP cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
@@ -1013,8 +1011,6 @@ class midcom_helper_nav_backend
         {
             return $this->get_node($entry[MIDCOM_NAV_ID]);
         }
-
-        return $entry;
     }
 
     /**

@@ -13,7 +13,7 @@
  */
 class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_exporter
 {
-    function read_node($node)
+    function read_node(midcom_db_topic $node)
     {
         $node_array = array();
         $node_array['name'] = $node->name;

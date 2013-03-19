@@ -79,41 +79,25 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     }
 
     /**
-     * Invalidates all cache objects related to the GUID specified. This function is aware of
-     * NAP caches. It will invalidate the node/leaf record pair upon each invalidation.
-     *
-     * This function only works within the current context, because it looks on the invalidated
-     * GUID to handle the invalidation correctly.
-     *
-     * <b>Note, for GUIDs which cannot be resolved by NAP:</b>
-     *
-     * It should be safe to just skip this case, because if the object to be invalidated
-     * cannot be found, it is not cached anyway (deleted items could be resolved using
-     * the resolve_guid code which uses the cache, so they would still be found).
-     * Special cases, where objects not available through NAP are updated have to be handled
-     * by the component anyway.
-     *
-     * This way, leaf deletions should be safe in all cases (if they are cached, they can
-     * still be resolved, if not, they aren't in the cache anyway). The Datamanager tries
-     * to catch leaf creations using its internal creation mode flag, invalidating the
-     * current content topic instead of the actual object in this case. Note, that this happens
-     * directly after object creation, not during the regular save cycle.
-     *
-     * See the automatic index invalidation code of the Datamanager for additional details.
+     * Invalidates all cache objects related to the GUID specified.
      *
      * @param string $guid The GUID to invalidate.
      */
     function invalidate($guid)
     {
-        $nav = new midcom_helper_nav();
-        $napobject = $nav->resolve_guid($guid);
+        $napobject = $this->get_guid($guid);
 
-        if ($napobject === false)
+        if (!$napobject)
         {
-            // Ignoring this should be safe, see the method documentation for details.
-            debug_add("We failed to resolve the GUID {$guid} with NAP, apparently it is not cached or no valid NAP node, skipping it therefore.",
-                MIDCOM_LOG_INFO);
-            return;
+            // The object itself is not in cache, but it still might have a parent that
+            // needs invalidating (f.x. if it is newly-created or was moved from outside the tree)
+            $napobject = $this->_load_from_guid($guid);
+            if (!$napobject)
+            {
+                // We couldn't load the object (because it's deleted f.x.) or it is not in NAP.
+                // Either way, there is nothing more we can do here.
+                return;
+            }
         }
 
         if ($napobject[MIDCOM_NAV_TYPE] == 'leaf')
@@ -122,7 +106,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             // Get parent from DB and compare to catch moves
             if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent())
             {
-                $parent_entry_from_object = $nav->resolve_guid($parent->guid);
+                $parent_entry_from_object = $this->get_guid($parent->guid);
                 if (    $parent_entry_from_object
                      && $parent_entry_from_object[MIDCOM_NAV_ID] != $cached_node_id)
                 {
@@ -140,26 +124,26 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
             //Invalidate subnode cache for the (cached) parent
             $parent_id = $napobject[MIDCOM_NAV_NODEID];
-            $parent_entry = $this->_cache->get("{$this->_prefix}-{$parent_id}");
+            $parent_entry = $this->get_node($parent_id);
 
             if (   $parent_entry
                 && array_key_exists(MIDCOM_NAV_SUBNODES, $parent_entry))
             {
                 unset($parent_entry[MIDCOM_NAV_SUBNODES]);
-                $this->_cache->put("{$this->_prefix}-{$parent_id}", $parent_entry);
+                $this->put_node($parent_id, $parent_entry);
             }
 
             //Cross-check parent value from object to detect topic moves
             if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent())
             {
-                $parent_entry_from_object = $nav->resolve_guid($parent->guid);
+                $parent_entry_from_object = $this->get_guid($parent->guid);
 
                 if (    !empty($parent_entry_from_object[MIDCOM_NAV_ID])
                      && !empty($parent_entry[MIDCOM_NAV_ID])
                      && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID])
                 {
                     unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
-                    $this->_cache->put("{$this->_prefix}-{$parent_entry_from_object[MIDCOM_NAV_ID]}", $parent_entry_from_object);
+                    $this->put_node($parent_entry_from_object[MIDCOM_NAV_ID], $parent_entry_from_object);
                 }
             }
         }
@@ -169,6 +153,37 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $this->_cache->remove("{$this->_prefix}-{$cached_node_id}");
         $this->_cache->remove($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
         $this->_cache->remove("{$this->_prefix}-{$leaves_key}");
+    }
+
+    private function _load_from_guid($guid)
+    {
+        $napobject = false;
+        try
+        {
+            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+            $nav = new midcom_helper_nav;
+            if (is_a($object, 'midcom_db_topic'))
+            {
+                $napobject = $nav->get_node($object->id);
+            }
+            else
+            {
+                $node = $nav->find_closest_topic($object);
+                if ($node)
+                {
+                    $nodeobject = $nav->get_node($node->id);
+                    if ($nodeobject)
+                    {
+                        $napobject = $nav->get_leaf($nodeobject[MIDCOM_NAV_ID] . '-' . $object->id);
+                    }
+                }
+            }
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
+        return $napobject;
     }
 
     /**

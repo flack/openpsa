@@ -317,9 +317,9 @@ class midcom_helper_nav
         // First, check if the GUID is already known by the backend:
         $cached_result = $this->_backend->get_loaded_object_by_guid($guid);
 
-        if (! is_null($cached_result))
+        if ($cached_result)
         {
-            debug_add('The GUID was already known by the backend instance, returning the cached copy directly.', MIDCOM_LOG_INFO);
+            debug_add('The GUID was already known by the backend instance, returning the cached copy directly.');
             return $cached_result;
         }
 
@@ -376,7 +376,7 @@ class midcom_helper_nav
 
         // Ok, unfortunately, this is not an immediate topic. We try to traverse
         // upwards in the object chain to find a topic.
-        $topic = $this->_find_closest_topic($object);
+        $topic = $this->find_closest_topic($object);
         if ($topic !== null)
         {
             debug_add("Found topic #{$topic->id}, searching the leaves");
@@ -425,7 +425,7 @@ class midcom_helper_nav
         return false;
     }
 
-    private function _find_closest_topic(&$object)
+    public function find_closest_topic(&$object)
     {
         if (!is_object($object))
         {
