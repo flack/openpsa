@@ -30,28 +30,6 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
     }
 
     /**
-     * @return org_routamc_positioning_country_dba Country the city is in
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->country)
-        {
-            $qb = org_routamc_positioning_country_dba::new_query_builder();
-            $qb->add_constraint('code', '=', $this->country);
-            $countries = $qb->execute();
-            if (count($countries) == 0)
-            {
-                debug_add("Could not load Country ID {$this->country} from the database, aborting.",
-                    MIDCOM_LOG_INFO);
-                return null;
-            }
-            return $countries[0]->guid;
-        }
-
-        return null;
-    }
-
-    /**
      * Don't save city if another city is in same place
      */
     public function _on_creating()

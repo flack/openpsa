@@ -29,29 +29,6 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_routamc_positioning_aerodrome';
 
     /**
-     * @return org_routamc_positioning_city_dba City the airport caters for
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->city)
-        {
-            try
-            {
-                $parent = new org_routamc_positioning_city_dba($this->city);
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Could not load City ID {$this->city} from the database, aborting.",
-                    MIDCOM_LOG_INFO);
-                return null;
-            }
-            return $parent->guid;
-        }
-
-        return null;
-    }
-
-    /**
      * Human-readable label for cases like Asgard navigation
      */
     function get_label()

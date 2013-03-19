@@ -39,24 +39,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      */
     private $_update_parent_on_save = false;
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->up != 0)
-        {
-            $parent = new org_openpsa_sales_salesproject_deliverable_dba($this->up);
-            return $parent->guid;
-        }
-        else if ($this->salesproject != 0)
-        {
-            $parent = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public function _on_creating()
     {
         $this->calculate_price(false);

@@ -48,20 +48,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
      */
     function get_parent_guid_uncached()
     {
-        if (!$this->parent)
-        {
-            return null;
-        }
-
-        try
-        {
-            $parent = midcom::get('dbfactory')->get_object_by_guid($this->parent);
-            return $parent->guid;
-        }
-        catch (midcom_error $e)
-        {
-            return null;
-        }
+        return $parent->guid;
     }
 
     /**

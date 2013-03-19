@@ -18,19 +18,6 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
 
     public $_skip_parent_refresh = false;
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->task != 0)
-        {
-            $parent = new org_openpsa_projects_task_dba($this->task);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     private function _prepare_save()
     {
         //Make sure our hours property is a float

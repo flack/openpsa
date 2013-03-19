@@ -17,31 +17,6 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_routamc_positioning_log';
 
     /**
-     * Returns the person who reported the position
-     *
-     * @return midcom_db_person Parent person
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->person)
-        {
-            try
-            {
-                $parent = new midcom_db_person($this->person);
-                return $parent->guid;
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Could not load Person ID {$this->person} from the database, aborting.",
-                    MIDCOM_LOG_INFO);
-                return null;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Human-readable label for cases like Asgard navigation
      */
     function get_label()

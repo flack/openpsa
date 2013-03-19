@@ -64,20 +64,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $property;
     }
 
-    function get_parent_guid_uncached()
-    {
-        // FIXME: Midgard Core should do this
-        if ($this->owner != 0)
-        {
-            $parent = new org_openpsa_contacts_group_dba($this->owner);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public function render_link()
     {
         $siteconfig = new org_openpsa_core_siteconfig();

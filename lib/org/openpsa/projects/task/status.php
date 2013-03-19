@@ -48,19 +48,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         }
     }
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->task != 0)
-        {
-            $parent = new org_openpsa_projects_task_dba($this->task);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public function _on_creating()
     {
         //Make sure we have timestamp

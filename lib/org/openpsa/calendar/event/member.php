@@ -29,20 +29,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
     }
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->eid)
-        {
-            $event = new org_openpsa_calendar_event_dba($this->eid);
-            return $event->guid;
-        }
-        else
-        {
-            $root_event = org_openpsa_calendar_interface::find_root_event();
-            return $root_event->guid;
-        }
-    }
-
     public function _on_created()
     {
         if ($this->notify_person)
