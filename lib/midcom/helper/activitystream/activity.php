@@ -72,15 +72,20 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
                 // TODO: Check if the originating component can provide this
                 return '';
         }
-        try
+        $summary = sprintf(midcom::get('i18n')->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
+        if ($activity->actor)
         {
-            $actor = new midcom_core_user($activity->actor);
-            return sprintf(midcom::get('i18n')->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
+            try
+            {
+                $actor = new midcom_core_user($activity->actor);
+                $summary = sprintf(midcom::get('i18n')->get_string('%s ' . $verb . ' %s', 'midcom.helper.activitystream'), $actor->name, $target_label);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
-        catch (midcom_error $e)
-        {
-            return sprintf(midcom::get('i18n')->get_string('%s was ' . $verb, 'midcom.helper.activitystream'), $target_label);
-        }
+        return $summary;
     }
 
     static function get($limit = 20, $offset = 0, $unique = false)

@@ -196,6 +196,10 @@ class midcom_core_user
         }
         else if (is_numeric($id))
         {
+            if ($id < 1)
+            {
+                throw new midcom_error($id . ' is not a valid database ID');
+            }
             try
             {
                 $this->_storage = new $person_class($id);
@@ -206,9 +210,8 @@ class midcom_core_user
                 throw new midcom_error_midgard($e, $id);
             }
         }
-        else if (   is_object($id)
-                 && (   is_a($id, 'midcom_db_person')
-                     || is_a($id, $person_class)))
+        else if (   is_a($id, 'midcom_db_person')
+                 || is_a($id, $person_class))
         {
             $this->_storage = $id;
         }
