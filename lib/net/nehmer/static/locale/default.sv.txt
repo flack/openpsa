@@ -131,7 +131,7 @@ Visa index artikeln i navigering?
 ---STRINGEND
 
 ---STRING net.nehmer.static
-Vanligt innehåll
+Statisk innehåll
 ---STRINGEND
 
 ---STRING no files in this directory
@@ -180,10 +180,6 @@ Hämta innehåll från ett annat ämne ("mjuklänk")
 
 ---STRING symlink_topic disabled
 Inget ämne valt
----STRINGEND
-
----STRING taviewer
-Statisk innehåll
 ---STRINGEND
 
 ---STRING unapprove

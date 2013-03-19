@@ -151,7 +151,7 @@ Näytetäänkö index-artikkeli navigaatiossa?
 ---STRINGEND
 
 ---STRING net.nehmer.static
-Normaali sisältö
+Staattinen sisältö
 ---STRINGEND
 
 ---STRING no files in this directory
@@ -204,10 +204,6 @@ Hae sisällöt toisesta kansiosta ("symlink")
 
 ---STRING symlink_topic disabled
 Ei kansiota
----STRINGEND
-
----STRING taviewer
-Staattinen sisältö
 ---STRINGEND
 
 ---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link

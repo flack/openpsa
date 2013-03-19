@@ -155,7 +155,7 @@ Show the index article in navigation?
 ---STRINGEND
 
 ---STRING net.nehmer.static
-Regular content
+Static content
 ---STRINGEND
 
 ---STRING no files in this directory
@@ -208,10 +208,6 @@ Get content from another topic ("symlink")
 
 ---STRING symlink_topic disabled
 No topic selected
----STRINGEND
-
----STRING taviewer
-Static Content
 ---STRINGEND
 
 ---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link

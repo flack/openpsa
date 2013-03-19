@@ -440,7 +440,7 @@ class midcom_helper_nav
             if (is_a($parent, 'midcom_db_topic'))
             {
                 // Verify that this topic is within the current sites tree, if it is not,
-                // we ignore it. This might happen on symlink topics with taviewer & co
+                // we ignore it. This might happen on symlink topics with n.n.static & co
                 // which point to the outside f.x.
                 if ($this->is_node_in_tree($parent->id, $this->get_root_node()))
                 {

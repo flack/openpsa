@@ -97,7 +97,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * still be resolved, if not, they aren't in the cache anyway). The Datamanager tries
      * to catch leaf creations using its internal creation mode flag, invalidating the
      * current content topic instead of the actual object in this case. Note, that this happens
-     * directly after object creation, not during the regular safe cycle.
+     * directly after object creation, not during the regular save cycle.
      *
      * See the automatic index invalidation code of the Datamanager for additional details.
      *

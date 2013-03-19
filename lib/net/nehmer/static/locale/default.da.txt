@@ -22,7 +22,7 @@ Ingen skemaer tilgængelige
 Vælg skema
 ---STRINGEND
 
----STRING taviewer
+---STRING net.nehmer.static
 Statisk indhold
 ---STRINGEND
 

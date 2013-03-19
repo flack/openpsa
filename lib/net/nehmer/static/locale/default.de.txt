@@ -202,10 +202,6 @@ Daten aus einem anderen Ordner nehmen ("Symlink")
 Kein Ordner ausgewählt
 ---STRINGEND
 
----STRING taviewer
-Statische Inhalte
----STRINGEND
-
 ---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
 Dieser Artikel wurde von <a href="%s">%s</a> verlinkt, Bestätigen löscht ausschließlich den Link.
 ---STRINGEND
