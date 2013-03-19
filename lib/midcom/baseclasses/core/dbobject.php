@@ -1247,52 +1247,40 @@ class midcom_baseclasses_core_dbobject
             self::$parameter_cache[$object->guid] = array();
         }
 
-        if (isset(self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all']))
+        if (!isset(self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all']))
         {
-            $copy = self::$parameter_cache[$object->guid];
-            // Clean up internal marker
-            unset($copy['__midcom_baseclasses_core_dbobject_all']);
-            return $copy;
-        }
+            $mc = midgard_parameter::new_collector('parentguid', $object->guid);
+            $mc->set_key_property('guid');
+            $mc->add_value_property('domain');
+            $mc->add_value_property('name');
+            $mc->add_value_property('value');
+            $mc->execute();
+            $parameters = $mc->list_keys();
 
-        $mc = midgard_parameter::new_collector('parentguid', $object->guid);
-        $mc->set_key_property('guid');
-        $mc->add_value_property('domain');
-        $mc->add_value_property('name');
-        $mc->add_value_property('value');
-        $mc->execute();
-        $parameters = $mc->list_keys();
-
-        if (count($parameters) == 0)
-        {
-            unset($mc);
-            return self::$parameter_cache[$object->guid];
-        }
-
-        foreach ($parameters as $guid => $values)
-        {
-            $name = $mc->get_subkey($guid, 'name');
-            $domain = $mc->get_subkey($guid, 'domain');
-
-            if (!isset(self::$parameter_cache[$object->guid][$domain]))
+            foreach ($parameters as $guid => $values)
             {
-                self::$parameter_cache[$object->guid][$domain] = array();
+                $name = $mc->get_subkey($guid, 'name');
+                $domain = $mc->get_subkey($guid, 'domain');
+
+                if (!isset(self::$parameter_cache[$object->guid][$domain]))
+                {
+                    self::$parameter_cache[$object->guid][$domain] = array();
+                }
+
+                self::$parameter_cache[$object->guid][$domain][$name] = $mc->get_subkey($guid, 'value');
             }
 
-            self::$parameter_cache[$object->guid][$domain][$name] = $mc->get_subkey($guid, 'value');
+            unset($mc);
+
+            // Flag that we have queried all domains for this object
+            self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all'] = array();
         }
-
-        unset($mc);
-
-        // Flag that we have queried all domains for this object
-        self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all'] = array();
-
         $copy = self::$parameter_cache[$object->guid];
-        if (isset($copy['__midcom_baseclasses_core_dbobject_all']))
-        {
-            // Clean up internal marker
-            unset($copy['__midcom_baseclasses_core_dbobject_all']);
-        }
+
+        // Clean up internal marker and empty arrays
+        unset($copy['__midcom_baseclasses_core_dbobject_all']);
+        $copy = array_filter($copy, 'count');
+
         return $copy;
     }
 
