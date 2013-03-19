@@ -57,13 +57,12 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     {
         $label = '';
         $label_elements = array();
-        $task = $this;
-        while (   !is_null($task)
-               && $task = $task->get_parent())
+        $project = $this;
+        while ($project = $project->get_parent())
         {
-            if (isset($task->title))
+            if (!empty($project->title))
             {
-                $label_elements[] = $task->title;
+                $label_elements[] = $project->title;
             }
         }
 
@@ -75,20 +74,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         $label .= $this->title;
 
         return trim($label);
-    }
-
-    public function get_parent()
-    {
-        try
-        {
-            $project = new org_openpsa_projects_project($this->up);
-            return $project;
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            return null;
-        }
     }
 
     public function get_salesproject()
