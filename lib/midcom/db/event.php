@@ -35,33 +35,6 @@ class midcom_db_event extends midcom_core_dbaobject
     }
 
     /**
-     * Returns the Parent of the Event. This can either be another event if we have
-     * a reply event, or a topic otherwise.
-     *
-     * @return MidgardObject Parent object or null if there is none.
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->up == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            $parent = new midcom_db_event($this->up);
-        }
-        catch (midcom_error $e)
-        {
-            debug_add("Could not load Event ID {$this->up} from the database, aborting.",
-                MIDCOM_LOG_INFO);
-            return null;
-        }
-
-        return $parent->guid;
-    }
-
-    /**
      * Deletes event membership records associated with this event.
      */
     public function _on_deleted()

@@ -38,34 +38,6 @@ class midcom_db_group extends midcom_core_dbaobject
     }
 
     /**
-     * Gets the parent object of the current one.
-     *
-     * Groups that have an owner group return the owner group as a parent.
-     *
-     * @return midcom_db_group Owner group or null if there is none.
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->owner == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            $parent = new midcom_db_group($this->owner);
-        }
-        catch (midcom_error $e)
-        {
-            debug_add("Could not load Group ID {$this->owner} from the database, aborting.",
-                MIDCOM_LOG_INFO);
-            return null;
-        }
-
-        return $parent->guid;
-    }
-
-    /**
      * Helper function, adds the given person to this group. The current user must have
      * midgard:create privileges on this object for this to succeed. If the person is
      * already a member of this group, nothing is done.

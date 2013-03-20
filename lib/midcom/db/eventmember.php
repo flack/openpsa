@@ -24,31 +24,5 @@ class midcom_db_eventmember extends midcom_core_dbaobject
         $event = new midcom_db_event($this->eid);
         return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $event->title);
     }
-
-    /**
-     * Returns the Parent of the Eventmember. This is the event it is assigned to.
-     *
-     * @return MidgardObject Parent object or null if there is none.
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->eid == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            $parent = new midcom_db_event($this->eid);
-        }
-        catch (midcom_error $e)
-        {
-            debug_add("Could not load Event ID {$this->eid} from the database, aborting.",
-                MIDCOM_LOG_INFO);
-            return null;
-        }
-
-        return $parent->guid;
-    }
 }
 ?>

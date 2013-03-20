@@ -32,34 +32,6 @@ class midcom_db_member extends midcom_core_dbaobject
     }
 
     /**
-     * Returns the group the membership record is associated with. This allows group
-     * owners to manage their members.
-     *
-     * @return midcom_db_group The owning group or null if the gid is undefined.
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->gid)
-        {
-            try
-            {
-                $parent = new midcom_db_group($this->gid);
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Could not load Group ID {$this->gid} from the database, aborting.",
-                    MIDCOM_LOG_INFO);
-                return null;
-            }
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
      * Invalidate person's cache when a member record changes
      */
     private function _invalidate_person_cache()

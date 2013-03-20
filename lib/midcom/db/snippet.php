@@ -50,32 +50,6 @@ class midcom_db_snippet extends midcom_db_cachemember
         return 'snippetdir';
     }
 
-    /**
-     * Returns the Parent of the Snippet.
-     *
-     * @return MidgardObject Parent object or null if there is none.
-     */
-    function get_parent_guid_uncached()
-    {
-        if ($this->up == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            $parent = new midcom_db_snippetdir($this->up);
-        }
-        catch (midcom_error $e)
-        {
-            debug_add("Could not load Snippetdir ID {$this->up} from the database, aborting.",
-                MIDCOM_LOG_INFO);
-            return null;
-        }
-
-        return $parent->guid;
-    }
-
     public function get_icon()
     {
         return 'script.png';
