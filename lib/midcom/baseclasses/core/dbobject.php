@@ -13,19 +13,6 @@
  * The static members will invoke a number of callback methods so that you should
  * normally never have to override the base midgard methods like update or the like.
  *
- * <b>Implementation Notes:</b>
- *
- * It is important to understand that all these functions here are <i>merged</i> into
- * the actual auto-generated classes of the DBA layer. Due to this reason, the first
- * argument of all the functions is a reference to $object, which acts as replacement
- * for the $this reference you have available normally. The exposed API in the DBA
- * classes is therefore always without that parameter.
- *
- * This class breaks the database layer a bit right now as it bypasses regular MidCOM
- * Rules when working with parameters. They are set/get directly without being passed
- * through the MidCOM layer. This will change again when MgdSchema starts to support
- * Parameters natively.
- *
  * @package midcom.baseclasses
  */
 class midcom_baseclasses_core_dbobject
