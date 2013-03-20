@@ -34,20 +34,6 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
      */
     const TYPE_SOLUTION = 2001;
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->productGroup != 0)
-        {
-            $parent = new org_openpsa_products_product_group_dba($this->productGroup);
-            return $parent->guid;
-        }
-        else
-        {
-            debug_add("No parent defined for this product");
-            return null;
-        }
-    }
-
     public function get_path()
     {
         $path = $this->guid;

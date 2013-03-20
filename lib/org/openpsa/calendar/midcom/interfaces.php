@@ -16,7 +16,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
 {
     public static function create_root_event()
     {
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get('auth')->request_sudo('org.openpsa.calendar');
         $event = new midcom_db_event();
         $event->up = 0;
         $event->title = '__org_openpsa_calendar';

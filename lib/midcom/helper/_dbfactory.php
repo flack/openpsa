@@ -301,6 +301,7 @@ class midcom_helper__dbfactory
 
         static $cached_parent_guids = array();
 
+        $parent_guid = false;
         if (mgd_is_guid($object_guid))
         {
             if (array_key_exists($object_guid, $cached_parent_guids))
@@ -314,10 +315,6 @@ class midcom_helper__dbfactory
         else if ($the_object === null)
         {
             throw new midcom_error('Tried to resolve an invalid GUID without an object being present. This cannot be done.');
-        }
-        else
-        {
-            $parent_guid = false;
         }
 
         if (!$parent_guid)

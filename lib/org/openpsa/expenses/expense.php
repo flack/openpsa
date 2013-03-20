@@ -16,19 +16,6 @@ class org_openpsa_expenses_expense extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_expense';
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->task != 0)
-        {
-            $parent = new org_openpsa_projects_task_dba($this->task);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     private function _prepare_save()
     {
         //Make sure date is set

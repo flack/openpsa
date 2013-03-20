@@ -80,26 +80,6 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->event != 0)
-        {
-            try
-            {
-                $parent = new org_openpsa_calendar_event_dba($this->event);
-                return $parent->guid;
-            }
-            catch (midcom_error $e)
-            {
-                return null;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     /**
      * @todo Send notification to resource owner
      */

@@ -25,20 +25,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     const OBTYPE_DOCUMENT = 3000;
 
-    function get_parent_guid_uncached()
-    {
-        // FIXME: Midgard Core should do this
-        if (!empty($this->nextversion))
-        {
-            $parent = new org_openpsa_documents_document_dba($this->nextversion);
-        }
-        else
-        {
-            $parent = new org_openpsa_documents_directory($this->topic);
-        }
-        return $parent->guid;
-    }
-
     public function _on_loaded()
     {
         if ($this->title == "")

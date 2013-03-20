@@ -332,19 +332,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->up != 0)
-        {
-            $parent = new self($this->up);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     /**
      * Marks the salesproject as delivered if no active or pending deliverables are left
      */

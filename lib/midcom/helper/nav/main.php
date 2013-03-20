@@ -159,12 +159,12 @@ class midcom_helper_nav
     }
 
     /**
-     * This will give you a key-value pair describeing the node with the ID
+     * This will give you a key-value pair describing the node with the ID
      * $node_id. The defined keys are described above in Node data interchange
      * format. You will get false if the node ID is invalid.
      *
-     * @param int $node_id    The node-id to be retrieved.
-     * @return Array        The node-data as outlined in the class introduction, false on failure
+     * @param int $node_id    The node ID to be retrieved.
+     * @return Array        The node data as outlined in the class introduction, false on failure
      * @see midcom_helper_nav_backend::get_node()
      */
     function get_node($node_id)
@@ -457,57 +457,6 @@ class midcom_helper_nav
     /* The more complex interface methods starts here */
 
     /**
-     * This function provides an interface to construct links like 'View this page'.
-     *
-     * It takes the currently displayed content
-     * element (either a leaf or node) and constructs the respective URL relative to
-     * the root of the website as passed to the function.
-     *
-     * @param string    $baseurl    The base url that leads to the root page of the MidCOM site.
-     * @return string    The full URL to the on-site element in question, null if there is no on-site representation, false on failure
-     */
-    function view_current_page_url ($baseurl)
-    {
-        // Go upwards step by step and build together the page view URL
-        // up to the root topic.
-        $url = '';
-        if ($this->get_current_leaf() !== false)
-        {
-            $leaf = $this->get_leaf($this->get_current_leaf());
-
-            if (isset($leaf[MIDCOM_NAV_URL]))
-            {
-                $url = $leaf[MIDCOM_NAV_URL];
-            }
-            else
-            {
-                return null;
-            }
-        }
-        $node_id = $this->get_current_node();
-
-        do
-        {
-            $node = $this->get_node($node_id);
-            $url = $node[MIDCOM_NAV_URL] . $url;
-            $node_id = $this->get_node_uplink($node_id);
-            if ($node_id === false)
-            {
-                debug_add('get_node_uplink failed; view_this_page_url aborting.');
-                return false;
-            }
-        }
-        while($node_id != -1);
-
-        if (substr($baseurl, -1) === '/')
-        {
-            return $baseurl . $url;
-        }
-
-        return "{$baseurl}/{$url}";
-    }
-
-    /**
      * Construct a breadcrumb line.
      *
      * Gives you a line like 'Start > Topic1 > Topic2 > Article' using NAP to
@@ -613,9 +562,7 @@ class midcom_helper_nav
      * The entry of every level is indexed by its MIDCOM_NAV_ID, where custom keys preserve
      * their original key (as passed by the component) and prefixing it with 'custom-'. This
      * allows you to easily check if a given node/leave is within the current breadcrumb-line
-     * by checking with array_key_exists. (mgd_is_in_topic_tree was originally used for this
-     * purpose, but this check is not only much faster but more flexible as it isn't limited
-     * to topic).
+     * by checking with array_key_exists.
      *
      * <b>Adding custom data</b>
      *

@@ -44,11 +44,6 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return false;
     }
 
-    function get_parent_guid_uncached()
-    {
-        return null;
-    }
-
     public function _on_creating()
     {
         if (!$this->validate_tag($this->tag))

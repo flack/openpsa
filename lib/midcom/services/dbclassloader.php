@@ -27,88 +27,26 @@
  * )
  * </code>
  *
- * As for the parameters:
+ * The key is the MgdSchema class name from that you want to use. The class specified must exist.
  *
- * <i>mgdschema_class_name</i> is the MgdSchema class name from that you want to use. This argument
- * is mandatory, and the class specified must exist.
- *
- * <i>midcom_class_name</i> this is the name of the MidCOM base class you intend to create.
+ * The value is the name of the MidCOM base class you intend to create.
  * It is checked for basic validity against the PHP restrictions on symbol naming, but the
  * class itself is not checked for existence. You <i>must</i> declare the class as listed at
- * all times, as typecasting and -detection is done using this metadata property in the core.
- *
- * It is possible to specify more than one class in a single class definition file, and it
- * is recommended that you take advantage of this feature for performance reasons:
- *
- * <code>
- * Array
- * (
- *     //...
- * ),
- * Array
- * (
- *     //...
- * ),
- * </code>
- *
- * Place a simple text file with exactly the declarations into the config directory of your
- * component or shared library.
+ * all times, as typecasting and detection is done using this metadata property in the core.
  *
  * <b>Inherited class requirements</b>
  *
  * The classes you inherit from the intermediate stub classes must at this time satisfy one
- * requirement: You have to override the get_parent method where applicable:
- *
- * There is the (optional) <i>get_parent()</i> method: It is used in various places (for
- * example the ACL system) in MidCOM to find the logical parent of an object. By default this
- * method directly returns null indicating that there is no parent. You should override it
- * wherever you have a tree-like content structure so that MidCOM can correctly climb upwards.
- * If you have a parent only conditionally (e.g. there are root level objects), return null to
- * indicate no available parent.
- *
- * For example:
+ * requirement: You have to declare the midcom and mgdschema classnames:
  *
  * <code>
  * class midcom_db_article
  *     extends midcom_core_dbaobject
  * {
- *     // ...
+ *      public $__midcom_class_name__ = __CLASS__;
+ *      public $__mgdschema_class_name__ = 'midgard_article';
  *
- *     function get_parent()
- *     {
- *         if ($this->up != 0)
- *         {
- *             try
- *             {
- *                 $parent = new midcom_db_article($this->up);
- *             }
- *             catch (midcom_error $e)
- *             {
- *                 // Handle Error
- *             }
- *         }
- *         else
- *         {
- *             try
- *             {
- *                 $parent = new midcom_db_topic($this->up);
- *             }
- *             catch (midcom_error $e)
- *             {
- *                 // Handle Error
- *             }
- *         }
- *         return $parent;
- *     }
- * }
  * </code>
- *
- * As you can see, this is not that hard. The only rule is that you always have to return either
- * null (no parent) or a MidCOM DB type.
- *
- * The recommended way of handling inconsistencies as the ones shown above is to log an error with
- * at least MIDCOM_LOG_INFO and then return null. Depending on your application you could also
- * throw midcom_error instead, halting execution.
  *
  * @package midcom.services
  */

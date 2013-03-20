@@ -30,19 +30,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         parent::__construct($id);
     }
 
-    function get_parent_guid_uncached()
-    {
-        try
-        {
-            $parent = new org_openpsa_projects_task_dba($this->task);
-            return $parent->guid;
-        }
-        catch (midcom_error $e)
-        {
-            return null;
-        }
-    }
-
     private function _find_duplicates()
     {
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();

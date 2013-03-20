@@ -16,19 +16,6 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_calendar_resource';
 
-    function get_parent_guid_uncached()
-    {
-        if ($this->owner != 0)
-        {
-            $parent = new midcom_db_person($this->owner);
-            return $parent->guid;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public function _on_creating()
     {
         if ($this->_check_duplicates($this->name))
