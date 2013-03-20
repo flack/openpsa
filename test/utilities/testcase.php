@@ -318,6 +318,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $qb = call_user_func(array($classname, 'new_query_builder'));
         $qb->add_constraint($link_field, '=', $id);
         $results = $qb->execute();
+
         foreach ($results as $result)
         {
             $result->_use_rcs = false;
@@ -395,9 +396,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         midcom::get('auth')->request_sudo('midcom.core');
         $limit = sizeof($queue) * 5;
         $iteration = 0;
+        // we reverse the queue here because parents are usually created
+        // before their children. Normally, mgd core should catch parent
+        // deletion when children exist, but this doesn't always seem to work
+        $queue = array_reverse($queue);
         while (!empty($queue))
         {
             $object = array_pop($queue);
+
             if (!$object->delete())
             {
                 if (   midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS
