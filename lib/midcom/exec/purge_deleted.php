@@ -29,6 +29,16 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
     {
         continue;
     }
+    if (class_exists('midgard_reflector_object'))
+    {
+        // In Midgard2 we can have objects that don't
+        // have metadata. These are implicitly purged.
+        $ref = new midgard_reflector_object($mgdschema);
+        if (!$ref->has_metadata_class($mgdschema))
+        {
+            continue;
+        }
+    }
     echo "<h2>Processing class {$mgdschema}</h2>";
     flush();
 
