@@ -1802,20 +1802,6 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * Returns the GUID of the parent object. Tries to utilize the Memcache
-     * data, loading the actual information only if it is not cached.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating visibility state.
-     * @see get_parent_guid_uncached()
-     * @see midcom_services_cache_module_memcache::lookup_parent_guid()
-     */
-    public static function get_parent_guid(midcom_core_dbaobject $object)
-    {
-        return midcom::get('dbfactory')->get_parent_guid($object);
-    }
-
-    /**
      * Returns the the parent object. Tries to utilize the Memcache
      * data, loading the actual information only if it is not cached.
      *
