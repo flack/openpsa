@@ -16,6 +16,13 @@
 class midcom_helper__dbfactory
 {
     /**
+     * ID => GUID cache for parents.
+     *
+     * @var array
+     */
+    private $_parent_mapping = array();
+
+    /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
      * the MidCOM DBA system into account.
      *
@@ -267,6 +274,54 @@ class midcom_helper__dbfactory
     }
 
     /**
+     * Returns the the parent object. Tries to utilize the Memcache
+     * data, loading the actual information only if it is not cached.
+     *
+     * @param midcom_core_dbaobject $object The DBA object we're working on
+     * @return midcom_core_dbaobject|null Parent if found, otherwise null
+     * @see get_parent_guid()
+     * @todo rethink this, IMO we should trust midgard cores get_parent and then just do the object conversion if neccessary since this can return stale objects and other nastiness
+     */
+    public function get_parent(midcom_core_dbaobject $object)
+    {
+        static $parents = array();
+        static $parentlinks = array();
+        if (!isset($parentlinks[$object->guid]))
+        {
+            $parent_guid = $this->get_parent_guid($object);
+            if (empty($parent_guid))
+            {
+                $parent = null;
+                if (!empty($object->guid))
+                {
+                    $parentlinks[$object->guid] = null;
+                }
+            }
+            else
+            {
+                if (!isset($parents[$parent_guid]))
+                {
+                    try
+                    {
+                        $parents[$parent_guid] = $this->get_object_by_guid($parent_guid);
+                    }
+                    catch (midcom_error $e){}
+                }
+                $parent =& $parents[$parent_guid];
+                if (!empty($object->guid))
+                {
+                    $parentlinks[$object->guid] =& $parents[$parent_guid];
+                }
+            }
+        }
+        else
+        {
+            $parent =& $parentlinks[$object->guid];
+        }
+        return $parent;
+    }
+
+    /**
      * This is a helper function which determines the parent GUID for an existing
      * GUID according to the MidCOM content tree rules.
      *
@@ -323,7 +378,7 @@ class midcom_helper__dbfactory
             if ($class)
             {
                 // Class defined, we can use the static method for fetching parent and avoiding full object instantiate
-                $parent_guid = call_user_func(array($class, 'get_parent_guid_uncached_static'), $object_guid, $class);
+                $parent_guid = $this->_get_parent_guid_uncached_static($object_guid, $class);
             }
             else
             {
@@ -340,7 +395,7 @@ class midcom_helper__dbfactory
                     }
                 }
 
-                $parent_guid = $the_object->get_parent_guid_uncached();
+                $parent_guid = $this->_get_parent_guid_uncached($the_object);
             }
 
             if (mgd_is_guid($object_guid))
@@ -360,52 +415,119 @@ class midcom_helper__dbfactory
         return $parent_guid;
     }
 
-    /**
-     * Returns the the parent object. Tries to utilize the Memcache
-     * data, loading the actual information only if it is not cached.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return midcom_core_dbaobject|null Parent if found, otherwise null
-     * @see get_parent_guid()
-     * @todo rethink this, IMO we should trust midgard cores get_parent and then just do the object conversion if neccessary since this can return stale objects and other nastiness
-     */
-    public function get_parent(midcom_core_dbaobject $object)
+    private function _get_parent_guid_uncached(midcom_core_dbaobject $object)
     {
-        static $parents = array();
-        static $parentlinks = array();
-        if (!isset($parentlinks[$object->guid]))
+        if (method_exists($object, 'get_parent_guid_uncached'))
         {
-            $parent_guid = $this->get_parent_guid($object);
-            if (empty($parent_guid))
+            return $object->get_parent_guid_uncached();
+        }
+
+        $candidates = $this->_get_parent_candidates($object->__mgdschema_class_name__);
+
+        foreach ($candidates as $data)
+        {
+            $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $object->{$data['source_property']});
+            if (null !== $parent_guid)
             {
-                $parent = null;
-                if (!empty($object->guid))
-                {
-                    $parentlinks[$object->guid] = null;
-                }
-            }
-            else
-            {
-                if (!isset($parents[$parent_guid]))
-                {
-                    try
-                    {
-                        $parents[$parent_guid] = $this->get_object_by_guid($parent_guid);
-                    }
-                    catch (midcom_error $e){}
-                }
-                $parent =& $parents[$parent_guid];
-                if (!empty($object->guid))
-                {
-                    $parentlinks[$object->guid] =& $parents[$parent_guid];
-                }
+                return $parent_guid;
             }
         }
-        else
+        return null;
+    }
+
+    /**
+     * Get the GUID of the object's parent. This is done by reading up or parent
+     * property values, which will give us the parent's ID
+     */
+    private function _get_parent_guid_uncached_static($object_guid, $class_name)
+    {
+        if (method_exists($class_name, 'get_parent_guid_uncached_static'))
         {
-            $parent =& $parentlinks[$object->guid];
+            return call_user_func(array($class_name, 'get_parent_guid_uncached_static'), $object_guid, $class_name);
         }
-        return $parent;
+
+        $class_name = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($class_name);
+        $candidates = $this->_get_parent_candidates($class_name);
+
+        foreach ($candidates as $data)
+        {
+            $mc = new midgard_collector($class_name, 'guid', $object_guid);
+            $mc->set_key_property($data['source_property']);
+            $mc->execute();
+            $link_values = $mc->list_keys();
+
+            if (empty($link_values))
+            {
+                continue;
+            }
+            $link_value = key($link_values);
+            unset($mc, $link_values);
+            $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $link_value);
+            if (null !== $parent_guid)
+            {
+                return $parent_guid;
+            }
+        }
+        return null;
+    }
+
+    private function _load_guid($target_class, $target_property, $link_value)
+    {
+        if (empty($link_value))
+        {
+            return null;
+        }
+        if (!array_key_exists($target_class, $this->_parent_mapping))
+        {
+            $this->_parent_mapping[$target_class] = array();
+        }
+        if (array_key_exists($link_value, $this->_parent_mapping[$target_class]))
+        {
+            return $this->_parent_mapping[$target_class][$link_value];
+        }
+        $this->_parent_mapping[$target_class][$link_value] = null;
+
+        $mc2 = new midgard_collector($target_class, $target_property, $link_value);
+        $mc2->set_key_property('guid');
+        $mc2->execute();
+        $guids = $mc2->list_keys();
+        if (!empty($guids))
+        {
+            $this->_parent_mapping[$target_class][$link_value] = key($guids);
+        }
+        return $this->_parent_mapping[$target_class][$link_value];
+    }
+
+    private function _get_parent_candidates($classname)
+    {
+        $candidates = array();
+        $reflector = new midgard_reflection_property($classname);
+        $up_property = midgard_object_class::get_property_up($classname);
+        $parent_property = midgard_object_class::get_property_parent($classname);
+
+        if ($up_property)
+        {
+            $candidates[] = array
+            (
+                'source_property' => $up_property,
+                'target_property' => $reflector->get_link_target($up_property),
+                'target_class' => $classname,
+            );
+        }
+
+        if (   $parent_property
+            && $reflector->get_link_target($parent_property))
+        {
+            $candidates[] = array
+            (
+                'source_property' => $parent_property,
+                'target_property' => $reflector->get_link_target($parent_property),
+                'target_class' => $reflector->get_link_name($parent_property),
+            );
+        }
+        // FIXME: Handle GUID linking
+
+        return $candidates;
     }
 
     /**
