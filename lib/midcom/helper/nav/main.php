@@ -159,12 +159,12 @@ class midcom_helper_nav
     }
 
     /**
-     * This will give you a key-value pair describeing the node with the ID
+     * This will give you a key-value pair describing the node with the ID
      * $node_id. The defined keys are described above in Node data interchange
      * format. You will get false if the node ID is invalid.
      *
-     * @param int $node_id    The node-id to be retrieved.
-     * @return Array        The node-data as outlined in the class introduction, false on failure
+     * @param int $node_id    The node ID to be retrieved.
+     * @return Array        The node data as outlined in the class introduction, false on failure
      * @see midcom_helper_nav_backend::get_node()
      */
     function get_node($node_id)
@@ -562,9 +562,7 @@ class midcom_helper_nav
      * The entry of every level is indexed by its MIDCOM_NAV_ID, where custom keys preserve
      * their original key (as passed by the component) and prefixing it with 'custom-'. This
      * allows you to easily check if a given node/leave is within the current breadcrumb-line
-     * by checking with array_key_exists. (mgd_is_in_topic_tree was originally used for this
-     * purpose, but this check is not only much faster but more flexible as it isn't limited
-     * to topic).
+     * by checking with array_key_exists.
      *
      * <b>Adding custom data</b>
      *
