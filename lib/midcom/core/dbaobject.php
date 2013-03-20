@@ -619,58 +619,58 @@ abstract class midcom_core_dbaobject
         );
     }
 
-    public function get_parent_guid_uncached()
+    private static function _get_parent_candidates($classname)
     {
-        $reflector = new midgard_reflection_property($this->__mgdschema_class_name__);
-        $up_property = midgard_object_class::get_property_up($this->__mgdschema_class_name__);
-        if (!empty($up_property))
+        $candidates = array();
+        $reflector = new midgard_reflection_property($classname);
+        $up_property = midgard_object_class::get_property_up($classname);
+        $parent_property = midgard_object_class::get_property_parent($classname);
+
+        if ($up_property)
         {
-            $target_property = $reflector->get_link_target($up_property);
-
-            /**
-             * Using direct collector to avoid infinite loop in ACL resolving
-             * (when instantiating the parent ACLs will be checked in any case)
-             *
-            $mc = {$this->__midcom_class_name__}::new_collector($target_property, $this->{$up_property});
-            */
-            if (!empty($this->{$up_property}))
-            {
-                $mc = new midgard_collector($this->__mgdschema_class_name__, $target_property, $this->{$up_property});
-                $mc->set_key_property('guid');
-                $mc->execute();
-                $guids = $mc->list_keys();
-                if (!is_array($guids))
-                {
-                    unset($mc, $guids);
-                    return null;
-                }
-                $parent_guid = key($guids);
-
-                unset($mc, $guids);
-                return $parent_guid;
-            }
+            $candidates[] = array
+            (
+                'source_property' => $up_property,
+                'target_property' => $reflector->get_link_target($up_property),
+                'classname' => $classname,
+            );
         }
-        $parent_property = midgard_object_class::get_property_parent($this->__mgdschema_class_name__);
-        if (   !empty($parent_property)
+
+        if (   $parent_property
             && $reflector->get_link_target($parent_property))
         {
-            $target_property = $reflector->get_link_target($parent_property);
-            $target_class = $reflector->get_link_name($parent_property);
+            $candidates[] = array
+            (
+                'source_property' => $parent_property,
+                'target_property' => $reflector->get_link_target($parent_property),
+                'classname' => $reflector->get_link_name($parent_property),
+            );
+        }
+        // FIXME: Handle GUID linking
 
-            if (!empty($this->{$parent_property}))
+        return $candidates;
+    }
+
+    public function get_parent_guid_uncached()
+    {
+        $candidates = self::_get_parent_candidates($this->__mgdschema_class_name__);
+
+        if (empty($candidates))
+        {
+            return null;
+        }
+        foreach ($candidates as $data)
+        {
+            if (!empty($this->{$data['source_property']}))
             {
-                $mc = new midgard_collector($target_class, $target_property, $this->{$parent_property});
+                $mc = new midgard_collector($data['classname'], $data['target_property'], $this->{$data['source_property']});
                 $mc->set_key_property('guid');
                 $mc->execute();
                 $guids = $mc->list_keys();
-                if (!is_array($guids))
+                if (!empty($guids))
                 {
-                    unset($mc, $guids);
-                    return null;
+                    return key($guids);
                 }
-                $parent_guid = key($guids);
-                unset($mc, $guids);
-                return $parent_guid;
             }
         }
         return null;
@@ -686,107 +686,45 @@ abstract class midcom_core_dbaobject
         static $parent_mapping = array();
 
         $class_name = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($class_name);
-        $reflector = new midgard_reflection_property($class_name);
-        $up_property = midgard_object_class::get_property_up($class_name);
-        if (!empty($up_property))
-        {
-            $target_property = $reflector->get_link_target($up_property);
+        $candidates = self::_get_parent_candidates($class_name);
 
-            // Up takes precedence over parent
+        foreach ($candidates as $data)
+        {
             $mc = new midgard_collector($class_name, 'guid', $object_guid);
-            $mc->set_key_property($up_property);
+            $mc->set_key_property($data['source_property']);
             $mc->execute();
             $link_values = $mc->list_keys();
 
-            if (!empty($link_values))
+            if (empty($link_values))
             {
-                $link_value = key($link_values);
-                unset($mc, $link_values);
-                if (!empty($link_value))
+                continue;
+            }
+            $link_value = key($link_values);
+            unset($mc, $link_values);
+            if (!empty($link_value))
+            {
+                if (!array_key_exists($class_name, $parent_mapping))
                 {
-                    if (!array_key_exists($class_name, $parent_mapping))
-                    {
-                        $parent_mapping[$class_name] = array();
-                    }
-                    if (array_key_exists($link_value, $parent_mapping[$class_name]))
-                    {
-                        return $parent_mapping[$class_name][$link_value];
-                    }
+                    $parent_mapping[$class_name] = array();
+                }
+                if (array_key_exists($link_value, $parent_mapping[$class_name]))
+                {
+                    return $parent_mapping[$class_name][$link_value];
+                }
+                $parent_mapping[$class_name][$link_value] = null;
 
-                    $mc2 = new midgard_collector($class_name, $target_property, $link_value);
-                    $mc2->set_key_property('guid');
-                    $mc2->execute();
-                    $guids = $mc2->list_keys();
-                    if (!is_array($guids))
-                    {
-                        unset($mc2, $guids, $link_value);
-                        $parent_mapping[$class_name][$link_value] = null;
-                        return $parent_mapping[$class_name][$link_value];
-                    }
+                $mc2 = new midgard_collector($data['classname'], $data['target_property'], $link_value);
+                $mc2->set_key_property('guid');
+                $mc2->execute();
+                $guids = $mc2->list_keys();
+                if (!empty($guids))
+                {
                     $parent_guid = key($guids);
                     $parent_mapping[$class_name][$link_value] = $parent_guid;
-
-                    unset($mc2, $guids, $link_value);
-
                     return $parent_guid;
                 }
             }
-            else
-            {
-                unset($mc, $link_values);
-            }
         }
-
-        $parent_property = midgard_object_class::get_property_parent($class_name);
-        if (   !empty($parent_property)
-            && $reflector->get_link_target($parent_property))
-        {
-            $target_property = $reflector->get_link_target($parent_property);
-            $target_class = $reflector->get_link_name($parent_property);
-
-            $mc = new midgard_collector($class_name, 'guid', $object_guid);
-            $mc->set_key_property($parent_property);
-            $mc->execute();
-            $link_values = $mc->list_keys();
-            if (!empty($link_values))
-            {
-                $link_value = key($link_values);
-                unset($mc, $link_values);
-                if (!empty($link_value))
-                {
-                    if (!array_key_exists($target_class, $parent_mapping))
-                    {
-                        $parent_mapping[$target_class] = array();
-                    }
-                    if (array_key_exists($link_value, $parent_mapping[$target_class]))
-                    {
-                        return $parent_mapping[$target_class][$link_value];
-                    }
-
-                    $mc2 = new midgard_collector($target_class, $target_property, $link_value);
-                    $mc2->set_key_property('guid');
-                    $mc2->execute();
-                    $guids = $mc2->list_keys();
-                    if (!is_array($guids))
-                    {
-                        unset($mc2, $guids, $link_value);
-                        $parent_mapping[$target_class][$link_value] = null;
-                        return $parent_mapping[$target_class][$link_value];
-                    }
-                    $parent_guid = key($guids);
-                    $parent_mapping[$target_class][$link_value] = $parent_guid;
-                    unset($mc2, $guids, $link_value);
-
-                    return $parent_guid;
-                }
-            }
-            else
-            {
-                unset($mc, $link_values);
-            }
-        }
-        // FIXME: Handle GUID linking
-
         return null;
     }
 
