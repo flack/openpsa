@@ -388,7 +388,7 @@ abstract class midcom_core_dbaobject
     }
     public function get_parent()
     {
-        return midcom_baseclasses_core_dbobject::get_parent($this);
+        return midcom::get('dbfactory')->get_parent($this);
     }
     /**
      * Returns the GUID of the parent object. Tries to utilize the Memcache

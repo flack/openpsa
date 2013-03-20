@@ -1802,54 +1802,6 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * Returns the the parent object. Tries to utilize the Memcache
-     * data, loading the actual information only if it is not cached.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating visibility state.
-     * @see get_parent_guid()
-     * @todo rethink this, IMO we should trust midgard cores get_parent and then just do the object conversion if neccessary since this can return stale objects and other nastiness
-     */
-    public static function get_parent(midcom_core_dbaobject $object)
-    {
-        static $parents = array();
-        static $parentlinks = array();
-        if (!isset($parentlinks[$object->guid]))
-        {
-            $parent_guid = $object->get_parent_guid();
-            if (empty($parent_guid))
-            {
-                $parent = null;
-                if (!empty($object->guid))
-                {
-                    $parentlinks[$object->guid] = null;
-                }
-            }
-            else
-            {
-                if (!isset($parents[$parent_guid]))
-                {
-                    try
-                    {
-                        $parents[$parent_guid] = midcom::get('dbfactory')->get_object_by_guid($parent_guid);
-                    }
-                    catch (midcom_error $e){}
-                }
-                $parent =& $parents[$parent_guid];
-                if (!empty($object->guid))
-                {
-                    $parentlinks[$object->guid] =& $parents[$parent_guid];
-                }
-            }
-        }
-        else
-        {
-            $parent =& $parentlinks[$object->guid];
-        }
-        return $parent;
-    }
-
-    /**
      * "Pre-flight" checks for delete method
      *
      * Separated so that dbfactory->import() can reuse the code
