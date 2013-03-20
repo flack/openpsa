@@ -138,20 +138,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::_on_deleting();
     }
 
-    public function get_parent()
-    {
-        try
-        {
-            $project = new org_openpsa_projects_project($this->project);
-            return $project;
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            return null;
-        }
-    }
-
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
@@ -449,11 +435,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         {
             return true;
         }
-        $project = $this->get_parent();
-        if ($project)
-        {
-            $project->refresh_from_tasks();
-        }
+        $project = new org_openpsa_projects_project($this->project);
+        $project->refresh_from_tasks();
         return true;
     }
 

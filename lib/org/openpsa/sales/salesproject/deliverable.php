@@ -79,27 +79,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_update_parent();
     }
 
-    public function get_parent()
-    {
-        try
-        {
-            $project = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            return $project;
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            return null;
-        }
-    }
-
     private function _update_parent()
     {
-        $parent = $this->get_parent();
-        if (is_object($parent))
-        {
-            $parent->calculate_price();
-        }
+        $project = new org_openpsa_sales_salesproject_dba($this->salesproject);
+        $project->calculate_price();
     }
 
     public function __get($property)
@@ -187,19 +170,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         {
             $this->price = $price;
             $this->cost = $cost;
-
+            $this->_update_parent_on_save = true;
             if ($update)
             {
                 $this->update();
-                $parent = $this->get_parent();
-                if (is_object($parent))
-                {
-                    $parent->calculate_price();
-                }
-            }
-            else
-            {
-                $this->_update_parent_on_save = true;
+                $this->_update_parent_on_save = false;
             }
         }
     }
