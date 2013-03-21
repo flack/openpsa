@@ -390,18 +390,6 @@ abstract class midcom_core_dbaobject
     {
         return midcom::get('dbfactory')->get_parent($this);
     }
-    /**
-     * Returns the GUID of the parent object. Tries to utilize the Memcache
-     * data, loading the actual information only if it is not cached.
-     *
-     * @return midcom_core_dbaobject|null Parent if found, otherwise null
-     * @see get_parent_guid_uncached()
-     * @see midcom_services_cache_module_memcache::lookup_parent_guid()
-     */
-    public function get_parent_guid()
-    {
-        return midcom::get('dbfactory')->get_parent_guid($this);
-    }
     public function get_privilege($privilege, $assignee, $classname = '')
     {
         return midcom_baseclasses_core_dbobject::get_privilege($this, $privilege, $assignee, $classname);
