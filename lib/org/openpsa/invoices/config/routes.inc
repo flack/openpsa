@@ -76,7 +76,7 @@
 'invoice_process' => array
 (
     'handler' => Array('org_openpsa_invoices_handler_action', 'process'),
-    'fixed_args' => array('invoice' , 'process'),
+    'fixed_args' => array('invoice', 'process'),
 ),
 
 // Match /invoice/recalculation/<guid>
@@ -114,7 +114,7 @@
 // Match /invoice/pdf/<guid>
 'create_pdf' => array
 (
-    'fixed_args' => array('invoice' , 'pdf'),
+    'fixed_args' => array('invoice', 'pdf'),
     'handler' => Array('org_openpsa_invoices_handler_pdf', 'pdf'),
     'variable_args' => 1,
 ),
@@ -129,7 +129,7 @@
 'billing_data_create' => array
 (
     'handler' => array('org_openpsa_invoices_handler_billingdata', 'create'),
-    'fixed_args' => array('billingdata' , 'create'),
+    'fixed_args' => array('billingdata', 'create'),
     'variable_args' => 1,
 ),
 // Match /billingdata/delete/<guid>

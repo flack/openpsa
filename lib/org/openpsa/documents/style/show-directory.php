@@ -7,10 +7,10 @@
 <script type="text/javascript">
 
 //function to set the right title for creator-cell
-function setCellTitle(rowid , rowdata ,rowelem)
+function setCellTitle(rowid, rowdata, rowelem)
 {
-    var cell = $("#"+rowid).children(':eq(3)');
-    var source_cell = $("#"+rowid).children(':eq(2)');
+    var cell = $("#" + rowid).children(':eq(3)');
+    var source_cell = $("#" + rowid).children(':eq(2)');
     cell.attr('title', source_cell.text());
 }
 //function to add zebra-stripping
@@ -42,15 +42,15 @@ jQuery("#treegrid").jqGrid({
     ?>
     ],
     colModel:[
-        {name:'id',index:'id', hidden:true, key:true },
-        {name:'name_index', index:'name_index' , hidden:true},
+        {name:'id',index:'id', hidden: true, key: true },
+        {name:'name_index', index:'name_index', hidden: true},
         {name:'name', index: 'name_index', width: 100, classes: "ui-ellipsis"},
         {name:'download_url', index: 'download_url', classes: 'download_url', hidden: true },
-        {name:'creator_index', index: 'creator_index' , hidden:true },
+        {name:'creator_index', index: 'creator_index', hidden: true },
         {name:'creator', index: 'creator_index', width: 70, classes: "ui-ellipsis"},
-        {name:'last_mod_index', index:'last_mod_index' , hidden: true},
-        {name:'last_mod', index:'last_mod_index' , fixed: true},
-        {name:'file_size_index', index:'file_size_index' , hidden:true, sortable:true , sorttype:'integer'},
+        {name:'last_mod_index', index:'last_mod_index', hidden: true},
+        {name:'last_mod', index:'last_mod_index', fixed: true},
+        {name:'file_size_index', index:'file_size_index', hidden: true, sortable: true, sorttype:'integer'},
         {name:'file_size', index:'file_size_index', width: 90, fixed: true  }
      ],
     gridview: false,

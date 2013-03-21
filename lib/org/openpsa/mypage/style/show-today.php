@@ -56,13 +56,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 ?>
                 ],
                 colModel:[
-                    {name:'id',index:'id', hidden:true, key:true },
-                    {name:'index_name', index: 'index_name' ,hidden: true},
+                    {name:'id',index:'id', hidden:true, key: true },
+                    {name:'index_name', index: 'index_name', hidden: true},
                     {name:'name', index: 'index_name' },
                     {name:'description',index: 'description' },
                     {name:'remind_date', index: 'remind_date', fixed: true, formatter: 'date', width:140 },
-                    {name:'index_object', index: 'index_object', sorttype:"text" ,hidden: true},
-                    {name:'object',index:'index_object', width: 120 }
+                    {name:'index_object', index: 'index_object', sorttype: "text", hidden: true},
+                    {name:'object', index: 'index_object', width: 120 }
                  ],
                 rownumbers: false,
                 loadonce: true,

@@ -28,7 +28,7 @@ echo "<records>" . $records . "</records>";
       <cell> $creator </cell> (shown html)
       <cell> $date </cell> (timestamp for sorting)
       <cell> $date </cell> (shown html)
-      <cell> $file_size_index </cell> (integer , for sorting)
+      <cell> $file_size_index </cell> (integer, for sorting)
       <cell> $file_size </cell> (shown html)
       <cell> $level </cell> (level of the node - passed paramter or is 0)
       <cell> $parent </cell> (id of the parent)
@@ -55,7 +55,7 @@ if (isset($data['parent_directory']))
     echo "<cell>" . $link_html ."</cell>";
     echo "<cell></cell>";
 
-    //no creator_index/creator, last mod & file_size_index ,file_size for parent_directory
+    //no creator_index/creator, last mod & file_size_index, file_size for parent_directory
     echo "<cell></cell>";
     echo "<cell></cell>";
     echo "<cell></cell>";
@@ -92,7 +92,7 @@ foreach ($data['directories'] as $directory)
     echo "<cell>" . $link_html ."</cell>";
     echo "<cell></cell>";
 
-    //creator_index/creator , last modified , filesize
+    //creator_index/creator, last modified, filesize
     $creator = org_openpsa_widgets_contact::get($directory->metadata->creator);
     echo "<cell>" . $creator->contact_details['lastname'] . ", " . $creator->contact_details['firstname'] . "</cell>";
     echo "<cell><![CDATA[<span class='jqgrid_person'>" . $creator->show_inline() . "</span>]]></cell>";
@@ -103,7 +103,7 @@ foreach ($data['directories'] as $directory)
 
     echo "<cell>" . $level . "</cell>";
     echo "<cell>" . $parent . "</cell>";
-    // leaf = false  , expanded = false
+    // leaf = false, expanded = false
     echo "<cell>false</cell>";
     echo "<cell>false</cell>";
     echo "</row>\n";
@@ -162,7 +162,7 @@ foreach ($data['documents'] as $document)
     echo "<cell>" . $level . "</cell>";
     echo "<cell>" . $parent . "</cell>";
 
-    // leaf = true , expanded = false
+    // leaf = true, expanded = false
     echo "<cell>true</cell>";
     echo "<cell>false</cell>";
     echo "</row>";
