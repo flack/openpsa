@@ -115,7 +115,7 @@ foreach ($properties_map as $class => $properties)
         //function to display rules given of php
         function get_old_rules()
         {
-            var group_id = first_group("dirmar_rules_editor_container" ,<?php
+            var group_id = first_group("dirmar_rules_editor_container", <?php
             // pass type of first rule_group to javascript, if there is one
             if (count($current_rules) > 0)
             {
@@ -140,7 +140,7 @@ foreach ($properties_map as $class => $properties)
                     echo "groups[group_id].add_rule(false);";
                 }
             ?>
-            get_child_rules(group_id , rules_array['classes']);
+            get_child_rules(group_id, rules_array['classes']);
         }
         jQuery(document).ready(function()
         {

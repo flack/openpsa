@@ -88,11 +88,11 @@
         colModel:[
                   {name:'id',index:'id', hidden: true, key: true },
                   {name:'index_name',index:'index_name', hidden: true},
-                  {name:'name', index: 'index_name' , width: 100 },
+                  {name:'name', index: 'index_name', width: 100 },
                   {name:'description', index: 'description', classes: 'longtext' },
                   {name:'date', index: 'date', align: 'center', width: 125, formatter: 'date', fixed: true},
                   {name:'index_creator', index: 'index_creator', hidden: true},
-                  {name:'creator', index: 'index_creator' , width: 150, fixed: true},
+                  {name:'creator', index: 'index_creator', width: 150, fixed: true},
                   {name:'closed',index:'closed', width: 60, fixed: true }
         ],
         gridComplete: function()
@@ -100,7 +100,7 @@
             if (loaded_in_tab)
             {
                 new_height = $(this).attr('clientHeight') + $("#gbox_journal_entry_grid").siblings('.org_openpsa_toolbar').attr('clientHeight') + 15;
-                $("#gbox_journal_entry_grid").parent().css('height' , new_height);
+                $("#gbox_journal_entry_grid").parent().css('height', new_height);
             }
         },
         pager : "#p_journal_entry_grid",

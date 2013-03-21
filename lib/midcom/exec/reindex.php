@@ -123,7 +123,7 @@ while (! is_null($nodeid))
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
     flush();
     //pass the node-id & the language
-    $post_variables = array('nodeid' => $nodeid , 'language' => $language);
+    $post_variables = array('nodeid' => $nodeid, 'language' => $language);
     $post_string = 'nodeid=' . $nodeid . '&language=' . $language;
     $response = $http_client->post($reindex_topic_uri, $post_variables, array('User-Agent' => 'midcom-exec-midcom/reindex.php'));
     if ($response === false)

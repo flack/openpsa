@@ -218,7 +218,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     /**
      * Function to send a notification to owner of the deliverable - guid of deliverable is passed
      */
-    public function new_notification_message($args , &$handler)
+    public function new_notification_message($args, &$handler)
     {
         if (!isset($args['deliverable']))
         {
@@ -233,7 +233,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
         catch (midcom_error $e)
         {
-            $msg = 'no deliverable with passed GUID: ' . $args['deliverable'] . ' , aborting';
+            $msg = 'no deliverable with passed GUID: ' . $args['deliverable'] . ', aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;

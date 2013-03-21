@@ -122,7 +122,7 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_widgets_contact::add_head_elements();
     }
 
-    public function _show_entry($handler_id , &$data)
+    public function _show_entry($handler_id, &$data)
     {
         switch($this->_output_mode)
         {
@@ -249,7 +249,7 @@ implements midcom_helper_datamanager2_interfaces_create
         return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
     }
 
-    public function _handler_list($handler_id , $args , &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         if (isset($args[0]))
         {

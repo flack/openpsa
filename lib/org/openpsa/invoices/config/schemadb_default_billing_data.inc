@@ -25,35 +25,35 @@
         ),
         'street' => array
         (
-            'title'    => midcom::get('i18n')->get_string('street' , 'org.openpsa.contacts'),
+            'title'    => midcom::get('i18n')->get_string('street', 'org.openpsa.contacts'),
             'storage'  => 'street',
             'type'     => 'text',
             'widget'   => 'text',
         ),
         'postcode' => array
         (
-            'title'    => midcom::get('i18n')->get_string('postcode' , 'org.openpsa.contacts'),
+            'title'    => midcom::get('i18n')->get_string('postcode', 'org.openpsa.contacts'),
             'storage'  => 'postcode',
             'type'     => 'text',
             'widget'   => 'text',
         ),
         'city' => array
         (
-            'title'    => midcom::get('i18n')->get_string('city' , 'org.openpsa.contacts'),
+            'title'    => midcom::get('i18n')->get_string('city', 'org.openpsa.contacts'),
             'storage'  => 'city',
             'type'     => 'text',
             'widget'   => 'text',
         ),
         'country' => array
         (
-            'title'    => midcom::get('i18n')->get_string('country' , 'org.openpsa.contacts'),
+            'title'    => midcom::get('i18n')->get_string('country', 'org.openpsa.contacts'),
             'storage'  => 'country',
             'type'     => 'text',
             'widget'   => 'text',
         ),
         'email' => array
         (
-            'title'    => midcom::get('i18n')->get_string('email' , 'org.openpsa.contacts'),
+            'title'    => midcom::get('i18n')->get_string('email', 'org.openpsa.contacts'),
             'storage'  => 'email',
             'type'     => 'text',
             'widget'   => 'text',

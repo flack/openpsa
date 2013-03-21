@@ -5,7 +5,7 @@
     'fixed_args' => array('render'),
     'variable_args' => 3,
 ),
-    
+
 // Match render/<objguid>/<mode>
 'render' => array
 (
@@ -13,7 +13,7 @@
     'fixed_args' => array('render'),
     'variable_args' => 2,
 ),
-    
+
 // Match delete/<guid>
 'delete' => array
 (
@@ -21,7 +21,7 @@
     'fixed_args' => array('delete'),
     'variable_args' => 1,
 ),
-    
+
 // Match ajax/<mode>/<objguid>
 'ajax_object' => array
 (
@@ -29,7 +29,7 @@
     'fixed_args' => array('ajax'),
     'variable_args' => 2,
 ),
-    
+
 // Match ajax/<mode>
 'ajax' => array
 (
@@ -41,28 +41,28 @@
 'journal_entry_list' => array
 (
     'handler' => array('org_openpsa_relatedto_handler_journalentry', 'list'),
-    'fixed_args' => array('journalentry' , 'list'),
+    'fixed_args' => array('journalentry', 'list'),
     'variable_args' => 1,
 ),
 // Match journalentry/create/<guid>
 'journal_entry_create' => array
 (
     'handler' => array('org_openpsa_relatedto_handler_journalentry', 'create'),
-    'fixed_args' => array('journalentry' , 'create'),
+    'fixed_args' => array('journalentry', 'create'),
     'variable_args' => 1,
 ),
 // Match journalentry/edit/<guid>/
 'journal_entry_edit' => array
 (
     'handler' => array('org_openpsa_relatedto_handler_journalentry', 'edit'),
-    'fixed_args' => array('journalentry' , 'edit'),
+    'fixed_args' => array('journalentry', 'edit'),
     'variable_args' => 1,
 ),
 // Match journalentry/delete/<guid>/
 'journal_entry_delete' => array
 (
     'handler' => array('org_openpsa_relatedto_handler_journalentry', 'delete'),
-    'fixed_args' => array('journalentry' , 'delete'),
+    'fixed_args' => array('journalentry', 'delete'),
     'variable_args' => 1,
 ),
 // Match journalentry/<guid>/<mode>

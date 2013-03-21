@@ -1,7 +1,3 @@
-<?php
-$view = $data['document_dm'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-?>
 <div class="main">
     <div class="area">
         <h2><?php echo midcom::get('i18n')->get_string('confirm delete', 'org.openpsa.core'); ?></h2>
