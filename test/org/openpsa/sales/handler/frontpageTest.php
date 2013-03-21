@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_salesproject_frontpageTest extends openpsa_testcase
+class org_openpsa_sales_handler_frontpageTest extends openpsa_testcase
 {
     protected static $_person;
 
