@@ -611,8 +611,7 @@ class midcom_helper__dbfactory
 
         // Get an object for ACL checks, use existing one if possible
         $acl_object = new $midcom_dba_classname($unserialized_object->guid);
-        if (   is_object($acl_object)
-            && $acl_object->id)
+        if ($acl_object->id)
         {
             if (!midcom::get('dbfactory')->is_a($acl_object, get_class($unserialized_object)))
             {
@@ -638,7 +637,7 @@ class midcom_helper__dbfactory
                     $actual_object_in_db = true;
                     debug_add("Could not instantiate ACL object due to ACCESS_DENIED error, this means we can abort early", MIDCOM_LOG_ERROR);
                     return false;
-                    break;
+
                 case MGD_ERR_OBJECT_DELETED:
                 case MGD_ERR_OBJECT_PURGED:
                     $actual_object_in_db = true;
@@ -666,7 +665,7 @@ class midcom_helper__dbfactory
                 debug_add("Purges not supported yet (they require extra special love)", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_OBJECT_PURGED);
                 return false;
-                break;
+
             // action is created but object is already in db, cast to update
             case (   $unserialized_object->action == 'created'
                   && $actual_object_in_db):
