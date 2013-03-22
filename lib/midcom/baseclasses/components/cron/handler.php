@@ -55,7 +55,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
      *
      * @param array $config The full cron job configuration data.
      */
-    public function initialize($config)
+    public function initialize(array $config)
     {
         $this->_component = $config['component'];
         $this->_handler_config = $config['handler_config'];

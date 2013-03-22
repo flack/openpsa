@@ -33,14 +33,10 @@
  * store and modify it afterwards, this change will not be reflected in the
  * sessioning store.
  *
- * It will try to be as graceful as possible when starting up the sessioning. Note,
- * that side-effects that might occur together with NemeinAuth are not fully
- * investigated yet.
- *
  * <b>Important:</b>
  *
  * Do <b>never</b> create an instance of this class directly. This is handled
- * by the framework. Instead use midcocm_service_session which ensures the
+ * by the framework. Instead use midcom_service_session which ensures the
  * singleton pattern.
  *
  * Do <b>never</b> work directly with the $_SESSION["midcom_session_data"]
@@ -62,7 +58,7 @@ class midcom_services__sessioning
 
         if ($started)
         {
-            throw new midcom_error("MidCOM Sessioning has already been started, it must not be started twice. Aborting");
+            throw new midcom_error("MidCOM Sessioning has already been started, it must not be started twice");
         }
 
         $started = true;
