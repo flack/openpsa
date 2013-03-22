@@ -1026,8 +1026,6 @@ class midcom_services_auth
      * What gets rendered depends on the authentication frontend, but will usually be some kind
      * of form. The output from the frontend is surrounded by a div tag whose CSS ID is set to
      * 'midcom_login_form'.
-     *
-     * @link http://www.midgard-project.org/midcom-permalink-c5e99db3cfbb779f1108eff19d262a7c further information about how to style these elements.
      */
     function show_login_form()
     {
@@ -1044,8 +1042,6 @@ class midcom_services_auth
      * MidCOM L10n DB, login_warning is empty unless there was a failed authentication
      * attempt, in which case it will have a localized warning message enclosed in a
      * paragraph with the ID 'login_warning'.
-     *
-     * @link http://www.midgard-project.org/midcom-permalink-c5e99db3cfbb779f1108eff19d262a7c further information about how to style these elements.
      */
     function show_login_page()
     {

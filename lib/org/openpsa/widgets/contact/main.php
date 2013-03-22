@@ -8,7 +8,6 @@
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @link http://www.microformats.org/wiki/hcard hCard microformat documentation
- * @link http://www.midgard-project.org/midcom-permalink-922834501b71daad856f35ec593c7a6d Contactwidget usage documentation
  * @package org.openpsa.widgets
  */
 

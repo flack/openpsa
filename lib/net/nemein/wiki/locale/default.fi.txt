@@ -59,7 +59,7 @@ Luo sivu "%s"
 ---STRINGEND
 
 ---STRING create pages by linking
-Voit lisätä sivuja tähän <a href="http://fi.wikipedia.org/wiki/Wiki">Wikiin</a> linkittämällä olemassa olemattomiin sivuihin käyttämällä <a href="http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f">hakasulkeita</a>. Aloita muokkaamalla wikin etusivua.
+Voit lisätä sivuja tähän <a href="http://fi.wikipedia.org/wiki/Wiki">Wikiin</a> linkittämällä olemassa olemattomiin sivuihin käyttämällä hakasulkeita. Aloita muokkaamalla wikin etusivua.
 ---STRINGEND
 
 ---STRING create redirection page %s
@@ -231,11 +231,8 @@ Tämä on [Midgard CMS][1] julkaisujärjestelmällä toimivan [wiki: Wiki]si etu
 
 Tämän wikin sisältöä tuotetaan [Markdown -merkintätavalla][2]. Sivut linkitetään toisiinsa `[!!Hakasulkeita]` käyttäen. Uusia sivuja luodaan linkittämällä niiden nimeen ja klikkaamalla linkkiä.
 
-Lisätietoja linkittämisestä löytyy [wikin käyttöohjeista][3].
-
 [1]: http://www.midgard-project.org/
 [2]: http://daringfireball.net/projects/markdown/syntax
-[3]: http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f
 ---STRINGEND
 
 ---STRING wikilink_regexp

@@ -49,8 +49,6 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * element is present, it will be shown instead of the default style
      * included in this function. In that case you should look into the source
      * of it to see exactly what is required.
-     *
-     * @link http://www.midgard-project.org/midcom-permalink-c5e99db3cfbb779f1108eff19d262a7c further information about how to style these elements.
      */
     function show_authentication_form()
     {

@@ -61,7 +61,6 @@ class midcom_exception_handler
      * $login_warning will notify the user of a failed login. The latter will either be empty
      * or enclosed in a paragraph with the CSS ID 'login_warning'.
      *
-     * @link http://www.midgard-project.org/midcom-permalink-c5e99db3cfbb779f1108eff19d262a7c further information about how to style these elements.
      * @param string $message The message to show to the user.
      */
     function access_denied($message)

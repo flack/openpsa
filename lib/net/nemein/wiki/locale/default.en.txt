@@ -63,7 +63,7 @@ Create page "%s"
 ---STRINGEND
 
 ---STRING create pages by linking
-You can add pages to this <a href="http://en.wikipedia.org/wiki/Wiki">Wiki</a>  by linking to non-existing pages using <a href="http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f">Wiki linking</a> format. Start by editing the wiki front page.
+You can add pages to this <a href="http://en.wikipedia.org/wiki/Wiki">Wiki</a>  by linking to non-existing pages using Wiki linking format. Start by editing the wiki front page.
 ---STRINGEND
 
 ---STRING create redirection page %s
@@ -239,11 +239,8 @@ This is the front page of your [Midgard CMS][1] powered [wiki: Wiki]. Wikis are 
 
 Content on this wiki is edited using the [Markdown syntax][2], with links to pages made using `[!!Square brackets]`. New pages are created by linking to their name and then clicking the link.
 
-Please read the [linking instructions][3] for more information.
-
 [1]: http://www.midgard-project.org/
 [2]: http://daringfireball.net/projects/markdown/syntax
-[3]: http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f
 ---STRINGEND
 
 ---STRING wikilink_regexp

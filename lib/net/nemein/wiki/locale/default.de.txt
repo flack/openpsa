@@ -63,7 +63,7 @@ Seite "%s" erstellen
 ---STRINGEND
 
 ---STRING create pages by linking
-Sie können Seiten zu diesem <a href="http://de.wikipedia.org/wiki/Wiki">Wiki</a> hinzufügen, indem sie auf nichtexistente Seiten im <a href="http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f">Wiki linking</a>-Format verweisen. Beginnen sie mit der Bearbietung der Startseite.
+Sie können Seiten zu diesem <a href="http://de.wikipedia.org/wiki/Wiki">Wiki</a> hinzufügen, indem sie auf nichtexistente Seiten im Wiki linking-Format verweisen. Beginnen sie mit der Bearbietung der Startseite.
 ---STRINGEND
 
 ---STRING create redirection page %s
@@ -239,11 +239,8 @@ Dies ist die Startseite ihres [Midgard CMS][1]-gestützten [wiki: Wiki]s. Wikis 
 
 Die Inhalte dieses Wikis können in [Markdown syntax][2] bearbeitet werden, Links auf Seiten werden mit `[!!Eckigen Klammern]` erstellt. Neue Seiten werden erstellt, indem man einen Link auf ihren Namen erzeugt und diesen dann anklickt. 
 
-Bitte konsultieren sie die [Link-Dokumentation][3] für weitere Informationen. 
-
 [1]: http://www.midgard-project.org/
 [2]: http://daringfireball.net/projects/markdown/syntax
-[3]: http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f
 ---STRINGEND
 
 ---STRING wikilink_regexp
