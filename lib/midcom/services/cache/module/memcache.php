@@ -205,16 +205,12 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * cache's PARENT data group. If it is not found, false is returned.
      *
      * @param string $object_guid The guid of which a parent is saved.
-     * @param string $parent_guid The guid of the parent which is saved.
+     * @param array $parent_data The guid and classname of the parent which is saved.
      * @return string The parent GUID, -1 if there is no parent object or false on failure.
      */
-    function update_parent_guid($object_guid, $parent_guid)
+    function update_parent_guid($object_guid, $parent_data)
     {
-        if ($parent_guid === null)
-        {
-            $parent_guid = -1;
-        }
-        $this->put('PARENT', $object_guid, $parent_guid);
+        $this->put('PARENT', $object_guid, $parent_data);
     }
 }
 ?>

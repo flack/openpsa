@@ -286,54 +286,53 @@ class midcom_helper__dbfactory
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return midcom_core_dbaobject|null Parent if found, otherwise null
-     * @see get_parent_guid()
+     * @see get_parent_data()
      * @todo rethink this, IMO we should trust midgard core's get_parent and then just do the object conversion if neccessary since this can return stale objects and other nastiness
      */
     public function get_parent(midcom_core_dbaobject $object)
     {
-        static $cached_parents = array();
-        $parent_guid = $this->get_parent_guid($object);
+        $parent_data = $this->_get_parent_guid_cached($object->guid, $object);
+
+        $parent_guid = current($parent_data);
         if (empty($parent_guid))
         {
             return null;
         }
-        if (isset($cached_parents[$parent_guid]))
-        {
-            $cached_parents[$parent_guid] = null;
-        }
+        $classname = key($parent_data);
 
-        $candidates = $this->_get_parent_candidates($object->__mgdschema_class_name__);
-
-        if (empty($candidates))
+        if (empty($classname))
         {
             //This must be a GUID link (or wrongly configured schema)
             try
             {
-                $cached_parents[$parent_guid] = $this->get_object_by_guid($parent_guid);
-                return $cached_parents[$parent_guid];
+                $parent = $this->get_object_by_guid($parent_guid);
+                $parent_data = array
+                (
+                    $parent->__midcom_class_name__ => $parent_guid
+                );
             }
             catch (midcom_error $e)
             {
-                return null;
+                $parent_data = array
+                (
+                    '' => null
+                );
+                $parent = null;
             }
+            // Cache the classname so that we can avoid get_object_by_guid calls the next time
+            midcom::get('cache')->memcache->update_parent_guid($object->guid, $parent_data);
+
+            return $parent;
         }
 
-        foreach ($candidates as $data)
+        try
         {
-            if (!empty($object->{$data['source_property']}))
-            {
-                $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($data['target_class']);
-                try
-                {
-                    return $this->get_cached($classname, $parent_guid);
-                }
-                catch (midcom_error $e)
-                {
-                    continue;
-                }
-            }
+            return $this->get_cached($classname, $parent_guid);
         }
-        return null;
+        catch (midcom_error $e)
+        {
+            return null;
+        }
     }
 
     /**
@@ -368,32 +367,36 @@ class midcom_helper__dbfactory
             $object_guid = $object;
             $the_object = null;
         }
+        return current($this->_get_parent_guid_cached($object_guid, $the_object, $class));
+    }
 
-        static $cached_parent_guids = array();
+    private function _get_parent_guid_cached($object_guid, $the_object, $class = null)
+    {
+        static $cached_parent_data = array();
 
-        $parent_guid = false;
+        $parent_data = false;
         if (mgd_is_guid($object_guid))
         {
-            if (array_key_exists($object_guid, $cached_parent_guids))
+            if (array_key_exists($object_guid, $cached_parent_data))
             {
                 // We already got this either via query or memcache
-                return $cached_parent_guids[$object_guid];
+                return $cached_parent_data[$object_guid];
             }
 
-            $parent_guid = midcom::get('cache')->memcache->lookup_parent_guid($object_guid);
+            $parent_data = midcom::get('cache')->memcache->lookup_parent_guid($object_guid);
         }
         else if ($the_object === null)
         {
             throw new midcom_error('Tried to resolve an invalid GUID without an object being present. This cannot be done.');
         }
 
-        if (!$parent_guid)
+        if (!is_array($parent_data))
         {
             // No cache hit, retrieve guid and update the cache
             if ($class)
             {
                 // Class defined, we can use the static method for fetching parent and avoiding full object instantiate
-                $parent_guid = $this->_get_parent_guid_uncached_static($object_guid, $class);
+                $parent_data = $this->_get_parent_guid_uncached_static($object_guid, $class);
             }
             else
             {
@@ -406,35 +409,42 @@ class midcom_helper__dbfactory
                     }
                     catch (midcom_error $e)
                     {
-                        return null;
+                        return array('' => null);
                     }
                 }
 
-                $parent_guid = $this->_get_parent_guid_uncached($the_object);
+                $parent_data = $this->_get_parent_guid_uncached($the_object);
             }
 
             if (mgd_is_guid($object_guid))
             {
-                midcom::get('cache')->memcache->update_parent_guid($object_guid, $parent_guid);
+                $parent_guid = current($parent_data);
+                $classname = key($parent_data);
+                $parent_data = array();
+                if (!empty($classname))
+                {
+                    $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($classname);
+                }
+                if (!mgd_is_guid($parent_guid))
+                {
+                    $parent_guid = null;
+                }
+                $parent_data[$classname] = $parent_guid;
+                midcom::get('cache')->memcache->update_parent_guid($object_guid, $parent_data);
             }
         }
 
-        if (!mgd_is_guid($parent_guid))
-        {
-            $parent_guid = null;
-        }
-
         // Remember this so we don't need to get it again
-        $cached_parent_guids[$object_guid] = $parent_guid;
+        $cached_parent_data[$object_guid] = $parent_data;
 
-        return $parent_guid;
+        return $parent_data;
     }
 
     private function _get_parent_guid_uncached(midcom_core_dbaobject $object)
     {
         if (method_exists($object, 'get_parent_guid_uncached'))
         {
-            return $object->get_parent_guid_uncached();
+            return array('' => $object->get_parent_guid_uncached());
         }
 
         $candidates = $this->_get_parent_candidates($object->__mgdschema_class_name__);
@@ -444,10 +454,10 @@ class midcom_helper__dbfactory
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $object->{$data['source_property']});
             if (null !== $parent_guid)
             {
-                return $parent_guid;
+                return array($data['target_class'] => $parent_guid);
             }
         }
-        return null;
+        return array('' => null);
     }
 
     /**
@@ -458,7 +468,7 @@ class midcom_helper__dbfactory
     {
         if (method_exists($class_name, 'get_parent_guid_uncached_static'))
         {
-            return call_user_func(array($class_name, 'get_parent_guid_uncached_static'), $object_guid, $class_name);
+            return array('', call_user_func(array($class_name, 'get_parent_guid_uncached_static'), $object_guid, $class_name));
         }
 
         $class_name = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($class_name);
@@ -480,10 +490,10 @@ class midcom_helper__dbfactory
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $link_value);
             if (null !== $parent_guid)
             {
-                return $parent_guid;
+                return array($data['target_class'] => $parent_guid);
             }
         }
-        return null;
+        return array('' => null);
     }
 
     private function _load_guid($target_class, $target_property, $link_value)
