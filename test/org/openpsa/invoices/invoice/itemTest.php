@@ -72,6 +72,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
     public function tearDown()
     {
         self::delete_linked_objects('org_openpsa_invoices_invoice_item_dba', 'invoice', self::$_invoice->id);
+        parent::tearDown();
     }
 }
 ?>

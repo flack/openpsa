@@ -303,6 +303,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     public static function create_class_object($classname, $data = array())
     {
         $object = self::_create_object($classname, $data);
+
         self::$_class_objects[$object->guid] = $object;
         return $object;
     }
@@ -373,7 +374,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $object = array_pop($this->_testcase_objects);
             if (array_key_exists($object->guid, self::$_class_objects))
             {
-                continue;
+                unset(self::$_class_objects[$object->guid]);
             }
             $queue[] = $object;
         }
@@ -403,8 +404,15 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         while (!empty($queue))
         {
             $object = array_pop($queue);
-
-            if (!$object->delete())
+            try
+            {
+                $stat = $object->delete();
+            }
+            catch (midcom_error $e)
+            {
+                $stat = false;
+            }
+            if (!$stat)
             {
                 if (   midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS
                     || midcom_connection::get_error() == MGD_ERR_OK)
