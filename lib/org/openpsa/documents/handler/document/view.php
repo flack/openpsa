@@ -204,8 +204,6 @@ implements org_openpsa_widgets_grid_provider_client
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
         $this->_request_data['document_versions'] = $qb->count();
 
-        $this->set_active_leaf($this->_document->id);
-
         org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_contact::add_head_elements();
 
