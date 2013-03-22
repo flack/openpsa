@@ -344,9 +344,9 @@ class midcom_helper__dbfactory
      *
      * @param mixed $object Either a MidCOM DBA object instance, or a GUID string.
      * @param string $class class name of object if known (so we can use get_parent_guid_uncached_static and avoid instantiating full object)
-     * @return string The parent GUID, or null, if this is a top level object.
+     * @return array The parent GUID and class (value might be null, if this is a top level object).
      */
-    function get_parent_guid($object, $class = null)
+    function get_parent_data($object, $class = null)
     {
         if (is_object($object))
         {
@@ -367,7 +367,7 @@ class midcom_helper__dbfactory
             $object_guid = $object;
             $the_object = null;
         }
-        return current($this->_get_parent_guid_cached($object_guid, $the_object, $class));
+        return $this->_get_parent_guid_cached($object_guid, $the_object, $class);
     }
 
     private function _get_parent_guid_cached($object_guid, $the_object, $class = null)
