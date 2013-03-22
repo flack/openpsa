@@ -12,18 +12,15 @@
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_invoices_invoice_dba)
         {
-            $invoice = new org_openpsa_invoices_invoice_dba($guid);
-            return "invoice/{$invoice->guid}/";
+            return "invoice/{$object->guid}/";
         }
-        catch (midcom_error $e)
-        {
-            return null;
-        }
+        return null;
     }
 
     /**

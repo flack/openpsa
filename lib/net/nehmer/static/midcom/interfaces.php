@@ -12,6 +12,7 @@
  * @package net.nehmer.static
  */
 class net_nehmer_static_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
     /**
      * Iterate over all articles and create index record using the datamanager indexer
@@ -53,8 +54,13 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
     /**
      * Simple lookup method which tries to map the guid to an article of out topic.
      */
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
+        if (!($object instanceof midcom_db_article))
+        {
+            return null;
+        }
+        $config = $this->get_config_for_topic($topic);
         $topic_guid = $config->get('symlink_topic');
         if (   !empty($topic_guid)
             && mgd_is_guid($topic_guid))
@@ -69,22 +75,18 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
                 $e->log();
             }
         }
-
-        try
-        {
-            $article = new midcom_db_article($guid);
-        }
-        catch (midcom_error $e)
+        if ($object->topic != $topic->id)
         {
             return null;
         }
-        if (   $article->name == 'index'
-            && ! $config->get('autoindex'))
+
+        if (   $object->name == 'index'
+            && !$config->get('autoindex'))
         {
             return '';
         }
 
-        return "{$article->name}/";
+        return "{$object->name}/";
     }
 
     public function get_opengraph_default($object)

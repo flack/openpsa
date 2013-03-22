@@ -13,6 +13,7 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
     /**
      * Prepares the component's indexer client
@@ -82,25 +83,17 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         return $root_groups[$name];
     }
 
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_contacts_group_dba)
         {
-            $group = new org_openpsa_contacts_group_dba($guid);
-            return "group/{$group->guid}/";
+            return "group/{$object->guid}/";
         }
-        catch (midcom_error $e)
+        if ($object instanceof org_openpsa_contacts_person_dba)
         {
-            try
-            {
-                $person = new org_openpsa_contacts_person_dba($guid);
-                return "person/{$person->guid}/";
-            }
-            catch (midcom_error $e)
-            {
-                return null;
-            }
+            return "person/{$object->guid}/";
         }
+        return null;
     }
 
     /**

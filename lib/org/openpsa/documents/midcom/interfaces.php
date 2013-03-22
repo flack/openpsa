@@ -12,6 +12,7 @@
  * @package org.openpsa.documents
  */
 class org_openpsa_documents_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
     /**
      * Prepare the indexer client
@@ -36,21 +37,17 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
         return $indexer;
     }
 
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_documents_document_dba)
         {
-            $document = new org_openpsa_documents_document_dba($guid);
-            if ($document->topic != $topic->id)
+            if ($object->topic != $topic->id)
             {
                 return null;
             }
+            return "document/{$object->guid}/";
         }
-        catch (midcom_error $e)
-        {
-            return null;
-        }
-        return "document/{$document->guid}/";
+        return null;
     }
 }
 ?>

@@ -12,6 +12,7 @@
  * @package net.nehmer.blog
  */
 class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
     /**
      * Constructor.
@@ -70,8 +71,13 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
     /**
      * Simple lookup method which tries to map the guid to an article of out topic.
      */
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
+        if (!($object instanceof midcom_db_article))
+        {
+            return null;
+        }
+        $config = $this->get_config_for_topic($topic);
         if ($config->get('disable_permalinks'))
         {
             return null;
@@ -91,24 +97,18 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
             }
         }
 
-        try
-        {
-            $article = new midcom_db_article($guid);
-        }
-        catch (midcom_error $e)
+        if ($object->topic != $topic->id)
         {
             return null;
         }
-        $arg = $article->name ? $article->name : $article->guid;
+
+        $arg = $object->name ? $object->name : $object->guid;
 
         if ($config->get('view_in_url'))
         {
             return "view/{$arg}/";
         }
-        else
-        {
-            return "{$arg}/";
-        }
+        return "{$arg}/";
     }
 
     public function get_opengraph_default($object)

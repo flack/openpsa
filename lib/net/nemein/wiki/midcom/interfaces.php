@@ -12,6 +12,7 @@
  * @package net.nemein.wiki
  */
 class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
     /**
      * Iterate over all wiki pages and create index record using the datamanager2 indexer
@@ -43,21 +44,18 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
         return true;
     }
 
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof midcom_db_article)
         {
-            $article = new midcom_db_article($guid);
-            if ($article->name == 'index')
+            if ($object->name == 'index')
             {
                 return '';
             }
-            return "{$article->name}/";
+            return "{$object->name}/";
         }
-        catch (midcom_error $e)
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**

@@ -129,7 +129,7 @@ class midcom_services_permalinks
                 // which point to the outside f.x.
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node()))
                 {
-                    $return_value = $this->_resolve_permalink_in_topic($parent, $guid);
+                    $return_value = $this->_resolve_permalink_in_topic($parent, $object);
                     if ($return_value != null)
                     {
                         return $return_value;
@@ -148,7 +148,7 @@ class midcom_services_permalinks
         $topics = $topic_qb->execute();
         foreach ($topics as $topic)
         {
-            $result = $this->_resolve_permalink_in_topic($topic, $guid);
+            $result = $this->_resolve_permalink_in_topic($topic, $object);
             if ($result !== null)
             {
                 return $result;
@@ -159,7 +159,7 @@ class midcom_services_permalinks
         return null;
     }
 
-    private function _resolve_permalink_in_topic($topic, $guid)
+    private function _resolve_permalink_in_topic(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         // get the interface class
         // if we have a next-generation-one, use it to look up the required information
@@ -180,7 +180,14 @@ class midcom_services_permalinks
             return null;
         }
 
-        $result = $interface->resolve_permalink ($topic, $guid);
+        if ($interface instanceof midcom_services_permalinks_resolver)
+        {
+            $result = $interface->resolve_object_link($topic, $object);
+        }
+        else
+        {
+            $result = $interface->resolve_permalink($topic, $object->guid);
+        }
         if ($result === null)
         {
             return null;

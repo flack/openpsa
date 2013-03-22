@@ -12,18 +12,18 @@
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
-    public function _on_resolve_permalink($topic, $config, $guid)
+    /**
+     * @inheritdoc
+     */
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_projects_hour_report_dba)
         {
-            $event = new org_openpsa_projects_hour_report_dba($guid);
-            return "hours/edit/{$event->guid}/";
+            return "hours/edit/{$object->guid}/";
         }
-        catch (midcom_error $e)
-        {
-            return null;
-        }
+        return null;
     }
 
     /**

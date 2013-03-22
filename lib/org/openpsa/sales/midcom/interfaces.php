@@ -12,26 +12,19 @@
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_sales_salesproject_dba)
         {
-            $salesproject = new org_openpsa_sales_salesproject_dba($guid);
-            return "salesproject/{$salesproject->guid}/";
+            return "salesproject/{$object->guid}/";
         }
-        catch (midcom_error $e)
+        if ($object instanceof org_openpsa_sales_salesproject_deliverable_dba)
         {
-            try
-            {
-                $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
-                return "deliverable/{$deliverable->guid}/";
-            }
-            catch (midcom_error $e)
-            {
-                return null;
-            }
+            return "deliverable/{$object->guid}/";
         }
+        return null;
     }
 
     /**

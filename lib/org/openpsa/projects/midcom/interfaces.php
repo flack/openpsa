@@ -12,26 +12,19 @@
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_projects_project)
         {
-            $project = new org_openpsa_projects_project($guid);
-            return "project/{$project->guid}/";
+            return "project/{$object->guid}/";
         }
-        catch (midcom_error $e)
+        if ($object instanceof org_openpsa_projects_task_dba)
         {
-            try
-            {
-                $task = new org_openpsa_projects_task_dba($guid);
-                return "task/{$task->guid}/";
-            }
-            catch (midcom_error $e)
-            {
-                return null;
-            }
+            return "task/{$object->guid}/";
         }
+        return null;
     }
 
     /**

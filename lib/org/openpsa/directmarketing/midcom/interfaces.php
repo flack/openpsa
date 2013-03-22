@@ -12,6 +12,7 @@
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
     /**
      * Background message sending AT batch handler
@@ -87,27 +88,19 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
     }
 
     /**
-     * The permalink resolver
+     * @inheritdoc
      */
-    public function _on_resolve_permalink($topic, $config, $guid)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_directmarketing_campaign_dba)
         {
-            $campaign = new org_openpsa_directmarketing_campaign_dba($guid);
-            return "campaign/{$campaign->guid}/";
+            return "campaign/{$object->guid}/";
         }
-        catch (midcom_error $e)
+        if ($object instanceof org_openpsa_directmarketing_campaign_message_dba)
         {
-            try
-            {
-                $message = new org_openpsa_directmarketing_campaign_message_dba($guid);
-                return "message/{$message->guid}/";
-            }
-            catch (midcom_error $e)
-            {
-                return null;
-            }
+            return "message/{$object->guid}/";
         }
+        return null;
     }
 
     /**

@@ -10,34 +10,26 @@
  * @package org.openpsa.products
  */
 class org_openpsa_products_interface extends midcom_baseclasses_components_interface
+implements midcom_services_permalinks_resolver
 {
-    public function _on_resolve_permalink($topic, $config, $guid)
+    /**
+     * @inheritdoc
+     */
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        try
+        if ($object instanceof org_openpsa_products_product_link_dba)
         {
-            $productlink = new org_openpsa_products_product_link_dba($guid);
-            return $this->_resolve_productlink($productlink, $topic);
+            return $this->_resolve_productlink($object, $topic);
         }
-        catch (midcom_error $e)
+        if ($object instanceof org_openpsa_products_product_dba)
         {
-            try
-            {
-                $product = new org_openpsa_products_product_dba($guid);
-                return $this->_resolve_product($product, $topic);
-            }
-            catch (midcom_error $e)
-            {
-                try
-                {
-                    $product_group = new org_openpsa_products_product_group_dba($guid);
-                    return $this->_resolve_productgroup($product_group, $topic);
-                }
-                catch (midcom_error $e)
-                {
-                    return null;
-                }
-            }
+            return $this->_resolve_product($object, $topic);
         }
+        if ($object instanceof org_openpsa_products_product_group_dba)
+        {
+            return $this->_resolve_productgroup($object, $topic);
+        }
+        return null;
     }
 
     private function _resolve_productgroup($product_group, $topic)
