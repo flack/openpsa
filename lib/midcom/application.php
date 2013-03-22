@@ -83,6 +83,32 @@ class midcom_application
         $context = new midcom_core_context(0);
         $context->set_current();
 
+        // Check the midcom_config site prefix for absolute local urls
+        if (substr(midcom::get('config')->get('midcom_site_url'), 0, 1) == '/')
+        {
+            midcom::get('config')->set('midcom_site_url', $this->get_page_prefix() . substr(midcom::get('config')->get('midcom_site_url'), 1));
+        }
+    }
+
+    /* *************************************************************************
+     * Control framework:
+     * codeinit      - Handle the current request
+     * content        - Show the current pages output
+     * dynamic_load   - Dynamically load and execute a URL
+     * finish         - Cleanup Work
+     */
+
+    /**
+     * Initialize the URL parser and process the request.
+     *
+     * This function must be called before any output starts.
+     *
+     * @see _process()
+     */
+    public function codeinit()
+    {
+        $context = midcom_core_context::get();
+
         // Initialize Root Topic
         try
         {
@@ -117,31 +143,6 @@ class midcom_application
         $context->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
         $context->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
 
-        // Check the midcom_config site prefix for absolute local urls
-        if (substr(midcom::get('config')->get('midcom_site_url'), 0, 1) == '/')
-        {
-            midcom::get('config')->set('midcom_site_url', $this->get_page_prefix() . substr(midcom::get('config')->get('midcom_site_url'), 1));
-        }
-    }
-
-    /* *************************************************************************
-     * Control framework:
-     * codeinit      - Handle the current request
-     * content        - Show the current pages output
-     * dynamic_load   - Dynamically load and execute a URL
-     * finish         - Cleanup Work
-     */
-
-    /**
-     * Initialize the URL parser and process the request.
-     *
-     * This function must be called before any output starts.
-     *
-     * @see _process()
-     */
-    public function codeinit()
-    {
-        $context = midcom_core_context::get();
         if ($context->id == 0)
         {
             // Initialize the UI message stack from session
