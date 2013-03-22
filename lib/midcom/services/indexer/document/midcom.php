@@ -39,7 +39,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      * and populates the metadata fields accordingly.
      *
      * The source member is automatically populated with the GUID of the document,
-     * the RI is set to it as well. The URL is set to a on-site permalink.
+     * the RI is set to it as well. The URL is set to an on-site permalink.
      *
      * @param mixed $object The content object to load, passed to the metadata constructor.
      * @see midcom_helper_metadata

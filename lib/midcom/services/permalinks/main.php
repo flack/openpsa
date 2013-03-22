@@ -34,7 +34,7 @@
  * if you discover that it is a URL you are responsible for but the result should not be
  * cached. See there for details.
  *
- * @see midcom_baseclasses_components_interface::resolve_permalink()
+ * @see midcom_services_permalinks_resolver
  * @see midcom_baseclasses_components_interface::_on_resolve_permalink()
  * @package midcom.services
  */
@@ -130,7 +130,7 @@ class midcom_services_permalinks
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node()))
                 {
                     $return_value = $this->_resolve_permalink_in_topic($parent, $object);
-                    if ($return_value != null)
+                    if ($return_value !== null)
                     {
                         return $return_value;
                     }
@@ -161,11 +161,6 @@ class midcom_services_permalinks
 
     private function _resolve_permalink_in_topic(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        // get the interface class
-        // if we have a next-generation-one, use it to look up the required information
-        // otherwise settle with a NAP scan
-        // in any way, return in the same way as resolve_permalink itself.
-
         $component = $topic->component;
         if (!midcom::get('componentloader')->is_installed($component))
         {
@@ -186,7 +181,7 @@ class midcom_services_permalinks
         }
         else
         {
-            $result = $interface->resolve_permalink($topic, $object->guid);
+            $result = $interface->_on_resolve_permalink($topic, $interface->get_config_for_topic($topic), $object->guid);
         }
         if ($result === null)
         {

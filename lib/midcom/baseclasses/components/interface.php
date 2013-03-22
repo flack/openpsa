@@ -27,10 +27,7 @@
  * - Inherit the class as {$component}_interface (e.g. net_nehmer_static_interface).
  * - Prepare a component manifest for your component, see the class
  *   midcom_core_manifest for details.
- * - You can set the values of all <i>Component configuration variables</i>
- *   to something suitable to your component. Especially: $_autoload_files,
- *   $_autoload_libraries and $_component.
- *   The defaults should be suitable for basic operation.
+ * - You can change the values of all public members, the defaults should be suitable for cases.
  * - The component's data storage area will contain two keys when the initialized
  *   event handler is called: The NAP active id, defaulting to false and stored
  *   as <i>active_leaf</i> and the component's default configuration, stored as
@@ -65,13 +62,6 @@
  * - Component data storage initialization
  * - Context separation during runtime
  *
- * When inheriting the class, you, obviously, start with the constructor. First, as always,
- * call the base class constructor. After that, set all configuration variables outlined
- * below to values suitable to your needs.
- *
- * Usually you will be done at this point, as all other interaction can safely be done by
- * the component. Unless, of course, you have some special requirements.
- *
  * <b>Example usage</b>
  *
  * The average component will require something like this, part one is the component
@@ -96,12 +86,6 @@
  * <code>
  * class net_nehmer_static_interface extends midcom_baseclasses_components_interface
  * {
- *     function __construct()
- *     {
- *         $this->_autoload_files = array('my_special_mgd_schema_class.php');
- *         $this->_autoload_libraries = array('midcom.helper.datamanager2');
- *     }
- *
  *     function _on_reindex($topic, $config, &$indexer)
  *     {
  *         $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
@@ -132,31 +116,12 @@
  *             $indexer->index($document);
  *         }
  *     }
- *
- *     function _on_resolve_permalink($topic, $config, $guid)
- *     {
- *         try
- *         {
- *             $article = new midcom_db_article($guid);
- *         }
- *         catch (midcom_error $e)
- *         {
- *             return null;
- *         }
- *         if ($article->name == 'index')
- *         {
- *             return '';
- *         }
- *
- *         return "{$article->name}/";
- *     }
  * }
  * </code>
  *
  * @package midcom.baseclasses
  * @see midcom_helper__componentloader
  * @see midcom_core_manifest
- * @todo Document class parameters
  */
 abstract class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
 {
@@ -173,6 +138,8 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * should be loaded during initialization.
      *
      * @var array
+     * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
+     * loaded on-demand by the auoloader instead
      */
     var $_autoload_files = Array();
 
@@ -182,6 +149,8 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * _autoload_files.
      *
      * @var array
+     * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
+     * loaded on-demand by the auoloader instead
      */
     var $_autoload_libraries = Array();
 
@@ -453,33 +422,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     /**
-     * This interface function is used to check whether a component can handle a given GUID.
-     *
-     * A topic is provided which limits the "scope" of the search accordingly. It can be
-     * safely assumed that the topic given is a valid topic in the MidCOM content tree
-     * (it is checked through NAP).
-     *
-     * If the GUID could be successfully resolved, a URL local to the given topic without a
-     * leading slash must be returned (f.x. 'article/'), empty strings ('') are allowed
-     * indicating root page access. If the GUID is invalid, null will be returned.
-     *
-     * This call is relayed to the component using the event handler _on_resolve_permalink().
-     * Before that it will deduce the active configuration for the given topic.
-     *
-     * Note, that this is the only event handler which has some kind of default implementation,
-     * see its documentation for details.
-     *
-     * @param midcom_db_topic $topic the Topic to look up.
-     * @param string $guid The permalink GUID that should be looked up.
-     * @return string The local URL (without leading slashes) or null on failure.
-     * @see _on_resolve_permalink()
-     */
-    public function resolve_permalink($topic, $guid)
-    {
-        return $this->_on_resolve_permalink($topic, $this->get_config_for_topic($topic), $guid);
-    }
-
-    /**
      * This is a small helper function which gets the full configuration set active for a given
      * topic. If no topic is passed, the system wide default configuration is returned.
      *
@@ -671,17 +613,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * leading slash must be returned (f.x. 'article/'), empty strings ('') are allowed
      * indicating root page access. If the GUID is invalid, null will be returned.
      *
-     * This call is relayed to the component using the event handler _on_resolve_permalink().
-     * Before that it will deduce the active configuration for the given topic.
-     *
-     * The information you return with this call (if no-null) will be considered cacheable by
-     * the content caching engine. Therefore you have to ensure that either the resolution
-     * is stable or that you configure the content cache accordingly if you have a match.
-     * The hard way is setting the no_cache flag in cases where you need full flexibility, but
-     * this should be avoided for the sake of performance if somehow possible. The more
-     * sophisticated alternative is therefore to selectively invalidate all GUIDs that have
-     * their Permalink lookup affected.
-     *
      * <b>Important Note:</b>
      *
      * Be aware that this is the only event handler at this time which has a real default
@@ -696,12 +627,13 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param midcom_helper_configuration $config The configuration used for the given topic.
      * @param string $guid The permalink GUID that should be looked up.
      * @return string The local URL (without leading slashes) or null on failure.
+     * @deprecated Implement the midcom_services_permalinks_resolver interface instead
      */
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         $nav = new midcom_helper_nav();
         $leaves = $nav->list_leaves($topic->id);
-        if (! $leaves)
+        if (empty($leaves))
         {
             return null;
         }

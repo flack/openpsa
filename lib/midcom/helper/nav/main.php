@@ -305,7 +305,7 @@ class midcom_helper_nav
      * A full scan of the NAP data is only done if another MidgardObject is used.
      *
      * Note: If you want to resolve a GUID you got from a Permalink, use the Permalinks
-     * service within MidCOM, as it covers more objects then the NAP listings.
+     * service within MidCOM, as it covers more objects than the NAP listings.
      *
      * @param string $guid The GUID of the object to be looked up.
      * @param boolean $node_is_sufficient if we could return a good guess of correct parent node but said node does not list the $guid in leaves return the node or try to do a full (and very expensive) NAP scan ?

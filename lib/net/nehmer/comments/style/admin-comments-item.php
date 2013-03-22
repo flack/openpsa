@@ -14,8 +14,7 @@ if ($data['comment']->rating > 0)
 {
     $rating = ', ' . sprintf('rated %s', $data['comment']->rating);
 }
-$object_link = midcom::get('permalinks')->create_permalink($data['comment']->objectguid).'#net_nehmer_comments_'.$data['comment']->objectguid;
-
+$object_link = midcom::get('permalinks')->create_permalink($data['comment']->objectguid) . '#net_nehmer_comments_' . $data['comment']->objectguid;
 ?>
 
 <div style="clear:right;" class="net_nehmer_comments_comment">
