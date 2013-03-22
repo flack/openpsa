@@ -7,7 +7,6 @@ body
 {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   background-color: #d3d7cf;
   color: #222;
 }
@@ -25,6 +24,7 @@ select
 {
     height: 100%;
     background-color: #ffffff;
+    overflow: hidden;
 }
 
 a
