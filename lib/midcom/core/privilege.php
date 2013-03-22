@@ -96,26 +96,17 @@ class midcom_core_privilege
     {
         if (!array_key_exists($property, $this->__privilege))
         {
-            if ($property == 'name')
-            {
-                debug_add("Deprecated property name used instead of privilegename");
-                return $this->__privilege['privilegename'];
-            }
             return null;
         }
 
         return $this->__privilege[$property];
     }
+
     public function __set($property, $value)
     {
-        if ($property == 'name')
-        {
-            debug_add("Deprecated property name used instead of privilegename");
-            return $this->__privilege['privilegename'] = $value;
-        }
-
         return $this->__privilege[$property] = $value;
     }
+
     public function __isset($property)
     {
         return isset($this->__privilege[$property]);
