@@ -165,25 +165,6 @@ abstract class midcom_core_dbaobject
             return $this->__metadata;
         }
 
-        if (   substr($property, 0, 2) === '__'
-            && $property !== '__guid')
-        {
-            // API change safety
-            if ($property === '__new_class_name__')
-            {
-                debug_add("Deprecated property __new_class_name__ used with object of type {$this->__mgdschema_class_name__}", MIDCOM_LOG_WARN);
-                $property = '__mgdschema_class_name__';
-            }
-
-            if ($property === '__table__')
-            {
-                debug_add("Deprecated property __table__ used with object of type {$this->__mgdschema_class_name__}", MIDCOM_LOG_WARN);
-                return null;
-            }
-
-            return $this->$property;
-        }
-
         return $this->__object->$property;
     }
 
