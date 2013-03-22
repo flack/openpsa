@@ -15,13 +15,13 @@
  */
 class xml_comparison extends PHPUnit_Framework_Constraint_isEqual
 {
-    public function __construct($string)
+    public function __construct($value, $delta = 0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
     {
-        if (!is_string($string))
+        if (!is_string($value))
         {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
-        $this->value = $this->_normalize_string($string, 2);
+        $this->value = $this->_normalize_string($value, 2);
     }
 
     private function _normalize_string($string, $argument = 1)
@@ -62,7 +62,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_isEqual
         return $new_doc->saveXML();
     }
 
-    public function evaluate($other)
+    public function evaluate($other, $description = '', $returnResult = false)
     {
         if (!is_string($other))
         {
