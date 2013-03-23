@@ -53,7 +53,7 @@
         'org.openpsa.widgets' => array(),
         'org.openpsa.smslib' => array(),
         'org.openpsa.qbpager' => array(),
-        'midcom.services.at' => array()
+        'midcom.services.at' => array(),
         'midcom' => array(),
     ),
 ),
