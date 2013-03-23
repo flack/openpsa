@@ -985,6 +985,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             // Empty or does not start with /
             return;
         }
+
         static $prefixes = array();
         if (!isset($prefixes[$this->_feed->url]))
         {
@@ -1019,17 +1020,15 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         {
             $item['title'] = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
 
-            $item_date = $item['date_timestamp'];
-
             if (isset($item['description']))
             {
                 // Use 20 first characters from the description as title
                 $item['title'] = substr(strip_tags($item['description']), 0, 20) . '...';
             }
-            elseif ($item_date)
+            elseif (!empty($item['date_timestamp']))
             {
                 // Use publication date as title
-                $item['title'] = strftime('%x', $item_date);
+                $item['title'] = strftime('%x', $item['date_timestamp']);
             }
         }
 
