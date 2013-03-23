@@ -142,12 +142,11 @@ class midcom_services_cron
     /**
      * This helper function loads and validates all registered jobs. After
      * this call, all required handler classes will be available.
+     *
+     * @param array $data The job configurations
      */
-    function _load_jobs()
+    public function load_jobs(array $data)
     {
-        $data = midcom::get('componentloader')->get_all_manifest_customdata('midcom.services.cron');
-        $data['midcom'] = $this->_midcom_jobs;
-
         foreach ($data as $component => $jobs)
         {
             // First, verify the component is loaded
@@ -176,24 +175,15 @@ class midcom_services_cron
                 if ($stat)
                 {
                     $job['component'] = $component;
-                    $this->_register_job($job);
+                    if (!array_key_exists('handler_config', $job))
+                    {
+                        $job['handler_config'] = Array();
+                    }
+                    $this->_jobs[] = $job;
                 }
             }
         }
-    }
-
-    /**
-     * This function adds a validated job to the run queue.
-     *
-     * @param array $job The job to register.
-     */
-    function _register_job($job)
-    {
-        if (! array_key_exists('handler_config', $job))
-        {
-            $job['handler_config'] = Array();
-        }
-        $this->_jobs[] = $job;
+        return $this->_jobs;
     }
 
     /**
@@ -202,7 +192,7 @@ class midcom_services_cron
      * @param array $job The job to register.
      * @return boolean Indicating validity.
      */
-    private function _validate_job($component, array $job)
+    private function _validate_job(array $job)
     {
         if (! array_key_exists('handler', $job))
         {
@@ -233,9 +223,14 @@ class midcom_services_cron
     /**
      * This is the main cron handler function.
      */
-    function execute()
+    public function execute()
     {
-        $this->_load_jobs();
+        if (empty($this->_jobs))
+        {
+            $data = midcom::get('componentloader')->get_all_manifest_customdata('midcom.services.cron');
+            $data['midcom'] = $this->_midcom_jobs;
+            $this->load_jobs($data);
+        }
 
         foreach ($this->_jobs as $job)
         {
