@@ -155,7 +155,7 @@ class midcom_baseclasses_core_dbobject
             // Attachments are a special case
             if (midcom::get('dbfactory')->is_a($object, 'midgard_attachment'))
             {
-                if (   !$parent('midgard:attachments')
+                if (   !$parent->can_do('midgard:attachments')
                     || !$parent->can_do('midgard:update'))
                 {
                     debug_add("Failed to create attachment, update or attachments privilege on the parent " . get_class($parent) . " {$parent->guid} not granted for the current user.",
