@@ -53,12 +53,7 @@
         'org.openpsa.widgets' => array(),
         'org.openpsa.smslib' => array(),
         'org.openpsa.qbpager' => array(),
-        'midcom.services.at' => array(),
-        'Contact_Vcard_Parse' => array
-        (
-            'channel' => 'pear.php.net',
-            'optional' => 'yes'
-        ),
+        'midcom.services.at' => array()
         'midcom' => array(),
     ),
 ),

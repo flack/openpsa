@@ -1,0 +1,20 @@
+BEGIN:VCARD
+EMAIL:test@openpsa2.org
+FN:Firstname Lastname
+N:Lastname;Firstname;;;
+ORG:Test Organization
+TEL;TYPE=WORK:01010101
+TEL;TYPE=HOME:+002 55 555
+TEL;TYPE=CELL:10101 2222
+UID:1NGFoYl9tK
+VERSION:2.1
+X-SKYPE:test
+END:VCARD
+
+BEGIN:VCARD
+FN:Almost Empty
+N:Empty;Almost;;;
+UID:CHii6JizRB
+VERSION:2.1
+END:VCARD
+
