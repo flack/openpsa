@@ -197,8 +197,6 @@ class midcom_core_group
      * This method returns a list of all groups in which the
      * MidCOM user passed is a member.
      *
-     * This function is always called statically.
-     *
      * @param midcom_core_user $user The user that should be looked-up.
      * @return Array An array of member groups or false on failure, indexed by their ID.
      */

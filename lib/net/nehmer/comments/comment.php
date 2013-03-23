@@ -104,12 +104,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * not diplaying empty comments or anonymous posts,
      * ordered by creation date.
      *
-     * May be called statically.
-     *
      * @param guid $guid The GUID of the object to bind to.
      * @return Array List of applicable comments.
      */
-    function list_by_objectguid_filter_anonymous($guid, $limit=false, $order='ASC', $paging=false, $status = false)
+    public static function list_by_objectguid_filter_anonymous($guid, $limit=false, $order='ASC', $paging=false, $status = false)
     {
         if ($paging !== false)
         {
@@ -152,11 +150,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns the number of comments associated with a given object. This is intended for
      * outside usage to render stuff like "15 comments". The count is executed unchecked.
      *
-     * May be called statically.
-     *
      * @return int Number of comments matching a given result.
      */
-    function count_by_objectguid($guid, $status = false)
+    public static function count_by_objectguid($guid, $status = false)
     {
         $qb = net_nehmer_comments_comment::new_query_builder();
 
@@ -176,11 +172,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * This is intended for outside usage to render stuff like "15 comments". The count is
      * executed unchecked.
      *
-     * May be called statically.
-     *
      * @return int Number of comments matching a given result.
      */
-    function count_by_objectguid_filter_anonymous($guid, $status = false)
+    public static function count_by_objectguid_filter_anonymous($guid, $status = false)
     {
         $qb = net_nehmer_comments_comment::new_query_builder();
 

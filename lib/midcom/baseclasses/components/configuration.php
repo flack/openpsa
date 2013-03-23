@@ -148,8 +148,6 @@ class midcom_baseclasses_components_configuration
      *
      * If the file does not exist, false is returned.
      *
-     * This function may be called statically.
-     *
      * @param string $filename The name of the file that should be parsed.
      * @return Array The read data or false on failure.
      * @see read_array_from_snippet()
@@ -178,8 +176,6 @@ class midcom_baseclasses_components_configuration
      * This is essentially a simple Array($data\n) eval construct.
      *
      * If the snippet does not exist, false is returned.
-     *
-     * This function may be called statically.
      *
      * @param string $snippetpath The full path to the snippet that should be returned.
      * @return Array The read data or false on failure.

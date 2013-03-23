@@ -650,7 +650,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Statically callable method to map extended classes
+     * Method to map extended classes
      *
      * For example org.openpsa.* components often expand core objects,
      * in config we specify which classes we wish to substitute with which
@@ -680,7 +680,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Statically callable method to see if two MgdSchema classes are the same
+     * Method to see if two MgdSchema classes are the same
      *
      * NOTE: also takes into account the various extended class scenarios
      *
@@ -741,7 +741,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Get the MgdSchema classname for given class, statically callable
+     * Get the MgdSchema classname for given class
      *
      * @param mixed $classname either string (class name) or object
      * @return string the base class name
@@ -840,7 +840,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Statically callable method to resolve the "name" property of given object
+     * Resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
      * @param object $object the object to get the name property for
@@ -868,7 +868,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Statically callable method to resolve the "title" of given object
+     * Resolve the "title" of given object
      *
      * NOTE: This is distinctly different from get_object_label, which will always return something
      * even if it's just the class name and GUID, also it will for some classes include extra info (like datetimes)
@@ -895,7 +895,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Statically callable method to resolve the "title" property of given object
+     * Resolve the "title" property of given object
      *
      * NOTE: This is distinctly different from get_label_property, which will always return something
      * even if it's just the guid

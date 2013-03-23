@@ -155,8 +155,8 @@ class midcom_baseclasses_core_dbobject
             // Attachments are a special case
             if (midcom::get('dbfactory')->is_a($object, 'midgard_attachment'))
             {
-                if (   ! midcom::get('auth')->can_do('midgard:attachments', $parent)
-                    || ! midcom::get('auth')->can_do('midgard:update', $parent))
+                if (   !$parent('midgard:attachments')
+                    || !$parent->can_do('midgard:update'))
                 {
                     debug_add("Failed to create attachment, update or attachments privilege on the parent " . get_class($parent) . " {$parent->guid} not granted for the current user.",
                         MIDCOM_LOG_ERROR);
@@ -164,8 +164,8 @@ class midcom_baseclasses_core_dbobject
                     return false;
                 }
             }
-            elseif (   ! midcom::get('auth')->can_do('midgard:create', $parent)
-                && ! midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
+            else if (   !$parent->can_do('midgard:create')
+                     && !midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -820,11 +820,10 @@ class midcom_baseclasses_core_dbobject
             $vars = get_object_vars($oldobject);
             foreach ($vars as $name => $value)
             {
-                if (   $name == '__res'
-                    || (  substr($name, 0, 2) == '__'
-                        && substr($name, -2) == '__'))
+                if (   substr($name, 0, 2) == '__'
+                    && substr($name, -2) == '__')
                 {
-                    // This is a special variable, we must not overwrite them.
+                    // This is a special variable, we must not overwrite it.
                     continue;
                 }
                 $newobject->$name = $value;

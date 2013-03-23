@@ -638,9 +638,6 @@ class midcom_services_auth_acl
      * merging. They do take the "depth" into account correctly though when looking
      * at a single group chain.
      *
-     * This function is for use in the authentication framework only and may only
-     * be called statically.
-     *
      * This function tries to operate on GUIDs whenever possible, to keep runtime up,
      * only in the case of nonpersistent objects (no valid GUID yet), it will revert to
      * regular object usage.

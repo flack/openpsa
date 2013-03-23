@@ -352,11 +352,10 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a static helper function which lists all content privileges
+     * This is a helper function which lists all content privileges
      * assigned to a given object. Essentially, this will exclude all SELF style assignees.
      *
-     * This function is for use in the authentication framework only and may only
-     * be called statically.
+     * This function is for use in the authentication framework only.
      *
      * @param string $guid A GUID to query.
      * @return Array A list of midcom_core_privilege instances.
@@ -367,11 +366,10 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a static helper function which lists all privileges assigned
+     * This is a helper function which lists all privileges assigned
      * directly to a user or group. These are all SELF privileges.
      *
-     * This function is for use in the authentication framework only and may only
-     * be called statically.
+     * This function is for use in the authentication framework only.
      *
      * @param string $guid A GUID to query.
      * @return Array A list of midcom_core_privilege instances.
@@ -385,8 +383,7 @@ class midcom_core_privilege
      * This is a static helper function which lists all privileges assigned
      * an object unfiltered.
      *
-     * This function is for use in the authentication framework only and may only
-     * be called statically.
+     * This function is for use in the authentication framework only
      *
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
@@ -401,9 +398,6 @@ class midcom_core_privilege
     /**
      * This is a static helper function which lists all privileges assigned
      * an object unfiltered.
-     *
-     * This function is for use in the authentication framework only and may only
-     * be called statically.
      *
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
@@ -436,10 +430,9 @@ class midcom_core_privilege
     }
 
     /**
-     * This is an internal helper function, which may only be called statically.
-     *
-     * It is used by get_all_privileges in case that there is no cache hit. It will query the
-     * database and construct all necessary objects out of it.
+     * This is an internal helper function used by get_all_privileges in case
+     * that there is no cache hit. It will query the database and construct all
+     * necessary objects out of it.
      *
      * @param string $guid The GUID of the object for which to query ACL data.
      * @param string $type SELF or CONTENT
@@ -505,7 +498,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a static helper function which retrieves a single given privilege
+     * This is a helper function which retrieves a single given privilege
      * at a content object, identified by the combination of assignee and privilege
      * name.
      *
@@ -513,8 +506,7 @@ class midcom_core_privilege
      * the given object (i.e. does not exist) for consistency reasons. Errors are
      * thrown for example on database inconsistencies.
      *
-     * This function is for use in the authentication framework only and may only
-     * be called statically.
+     * This function is for use in the authentication framework only.
      *
      * @param object $object The object to query.
      * @param string $name The name of the privilege to query

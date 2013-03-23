@@ -877,14 +877,14 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * This is a shortcut function which allows the calling application to
      * determine the pre-validation return code of the current form.
      *
-     * This function is called statically and does therefore *not* do any
-     * form specific operations. It is primarily geared on shortcutting out of
-     * existing processing chains to avoid the expensive controller startup
-     * operation in cases where cancel or similar buttons are clicked.
+     * This function does *not* do any form specific operations.
+     * It is primarily geared on shortcutting out of existing processing chains
+     * to avoid the expensive controller startup operation in cases where cancel
+     * or similar buttons are clicked.
      *
      * @return string One of 'edit', 'save', 'next', 'previous', 'preview' and 'cancel'
      */
-    static function get_clicked_button()
+    public static function get_clicked_button()
     {
         switch (true)
         {
