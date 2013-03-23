@@ -13,22 +13,21 @@
  */
 class net_nemein_rss_fetchTest extends openpsa_testcase
 {
+    private function _get_item($source)
+    {
+        $string = file_get_contents($source);
+        $rss = new MagpieRSS($string);
+        return net_nemein_rss_fetch::normalize_item($rss->items[0]);
+    }
+
     public function test_import_article()
     {
         $topic = $this->create_object('midcom_db_topic', array('component' => 'net.nehmer.blog'));
         $feed = $this->create_object('net_nemein_rss_feed_dba', array('node' => $topic->id));
         $fetcher = new net_nemein_rss_fetch($feed);
 
-        $now = time();
-        $item = array
-        (
-            'title' => 'import test',
-            'guid' => '12345',
-            'link' => 'http://openpsa2.org',
-            'description' => 'test description',
-            'category' => 'test category, test2',
-            'date_timestamp' => $now
-        );
+        $item = @$this->_get_item(__DIR__ . '/__files/article.xml');
+
         midcom::get('auth')->request_sudo('net.nemein.rss');
         $guid = $fetcher->import_item($item);
         midcom::get('auth')->drop_sudo();
@@ -36,20 +35,20 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $article = new midcom_db_article($guid);
         $this->register_object($article);
         $this->assertEquals('import-test', $article->name);
-        $this->assertEquals('import test', $article->title);
-        $this->assertEquals('test description', $article->content);
-        $this->assertEquals('http://openpsa2.org', $article->url);
+        $this->assertEquals('Import Test', $article->title);
+        $this->assertEquals('Test Description', $article->content);
+        $this->assertEquals('http://openpsa2.org/news/no-such-entry/', $article->url);
         $this->assertEquals('|feed:' . md5($feed->url) . '|test category|test2|', $article->extra1);
 
         $feed->refresh();
-        $this->assertEquals($now, $feed->latestupdate);
+        $this->assertEquals(1362342210, $feed->latestupdate);
 
         //Now for the update
         $now = time() + 10;
         $item = array
         (
             'title' => 'import test 2',
-            'guid' => '12345',
+            'guid' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
             'link' => 'http://openpsa2.org',
             'description' => 'test description',
             'category' => 'test category',
