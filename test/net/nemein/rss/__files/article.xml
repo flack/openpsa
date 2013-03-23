@@ -9,12 +9,13 @@
     <generator>FeedCreator 1.8</generator>
     <item>
       <title>Import Test</title>
-      <link>http://openpsa2.org/news/no-such-entry/</link>
+      <link>/news/no-such-entry/</link>
       <description><![CDATA[Test Description]]></description>
       <author>test@openpsa2.org (Test Author)</author>
       <pubDate>Sun, 03 Mar 2013 20:23:30 +0000</pubDate>
       <guid>http://openpsa2.org/midcom-permalink-nosuchguid</guid>
       <category>test category, test2</category>
+      <enclosure url="http://openpsa2.org/no-such-video" duration="78645" type="video/wmv" />
     </item>
 </channel>
 </rss>

@@ -13,23 +13,42 @@
  */
 class net_nemein_rss_fetchTest extends openpsa_testcase
 {
-    private function _get_item($source)
+    private function _get_items($source, $raw = false)
     {
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
+        require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
+
         $string = file_get_contents($source);
         $rss = new MagpieRSS($string);
-        return net_nemein_rss_fetch::normalize_item($rss->items[0]);
+        if ($raw)
+        {
+            return $rss->items;
+        }
+        $return = array();
+        foreach ($rss->items as $item)
+        {
+            $return[] = net_nemein_rss_fetch::normalize_item($rss->items[0]);
+        }
+        return $return;
     }
 
     public function test_import_article()
     {
         $topic = $this->create_object('midcom_db_topic', array('component' => 'net.nehmer.blog'));
-        $feed = $this->create_object('net_nemein_rss_feed_dba', array('node' => $topic->id));
+        $attributes = array
+        (
+            'node' => $topic->id,
+            'url' => 'http://openpsa2.org/'
+        );
+        $feed = $this->create_object('net_nemein_rss_feed_dba', $attributes);
         $fetcher = new net_nemein_rss_fetch($feed);
 
-        $item = @$this->_get_item(__DIR__ . '/__files/article.xml');
+        $items = @$this->_get_items(__DIR__ . '/__files/article.xml');
 
         midcom::get('auth')->request_sudo('net.nemein.rss');
-        $guid = $fetcher->import_item($item);
+        $guid = $fetcher->import_item($items[0]);
         midcom::get('auth')->drop_sudo();
         $this->assertTrue(mgd_is_guid($guid));
         $article = new midcom_db_article($guid);
@@ -116,5 +135,62 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $author = $fetcher->match_item_author($input);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
+    }
+
+    /**
+     * @dataProvider provider_normalize_item
+     */
+    public function test_normalize_item($item, $expected)
+    {
+        $normalized = net_nemein_rss_fetch::normalize_item($item);
+        $this->assertEquals($expected, $normalized);
+    }
+
+    public function provider_normalize_item()
+    {
+        $items = @$this->_get_items(__DIR__ . '/__files/normalize.xml', true);
+        return array
+        (
+            array
+            (
+                $items[0],
+                array
+                (
+                    'guid' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
+                    'title' => 'Untitled',
+                    'link' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
+                    'description' => ''
+                )
+            ),
+            array
+            (
+                $items[1],
+                array
+                (
+                    'guid' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
+                    'title' => 'Test Description...',
+                    'link' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
+                    'description' => '<a href="http://localhost">Test Description</a>',
+                    'summary' => '<a href="http://localhost">Test Description</a>'
+                )
+            ),
+            array
+            (
+                $items[2],
+                array
+                (
+                    'guid' => '',
+                    'title' => strftime('%x', 1362342210),
+                    'link' => '',
+                    'description' => '<a href="http://localhost">Test Description</a>',
+                    'pubdate' => 'Sun, 03 Mar 2013 20:23:30 +0000',
+                    'dc' => array
+                    (
+                        'description' => '<a href="http://localhost">Test Description</a>',
+                    ),
+                    'date_timestamp' => 1362342210
+                )
+            ),
+        );
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- generator="FeedCreator 1.8" -->
+<rss version="2.0">
+  <channel xmlns:g="http://base.google.com/ns/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <title>Test Normalize Feed</title>
+    <description></description>
+    <link>http://openpsa2.org/news/</link>
+    <lastBuildDate>Sat, 23 Mar 2013 17:51:41 +0000</lastBuildDate>
+    <generator>FeedCreator 1.8</generator>
+    <item>
+      <guid>http://openpsa2.org/midcom-permalink-nosuchguid</guid>
+    </item>
+    <item>
+      <description><![CDATA[<a href="http://localhost">Test Description</a>]]></description>
+      <link>http://openpsa2.org/midcom-permalink-nosuchlink</link>
+    </item>
+    <item>
+      <pubDate>Sun, 03 Mar 2013 20:23:30 +0000</pubDate>
+      <dc:description><![CDATA[<a href="http://localhost">Test Description</a>]]></dc:description>
+    </item>
+</channel>
+</rss>
