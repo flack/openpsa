@@ -348,7 +348,10 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             echo "<li class=\"jabbber\">";
             echo "<a href=\"xmpp:{$this->contact_details['jid']}\"";
             $edgar_url = $this->_config->get('jabber_edgar_url');
-            echo " style=\"background-repeat: no-repeat;background-image: url('{$edgar_url}?jid={$this->contact_details['jid']}&type=image');\"";
+            if (!empty($edgar_url))
+            {
+                echo " style=\"background-repeat: no-repeat;background-image: url('{$edgar_url}?jid={$this->contact_details['jid']}&type=image');\"";
+            }
             echo ">{$this->contact_details['jid']}</a></li>\n";
         }
 
