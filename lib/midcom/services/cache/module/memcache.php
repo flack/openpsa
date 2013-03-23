@@ -187,28 +187,26 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     }
 
     /**
-     * This is a little helper that tries to look up a parent GUID in the memory
+     * This is a little helper that tries to look up a GUID in the memory
      * cache's PARENT data group. If it is not found, false is returned.
-     * If the object has no parent (null was passed originally as parent object),
-     * the method returns -1 to avoid storage problems.
+     * If the object has no parent, the array value is null
      *
      * @param string $guid The guid of which a parent is searched.
-     * @return string The parent GUID, -1 if there is no parent object or false on failure.
+     * @return array|false The classname => GUID pair or false when nothing is in cache
      */
-    function lookup_parent_guid($guid)
+    function lookup_parent_data($guid)
     {
         return $this->get('PARENT', $guid);
     }
 
     /**
-     * This is a little helper that tries to look up a parent GUID in the memory
-     * cache's PARENT data group. If it is not found, false is returned.
+     * This is a little helper that saves a parent GUID and class in the memory
+     * cache's PARENT data group.
      *
      * @param string $object_guid The guid of which a parent is saved.
      * @param array $parent_data The guid and classname of the parent which is saved.
-     * @return string The parent GUID, -1 if there is no parent object or false on failure.
      */
-    function update_parent_guid($object_guid, $parent_data)
+    function update_parent_data($object_guid, array $parent_data)
     {
         $this->put('PARENT', $object_guid, $parent_data);
     }

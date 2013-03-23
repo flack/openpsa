@@ -320,7 +320,7 @@ class midcom_helper__dbfactory
                 $parent = null;
             }
             // Cache the classname so that we can avoid get_object_by_guid calls the next time
-            midcom::get('cache')->memcache->update_parent_guid($object->guid, $parent_data);
+            midcom::get('cache')->memcache->update_parent_data($object->guid, $parent_data);
 
             return $parent;
         }
@@ -383,7 +383,7 @@ class midcom_helper__dbfactory
                 return $cached_parent_data[$object_guid];
             }
 
-            $parent_data = midcom::get('cache')->memcache->lookup_parent_guid($object_guid);
+            $parent_data = midcom::get('cache')->memcache->lookup_parent_data($object_guid);
         }
         else if ($the_object === null)
         {
@@ -416,21 +416,22 @@ class midcom_helper__dbfactory
                 $parent_data = $this->_get_parent_guid_uncached($the_object);
             }
 
+            $parent_guid = current($parent_data);
+            $classname = key($parent_data);
+            $parent_data = array();
+            if (!empty($classname))
+            {
+                $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($classname);
+            }
+            if (!mgd_is_guid($parent_guid))
+            {
+                $parent_guid = null;
+            }
+            $parent_data[$classname] = $parent_guid;
+
             if (mgd_is_guid($object_guid))
             {
-                $parent_guid = current($parent_data);
-                $classname = key($parent_data);
-                $parent_data = array();
-                if (!empty($classname))
-                {
-                    $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($classname);
-                }
-                if (!mgd_is_guid($parent_guid))
-                {
-                    $parent_guid = null;
-                }
-                $parent_data[$classname] = $parent_guid;
-                midcom::get('cache')->memcache->update_parent_guid($object_guid, $parent_data);
+                midcom::get('cache')->memcache->update_parent_data($object_guid, $parent_data);
             }
         }
 
