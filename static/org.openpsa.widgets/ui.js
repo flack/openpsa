@@ -180,11 +180,11 @@ var org_openpsa_layout =
             .appendTo('#container');
 
         $('#template_openpsa2_resizer').draggable({
-            axis: 'axis-x',
+            axis: 'x',
             containment: 'window',
             stop: function(event, ui)
             {
-                var offset = Math.max((ui.offset.left + 4), 0),
+                var offset = Math.max((ui.offset.left), 0),
                 navigation_width = offset,
                 content_margin_left = offset + 2;
 
@@ -246,7 +246,7 @@ var org_openpsa_layout =
                     minLength: 2
                 });
             }
-        }
+        };
 
         for (i = 0; i < providers.length; i++)
         {
@@ -286,14 +286,6 @@ var org_openpsa_layout =
 
                     $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: target.data('provider').identifier});
                 })
-                .mouseover(function()
-                {
-                    $(this).addClass('hover');
-                })
-                .mouseout(function()
-                {
-                    $(this).removeClass('hover');
-                })
                 .appendTo(selector);
 
             if (   current === providers[i].identifier
@@ -302,6 +294,15 @@ var org_openpsa_layout =
                 enable_autocomplete(providers[i]);
             }
         }
+        selector
+            .on('mouseover', 'li.provider', function()
+            {
+                $(this).addClass('hover');
+            })
+            .on('mouseout', 'li.provider', function()
+            {
+                $(this).removeClass('hover');
+            });
 
         $('#org_openpsa_search_form').attr('action', current_provider.url);
 
