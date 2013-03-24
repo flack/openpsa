@@ -14,11 +14,7 @@ class org_openpsa_smslib_interface extends midcom_baseclasses_components_interfa
     {
         $this->_autoload_files = array
         (
-            'factory.php',
-            'tambur.php',
-            'clickatell.php',
-            'messto.php',
-            'email2sms.php',
+            'factory.php'
         );
     }
 }

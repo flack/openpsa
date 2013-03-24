@@ -15,10 +15,6 @@ class midcom_admin_help_interface extends midcom_baseclasses_components_interfac
 {
     public function __construct()
     {
-        $this->_autoload_files = array
-        (
-            'help.php',
-        );
         $this->_autoload_libraries = array
         (
             'net.nehmer.markdown',
