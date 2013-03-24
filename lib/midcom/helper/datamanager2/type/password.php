@@ -107,10 +107,10 @@ class midcom_helper_datamanager2_type_password extends midcom_helper_datamanager
             $this->_real_value = "**{$this->value}";
         }
     }
-    
-    /** 
+
+    /**
      * HTML display for password always displays asterisks only
-     * 
+     *
      * @return string
      */
     public function convert_to_html()

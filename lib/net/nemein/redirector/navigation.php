@@ -8,7 +8,7 @@
 
 /**
  * net.nemein.redirector NAP interface class.
- * 
+ *
  * @package net.nemein.redirector
  */
 class net_nemein_redirector_navigation extends midcom_baseclasses_components_navigation
@@ -20,10 +20,10 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
         $qb->add_constraint('node', '=', $this->_topic->guid);
         $qb->add_order('metadata.score', 'DESC');
         $qb->add_order('title');
-        
+
         // Get the results
         $results = $qb->execute();
-        
+
         foreach ($results as $tinyurl)
         {
             $leaves[$tinyurl->id] = array
@@ -34,7 +34,7 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
                 MIDCOM_NAV_OBJECT => $tinyurl,
             );
         }
-        
+
         return $leaves;
     }
 }
