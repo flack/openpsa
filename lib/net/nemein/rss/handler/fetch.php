@@ -24,14 +24,14 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
         midcom::get('cache')->content->enable_live_mode();
 
         midcom::get()->disable_limits();
-
+        $data['error'] = '';
         if ($handler_id == '____feeds-rss-feeds_fetch')
         {
             $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
 
             $fetcher = new net_nemein_rss_fetch($data['feed']);
             $data['items'] = $fetcher->import();
-
+            $data['error'] = $fetcher->lasterror;
             midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
             $this->bind_view_to_object($data['feed']);
         }
@@ -46,6 +46,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
             {
                 $fetcher = new net_nemein_rss_fetch($feed);
                 $items = $fetcher->import();
+                $data['error'] .= $fetcher->lasterror . "<br /> \n";
                 $data['items'] = array_merge($data['items'], $items);
             }
         }

@@ -35,10 +35,9 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         {
             // If we didn't get the channel title preset
             $feed_title = '';
-            if (   $rss
-                && isset($rss->channel['title']))
+            if ($rss->get_title())
             {
-                $feed_title = $rss->channel['title'];
+                $feed_title = $rss->get_title();
             }
         }
 

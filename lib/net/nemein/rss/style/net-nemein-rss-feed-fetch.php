@@ -15,9 +15,9 @@ else
 if (count($data['items']) == 0)
 {
     echo '<p>' . $data['l10n']->get('no items found in feed') . "</p>\n";
-    if (isset($GLOBALS['MAGPIE_ERROR']))
+    if (!empty($data['error']))
     {
-        echo "<p class=\"error\">{$GLOBALS['MAGPIE_ERROR']}</p>\n";
+        echo "<p class=\"error\">{$data['error']}</p>\n";
     }
 }
 else
@@ -34,14 +34,7 @@ else
     foreach ($data['items'] as $item)
     {
         echo "<tr>\n";
-        if (!isset($item['date_timestamp']))
-        {
-            $date = 0;
-        }
-        else
-        {
-            $date = $item['date_timestamp'];
-        }
+        $date = (int)$item->get_date('U');
         if ($date == 0)
         {
             echo "    <td>" . $data['l10n']->get('n/a') . "</td>\n";
@@ -50,9 +43,9 @@ else
         {
             echo "    <td>" . strftime('%x %X', $date) . "</td>\n";
         }
-        echo "    <td><a href=\"{$item['link']}\">{$item['title']}</a></td>\n";
+        echo '    <td><a href="' . $item->get_link() . '">' . $item->get_title() . "</a></td>\n";
 
-        if (!$item['local_guid'])
+        if (!$item->get_local_guid())
         {
             echo "    <td>" . $data['l10n']->get('not in local database') . "</td>\n";
         }
@@ -61,14 +54,14 @@ else
             switch (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT))
             {
                 case 'net.nehmer.blog':
-                    $local_article = new midcom_db_article($item['local_guid']);
-                    $local_link = midcom::get('permalinks')->create_permalink($item['local_guid']);
+                    $local_article = new midcom_db_article($item->get_local_guid());
+                    $local_link = midcom::get('permalinks')->create_permalink($item->get_local_guid());
                     echo "    <td><a href=\"{$local_link}\">{$local_article->title}</a></td>\n";
                     break;
 
                 case 'net.nemein.calendar':
-                    $local_event = new net_nemein_calendar_event($item['local_guid']);
-                    $local_link = midcom::get('permalinks')->create_permalink($item['local_guid']);
+                    $local_event = new net_nemein_calendar_event($item->get_local_guid());
+                    $local_link = midcom::get('permalinks')->create_permalink($item->get_local_guid());
                     echo "    <td><a href=\"{$local_link}\">{$local_event->title}</a></td>\n";
                     break;
             }
@@ -76,6 +69,7 @@ else
 
         echo "</tr>\n";
     }
+
     echo "    </tbody>\n";
     echo "</table>\n";
 }

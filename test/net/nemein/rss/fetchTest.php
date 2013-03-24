@@ -15,23 +15,11 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 {
     private function _get_items($source, $raw = false)
     {
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
-        require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
-
         $string = file_get_contents($source);
-        $rss = new MagpieRSS($string);
-        if ($raw)
-        {
-            return $rss->items;
-        }
-        $return = array();
-        foreach ($rss->items as $item)
-        {
-            $return[] = net_nemein_rss_fetch::normalize_item($rss->items[0]);
-        }
-        return $return;
+        $feed = net_nemein_rss_fetch::get_parser();
+        $feed->set_raw_data($string);
+        $feed->init();
+        return $feed->get_items();
     }
 
     public function test_import_article()
@@ -45,7 +33,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $feed = $this->create_object('net_nemein_rss_feed_dba', $attributes);
         $fetcher = new net_nemein_rss_fetch($feed);
 
-        $items = @$this->_get_items(__DIR__ . '/__files/article.xml');
+        $items = $this->_get_items(__DIR__ . '/__files/article.xml');
 
         midcom::get('auth')->request_sudo('net.nemein.rss');
         $guid = $fetcher->import_item($items[0]);
@@ -59,23 +47,17 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertEquals('http://openpsa2.org/news/no-such-entry/', $article->url);
         $this->assertEquals('|feed:' . md5($feed->url) . '|test category|test2|', $article->extra1);
 
+        $this->assertEquals('video/wmv', $article->get_parameter('net.nemein.rss:enclosure', 'mimetype'));
+        $this->assertEquals('http://openpsa2.org/no-such-video', $article->get_parameter('net.nemein.rss:enclosure', 'url'));
+
         $feed->refresh();
         $this->assertEquals(1362342210, $feed->latestupdate);
 
         //Now for the update
-        $now = time() + 10;
-        $item = array
-        (
-            'title' => 'import test 2',
-            'guid' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
-            'link' => 'http://openpsa2.org',
-            'description' => 'test description',
-            'category' => 'test category',
-            'date_timestamp' => $now
-        );
+        $items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
 
         midcom::get('auth')->request_sudo('net.nemein.rss');
-        $guid2 = $fetcher->import_item($item);
+        $guid2 = $fetcher->import_item($items[0]);
         midcom::get('auth')->drop_sudo();
         $this->assertTrue(mgd_is_guid($guid2));
         $article = new midcom_db_article($guid2);
@@ -83,11 +65,11 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $this->assertEquals($guid, $guid2);
         $this->assertEquals('import-test', $article->name);
-        $this->assertEquals('import test 2', $article->title);
+        $this->assertEquals('Import Test 2', $article->title);
         $this->assertEquals('|feed:' . md5($feed->url) . '|test category|', $article->extra1);
 
         $feed->refresh();
-        $this->assertEquals($now, $feed->latestupdate);
+        $this->assertEquals(1362349410, $feed->latestupdate);
     }
 
     public function test_match_item_author()
@@ -96,27 +78,25 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $feed = new net_nemein_rss_feed_dba;
         $feed->node = $topic->id;
         $fetcher = new net_nemein_rss_fetch($feed);
+        $pie = net_nemein_rss_fetch::get_parser();
+        $pie->set_raw_data(file_get_contents(__DIR__ . '/__files/empty.xml'));
+        $pie->init();
+        $item = $pie->get_item();
 
         $person = self::create_user();
         $user = midcom::get('auth')->get_user($person->id);
 
-        $input = array
-        (
-            'author' => $user->username
-        );
+        $item->data['child'] = $this->_set_item_author($user->username);
 
-        $author = $fetcher->match_item_author($input);
+        $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
 
         $email = microtime(true) . '@openpsa2.org';
         $person = $this->create_object('midcom_db_person', array('email' => $email));
 
-        $input = array
-        (
-            'author' => 'test <' . $email . '>'
-        );
-        $author = $fetcher->match_item_author($input);
+        $item->data['child'] = $this->_set_item_author('test <' . $email . '>');
+        $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
 
@@ -128,13 +108,31 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $person = $this->create_object('midcom_db_person', $attributes);
 
-        $input = array
-        (
-            'author' => $attributes['firstname'] . ' ' . $attributes['lastname']
-        );
-        $author = $fetcher->match_item_author($input);
+        $item->data['child'] = $this->_set_item_author($attributes['firstname'] . ' ' . $attributes['lastname']);
+        $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
+    }
+
+    private function _set_item_author($string)
+    {
+        return array
+        (
+            '' => array
+            (
+                'author' => array
+                (
+                    array
+                    (
+                        'data' => $string,
+                        'attribs' => array(),
+                        'xml_base' => '',
+                        'xml_base_explicit' => false,
+                        'xml_lang' => '',
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -142,13 +140,16 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
      */
     public function test_normalize_item($item, $expected)
     {
-        $normalized = net_nemein_rss_fetch::normalize_item($item);
-        $this->assertEquals($expected, $normalized);
+        foreach ($expected as $field => $value)
+        {
+            $method = 'get_' . $field;
+            $this->assertEquals($value, $item->$method(), 'difference in field ' . $field);
+        }
     }
 
     public function provider_normalize_item()
     {
-        $items = @$this->_get_items(__DIR__ . '/__files/normalize.xml', true);
+        $items = $this->_get_items(__DIR__ . '/__files/normalize.xml', true);
         return array
         (
             array
@@ -156,7 +157,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
                 $items[0],
                 array
                 (
-                    'guid' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
+                    'id' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
                     'title' => 'Untitled',
                     'link' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
                     'description' => ''
@@ -167,11 +168,10 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
                 $items[1],
                 array
                 (
-                    'guid' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
+                    'id' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
                     'title' => 'Test Description...',
                     'link' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
-                    'description' => '<a href="http://localhost">Test Description</a>',
-                    'summary' => '<a href="http://localhost">Test Description</a>'
+                    'description' => '<a href="http://localhost/">Test Description</a>',
                 )
             ),
             array
@@ -179,16 +179,10 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
                 $items[2],
                 array
                 (
-                    'guid' => '',
-                    'title' => strftime('%x', 1362342210),
+                    'id' => '',
+                    'title' => 'Test Description...',
                     'link' => '',
                     'description' => '<a href="http://localhost">Test Description</a>',
-                    'pubdate' => 'Sun, 03 Mar 2013 20:23:30 +0000',
-                    'dc' => array
-                    (
-                        'description' => '<a href="http://localhost">Test Description</a>',
-                    ),
-                    'date_timestamp' => 1362342210
                 )
             ),
         );

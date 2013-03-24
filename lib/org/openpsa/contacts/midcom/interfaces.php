@@ -265,15 +265,12 @@ implements midcom_services_permalinks_resolver
             $data['rss_url'] = $rss_url[0]['href'];
 
             // We have a feed URL, but we should check if it is GeoRSS as well
-            midcom::get('componentloader')->load_library('net.nemein.rss');
+            $items = net_nemein_rss_fetch::raw_fetch($data['rss_url'])->get_items();
 
-            $rss_content = net_nemein_rss_fetch::raw_fetch($data['rss_url']);
-
-            if (   isset($rss_content->items)
-                && count($rss_content->items) > 0)
+            if (count($items) > 0)
             {
-                if (   array_key_exists('georss', $rss_content->items[0])
-                    || array_key_exists('geo', $rss_content->items[0]))
+                if (   $items[0]->get_latitude()
+                    || $items[0]->get_longitude())
                 {
                     // This is a GeoRSS feed
                     $data['georss_url'] = $data['rss_url'];

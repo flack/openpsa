@@ -8,15 +8,13 @@
     <lastBuildDate>Sat, 23 Mar 2013 17:51:41 +0000</lastBuildDate>
     <generator>FeedCreator 1.8</generator>
     <item>
-      <title>Import Test</title>
+      <title>Import Test 2</title>
       <link>/news/no-such-entry/</link>
       <description><![CDATA[Test Description]]></description>
       <author>test@openpsa2.org (Test Author)</author>
-      <pubDate>Sun, 03 Mar 2013 20:23:30 +0000</pubDate>
+      <pubDate>Sun, 03 Mar 2013 22:23:30 +0000</pubDate>
       <guid>http://openpsa2.org/midcom-permalink-nosuchguid</guid>
       <category>test category</category>
-      <category> test2</category>
-      <enclosure url="http://openpsa2.org/no-such-video" length="78645" type="video/wmv" />
     </item>
 </channel>
 </rss>

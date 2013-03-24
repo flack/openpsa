@@ -46,36 +46,13 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
 
     private function _fetch_georss_position($url)
     {
-        $rss_content = net_nemein_rss_fetch::raw_fetch($url);
-        if (isset($rss_content->items))
+        $rss_content = net_nemein_rss_fetch::raw_fetch($url)->get_items();
+        if (!empty($items))
         {
-            foreach ($rss_content->items as $item)
+            foreach ($items as $item)
             {
-                $latitude = null;
-                $longitude = null;
-
-                if (   array_key_exists('georss', $item)
-                    && array_key_exists('point', $item['georss']))
-                {
-                    // GeoRSS Simple format
-                    $geo_point = explode(' ', $item['georss']['point']);
-                    if (count($geo_point) != 2)
-                    {
-                        // Somehow broken point
-                        continue;
-                    }
-
-                    $latitude = (float) $geo_point[0];
-                    $longitude = (float) $geo_point[1];
-                }
-                if (   array_key_exists('geo', $item)
-                    && array_key_exists('lat', $item['geo'])
-                    && array_key_exists('lon', $item['geo']))
-                {
-                    // W3C geo format
-                    $latitude = (float) $item['geo']['lat'];
-                    $longitude = (float) $item['geo']['lon'];
-                }
+                $latitude = $item->get_latitude();
+                $longitude = $item->get_longitude();
 
                 if (   !is_null($latitude)
                     && !is_null($longitude))
@@ -98,16 +75,17 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
                         continue;
                     }
 
-                    if (!isset($item['date_timestamp']))
+                    $time = $item->get_date('U');
+                    if (empty($time))
                     {
-                        $item['date_timestamp'] = time();
+                        $time = time();
                     }
 
                     $position = array
                     (
                         'latitude'    => $latitude,
                         'longitude'   => $longitude,
-                        'time'        => $item['date_timestamp'],
+                        'time'        => $time,
                     );
 
                     // We're happy with the first proper match

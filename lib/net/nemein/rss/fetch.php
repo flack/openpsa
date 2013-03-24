@@ -7,14 +7,6 @@
  */
 
 /**
- * @ignore
- */
-require_once MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc';
-require_once MIDCOM_ROOT . '/external/magpierss/rss_parse.inc';
-require_once MIDCOM_ROOT . '/external/magpierss/rss_cache.inc';
-require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
-
-/**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
  * in net.nehmer.blog or events in net.nemein.calendar
  *
@@ -22,6 +14,11 @@ require_once MIDCOM_ROOT . '/external/magpierss/rss_utils.inc';
  */
 class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 {
+    /**
+     * The last error reported by SimplePie, if any
+     */
+    public $lasterror;
+
     /**
      * The feed object we're fetching
      */
@@ -40,13 +37,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     private $_node = null;
 
     /**
-     * Configuration of node we're importing to
-     *
-     * @var midcom_helper_configuration
-     */
-    private $_node_config = null;
-
-    /**
      * Datamanager for handling saves
      *
      * @var midcom_helper_datamanager2
@@ -62,54 +52,31 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         $this->_node = new midcom_db_topic($this->_feed->node);
 
-        if ($this->_node->component)
-        {
-            $this->_node_config = midcom_baseclasses_components_configuration::get($this->_node->component, 'config');
-        }
         parent::__construct();
+    }
+
+    public static function get_parser()
+    {
+        $parser = new SimplePie;
+        $parser->get_registry()->register('Item', 'net_nemein_rss_parser_item');
+        $parser->set_output_encoding(midcom::get('i18n')->get_current_charset());
+        $parser->set_cache_location(midcom::get('config')->get('midcom_tempdir'));
+        $parser->enable_cache(false); //enabling cache leads to segfaults for some reason
+        return $parser;
     }
 
     /**
      * Static method for actually fetching a feed
+     *
+     * @param string $url The URL to fetch
+     * @return SimplePie
      */
     public static function raw_fetch($url)
     {
-        $items = array();
-
-        try
-        {
-            // TODO: Ensure Magpie uses conditional GETs here
-            error_reporting(E_WARNING);
-            $rss = fetch_rss($url);
-            error_reporting(E_ALL);
-        }
-        catch (Exception $e)
-        {
-            // Magpie failed fetching or parsing the feed somehow
-            debug_add("Failed to fetch or parse feed {$url}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-            return $items;
-        }
-
-        if (!$rss)
-        {
-            // Magpie failed fetching or parsing the feed somehow
-            debug_add("Failed to fetch or parse feed {$url}: " . $GLOBALS['MAGPIE_ERROR'], MIDCOM_LOG_INFO);
-            return $items;
-        }
-
-        foreach ($rss->items as $item)
-        {
-            // Normalize the item
-            $item = self::normalize_item($item);
-
-            if ($item)
-            {
-                $items[] = $item;
-            }
-        }
-        $rss->items = $items;
-
-        return $rss;
+        $parser = self::get_parser();
+        $parser->set_feed_url($url);
+        $parser->init();
+        return $parser;
     }
 
     /**
@@ -119,18 +86,16 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     function fetch()
     {
-        $rss = self::raw_fetch($this->_feed->url);
-
-        if (!$rss)
+        $parser = self::raw_fetch($this->_feed->url);
+        if ($parser->error())
         {
-            debug_add("MagpieRSS did not return any items", MIDCOM_LOG_WARN);
+            $this->lasterror = $parser->error();
             return array();
         }
-
-        if (!empty($rss->etag))
+        if (!empty($rss->data['headers']['etag']))
         {
             // Etag checking
-            $etag = trim($rss->etag);
+            $etag = trim($rss->data['headers']['etag']);
 
             $feed_etag = $this->_feed->get_parameter('net.nemein.rss', 'etag');
             if (   !empty($feed_etag)
@@ -149,9 +114,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $this->_feed->_use_rcs = false;
         $this->_feed->update();
 
-        return $rss->items;
+        return $parser->get_items();
     }
-
 
     /**
      * Fetches and imports items in the feed
@@ -176,41 +140,39 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         foreach ($items as $item_id => $item)
         {
-            $items[$item_id]['local_guid'] = $this->import_item($item);
+            $guid = $this->import_item($item);
 
-            if (!$items[$item_id]['local_guid'])
+            if (!$guid)
             {
-                debug_add("Failed to import item {$item['guid']}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to import item " . $item->get_id() . ': ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
             else
             {
-                debug_add("Imported item {$item['guid']} as {$items[$item_id]['local_guid']}", MIDCOM_LOG_INFO);
+                $item->set_local_guid($guid);
+                debug_add("Imported item " . $item->get_id() . ' as ' . $guid, MIDCOM_LOG_INFO);
             }
         }
 
         $this->clean($items);
 
-        return $items;
+        return array_reverse($items);
     }
 
     /**
      * Imports a feed item into the database
      *
-     * @param array $item Feed item as provided by MagpieRSS
+     * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      */
-    function import_item($item)
+    function import_item(net_nemein_rss_parser_item $item)
     {
-        $this->normalize_item_link($item);
-
         switch ($this->_node->component)
         {
             case 'net.nehmer.blog':
                 return $this->import_article($item);
-                break;
 
             case 'net.nemein.calendar':
-                return $this->import_event($item);
-                break;
+                //return $this->import_event($item);
+                throw new midcom_error('Event importing has to be re-implemented with SimplePie API');
 
             default:
                 /**
@@ -227,11 +189,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Imports an item as a news article
      */
-    private function import_article($item)
+    private function import_article(net_nemein_rss_parser_item $item)
     {
-        if (   (   empty($item['title'])
-                || trim($item['title']) == '...')
-            && empty($item['guid']))
+        $guid = $item->get_id();
+        $title = $item->get_title();
+
+        if (   (   empty($title)
+                || trim($title) == '...')
+            && empty($guid))
         {
             // Something wrong with this entry, skip it
             return false;
@@ -241,7 +206,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_feed->node);
         // TODO: Move this to a parameter in Midgard 1.8
-        $qb->add_constraint($guid_property, '=', substr($item['guid'], 0, 255));
+        $qb->add_constraint($guid_property, '=', substr($guid, 0, 255));
         $articles = $qb->execute();
         if (count($articles) > 0)
         {
@@ -251,11 +216,11 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         else
         {
             // Check against duplicate hits that may come from different feeds
-            if ($item['link'])
+            if ($item->get_link())
             {
                 $qb = midcom_db_article::new_query_builder();
                 $qb->add_constraint('topic', '=', $this->_feed->node);
-                $qb->add_constraint('url', '=', $item['link']);
+                $qb->add_constraint('url', '=', $item->get_link());
                 $hits = $qb->count();
                 if ($hits > 0)
                 {
@@ -273,28 +238,28 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $updated = false;
 
         // Copy properties
-        if ($article->title != $item['title'])
+        if ($article->title != $title)
         {
-            $article->title = $item['title'];
+            $article->title = $title;
             $updated = true;
         }
 
         // FIXME: This breaks with URLs longer than 255 chars
-        if ($article->$guid_property != $item['guid'])
+        if ($article->$guid_property != $guid)
         {
-            $article->$guid_property = $item['guid'];
+            $article->$guid_property = $guid;
             $updated = true;
         }
 
-        if ($article->content != $item['description'])
+        if ($article->content != $item->get_content())
         {
-            $article->content = $item['description'];
+            $article->content = $item->get_content();
             $updated = true;
         }
 
-        if ($article->url != $item['link'])
+        if ($article->url != $item->get_link())
         {
-            $article->url = $item['link'];
+            $article->url = $item->get_link();
             $updated = true;
         }
 
@@ -305,30 +270,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
         $article->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
 
-        // Handle categories provided in the feed
-        if (isset($item['category']))
+        $categories = $item->get_categories();
+        if (is_array($categories))
         {
-            // Check if we have multiple categories
-            if (is_array($item['category']))
-            {
-                // Some systems provide multiple categories as per in spec
-                $categories = $item['category'];
-            }
-            elseif (strstr($item['category'], ','))
-            {
-                // Some systems expose multiple categories in single category element
-                $categories = explode(',', $item['category']);
-            }
-            else
-            {
-                $categories = array();
-                $categories[] = $item['category'];
-            }
-
+            // Handle categories provided in the feed
             foreach ($categories as $category)
             {
                 // Clean up the categories and save
-                $category = str_replace('|', '_', trim($category));
+                $category = str_replace('|', '_', trim($category->get_term()));
                 $article->extra1 .= "{$category}|";
             }
         }
@@ -376,11 +325,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         // Try to figure out item publication date
-        $article_date = null;
-        if (isset($item['date_timestamp']))
-        {
-            $article_date = $item['date_timestamp'];
-        }
+        $article_date = $item->get_date('U');
+
         $article_data_tweaked = false;
         if (!$article_date)
         {
@@ -406,12 +352,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
         if ($article->id)
         {
-            // store <link rel="replies"> url in parameter
-            if (isset($item['link_replies']))
-            {
-                $article->set_parameter('net.nemein.rss', 'replies_url', $item['link_replies']);
-            }
-
             if (   $article->metadata->published != $article_date
                 && !$article_data_tweaked)
             {
@@ -419,28 +359,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $updated = true;
             }
 
-            if (!$updated)
+            if ($updated)
             {
-                // No data changed, avoid unnecessary I/O
-                return $article->guid;
-            }
-
-            $article->allow_name_catenate = true;
-            if ($article->update())
-            {
-                if ($this->_feed->autoapprove)
+                $article->allow_name_catenate = true;
+                if (!$article->update())
                 {
-                    $metadata = midcom_helper_metadata::retrieve($article);
-                    $metadata->approve();
+                    return false;
                 }
-
-                $this->parse_tags($article, $item);
-                $this->parse_parameters($article, $item);
-
-                return $article->guid;
             }
-
-            return false;
         }
         else
         {
@@ -465,247 +391,34 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $article->lang = $lang_id;
             }
             $article->allow_name_catenate = true;
-            if ($article->create())
-            {
-                // store <link rel="replies"> url in parameter
-                if (isset($item['link_replies']))
-                {
-                    $article->set_parameter('net.nemein.rss', 'replies_url', $item['link_replies']);
-                }
-
-                // This should be unnecessary but leave it in place just  in case
-                if (strlen($article->name) == 0)
-                {
-                    // Generate something to avoid empty "/" links in case of failures
-                    $article->name = time();
-                }
-
-                $article->metadata->published = $article_date;
-                $article->allow_name_catenate = true;
-                $article->update();
-
-                if ($this->_feed->autoapprove)
-                {
-                    $metadata = midcom_helper_metadata::retrieve($article);
-                    $metadata->approve();
-                }
-
-                $this->parse_tags($article, $item);
-                $this->parse_parameters($article, $item);
-
-                return $article->guid;
-            }
-            return false;
-        }
-    }
-
-    /**
-     * Imports an item as an event
-     */
-    private function import_event($item)
-    {
-        // Check that we're trying to import item suitable to be an event
-        if (   !isset($item['xcal'])
-            && !isset($item['gd']['when@']))
-        {
-            // Not an event
-            return false;
-        }
-
-        // Get start and end times
-        $start = null;
-        $end = null;
-        if (isset($item['xcal']['dtstart']))
-        {
-            // xCal RSS feed, for example Upcoming or Last.fm
-            $start = strtotime($item['xcal']['dtstart']);
-        }
-        elseif (isset($item['gd']['when@starttime']))
-        {
-            // gData Atom feed, for example Dopplr
-            $start = strtotime($item['gd']['when@starttime']);
-        }
-
-        if (isset($item['xcal']['dtend']))
-        {
-            $end = strtotime($item['xcal']['dtend']);
-        }
-        elseif (isset($item['gd']['when@starttime']))
-        {
-            $end = strtotime($item['gd']['when@endtime']);
-        }
-
-        if (   !$start
-            || !$end)
-        {
-            return false;
-        }
-
-        if (!$this->_datamanager)
-        {
-            $schemadb = midcom_helper_datamanager2_schema::load_database($this->_node_config->get('schemadb'));
-            $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-        }
-
-        // TODO: Move to real geocoded stuff
-        $location_parts = array();
-        if (isset($item['xcal']['x-calconnect-venue_adr_x-calconnect-venue-name']))
-        {
-            $location_parts[] = $item['xcal']['x-calconnect-venue_adr_x-calconnect-venue-name'];
-        }
-        if (isset($item['xcal']['x-calconnect-venue_adr_x-calconnect-street']))
-        {
-            $location_parts[] = $item['xcal']['x-calconnect-venue_adr_x-calconnect-street'];
-        }
-        if (isset($item['xcal']['x-calconnect-venue_adr_x-calconnect-city']))
-        {
-            $location_parts[] = $item['xcal']['x-calconnect-venue_adr_x-calconnect-city'];
-        }
-
-        if (isset($item['gd']['where@valuestring']))
-        {
-            $wherevalues = explode(' ', $item['gd']['where@valuestring']);
-            foreach ($wherevalues as $val)
-            {
-                $location_parts[] = $val;
-            }
-        }
-
-        $qb = net_nemein_calendar_event_dba::new_query_builder();
-        $qb->add_constraint('node', '=', $this->_feed->node);
-        $qb->add_constraint('extra', '=', md5($item['guid']));
-        $events = $qb->execute();
-        if (count($events) > 0)
-        {
-            // This item has been imported already earlier. Update
-            $event = $events[0];
-            $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-            $event->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
-            $event->allow_name_catenate = true;
-            if (empty($event->name))
-            {
-                $resolver = new midcom_helper_reflector_nameresolver($event);
-                // To prevent validation errors in case the auto-catenate is not allowed in the urlname datatype
-                $event->name = $resolver->generate_unique_name();
-            }
-        }
-        else
-        {
-            $node = new midcom_db_topic($this->_feed->node);
-            $node_lang_code = $node->get_parameter('net.nemein.calendar', 'language');
-            // This is a new item
-            $event = new net_nemein_calendar_event_dba();
-            $event->start = $start;
-            $event->end = $end;
-            $event->extra = md5($item['guid']);
-            $event->node = $this->_feed->node;
-            if ($node->get_parameter('net.nemein.calendar', 'symlink_topic') != '')
-            {
-                try
-                {
-                    $symlink_topic = new midcom_db_topic($node->get_parameter('net.nemein.calendar', 'symlink_topic'));
-                    $event->node = $symlink_topic->id;
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
-            }
-            if ($node_lang_code != '')
-            {
-                $lang_id = midcom::get('i18n')->code_to_id($node_lang_code);
-                $event->lang = $lang_id;
-            }
-            $event->allow_name_catenate = true;
-            $event->title = (string)$item['title'];
-            $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-            $event->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
-
-            $resolver = new midcom_helper_reflector_nameresolver($event);
-            $event->name = $resolver->generate_unique_name();
-
-            if (!$event->create())
+            if (!$article->create())
             {
                 return false;
             }
         }
 
-        $this->_datamanager->autoset_storage($event);
-        $this->_datamanager->types['start']->value = new DateTime(strftime('%Y-%m-%d %H:%M:%S', $start));
-        $this->_datamanager->types['end']->value = new DateTime(strftime('%Y-%m-%d %H:%M:%S', $end));
-
-        if (is_a($this->_datamanager->types['location'], 'midcom_helper_datamanager2_type_position'))
+        if ($this->_feed->autoapprove)
         {
-            // Position type, give all values we got, assume order "Street, City, Country"
-            $location_parts = array_reverse($location_parts);
-            if (count($location_parts) > 0)
-            {
-                $country = org_routamc_positioning_country_dba::get_by_name($location_parts[0]);
-                if (!empty($country->code))
-                {
-                    $this->_datamanager->types['location']->location->county = $country->code;
-                }
-            }
-            if (count($location_parts) > 1)
-            {
-                $city = org_routamc_positioning_city_dba::get_by_name($location_parts[1]);
-                if (!empty($city->id))
-                {
-                    $this->_datamanager->types['location']->location->city = $city->id;
-                }
-            }
-            if (count($location_parts) > 2)
-            {
-                $this->_datamanager->types['location']->location->street = $location_parts[2];
-            }
-
-            if (isset($item['gml']))
-            {
-                $gml_parts = explode(' ', $item['gml']['where_point_pos']);
-                if (count($gml_parts) == 2)
-                {
-                    $this->_datamanager->types['location']->location->latitude = (float) $gml_parts[0];
-                    $this->_datamanager->types['location']->location->longitude = (float) $gml_parts[1];
-                }
-            }
-        }
-        else
-        {
-            // Just give the location string we got
-            $this->_datamanager->types['location']->value = implode(', ', $location_parts);
+            $metadata = midcom_helper_metadata::retrieve($article);
+            $metadata->approve();
         }
 
-        foreach ($item as $key => $value)
+        $this->_parse_tags($article);
+        $this->_parse_parameters($article, $item);
+
+        // store <link rel="replies"> url in parameter
+        if ($item->get_link(0, 'replies'))
         {
-            if (isset($this->_datamanager->types[$key]))
-            {
-                $this->_datamanager->types[$key]->value = $value;
-            }
+            $article->set_parameter('net.nemein.rss', 'replies_url', $item->get_link(0, 'replies'));
         }
 
-        if (!$this->_datamanager->save())
-        {
-            return false;
-        }
-
-        // This should be unnecessary but left in place just to be sure
-        if (strlen($this->_datamanager->storage->object->name) == 0)
-        {
-            // Generate something to avoid empty "/" links in case of failures
-            $this->_datamanager->storage->object->name = time();
-            $this->_datamanager->storage->object->update();
-        }
-
-        $this->parse_tags($event, $item, 'description');
-        $this->parse_parameters($event, $item);
-
-        return $event->guid;
+        return $article->guid;
     }
 
     /**
      * Cleans up old, removed items from feeds
      *
-     * @param array $items Feed item as provided by MagpieRSS
+     * @param array $items Feed item as provided by SimplePie
      */
     function clean($items)
     {
@@ -719,7 +432,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $item_guids = array();
         foreach ($items as $item)
         {
-            $item_guids[] = $item['guid'];
+            $item_guids[] = $item->get_id();
         }
 
         // Find articles resulting from this feed
@@ -752,75 +465,57 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         midcom_baseclasses_core_dbobject::purge($purge_guids, 'midgard_article');
-
-        return true;
     }
 
     /**
      * Parses author formats used by different feed standards and
      * and returns the information
      *
-     * @param array $item Feed item as provided by MagpieRSS
+     * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      * @return Array Information found
      */
-    function parse_item_author($item)
+    function parse_item_author(net_nemein_rss_parser_item $item)
     {
         $author_info = array();
 
-        // First try dig up any information about the author possible
+        $author = $item->get_author();
 
-        if (isset($item['author']))
+        // First try dig up any information about the author possible
+        if (!empty($author))
         {
-            if (strstr($item['author'], '<'))
+            $name = $author->get_name();
+            $email = $author->get_email();
+            if (!empty($name))
             {
-                // The classic "Full Name <email>" format
-                $regex = '/(.+) <?([a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';
-                if (preg_match_all($regex, $item['author'], $matches_to))
-                {
-                    foreach ($matches_to[1] as $fullname)
-                    {
-                        $author_info['user_or_full'] = $fullname;
-                    }
-                    foreach ($matches_to[2] as $email)
-                    {
-                        $author_info['email'] = $email;
-                    }
-                }
-            }
-            else if (strstr($item['author'], '('))
-            {
-                // The classic "email (Full Name)" format
-                $regex = '/^([a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+) \((.+)\)$/';
-                if (preg_match_all($regex, $item['author'], $matches_to))
-                {
-                    foreach ($matches_to[1] as $email)
-                    {
-                        $author_info['email'] = $email;
-                    }
-                    foreach ($matches_to[2] as $fullname)
-                    {
-                        $author_info['user_or_full'] = $fullname;
-                    }
-                }
+                // Atom feed, the value can be either full name or username
+                $author_info['user_or_full'] = $name;
             }
             else
             {
-                $author_info['user_or_full'] = $item['author'];
+                $name = $email;
             }
-        }
 
-        if (isset($item['author_name']))
-        {
-            // Atom feed, the value can be either full name or username
-            $author_info['user_or_full'] = $item['author_name'];
-        }
-
-        if (isset($item['dc']))
-        {
-            // We've got Dublin Core metadata
-            if (isset($item['dc']['creator']))
+            if (!preg_match('/(&lt;|\()/', $name))
             {
-                $author_info['user_or_full'] = $item['dc']['creator'];
+                $author_info['user_or_full'] = $name;
+            }
+            else
+            {
+                if (strstr($name, '&lt;'))
+                {
+                    // The classic "Full Name <email>" format
+                    $regex = '/(?<fullname>.+) &lt;?(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)&gt;?[ ,]?/';
+                }
+                else
+                {
+                    // The classic "email (Full Name)" format
+                    $regex = '/^(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+) \((?<fullname>.+)\)$/';
+                }
+                if (preg_match($regex, $name, $matches))
+                {
+                    $author_info['email'] = $matches['email'];
+                    $author_info['user_or_full'] = $matches['fullname'];
+                }
             }
         }
 
@@ -845,10 +540,10 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Parses author formats used by different feed standards and
      * tries to match to persons in database.
      *
-     * @param array $item Feed item as provided by MagpieRSS
+     * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      * @return midcom_db_person Person object matched, or null
      */
-    function match_item_author(array $item)
+    function match_item_author(net_nemein_rss_parser_item $item)
     {
         // Parse the item for author information
         $author_info = $this->parse_item_author($item);
@@ -900,54 +595,25 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Parses additional metadata in RSS item and sets parameters accordingly
      *
-     * @param midgard_article $article Imported article
-     * @param array $item Feed item as provided by MagpieRSS
-     * @return boolean
+     * @param midcom_core_dbaobject $article Imported article
+     * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      */
-    function parse_parameters($article, $item)
+    private function _parse_parameters(midcom_core_dbaobject $article, net_nemein_rss_parser_item $item)
     {
-        if (isset($item['media']))
+        foreach ($item->get_enclosures() as $enclosure)
         {
-            foreach ($item['media'] as $name => $value)
-            {
-                $article->parameter('net.nemein.rss:media', $name, $value);
-            }
+            $article->parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
+            $article->parameter('net.nemein.rss:enclosure', 'duration', $enclosure->get_duration());
+            $article->parameter('net.nemein.rss:enclosure', 'mimetype', $enclosure->get_type());
         }
-
-        if (isset($item['enclosure@url']))
-        {
-            $article->parameter('net.nemein.rss:enclosure', 'url', $item['enclosure@url']);
-        }
-
-        if (isset($item['enclosure@duration']))
-        {
-            $article->parameter('net.nemein.rss:enclosure', 'duration', $item['enclosure@duration']);
-        }
-
-        if (isset($item['enclosure@type']))
-        {
-            $article->parameter('net.nemein.rss:enclosure', 'mimetype', $item['enclosure@type']);
-        }
-
-        // FeedBurner Awareness API data
-        // http://code.google.com/apis/feedburner/awareness_api.html
-        if (   isset($item['feedburner'])
-            && isset($item['feedburner']['awareness']))
-        {
-            $article->parameter('com.feedburner', 'awareness', $item['feedburner']['awareness']);
-        }
-
-        return true;
     }
 
     /**
      * Parses rel-tag links in article content and tags the object based on them
      *
      * @param midgard_article $article Imported article
-     * @param array $item Feed item as provided by MagpieRSS
-     * @return boolean
      */
-    function parse_tags($article, $item, $field = 'content')
+    private function _parse_tags($article, $field = 'content')
     {
         $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->$field, 'tag');
         $tags = array();
@@ -968,119 +634,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
             return net_nemein_tag_handler::tag_object($article, $tags);
         }
-
-        return true;
-    }
-
-    /**
-     * In case item link is a relative url try to normalize using the host from feed url
-     *
-     * @param array $item reference to the item in question
-     */
-    function normalize_item_link(&$item)
-    {
-        if (   empty($item['link'])
-            || !preg_match('%^/%', $item['link']))
-        {
-            // Empty or does not start with /
-            return;
-        }
-
-        static $prefixes = array();
-        if (!isset($prefixes[$this->_feed->url]))
-        {
-            if (!preg_match('%^((.+?)://(.+?))/%', $this->_feed->url, $feed_matches))
-            {
-                // Could not figure out the host part of feed url
-                return;
-            }
-            $prefixes[$this->_feed->url] = $feed_matches[1];
-            unset($feed_matches);
-        }
-        $prefix =& $prefixes[$this->_feed->url];
-        $item['link'] = $prefix . $item['link'];
-    }
-
-    /**
-     * Normalizes items provided by different feed formats.
-     *
-     * @param array $item Feed item as provided by MagpieRSS
-     * @param array Normalized feed item
-     */
-    public static function normalize_item($item)
-    {
-        if (!is_array($item))
-        {
-            // Broken item, skip
-            return false;
-        }
-
-        // Fix missing titles
-        if (empty($item['title']))
-        {
-            $item['title'] = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
-
-            if (isset($item['description']))
-            {
-                // Use 20 first characters from the description as title
-                $item['title'] = substr(strip_tags($item['description']), 0, 20) . '...';
-            }
-            elseif (!empty($item['date_timestamp']))
-            {
-                // Use publication date as title
-                $item['title'] = strftime('%x', $item['date_timestamp']);
-            }
-        }
-
-        // Fix missing links
-        if (empty($item['link']))
-        {
-            if (isset($item['guid']))
-            {
-                $item['link'] = $item['guid'];
-            }
-            else
-            {
-                // No link or GUID defined
-                // TODO: Generate a "link" using channel URL
-                $item['link'] = '';
-            }
-        }
-
-        // Fix missing GUIDs
-        if (empty($item['guid']))
-        {
-            $item['guid'] = $item['link'];
-        }
-
-        if (empty($item['description']))
-        {
-            // Ensure description is always set
-            $item['description'] = '';
-        }
-
-        if (!empty($item['content']['encoded']))
-        {
-            // Some RSS feeds use "content:encoded" for storing HTML-formatted full item content,
-            // so we prefer this instead of simpler description
-            $item['description'] = $item['content']['encoded'];
-        }
-
-        if ($item['description'] == '')
-        {
-            // Empty description, fallbacks for some feed formats
-            if (!empty($item['dc']['description']))
-            {
-                $item['description'] = $item['dc']['description'];
-            }
-            else if (isset($item['atom_content']))
-            {
-                // Atom 1.0 feeds store content in the atom_content field
-                $item['description'] = $item['atom_content'];
-            }
-        }
-
-        return $item;
     }
 }
 ?>

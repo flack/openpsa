@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Empty Feed</title>
+    <link>http://openpsa2.org/empty/</link>
+    <item>
+      <author>__USERNAME__</author>
+    </item>
+    <item>
+      <author>__EMAIL__</author>
+    </item>
+    <item>
+      <author>__FULLNAME__</author>
+    </item>
+</channel>
+</rss>
