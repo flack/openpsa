@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.helper.datamanager
+ * @package midcom.helper.datamanager2
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,7 +9,7 @@
 /**
  * Helper class for managing QuickForm rules
  *
- * @package midcom.helper.datamanager
+ * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_qfrule_manager
 {
