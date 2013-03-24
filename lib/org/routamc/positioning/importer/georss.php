@@ -13,16 +13,6 @@
 class org_routamc_positioning_importer_georss extends org_routamc_positioning_importer
 {
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    public function __construct()
-    {
-         parent::__construct();
-
-         midcom::get('componentloader')->load_library('net.nemein.rss');
-    }
-
-    /**
      * Seek users with GeoRSS account settings set
      *
      * @return Array
