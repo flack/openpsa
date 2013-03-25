@@ -483,42 +483,15 @@ class midcom_services_i18n
                 $params = explode(";", $data);
                 $lang = array_shift($params);
 
-                //Fix for Safari
-                if (   isset($_SERVER['HTTP_USER_AGENT'])
-                    && strstr($_SERVER['HTTP_USER_AGENT'], 'Safari'))
-                {
-                    $lang = array_shift(explode("-", $lang));
-                }
+                // we can't use strings like en-US, so we only use the first two characters
+                $lang = array_shift(explode("-", $lang));
+                $q = $this->_get_q($params);
 
-                $q = 1.0;
-                $option = array_shift($params);
-                while (! is_null($option))
+                if (   !isset($this->_http_lang[$lang])
+                    || $this->_http_lang[$lang] < $q)
                 {
-                    $option_params = explode("=", $option);
-                    if (count($option_params) != 2)
-                    {
-                        $option = array_shift($params);
-                        continue;
-                    }
-                    if ($option_params[0] == "q")
-                    {
-                        $q = $option_params[1];
-                        if (!is_numeric($q))
-                        {
-                            $q = 1.0;
-                        }
-                        else if ($q > 1.0)
-                        {
-                            $q = 1.0;
-                        }
-                        else if ($q < 0.0)
-                        {
-                            $q = 0.0;
-                        }
-                    }
-                    $option = array_shift($params);
+                    $this->_http_lang[$lang] = $q;
                 }
-                $this->_http_lang[$lang] = $q;
             }
         }
         arsort($this->_http_lang, SORT_NUMERIC);
@@ -530,38 +503,42 @@ class midcom_services_i18n
             {
                 $params = explode(";", $data);
                 $lang = array_shift($params);
-                $q = 1.0;
-                $option = array_shift($params);
-                while (! is_null($option))
-                {
-                    $option_params = explode("=", $option);
-                    if (count($option_params) != 2)
-                    {
-                        $option = array_shift($params);
-                        continue;
-                    }
-                    if ($option_params[0] == "q")
-                    {
-                        $q = $option_params[1];
-                        if (!is_numeric($q))
-                        {
-                            $q = 1.0;
-                        }
-                        else if ($q > 1.0)
-                        {
-                            $q = 1.0;
-                        }
-                        else if ($q < 0.0)
-                        {
-                            $q = 0.0;
-                        }
-                    }
-                    $option = array_shift($params);
-                }
+                $q = $this->_get_q($params);
+
                 $this->_http_charset[$lang] = $q;
             }
             arsort ($this->_http_charset, SORT_NUMERIC);
         }
+    }
+
+    private function _get_q(array $params)
+    {
+        $q = 1.0;
+        $option = array_shift($params);
+        while (! is_null($option))
+        {
+            $option_params = explode("=", $option);
+            if (count($option_params) != 2)
+            {
+                $option = array_shift($params);
+                continue;
+            }
+            if ($option_params[0] == "q")
+            {
+                $q = $option_params[1];
+                if (!is_numeric($q))
+                {
+                    $q = 1.0;
+                }
+                else
+                {
+                    //make sure that 0.0 <= $q <= 1.0
+                    $q = max(0.0, min(1.0, $q));
+                }
+            }
+            $option = array_shift($params);
+        }
+        return $q;
     }
 
     /**
