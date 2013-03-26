@@ -499,11 +499,11 @@ class midcom_helper__styleloader
         {
             if (midcom::get('config')->get('theme'))
             {
-                $filename = OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') .  "/style/{$_element}.php";
-                if (file_exists($filename))
+                $content = midcom_helper_misc::get_element_content($_element);
+                if ($content)
                 {
-                    $this->_snippets[$filename] = file_get_contents($filename);
-                    return $this->_snippets[$filename];
+                    $this->_snippets[$src] = $content;
+                    return $content;
                 }
             }
 

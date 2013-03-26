@@ -195,21 +195,20 @@ class midcom_helper_misc
             case 'content':
                 return '<(content)>';
             default:
-                $element_file = OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') . '/style' . midcom_connection::get_url('page_style') . "/{$element}.php";
+                $value = self::get_element_content($element);
 
-                if (!file_exists($element_file))
+                if (empty($value))
                 {
                     if ($element == 'ROOT')
                     {
                         /* If we don't have a ROOT element, go to content directly. style-init or style-finish
                          * can load the page style (under mgd1, this might also be done with the
-                         * midgard style engine as well)
-                         */
+                                 * midgard style engine as well)
+                        */
                         return '<(content)>';
                     }
                     return '';
                 }
-                $value = file_get_contents($element_file);
                 return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $value);
         }
     }
@@ -397,6 +396,51 @@ class midcom_helper_misc
         $cache[$cache_node][$component] = $node;
 
         return $node;
+    }
+    /**
+     * Get the content of the element by the passed element name.
+     * Tries to resolve path according to theme-name & page
+     *
+     * @param string $element_name
+     * @param string $theme_root
+     */
+    public static function get_element_content($element_name , $theme_root = OPENPSA2_THEME_ROOT)
+    {
+        $theme = midcom::get('config')->get('theme');
+        $path_array = explode('/' , $theme);
+        $theme_array = array_reverse($path_array);
+        //
+        //get the page if there is one
+        $page = midcom_connection::get('self');
+    
+        $content = false;
+    
+        //check if we have elements for the sub-styles
+        foreach ($theme_array as $sub_style)
+        {
+            $theme_path = '';
+            foreach ($path_array as $path_part)
+            {
+                $theme_path .= '/' . $path_part;
+            }
+            //check possible theme and page element
+            $filename = $theme_root . $theme_path .  "/style/{$element_name}.php";
+            $filename_page = $theme_root . $theme_path .  "/style{$page}{$element_name}.php";
+    
+            if (file_exists($filename_page))
+            {
+                $content = file_get_contents($filename_page);
+                return $content;
+            }
+            elseif (file_exists($filename))
+            {
+                $content = file_get_contents($filename);
+                return $content;
+            }
+            //remove last theme part
+            array_pop($path_array);
+        }
+        return $content;
     }
 }
 ?>
