@@ -35,56 +35,12 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
 
         $this->_request_data['invoice_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/" . $this->_invoice->guid . "/";
 
-        //check for manually uploaded pdf-file & if user wants to replace it
         if (array_key_exists('cancel', $_POST))
         {
             return new midcom_response_relocate($this->_request_data['invoice_url']);
         }
-        else if (array_key_exists('save', $_POST))
-        {
-            $this->_update_attachment = true;
-        }
-        else
-        {
-            $data['confirmation_message'] = 'current pdf file was manually uploaded shall it be replaced ?';
 
-            // load schema & datamanager to get attachment
-            $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-            $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
-            if (!$this->_datamanager->autoset_storage($this->_invoice))
-            {
-                throw new midcom_error("Failed to create a DM2 instance for object {$this->_invoice->guid}.");
-            }
-            if ($this->_invoice->sent)
-            {
-                $data['confirmation_message'] = 'invoice has already been sent. should it be replaced?';
-            }
-            else if (!empty($this->_datamanager->types['pdf_file']->attachments))
-            {
-                foreach ($this->_datamanager->types['pdf_file']->attachments as $attachment)
-                {
-                    $checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated');
-
-                    // check if auto generated parameter is same as md5 in current-file
-                    // if not the file was manually uploaded
-                    if ($checksum)
-                    {
-                        $blob = new midgard_blob($attachment->__object);
-                        // check if md5 sum equals the one saved in auto_generated
-                        if ($checksum == md5_file($blob->get_path()))
-                        {
-                            $this->_update_attachment = true;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                $this->_update_attachment = true;
-            }
-        }
-        if ($this->_update_attachment)
+        if ($this->_prepare_invoice_update())
         {
             $this->_request_data['billing_data'] = $this->_invoice->get_billing_data();
             if (self::render_and_attach_pdf($this->_invoice))
@@ -97,6 +53,56 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             }
             return new midcom_response_relocate($this->_request_data["invoice_url"]);
         }
+    }
+
+    /**
+     * Check for manually uploaded pdf-file & if user wants to replace it
+     *
+     * @return boolean True if the update should be executed, false otherwise
+     */
+    private function _prepare_invoice_update()
+    {
+        if (array_key_exists('save', $_POST))
+        {
+            return true;
+        }
+
+        $this->_request_data['confirmation_message'] = 'current pdf file was manually uploaded shall it be replaced ?';
+
+        // load schema & datamanager to get attachment
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+
+        if (!$this->_datamanager->autoset_storage($this->_invoice))
+        {
+            throw new midcom_error("Failed to create a DM2 instance for object {$this->_invoice->guid}.");
+        }
+        if ($this->_invoice->sent)
+        {
+            $this->_request_data['confirmation_message'] = 'invoice has already been sent. should it be replaced?';
+            return false;
+        }
+        else if (empty($this->_datamanager->types['pdf_file']->attachments))
+        {
+            return true;
+        }
+        foreach ($this->_datamanager->types['pdf_file']->attachments as $attachment)
+        {
+            $checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated');
+
+            // check if auto generated parameter is same as md5 in current-file
+            // if not the file was manually uploaded
+            if ($checksum)
+            {
+                $blob = new midgard_blob($attachment->__object);
+                // check if md5 sum equals the one saved in auto_generated
+                if ($checksum == md5_file($blob->get_path()))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
