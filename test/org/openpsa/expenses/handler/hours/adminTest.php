@@ -57,8 +57,14 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         (
             'description' => __CLASS__ . '::' . __FUNCTION__,
             'hours' => '2',
-            'org_openpsa_expenses_person_chooser_selections' => array($person->id),
-            'org_openpsa_expenses_task_chooser_selections' => array(self::$_task->id),
+            'person' => array
+            (
+                'org_openpsa_expenses_person_autocomplete_widget_selection' => '[' . $person->id . ']'
+            ),
+            'task' => array
+            (
+                'org_openpsa_expenses_task_autocomplete_widget_selection' => '[' . self::$_task->id . ']'
+            ),
         );
 
         $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.expenses', array('hours', 'create', 'hour_report'));
