@@ -578,7 +578,7 @@ class midgard_admin_asgard_schemadb
                             'orders' => array(),
                             'creation_mode_enabled' => true,
                             'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
-                            'creation_default_key' => $linked_type_reflector->get_label_property(),
+                            'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
                             'generate_path_for' => midcom_helper_reflector::get_name_property($this->_object),
                             ),
                         )
