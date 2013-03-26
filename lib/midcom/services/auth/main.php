@@ -636,7 +636,8 @@ class midcom_services_auth
      * come from the current user, or from the sudo service.
      *
      * If the check is successful, the function returns silently.
-     * @param string $message The message to show if the admin level privileges are missing..
+     *
+     * @param string $message The message to show if the admin level privileges are missing.
      */
     function require_admin_user($message = null)
     {
@@ -656,7 +657,7 @@ class midcom_services_auth
      * Validates that there is an authenticated user.
      *
      * If this is not the case, the regular login page is shown automatically, see
-     * show_login_page() for details..
+     * show_login_page() for details.
      *
      * If the check is successful, the function returns silently.
      *

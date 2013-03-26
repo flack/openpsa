@@ -7,7 +7,7 @@
  */
 
 /**
- * MidCOM DBA baseclass for MgdSchema object decorators..
+ * MidCOM DBA baseclass for MgdSchema object decorators.
  *
  * @package midcom
  */

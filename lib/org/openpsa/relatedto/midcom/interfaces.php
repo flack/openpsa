@@ -89,12 +89,11 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
             case 'future':
                 // Relatedto does not have future references so we have nothing to transfer...
                 return true;
-                break;
+
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
                 return false;
-                break;
         }
 
         $qb = org_openpsa_relatedto_dba::new_query_builder();

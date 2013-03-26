@@ -82,7 +82,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         if (! $this->id)
         {
-            debug_add('Cannot open a non-persistent attachment..', MIDCOM_LOG_WARN);
+            debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
             return false;
         }
@@ -356,7 +356,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         if (!$this->id)
         {
-            debug_add('Cannot open a non-persistent attachment..', MIDCOM_LOG_WARN);
+            debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
             return false;
         }

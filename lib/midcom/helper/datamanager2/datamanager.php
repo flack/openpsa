@@ -470,8 +470,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     }
 
     /**
-     * Little helper function returning an associative array of all field values converted to
-     * their raw storage representation..
+     * Get all field values converted to their raw storage representation
      *
      * @return Array All field values in their raw storage representation indexed by their name.
      */

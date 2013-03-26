@@ -11,7 +11,7 @@
  * the old <[...]> syntax. It is instantiated by the MidCOM framework
  * and accessible through the midcom::get('style') object.
  *
- * The method show ($style) returns the style element $style for the current
+ * The method <code>show($style)</code> returns the style element $style for the current
  * component:
  *
  * It checks whether a style path is defined for the current component.

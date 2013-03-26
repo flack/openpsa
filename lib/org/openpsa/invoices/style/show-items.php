@@ -48,7 +48,7 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
             url: '&(prefix);invoice/itemposition/',
             data: {id:id, position:pos}
         });
-    }//endof FUNCTION    saveSingleItemPosition(...)
+    }
 
     function refreshItemPositions()
     {
