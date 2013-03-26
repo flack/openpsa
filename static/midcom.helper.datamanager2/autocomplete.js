@@ -153,7 +153,8 @@ var midcom_helper_datamanager2_autocomplete =
         create_button.bind('click', function()
         {
             creation_url += '?chooser_widget_id=' + identifier;
-            if ($('#' + identifier + '_search_input').val() !== '')
+            if (   $('#' + identifier + '_search_input').val() !== ''
+                && typeof handler_options.creation_default_key !== undefined)
             {
                 creation_url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
             }

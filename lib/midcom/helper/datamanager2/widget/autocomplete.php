@@ -297,7 +297,8 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'preset' => $preset,
             'allow_multiple' => $this->_type->allow_multiple,
             'creation_mode_enabled' => $this->creation_mode_enabled,
-            'creation_handler' => $this->creation_handler
+            'creation_handler' => $this->creation_handler,
+            'creation_default_key' => $this->creation_default_key
         ));
 
         $script = <<<EOT
