@@ -422,10 +422,6 @@ Stückzahl
 Adresse aus Kontaktdaten benutzen
 ---STRINGEND
 
----STRING no description given
-Keine Beschreibung angegeben
----STRINGEND
-
 ---STRING current pdf file was manually uploaded shall it be replaced ?
 Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich ersetzt werden?
 ---STRINGEND

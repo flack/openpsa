@@ -62,6 +62,10 @@ Stundenberichte für Aufgabe "%s"
 Folgewoche
 ---STRINGEND
 
+---STRING no description given
+Keine Beschreibung angegeben
+---STRINGEND
+
 ---STRING org.openpsa.expenses
 Ausgaben-Verwaltung
 ---STRINGEND
