@@ -231,7 +231,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
                 $item['category'] = '';
                 if ($parent = $object->get_parent())
                 {
-                    $item['category'] = $parent->get_label();
+                    $item['category'] = midcom_helper_reflector::get($parent)->get_object_label($parent);
                 }
             }
             $item['value'] = $item['label'];

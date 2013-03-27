@@ -505,7 +505,7 @@ EOT;
 
             if ($get_label_for == $item_name)
             {
-                $value = $object->get_label();
+                $value = midcom_helper_reflector::get($object)->get_object_label($object);
             }
             else
             {
