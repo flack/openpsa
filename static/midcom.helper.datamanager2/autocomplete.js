@@ -212,6 +212,48 @@ var midcom_helper_datamanager2_autocomplete =
         readonly = (input.attr('type') === 'hidden') ? true : false,
         selection_holder_class = 'autocomplete-selection-holder';
 
+        function remove_item(item)
+        {
+            var animate_property = 'height',
+            animation_config = {};
+
+            midcom_helper_datamanager2_autocomplete.update_selection(identifier, item.data('id'), 'remove');
+            if (handler_options.allow_multiple !== true)
+            {
+                input.show().focus();
+                if (handler_options.creation_mode_enabled)
+                {
+                    $('#' + identifier + '_create_button').show();
+                }
+            }
+            if (item.hasClass('autocomplete-saved'))
+            {
+                item.removeClass('autocomplete-selected');
+                item.addClass('autocomplete-todelete');
+            }
+            else
+            {
+                if (handler_options.allow_multiple !== true)
+                {
+                    item.remove();
+                }
+
+                else
+                {
+                    if (   item.next().length > 0
+                        && item.offset().top === item.next().offset().top)
+                    {
+                        animate_property = 'width';
+                    }
+                    animation_config[animate_property] = 0;
+                    item
+                        .css('visibility', 'hidden')
+                        .find('.autocomplete-item-label')
+                        .animate(animation_config, {duration: 200, complete: function(){item.remove();}});
+                }
+            }
+        }
+
         if (readonly)
         {
             selection_holder_class += ' autocomplete-selection-holder-readonly';
@@ -250,40 +292,11 @@ var midcom_helper_datamanager2_autocomplete =
         input.parent().on('click', '.autocomplete-selection-holder .autocomplete-action-icon', function()
         {
             var item = $(this).parent(),
-            item_id = item.data('id'),
-            todelete = item.hasClass('autocomplete-selected'),
-            animate_property = 'height'
-            animation_config = {};
+            item_id = item.data('id');
 
-            if (todelete === true)
+            if (item.hasClass('autocomplete-selected'))
             {
-                midcom_helper_datamanager2_autocomplete.update_selection(identifier, item_id, 'remove');
-                if (handler_options.allow_multiple !== true)
-                {
-                    input.show().focus();
-                    if (handler_options.creation_mode_enabled)
-                    {
-                        $('#' + identifier + '_create_button').show();
-                    }
-                }
-                if (item.hasClass('autocomplete-saved'))
-                {
-                    item.removeClass('autocomplete-selected');
-                    item.addClass('autocomplete-todelete');
-                }
-                else
-                {
-                    if (   item.next().length > 0
-                        && item.offset().top === item.next().offset().top)
-                    {
-                        animate_property = 'width';
-                    }
-                    animation_config[animate_property] = 0;
-                    item
-                        .css('visibility', 'hidden')
-                        .find('.autocomplete-item-label')
-                        .animate(animation_config, {duration: 200, complete: function(){item.remove();}});
-                }
+                remove_item(item);
             }
             else if (item.hasClass('autocomplete-todelete'))
             {
@@ -340,7 +353,7 @@ var midcom_helper_datamanager2_autocomplete =
             item = $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>');
             if (!selection_holder.hasClass('autocomplete-selection-holder-readonly'))
             {
-                item.append('<span class="autocomplete-action-icon"></span>');
+                item.append('<span class="ui-icon autocomplete-action-icon"></span>');
             }
             item.prependTo(selection_holder);
         }
