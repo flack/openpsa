@@ -243,7 +243,9 @@ var midcom_helper_datamanager2_autocomplete =
         {
             var item = $(this).parent(),
             item_id = item.data('id'),
-            todelete = item.hasClass('autocomplete-selected');
+            todelete = item.hasClass('autocomplete-selected'),
+            animate_property = 'height'
+            animation_config = {};
 
             if (todelete === true)
             {
@@ -263,7 +265,16 @@ var midcom_helper_datamanager2_autocomplete =
                 }
                 else
                 {
-                    item.find('.autocomplete-item-label').animate({width: 0}, {duration: 200, complete: function(){item.remove();}});
+                    if (   item.next().length > 0
+                        && item.offset().top === item.next().offset().top)
+                    {
+                        animate_property = 'width';
+                    }
+                    animation_config[animate_property] = 0;
+                    item
+                        .css('visibility', 'hidden')
+                        .find('.autocomplete-item-label')
+                        .animate(animation_config, {duration: 200, complete: function(){item.remove();}});
                 }
             }
             else if (item.hasClass('autocomplete-todelete'))
