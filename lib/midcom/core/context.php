@@ -167,7 +167,6 @@ class midcom_core_context
         return $this->_data[$key];
     }
 
-
     /**
      * Update the component context
      *

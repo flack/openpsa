@@ -227,7 +227,6 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Shows the loaded downloadpage.
      *

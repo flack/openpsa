@@ -767,7 +767,6 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         }
     }
 
-
     /**
      * Show a single event
      *

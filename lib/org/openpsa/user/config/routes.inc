@@ -106,7 +106,6 @@
     'fixed_args' => 'lostpassword',
 ),
 
-
 // Match /groups/
 'group_list' => array
 (

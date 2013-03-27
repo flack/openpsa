@@ -75,7 +75,6 @@ if (!class_exists('org_openpsa_httplib'))
     throw new midcom_error("We need org.openpsa.httplib installed to use the granular reindex, use {$singlep_uri} to get the old way.");
 }
 
-
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 
@@ -105,7 +104,6 @@ echo "<pre>\n";
 debug_dump_mem("Initial Memory Usage");
 
 $reindex_topic_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-midcom/reindex_singlenode.php', $current_uri);
-
 
 $http_client = new org_openpsa_httplib();
 $http_client->set_param('timeout', 300);

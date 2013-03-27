@@ -45,5 +45,3 @@ foreach ($data['preview_persons'] as $id => $person)
 
 </tbody>
 </table>
-
-

@@ -336,7 +336,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-
     function read_component_handlers($component)
     {
         $data = array();

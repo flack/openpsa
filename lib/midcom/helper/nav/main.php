@@ -63,7 +63,6 @@ class midcom_helper_nav
         $this->_backend = $this->_get_backend();
     }
 
-
     /**
      * This function maintains one NAP Class per context. Usually this is enough,
      * since you mostly will access it in context 0, the default. The problem is, that
@@ -452,7 +451,6 @@ class midcom_helper_nav
         }
         return $topic;
     }
-
 
     /* The more complex interface methods starts here */
 

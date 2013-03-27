@@ -162,7 +162,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         return $sender;
     }
 
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

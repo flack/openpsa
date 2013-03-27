@@ -176,7 +176,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
                     echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$child->guid}/\" title=\"GUID: {$child->guid}, ID: {$child->id}\">{$icon}{$label}</a>\n";
 
-
                     if ($selected)
                     {
                         $this->_list_child_elements($child, "{$prefix}        ", $level+1);

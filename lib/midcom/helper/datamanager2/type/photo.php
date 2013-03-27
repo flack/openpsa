@@ -117,8 +117,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         return $ret;
     }
 
-
-
     /**
      * Adds the image to the type. Loads and processes the $tmpname file on disk.
      *

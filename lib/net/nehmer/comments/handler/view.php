@@ -209,7 +209,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         return $this->_new_comment;
     }
 
-
     /**
      * Loads the comments, does any processing according to the state of the GET list.
      * On successful processing we relocate once to ourself.

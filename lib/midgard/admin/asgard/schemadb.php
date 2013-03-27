@@ -796,7 +796,6 @@ class midgard_admin_asgard_schemadb
             return -1;
         }
 
-
         if (   in_array($second, $preferred_fields)
             || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT
             || $this->_reflector->is_link($second)

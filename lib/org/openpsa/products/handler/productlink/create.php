@@ -209,7 +209,6 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
                     $url = "{$group->guid}/";
                 }
 
-
                 $tmp[] = Array
                 (
                     MIDCOM_NAV_URL => $url,

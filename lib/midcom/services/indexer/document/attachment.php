@@ -100,7 +100,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $this->component = $object[MIDCOM_NAV_COMPONENT];
     }
 
-
     function _process_attachment()
     {
         if (   !isset($this->_attachment->metadata)

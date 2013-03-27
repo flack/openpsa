@@ -681,7 +681,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         return true;
     }
 
-
     /**
      * Copy an object tree. Both source and parent may be liberally filled. Source can be either
      * MgdSchema or MidCOM db object or GUID of the object and parent can be

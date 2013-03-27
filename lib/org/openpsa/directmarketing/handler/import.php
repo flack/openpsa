@@ -271,7 +271,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     break;
             }
 
-
             if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
             {
                 // Copy the file for later processing

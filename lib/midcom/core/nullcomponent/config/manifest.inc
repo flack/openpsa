@@ -26,5 +26,3 @@
         'midcom.helper.datamanager2' => array(),
     ),
 ),
-
-

@@ -132,7 +132,6 @@ abstract class midcom_core_query
         $this->_visibility_checks_added = true;
     }
 
-
     /**
      * Resets some internal variables for re-execute
      */
@@ -269,7 +268,6 @@ abstract class midcom_core_query
 
         $this->_offset = $offset;
     }
-
 
     /**
      * Add an ordering constraint to the query builder.

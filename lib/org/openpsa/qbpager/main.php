@@ -24,7 +24,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     var $string_next = 'next';
     var $string_previous = 'previous';
 
-
     /**
      * Parameter listening enabled
      *
@@ -301,7 +300,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
-
         while ($page++ < $display_end)
         {
             if ($page < $display_start)
@@ -385,7 +383,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             }
                 $pages_xml_str .= "<page class=\"previous_page\" number=\"{$previous}\" url=" . $this->_get_query_string($page_var, $previous) . "><![CDATA[" . $this->_l10n->get('previous') . "]]></page>\n";
         }
-
 
         while ($page++ < $display_end)
         {
@@ -483,7 +480,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             }
         }
 
-
         while ($page++ < $display_end)
         {
             if ($page < $display_start)
@@ -513,7 +509,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 echo "\n<li class=\"separator\"></li>";
                 echo "\n<li class=\"page last\" onclick=\"window.location='?{$page_var}={$data['page_count']}{$link_suffix}';\">{$data['page_count']}</li>";
             }
-
 
             echo "\n<li class=\"next\" onclick=\"window.location='?{$page_var}={$next}{$link_suffix}';\"></li>";
         }

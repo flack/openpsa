@@ -105,7 +105,6 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('up', '=',  $root_event->id);
         $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
 
-
         $indexer = new org_openpsa_calendar_midcom_indexer($topic, $indexer);
         $indexer->add_query('events', $qb, $schemadb);
 

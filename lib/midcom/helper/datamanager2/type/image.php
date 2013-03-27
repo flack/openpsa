@@ -924,7 +924,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         return parent::convert_to_storage();
     }
 
-
     /**
      * The HTML-Version of the image type can take two forms, depending on
      * type configuration:

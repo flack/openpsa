@@ -188,7 +188,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Shows the loaded message.
      */
@@ -242,7 +241,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
-
 
     /**
      * Shows the loaded message.

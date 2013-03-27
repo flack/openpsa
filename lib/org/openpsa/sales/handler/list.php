@@ -97,7 +97,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         return $qb;
     }
 
-
     private function _add_customer_constraint($guid, midcom_core_query $qb)
     {
         try

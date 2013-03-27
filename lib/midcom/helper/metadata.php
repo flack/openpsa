@@ -133,7 +133,6 @@ class midcom_helper_metadata
         $this->_schemadb_path = $schemadb;
     }
 
-
     /* ------- BASIC METADATA INTERFACE --------- */
 
     /**
@@ -440,8 +439,6 @@ class midcom_helper_metadata
         return $value;
     }
 
-
-
     /**
      * This is the update event handler for the Metadata system. It must be called
      * whenever metadata changes to synchronize the various backwards-compatibility
@@ -594,7 +591,6 @@ class midcom_helper_metadata
         $this->_cache[$key] = $value;
     }
 
-
     /* ------- CONVENIENCE METADATA INTERFACE --------- */
 
     /**
@@ -715,7 +711,6 @@ class midcom_helper_metadata
 
         return $this->__object->unapprove();
     }
-
 
     /* ------- CLASS MEMBER FUNCTIONS ------- */
 

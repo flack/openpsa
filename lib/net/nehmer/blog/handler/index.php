@@ -54,7 +54,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $this->_request_data['datamanager'] =& $this->_datamanager;
     }
 
-
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.

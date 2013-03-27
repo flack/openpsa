@@ -335,7 +335,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $array['tokens'][$link->token]++;
     }
 
-
     private function _create_campaign_from_link()
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba();

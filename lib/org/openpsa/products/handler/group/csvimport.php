@@ -159,7 +159,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
                     break;
             }
 
-
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name']))
             {
                 // Copy the file for later processing

@@ -41,7 +41,6 @@ class midcom_services_cache_backend_apc extends midcom_services_cache_backend
      */
     function _close() {}
 
-
     function _get($key)
     {
         if (!self::$apc_operational)

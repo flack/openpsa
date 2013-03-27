@@ -137,7 +137,6 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         $this->_handle = null;
     }
 
-
     function _get($key)
     {
         if (! $this->_exists($key))

@@ -303,7 +303,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-
         if (count($data['groups']) > 0)
         {
             $groups_counter = 0;
@@ -383,7 +382,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             {
                 $url = "{$group->guid}/";
             }
-
 
             $tmp[] = Array
             (

@@ -115,7 +115,6 @@ abstract class midcom_services_indexer_client
                 continue;
             }
 
-
             $documents[] = $this->_create_document($datamanager);
         }
 

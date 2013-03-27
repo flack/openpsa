@@ -252,7 +252,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 throw new midcom_error('Unknown action');
         }
 
-
         $qb = midcom_db_person::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['midcom_admin_user']);
         $this->_persons = $qb->execute();

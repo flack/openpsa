@@ -467,7 +467,6 @@ class midcom_compat_superglobal
         midcom::get('head')->set_pagetitle($string);
     }
 
-
     /* *************************************************************************
      * Generic Helper Functions not directly related with MidCOM:
      *

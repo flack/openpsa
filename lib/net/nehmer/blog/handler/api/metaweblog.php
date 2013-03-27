@@ -312,7 +312,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         return new XML_RPC_Response(new XML_RPC_Value($response_array, 'struct'));
     }
 
-
     // metaWeblog.editPost
     function editPost($message)
     {

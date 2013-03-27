@@ -12,7 +12,6 @@ function getPasswordMenu($data)
             </div>
         </div>
 
-
         <div class="element element_text" id="password_row" style="display:none">
             <label for="org_openpsa_user_person_account_password">
                 <span class="field_text">'.$data["l10n_midcom"]->get("password").'</span>

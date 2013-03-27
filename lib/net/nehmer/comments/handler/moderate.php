@@ -107,7 +107,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
             midcom::get('auth')->drop_sudo();
         }
 
-
         if (isset($_POST['return_url']))
         {
             return new midcom_response_relocate($_POST['return_url']);

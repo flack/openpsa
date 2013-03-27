@@ -129,7 +129,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         return $this->_load_types();
     }
 
-
     /**
      * This function sets the system to use a specific storage object. You can pass
      * either a MidCOM DBA object or a fully initialized storage subclass. The former

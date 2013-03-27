@@ -254,7 +254,6 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
         return $this->_timestamp_cache['day_end'];
     }
 
-
     /**
      * Get start timestamp of the selected week. Use this to tune queries for selecting reservations
      * @param integer $timestamp Timestamp to use instead of the current date

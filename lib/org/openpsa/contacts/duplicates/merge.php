@@ -125,7 +125,6 @@ class org_openpsa_contacts_duplicates_merge
         return $ret;
     }
 
-
     /**
      * Merges first object with second and then deletes the second
      *

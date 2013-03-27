@@ -122,7 +122,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             }
         }
 
-
         //See if the parent status needs updating
         if ($task->status == $this->type)
         {

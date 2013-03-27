@@ -101,7 +101,6 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
      */
     public function _on_execute() {}
 
-
     /**
      * This helper function echoes the error message to the client, automatically appending
      * the classname to the prefix. If you want to log the error, you have to take care of

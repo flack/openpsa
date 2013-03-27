@@ -321,7 +321,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
     }
 
-
     function _create_upload_elements_video(&$elements)
     {
         // The table

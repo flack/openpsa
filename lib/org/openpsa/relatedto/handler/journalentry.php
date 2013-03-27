@@ -273,7 +273,6 @@ implements midcom_helper_datamanager2_interfaces_create
             }
             $this->_request_data['entries'] = $this->qb_journal_entries->execute();
 
-
             //get the corresponding objects
             if (   $this->_request_data['show_object'] == true
                 && !empty($this->_request_data['entries']))

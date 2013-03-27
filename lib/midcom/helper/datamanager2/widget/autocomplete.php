@@ -155,7 +155,6 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $creation_handler = null;
     public $creation_default_key = null;
 
-
     /**
      * the element's ID
      *

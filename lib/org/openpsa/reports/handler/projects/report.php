@@ -378,8 +378,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
         $this->_sort_rows_recursive($this->_request_data['report']['rows']);
 
-
-
         //TODO: add other report types when supported
         if (   !is_array($this->_request_data['raw_results']['hr'])
             || count($this->_request_data['raw_results']['hr']) == 0)

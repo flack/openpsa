@@ -369,7 +369,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             throw new midcom_error('No CSV file available.');
         }
 
-
         $data['fields_to_skip'] = explode(',', $data['config']->get('import_skip_fields'));
 
         $data['time_start'] = time();
@@ -464,7 +463,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             }
         }
 
-
         if (count($data['groups']) > 0)
         {
             foreach ($data['groups'] as $product)
@@ -472,7 +470,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $this->_import_product($product);
             }
         }
-
 
         $data['time_end'] = time();
     }

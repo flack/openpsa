@@ -238,7 +238,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         return $result[$lang_id];
     }
 
-
     /**
      * Checks for the existence of a key in the cache.
      *

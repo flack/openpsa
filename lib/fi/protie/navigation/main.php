@@ -374,7 +374,6 @@ class fi_protie_navigation
 
             $item = $this->_nap->get_node($child);
 
-
             $classes = $this->_get_css_classes($child, $item, $item_counter, $item_count);
 
             $this->_display_element($item, $indent, $classes);

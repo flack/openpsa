@@ -596,7 +596,6 @@ class midcom_services_auth
         }
     }
 
-
     /**
      * Validates that the current user is a member of the given group.
      *

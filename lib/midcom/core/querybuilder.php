@@ -270,7 +270,6 @@ class midcom_core_querybuilder extends midcom_core_query
         return $newresult;
     }
 
-
     private function _set_limit_offset_window($iteration)
     {
         if (!$this->_window_size)

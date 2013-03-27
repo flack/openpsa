@@ -398,7 +398,6 @@ class midcom_helper__styleloader
         return true;
     }
 
-
     /**
      * Looks for a midcom core style element matching $path and displays/evaluates it.
      * This offers a bit reduced functionality and will only look in the DB root style,
@@ -607,7 +606,6 @@ class midcom_helper__styleloader
 
         return false;
     }
-
 
     /**
      * Gets the component styledir associated with the topics

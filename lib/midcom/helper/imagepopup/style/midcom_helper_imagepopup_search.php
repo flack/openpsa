@@ -25,5 +25,3 @@ if ($data['object'])
             <input type='submit' name='submit' value='<?php echo $data['l10n']->get('search');?>' />
         </form>
     </div>
-
-

@@ -111,7 +111,6 @@ class midcom_exception_handler
         _midcom_stop_request();
     }
 
-
     /**
      * Catch an Exception and show it as a HTTP error
      *

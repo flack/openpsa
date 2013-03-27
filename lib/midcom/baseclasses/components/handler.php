@@ -91,7 +91,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     {
     }
 
-
     /**
      * Initializes the request handler class, called by the component interface after
      * instantiation. Required to allow safe $this references during startup.
@@ -125,7 +124,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         }
         $this->_on_initialize();
     }
-
 
     /**
      * Initialization event handler, called at the end of the initialization process.

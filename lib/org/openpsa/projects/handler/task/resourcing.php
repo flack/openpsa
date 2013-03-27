@@ -143,7 +143,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->add_breadcrumb("task/resourcing/{$this->_task->guid}/", $this->_l10n->get('resourcing'));
     }
 
-
     /**
      * Shows the loaded task.
      *

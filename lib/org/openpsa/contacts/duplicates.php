@@ -428,7 +428,6 @@ class org_openpsa_contacts_duplicates
                 continue;
             }
 
-
             if (   !isset($this->p_map[$arr1['guid']])
                 || !is_array($this->p_map[$arr1['guid']]))
             {

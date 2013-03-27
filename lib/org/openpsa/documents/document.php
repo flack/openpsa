@@ -54,7 +54,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $this->_update_directory_timestamp();
     }
 
-
     public function _on_updated()
     {
         $this->_update_directory_timestamp();

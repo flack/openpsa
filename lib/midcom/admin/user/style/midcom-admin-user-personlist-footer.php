@@ -54,7 +54,6 @@ if (count($data['persons']) > 0)
                                 $title = $group['title'];
                             }
 
-
                             echo "<option value=\"" . $group['id'] . "\">" . $title . "</option>\n";
                         }
                         ?>

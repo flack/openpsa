@@ -32,7 +32,6 @@ foreach ($data['products'] as $product)
     $entry['price'] = org_openpsa_helpers::format_number($product->price);
     $entry['unit'] = $view_product['unit'];
 
-
     $entries[] = $entry;
 }
 echo '<script type="text/javascript">//<![CDATA[';

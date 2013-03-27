@@ -341,7 +341,6 @@ class midcom_services_indexer_solrDocumentFactory
     }
 }
 
-
 /**
  * This class handles the posting to the server.
  * It's a simple wrapper around the HTTP_request2 library.

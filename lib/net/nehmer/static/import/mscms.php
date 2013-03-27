@@ -57,7 +57,6 @@ class net_nehmer_static_import_mscms
 
         $mscms_data = file_get_contents($path);
 
-
         // HTMLpurifier doesn't allow IDs starting with underscore
         $mscms_data = str_replace('_ctl0', 'ctl', $mscms_data);
         $mscms_data = str_replace('span', 'div', $mscms_data);
