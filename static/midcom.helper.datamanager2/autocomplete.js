@@ -237,7 +237,15 @@ var midcom_helper_datamanager2_autocomplete =
         {
             return;
         }
-        input.autocomplete(options);
+
+        if (handler_options.categorize_by_parent_label !== false)
+        {
+            input.category_complete(options);
+        }
+        else
+        {
+            input.autocomplete(options);
+        }
 
         input.parent().on('click', '.autocomplete-selection-holder .autocomplete-action-icon', function()
         {

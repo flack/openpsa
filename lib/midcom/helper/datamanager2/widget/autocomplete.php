@@ -35,6 +35,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $component = null;
 
     /**
+     * Should the results be grouped by their parent label
+     *
+     * @var boolean
+     */
+    public $categorize_by_parent_label = false;
+
+    /**
      * Associative array of constraints (besides the search term), always AND
      *
      * Example:
@@ -293,6 +300,8 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'searchfields' => $this->searchfields,
             'orders' => $this->orders,
             'auto_wildcards' => $this->auto_wildcards,
+            'get_label_for' => $this->get_label_for,
+            'categorize_by_parent_label' => $this->categorize_by_parent_label,
             'preset' => $preset,
             'allow_multiple' => $this->_type->allow_multiple,
             'creation_mode_enabled' => $this->creation_mode_enabled,
