@@ -113,8 +113,7 @@ var midcom_helper_datamanager2_autocomplete =
 
     select: function(event, ui)
     {
-        var identifier = $(event.target).attr('id').replace(/_search_input$/, ''),
-        handler_options = window[identifier + '_handler_options'];
+        var identifier = $(event.target).attr('id').replace(/_search_input$/, '');
 
         if ($('#' + identifier + '_selection_holder').length > 0)
         {
@@ -370,14 +369,22 @@ var midcom_helper_datamanager2_autocomplete =
     update_selection: function(identifier, item_id, operation)
     {
         var selection = JSON.parse($('#' + identifier + '_selection').val()),
-        new_selection = [];
+        new_selection = [],
+        handler_options = window[identifier + '_handler_options'];
 
         if (operation === 'add')
         {
-            new_selection = selection;
-            if ($.inArray(item_id, new_selection) === -1)
+            if (handler_options.allow_multiple !== true)
             {
                 new_selection.push(item_id);
+            }
+            else
+            {
+                new_selection = selection;
+                if ($.inArray(item_id, new_selection) === -1)
+                {
+                    new_selection.push(item_id);
+                }
             }
         }
         else
