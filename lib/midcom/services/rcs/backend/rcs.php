@@ -349,7 +349,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /*
      * the functions below are mostly rcs functions moved into the class. Someday I'll get rid of the
      * old files...
-     *
      */
     /**
      * Get a list of the object's history

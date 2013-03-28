@@ -5,7 +5,6 @@
  * @package org.openpsa.products
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
- *
  */
 
 /**

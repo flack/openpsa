@@ -163,7 +163,6 @@ class org_openpsa_widgets_grid_provider
 
     /**
      * returns the query (uncached)
-     *
      */
     public function get_query()
     {

@@ -210,7 +210,6 @@ class midcom_helper_head
      * @param  string $script    The input between the <object></object> tags.
      * @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
      * @see print_head_elements()
-     *
      */
     public function add_object_head ($script, $attributes = null)
     {

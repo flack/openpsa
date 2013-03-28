@@ -10,7 +10,6 @@
  * org.openpsa.documents document handler and viewer class.
  *
  * @package org.openpsa.documents
- *
  */
 class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_components_handler
 {

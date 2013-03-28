@@ -11,7 +11,6 @@
  *  need their own object at all...
  *
  * @package org.openpsa.expenses
- *
  */
 class org_openpsa_expenses_mileage extends org_openpsa_expenses_expense
 {

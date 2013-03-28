@@ -12,7 +12,6 @@
  * Implements parameter and attachment methods for DM compatibility
  *
  * @package org.openpsa.documents
- *
  */
 class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 {
