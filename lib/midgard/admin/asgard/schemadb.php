@@ -151,74 +151,7 @@ class midgard_admin_asgard_schemadb
             {
                 case MGD_TYPE_GUID:
                 case MGD_TYPE_STRING:
-                    if (   $key == 'component'
-                        && is_a($this->_object, 'midcom_db_topic'))
-                    {
-                        $this->_add_component_dropdown($key);
-                        break;
-                    }
-
-                    // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
-                    if (midcom::get('dbfactory')->is_a($this->_object, $type))
-                    {
-                        $name_obj = $this->_object;
-                    }
-                    else
-                    {
-                        $name_obj = new $type();
-                    }
-
-                    if ($key === midcom_helper_reflector::get_name_property($name_obj))
-                    {
-                        $this->_add_name_field($key, $name_obj);
-                        break;
-                    }
-                    unset($name_obj);
-
-                    // Special page treatment
-                    if (   $key === 'info'
-                        && $type === 'midcom_db_page')
-                    {
-                        $this->_add_info_field_for_page($key);
-                        break;
-                    }
-
-                    if (   $key === 'info'
-                        && $type === 'midcom_db_pageelement')
-                    {
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type'        => 'select',
-                                'type_config' => array
-                                (
-                                    'options' => array
-                                    (
-                                        '' => 'not inherited',
-                                        'inherit' => 'inherited',
-                                    ),
-                                ),
-                                'widget'      => 'select',
-                            )
-                        );
-                        break;
-                    }
-
-                    $this->_schemadb['object']->append_field
-                    (
-                        $key,
-                        array
-                        (
-                            'title'       => $key,
-                            'storage'     => $key,
-                            'type'        => 'text',
-                            'widget'      => 'text',
-                        )
-                    );
+                    $this->_add_string_field($key, $type);
                     break;
                 case MGD_TYPE_LONGTEXT:
                     $this->_add_longtext_field($key, $type);
@@ -277,6 +210,78 @@ class midgard_admin_asgard_schemadb
         }
 
         return $this->_schemadb;
+    }
+
+    private function _add_string_field($key, $type)
+    {
+        if (   $key == 'component'
+            && $type == 'midcom_db_topic')
+        {
+            $this->_add_component_dropdown($key);
+            return;
+        }
+        // Special page treatment
+        if ($key === 'info')
+        {
+            if ($type === 'midcom_db_page')
+            {
+                $this->_add_info_field_for_page($key);
+                return;
+            }
+
+            if ($type === 'midcom_db_pageelement')
+            {
+                $this->_schemadb['object']->append_field
+                (
+                    $key,
+                    array
+                    (
+                        'title'       => $key,
+                        'storage'     => $key,
+                        'type'        => 'select',
+                        'type_config' => array
+                        (
+                            'options' => array
+                            (
+                                '' => 'not inherited',
+                                'inherit' => 'inherited',
+                                ),
+                            ),
+                        'widget'      => 'select',
+                        )
+                    );
+                return;
+            }
+        }
+
+        // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
+        if (midcom::get('dbfactory')->is_a($this->_object, $type))
+        {
+            $name_obj = $this->_object;
+        }
+        else
+        {
+            $name_obj = new $type();
+        }
+
+        if ($key === midcom_helper_reflector::get_name_property($name_obj))
+        {
+            $this->_add_name_field($key, $name_obj);
+            return;
+        }
+        unset($name_obj);
+
+        $this->_schemadb['object']->append_field
+        (
+            $key,
+            array
+            (
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => 'text',
+                'widget'      => 'text',
+            )
+        );
     }
 
     private function _add_rcs_field()
