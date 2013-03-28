@@ -88,7 +88,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
         if ($retval === true)
         {
-            $salesproject =& $this->_salesproject;
+            $salesproject = $this->_salesproject;
             $salesproject->refresh();
 
             foreach ($results as $type => $values)
@@ -237,7 +237,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerCalculate_price()
     {
-        $this->_salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
 
         return array
         (
@@ -251,7 +251,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => 'm',
-                    'salesproject' => $this->_salesproject->id,
+                    'salesproject' => $salesproject->id,
                 ),
                 array
                 (
@@ -269,7 +269,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => 'm',
-                    'salesproject' => $this->_salesproject->id,
+                    'salesproject' => $salesproject->id,
                 ),
                 array
                 (
@@ -287,7 +287,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => '%',
-                    'salesproject' => $this->_salesproject->id,
+                    'salesproject' => $salesproject->id,
                 ),
                 array
                 (
