@@ -466,14 +466,15 @@ EOT;
 
     public function render_content()
     {
-        if (count($this->_type->selection) == 0)
+        $selection = array_filter($this->_type->selection);
+        if (count($selection) == 0)
         {
             return $this->_translate('type select: no selection');
         }
         else
         {
             $selection = array();
-            foreach ($this->_type->selection as $key)
+            foreach ($selection as $key)
             {
                 if ($this->id_field == 'id')
                 {
