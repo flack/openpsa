@@ -68,9 +68,11 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('task', '=', $task->id);
         $results = $qb->execute();
+        $this->register_objects($results);
         $this->assertEquals(1, sizeof($results));
         $item = $results[0];
         $invoice = new org_openpsa_invoices_invoice_dba($item->invoice);
+        $this->register_object($invoice);
         $task->refresh();
 
         $this->assertEquals('invoice/edit/' . $invoice->guid . '/', $url);
