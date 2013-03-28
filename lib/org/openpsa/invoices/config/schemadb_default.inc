@@ -57,7 +57,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget'    => 'chooser',
+            'widget'    => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_person_dba',
@@ -96,7 +96,6 @@
                 (
                     array('lastname'    => 'ASC'),
                     array('firstname'    => 'ASC'),
-
                 ),
              ),
         ),
@@ -110,7 +109,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget'    => 'chooser',
+            'widget'    => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_person_dba',

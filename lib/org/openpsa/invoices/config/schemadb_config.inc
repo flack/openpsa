@@ -48,13 +48,12 @@
                 'domain' => 'org.openpsa.invoices',
                 'name'    => 'invoice_sender',
              ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_person_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
-                'id_field'     => 'id',
                 'constraints' => array
                 (
                     array
