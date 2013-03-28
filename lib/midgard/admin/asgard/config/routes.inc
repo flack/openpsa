@@ -10,6 +10,16 @@
     'variable_args' => 0,
 ),
 /**
+ * Asgard "shell"
+ *
+ * Match /shell/
+ */
+'shell' => array
+(
+    'handler' => array ('midgard_admin_asgard_handler_shell', 'shell'),
+    'fixed_args' => array('shell'),
+),
+/**
  * Component listing page
  *
  * Match /components/

@@ -686,6 +686,14 @@ Revisionsgeschichte von %s
 Revisionsgeschichte von %s %s
 ---STRINGEND
 
+---STRING run
+Ausführen
+---STRINGEND
+
+---STRING script output
+Script-Ausgabe
+---STRINGEND
+
 ---STRING search
 Suche
 ---STRINGEND
@@ -700,6 +708,10 @@ Genau zwei Möglichkeiten zeigen
 
 ---STRING select the types
 Typen auswählen
+---STRINGEND
+
+---STRING shell
+Shell
 ---STRINGEND
 
 ---STRING show %s %s children

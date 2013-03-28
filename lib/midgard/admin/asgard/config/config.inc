@@ -59,6 +59,7 @@
     'password',
 ),
 'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.inc',
+'schemadb_shell' => 'file:/midgard/admin/asgard/config/schemadb_shell.inc',
 
 // User preferences
 'schemadb_preferences' => 'file:/midgard/admin/asgard/config/schemadb_preferences.inc',
