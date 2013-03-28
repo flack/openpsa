@@ -51,6 +51,19 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'add', $person->guid));
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
+        $qb = org_openpsa_contacts_list_dba::new_query_builder();
+        $qb->add_constraint('person', '=', self::$_person->guid);
+        $result = $qb->execute();
+        $this->register_objects($result);
+        $this->assertEquals(1, count($result), 'Contact list missing');
+
+        $qb = midcom_db_member::new_query_builder();
+        $qb->add_constraint('gid', '=', $result[0]->id);
+        $qb->add_constraint('uid', '=', $person->id);
+        $result = $qb->execute();
+        $this->register_objects($result);
+        $this->assertEquals(1, count($result));
+
         midcom::get('auth')->drop_sudo();
     }
 
