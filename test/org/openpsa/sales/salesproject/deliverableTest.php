@@ -228,6 +228,9 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
      */
     public function testCalculate_price($attributes, $results)
     {
+        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $attributes['salesproject'] = $salesproject->id;
+
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
         foreach ($results as $key => $value)
         {
@@ -237,8 +240,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerCalculate_price()
     {
-        $salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
-
         return array
         (
             array
@@ -251,7 +252,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => 'm',
-                    'salesproject' => $salesproject->id,
                 ),
                 array
                 (
@@ -269,7 +269,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => 'm',
-                    'salesproject' => $salesproject->id,
                 ),
                 array
                 (
@@ -287,7 +286,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => '%',
-                    'salesproject' => $salesproject->id,
                 ),
                 array
                 (
