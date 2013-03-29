@@ -395,7 +395,15 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             {
                 continue;
             }
-            $result[$name] = $this->formmanager->widgets[$name]->render_content();
+            if (empty($this->formmanager->widgets[$name]))
+            {
+                //This field seems to be hidden, i.e. DM has not loaded the widget
+                $result[$name] = $this->types[$name]->convert_to_html();
+            }
+            else
+            {
+                $result[$name] = $this->formmanager->widgets[$name]->render_content();
+            }
         }
         return $result;
     }
