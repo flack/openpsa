@@ -47,10 +47,11 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
         $this->assertEquals('import_simpleemails', $data['handler_id']);
         $this->show_handler($data);
 
+        $email = __FUNCTION__ . '.' . time() . '@' . __CLASS__ . '.org';
         $_POST = array
         (
             'org_openpsa_directmarketing_import_separator' => 'N',
-            'org_openpsa_directmarketing_import_textarea' => __METHOD__ . '.' . time() . '@' . __CLASS__ . '.org',
+            'org_openpsa_directmarketing_import_textarea' => $email,
         );
         $_FILES = array
         (
@@ -62,6 +63,13 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'import', 'simpleemails', $campaign->guid));
         $this->assertArrayHasKey('import_status', $data);
         $this->assertEquals(1, $data['import_status']['subscribed_new']);
+
+        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        $qb->add_constraint('email', 'LIKE', $email);
+        $results = $qb->execute();
+
+        $this->register_objects($results);
+        $this->assertEquals(1, sizeof($results));
 
         midcom::get('auth')->drop_sudo();
     }
