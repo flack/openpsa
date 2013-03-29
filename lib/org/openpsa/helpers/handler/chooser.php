@@ -89,6 +89,15 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_helpers::dm2_savecancel($this);
     }
 
+    public function get_schema_defaults()
+    {
+        if (empty($_GET['defaults']))
+        {
+            return array();
+        }
+        return $_GET['defaults'];
+    }
+
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_get_schemadb_snippet());
