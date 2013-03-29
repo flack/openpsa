@@ -258,10 +258,13 @@ var midcom_helper_datamanager2_autocomplete =
             selection_holder_class += ' autocomplete-selection-holder-readonly';
         }
 
-        input.parent().append('<span class="' + selection_holder_class + '" id="' + identifier + '_selection_holder"></span>');
+        input.parent()
+            .append('<span class="' + selection_holder_class + '" id="' + identifier + '_selection_holder"></span>')
+            .addClass('autocomplete-widget');
         if (handler_options.creation_mode_enabled)
         {
             midcom_helper_datamanager2_autocomplete.enable_creation_mode(identifier, handler_options.creation_handler);
+            input.parent().addClass('autocomplete-widget-creation-enabled');
         }
         if (!$.isEmptyObject(handler_options.preset))
         {
