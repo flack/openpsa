@@ -1,6 +1,6 @@
 <?php
-$view_task =& $data['object_view'];
-$task =& $data['object'];
+$view_task = $data['object_view'];
+$task = $data['object'];
 $task->get_members();
 
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
