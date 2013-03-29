@@ -164,7 +164,51 @@ class midcom_core_context
             return false;
         }
 
+        if (   (   $key === MIDCOM_CONTEXT_ROOTTOPICID
+                || $key === MIDCOM_CONTEXT_ROOTTOPIC)
+            && $this->_data[$key] === null)
+        {
+            $this->_initialize_root_topic();
+        }
+
         return $this->_data[$key];
+    }
+
+    private function _initialize_root_topic()
+    {
+        // Initialize Root Topic
+        try
+        {
+            $root_node = midcom_db_topic::get_cached(midcom::get('config')->get('midcom_root_topic_guid'));
+        }
+        catch (midcom_error $e)
+        {
+            if ($e instanceof midcom_error_forbidden)
+            {
+                throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
+            }
+            else
+            {
+                // Fall back to another topic so that admin has a chance to fix this
+                midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
+                $qb = midcom_db_topic::new_query_builder();
+                $qb->add_constraint('up', '=', 0);
+                $qb->add_constraint('component', '<>', '');
+                $topics = $qb->execute();
+                if (count($topics) == 0)
+                {
+                    throw new midcom_error
+                    (
+                        "Fatal error: Unable to load website root folder with GUID '" . midcom::get('config')->get('midcom_root_topic_guid') . "<br />" .
+                        'Last Midgard Error was: ' . midcom_connection::get_error_string()
+                    );
+                }
+                $root_node = $topics[0];
+            }
+        }
+
+        $this->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
+        $this->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
     }
 
     /**

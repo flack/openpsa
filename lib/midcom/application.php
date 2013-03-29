@@ -65,9 +65,7 @@ class midcom_application
      * Main MidCOM initialization.
      *
      * Initialize the Application class. Sets all private variables to a predefined
-     * state. $node should be set to the midcom root-node GUID.
-     * $prefix can be a prefix, which is appended to midcom_connection::get_url('self') (i.e. the
-     * Midgard Page URL). This may be needed when MidCOM is run by wrapper.
+     * state.
      */
     public function initialize()
     {
@@ -108,40 +106,6 @@ class midcom_application
     public function codeinit()
     {
         $context = midcom_core_context::get();
-
-        // Initialize Root Topic
-        try
-        {
-            $root_node = midcom_db_topic::get_cached(midcom::get('config')->get('midcom_root_topic_guid'));
-        }
-        catch (midcom_error $e)
-        {
-            if ($e instanceof midcom_error_forbidden)
-            {
-                throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
-            }
-            else
-            {
-                // Fall back to another topic so that admin has a chance to fix this
-                midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
-                $qb = midcom_db_topic::new_query_builder();
-                $qb->add_constraint('up', '=', 0);
-                $qb->add_constraint('component', '<>', '');
-                $topics = $qb->execute();
-                if (count($topics) == 0)
-                {
-                    throw new midcom_error
-                    (
-                        "Fatal error: Unable to load website root folder with GUID '" . midcom::get('config')->get('midcom_root_topic_guid') . "<br />" .
-                        'Last Midgard Error was: ' . midcom_connection::get_error_string()
-                    );
-                }
-                $root_node = $topics[0];
-            }
-        }
-
-        $context->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
-        $context->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
 
         if ($context->id == 0)
         {
