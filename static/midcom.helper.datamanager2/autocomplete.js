@@ -151,14 +151,14 @@ var midcom_helper_datamanager2_autocomplete =
         create_button.css('display', 'block');
         create_button.bind('click', function()
         {
-            creation_url += '?chooser_widget_id=' + identifier;
+            var url = creation_url + '?chooser_widget_id=' + identifier;
             if (   $('#' + identifier + '_search_input').val() !== ''
                 && typeof handler_options.creation_default_key !== undefined)
             {
-                creation_url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
+                url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
             }
 
-            var iframe_html = '<iframe src="' + creation_url + '" id="' + identifier + '_creation_dialog_content"'
+            var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
                 + ' class="chooser_widget_creation_dialog_content"'
                 + ' frameborder="0"'
                 + ' marginwidth="0"'
