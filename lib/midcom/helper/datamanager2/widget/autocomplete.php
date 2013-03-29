@@ -467,13 +467,14 @@ EOT;
     public function render_content()
     {
         $selection = array_filter($this->_type->selection);
+
         if (count($selection) == 0)
         {
             return $this->_translate('type select: no selection');
         }
         else
         {
-            $selection = array();
+            $labels = array();
             foreach ($selection as $key)
             {
                 if ($this->id_field == 'id')
@@ -491,9 +492,10 @@ EOT;
                 }
 
                 $ref = new midcom_helper_reflector($object);
-                $selection[] = $ref->get_object_label($object);
+
+                $labels[] = $ref->get_object_label($object);
             }
-            return implode(', ', $selection);
+            return implode(', ', $labels);
         }
     }
 
