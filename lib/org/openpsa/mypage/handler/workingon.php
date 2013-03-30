@@ -84,9 +84,9 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     /**
      * Helper function that sets the request data for hour reports
      *
-     * @param &$array The array returned by collector
+     * @param $array The array returned by collector
      */
-    private function _add_hour_data(&$array)
+    private function _add_hour_data(array $array)
     {
         static $customer_cache = array();
         if (!isset($customer_cache[$array['task']]))
