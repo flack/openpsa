@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function set_schema($name = null)
     {
         if (   $name !== null
-            && ! array_key_exists($name, $this->_schemadb))
+            && !array_key_exists($name, $this->_schemadb))
         {
             debug_add("The schema {$name} was not found in the active schema database.", MIDCOM_LOG_INFO);
             return false;
@@ -388,6 +388,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
             $this->formmanager->initialize();
         }
+
         $result = Array();
         foreach ($this->schema->field_order as $name)
         {
@@ -402,6 +403,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             }
             else
             {
+                $this->formmanager->widgets[$name]->_type = $this->types[$name];
                 $result[$name] = $this->formmanager->widgets[$name]->render_content();
             }
         }
