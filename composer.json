@@ -36,7 +36,7 @@
         "pear-pear/Net_SMTP": "*",
         "pear-pear/Auth_SASL": "*",
         "pear-pear/HTML_QuickForm": "*",
-        "pear-hp/HTMLPurifier": "*",
+        "pear-hp/HTMLPurifier": "4.4.*",
         "pear-pear/Text_Diff": "*",
         "midgard/midgardmvc-helper-urlize": "@dev",
         "gregwar/captcha": ">=1.0",
