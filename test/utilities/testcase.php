@@ -367,17 +367,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             midcom::get('auth')->drop_sudo();
         }
 
-        $queue = array();
-
-        while (!empty($this->_testcase_objects))
-        {
-            $object = array_pop($this->_testcase_objects);
-            if (array_key_exists($object->guid, self::$_class_objects))
-            {
-                unset(self::$_class_objects[$object->guid]);
-            }
-            $queue[] = $object;
-        }
+        //if object is also in class queue, we delay its deletion
+        $queue = array_diff_key($this->_testcase_objects, self::$_class_objects);
 
         self::_process_delete_queue('method', $queue);
         $this->_testcase_objects = array();
