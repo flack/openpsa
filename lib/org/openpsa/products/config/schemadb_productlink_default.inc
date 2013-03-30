@@ -14,7 +14,7 @@
                 'allow_multiple' => false,
                 'options' => array(),
             ),
-            'widget'  => 'chooser',
+            'widget'  => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_products_product_group_dba',
@@ -31,7 +31,7 @@
                     array('name' => 'title', 'title' => 'title'),
                     array('name' => 'code', 'title' => 'code'),
                 ),
-                'generate_path_for' => 'title',
+                'categorize_by_parent_label' => true,
             ),
         ),
         'product' => Array
@@ -45,7 +45,7 @@
                 'allow_multiple' => false,
                 'options' => array(),
             ),
-            'widget'  => 'chooser',
+            'widget'  => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_products_product_dba',
@@ -63,7 +63,7 @@
                     array('name' => 'code', 'title' => 'code'),
                     array('name' => 'productGroup', 'title' => 'productGroup'),
                 ),
-                'generate_path_for' => 'productGroup',
+                'categorize_by_parent_label' => true,
             ),
         ),
     )

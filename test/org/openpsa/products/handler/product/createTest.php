@@ -33,7 +33,10 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
             'code' => 'TEST_' . __CLASS__ . '_' . time(),
             'delivery' => (string) org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'orgOpenpsaObtype' => (string) org_openpsa_products_product_dba::TYPE_GOODS,
-            'org_openpsa_products_productGroup_chooser_selections' => array((string) self::$_group->id),
+            'productGroup' => array
+            (
+                    'org_openpsa_products_productGroup_autocomplete_widget_selection' => '[' . self::$_group->id . ']'
+            ),
         );
 
         $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.products', array('product', 'create', 'default'));
