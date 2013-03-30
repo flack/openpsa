@@ -397,6 +397,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $object = array_pop($queue);
             try
             {
+                $stat = $object->refresh();
+                if ($stat === false)
+                {
+                    // we can only assume this means that the object is already deleted.
+                    // Normally, the error codes from core should tell us later on, too, but
+                    // they don't seem to be reliable in all versions
+                    continue;
+                }
                 $stat = $object->delete();
             }
             catch (midcom_error $e)
