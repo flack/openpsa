@@ -1253,13 +1253,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Just to be sure not to mess the headers sent by no_cache in case it was called
         if (!$this->_no_cache)
         {
-            // Typecast to make copy in stead of reference
+            // Typecast to make copy instead of reference
             $strategy = (string)$this->_headers_strategy;
             $default_lifetime = (int)$this->_default_lifetime;
             if (   midcom::get('auth')->is_valid_user()
                 || !midcom_connection::get_user())
             {
-                // Typecast to make copy in stead of reference
+                // Typecast to make copy instead of reference
                 $strategy = (string)$this->_headers_strategy_authenticated;
                 $default_lifetime = (int)$this->_default_lifetime_authenticated;
             }

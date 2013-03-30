@@ -155,7 +155,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         $this->body = ltrim(rtrim($this->body));
         $this->html_body = ltrim(rtrim($this->html_body));
 
-        //TODO Figure if decode was successful or not and return true/false in stead
+        //TODO Figure if decode was successful or not and return true/false instead
         return $this->__mime;
     }
 

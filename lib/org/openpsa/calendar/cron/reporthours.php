@@ -99,7 +99,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 $event_links[$event->guid] = $qb2->execute();
             }
             $links =& $event_links[$event->guid];
-            // These checks are done here (in stead of few lines above) on purpose
+            // These checks are done here (instead of few lines above) on purpose
             if (empty($links))
             {
                 continue;

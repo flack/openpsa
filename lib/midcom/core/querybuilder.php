@@ -98,7 +98,7 @@ class midcom_core_querybuilder extends midcom_core_query
     /**
      * Executes the internal QB and filters objects based on ACLs and metadata
      *
-     * @param boolean $false_on_empty_mgd_resultset used in the moving window loop to get false in stead of empty array back from this method in case the **core** QB returns empty resultset
+     * @param boolean $false_on_empty_mgd_resultset used in the moving window loop to get false instead of empty array back from this method in case the **core** QB returns empty resultset
      * @return array of objects filtered by ACL and metadata visibility (or false in case of failure)
      */
     private function _execute_and_check_privileges($false_on_empty_mgd_resultset = false)

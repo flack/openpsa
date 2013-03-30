@@ -155,7 +155,7 @@ class midcom_exception_handler
         {
             case E_ERROR:
             case E_USER_ERROR:
-                // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); in stead?
+                // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
                 throw new midcom_error($msg, $errno);
         }
         // Leave other errors for PHP to take care of

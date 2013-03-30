@@ -325,7 +325,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = self::$_cache['create_icon_map'][$type];
                 break;
 
-            // heuristics magic (in stead of adding something here, take a look at config key "create_type_magic")
+            // heuristics magic (instead of adding something here, take a look at config key "create_type_magic")
             case (strpos($type, 'member') !== false):
             case (strpos($type, 'organization') !== false):
                 $icon = 'stock_people-new.png';
@@ -377,7 +377,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = self::$_cache['object_icon_map'][$object_baseclass];
                 break;
 
-            // heuristics magic (in stead of adding something here, take a look at config key "object_icon_magic")
+            // heuristics magic (instead of adding something here, take a look at config key "object_icon_magic")
             case (strpos($object_class, 'person') !== false):
                 $icon = 'stock_person.png';
                 break;
@@ -800,7 +800,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @see midcom_helper_reflector::get_name_property()
      * @param object $object the object to get the name property for
      * @return string name of property or boolean false on failure
-     * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
+     * @todo when midgard_reflection_property supports flagging name fields use that instead of heuristics
      */
     public function get_name_property_nonstatic($object)
     {
@@ -918,7 +918,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @see midcom_helper_reflector::get_object_title()
      * @param $object the object to get the title property for
      * @return string name of property or boolean false on failure
-     * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
+     * @todo when midgard_reflection_property supports flagging name fields use that instead of heuristics
      */
     public function get_title_property_nonstatic($object)
     {

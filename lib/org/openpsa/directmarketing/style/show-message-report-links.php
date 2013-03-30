@@ -29,7 +29,7 @@ $form_suffix = $data['form_suffix'];
                 $visual_width = round($of_clicks*5);
                 $target_label = $target;
                 // Fetch target url and look for a heading to use
-                //TODO: Make a HEAD request and check the content-type in stead fo trying to guess here
+                //TODO: Make a HEAD request and check the content-type instead of trying to guess here
                 if (preg_match('/(\.html?|\/|\.com|\.net|\.org|\.fi|\.info)$/', trim(urldecode($target))))
                 {
                     debug_add("Trying to fetch '{$target}' and read title from there");

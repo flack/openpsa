@@ -285,7 +285,7 @@ class org_openpsa_projects_workflow
     {
         debug_add("task->reject() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
-        //PONDER: Check ACL in stead ?
+        //PONDER: Check ACL instead ?
         if (midcom_connection::get_user() != $task->manager)
         {
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot reject", MIDCOM_LOG_ERROR);
