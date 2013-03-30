@@ -484,7 +484,7 @@ class midcom_services_i18n
                 $lang = array_shift($params);
 
                 // we can't use strings like en-US, so we only use the first two characters
-                $lang = array_shift(explode("-", $lang));
+                $lang = substr($lang, 0, 2);
                 $q = $this->_get_q($params);
 
                 if (   !isset($this->_http_lang[$lang])
