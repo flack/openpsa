@@ -104,7 +104,7 @@ class midgard_admin_asgard_schemadb
                 $include_fields = (array) $include_fields;
             }
             // Skip the fields that aren't requested, if inclusion list has been defined
-            $type_fields = array_diff_key($type_fields, array_keys($include_fields));
+            $type_fields = array_intersect($type_fields, $include_fields);
         }
 
         $type_fields = array_filter($type_fields, array($this, '_filter_schema_fields'));
