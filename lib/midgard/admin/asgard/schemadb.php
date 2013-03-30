@@ -82,27 +82,32 @@ class midgard_admin_asgard_schemadb
             $type_fields = $this->_object->get_properties();
         }
 
-        if (empty($include_fields))
-        {
-            $include_fields = null;
-        }
-        else if (is_string($include_fields))
-        {
-            $include_fields = array
-            (
-                $include_fields,
-            );
-        }
         //This is an ugly little workaround for unittesting
         $template = midcom_helper_datamanager2_schema::load_database('file:/midgard/admin/asgard/config/schemadb_default.inc');
         $empty_db = clone $template['object'];
+
         $this->_schemadb = array('object' => $empty_db);
         //workaround end
+
+        $component = midcom::get('dbclassloader')->get_component_for_class($type);
+        if ($component)
+        {
+            $this->_schemadb['object']->l10n_schema = midcom::get('i18n')->get_l10n($component);
+        }
+
         $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($type));
 
-        // Iterate through object properties
+        if (!empty($include_fields))
+        {
+            if (is_string($include_fields))
+            {
+                $include_fields = (array) $include_fields;
+            }
+            // Skip the fields that aren't requested, if inclusion list has been defined
+            $type_fields = array_diff_key($type_fields, array_keys($include_fields));
+        }
 
-        unset($type_fields['metadata']);
+        $type_fields = array_filter($type_fields, array($this, '_filter_schema_fields'));
 
         if (!extension_loaded('midgard2'))
         {
@@ -110,34 +115,9 @@ class midgard_admin_asgard_schemadb
             usort($type_fields, array($this, 'sort_schema_fields'));
         }
 
+        // Iterate through object properties
         foreach ($type_fields as $key)
         {
-            if (in_array($key, $this->_config->get('object_skip_fields')))
-            {
-                continue;
-            }
-
-            // Skip the fields that aren't requested, if inclusion list has been defined
-            if (   $include_fields
-                && !in_array($key, $include_fields))
-            {
-                continue;
-            }
-
-            // Only hosts have lang field that we will actually display
-            if (   $key == 'lang'
-                && !is_a($this->_object, 'midcom_db_host'))
-            {
-                continue;
-            }
-
-            // Skip topic symlink field because it is a special field not meant to be touched directly
-            if (   $key == 'symlink'
-                && is_a($this->_object, 'midcom_db_topic'))
-            {
-                continue;
-            }
-
             // Linked fields should use chooser
             if ($this->_reflector->is_link($key))
             {
@@ -210,6 +190,33 @@ class midgard_admin_asgard_schemadb
         }
 
         return $this->_schemadb;
+    }
+
+    private function _filter_schema_fields($key)
+    {
+        if ($key == 'metadata')
+        {
+            return false;
+        }
+        if (in_array($key, $this->_config->get('object_skip_fields')))
+        {
+            return false;
+        }
+
+        // Only hosts have lang field that we will actually display
+        if (   $key == 'lang'
+            && !is_a($this->_object, 'midcom_db_host'))
+        {
+            return false;
+        }
+
+        // Skip topic symlink field because it is a special field not meant to be touched directly
+        if (   $key == 'symlink'
+            && is_a($this->_object, 'midcom_db_topic'))
+        {
+            return false;
+        }
+        return true;
     }
 
     private function _add_string_field($key, $type)
