@@ -203,8 +203,7 @@
     (
         array
         (
-            'callback' => 'validate_subscription',
-            'autoload_snippet' => 'file:/org/openpsa/sales/config/validation_callbacks.php',
+            'callback' => array(new org_openpsa_sales_validator, 'validate_subscription'),
         ),
     ),
     'fields'      => array
@@ -397,7 +396,7 @@
             'type' => 'text',
             'widget' => 'hidden',
         ),
-        
+
         'cost' => Array
         (
             'title' => 'cost',
@@ -406,7 +405,7 @@
             'widget'  => 'text',
             'hidden' => true,
         ),
-        
+
         'at_entry' => Array
         (
             'title'   => '',
