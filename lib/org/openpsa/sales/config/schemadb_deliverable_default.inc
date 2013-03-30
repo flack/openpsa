@@ -40,7 +40,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_group_dba',
@@ -65,7 +65,7 @@
                         'name' => 'official',
                     ),
                 ),
-                'orders'        => array
+                'orders' => array
                 (
                     array('official'    => 'ASC'),
                 ),
@@ -233,7 +233,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_group_dba',
