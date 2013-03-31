@@ -41,6 +41,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertTrue(mgd_is_guid($guid));
         $article = new midcom_db_article($guid);
         $this->register_object($article);
+
         $this->assertEquals('import-test', $article->name);
         $this->assertEquals('Import Test', $article->title);
         $this->assertEquals('Test Description', $article->content);
@@ -54,10 +55,10 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertEquals(1362342210, $feed->latestupdate);
 
         //Now for the update
-        $items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
+        $update_items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
 
         midcom::get('auth')->request_sudo('net.nemein.rss');
-        $guid2 = $fetcher->import_item($items[0]);
+        $guid2 = $fetcher->import_item($update_items[0]);
         midcom::get('auth')->drop_sudo();
         $this->assertTrue(mgd_is_guid($guid2));
         $article = new midcom_db_article($guid2);
