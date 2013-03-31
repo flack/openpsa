@@ -42,39 +42,11 @@ class midcom_core_collector extends midcom_core_query
     private $_user_id = false;
 
     /**
-     * The constructor wraps the class resolution into the MidCOM DBA system.
-     * Currently, Midgard requires the actual MgdSchema base classes to be used
-     * when dealing with the QB, so we internally note the corresponding class
-     * information to be able to do correct typecasting later.
-     *
      * @param string $classname The classname which should be queried.
      */
     public function __construct($classname, $domain, $value)
     {
-        static $_class_mapping_cache = array();
-
-        $this->_real_class = $classname;
-
-        if (isset($_class_mapping_cache[$classname]))
-        {
-            $mgdschemaclass = $_class_mapping_cache[$classname];
-        }
-        else
-        {
-            // Validate the class, we check for a single callback representatively only
-            if (!method_exists($classname, '_on_prepare_new_collector'))
-            {
-                throw new midcom_error
-                (
-                    "Cannot create a midcom_core_collector instance for the type {$classname}: Does not seem to be a DBA class name."
-                );
-            }
-
-            // Figure out the actual MgdSchema class from the decorator
-            $dummy = new $classname();
-            $mgdschemaclass = $dummy->__mgdschema_class_name__;
-            $_class_mapping_cache[$classname] = $mgdschemaclass;
-        }
+        $mgdschemaclass = $this->_convert_class($classname);
 
         $this->_query = new midgard_collector($mgdschemaclass, $domain, $value);
 
