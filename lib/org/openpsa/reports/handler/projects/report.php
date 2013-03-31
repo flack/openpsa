@@ -36,7 +36,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         {
             try
             {
-                $task = new org_openpsa_projects_task_dba($task);
+                $task = org_openpsa_projects_task_dba::get_cached($task);
             }
             catch (midcom_error $e)
             {
@@ -45,10 +45,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
                 return $ret;
             }
         }
-
-        org_openpsa_reports_handler_projects_report::_verify_cache('tasks', $this->_request_data);
-        $this->_request_data['object_cache'][$task->guid] = $task;
-        $this->_request_data['object_cache']['tasks'][$task->id] =& $this->_request_data['object_cache'][$task->guid];
 
         //Add current ID
         debug_add(sprintf('Adding task % (id: %s)', $task->title, $task->id));
@@ -200,28 +196,30 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     private function _analyze_raw_hours()
     {
-        if (   !array_key_exists('raw_results', $this->_request_data)
-            || !array_key_exists('hr', $this->_request_data['raw_results'])
+        if (   empty($this->_request_data['raw_results']['hr'])
             || !is_array($this->_request_data['raw_results']['hr']))
         {
             debug_add('Hour reports array not found', MIDCOM_LOG_WARN);
             return false;
         }
-        org_openpsa_reports_handler_projects_report::_verify_cache('hours', $this->_request_data);
         reset($this->_request_data['raw_results']['hr']);
         foreach ($this->_request_data['raw_results']['hr'] as $hour)
         {
             debug_add('processing hour id: ' . $hour->id);
 
-            //Put the mangled hour to caches
-            $this->_request_data['object_cache'][$hour->guid] = $hour;
-            $this->_request_data['object_cache']['hours'][$hour->id] = &$this->_request_data['object_cache'][$hour->guid];
-
             $row = array();
             $row['is_group'] = false;
-            $row['hour'] =& $this->_request_data['object_cache'][$hour->guid];
-            $row['task'] =& org_openpsa_reports_handler_projects_report::_get_cache('tasks', $this->_request_data['object_cache'][$hour->guid]->task, $this->_request_data);
-            $row['person'] =& org_openpsa_reports_handler_projects_report::_get_cache('users', $this->_request_data['object_cache'][$hour->guid]->person, $this->_request_data);
+            $row['hour'] = $hour;
+            $row['task'] = org_openpsa_projects_task_dba::get_cached($hour->task);
+            try
+            {
+                $row['person'] = org_openpsa_contacts_person_dba::get_cached($hour->person);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
 
             // Default (should work for almost every grouping) is to sort rows by the hour report date
             $row['sort'] = $row['hour']->date;
