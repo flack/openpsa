@@ -96,7 +96,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
      */
     function get_georss_location($user, $cache = true)
     {
-        $georss_url = $user->parameter('org.routamc.positioning:georss', 'georss_url');
+        $georss_url = $user->get_parameter('org.routamc.positioning:georss', 'georss_url');
 
         if ($georss_url)
         {

@@ -29,7 +29,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             try
             {
                 $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_add']);
-                $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_add'], 1);
+                $update_succeeded = $user->set_parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_add'], 1);
             }
             catch (midcom_error $e)
             {
@@ -41,7 +41,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             try
             {
                 $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_remove']);
-                $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_remove'], '');
+                $update_succeeded = $user->delete_parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_remove']);
             }
             catch (midcom_error $e)
             {

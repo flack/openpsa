@@ -83,7 +83,7 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
      */
     function get_icbm_location($user, $cache = true)
     {
-        $icbm_url = $user->parameter('org.routamc.positioning:html', 'icbm_url');
+        $icbm_url = $user->get_parameter('org.routamc.positioning:html', 'icbm_url');
 
         if ($icbm_url)
         {

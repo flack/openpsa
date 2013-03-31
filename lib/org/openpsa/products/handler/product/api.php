@@ -80,7 +80,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             }
         }
 
-        $product->parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_products_schema'));
+        $product->set_parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_products_schema'));
 
         return $product;
     }

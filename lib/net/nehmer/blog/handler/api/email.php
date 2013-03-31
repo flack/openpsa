@@ -112,7 +112,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             throw new midcom_error('Failed to create a new article. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
 
-        $this->_article->parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_email_schema'));
+        $this->_article->set_parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_email_schema'));
 
         return true;
     }

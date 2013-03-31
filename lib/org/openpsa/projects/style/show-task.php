@@ -38,7 +38,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo $contact->show_inline();
         }
 
-        $remote_search = $task->parameter('org.openpsa.projects.projectbroker', 'remote_search');
+        $remote_search = $task->get_parameter('org.openpsa.projects.projectbroker', 'remote_search');
         if ($remote_search)
         {
             echo "<div class=\"resources search\">\n";

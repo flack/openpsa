@@ -34,7 +34,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         if (midcom::get('auth')->user)
         {
             $user = midcom::get('auth')->user->get_storage();
-            if ($this->_topic->parameter('net.nemein.wiki:watch', $user->guid))
+            if ($this->_topic->get_parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_node_toolbar->add_item
                 (

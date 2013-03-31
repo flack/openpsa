@@ -239,7 +239,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_page->require_do('midgard:update');
 
         // Change schema to redirect
-        $this->_page->parameter('midcom.helper.datamanager2', 'schema_name', $_POST['change_to']);
+        $this->_page->set_parameter('midcom.helper.datamanager2', 'schema_name', $_POST['change_to']);
 
         // Redirect to editing
         return new midcom_response_relocate("edit/{$this->_page->name}/");

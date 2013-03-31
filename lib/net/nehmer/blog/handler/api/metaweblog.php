@@ -87,7 +87,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             }
         }
 
-        $article->parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_metaweblog_schema'));
+        $article->set_parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_metaweblog_schema'));
 
         return $article;
     }

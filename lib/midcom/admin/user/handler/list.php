@@ -282,7 +282,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         {
             return;
         }
-        $person->parameter('midcom.admin.user', 'username', $person->username);
+        $person->set_parameter('midcom.admin.user', 'username', $person->username);
         $account = new midcom_core_account($person);
         if ($account->delete())
         {

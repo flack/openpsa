@@ -83,7 +83,7 @@ class net_nemein_wiki_importer_moinmoin
                 }
                 $topic = new midcom_db_topic($topic->id);
                 // Set the component
-                $topic->parameter('midcom', 'component', 'net.nemein.wiki');
+                $topic->set_parameter('midcom', 'component', 'net.nemein.wiki');
                 // See if we have article with same title in immediate parent
                 $qb = net_nemein_wiki_wikipage::new_query_builder();
                 $qb->add_constraint('title', '=', $folder_title);

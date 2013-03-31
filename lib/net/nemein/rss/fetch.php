@@ -612,9 +612,9 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     {
         foreach ($item->get_enclosures() as $enclosure)
         {
-            $article->parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
-            $article->parameter('net.nemein.rss:enclosure', 'duration', $enclosure->get_duration());
-            $article->parameter('net.nemein.rss:enclosure', 'mimetype', $enclosure->get_type());
+            $article->set_parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
+            $article->set_parameter('net.nemein.rss:enclosure', 'duration', $enclosure->get_duration());
+            $article->set_parameter('net.nemein.rss:enclosure', 'mimetype', $enclosure->get_type());
         }
     }
 

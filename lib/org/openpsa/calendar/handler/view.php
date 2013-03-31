@@ -281,7 +281,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $user = midcom::get('auth')->user->get_storage();
 
         if (   $this->_config->get('always_show_self')
-            || $user->parameter('org_openpsa_calendar_show', $user->guid))
+            || $user->get_parameter('org_openpsa_calendar_show', $user->guid))
         {
             // Populate the user himself first, but only if they can create events
             $this->_calendar->_resources[$user->guid] = $this->_populate_calendar_resource($user, $from, $to);

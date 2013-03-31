@@ -623,7 +623,7 @@ class midcom_core_user
             return null;
         }
 
-        return (int) $person->parameter('midcom', 'last_login');
+        return (int) $person->get_parameter('midcom', 'last_login');
     }
 
     /**
@@ -638,7 +638,7 @@ class midcom_core_user
      */
     public function get_first_login()
     {
-        return (int) $this->_storage->parameter('midcom', 'first_login');
+        return (int) $this->_storage->get_parameter('midcom', 'first_login');
     }
 
     /**

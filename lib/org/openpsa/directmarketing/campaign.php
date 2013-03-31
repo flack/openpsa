@@ -133,13 +133,13 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             return false;
         }
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
-        $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', '');
-        $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_started', time());
+        $this->delete_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed');
+        $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_started', time());
 
         $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
         if (!$solver->resolve($this->rules))
         {
-            $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
+            $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
             debug_add('Failed to resolve rules', MIDCOM_LOG_ERROR);
             debug_print_r("this->rules has value:", $this->rules);
             midcom::get('auth')->drop_sudo();
@@ -149,7 +149,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $rule_persons =  $solver->execute();
         if (!is_array($rule_persons))
         {
-            $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
+            $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
             debug_add('Failure when executing rules based search', MIDCOM_LOG_ERROR);
             midcom::get('auth')->drop_sudo();
             return false;
@@ -204,7 +204,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
 
         //All done, set last updated timestamp
-        $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_updated', time());
+        $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_updated', time());
 
         midcom::get('auth')->drop_sudo();
         return true;
@@ -237,7 +237,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             midcom::get('auth')->drop_sudo();
             return false;
         }
-        $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_scheduled', $time);
+        $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_scheduled', $time);
         midcom::get('auth')->drop_sudo();
         return true;
     }
