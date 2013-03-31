@@ -18,7 +18,6 @@
  *
  * @package midcom.services
  */
-
 class midcom_services_cache_backend_dba extends midcom_services_cache_backend
 {
     /**
@@ -79,7 +78,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             }
             else
             {
-                debug_print_r("Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}");
+                debug_print_r("Failed autodetection of a usable DBA handler. Found handlers were:", $handlers);
                 throw new midcom_error('Failed autodetection of a usable DBA handler');
             }
         }

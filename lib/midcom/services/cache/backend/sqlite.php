@@ -15,7 +15,6 @@
  * @todo Implement proper locking
  * @package midcom.services
  */
-
 class midcom_services_cache_backend_sqlite extends midcom_services_cache_backend
 {
     /**
