@@ -102,7 +102,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
                 continue;
             }
             //no change for this link
-            unset($links_in_content[$link_topage]);
+            unset($links_in_content[$link->topage]);
         }
 
         // What is still left needs to be added
