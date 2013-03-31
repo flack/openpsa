@@ -33,12 +33,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         echo "<h2>{$data['l10n']->get('related stories')}</h2>\n";
         echo "<ul class=\"related\">\n";
         $relateds = explode('|', $data['article']->extra3);
-        foreach ($relateds as $related)
+        foreach (array_filter($relateds) as $related)
         {
-            if (empty($related))
-            {
-                continue;
-            }
             try
             {
                 $article = new midcom_db_article($related);

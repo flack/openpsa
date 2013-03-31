@@ -143,12 +143,8 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
             // Notify moderators
             $moderator_guids = explode('|', $moderators);
-            foreach ($moderator_guids as $moderator_guid)
+            foreach (array_filter($moderator_guids) as $moderator_guid)
             {
-                if (empty($moderator_guid))
-                {
-                    continue;
-                }
                 org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
             }
         }
