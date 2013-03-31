@@ -215,7 +215,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     }
 
     /**
-     * Search products using Midgard 1.8+ Query Builder
+     * Search products using Query Builder
      */
     private function _qb_search($constraints)
     {
@@ -290,19 +290,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         /* FIXME: It this the right way to do this? */
         $this->_request_data['search_qb'] =& $qb;
 
-        // Check schemas this way until the core issue is fixed
-        foreach ($ret as $k => $product)
-        {
-            $schema = $product->get_parameter('midcom.helper.datamanager2', 'schema_name');
-            debug_add("product schema '{$schema}' vs desired schema '{$this->_request_data['search_schema']}'");
-            if ($schema == $this->_request_data['search_schema'])
-            {
-                continue;
-            }
-            unset($ret[$k]);
-        }
-        // array_merge reindexes the array to be continous
-        return array_merge($ret);
+        return $ret;
     }
 
     /**
