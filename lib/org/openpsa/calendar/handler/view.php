@@ -336,58 +336,45 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                 continue;
             }
 
+            $persons = array();
             // Include each type
             switch ($type)
             {
                 case 'people':
-                    foreach ($selected as $guid)
-                    {
-                        $person = new midcom_db_person($guid);
-
-                        if (   isset($this->_shown_persons[$person->id])
-                            && $this->_shown_persons[$person->id] === true)
-                        {
-                            continue;
-                        }
-
-                        $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-                        $this->_shown_persons[$person->id] = true;
-                    }
+                    $qb = midcom_db_person::new_query_builder();
+                    $qb->add_constraint('guid', 'IN', $selected);
+                    $qb->add_constraint('id', 'NOT IN', array_keys($this->_shown_persons));
+                    $persons = $qb->execute();
                     break;
 
                 case 'groups':
-                    foreach ($selected as $guid)
+                    $mc = midcom_db_group::new_collector('metadata.deleted', false);
+                    $mc->add_constraint('guid', 'IN', $selected);
+                    $gids = $mc->get_values('id');
+                    if (!empty($gids))
                     {
-                        // Get the group
-                        try
-                        {
-                            $group = new midcom_db_group($guid);
-                        }
-                        catch (midcom_error $e)
-                        {
-                            $e->log();
-                            continue;
-                        }
-
-                        // Get the members
-                        $mc = midcom_db_member::new_collector('gid', $group->id);
+                        $mc = midcom_db_member::new_collector('metadata.deleted', false);
+                        $mc->add_constraint('uid', 'NOT IN', array_keys($this->_shown_persons));
+                        $mc->add_constraint('gid', 'IN', $gids);
                         $mc->add_order('metadata.score', 'DESC');
                         $user_ids = $mc->get_values('uid');
 
-                        foreach ($user_ids as $user_id)
+                        if (!empty($user_ids))
                         {
-                            if (   isset($this->_shown_persons[$user_id])
-                                && $this->_shown_persons[$user_id] === true)
-                            {
-                                continue;
-                            }
-
-                            $person = new midcom_db_person($user_id);
-                            $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-                            $this->_shown_persons[$person->id] = true;
+                            $qb = midcom_db_person::new_query_builder();
+                            $qb->add_constraint('id', 'IN', $user_ids);
+                            $persons = $qb->execute();
                         }
                     }
                     break;
+            }
+            if (!empty($persons))
+            {
+                foreach ($persons as $person)
+                {
+                    $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
+                    $this->_shown_persons[$person->id] = true;
+                }
             }
         }
     }
