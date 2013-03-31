@@ -86,8 +86,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $person = self::create_user();
         $user = midcom::get('auth')->get_user($person->id);
-
-        $item->data['child'] = $this->_set_item_author($user->username);
+        $item->data['child']['']['author'][0]['data'] = $user->username;
 
         $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
@@ -96,7 +95,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $email = microtime(true) . '@openpsa2.org';
         $person = $this->create_object('midcom_db_person', array('email' => $email));
 
-        $item->data['child'] = $this->_set_item_author('test <' . $email . '>');
+        $item->data['child']['']['author'][0]['data'] = 'test <' . $email . '>';
         $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
@@ -109,31 +108,11 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $person = $this->create_object('midcom_db_person', $attributes);
 
-        $item->data['child'] = $this->_set_item_author($attributes['firstname'] . ' ' . $attributes['lastname']);
+        $item->data['child']['']['author'][0]['data'] = $attributes['firstname'] . ' ' . $attributes['lastname'];
+
         $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
-    }
-
-    private function _set_item_author($string)
-    {
-        return array
-        (
-            '' => array
-            (
-                'author' => array
-                (
-                    array
-                    (
-                        'data' => $string,
-                        'attribs' => array(),
-                        'xml_base' => '',
-                        'xml_base_explicit' => false,
-                        'xml_lang' => '',
-                    )
-                )
-            )
-        );
     }
 
     /**

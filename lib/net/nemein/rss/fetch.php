@@ -497,24 +497,25 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $email = $author->get_email();
             if (!empty($name))
             {
+                $name = html_entity_decode($name, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
                 // Atom feed, the value can be either full name or username
                 $author_info['user_or_full'] = $name;
             }
             else
             {
-                $name = $email;
+                $name = html_entity_decode($email, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
             }
 
-            if (!preg_match('/(&lt;|\()/', $name))
+            if (!preg_match('/(<|\()/', $name))
             {
                 $author_info['user_or_full'] = $name;
             }
             else
             {
-                if (strstr($name, '&lt;'))
+                if (strstr($name, '<'))
                 {
                     // The classic "Full Name <email>" format
-                    $regex = '/(?<fullname>.+) &lt;?(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)&gt;?[ ,]?/';
+                    $regex = '/(?<fullname>.+) <?(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';
                 }
                 else
                 {
