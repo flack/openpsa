@@ -280,23 +280,11 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
     {
         $user = midcom::get('auth')->user->get_storage();
 
-        if (   $this->_config->get('always_show_self')
-            || $user->get_parameter('org_openpsa_calendar_show', $user->guid))
+        if ($this->_config->get('always_show_self'))
         {
             // Populate the user himself first, but only if they can create events
             $this->_calendar->_resources[$user->guid] = $this->_populate_calendar_resource($user, $from, $to);
-        }
-
-        $this->_shown_persons[$user->id] = true;
-
-        $subscribed_contacts = $user->list_parameters('org_openpsa_calendar_show');
-
-        // Backwards compatibility
-        foreach ($subscribed_contacts as $guid => $subscribed)
-        {
-            $person = new midcom_db_person($guid);
-            $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-            $this->_shown_persons[$person->id] = true;
+            $this->_shown_persons[$user->id] = true;
         }
 
         // Backwards compatibility
