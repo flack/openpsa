@@ -18,7 +18,6 @@
  * @todo Implement proper locking
  * @package midcom.services
  */
-
 class midcom_services_cache_backend_flatfile extends midcom_services_cache_backend
 {
     /**
