@@ -92,7 +92,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
 
-        $email = microtime(true) . '@openpsa2.org';
+        $email = uniqid() . '@openpsa2.org';
         $person = $this->create_object('midcom_db_person', array('email' => $email));
 
         $item->data['child']['']['author'][0]['data'] = 'test <' . $email . '>';
@@ -102,8 +102,8 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $attributes = array
         (
-            'firstname' => microtime(true),
-            'lastname' => microtime(true)
+            'firstname' => uniqid('firstname'),
+            'lastname' => uniqid('lastname')
         );
 
         $person = $this->create_object('midcom_db_person', $attributes);

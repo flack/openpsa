@@ -24,7 +24,7 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
 
     public function test_read_structure()
     {
-        $topic_name = 'structure_' . __CLASS__ . __FUNCTION__ . microtime(true);
+        $topic_name = uniqid('structure_' . __CLASS__ . __FUNCTION__);
         $export_name = 'export';
 
         $topic = $this->create_object('midcom_db_topic', array('name' => $topic_name));

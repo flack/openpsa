@@ -22,7 +22,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $person->_use_rcs = false;
         $person->_use_activitystream = false;
         $password = substr('p_' . time(), 0, 11);
-        $username = __CLASS__ . '-user-' . microtime(true);
+        $username = uniqid(__CLASS__ . '-user-');
 
         midcom::get('auth')->request_sudo('midcom.core');
         if (!$person->create())

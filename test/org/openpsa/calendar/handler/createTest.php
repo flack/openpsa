@@ -47,7 +47,7 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
         $this->assertEquals('new_event', $data['handler_id']);
 
-        $title = __CLASS__ . '::' . __FUNCTION__ . microtime();
+        $title = uniqid(__CLASS__ . '::' . __FUNCTION__);
 
         $formdata = array
         (

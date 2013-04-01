@@ -31,7 +31,7 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
 
         $formdata = array
         (
-            'title' => __CLASS__ . microtime(),
+            'title' => uniqid(__CLASS__),
             'content' => '<p>TEST</p>'
         );
 

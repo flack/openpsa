@@ -24,9 +24,9 @@ class midcom_helper_filesync_exporter_styleTest extends openpsa_testcase
 
     public function test_read_root()
     {
-        $style_name = 'style_' . __CLASS__ . __FUNCTION__ . microtime(true);
+        $style_name = uniqid('style_' . __CLASS__ . __FUNCTION__);
 
-        $element_name = 'element_' . __CLASS__ . __FUNCTION__ . microtime(true);
+        $element_name = uniqid('element_' . __CLASS__ . __FUNCTION__);
         $style = $this->create_object('midcom_db_style', array('name' => $style_name));
         $sub_style = $this->create_object('midcom_db_style', array('name' => $style_name, 'up' => $style->id));
         $element = $this->create_object('midcom_db_element', array('name' => $element_name, 'style' => $sub_style->id));

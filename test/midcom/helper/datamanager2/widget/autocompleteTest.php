@@ -115,7 +115,7 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
             ),
         );
 
-        $lastname = __CLASS__ . '::' . __FUNCTION__ . microtime();
+        $lastname = uniqid(__CLASS__ . '::' . __FUNCTION__);
         $group = $this->create_object('midcom_db_group');
         $person = $this->create_object('midcom_db_person', array('lastname' => $lastname));
         $this->create_object('midcom_db_member', array('gid' => $group->id, 'uid' => $person->id));
