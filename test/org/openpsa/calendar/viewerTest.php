@@ -20,7 +20,7 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
         $attributes = array
         (
             'component' => 'org.openpsa.calendar',
-            'name' => __CLASS__ . microtime(true)
+            'name' => __CLASS__ . time()
         );
         midcom::get('auth')->request_sudo('org.openpsa.calendar');
         self::$_topic = self::create_class_object('midcom_db_topic', $attributes);
