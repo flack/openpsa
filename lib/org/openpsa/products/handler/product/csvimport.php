@@ -398,14 +398,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             {
                 $total_columns = count($csv_line);
             }
-            $columns_with_content = 0;
-            foreach ($csv_line as $value)
-            {
-                if ($value != '')
-                {
-                    $columns_with_content++;
-                }
-            }
+            $columns_with_content = count(array_filter($csv_line));
             $percentage = round(100 / $total_columns * $columns_with_content);
 
             if ($percentage >= $this->_config->get('import_csv_data_percentage'))

@@ -27,13 +27,9 @@ $addresses = array();
 <div class="main">
     <?php
     // Display the group information
-    foreach ($data['view'] as $fieldname => $fielddata)
+    foreach (array_filter($data['view']) as $fieldname => $fielddata)
     {
-        if (!$fielddata)
-        {
-            continue;
-        }
-        switch($fieldname)
+        switch ($fieldname)
         {
             case 'members':
             case 'organization_type':

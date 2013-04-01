@@ -119,28 +119,21 @@ implements midcom_services_permalinks_resolver
     private function _find_suspects_person(&$object, &$defaults, &$links_array)
     {
         //List all projects and tasks given person is involved with
-        $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
-        $qb->add_constraint('person', '=', $object->id);
-        $qb->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-        $qb->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
-        $qbret = @$qb->execute();
-        if (!is_array($qbret))
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $object->id);
+        $mc->add_constraint('person', '=', $object->id);
+        $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
+        $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
+        $suspects = @$qb->get_values('task');
+        if (empty($suspects))
         {
-            debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return;
         }
-        $seen_tasks = array();
-        foreach ($qbret as $resource)
+        $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', array_unique($suspects));
+        $tasks = $qb->execute();
+        foreach ($tasks as $task)
         {
-            debug_add("processing resource #{$resource->id}");
-            if (isset($seen_tasks[$resource->task]))
-            {
-                //Only process one task once (someone might be both resource and contact for example)
-                continue;
-            }
-            $seen_tasks[$resource->task] = true;
             $to_array = array('other_obj' => false, 'link' => false);
-            $task = new org_openpsa_projects_task_dba($resource->task);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
             $to_array['other_obj'] = $task;

@@ -159,12 +159,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         // Make sure we can actually reserve the resources we need
-        foreach ($this->resources as $id => $bool)
+        $resources = array_keys(array_filter($this->resources));
+        foreach ($resources as $id)
         {
-            if (!$bool)
-            {
-                continue;
-            }
             $checker = new org_openpsa_calendar_event_resource_dba();
             $checker->resource = $id;
             if (!$checker->verify_can_reserve())

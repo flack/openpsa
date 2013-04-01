@@ -278,7 +278,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         $page_var = $data['prefix'] . 'page';
         echo '<div class="org_openpsa_qbpager_pages">';
-        $page = 0;
+
         $display_start = $data['current_page'] - ceil($data['display_pages']/2);
         if ($display_start < 0)
         {
@@ -299,13 +299,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             }
             echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
-
+        $page = $display_start - 1;
         while ($page++ < $display_end)
         {
-            if ($page < $display_start)
-            {
-                continue;
-            }
             if ($page == $data['current_page'])
             {
                 echo "\n<span class=\"current_page\">{$page}</span>";
@@ -362,7 +358,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         //TODO: "showing results (offset)-(offset+limit)
         $page_var = $data['prefix'] . 'page';
-        $page = 0;
         $display_start = $data['current_page'] - ceil($data['display_pages']/2);
         if ($display_start < 0)
         {
@@ -384,13 +379,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 $pages_xml_str .= "<page class=\"previous_page\" number=\"{$previous}\" url=" . $this->_get_query_string($page_var, $previous) . "><![CDATA[" . $this->_l10n->get('previous') . "]]></page>\n";
         }
 
+        $page = $display_start - 1;
         while ($page++ < $display_end)
         {
-            if ($page < $display_start)
-            {
-                continue;
-            }
-
             if ($page == $data['current_page'])
             {
                 $pages_xml_str .= "<page class=\"current_page\" number=\"{$page}\" url=\"\">{$page}</page>\n";
@@ -452,7 +443,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $page_var = $data['prefix'] . 'page';
         echo '<div class="org_openpsa_qbpager_pages">';
         echo "\n    <ul>\n";
-        $page = 0;
         $display_start = $data['current_page'] - ceil($data['display_pages']/2);
         if ($display_start < 0)
         {
@@ -480,12 +470,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             }
         }
 
+        $page = $display_start - 1;
         while ($page++ < $display_end)
         {
-            if ($page < $display_start)
-            {
-                continue;
-            }
             if ($page == $data['current_page'])
             {
                 echo "\n<li class=\"page active\">{$page}</li>";

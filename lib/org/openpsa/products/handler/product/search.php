@@ -105,12 +105,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         foreach ($constraints as $constraint)
         {
-            if (!array_key_exists('property', $constraint))
-            {
-                // No field defined for this parameter, skip
-                continue;
-            }
-
             if (!array_key_exists($constraint['property'], $this->_request_data['schemadb_product'][$this->_request_data['search_schema']]->fields))
             {
                 // This field is not in the schema

@@ -98,8 +98,7 @@ class org_openpsa_projects_projectbroker
         foreach ($prospects as $key => $person)
         {
             $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
-            if (   is_array($slots)
-                && count($slots > 0))
+            if (!empty($slots))
             {
                 $keep_prospects[$key] = true;
             }

@@ -256,9 +256,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         reset($rows);
         foreach ($rows as $k => $row)
         {
-            if (   !is_array($row)
-                || !array_key_exists('is_group', $row)
-                || !$row['is_group'])
+            if (empty($row['is_group']))
             {
                 continue;
             }
