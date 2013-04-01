@@ -23,7 +23,6 @@
             'widget' => 'chooser',
             'widget_config' => array
             (
-                'id_field' => 'id',
                 'component' => 'org.openpsa.directmarketing',
                 'class' => 'org_openpsa_directmarketing_campaign_dba',
                 'titlefield' => 'title',
