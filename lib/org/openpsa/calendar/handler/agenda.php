@@ -42,24 +42,9 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         // List user's event memberships
         $mc = midcom_db_eventmember::new_collector('uid', midcom_connection::get_user());
 
-        // Find all events that occur during [$from, $end]
-        $mc->begin_group("OR");
-            // The event begins during [$from, $to]
-            $mc->begin_group("AND");
-                $mc->add_constraint("eid.start", ">=", $from);
-                $mc->add_constraint("eid.start", "<=", $to);
-            $mc->end_group();
-            // The event begins before and ends after [$from, $to]
-            $mc->begin_group("AND");
-                $mc->add_constraint("eid.start", "<=", $from);
-                $mc->add_constraint("eid.end", ">=", $to);
-            $mc->end_group();
-            // The event ends during [$from, $to]
-            $mc->begin_group("AND");
-                $mc->add_constraint("eid.end", ">=", $from);
-                $mc->add_constraint("eid.end", "<=", $to);
-            $mc->end_group();
-        $mc->end_group();
+        // Find all events that occur during [$from, $to]
+        $mc->add_constraint('eid.start', '<=', $to);
+        $mc->add_constraint('eid.end', '>=', $from);
 
         $eventmembers = $mc->get_values('eid');
         $this->_request_data['events'] = array();

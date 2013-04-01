@@ -207,24 +207,9 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
 
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
 
-        // Find all events that occur during [$from, $end]
-        $qb->begin_group('OR');
-            // The event begins during [$from, $to]
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.start', '>=', $from);
-                $qb->add_constraint('eid.start', '<=', $to);
-            $qb->end_group();
-            // The event begins before and ends after [$from, $to]
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.start', '<=', $from);
-                $qb->add_constraint('eid.end', '>=', $to);
-            $qb->end_group();
-            // The event ends during [$from, $to]
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.end', '>=', $from);
-                $qb->add_constraint('eid.end', '<=', $to);
-            $qb->end_group();
-        $qb->end_group();
+        // Find all events that occur during [$from, $to]
+        $qb->add_constraint('eid.start', '<=', $to);
+        $qb->add_constraint('eid.end', '>=', $from);
 
         $qb->add_constraint('eid.up', '=', $this->_root_event->id);
         $qb->add_constraint('uid', '=', (int) $resource->id);

@@ -71,20 +71,8 @@ implements midcom_services_permalinks_resolver
         }
         $mc = org_openpsa_projects_task_resource_dba::new_collector('metadata.deleted', false);
         //Target task starts or ends inside given events window or starts before and ends after
-        $mc->begin_group('OR');
-            $mc->begin_group('AND');
-                $mc->add_constraint('task.start', '>=', $object->start);
-                $mc->add_constraint('task.start', '<=', $object->end);
-            $mc->end_group();
-            $mc->begin_group('AND');
-                $mc->add_constraint('task.end', '<=', $object->end);
-                $mc->add_constraint('task.end', '>=', $object->start);
-            $mc->end_group();
-            $mc->begin_group('AND');
-                $mc->add_constraint('task.start', '<=', $object->start);
-                $mc->add_constraint('task.end', '>=', $object->end);
-            $mc->end_group();
-        $mc->end_group();
+        $mc->add_constraint('task.start', '<=', $object->end);
+        $mc->add_constraint('task.end', '>=', $object->start);
         //Target task is active
         $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);

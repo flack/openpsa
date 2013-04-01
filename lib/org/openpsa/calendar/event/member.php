@@ -178,20 +178,8 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         // Get current events for person
         $mc = self::new_collector('uid', $person->id);
         // All events that somehow overlap the given time.
-        $mc->begin_group('OR');
-            $mc->begin_group('AND');
-                $mc->add_constraint('eid.start', '>=', $start);
-                $mc->add_constraint('eid.start', '<=', $end);
-            $mc->end_group();
-            $mc->begin_group('AND');
-                $mc->add_constraint('eid.end', '<=', $end);
-                $mc->add_constraint('eid.end', '>=', $start);
-            $mc->end_group();
-            $mc->begin_group('AND');
-                $mc->add_constraint('eid.start', '<=', $start);
-                $mc->add_constraint('eid.end', '>=', $end);
-            $mc->end_group();
-        $mc->end_group();
+        $mc->add_constraint('eid.start', '<=', $end);
+        $mc->add_constraint('eid.end', '>=', $start);
         $mc->add_order('eid.start', 'ASC');
         $mc->add_order('eid.end', 'ASC');
         $eventmembers = $mc->get_values('eid');
