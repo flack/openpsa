@@ -317,17 +317,10 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         {
             return false;
         }
-        // Search using only the fields defined in config
-        $org_fields = explode(',', $this->_config->get('organization_search_fields'));
-        if (   !is_array($org_fields)
-            || count($org_fields) == 0)
-        {
-            throw new midcom_error('Invalid organization search configuration');
-        }
 
         $qb_org = org_openpsa_contacts_group_dba::new_query_builder();
         $qb_org->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $this->_apply_constraints($qb_org, $org_fields);
+        $this->_apply_constraints($qb_org, 'organization');
 
         $this->_groups = $qb_org->execute();
     }
@@ -341,31 +334,32 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         {
             return false;
         }
+
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        // Search using only the fields defined in config
-        $person_fields = explode(',', $this->_config->get('person_search_fields'));
-        if (   !is_array($person_fields)
-            || count($person_fields) == 0)
-        {
-            throw new midcom_error( 'Invalid person search configuration');
-        }
-        $this->_apply_constraints($qb, $person_fields);
+        $this->_apply_constraints($qb, 'person');
 
         $this->_persons = $qb->execute();
     }
 
-    private function _apply_constraints(midcom_core_query &$qb, array $fields)
+    private function _apply_constraints(midcom_core_query &$qb, $type)
     {
+        // Search using only the fields defined in config
+        $fields = explode(',', $this->_config->get($type . '_search_fields'));
+        if (is_array($fields))
+        {
+            $fields = array_filter($fields);
+        }
+        if (empty($fields))
+        {
+            throw new midcom_error('Invalid ' . $type . ' search configuration');
+        }
+
         if (sizeof($this->_query) > 1)
         {
             //if we have more than one token in the query, we try to match the entire string as well
             $qb->begin_group('OR');
             foreach ($fields as $field)
             {
-                if (empty($field))
-                {
-                    continue;
-                }
                 $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $this->_query_string_processed, $this->_wildcard_template));
             }
         }
@@ -375,10 +369,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             $qb->begin_group('OR');
             foreach ($fields as $field)
             {
-                if (empty($field))
-                {
-                    continue;
-                }
                 $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $term, $this->_wildcard_template));
             }
             $qb->end_group();
