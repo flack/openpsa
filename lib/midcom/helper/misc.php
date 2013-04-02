@@ -439,5 +439,29 @@ class midcom_helper_misc
         }
         return $content;
     }
+    /**
+     * Helper function iterating through possible page directories in style-tree and checking if
+     * the page exist(as a folder).
+     * 
+     * @param string $page_name
+     * @param string $theme_root
+     */
+    public static function check_page_exists($page_name , $theme_root = OPENPSA2_THEME_ROOT)
+    {
+        $is_dir = false;
+        $path_array = explode('/' , midcom::get('config')->get('theme'));
+        $theme_array = $path_array;
+        
+        foreach($path_array as $sub_style)
+        {
+            $theme_path = implode('/', $theme_array);
+            if(is_dir($theme_root . $theme_path . '/style/' . $page_name))
+            {
+                return true;
+            }
+            array_pop($theme_array);
+        }
+        return $is_dir;
+    }
 }
 ?>

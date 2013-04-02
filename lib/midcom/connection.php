@@ -516,7 +516,7 @@ class midcom_connection
 
             if (    midcom::get('config')->get('theme')
                  && !$args_started
-                 && is_dir(OPENPSA2_THEME_ROOT . midcom::get('config')->get('theme') . '/style/' . $part))
+                 && midcom_helper_misc::check_page_exists($part))
             {
                 $page_style .= '/' . $part;
                 $self .= $part . '/';
