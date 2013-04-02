@@ -445,15 +445,15 @@ var org_openpsa_grid_editable =
         var edit_url = $('#' + this.grid_id).jqGrid('getGridParam', 'editurl'),
             rowdata = $('#' + this.grid_id).jqGrid('getRowData', id),
             self = this;
-            rowdata.oper = 'del';
-        var callAfterSave = function()
+            rowdata.oper = 'del',
+            callAfterSave = function()
             {
-                    $('#' + self.grid_id).jqGrid('delRowData', id);
-                    if (   typeof self.options.aftersavefunc !== 'undefined'
-                        && $.isFunction(self.options.aftersavefunc))
-                    {
-                        self.options.aftersavefunc(0, []);
-                    }
+                $('#' + self.grid_id).jqGrid('delRowData', id);
+                if (   typeof self.options.aftersavefunc !== 'undefined'
+                    && $.isFunction(self.options.aftersavefunc))
+                {
+                    self.options.aftersavefunc(0, []);
+                }
             };
      
         if (rowdata.id == '')

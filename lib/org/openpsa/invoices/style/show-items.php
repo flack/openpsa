@@ -87,11 +87,11 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
 
             grid.jqGrid('setRowData', rowid, {sum: parseFloat(price) * parseFloat(quantity)});
 
-            var return_values = $.parseJSON(response.responseText);
             //if saved row was new_... then refresh tr-id
-            if (return_values !== null)
+            if (response.responseText !== undefined)
             {
-                var oldId = return_values.oldid;
+                var return_values = $.parseJSON(response.responseText),
+                oldId = return_values.oldid;
                 if (oldId.substring(0,4) === 'new_')
                 {
                     var pos = $("#<?php echo $grid->get_identifier(); ?> tr[id='" + oldId + "']").prevAll().length,
