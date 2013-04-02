@@ -406,29 +406,24 @@ class midcom_helper_misc
      * @param string $element_name
      * @param string $theme_root
      */
-    public static function get_element_content($element_name , $theme_root = OPENPSA2_THEME_ROOT)
+    public static function get_element_content($element_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
         $theme = midcom::get('config')->get('theme');
         $path_array = explode('/' , $theme);
         $theme_array = array_reverse($path_array);
-        //
+
         //get the page if there is one
-        $page = midcom_connection::get('self');
-    
+        $page = midcom_connection::get('page_style');
         $content = false;
-    
+
         //check if we have elements for the sub-styles
         foreach ($theme_array as $sub_style)
         {
-            $theme_path = '';
-            foreach ($path_array as $path_part)
-            {
-                $theme_path .= '/' . $path_part;
-            }
+            $theme_path = implode('/', $path_array);
             //check possible theme and page element
             $filename = $theme_root . $theme_path .  "/style/{$element_name}.php";
-            $filename_page = $theme_root . $theme_path .  "/style{$page}{$element_name}.php";
-    
+            $filename_page = $theme_root . $theme_path .  "/style{$page}/{$element_name}.php";
+
             if (file_exists($filename_page))
             {
                 $content = file_get_contents($filename_page);
