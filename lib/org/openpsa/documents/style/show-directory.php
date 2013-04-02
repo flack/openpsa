@@ -58,7 +58,7 @@ jQuery("#treegrid").jqGrid({
     afterInsertRow: setCellTitle
  });
 
-$('#treegrid .document').live('contextmenu', function(e)
+$('#treegrid').on('contextmenu', '.document', function(e)
 {
     var guid = $(this).attr('href').replace(/^.*?\/([a-z0-9]+?)\/$/, '$1'),
     download_url = $.trim($(this).closest('.jqgrow').find('.download_url').text());
