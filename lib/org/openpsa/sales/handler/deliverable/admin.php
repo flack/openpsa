@@ -314,7 +314,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Shows the loaded deliverable.
      *

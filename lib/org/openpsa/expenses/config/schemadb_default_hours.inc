@@ -53,7 +53,7 @@
         (
             'title'   => 'task',
             'storage' => 'task',
-            //'required' => true,
+            'required' => true,
             'type' => 'select',
             'type_config' => array
             (
@@ -83,15 +83,14 @@
                 (
                     array('title'    => 'ASC')
                 ),
-                'generate_path_for' => 'title',
+                'categorize_by_parent_label' => 'title',
             ),
-            'required' => true,
         ),
         'person' => array
         (
             'title'   => 'person',
             'storage' => 'person',
-            //'required' => true,
+            'required' => true,
             'type' => 'select',
             'type_config' => array
             (
@@ -137,10 +136,8 @@
                 (
                     array('lastname'    => 'ASC'),
                     array('firstname'    => 'ASC'),
-
                 ),
             ),
-            'required' => true,
         ),
         'invoice' => array
         (
@@ -175,6 +172,7 @@
                 (
                     array('number'    => 'ASC'),
                 ),
+                'get_label_for' => 'number'
             ),
         ),
     )

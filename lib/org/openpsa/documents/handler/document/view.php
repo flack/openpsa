@@ -10,7 +10,6 @@
  * org.openpsa.documents document handler and viewer class.
  *
  * @package org.openpsa.documents
- *
  */
 class org_openpsa_documents_handler_document_view extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client

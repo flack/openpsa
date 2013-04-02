@@ -189,12 +189,8 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     {
         $tags_exploded = explode(',', $macro_content);
         $tags = array();
-        foreach ($tags_exploded as $tagname)
+        foreach (array_filter($tags_exploded) as $tagname)
         {
-            if (empty($tagname))
-            {
-                continue;
-            }
             $tag = net_nemein_tag_handler::resolve_tagname(trim($tagname));
             $tags[$tag] = $tag;
         }
@@ -211,17 +207,12 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             return $fulltag;
         }
         $nap = new midcom_helper_nav();
-        static $node_cache = array();
         $ret = "\n<ul class=\"tagged\">\n";
 
         usort($pages, array($this, '_code_sort_by_title'));
         foreach ($pages as $page)
         {
-            if (!isset($node_cache[$page->topic]))
-            {
-                $node_cache[$page->topic] = $nap->get_node($page->topic);
-            }
-            $node =& $node_cache[$page->topic];
+            $node = $nap->get_node($page->topic);
             if ($node[MIDCOM_NAV_COMPONENT] !== 'net.nemein.wiki')
             {
                 // We only wish to link to wiki pages
@@ -336,7 +327,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
         $url_name = $resolver->generate_page_url($wikipage_match['wikipage']);
 
-        $type = $wikipage_match['wikipage']->parameter('midcom.helper.datamanager2', 'schema_name');
+        $type = $wikipage_match['wikipage']->get_parameter('midcom.helper.datamanager2', 'schema_name');
 
         return "<a href=\"{$url_name}{$page_anchor}\" class=\"wikipage {$type}\" title=\"{$wikilink}\">{$text}</a>";
     }

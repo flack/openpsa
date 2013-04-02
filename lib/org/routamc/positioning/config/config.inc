@@ -9,7 +9,6 @@
 'smslib_password' => null,
 'smslib_from' => null,
 
-
 /**
  * array of arguments acceptable for call_user_func() to be called just before map is shown
  *

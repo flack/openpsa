@@ -291,17 +291,17 @@ class net_nehmer_static_import_forrest
         $topic->extra = $folder->title;
         $topic->update();
 
-        $topic->parameter('midcom', 'component', $folder->component);
+        $topic->set_parameter('midcom', 'component', $folder->component);
 
         if ($folder->component == 'net.nehmer.static')
         {
             if (!$folder->has_index)
             {
-                $topic->parameter('net.nehmer.static', 'autoindex', 1);
+                $topic->set_parameter('net.nehmer.static', 'autoindex', 1);
             }
             else
             {
-                $topic->parameter('net.nehmer.static', 'autoindex', '');
+                $topic->delete_parameter('net.nehmer.static', 'autoindex');
             }
         }
 

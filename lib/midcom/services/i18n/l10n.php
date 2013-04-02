@@ -173,7 +173,6 @@ class midcom_services_i18n_l10n
                 return false;
             }
 
-
             fwrite($file, "---# MidCOM String Database\n");
             fwrite($file, "---VERSION 2.1.0\n");
             fwrite($file, "---LANGUAGE {$lang}\n\n");

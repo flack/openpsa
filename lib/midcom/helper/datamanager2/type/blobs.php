@@ -157,7 +157,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             Array('midcom_helper_datamanager2_type_blobs', '_sort_attachments_info_callback'));
     }
 
-
     /**
      * Compares two attachments by score and name, to be used with the sorting routines
      *
@@ -420,7 +419,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             }
         }
     }
-
 
     /**
      * Adds a new attachment based on a file on-disk.

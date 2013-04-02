@@ -92,8 +92,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $qb->add_constraint('frompage', '=', $this->id);
         $links_in_db = $qb->execute();
 
-        $links_matched = array();
-
         // Check links in DB versus links in content to see what needs to be removed
         foreach ($links_in_db as $link)
         {
@@ -103,12 +101,12 @@ class net_nemein_wiki_wikipage extends midcom_db_article
                 $link->delete();
                 continue;
             }
-
-            $links_matched[$link->topage] = $link;
+            //no change for this link
+            unset($links_in_content[$link->topage]);
         }
 
-        // Check links in content versus matched links to see what needs to be added
-        $links_in_content = array_keys(array_diff_key($links_in_content, $links_matched));
+        // What is still left needs to be added
+        $links_in_content = array_keys($links_in_content);
         foreach ($links_in_content as $wikilink)
         {
             $link = new net_nemein_wiki_link_dba();

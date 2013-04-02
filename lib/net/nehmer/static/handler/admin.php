@@ -171,7 +171,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
     }
 
-
     /**
      * Displays an article edit view.
      *
@@ -230,7 +229,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Shows the loaded article.
      *
@@ -241,7 +239,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         midcom_show_style('admin-edit');
     }
-
 
     /**
      * Displays article link delete confirmation

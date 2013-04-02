@@ -140,7 +140,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $this->add_breadcrumb("", $this->_l10n->get('view related information'));
     }
 
-
     /**
      * Method for getting object's relatedtos
      *
@@ -537,7 +536,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         midcom_show_style('relatedto_list_item_wikipage');
     }
-
 
     /**
      * Renders an event line

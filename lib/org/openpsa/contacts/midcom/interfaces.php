@@ -410,18 +410,18 @@ implements midcom_services_permalinks_resolver
         if (array_key_exists('georss_url', $data))
         {
             // GeoRSS subscription is a good way to keep track of person's location
-            $person->parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
+            $person->set_parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
         }
         else if (array_key_exists('icbm', $data))
         {
             // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
-            $person->parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);
+            $person->set_parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);
         }
 
         if (array_key_exists('rss_url', $data))
         {
             // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
-            $person->parameter('net.nemein.rss', 'url', $data['rss_url']);
+            $person->set_parameter('net.nemein.rss', 'url', $data['rss_url']);
         }
 
         if (array_key_exists('hcards', $data))

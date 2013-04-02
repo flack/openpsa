@@ -19,7 +19,7 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
      * @param string $component the component to insert to
      * @return array of DM2 schema fields
      */
-    function default_rss_config_schema_fields($component)
+    public static function default_rss_config_schema_fields($component)
     {
         return array
         (

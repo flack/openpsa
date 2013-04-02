@@ -38,7 +38,6 @@ implements midcom_helper_datamanager2_interfaces_create
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_tinyurl'));
     }
 
-
     /**
      * DM2 creation callback, binds to the current content topic.
      */

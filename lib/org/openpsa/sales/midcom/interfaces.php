@@ -101,15 +101,8 @@ implements midcom_services_permalinks_resolver
             debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return;
         }
-        $seen_tasks = array();
         foreach ($qbret as $salesproject)
         {
-            if (isset($seen_tasks[$salesproject->id]))
-            {
-                //Only process one task once (someone might be both owner and contact for example)
-                continue;
-            }
-            $seen_tasks[$salesproject->id] = true;
             $to_array = array('other_obj' => false, 'link' => false);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);

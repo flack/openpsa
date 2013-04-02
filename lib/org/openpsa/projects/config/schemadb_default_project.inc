@@ -89,7 +89,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_group_dba',
@@ -129,7 +129,7 @@
                 'member_fieldname' => 'person',
                 'additional_fields' => array('role' => org_openpsa_projects_task_resource_dba::CONTACT)
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_contacts_person_dba',
@@ -164,7 +164,7 @@
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
-                'creation_default_key' => 'openpsa',
+                'creation_default_key' => 'lastname',
             ),
         ),
         'manager' => array
@@ -178,7 +178,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_person_dba',
@@ -234,7 +234,7 @@
                 'allow_multiple' => true,
                 'additional_fields' => array('role' => org_openpsa_projects_task_resource_dba::RESOURCE)
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_contacts_person_dba',
@@ -269,7 +269,7 @@
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
-                'creation_default_key' => 'openpsa',
+                'creation_default_key' => 'lastname',
             ),
         ),
         'tags' => Array

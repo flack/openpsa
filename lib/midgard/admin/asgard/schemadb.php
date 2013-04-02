@@ -82,27 +82,32 @@ class midgard_admin_asgard_schemadb
             $type_fields = $this->_object->get_properties();
         }
 
-        if (empty($include_fields))
-        {
-            $include_fields = null;
-        }
-        else if (is_string($include_fields))
-        {
-            $include_fields = array
-            (
-                $include_fields,
-            );
-        }
         //This is an ugly little workaround for unittesting
         $template = midcom_helper_datamanager2_schema::load_database('file:/midgard/admin/asgard/config/schemadb_default.inc');
         $empty_db = clone $template['object'];
+
         $this->_schemadb = array('object' => $empty_db);
         //workaround end
+
+        $component = midcom::get('dbclassloader')->get_component_for_class($type);
+        if ($component)
+        {
+            $this->_schemadb['object']->l10n_schema = midcom::get('i18n')->get_l10n($component);
+        }
+
         $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($type));
 
-        // Iterate through object properties
+        if (!empty($include_fields))
+        {
+            if (is_string($include_fields))
+            {
+                $include_fields = (array) $include_fields;
+            }
+            // Skip the fields that aren't requested, if inclusion list has been defined
+            $type_fields = array_intersect($type_fields, $include_fields);
+        }
 
-        unset($type_fields['metadata']);
+        $type_fields = array_filter($type_fields, array($this, '_filter_schema_fields'));
 
         if (!extension_loaded('midgard2'))
         {
@@ -110,34 +115,9 @@ class midgard_admin_asgard_schemadb
             usort($type_fields, array($this, 'sort_schema_fields'));
         }
 
+        // Iterate through object properties
         foreach ($type_fields as $key)
         {
-            if (in_array($key, $this->_config->get('object_skip_fields')))
-            {
-                continue;
-            }
-
-            // Skip the fields that aren't requested, if inclusion list has been defined
-            if (   $include_fields
-                && !in_array($key, $include_fields))
-            {
-                continue;
-            }
-
-            // Only hosts have lang field that we will actually display
-            if (   $key == 'lang'
-                && !is_a($this->_object, 'midcom_db_host'))
-            {
-                continue;
-            }
-
-            // Skip topic symlink field because it is a special field not meant to be touched directly
-            if (   $key == 'symlink'
-                && is_a($this->_object, 'midcom_db_topic'))
-            {
-                continue;
-            }
-
             // Linked fields should use chooser
             if ($this->_reflector->is_link($key))
             {
@@ -151,74 +131,7 @@ class midgard_admin_asgard_schemadb
             {
                 case MGD_TYPE_GUID:
                 case MGD_TYPE_STRING:
-                    if (   $key == 'component'
-                        && is_a($this->_object, 'midcom_db_topic'))
-                    {
-                        $this->_add_component_dropdown($key);
-                        break;
-                    }
-
-                    // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
-                    if (midcom::get('dbfactory')->is_a($this->_object, $type))
-                    {
-                        $name_obj = $this->_object;
-                    }
-                    else
-                    {
-                        $name_obj = new $type();
-                    }
-
-                    if ($key === midcom_helper_reflector::get_name_property($name_obj))
-                    {
-                        $this->_add_name_field($key, $name_obj);
-                        break;
-                    }
-                    unset($name_obj);
-
-                    // Special page treatment
-                    if (   $key === 'info'
-                        && $type === 'midcom_db_page')
-                    {
-                        $this->_add_info_field_for_page($key);
-                        break;
-                    }
-
-                    if (   $key === 'info'
-                        && $type === 'midcom_db_pageelement')
-                    {
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type'        => 'select',
-                                'type_config' => array
-                                (
-                                    'options' => array
-                                    (
-                                        '' => 'not inherited',
-                                        'inherit' => 'inherited',
-                                    ),
-                                ),
-                                'widget'      => 'select',
-                            )
-                        );
-                        break;
-                    }
-
-                    $this->_schemadb['object']->append_field
-                    (
-                        $key,
-                        array
-                        (
-                            'title'       => $key,
-                            'storage'     => $key,
-                            'type'        => 'text',
-                            'widget'      => 'text',
-                        )
-                    );
+                    $this->_add_string_field($key, $type);
                     break;
                 case MGD_TYPE_LONGTEXT:
                     $this->_add_longtext_field($key, $type);
@@ -277,6 +190,105 @@ class midgard_admin_asgard_schemadb
         }
 
         return $this->_schemadb;
+    }
+
+    private function _filter_schema_fields($key)
+    {
+        if ($key == 'metadata')
+        {
+            return false;
+        }
+        if (in_array($key, $this->_config->get('object_skip_fields')))
+        {
+            return false;
+        }
+
+        // Only hosts have lang field that we will actually display
+        if (   $key == 'lang'
+            && !is_a($this->_object, 'midcom_db_host'))
+        {
+            return false;
+        }
+
+        // Skip topic symlink field because it is a special field not meant to be touched directly
+        if (   $key == 'symlink'
+            && is_a($this->_object, 'midcom_db_topic'))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private function _add_string_field($key, $type)
+    {
+        if (   $key == 'component'
+            && $type == 'midcom_db_topic')
+        {
+            $this->_add_component_dropdown($key);
+            return;
+        }
+        // Special page treatment
+        if ($key === 'info')
+        {
+            if ($type === 'midcom_db_page')
+            {
+                $this->_add_info_field_for_page($key);
+                return;
+            }
+
+            if ($type === 'midcom_db_pageelement')
+            {
+                $this->_schemadb['object']->append_field
+                (
+                    $key,
+                    array
+                    (
+                        'title'       => $key,
+                        'storage'     => $key,
+                        'type'        => 'select',
+                        'type_config' => array
+                        (
+                            'options' => array
+                            (
+                                '' => 'not inherited',
+                                'inherit' => 'inherited',
+                                ),
+                            ),
+                        'widget'      => 'select',
+                        )
+                    );
+                return;
+            }
+        }
+
+        // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
+        if (midcom::get('dbfactory')->is_a($this->_object, $type))
+        {
+            $name_obj = $this->_object;
+        }
+        else
+        {
+            $name_obj = new $type();
+        }
+
+        if ($key === midcom_helper_reflector::get_name_property($name_obj))
+        {
+            $this->_add_name_field($key, $name_obj);
+            return;
+        }
+        unset($name_obj);
+
+        $this->_schemadb['object']->append_field
+        (
+            $key,
+            array
+            (
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => 'text',
+                'widget'      => 'text',
+            )
+        );
     }
 
     private function _add_rcs_field()
@@ -578,8 +590,9 @@ class midgard_admin_asgard_schemadb
                             'orders' => array(),
                             'creation_mode_enabled' => true,
                             'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
-                            'creation_default_key' => $linked_type_reflector->get_label_property(),
-                            'generate_path_for' => midcom_helper_reflector::get_name_property($this->_object),
+                            'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
+                            'categorize_by_parent_label' => true,
+                            'get_label_for' => $linked_type_reflector->get_label_property(),
                             ),
                         )
                     );
@@ -795,7 +808,6 @@ class midgard_admin_asgard_schemadb
 
             return -1;
         }
-
 
         if (   in_array($second, $preferred_fields)
             || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT

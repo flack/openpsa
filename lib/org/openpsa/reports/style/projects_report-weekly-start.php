@@ -17,7 +17,6 @@ $weekly_data['uninvoiceable_customers'] = array(); // Keyed by group id
 $weekly_data['invoiceable_total_by_customer'] = array(); // Keyed by group id
 $weekly_data['uninvoiceable_total_by_customer'] = array(); // Keyed by group id
 
-
 //TODO: Check style context somehow (are we inside DL or not, and change output accordingly
 
 if (empty($query['skip_html_headings']))

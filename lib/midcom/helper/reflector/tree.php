@@ -422,7 +422,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $parent_object;
     }
 
-
     /**
      * Get children of given object
      *
@@ -546,7 +545,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 unset($linkfields[$link_type]);
                 continue;
             }
-
 
             $linked_class = $ref->get_link_name($field);
             if (   empty($linked_class)

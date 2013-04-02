@@ -236,63 +236,9 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             }
             else
             {
-                // This is probably chooser
+                // This is probably chooser or autocomplete
                 // FIXME: This is not exactly an elegant way to do this
-                if (    $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
-                    || empty($this->storage->_schema->fields[$this->name]['widget_config']['class'])
-                    || empty($this->storage->_schema->fields[$this->name]['widget_config']['titlefield']))
-                {
-                    return null;
-                }
-
-                if (!$key)
-                {
-                    return null;
-                }
-
-                $class = $this->storage->_schema->fields[$this->name]['widget_config']['class'];
-                $titlefield = $this->storage->_schema->fields[$this->name]['widget_config']['titlefield'];
-
-                if (!midcom::get('componentloader')->is_loaded($this->storage->_schema->fields[$this->name]['widget_config']['component']))
-                {
-                    // Ensure the corresponding component is loaded
-                    midcom::get('componentloader')->load($this->storage->_schema->fields[$this->name]['widget_config']['component']);
-                }
-
-                if (   isset($this->storage->_schema->fields[$this->name]['widget_config']['id_field'])
-                    && $this->storage->_schema->fields[$this->name]['widget_config']['id_field'] == 'id')
-                {
-                    $key = (int) $key;
-                }
-
-                try
-                {
-                    $object = call_user_func(array($class, 'get_cached'), $key);
-                }
-                catch (midcom_error $e)
-                {
-                    debug_add('Failed to load ' . $class . ' ' . $key . ': ' . $e->getMessage());
-                    return null;
-                }
-
-                if (is_array($titlefield))
-                {
-                    foreach ($titlefield as $field)
-                    {
-                        if (!empty($object->$field))
-                        {
-                            $titlefield = $field;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isset($object->$titlefield))
-                {
-                    return null;
-                }
-
-                return $object->$titlefield;
+                return $this->_get_name_from_object($key);
             }
         }
 
@@ -304,6 +250,54 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         {
             return $this->_callback->get_name_for_key($key);
         }
+    }
+
+    private function _get_name_from_object($key)
+    {
+        $widget_config = $this->storage->_schema->fields[$this->name]['widget_config'];
+        if (   empty($widget_config['class'])
+            || empty($widget_config['titlefield'])
+            || !$key)
+        {
+            return null;
+        }
+
+        if (   !empty($widget_config['component'])
+            && !midcom::get('componentloader')->is_loaded($widget_config['component']))
+        {
+            // Ensure the corresponding component is loaded
+            midcom::get('componentloader')->load($widget_config['component']);
+        }
+
+        if (   isset($widget_config['id_field'])
+            && $widget_config['id_field'] == 'id')
+        {
+            $key = (int) $key;
+        }
+
+        try
+        {
+            $object = call_user_func(array($widget_config['class'], 'get_cached'), $key);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add('Failed to load ' . $class . ' ' . $key . ': ' . $e->getMessage());
+            return null;
+        }
+        $field_options = $widget_config['titlefield'];
+        if (is_string($field_options))
+        {
+            $field_options = array($field_options);
+        }
+
+        foreach ($field_options as $field)
+        {
+            if (!empty($object->$field))
+            {
+                return $object->$field;
+            }
+        }
+        return null;
     }
 
     /**

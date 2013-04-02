@@ -125,7 +125,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             throw new midcom_error('wikipage->create returned failure, errstr: ' . midcom_connection::get_error_string());
         }
         //Mark as email
-        $wikipage->parameter('net.nemein.wiki:emailimport', 'is_email', time());
+        $wikipage->set_parameter('net.nemein.wiki:emailimport', 'is_email', time());
 
         $embeds_added = false;
         $attachments_added = false;
@@ -192,7 +192,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         reset ($emails);
         foreach ($emails as $email)
         {
-            $wikipage->parameter('net.nemein.wiki:emailimport_recipients', $email, time());
+            $wikipage->set_parameter('net.nemein.wiki:emailimport_recipients', $email, time());
             debug_add("Processing email address {$email} for related-to links");
             $person = $this->emailimport_find_person($email);
             if (!$person)
@@ -201,7 +201,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
                 if (!$group)
                 {
                     debug_add("Could not find person or group for email {$email}, cannot link, storing email for future reference", MIDCOM_LOG_WARN);
-                    $wikipage->parameter('net.nemein.wiki:emailimport_notlinked', $email, time());
+                    $wikipage->set_parameter('net.nemein.wiki:emailimport_notlinked', $email, time());
                     continue;
                 }
                 continue;

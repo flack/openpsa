@@ -214,7 +214,6 @@ implements midcom_helper_datamanager2_interfaces_create
                     $url = "{$group->guid}/";
                 }
 
-
                 $tmp[] = Array
                 (
                     MIDCOM_NAV_URL => $url,

@@ -182,10 +182,9 @@ class midcom_helper_configuration
      * array against the current global configuration. true/false is returned
      * accordingly.
      */
-    private function _check_local_array($array)
+    private function _check_local_array(array $array)
     {
-        if (   !empty($array)
-            && is_array($array))
+        if (!empty($array))
         {
             $diff = array_keys(array_diff_key($array, $this->_global));
             foreach ($diff as $key)
@@ -292,6 +291,21 @@ class midcom_helper_configuration
         else
         {
             return false;
+        }
+    }
+
+    /**
+     * Set a value on the current instance, if the given key exists
+     *
+     * @param string $key The configuration key to set.
+     * @param mixed $value The value to set.
+     */
+    public function set($key, $value)
+    {
+        if ($this->exists($key))
+        {
+            $this->_local[$key] = $value;
+            $this->_update_cache();
         }
     }
 

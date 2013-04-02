@@ -21,7 +21,6 @@ You can now log in with your normal username and the following password:
 
 __PASSWORD__',
 
-
 'search_fields' => array
 (
     'firstname',

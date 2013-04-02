@@ -139,7 +139,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return $this->_new_topic;
     }
 
-
     /**
      * Handler for folder editing. Checks for the permissions and folder integrity.
      *

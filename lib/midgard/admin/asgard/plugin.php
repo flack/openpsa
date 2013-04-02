@@ -195,7 +195,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         return $url;
     }
 
-
     /**
      * Populate the object breadcrumb
      *

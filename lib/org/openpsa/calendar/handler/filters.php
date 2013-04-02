@@ -14,49 +14,6 @@
 class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_edit
 {
-    /**
-     * Handle the AJAX request
-     *
-     * @todo This function is unused
-     */
-    public function _handle_ajax()
-    {
-        $update_succeeded = false;
-        $errstr = null;
-        $user = new midcom_db_person($this->_request_data['user']->id);
-        if (array_key_exists('org_openpsa_calendar_filters_add', $_POST))
-        {
-            try
-            {
-                $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_add']);
-                $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_add'], 1);
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
-        }
-        else if (array_key_exists('org_openpsa_calendar_filters_remove', $_POST))
-        {
-            try
-            {
-                $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_remove']);
-                $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_remove'], '');
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
-        }
-        $errstr = midcom_connection::get_error_string();
-
-        $response = new midcom_response_xml;
-        $response->result = $update_succeeded;
-        $response->status = $errstr;
-        $response->send();
-        //This will exit.
-    }
-
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_filters'));

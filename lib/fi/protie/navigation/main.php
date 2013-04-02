@@ -374,7 +374,6 @@ class fi_protie_navigation
 
             $item = $this->_nap->get_node($child);
 
-
             $classes = $this->_get_css_classes($child, $item, $item_counter, $item_count);
 
             $this->_display_element($item, $indent, $classes);
@@ -423,6 +422,11 @@ class fi_protie_navigation
 
             if ($child[MIDCOM_NAV_TYPE] === 'node')
             {
+                // If the listing of nodes is set to false, skip this item and proceed to the next
+                if ($this->list_nodes === false)
+                {
+                    continue;
+                }
                 $item = $this->_nap->get_node($child[MIDCOM_NAV_ID]);
             }
             else
@@ -443,12 +447,6 @@ class fi_protie_navigation
 
         if ($child[MIDCOM_NAV_TYPE] === 'node')
         {
-            // If the listing of nodes is set to false, skip this item and proceed to the next
-            if ($this->list_nodes === false)
-            {
-                continue;
-            }
-
             if (   $item[MIDCOM_NAV_ID] === $this->_nap->get_current_node()
                 && (   !$this->_nap->get_current_leaf()
                     || !$this->_nap->get_leaf($this->_nap->get_current_leaf())))

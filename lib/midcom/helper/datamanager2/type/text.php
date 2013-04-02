@@ -106,7 +106,6 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      *     ),
      * ),
      * </pre>
-     *
      */
     var $forbidden_patterns = null;
 
@@ -128,7 +127,6 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      *     ),
      * ),
      * </pre>
-     *
      */
     var $allowed_patterns = null;
 
@@ -165,7 +163,6 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
         return $stat;
     }
-
 
     function convert_from_storage ($source)
     {

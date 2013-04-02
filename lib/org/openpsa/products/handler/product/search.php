@@ -13,6 +13,25 @@
  */
 class org_openpsa_products_handler_product_search extends midcom_baseclasses_components_handler
 {
+    private $_operators = array
+    (
+        '<' => '<',
+        'lt' => '<',
+        '<=' => '<=',
+        'lte' => '<=',
+        '=' => '=',
+        'eq' => '=',
+        '<>' => '<>',
+        '!eq' => '<>',
+        '>' => '>',
+        'gt' => '>',
+        '>=' => '>=',
+        'gte' => '>=',
+        'LIKE' => 'LIKE',
+        'NOT LIKE' => 'NOT LIKE',
+        'INTREE' => 'INTREE'
+    );
+
     /**
      * Redirector moving user to the search form of first schema
      *
@@ -27,48 +46,12 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
     private function _validate_operator($operator)
     {
-        switch ($operator)
-        {
-            case '<':
-            case 'lt':
-            case '<=':
-            case 'lte':
-            case '=':
-            case 'eq':
-            case '<>':
-            case '!eq':
-            case '>=':
-            case 'gte':
-            case '>':
-            case 'gt':
-            case 'LIKE':
-            case 'NOT LIKE':
-            case 'INTREE':
-                return true;
-            default:
-                return false;
-        }
+        return array_key_exists($operator, $this->_operators);
     }
 
     private function _normalize_operator($operator)
     {
-        switch ($operator)
-        {
-            case 'lt':
-                return '<';
-            case 'gt':
-                return '>';
-            case 'lte':
-                return '<=';
-            case 'gte':
-                return '>=';
-            case '!eq':
-                return '<>';
-            case 'eq':
-                return '=';
-            default:
-                return $operator;
-        }
+        return $this->_operators[$operator];
     }
 
     /**
@@ -83,6 +66,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             if (!array_key_exists('property', $constraint))
             {
                 // No field defined for this parameter, skip
+                unset($constraints[$key]);
                 continue;
             }
 
@@ -105,12 +89,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         foreach ($constraints as $constraint)
         {
-            if (!array_key_exists('property', $constraint))
-            {
-                // No field defined for this parameter, skip
-                continue;
-            }
-
             if (!array_key_exists($constraint['property'], $this->_request_data['schemadb_product'][$this->_request_data['search_schema']]->fields))
             {
                 // This field is not in the schema
@@ -181,15 +159,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             $this->_add_ordering($qb, $ordering);
         }
 
-        $products = $qb->execute();
-
-        // FIXME: hack to prevent duplication of results
-        foreach ($products as $product)
-        {
-            $return_products[$product->guid] = $product;
-        }
-
-        return $return_products;
+        return $qb->execute();
     }
 
     private function _add_ordering(&$qb, $ordering)
@@ -215,12 +185,14 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     }
 
     /**
-     * Search products using Midgard 1.8+ Query Builder
+     * Search products using Query Builder
      */
     private function _qb_search($constraints)
     {
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
+        /* FIXME: It this the right way to do this? */
+        $this->_request_data['search_qb'] =& $qb;
 
         // Check that the object has correct schema
         $mc = new midgard_collector('midgard_parameter', 'domain', 'midcom.helper.datamanager2');
@@ -229,11 +201,11 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $mc->add_constraint('value', '=', $this->_request_data['search_schema']);
         $mc->execute();
         $keys = $mc->list_keys();
-        if (!empty($keys))
+        if (empty($keys))
         {
-            $qb->add_constraint('guid', 'IN', array_keys($keys));
+            return array();
         }
-        unset($mc, $keys);
+        $qb->add_constraint('guid', 'IN', array_keys($keys));
 
         if ($this->_request_data['search_type'] == 'OR')
         {
@@ -287,22 +259,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         }
 
         $ret = $qb->execute();
-        /* FIXME: It this the right way to do this? */
-        $this->_request_data['search_qb'] =& $qb;
 
-        // Check schemas this way until the core issue is fixed
-        foreach ($ret as $k => $product)
-        {
-            $schema = $product->get_parameter('midcom.helper.datamanager2', 'schema_name');
-            debug_add("product schema '{$schema}' vs desired schema '{$this->_request_data['search_schema']}'");
-            if ($schema == $this->_request_data['search_schema'])
-            {
-                continue;
-            }
-            unset($ret[$k]);
-        }
-        // array_merge reindexes the array to be continous
-        return array_merge($ret);
+        return $ret;
     }
 
     /**
@@ -328,15 +286,11 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $data['results'] = array();
 
         // Determine search type (AND vs OR)
-        switch (true)
+        $data['search_type'] = 'AND';
+        if (   !empty($_REQUEST['org_openpsa_products_search_type'])
+            && $_REQUEST['org_openpsa_products_search_type'] == 'OR')
         {
-            case (!array_key_exists('org_openpsa_products_search_type', $_REQUEST)):
-            default:
-                $data['search_type'] = 'AND';
-                break;
-            case ($_REQUEST['org_openpsa_products_search_type'] == 'OR'):
-                $data['search_type'] = 'OR';
-                break;
+            $data['search_type'] = 'OR';
         }
 
         if (   array_key_exists('org_openpsa_products_search', $_REQUEST)

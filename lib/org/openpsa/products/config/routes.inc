@@ -67,7 +67,6 @@
     'fixed_args' => Array('import', 'group', 'csv2'),
 ),
 
-
 // Handle /product/create/<schema name>
 'create_product' => Array
 (

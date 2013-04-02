@@ -415,7 +415,6 @@ class midcom_services_auth_acl
         return self::$_owner_default_privileges;
     }
 
-
     /**
      * This helper function loads and prepares the list of class magic privileges for
      * usage. It will assign them to the $_*_default_class_privileges members.
@@ -694,7 +693,6 @@ class midcom_services_auth_acl
             $is_owner = true;
         }
         // }}}
-
 
         // This array holds values in the schema
         // $valid_privs[scope][priv_name] = priv_value

@@ -305,7 +305,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Sets the constraints for QB for articles, supports article links etc..
+     * Sets the constraints for QB for articles, supports article links etc.
      *
      * @param midgard_query_builder $qb reference to the QB object
      * @param array $data reference to the request_data array

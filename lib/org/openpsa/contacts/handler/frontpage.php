@@ -71,7 +71,6 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             );
         }
 
-
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {

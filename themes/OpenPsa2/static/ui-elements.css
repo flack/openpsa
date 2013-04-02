@@ -375,6 +375,10 @@ form.datamanager2 .longtext
     width: 30em;
     background-color: white
 }
+form.datamanager2 .autocomplete-widget-creation-enabled input.shorttext
+{
+    width: 27.5em;
+}
 
 form.datamanager2 select
 {

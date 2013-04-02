@@ -11,6 +11,7 @@
 'midgard_pageelement' => 'midcom_db_pageelement',
 'midgard_parameter' => 'midcom_db_parameter',
 midcom::get('config')->get('person_class') => 'midcom_db_person',
+'midgard_person' => 'midcom_db_person',
 'midgard_snippet' => 'midcom_db_snippet',
 'midgard_snippetdir' => 'midcom_db_snippetdir',
 'midgard_style' => 'midcom_db_style',

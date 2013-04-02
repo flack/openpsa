@@ -18,28 +18,28 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      *
      * @var org_openpsa_directmarketing_campaign_message
      */
-    private $_message = null;
+    private $_message;
 
     /**
      * The Datamanager of the message to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
      */
-    private $_datamanager = null;
+    private $_datamanager;
 
     /**
      * The Controller of the message used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
      */
-    private $_controller = null;
+    private $_controller;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
      */
-    private $_schemadb = null;
+    private $_schemadb;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -188,7 +188,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Shows the loaded message.
      */
@@ -243,7 +242,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_update_breadcrumb_line($handler_id);
     }
 
-
     /**
      * Shows the loaded message.
      */
@@ -278,20 +276,15 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             case 'save':
                 $copy = new midcom_helper_reflector_copy();
                 $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
+                $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
+                $qb->add_constraint('guid', 'IN', $campaigns);
+                $campaigns = $qb->execute();
+                $original = $this->_message;
                 $copy_objects = array();
 
-                foreach ($campaigns as $campaign_id)
+                foreach ($campaigns as $campaign)
                 {
-                    try
-                    {
-                        $campaign = new org_openpsa_directmarketing_campaign_dba($campaign_id);
-                    }
-                    catch (midcom_error $e)
-                    {
-                        continue;
-                    }
-
-                    $new_object = $copy->copy_object($this->_message->guid, $campaign);
+                    $new_object = $copy->copy_object($original, $campaign);
                     $guid = $new_object->guid;
 
                     // Store for later use

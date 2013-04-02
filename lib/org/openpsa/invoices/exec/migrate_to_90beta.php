@@ -94,7 +94,6 @@ foreach ($tasks as $task)
     }
 }
 
-
 $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
 $deliverables = $deliverable_qb->execute();
 
@@ -182,7 +181,6 @@ foreach ($deliverables as $deliverable)
     }
 
 }
-
 
 $qb_items = org_openpsa_invoices_invoice_item_dba::new_query_builder();
 $qb_items->add_constraint('task', '>', 0);

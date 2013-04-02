@@ -119,7 +119,6 @@ implements org_openpsa_widgets_grid_provider_client
         $invoice = $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
         $invoice = $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
 
-
         if (!empty($this->_sales_url))
         {
             $invoice['deliverable'] = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice['deliverable'] . '</a>';

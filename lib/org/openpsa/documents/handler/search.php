@@ -10,7 +10,6 @@
  * org.openpsa.documents search handler and viewer class.
  *
  * @package org.openpsa.documents
- *
  */
 class org_openpsa_documents_handler_search extends midcom_baseclasses_components_handler
 {

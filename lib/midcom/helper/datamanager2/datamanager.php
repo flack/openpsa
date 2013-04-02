@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function set_schema($name = null)
     {
         if (   $name !== null
-            && ! array_key_exists($name, $this->_schemadb))
+            && !array_key_exists($name, $this->_schemadb))
         {
             debug_add("The schema {$name} was not found in the active schema database.", MIDCOM_LOG_INFO);
             return false;
@@ -128,7 +128,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
         return $this->_load_types();
     }
-
 
     /**
      * This function sets the system to use a specific storage object. You can pass
@@ -384,6 +383,12 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_html()
     {
+        if (is_null($this->formmanager))
+        {
+            $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
+            $this->formmanager->initialize();
+        }
+
         $result = Array();
         foreach ($this->schema->field_order as $name)
         {
@@ -391,7 +396,16 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             {
                 continue;
             }
-            $result[$name] = $this->types[$name]->convert_to_html();
+            if (empty($this->formmanager->widgets[$name]))
+            {
+                //This field seems to be hidden, i.e. DM has not loaded the widget
+                $result[$name] = $this->types[$name]->convert_to_html();
+            }
+            else
+            {
+                $this->formmanager->widgets[$name]->_type = $this->types[$name];
+                $result[$name] = $this->formmanager->widgets[$name]->render_content();
+            }
         }
         return $result;
     }
@@ -470,8 +484,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     }
 
     /**
-     * Little helper function returning an associative array of all field values converted to
-     * their raw storage representation..
+     * Get all field values converted to their raw storage representation
      *
      * @return Array All field values in their raw storage representation indexed by their name.
      */
@@ -501,29 +514,21 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function display_view($skip_empty = false)
     {
-        if (is_null($this->formmanager))
-        {
-            $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
-            $this->formmanager->initialize();
-        }
+        $values = $this->get_content_html();
         // iterate over all types so that they can add their piece to the form
         echo "<div class=\"midcom_helper_datamanager2_view\">\n";
         $fieldset_count = 0;
         foreach ($this->schema->field_order as $name)
         {
-            if ($this->_schema_field_is_broken($name))
-            {
-                continue;
-            }
             $config =& $this->schema->fields[$name];
             if (!empty($config['hidden']))
             {
                 continue;
             }
 
-            $field_value = $this->formmanager->widgets[$name]->render_content();
-            if (   trim($field_value) == ''
-                && $skip_empty)
+            $field_value = $values[$name];
+            if (   $skip_empty
+                && trim($field_value) == '')
             {
                 continue;
             }

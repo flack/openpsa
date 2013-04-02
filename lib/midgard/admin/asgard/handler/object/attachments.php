@@ -65,7 +65,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             $local_file = $this->_file;
         }
 
-
         if ($local_file->mimetype != $uploaded_file['type'])
         {
             $local_file->mimetype = $uploaded_file['type'];

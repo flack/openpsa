@@ -95,7 +95,6 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
         return false;
     }
 
-
     /**
      * Converts storage format to live format, all invalid keys are dropped, and basic validation
      * is done to ensure constraints like allow_multiple are met.

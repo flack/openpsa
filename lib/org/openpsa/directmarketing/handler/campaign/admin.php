@@ -174,7 +174,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $solver->resolve($rules);
             $rule_persons = $solver->execute();
 
-
             //if it's not preview update campaign & Schedule background members refresh'
             if (!isset($_POST['show_rule_preview']))
             {
@@ -370,7 +369,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $this->bind_view_to_object($this->_campaign, $this->_controller->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
-
 
     /**
      * Shows the loaded campaign.

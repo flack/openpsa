@@ -24,7 +24,13 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Contact information of the person being displayed
      */
-    var $contact_details = array();
+    var $contact_details = array
+    (
+        'guid' => '',
+        'id' => '',
+        'firstname' => '',
+        'lastname' => ''
+    );
 
     /**
      * Optional URI to person details
@@ -70,10 +76,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     /**
      * Initializes the class and stores the selected person to be shown
-     * The argument should be a MidgardPerson object. In the future DM
-     * Array format will also be supported.
+     * The argument should be a MidgardPerson object.
      *
-     * @param mixed $person Person to display either as MidgardPerson or Datamanager array
+     * @param mixed $person Person to display either as MidgardPerson
      */
     public function __construct($person = null)
     {
@@ -85,16 +90,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             self::$_contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         }
 
-        // Read properties of provided person object/DM array
+        // Read properties of provided person object
         // TODO: Handle groups as well
-        if (is_object($person))
-        {
-            $this->_data_read_ok = $this->read_object($person);
-        }
-        else if (is_array($person))
-        {
-            $this->_data_read_ok = $this->read_array($person);
-        }
+        $this->_data_read_ok = $this->read_object($person);
     }
 
     public static function add_head_elements()
@@ -148,7 +146,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     function read_object($person)
     {
         if (   !is_object($person)
-            && !midcom::get('dbfactory')->is_a($person, 'midcom_db_person'))
+            || !midcom::get('dbfactory')->is_a($person, 'midcom_db_person'))
         {
             // Given $person is not one
             return false;
@@ -159,13 +157,11 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         if ($person->guid == "")
         {
-            $this->contact_details['firstname'] = '';
             $this->contact_details['lastname'] = $this->_l10n->get('no person');
         }
         else if (   $person->firstname == ''
-            && $person->lastname == '')
+                 && $person->lastname == '')
         {
-            $this->contact_details['firstname'] = '';
             $this->contact_details['lastname'] = "Person #{$person->id}";
         }
         else
@@ -225,7 +221,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             $url = $this->link;
         }
         else if (   $this->link_contacts
-                 && $this->contact_details['guid'] != "")
+                 && !empty($this->contact_details['guid']))
         {
             if (!self::$_contacts_url)
             {
@@ -259,7 +255,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         // Start the vCard
         $inline_string .= "<span class=\"vcard\">";
 
-        if (array_key_exists('guid', $this->contact_details))
+        if (!empty($this->contact_details['guid']))
         {
             // Identifier
             $inline_string .= "<span class=\"uid\" style=\"display: none;\">{$this->contact_details['guid']}</span>";
@@ -294,14 +290,14 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         // Show picture
         // TODO: Implement photo also in local way
         if (   $this->_config->get('gravatar_enable')
-            && array_key_exists('email', $this->contact_details))
+            && !empty($this->contact_details['email']))
         {
             $size = $this->_config->get('gravatar_size');
             $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($this->contact_details['email']) . "&size=".$size;
             echo "<img src=\"{$gravatar_url}\" class=\"photo\" style=\"float: right; margin-left: 4px;\" />\n";
         }
 
-        if (array_key_exists('guid', $this->contact_details))
+        if (!empty($this->contact_details['guid']))
         {
             // Identifier
             echo "<span class=\"uid\" style=\"display: none;\">{$this->contact_details['guid']}</span>";
@@ -325,12 +321,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         $this->_show_phone_number('workphone', 'work');
         $this->_show_phone_number('homephone', 'home');
 
-        if (array_key_exists('email', $this->contact_details))
+        if (!empty($this->contact_details['email']))
         {
             echo "<li class=\"email\"><a title=\"{$this->contact_details['email']}\" href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
         }
 
-        if (array_key_exists('skype', $this->contact_details))
+        if (!empty($this->contact_details['skype']))
         {
             echo "<li class=\"tel skype\">";
             echo "<a href=\"skype:{$this->contact_details['skype']}?call\"";
@@ -343,7 +339,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         }
 
         // Instant messaging contact information
-        if (array_key_exists('jid', $this->contact_details))
+        if (!empty($this->contact_details['jid']))
         {
             echo "<li class=\"jabbber\">";
             echo "<a href=\"xmpp:{$this->contact_details['jid']}\"";
@@ -355,7 +351,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             echo ">{$this->contact_details['jid']}</a></li>\n";
         }
 
-        if (array_key_exists('homepage', $this->contact_details))
+        if (!empty($this->contact_details['homepage']))
         {
             echo "<li class=\"url\"><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
         }
@@ -371,7 +367,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         {
             $dialurl = $this->_config->get('click_to_dial_url');
         }
-        if (array_key_exists($field, $this->contact_details))
+        if (!empty($this->contact_details[$field]))
         {
             if ($dialurl)
             {
@@ -474,13 +470,13 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
             if (sizeof($cards_to_show) == 0)
             {
-                if ($property != 'street'
+                if (   $property != 'street'
                     && $customer->$property)
                 {
                     $inherited_cards_only = false;
                     $cards_to_show[] = $cardname;
                 }
-                else if (!$default_shown
+                else if (   !$default_shown
                          && $customer->street)
                 {
                     $default_shown = true;
@@ -489,9 +485,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             }
             else
             {
-                if ($customer->$property
-                    || ($customer->street
-                        && (!$inherited_cards_only
+                if (    $customer->$property
+                    || (   $customer->street
+                        && (   !$inherited_cards_only
                             && !$default_shown)))
                 {
                     $inherited_cards_only = false;
@@ -517,8 +513,8 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         foreach ($cards_to_show as $cardname)
         {
             echo '<div class="vcard">';
-            if ($multiple_addresses
-                || ($cardname != 'visiting'
+            if (   $multiple_addresses
+                || (   $cardname != 'visiting'
                     && !$inherited_cards_only))
             {
                 echo '<div style="text-align:center"><em>' . midcom::get('i18n')->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";

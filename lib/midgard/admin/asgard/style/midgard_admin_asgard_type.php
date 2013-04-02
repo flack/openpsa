@@ -64,8 +64,15 @@ if (isset($data['search_results']))
         {
             $label = $object->$label_property;
         }
-        $parent = $object->get_parent();
-        $label = resolve_label($parent) . "/" . $label;
+        try
+        {
+            $parent = $object->get_parent();
+            $label = resolve_label($parent) . "/" . $label;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
         return $label;
     }
     if (!$data['search_results'])

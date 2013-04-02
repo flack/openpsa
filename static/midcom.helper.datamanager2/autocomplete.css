@@ -30,7 +30,7 @@
 {
     position: relative;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid #c1c1c1;
     border-radius: .2em;
     margin-right: .5em;
     padding: .2em .3em;
@@ -41,6 +41,7 @@
     background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+    background-color: rgba(0, 0, 0, .05);
     margin-bottom: .2em
 }
 .autocomplete-selection-holder .autocomplete-item:hover
@@ -51,17 +52,23 @@
     box-shadow: 1px 1px 5px rgba(0, 0, 0, .1);
 }
 
+.autocomplete-selection-holder .autocomplete-todelete
+{
+    box-shadow: inset 1px 2px 5px rgba(0, 0, 0, .1);
+}
+
 .autocomplete-item .autocomplete-item-label
 {
+    transition: max-width .2s ease;
+    transition-property: background-color, max-width;
     display: inline-block;
     vertical-align: middle;
     display: inline-block;
-    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-right: 20px;
     max-width: 20em;
-    white-space: nowrap
+    white-space: nowrap;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, .7)
 }
 
 .autocomplete-selection-holder-readonly .autocomplete-item-label
@@ -78,11 +85,13 @@
     background-repeat: no-repeat;
     margin-left: .5em;
     vertical-align: middle;
-    position: absolute;
-    right: .3em;
 }
 
 .autocomplete-action-icon
+{
+    opacity: .6
+}
+.autocomplete-todelete .autocomplete-action-icon
 {
     opacity: .3
 }
@@ -97,17 +106,21 @@
 
 .autocomplete-selected .autocomplete-action-icon
 {
-    background-image: url('../stock-icons/16x16/cancel.png');
+    background-position: 0 -192px
+}
+.autocomplete-saved .autocomplete-action-icon
+{
+    background-position: -208px -192px
 }
 
 .autocomplete-todelete .autocomplete-action-icon
 {
-    background-image: url('../stock-icons/16x16/stock_refresh.png');
+    background-position: -32px -192px
 }
 
 .autocomplete-todelete .autocomplete-item-label
 {
-    opacity: .7;
+    opacity: .6;
     max-width: 6em;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -132,13 +145,16 @@
 ul.ui-autocomplete
 {
     overflow: auto;
-    max-height: 100%
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25)
+    max-height: 100%; /* for IE < 9 & Opera */
+    max-height: calc(100% - 6px);
 }
 
 ul.ui-autocomplete .ui-menu-item a.ui-state-focus
 {
     font-weight: normal;
     border: none;
+    margin: 0
 }
 
 li.ui-autocomplete-category

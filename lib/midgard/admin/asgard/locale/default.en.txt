@@ -730,6 +730,14 @@ Revision history of %s
 Revision history of %s %s
 ---STRINGEND
 
+---STRING run
+Run
+---STRINGEND
+
+---STRING script output
+Script Output
+---STRINGEND
+
 ---STRING search
 Search
 ---STRINGEND
@@ -756,6 +764,10 @@ Show differences
 
 ---STRING show history
 Show revision history
+---STRINGEND
+
+---STRING shell
+Shell
 ---STRINGEND
 
 ---STRING size

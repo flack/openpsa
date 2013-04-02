@@ -5,8 +5,8 @@ $person =& $data['current_row']['person'];
 $query_data =& $data['query_data'];
 $weekly_data_group =& $group['weekly_report_data'];
 
-$weekly_data_group['person_workhours'] = $person->parameter('org.openpsa.reports.projects', 'weekly_workhours');
-$weekly_data_group['person_target'] = $person->parameter('org.openpsa.reports.projects', 'invoiceable_target');
+$weekly_data_group['person_workhours'] = $person->get_parameter('org.openpsa.reports.projects', 'weekly_workhours');
+$weekly_data_group['person_target'] = $person->get_parameter('org.openpsa.reports.projects', 'invoiceable_target');
 
 $weekly_data_group['total'] = $weekly_data_group['invoiceable_total']+$weekly_data_group['uninvoiceable_total'];
 ?>

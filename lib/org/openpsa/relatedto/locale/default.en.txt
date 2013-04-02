@@ -89,5 +89,3 @@ Status
 ---STRING view journal entries
 View journal entries
 ---STRINGEND
-
-

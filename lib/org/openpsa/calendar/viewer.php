@@ -20,12 +20,16 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     {
         if (!$this->_config->get('calendar_root_event'))
         {
-            //We don't have a root event, reset request switch
-            $this->_request_switch = array();
-            $this->_request_switch['not_initialized'] = array
-            (
-                'handler' => 'notinitialized',
-            );
+            $stat = false;
+            if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba'))
+            {
+                $stat = org_openpsa_calendar_interface::find_root_event();
+            }
+
+            if (!$stat)
+            {
+                midcom::get('auth')->require_admin_user();
+            }
         }
     }
 
@@ -40,31 +44,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         $this->_request_data['view'] = 'default';
 
         return true;
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_notinitialized($handler_id, array $args, array &$data)
-    {
-        midcom::get('auth')->require_admin_user();
-
-        if (org_openpsa_calendar_interface::find_root_event())
-        {
-            return new midcom_response_relocate('');
-        }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_notinitialized($handler_id, array &$data)
-    {
-        midcom_show_style('show-not-initialized');
     }
 
     public function _handler_frontpage($handler_id, array $args, array &$data)

@@ -41,6 +41,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertTrue(mgd_is_guid($guid));
         $article = new midcom_db_article($guid);
         $this->register_object($article);
+
         $this->assertEquals('import-test', $article->name);
         $this->assertEquals('Import Test', $article->title);
         $this->assertEquals('Test Description', $article->content);
@@ -54,10 +55,10 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertEquals(1362342210, $feed->latestupdate);
 
         //Now for the update
-        $items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
+        $update_items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
 
         midcom::get('auth')->request_sudo('net.nemein.rss');
-        $guid2 = $fetcher->import_item($items[0]);
+        $guid2 = $fetcher->import_item($update_items[0]);
         midcom::get('auth')->drop_sudo();
         $this->assertTrue(mgd_is_guid($guid2));
         $article = new midcom_db_article($guid2);
@@ -85,54 +86,33 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $person = self::create_user();
         $user = midcom::get('auth')->get_user($person->id);
-
-        $item->data['child'] = $this->_set_item_author($user->username);
+        $item->data['child']['']['author'][0]['data'] = $user->username;
 
         $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
 
-        $email = microtime(true) . '@openpsa2.org';
+        $email = uniqid() . '@openpsa2.org';
         $person = $this->create_object('midcom_db_person', array('email' => $email));
 
-        $item->data['child'] = $this->_set_item_author('test <' . $email . '>');
+        $item->data['child']['']['author'][0]['data'] = 'test <' . $email . '>';
         $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
 
         $attributes = array
         (
-            'firstname' => microtime(true),
-            'lastname' => microtime(true)
+            'firstname' => uniqid('firstname'),
+            'lastname' => uniqid('lastname')
         );
 
         $person = $this->create_object('midcom_db_person', $attributes);
 
-        $item->data['child'] = $this->_set_item_author($attributes['firstname'] . ' ' . $attributes['lastname']);
+        $item->data['child']['']['author'][0]['data'] = $attributes['firstname'] . ' ' . $attributes['lastname'];
+
         $author = $fetcher->match_item_author($item);
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
-    }
-
-    private function _set_item_author($string)
-    {
-        return array
-        (
-            '' => array
-            (
-                'author' => array
-                (
-                    array
-                    (
-                        'data' => $string,
-                        'attribs' => array(),
-                        'xml_base' => '',
-                        'xml_base_explicit' => false,
-                        'xml_lang' => '',
-                    )
-                )
-            )
-        );
     }
 
     /**

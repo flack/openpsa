@@ -57,7 +57,6 @@ class net_nehmer_static_import_mscms
 
         $mscms_data = file_get_contents($path);
 
-
         // HTMLpurifier doesn't allow IDs starting with underscore
         $mscms_data = str_replace('_ctl0', 'ctl', $mscms_data);
         $mscms_data = str_replace('span', 'div', $mscms_data);
@@ -225,11 +224,11 @@ class net_nehmer_static_import_mscms
         {
             if (!$folder->has_index)
             {
-                $topic->parameter('net.nehmer.static', 'autoindex', 1);
+                $topic->set_parameter('net.nehmer.static', 'autoindex', 1);
             }
             else
             {
-                $topic->parameter('net.nehmer.static', 'autoindex', '');
+                $topic->delete_parameter('net.nehmer.static', 'autoindex');
             }
         }
 
@@ -275,7 +274,7 @@ class net_nehmer_static_import_mscms
         $article->abstract = $file->abstract;
         $article->content = $file->content;
 
-        $article->parameter('midcom.helper.datamanager2', 'schema_name', $file->schema);
+        $article->set_parameter('midcom.helper.datamanager2', 'schema_name', $file->schema);
         flush();
 
         return $article->update();

@@ -266,7 +266,6 @@ class midcom_services_indexer_document
      */
     public $security = 'default';
 
-
     /**
      * This is have support for #651 without rewriting all components' index methods
      *
@@ -278,7 +277,6 @@ class midcom_services_indexer_document
     public $actually_index = true;
 
     /* ------ END OF DOCUMENT FIELDS --------- */
-
 
     /**
      * Initialize the object, nothing fancy here.

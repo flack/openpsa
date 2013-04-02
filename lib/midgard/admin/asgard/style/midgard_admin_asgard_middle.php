@@ -11,7 +11,6 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                         ?>
                     </div>
 
-
                     <?php
                     midcom::get('uimessages')->show_simple();
                     ?>

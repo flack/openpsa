@@ -341,12 +341,8 @@ jQuery("#&(grid_id);").jqGrid({
 <?php
     echo "<form method=\"post\" action=\"" . $expenses_url . "csv/hour_report/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
     echo "    <input type=\"hidden\" id=\"csvdata\" name=\"org_openpsa_core_csvexport\" value=\"\" />";
-    foreach ($guids as $guid)
+    foreach (array_filter($guids) as $guid)
     {
-        if ($guid == "")
-        {
-            continue;
-        }
         echo "    <input type=\"hidden\" name=\"guids[]\" value=\"" . $guid . "\" />\n";
     }
     echo "    <input type=\"hidden\" name=\"order[date]\" value=\"ASC\" />\n";

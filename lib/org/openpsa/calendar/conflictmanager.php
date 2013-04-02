@@ -47,20 +47,8 @@ class org_openpsa_calendar_conflictmanager
             $qb->add_constraint($fieldname . '.id', '<>', (int) $this->_event->id);
         }
         //Target event starts or ends inside this events window or starts before and ends after
-        $qb->begin_group('OR');
-            $qb->begin_group('AND');
-                $qb->add_constraint($fieldname . '.start', '>=', (int) $this->_event->start);
-                $qb->add_constraint($fieldname . '.start', '<=', (int) $this->_event->end);
-            $qb->end_group();
-            $qb->begin_group('AND');
-                $qb->add_constraint($fieldname . '.end', '<=', (int) $this->_event->end);
-                $qb->add_constraint($fieldname . '.end', '>=', (int) $this->_event->start);
-            $qb->end_group();
-            $qb->begin_group('AND');
-                $qb->add_constraint($fieldname . '.start', '<=', (int) $this->_event->start);
-                $qb->add_constraint($fieldname . '.end', '>=', (int) $this->_event->end);
-            $qb->end_group();
-        $qb->end_group();
+        $qb->add_constraint($fieldname . '.start', '<=', (int) $this->_event->end);
+        $qb->add_constraint($fieldname . '.end', '>=', (int) $this->_event->start);
     }
 
     /**

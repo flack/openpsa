@@ -58,6 +58,11 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
             (
                 new org_openpsa_task,
                 'org_openpsa_projects_task_dba'
+            ),
+            array
+            (
+                new midgard_person,
+                'midcom_db_person'
             )
         );
         if (class_exists('openpsa_person'))

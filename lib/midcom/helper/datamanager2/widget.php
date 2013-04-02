@@ -277,7 +277,6 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      */
     abstract function sync_type_with_widget($results);
 
-
     /**
      * This event handler is called if and only if the Formmanager detects an actual
      * form submission (this is tracked using a hidden form member).

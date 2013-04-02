@@ -261,7 +261,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = midcom::get('auth')->get_assignee($resource_id);
 
-        self::_verify_cache('users', $this->_request_data);
         switch (get_class($dba_obj))
         {
             case 'midcom_core_group':
@@ -273,8 +272,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                         $user_obj = $core_user->get_storage();
                         debug_add(sprintf('Adding user %s (id: %s)', $core_user->name, $user_obj->id));
                         $ret[] = $user_obj->id;
-                        $this->_request_data['object_cache'][$user_obj->guid] = $user_obj;
-                        $this->_request_data['object_cache']['users'][$user_obj->id] =& $this->_request_data['object_cache'][$user_obj->guid];
                     }
                 }
             break;
@@ -282,67 +279,12 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 $user_obj = $dba_obj->get_storage();
                 debug_add(sprintf('Adding user %s (id: %s)', $dba_obj->name, $user_obj->id));
                 $ret[] = $user_obj->id;
-                $this->_request_data['object_cache'][$user_obj->guid] = $user_obj;
-                $this->_request_data['object_cache']['users'][$user_obj->id] =& $this->_request_data['object_cache'][$user_obj->guid];
             break;
             default:
                 debug_add('Got unrecognized class for dba_obj: ' . get_class($dba_obj), MIDCOM_LOG_WARN);
             break;
         }
         return $ret;
-    }
-
-    protected static function _verify_cache($key, &$request_data)
-    {
-        if (   !array_key_exists('object_cache', $request_data)
-            || !is_array($request_data['object_cache']))
-        {
-            $request_data['object_cache'] = array();
-        }
-        if ($key !== null)
-        {
-            if (   !array_key_exists($key, $request_data['object_cache'])
-                || !is_array($request_data['object_cache'][$key]))
-            {
-                $request_data['object_cache'][$key] = array();
-            }
-        }
-    }
-
-    public static function &_get_cache($type, $id, &$request_data)
-    {
-        self::_verify_cache($type, $request_data);
-        if (!array_key_exists($id, $request_data['object_cache'][$type]))
-        {
-            switch ($type)
-            {
-                case 'users':
-                    $core_user = new midcom_core_user($id);
-                    $obj = $core_user->get_storage();
-                break;
-                case 'groups':
-                    $obj = new org_openpsa_contacts_group_dba($id);
-                break;
-                default:
-                    $method = "_get_cache_obj_{$type}";
-                    $classname = __CLASS__;
-                    if (!method_exists($classname, $method))
-                    {
-                        // TODO: generate error
-                        debug_add("Method '{$method}' not in class '{$classname}'", MIDCOM_LOG_WARN);
-                        return false;
-                    }
-                    $obj = call_user_func(array($classname, $method), $id);
-                break;
-            }
-            $request_data['object_cache'][$obj->guid] = $obj;
-            $request_data['object_cache'][$type][$obj->id] =& $request_data['object_cache'][$obj->guid];
-        }
-        else
-        {
-            $obj =& $request_data['object_cache'][$type][$id];
-        }
-        return $request_data['object_cache'][$type][$obj->id];
     }
 }
 ?>

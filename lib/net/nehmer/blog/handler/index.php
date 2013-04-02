@@ -54,7 +54,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $this->_request_data['datamanager'] =& $this->_datamanager;
     }
 
-
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
@@ -306,7 +305,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         // Cache the data
         if (midcom::get('auth')->request_sudo('net.nehmer.blog'))
         {
-            $this->_topic->parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
+            $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
             midcom::get('auth')->drop_sudo();
         }
 

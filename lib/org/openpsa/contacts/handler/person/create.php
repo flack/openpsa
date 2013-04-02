@@ -101,7 +101,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('');
         }
 
-
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 

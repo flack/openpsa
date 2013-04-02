@@ -504,7 +504,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
         $this->_filter = new midcom_helper_imagefilter();
 
-        // 1st step: original image storage and auto-conversion..
+        // 1st step: original image storage and auto-conversion
         if (   ! $this->_save_original()
             || ! $this->_filter->set_file($this->_original_tmpname)
             || ! $this->_auto_convert_to_web_type())
@@ -518,7 +518,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             return false;
         }
 
-        // Prepare all other images.
+        // Prepare all other images
         if (   ! $this->_save_main_image()
             || ! $this->_add_thumbnail_to_derived_images()
             || ! $this->_save_derived_images()) // This fucker returns false
@@ -550,7 +550,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         $this->_original_tmpname_video = $tmpname;
         $this->_original_mimetype_video = midcom_helper_misc::get_mimetype($this->_original_tmpname_video);
 
-        // 1st step: original image storage and auto-conversion..
+        // 1st step: original image storage and auto-conversion
         if (   ! $this->_save_original_video())
         {
             debug_add("Failed to save original video {$filename} in" .
@@ -562,7 +562,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             return false;
         }
 
-        // Prepare all other images.
+        // Prepare all other images
         if (!$this->_save_main_video())
         {
             debug_add("Failed to save uploaded video {$filename} in {$tmpname}, aborting.",
@@ -1001,7 +1001,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
         return parent::convert_to_storage();
     }
-
 
     /**
      * The HTML-Version of the image type can take two forms, depending on

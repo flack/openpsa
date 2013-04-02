@@ -314,7 +314,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         $this->_context_data[$contextid]['handler']->show();
     }
 
-
     // ===================== NAP INTERFACE ======================
 
     /**
@@ -389,7 +388,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         return midcom_baseclasses_components_configuration::get($this->_component, 'active_leaf');
     }
-
 
     // ===================== COMMAND EXECUTION HANDLER ======================
 

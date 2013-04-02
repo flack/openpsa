@@ -616,7 +616,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $url = "{$group->guid}/";
             }
 
-
             $tmp[] = Array
             (
                 MIDCOM_NAV_URL => $url,

@@ -35,7 +35,7 @@ function org_routamc_positioning_send_sms($to, $message, $from, $config)
 
 function org_routamc_positioning_msg_to_utf8($msg)
 {
-    //TODO: Detect server charset somehow and use that in stead of hardcoded UTF-8
+    //TODO: Detect server charset somehow and use that instead of hardcoded UTF-8
     if (   function_exists('mb_detect_encoding')
         && function_exists('iconv'))
     {
@@ -57,7 +57,6 @@ function org_routamc_positioning_msg_to_utf8($msg)
     }
     return $msg;
 }
-
 
 $config = midcom_baseclasses_components_configuration::get('org.routamc.positioning', 'config');
 if (   array_key_exists('msisdn', $_GET)

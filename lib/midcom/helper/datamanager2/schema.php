@@ -28,7 +28,7 @@
  *      // name: the name of the field
  *      // data: the data that comes from the type defined.
  *      // storage: a reference to the datamanager's storageclass.
- *      function on_load_data($name,&$storage);
+ *      function on_load_data($name, &$storage);
  *      function on_store_data($name, $data,&$storage);
  * }
  * </code>

@@ -27,7 +27,7 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
                 'master_is_id' => true,
                 'allow_multiple' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
@@ -81,6 +81,48 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
         $widget = $dm2_helper->get_widget('autocomplete', 'mnrelation', $config);
 
         $this->assertEquals(array('test_autocomplete_0' => array($person->id => true)), $widget->get_default(), 'simple/storage test failed');
+    }
+
+    public function test_render_content()
+    {
+        $config = array
+        (
+            'type_config' => array
+            (
+                'mapping_class_name' => 'midcom_db_member',
+                'master_fieldname' => 'gid',
+                'member_fieldname' => 'uid',
+                'master_is_id' => true,
+                'allow_multiple' => true,
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class' => 'midcom_db_person',
+                'id_field' => 'id',
+                'searchfields' => array
+                (
+                    'lastname',
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'name' => 'name',
+                        'title' => 'Name',
+                    ),
+                ),
+            ),
+        );
+
+        $lastname = uniqid(__CLASS__ . '::' . __FUNCTION__);
+        $group = $this->create_object('midcom_db_group');
+        $person = $this->create_object('midcom_db_person', array('lastname' => $lastname));
+        $this->create_object('midcom_db_member', array('gid' => $group->id, 'uid' => $person->id));
+        $dm2_helper = new openpsa_test_dm2_helper($group);
+        $widget = $dm2_helper->get_widget('autocomplete', 'mnrelation', $config);
+        $string = $widget->render_content();
+        $this->assertEquals($lastname, $string);
     }
 }
 ?>

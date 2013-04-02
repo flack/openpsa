@@ -44,15 +44,12 @@
         'geo'    => array('ABBR|title')
     );
 
-
     $this->callbacks = array(
         'url'    => array($this, 'resolvePath'),
         'photo'    => array($this, 'resolvePath'),
         'logo'    => array($this, 'resolvePath'),
         'email'    => array($this, 'resolveEmail')
     );
-
-
 
     function hKit_hcard_post($a)
     {
@@ -64,7 +61,6 @@
 
         return $a;
     }
-
 
     function hKit_implied_n_optimization(&$vcard)
     {
@@ -85,14 +81,12 @@
                         $n['family-name']    = $matches[$pattern[2]];
                         $vcard['n']            = $n;
 
-
                         break;
                     }
                 }
             }
         }
     }
-
 
     function hKit_implied_n_from_fn(&$vcard)
     {

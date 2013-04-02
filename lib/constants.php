@@ -216,7 +216,6 @@ define ('MIDCOM_TOOLBAR_OBJECT', 102);
  */
 define ('MIDCOM_TOOLBAR_ACCESSKEY', 103);
 
-
 /**
  * Identifier for a node metadata for a request context.
  *
@@ -232,7 +231,6 @@ define ('MIDCOM_METADATA_NODE', 100);
 define ('MIDCOM_METADATA_VIEW', 101);
 
 /**#@-*/
-
 
 /**#@+
  * MidCOM Privilege System

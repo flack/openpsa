@@ -62,6 +62,16 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $parser->set_output_encoding(midcom::get('i18n')->get_current_charset());
         $parser->set_cache_location(midcom::get('config')->get('midcom_tempdir'));
         $parser->enable_cache(false); //enabling cache leads to segfaults for some reason
+        if (version_compare(PHP_VERSION, '5.4', '>='))
+        {
+            /**
+             * Keep parser instances around until shutdown,
+             * if they are deleted before, this triggers a segfault under PHP 5.4
+             * @see https://github.com/simplepie/simplepie/issues/284
+             */
+            static $parsers = array();
+            $parsers[] = $parser;
+        }
         return $parser;
     }
 
@@ -487,24 +497,25 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $email = $author->get_email();
             if (!empty($name))
             {
+                $name = html_entity_decode($name, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
                 // Atom feed, the value can be either full name or username
                 $author_info['user_or_full'] = $name;
             }
             else
             {
-                $name = $email;
+                $name = html_entity_decode($email, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
             }
 
-            if (!preg_match('/(&lt;|\()/', $name))
+            if (!preg_match('/(<|\()/', $name))
             {
                 $author_info['user_or_full'] = $name;
             }
             else
             {
-                if (strstr($name, '&lt;'))
+                if (strstr($name, '<'))
                 {
                     // The classic "Full Name <email>" format
-                    $regex = '/(?<fullname>.+) &lt;?(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)&gt;?[ ,]?/';
+                    $regex = '/(?<fullname>.+) <?(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';
                 }
                 else
                 {
@@ -602,9 +613,9 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     {
         foreach ($item->get_enclosures() as $enclosure)
         {
-            $article->parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
-            $article->parameter('net.nemein.rss:enclosure', 'duration', $enclosure->get_duration());
-            $article->parameter('net.nemein.rss:enclosure', 'mimetype', $enclosure->get_type());
+            $article->set_parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
+            $article->set_parameter('net.nemein.rss:enclosure', 'duration', $enclosure->get_duration());
+            $article->set_parameter('net.nemein.rss:enclosure', 'mimetype', $enclosure->get_type());
         }
     }
 

@@ -226,7 +226,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_prepare_breadcrumbs($handler_id);
     }
 
-
     /**
      * Show list of the style elements for the currently edited topic component
      *

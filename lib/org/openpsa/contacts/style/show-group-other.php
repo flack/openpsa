@@ -26,12 +26,8 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classe
 <div class="main">
     <?php
     // Display the group information
-    foreach ($data['view'] as $fieldname => $fielddata)
+    foreach (array_filter($data['view']) as $fieldname => $fielddata)
     {
-        if (!$fielddata)
-        {
-            continue;
-        }
         switch ($fieldname)
         {
             case 'members':

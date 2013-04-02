@@ -7,7 +7,7 @@
  */
 
 /**
- * MidCOM DBA baseclass for MgdSchema object decorators..
+ * MidCOM DBA baseclass for MgdSchema object decorators.
  *
  * @package midcom
  */
@@ -527,7 +527,6 @@ abstract class midcom_core_dbaobject
         }
         return array_keys(get_object_vars($this->__object));
     }
-
 
     public function connect($signal, $callback, $user_data = null)
     {

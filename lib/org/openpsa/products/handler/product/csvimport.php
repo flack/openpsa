@@ -369,7 +369,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             throw new midcom_error('No CSV file available.');
         }
 
-
         $data['fields_to_skip'] = explode(',', $data['config']->get('import_skip_fields'));
 
         $data['time_start'] = time();
@@ -399,14 +398,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             {
                 $total_columns = count($csv_line);
             }
-            $columns_with_content = 0;
-            foreach ($csv_line as $value)
-            {
-                if ($value != '')
-                {
-                    $columns_with_content++;
-                }
-            }
+            $columns_with_content = count(array_filter($csv_line));
             $percentage = round(100 / $total_columns * $columns_with_content);
 
             if ($percentage >= $this->_config->get('import_csv_data_percentage'))
@@ -464,7 +456,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             }
         }
 
-
         if (count($data['groups']) > 0)
         {
             foreach ($data['groups'] as $product)
@@ -472,7 +463,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $this->_import_product($product);
             }
         }
-
 
         $data['time_end'] = time();
     }

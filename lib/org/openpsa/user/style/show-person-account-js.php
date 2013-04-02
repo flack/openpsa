@@ -133,7 +133,6 @@ $.fn.teststrength = function(password, username, option)
     return $(this).strongPass;
 };
 
-
 $.fn.setButtonStatus = function(opts)
 {
     var check_password = true;
@@ -193,7 +192,6 @@ $.fn.setButtonStatus = function(opts)
         $(opts.submit_button).removeAttr("disabled");
     }
 };
-
 
 $.fn.checkRepetition = function(pLen, str)
 {

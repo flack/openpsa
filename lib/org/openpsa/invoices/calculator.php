@@ -150,7 +150,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
             // Register the cycle number for reporting purposes
             if (!is_null($cycle_number))
             {
-                $invoice->parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
+                $invoice->set_parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
             }
             return $invoice;
         }

@@ -153,7 +153,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_view($handler_id, array &$data)
     {
-        $data['view_object'] = $this->_datamanager->get_content_html();
         if (isset($_GET['ajax']))
         {
             midcom_show_style('midgard_admin_asgard_object_view');

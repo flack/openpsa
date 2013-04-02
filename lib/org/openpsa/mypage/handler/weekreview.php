@@ -61,24 +61,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb = midcom_db_eventmember::new_query_builder();
         $qb->add_constraint('uid', '=', $person);
 
-        // Find all events that occur during [$from, $end]
-        $qb->begin_group('OR');
-            // The event begins during [$from, $to]
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.start', '>=', $from);
-                $qb->add_constraint('eid.start', '<=', $to);
-            $qb->end_group();
-            // The event begins before and ends after [$from, $to]
-            $qb->begin_group('AND');
-                $qb->add_constraint('eid.start', '<=', $from);
-                $qb->add_constraint('eid.end', '>=', $to);
-            $qb->end_group();
-            // The event ends during [$from, $to]
-            $qb->begin_group("AND");
-                $qb->add_constraint('eid.end', '>=', $from);
-                $qb->add_constraint('eid.end', '<=', $to);
-            $qb->end_group();
-        $qb->end_group();
+        // Find all events that occur during [$from, $to]
+        $qb->add_constraint('eid.start', '<=', $to);
+        $qb->add_constraint('eid.end', '>=', $from);
         $eventmembers = $qb->execute();
 
         foreach ($eventmembers as $eventmember)

@@ -40,7 +40,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_group_dba',
@@ -65,7 +65,7 @@
                         'name' => 'official',
                     ),
                 ),
-                'orders'        => array
+                'orders' => array
                 (
                     array('official'    => 'ASC'),
                 ),
@@ -203,8 +203,7 @@
     (
         array
         (
-            'callback' => 'validate_subscription',
-            'autoload_snippet' => 'file:/org/openpsa/sales/config/validation_callbacks.php',
+            'callback' => array(new org_openpsa_sales_validator, 'validate_subscription'),
         ),
     ),
     'fields'      => array
@@ -234,7 +233,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_group_dba',
@@ -397,7 +396,7 @@
             'type' => 'text',
             'widget' => 'hidden',
         ),
-        
+
         'cost' => Array
         (
             'title' => 'cost',
@@ -406,7 +405,7 @@
             'widget'  => 'text',
             'hidden' => true,
         ),
-        
+
         'at_entry' => Array
         (
             'title'   => '',

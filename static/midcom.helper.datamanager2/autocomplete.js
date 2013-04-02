@@ -113,8 +113,7 @@ var midcom_helper_datamanager2_autocomplete =
 
     select: function(event, ui)
     {
-        var identifier = $(event.target).attr('id').replace(/_search_input$/, ''),
-        handler_options = window[identifier + '_handler_options'];
+        var identifier = $(event.target).attr('id').replace(/_search_input$/, '');
 
         if ($('#' + identifier + '_selection_holder').length > 0)
         {
@@ -152,13 +151,14 @@ var midcom_helper_datamanager2_autocomplete =
         create_button.css('display', 'block');
         create_button.bind('click', function()
         {
-            creation_url += '?chooser_widget_id=' + identifier;
-            if ($('#' + identifier + '_search_input').val() !== '')
+            var url = creation_url + '?chooser_widget_id=' + identifier;
+            if (   $('#' + identifier + '_search_input').val() !== ''
+                && typeof handler_options.creation_default_key !== undefined)
             {
-                creation_url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
+                url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
             }
 
-            var iframe_html = '<iframe src="' + creation_url + '" id="' + identifier + '_creation_dialog_content"'
+            var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
                 + ' class="chooser_widget_creation_dialog_content"'
                 + ' frameborder="0"'
                 + ' marginwidth="0"'
@@ -211,15 +211,60 @@ var midcom_helper_datamanager2_autocomplete =
         readonly = (input.attr('type') === 'hidden') ? true : false,
         selection_holder_class = 'autocomplete-selection-holder';
 
+        function remove_item(item)
+        {
+            var animate_property = 'height',
+            animation_config = {};
+
+            midcom_helper_datamanager2_autocomplete.update_selection(identifier, item.data('id'), 'remove');
+            if (handler_options.allow_multiple !== true)
+            {
+                input.show().focus();
+                if (handler_options.creation_mode_enabled)
+                {
+                    $('#' + identifier + '_create_button').show();
+                }
+            }
+            if (item.hasClass('autocomplete-saved'))
+            {
+                item.removeClass('autocomplete-selected');
+                item.addClass('autocomplete-todelete');
+            }
+            else
+            {
+                if (handler_options.allow_multiple !== true)
+                {
+                    item.remove();
+                }
+
+                else
+                {
+                    if (   item.next().length > 0
+                        && item.offset().top === item.next().offset().top)
+                    {
+                        animate_property = 'width';
+                    }
+                    animation_config[animate_property] = 0;
+                    item
+                        .css('visibility', 'hidden')
+                        .find('.autocomplete-item-label')
+                        .animate(animation_config, {duration: 200, complete: function(){item.remove();}});
+                }
+            }
+        }
+
         if (readonly)
         {
             selection_holder_class += ' autocomplete-selection-holder-readonly';
         }
 
-        input.parent().append('<span class="' + selection_holder_class + '" id="' + identifier + '_selection_holder"></span>');
+        input.parent()
+            .append('<span class="' + selection_holder_class + '" id="' + identifier + '_selection_holder"></span>')
+            .addClass('autocomplete-widget');
         if (handler_options.creation_mode_enabled)
         {
             midcom_helper_datamanager2_autocomplete.enable_creation_mode(identifier, handler_options.creation_handler);
+            input.parent().addClass('autocomplete-widget-creation-enabled');
         }
         if (!$.isEmptyObject(handler_options.preset))
         {
@@ -236,34 +281,24 @@ var midcom_helper_datamanager2_autocomplete =
         {
             return;
         }
-        input.autocomplete(options);
+
+        if (handler_options.categorize_by_parent_label !== false)
+        {
+            input.category_complete(options);
+        }
+        else
+        {
+            input.autocomplete(options);
+        }
 
         input.parent().on('click', '.autocomplete-selection-holder .autocomplete-action-icon', function()
         {
             var item = $(this).parent(),
-            item_id = item.data('id'),
-            todelete = item.hasClass('autocomplete-selected');
+            item_id = item.data('id');
 
-            if (todelete === true)
+            if (item.hasClass('autocomplete-selected'))
             {
-                midcom_helper_datamanager2_autocomplete.update_selection(identifier, item_id, 'remove');
-                if (handler_options.allow_multiple !== true)
-                {
-                    input.show().focus();
-                    if (handler_options.creation_mode_enabled)
-                    {
-                        $('#' + identifier + '_create_button').show();
-                    }
-                }
-                if (item.hasClass('autocomplete-saved'))
-                {
-                    item.removeClass('autocomplete-selected');
-                    item.addClass('autocomplete-todelete');
-                }
-                else
-                {
-                    item.find('.autocomplete-item-label').animate({width: 0}, {duration: 200, complete: function(){item.remove();}});
-                }
+                remove_item(item);
             }
             else if (item.hasClass('autocomplete-todelete'))
             {
@@ -320,7 +355,7 @@ var midcom_helper_datamanager2_autocomplete =
             item = $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>');
             if (!selection_holder.hasClass('autocomplete-selection-holder-readonly'))
             {
-                item.append('<span class="autocomplete-action-icon"></span>');
+                item.append('<span class="ui-icon autocomplete-action-icon"></span>');
             }
             item.prependTo(selection_holder);
         }
@@ -337,14 +372,22 @@ var midcom_helper_datamanager2_autocomplete =
     update_selection: function(identifier, item_id, operation)
     {
         var selection = JSON.parse($('#' + identifier + '_selection').val()),
-        new_selection = [];
+        new_selection = [],
+        handler_options = window[identifier + '_handler_options'];
 
         if (operation === 'add')
         {
-            new_selection = selection;
-            if ($.inArray(item_id, new_selection) === -1)
+            if (handler_options.allow_multiple !== true)
             {
                 new_selection.push(item_id);
+            }
+            else
+            {
+                new_selection = selection;
+                if ($.inArray(item_id, new_selection) === -1)
+                {
+                    new_selection.push(item_id);
+                }
             }
         }
         else

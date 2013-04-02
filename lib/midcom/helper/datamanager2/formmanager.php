@@ -668,7 +668,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         return true;
     }
 
-
     /**
      * Creates an instance of the renderer set in the system configuration.
      *

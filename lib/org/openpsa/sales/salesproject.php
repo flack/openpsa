@@ -292,9 +292,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         //Ensure owner can do stuff regardless of other ACLs
-        if ($this->owner)
+        if (($owner_person = $this->_pid_to_obj($this->owner)))
         {
-            $owner_person = $this->_pid_to_obj($this->owner);
             $this->set_privilege('midgard:read', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:create', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:delete', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);

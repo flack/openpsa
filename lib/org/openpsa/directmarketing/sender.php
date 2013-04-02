@@ -290,7 +290,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         }
     }
 
-
     /**
      * Creates a random token string that can be used to track a single
      * delivery. The returned token string will only contain

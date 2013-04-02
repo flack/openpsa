@@ -51,7 +51,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         return true;
     }
 
-
     /**
      * Method sends any SMS deliverable data, handles encoding so when sending logos
      * etc, provide msg and udh as binary.

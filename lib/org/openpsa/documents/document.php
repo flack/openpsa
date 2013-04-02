@@ -12,7 +12,6 @@
  * Implements parameter and attachment methods for DM compatibility
  *
  * @package org.openpsa.documents
- *
  */
 class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 {
@@ -53,7 +52,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     {
         $this->_update_directory_timestamp();
     }
-
 
     public function _on_updated()
     {
@@ -121,46 +119,17 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             return null;
         }
 
-        $raw_list = $this->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_document");
-        if (!$raw_list)
+        $attachments = org_openpsa_helpers::get_dm2_attachments($this, 'document');
+        if (empty($attachments))
         {
             return null;
         }
 
-        $attachment = array();
-
-        $items = explode(',', $raw_list);
-
-        if (sizeof($items) > 1)
+        if (sizeof($attachments) > 1)
         {
             debug_add("Multiple attachments have been found for document #" . $this->id . ", returning only the first.", MIDCOM_LOG_INFO);
         }
-
-        foreach ($items as $item)
-        {
-            $info = explode(':', $item);
-            if (   !is_array($info)
-                || sizeof($info) < 2)
-            {
-                // Broken item
-                debug_add("Attachment entry '{$item}' is broken!", MIDCOM_LOG_ERROR);
-                continue;
-            }
-            $guid = $info[1];
-
-            try
-            {
-                $attachment = new midcom_db_attachment($guid);
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
-                debug_add('Last Midgard error was: ' . $e->getMessage(), MIDCOM_LOG_INFO);
-                continue;
-            }
-
-            return $attachment;
-        }
+        return $attachments[0];
     }
 
     /**

@@ -42,7 +42,12 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             </thead>
             <tbody>
                 <?php
+                $fields = $data['schemadb'][$data['schema']]->fields;
                 $fields_to_skip = explode(',', $data['config']->get('import_skip_fields'));
+                if (is_array($fields_to_skip))
+                {
+                    $fields = array_diff_key($fields, array_keys($fields_to_skip));
+                }
                 foreach ($data['rows'][0] as $key => $cell)
                 {
                     echo "<tr>\n";
@@ -56,21 +61,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo "            <option></option>\n";
 
                     // Show fields from "default" schemas as selectors
-                    $schemadb = $data['schemadb'];
-                    foreach ($schemadb[$data['schema']]->fields as $field_id => $field)
+                    foreach ($fields as $field)
                     {
                         $selected = '';
-                        if (   array_key_exists('hidden', $field)
-                            && $field['hidden'])
+                        if (!empty($field['hidden']))
                         {
                             // Hidden field, skip
                             // TODO: We may want to use some customdata field for this instead
-                            continue;
-                        }
-
-                        if (   is_array($fields_to_skip)
-                            && in_array($field_id, $fields_to_skip))
-                        {
                             continue;
                         }
 

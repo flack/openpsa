@@ -21,7 +21,7 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
         $attributes = array
         (
             'topic' => $topic->id,
-            'title' => __CLASS__ . microtime()
+            'title' => uniqid(__CLASS__)
         );
         self::$_page = self::create_class_object('net_nemein_wiki_wikipage', $attributes);
     }

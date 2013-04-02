@@ -39,25 +39,18 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
     private function _list_related_guids_of_a_person($person)
     {
         // We're in person, so we need to also look events he/she participates to
-        $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_eventmember');
-        $qb->add_constraint('uid', '=', $person->id);
+        $mc = midcom_db_eventmember::new_collector('uid', $person->id);
+        $memberships = $mc->get_values('eid');
 
-        $memberships = $qb->execute();
-        if ($memberships)
+        if (!empty($memberships))
         {
-            foreach ($memberships as $membership)
+            $mc = midcom_db_event::new_collector('metadata.deleted', false);
+            $mc->add_constraint('id', 'IN', $memberships);
+            $mc->execute();
+            $guids = $mc->list_keys();
+            foreach (array_keys($guids) as $guid)
             {
-                try
-                {
-                    // FIXME: This is slow way to do it, use a single QB instance for all instead
-                    $event = new midcom_db_event($membership->eid);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                    continue;
-                }
-                $this->_related_guids[$event->guid] = true;
+                $this->_related_guids[$guid] = true;
             }
         }
 
@@ -80,19 +73,17 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         else if (is_subclass_of($this->target, 'midgard_group'))
         {
             // Include notes about members of the group
-            $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_member');
-            $qb->add_constraint('gid', '=', $this->target->id);
-            $members = $qb->execute();
-            foreach ($members as $member)
+            $mc = midcom_db_member::new_collector('gid', $this->target->id);
+            $members = $mc->get_values('uid');
+
+            if (!empty($members))
             {
-                try
+                $qb = midcom_db_person::new_query_builder();
+                $qb->add_constraint('id', 'IN', $members);
+                $persons = $qb->execute();
+                foreach ($persons as $person)
                 {
-                    $person = new midcom_db_person($member->uid);
                     $this->_list_related_guids_of_a_person($person);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
                 }
             }
 

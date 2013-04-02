@@ -81,8 +81,8 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 continue;
             }
             // Extra sanity check (in case of semi-successful not-duplicate mark)
-            if (   $person1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $person2->guid)
-                || $person2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $person1->guid))
+            if (   $person1->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $person2->guid)
+                || $person2->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $person1->guid))
             {
                 debug_add("It seems these two (#{$person1->id} and #{$person2->id}) have also marked as not duplicates, some cleanup might be a good thing", MIDCOM_LOG_WARN);
                 $i++;
@@ -111,13 +111,13 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                     case ($keep == 'both'):
                         $option1->require_do('midgard:update');
                         $option2->require_do('midgard:update');
-                        if (   !$option1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, time())
-                                || !$option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time()))
+                        if (   !$option1->set_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, time())
+                            || !$option2->set_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time()))
                         {
                             $errstr = midcom_connection::get_error_string();
                             // Failed to set as not duplicate, clear parameters that might have been set
-                            $option1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, '');
-                            $option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, '');
+                            $option1->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid);
+                            $option2->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid);
 
                             // TODO: Localize
                             midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.contacts'), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
@@ -126,8 +126,8 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                             continue(2);
                         }
                         // Clear the possible duplicate parameters
-                        $option1->parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option2->guid, '');
-                        $option2->parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option1->guid, '');
+                        $option1->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option2->guid);
+                        $option2->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option1->guid);
 
                         // TODO: Localize
                         midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.contacts'), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');

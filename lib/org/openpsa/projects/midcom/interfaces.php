@@ -44,11 +44,11 @@ implements midcom_services_permalinks_resolver
         switch(true)
         {
             case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
-                $this->_org_openpsa_relatedto_find_suspects_person($object, $defaults, $links_array);
+                $this->_find_suspects_person($object, $defaults, $links_array);
                 break;
             case midcom::get('dbfactory')->is_a($object, 'midcom_db_event'):
             case midcom::get('dbfactory')->is_a($object, 'org_openpsa_calendar_event_dba'):
-                $this->_org_openpsa_relatedto_find_suspects_event($object, $defaults, $links_array);
+                $this->_find_suspects_event($object, $defaults, $links_array);
                 break;
 
                 //TODO: groups ? other objects ?
@@ -61,7 +61,7 @@ implements midcom_services_permalinks_resolver
      * Current rule: all participants of event must be either manager, contact or resource in task
      * that overlaps in time with the event.
      */
-    private function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
+    private function _find_suspects_event(&$object, &$defaults, &$links_array)
     {
         if (   !is_array($object->participants)
             || count($object->participants) < 1)
@@ -69,49 +69,29 @@ implements midcom_services_permalinks_resolver
             //We have invalid list or zero participants, abort
             return;
         }
-        $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('metadata.deleted', false);
         //Target task starts or ends inside given events window or starts before and ends after
-        $qb->begin_group('OR');
-            $qb->begin_group('AND');
-                $qb->add_constraint('task.start', '>=', $object->start);
-                $qb->add_constraint('task.start', '<=', $object->end);
-            $qb->end_group();
-            $qb->begin_group('AND');
-                $qb->add_constraint('task.end', '<=', $object->end);
-                $qb->add_constraint('task.end', '>=', $object->start);
-            $qb->end_group();
-            $qb->begin_group('AND');
-                $qb->add_constraint('task.start', '<=', $object->start);
-                $qb->add_constraint('task.end', '>=', $object->end);
-            $qb->end_group();
-        $qb->end_group();
+        $mc->add_constraint('task.start', '<=', $object->end);
+        $mc->add_constraint('task.end', '>=', $object->start);
         //Target task is active
-        $qb->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-        $qb->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
+        $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
+        $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         //Each event participant is either manager or member (resource/contact) in task
-        if (!empty($object->participants))
+        $mc->begin_group('OR');
+            $mc->add_constraint('task.manager', 'IN', array_keys($object->participants));
+            $mc->add_constraint('person', 'IN', array_keys($object->participants));
+        $mc->end_group();
+        $suspects = $mc->get_values('task');
+        if (empty($suspects))
         {
-            $qb->add_constraint('task.manager', 'IN', array_keys($object->participants));
-            $qb->add_constraint('person', 'IN', array_keys($object->participants));
-        }
-        $qbret = @$qb->execute();
-        if (!is_array($qbret))
-        {
-            debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return;
         }
-        $seen_tasks = array();
-        foreach ($qbret as $resource)
+        $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', array_unique($suspects));
+        $tasks = $qb->execute();
+        foreach ($tasks as $task)
         {
-            debug_add("processing resource #{$resource->id}");
-            if (isset($seen_tasks[$resource->task]))
-            {
-                //Only process one task once (someone might be both resource and contact for example)
-                continue;
-            }
-            $seen_tasks[$resource->task] = true;
             $to_array = array('other_obj' => false, 'link' => false);
-            $task = new org_openpsa_projects_task_dba($resource->task);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
             $to_array['other_obj'] = $task;
@@ -124,31 +104,24 @@ implements midcom_services_permalinks_resolver
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    private function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
+    private function _find_suspects_person(&$object, &$defaults, &$links_array)
     {
         //List all projects and tasks given person is involved with
-        $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
-        $qb->add_constraint('person', '=', $object->id);
-        $qb->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-        $qb->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
-        $qbret = @$qb->execute();
-        if (!is_array($qbret))
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $object->id);
+        $mc->add_constraint('person', '=', $object->id);
+        $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
+        $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
+        $suspects = @$qb->get_values('task');
+        if (empty($suspects))
         {
-            debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return;
         }
-        $seen_tasks = array();
-        foreach ($qbret as $resource)
+        $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', array_unique($suspects));
+        $tasks = $qb->execute();
+        foreach ($tasks as $task)
         {
-            debug_add("processing resource #{$resource->id}");
-            if (isset($seen_tasks[$resource->task]))
-            {
-                //Only process one task once (someone might be both resource and contact for example)
-                continue;
-            }
-            $seen_tasks[$resource->task] = true;
             $to_array = array('other_obj' => false, 'link' => false);
-            $task = new org_openpsa_projects_task_dba($resource->task);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
             $to_array['other_obj'] = $task;

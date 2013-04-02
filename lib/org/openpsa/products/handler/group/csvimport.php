@@ -159,7 +159,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
                     break;
             }
 
-
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name']))
             {
                 // Copy the file for later processing
@@ -266,14 +265,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             {
                 $total_columns = count($csv_line);
             }
-            $columns_with_content = 0;
-            foreach ($csv_line as $value)
-            {
-                if ($value != '')
-                {
-                    $columns_with_content++;
-                }
-            }
+            $columns_with_content = count(array_filter($csv_line));
             $percentage = round(100 / $total_columns * $columns_with_content);
 
             if ($percentage >= 20)

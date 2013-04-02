@@ -35,6 +35,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $component = null;
 
     /**
+     * Should the results be grouped by their parent label
+     *
+     * @var boolean
+     */
+    public $categorize_by_parent_label = false;
+
+    /**
      * Associative array of constraints (besides the search term), always AND
      *
      * Example:
@@ -154,7 +161,6 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $creation_mode_enabled = false;
     public $creation_handler = null;
     public $creation_default_key = null;
-
 
     /**
      * the element's ID
@@ -294,10 +300,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'searchfields' => $this->searchfields,
             'orders' => $this->orders,
             'auto_wildcards' => $this->auto_wildcards,
+            'get_label_for' => $this->get_label_for,
+            'categorize_by_parent_label' => $this->categorize_by_parent_label,
             'preset' => $preset,
             'allow_multiple' => $this->_type->allow_multiple,
             'creation_mode_enabled' => $this->creation_mode_enabled,
-            'creation_handler' => $this->creation_handler
+            'creation_handler' => $this->creation_handler,
+            'creation_default_key' => $this->creation_default_key
         ));
 
         $script = <<<EOT
@@ -457,14 +466,16 @@ EOT;
 
     public function render_content()
     {
-        if (count($this->_type->selection) == 0)
+        $selection = array_filter($this->_type->selection);
+
+        if (count($selection) == 0)
         {
             return $this->_translate('type select: no selection');
         }
         else
         {
-            $selection = array();
-            foreach ($this->_type->selection as $key)
+            $labels = array();
+            foreach ($selection as $key)
             {
                 if ($this->id_field == 'id')
                 {
@@ -481,9 +492,10 @@ EOT;
                 }
 
                 $ref = new midcom_helper_reflector($object);
-                $selection[] = $ref->get_object_label($object);
+
+                $labels[] = $ref->get_object_label($object);
             }
-            return implode(', ', $selection);
+            return implode(', ', $labels);
         }
     }
 
@@ -496,7 +508,7 @@ EOT;
 
             if ($get_label_for == $item_name)
             {
-                $value = $object->get_label();
+                $value = midcom_helper_reflector::get($object)->get_object_label($object);
             }
             else
             {

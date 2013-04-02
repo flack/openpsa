@@ -254,7 +254,6 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
         return $this->_timestamp_cache['day_end'];
     }
 
-
     /**
      * Get start timestamp of the selected week. Use this to tune queries for selecting reservations
      * @param integer $timestamp Timestamp to use instead of the current date
@@ -315,33 +314,13 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                 continue;
             }
 
-            if (    $reservation['start'] >= $start
-                 && $reservation['start'] < $end)
+            if (    $reservation['start'] <= $end
+                 && $reservation['end'] > $start)
             {
-                // This reservation starts in current slot
+                // This reservation starts before current slot's end and ends after slot's start
                 $reservation['guid'] = $res_guid;
                 $reservations_found[$reservations_added] = $reservation;
                 $reservations_added++;
-                continue;
-            }
-
-            if ($reservation['end'] <= $end)
-            {
-                // This reservation ends in current slot
-                $reservation['guid'] = $res_guid;
-                $reservations_found[$reservations_added] = $reservation;
-                $reservations_added++;
-                continue;
-            }
-
-            if (   $reservation['end'] > $end
-                && $reservation['start'] < $start)
-            {
-                // This reservation ends in current slot
-                $reservation['guid'] = $res_guid;
-                $reservations_found[$reservations_added] = $reservation;
-                $reservations_added++;
-                continue;
             }
         }
         return $reservations_found;

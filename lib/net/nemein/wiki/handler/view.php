@@ -138,7 +138,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         if (midcom::get('auth')->user)
         {
             $user = midcom::get('auth')->user->get_storage();
-            if ($this->_page->parameter('net.nemein.wiki:watch', $user->guid))
+            if ($this->_page->get_parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_view_toolbar->add_item
                 (
@@ -564,13 +564,13 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         if (array_key_exists('subscribe', $_POST))
         {
             // Subscribe to page
-            $object->parameter('net.nemein.wiki:watch', $user->guid, time());
+            $object->set_parameter('net.nemein.wiki:watch', $user->guid, time());
             midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('subscribed to changes in %s'), $target), 'ok');
         }
         else
         {
             // Remove subscription
-            $object->parameter('net.nemein.wiki:watch', $user->guid, '');
+            $object->delete_parameter('net.nemein.wiki:watch', $user->guid);
             midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('unsubscribed from changes in %s'), $target), 'ok');
         }
 

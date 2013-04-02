@@ -30,7 +30,6 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         midcom::get('auth')->require_valid_user();
     }
 
-
     /**
      * Function to process the notify date in the passed formdata of the datamanger
      * creates/edits/deletes the corresponding at_entry if needed

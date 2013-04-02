@@ -24,9 +24,9 @@ class midcom_helper_filesync_exporter_pageTest extends openpsa_testcase
 
     public function test_read_root()
     {
-        $page_name = 'page_' . __CLASS__ . __FUNCTION__ . microtime(true);
+        $page_name = uniqid('page_' . __CLASS__ . __FUNCTION__);
 
-        $element_name = 'element_' . __CLASS__ . __FUNCTION__ . microtime(true);
+        $element_name = uniqid('element_' . __CLASS__ . __FUNCTION__);
         $page = $this->create_object('midcom_db_page', array('name' => $page_name));
         $sub_page = $this->create_object('midcom_db_page', array('name' => $page_name, 'up' => $page->id));
         $element = $this->create_object('midcom_db_pageelement', array('name' => $element_name, 'page' => $sub_page->id));

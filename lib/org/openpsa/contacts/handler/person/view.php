@@ -212,7 +212,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         midcom_show_style('show-person');
     }
 
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

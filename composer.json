@@ -21,10 +21,6 @@
         {
             "type": "pear",
             "url": "http://pear.php.net"
-        },
-        {
-            "type": "pear",
-            "url": "htmlpurifier.org"
         }
     ],
     "require": {
@@ -36,13 +32,13 @@
         "pear-pear/Net_SMTP": "*",
         "pear-pear/Auth_SASL": "*",
         "pear-pear/HTML_QuickForm": "*",
-        "pear-hp/HTMLPurifier": "*",
         "pear-pear/Text_Diff": "*",
-        "midgard/midgardmvc-helper-urlize": "@dev",
+        "midgard/midgardmvc-helper-urlize": ">=1.1",
         "gregwar/captcha": ">=1.0",
         "openpsa/universalfeedcreator": "dev-master",
         "sabre/vobject" : "2.0.*",
-        "simplepie/simplepie": "1.3.*"
+        "simplepie/simplepie": "1.3.*",
+        "ezyang/htmlpurifier": "*"
     },
     "suggest": {
         "ext-midgard2": ">=10.05.5"

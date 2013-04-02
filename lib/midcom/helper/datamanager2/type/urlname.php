@@ -17,7 +17,7 @@
  *   (in same schema) to use for title information (used when autogenerating values)
  * - <i>bool allow_catenate:</i> Defaults to false, if this is set to true then on
  *   name value clash, we autogenerate a new unique name and use it transparently
- *   in stead of raisin validation error.
+ *   instead of raising a validation error.
  * - <i>bool allow_unclean:</i> Defaults to false, if this is set to true then we
  *   do not check name for "cleanlines"
  *
@@ -84,7 +84,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
     }
 
     /**
-     * Helper to get copy in stead of reference to given object
+     * Helper to get copy instead of reference to given object
      *
      * This is to avoid messing with the original values when using the name uniqueness checks
      */

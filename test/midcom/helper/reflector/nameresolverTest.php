@@ -41,5 +41,25 @@ class midcom_helper_reflector_nameresolverTest extends openpsa_testcase
 
         $this->assertFalse($resolver->name_is_unique());
     }
+
+    public function test_name_is_safe()
+    {
+        $article = new midcom_db_article;
+        $article->name = 'gathering-09';
+        $article->allow_name_catenate = true;
+        $resolver = new midcom_helper_reflector_nameresolver($article);
+
+        $this->assertTrue($resolver->name_is_safe());
+    }
+
+    public function test_name_is_clean()
+    {
+        $article = new midcom_db_article;
+        $article->name = 'gathering-09';
+        $article->allow_name_catenate = true;
+        $resolver = new midcom_helper_reflector_nameresolver($article);
+
+        $this->assertTrue($resolver->name_is_clean());
+    }
 }
 ?>

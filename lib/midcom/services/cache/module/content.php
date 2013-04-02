@@ -194,7 +194,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     private $context_guids = array();
 
-
     /**
      * Forced headers
      */
@@ -964,7 +963,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->store_context_guid_map($context, $content_id, $request_id);
     }
 
-
     private function store_context_guid_map($context, $content_id, $request_id)
     {
         // non-existant context
@@ -1092,7 +1090,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             $dl_entry_data['expires'] = time() + $this->_default_lifetime;
         }
-
 
         $this->_meta_cache->open(true);
         $this->_data_cache->open(true);
@@ -1256,13 +1253,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Just to be sure not to mess the headers sent by no_cache in case it was called
         if (!$this->_no_cache)
         {
-            // Typecast to make copy in stead of reference
+            // Typecast to make copy instead of reference
             $strategy = (string)$this->_headers_strategy;
             $default_lifetime = (int)$this->_default_lifetime;
             if (   midcom::get('auth')->is_valid_user()
                 || !midcom_connection::get_user())
             {
-                // Typecast to make copy in stead of reference
+                // Typecast to make copy instead of reference
                 $strategy = (string)$this->_headers_strategy_authenticated;
                 $default_lifetime = (int)$this->_default_lifetime_authenticated;
             }

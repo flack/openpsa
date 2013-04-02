@@ -66,7 +66,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
     /**
      * Load the object and the rcs backend
-     *
      */
     private function _load_object()
     {

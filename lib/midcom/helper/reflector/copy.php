@@ -121,7 +121,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * New root object
-     *
      */
     public $new_root_object = null;
 
@@ -680,7 +679,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         return true;
     }
-
 
     /**
      * Copy an object tree. Both source and parent may be liberally filled. Source can be either

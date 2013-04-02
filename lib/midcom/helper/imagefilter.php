@@ -796,7 +796,6 @@ class midcom_helper_imagefilter
     public function crop($x, $y, $gravity = 'center')
     {
         $data = @getimagesize($this->_filename);
-        $data = null;
 
         // 1a. If got...
         if ($data)

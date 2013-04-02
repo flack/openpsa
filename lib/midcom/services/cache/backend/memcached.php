@@ -125,7 +125,6 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
      */
     function _close() {}
 
-
     function _get($key)
     {
         if (!self::$memcache_operational)

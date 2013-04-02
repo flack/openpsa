@@ -168,9 +168,6 @@ class midcom_helper_nav_backend
      */
     private $_user_id = false;
 
-    /**#@-*/
-
-
     /**
      * Constructor
      *
@@ -240,7 +237,6 @@ class midcom_helper_nav_backend
             }
         }
     }
-
 
     /**
      * This function is the controlling instance of the loading mechanism. It
@@ -645,7 +641,6 @@ class midcom_helper_nav_backend
             }
             $result[$id] = $data;
         }
-
 
         // Post process the leaves for URLs and the like.
         // Rewrite all host dependant URLs based on the relative URL within our topic tree.

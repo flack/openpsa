@@ -41,12 +41,9 @@
         'url'    => array('A|href', 'IMG|src', 'AREA|href')
     );
 
-
     $this->callbacks = array(
         'url'    => array($this, 'resolvePath'),
     );
-
-
 
     function hKit_hreview_post($a)
     {
@@ -56,7 +53,6 @@
 
         return $a;
     }
-
 
     function hKit_labels_toUpper(&$hreview)
     {

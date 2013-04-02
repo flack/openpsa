@@ -336,12 +336,14 @@ class midcom_helper_misc
     }
 
     /**
-     * This helper function returns the first instance of a given component on
-     * the MidCOM site.
+     * Returns the first instance of a given component on the site.
      *
+     * @param string $component The component name
+     * @param integer Node ID of parent topic
+     * @param midcom_helper_nav $nap $use_cache Should the in-memory cache be used
      * @return array NAP array of the first component instance found
      */
-    public static function find_node_by_component($component, $node_id = null, $nap = null)
+    public static function find_node_by_component($component, $node_id = null, midcom_helper_nav $nap = null)
     {
         static $cache = array();
 
@@ -361,9 +363,9 @@ class midcom_helper_misc
             return $cache[$cache_node][$component];
         }
 
-        if (is_null($nap))
+        if (null === $nap)
         {
-            $nap = new midcom_helper_nav();
+            $nap = new midcom_helper_nav;
         }
 
         if (is_null($node_id))

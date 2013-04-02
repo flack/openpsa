@@ -68,8 +68,14 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
 
         $formdata = array
         (
-            'org_openpsa_projects_resources_chooser_selections' => array($person->id),
-            'org_openpsa_projects_manager_chooser_selections' => array($person->id),
+            'resources' => array
+            (
+                'org_openpsa_projects_resources_autocomplete_widget_selection' => json_encode(array($person->id))
+            ),
+            'manager' => array
+            (
+                'org_openpsa_projects_manager_autocomplete_widget_selection' => json_encode(array($person->id))
+            ),
             'project' => array
             (
                 'org_openpsa_projects_project_autocomplete_widget_selection' => json_encode(array(self::$_project->id))

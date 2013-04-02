@@ -20,7 +20,7 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
         $attributes = array
         (
             'component' => 'org.openpsa.calendar',
-            'name' => __CLASS__ . microtime(true)
+            'name' => __CLASS__ . time()
         );
         midcom::get('auth')->request_sudo('org.openpsa.calendar');
         self::$_topic = self::create_class_object('midcom_db_topic', $attributes);
@@ -30,15 +30,13 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
         self::create_user(true);
     }
 
-    public function testHandler_notinitialized()
+    public function testHandler_frontpage()
     {
         midcom::get('auth')->request_sudo('org.openpsa.calendar');
 
         $data = $this->run_handler(self::$_topic);
-        $this->assertEquals('not_initialized', $data['handler_id']);
+        $this->assertEquals('frontpage', $data['handler_id']);
         $this->assertInstanceOf('midcom_response_relocate', $data['__openpsa_testcase_response']);
-        $this->assertEquals('', $data['__openpsa_testcase_response']->url);
     }
-
 }
 ?>

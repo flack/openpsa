@@ -104,6 +104,47 @@ abstract class midcom_core_query
      */
     protected $_denied = 0;
 
+    /**
+     * Class resolution into the MidCOM DBA system.
+     * Currently, Midgard requires the actual MgdSchema base classes to be used
+     * when dealing with the query, so we internally note the corresponding class
+     * information to be able to do correct typecasting later.
+     *
+     * @param string $classname The classname which should be converted.
+     * @return string MgdSchema class name
+     */
+    protected function _convert_class($classname)
+    {
+        if (!class_exists($classname))
+        {
+            throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");
+        }
+
+        static $_class_mapping_cache = Array();
+
+        $this->_real_class = $classname;
+        if (isset($_class_mapping_cache[$classname]))
+        {
+            $mgdschemaclass = $_class_mapping_cache[$classname];
+        }
+        else
+        {
+            if (!is_subclass_of($classname, 'midcom_core_dbaobject'))
+            {
+                throw new midcom_error
+                (
+                    "Cannot create a midcom_core_query instance for the type {$classname}: Does not seem to be a DBA class name."
+                );
+            }
+
+            // Figure out the actual MgdSchema class from the decorator
+            $dummy = new $classname();
+            $mgdschemaclass = $dummy->__mgdschema_class_name__;
+            $_class_mapping_cache[$classname] = $mgdschemaclass;
+        }
+        return $mgdschemaclass;
+    }
+
     protected function _add_visibility_checks()
     {
         if ($this->_visibility_checks_added)
@@ -131,7 +172,6 @@ abstract class midcom_core_query
 
         $this->_visibility_checks_added = true;
     }
-
 
     /**
      * Resets some internal variables for re-execute
@@ -269,7 +309,6 @@ abstract class midcom_core_query
 
         $this->_offset = $offset;
     }
-
 
     /**
      * Add an ordering constraint to the query builder.

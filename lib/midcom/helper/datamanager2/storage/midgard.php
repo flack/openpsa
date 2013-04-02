@@ -85,7 +85,6 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
         }
     }
 
-
     public function _on_load_data($name)
     {
         // Cache parameter queries so we get them once

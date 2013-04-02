@@ -324,7 +324,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         return $tagname;
     }
 
-
     /**
      * Gets list of tags linked to objects of a particular class
      *

@@ -11,7 +11,7 @@ $weekly_data_group =& $group['weekly_report_data'];
 $data['current_row']['customer'] = false;
 if ($task->customer)
 {
-    $data['current_row']['customer'] =& org_openpsa_reports_handler_projects_report::_get_cache('groups', $task->customer, $data);
+    $data['current_row']['customer'] = org_openpsa_contacts_group_dba::get_cached($task->customer);
 }
 
 if ($hour->invoiceable)

@@ -420,7 +420,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_on_initialize();
     }
 
-
     /**
      * This public helper post-processes the initial information as set by the constructor.
      * It fills all missing fields with sensible defaults, see the class introduction for
@@ -592,7 +591,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         return true;
     }
 
-
     /**
      * This method handles the request using the handler determined by the can_handle
      * check.
@@ -734,7 +732,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $this->_on_shown($this->_handler['id']);
     }
-
 
     /**#@+
      * Event Handler callback.
@@ -881,7 +878,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // undefined up until to the handle phase. It thus completed in handle
         // by prefixing the local anchorprefix.
         $this->_request_data['plugin_anchorprefix'] = "{$namespace}/{$plugin}/";
-
 
         // Load remaining configuration, and prepare the plugin,
         // errors are logged by the callers.

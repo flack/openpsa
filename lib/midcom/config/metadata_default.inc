@@ -217,7 +217,7 @@
                     array('name' => 'name', 'title' => 'name'),
                     array('name' => 'official', 'title' => 'title'),
                 ),
-                'generate_path_for' => 'name',
+                'categorize_by_parent_label' => true,
                 'orders' => array(),
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_group/",

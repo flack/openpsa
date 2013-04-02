@@ -252,7 +252,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 throw new midcom_error('Unknown action');
         }
 
-
         $qb = midcom_db_person::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['midcom_admin_user']);
         $this->_persons = $qb->execute();
@@ -283,7 +282,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         {
             return;
         }
-        $person->parameter('midcom.admin.user', 'username', $person->username);
+        $person->set_parameter('midcom.admin.user', 'username', $person->username);
         $account = new midcom_core_account($person);
         if ($account->delete())
         {
