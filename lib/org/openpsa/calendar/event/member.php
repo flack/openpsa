@@ -266,7 +266,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 if ($diff >= $amount)
                 {
                     // slot found
-                    $slots[] = $this->_create_slot($last_end_time, $event->start, $last_event, $event);
+                    $slots[] = self::_create_slot($last_end_time, $event->start, $last_event, $event);
                 }
                 $last_end_time = $event->end;
                 $last_event = $event;
@@ -279,14 +279,14 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             if (   $last_end_time < $workday_ends_ts
                 && (($workday_ends_ts- $last_end_time) >= $amount))
             {
-                $slots[] = $this->_create_slot($last_end_time, $workday_ends_ts, $last_event);
+                $slots[] = self::_create_slot($last_end_time, $workday_ends_ts, $last_event);
             }
         }
 
         return $slots;
     }
 
-    private function _create_slot($start, $end, $previous, $next = false)
+    private static function _create_slot($start, $end, $previous, $next = false)
     {
         return array
         (
