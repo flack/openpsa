@@ -713,24 +713,14 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $link_properties = $target['reflector']->get_link_properties();
             $parent = $target['parent'];
 
-            if (   !$link_properties
-                || !isset($link_properties[$parent]))
+            if (empty($link_properties[$parent]))
             {
                 throw new midcom_error('Failed to construct the target class object');
             }
 
             $class_name = $link_properties[$parent]['class'];
             $target_object = new $class_name($target['id']);
-
-            if (   $target_object
-                && $target_object->guid)
-            {
-                $copy->target = $target_object;
-            }
-            else
-            {
-                throw new midcom_error('Failed to get the target object');
-            }
+            $copy->target = $target_object;
         }
 
         // Copying of parameters, metadata and such
