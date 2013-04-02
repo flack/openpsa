@@ -1,38 +1,21 @@
-jQuery.fn.tree_checker = function()
+$.fn.tree_checker = function()
 {
-    jQuery(this).find('label').toggle(
-    function()
+    $(this).on('change', 'label > input[type="checkbox"]', function()
     {
-        var id = '#' + jQuery(this).attr('for');
-
-        jQuery(id).prop('checked', false);
-        jQuery(this.parentNode).find('li label').toggle(function(){}, function(){});
-        jQuery(this.parentNode).find('li').addClass('readonly');
-
-        jQuery(this).addClass('deselected');
-    },
-    function()
-    {
-        var id = '#' + jQuery(this).attr('for');
-
-        jQuery(id).prop('checked', true);
-        jQuery(this.parentNode).find('li').tree_checker();
-        jQuery(this.parentNode).find('li').removeClass('readonly');
-
-        jQuery(this).removeClass('deselected');
-    });
-
-    jQuery(this).find('input').click(function()
-    {
-        if (jQuery(this).is(':checked'))
+        if ($(this).is(':checked'))
         {
-            jQuery(this.parentNode).find('li').removeClass('readonly');
-            jQuery(this.parentNode).find("label[for='" + jQuery(this).attr('id') + "']").removeClass('deselected');
+            $(this).closest('li').find('li')
+                .removeClass('readonly')
+                .find('input').prop('disabled', false);
+
+            $(this).closest('label').removeClass('deselected');
         }
         else
         {
-            jQuery(this.parentNode).find('li').addClass('readonly');
-            jQuery(this.parentNode).find("label[for='" + jQuery(this).attr('id') + "']").addClass('deselected');
+            $(this).closest('li').find('li')
+                .addClass('readonly')
+                .find('input').prop('disabled', true);
+            $(this).closest('label').addClass('deselected');
         }
     });
 }
