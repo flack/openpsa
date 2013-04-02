@@ -67,7 +67,7 @@ var org_openpsa_widgets_tabs =
             //bind click functions so the request can pass if it should saved or cancelled
             .delegate('input[type=submit]:not(.tab_escape)', 'click', function(event)
             {
-                org_openpsa_widgets_tabs.form_append = "&" + $(event.currentTarget).attr('name') + "=" + $(event.currentTarget).attr('value');
+                org_openpsa_widgets_tabs.form_append = "&" + $(event.currentTarget).attr('name') + "=" + $(event.currentTarget).val();
                 return true;
             })
 

@@ -33,7 +33,7 @@ foreach ($data['label_mapping'] as $type => $label)
             }
             else
             {
-                window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>' + jQuery(this).attr('value') + '/';
+                window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>' + jQuery(this).val() + '/';
             }
         });
     // ]]>

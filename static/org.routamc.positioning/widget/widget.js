@@ -42,8 +42,8 @@ jQuery.midcom_helper_datamanager2_widget_position = function(widget_block, mapst
     var status_box = jQuery('#' + widget_id + '_status_box', widget);
 
     var current_pos_icon_url = MIDCOM_STATIC_URL + '/org.routamc.positioning/pin-selected.png'
-    var backend_url = jQuery('input.position_widget_backend_url',widget).attr('value');
-    var backend_service = jQuery('input.position_widget_backend_service',widget).attr('value');        
+    var backend_url = jQuery('input.position_widget_backend_url',widget).val();
+    var backend_service = jQuery('input.position_widget_backend_service',widget).val();
     var input_data = {};
     var current_pos = null;
     var position_marker = null;

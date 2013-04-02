@@ -763,7 +763,7 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
         {
             jQuery('<input type="hidden" />')
                 .attr('name', options.widget_id + '[sortable][]')
-                .attr('value', item_id)
+                .val(item_id)
                 .appendTo(li_elem);
         }
 

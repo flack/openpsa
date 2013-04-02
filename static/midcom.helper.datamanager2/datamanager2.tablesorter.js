@@ -2,7 +2,7 @@ var COLUMN_TITLE = 'Please enter the column name';
 
 var change_label = function()
 {
-    var field_name = prompt(COLUMN_TITLE, jQuery(this).parent().find('input.field_name').attr('value'));
+    var field_name = prompt(COLUMN_TITLE, jQuery(this).parent().find('input.field_name').val());
     jQuery(this).html(field_name);
     jQuery(this).parent().find('input.field_name').attr(
     {
@@ -190,12 +190,12 @@ jQuery.fn.create_tablesorter_rows = function(options)
                     jQuery(this).attr('id', id);
                 }
                 
-                var value = jQuery(this).attr('value');
+                var value = jQuery(this).val();
                 
                 if (value)
                 {
                     value = value.replace(/index/, timestamp);
-                    jQuery(this).attr('value', value);
+                    jQuery(this).val(value);
                 }
             });
             
@@ -307,7 +307,7 @@ jQuery.fn.rearrange_scores = function()
                 });
         }
         
-        jQuery(this).find('input.image_sortable, input.downloads_sortable').attr('value', i + 1);
+        jQuery(this).find('input.image_sortable, input.downloads_sortable').val(i + 1);
     });
     
     jQuery(this).find('tbody tr:odd')

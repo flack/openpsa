@@ -12,7 +12,7 @@ jQuery.fn.create_sortable = function()
                 // Update all the text inputs to keep track on the changes
                 jQuery(this.parentNode).find('input[type="text"]').each(function(i)
                 {
-                    jQuery(this).attr('value', i + 1);
+                    jQuery(this).val(i + 1);
                 });
             }
         });

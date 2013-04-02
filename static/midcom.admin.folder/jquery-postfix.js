@@ -32,7 +32,7 @@ jQuery(document).ready(function()
             
             jQuery(this).find('li').each(function(i)
             {
-                jQuery(this).find('input').attr('value', i);
+                jQuery(this).find('input').val(i);
             });
         });
     });
