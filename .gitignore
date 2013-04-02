@@ -11,4 +11,5 @@ composer.phar
 composer.lock
 phpunit.xml
 .DS_Store
+.directory
 *.*~
