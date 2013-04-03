@@ -2,7 +2,7 @@
 */
 function parse_input(string)
 {
-    return string.replace(',' , '.');
+    return parseFloat(string.replace(',' , '.'));
 }
 
 function calculate_row(id)
@@ -26,7 +26,7 @@ function calculate_total(table)
     {
         if ($(this).find('input[type="checkbox"]').is(':checked'))
         {
-            total += $(this).find('.units').val() * $(this).find('.price_per_unit').val();
+            total += parseFloat($(this).find('.units').val()) * parseFloat($(this).find('.price_per_unit').val());
         }
     });
 
