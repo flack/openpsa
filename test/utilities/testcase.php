@@ -150,21 +150,21 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $output;
     }
 
-    public function set_post_data($post_data)
+    public function set_post_data(array $post_data)
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = $post_data;
         $_REQUEST = $_POST;
     }
 
-    public function set_get_data($get_data)
+    public function set_get_data(array $get_data)
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET = $get_data;
         $_REQUEST = $_GET;
     }
 
-    public function set_dm2_formdata($controller, $formdata)
+    public function set_dm2_formdata($controller, array $formdata)
     {
         $formname = substr($controller->formmanager->namespace, 0, -1);
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -176,8 +176,9 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_REQUEST = $_POST;
     }
 
-    public function submit_dm2_form($controller_key, $formdata, $component, $args = array())
+    public function submit_dm2_form($controller_key, array $formdata, $component, array $args = array())
     {
+        $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
 
         $this->set_dm2_formdata($data[$controller_key], $formdata);
@@ -203,8 +204,9 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     /**
      * same logic as submit_dm2_form, but this method does not expect a relocate
      */
-    public function submit_dm2_no_relocate_form($controller_key, $formdata, $component, $args = array())
+    public function submit_dm2_no_relocate_form($controller_key, array $formdata, $component, array $args = array())
     {
+        $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
         $this->set_dm2_formdata($data[$controller_key], $formdata);
         $data = $this->run_handler($component, $args);
@@ -236,7 +238,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $url;
     }
 
-    public function create_object($classname, $data = array())
+    public function create_object($classname, array $data = array())
     {
         $object = self::_create_object($classname, $data);
         $this->_testcase_objects[$object->guid] = $object;
@@ -264,7 +266,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
     }
 
-    private static function _create_object($classname, $data)
+    private static function _create_object($classname, array $data)
     {
         $presets = array
         (
@@ -283,7 +285,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
-    public static function prepare_object($classname, $data)
+    public static function prepare_object($classname, array $data)
     {
         $object = new $classname();
 
@@ -300,7 +302,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
-    public static function create_class_object($classname, $data = array())
+    public static function create_class_object($classname, array $data = array())
     {
         $object = self::_create_object($classname, $data);
 
@@ -308,7 +310,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
-    public static function create_persisted_object($classname, $data = array())
+    public static function create_persisted_object($classname, array $data = array())
     {
         return self::_create_object($classname, $data);
     }
@@ -330,7 +332,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         midcom::get('auth')->drop_sudo();
     }
 
-    public function tearDown()
+    public function reset_server_vars()
     {
         if (isset($_SERVER['REQUEST_METHOD']))
         {
@@ -352,6 +354,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         {
             $_REQUEST = array();
         }
+    }
+
+    public function tearDown()
+    {
+        $this->reset_server_vars();
+
         if (midcom_core_context::get()->id != 0)
         {
             midcom_core_context::get(0)->set_current();

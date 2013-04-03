@@ -84,6 +84,8 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();
 
+        $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
+
         $formdata = array
         (
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
@@ -91,7 +93,8 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
             'start_date' => strftime('%Y-%m-%d')
         );
 
-        $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
+        $this->set_dm2_formdata($data['controller'], $formdata);
+        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
 
         $this->assertEquals('salesproject/' . $this->_salesproject->guid . '/', $url);
 
