@@ -26,7 +26,7 @@ function calculate_total(table)
     {
         if ($(this).find('input[type="checkbox"]').is(':checked'))
         {
-            total += parseFloat($(this).find('.units').val()) * parseFloat($(this).find('.price_per_unit').val());
+            total += parse_input($(this).find('.units').val()) * parse_input($(this).find('.price_per_unit').val());
         }
     });
 
