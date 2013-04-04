@@ -160,6 +160,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      */
     public $auto_wildcards = 'both';
 
+    /**
+     * Clever class
+     *
+     * @var string
+     */
+    public $clever_class;
+
     public $creation_mode_enabled = false;
     public $creation_handler = null;
     public $creation_default_key = null;
@@ -192,6 +199,11 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
                 MIDCOM_LOG_WARN);
             return false;
         }
+        if (!empty($this->clever_class))
+        {
+            $this->_load_clever_class();
+        }
+
         if (!empty($this->_type->constraints))
         {
             $this->constraints = $this->_type->constraints;
@@ -202,6 +214,22 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $this->_element_id = "{$this->_namespace}{$this->name}_autocomplete_widget";
 
         return true;
+    }
+
+    private function _load_clever_class()
+    {
+        $config = $this->_config->get('clever_classes');
+        if (empty($config[$this->clever_class]))
+        {
+            throw new midcom_error('Invalid clever class specified');
+        }
+        foreach ($config[$this->clever_class] as $key => $value)
+        {
+            if (property_exists($this, $key))
+            {
+                $this->$key = $value;
+            }
+        }
     }
 
     public static function add_head_elements($creation_mode_enabled = false)
