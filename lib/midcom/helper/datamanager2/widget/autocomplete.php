@@ -42,7 +42,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $categorize_by_parent_label = false;
 
     /**
-     * Associative array of constraints (besides the search term), always AND
+     * Array of constraints (besides the search term), always AND
      *
      * Example:
      * <code>
@@ -56,6 +56,8 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *         ),
      *     ),
      * </code>
+     *
+     * Please note that this field is ignored if the used type already defines constraints
      *
      * @var array
      */
@@ -189,6 +191,10 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the autocomplete widget with it.",
                 MIDCOM_LOG_WARN);
             return false;
+        }
+        if (!empty($this->_type->constraints))
+        {
+            $this->constraints = $this->_type->constraints;
         }
 
         self::add_head_elements($this->creation_mode_enabled);
