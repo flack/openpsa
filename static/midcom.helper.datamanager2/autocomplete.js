@@ -148,33 +148,41 @@ var midcom_helper_datamanager2_autocomplete =
 
         input.css({float: 'left'});
 
-        create_button.css('display', 'block');
-        create_button.bind('click', function()
-        {
-            var url = creation_url + '?chooser_widget_id=' + identifier;
-            if (   $('#' + identifier + '_search_input').val() !== ''
-                && handler_options.creation_default_key !== undefined)
+        create_button
+            .button(
             {
-                url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
-            }
-
-            var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
-                + ' class="chooser_widget_creation_dialog_content"'
-                + ' frameborder="0"'
-                + ' marginwidth="0"'
-                + ' marginheight="0"'
-                + ' width="100%"'
-                + ' height="100%"'
-                + ' scrolling="auto" />';
-
-            create_dialog
-                .html(iframe_html)
-                .dialog(
+                icons:
                 {
-                    height: 450,
-                    width: 600
-                });
-        });
+                    primary: 'ui-icon-plusthick'
+                },
+                text: false
+            })
+            .bind('click', function()
+            {
+                var url = creation_url + '?chooser_widget_id=' + identifier;
+                if (   $('#' + identifier + '_search_input').val() !== ''
+                    && handler_options.creation_default_key !== undefined)
+                {
+                    url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
+                }
+
+                var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
+                    + ' class="chooser_widget_creation_dialog_content"'
+                    + ' frameborder="0"'
+                    + ' marginwidth="0"'
+                    + ' marginheight="0"'
+                    + ' width="100%"'
+                    + ' height="100%"'
+                    + ' scrolling="auto" />';
+
+                create_dialog
+                    .html(iframe_html)
+                    .dialog(
+                    {
+                        height: 450,
+                        width: 600
+                    });
+            });
     },
 
     /**
