@@ -406,10 +406,11 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         if ($this->creation_mode_enabled)
         {
-            $head->add_jquery_ui_theme(array('dialog'));
+            $head->add_jquery_ui_theme(array('dialog', 'button'));
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
         }
 

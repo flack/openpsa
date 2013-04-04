@@ -216,9 +216,11 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         if ($creation_mode_enabled)
         {
             $theme_files[] = 'dialog';
+            $theme_files[] = 'button';
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
         }
         $head->add_jquery_ui_theme($theme_files);
