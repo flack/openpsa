@@ -96,6 +96,9 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     private function _apply_constraints(midcom_core_query &$query, array $constraints)
     {
+        $mgdschema_class = midcom_helper_reflector::resolve_baseclass($query->get_classname());
+        $reflector = new midgard_reflection_property($mgdschema_class);
+
         $mgd2 = extension_loaded('midgard2');
         ksort($constraints);
         reset($constraints);
@@ -116,6 +119,19 @@ class midcom_helper_datamanager2_ajax_autocomplete
             }
             else
             {
+                switch ($reflector->get_midgard_type($data['field']))
+                {
+                    case MGD_TYPE_INT:
+                    case MGD_TYPE_UINT:
+                        $data['value'] = (int) $data['value'];
+                        break;
+                    case MGD_TYPE_FLOAT:
+                        $data['value'] = (float) $data['value'];
+                        break;
+                    case MGD_TYPE_BOOLEAN:
+                        $data['value'] = (boolean) $data['value'];
+                        break;
+                }
                 $query->add_constraint($data['field'], $data['op'], $data['value']);
             }
         }
