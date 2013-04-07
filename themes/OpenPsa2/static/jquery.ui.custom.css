@@ -1195,8 +1195,8 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus,
-.ui-jqgrid tr.even.ui-state-focus,
-.ui-jqgrid tr.even.ui-state-hover
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-focus,
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-hover
 {
     background: -moz-linear-gradient(top, #ffffff 0%, #e0f2ff 3%, #d0e5f5 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(3%,#e0f2ff), color-stop(100%,#d0e5f5)); /* Chrome,Safari4+ */
@@ -1210,7 +1210,7 @@ body .ui-tooltip {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active,
-.ui-jqgrid tr.even.ui-state-active
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-active
 {
     background: -moz-linear-gradient(top, #ffffff 0%, #f5f8f9 6%, #ffffff 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(6%,#f5f8f9), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
@@ -1224,7 +1224,7 @@ body .ui-tooltip {
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight,
-.ui-jqgrid tr.even.ui-state-highlight
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-highlight
 {
     background: -moz-linear-gradient(top, #faf3a6 0%, #fbec88 6%, #faf3a6 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#faf3a6), color-stop(6%,#fbec88), color-stop(100%,#faf3a6)); /* Chrome,Safari4+ */
@@ -1285,7 +1285,7 @@ body .ui-tooltip {
     border-bottom: 1px solid #BABDB6;
 }
 
-.ui-jqgrid .even
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow
 {
     background: #f1f0ee; /* Old browsers */
     background: -moz-linear-gradient(top, #ffffff 0%, #f5f4f2 4%, #f1f0ee 100%); /* FF3.6+ */
