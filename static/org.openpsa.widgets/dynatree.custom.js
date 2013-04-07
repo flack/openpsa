@@ -14,14 +14,14 @@ var org_openpsa_tree =
 
             onActivate: function(dtnode)
             {
-                if (typeof dtnode.data.href !== 'undefined')
+                if (dtnode.data.href !== undefined)
                 {
                     window.location.href = dtnode.data.href;
                 }
             },
             onClick: function(dtnode, event)
             {
-                if (   typeof dtnode.tree.activeNode !== 'undefined'
+                if (   dtnode.tree.activeNode !== undefined
                     && dtnode.tree.activeNode === dtnode)
                 {
                     dtnode.deactivate();
@@ -33,7 +33,7 @@ var org_openpsa_tree =
                 var url = '#',
                 tooltip = dtnode.data.tooltip ? " title='" + dtnode.data.tooltip + "'" : "";
 
-                if (typeof dtnode.data.href !== 'undefined')
+                if (dtnode.data.href !== undefined)
                 {
                     url = dtnode.data.href;
                 }
@@ -41,46 +41,36 @@ var org_openpsa_tree =
             },
             onPostInit: function(isReloading, isError)
             {
-                org_openpsa_tree.crop_height($('#' + identifier));
+                $(window).trigger('resize');
             },
             onExpand: function(flag, dtnode)
             {
-                if (flag === true)
-                {
-                    org_openpsa_tree.crop_height($('#' + identifier));
-                }
+                $(window).trigger('resize');
             }
         };
 
         options = $.extend({}, default_options, options || {});
 
-        $('#' + identifier)
-            .css('overflow', 'auto')
-            .dynatree(options);
         $(window).bind('resize', function()
         {
             org_openpsa_tree.crop_height($('#' + identifier));
         });
+
+        $('#' + identifier)
+            .css('overflow', 'auto')
+            .dynatree(options);
     },
     crop_height: function(tree)
     {
         var content_height = 0,
-        tree_content_height = tree.find('.dynatree-container').outerHeight(true),
-        container_height = $('#content-text').height();
+        container_height = $('#content-text').height(),
+        tree_content_height = tree.find('.dynatree-container').height(),
+        available_height = container_height - (tree.closest('.sidebar').height() - tree.outerHeight(true))
+        new_height = Math.max(Math.min(tree_content_height, available_height, container_height), 20);
 
-        tree.closest('#content-text > *').children(':visible').each(function()
+        if (new_height !== tree.height())
         {
-            content_height += $(this).outerHeight(true);
-        });
-
-        var available_height = container_height - (content_height - tree_content_height);
-
-        if (   available_height > tree_content_height
-            && tree.height() >= tree_content_height)
-        {
-            return;
+            tree.height(new_height);
         }
-
-        tree.height(container_height - (content_height - tree.height()));
     }
 };
