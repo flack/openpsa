@@ -19,7 +19,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         return $config->get($value);
     }
 
-    public static function initialize_search()
+    public static function get_search_providers()
     {
         $defaults = array('autocomplete' => false);
         $providers = array();
@@ -31,7 +31,6 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         {
             $user_id = midcom::get('auth')->acl->get_user_id();
         }
-
         foreach ($configured_providers as $component => $config)
         {
             if (!is_array($config))
@@ -39,10 +38,6 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
                 $config = array('route' => $config);
             }
             $config = array_merge($defaults, $config);
-            if ($config['autocomplete'] === true)
-            {
-                midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
-            }
 
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
@@ -58,29 +53,25 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
                 );
             }
         }
+        return $providers;
+    }
+
+    public static function initialize_search()
+    {
+        $providers = self::get_search_providers();
+        foreach ($providers as $component => $config)
+        {
+            if ($config['autocomplete'] === true)
+            {
+                midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+            }
+        }
 
         midcom::get('head')->add_jquery_state_script('org_openpsa_layout.initialize_search
         (
             ' . json_encode($providers) . ',
             "' . midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider') . '"
         );');
-    }
-
-    /**
-     * Add necessary head elements for dynatree
-     */
-    public static function enable_dynatree()
-    {
-        $head = midcom::get('head');
-        $head->enable_jquery();
-
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/dynatree/jquery.dynatree.min.js');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/dynatree/skin/ui.dynatree.css");
-        $head->add_jquery_ui_theme();
     }
 
     public static function add_head_elements()

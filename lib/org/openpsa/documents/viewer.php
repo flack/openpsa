@@ -25,7 +25,7 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         midcom::get('cache')->content->no_cache();
 
         org_openpsa_widgets_grid::add_head_elements();
-        org_openpsa_widgets_ui::enable_dynatree();
+        org_openpsa_widgets_tree::add_head_elements();
     }
 }
 ?>
