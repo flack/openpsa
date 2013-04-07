@@ -1,3 +1,6 @@
+<div class="sidebar">
+    <?php midcom_show_style("show-directory-navigation"); ?>
+</div>
 <div class="main">
     <div class="area">
         <h2><?php echo midcom::get('i18n')->get_string('confirm delete', 'org.openpsa.core'); ?></h2>

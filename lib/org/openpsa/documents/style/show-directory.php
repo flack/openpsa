@@ -1,7 +1,12 @@
-<h1><?php echo $data['directory']->extra; ?></h1>
+<div class="sidebar">
+    <?php midcom_show_style("show-directory-navigation"); ?>
+</div>
 
-<div class="full-width fill-height">
+<div class="main">
+<h1><?php echo $data['directory']->extra; ?></h1>
+<div class="fill-height">
     <table id="treegrid"></table>
+</div>
 </div>
 
 <script type="text/javascript">
