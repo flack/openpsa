@@ -25,23 +25,27 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
                     $output = "<a href=\"{$sales_url}salesproject/{$salesproject->guid}/#{$agreement->guid}/\">{$output}</a>\n";
                 }
 
+                echo '<div class="area">';
                 echo "<h2>" . $data['l10n']->get('agreement') . "</h2>\n";
                 echo $output;
+                echo '</div>';
             }
             catch (midcom_error $e){}
         }
 
         if ($task->manager)
         {
+            echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('manager') . "</h2>\n";
             $contact = org_openpsa_widgets_contact::get($task->manager);
             echo $contact->show_inline();
+            echo '</div>';
         }
 
         $remote_search = $task->get_parameter('org.openpsa.projects.projectbroker', 'remote_search');
         if ($remote_search)
         {
-            echo "<div class=\"resources search\">\n";
+            echo "<div class=\"area resources search\">\n";
             if ($remote_search == 'REQUEST_SEARCH')
             {
                 echo $data['l10n']->get('remote resource search requested');
@@ -55,22 +59,26 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         }
         else if (count($task->resources) > 0)
         {
+            echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
             foreach ($task->resources as $contact_id => $display)
             {
                 $contact = org_openpsa_widgets_contact::get($contact_id);
                 echo $contact->show_inline() . " ";
             }
+            echo "</div>\n";
         }
 
         if (count($task->contacts) > 0)
         {
+            echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
             foreach ($task->contacts as $contact_id => $display)
             {
                 $contact = org_openpsa_widgets_contact::get($contact_id);
                 echo $contact->show();
             }
+            echo "</div>\n";
         }
         ?>
 <div class="org_openpsa_helper_box history status">

@@ -1500,6 +1500,7 @@ body .ui-tooltip {
 ul.dynatree-container
 {
     border: none;
+    padding: 0;
 }
 
 ul.dynatree-container span.dynatree-folder a
