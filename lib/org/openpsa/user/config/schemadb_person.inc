@@ -105,7 +105,7 @@
                     ),
                 ),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_contacts_group_dba',
