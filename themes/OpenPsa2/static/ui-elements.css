@@ -262,11 +262,6 @@ form.datamanager2
     margin-bottom: 5em;
 }
 
-form.datamanager2 .form
-{
-    display: table;
-}
-
 form.datamanager2 .form fieldset.fieldset
 {
     border-color: #999;
