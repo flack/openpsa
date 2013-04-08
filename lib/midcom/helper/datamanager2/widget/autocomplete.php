@@ -223,7 +223,8 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         {
             throw new midcom_error('Invalid clever class specified');
         }
-        foreach ($config[$this->clever_class] as $key => $value)
+        $config = array_merge($config[$this->clever_class], $this->_field['widget_config']);
+        foreach ($config as $key => $value)
         {
             if (property_exists($this, $key))
             {
