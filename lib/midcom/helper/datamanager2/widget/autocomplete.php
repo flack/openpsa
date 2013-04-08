@@ -557,7 +557,12 @@ EOT;
                 $label[] = $value;
             }
         }
-        return implode(', ', $label);
+        $label = implode(', ', $label);
+        if (empty($label))
+        {
+            $label = get_class($object) . ' #' . $object->id;
+        }
+        return $label;
     }
 
     public static function sort_items($a, $b)
