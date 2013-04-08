@@ -370,6 +370,7 @@ form.datamanager2 .longtext
     width: 30em;
     background-color: white
 }
+
 form.datamanager2 .autocomplete-widget-creation-enabled input.shorttext
 {
     width: 27.2em;
@@ -391,6 +392,11 @@ form.datamanager2 div.input textarea
 {
     box-shadow: inset 0 1px 5px #e9e5e1;
     padding: .15em .2em;
+}
+
+form.datamanager2 div.input .midcom_helper_datamanager2_widget_downloads input[type="text"]
+{
+    width: 90%;
 }
 
 input[type="submit"],
