@@ -21,7 +21,7 @@
                 'multiple_storagemode' => 'serialized',
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'contact',
@@ -55,7 +55,7 @@
                 'multiple_storagemode' => 'serialized',
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'group',
@@ -80,7 +80,7 @@
                 'multiple_storagemode' => 'serialized',
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_calendar_event_resource_dba',
