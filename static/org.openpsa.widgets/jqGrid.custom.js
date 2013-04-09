@@ -38,7 +38,7 @@ var org_openpsa_grid_resize =
     },
     /**
      * Workaorund for a problem in IE8 standards mode, where mousedown on the column
-     * resizer triggers three window.resize events for whatever reason... 
+     * resizer triggers three window.resize events for whatever reason...
      */
     ie8_workaround: function()
     {
@@ -199,6 +199,9 @@ var org_openpsa_grid_resize =
                     var old_width = $("#" + id).jqGrid().getGridParam('width');
                     if (new_width != old_width)
                     {
+                        // workaround for problem with grids inside uitabs: jqGrid's autodetection fails
+                        // for some reason, so we must set the correct value manually
+                        $.jgrid.cell_width = false;
                         $("#" + id).jqGrid().setGridWidth(new_width);
                     }
                 }
@@ -455,7 +458,7 @@ var org_openpsa_grid_editable =
                     self.options.aftersavefunc(0, []);
                 }
             };
-     
+
         if (rowdata.id == '')
         {
             callAfterSave();
