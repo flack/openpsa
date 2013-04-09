@@ -68,6 +68,14 @@
     'variable_args' => 1,
 ),
 
+// Match /deliverable/list/product/<product>
+'deliverable_list_product' => array
+(
+    'handler' => array('org_openpsa_sales_handler_deliverable_list', 'product'),
+    'fixed_args' => array('deliverable', 'list', 'product'),
+    'variable_args' => 1,
+),
+
 // Match /deliverable/<deliverable>
 'deliverable_view' => array
 (

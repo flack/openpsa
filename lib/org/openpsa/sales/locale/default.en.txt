@@ -122,6 +122,10 @@ Deliverable
 Deliverables
 ---STRINGEND
 
+---STRING deliverables for product %s
+Bestellungen for product "%s"
+---STRINGEND
+
 ---STRING delivered
 Delivered
 ---STRINGEND
@@ -148,6 +152,10 @@ Generate now
 
 ---STRING go to customer
 Go to customer
+---STRINGEND
+
+---STRING go to product
+Go to product
 ---STRINGEND
 
 ---STRING invoice

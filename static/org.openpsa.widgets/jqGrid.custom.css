@@ -54,3 +54,8 @@
     margin: .3em 0;
     padding-left: .3em
 }
+
+.ui-jqgrid tr.jqgrow td.numeric
+{
+    text-align: right;
+}

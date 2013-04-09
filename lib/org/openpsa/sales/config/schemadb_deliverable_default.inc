@@ -122,16 +122,7 @@
             'type' => 'select',
             'type_config' => Array
             (
-                'options' => Array
-                (
-                    'p' =>  midcom::get('i18n')->get_string('unit', 'org.openpsa.products'),       // per piece
-                    'h' =>  midcom::get('i18n')->get_string('hour', 'org.openpsa.products'),       // per hour
-                    'd' =>  midcom::get('i18n')->get_string('day', 'org.openpsa.products'),       // per day
-                    'm' =>  midcom::get('i18n')->get_string('month', 'org.openpsa.products'),     // per month
-                    'q' =>  midcom::get('i18n')->get_string('quarter', 'org.openpsa.products'),   // per quarter
-                    'hy' => midcom::get('i18n')->get_string('half-year', 'org.openpsa.products'), // per half
-                    'y' =>  midcom::get('i18n')->get_string('year', 'org.openpsa.products'),      // per annum
-                ),
+                'options' => org_openpsa_products_viewer::get_unit_options(),
             ),
             'readonly' => true,
             'widget' => 'select',

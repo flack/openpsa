@@ -386,5 +386,18 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $tmp = array_reverse($tmp);
         return $tmp;
     }
+
+
+    public static function get_unit_options()
+    {
+        $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.products');
+        $options = array();
+        foreach ($unit_options as $key => $name)
+        {
+            $options[$key] = $l10n->get($name);
+        }
+        return $options;
+    }
 }
 ?>

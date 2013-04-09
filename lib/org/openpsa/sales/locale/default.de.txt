@@ -123,6 +123,10 @@ Bestellung
 Bestellungen
 ---STRINGEND
 
+---STRING deliverables for product %s
+Bestellungen zu Produkt "%s"
+---STRINGEND
+
 ---STRING delivered
 Geliefert
 ---STRINGEND
@@ -149,6 +153,10 @@ Jetzt erstellen
 
 ---STRING go to customer
 Kunden anzeigen
+---STRINGEND
+
+---STRING go to product
+Produkt anzeigen
 ---STRINGEND
 
 ---STRING invoice
@@ -404,7 +412,7 @@ Gesamtkosten
 ---STRINGEND
 
 ---STRING unit
-Stück
+Einheit
 ---STRINGEND
 
 ---STRING units
