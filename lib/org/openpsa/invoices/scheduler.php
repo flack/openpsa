@@ -263,7 +263,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 $source_task->get_members();
                 $task->add_members('resources', array_keys($source_task->resources));
             }
-            org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $product, 'org.openpsa.products');
 
             // Copy tags from deliverable so we can seek resources
             $tagger = new net_nemein_tag_handler();

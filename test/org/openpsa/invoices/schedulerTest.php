@@ -317,14 +317,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $this->assertEquals($salesproject->owner, $task->manager);
         $this->assertTrue($task->hoursInvoiceableDefault);
 
-        $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $task->guid);
-        $mc->add_value_property('toGuid');
-        $mc->execute();
-        $keys = $mc->list_keys();
-        $this->assertEquals(1, sizeof($keys));
-        $product_guid = $mc->get_subkey(key($keys), 'toGuid');
-        $this->assertEquals($product->guid, $product_guid);
-
         $salesproject->get_members();
         $task->get_members();
         $this->assertEquals($salesproject->contacts, $task->contacts);
