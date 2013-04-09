@@ -94,16 +94,16 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
                 oldId = return_values.oldid;
                 if (oldId.substring(0,4) === 'new_')
                 {
-                    var pos = $("#<?php echo $grid->get_identifier(); ?> tr[id='" + oldId + "']").prevAll().length,
-                        newId = return_values.id;
+                    var pos = $("#<?php echo $grid->get_identifier(); ?> tr[id='" + oldId + "']").prevAll().length;
+                    rowid = return_values.id;
 
-                    saveSingleItemPosition(newId, pos);
+                    saveSingleItemPosition(rowid, pos);
 
-                    $('#'+oldId).attr('id', newId);
-                    $('#edit_button_' + oldId).attr('id', 'edit_button_' + newId);
-                    $('#save_button_' + oldId).attr('id', 'save_button_' + newId);
-                    $('#cancel_button_' + oldId).attr('id', 'cancel_button_' + newId);
-                    $('#delete_button_' + oldId).attr('id', 'delete_button_' + newId);
+                    $('#'+oldId).attr('id', rowid);
+                    $('#edit_button_' + oldId).attr('id', 'edit_button_' + rowid);
+                    $('#save_button_' + oldId).attr('id', 'save_button_' + rowid);
+                    $('#cancel_button_' + oldId).attr('id', 'cancel_button_' + rowid);
+                    $('#delete_button_' + oldId).attr('id', 'delete_button_' + rowid);
                 }
             }
 

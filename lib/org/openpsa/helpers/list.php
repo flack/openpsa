@@ -16,12 +16,12 @@ class org_openpsa_helpers_list
     private static $_seen = array();
 
     /**
-     * Function for listing groups tasks contacts are members of
+     * Function for listing groups task/saelsproject contacts are members of
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working with
+     * @param midcom_core_dbaobject &$task The task/salesproject we're working with
      * @param string $mode By which property should groups be listed
      */
-    static function task_groups(&$task, $mode = 'id')
+    static function task_groups(midcom_core_dbaobject &$task, $mode = 'id')
     {
         //TODO: Localize something for the empty choice ?
         $ret = array(0 => '');

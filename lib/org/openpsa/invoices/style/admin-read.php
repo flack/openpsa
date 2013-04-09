@@ -21,17 +21,21 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <?php
         if ($invoice->customerContact)
         {
+            echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
             $contact = org_openpsa_widgets_contact::get($invoice->customerContact);
             echo $contact->show();
+            echo '</div>';
         }
         if ($customer)
         {
+            echo '<div class="area">';
             $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
+            echo '</div>';
         } ?>
 
-        <div class="org_openpsa_helper_box history status">
+        <div class="area org_openpsa_helper_box history status">
         <?php
             echo "<h3>" . $data['l10n']->get('invoice status') . "</h3>\n";
             echo "<div class=\"current-status {$invoice->get_status()}\">";

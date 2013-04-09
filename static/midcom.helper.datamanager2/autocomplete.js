@@ -56,20 +56,9 @@ var midcom_helper_datamanager2_autocomplete =
     {
         var identifier = $('.ui-autocomplete-loading').attr('id').replace(/_search_input$/, ''),
         query_options_var = identifier + '_handler_options',
-        query_options = window[query_options_var];
-        query_options.term = request.term,
+        query_options = window[query_options_var],
         cache = $('.ui-autocomplete-loading').data('cache'),
         term = request.term;
-
-        if (cache === undefined)
-        {
-            cache = {};
-        }
-        if (term in cache)
-        {
-            response(filter_existing(cache[term]));
-            return;
-        }
 
         function filter_existing(data)
         {
@@ -87,9 +76,20 @@ var midcom_helper_datamanager2_autocomplete =
                 }
             });
 
-            return filtered
+            return filtered;
         }
 
+        if (cache === undefined)
+        {
+            cache = {};
+        }
+        if (term in cache)
+        {
+            response(filter_existing(cache[term]));
+            return;
+        }
+
+        query_options.term = term;
         $.ajax({
             url: query_options.handler_url,
             dataType: "json",
@@ -148,33 +148,41 @@ var midcom_helper_datamanager2_autocomplete =
 
         input.css({float: 'left'});
 
-        create_button.css('display', 'block');
-        create_button.bind('click', function()
-        {
-            var url = creation_url + '?chooser_widget_id=' + identifier;
-            if (   $('#' + identifier + '_search_input').val() !== ''
-                && typeof handler_options.creation_default_key !== undefined)
+        create_button
+            .button(
             {
-                url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
-            }
-
-            var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
-                + ' class="chooser_widget_creation_dialog_content"'
-                + ' frameborder="0"'
-                + ' marginwidth="0"'
-                + ' marginheight="0"'
-                + ' width="100%"'
-                + ' height="100%"'
-                + ' scrolling="auto" />';
-
-            create_dialog
-                .html(iframe_html)
-                .dialog(
+                icons:
                 {
-                    height: 450,
-                    width: 600
-                });
-        });
+                    primary: 'ui-icon-plusthick'
+                },
+                text: false
+            })
+            .bind('click', function()
+            {
+                var url = creation_url + '?chooser_widget_id=' + identifier;
+                if (   $('#' + identifier + '_search_input').val() !== ''
+                    && handler_options.creation_default_key !== undefined)
+                {
+                    url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
+                }
+
+                var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
+                    + ' class="chooser_widget_creation_dialog_content"'
+                    + ' frameborder="0"'
+                    + ' marginwidth="0"'
+                    + ' marginheight="0"'
+                    + ' width="100%"'
+                    + ' height="100%"'
+                    + ' scrolling="auto" />';
+
+                create_dialog
+                    .html(iframe_html)
+                    .dialog(
+                    {
+                        height: 450,
+                        width: 600
+                    });
+            });
     },
 
     /**
@@ -341,8 +349,7 @@ var midcom_helper_datamanager2_autocomplete =
 
     add_item: function(identifier, item_id, text, status)
     {
-        var handler_options = window[identifier + '_handler_options'],
-        selection_holder = $('#' + identifier + '_selection_holder'),
+        var selection_holder = $('#' + identifier + '_selection_holder'),
         existing_item = selection_holder.find('[data-id="' + item_id + '"]'),
         selected = midcom_helper_datamanager2_autocomplete.is_selected(identifier, item_id),
         item;

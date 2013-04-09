@@ -77,7 +77,7 @@
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_contacts_person_dba',
@@ -112,7 +112,7 @@
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
-                'creation_default_key' => 'openpsa',
+                'creation_default_key' => 'lastname',
             ),
             'index_method' => 'noindex',
             'end_fieldset' => '',
@@ -260,7 +260,7 @@
                  'allow_multiple' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'group',
@@ -286,7 +286,7 @@
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'org_openpsa_contacts_person_dba',
@@ -321,7 +321,7 @@
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
-                'creation_default_key' => 'openpsa',
+                'creation_default_key' => 'lastname',
             ),
             'index_method' => 'noindex',
         )

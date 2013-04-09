@@ -42,7 +42,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $categorize_by_parent_label = false;
 
     /**
-     * Associative array of constraints (besides the search term), always AND
+     * Array of constraints (besides the search term), always AND
      *
      * Example:
      * <code>
@@ -56,6 +56,8 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *         ),
      *     ),
      * </code>
+     *
+     * Please note that this field is ignored if the used type already defines constraints
      *
      * @var array
      */
@@ -158,6 +160,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      */
     public $auto_wildcards = 'both';
 
+    /**
+     * Clever class
+     *
+     * @var string
+     */
+    public $clever_class;
+
     public $creation_mode_enabled = false;
     public $creation_handler = null;
     public $creation_default_key = null;
@@ -190,12 +199,38 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
                 MIDCOM_LOG_WARN);
             return false;
         }
+        if (!empty($this->clever_class))
+        {
+            $this->_load_clever_class();
+        }
+
+        if (!empty($this->_type->constraints))
+        {
+            $this->constraints = $this->_type->constraints;
+        }
 
         self::add_head_elements($this->creation_mode_enabled);
 
         $this->_element_id = "{$this->_namespace}{$this->name}_autocomplete_widget";
 
         return true;
+    }
+
+    private function _load_clever_class()
+    {
+        $config = $this->_config->get('clever_classes');
+        if (empty($config[$this->clever_class]))
+        {
+            throw new midcom_error('Invalid clever class specified');
+        }
+        $config = array_merge($config[$this->clever_class], $this->_field['widget_config']);
+        foreach ($config as $key => $value)
+        {
+            if (property_exists($this, $key))
+            {
+                $this->$key = $value;
+            }
+        }
     }
 
     public static function add_head_elements($creation_mode_enabled = false)
@@ -216,9 +251,11 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         if ($creation_mode_enabled)
         {
             $theme_files[] = 'dialog';
+            $theme_files[] = 'button';
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
         }
         $head->add_jquery_ui_theme($theme_files);
@@ -520,7 +557,12 @@ EOT;
                 $label[] = $value;
             }
         }
-        return implode(', ', $label);
+        $label = implode(', ', $label);
+        if (empty($label))
+        {
+            $label = get_class($object) . ' #' . $object->id;
+        }
+        return $label;
     }
 
     public static function sort_items($a, $b)

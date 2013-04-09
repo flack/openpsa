@@ -510,6 +510,7 @@ implements org_openpsa_widgets_grid_provider_client
             $project = org_openpsa_projects_project::get_cached($task->project);
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $ret['parent'] = '<a href="' . $prefix . 'project/{$project->guid}/">' . $project->title . '</a>';
+            $ret['index_parent'] = $project->title;
 
         }
         catch (midcom_error $e)

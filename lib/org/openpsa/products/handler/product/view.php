@@ -85,11 +85,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 )
             );
         }
-
-        if (midcom::get('componentloader')->is_installed('org.openpsa.relatedto'))
-        {
-            org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_product->guid);
-        }
     }
 
     /**
@@ -167,7 +162,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $title = str_replace('<PRODUCT_CODE>', $this->_product->code, $title);
         $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
         $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
-
+        org_openpsa_widgets_ui::enable_ui_tab();
         midcom::get('head')->set_pagetitle($title);
     }
 

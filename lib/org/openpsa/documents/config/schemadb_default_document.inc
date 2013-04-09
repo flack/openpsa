@@ -78,7 +78,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget'      => 'chooser',
+            'widget'      => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_contacts_person_dba',
@@ -112,7 +112,7 @@
                 ),
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
-                'creation_default_key' => 'openpsa',
+                'creation_default_key' => 'lastname',
              ),
         ),
         //Hidden field for orgOpenpsaObtype
@@ -136,7 +136,7 @@
                  'require_corresponding_option' => false,
                  'allow_multiple' => false,
             ),
-            'widget'      => 'chooser',
+            'widget'      => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'org_openpsa_documents_directory',
@@ -169,7 +169,6 @@
                 (
                     array('extra'    => 'ASC'),
                     array('name'    => 'ASC'),
-
                 ),
              ),
             'required' => true,

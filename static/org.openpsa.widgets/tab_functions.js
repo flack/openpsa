@@ -45,9 +45,9 @@ var org_openpsa_widgets_tabs =
             tab_id = parseInt(hash.replace(/!ui-tabs-/, '')) - 1;
         }
 
-        if ($('#tabs').tabs('option', 'selected') != tab_id)
+        if ($('#tabs').tabs('option', 'active') != tab_id)
         {
-            $('#tabs').tabs('select', tab_id);
+            $('#tabs').tabs('option', 'active', tab_id);
         }
     },
     bind_events: function(uiprefix)

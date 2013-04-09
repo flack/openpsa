@@ -65,7 +65,7 @@
                     ),
                 ),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'contact',

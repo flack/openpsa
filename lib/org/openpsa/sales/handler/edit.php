@@ -66,9 +66,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
      */
-    private function _load_create_controller()
+    private function _load_create_controller(array $args)
     {
         $this->_load_schemadb();
+        $this->_load_defaults($args);
+
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schemaname = $this->_schema;
@@ -89,6 +91,30 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups($this->_salesproject);
         }
         $this->_schemadb = $schemadb;
+    }
+
+    private function _load_defaults(array $args)
+    {
+        $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
+        $this->_defaults['owner'] = midcom_connection::get_user();
+
+        if (!empty($args[0]))
+        {
+            try
+            {
+                $customer = new org_openpsa_contacts_group_dba($args[0]);
+                $fields =& $this->_schemadb['default']->fields;
+                $fields['customer']['type_config']['options'] = array(0 => '', $customer->id => $customer->official);
+
+                $this->_defaults['customer'] = $customer->id;
+            }
+            catch (midcom_error $e)
+            {
+                $customer = new org_openpsa_contacts_person_dba($args[0]);
+                $this->_defaults['customerContact'] = $customer->id;
+            }
+            $this->add_breadcrumb("list/customer/{$customer->guid}/", sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
+        }
     }
 
     /**
@@ -163,8 +189,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
-        $this->_load_defaults($args);
-        $this->_load_create_controller();
+        $this->_load_create_controller($args);
 
         switch ($this->_controller->process_form())
         {
@@ -183,27 +208,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-    }
-
-    private function _load_defaults(array $args)
-    {
-        $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
-        $this->_defaults['owner'] = midcom_connection::get_user();
-
-        if (!empty($args[0]))
-        {
-            try
-            {
-                $customer = new org_openpsa_contacts_group_dba($args[0]);
-                $this->_defaults['customer'] = $customer->id;
-            }
-            catch (midcom_error $e)
-            {
-                $customer = new org_openpsa_contacts_person_dba($args[0]);
-                $this->_defaults['customerContact'] = $customer->id;
-            }
-            $this->add_breadcrumb("list/customer/{$customer->guid}/", sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
-        }
     }
 
     /**

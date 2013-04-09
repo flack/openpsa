@@ -20,7 +20,7 @@
                 'allow_multiple' => true,
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'component' => 'org.openpsa.directmarketing',

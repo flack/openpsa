@@ -1,7 +1,12 @@
-<h1><?php echo $data['directory']->extra; ?></h1>
+<div class="sidebar">
+    <?php midcom_show_style("show-directory-navigation"); ?>
+</div>
 
-<div class="full-width fill-height">
+<div class="main">
+<h1><?php echo $data['directory']->extra; ?></h1>
+<div class="fill-height">
     <table id="treegrid"></table>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -12,13 +17,6 @@ function setCellTitle(rowid, rowdata, rowelem)
     var cell = $("#" + rowid).children(':eq(3)');
     var source_cell = $("#" + rowid).children(':eq(2)');
     cell.attr('title', source_cell.text());
-}
-//function to add zebra-stripping
-function zebraStriping()
-{
-    $('#treegrid tr').removeClass("even").removeClass("odd");
-    $('#treegrid tr:odd:visible').addClass('odd');
-    $('#treegrid tr:even:visible').addClass('even');
 }
 
 jQuery("#treegrid").jqGrid({
@@ -49,7 +47,7 @@ jQuery("#treegrid").jqGrid({
         {name:'creator_index', index: 'creator_index', hidden: true },
         {name:'creator', index: 'creator_index', width: 70, classes: "ui-ellipsis"},
         {name:'last_mod_index', index:'last_mod_index', hidden: true},
-        {name:'last_mod', index:'last_mod_index', fixed: true},
+        {name:'last_mod', width: 105, index:'last_mod_index', align: 'center', fixed: true},
         {name:'file_size_index', index:'file_size_index', hidden: true, sortable: true, sorttype:'integer'},
         {name:'file_size', index:'file_size_index', width: 90, fixed: true  }
      ],

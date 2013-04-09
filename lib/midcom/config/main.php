@@ -491,7 +491,7 @@ class midcom_config implements arrayaccess
 
         // Related to JavaScript libraries
         'jquery_version' => '1.8.2.min',
-        'jquery_ui_version' => '1.9.2',
+        'jquery_ui_version' => '1.10.2',
         'jquery_ui_theme' => null,
         'jquery_load_from_google' => false,
         'enable_ajax_editing' => false,

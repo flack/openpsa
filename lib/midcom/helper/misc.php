@@ -274,26 +274,25 @@ class midcom_helper_misc
 
     /**
      * Helper function for pretty printing file sizes
-     * Original from http://www.theukwebdesigncompany.com/articles/php-file-manager.php
      *
      * @param int $size  File size in bytes
      * @return string    Prettified file size
      */
     public static function filesize_to_string($size)
     {
-        if ($size > 1048576)
+        if ($size >= 1048576)
         {
             // More than a meg
-            return $return_size = sprintf("%01.2f", $size / 1048576) . " Mb";
+            return sprintf("%01.1f", $size / 1048576) . " MB";
         }
-        else if ($size > 1024)
+        else if ($size >= 1024)
         {
             // More than a kilo
-            return $return_size = sprintf("%01.2f", $size / 1024) . " Kb";
+            return sprintf("%01.1f", $size / 1024) . " KB";
         }
         else
         {
-            return $return_size = $size." Bytes";
+            return $size . " Bytes";
         }
     }
 
