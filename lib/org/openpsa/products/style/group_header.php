@@ -5,7 +5,7 @@ if (array_key_exists('view_group', $data))
     ?>
     <h1>&(view['code']:h); &(view['title']:h);</h1>
 
-    <?php if ($view['up'] != '')
+    <?php if (!empty($data['group']->up))
     { ?>
     <div class="parent_group">
         <span class="label"><?php echo $data['l10n']->get('parent group'); ?>: </span>
