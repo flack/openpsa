@@ -238,7 +238,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $head = midcom::get('head');
         $head->enable_jquery();
 
-        $theme_files = array('autocomplete');
+        $theme_files = array('autocomplete', 'menu');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
