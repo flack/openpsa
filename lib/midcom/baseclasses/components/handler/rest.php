@@ -48,6 +48,12 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * @var string
      */
     protected $_mode;
+    
+    /**
+     * the id or guid of the requested object
+     * @var mixed
+     */
+    protected $_id = false;
 
     /**
      * @inheritDoc
@@ -57,7 +63,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         // try logging in over basic auth
         midcom::get('auth')->_http_basic_auth();
     }
-
+    
     /**
      * the base handler that should be pointed to by the routes
      *
@@ -95,10 +101,20 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             default:
                 break;
         }
-
+        
         foreach ($this->_request['params'] as $key => $value)
         {
             $this->_request['params'][$key] = $this->_parse_value($value);
+        }
+        
+        // determine id / guid
+        if (isset($this->_request['params']['id']))
+        {
+            $this->_id = intval($this->_request['params']['id']);
+        }
+        if (isset($this->_request['params']['guid']))
+        {
+            $this->_id = $this->_request['params']['guid'];
         }
     }
 
@@ -131,21 +147,20 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         // create mode
         if ($this->_mode == "create")
         {
-            $this->_object = new $classname();
+            $this->_object = new $classname;
             return $this->_object;
         }
 
-        // for all other modes, we need an id
-        if (!isset($this->_request['params']['id']))
+        // for all other modes, we need an id or guid
+        if (!$this->_id)
         {
-            $this->_stop("Missing id for " . $this->_mode . " mode", 500);
+            $this->_stop("Missing id / guid for " . $this->_mode . " mode", 500);
         }
 
         // try finding existing object
         try
         {
-            $obj_id = intval($this->_request['params']['id']);
-            $this->_object = new $classname($obj_id);
+            $this->_object = new $classname($this->_id);
             return $this->_object;
         }
         catch (Exception $e)
@@ -188,6 +203,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         {
             $this->_responseStatus = 200;
             $this->_response["id"] = $this->_object->id;
+            $this->_response["guid"] = $this->_object->guid;
             $this->_response["message"] = $this->_mode . " ok";
         }
         else
@@ -212,7 +228,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             // post and put might be used for create/update
             if ($this->_request['method'] == 'post' || $this->_request['method'] == 'put')
             {
-                if (isset($this->_request['params']['id']))
+                if ($this->_id)
                 {
                     $this->_mode = 'update';
                     $this->handle_update();
@@ -322,6 +338,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             // on success, return id
             $this->_responseStatus = 200;
             $this->_response["id"] = $this->_object->id;
+            $this->_response["guid"] = $this->_object->guid;
             $this->_response["message"] = $this->_mode . "ok";
         }
         else

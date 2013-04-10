@@ -23,13 +23,15 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      * searches for an salesproject the deliverable for the given person can be created for
      * will autogenerate one if none is found
      *
-     * @param int $person_id
+     * @param string $person_guid
      * @return org_openpsa_sales_salesproject_dba
      */
-    private function _get_salesproject($person_id)
+    private function _get_salesproject($person_guid)
     {
+        $person = new org_openpsa_contacts_person_dba($person_guid);
+        
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-        $qb->add_constraint('customerContact', '=', $person_id);
+        $qb->add_constraint('customerContact', '=', $person->id);
         $results = $qb->execute();
 
         if (count($results) > 0)
@@ -39,7 +41,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         // create a new salesproject
         $salesproject = new org_openpsa_sales_salesproject_dba();
-        $salesproject->customerContact = $person_id;
+        $salesproject->customerContact = $person->id;
 
         // add logged in user as salesproject owner
         $salesproject->owner = midcom::get('auth')->user->get_storage()->id;
@@ -50,7 +52,6 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
             $salesproject->title = $this->_request['params']['salesproject_title'];
         }
         // add username to salesproject title
-        $person = new org_openpsa_contacts_person_dba($person_id);
         $salesproject->title .= $person->lastname . ", " . $person->firstname;
         $stat = $salesproject->create();
         if (!$stat)
@@ -67,15 +68,15 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      */
     public function handle_create()
     {
-        $person_id = isset($this->_request['params']['person_id']) ? intval($this->_request['params']['person_id']) : false;
+        $person_guid = isset($this->_request['params']['person_guid']) ? $this->_request['params']['person_guid'] : false;
         $product_id = isset($this->_request['params']['product_id']) ? intval($this->_request['params']['product_id']) : false;
 
         // check param
-        if (!$person_id || !$product_id)
+        if (!$person_guid || !$product_id)
         {
             $this->_stop("missing param for creating the order");
         }
-        $salesproject = $this->_get_salesproject($person_id);
+        $salesproject = $this->_get_salesproject($person_guid);
 
         // create deliverable and add it to the salesproject
         // get the product we want to add
@@ -114,6 +115,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         $this->_object = $deliverable;
         $this->_responseStatus = 200;
+        $this->_response["guid"] = $this->_object->guid;
         $this->_response["id"] = $this->_object->id;
         $this->_response["message"] = "order created";
     }
