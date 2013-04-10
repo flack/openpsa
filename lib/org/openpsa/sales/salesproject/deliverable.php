@@ -300,9 +300,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             return false;
         }
 
-        // Cache the original cost values intended and reset the fields
-        $this->plannedUnits = $this->units;
-        $this->plannedCost = $this->cost;
         if ($this->invoiceByActualUnits)
         {
             $this->cost = 0;

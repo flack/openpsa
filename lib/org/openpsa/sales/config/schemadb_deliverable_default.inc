@@ -115,54 +115,6 @@
             'type' => 'number',
             'widget'  => 'text',
         ),
-        'unit' => Array
-        (
-            'title' => 'unit',
-            'storage' => 'unit',
-            'type' => 'select',
-            'type_config' => Array
-            (
-                'options' => org_openpsa_products_viewer::get_unit_options(),
-            ),
-            'readonly' => true,
-            'widget' => 'select',
-        ),
-        'units' => Array
-        (
-            'title' => 'units',
-            'storage' => 'units',
-            'type' => 'number',
-            'widget'  => 'text',
-        ),
-        'plannedUnits' => Array
-        (
-            'title' => 'planned units',
-            'storage' => 'plannedUnits',
-            'type' => 'number',
-            'widget'  => 'text',
-        ),
-        'price' => Array
-        (
-            'title' => 'price',
-            'storage' => 'price',
-            'type' => 'number',
-            'widget'  => 'text',
-            'readonly' => true,
-        ),
-        'invoiceByActualUnits' => Array
-        (
-            'title'   => 'invoice by actual units',
-            'storage' => 'invoiceByActualUnits',
-            'type'    => 'boolean',
-            'widget'  => 'checkbox',
-        ),
-        'invoiceApprovedOnly' => Array
-        (
-            'title'   => 'invoice approved only',
-            'storage' => 'invoiceApprovedOnly',
-            'type'    => 'boolean',
-            'widget'  => 'checkbox',
-        ),
         'costPerUnit' => Array
         (
             'title' => 'cost per unit',
@@ -183,7 +135,48 @@
             'storage' => 'cost',
             'type' => 'number',
             'widget'  => 'text',
-            'readonly' => true,
+            'hidden' => true,
+        ),
+        'units' => Array
+        (
+            'title' => 'units',
+            'storage' => 'units',
+            'type' => 'number',
+            'widget'  => 'text',
+            'hidden' => true,
+        ),
+        'plannedUnits' => Array
+        (
+            'title' => 'planned units',
+            'storage' => 'plannedUnits',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'invoiceByActualUnits' => Array
+        (
+            'title'   => 'invoice by actual units',
+            'storage' => 'invoiceByActualUnits',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'invoiceApprovedOnly' => Array
+        (
+            'title'   => 'invoice approved only',
+            'storage' => 'invoiceApprovedOnly',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'unit' => Array
+        (
+            'title' => 'unit',
+            'storage' => 'unit',
+            'type' => 'select',
+            'type_config' => Array
+            (
+                'options' => org_openpsa_products_viewer::get_unit_options(),
+            ),
+            'hidden' => true,
+            'widget' => 'select',
         ),
     )
 ),
@@ -206,6 +199,16 @@
             'type' => 'text',
             'widget'  => 'text',
             'required' => true
+        ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => Array (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
         ),
         'tags' => Array
         (
@@ -255,16 +258,6 @@
                 ),
             ),
         ),
-        'description' => Array
-        (
-            'title' => 'description',
-            'storage' => 'description',
-            'type' => 'text',
-            'type_config' => Array (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
-        ),
         'start' => Array
         (
             'title' => 'subscription begins',
@@ -303,6 +296,21 @@
             'type'    => 'boolean',
             'widget'  => 'checkbox',
         ),
+        'notify' => Array
+        (
+            'title' => 'notify date',
+            'storage' => 'notify',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
         'product' => Array
         (
             'title' => 'product',
@@ -317,12 +325,35 @@
             'type' => 'number',
             'widget'  => 'text',
         ),
+        'costPerUnit' => Array
+        (
+            'title' => 'cost per unit',
+            'storage' => 'costPerUnit',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'costType' => Array
+        (
+            'title' => 'cost type',
+            'storage' => 'costType',
+            'type' => 'text',
+            'widget' => 'hidden',
+        ),
+        'cost' => Array
+        (
+            'title' => 'cost',
+            'storage' => 'cost',
+            'type' => 'number',
+            'widget'  => 'text',
+            'hidden' => true,
+        ),
         'units' => Array
         (
             'title' => 'units',
             'storage' => 'units',
             'type' => 'number',
             'widget'  => 'text',
+            'hidden' => true
         ),
         'plannedUnits' => Array
         (
@@ -330,7 +361,20 @@
             'storage' => 'plannedUnits',
             'type' => 'number',
             'widget'  => 'text',
-            'hidden' => true
+        ),
+        'invoiceByActualUnits' => Array
+        (
+            'title'   => 'invoice by actual units',
+            'storage' => 'invoiceByActualUnits',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'invoiceApprovedOnly' => Array
+        (
+            'title'   => 'invoice approved only',
+            'storage' => 'invoiceApprovedOnly',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
         ),
         'unit' => Array
         (
@@ -351,52 +395,6 @@
             'readonly' => false,
             'widget' => 'select',
         ),
-        'price' => Array
-        (
-            'title' => 'price',
-            'storage' => 'price',
-            'type' => 'number',
-            'widget'  => 'text',
-            'readonly' => true,
-        ),
-        'invoiceByActualUnits' => Array
-        (
-            'title'   => 'invoice by actual units',
-            'storage' => 'invoiceByActualUnits',
-            'type'    => 'boolean',
-            'widget'  => 'checkbox',
-        ),
-        'invoiceApprovedOnly' => Array
-        (
-            'title'   => 'invoice approved only',
-            'storage' => 'invoiceApprovedOnly',
-            'type'    => 'boolean',
-            'widget'  => 'checkbox',
-        ),
-        'costPerUnit' => Array
-        (
-            'title' => 'cost per unit',
-            'storage' => 'costPerUnit',
-            'type' => 'number',
-            'widget'  => 'text',
-        ),
-        'costType' => Array
-        (
-            'title' => 'cost type',
-            'storage' => 'costType',
-            'type' => 'text',
-            'widget' => 'hidden',
-        ),
-
-        'cost' => Array
-        (
-            'title' => 'cost',
-            'storage' => 'cost',
-            'type' => 'number',
-            'widget'  => 'text',
-            'hidden' => true,
-        ),
-
         'at_entry' => Array
         (
             'title'   => '',
@@ -419,21 +417,6 @@
                 'show_time' => false,
             ),
             'hidden' => true
-        ),
-        'notify' => Array
-        (
-            'title' => 'notify date',
-            'storage' => 'notify',
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME'
-            ),
-            'widget' => 'jsdate',
-            'widget_config' => Array
-            (
-                'show_time' => false,
-            ),
         ),
     )
 ),

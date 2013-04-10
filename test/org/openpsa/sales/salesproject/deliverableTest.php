@@ -116,7 +116,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     ),
                     'deliverable' => array
                     (
-                        'units' => 10,
+                        'plannedUnits' => 10,
                         'costPerUnit' => 2,
                     )
                 ),
@@ -126,7 +126,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'deliverable' => array
                     (
                         'plannedUnits' => 10,
-                        'plannedCost' => 20,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
                     ),
                     'salesproject' => array
@@ -159,7 +158,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     ),
                     'deliverable' => array
                     (
-                        'units' => 10,
+                        'plannedUnits' => 10,
                         'costPerUnit' => 2,
                         'invoiceByActualUnits' => true,
                     )
@@ -170,7 +169,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'deliverable' => array
                     (
                         'plannedUnits' => 10,
-                        'plannedCost' => 20,
                         'cost' => 0,
                         'units' => 0,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
