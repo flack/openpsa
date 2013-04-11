@@ -1235,6 +1235,14 @@ body .ui-tooltip {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faf3a6', endColorstr='#faf3a6',GradientType=0 ); /* IE6-9 */
 }
 
+.ui-widget-overlay {
+    background-image: none;
+}
+
+.ui-tabs-panel .ui-widget-overlay {
+    position: absolute
+}
+
 .ui-dialog
 {
     box-shadow: 3px 6px 12px rgba(0,0,0,.3);
