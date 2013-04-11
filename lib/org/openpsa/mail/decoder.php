@@ -109,8 +109,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         {
             // Start with empty body and append all text parts to it
             $this->body = '';
-            reset ($this->__mime->parts);
-            while ($part = next($this->__mime->parts))
+            foreach ($this->__mime->parts as $part)
             {
                 $this->_part_decode($part);
             }
@@ -202,8 +201,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         if (   !empty($part->parts)
             && is_array($part->parts))
         {
-            reset ($part->parts);
-            while ($subPart = next($part->parts))
+            foreach ($part->parts as $subPart)
             {
                 //We might recurse quite deep so pop here.
                 $this->_part_decode($subPart);
