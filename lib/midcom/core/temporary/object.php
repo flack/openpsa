@@ -75,9 +75,9 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      *
      * Any invalid object / missing privilege will trigger a midcom_error.
      *
-     * @param midcom_dba_object $object The object to transfer the extensions to.
+     * @param midcom_core_dbaobject $object The object to transfer the extensions to.
      */
-    function move_extensions_to_object(midcom_dba_object $object)
+    public function move_extensions_to_object(midcom_core_dbaobject $object)
     {
         // Validate Privileges
         $object->require_do('midgard:update');
