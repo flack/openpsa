@@ -105,8 +105,49 @@
         (
             'title' => 'product',
             'storage' => 'product',
-            'type' => 'number',
-            'widget' => 'hidden',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_products_product_dba',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'delivery',
+                        'op' => '=',
+                        'value' => org_openpsa_products_product_dba::DELIVERY_SINGLE
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'code',
+                    'title'
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'name' => 'code',
+                    ),
+                    array
+                    (
+                        'name' => 'title',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('title'    => 'ASC'),
+                    array('code'    => 'ASC'),
+                ),
+            ),
+            'required' => true
         ),
         'pricePerUnit' => Array
         (
@@ -315,8 +356,49 @@
         (
             'title' => 'product',
             'storage' => 'product',
-            'type' => 'number',
-            'widget' => 'hidden',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_products_product_dba',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'delivery',
+                        'op' => '=',
+                        'value' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'code',
+                    'title'
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'name' => 'code',
+                    ),
+                    array
+                    (
+                        'name' => 'title',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('title'    => 'ASC'),
+                    array('code'    => 'ASC'),
+                ),
+            ),
+            'required' => true
         ),
         'pricePerUnit' => Array
         (
