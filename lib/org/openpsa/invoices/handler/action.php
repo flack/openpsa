@@ -187,6 +187,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $mail->subject = $this->_config->get('invoice_mail_title');
         $mail->body = $this->_config->get('invoice_mail_body');
 
+        if ($this->_config->get('invoice_mail_bcc'))
+        {
+            $mail->bcc = $this->_config->get('invoice_mail_bcc');
+        }
+
         // attach pdf to mail
         if ($mail->can_attach())
         {
