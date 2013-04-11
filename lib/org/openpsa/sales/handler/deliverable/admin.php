@@ -213,6 +213,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
         }
 
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
