@@ -363,7 +363,8 @@ class midcom_helper_toolbar
         else
         {
             // We have valid access key, add it to help text
-            if (strstr($_SERVER['HTTP_USER_AGENT'], 'Macintosh'))
+            if (   isset($_SERVER['HTTP_USER_AGENT'])
+                && strstr($_SERVER['HTTP_USER_AGENT'], 'Macintosh'))
             {
                 // Mac users
                 $hotkey = 'Ctrl-' . strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
