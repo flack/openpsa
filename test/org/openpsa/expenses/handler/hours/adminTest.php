@@ -59,11 +59,11 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
             'hours' => '2',
             'person' => array
             (
-                'org_openpsa_expenses_person_autocomplete_widget_selection' => '[' . $person->id . ']'
+                'selection' => '[' . $person->id . ']'
             ),
             'task' => array
             (
-                'org_openpsa_expenses_task_autocomplete_widget_selection' => '[' . self::$_task->id . ']'
+                'selection' => '[' . self::$_task->id . ']'
             ),
         );
 

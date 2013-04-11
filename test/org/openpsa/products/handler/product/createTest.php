@@ -35,7 +35,7 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
             'orgOpenpsaObtype' => (string) org_openpsa_products_product_dba::TYPE_GOODS,
             'productGroup' => array
             (
-                'org_openpsa_products_productGroup_autocomplete_widget_selection' => '[' . self::$_group->id . ']'
+                'selection' => '[' . self::$_group->id . ']'
             ),
         );
 

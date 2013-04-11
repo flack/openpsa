@@ -154,7 +154,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
         if (is_array($_POST['product']))
         {
-            $selection = json_decode($_POST['product']['org_openpsa_sales_product_autocomplete_widget_selection']);
+            $selection = json_decode($_POST['product']['selection']);
             $product_id = current($selection);
         }
         else
