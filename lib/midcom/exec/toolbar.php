@@ -57,5 +57,5 @@ else
             $session->set('position_y', $_REQUEST['position_y']);
             break;
     }
-}‚
+}
 ?>
