@@ -154,6 +154,8 @@ class midcom_exception_handler
         switch ($errno)
         {
             case E_ERROR:
+            case E_COMPILE_ERROR:
+            case E_RECOVERABLE_ERROR:
             case E_USER_ERROR:
                 // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
                 throw new midcom_error($msg, $errno);
