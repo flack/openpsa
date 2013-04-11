@@ -15,11 +15,14 @@ class org_openpsa_sales_salesproject_deliverable_adminTest extends openpsa_testc
 {
     protected static $_person;
     protected static $_salesproject;
+    protected static $_product;
 
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
         self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
+        $product_group = self::create_class_object('org_openpsa_products_product_group_dba');
+        self::$_product = self::create_class_object('org_openpsa_products_product_dba', array('productGroup' => $product_group->id));
     }
 
     public function testHandler_edit()
@@ -29,6 +32,7 @@ class org_openpsa_sales_salesproject_deliverable_adminTest extends openpsa_testc
         $deliverable_attributes = array
         (
             'salesproject' => self::$_salesproject->id,
+            'product' => self::$_product->id,
         );
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
