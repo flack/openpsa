@@ -39,10 +39,18 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         $root_group = org_openpsa_contacts_interface::find_root_group();
 
         $tree = new org_openpsa_widgets_tree('org_openpsa_contacts_group_dba', 'owner');
+        $tree->link_callback = array($this, 'get_group_link');
         $tree->constraints[] = array('orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
         $tree->root_node = $root_group->id;
         $tree->title_fields = array('official', 'name');
         return $tree;
+    }
+
+    public function get_group_link($guid)
+    {
+        $nap = new midcom_helper_nav;
+        $node = $nap->get_node($this->_topic->id);
+        return $node[MIDCOM_NAV_ABSOLUTEURL] . 'group/' . $guid . '/';
     }
 
     /**

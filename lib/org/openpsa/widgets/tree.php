@@ -30,7 +30,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
     /**
      * Callback for rendering object links. It receives the GUID as parameter
      *
-     * @var callback
+     * @var callable
      */
     public $link_callback;
 
