@@ -408,7 +408,9 @@ EOT;
     private function _get_form_selection($data)
     {
         $selection = array();
-        if (!isset($data[$this->name]["{$this->_element_id}_selection"]))
+        if (   !isset($data[$this->name])
+            || !is_array($data[$this->name])
+            || !array_key_exists("{$this->_element_id}_selection", $data[$this->name]))
         {
             return $selection;
         }
