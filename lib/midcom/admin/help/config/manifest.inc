@@ -40,7 +40,6 @@
     ),
     'dependencies' => array
     (
-        'net.nehmer.markdown' => array(),
         'midcom' => array(),
     ),
 ),

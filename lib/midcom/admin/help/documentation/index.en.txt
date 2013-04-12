@@ -32,4 +32,4 @@ Once scanned, documentation files are ordered by file names.
 A navigation bar is also created upon scanned items of Table of Contents and placed at the top and 
 bottom of each but *index* page..
 
-Help files are parsed using wiki markdown syntax. Refer to [net.nehmer.markdown](__ais/help/net.nehmer.markdown/markdown-syntax/) for more details.
+Help files are parsed using wiki markdown syntax. Refer to [midcom.helper.datamanager2](../midcom.helper.datamanager2/markdown/) for more details.

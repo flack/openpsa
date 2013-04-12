@@ -33,5 +33,5 @@ Ponadto, generator spisu treści tworzy także paski nawigacji prowadzące do po
 elementu w spisie treści, oraz do indeksu pomocy. Paski nawigacji znajdują się na każdej, poza indeksową, stronie.
 
 Pliki pomocy muszą być sformatowane za pomocą zapisu markdown. Przeczytaj 
-[opis składni net.nehmer.markdown](../net.nehmer.markdown/markdown-syntax/) by dowiedzieć się więcej.
+[opis składni midcom.helper.datamanager2](../midcom.helper.datamanager2/markdown/)  by dowiedzieć się więcej.
 

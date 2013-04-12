@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Michelf\Markdown;
+
 /**
  * Online help display
  *
@@ -38,7 +40,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             $this->mgdtypes[MGD_TYPE_NONE] = 'none';
         }
-        midcom::get('componentloader')->load_library('net.nehmer.markdown');
     }
 
     public function _on_initialize()
@@ -175,8 +176,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             return false;
         }
 
-        $marker = new net_nehmer_markdown_markdown();
-
         // Finding [callback:some_method_of_viewer]
         if (preg_match_all('/(\[callback:(.+?)\])/', $text, $regs))
         {
@@ -197,7 +196,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
         }
 
-        return $marker->render($text);
+        return Markdown::defaultTransform($text);
     }
 
     public function list_files($component, $with_index = false)

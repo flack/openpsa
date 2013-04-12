@@ -816,7 +816,6 @@ class midcom_helper__componentloader
             'midgard.admin.asgard',
             'net.nehmer.blog',
             'net.nehmer.comments',
-            'net.nehmer.markdown',
             'net.nehmer.static',
             'net.nemein.redirector',
             'net.nemein.rss',

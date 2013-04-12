@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Michelf\Markdown;
+
 /**
  * Datamanager 2 Simple text datatype. The text value encapsulated by this type is
  * passed as-is to the storage layers, no specialties done, just a string.
@@ -26,7 +28,7 @@
  * - 'nl2br': The value is run through htmlspecialchars() and nl2br()
  * - 'midgard_f': Uses the Midgard :f formatter.
  * - 'midgard_F': Uses the Midgard :F formatter.
- * - 'markdown': Uses net.nehmer.markdown.
+ * - 'markdown': Uses Michelf\Markdown.
  *
  * @package midcom.helper.datamanager2
  */
@@ -414,22 +416,15 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                 return midcom_helper_formatter::format($this->value, 'F');
 
             case 'markdown':
-                static $markdown = null;
-                if (! $markdown)
-                {
-                    midcom::get('componentloader')->load_library('net.nehmer.markdown');
-                    $markdown = new net_nehmer_markdown_markdown();
-                }
-
                 if (   !$this->purify
                     || !$this->purify_markdown_on_output)
                 {
                     // Return the Markdown straight away
-                    return $markdown->render($this->value);
+                    return Markdown::defaultTransform($this->value);
                 }
 
                 // Run the Markdown-generated HTML through Purifier to ensure consistency. This is expensive, however
-                return $this->purify_string($markdown->render($this->value));
+                return $this->purify_string(Markdown::defaultTransform($this->value));
 
             case (substr($this->output_mode, 0, 1) == 'x'):
                 // Run the contents through a custom formatter registered via mgd_register_filter

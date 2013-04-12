@@ -34,7 +34,6 @@
     'dependencies' => array
     (
         'org.openpsa.helpers' => array(),
-        'net.nehmer.markdown' => array(),
         'midcom' => array(),
     ),
 ),

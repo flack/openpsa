@@ -57,7 +57,6 @@
     ),
     'dependencies' => array
     (
-        'net.nehmer.markdown' => array(),
         'net.nemein.tag' => array(),
         'HTML_QuickForm' => array
         (

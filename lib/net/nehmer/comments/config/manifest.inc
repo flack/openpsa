@@ -51,7 +51,6 @@
     'dependencies' => array
     (
         'midcom.helper.datamanager2' => array(),
-        'net.nehmer.markdown' => array(),
         'org.openpsa.notifications' => array(),
         'org.openpsa.qbpager' => array(),
         'midcom' => array(),
