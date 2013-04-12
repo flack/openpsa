@@ -474,6 +474,21 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     }
 
     /**
+     * This function removes a field from the schema
+     *
+     * @param string $name The name of the field to remove
+     */
+    public function remove_field($name)
+    {
+        if (!array_key_exists($name, $this->fields))
+        {
+            throw new midcom_error("Field {$name} not found.");
+        }
+        $this->field_order = array_diff($this->field_order, array($name));
+        unset($this->fields[$name]);
+    }
+
+    /**
      * Internal helper function which completes all missing field declaration members
      * so that all fields can be treated uniformly.
      *
