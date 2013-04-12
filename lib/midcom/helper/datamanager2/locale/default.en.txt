@@ -167,12 +167,12 @@ Available Sizes
 Thumbnail
 ---STRINGEND
 
----STRING type number: value must not be larger then %s
-The value of this field may not be larger then %s.
+---STRING type number: value must not be larger than %s
+The value of this field may not be larger than %s.
 ---STRINGEND
 
----STRING type number: value must not be smaller then %s
-The value of this field may not be smaller then %s.
+---STRING type number: value must not be smaller than %s
+The value of this field may not be smaller than %s.
 ---STRINGEND
 
 ---STRING type php: parse error in line %s
@@ -195,8 +195,8 @@ You can only select values from the list for this field.
 Value contains an expression that is not allowed: "%s". %s
 ---STRINGEND
 
----STRING type text: value is longer then %d characters
-The value of this field may not be longer then %d characters.
+---STRING type text: value is longer than %d characters
+The value of this field may not be longer than %d characters.
 ---STRINGEND
 
 ---STRING type text: value may not be array or object

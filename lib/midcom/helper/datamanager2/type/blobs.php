@@ -436,7 +436,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param boolean $autoclose Set this to true if the file handle should automatically be closed
      *     after successful processing.
      * @param string $tmpfile In case you have a filename to the source handle, you should specify
-     *     it here. It will be used to load getimagesize information directly (rather then doing a
+     *     it here. It will be used to load getimagesize information directly (rather than doing a
      *     temporary copy). The default null indicates that the source file location is unknown.
      * @return boolean Indicating success.
      */
@@ -648,7 +648,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param boolean $autoclose Set this to true if the file handle should automatically be closed
      *     after successful processing.
      * @param string $tmpfile In case you have a filename to the source handle, you should specify
-     *     it here. It will be used to load getimagesize information directly (rather then doing a
+     *     it here. It will be used to load getimagesize information directly (rather than doing a
      *     temporary copy). The default null indicates that the source file location is unknown.
      * @return boolean Indicating success.
      */

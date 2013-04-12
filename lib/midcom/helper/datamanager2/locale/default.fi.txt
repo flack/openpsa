@@ -146,11 +146,11 @@ Saatavilla olevat koot
 Esikatselu
 ---STRINGEND
 
----STRING type number: value must not be larger then %s
+---STRING type number: value must not be larger than %s
 Kentän arvo ei saa olla suurempi kuin %s
 ---STRINGEND
 
----STRING type number: value must not be smaller then %s
+---STRING type number: value must not be smaller than %s
 Kentän arvo ei saa olla pienempi kuin %s
 ---STRINGEND
 
@@ -174,7 +174,7 @@ Voit valita vain vaihtoehtoja listalta
 Kentän arvo sisältää kielletyn ilmauksen: "%s". %s
 ---STRINGEND
 
----STRING type text: value is longer then %d characters
+---STRING type text: value is longer than %d characters
 Kentän arvo ei saa olla pidempi kuin %s merkkiä
 ---STRINGEND
 

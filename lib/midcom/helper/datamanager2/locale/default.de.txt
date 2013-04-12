@@ -163,11 +163,11 @@ Verfügbare Größen
 Vorschau
 ---STRINGEND
 
----STRING type number: value must not be larger then %s
+---STRING type number: value must not be larger than %s
 Der Wert dieses Feldes darf nicht größer als %s sein.
 ---STRINGEND
 
----STRING type number: value must not be smaller then %s
+---STRING type number: value must not be smaller than %s
 Der Wert dieses Feldes darf nicht kleiner als %s sein.
 ---STRINGEND
 
@@ -191,7 +191,7 @@ Für dieses Feld können Sie nur Werte aus der Liste auswählen.
 Der Wert enthält einen unzulässigen Ausdruck: "%s". %s
 ---STRINGEND
 
----STRING type text: value is longer then %d characters
+---STRING type text: value is longer than %d characters
 Der Wert dieses Feldes darf nicht länger als %d Zeichen sein.
 ---STRINGEND
 

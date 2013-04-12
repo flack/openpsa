@@ -103,7 +103,7 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
 
         if ($this->maxlength > 0)
         {
-            $errormsg = sprintf($this->_l10n->get('type text: value is longer then %d characters'), $this->maxlength);
+            $errormsg = sprintf($this->_l10n->get('type text: value is longer than %d characters'), $this->maxlength);
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
         if (is_a($this->_type, 'midcom_helper_datamanager2_type_number'))
@@ -131,12 +131,12 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
         if (   $this->_type->minimum !== null
             && $fields[$this->name] < $this->_type->minimum)
         {
-            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be smaller then %s'), $this->_type->minimum));
+            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be smaller than %s'), $this->_type->minimum));
         }
         if (   $this->_type->maximum !== null
             && $fields[$this->name] > $this->_type->maximum)
         {
-            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be larger then %s'), $this->_type->maximum));
+            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be larger than %s'), $this->_type->maximum));
         }
 
         return true;

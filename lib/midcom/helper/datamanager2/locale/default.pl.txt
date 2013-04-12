@@ -138,11 +138,11 @@ Dostępne rozmiary
 Miniatura
 ---STRINGEND
 
----STRING type number: value must not be larger then %s
+---STRING type number: value must not be larger than %s
 Wartość tego pola nie może przekraczać %s.
 ---STRINGEND
 
----STRING type number: value must not be smaller then %s
+---STRING type number: value must not be smaller than %s
 Wartość tego pola nie może być niższa niż %s.
 ---STRINGEND
 
@@ -162,7 +162,7 @@ Brak wyboru
 Dla tego pola możesz tylko wybierać z listy.
 ---STRINGEND
 
----STRING type text: value is longer then %d characters
+---STRING type text: value is longer than %d characters
 Wartość tego pola nie może być dłuższa niż %s znaków.
 ---STRINGEND
 

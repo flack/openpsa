@@ -98,11 +98,11 @@ Filstørrelse
 Tilgjengelige størrelser
 ---STRINGEND
 
----STRING type number: value must not be larger then %s
+---STRING type number: value must not be larger than %s
 Verdien kan ikke være mer enn %s.
 ---STRINGEND
 
----STRING type number: value must not be smaller then %s
+---STRING type number: value must not be smaller than %s
 Verdien kan ikke være mindre enn %s.
 ---STRINGEND
 
@@ -118,7 +118,7 @@ Ikke valgt
 Du kan kun velge verdier fra listen for dette feltet.
 ---STRINGEND
 
----STRING type text: value is longer then %d characters
+---STRING type text: value is longer than %d characters
 Du kan kun skrive inn %d bokstaver.
 ---STRINGEND
 

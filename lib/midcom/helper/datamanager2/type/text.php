@@ -297,7 +297,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         if (   $this->maxlength > 0
             && strlen($this->value) > $this->maxlength)
         {
-            $this->validation_error = sprintf($this->_l10n->get('type text: value is longer then %d characters'),
+            $this->validation_error = sprintf($this->_l10n->get('type text: value is longer than %d characters'),
                 $this->maxlength);
             return false;
         }

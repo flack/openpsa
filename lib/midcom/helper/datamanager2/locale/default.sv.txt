@@ -139,11 +139,11 @@ Tillgängliga storlekar
 Tumnagel
 ---STRINGEND
 
----STRING type number: value must not be larger then %s
+---STRING type number: value must not be larger than %s
 Värdet av det här fältet får inte vara större än %s.
 ---STRINGEND
 
----STRING type number: value must not be smaller then %s
+---STRING type number: value must not be smaller than %s
 Värdet av det här fältet får inte vara mindre än %s.
 ---STRINGEND
 
@@ -163,7 +163,7 @@ Inga val
 Du kan bara välja värden från listan för det här fältet.
 ---STRINGEND
 
----STRING type text: value is longer then %d characters
+---STRING type text: value is longer than %d characters
 Värdet i det här fältet får inte vara längre än %d tecken.
 ---STRINGEND
 

@@ -52,7 +52,7 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
             'class' => 'hiddentext',
             'id'    => "{$this->_namespace}{$this->name}",
         ));
-        $this->_form->addElement('hidden', $this->name, $this->_translate($this->_field['title']), $attributes);
+        $this->_form->addElement('hidden', $this->name, null, $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
         if (is_a($this->_type, 'midcom_helper_datamanager2_type_number'))
@@ -71,12 +71,12 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
         if (   $this->_type->minimum !== null
             && $fields[$this->name] < $this->_type->minimum)
         {
-            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be smaller then %s'), $this->_type->minimum));
+            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be smaller than %s'), $this->_type->minimum));
         }
         if (   $this->_type->maximum !== null
             && $fields[$this->name] > $this->_type->maximum)
         {
-            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be larger then %s'), $this->_type->maximum));
+            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be larger than %s'), $this->_type->maximum));
         }
 
         return true;

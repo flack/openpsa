@@ -415,7 +415,7 @@ EOT;
 
         if ($this->maxlength > 0)
         {
-            $errormsg = sprintf($this->_l10n->get('type text: value is longer then %d characters'), $this->maxlength);
+            $errormsg = sprintf($this->_l10n->get('type text: value is longer than %d characters'), $this->maxlength);
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
     }
