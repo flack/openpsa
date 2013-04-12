@@ -14,9 +14,9 @@
 class org_openpsa_products_validation
 {
     /**
-     * Test is username is available.
+     * Test is code is available.
      *
-     * If the formdata contains a person GUID, it is ignored during the search
+     * If the formdata contains a product ID, it is ignored during the search
      *
      * @var array $fields The form's data
      * @return mixed True on success, array of error messages otherwise

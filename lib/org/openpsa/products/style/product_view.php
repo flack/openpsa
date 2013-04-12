@@ -4,6 +4,7 @@ $view = $data['view_product'];
 <h1>&(view['code']:h); &(view['title']:h);</h1>
 
 <?php
+$data['datamanager']->schema->remove_field('id');
 $data['datamanager']->display_view();
 
 $tabs = array();

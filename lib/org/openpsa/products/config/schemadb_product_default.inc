@@ -10,6 +10,15 @@
     'description' => 'product',
     'fields'      => array
     (
+        'id' => Array
+        (
+            // COMPONENT-REQUIRED
+            'title'   => 'id',
+            'storage' => 'id',
+            'type'    => 'number',
+            'widget'  => 'hidden',
+            'readonly' => true,
+        ),
         'code' => Array
         (
             // COMPONENT-REQUIRED
