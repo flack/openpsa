@@ -284,7 +284,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $this->_widget_elements[] = HTML_QuickForm::createElement
         (
             'hidden',
-            "{$this->_element_id}_selection",
+            "selection",
             json_encode($selection),
             array
             (
@@ -317,7 +317,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $this->_widget_elements[] = HTML_QuickForm::createElement
         (
             'text',
-            "{$this->_element_id}_search_input",
+            "search_input",
             $this->_translate($this->_field['title']),
             array_merge($attributes, array
             (
@@ -371,7 +371,7 @@ EOT;
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
             $this->_form->addGroupRule($this->name, array
             (
-                "{$this->_element_id}_selection" => array
+                "selection" => array
                 (
                     array($errmsg, 'required'),
                     array($errmsg, 'regex', '/\[.+?\]/')
@@ -410,12 +410,12 @@ EOT;
         $selection = array();
         if (   !isset($data[$this->name])
             || !is_array($data[$this->name])
-            || !array_key_exists("{$this->_element_id}_selection", $data[$this->name]))
+            || !array_key_exists("selection", $data[$this->name]))
         {
             return $selection;
         }
 
-        $real_results = json_decode($data[$this->name]["{$this->_element_id}_selection"]);
+        $real_results = json_decode($data[$this->name]["selection"]);
 
         if (is_array($real_results))
         {

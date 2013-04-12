@@ -90,7 +90,8 @@ implements midcom_services_permalinks_resolver
         {
             return "group/{$object->guid}/";
         }
-        if ($object instanceof org_openpsa_contacts_person_dba)
+        if (   $object instanceof org_openpsa_contacts_person_dba
+            || $object instanceof midcom_db_person)
         {
             return "person/{$object->guid}/";
         }

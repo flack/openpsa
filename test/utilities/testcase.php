@@ -168,8 +168,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $formname = substr($controller->formmanager->namespace, 0, -1);
         $_SERVER['REQUEST_METHOD'] = 'POST';
-
-        $_POST = array_merge($controller->formmanager->form->_defaultValues, $formdata);
+        $oldvalue = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+        $form_values = $controller->formmanager->form->exportValues();
+        error_reporting($oldvalue);
+        $_POST = array_merge($form_values, $formdata);
 
         $_POST['_qf__' . $formname] = '';
         $_POST['midcom_helper_datamanager2_save'] = array('');

@@ -152,8 +152,16 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             throw new midcom_error('No product specified, aborting.');
         }
-
-        $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);
+        if (is_array($_POST['product']))
+        {
+            $selection = json_decode($_POST['product']['selection']);
+            $product_id = current($selection);
+        }
+        else
+        {
+            $product_id = (int) $_POST['product'];
+        }
+        $this->_product = new org_openpsa_products_product_dba($product_id);
 
         $this->_prepare_datamanager();
 
