@@ -170,6 +170,10 @@ Preis
 Produkt
 ---STRINGEND
 
+---STRING product code %s already exists in database
+Der Produkt-Code "%s" ist bereits vergeben.
+---STRINGEND
+
 ---STRING product database
 Produkt-Datenbank
 ---STRINGEND

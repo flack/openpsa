@@ -1,5 +1,12 @@
 'default' => array
 (
+    'validation' => Array
+    (
+        Array
+        (
+            'callback' => array(new org_openpsa_products_validation, 'is_code_available'),
+        ),
+    ),
     'description' => 'product',
     'fields'      => array
     (

@@ -90,40 +90,24 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
 
     function validate_code($code)
     {
-        $quickform_mode = false;
-
         if ($code == '')
         {
             return true;
         }
 
-        if (is_array($code))
-        {
-            // This validation call was made by QuickForm
-            $quickform_mode = true;
-            $code = $code['code'];
-        }
-
         // Check for duplicates
         $qb = org_openpsa_products_product_dba::new_query_builder();
         $qb->add_constraint('code', '=', $code);
+
         if (!empty($this->id))
         {
             $qb->add_constraint('id', '<>', $this->id);
-            // Make sure the product is in the same product group
-            $qb->add_constraint('productGroup', '=', (int)$this->productGroup);
         }
-        $result = $qb->execute();
-        if (count($result) > 0)
+        // Make sure the product is in the same product group
+        $qb->add_constraint('productGroup', '=', (int)$this->productGroup);
+
+        if ($qb->count() > 0)
         {
-            if ($quickform_mode)
-            {
-                $error = array
-                (
-                    'code' => "Product {$code} already exists in database.",
-                );
-                return $error;
-            }
             return false;
         }
         return true;

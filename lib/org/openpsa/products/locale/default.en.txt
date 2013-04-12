@@ -170,6 +170,10 @@ Price
 Product
 ---STRINGEND
 
+---STRING product code %s already exists in database
+Product code "%s" already exists in database.
+---STRINGEND
+
 ---STRING product database
 Product database
 ---STRINGEND
