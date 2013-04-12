@@ -96,7 +96,10 @@ var midcom_helper_datamanager2_autocomplete =
             data: query_options,
             success: function(data)
             {
-                cache[term] = data;
+                if (!$.isEmptyObject(data))
+                {
+                    cache[term] = data;
+                }
                 data = filter_existing(data);
                 $('.ui-autocomplete-loading').data('cache', cache);
                 response(data);
