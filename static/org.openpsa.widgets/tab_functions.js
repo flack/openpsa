@@ -149,12 +149,13 @@ var org_openpsa_widgets_tabs =
     },
     intercept_clicks: function(event)
     {
-        if ($(event.currentTarget).attr('onclick'))
+        var target = $(event.currentTarget),
+            href = target.attr('href');
+
+        if (target.attr('onclick'))
         {
             return true;
         }
-
-        var href = $(event.currentTarget).attr('href');
 
         if (!href.match(/\/uitab\//))
         {
@@ -162,11 +163,10 @@ var org_openpsa_widgets_tabs =
         }
         //for now, only links to plugins will be displayed inside the tab
         if (   !href.match(/\/__mfa\/org\.openpsa/)
-            || $(event.currentTarget).hasClass('tab_escape'))
+            || target.hasClass('tab_escape'))
         {
-            location.href = href.replace(/\/uitab\/+/, '/');
-            event.preventDefault();
-            return false;
+            target.attr('href', href.replace(/\/uitab\/+/, '/'));
+            return true;
         }
 
         if (href.slice(href.length - 1, href.length) !== '#')
