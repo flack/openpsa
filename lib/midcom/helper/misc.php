@@ -398,6 +398,7 @@ class midcom_helper_misc
 
         return $node;
     }
+
     /**
      * Get the content of the element by the passed element name.
      * Tries to resolve path according to theme-name & page
@@ -408,7 +409,7 @@ class midcom_helper_misc
     public static function get_element_content($element_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
         $theme = midcom::get('config')->get('theme');
-        $path_array = explode('/' , $theme);
+        $path_array = explode('/', $theme);
         $theme_array = array_reverse($path_array);
 
         //get the page if there is one
@@ -438,19 +439,20 @@ class midcom_helper_misc
         }
         return $content;
     }
+
     /**
      * Helper function iterating through possible page directories in style-tree and checking if
      * the page exist(as a folder).
-     * 
+     *
      * @param string $page_name
      * @param string $theme_root
      */
-    public static function check_page_exists($page_name , $theme_root = OPENPSA2_THEME_ROOT)
+    public static function check_page_exists($page_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
         $is_dir = false;
-        $path_array = explode('/' , midcom::get('config')->get('theme'));
+        $path_array = explode('/', midcom::get('config')->get('theme'));
         $theme_array = $path_array;
-        
+
         foreach($path_array as $sub_style)
         {
             $theme_path = implode('/', $theme_array);
