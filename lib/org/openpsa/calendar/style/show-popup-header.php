@@ -20,9 +20,7 @@ if (array_key_exists('popup_title', $data))
     </head>
     <body id="org_openpsa_popup"<?php midcom::get('head')->print_jsonload(); ?>>
         <div id="container">
-            <?php
-            echo "<h1>{$title}</h1>\n";
-            ?>
+            <h1>&(title);</h1>\n";
             <div id="org_openpsa_toolbar">
                     <?php
                     midcom::get('toolbars')->show_view_toolbar();
