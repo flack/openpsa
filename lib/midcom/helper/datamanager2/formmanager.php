@@ -193,9 +193,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         $this->namespace = "{$name}_";
 
-        // Ignore deprecation warnings caused by HTML_Quickform
-        $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
-
         // TODO: make configurable to get URL from midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $this->_defaults = array();
@@ -203,9 +200,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         // Create the default renderer specified in the configuration.
         $this->_create_default_renderer();
-
         $this->_create_form();
-        error_reporting($old_value);
+
         return true;
     }
 
@@ -758,11 +754,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             || $exitcode == 'next')
         {
             // Validate the form.
-            // FIXME: QuickForm isn't really compatible with modern
-            // PHP versions and should be replaced. That is why
-            // we have to silence the errors here to make MidCOM
-            // run with PHP 5.4 and newer.
-            if (!@$this->form->validate())
+            if (!$this->form->validate())
             {
                 debug_add('Failed to validate the form, reverting to edit mode.');
                 $exitcode = 'edit';
