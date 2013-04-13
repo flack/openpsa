@@ -85,7 +85,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
         {
             $key = $this->format{$i};
 
-            $this->_elements[] = HTML_QuickForm::createElement
+            $this->_elements[] = $this->_form->createElement
             (
                 'select',
                 $key,

@@ -95,10 +95,10 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
         $static_html = recaptcha_get_html($this->_public_key);
         $static_html = midcom_helper_misc::get_snippet_content_graceful('/sitegroup-config/midcom.helper.datamanager2/recaptcha').$static_html;
 
-        $this->_element = HTML_QuickForm::createElement('static', "{$this->name}_captcha", '', $static_html);
+        $this->_element = $this->_form->createElement('static', "{$this->name}_captcha", '', $static_html);
 
         $elements[] = $this->_element;
-        $elements[] = HTML_QuickForm::createElement('hidden', $this->name, '', $attributes);
+        $elements[] = $this->_form->createElement('hidden', $this->name, '', $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
         $this->_form->addGroup($elements, "{$this->name}_group", $this->_translate($this->_field['title']),

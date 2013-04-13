@@ -93,14 +93,14 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             'class' => 'dropdown privilegeselection',
             'id'    => "{$this->_namespace}{$this->name}",
         );
-        $this->_element = HTML_QuickForm::createElement('select', $this->name, '',
+        $this->_element = $this->_form->createElement('select', $this->name, '',
             $this->_privilege_options, $select_attributes);
 
         $this->_jscript = '<script type="text/javascript">';
         $this->_jscript .= 'jQuery("#' . $this->_namespace . $this->name . '_holder").render_privilege();';
         $this->_jscript .= '</script>';
 
-        $elements[] = HTML_QuickForm::createElement
+        $elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_namespace}{$this->name}_holder_start",
@@ -108,14 +108,14 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             "<div id=\"{$this->_namespace}{$this->name}_holder\">"
         );
         $elements[] = $this->_element;
-        $elements[] = HTML_QuickForm::createElement
+        $elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_namespace}{$this->name}_holder_end",
             '',
             "</div>"
         );
-        $elements[] = HTML_QuickForm::createElement
+        $elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_namespace}{$this->name}_initscripts",

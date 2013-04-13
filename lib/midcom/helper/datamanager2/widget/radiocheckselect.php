@@ -82,7 +82,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         {
             if ($this->_type->allow_multiple)
             {
-                $elements[] = HTML_QuickForm::createElement
+                $elements[] = $this->_form->createElement
                 (
                     'checkbox',
                     $key,
@@ -93,7 +93,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
             }
             else
             {
-                $elements[] = HTML_QuickForm::createElement
+                $elements[] = $this->_form->createElement
                 (
                     'radio',
                     null,

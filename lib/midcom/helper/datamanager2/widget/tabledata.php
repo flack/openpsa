@@ -170,7 +170,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         $html .= "</table>\n";
 
         // Add the HTML to the form
-        $this->_elements['tabledata_widget'] = HTML_QuickForm::createElement('static', 'tabledata_widget', '', $html);
+        $this->_elements['tabledata_widget'] = $this->_form->createElement('static', 'tabledata_widget', '', $html);
 
         $this->_group = $this->_form->addGroup($this->_elements, $this->name, $this->_translate($this->_field['title']), "\n");
     }

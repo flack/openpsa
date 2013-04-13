@@ -108,7 +108,7 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
         $html .= "</p>\n";
         $html .= "<ul id=\"{$this->name}_sortable\" class=\"midcom_helper_datamanager2_widget_sortable\">\n";
 
-        $this->_elements['s_header'] = HTML_QuickForm::createElement('static', 's_header', '', $html);
+        $this->_elements['s_header'] = $this->_form->createElement('static', 's_header', '', $html);
 
         // Temporary array for the selection set
         $temp = array();
@@ -140,9 +140,9 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
         $html = $this->_render_items($temp);
 
         // Add the element HTML to the form
-        $this->_elements['s_body'] = HTML_QuickForm::createElement('static', 's_body', '', $html);
+        $this->_elements['s_body'] = $this->_form->createElement('static', 's_body', '', $html);
 
-        $this->_elements['s_footer'] = HTML_QuickForm::createElement('static', 's_footer', '', "</ul>\n");
+        $this->_elements['s_footer'] = $this->_form->createElement('static', 's_footer', '', "</ul>\n");
 
         if (!$readonly)
         {
@@ -153,7 +153,7 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
             $html .= "</script>\n";
 
             // Add the JavaScript HTML to the form
-            $this->_elements['s_javascript'] = HTML_QuickForm::createElement('static', 's_body', '', $html);
+            $this->_elements['s_javascript'] = $this->_form->createElement('static', 's_body', '', $html);
         }
     }
 

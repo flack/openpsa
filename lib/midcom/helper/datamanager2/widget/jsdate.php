@@ -199,19 +199,19 @@ EOT;
 
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', ''), false);
 
+        $rules = array();
         if ($this->_field['required'])
         {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
-            $this->_form->addGroupRule($this->name, array
+            $rules = array
             (
-                $this->name . '_date' => array
-                (
-                    array($errmsg, 'required'),
-                    array($errmsg, 'regex', '/^[^0]/')
-                )
-            ));
+                array($errmsg, 'required'),
+                array($errmsg, 'regex', '/^[^0]/')
+            );
         }
-        $this->_form->addRule($this->name . '_date', $this->_translate('validation failed: date'), 'checkjsdate');
+        $rules[] = array($this->_translate('validation failed: date'), 'checkjsdate');
+        $this->_form->addGroupRule($this->name, array($this->name . '_date' => $rules));
+
     }
 
     /**
@@ -228,7 +228,7 @@ EOT;
             'id'    => "{$this->_namespace}{$this->name}_date",
             'size'  => 10
         );
-        $elements[] = HTML_QuickForm::createElement('text', $this->name . '_date', '', $attributes);
+        $elements[] = $this->_form->createElement('text', $this->name . '_date', '', $attributes);
 
         if ($this->show_time)
         {
@@ -238,32 +238,32 @@ EOT;
                 'id'    => "{$this->_namespace}{$this->name}_hours",
                 'size'  => 2
             );
-            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_hours", '', $attributes);
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_hours_separator", '', ':');
+            $elements[] = $this->_form->createElement('text', "{$this->name}_hours", '', $attributes);
+            $elements[] = $this->_form->createElement('static', "{$this->name}_hours_separator", '', ':');
             $attributes = Array
             (
                 'class' => 'jsdate_minutes',
                 'id'    => "{$this->_namespace}{$this->name}_minutes",
                 'size'  => 2
             );
-            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_minutes", '', $attributes);
+            $elements[] = $this->_form->createElement('text', "{$this->name}_minutes", '', $attributes);
 
             if (!$this->hide_seconds)
             {
-                $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_minutes_separator", '', ':');
+                $elements[] = $this->_form->createElement('static', "{$this->name}_minutes_separator", '', ':');
                 $attributes = Array
                 (
                     'class' => 'jsdate_seconds',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",
                     'size'  => 2
                 );
-                $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_seconds", '', $attributes);
+                $elements[] = $this->_form->createElement('text', "{$this->name}_seconds", '', $attributes);
             }
         }
 
         if (!$frozen)
         {
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
+            $elements[] = $this->_form->createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
         }
         return $elements;
     }

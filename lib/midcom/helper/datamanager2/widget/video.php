@@ -70,14 +70,14 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
             'class' => 'fileselector',
             'id'    => "{$this->_namespace}{$this->name}",
         ));
-        $this->_upload_element = HTML_QuickForm::createElement('file', "{$this->name}_file", '', $attributes);
+        $this->_upload_element = $this->_form->createElement('file', "{$this->name}_file", '', $attributes);
 
         $attributes = Array
         (
             'class' => 'fileselector',
             'id'    => "{$this->_namespace}{$this->name}_video",
         );
-        $this->_upload_element_video = HTML_QuickForm::createElement('file', "{$this->name}_file_video", '', $attributes);
+        $this->_upload_element_video = $this->_form->createElement('file', "{$this->name}_file_video", '', $attributes);
 
         $elements = Array();
         $elements_video = Array();
@@ -193,7 +193,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $static_html .= "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
             $this->_l10n->get('upload image') . ":</td>\n" .
             "<td class='midcom_helper_datamanager2_widget_image_upload'>";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         $elements[] = $this->_upload_element;
 
@@ -204,18 +204,18 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
                 "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
                 $this->_l10n_midcom->get('title') . ":</td>\n" .
                 "<td class='midcom_helper_datamanager2_widget_image_title'>";
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+            $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array
             (
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
             );
-            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
+            $elements[] = $this->_form->createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
         }
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     /**
@@ -279,14 +279,14 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
             }
         }
         $static_html .= "</ul>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add the Delete button
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
 
         // Add action buttons
         $this->add_action_elements($elements);
@@ -296,7 +296,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
             "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
             $this->_l10n->get('replace image') . ":</td>\n" .
             "<td class='midcom_helper_datamanager2_widget_image_upload'>";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter1", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
 
@@ -307,18 +307,18 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
                 "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
                 $this->_l10n_midcom->get('title') . ":</td>\n" .
                 "<td class='midcom_helper_datamanager2_widget_image_title'>";
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+            $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array
             (
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
             );
-            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
+            $elements[] = $this->_form->createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
         }
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     function _create_upload_elements_video(&$elements)
@@ -326,27 +326,27 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         // The table
         $static_html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n";
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // The video file
         $static_html = "<tr><td>Video:</td><td>" . $this->_l10n->get('no file uploaded') . "</td></tr>\n";
 
         // Video info
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
         // The upload field
         $static_html = "<tr><td>" . $this->_l10n->get('upload file') . "</td><td>\n";
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
         $elements[] = $this->_upload_element_video;
 
         $static_html = "</td></tr>\n";
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
         $static_html = "\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     function _create_replace_elements_video(&$elements)
@@ -354,7 +354,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         // The table
         $static_html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n";
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // The video file
         $static_html = "<tr><td>Video:</td><td><ul>\n";
@@ -370,19 +370,19 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         }
 
         $static_html .= "</ul>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
         // Add the Delete button
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_delete_video", $this->_l10n->get('delete video'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_delete_video", $this->_l10n->get('delete video'), $attributes);
 
         // The upload field
         $static_html = "</td></tr><tr><td>" . $this->_l10n->get('upload file') . "</td><td>\n";
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
         $elements[] = $this->_upload_element_video;
         $attributes = Array
@@ -392,10 +392,10 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
 
         $static_html = "</td></tr>";
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
         $static_html = "\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     /**
@@ -431,7 +431,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         {
             $html = $this->_l10n->get('no file uploaded');
         }
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_filename", '', "<p>{$html}</p>");
+        $elements[] = $this->_form->createElement('static', "{$this->name}_filename", '', "<p>{$html}</p>");
     }
 
     private function _get_preview_size()
@@ -635,7 +635,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $static_html .= "         </li>\n";
         $static_html .= "    </ul>\n";
         $static_html .= "</div>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_image_actions_static", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_image_actions_static", '', $static_html);
     }
 }
 ?>

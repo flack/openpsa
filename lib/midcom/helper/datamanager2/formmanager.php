@@ -352,7 +352,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     $accesskey = 'c';
                 }
 
-                $buttons[] = &HTML_QuickForm::createElement('submit', $buttonname, $buttonlabel, Array('class' => $class, 'accesskey' => $accesskey));
+                $buttons[] = $this->form->createElement('submit', $buttonname, $buttonlabel, Array('class' => $class, 'accesskey' => $accesskey));
             }
         }
 
@@ -482,7 +482,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $html .= "<p>". $this->_translate($fieldset['description']) . "</p>\n";
             }
 
-            $set = HTML_QuickForm::createElement('static', "__fieldset_start_{$name}_{$key}", "");
+            $set = $this->form->createElement('static', "__fieldset_start_{$name}_{$key}", "");
             $this->renderer->setElementTemplate($html, "__fieldset_start_{$name}_{$key}");
             $this->form->addElement($set);
             $this->_fieldsets++;
@@ -526,7 +526,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $this->_fieldsets--;
         }
 
-        $set = HTML_QuickForm::createElement('static', "__fieldset_end_{$name}", "");
+        $set = $this->form->createElement('static', "__fieldset_end_{$name}", "");
         $this->renderer->setElementTemplate($html, "__fieldset_end_{$name}");
         $this->form->addElement($set);
     }

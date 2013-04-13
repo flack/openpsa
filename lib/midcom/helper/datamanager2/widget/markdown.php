@@ -96,17 +96,17 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         }
 
         $elements = Array();
-        $elements[] = HTML_QuickForm::createElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
+        $elements[] = $this->_form->createElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_toolbar", '', "<script> jQuery('#{$this->_namespace}{$this->name}').markItUp(mySettings);\n</script>");
+        $elements[] = $this->_form->createElement('static', "{$this->name}_toolbar", '', "<script> jQuery('#{$this->_namespace}{$this->name}').markItUp(mySettings);\n</script>");
 
         // Load help text
         // TODO: l10n
         $file = MIDCOM_ROOT . "/midcom/helper/datamanager2/documentation/markdown.en.txt";
         if (file_exists($file))
         {
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_help", '', "<div class=\"markdown_cheatsheet\" style=\"display: none;\">" . Markdown::defaultTransform(file_get_contents($file)) . "</div>");
+            $elements[] = $this->_form->createElement('static', "{$this->name}_help", '', "<div class=\"markdown_cheatsheet\" style=\"display: none;\">" . Markdown::defaultTransform(file_get_contents($file)) . "</div>");
         }
 
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);

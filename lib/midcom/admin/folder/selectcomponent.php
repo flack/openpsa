@@ -50,7 +50,7 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         ));
         $select_attributes['class'] .= ' selectcomponent';
 
-        $select_element = HTML_QuickForm::createElement('select', $this->name, $this->_translate($this->_field['title']),
+        $select_element = $this->_form->createElement('select', $this->name, $this->_translate($this->_field['title']),
            array(), $select_attributes);
 
         // Translate and add

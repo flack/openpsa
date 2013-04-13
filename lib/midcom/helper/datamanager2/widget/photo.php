@@ -74,10 +74,10 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
     {
         debug_add('called');
         $static_html = "<label for='{$this->_namespace}{$this->name}'>" . $this->_l10n->get('upload image') . ": \n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
         $elements[] = $this->_upload_element;
         $static_html = "\n</label>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     /**
@@ -132,7 +132,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
                 "{$size}, {$info['formattedsize']}</li>\n";
         }
         $static_html .= "</ul>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add action buttons
         if ($this->show_action_elements)
@@ -145,24 +145,24 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
             "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
             $this->_l10n->get('replace image') . ":</td>\n" .
             "<td class='midcom_helper_datamanager2_widget_image_upload'>";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter1", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add the Delete button
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 }
 ?>

@@ -105,17 +105,17 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
             $this->_session_key;
 
         $static_html = "<img src='{$url}' alt='{$alt}' text='{$alt}' class='captcha' />";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_image", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_image", '', $static_html);
 
         $static_html = $this->_l10n->get('captcha message');
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_message", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_message", '', $static_html);
 
         $attributes = array_merge($attributes, array
         (
             'class' => 'captcha',
             'id'    => "{$this->_namespace}{$this->name}",
         ));
-        $this->_element = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
+        $this->_element = $this->_form->createElement('text', $this->name, '', $attributes);
         $elements[] = $this->_element;
         $this->_form->applyFilter($this->name, 'trim');
 

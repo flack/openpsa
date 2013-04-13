@@ -281,7 +281,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
         $selection = $this->_get_selection();
 
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'hidden',
             "selection",
@@ -314,7 +314,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         }
 
         // Text input for the search box
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'text',
             "search_input",
@@ -357,7 +357,7 @@ EOT;
 
         $script = '<script type="text/javascript">' . $script . '</script>';
 
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_initscript",

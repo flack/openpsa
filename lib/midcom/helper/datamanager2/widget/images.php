@@ -196,7 +196,7 @@ END;
                     "    </thead>\n" .
                     "    <tbody>\n";
         }
-        $this->_elements['s_header'] = HTML_QuickForm::createElement('static', 's_header', '', $html);
+        $this->_elements['s_header'] = $this->_form->createElement('static', 's_header', '', $html);
     }
 
     /**
@@ -223,49 +223,49 @@ END;
         $html = "         <tr>\n" .
                 $sortable .
                 "            <td class=\"new filename\">";
-        $this->_elements['s_new_filename'] = HTML_QuickForm::createElement('static', 's_new_filename', '', $html);
+        $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
         $attributes = Array
         (
             'class' => 'new filename',
             'id'    => "{$this->_namespace}{$this->name}_e_new_filename",
         );
-        $this->_elements['e_new_filename'] = HTML_QuickForm::createElement('text', 'e_new_filename', '', $attributes);
+        $this->_elements['e_new_filename'] = $this->_form->createElement('text', 'e_new_filename', '', $attributes);
 
         // Title Column
         $html = "            </td>\n" .
                 "            <td class=\"new title\">";
-        $this->_elements['s_new_title'] = HTML_QuickForm::createElement('static', 's_new_title', '', $html);
+        $this->_elements['s_new_title'] = $this->_form->createElement('static', 's_new_title', '', $html);
         $attributes = Array
         (
             'class' => 'new title',
             'id'    => "{$this->_namespace}{$this->name}_e_new_title",
         );
-        $this->_elements['e_new_title'] = HTML_QuickForm::createElement('text', 'e_new_title', '', $attributes);
+        $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
         if (! $frozen)
         {
             // Controls Column
             $html = "            </td>\n" .
                     "            <td class=\"new upload\">";
-            $this->_elements['s_new_upload'] = HTML_QuickForm::createElement('static', 's_new_upload', '', $html);
+            $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
             $attributes = Array
             (
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
             );
-            $this->_elements['e_new_file'] = HTML_QuickForm::createElement('file', 'e_new_file', '', $attributes);
+            $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
             $attributes = Array
             (
                 'class' => 'new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
             );
 
-            $this->_elements['e_new_upload'] = HTML_QuickForm::createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
+            $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
         }
 
         $html = "            </td>\n" .
                 "        </tr>\n";
-        $this->_elements['s_new_file'] = HTML_QuickForm::createElement('static', 's_new_file', '', $html);
+        $this->_elements['s_new_file'] = $this->_form->createElement('static', 's_new_file', '', $html);
     }
 
     /**
@@ -289,30 +289,30 @@ END;
         // Filename column
         $html .= "            <td class=\"new text\" colspan=\"2\">";
         $html .= sprintf("%s:", $this->_l10n->get('add new file'));
-        $this->_elements['s_new_filename'] = HTML_QuickForm::createElement('static', 's_new_filename', '', $html);
+        $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
 
         if (! $frozen)
         {
             // Controls Column
             $html = "</td><td class=\"new upload\" colspan=\"2\">";
-            $this->_elements['s_new_upload'] = HTML_QuickForm::createElement('static', 's_new_upload', '', $html);
+            $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
             $attributes = Array
             (
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
             );
-            $this->_elements['e_new_file'] = HTML_QuickForm::createElement('file', 'e_new_file', '', $attributes);
+            $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
             $attributes = Array
             (
                 'class' => 'new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
             );
-            $this->_elements['e_new_upload'] = HTML_QuickForm::createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
+            $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
         }
 
         $html = "            </td>\n" .
                 "        </tr>\n";
-        $this->_elements['s_new_file'] = HTML_QuickForm::createElement('static', 's_new_file', '', $html);
+        $this->_elements['s_new_file'] = $this->_form->createElement('static', 's_new_file', '', $html);
     }
 
     /**
@@ -378,17 +378,17 @@ END;
                 "                {$preview}<br />\n" .
                 "                <a href=\"{$info['url']}\">{$info['filename']}</a>\n" .
                 "            </td>\n";
-        $this->_elements["s_exist_{$identifier}_filename"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_filename", '', $html);
+        $this->_elements["s_exist_{$identifier}_filename"] = $this->_form->createElement('static', "s_exist_{$identifier}_filename", '', $html);
 
         // Title Column, set the value explicitly, as we are sometimes called after the defaults kick in.
         $html = "            <td class=\"exist title\" title=\"{$img_title}\">";
-        $this->_elements["s_exist_{$identifier}_title"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_title", '', $html);
+        $this->_elements["s_exist_{$identifier}_title"] = $this->_form->createElement('static', "s_exist_{$identifier}_title", '', $html);
         $attributes = Array
         (
             'class' => 'exist title',
             'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_title",
         );
-        $this->_elements["e_exist_{$identifier}_title"] = HTML_QuickForm::createElement('text', "e_exist_{$identifier}_title", '', $attributes);
+        $this->_elements["e_exist_{$identifier}_title"] = $this->_form->createElement('text', "e_exist_{$identifier}_title", '', $attributes);
         $this->_elements["e_exist_{$identifier}_title"]->setValue($img_title);
 
         if (!$frozen)
@@ -398,7 +398,7 @@ END;
 
         $html = "            </td>\n" .
                 "        </tr>\n";
-        $this->_elements["s_exist_{$identifier}_file"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_file", '', $html);
+        $this->_elements["s_exist_{$identifier}_file"] = $this->_form->createElement('static', "s_exist_{$identifier}_file", '', $html);
     }
 
     private function _get_preview_html($info, $identifier)
@@ -451,21 +451,21 @@ END;
         {
             $html = "            </td>\n" .
                     "            <td class=\"exist upload\">\n";
-            $this->_elements["s_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
+            $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
             $attributes = Array
             (
                 'class' => 'exist file',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
                 'onchange' => "midcom_helper_dm2_widget_images_check(event, 'e_exist_{$identifier}_delete')",
             );
-            $this->_elements["e_exist_{$identifier}_file"] = HTML_QuickForm::createElement('file', "e_exist_{$identifier}_file", '', $attributes);
-            $this->_elements["s_exist_{$identifier}_br"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
+            $this->_elements["e_exist_{$identifier}_file"] = $this->_form->createElement('file', "e_exist_{$identifier}_file", '', $attributes);
+            $this->_elements["s_exist_{$identifier}_br"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
             $attributes = Array
             (
                 'class' => 'exist upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
             );
-            $this->_elements["e_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
+            $this->_elements["e_exist_{$identifier}_upload"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
         }
         if ($info['object']->can_do('midgard:delete'))
         {
@@ -474,13 +474,13 @@ END;
                 'class' => 'exist delete',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
             );
-            $this->_elements["e_exist_{$identifier}_delete"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
+            $this->_elements["e_exist_{$identifier}_delete"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
         }
         // WTF, the identifiers look wonky here
         $html = sprintf("<span id=\"e_exist_{$identifier}_delete\" style=\"display:none;color:red\">%s</span>",
                         $this->_l10n_midcom->get('You can only upload images here. This file will not be saved.')
                         );
-        $this->_elements["s_exist_{$identifier}_error"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
+        $this->_elements["s_exist_{$identifier}_error"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
     }
 
     /**
@@ -492,7 +492,7 @@ END;
     {
         $html = "    </tbody>\n" .
                 "</table>\n";
-        $this->_elements['s_footer'] = HTML_QuickForm::createElement('static', 's_footer', '', $html);
+        $this->_elements['s_footer'] = $this->_form->createElement('static', 's_footer', '', $html);
     }
 
     /**

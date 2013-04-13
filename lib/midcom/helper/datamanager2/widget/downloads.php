@@ -213,7 +213,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                     "    </thead>\n" .
                     "    <tbody>\n";
         }
-        $this->_elements['s_header'] = HTML_QuickForm::createElement('static', 's_header', '', $html);
+        $this->_elements['s_header'] = $this->_form->createElement('static', 's_header', '', $html);
     }
 
     /**
@@ -242,24 +242,24 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         $html = "<tr>\n" .
                 $sortable .
                 "<td class=\"new filename\">";
-        $this->_elements['s_new_filename'] = HTML_QuickForm::createElement('static', 's_new_filename', '', $html);
+        $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
         $attributes = Array
         (
             'class' => 'new filename',
             'id'    => "{$this->_namespace}{$this->name}_e_new_filename",
         );
-        $this->_elements['e_new_filename'] = HTML_QuickForm::createElement('text', 'e_new_filename', '', $attributes);
+        $this->_elements['e_new_filename'] = $this->_form->createElement('text', 'e_new_filename', '', $attributes);
 
         // Title Column
         $html = "</td>\n" .
                 "<td class=\"new title\">";
-        $this->_elements['s_new_title'] = HTML_QuickForm::createElement('static', 's_new_title', '', $html);
+        $this->_elements['s_new_title'] = $this->_form->createElement('static', 's_new_title', '', $html);
         $attributes = array
         (
             'class' => 'new title',
             'id'    => "{$this->_namespace}{$this->name}_e_new_title",
         );
-        $this->_elements['e_new_title'] = HTML_QuickForm::createElement('text', 'e_new_title', '', $attributes);
+        $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
         if (! $frozen)
         {
@@ -268,13 +268,13 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                     "<td class=\"new upload\">";
             $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"" .
                     "value=\"" . $this->progress_id . "\" />";
-            $this->_elements['s_new_upload'] = HTML_QuickForm::createElement('static', 's_new_upload', '', $html);
+            $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
             $attributes = array
             (
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
             );
-            $this->_elements['e_new_file'] = HTML_QuickForm::createElement('file', 'e_new_file', '', $attributes);
+            $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
 
             $attributes = array
             (
@@ -287,18 +287,18 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
                 $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
             }
-            $this->_elements['e_new_upload'] = HTML_QuickForm::createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
+            $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
 
             if($this->show_progressbar)
             {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
-                $this->_elements['new_progress'] = & HTML_QuickForm::createElement('static', "new_progress", '', $html);
+                $this->_elements['new_progress'] = & $this->_form->createElement('static', "new_progress", '', $html);
             }
         }
 
         $html = "</td>\n" .
                 "</tr>\n";
-        $this->_elements['s_new_file'] = HTML_QuickForm::createElement('static', 's_new_file', '', $html);
+        $this->_elements['s_new_file'] = $this->_form->createElement('static', 's_new_file', '', $html);
     }
 
     /**
@@ -328,17 +328,17 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 "<td class=\"exist filename\" title=\"{$info['filename']}\">\n" .
                 "<a href=\"{$info['url']}\" class=\"download\">{$info['filename']}</a>\n" .
                 "</td>\n";
-        $this->_elements["s_exist_{$identifier}_filename"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_filename", '', $html);
+        $this->_elements["s_exist_{$identifier}_filename"] = $this->_form->createElement('static', "s_exist_{$identifier}_filename", '', $html);
 
         // Title Column, set the value explicitly, as we are sometimes called after the defaults kick in.
         $html = "<td class=\"exist title\" title=\"{$info['description']}\">";
-        $this->_elements["s_exist_{$identifier}_title"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_title", '', $html);
+        $this->_elements["s_exist_{$identifier}_title"] = $this->_form->createElement('static', "s_exist_{$identifier}_title", '', $html);
         $attributes = Array
         (
             'class' => 'exist title',
             'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_title",
         );
-        $this->_elements["e_exist_{$identifier}_title"] = HTML_QuickForm::createElement('text', "e_exist_{$identifier}_title", '', $attributes);
+        $this->_elements["e_exist_{$identifier}_title"] = $this->_form->createElement('text', "e_exist_{$identifier}_title", '', $attributes);
         $this->_elements["e_exist_{$identifier}_title"]->setValue($info['description']);
 
         if (!$frozen)
@@ -350,13 +350,13 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                         "<td class=\"exist upload\">";
                 $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"" .
                     "value=\"" . $this->progress_id . "\" />";
-                $this->_elements["s_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
+                $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
                 $attributes = Array
                 (
                     'class' => 'exist file',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
                 );
-                $this->_elements["e_exist_{$identifier}_file"] = HTML_QuickForm::createElement('file', "e_exist_{$identifier}_file", '', $attributes);
+                $this->_elements["e_exist_{$identifier}_file"] = $this->_form->createElement('file', "e_exist_{$identifier}_file", '', $attributes);
 
                 $attributes = Array
                 (
@@ -369,8 +369,8 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                     $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
                     $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
                 }
-                $this->_elements["s_exist_{$identifier}_br"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
-                $this->_elements["e_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
+                $this->_elements["s_exist_{$identifier}_br"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
+                $this->_elements["e_exist_{$identifier}_upload"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
             }
             if ($this->_type->attachments[$identifier]->can_do('midgard:delete'))
             {
@@ -379,19 +379,19 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                     'class' => 'submit exist delete',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
                 );
-                $this->_elements["e_exist_{$identifier}_delete"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
+                $this->_elements["e_exist_{$identifier}_delete"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
             }
 
             if ($this->show_progressbar)
             {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
-                $this->_elements['new_progress'] = & HTML_QuickForm::createElement('static', "new_progress", '', $html);
+                $this->_elements['new_progress'] = & $this->_form->createElement('static', "new_progress", '', $html);
             }
         }
 
         $html = "</td>\n" .
                 "</tr>\n";
-        $this->_elements["s_exist_{$identifier}_file"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_file", '', $html);
+        $this->_elements["s_exist_{$identifier}_file"] = $this->_form->createElement('static', "s_exist_{$identifier}_file", '', $html);
     }
 
     /**
@@ -403,7 +403,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     {
         $html = "</tbody>\n" .
                 "</table>\n";
-        $this->_elements['s_footer'] = HTML_QuickForm::createElement('static', 's_footer', '', $html);
+        $this->_elements['s_footer'] = $this->_form->createElement('static', 's_footer', '', $html);
     }
 
     /**

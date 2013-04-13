@@ -119,7 +119,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             }
         }
 
-        $select_element = HTML_QuickForm::createElement('select', $this->name, $this->_translate($this->_field['title']),
+        $select_element = $this->_form->createElement('select', $this->name, $this->_translate($this->_field['title']),
             $this->_all_elements, $select_attributes);
         $select_element->setMultiple($this->_type->allow_multiple);
         if ($this->_type->allow_multiple)
@@ -130,7 +130,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
         if ($this->_type->allow_other)
         {
             $select_element->setName('select');
-            $other_element = HTML_QuickForm::createElement('text', 'other', "Others");
+            $other_element = $this->_form->createElement('text', 'other', "Others");
 
             $elements = Array();
             $elements[] = $select_element;

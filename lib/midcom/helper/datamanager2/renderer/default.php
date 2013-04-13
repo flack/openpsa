@@ -160,7 +160,6 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         $this->namespace = $namespace;
         $this->_group_template = $this->_default_group_template;
-        parent::__construct();
     }
 
     /**

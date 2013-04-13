@@ -196,7 +196,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html .= "    </ul>\n";
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_static_widget_start",
@@ -211,7 +211,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html = "</div><!-- widget ends -->\n";
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_static_widget_end",
@@ -313,7 +313,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "\n</div><!-- tab_content_place ends -->\n";
 
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_static_place",
@@ -412,7 +412,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "\n</div><!-- tab_content_map ends -->\n";
 
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_static_map",
@@ -460,7 +460,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "\n</div><!-- tab_content_coordinates ends -->\n";
 
-        $this->_widget_elements[] = HTML_QuickForm::createElement
+        $this->_widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_static_coordinates",

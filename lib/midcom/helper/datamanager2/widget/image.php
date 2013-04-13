@@ -71,7 +71,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             'class' => 'fileselector',
             'id'    => "{$this->_namespace}{$this->name}",
         ));
-        $this->_upload_element = HTML_QuickForm::createElement('file', "{$this->name}_file", '', $attributes);
+        $this->_upload_element = $this->_form->createElement('file', "{$this->name}_file", '', $attributes);
         $elements = Array();
 
         if ($this->_type->attachments)
@@ -166,7 +166,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $static_html .= "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
             $this->_l10n->get('upload image') . ":</td>\n" .
             "<td class='midcom_helper_datamanager2_widget_image_upload'>";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         $elements[] = $this->_upload_element;
 
@@ -174,7 +174,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add Title line if configured to do so.
         if ($this->show_title)
@@ -183,18 +183,18 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
                 $this->_l10n_midcom->get('title') . ":</td>\n" .
                 "<td class='midcom_helper_datamanager2_widget_image_title'>";
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+            $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array
             (
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
             );
-            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
+            $elements[] = $this->_form->createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
         }
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     /**
@@ -242,7 +242,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 "{$size}, {$info['formattedsize']}</li>\n";
         }
         $static_html .= "</ul>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add action buttons
         if ($this->show_action_elements)
@@ -255,21 +255,21 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
             $this->_l10n->get('replace image') . ":</td>\n" .
             "<td class='midcom_helper_datamanager2_widget_image_upload'>";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter1", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add the Delete button
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );
-        $elements[] = HTML_QuickForm::createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
+        $elements[] = $this->_form->createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
 
         // Add Title line if configured to do so.
         if ($this->show_title)
@@ -278,18 +278,18 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
                 $this->_l10n_midcom->get('title') . ":</td>\n" .
                 "<td class='midcom_helper_datamanager2_widget_image_title'>";
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
+            $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array
             (
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
             );
-            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
+            $elements[] = $this->_form->createElement('text', "{$this->name}_title", $this->_type->title, $attributes);
         }
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 
     protected function _get_preview_html($main_info)
@@ -392,7 +392,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         {
             $html = $this->_l10n->get('no file uploaded');
         }
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_filename", '', "<p>{$html}</p>");
+        $elements[] = $this->_form->createElement('static', "{$this->name}_filename", '', "<p>{$html}</p>");
     }
 
     /**
@@ -525,7 +525,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $static_html .= "         </li>\n";
         $static_html .= "    </ul>\n";
         $static_html .= "</div>\n";
-        $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_image_actions_static", '', $static_html);
+        $elements[] = $this->_form->createElement('static', "{$this->name}_image_actions_static", '', $static_html);
     }
 }
 ?>

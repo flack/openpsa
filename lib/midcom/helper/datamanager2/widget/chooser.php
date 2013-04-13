@@ -835,7 +835,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         // Get url to search handler
         $this->_handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/chooser_handler.php';
 
-        $this->widget_elements[] = HTML_QuickForm::createElement
+        $this->widget_elements[] = $this->_form->createElement
         (
             'hidden',
             "{$this->_element_id}_handler_url",
@@ -847,7 +847,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         );
 
         // Text input for the search box
-        $search_input = HTML_QuickForm::createElement
+        $search_input = $this->_form->createElement
         (
             'text',
             "{$this->_element_id}_search_input",
@@ -880,7 +880,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
             $html = $button_html . $dialog_html;
 
-            $this->widget_elements[] = HTML_QuickForm::createElement
+            $this->widget_elements[] = $this->_form->createElement
             (
                 'static',
                 "{$this->_element_id}_creation_dialog_holder",
@@ -927,7 +927,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->_static_items_html .= "    </tbody>\n";
         $this->_static_items_html .= "</table>\n";
 
-        $this->widget_elements[] = HTML_QuickForm::createElement
+        $this->widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_initscripts",
@@ -935,14 +935,14 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $this->_jscript
         );
 
-        $this->widget_elements[] = HTML_QuickForm::createElement
+        $this->widget_elements[] = $this->_form->createElement
         (
             'static',
             "{$this->_element_id}_noscript",
             '',
             $this->_static_items_html
         );
-        $this->widget_elements[] = HTML_QuickForm::createElement
+        $this->widget_elements[] = $this->_form->createElement
         (
             'hidden',
             "{$this->_element_id}_selections",

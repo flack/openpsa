@@ -58,7 +58,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
 
         $elements = Array();
 
-        $elements[] = HTML_QuickForm::createElement
+        $elements[] = $this->_form->createElement
         (
             'radio',
             null,
@@ -67,7 +67,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_ALLOW,
             Array('class' => 'radiobutton')
         );
-        $elements[] = HTML_QuickForm::createElement
+        $elements[] = $this->_form->createElement
         (
             'radio',
             null,
@@ -76,7 +76,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_DENY,
             Array('class' => 'radiobutton')
         );
-        $elements[] = HTML_QuickForm::createElement
+        $elements[] = $this->_form->createElement
         (
             'radio',
             null,

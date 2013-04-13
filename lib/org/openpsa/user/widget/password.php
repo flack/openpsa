@@ -34,10 +34,10 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
             </label>';
 
         $jsinit = $this->_prepare_jsinit();
-        $elements[] = HTML_QuickForm::createElement('static', $this->name . '_menu', '', $menu);
+        $elements[] = $this->_form->createElement('static', $this->name . '_menu', '', $menu);
         $title = $this->_translate($this->_field['title']);
-        $elements[] = HTML_QuickForm::createElement('password', $this->name . '_input', $title, $attributes);
-        $elements[] = HTML_QuickForm::createElement('static', $this->name . '_jsinit', '', $jsinit);
+        $elements[] = $this->_form->createElement('password', $this->name . '_input', $title, $attributes);
+        $elements[] = $this->_form->createElement('static', $this->name . '_jsinit', '', $jsinit);
         $this->_form->addGroup($elements, $this->name, $title);
     }
 
