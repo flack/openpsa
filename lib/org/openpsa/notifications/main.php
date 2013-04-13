@@ -126,8 +126,15 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $qb->begin_group('OR');
         foreach ($memberships as $member)
         {
-            $group = new midcom_db_group($member->gid);
-            $qb->add_constraint('parentguid', '=', $group->guid);
+            try
+            {
+                $group = new midcom_db_group($member->gid);
+                $qb->add_constraint('parentguid', '=', $group->guid);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
         $qb->end_group();
 
