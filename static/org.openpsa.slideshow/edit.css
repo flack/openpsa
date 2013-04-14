@@ -43,12 +43,13 @@
     height: 80px;
     display: table-cell;
     vertical-align: middle;
+    text-align: center;
     background-color: white;
 }
 #item_container .entry .thumbnail img
 {
     border: 1px solid #ddd;
-    width: 100px;
+    max-width: 100px;
     max-height: 100px;
     display: table-cell;
     vertical-align: middle

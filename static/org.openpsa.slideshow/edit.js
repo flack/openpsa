@@ -9,7 +9,7 @@ $(document).ready(function()
     });
     $('.existing-entry').each(function(index, item)
     {
-        $(item).data('original_values',
+        $(item).data('saved_values',
         {
             position: index,
             title: $(item).find('.title input').val(),
@@ -75,10 +75,22 @@ $(document).ready(function()
         $('#save_all').closest('form').hide();
         progressbar
             .progressbar({
-                value: 0,
+                value: false,
                 change: function()
                 {
-                    label.text(progressbar.progressbar('value') + '%');
+                    if (progressbar.progressbar('value') !== false)
+                    {
+                        label.text(progressbar.progressbar('value') + '%');
+                    }
+                },
+                complete: function()
+                {
+                    progressbar.fadeOut('slow', function()
+                    {
+                        $('#save_all').closest('form').show();
+                        progressbar.progressbar('value', false);
+                        label.text('');
+                    });
                 }
             })
             .show()
@@ -145,11 +157,11 @@ $(document).ready(function()
             fd = new FormData(),
             title = $(item).find('.title input').val(),
             description = $(item).find('.description textarea').val(),
-            original_values = $(item).data('original_values');
+            saved_values = $(item).data('saved_values');
 
-            if (  title === original_values.title
-               && description === original_values.description
-               && index === original_values.position)
+            if (  title === saved_values.title
+               && description === saved_values.description
+               && index === saved_values.position)
             {
                 return;
             }
@@ -165,6 +177,12 @@ $(document).ready(function()
                 if (xhr.readyState === 4)
                 {
                     remove_pending_request();
+                    $(item).data('saved_values',
+                    {
+                        position: index,
+                        title: title,
+                        description: description
+                    });
                 }
             };
 
@@ -181,27 +199,18 @@ $(document).ready(function()
 
             $('#progress_bar')
                 .data('pending', pending)
-                .data('total', total)
-                .progressbar('value', Math.round((completed / total) * 100));
+                .data('total', total);
         }
 
         function remove_pending_request()
         {
             var pending = $('#progress_bar').data('pending') - 1,
-            total = $('#progress_bar').data('total') + 1,
+            total = $('#progress_bar').data('total'),
             completed = total - pending;
 
             $('#progress_bar')
                 .data('pending', pending)
                 .progressbar('value', Math.round((completed / total) * 100));
-
-            if (pending < 1)
-            {
-                $('#progress_bar').fadeOut('slow', function()
-                {
-                    $('#save_all').closest('form').show();
-                });
-            }
         }
 
         $('#item_container .entry-deleted').each(function(index, item)
