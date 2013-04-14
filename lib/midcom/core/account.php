@@ -50,7 +50,10 @@ class midcom_core_account
     private $_old_password;
     private $_old_username;
 
-    public function __construct(midcom_db_person &$person)
+    /**
+     * @param object midgard_person, midcom_db_person or similar
+     */
+    public function __construct(&$person)
     {
         $this->_person =& $person;
         if (method_exists('midgard_user', 'login'))
@@ -68,19 +71,14 @@ class midcom_core_account
         }
         if (!array_key_exists($person->guid, self::$_instances))
         {
-            $dbperson = $person;
-            if (!($person instanceof midcom_db_person))
-            {
-                $dbperson = new midcom_db_person($person);
-            }
-            self::$_instances[$person->guid] = new self($dbperson);
+            self::$_instances[$person->guid] = new self($person);
         }
         return self::$_instances[$person->guid];
     }
 
     public function save()
     {
-        $this->_person->require_do('midgard:update');
+        midcom::get('auth')->require_do('midgard:update', $this->_person);
         if (!$this->_is_username_unique())
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom'), midcom::get('i18n')->get_string('username already exists', 'org.openpsa.contacts'), 'error');
@@ -110,7 +108,7 @@ class midcom_core_account
      */
     public function delete()
     {
-        $this->_person->require_do('midgard:delete');
+        midcom::get('auth')->require_do('midgard:delete', $this->_person);
         $stat = false;
         if ($this->_midgard2)
         {

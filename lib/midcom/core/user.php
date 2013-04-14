@@ -228,10 +228,7 @@ class midcom_core_user
             throw new midcom_error('storage GUID is not set');
         }
 
-        //Request sudo to prevent infinite loops during login
-        midcom::get('auth')->request_sudo('midcom.core');
         $account = midcom_core_account::get($this->_storage);
-        midcom::get('auth')->drop_sudo();
 
         $this->username = $account->get_username();
         $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");
