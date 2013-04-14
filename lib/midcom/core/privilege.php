@@ -491,10 +491,10 @@ class midcom_core_privilege
                 continue;
             }
             $privilege_object->scope = $privilege_object->_get_scope();
-            $return[] = $privilege_object;
+            $result[] = $privilege_object;
         }
 
-        return $return;
+        return $result;
     }
 
     /**
