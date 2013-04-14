@@ -46,12 +46,3 @@
     'handler' => array('org_openpsa_mypage_handler_workingon', 'set'),
     'fixed_args' => array('workingon', 'set' ),
 ),
-
-// Match /config/
-'config' => array
-(
-    'handler' => array('midcom_baseclasses_components_handler_configuration', 'config'),
-    'schemadb' => 'file:/org/openpsa/mypage/config/schemadb_config.inc',
-    'schema' => 'config',
-    'fixed_args' => array('config'),
-),
