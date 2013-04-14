@@ -20,6 +20,11 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_requested_time;
 
+    /**
+     * @var midcom_db_person
+     */
+    private $_person;
+
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
@@ -28,8 +33,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if (   $this->_person
-            && $this->_person->guid)
+        if (!empty($this->_person->guid))
         {
             $defaults['participants'][$this->_person->id] = $this->_person;
         }
