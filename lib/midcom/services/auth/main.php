@@ -300,19 +300,17 @@ class midcom_services_auth
      */
     private function _prepare_authentication_drivers()
     {
-        $classname = 'midcom_services_auth_backend_' . midcom::get('config')->get('auth_backend');
-        // dont prepend
-        if (strpos(midcom::get('config')->get('auth_backend'), "_"))
+        $classname = midcom::get('config')->get('auth_backend');
+        if (strpos($classname, "_") === false)
         {
-            $classname = midcom::get('config')->get('auth_backend');
+            $classname = 'midcom_services_auth_backend_' . $classname;
         }
         $this->_auth_backend = new $classname($this);
 
-        $classname = 'midcom_services_auth_frontend_' . midcom::get('config')->get('auth_frontend');
-        // dont prepend
-        if (strpos(midcom::get('config')->get('auth_frontend'), "_"))
+        $classname = midcom::get('config')->get('auth_frontend');
+        if (strpos($classname, "_") === false)
         {
-            $classname = midcom::get('config')->get('auth_frontend');
+            $classname = 'midcom_services_auth_frontend_' . $classname;
         }
         $this->_auth_frontend = new $classname();
     }
