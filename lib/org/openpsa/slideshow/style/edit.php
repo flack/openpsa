@@ -54,7 +54,7 @@ foreach ($data['images'] as $image)
 </div>
 </div>
 
-<div id="progress_bar"></div>
+<div id="progress_bar"><div class="progress-label"></div></div>
 
 <form method="get" action="&(prefix);">
 <input type="button" name="save_all" id="save_all" value="<?php echo $data['l10n']->get('save all'); ?>" />

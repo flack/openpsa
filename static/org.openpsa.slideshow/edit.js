@@ -68,11 +68,19 @@ $(document).ready(function()
         var service_url = window.location.href + 'ajax/',
         delete_guids = [],
         update_items = {},
-        fd, xhr;
+        fd, xhr,
+        label = $('#progress_bar .progress-label'),
+        progressbar = $('#progress_bar');
 
         $('#save_all').closest('form').hide();
-        $('#progress_bar')
-            .progressbar({value: 0})
+        progressbar
+            .progressbar({
+                value: 0,
+                change: function()
+                {
+                    label.text(progressbar.progressbar('value') + '%');
+                }
+            })
             .show()
             .data('pending', 0)
             .data('total', 0);
@@ -174,7 +182,7 @@ $(document).ready(function()
             $('#progress_bar')
                 .data('pending', pending)
                 .data('total', total)
-                .progressbar('value', (completed / total) * 100);
+                .progressbar('value', Math.round((completed / total) * 100));
         }
 
         function remove_pending_request()
@@ -185,7 +193,7 @@ $(document).ready(function()
 
             $('#progress_bar')
                 .data('pending', pending)
-                .progressbar('value', (completed / total) * 100);
+                .progressbar('value', Math.round((completed / total) * 100));
 
             if (pending < 1)
             {

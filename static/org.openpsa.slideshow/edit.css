@@ -49,6 +49,7 @@
 {
     border: 1px solid #ddd;
     width: 100px;
+    max-height: 100px;
     display: table-cell;
     vertical-align: middle
 }
@@ -130,7 +131,11 @@
     display: block;
 }
 
-#item_manager #progress_bar
+#progress_bar .progress-label
 {
-    width: 400px;
+    float: left;
+    margin-left: 50%;
+    margin-top: 5px;
+    font-weight: bold;
+    text-shadow: 0 0 3px rgba(255, 255, 255, .9);
 }
