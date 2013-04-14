@@ -41,18 +41,18 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function get_schema_name()
     {
         $name = 'config';
-        if (isset($this->_master->handler['schema']))
+        if (isset($this->_master->_handler['schema']))
         {
-            $name = $this->_master->handler['schema'];
+            $name = $this->_master->_handler['schema'];
         }
         return $name;
     }
 
     public function load_schemadb()
     {
-        if (isset($this->_master->handler['schemadb']))
+        if (isset($this->_master->_handler['schemadb']))
         {
-            $schemadb_path = $this->_master->handler['schemadb'];
+            $schemadb_path = $this->_master->_handler['schemadb'];
         }
         else if ($this->_config->get('schemadb_config'))
         {
