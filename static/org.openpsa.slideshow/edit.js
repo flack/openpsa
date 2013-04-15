@@ -65,13 +65,13 @@ $(document).ready(function()
 
     $('#save_all').bind('click', function()
     {
-        var service_url = window.location.href + 'ajax/',
-        delete_guids = [],
+        var delete_guids = [],
         update_items = {},
         fd, xhr,
         label = $('#progress_bar .progress-label'),
         progressbar = $('#progress_bar'),
-        progress_dialog = $('#progress_dialog');
+        progress_dialog = $('#progress_dialog'),
+        pending_requests = [];
 
         $('#progress_total').text('0');
         $('#progress_completed').text('0');
@@ -84,7 +84,7 @@ $(document).ready(function()
 
         function close_dialog()
         {
-            if (progressbar.data('pending') === 0)
+            if (progressbar.data('pending') < 1)
             {
                 progress_dialog.dialog('close');
             }
@@ -145,8 +145,7 @@ $(document).ready(function()
                     remove_pending_request();
                 }
             };
-            xhr.open("POST", window.location.href + 'ajax/');
-            xhr.send(fd);
+            add_pending_request(xhr, fd);
             $('#progress_bar').data('filesize', $('#progress_bar').data('filesize') + file.size);
 
             function format_filesize(size)
@@ -164,8 +163,6 @@ $(document).ready(function()
             }
 
             $('#progress_filesize_total').text(format_filesize($('#progress_bar').data('filesize')));
-
-            add_pending_request();
         }
 
         function update_entry(index, item)
@@ -203,12 +200,10 @@ $(document).ready(function()
                 }
             };
 
-            xhr.open("POST", window.location.href + 'ajax/');
-            add_pending_request();
-            xhr.send(fd);
+            add_pending_request(xhr, fd);
         }
 
-        function add_pending_request()
+        function add_pending_request(xhr, fd)
         {
             var pending = $('#progress_bar').data('pending') + 1,
             total = $('#progress_bar').data('total') + 1,
@@ -218,6 +213,9 @@ $(document).ready(function()
                 .data('pending', pending)
                 .data('total', total);
             $('#progress_total').text(total);
+
+            xhr.open("POST", window.location.href + 'ajax/');
+            pending_requests.push({xhr: xhr, fd: fd});
         }
 
         function remove_pending_request()
@@ -230,6 +228,14 @@ $(document).ready(function()
                 .data('pending', pending)
                 .progressbar('value', Math.round((completed / total) * 100));
             $('#progress_completed').text(completed);
+        }
+
+        function process_pending_requests()
+        {
+            $.each(pending_requests, function(index, request)
+            {
+                request.xhr.send(request.fd);
+            });
         }
 
         $('#item_container .entry-deleted').each(function(index, item)
@@ -254,12 +260,10 @@ $(document).ready(function()
                 if (xhr.readyState === 4)
                 {
                     $('#item_container .entry-deleted').remove();
+                    remove_pending_request();
                 }
-                remove_pending_request();
             };
-            xhr.open("POST", service_url);
-            add_pending_request();
-            xhr.send(fd);
+            add_pending_request(xhr, fd);
         }
 
         $('#item_container .entry:not(.entry-template):not(.entry-deleted)').each(function(index, item)
@@ -273,33 +277,34 @@ $(document).ready(function()
                 update_entry(index, item);
             }
         });
-        if ($('#progress_bar').data('total') > 0)
-        {
-            progress_dialog.dialog(
-            {
-                autoOpen: true,
-                modal: true,
-                close: function (event, ui)
+        progressbar
+            .progressbar({
+                value: false,
+                change: function()
                 {
-                    progressbar.progressbar('value', false);
-                    label.text('');
+                    if (progressbar.progressbar('value') !== false)
+                    {
+                        label.text(progressbar.progressbar('value') + '%');
+                    }
+                },
+                complete: function()
+                {
+                    window.setTimeout(close_dialog, 1000);
                 }
             });
-            progressbar
-                .progressbar({
-                    value: false,
-                    change: function()
-                    {
-                        if (progressbar.progressbar('value') !== false)
-                        {
-                            label.text(progressbar.progressbar('value') + '%');
-                        }
-                    },
-                    complete: function()
-                    {
-                        window.setTimeout(close_dialog, 1000);
-                    }
-                });
-        }
+        progress_dialog.dialog(
+        {
+            autoOpen: true,
+            modal: true,
+            open: function (event, ui)
+            {
+                process_pending_requests();
+            },
+            close: function (event, ui)
+            {
+                progressbar.progressbar('value', false);
+                label.text('');
+            }
+        });
     });
 });
