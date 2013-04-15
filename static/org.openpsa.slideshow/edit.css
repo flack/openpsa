@@ -132,6 +132,11 @@
     display: block;
 }
 
+#progress_dialog
+{
+    display: none;
+}
+
 #progress_bar .progress-label
 {
     float: left;
@@ -139,4 +144,14 @@
     margin-top: 5px;
     font-weight: bold;
     text-shadow: 0 0 3px rgba(255, 255, 255, .9);
+}
+
+.progress-counter
+{
+    margin-top: 5px;
+}
+
+.progress-counter .progress-filesize
+{
+    float: right;
 }

@@ -70,32 +70,25 @@ $(document).ready(function()
         update_items = {},
         fd, xhr,
         label = $('#progress_bar .progress-label'),
-        progressbar = $('#progress_bar');
+        progressbar = $('#progress_bar'),
+        progress_dialog = $('#progress_dialog');
 
-        $('#save_all').closest('form').hide();
+        $('#progress_total').text('0');
+        $('#progress_completed').text('0');
+        $('#progress_filesize_total').text('');
+
         progressbar
-            .progressbar({
-                value: false,
-                change: function()
-                {
-                    if (progressbar.progressbar('value') !== false)
-                    {
-                        label.text(progressbar.progressbar('value') + '%');
-                    }
-                },
-                complete: function()
-                {
-                    progressbar.fadeOut('slow', function()
-                    {
-                        $('#save_all').closest('form').show();
-                        progressbar.progressbar('value', false);
-                        label.text('');
-                    });
-                }
-            })
-            .show()
             .data('pending', 0)
+            .data('filesize', 0)
             .data('total', 0);
+
+        function close_dialog()
+        {
+            if (progressbar.data('pending') === 0)
+            {
+                progress_dialog.dialog('close');
+            }
+        }
 
         function create_entry(index, item)
         {
@@ -103,12 +96,13 @@ $(document).ready(function()
             xhr = new XMLHttpRequest(),
             fd = new FormData();
 
+            // todo: This has to be supported by server side
             xhr.upload.addEventListener("progress", function(e)
             {
                 if (e.lengthComputable)
                 {
-                    var percentage = Math.round((e.loaded * 100) / e.total);
-                    // do something
+                    var delta = e.loaded - $(item).data('completed'),
+                    completed = $('#progress_bar').data('filesize_completed') + delta;
                 }
             }, false);
 
@@ -131,11 +125,16 @@ $(document).ready(function()
                         }
                         else
                         {
-                            var entry = $('#item_container .entry:not(.entry-template):not(.entry-deleted)')[reply.position];
-                            $(entry)
+                            $(item)
                                 .removeClass('new-entry')
                                 .addClass('existing-entry')
                                 .attr('id', 'image-' + reply.guid)
+                                .data('saved_values',
+                                {
+                                    position: reply.position,
+                                    title: $(item).find('.title input').val(),
+                                    description: $(item).find('.description textarea').val()
+                                })
                                 .find('.filename').text(reply.filename);
                         }
                     }
@@ -148,6 +147,24 @@ $(document).ready(function()
             };
             xhr.open("POST", window.location.href + 'ajax/');
             xhr.send(fd);
+            $('#progress_bar').data('filesize', $('#progress_bar').data('filesize') + file.size);
+
+            function format_filesize(size)
+            {
+                var i = 0,
+                units = ['B', 'KB', 'MB', 'GB'];
+
+                while (size > 1024)
+                {
+                    size = size / 1024;
+                    i++;
+                }
+
+                return Math.max(size, 0.1).toFixed(1) + ' ' + units[i];
+            }
+
+            $('#progress_filesize_total').text(format_filesize($('#progress_bar').data('filesize')));
+
             add_pending_request();
         }
 
@@ -187,8 +204,8 @@ $(document).ready(function()
             };
 
             xhr.open("POST", window.location.href + 'ajax/');
-            xhr.send(fd);
             add_pending_request();
+            xhr.send(fd);
         }
 
         function add_pending_request()
@@ -200,6 +217,7 @@ $(document).ready(function()
             $('#progress_bar')
                 .data('pending', pending)
                 .data('total', total);
+            $('#progress_total').text(total);
         }
 
         function remove_pending_request()
@@ -211,6 +229,7 @@ $(document).ready(function()
             $('#progress_bar')
                 .data('pending', pending)
                 .progressbar('value', Math.round((completed / total) * 100));
+            $('#progress_completed').text(completed);
         }
 
         $('#item_container .entry-deleted').each(function(index, item)
@@ -239,8 +258,8 @@ $(document).ready(function()
                 remove_pending_request();
             };
             xhr.open("POST", service_url);
-            xhr.send(fd);
             add_pending_request();
+            xhr.send(fd);
         }
 
         $('#item_container .entry:not(.entry-template):not(.entry-deleted)').each(function(index, item)
@@ -254,9 +273,33 @@ $(document).ready(function()
                 update_entry(index, item);
             }
         });
-        if ($('#progress_bar').data('total') === 0)
+        if ($('#progress_bar').data('total') > 0)
         {
-            remove_pending_request();
+            progress_dialog.dialog(
+            {
+                autoOpen: true,
+                modal: true,
+                close: function (event, ui)
+                {
+                    progressbar.progressbar('value', false);
+                    label.text('');
+                }
+            });
+            progressbar
+                .progressbar({
+                    value: false,
+                    change: function()
+                    {
+                        if (progressbar.progressbar('value') !== false)
+                        {
+                            label.text(progressbar.progressbar('value') + '%');
+                        }
+                    },
+                    complete: function()
+                    {
+                        window.setTimeout(close_dialog, 1000);
+                    }
+                });
         }
     });
 });

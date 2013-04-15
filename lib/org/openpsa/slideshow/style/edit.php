@@ -54,8 +54,13 @@ foreach ($data['images'] as $image)
 </div>
 </div>
 
+<div id="progress_dialog">
 <div id="progress_bar"><div class="progress-label"></div></div>
-
+<div class="progress-counter">
+    <span class="progress-filesize" id="progress_filesize_total"></span>
+    <span id="progress_completed"></span><span class="separator">/</span><span id="progress_total"></span>
+</div>
+</div>
 <form method="get" action="&(prefix);">
 <input type="button" name="save_all" id="save_all" value="<?php echo $data['l10n']->get('save all'); ?>" />
 <input type="submit" value="<?php echo $data['l10n_midcom']->get('back'); ?>" />
