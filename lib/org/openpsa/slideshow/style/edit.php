@@ -6,6 +6,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <input type="file" multiple="multiple" id="upload_field" />
 <input type="button" id="reverse" value="<?php echo $data['l10n']->get('reverse order'); ?>" />
 
+<div class="slideshow-editor">
+
 <div id="item_container">
 <?php
 foreach ($data['images'] as $image)
@@ -52,6 +54,15 @@ foreach ($data['images'] as $image)
   <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea></span>
 </div>
 </div>
+</div>
+
+<div id="entry-viewer">
+  <div class="image"></div>
+  <div class="filename"></div>
+  <div class="title"></div>
+  <div class="description"></div>
+</div>
+
 </div>
 
 <div id="progress_dialog">

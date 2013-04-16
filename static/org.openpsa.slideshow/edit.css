@@ -1,15 +1,51 @@
-#item_container
+.slideshow-editor
 {
     margin-top: 1em;
     display: table;
+    max-width: 100%;
+}
+
+#entry-viewer
+{
+    display: table-cell;
+    vertical-align: top;
+    padding-left: 4em;
+}
+
+#entry-viewer .image
+{
+    border: 1px solid #ddd;
+}
+
+#entry-viewer .image img
+{
+    max-width: 500px;
+    max-height: 400px;
+}
+
+#entry-viewer .filename
+{
+    float: right;
+    color: #555
+}
+
+#entry-viewer .title
+{
+    font-weight: bold;
+    line-height: 1.4
+}
+
+#item_container
+{
+    margin-top: 1em;
+    display: table-cell;
 }
 
 #item_container .entry
 {
     border: 1px solid #ddd;
     padding: .2em;
-    margin: .2em 0
-    display: table-row;
+    margin: .2em 0;
     cursor: move;
     margin-bottom: 1em;
     border-radius: .15em

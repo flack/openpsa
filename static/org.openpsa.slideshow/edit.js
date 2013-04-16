@@ -61,6 +61,13 @@ $(document).ready(function()
         {
             $(this).closest('.entry').removeClass('entry-deleted');
         })
+        .delegate('.entry', 'click', function()
+        {
+            $('#entry-viewer .image').html($(this).find('.thumbnail img').clone());
+            $('#entry-viewer .title').text($(this).find('.title input').val());
+            $('#entry-viewer .description').text($(this).find('.description textarea').val());
+            $('#entry-viewer .filename').text($(this).find('.filename').text());
+        })
         .sortable();
 
     $('#save_all').bind('click', function()
