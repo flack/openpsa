@@ -17,6 +17,7 @@ foreach ($data['images'] as $image)
         $attachment = new midcom_db_attachment($image->thumbnail);
         $url = midcom_db_attachment::get_url($attachment);
         $original = new midcom_db_attachment($image->attachment);
+        $original_url = midcom_db_attachment::get_url($original);
         $name = $original->name;
     }
     catch (midcom_error $e)
@@ -27,7 +28,7 @@ foreach ($data['images'] as $image)
     ?>
     <div class="entry existing-entry" id="image-&(image.guid);">
       <div class="thumbnail">
-        <img src="&(url);" alt="&(name);" />
+        <img src="&(url);" alt="&(name);" data-original-url="&(original_url);" />
       </div>
       <div class="details">
         <span class="controls">
