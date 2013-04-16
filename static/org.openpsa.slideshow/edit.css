@@ -9,18 +9,31 @@
 {
     display: table-cell;
     vertical-align: top;
-    padding-left: 4em;
+    width: 49%;
+}
+
+#entry-viewer .widget
+{
+    display: none;
+}
+
+#entry-viewer.active .widget
+{
+    display: block;
 }
 
 #entry-viewer .image
 {
     border: 1px solid #ddd;
+    text-align: center
 }
 
 #entry-viewer .image img
 {
     max-width: 500px;
     max-height: 400px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 }
 
 #entry-viewer .filename
@@ -29,26 +42,35 @@
     color: #555
 }
 
-#entry-viewer .title
+#entry-viewer .title input,
+#entry-viewer .description textarea
+{
+    border: none;
+}
+
+#entry-viewer .title input
 {
     font-weight: bold;
-    line-height: 1.4
+    margin: .4em 0;
 }
 
 #item_container
 {
+    width: 49%;
     margin-top: 1em;
     display: table-cell;
+    padding-right: 2%;
 }
 
 #item_container .entry
 {
-    border: 1px solid #ddd;
+    display: inline-block;
     padding: .2em;
-    margin: .2em 0;
     cursor: move;
     margin-bottom: 1em;
-    border-radius: .15em
+    border-radius: .15em;
+    width: 80px;
+    overflow: hidden;
 }
 
 #item_container .entry-template
@@ -67,33 +89,37 @@
     opacity: .8
 }
 
-#item_container .entry .thumbnail,
-#item_container .entry .details
+#item_container .entry
 {
-    display: table-cell;
+    position: relative
 }
+
 #item_container .entry .thumbnail
 {
     border: 1px solid #ddd;
-    width: 100px;
-    height: 80px;
     display: table-cell;
+    width: 80px;
+    height: 80px;
     vertical-align: middle;
     text-align: center;
     background-color: white;
 }
+
+#item_container .entry.active .thumbnail
+{
+    border-color: highlight
+}
+
 #item_container .entry .thumbnail img
 {
-    border: 1px solid #ddd;
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 80px;
+    max-height: 80px;
     display: table-cell;
     vertical-align: middle
 }
 #item_container .entry .details
 {
-    vertical-align: top;
-    padding-left: 1em;
+    display: inline;
 }
 
 #item_container .entry .details .filename
@@ -102,14 +128,19 @@
     color: #555;
     display: block;
     padding-bottom: .3em;
-    display: block;
-    height: 16px;
     padding-top: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: inherit;
 }
 
 #item_container .entry .controls
 {
-    z-index: 2
+    z-index: 2;
+    position: absolute;
+    right: 2px;
+    top: 2px;
 }
 
 #item_container .entry .controls .action
@@ -124,11 +155,16 @@
 
 #item_container .entry .controls .image-delete
 {
-    display: block;
+    display: none;
     background-image: url('../stock-icons/16x16/cancel.png');
 }
+#item_container .entry:hover .controls .image-delete
+{
+    display: block;
+}
 
-#item_container .entry-deleted .controls .image-delete
+#item_container .entry-deleted .controls .image-delete,
+#item_container .entry-deleted:hover .controls .image-delete
 {
     display: none;
 }
@@ -147,20 +183,13 @@
 #item_container .entry .details textarea,
 #item_container .entry .details input
 {
-    border: 1px solid #ddd;
-    width: 23em
-}
-
-#item_container .entry .details textarea
-{
-    display: block;
+    display: none;
 }
 
 #item_container .entry-deleted .thumbnail,
-#item_container .entry-deleted .description,
-#item_container .entry-deleted .title
+#item_container .entry-deleted .filename
 {
-    display: none;
+    opacity: .4;
 }
 
 #item_container .entry-deleted .details

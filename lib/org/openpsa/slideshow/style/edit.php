@@ -3,9 +3,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <h1><?php echo sprintf($data['l10n_midcom']->get('edit %s'), $data['l10n']->get('slideshow')); ?></h1>
 
+<form method="get" action="&(prefix);">
 <input type="file" multiple="multiple" id="upload_field" />
 <input type="button" id="reverse" value="<?php echo $data['l10n']->get('reverse order'); ?>" />
 
+<input type="button" name="save_all" id="save_all" value="<?php echo $data['l10n']->get('save all'); ?>" />
+<input type="submit" value="<?php echo $data['l10n_midcom']->get('back'); ?>" />
+</form>
 <div class="slideshow-editor">
 
 <div id="item_container">
@@ -35,7 +39,7 @@ foreach ($data['images'] as $image)
           <span class="action image-delete"></span>
           <span class="action image-cancel-delete"></span>
         </span>
-        <span class="filename">&(name);</span>
+        <span class="filename" title="&(name);">&(name);</span>
         <span class="title"><input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>" value="&(image.title);" /></span>
         <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
       </div>
@@ -51,17 +55,21 @@ foreach ($data['images'] as $image)
     <span class="action image-cancel-delete"></span>
   </span>
   <span class="filename"></span>
-  <span class="title"><input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>"/></span>
-  <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea></span>
 </div>
 </div>
 </div>
 
 <div id="entry-viewer">
-  <div class="image"></div>
-  <div class="filename"></div>
-  <div class="title"></div>
-  <div class="description"></div>
+  <div class="widget">
+    <div class="image"></div>
+    <div class="filename"></div>
+    <div class="title">
+      <input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>"/>
+    </div>
+    <div class="description">
+      <textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -73,7 +81,3 @@ foreach ($data['images'] as $image)
     <span id="progress_completed"></span><span class="separator">/</span><span id="progress_total"></span>
 </div>
 </div>
-<form method="get" action="&(prefix);">
-<input type="button" name="save_all" id="save_all" value="<?php echo $data['l10n']->get('save all'); ?>" />
-<input type="submit" value="<?php echo $data['l10n_midcom']->get('back'); ?>" />
-</form>

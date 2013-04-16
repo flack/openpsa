@@ -63,19 +63,40 @@ $(document).ready(function()
         })
         .delegate('.entry', 'click', function()
         {
+            var viewer = $('#entry-viewer');
+
             if ($(this).find('.thumbnail img').data('originalUrl'))
             {
-                $('#entry-viewer .image').html('<img src="' + $(this).find('.thumbnail img').data('originalUrl') + '" />');
+                viewer.find('.image').html('<img src="' + $(this).find('.thumbnail img').data('originalUrl') + '" />');
             }
             else
             {
-                $('#entry-viewer .image').html($(this).find('.thumbnail img').clone());
+                viewer.find('.image').html($(this).find('.thumbnail img').clone());
             }
-            $('#entry-viewer .title').text($(this).find('.title input').val());
-            $('#entry-viewer .description').text($(this).find('.description textarea').val());
-            $('#entry-viewer .filename').text($(this).find('.filename').text());
+            viewer.find('.title input')
+                .val($(this).find('.title input').val());
+            viewer.find('.description textarea').val($(this).find('.description textarea').val());
+            viewer.find('.filename').text($(this).find('.filename').text());
+            if (!viewer.hasClass('active'))
+            {
+                viewer.addClass('active');
+            }
+            viewer.data('active', $(this).attr('id'));
+            $('.entry.active').removeClass('active');
+            $(this).addClass('active');
         })
         .sortable();
+
+    $('#entry-viewer').delegate('.title input, .description textarea', 'blur', function()
+    {
+        var viewer = $('#entry-viewer'),
+        active = viewer.data('active');
+        if (active !== undefined)
+        {
+            $('#' + active).find('.title input').val(viewer.find('.title input').val());
+            $('#' + active).find('.description textarea').val(viewer.find('.description textarea').val());
+        }
+    });
 
     $('#save_all').bind('click', function()
     {
