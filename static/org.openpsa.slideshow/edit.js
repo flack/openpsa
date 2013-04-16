@@ -66,7 +66,7 @@ $(document).ready(function()
     $('#save_all').bind('click', function()
     {
         var delete_guids = [],
-        update_items = {},
+        update_items = [],
         fd, xhr,
         label = $('#progress_bar .progress-label'),
         progressbar = $('#progress_bar'),
@@ -167,8 +167,7 @@ $(document).ready(function()
 
         function update_entry(index, item)
         {
-            var xhr = new XMLHttpRequest(),
-            fd = new FormData(),
+            var entry = {},
             title = $(item).find('.title input').val(),
             description = $(item).find('.description textarea').val(),
             saved_values = $(item).data('saved_values');
@@ -180,27 +179,12 @@ $(document).ready(function()
                 return;
             }
 
-            fd.append("title", title);
-            fd.append("description", description);
-            fd.append("position", index);
-            fd.append("guid", $(item).attr('id').slice(6));
-            fd.append("operation", 'update');
+            entry.title = title;
+            entry.description = description;
+            entry.position = index;
+            entry.guid = $(item).attr('id').slice(6);
 
-            xhr.onreadystatechange = function()
-            {
-                if (xhr.readyState === 4)
-                {
-                    remove_pending_request();
-                    $(item).data('saved_values',
-                    {
-                        position: index,
-                        title: title,
-                        description: description
-                    });
-                }
-            };
-
-            add_pending_request(xhr, fd);
+            update_items.push(entry);
         }
 
         function add_pending_request(xhr, fd)
@@ -236,6 +220,35 @@ $(document).ready(function()
             {
                 request.xhr.send(request.fd);
             });
+        }
+
+        function process_update_request()
+        {
+            var xhr = new XMLHttpRequest(),
+            fd = new FormData();
+
+            fd.append("items", JSON.stringify(update_items));
+            fd.append("operation", 'batch_update');
+
+            xhr.onreadystatechange = function()
+            {
+                if (xhr.readyState === 4)
+                {
+                    remove_pending_request();
+                    $.each(update_items, function(i, item)
+                    {
+                        $('#image-' + item.guid).data('saved_values',
+                        {
+                            position: item.position,
+                            title: item.title,
+                            description: item.description
+                        });
+                    });
+                    update_items = [];
+                }
+            };
+
+            add_pending_request(xhr, fd);
         }
 
         $('#item_container .entry-deleted').each(function(index, item)
@@ -277,6 +290,11 @@ $(document).ready(function()
                 update_entry(index, item);
             }
         });
+        if (update_items.length > 0)
+        {
+            process_update_request();
+        }
+
         progressbar
             .progressbar({
                 value: false,

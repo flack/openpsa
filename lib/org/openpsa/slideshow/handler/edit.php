@@ -192,6 +192,27 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
+    private function _process_batch_update()
+    {
+        $items = json_decode($_POST['items']);
+        foreach ($items as $item)
+        {
+            $image = new org_openpsa_slideshow_image_dba($item->guid);
+            if ($image->topic !== $this->_topic->id)
+            {
+                throw new midcom_error_forbidden('Image does not belong to this topic');
+            }
+            $image->title = $item->title;
+            $image->description = $item->description;
+            $image->position = $item->position;
+
+            if (!$image->update())
+            {
+                throw new midcom_error('Failed to update image: ' . midcom_connection::get_error_string());
+            }
+        }
+    }
+
     private function _process_delete()
     {
         $guids = explode('|', $_POST['guids']);
@@ -222,6 +243,12 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
         switch ($this->_operation)
         {
+            case 'batch_update':
+                if (!isset($_POST['items']))
+                {
+                    throw new midcom_error('Invalid request');
+                }
+                break;
             case 'update':
                 if (!isset($_POST['guid']))
                 {
