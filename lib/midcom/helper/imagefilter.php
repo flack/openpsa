@@ -165,22 +165,26 @@ class midcom_helper_imagefilter
         {
             return $return;
         }
-        if (!midcom::get('config')->get('utility_jpegtran'))
+        $cmd = midcom::get('config')->get('utility_jpegtran');
+        if (!$cmd)
         {
             $return = false;
             return $return;
         }
-        $convert_cmd = escapeshellcmd(midcom::get('config')->get('utility_jpegtran') . " -h");
-        $output = array();
-        $ret = null;
-        exec($convert_cmd, $output, $ret);
-        if (   $ret !== 0
-            /* jpegtran does not have valid help switch, so lets check for generic error from program (command not found etc trhows different error code) */
-            && $ret !== 1)
+        if (!file_exists($cmd))
         {
-            debug_add("jpegtran, '{$convert_cmd}' (part of libjpeg suite) could not be executed", MIDCOM_LOG_ERROR);
-            $return = false;
-            return $return;
+            $find_cmd = escapeshellcmd('which ' . midcom::get('config')->get('utility_jpegtran'));
+            $output = array();
+            $ret = null;
+
+            exec($find_cmd, $output, $ret);
+
+            if ($ret !== 0)
+            {
+                debug_add("jpegtran (part of libjpeg suite) was not found", MIDCOM_LOG_ERROR);
+                $return = false;
+                return $return;
+            }
         }
         $return = true;
         return $return;
