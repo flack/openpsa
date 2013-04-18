@@ -55,6 +55,12 @@ foreach ($data['images'] as $image)
     <span class="action image-cancel-delete"></span>
   </span>
   <span class="filename"></span>
+  <span class="title">
+    <input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>" value="" />
+  </span>
+  <span class="description">
+    <textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea>
+  </span>
 </div>
 </div>
 </div>
