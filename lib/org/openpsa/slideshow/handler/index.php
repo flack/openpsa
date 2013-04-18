@@ -38,6 +38,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/slideshow.css');
         if (sizeof($data['images']) > 0)
         {
+            $data['entries'] = org_openpsa_slideshow_image_dba::get_imagedata($data['images']);
             $head->enable_jquery();
             $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/galleria/galleria-1.2.9.min.js');
         }

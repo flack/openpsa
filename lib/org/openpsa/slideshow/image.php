@@ -60,5 +60,47 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $imagefilter->write($derived);
     }
 
+    public static function get_imagedata(array $images)
+    {
+        $data = array();
+        if (empty($images))
+        {
+            return $data;
+        }
+        $image_guids = array();
+        foreach ($images as $image)
+        {
+            $image_guids[] = $image->guid;
+        }
+        if (empty($image_guids))
+        {
+            return $data;
+        }
+        $mc = midcom_db_attachment::new_collector('metadata.deleted', false);
+        $mc->add_constraint('parentguid', 'IN', $image_guids);
+        $rows = $mc->get_rows(array('id', 'name', 'guid'), 'id');
+        foreach ($images as $image)
+        {
+            if (   !isset($rows[$image->attachment])
+                || !isset($rows[$image->image])
+                || !isset($rows[$image->thumbnail]))
+            {
+                continue;
+            }
+            $orig_data = $rows[$image->attachment];
+            $image_data = $rows[$image->image];
+            $thumb_data = $rows[$image->thumbnail];
+            $data[] = array
+            (
+                'big' => midcom_db_attachment::get_url($orig_data['guid'], $orig_data['name']),
+                'image' => midcom_db_attachment::get_url($image_data['guid'], $image_data['name']),
+                'thumb' => midcom_db_attachment::get_url($thumb_data['guid'], $thumb_data['name']),
+                'title' => (string) $image->title,
+                'description' => (string) $image->description
+            );
+        }
+        return $data;
+    }
+
 }
 ?>
