@@ -28,6 +28,7 @@ foreach ($data['images'] as $image)
     {
         $url = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
         $name = $data['l10n']->get('attachment missing');
+        $original_url = '';
     }
     ?>
     <div class="entry existing-entry" id="image-&(image.guid);">
