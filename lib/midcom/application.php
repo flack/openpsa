@@ -140,7 +140,7 @@ class midcom_application
         {
             debug_add("Entering Context 0 (old Context: {$oldcontext->id})");
         }
-        $this->_currentcontext = 0;
+        midcom_core_context::get(0)->set_current();
         midcom::get('style')->enter_context(0);
 
         $template = midcom_helper_misc::preparse('<(ROOT)>');
