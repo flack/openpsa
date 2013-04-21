@@ -26,6 +26,10 @@ OpenPSA Slideshow
 Recreate derived images
 ---STRINGEND
 
+---STRING recreate subfolder thumbnails
+Recreate subfolder thumbnails
+---STRINGEND
+
 ---STRING reverse order
 Reverse sort order
 ---STRINGEND

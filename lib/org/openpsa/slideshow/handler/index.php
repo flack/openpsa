@@ -51,6 +51,15 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
             )
         );
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "recreate_folder_thumbnails/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('recreate subfolder thumbnails')),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+            )
+        );
     }
 
     /**
@@ -87,16 +96,6 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $data['subfolders'] = $qb->execute();
 
         $data['thumbnails'] = $this->_get_folder_thumbnails($data['subfolders']);
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "edit/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('slideshow')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
-            )
-        );
     }
 
     private function _get_folder_thumbnails($folders)
@@ -104,16 +103,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $thumbnails = array();
         foreach ($folders as $i => $folder)
         {
-            $thumbnails[$i] = null;
-            $qb = org_openpsa_slideshow_image_dba::new_query_builder();
-            $qb->add_constraint('topic', '=', $folder->id);
-            $qb->add_order('position');
-            $qb->set_limit(1);
-            $results = $qb->execute();
-            if (sizeof($results) == 1)
-            {
-                $thumbnails[$i] = $results[0];
-            }
+            $thumbnails[$i] = org_openpsa_slideshow_image_dba::get_folder_thumbnail($folder);
         }
         return $thumbnails;
     }

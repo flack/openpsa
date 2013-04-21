@@ -13,28 +13,69 @@
  */
 class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 {
+    CONST FOLDER_THUMBNAIL = 'folder_thumbnail';
+
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_slideshow_image';
 
-    public function generate_image($type, $filter_chain)
+    public function _on_created()
+    {
+        $this->_check_folder_thumbnail();
+    }
+
+    public function _on_updated()
+    {
+        $this->_check_folder_thumbnail();
+    }
+
+    public function _on_deleted()
+    {
+        $this->_check_folder_thumbnail();
+    }
+
+    private function _check_folder_thumbnail()
+    {
+        if ($this->position > 0)
+        {
+            return;
+        }
+
+        try
+        {
+            $folder = midcom_db_topic::get_cached($this->topic);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
+        $folder->delete_attachment(self::FOLDER_THUMBNAIL);
+    }
+
+    public function load_attachment($type)
     {
         try
         {
-            $original = new midcom_db_attachment($this->attachment);
+            return new midcom_db_attachment($this->$type);
         }
         catch (midcom_error $e)
         {
             $e->log();
             return false;
         }
-        $found_derived = false;
-        try
+    }
+
+    public function generate_image($type, $filter_chain)
+    {
+        $original = $this->load_attachment('attachment');
+        if (!$original)
         {
-            $derived = new midcom_db_attachment($this->$type);
-            $found_derived = true;
+            return false;
         }
-        catch (midcom_error $e)
+        $is_new = false;
+        $derived = $this->load_attachment($type);
+        if (!$derived)
         {
+            $is_new = true;
             $derived = new midcom_db_attachment;
             $derived->parentguid = $original->parentguid;
             $derived->title = $original->title;
@@ -48,7 +89,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         {
             throw new midcom_error('Image processing failed');
         }
-        if (!$found_derived)
+        if ($is_new)
         {
             if (!$derived->create())
             {
@@ -58,6 +99,58 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $this->update();
         }
         return $imagefilter->write($derived);
+    }
+
+    public static function get_folder_thumbnail(midcom_db_topic $folder)
+    {
+        $thumbnail = $folder->get_attachment(self::FOLDER_THUMBNAIL);
+        if (empty($thumbnail))
+        {
+            $qb = self::new_query_builder();
+            $qb->add_constraint('topic', '=', $folder->id);
+            $qb->add_order('position');
+            $qb->set_limit(1);
+            $results = $qb->execute();
+            if (sizeof($results) == 0)
+            {
+                return false;
+            }
+            $thumbnail = $results[0]->create_folder_thumbnail();
+        }
+        return $thumbnail;
+    }
+
+    public function create_folder_thumbnail()
+    {
+        $original = $this->load_attachment('attachment');
+        if (!$original)
+        {
+            return false;
+        }
+        $folder = midcom_db_topic::get_cached($this->topic);
+        $thumbnail = new midcom_db_attachment;
+        $thumbnail->parentguid = $folder->guid;
+        $thumbnail->title = $original->title;
+        $thumbnail->mimetype = $original->mimetype;
+        $thumbnail->name = self::FOLDER_THUMBNAIL;
+
+        $imagefilter = new midcom_helper_imagefilter($original);
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.slideshow', 'config');
+
+        $filter_chain = $config->get('folder_thumbnail_filter');
+        if (!$imagefilter->process_chain($filter_chain))
+        {
+            throw new midcom_error('Image processing failed');
+        }
+        if (!$thumbnail->create())
+        {
+            throw new midcom_error('Failed to create folder thumbnail: ' . midcom_connection::get_error_string());
+        }
+        if (!$imagefilter->write($thumbnail))
+        {
+            throw new midcom_error('Failed to write folder thumbnail: ' . midcom_connection::get_error_string());
+        }
+        return $thumbnail;
     }
 
     public static function get_imagedata(array $images)

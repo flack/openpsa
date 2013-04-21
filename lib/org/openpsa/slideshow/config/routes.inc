@@ -30,3 +30,10 @@
     'handler' => array('org_openpsa_slideshow_handler_edit', 'recreate'),
     'fixed_args' => 'recreate'
 ),
+
+// Match /recreate_folder_thumbnails/
+'recreate_folder_thumbnails' => array
+(
+    'handler' => array('org_openpsa_slideshow_handler_edit', 'recreate_folder_thumbnails'),
+    'fixed_args' => 'recreate_folder_thumbnails'
+),

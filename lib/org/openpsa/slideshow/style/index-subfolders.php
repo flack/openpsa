@@ -10,7 +10,7 @@ foreach ($data['subfolders'] as $i => $folder)
     echo '<a href="' . $napdata[MIDCOM_NAV_ABSOLUTEURL] . '">';
     if (null !== $data['thumbnails'][$i])
     {
-        $thumbnail = new midcom_db_attachment($data['thumbnails'][$i]->thumbnail);
+        $thumbnail = $data['thumbnails'][$i];
         echo '<img src="' . midcom_db_attachment::get_url($thumbnail) . '" alt="' . $folder->title . '"/>';
     }
     echo '<span class="subfolder-title">' . $folder->extra . "</span>\n";
