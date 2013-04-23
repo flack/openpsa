@@ -220,7 +220,7 @@ class midcom_config_test
         }
         else
         {
-            $this->println('Setting: post_max_size', self::WARNING, 'post_max_size should be larger then upload_max_filesize, as both limits apply during uploads.');
+            $this->println('Setting: post_max_size', self::WARNING, 'post_max_size should be larger than upload_max_filesize, as both limits apply during uploads.');
         }
 
         if (! $this->ini_get_boolean('magic_quotes_gpc'))

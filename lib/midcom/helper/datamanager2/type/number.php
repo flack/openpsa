@@ -12,7 +12,7 @@
  *
  * <b>Available configuration options:</b>
  *
- * - <i>int precision:</i> The maximum precision that should be kept in then value.
+ * - <i>int precision:</i> The maximum precision that should be kept in the value.
  *   Rounding will happen either during validation or when using the set_value
  *   member function instead of setting the value directly. The PHP function round()
  *   is used for rounding, see its documentation of the precision parameter for further

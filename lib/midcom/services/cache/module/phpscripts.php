@@ -74,13 +74,13 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
      * copy is deleted and false will be returned, you have to create the cache entry using
      * the add() call then.
      *
-     * This class supports a variable length argument list: You may add more then one last
+     * This class supports a variable length argument list: You may add more than one last
      * modified timestamp to the call, in which case only the newest timestamp is taken into
      * account.
      *
      * @param string $identifier The script cache identifier to load (without the trailing .php).
      * @param int $lastmodified The last modification date of the source on which the cached file
-     *     is based upon. If you pass more then one timestamp, the newest timestamp is used for
+     *     is based upon. If you pass more than one timestamp, the newest timestamp is used for
      *     the comparison.
      * @return boolean Indicating success.
      */

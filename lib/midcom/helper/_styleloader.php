@@ -698,7 +698,7 @@ class midcom_helper__styleloader
      * Appends a substyle after the currently selected component style.
      *
      * Appends a substyle after the currently selected component style, effectively
-     * enabling a depth of more then one style during substyle selection. This is only
+     * enabling a depth of more than one style during substyle selection. This is only
      * effective if done during the handle phase of the component and allows the
      * component. The currently selected substyle therefore is now searched one level
      * deeper below "subStyle".
@@ -737,7 +737,7 @@ class midcom_helper__styleloader
      * Prepends a substyle before the currently selected component style.
      *
      * Prepends a substyle before the currently selected component style, effectively
-     * enabling a depth of more then one style during substyle selection. This is only
+     * enabling a depth of more than one style during substyle selection. This is only
      * effective if done during the handle phase of the component and allows the
      * component. The currently selected substyle therefore is now searched one level
      * deeper below "subStyle".

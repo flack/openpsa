@@ -83,7 +83,7 @@ abstract class midcom_services_cache_backend
     var $_cache_dir = null;
 
     /**
-     * Set this to true if you plan to store PHP data structures rather then strings, the
+     * Set this to true if you plan to store PHP data structures rather than strings, the
      * interface will automatically serialize/unserialize the data you store/retrieve
      * from the database.
      *
@@ -355,7 +355,7 @@ abstract class midcom_services_cache_backend
      * Open the database for usage. If $write is set to true, it must be opened in
      * read/write access, otherwise read-only access is sufficient.
      *
-     * If the database is reopened with different access permissions then currently
+     * If the database is reopened with different access permissions than currently
      * specified (e.g. if going from read-only to read-write), the database is closed
      * prior to opening it again. If the permissions match the current state, nothing
      * is done.

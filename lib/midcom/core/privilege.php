@@ -531,7 +531,7 @@ class midcom_core_privilege
         if (count($result) > 1)
         {
             midcom::get('auth')->request_sudo('midcom.core');
-            debug_add('A DB inconsistency has been detected. There is more then one record for privilege specified. Deleting all excess records after the first one!',
+            debug_add('A DB inconsistency has been detected. There is more than one record for privilege specified. Deleting all excess records after the first one!',
                 MIDCOM_LOG_ERROR);
             debug_print_r('Content Object:', $object);
             debug_add("Privilege {$name} for assignee {$assignee} with classname {$classname} was queried.", MIDCOM_LOG_INFO);

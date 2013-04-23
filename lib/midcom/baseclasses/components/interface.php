@@ -551,7 +551,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * just before the initialize call will return to MidCOM.
      * It should prepare all necessary information to start processing requests.
      *
-     * Unless you need more functionality then snippet and library loading, configuration merging
+     * Unless you need more functionality than snippet and library loading, configuration merging
      * and basic component data storage initialization, no further modification needs to be done.
      *
      * @return boolean Indicating whether the initialization has been successful.

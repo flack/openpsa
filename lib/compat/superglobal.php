@@ -103,7 +103,7 @@ class midcom_compat_superglobal
      * field's content. If this is not set, application/octet-stream is used as a
      * default. "midcom/expire" is a count of seconds used for content expiration,
      * both for the HTTP headers and for the caching engine. If this is no valid
-     * integer or less then or equal to zero or not set, the value is set to "1".
+     * integer or less than or equal to zero or not set, the value is set to "1".
      *
      * The last modified header is created by using the revised timestamp of the
      * snippet.
@@ -344,7 +344,7 @@ class midcom_compat_superglobal
      * Prepends a substyle before the currently selected component style.
      *
      * Prepends a substyle before the currently selected component style, effectively
-     * enabling a depth of more then one style during substyle selection. This is only
+     * enabling a depth of more than one style during substyle selection. This is only
      * effective if done during the handle phase of the component and allows the
      * component. The currently selected substyle therefore is now searched one level
      * deeper below "subStyle".
@@ -363,7 +363,7 @@ class midcom_compat_superglobal
      * Appends a substyle after the currently selected component style.
      *
      * Appends a substyle after the currently selected component style, effectively
-     * enabling a depth of more then one style during substyle selection. This is only
+     * enabling a depth of more than one style during substyle selection. This is only
      * effective if done during the handle phase of the component and allows the
      * component. The currently selected substyle therefore is now searched one level
      * deeper below "subStyle".
