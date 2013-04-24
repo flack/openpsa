@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Michelf\Markdown;
+use Michelf\MarkdownExtra;
 
 /**
  * Wiki markup parser
@@ -30,7 +30,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
     public function get_html()
     {
-        return Markdown::defaultTransform($this->get_markdown($this->_page->content));
+        return MarkdownExtra::defaultTransform($this->get_markdown($this->_page->content));
     }
 
     public function get_markdown($input)

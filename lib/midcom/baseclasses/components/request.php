@@ -31,7 +31,7 @@
  *
  * - <b>mixed fixed_args:</b> This is either a string or an array and defines the fixed
  *   arguments that have to be present at the beginning of the URL to be handled. A
- *   string denotes a single argument, an array is used if more then one fixed argument
+ *   string denotes a single argument, an array is used if more than one fixed argument
  *   is needed. If you do not have any fixed arguments, set this parameter to null, which
  *   is the default.
  * - <b>int variable_args:</b> Usually, there are a number of variables in the URL, like
@@ -184,7 +184,7 @@
  * Plugins always come in "packages", which are assigned to a namespace. The namespace
  * is used to separate various plugins from each other, it is prepended before any
  * URL. Within a plugin you can register one or more handler classes. Each of this
- * classes can of course define more then one request handler.
+ * classes can of course define more than one request handler.
  *
  * A plugin class must be a descendant of midcom_baseclasses_components_handler or at
  * least support its full interface.

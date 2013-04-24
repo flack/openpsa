@@ -16,7 +16,7 @@
  *
  * Temporary objects are identified by their object ID, they are not
  * safely replicateable. A MidCOM CRON handler will delete all temporary
- * objects which have not been accessed for longer then one hour. Nevertheless
+ * objects which have not been accessed for longer than one hour. Nevertheless
  * you should explicitly delete temporary objects you do no longer need using
  * the default delete call.
  *

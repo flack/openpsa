@@ -29,7 +29,7 @@
  *   that simple string representation. Otherwise, unknown keys will be forbidden, on
  *   validations they cause a validation error, on loading they are dropped silently.
  *   This option is set to false by default.
- * - <i>boolean allow_multiple:</i> If this flag is set, you may select more then one
+ * - <i>boolean allow_multiple:</i> If this flag is set, you may select more than one
  *   option. This is disabled by default. If this feature is disabled, the loader
  *   code will drop all matches beyond the first match.
  * - <i>boolean csv_export_key:</i> If this flag is set, the CSV export will store the
@@ -364,7 +364,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         else
         {
             // If we aren't in multiselect mode, we don't get an array by default (to have
-            // plain storage), therefore we typecast here. This is easier to do then having
+            // plain storage), therefore we typecast here. This is easier to do than having
             // the same code below twice thus unifying allow_other handling mainly.
 
             $source = array($source);

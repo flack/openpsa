@@ -649,8 +649,8 @@ class midcom_helper_imagefilter
      *
      * Filter Syntax: rotate($rotate)
      *
-     * Where $rotate is a positive floating point number greater then 0
-     * and less then 360; if omitted, a null operation is done.
+     * Where $rotate is a positive floating point number greater than 0
+     * and less than 360; if omitted, a null operation is done.
      *
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
      * @return boolean true on success.

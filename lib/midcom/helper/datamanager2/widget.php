@@ -94,7 +94,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * This is the Namespace to use for all HTML/CSS/JS elements.
      *
      * It is deduced by the formmanager and tries to be as smart as possible to work safely with
-     * more then one form on a page.
+     * more than one form on a page.
      *
      * You have to prefix all elements which must be unique using this string (it includes a
      * trailing underscore).

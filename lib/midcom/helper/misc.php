@@ -193,7 +193,7 @@ class midcom_helper_misc
             case 'title':
                 return midcom::get('config')->get('midcom_site_title');
             case 'content':
-                return '<(content)>';
+                return '<?php midcom_core_context::get()->show(); ?>';
             default:
                 $value = self::get_element_content($element);
 
@@ -205,7 +205,7 @@ class midcom_helper_misc
                          * can load the page style (under mgd1, this might also be done with the
                                  * midgard style engine as well)
                         */
-                        return '<(content)>';
+                        return '<?php midcom_core_context::get()->show(); ?>';
                     }
                     return '';
                 }

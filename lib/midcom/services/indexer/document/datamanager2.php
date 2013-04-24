@@ -64,7 +64,7 @@
  *   title and author fields respectively.
  * - You can specify <i>abstract,</i> <i>content,</i> <i>title</i> or
  *   <i>author</i> to indicate that the field should be used for the indicated
- *   document fields. The content selector may be specified more then once,
+ *   document fields. The content selector may be specified more than once,
  *   indicating that the content of the relevant fields should be merged.
  * - Any date field can be indexed into its own, range-filterable field using
  *   the <i>date</i> method. In this case, two document fields will be created

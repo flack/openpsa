@@ -32,6 +32,31 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
+    public function _handler_recreate_folder_thumbnails($handler_id, array $args, array &$data)
+    {
+        $mc = midcom_db_topic::new_collector('up', $data['topic']->id);
+        $subfolder_guids = $mc->get_values('guid');
+        if (!empty($subfolder_guids))
+        {
+            $qb = midcom_db_attachment::new_query_builder();
+            $qb->add_constraint('parentguid', 'IN', $subfolder_guids);
+            $qb->add_constraint('name', '=', org_openpsa_slideshow_image_dba::FOLDER_THUMBNAIL);
+            $thumbnails = $qb->execute();
+            foreach ($thumbnails as $thumbnail)
+            {
+                $thumbnail->delete();
+            }
+        }
+        return new midcom_response_relocate('');
+    }
+
+    /**
+     * Handler for recreating derived images
+     *
+     * @param string $handler_id Name of the used handler
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
+     */
     public function _handler_recreate($handler_id, array $args, array &$data)
     {
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();

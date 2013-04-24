@@ -243,13 +243,16 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return $filename;
     }
 
-    public static function get_url($attachment)
+    public static function get_url($attachment, $name = null)
     {
         if (is_string($attachment))
         {
             $guid = $attachment;
-            $mc = self::new_collector('guid', $guid);
-            $name = array_pop($mc->get_values('name'));
+            if (null === $name)
+            {
+                $mc = self::new_collector('guid', $guid);
+                $name = array_pop($mc->get_values('name'));
+            }
         }
         else if (is_a($attachment, 'midcom_db_attachment'))
         {

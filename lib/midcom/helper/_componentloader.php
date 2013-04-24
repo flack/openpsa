@@ -26,7 +26,7 @@
  * baseclass and should give you everything you need to work with the component
  * and its information itself.
  *
- * Other then that, you should not have to deal with the components, perhaps with
+ * Other than that, you should not have to deal with the components, perhaps with
  * the only exception of is_loaded() and load() to ensure other components are loaded
  * in case you need them and they are not a pure-code library.
  *

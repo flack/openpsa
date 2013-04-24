@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Michelf\Markdown;
+use Michelf\MarkdownExtra;
 
 /**
  * Datamanager 2 Simple text datatype. The text value encapsulated by this type is
@@ -28,7 +28,7 @@ use Michelf\Markdown;
  * - 'nl2br': The value is run through htmlspecialchars() and nl2br()
  * - 'midgard_f': Uses the Midgard :f formatter.
  * - 'midgard_F': Uses the Midgard :F formatter.
- * - 'markdown': Uses Michelf\Markdown.
+ * - 'markdown': Uses Michelf\MarkdownExtra.
  *
  * @package midcom.helper.datamanager2
  */
@@ -420,11 +420,11 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                     || !$this->purify_markdown_on_output)
                 {
                     // Return the Markdown straight away
-                    return Markdown::defaultTransform($this->value);
+                    return MarkdownExtra::defaultTransform($this->value);
                 }
 
                 // Run the Markdown-generated HTML through Purifier to ensure consistency. This is expensive, however
-                return $this->purify_string(Markdown::defaultTransform($this->value));
+                return $this->purify_string(MarkdownExtra::defaultTransform($this->value));
 
             case (substr($this->output_mode, 0, 1) == 'x'):
                 // Run the contents through a custom formatter registered via mgd_register_filter

@@ -63,7 +63,7 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
     }
 
     /**
-     * Actual callback. Be aware, that QF might call this more then once for a single schema
+     * Actual callback. Be aware, that QF might call this more than once for a single schema
      * field, since it calls it recursively and form-element-wise.
      *
      * @param mixed $input The form values which should be filtered.

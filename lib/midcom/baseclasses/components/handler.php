@@ -96,7 +96,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * instantiation. Required to allow safe $this references during startup.
      *
      * Be aware that it is possible that a handler can come from a different component
-     * (or library) then the master class. Take this into account when getting the
+     * (or library) than the master class. Take this into account when getting the
      * component data storage, configuration and l10n instances. Configuration is merged
      * during runtime based on the system defaults and all parameters attached to the
      * topic <i>we're currently operating on.</i>
@@ -112,7 +112,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         $this->_topic =& $master->_topic;
 
         // Load component specific stuff, special treatment if the handler has
-        // a component different then the master handler set.
+        // a component different than the master handler set.
         if (   $this->_component
             && $this->_component != $master->_component)
         {

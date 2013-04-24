@@ -414,6 +414,22 @@ class midcom_core_context
         }
     }
 
+    public function show()
+    {
+        if (!midcom::get()->skip_page_style)
+        {
+            midcom_show_style('style-init');
+        }
+
+        $component = midcom::get('componentloader')->get_interface_class($this->get_key(MIDCOM_CONTEXT_COMPONENT));
+        $component->show_content($this->id);
+
+        if (!midcom::get()->skip_page_style)
+        {
+            midcom_show_style('style-finish');
+        }
+    }
+
     /**
      * Load the configuration for a given object.
      *

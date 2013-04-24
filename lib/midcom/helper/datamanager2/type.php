@@ -174,7 +174,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
 
     /**
      * Converts from storage format to "operational" format, which might include
-     * more information then the pure storage format.
+     * more information than the pure storage format.
      *
      * Depending on the $serialized_storage member, the framework will
      * automatically deal with deserialization of the information.

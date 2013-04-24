@@ -26,6 +26,10 @@ OpenPSA Slideshow
 Abgeleitete Bilder neu erstellen
 ---STRINGEND
 
+---STRING recreate subfolder thumbnails
+Vorschau-Bilder der Unterordner neu erstellen
+---STRINGEND
+
 ---STRING reverse order
 Sortierreihenfolge umkehren
 ---STRINGEND

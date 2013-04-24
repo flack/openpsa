@@ -46,6 +46,7 @@
 #entry-viewer .description textarea
 {
     border: none;
+    background-color: transparent
 }
 
 #entry-viewer .title input

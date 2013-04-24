@@ -57,8 +57,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         {
             foreach ($array as $identifier => $i)
             {
-                // Set the score reversed: the higher the value, the higher the rank
-                $score_r = (int)($count - $i);
+                $score_r = $count - (int) $i;
 
                 if (!$this->_update_score($identifier, $score_r))
                 {

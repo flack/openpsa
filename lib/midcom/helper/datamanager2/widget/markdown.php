@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Michelf\Markdown;
+use Michelf\MarkdownExtra;
 
 /**
  * Datamanager 2 simple markdown widget
@@ -106,7 +106,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         $file = MIDCOM_ROOT . "/midcom/helper/datamanager2/documentation/markdown.en.txt";
         if (file_exists($file))
         {
-            $elements[] = $this->_form->createElement('static', "{$this->name}_help", '', "<div class=\"markdown_cheatsheet\" style=\"display: none;\">" . Markdown::defaultTransform(file_get_contents($file)) . "</div>");
+            $elements[] = $this->_form->createElement('static', "{$this->name}_help", '', "<div class=\"markdown_cheatsheet\" style=\"display: none;\">" . MarkdownExtra::defaultTransform(file_get_contents($file)) . "</div>");
         }
 
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);

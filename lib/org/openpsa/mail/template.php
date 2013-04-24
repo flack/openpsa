@@ -46,7 +46,7 @@
  * according to the MidCOM namespace conventions, these are private members
  * of a class and should not be touched. You can still access them with the
  * direct index, though this is strongly discouraged within a MidCOM context.
- * Also note that variables with more then one underscore as a prefix might cause
+ * Also note that variables with more than one underscore as a prefix might cause
  * trouble with the regular expression used to parse the template.
  *
  * <b>Example usage code</b>

@@ -488,7 +488,7 @@ class midcom_helper_nav
         {
             if ($skip_levels >= count($breadcrumb_data))
             {
-                debug_add('We were asked to skip all (or even more) breadcrumb elements then there were present. Returning an empty breadcrumb line therefore.', MIDCOM_LOG_INFO);
+                debug_add('We were asked to skip all breadcrumb elements that were present (or even more). Returning an empty breadcrumb line therefore.', MIDCOM_LOG_INFO);
                 return '';
             }
             for ($i = 0; $i < $skip_levels; $i++)
@@ -555,7 +555,7 @@ class midcom_helper_nav
      * - MIDCOM_NAV_ID The Identifier of the structure used to build this entry, this is
      *   either a NAP node/leaf ID or the list key set by the component for custom data.
      * - 'napobject' This contains the original NAP object retrieved by the function.
-     *   Just in case you need more information then is available directly.
+     *   Just in case you need more information than is available directly.
      *
      * The entry of every level is indexed by its MIDCOM_NAV_ID, where custom keys preserve
      * their original key (as passed by the component) and prefixing it with 'custom-'. This

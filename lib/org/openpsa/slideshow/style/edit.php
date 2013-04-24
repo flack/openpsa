@@ -28,6 +28,7 @@ foreach ($data['images'] as $image)
     {
         $url = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
         $name = $data['l10n']->get('attachment missing');
+        $original_url = '';
     }
     ?>
     <div class="entry existing-entry" id="image-&(image.guid);">
@@ -55,6 +56,12 @@ foreach ($data['images'] as $image)
     <span class="action image-cancel-delete"></span>
   </span>
   <span class="filename"></span>
+  <span class="title">
+    <input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>" value="" />
+  </span>
+  <span class="description">
+    <textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>"></textarea>
+  </span>
 </div>
 </div>
 </div>

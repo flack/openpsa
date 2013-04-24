@@ -27,7 +27,7 @@
  * <b>Implementation Limitation:</b>
  *
  * Due to the nature of the way how the captcha passphrase is passed to the captcha
- * image server, it is currently not possible to have more then one captcha per
+ * image server, it is currently not possible to have more than one captcha per
  * unique REQUEST_URI within the user's PHP Session space.
  *
  * <b>Integration Guide:</b>

@@ -89,7 +89,7 @@ class midcom_services_auth
      *
      * Note, that this is no boolean but an int, otherwise it would be impossible to trace nested
      * sudo invocations, which are quite possible with multiple components calling each others
-     * callback. A value of 0 indicates that sudo is inactive. A value greater then zero indicates
+     * callback. A value of 0 indicates that sudo is inactive. A value greater than zero indicates
      * sudo mode is active, with the count being equal to the depth of the sudo callers.
      *
      * It is thus still safely possible to evaluate this member in a boolean context to check
@@ -781,9 +781,8 @@ class midcom_services_auth
      * This is a wrapper for get_group, which allows Midgard Group retrieval by its name.
      * If the group name is unknown, false is returned.
      *
-     * In the case that more then one
-     * group matches the given name, the first one is returned. Note, that this should not
-     * happen as midgard group names should be unique according to the specs.
+     * In the case that more than one group matches the given name, the first one is returned.
+     * Note, that this should not happen as midgard group names should be unique according to the specs.
      *
      * @param string $name The name of the group to look up.
      * @return midcom_core_group A reference to the group object matching the group name,

@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Michelf\Markdown;
+use Michelf\MarkdownExtra;
 
 /**
  * Online help display
@@ -196,7 +196,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
         }
 
-        return Markdown::defaultTransform($text);
+        return MarkdownExtra::defaultTransform($text);
     }
 
     public function list_files($component, $with_index = false)

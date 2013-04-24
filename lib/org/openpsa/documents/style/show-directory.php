@@ -58,17 +58,28 @@ jQuery("#treegrid").jqGrid({
 
 $('#treegrid').on('contextmenu', '.document', function(e)
 {
-    var guid = $(this).attr('href').replace(/^.*?\/([a-z0-9]+?)\/$/, '$1'),
-    download_url = $.trim($(this).closest('.jqgrow').find('.download_url').text());
+    var item = $(this),
+    guid = item.attr('href').replace(/^.*?\/([a-z0-9]+?)\/$/, '$1'),
+    download_url = $.trim(item.closest('.jqgrow').find('.download_url').text());
 
-    $.ajax
-    ({
-        type: "POST",
-        url: MIDCOM_PAGE_PREFIX + "/midcom-exec-org.openpsa.documents/mark_visited.php",
-        data: "guid=" + guid
-    });
-    window.location.href = download_url;
-    $(this).removeClass('new').addClass('visited');
+    if (item.hasClass('new'))
+    {
+        $.ajax
+        ({
+            type: "POST",
+            url: MIDCOM_PAGE_PREFIX + "/midcom-exec-org.openpsa.documents/mark_visited.php",
+            data: "guid=" + guid,
+            complete: function()
+            {
+                item.removeClass('new').addClass('visited');
+                window.location.href = download_url;
+            }
+        });
+    }
+    else
+    {
+        window.location.href = download_url;
+    }
     return false;
 });
 </script>

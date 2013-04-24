@@ -189,7 +189,7 @@ abstract class midcom_core_query
      * @param string $operator The operator to use for the constraint, currently supported are
      *     <, <=, =, <>, >=, >, LIKE. LIKE uses the percent sign ('%') as a
      *     wildcard character.
-     * @param mixed $value The value to compare against. It should be of the same type then the
+     * @param mixed $value The value to compare against. It should be of the same type as the
      *     queried property.
      * @return boolean Indicating success.
      */

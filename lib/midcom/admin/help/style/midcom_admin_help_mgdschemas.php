@@ -1,5 +1,5 @@
 <?php
-use Michelf\Markdown;
+use Michelf\MarkdownExtra;
 
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . sprintf($data['l10n']->get('mgdschemas in %s'), midcom::get('i18n')->get_string($data['component'], $data['component'])) . "</h1>\n";
@@ -49,7 +49,7 @@ if (count($data['mgdschemas']) > 0)
 
             echo "            <tr>\n";
             echo "                <td class='property{$mod}'><span class='mgdtype'>{$val['midgard_type']}</span> {$propname}<br/>{$proplink}</td>\n";
-            echo "                <td class='{$mod}'>" . Markdown::defaultTransform($val['value'] . $proplink_description) . "</td>\n";
+            echo "                <td class='{$mod}'>" . MarkdownExtra::defaultTransform($val['value'] . $proplink_description) . "</td>\n";
             echo "            </tr>\n";
         }
         echo "        </tbody>\n";

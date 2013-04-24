@@ -119,7 +119,8 @@ class midcom_application
 
         $this->_process($context);
 
-        if ($context->id == 0)
+        if (   $context->id == 0
+            && !$this->skip_page_style)
         {
             // Let metadata service add its meta tags
             midcom::get('metadata')->populate_meta_head();
@@ -134,34 +135,7 @@ class midcom_application
      */
     public function content()
     {
-        // Enter Context
-        $oldcontext = midcom_core_context::get();
-        if ($oldcontext->id != 0)
-        {
-            debug_add("Entering Context 0 (old Context: {$oldcontext->id})");
-        }
-        $this->_currentcontext = 0;
-        midcom::get('style')->enter_context(0);
-
-        $template = midcom_helper_misc::preparse('<(ROOT)>');
-        $template_parts = explode('<(content)>', $template);
-        eval('?>' . $template_parts[0]);
-
-        $this->_output();
-
-        if (isset($template_parts[1]))
-        {
-            eval('?>' . $template_parts[1]);
-        }
-
-        // Leave Context
-        if ($oldcontext->id != 0)
-        {
-            debug_add("Leaving Context 0 (new Context: {$oldcontext->id})");
-        }
-
-        midcom::get('style')->leave_context();
-        $oldcontext->set_current();
+        $this->_output(midcom_core_context::get(0), !$this->skip_page_style);
     }
 
     /**
@@ -232,17 +206,15 @@ class midcom_application
             $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url);
         }
 
-        $context->set_current();
-
         /* "content-cache" for DLs, check_hit */
         if (midcom::get('cache')->content->check_dl_hit($context->id, $config))
         {
             // The check_hit method serves cached content on hit
-            $oldcontext->set_current();
             return $context->id;
         }
 
         // Parser Init: Generate arguments and instantiate it.
+        $context->set_current();
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
@@ -262,13 +234,7 @@ class midcom_application
         // Start another buffer for caching DL results
         ob_start();
 
-        midcom::get('style')->enter_context($context->id);
-        debug_add("Entering Context $context->id (old Context: $oldcontext->id)");
-
-        $this->_output();
-
-        midcom::get('style')->leave_context();
-        debug_add("Leaving Context $context->id (new Context: $oldcontext->id)");
+        $this->_output($context, false);
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
@@ -369,30 +335,6 @@ class midcom_application
             return false;
         }
         $context->run($handler);
-
-        if (   $context->id == 0
-            && $this->skip_page_style == true)
-        {
-            $this->_status = MIDCOM_STATUS_CONTENT;
-
-            // Enter Context
-            $oldcontext = $context;
-            midcom_core_context::get(0)->set_current();
-            midcom::get('style')->enter_context(0);
-
-            $this->_output();
-
-            // Leave Context
-            midcom::get('style')->leave_context();
-            $oldcontext->set_current();
-
-            $this->finish();
-            _midcom_stop_request();
-        }
-        else
-        {
-            $this->_status = MIDCOM_STATUS_CONTENT;
-        }
     }
 
     /**
@@ -404,23 +346,38 @@ class midcom_application
      * It executes the content_handler that has been determined during the handle
      * phase. It fetches the content_handler from the Component Loader class cache.
      */
-    private function _output()
+    private function _output(midcom_core_context $context, $include_template = true)
     {
-        ob_start();
-        if (!$this->skip_page_style)
+        $this->_status = MIDCOM_STATUS_CONTENT;
+
+        // Enter Context
+        $oldcontext = midcom_core_context::get();
+        if ($oldcontext->id != $context->id)
         {
-            midcom_show_style('style-init');
+            debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
+            $context->set_current();
         }
-        $context = midcom_core_context::get();
+        midcom::get('style')->enter_context($context->id);
 
-        $component = midcom::get('componentloader')->get_interface_class($context->get_key(MIDCOM_CONTEXT_COMPONENT));
-        $component->show_content($context->id);
-
-        if (!$this->skip_page_style)
+        ob_start();
+        if ($include_template)
         {
-            midcom_show_style('style-finish');
+            midcom_show_style('ROOT');
+        }
+        else
+        {
+            $context->show();
         }
         ob_end_flush();
+
+        // Leave Context
+        if ($oldcontext->id != $context->id)
+        {
+            debug_add("Leaving Context {$context->id} (new Context: {$oldcontext->id})");
+            $oldcontext->set_current();
+        }
+
+        midcom::get('style')->leave_context();
     }
 
     /* *************************************************************************
