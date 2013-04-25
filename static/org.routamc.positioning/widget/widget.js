@@ -390,10 +390,15 @@ jQuery.midcom_helper_datamanager2_widget_position = function(widget_block, mapst
 
     function get_key_name(key)
     {
+        // expect something like "location_position_widget_input[city]" and return "city"
+        var i = key.indexOf('[');
+        return key.slice(i+1, -1);
+        /*
         var re = /widget_([a-z]*)_([a-z]{5,11})_([a-z]*)/;
         var reg = re.exec(key);
         
         return reg[3];
+        */
     }
     
     function handle_alternatives(items)

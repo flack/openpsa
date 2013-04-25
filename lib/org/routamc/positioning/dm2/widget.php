@@ -141,7 +141,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
 
-        $this->_element_id = "{$this->_namespace}{$this->name}_position_widget";
+        $this->_element_id = "{$this->name}_position_widget";
 
         $config = "{
             fxAutoHeight: false,
@@ -175,7 +175,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
      * Creates the tab view for all enabled positioning methods
      * Also adds static options to results.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         // Get url to geocode handler
         $nav = new midcom_helper_nav();
@@ -184,9 +184,12 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html = "<div id=\"{$this->_element_id}\" class=\"midcom_helper_datamanager2_widget_position\"><!-- widget starts -->\n";
 
-        $html .= "<input class=\"position_widget_id\" id=\"{$this->_element_id}_id\" name=\"{$this->_element_id}_id\" type=\"hidden\" value=\"{$this->_element_id}\" />";
-        $html .= "<input class=\"position_widget_backend_url\" id=\"{$this->_element_id}_backend_url\" name=\"{$this->_element_id}_backend_url\" type=\"hidden\" value=\"{$this->_handler_url}\" />";
-        $html .= "<input class=\"position_widget_backend_service\" id=\"{$this->_element_id}_backend_service\" name=\"{$this->_element_id}_backend_service\" type=\"hidden\" value=\"{$this->service}\" />";
+        $input_key = $this->_get_input_key("id");
+        $html .= "<input class=\"position_widget_id\" id=\"{$this->_element_id}_id\" name=\"".$input_key."\" type=\"hidden\" value=\"{$this->_element_id}\" />";
+        $input_key = $this->_get_input_key("backend_url");
+        $html .= "<input class=\"position_widget_backend_url\" id=\"{$this->_element_id}_backend_url\" name=\"".$input_key."\" type=\"hidden\" value=\"{$this->_handler_url}\" />";
+        $input_key = $this->_get_input_key("backend_service");
+        $html .= "<input class=\"position_widget_backend_service\" id=\"{$this->_element_id}_backend_service\" name=\"".$input_key."\" type=\"hidden\" value=\"{$this->service}\" />";
 
         $html .= "    <ul>\n";
 
@@ -228,7 +231,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         );
     }
 
-    function _add_place_method_elements()
+    public function _add_place_method_elements()
     {
         $html = "\n<div id=\"{$this->_element_id}_tab_content_place\" class=\"position_widget_tab_content position_widget_tab_content_place\"><!-- tab_content_place starts -->\n";
 
@@ -236,10 +239,10 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $html .= "<div class=\"indicator\" id='{$this->_element_id}_indicator' style=\"display: none;\"></div>";
 
         $country = $this->_type->location->country;
-        if (   !$country
-            && isset($_REQUEST["{$this->_element_id}_input_place_country"]))
+        $country_input = $this->_get_input("country", $_REQUEST);
+        if (!$country && $country_input !== null)
         {
-            $country = $_REQUEST["{$this->_element_id}_input_place_country"];
+            $country = $country_input;
         }
         if (   !$country
             && isset($this->input_defaults['country']))
@@ -251,16 +254,17 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $city_name = $this->_get_city_name();
 
+        $input_key = $this->_get_input_key("city");
         $html .= "<label for='{$this->_element_id}_input_place_city' id='{$this->_element_id}_input_place_city_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_city', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
-        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_city\" id=\"{$this->_element_id}_input_place_city\" name=\"{$this->_element_id}_input_place_city\" type=\"text\" value=\"{$city_name}\" />";
+        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_city\" id=\"{$this->_element_id}_input_place_city\" name=\"".$input_key."\" type=\"text\" value=\"{$city_name}\" />";
         $html .= "</label>";
 
         $region = $this->_type->location->region;
-        if (   !$region
-            && isset($_REQUEST["{$this->_element_id}_input_place_region"]))
+        $region_input = $this->_get_input("region", $_REQUEST);
+        if (!$region && $region_input !== null)
         {
-            $region = $_REQUEST["{$this->_element_id}_input_place_region"];
+            $region = $region_input;
         }
         if (   !$region
             && isset($this->input_defaults['region']))
@@ -268,33 +272,35 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $region = $this->input_defaults['region'];
         }
 
+        $input_key = $this->_get_input_key("region");
         $html .= "<label for='{$this->_element_id}_input_place_region' id='{$this->_element_id}_input_place_region_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_region', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
-        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_region\" id=\"{$this->_element_id}_input_place_region\" name=\"{$this->_element_id}_input_place_region\" type=\"text\" value=\"{$region}\" />";
+        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_region\" id=\"{$this->_element_id}_input_place_region\" name=\"".$input_key."\" type=\"text\" value=\"{$region}\" />";
         $html .= "</label>";
 
         $street = $this->_type->location->street;
-        if (   !$street
-            && isset($_REQUEST["{$this->_element_id}_input_place_street"]))
+        $street_input = $this->_get_input("street", $_REQUEST);
+        if (!$street && $street_input !== null)
         {
-            $street = $_REQUEST["{$this->_element_id}_input_place_street"];
+            $street = $street_input;
         }
         if (   !$street
             && isset($this->input_defaults['street']))
         {
             $street = $this->input_defaults['street'];
         }
-
+        
+        $input_key = $this->_get_input_key("street");
         $html .= "<label for='{$this->_element_id}_input_place_street' id='{$this->_element_id}_input_place_street_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_street', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
-        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_street\" id=\"{$this->_element_id}_input_place_street\" name=\"{$this->_element_id}_input_place_street\" type=\"text\" value=\"{$street}\" />";
+        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_street\" id=\"{$this->_element_id}_input_place_street\" name=\"".$input_key."\" type=\"text\" value=\"{$street}\" />";
         $html .= "</label>";
 
         $postalcode = $this->_type->location->postalcode;
-        if (   !$postalcode
-            && isset($_REQUEST["{$this->_element_id}_input_place_postalcode"]))
+        $postalcode_input = $this->_get_input("postalcode", $_REQUEST);
+        if (!$postalcode && $postalcode_input !== null)
         {
-            $postalcode = $_REQUEST["{$this->_element_id}_input_place_postalcode"];
+            $postalcode = $postalcode_input;
         }
         if (   !$postalcode
             && isset($this->input_defaults['postalcode']))
@@ -302,9 +308,10 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $postalcode = $this->input_defaults['postalcode'];
         }
 
+        $input_key = $this->_get_input_key("postalcode");
         $html .= "<label for='{$this->_element_id}_input_place_postalcode' id='{$this->_element_id}_input_place_postalcode_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_postalcode', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
-        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_postalcode\" id=\"{$this->_element_id}_input_place_postalcode\" name=\"{$this->_element_id}_input_place_postalcode\" type=\"text\" value=\"{$postalcode}\" />";
+        $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_postalcode\" id=\"{$this->_element_id}_input_place_postalcode\" name=\"".$input_key."\" type=\"text\" value=\"{$postalcode}\" />";
         $html .= "</label>";
 
         $html .= $this->_render_xep_keys();
@@ -327,13 +334,13 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $city_name = '';
         $city_id = $this->_type->location->city;
 
-        if (   !$city_id
-            && isset($_REQUEST["{$this->_element_id}_input_place_city"]))
+        $city_input = $this->_get_input("city", $_REQUEST);
+        if (!$city_id && $city_input !== null)
         {
-            $city_id = $this->_get_city_by_name($_REQUEST["{$this->_element_id}_input_place_city"]);
-            if (! $city_id)
+            $city_id = $this->_get_city_by_name($city_input);
+            if (!$city_id)
             {
-                $city_name = $_REQUEST["{$this->_element_id}_input_place_city"];
+                $city_name = $city_input;
             }
         }
 
@@ -379,27 +386,26 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $inserted_xep_keys[] = $xep_key;
 
             $xep_value = $this->_type->location->$xep_key;
-
-            if (   !$xep_value
-                && isset($_REQUEST["{$this->_element_id}_input_place_{$xep_key}"]))
+            $xep_value_input = $this->_get_input($xep_key, $_REQUEST);
+            if (!$xep_value && $xep_value_input !== null)
             {
-                $xep_value = $_REQUEST["{$this->_element_id}_input_place_{$xep_key}"];
+                $xep_value = $xep_value_input;
             }
-            if (   !$xep_value
-                && isset($this->input_defaults[$xep_key]))
+            if (!$xep_value && isset($this->input_defaults[$xep_key]))
             {
                 $xep_value = $this->input_defaults[$xep_key];
             }
 
+            $input_key = $this->_get_input_key($xep_key);
             $html .= "<label for='{$this->_element_id}_input_place_{$xep_key}' id='{$this->_element_id}_input_place_{$xep_key}_label'>";
             $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string("xep_{$xep_key}", 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
-            $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_{$xep_key}\" id=\"{$this->_element_id}_input_place_{$xep_key}\" name=\"{$this->_element_id}_input_place_{$xep_key}\" type=\"text\" value=\"{$xep_value}\" />";
+            $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_{$xep_key}\" id=\"{$this->_element_id}_input_place_{$xep_key}\" name=\"".$input_key."\" type=\"text\" value=\"{$xep_value}\" />";
             $html .= "</label>";
         }
         return $html;
     }
 
-    function _add_map_method_elements()
+    public function _add_map_method_elements()
     {
         $html = "\n<div id=\"{$this->_element_id}_tab_content_map\" class=\"position_widget_tab_content position_widget_tab_content_map\"><!-- tab_content_map starts -->\n";
 
@@ -425,7 +431,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         midcom::get('head')->add_jquery_state_script($script);
     }
 
-    function _add_coordinates_method_elements()
+    public function _add_coordinates_method_elements()
     {
         $html = "\n<div id=\"{$this->_element_id}_tab_content_coordinates\" class=\"position_widget_tab_content position_widget_tab_content_coordinates\"><!-- tab_content_coordinates starts -->\n";
 
@@ -433,29 +439,31 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $html .= "<div class=\"indicator\" id='{$this->_element_id}_revindicator' style=\"display: none;\"></div>";
 
         $lat = $this->_type->location->latitude;
-        if (   !$lat
-            && isset($_REQUEST["{$this->_element_id}_input_coordinates_latitude"]))
+        $lat_input = $this->_get_input("latitude", $_REQUEST);
+        if (!$lat && $lat_input !== null)
         {
-            $lat = $_REQUEST["{$this->_element_id}_input_coordinates_latitude"];
+            $lat = $lat_input;
         }
         $lon = $this->_type->location->longitude;
-        if (   !$lon
-            && isset($_REQUEST["{$this->_element_id}_input_coordinates_longitude"]))
+        $lon_input = $this->_get_input("longitude", $_REQUEST);
+        if (!$lon && $lon_input)
         {
-            $lon = $_REQUEST["{$this->_element_id}_input_coordinates_longitude"];
+            $lon = $lon_input;
         }
 
         $lat = str_replace(",", ".", $lat);
         $lon = str_replace(",", ".", $lon);
 
+        $input_key = $this->_get_input_key("latitude");
         $html .= "<label for='{$this->_element_id}_input_coordinates_latitude' id='{$this->_element_id}_input_coordinates_latitude_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('latitude', 'org.routamc.positioning') . "</span>";
-        $html .= "<input size=\"20\" class=\"shorttext position_widget_input position_widget_input_coordinates_latitude\" id=\"{$this->_element_id}_input_coordinates_latitude\" name=\"{$this->_element_id}_input_coordinates_latitude\" type=\"text\" value=\"{$lat}\" />";
+        $html .= "<input size=\"20\" class=\"shorttext position_widget_input position_widget_input_coordinates_latitude\" id=\"{$this->_element_id}_input_coordinates_latitude\" name=\"".$input_key."\" type=\"text\" value=\"{$lat}\" />";
         $html .= "</label>";
 
+        $input_key = $this->_get_input_key("longitude");
         $html .= "<label for='{$this->_element_id}_input_coordinates_longitude' id='{$this->_element_id}_input_coordinates_longitude_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('longitude', 'org.routamc.positioning') . "</span>";
-        $html .= "<input size=\"20\" class=\"shorttext position_widget_input position_widget_input_coordinates_longitude\" id=\"{$this->_element_id}_input_coordinates_longitude\" name=\"{$this->_element_id}_input_coordinates_longitude\" type=\"text\" value=\"{$lon}\" />";
+        $html .= "<input size=\"20\" class=\"shorttext position_widget_input position_widget_input_coordinates_longitude\" id=\"{$this->_element_id}_input_coordinates_longitude\" name=\"".$input_key."\" type=\"text\" value=\"{$lon}\" />";
         $html .= "</label>";
 
         $html .= "\n</div><!-- tab_content_coordinates ends -->\n";
@@ -469,7 +477,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         );
     }
 
-    function _get_country_list()
+    public function _get_country_list()
     {
         $this->_countrylist = array
         (
@@ -492,7 +500,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
     }
 
-    function _render_country_list($current='')
+    public function _render_country_list($current='')
     {
         $html = '';
 
@@ -502,9 +510,10 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             return $html;
         }
 
+        $input_key = $this->_get_input_key("country");
         $html .= "<label for='{$this->_element_id}_input_place_country' id='{$this->_element_id}_input_place_country_label'>";
         $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_country', 'org.routamc.positioning') . "</span>";
-        $html .= "<select class=\"dropdown position_widget_input position_widget_input_place_country\" id=\"{$this->_element_id}_input_place_country\" name=\"{$this->_element_id}_input_place_country\">";
+        $html .= "<select class=\"dropdown position_widget_input position_widget_input_place_country\" id=\"{$this->_element_id}_input_place_country\" name=\"".$input_key."\">";
 
         foreach ($this->_countrylist as $code => $name)
         {
@@ -522,7 +531,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         return $html;
     }
 
-    function _init_widgets_js_options()
+    public function _init_widgets_js_options()
     {
         $this->js_options['maxRows'] = 20;
         $this->js_options['radius'] = 5;
@@ -556,7 +565,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $this->js_options_str .= " }";
     }
 
-    function get_default()
+    public function get_default()
     {
         try
         {
@@ -569,23 +578,22 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $lat = $this->_type->location->latitude;
-        if (   !$lat
-            && isset($_REQUEST["{$this->_element_id}_input_coordinates_latitude"]))
+        $lat_input = $this->_get_input("latitude", $_REQUEST);
+        if (!$lat && $lat_input !== null)
         {
-            $lat = $_REQUEST["{$this->_element_id}_input_coordinates_latitude"];
+            $lat = $lat_input;
         }
         $lon = $this->_type->location->longitude;
-        if (   !$lon
-            && isset($_REQUEST["{$this->_element_id}_input_coordinates_longitude"]))
+        $lon_input = $this->_get_input("longitude", $_REQUEST);
+        if (!$lon && $lon_input !== null)
         {
-            $lon = $_REQUEST["{$this->_element_id}_input_coordinates_longitude"];
+            $lon = $lon_input;
         }
 
         $lat = str_replace(",", ".", $lat);
         $lon = str_replace(",", ".", $lon);
 
-        if (   !empty($lat)
-            && !empty($lon))
+        if (!empty($lat) && !empty($lon))
         {
             $script = "jQuery('#{$this->_element_id}').dm2_pw_init_current_pos({$lat},{$lon});";
             midcom::get('head')->add_jquery_state_script($script);
@@ -593,16 +601,16 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         return Array
         (
-            "{$this->_element_id}_input_place_country" => $this->_type->location->country,
-            "{$this->_element_id}_input_place_city" => $city_name,
-            "{$this->_element_id}_input_place_street" => $this->_type->location->street,
-            "{$this->_element_id}_input_place_postalcode" => $this->_type->location->postalcode,
-            "{$this->_element_id}_input_coordinates_latitude" => $this->_type->location->latitude,
-            "{$this->_element_id}_input_coordinates_longitude" => $this->_type->location->longitude,
+            $this->_get_input_key("country") => $this->_type->location->country,
+            $this->_get_input_key("city") => $city_name,
+            $this->_get_input_key("street") => $this->_type->location->street,
+            $this->_get_input_key("postalcode") => $this->_type->location->postalcode,
+            $this->_get_input_key("latitude") => $this->_type->location->latitude,
+            $this->_get_input_key("longitude") => $this->_type->location->longitude,
         );
     }
 
-    function _get_city_by_name($city_name, $results = array())
+    public function _get_city_by_name($city_name, $results = array())
     {
         if (empty($city_name))
         {
@@ -620,21 +628,25 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $city = new org_routamc_positioning_city_dba();
             $city->city = $city_name;
 
-            if (!empty($results["{$this->_element_id}_input_place_country"]))
+            $country = $this->_get_input("country", $results);
+            if (!empty($country))
             {
-                $city->country = $results["{$this->_element_id}_input_place_country"];
+                $city->country = $country;
             }
-            if (isset($results["{$this->_element_id}_input_place_region"]))
+            $region = $this->_get_input("region", $results);
+            if ($region !== null)
             {
-                $city->region = $results["{$this->_element_id}_input_place_region"];
+                $city->region = $region;
             }
-            if (!empty($results["{$this->_element_id}_input_coordinates_latitude"]))
+            $lat = $this->_get_input("latitude", $results);
+            if (!empty($lat))
             {
-                $city->latitude = $results["{$this->_element_id}_input_coordinates_latitude"];
+                $city->latitude = $lat;
             }
-            if (!empty($results["{$this->_element_id}_input_coordinates_longitude"]))
+            $lon = $this->_get_input("longitude", $results);
+            if (!empty($lon))
             {
-                $city->longitude = $results["{$this->_element_id}_input_coordinates_longitude"];
+                $city->longitude = $lon;
             }
             if (! $city->create())
             {
@@ -646,38 +658,54 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         return $city_id;
     }
-
-    function sync_type_with_widget($results)
+    
+    private function _get_input_key($input_name)
     {
-        if (isset($results["{$this->_element_id}_input_place_country"]))
+        return $this->_element_id . "_input[".$input_name."]";    
+    }
+    
+    private function _get_input($input_name, $data)
+    {
+        return isset($data[$this->_element_id . "_input"][$input_name]) ? $data[$this->_element_id . "_input"][$input_name] : null;
+    }
+
+    public function sync_type_with_widget($results)
+    {
+        $country = $this->_get_input("country", $results);
+        if ($country !== null)
         {
-            $this->_type->location->country = $results["{$this->_element_id}_input_place_country"];
+            $this->_type->location->country = $country;
         }
-        if (isset($results["{$this->_element_id}_input_place_city"]))
+        $city = $this->_get_input("city", $results);
+        if ($city !== null)
         {
-            $city_id = $this->_get_city_by_name($results["{$this->_element_id}_input_place_city"], $results);
+            $city_id = $this->_get_city_by_name($city, $results);
             $this->_type->location->city = $city_id;
         }
-        if (isset($results["{$this->_element_id}_input_place_street"]))
+        $street = $this->_get_input("street", $results);
+        if ($street !== null)
         {
-            $this->_type->location->street = $results["{$this->_element_id}_input_place_street"];
+            $this->_type->location->street = $street;
         }
-        if (isset($results["{$this->_element_id}_input_place_region"]))
+        $region = $this->_get_input("region", $results);
+        if ($region !== null)
         {
-            $this->_type->location->region = $results["{$this->_element_id}_input_place_region"];
+            $this->_type->location->region = $region;
         }
-        if (isset($results["{$this->_element_id}_input_place_postalcode"]))
+        $postalcode = $this->_get_input("postalcode", $results);
+        if ($postalcode !== null)
         {
-            $this->_type->location->postalcode = $results["{$this->_element_id}_input_place_postalcode"];
+            $this->_type->location->postalcode = $postalcode;
         }
-
-        if (!empty($results["{$this->_element_id}_input_coordinates_latitude"]))
+        $lat = $this->_get_input("latitude", $results);
+        if (!empty($lat))
         {
-            $this->_type->location->latitude = $results["{$this->_element_id}_input_coordinates_latitude"];
+            $this->_type->location->latitude = $lat;
         }
-        if (!empty($results["{$this->_element_id}_input_coordinates_longitude"]))
+        $lon = $this->_get_input("longitude", $results);
+        if (!empty($lon))
         {
-            $this->_type->location->longitude = $results["{$this->_element_id}_input_coordinates_longitude"];
+            $this->_type->location->longitude = $lon;
         }
 
         foreach ($this->_allowed_xep_keys as $xep_key)
@@ -687,11 +715,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             {
                 continue;
             }
-            $this->_type->location->$xep_key = $results["{$this->_element_id}_input_place_{$xep_key}"];
+            $this->_type->location->$xep_key = $this->_get_input($xep_key, $results);
         }
     }
 
-    function is_frozen()
+    public function is_frozen()
     {
         return $this->_main_group->isFrozen();
     }
