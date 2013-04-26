@@ -15,14 +15,6 @@
  */
 class org_routamc_positioning_interface extends midcom_baseclasses_components_interface
 {
-    public function __construct()
-    {
-        $this->_autoload_files = array
-        (
-            'utils.php',
-        );
-    }
-
     // TODO: Watchers and cron entries
 }
 ?>

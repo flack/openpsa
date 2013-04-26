@@ -151,8 +151,6 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
             return false;
         }
 
-        midcom::get('componentloader')->load_library('org.routamc.positioning');
-
         // Get all "geo" tags of the object
         $object = midcom::get('dbfactory')->get_object_by_guid($this->fromGuid);
         $geotags = net_nemein_tag_handler::get_object_machine_tags_in_context($object, 'geo');

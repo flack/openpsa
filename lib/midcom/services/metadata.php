@@ -306,9 +306,6 @@ class midcom_services_metadata
 
             if (midcom::get('config')->get('positioning_enable'))
             {
-                // Load the positioning library
-                midcom::get('componentloader')->load_library('org.routamc.positioning');
-
                 // Display position metadata
                 $object_position = new org_routamc_positioning_object($view_metadata->object);
                 $object_position->set_metadata();

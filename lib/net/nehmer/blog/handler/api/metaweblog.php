@@ -34,15 +34,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             throw new midcom_error('XML-RPC Server libraries not installer, aborting.');
         }
 
-        if (midcom::get('config')->get('positioning_enable'))
-        {
-            if (!class_exists('org_routamc_positioning_object'))
-            {
-                // Load the positioning library
-                midcom::get('componentloader')->load_library('org.routamc.positioning');
-            }
-            $this->_positioning = true;
-        }
+        $this->_positioning = (boolean) midcom::get('config')->get('positioning_enable');
 
         midcom::get('cache')->content->enable_live_mode();
     }

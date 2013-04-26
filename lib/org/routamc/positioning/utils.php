@@ -42,7 +42,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         return $dist;
     }
 
-   /**
+    /**
      * Get bearing from position to another
      *
      * Code from http://www.corecoding.com/getfile.php?file=25
