@@ -51,7 +51,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
             && array_key_exists('longitude', $log))
         {
             // Manually entered positions are assumed to be only semi-accurate
-            $this->log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_MANUAL;
+            $this->log->accuracy = org_routamc_positioning_log_dba::ACCURACY_MANUAL;
 
             // Normalize coordinates to decimal
             $coordinates = $this->normalize_coordinates($log['latitude'], $log['longitude']);
@@ -64,7 +64,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         if (array_key_exists('aerodrome', $log))
         {
             // Aerodrome position is not usually very accurate, except if we're at the airport of course
-            $this->log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
+            $this->log->accuracy = org_routamc_positioning_log_dba::ACCURACY_CITY;
 
             // Normalize aerodrome name
             $aerodrome = strtoupper($log['aerodrome']);

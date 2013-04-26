@@ -13,13 +13,21 @@
  */
 class org_routamc_positioning_log_dba extends midcom_core_dbaobject
 {
+    const ACCURACY_GPS = 10;
+    const ACCURACY_HTML = 15;
+    const ACCURACY_ADDRESS = 15;
+    const ACCURACY_MANUAL = 20;
+    const ACCURACY_STREET = 20;
+    const ACCURACY_CITY = 30;
+    const ACCURACY_IP = 40;
+
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_routamc_positioning_log';
 
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    function get_label()
+    public function get_label()
     {
         return strftime('%x', $this->date) . ' ' . org_routamc_positioning_utils::pretty_print_coordinates($this->latitude, $this->longitude);
     }

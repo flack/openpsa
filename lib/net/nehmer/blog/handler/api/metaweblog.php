@@ -176,7 +176,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
                                     $log->date = $article->metadata->published;
                                     $log->latitude = (float) $coordinates[0];
                                     $log->longitude = (float) $coordinates[1];
-                                    $log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_MANUAL;
+                                    $log->accuracy = org_routamc_positioning_log_dba::ACCURACY_MANUAL;
                                     $log->create();
 
                                     break;

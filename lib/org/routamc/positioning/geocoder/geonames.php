@@ -108,7 +108,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             $position['country' ] = (string) $entry->countryCode;
             $position['postalcode' ] = (string) $entry->postalcode;
             $position['alternate_names'] = (string) $entry->alternateNames;
-            $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
+            $position['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_CITY;
 
             $results[] = $position;
         }
@@ -216,7 +216,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             $position['country'] = (string) $entry->countryCode;
             $position['postalcode' ] = (string) $entry->postalcode;
             $position['alternate_names'] = (string) $entry->alternateNames;
-            $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_GPS;
+            $position['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_GPS;
 
             $results[] = $position;
         }

@@ -378,7 +378,7 @@ implements midcom_services_permalinks_resolver
                     $location->date = time();
                     $location->latitude = $latitude;
                     $location->longitude = $longitude;
-                    $location->relation = ORG_ROUTAMC_POSITIONING_RELATION_LOCATED;
+                    $location->relation = org_routamc_positioning_location_dba::RELATION_LOCATED;
                     $location->parent = $group->guid;
                     $location->parentclass = 'org_openpsa_contacts_group_dba';
                     $location->parentcomponent = 'org.openpsa.contacts';

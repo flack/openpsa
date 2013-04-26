@@ -148,7 +148,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
         $this->log->latitude = (float) $position['latitude'];
         $this->log->longitude = (float) $position['longitude'];
         $this->log->altitude = 0;
-        $this->log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_HTML;
+        $this->log->accuracy = org_routamc_positioning_log_dba::ACCURACY_HTML;
 
         // Try to create the entry
         $stat = $this->log->create();

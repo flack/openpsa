@@ -67,10 +67,10 @@ class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geoc
             return null;
         }
 
-        $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
+        $position['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_CITY;
         if (!empty($location['street']))
         {
-            $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_STREET;
+            $position['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_STREET;
         }
         $position['latitude'] = (float) $coordinate_matches[1];
         $position['longitude'] = (float) $coordinate_matches[2];

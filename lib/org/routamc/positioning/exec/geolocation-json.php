@@ -17,15 +17,15 @@ if (   isset($_POST['latitude'])
         if ($_POST['accuracy'] < 30)
         {
             // Exact enough
-            $location_array['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_GPS;
+            $location_array['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_GPS;
         }
         elseif ($_POST['accuracy'] < 400)
         {
-            $location_array['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_STREET;
+            $location_array['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_STREET;
         }
         elseif ($_POST['accuracy'] < 5000)
         {
-            $location_array['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
+            $location_array['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_CITY;
         }
         else
         {

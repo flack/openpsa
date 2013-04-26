@@ -17,7 +17,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
 {
     var $location = null;
     var $object = null;
-    var $relation = 30; // ORG_ROUTAMC_POSITIONING_RELATION_LOCATED
+    var $relation = 30; // org_routamc_positioning_location_dba::RELATION_LOCATED
 
     public function _on_initialize()
     {

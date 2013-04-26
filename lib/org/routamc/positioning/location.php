@@ -13,13 +13,17 @@
  */
 class org_routamc_positioning_location_dba extends midcom_core_dbaobject
 {
+    const RELATION_IN = 10;
+    const RELATION_ABOUT = 20;
+    const RELATION_LOCATED = 30;
+
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_routamc_positioning_location';
 
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    function get_label()
+    public function get_label()
     {
         if ($this->parent)
         {
@@ -76,7 +80,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         if (   !$this->log
-            && $this->relation == ORG_ROUTAMC_POSITIONING_RELATION_IN)
+            && $this->relation == self::RELATION_IN)
         {
             // This location entry is defined as being made in a location,
             // but is stored to object directly without corresponding log,
@@ -95,7 +99,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
             // Usually the positions based on objects are manual, except in
             // case of GPS-equipped cameras etc. We still need to figure
             // out how to handle those.
-            $log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_MANUAL;
+            $log->accuracy = org_routamc_positioning_log_dba::ACCURACY_MANUAL;
             $log->create();
         }
     }

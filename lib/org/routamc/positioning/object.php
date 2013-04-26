@@ -51,10 +51,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
     {
         $qb = org_routamc_positioning_location_dba::new_query_builder();
         $qb->add_constraint('parent', '=', $this->_object->guid);
-        $qb->begin_group('OR');
-            $qb->add_constraint('relation', '=', ORG_ROUTAMC_POSITIONING_RELATION_IN);
-            $qb->add_constraint('relation', '=', ORG_ROUTAMC_POSITIONING_RELATION_LOCATED);
-        $qb->end_group('OR');
+        $qb->add_constraint('relation', 'IN', array(org_routamc_positioning_location_dba::RELATION_IN, org_routamc_positioning_location_dba::RELATION_LOCATED));
         $qb->add_order('metadata.published', 'DESC');
         $matches = $qb->execute();
         if (count($matches) > 0)
@@ -219,7 +216,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
                 midcom::get('auth')->request_sudo('org.routamc.positioning');
                 $location = new org_routamc_positioning_location_dba();
                 $location->log = $log->id;
-                $location->relation = (int) ORG_ROUTAMC_POSITIONING_RELATION_IN;
+                $location->relation = org_routamc_positioning_location_dba::RELATION_IN;
                 $location->date = $time;
                 $location->parent = $this->_object->guid;
                 $location->parentclass = get_class($this->_object);
