@@ -154,10 +154,12 @@ class installer
             }
             return;
         }
-        else if (   is_file($linkname)
-                 && md5_file($linkname) !== md5_file($target))
+        else if (is_file($linkname))
         {
-            $io->write('Skipping <info>' . $target . '</info>: Found file <comment>' . $linkname . '</comment>');
+            if (md5_file($linkname) !== md5_file($target))
+            {
+                $io->write('Skipping <info>' . $target . '</info>: Found file <comment>' . $linkname . '</comment>');
+            }
             return;
         }
         if (!@symlink($target, $linkname))
