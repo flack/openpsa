@@ -87,11 +87,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     {
         debug_add("Adding tag \"{$tagname}\" for object {$object->guid}");
         $tagstring = self::resolve_tagname($tagname);
-        $context = self::resolve_context($tagname);
-        $value = self::resolve_value($tagname);
         $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
-        if (   !is_object($tag)
-            || !$tag->guid)
+        if (!$tag)
         {
             $tag =  new net_nemein_tag_tag_dba();
             $tag->tag = $tagstring;
@@ -105,8 +102,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
         $link =  new net_nemein_tag_link_dba();
         $link->tag = $tag->id;
-        $link->context = $context;
-        $link->value = $value;
+        $link->context = self::resolve_context($tagname);
+        $link->value = self::resolve_value($tagname);
         $link->fromGuid = $object->guid;
         $link->fromClass = get_class($object);
         $link->fromComponent = $component;
@@ -125,7 +122,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         debug_add("Updating tag {$tagname} for object {$object_guid} to URL {$url}");
         $tagstring = self::resolve_tagname($tagname);
         $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
-        if (!is_object($tag))
+        if (!$tag)
         {
             debug_add("Failed to update tag \"{$tagname}\" for object {$object_guid} (could not get tag object for tag {$tagstring}): " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return;
@@ -141,13 +138,11 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     {
         debug_add("Removing tag {$tagname} from object {$object_guid}");
         $tagstring = self::resolve_tagname($tagname);
-        $context = self::resolve_context($tagname);
-        $value = self::resolve_value($tagname);
         // Ponder make method in net_nemein_tag_link_dba ??
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('tag.tag', '=', $tagstring);
-        $qb->add_constraint('context', '=', $context);
-        $qb->add_constraint('value', '=', $value);
+        $qb->add_constraint('context', '=', self::resolve_context($tagname));
+        $qb->add_constraint('value', '=', self::resolve_value($tagname));
         $qb->add_constraint('fromGuid', '=', $object_guid);
         $links = $qb->execute();
         if (!is_array($links))
@@ -302,19 +297,15 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         {
             /* Tag with context and value and we want contexts */
             case (   !empty($value)
-                  && strlen($value) > 0
-                  && !empty($context)
-                  && strlen($context) > 0):
+                  && !empty($context)):
                 $tagname = "{$context}:{$tag}={$value}";
                 break;
             /* Tag with value (or value and context but we don't want contexts) */
-            case (   !empty($value)
-                  && strlen($value) > 0):
+            case (!empty($value)):
                 $tagname = "{$tag}={$value}";
                 break;
             /* Tag with context (no value) and we want contexts */
-            case (   !empty($context)
-                  && strlen($context) > 0):
+            case (!empty($context)):
                 $tagname = "{$context}:{$tag}";
                 break;
             /* Default case, just the tag */
@@ -713,14 +704,12 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     public static function merge_tags($from, $to, $delete = true)
     {
         $from_tag = net_nemein_tag_tag_dba::get_by_tag($from);
-        if (   !$from_tag
-            || !$from_tag->guid)
+        if (!$from_tag)
         {
             return false;
         }
         $to_tag = net_nemein_tag_tag_dba::get_by_tag($to);
-        if (   !$to_tag
-            || !$to_tag->guid)
+        if (!$to_tag)
         {
             // Create new one
             $to_tag = new net_nemein_tag_tag_dba();
