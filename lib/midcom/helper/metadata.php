@@ -550,10 +550,7 @@ class midcom_helper_metadata
                         }
                         else
                         {
-                            foreach ($guids as $guid => $val)
-                            {
-                                $root_user_guid = $guid;
-                            }
+                            $root_user_guid = key($guids);
                         }
                     }
 
