@@ -284,7 +284,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
         $input_key = $this->_get_input_key($fieldname);
         $html = "<label for='{$this->_element_id}_input_place_{$fieldname}' id='{$this->_element_id}_input_place_{$fieldname}_label'>";
-        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string('xep_{$fieldname}', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
+        $html .= "<span class=\"field_text\">" . midcom::get('i18n')->get_string("xep_{$fieldname}", 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_{$fieldname}\" id=\"{$this->_element_id}_input_place_{$fieldname}\" name=\"".$input_key."\" type=\"text\" value=\"{$value}\" />";
         $html .= "</label>";
         return $html;
