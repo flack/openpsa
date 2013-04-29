@@ -540,7 +540,7 @@ class midcom_helper__dbfactory
                 (
                     'source_property' => $up_property,
                     'target_property' => $reflector->get_link_target($up_property),
-                    'target_class' => $classname,
+                    'target_class' => $reflector->get_link_name($up_property),
                 );
             }
 
