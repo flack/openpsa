@@ -61,6 +61,13 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         midcom::get('auth')->drop_sudo();
     }
 
+    public function test_get_parent()
+    {
+        $report = $this->create_object('org_openpsa_projects_hour_report_dba', array('task' => self::$_task->id));
+        $parent = $report->get_parent();
+        $this->assertEquals(self::$_task->guid, $parent->guid);
+    }
+
     public function tearDown()
     {
         self::delete_linked_objects('org_openpsa_projects_hour_report_dba', 'task', self::$_task->id);

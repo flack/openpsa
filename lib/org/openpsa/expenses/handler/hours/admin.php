@@ -134,10 +134,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         if (count($args) > 1)
         {
-            $parent = new org_openpsa_projects_task_dba($args[1]);
-            $parent->require_do('midgard:create');
-            $data['task'] = $parent->id;
-            $this->_add_toolbar_items($parent);
+            $task = new org_openpsa_projects_task_dba($args[1]);
+            $task->require_do('midgard:create');
+            $data['task'] = $task->id;
+            $this->_add_toolbar_items($task);
         }
         else
         {
@@ -157,7 +157,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             case 'cancel':
                 if (count($args) > 1)
                 {
-                    return new midcom_response_relocate("hours/task/" . $parent->guid . "/");
+                    return new midcom_response_relocate("hours/task/" . $task->guid . "/");
                 }
                 else
                 {
@@ -178,15 +178,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * Helper to populate the toolbar
      *
-     * @param mixed $parent The parent object or false
+     * @param org_openpsa_projects_task_dba $task The parent task
      */
-    private function _add_toolbar_items($parent)
+    private function _add_toolbar_items(org_openpsa_projects_task_dba $task)
     {
-        if (empty($parent->guid))
-        {
-            return;
-        }
-
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
 
@@ -196,8 +191,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => $projects_url . "task/{$parent->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $parent->title),
+                    MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'g',
                 )
@@ -226,6 +221,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
+        $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
 
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -242,7 +238,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 $this->_hour_report->modify_hours_by_time_slot();
                 // *** FALL-THROUGH ***
             case 'cancel':
-                $task = new org_openpsa_projects_task_dba($this->_hour_report->task);
                 return new midcom_response_relocate("hours/task/" . $task->guid . "/");
         }
 
@@ -262,8 +257,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             )
         );
 
-        $parent = $this->_hour_report->get_parent();
-        $this->_add_toolbar_items($parent);
+        $this->_add_toolbar_items($task);
 
         $this->_view_toolbar->bind_to($this->_hour_report);
 
