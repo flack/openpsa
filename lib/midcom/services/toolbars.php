@@ -465,12 +465,11 @@ class midcom_services_toolbars
     {
         if (midcom::get('config')->get('metadata_approval'))
         {
-            $metadata = midcom_helper_metadata::retrieve($object);
-            if ($metadata->is_approved())
+            if ($object->metadata->is_approved())
             {
                 $icon = 'stock-icons/16x16/page-approved.png';
                 if (   !midcom::get('config')->get('show_hidden_objects')
-                    && !$metadata->is_visible())
+                    && !$object->metadata->is_visible())
                 {
                     // Take scheduling into account
                     $icon = 'stock-icons/16x16/page-approved-notpublished.png';
@@ -498,7 +497,7 @@ class midcom_services_toolbars
             {
                 $icon = 'stock-icons/16x16/page-notapproved.png';
                 if (   !midcom::get('config')->get('show_hidden_objects')
-                    && !$metadata->is_visible())
+                    && !$object->metadata->is_visible())
                 {
                     // Take scheduling into account
                     $icon = 'stock-icons/16x16/page-notapproved-notpublished.png';

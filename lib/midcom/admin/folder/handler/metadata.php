@@ -84,13 +84,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
             $this->bind_view_to_object($this->_object);
         }
 
-        $this->_metadata = midcom_helper_metadata::retrieve($this->_object);
-
-        if (! $this->_metadata)
-        {
-            throw new midcom_error("Failed to retrieve Metadata for " . get_class($this->_object) . " {$this->_object->guid}.");
-        }
-
         // Load the DM2 controller instance
         $this->_load_datamanager();
 

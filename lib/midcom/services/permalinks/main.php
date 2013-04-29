@@ -83,8 +83,7 @@ class midcom_services_permalinks
             return null;
         }
 
-        $metadata = midcom_helper_metadata::retrieve($object);
-        if (! $metadata->is_object_visible_onsite())
+        if (!$object->metadata->is_object_visible_onsite())
         {
             return null;
         }

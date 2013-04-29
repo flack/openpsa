@@ -97,13 +97,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_topic->require_do('midgard.admin.asgard:topic_management');
         }
 
-        $this->_metadata = midcom_helper_metadata::retrieve($this->_object);
-
-        if (! $this->_metadata)
-        {
-            throw new midcom_error("Failed to retrieve Metadata for " . get_class($this->_object) . " {$this->_object->guid}.");
-        }
-
         // Load the DM2 controller instance
         $this->_controller = $this->get_controller('simple', $this->_object);
         switch ($this->_controller->process_form())

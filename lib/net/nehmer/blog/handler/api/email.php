@@ -248,8 +248,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
 
         if ($this->_config->get('api_email_autoapprove'))
         {
-            $metadata = midcom_helper_metadata::retrieve($this->_article);
-            if (!$metadata->force_approve())
+            if (!$this->_article->metadata->force_approve())
             {
                 // Remove the article, but get errstr first
                 $errstr = midcom_connection::get_error_string();
