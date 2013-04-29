@@ -294,7 +294,8 @@ class midcom_helper__dbfactory
         $parent_data = $this->_get_parent_guid_cached($object->guid, $object);
 
         $parent_guid = current($parent_data);
-        if (empty($parent_guid))
+        if (   empty($parent_guid)
+            || $parent_guid === $object->guid)
         {
             return null;
         }
