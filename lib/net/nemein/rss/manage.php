@@ -15,8 +15,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        // Make sure constants are available
-        midcom::get('componentloader')->load_library($this->_component);
         // Ensure we get the correct styles
         midcom::get('style')->prepend_component_styledir($this->_component);
 
