@@ -149,9 +149,7 @@ abstract class midcom_services_auth_backend
      * session. The authentication driver has to ensure that the login identifier stays
      * available during subsequent requests.
      */
-    public function _on_login_session_created()
-    {
-    }
+    abstract function _on_login_session_created();
 
     /**
      * The logout function should delete the currently active login session,
@@ -183,8 +181,6 @@ abstract class midcom_services_auth_backend
      * session. Use this to drop any session identifier store you might have created during
      * _on_login_session_created.
      */
-    public function _on_login_session_deleted()
-    {
-    }
+    abstract function _on_login_session_deleted();
 }
 ?>
