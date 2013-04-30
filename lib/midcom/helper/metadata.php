@@ -7,10 +7,7 @@
  */
 
 /**
- * This class is an interface to the metadata of MidCOM objects. It is not to
- * be instantiated directly, as a cache is in place to avoid duplicate metadata
- * objects for the same Midgard Object. So, basically, each of these objects is
- * a singleton.
+ * This class is an interface to the metadata of MidCOM objects.
  *
  * It will use an internal mechanism to cache repeated accesses to the same
  * metadata key during its lifetime. (Invalidating this cache will be possible
@@ -58,7 +55,7 @@
  * $article = new midcom_db_article($my_article_created_id);
  *
  * $meta = midcom_helper_metadata::retrieve($article);
- * $article->approve();
+ * $meta->approve();
  * ?>
  * </code>
  *
@@ -82,8 +79,7 @@ class midcom_helper_metadata
     private $__metadata = null;
 
     /**
-     * The guid of the object, it is cached for fast access to avoid repeated
-     * database queries.
+     * The guid of the object
      *
      * @var string GUID
      */
@@ -120,14 +116,14 @@ class midcom_helper_metadata
      * You may use objects derived from any MidgardObject will do as well as long
      * as the parameter call is available normally.
      *
-     * @param GUID $guid The GUID of the object as it is in the global metadata object cache.
+     * @param GUID $guid The GUID of the object
      * @param mixed $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
      * @see midcom_helper_metadata::get()
      */
-    public function __construct(&$guid, $object, $schemadb)
+    public function __construct($guid, $object, $schemadb)
     {
-        $this->guid =& $guid;
+        $this->guid = $guid;
         $this->__metadata = $object->__object->metadata;
         $this->__object = $object;
         $this->_schemadb_path = $schemadb;
@@ -458,9 +454,6 @@ class midcom_helper_metadata
             $this->_cache = Array();
         }
 
-        // TODO: Add Caching Code here, and do invalidation of the nap part manually.
-        // so that we don't lose the cache of the metadata already in place.
-        // Just be intelligent here :)
         if (!empty($this->guid))
         {
             midcom::get('cache')->invalidate($this->guid);
@@ -477,11 +470,7 @@ class midcom_helper_metadata
      *   Person object.
      * - created, creator, edited and editor are taken from the corresponding
      *   MidgardObject fields.
-     * - Parameters are accessed using their midgard-created member variables
-     *   instead of accessing the database using $object->parameter directly for
-     *   performance reasons (this will implicitly use the NAP cache for these
-     *   values as well. (Implementation note: Variable variables have to be
-     *   used for this, as we have dots in the member name.)
+     * - Parameters are accessed using $object->get_parameter directly
      *
      * Note, that we hide any errors from not existent properties explicitly,
      * as a few of the MidCOM objects do not support all of the predefined meta
@@ -591,7 +580,7 @@ class midcom_helper_metadata
     /* ------- CONVENIENCE METADATA INTERFACE --------- */
 
     /**
-     * Checks whether the article has been approved since its last editing.
+     * Checks whether the object has been approved since its last editing.
      *
      * @return boolean Indicating approval state.
      */
@@ -722,17 +711,11 @@ class midcom_helper_metadata
      * - Any NAP object structure, the content object is deduced from MIDCOM_NAV_GUID in
      *   this case.
      *
-     * <b>Important note:</b> The metadata object is returned by reference. You are very
-     * much encouraged to honor this reference, otherwise, the internal metadata value cache
-     * won't really help.
-     *
      * @param mixed $source The object to attach to, this may be either a MidgardObject, a GUID or a NAP data structure (node or leaf).
      * @return midcom_helper_metadata A reference to the created metadata object.
      */
     public static function retrieve($source)
     {
-        static $_object_cache = array();
-
         $object = null;
         $guid = '';
 
@@ -764,14 +747,6 @@ class midcom_helper_metadata
             }
         }
 
-        if (   mgd_is_guid($guid)
-            && isset($_object_cache[$guid]))
-        {
-            // Cache hit
-            return $_object_cache[$guid];
-        }
-
-        // We don't have a cache hit, return a newly constructed object.
         if (   is_null($object)
             && mgd_is_guid($guid))
         {
@@ -788,14 +763,8 @@ class midcom_helper_metadata
             }
         }
 
-        // $object is now populated too
-        $meta = new midcom_helper_metadata($guid, $object, midcom::get('config')->get('metadata_schema'));
-
-        if (count($_object_cache) >= midcom::get('config')->get('cache_module_nap_metadata_cachesize'))
-        {
-            array_shift($_object_cache);
-        }
-        $_object_cache[$guid] =& $meta;
+        // $object is now populated, too
+        $meta = new self($guid, $object, midcom::get('config')->get('metadata_schema'));
 
         return $meta;
     }

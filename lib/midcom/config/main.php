@@ -131,9 +131,6 @@
  *   dba driver. The databases are named after the root topic guid, which should be sufficient
  *   in all cases. If you really want to separate things here, use different directories for
  *   the backends.
- * - <b>int cache_module_nap_metadata_cachesize:</b> The number of Metadata objects that may be kept
- *   in memory simultaneously. Caching strategy is undefined at this time, it removes one randomly
- *   chosen element. Defaults to 75.
  * - <b>string cache_module_memcache_backend:</b> The cache backend to use for the memcache caching
  *   module. The default is null, which disables the module entirely. This is the default. If you
  *   have both memcached and the memcache PHP extension installed, set this to 'memcached', to enable
@@ -285,13 +282,9 @@
  *
  * <b>Visibility settings (NAP and DBA)</b>
  *
- * Note: It is not recommended to activate these two options at this time, as the metadata
- * framework is not yet rewritten to a more efficient MidgardSchema driven solution. With
- * larger sites, having Metadata active can lead to serious performance impacts.
- *
  * - <b>boolean show_hidden_objects:</b> This flag indicates whether objects that are
  *   invisible either by explicit hiding or by their scheduling should be shown anyway.
- *   This defaults to true at this time (due to Metadata performance problems).
+ *   This defaults to true at this time
  * - <b>boolean show_unapproved_objects:</b> This flag indicates whether objects should be
  *   shown even if they are not approved. This defaults to true.
  *
@@ -355,9 +348,8 @@ class midcom_config implements arrayaccess
         // Valid options are 'user' (default), 'memberships' and 'public'
         'cache_module_content_caching_strategy' => 'user',
 
-        // NAP / Metadata Cache
+        // NAP Cache
         'cache_module_nap_backend' => Array() /* Auto-Detect */,
-        'cache_module_nap_metadata_cachesize' => 75,
 
         // Generated class cache directory
         'cache_module_phpscripts_directory' => 'phpscripts/',
