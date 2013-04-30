@@ -229,7 +229,7 @@ class midcom_core_context
      * Retrieve arbitrary, component-specific information in the component context
      *
      * The set call defaults to the current context, the get call's semantics are as
-     * with get_context_data.
+     * with get_key().
      *
      * Note, that if you are working from a library like the datamanager is, you
      * cannot override the component association done by the system. Instead you
@@ -253,8 +253,7 @@ class midcom_core_context
             $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
         }
 
-        if (   !array_key_exists($component, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA])
-            || !array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component]))
+        if (!$this->has_custom_key($key, $component))
         {
             debug_add("Requested Key ID {$key} for the component {$component} is invalid.", MIDCOM_LOG_ERROR);
             $result = false;
@@ -262,6 +261,17 @@ class midcom_core_context
         }
 
         return $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key];
+    }
+
+    public function has_custom_key($key, $component = null)
+    {
+        if (null === $component)
+        {
+            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
+        }
+
+        return (   array_key_exists($component, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA])
+                && array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component]));
     }
 
     /**

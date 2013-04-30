@@ -390,7 +390,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
     /**
      * Initializes the request handler class, called by the component interface after
-     * instantiation. Required to allow safe $this references during startup.
+     * instantiation.
      *
      * @param string $component The name of the component.
      */
