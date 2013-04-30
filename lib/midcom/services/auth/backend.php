@@ -151,7 +151,6 @@ abstract class midcom_services_auth_backend
      */
     public function _on_login_session_created()
     {
-        return;
     }
 
     /**
@@ -186,7 +185,6 @@ abstract class midcom_services_auth_backend
      */
     public function _on_login_session_deleted()
     {
-        return;
     }
 }
 ?>

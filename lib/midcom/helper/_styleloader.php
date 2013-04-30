@@ -686,7 +686,6 @@ class midcom_helper__styleloader
         $loader = midcom::get('componentloader');
         $path = $loader->path_to_snippetpath($component) . "/style";
         $this->append_styledir($path);
-        return;
     }
 
     /**

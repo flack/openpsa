@@ -136,7 +136,6 @@ class midcom_baseclasses_core_dbobject
         {
             debug_add("Could not set the owner privilege {$privilege->privilegename} for {$object->guid}, see debug level log for details. Last Midgard Error: " . midcom_connection::get_error_string(),
                 MIDCOM_LOG_WARN);
-            return;
         }
     }
 
