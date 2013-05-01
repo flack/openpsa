@@ -27,7 +27,7 @@ org.openpsa.calendar TODO
 * Register midcom.services.at processes for firing event reminders
   some time before event
 * Use org.openpsa.notifications for reminder sending to allow multiple
-  formats like Growl, SMS, Email and Jabber
+  formats like Growl, Email and Jabber
 
 ## Travel support and time zones
 

@@ -38,10 +38,6 @@ Add to campaign
 Added person %s to campaign %s
 ---STRINGEND
 
----STRING address for an email->sms gateway
-Address for an email->SMS gateway
----STRINGEND
-
 ---STRING address separator
 Address separator
 ---STRINGEND
@@ -68,10 +64,6 @@ Matches all
 
 ---STRING any bounce detector compatible
 Any bounce detector compatible
----STRINGEND
-
----STRING api for sms gateway
-API for SMS gateway
 ---STRINGEND
 
 ---STRING archival
@@ -140,14 +132,6 @@ Persons property
 
 ---STRING class:person parameters
 Persons parameter
----STRINGEND
-
----STRING clickatell (http)
-Clickatell (HTTP)
----STRINGEND
-
----STRING client/api id for the sms gateway (not used by all apis)
-Client/API ID for the SMS gateway (not used by all APIs)
 ---STRINGEND
 
 ---STRING comma
@@ -222,20 +206,12 @@ Edit rules
 E-Mail
 ---STRINGEND
 
----STRING email -> sms
-Email -> SMS
----STRINGEND
-
 ---STRING email addresses
 Email addresses
 ---STRINGEND
 
 ---STRING email message
 Email message
----STRINGEND
-
----STRING email->sms api information
-Email->SMS API information
 ---STRINGEND
 
 ---STRING equals
@@ -522,10 +498,6 @@ Matches one
 Mass mailing and direct marketing
 ---STRINGEND
 
----STRING password for the sms gateway
-Password for the SMS gateway
----STRINGEND
-
 ---STRING preview
 Preview
 ---STRINGEND
@@ -762,14 +734,6 @@ Sent on %s
 Smart campaign
 ---STRINGEND
 
----STRING sms information
-SMS information
----STRINGEND
-
----STRING sms message
-SMS message
----STRINGEND
-
 ---STRING smtp
 SMTP
 ---STRINGEND
@@ -841,14 +805,6 @@ Unsubscribing failed
 
 ---STRING unsubscribing registered
 Unsubscribing registered
----STRINGEND
-
----STRING url for a http sms gateway
-URL for a HTTP SMS gateway
----STRINGEND
-
----STRING username for the sms gateway
-Username for the SMS gateway
 ---STRINGEND
 
 ---STRING vcards

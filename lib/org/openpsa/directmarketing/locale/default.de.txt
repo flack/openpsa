@@ -34,10 +34,6 @@ Zu Kampagne hinzufügen
 Person %s zu Kampagne %s hinzugefügt
 ---STRINGEND
 
----STRING address for an email->sms gateway
-Adresse des E-Mail->SMS-Gateways
----STRINGEND
-
 ---STRING address separator
 Adresstrenner
 ---STRINGEND
@@ -60,10 +56,6 @@ Bereits eingetragen
 
 ---STRING any bounce detector compatible
 Alle kompatiblen Bounce-Detektoren
----STRINGEND
-
----STRING api for sms gateway
-API des SMS-Gateways
 ---STRINGEND
 
 ---STRING archival
@@ -134,14 +126,6 @@ Personen-Attribut
 Personen-Parameter
 ---STRINGEND
 
----STRING clickatell (http)
-Clickatell (HTTP)
----STRINGEND
-
----STRING client/api id for the sms gateway (not used by all apis)
-Client/API ID des SMS-Gateways (nicht für alle APIs benötigt)
----STRINGEND
-
 ---STRING comma
 Komma
 ---STRINGEND
@@ -206,20 +190,12 @@ Nachricht bearbeiten
 Regeln bearbeiten
 ---STRINGEND
 
----STRING email -> sms
-E-Mail -> SMS
----STRINGEND
-
 ---STRING email addresses
 E-Mail-Adressen
 ---STRINGEND
 
 ---STRING email message
 E-Mail-Nachricht
----STRINGEND
-
----STRING email->sms api information
-E-Mail -> SMS API-Information
 ---STRINGEND
 
 ---STRING equals
@@ -490,10 +466,6 @@ eine Zeile pro Abonnent
 Massen-E-Mail-Versand und Direktvermarktung
 ---STRINGEND
 
----STRING password for the sms gateway
-Passwort des SMS-Gateways
----STRINGEND
-
 ---STRING preview message
 Nachrichten-Vorschau
 ---STRINGEND
@@ -722,14 +694,6 @@ Versendet am %s
 Intelligente Kampagne
 ---STRINGEND
 
----STRING sms information
-SMS-Informationen
----STRINGEND
-
----STRING sms message
-SMS-Nachricht
----STRINGEND
-
 ---STRING smtp
 SMTP
 ---STRINGEND
@@ -796,14 +760,6 @@ Abmeldung fehlgeschlagen
 
 ---STRING unsubscribing registered
 Abmeldung gespeichert
----STRINGEND
-
----STRING url for a http sms gateway
-URL des HTTP-SMS-Gateways
----STRINGEND
-
----STRING username for the sms gateway
-Benutzername des SMS-Gateways
 ---STRINGEND
 
 ---STRING vcards

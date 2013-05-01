@@ -153,7 +153,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     }
 
     /**
-     * Sends the 'abstract' version of the message as NetGrowl message to subscribers via org.openpsa.smslib
+     * Sends the 'abstract' version of the message as NetGrowl message to subscribers
      */
     public function send_growl($message)
     {
@@ -162,7 +162,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     }
 
     /**
-     * Sends the 'abstract' version of the message as SMS to subscribers via org.openpsa.smslib
+     * Sends the 'abstract' version of the message as SMS to subscribers
      */
     public function send_sms($message)
     {

@@ -86,8 +86,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
                 $classname = 'org_openpsa_directmarketing_sender_backend_email';
                 break;
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
-                $classname = 'org_openpsa_directmarketing_sender_backend_sms';
-                break;
             case org_openpsa_directmarketing_campaign_message_dba::MMS:
                 //not implemented yet
             case org_openpsa_directmarketing_campaign_message_dba::CALL:

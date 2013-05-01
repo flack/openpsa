@@ -70,14 +70,6 @@ region
 Select your country
 ---STRINGEND
 
----STRING sms_import_enable
-Enable SMS import
----STRINGEND
-
----STRING sms_import_ip
-Allowed IP for SMS import
----STRINGEND
-
 ---STRING source %s
 source: %s
 ---STRINGEND
