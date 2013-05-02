@@ -54,14 +54,6 @@ Paikka
 Valitse maa
 ---STRINGEND
 
----STRING sms_import_enable
-Salli tekstiviestin sisäänluku
----STRINGEND
-
----STRING sms_import_ip
-Tekstiviestin sisäälukuun sallittu IP-osoite
----STRINGEND
-
 ---STRING source %s
 lähde: %s
 ---STRINGEND

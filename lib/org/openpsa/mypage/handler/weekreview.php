@@ -143,8 +143,6 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             return false;
         }
 
-        midcom::get('componentloader')->load_library('org.openpsa.positioning');
-
         // List user's position reports
         $qb = org_routamc_positioning_log_dba::new_query_builder();
         $qb->add_constraint('date', '>=', $from);

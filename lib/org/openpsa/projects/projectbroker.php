@@ -23,7 +23,6 @@ class org_openpsa_projects_projectbroker
      */
     function find_task_prospects(&$task)
     {
-        midcom::get('componentloader')->load_graceful('net.nemein.tag');
         if (!class_exists('net_nemein_tag_handler'))
         {
             return false;

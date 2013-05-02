@@ -130,11 +130,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         $settings = array
         (
-            'smslib_api' => 'sms_lib_api',
-            'smslib_uri' => 'sms_lib_location',
-            'smslib_client_id' => 'smslib_client_id',
-            'smslib_user' => 'sms_lib_user',
-            'smslib_password' => 'sms_lib_password',
             'mail_send_backend' => 'mail_send_backend',
             'bouncer_address' => 'bounce_detector_address',
             'linkdetector_address' => 'link_detector_address',
@@ -146,12 +141,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             {
                 $data['message_array'][$target_name] = $value;
             }
-        }
-
-        if (    empty($data['message_array']['sms_lib_location'])
-             && $email2sms_address = $this->_config->get('email2sms_address'))
-        {
-            $data['message_array']['sms_lib_location'] = $email2sms_address;
         }
 
         $sender = new org_openpsa_directmarketing_sender($data['message'], $data['message_array']);

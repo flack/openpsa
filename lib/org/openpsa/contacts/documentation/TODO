@@ -21,5 +21,5 @@ to crashing)
 ## Position for organizations
 
 * Try to geocode organization address to coordinates if ICBM is not available.
-  Store as a ORG_ROUTAMC_POSITIONING_RELATION_LOCATED type of
+  Store as a org_routamc_positioning_location_dba::RELATION_LOCATED type of
   org_routamc_positioning_location_dba object

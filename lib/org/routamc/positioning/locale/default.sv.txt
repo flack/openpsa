@@ -70,14 +70,6 @@ region
 Välj ditt land
 ---STRINGEND
 
----STRING sms_import_enable
-Slå på import av SMS
----STRINGEND
-
----STRING sms_import_ip
-Tillåtna ipn för SMS import
----STRINGEND
-
 ---STRING source %s
 källa: %s
 ---STRINGEND

@@ -409,8 +409,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         if ($this->_feed->autoapprove)
         {
-            $metadata = midcom_helper_metadata::retrieve($article);
-            $metadata->approve();
+            $article->metadata->approve();
         }
 
         $this->_parse_tags($article);

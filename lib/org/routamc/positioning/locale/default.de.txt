@@ -66,14 +66,6 @@ Region
 Bitte wählen sie ihr Land
 ---STRINGEND
 
----STRING sms_import_enable
-SMS-Import aktivieren
----STRINGEND
-
----STRING sms_import_ip
-Zugelassene IP für den SMS-Import
----STRINGEND
-
 ---STRING source %s
 Quelle: %s
 ---STRINGEND

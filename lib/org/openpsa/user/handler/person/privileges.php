@@ -60,28 +60,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         $fields['products_creation']['privilege_object'] = $person_object;
         $fields['products_editing']['privilege_object'] = $person_object;
 
-        // Load wiki classes
-        if (midcom::get('componentloader')->load_graceful('net.nemein.wiki'))
-        {
-            $fields['wiki_creation']['privilege_object'] = $person_object;
-            $fields['wiki_editing']['privilege_object'] = $person_object;
-        }
-        else
-        {
-            unset($fields['wiki_creation']);
-            unset($fields['wiki_editing']);
-        }
-        // Load campaign classes
-        if (midcom::get('componentloader')->load_graceful('org.openpsa.directmarketing'))
-        {
-            $fields['campaigns_creation']['privilege_object'] = $person_object;
-            $fields['campaigns_editing']['privilege_object'] = $person_object;
-        }
-        else
-        {
-            unset($fields['campaigns_creation']);
-            unset($fields['campaigns_editing']);
-        }
+        $fields['wiki_creation']['privilege_object'] = $person_object;
+        $fields['wiki_editing']['privilege_object'] = $person_object;
+
+        $fields['campaigns_creation']['privilege_object'] = $person_object;
+        $fields['campaigns_editing']['privilege_object'] = $person_object;
+
         $fields['salesproject_creation']['privilege_object'] = $person_object;
         return $schemadb;
     }

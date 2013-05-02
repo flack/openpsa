@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     }
 
     /**
-     * Backend type, for example 'email' or 'sms'
+     * @inheritdoc
      *
      * @return string
      */

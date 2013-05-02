@@ -66,14 +66,6 @@ Kod pocztowy
 Region
 ---STRINGEND
 
----STRING sms_import_enable
-Włącz import SMS
----STRINGEND
-
----STRING sms_import_ip
-Dozwolone IP podczas importu SMS
----STRINGEND
-
 ---STRING source %s
 źródło: %s
 ---STRINGEND

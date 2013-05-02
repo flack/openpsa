@@ -525,7 +525,14 @@ class midcom_helper__styleloader
      */
     private function _parse_element($_style, $path)
     {
-        $data =& midcom_core_context::get()->get_custom_key('request_data');
+        if (midcom_core_context::get()->has_custom_key('request_data'))
+        {
+            $data =& midcom_core_context::get()->get_custom_key('request_data');
+        }
+        else
+        {
+            $data = array();
+        }
 
         if (midcom::get('config')->get('wrap_style_show_with_name'))
         {
@@ -679,7 +686,6 @@ class midcom_helper__styleloader
         $loader = midcom::get('componentloader');
         $path = $loader->path_to_snippetpath($component) . "/style";
         $this->append_styledir($path);
-        return;
     }
 
     /**

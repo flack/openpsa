@@ -14,7 +14,7 @@
 'package.xml' => array
 (
     'summary' => 'Direct marketing and mailing lists',
-    'description' => 'Application for sending emails, newsletters and SMS messages to registered users.',
+    'description' => 'Application for sending emails and newsletters to registered users.',
     'maintainers' => array
     (
         'rambo' => array
@@ -51,7 +51,6 @@
         'org.openpsa.helpers' => array(),
         'midcom.helper.datamanager2' => array(),
         'org.openpsa.widgets' => array(),
-        'org.openpsa.smslib' => array(),
         'org.openpsa.qbpager' => array(),
         'midcom.services.at' => array(),
         'midcom' => array(),

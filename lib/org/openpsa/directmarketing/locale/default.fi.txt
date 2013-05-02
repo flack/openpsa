@@ -38,10 +38,6 @@ Lisää kampanjaan
 Lisätty henkilö %s kampanjaan %s
 ---STRINGEND
 
----STRING address for an email->sms gateway
-Osoite sähköpostiviesti->tekstiviesti-portille
----STRINGEND
-
 ---STRING address separator
 Osoitteiden erotin
 ---STRINGEND
@@ -68,10 +64,6 @@ Sovittaa kaikki
 
 ---STRING any bounce detector compatible
 Mikä tahansa palautuksentunnistus-yhteensopiva
----STRINGEND
-
----STRING api for sms gateway
-SMS-portin rajapinta
 ---STRINGEND
 
 ---STRING archival
@@ -140,14 +132,6 @@ Henkilön ominaisuus
 
 ---STRING class:person parameters
 Henkilön parametri
----STRINGEND
-
----STRING clickatell (http)
-Clickatell (HTTP)
----STRINGEND
-
----STRING client/api id for the sms gateway (not used by all apis)
-Asiakas-/rajapinta-ID SMS-portille (ei käytössä kaikilla rajapinnoilla)
 ---STRINGEND
 
 ---STRING comma
@@ -222,20 +206,12 @@ Muokkaa sääntöjä
 Sähköposti
 ---STRINGEND
 
----STRING email -> sms
-Email -> SMS
----STRINGEND
-
 ---STRING email addresses
 Sähköpostiosoitteet
 ---STRINGEND
 
 ---STRING email message
 Sähköposti
----STRINGEND
-
----STRING email->sms api information
-Sähköposti->tekstiviesti -rajapintatiedot
 ---STRINGEND
 
 ---STRING equals
@@ -522,10 +498,6 @@ Sovittaa yhden
 Suoramarkkinointi ja postitus
 ---STRINGEND
 
----STRING password for the sms gateway
-Tekstiviestiportin salasana
----STRINGEND
-
 ---STRING preview
 Esikatselu
 ---STRINGEND
@@ -758,14 +730,6 @@ Lähetetty %s
 Älykäs kampanja
 ---STRINGEND
 
----STRING sms information
-Tekstiviestitiedot
----STRINGEND
-
----STRING sms message
-Tekstiviesti
----STRINGEND
-
 ---STRING smtp
 SMTP
 ---STRINGEND
@@ -836,14 +800,6 @@ Tilauksen peruuttaminen epäonnistui
 
 ---STRING unsubscribing registered
 Tilauksen peruttaminen rekisteröity
----STRINGEND
-
----STRING url for a http sms gateway
-URL-osoite 'HTTP SMS'-portille
----STRINGEND
-
----STRING username for the sms gateway
-Käyttäjätunnus tekstiviestiportille
 ---STRINGEND
 
 ---STRING vcards

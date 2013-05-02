@@ -15,19 +15,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver
 {
     /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    public function __construct()
-    {
-        if (midcom::get('config')->get('positioning_enable'))
-        {
-            $this->_autoload_libraries = array('org.routamc.positioning');
-        }
-    }
-
-    /**
      * Iterate over all articles and create index record using the datamanager indexer
      * method.
      */

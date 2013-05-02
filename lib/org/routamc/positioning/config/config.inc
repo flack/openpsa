@@ -1,14 +1,5 @@
 'geocoder_default_country' => '',
 
-'sms_import_enable' => false,
-'sms_import_ip' => null,
-'smslib_api' => null, // tambur, clickatell or email2sms
-'smslib_uri' => null,
-'smslib_client_id' => null,
-'smslib_user' => null,
-'smslib_password' => null,
-'smslib_from' => null,
-
 /**
  * array of arguments acceptable for call_user_func() to be called just before map is shown
  *

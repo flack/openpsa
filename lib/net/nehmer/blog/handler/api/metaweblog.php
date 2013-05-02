@@ -34,15 +34,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
             throw new midcom_error('XML-RPC Server libraries not installer, aborting.');
         }
 
-        if (midcom::get('config')->get('positioning_enable'))
-        {
-            if (!class_exists('org_routamc_positioning_object'))
-            {
-                // Load the positioning library
-                midcom::get('componentloader')->load_library('org.routamc.positioning');
-            }
-            $this->_positioning = true;
-        }
+        $this->_positioning = (boolean) midcom::get('config')->get('positioning_enable');
 
         midcom::get('cache')->content->enable_live_mode();
     }
@@ -176,7 +168,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
                                     $log->date = $article->metadata->published;
                                     $log->latitude = (float) $coordinates[0];
                                     $log->longitude = (float) $coordinates[1];
-                                    $log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_MANUAL;
+                                    $log->accuracy = org_routamc_positioning_log_dba::ACCURACY_MANUAL;
                                     $log->create();
 
                                     break;

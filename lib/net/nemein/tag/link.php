@@ -140,7 +140,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     /**
      * Handle storing Flickr-style geo tags to org.routamc.positioning
      * storage should be to org_routamc_positioning_location_dba object
-     * with relation ORG_ROUTAMC_POSITIONING_RELATION_IN
+     * with relation org_routamc_positioning_location_dba::RELATION_IN
      *
      * @return boolean
      */
@@ -150,8 +150,6 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         {
             return false;
         }
-
-        midcom::get('componentloader')->load_library('org.routamc.positioning');
 
         // Get all "geo" tags of the object
         $object = midcom::get('dbfactory')->get_object_by_guid($this->fromGuid);
@@ -192,7 +190,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         }
 
         $object_location = new org_routamc_positioning_location_dba();
-        $object_location->relation = ORG_ROUTAMC_POSITIONING_RELATION_IN;
+        $object_location->relation = org_routamc_positioning_location_dba::RELATION_IN;
         $object_location->parent = $this->fromGuid;
         $object_location->parentclass = $this->fromClass;
         $object_location->parentcomponent = $this->fromComponent;

@@ -450,6 +450,8 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             // Get parent object
             $parent_property = $config->get('ratings_cache_to_object_property');
             midcom::get('auth')->request_sudo('net.nehmer.comments');
+            $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
+
             if ($config->get('ratings_cache_total'))
             {
                 $value = $ratings_total;
@@ -461,45 +463,31 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
             if ($config->get('ratings_cache_to_object_property_metadata'))
             {
-                $metadata = midcom_helper_metadata::retrieve($this->objectguid);
-                $metadata->set($parent_property, round($value));
+                $parent_object->metadata->set($parent_property, round($value));
             }
             else
             {
-                $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
+                $orig_rcs = $parent_object->_use_rcs;
+                $parent_object->_use_rcs = (boolean) $config->get('ratings_cache_to_object_use_rcs');
                 // TODO: Figure out whether to round
-                if (!$config->get('ratings_cache_to_object_use_rcs'))
-                {
-                    $parent_object->_use_rcs = false;
-                }
                 $parent_object->$parent_property = $value;
                 $parent_object->update();
-                if (!$config->get('ratings_cache_to_object_use_rcs'))
-                {
-                    $parent_object->_use_rcs = true;
-                }
+                $parent_object->_use_rcs = $orig_rcs;
             }
 
             // Get parent object
             $parent_property = $config->get('comment_count_cache_to_object_property');
             if ($config->get('comment_count_cache_to_object_property_metadata'))
             {
-                $metadata = midcom_helper_metadata::retrieve($this->objectguid);
-                $metadata->set($parent_property, count($comments));
+                $parent_object->metadata->set($parent_property, count($comments));
             }
             else
             {
-                $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
-                if (!$config->get('comment_count_cache_to_object_use_rcs'))
-                {
-                    $parent_object->_use_rcs = false;
-                }
+                $orig_rcs = $parent_object->_use_rcs;
+                $parent_object->_use_rcs = (boolean) $config->get('comment_count_cache_to_object_use_rcs');
                 $parent_object->$parent_property = count($comments);
                 $parent_object->update();
-                if (!$config->get('comment_count_cache_to_object_use_rcs'))
-                {
-                    $parent_object->_use_rcs = true;
-                }
+                $parent_object->_use_rcs = $orig_rcs;
             }
             midcom::get('auth')->drop_sudo();
         }

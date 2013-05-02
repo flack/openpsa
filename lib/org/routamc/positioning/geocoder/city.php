@@ -101,7 +101,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
                 'country' => $city_entry->country,
                 'postalcode' => null,
                 'alternate_names' => $city_entry->alternatenames,
-                'accuracy' => ORG_ROUTAMC_POSITIONING_ACCURACY_CITY
+                'accuracy' => org_routamc_positioning_log_dba::ACCURACY_CITY
             );
         }
 
@@ -168,7 +168,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             $position['region'] = $city->region;
             $position['country'] = $city->country;
             $position['alternate_names'] = $city->alternatenames;
-            $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_GPS;
+            $position['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_GPS;
 
             $results[] = $position;
         }

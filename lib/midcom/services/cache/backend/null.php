@@ -14,7 +14,6 @@ class midcom_services_cache_backend_null extends midcom_services_cache_backend
 {
     function _check_cache_dir()
     {
-        return;
     }
 
     function _open($write = false) {}
@@ -28,17 +27,14 @@ class midcom_services_cache_backend_null extends midcom_services_cache_backend
 
     function put($key, $data)
     {
-       return;
     }
 
     function remove($key)
     {
-        return;
     }
 
     function remove_all()
     {
-        return;
     }
 
     function exists($key)

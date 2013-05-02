@@ -294,7 +294,8 @@ class midcom_helper__dbfactory
         $parent_data = $this->_get_parent_guid_cached($object->guid, $object);
 
         $parent_guid = current($parent_data);
-        if (empty($parent_guid))
+        if (   empty($parent_guid)
+            || $parent_guid === $object->guid)
         {
             return null;
         }
@@ -539,7 +540,7 @@ class midcom_helper__dbfactory
                 (
                     'source_property' => $up_property,
                     'target_property' => $reflector->get_link_target($up_property),
-                    'target_class' => $classname,
+                    'target_class' => $reflector->get_link_name($up_property),
                 );
             }
 

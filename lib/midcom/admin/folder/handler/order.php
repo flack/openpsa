@@ -89,26 +89,15 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             // This will skip the rest of the handling
         }
 
-        // Get the original approval status and update metadata reference
-        $metadata = midcom_helper_metadata::retrieve($object);
-        if (!is_object($metadata))
-        {
-            throw new midcom_error("Could not fetch metadata for object {$object->guid}");
-        }
-        // Make sure this is reference to correct direction (from our point of view)
-        $metadata->__object =& $object;
-
         // Get the approval status if metadata object is available
         $approval_status = false;
-        if ($metadata->is_approved())
+        if ($object->metadata->is_approved())
         {
             $approval_status = true;
         }
 
-        $object->metadata->score = $score;
-
         //$metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that instead of raw update
-        if (!$metadata->set('score', $object->metadata->score))
+        if (!$object->metadata->set('score', $score))
         {
             // Show an error message on an update failure
             $reflector =& midcom_helper_reflector::get($object);
@@ -121,11 +110,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         if (   $approval_status
             && $object->can_do('midcom:approve'))
         {
-            if (!isset($metadata))
-            {
-                $metadata = midcom_helper_metadata::retrieve($object);
-            }
-            $metadata->approve();
+            $object->metadata->approve();
         }
         return true;
     }

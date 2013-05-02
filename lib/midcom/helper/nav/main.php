@@ -648,31 +648,33 @@ class midcom_helper_nav
             }
         }
 
-        $customdata = midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
-        if (is_array($customdata))
+        if (midcom_core_context::get()->has_custom_key('midcom.helper.nav.breadcrumb'))
         {
-            foreach ($customdata as $key => $entry)
+            $customdata = midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
+            if (is_array($customdata))
             {
-                $id = "custom-{$key}";
-
-                $url = "{$prefix}{$entry[MIDCOM_NAV_URL]}";
-                if (   substr($entry[MIDCOM_NAV_URL], 0, 1) == '/'
-                    || preg_match('|^https?://|', $entry[MIDCOM_NAV_URL]))
+                foreach ($customdata as $key => $entry)
                 {
-                    $url = $entry[MIDCOM_NAV_URL];
-                }
+                    $id = "custom-{$key}";
 
-                $result[$id] = Array
-                (
-                    MIDCOM_NAV_URL => $url,
-                    MIDCOM_NAV_NAME => $entry[MIDCOM_NAV_NAME],
-                    MIDCOM_NAV_TYPE => 'custom',
-                    MIDCOM_NAV_ID => $id,
-                    'napobject' => $entry,
-                );
+                    $url = "{$prefix}{$entry[MIDCOM_NAV_URL]}";
+                    if (   substr($entry[MIDCOM_NAV_URL], 0, 1) == '/'
+                        || preg_match('|^https?://|', $entry[MIDCOM_NAV_URL]))
+                    {
+                        $url = $entry[MIDCOM_NAV_URL];
+                    }
+
+                    $result[$id] = Array
+                    (
+                        MIDCOM_NAV_URL => $url,
+                        MIDCOM_NAV_NAME => $entry[MIDCOM_NAV_NAME],
+                        MIDCOM_NAV_TYPE => 'custom',
+                        MIDCOM_NAV_ID => $id,
+                        'napobject' => $entry,
+                    );
+                }
             }
         }
-
         return $result;
     }
 
