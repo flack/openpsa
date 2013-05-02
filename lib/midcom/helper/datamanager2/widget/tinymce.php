@@ -299,7 +299,7 @@ EOT;
         return <<<EOT
 apply_source_formatting : true,
 theme : "advanced",
-plugins : "table,save,advhr,advimage,advlink,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,fullscreen{$popup}",
+plugins : "table,save,advhr,advimage,advlink,iespell,insertdatetime,preview,searchreplace,print,contextmenu,fullscreen{$popup}",
 theme_advanced_buttons1 : "cut,copy,paste,separator,undo,redo,separator,replace,separator,justifyleft,justifycenter,justifyright,separator,outdent,indent",
 theme_advanced_buttons2 : "formatselect,separator,bold,italic,strikethrough,sub,sup,separator,bullist,numlist,separator,imagepopup",
 theme_advanced_buttons3 : "tablecontrols,separator,cleanup,code,removeformat,visualaid,iespell,separator,fullscreen",
@@ -322,7 +322,7 @@ EOT;
         return <<<EOT
 apply_source_formatting : true,
 theme : "advanced",
-plugins : "table,save,advimage,advlink,zoom,contextmenu,fullscreen{$popup}",
+plugins : "table,save,advimage,advlink,contextmenu,fullscreen{$popup}",
 theme_advanced_buttons1 : "bold,italic,separator,bullist,separator,link,imagepopup,separator,code,fullscreen",
 theme_advanced_buttons2 : "",
 theme_advanced_buttons3 : "",
