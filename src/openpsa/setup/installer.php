@@ -150,7 +150,7 @@ class installer
             if (   realpath($linkname) !== $target
                 && md5_file(realpath($linkname)) !== md5_file($target))
             {
-                $io->write('Skipping <info>' . $target . '</info>: Found Link <info>' . $linkname . '</info> to <comment>' . realpath($linkname) . '</comment>');
+                $io->write('Skipping <info>' . basename($target) . '</info>: Found Link in <info>' . dirname($linkname) . '</info> to <comment>' . realpath($linkname) . '</comment>');
             }
             return;
         }
@@ -158,7 +158,7 @@ class installer
         {
             if (md5_file($linkname) !== md5_file($target))
             {
-                $io->write('Skipping <info>' . $target . '</info>: Found file <comment>' . $linkname . '</comment>');
+                $io->write('Skipping <info>' . basename($target) . '</info>: Found existing file in <comment>' . dirname($linkname) . '</comment>');
             }
             return;
         }
