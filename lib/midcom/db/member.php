@@ -108,15 +108,15 @@ class midcom_db_member extends midcom_core_dbaobject
         $activity = new midcom_helper_activitystream_activity_dba();
         $activity->target = $target->guid;
         $activity->actor = $actor->id;
-        $this->verb = 'http://activitystrea.ms/schema/1.0/join';
+        $activity->verb = 'http://activitystrea.ms/schema/1.0/join';
         if (   !empty(midcom::get('auth')->user->guid)
             && $actor->guid == midcom::get('auth')->user->guid)
         {
-            $this->summary = sprintf(midcom::get('i18n')->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);
+            $activity->summary = sprintf(midcom::get('i18n')->get_string('%s joined group %s', 'midcom'), $actor->name, $target->official);
         }
         else
         {
-            $this->summary = sprintf(midcom::get('i18n')->get_string('%s was added to group %s', 'midcom'), $actor->name, $target->official);
+            $activity->summary = sprintf(midcom::get('i18n')->get_string('%s was added to group %s', 'midcom'), $actor->name, $target->official);
         }
         $activity->create();
 
