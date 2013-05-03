@@ -64,7 +64,7 @@ class midcom_helper_datamanager2_widget_simpledateTest extends openpsa_testcase
 
         $this->assertEquals($empty_values, $widget->get_default(), 'simple test failed');
         $event->start = $timestamp;
-        $event->update();
+
         $dm2_helper = new openpsa_test_dm2_helper($event);
         //Lazy workaround to reuse the default array from above
         $dm2_helper->get_widget('simpledate', 'date', array('storage' => 'start'));

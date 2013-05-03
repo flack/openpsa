@@ -45,7 +45,6 @@ class midcom_helper_datamanager2_widget_codemirrorTest extends openpsa_testcase
         $this->assertEquals('', $widget->get_default(), 'simple test failed, ');
 
         $page->content = 'TEST';
-        $page->update();
 
         $dm2_helper = new openpsa_test_dm2_helper($page);
         $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'content'));

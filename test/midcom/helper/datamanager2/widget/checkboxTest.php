@@ -45,7 +45,6 @@ class midcom_helper_datamanager2_widget_checkboxTest extends openpsa_testcase
         $this->assertFalse($widget->get_default(), 'simple test failed');
 
         $host->online = true;
-        $host->update();
         $dm2_helper = new openpsa_test_dm2_helper($host);
         $widget = $dm2_helper->get_widget('checkbox', 'boolean', array('storage' => 'online'));
 
