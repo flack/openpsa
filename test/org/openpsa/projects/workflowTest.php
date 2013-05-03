@@ -219,17 +219,5 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         self::$_project->update();
         parent::tearDown();
     }
-
-    public static function TearDownAfterClass()
-    {
-        parent::TearDownAfterClass();
-
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
-        self::$_other_user->delete();
-        midcom::get('auth')->drop_sudo();
-
-        midcom::get('auth')->logout();
-        self::$_user->delete();
-    }
 }
 ?>
