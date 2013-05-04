@@ -718,6 +718,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                 (
                     'wikinote'      => array
                     (
+                        'component' => 'net.nemein.wiki',
                         'node'  => false,
                         'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $this->_request_data['event']->title, strftime('%x'), $user->name)),
                     ),
