@@ -13,7 +13,7 @@
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver
+implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
 {
     public static function create_root_event()
     {
@@ -207,102 +207,29 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    /**
-     * Support for contacts person merge
-     */
-    function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
+    public function get_merge_configuration($object_mode, $merge_mode)
     {
-        //TODO Calendar should have future mode but we don't support it yet
-        switch ($mode)
+        $config = array();
+        if ($merge_mode == 'future')
         {
-            case 'all':
-                break;
-            default:
-                // Mode not implemented
-                debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                return false;
+            // Contacts does not have future references so we have nothing to transfer...
+            return $config;
         }
-        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        $qb->begin_group('OR');
-            // We need the remaining persons memberships later when we compare the two
-            $qb->add_constraint('uid', '=', $person1->id);
-            $qb->add_constraint('uid', '=', $person2->id);
-        $qb->end_group();
-        $members = $qb->execute();
-        if ($members === false)
+        if ($object_mode == 'person')
         {
-            // Some error with QB
-            debug_add('QB Error', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        // Transfer memberships
-        $membership_map = array();
-        foreach ($members as $member)
-        {
-            if ($member->uid != $person1->id)
-            {
-                debug_add("Transferred event membership #{$member->id} to person #{$person1->id} (from #{$member->uid})");
-                $member->uid = $person1->id;
-            }
-            if (   !isset($membership_map[$member->eid])
-                || !is_array($membership_map[$member->eid]))
-            {
-                $membership_map[$member->eid] = array();
-            }
-            $membership_map[$member->eid][] = $member;
-        }
-        unset($members);
-        // Merge memberships
-        foreach ($membership_map as $members)
-        {
-            foreach ($members as $member)
-            {
-                if (count($members) == 1)
-                {
-                    // We only have one membership in this event, skip rest of the logic
-                    if (!$member->update())
-                    {
-                        // Failure updating member
-                        debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                        return false;
-                    }
-                    continue;
-                }
+            $config['org_openpsa_calendar_event_member_dba'] = array
+            (
+                'uid' => array
+                (
+                    'target' => 'id',
+                    'duplicate_check' => 'eid'
+                )
+            );
 
-                // TODO: Compare memberships to determine which of them are identical and thus not worth keeping
-                if (!$member->update())
-                {
-                    // Failure updating member
-                    debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    return false;
-                }
-            }
+            $config['org_openpsa_calendar_event_dba'] = array();
+
         }
-
-        // Transfer metadata dependencies from classes that we drive
-        $classes = array
-        (
-            'org_openpsa_calendar_event_dba',
-            'org_openpsa_calendar_event_member_dba',
-        );
-
-        $metadata_fields = array
-        (
-            'creator' => 'guid',
-            'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
-        );
-
-        foreach ($classes as $class)
-        {
-            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
-            if (!$ret)
-            {
-                // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-        return true;
+        return $config;
     }
 }
 ?>

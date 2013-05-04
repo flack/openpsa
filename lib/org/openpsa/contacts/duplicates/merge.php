@@ -21,15 +21,7 @@ class org_openpsa_contacts_duplicates_merge
      */
     public function __construct($mode)
     {
-        switch($mode)
-        {
-            case 'person':
-                $this->_object_mode = 'person';
-                break;
-            case 'group':
-                $this->_object_mode = 'group';
-                break;
-        }
+        $this->_object_mode = $mode;
     }
 
     /**
@@ -44,18 +36,14 @@ class org_openpsa_contacts_duplicates_merge
      */
     function merge(&$obj1, &$obj2, $merge_mode)
     {
-        switch ($merge_mode)
+        if (   $merge_mode !== 'all'
+            && $merge_mode !== 'future')
         {
-            case 'all':
-                break;
-            case 'future':
-                break;
-            default:
-                // Invalid mode
-                $this->_errstr = 'invalid merge mode';
-                return false;
-                break;
+            $this->_errstr = 'invalid merge mode';
+            debug_add("invalid mode {$mode}", MIDCOM_LOG_ERROR);
+            return false;
         }
+
         // TODO: Check that both objects are of valid class for object mode
         switch ($this->_object_mode)
         {
@@ -79,13 +67,17 @@ class org_openpsa_contacts_duplicates_merge
                 //Skip midcom core
                 continue;
             }
-            $component_ret = $this->_call_component_merge($component, $obj1, $obj2, $merge_mode);
-            if (!$component_ret)
+            if (!$this->_call_component_merge($component, $obj1, $obj2, $merge_mode))
             {
                 $this->_errstr = "component {$component} reported failure";
                 return false;
             }
         }
+        if ($this->_object_mode == 'person')
+        {
+            return $this->_merge_persons($obj1, $obj2);
+        }
+
         return true;
     }
 
@@ -112,17 +104,138 @@ class org_openpsa_contacts_duplicates_merge
             return true;
         }
 
-        $method = 'org_openpsa_contacts_duplicates_merge_' . $this->_object_mode;
-        if (!method_exists($interface, $method))
+        if (!($interface instanceof org_openpsa_contacts_duplicates_support))
         {
             // Component does not wish to merge our stuff
             debug_add("component {$component} does not support merging duplicate objects of type {$this->_object_mode}", MIDCOM_LOG_INFO);
             return true;
         }
-        // Call component interface for merge
-        $ret = $interface->$method($obj1, $obj2, $merge_mode);
+        $config = $interface->get_merge_configuration($this->_object_mode, $merge_mode);
 
-        return $ret;
+        if (empty($config))
+        {
+            return true;
+        }
+        return $this->_process_dba_classes($obj1, $obj2, $config);
+    }
+
+    private function _process_dba_classes($obj1, $obj2, $config)
+    {
+        foreach ($config as $classname => $fieldconfig)
+        {
+            $qb = midcom::get('dbfactory')->new_query_builder($classname);
+            $qb->begin_group('OR');
+            foreach ($fieldconfig as $field => $conf)
+            {
+                $qb->add_constraint($field, '=', $obj1->$conf['target']);
+                $qb->add_constraint($field, '=', $obj2->$conf['target']);
+            }
+            $qb->end_group();
+            $results = $qb->execute();
+            $todelete = array();
+            foreach ($results as $result)
+            {
+                $needs_update = false;
+                foreach ($fieldconfig as $field => $conf)
+                {
+                    if ($result->$field == $obj2->$conf['target'])
+                    {
+                        if (!empty($conf['duplicate_check']))
+                        {
+                            $result->$field = $obj1->$conf['target'];
+                            $dup = $this->_check_duplicate($results, $result, $conf['duplicate_check']);
+
+                            if (   is_object($dup)
+                                || $dup === false)
+                            {
+                                if (   !is_object($dup)
+                                    || !array_key_exists($dup->id, $todelete))
+                                {
+                                    $todelete[$result->id] = $result;
+                                }
+                                $needs_update = false;
+                                continue 2;
+                            }
+                        }
+                        $needs_update = true;
+                    }
+                }
+                if (   $needs_update
+                    && !$result->update())
+                {
+                    debug_add("Failed to update {$classname} #{$result->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                    return false;
+                }
+                if (   $this->_object_mode == 'person'
+                    && !$this->_merge_metadata($classname, $obj1, $obj2))
+                {
+                    return false;
+                }
+            }
+            foreach ($todelete as $object)
+            {
+                if (!$object->delete())
+                {
+                    debug_add("Failed to delete {$classname} #{$object->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private function _check_duplicate(array $results, midcom_core_dbaobject $object, $field)
+    {
+        if (method_exists($object, $field))
+        {
+            return $object->$field();
+        }
+
+        foreach ($results as $result)
+        {
+            if (   $result->$field === $object->$field
+                && $result->id !== $object->id)
+            {
+                return $result;
+            }
+        }
+        return true;
+    }
+
+    private function _merge_persons($person1, $person2)
+    {
+        // Copy fields missing from person1 and present in person2 over
+        $skip_properties = array
+        (
+            'id' => true,
+            'guid' => true,
+        );
+        $changed = false;
+        foreach ($person2 as $property => $value)
+        {
+            // Copy only simple properties not marked to be skipped missing from person1
+            if (   empty($person2->$property)
+                || !empty($person1->$property)
+                || isset($skip_properties[$property])
+                || !is_scalar($value))
+            {
+                continue;
+            }
+            $person1->$property = $value;
+            $changed = true;
+        }
+        // Avoid unnecessary updates
+        if ($changed)
+        {
+            if (!$person1->update())
+            {
+                // Error updating person
+                debug_add("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                return false;
+            }
+        }
+        // PONDER: sensible way to do the same for parameters ??
+        return true;
     }
 
     /**
@@ -170,77 +283,31 @@ class org_openpsa_contacts_duplicates_merge
     /**
      * Static method to handle components metadata dependencies
      */
-    static function person_metadata_dependencies_helper($class, &$person1, &$person2, $metadata_fields)
+    private function _merge_metadata($class, &$person1, &$person2)
     {
-        // Sanity check given class
-        if (!class_exists($class))
-        {
-            return false;
-        }
-        $tmp = new $class();
-        if (!method_exists($tmp, 'new_query_builder'))
-        {
-            return false;
-        }
-        if (empty($metadata_fields))
-        {
-            // Nothing to do
-            return true;
-        }
-        // Get all instances of given class where metadata fields link to person2
         $qb = call_user_func(array($class, 'new_query_builder'));
         $qb->begin_group('OR');
-        foreach ($metadata_fields as $field => $link_property)
-        {
-            if (   empty($link_property)
-                || empty($person2->$link_property))
-            {
-                debug_print_r("Problem with link_property on field {$field}, skipping. metadata_fields:", $metadata_fields, MIDCOM_LOG_WARN);
-                continue;
-            }
-            debug_add("About to add constraint: {$field}, '=', {$person2->$link_property} (class: {$class})");
-            // TODO: Copy on purpose when upgrading to PHP5 force copy by value.
-            $value = $person2->$link_property;
-            // Make sure id is typecast properly
-            if ($link_property == 'id')
-            {
-                $value = (int)$value;
-            }
-            if (!$qb->add_constraint('metadata.' . $field, '=', $value))
-            {
-                debug_add("Failure adding constraint, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
+        $qb->add_constraint('metadata.approver', '=', $person2->guid);
+        $qb->add_constraint('metadata.owner', '=', $person2->guid);
         $qb->end_group();
         $objects = $qb->execute();
-        if ($objects === false)
-        {
-            // QB failure
-            debug_add("QB failure for class {$class}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
-        }
+
         foreach ($objects as $object)
         {
-            $changed = false;
-            foreach ($metadata_fields as $field => $link_property)
+            if ($object->metadata->approver == $person2->guid)
             {
-                if ($object->metadata->$field == $person2->$link_property)
-                {
-                    debug_add("Transferred {$field} to person {$person1->$link_property} on object {$class}:{$object->guid}");
-                    $object->metadata->$field = $person1->$link_property;
-                    $changed = true;
-                }
+                debug_add("Transferred approver to person #{$person1->id} on {$class} #{$object->id}");
+                $object->metadata->approver = $person1->guid;
             }
-            // Avoid unnecessary updates (thought the QB should only feed us objects that need updating it's good to make sure)
-            if (!$changed)
+            if ($object->metadata->owner == $person2->guid)
             {
-                continue;
+                debug_add("Transferred owner to person #{$person1->id} on {$class} #{$object->id}");
+                $object->metadata->owner = $person1->guid;
             }
             if (!$object->update())
             {
                 // Failure updating object
-                debug_add("Could not update object {$class}:{$object->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Could not update object {$class} #{$object->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 return false;
             }
         }
@@ -267,7 +334,6 @@ class org_openpsa_contacts_duplicates_merge
                 // object mode not set properly
                 $this->_errstr = 'invalid object mode';
                 return false;
-                break;
         }
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');

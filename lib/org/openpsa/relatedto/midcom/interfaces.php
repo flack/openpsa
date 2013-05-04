@@ -14,6 +14,7 @@
  * @package org.openpsa.relatedto
  */
 class org_openpsa_relatedto_interface extends midcom_baseclasses_components_interface
+implements org_openpsa_contacts_duplicates_support
 {
     public function __construct()
     {
@@ -77,66 +78,31 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         midcom::get('auth')->drop_sudo();
     }
 
-    /**
-     * Support for contacts person merge
-     */
-    function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
+    public function get_merge_configuration($object_mode, $merge_mode)
     {
-        switch($mode)
+        $config = array();
+        if ($merge_mode == 'future')
         {
-            case 'all':
-                break;
-            case 'future':
-                // Relatedto does not have future references so we have nothing to transfer...
-                return true;
-
-            default:
-                // Mode not implemented
-                debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                return false;
+            // Relatedto does not have future references so we have nothing to transfer...
+            return $config;
         }
-
-        $qb = org_openpsa_relatedto_dba::new_query_builder();
-        $qb->begin_group('OR');
-            $qb->add_constraint('fromGuid', '=', $person2->guid);
-            $qb->add_constraint('toGuid', '=', $person2->guid);
-        $qb->end_group();
-        $links = $qb->execute();
-        if ($links === false)
+        if ($object_mode == 'person')
         {
-            // QB Error
-            return false;
+            $config['org_openpsa_relatedto_dba'] = array
+            (
+                'fromGuid' => array
+                (
+                    'target' => 'guid',
+                    'duplicate_check' => 'toGuid'
+                ),
+                'toGuid' => array
+                (
+                    'target' => 'guid',
+                    'duplicate_check' => 'fromGuid'
+                )
+            );
         }
-        foreach ($links as $link)
-        {
-            if ($link->fromGuid == $person2->guid)
-            {
-                debug_add("Transferred link->fromGuid #{$link->id} to person #{$person1->id} (from {$link->fromGuid})");
-                $link->fromGuid = $person1->guid;
-            }
-            if ($link->toGuid == $person2->guid)
-            {
-                debug_add("Transferred link->toGuid #{$link->id} to person #{$person1->id} (from {$link->toGuid})");
-                $link->toGuid = $person1->guid;
-            }
-        }
-
-        // TODO: Check for duplicates and remove those (also from the links array...)
-
-        // Save updates to remaining links
-        foreach ($links as $link)
-        {
-            if (!$link->update())
-            {
-                // Failure updating
-                return false;
-            }
-        }
-
-        // TODO: 1.8 metadata format support
-
-        // All done
-        return true;
+        return $config;
     }
 }
 ?>
