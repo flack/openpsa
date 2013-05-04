@@ -24,13 +24,18 @@ class openpsa_test_campaign_helper
         $this->_testcase = $testcase;
     }
 
-    public function get_campaign()
+    public function get_campaign($type = org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL)
     {
         if (!$this->_campaign)
         {
             $topic = openpsa_testcase::get_component_node('org.openpsa.directmarketing');
 
-            $this->_campaign = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_dba', array('node' => $topic->id));
+            $attributes = array
+            (
+                'node' => $topic->id,
+                'orgOpenpsaObtype' => $type
+            );
+            $this->_campaign = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_dba', $attributes);
         }
 
         return $this->_campaign;
