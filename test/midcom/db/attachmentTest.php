@@ -51,10 +51,23 @@ class midcom_db_attachmentTest extends openpsa_testcase
         midcom::get('auth')->drop_sudo();
     }
 
+    private function _get_attachment(array $attributes)
+    {
+        $attachment = $this->create_object('midcom_db_attachment', $attributes);
+
+        midcom::get('auth')->request_sudo('midcom.core');
+        $this->assertTrue($attachment->copy_from_file(self::$_filepath . 'attach.png'));
+        midcom::get('auth')->drop_sudo();
+        return $attachment;
+    }
+
     public function test_copy_from_file()
     {
         $attachment = $this->create_object('midcom_db_attachment', array('parentguid' => self::$_topic->guid));
+
+        midcom::get('auth')->request_sudo('midcom.core');
         $stat = $attachment->copy_from_file(self::$_filepath . 'attach.png');
+        midcom::get('auth')->drop_sudo();
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
         $blob = new midgard_blob($attachment->__object);
@@ -68,8 +81,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
             'parentguid' => self::$_topic->guid,
             'name' => 'attach.png'
         );
-        $attachment = $this->create_object('midcom_db_attachment', $properties);
-        $attachment->copy_from_file(self::$_filepath . 'attach.png');
+        $attachment = $this->_get_attachment($properties);
 
         midcom::get('config')->set('attachment_cache_enabled', false);
         $stat = $attachment->get_cache_path();
@@ -90,8 +102,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
             'parentguid' => self::$_topic->guid,
             'name' => 'attach.png'
         );
-        $attachment = $this->create_object('midcom_db_attachment', $properties);
-        $attachment->copy_from_file(self::$_filepath . 'attach.png');
+        $attachment = $this->_get_attachment($properties);
 
         midcom::get('config')->set('attachment_cache_enabled', true);
 
