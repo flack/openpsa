@@ -134,11 +134,11 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $page->title = $topic->extra;
         $page->content = midcom::get('i18n')->get_string('wiki default page content', 'net.nemein.wiki');
         $page->author = midcom_connection::get_user();
-        if ($page->create())
+        if (!$page->create())
         {
-            return $page;
+            throw new midcom_error('Failed to create index article: ' . midcom_connection::get_error_string());
         }
-        return false;
+        return $page;
     }
 }
 ?>
