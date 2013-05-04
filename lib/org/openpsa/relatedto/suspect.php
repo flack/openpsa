@@ -61,7 +61,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         $ret = array();
 
         //Make sure we can load and access the component
-        if (midcom::get('componentloader')->load_graceful($component))
+        if (!midcom::get('componentloader')->load_graceful($component))
         {
             //We could not load the component/interface
             debug_add("could not load component {$component}", MIDCOM_LOG_ERROR);
