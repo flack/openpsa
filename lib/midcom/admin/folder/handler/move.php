@@ -67,6 +67,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
             $data['current_folder'] = new midcom_db_topic($this->_object->topic);
         }
+        $data['handler'] = $this;
 
         $this->add_breadcrumb("__ais/folder/move/{$this->_object->guid}/", $this->_l10n->get('move'));
 
@@ -74,6 +75,63 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         midcom::get('head')->set_pagetitle($data['title']);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
+    }
+
+    public function show_tree(midcom_db_topic $folder = null, $tree_disabled = false)
+    {
+        if (null === $folder)
+        {
+            $folder = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        }
+
+        if (   is_a($this->_object, 'midcom_db_topic')
+            && $folder->up == $this->_object->id)
+        {
+            $tree_disabled = true;
+        }
+
+        $class = '';
+        $selected = '';
+        $disabled = '';
+        if ($folder->guid == $this->_request_data['current_folder']->guid)
+        {
+            $class = 'current';
+            $selected = ' checked="checked"';
+        }
+
+        if (   !is_a($this->_object, 'midcom_db_topic')
+            && $folder->component !== $this->_request_data['current_folder']->component)
+        {
+            // Non-topic objects may only be moved under folders of same component
+            $class = 'wrong_component';
+            $disabled = ' disabled="disabled"';
+        }
+
+        if ($tree_disabled)
+        {
+            $class = 'child';
+            $disabled = ' disabled="disabled"';
+        }
+
+        if ($folder->guid == $this->_object->guid)
+        {
+            $class = 'self';
+            $disabled = ' disabled="disabled"';
+        }
+        echo "<ul>\n";
+        echo "<li class=\"{$class}\"><label><input{$selected}{$disabled} type=\"radio\" name=\"move_to\" value=\"{$folder->id}\" /> {$folder->extra}</label>\n";
+
+        $qb = midcom_db_topic::new_query_builder();
+        $qb->add_constraint('up', '=', $folder->id);
+        $qb->add_constraint('component', '<>', '');
+        $children = $qb->execute();
+
+        foreach ($children as $child)
+        {
+            $this->show_tree($child, $tree_disabled);
+        }
+        echo "</li>\n";
+        echo "</ul>\n";
     }
 
     private function _move_object($target)
