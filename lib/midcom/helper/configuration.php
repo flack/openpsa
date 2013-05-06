@@ -128,7 +128,13 @@ class midcom_helper_configuration
             $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
         }
 
-        $array = $this->_object->list_parameters($this->_path);
+        $array = array();
+        $manifest = midcom::get('componentloader')->manifests[$this->_path];
+        if (!empty($manifest->extends))
+        {
+            $array = $this->_object->list_parameters($manifest->extends);
+        }
+        $array = array_merge($array, $this->_object->list_parameters($this->_path));
 
         if ($global)
         {
