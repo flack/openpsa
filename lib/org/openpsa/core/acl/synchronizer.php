@@ -13,7 +13,7 @@
  */
 class org_openpsa_core_acl_synchronizer
 {
-    function write_acls($object, $owner_id, $accesstype)
+    public function write_acls($object, $owner_id, $accesstype)
     {
         if (   empty($owner_id)
             || empty($accesstype))
@@ -27,13 +27,6 @@ class org_openpsa_core_acl_synchronizer
 
     private function _write_full_midcom_acls($object, $owner_id, $accesstype)
     {
-        // Exit if no owner workgroup has been assigned
-        if ($owner_id == '')
-        {
-            debug_add('Given owner ID was empty, aborting');
-            return false;
-        }
-
         $owner_object = midcom::get('auth')->get_assignee($owner_id);
         if (empty($owner_object->id))
         {
