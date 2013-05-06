@@ -80,28 +80,14 @@ class org_openpsa_core_acl_synchronizer
                 $object->set_privilege('midgard:owner', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->_set_attachment_permission($object, 'midgard:read', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
+            case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
+                debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
+                //fall-through. Once subscriber groups get reimplemented, the appropriate code should be added here
             case org_openpsa_core_acl::ACCESS_WGPRIVATE:
                 debug_add("Private object, only workgroup members can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                break;
-            case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
-                debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
-                $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
-                $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-
-                // Process a possible subscribers group
-                $subscriber_group = midcom::get('auth')->get_group($owner_id.'subscribers');
-                if (!empty($subscriber_group->id))
-                {
-                    // Allow them to read the object
-                    $object->set_privilege('midgard:read', $subscriber_group->id, MIDCOM_PRIVILEGE_ALLOW);
-
-                    // But disallow reading of possible attachments
-                    $this->_set_attachment_permission($object, 'midgard:read', $subscriber_group->id, MIDCOM_PRIVILEGE_DENY);
-                }
                 break;
         }
         return true;
