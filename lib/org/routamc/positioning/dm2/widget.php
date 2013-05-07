@@ -78,17 +78,21 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     var $_allowed_xep_keys = array();
 
     /**
-     * Options to pass to the javascript widget.
-     * Possible values:
-     * - (int) maxRows : Maximum amount of results returned. If this is set greater than 1,
-     *   the widget will show alternative results and lets user to choose the best match.
-     *   Defaults to: 20
-     * - (int) radius : Radius of the area we search for alternatives. (in Kilometers)
-     *   Defaults to: 5
+     * Maximum amount of results returned. If this is set greater than 1,
+     * the widget will show alternative results and lets user to choose the best match.
+     * Defaults to: 20
+     *
+     * @var integer
      */
+    public $js_maxRows = null;
 
-    var $js_maxRows = null;
-    var $js_radius = null;
+    /**
+     * Radius of the area we search for alternatives. (in Kilometers)
+     * Defaults to: 5
+     *
+     * @var integer
+     */
+    public $js_radius = null;
 
     var $js_options = array();
     var $js_options_str = '';
@@ -121,32 +125,24 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         {
             $this->service = 'geonames';
         }
+        $head = midcom::get('head');
+        $head->enable_jquery();
 
-        midcom::get('head')->enable_jquery();
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/position_widget.css');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.css');
-        midcom::get('head')->add_link_head
-        (
-            array
-            (
-                'condition' => 'lte IE 7',
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs-ie.css',
-                'media' => 'projection, screen',
-            )
-        );
-
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
+        //load ui-tab
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
+        $head->add_jquery_ui_theme(array('tabs'));
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
+
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/position_widget.css');
 
         $this->_element_id = "{$this->name}_position_widget";
 
         $config = "{
-            fxAutoHeight: false,
-            fxSpeed: 'fast',
-            onShow: function() {
+            heightStyle: 'auto',
+            activate: function() {
                 jQuery('#{$this->_element_id}').dm2_pw_position_map_to_current();
             }
         }";
