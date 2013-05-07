@@ -249,24 +249,13 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     public function configure($configuration, $contextid)
     {
         // Initialize the context data
-        $this->_context_data[$contextid] = Array
+        $this->_context_data[$contextid] = array
         (
-            'config' => null,
+            'config' => $this->_config,
             'handler' => null
         );
 
-        $data =& $this->_context_data[$contextid];
-
-        $data['config'] = $this->_config;
-
-        if (!$data['config']->store($configuration, false))
-        {
-            return false;
-        }
-
-        $data['handler'] = null;
-
-        return true;
+        return $this->_context_data[$contextid]['config']->store($configuration, false);
     }
 
     /**
@@ -433,12 +422,11 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function get_config_for_topic($topic = null)
     {
-        $config = $this->_config;
         if ($topic !== null)
         {
-            $config->store_from_object($topic, $this->_component);
+            $this->_config->store_from_object($topic, $this->_component);
         }
-        return $config;
+        return $this->_config;
     }
 
     /**
