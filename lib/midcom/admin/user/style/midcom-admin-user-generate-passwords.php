@@ -61,7 +61,7 @@ if (   !is_numeric($n)
 elseif ((int) $n > $max_amount
     || (int) $length > $max_length)
 {
-    echo $data['l10n']->get('only up to 1000 passwords with maximum length of 16 characters');
+    echo sprintf($data['l10n']->get('only up to %s passwords with maximum length of %s characters'), $max_amount, $max_length);
 }
 else
 {
