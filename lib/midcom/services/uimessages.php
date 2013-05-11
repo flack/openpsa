@@ -240,33 +240,15 @@ class midcom_services_uimessages
         echo "    // <!--\n";
         echo "        jQuery(document).ready(function()\n";
         echo "        {\n";
-        echo "            if (jQuery('#midcom_services_uimessages_wrapper').size() == 0)\n";
+        echo "            if (jQuery('#midcom_services_uimessages_wrapper').length == 0)\n";
         echo "            {\n";
-        echo "                jQuery('<div></div>')\n";
-        echo "                    .attr({\n";
-        echo "                        id: 'midcom_services_uimessages_wrapper'\n";
-        echo "                    })\n";
+        echo "                jQuery('<div id=\"midcom_services_uimessages_wrapper\"></div>')\n";
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
 
-        if (count($this->_message_stack) > 0)
+        while ($message = array_shift($this->_message_stack))
         {
-            foreach ($this->_message_stack as $id => $message)
-            {
-                $options  = "{";
-
-                foreach ($message as $key => $value)
-                {
-                    $options .= "{$key}: '{$value}', ";
-                }
-
-                $options = preg_replace('/, $/', '', $options) . "}";
-
-                echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage({$options})\n";
-
-                // Remove the message from stack
-                unset($this->_message_stack[$id]);
-            }
+            echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . json_encode($message) . ")\n";
         }
 
         echo "        })\n";
@@ -290,10 +272,9 @@ class midcom_services_uimessages
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            foreach ($this->_message_stack as $id => $message)
+            while ($message = array_shift($this->_message_stack))
             {
                 $this->_render_message($message);
-                unset($this->_message_stack[$id]);
             }
 
             echo "</div>\n";
