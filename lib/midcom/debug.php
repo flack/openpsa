@@ -150,7 +150,7 @@ class midcom_debug
         {
             return;
         }
-        //throw new exception($message);
+
         $file = fopen($this->_filename, 'a+');
 
         if (function_exists('xdebug_memory_usage'))
