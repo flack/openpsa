@@ -488,7 +488,6 @@ class midcom_helper__dbfactory
                 continue;
             }
             $link_value = key($link_values);
-            unset($mc, $link_values);
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $link_value);
             if (null !== $parent_guid)
             {

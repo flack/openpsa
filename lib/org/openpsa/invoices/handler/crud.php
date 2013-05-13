@@ -191,8 +191,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
             // we got a customer, set description default
             $this->_defaults['description'] = $dummy->get_default('remarks');
-
-            unset($dummy);
         }
         else
         {

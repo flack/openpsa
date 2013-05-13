@@ -150,7 +150,7 @@ class midcom_debug
         {
             return;
         }
-
+        //throw new exception($message);
         $file = fopen($this->_filename, 'a+');
 
         if (function_exists('xdebug_memory_usage'))
@@ -227,7 +227,6 @@ class midcom_debug
 
             break;
         }
-        unset($bt);
 
         if (array_key_exists('class', $caller))
         {
@@ -323,7 +322,6 @@ class midcom_debug
             }
             $stacktrace .= "\n";
         }
-        unset($stack);
 
         $this->log (trim ($message) . "\n{$stacktrace}", $loglevel);
     }

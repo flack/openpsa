@@ -66,7 +66,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 unset($schemadb['default']->field_order[$field_order_key]);
             }
         }
-        unset($qb);
         return $schemadb;
     }
 

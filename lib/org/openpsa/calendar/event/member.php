@@ -235,13 +235,12 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $workday_ends_ts = mktime($workday_ends, 0, 0, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
             $last_end_time = false;
             $last_event = false;
-            foreach ($events as $event_key => $event)
+            foreach ($events as $event)
             {
                 if (   $event->end <= $workday_starts_ts
                     || $event->start >= $workday_ends_ts)
                 {
                     // We need not to consider this event, it is outside the defined workday
-                    unset($events[$event_key]);
                     continue;
                 }
 

@@ -275,7 +275,6 @@ class midgard_admin_asgard_schemadb
             $this->_add_name_field($key, $name_obj);
             return;
         }
-        unset($name_obj);
 
         $this->_schemadb['object']->append_field
         (

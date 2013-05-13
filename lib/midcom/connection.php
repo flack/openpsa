@@ -240,9 +240,7 @@ class midcom_connection
                     }
                     break;
                 case 'Legacy':
-
                     $password = self::_crypt_password($password);
-                    unset($crypted);
                     break;
                 default:
                     throw new midcom_error('Unsupported authentication type attempted', 500);

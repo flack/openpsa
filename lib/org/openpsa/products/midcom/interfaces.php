@@ -273,7 +273,6 @@ implements midcom_services_permalinks_resolver
                         continue;
                     }
                     org_openpsa_products_viewer::index($dms['product'], $indexer, $topic, $config);
-                    unset($product);
                 }
             }
             unset($products);
@@ -291,9 +290,7 @@ implements midcom_services_permalinks_resolver
         foreach ($subgroups as $subgroup)
         {
             $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $topic, $config);
-            unset($subgroup);
         }
-        unset($subgroups);
 
         return true;
     }

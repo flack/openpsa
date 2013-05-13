@@ -45,7 +45,6 @@ class midcom_helper_reflector_nameresolver
         }
         // Make copy via typecast, very important or we might accidentally manipulate the given object
         $name_copy = (string)$this->_object->{$name_property};
-        unset($name_property);
         return $name_copy;
     }
 
@@ -72,10 +71,8 @@ class midcom_helper_reflector_nameresolver
         $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
         if ($name_copy !== $generator->from_string($name_copy))
         {
-            unset($name_copy);
             return false;
         }
-        unset($name_copy);
         return true;
     }
 
@@ -101,10 +98,8 @@ class midcom_helper_reflector_nameresolver
         }
         if ($name_copy !== rawurlencode($name_copy))
         {
-            unset($name_copy);
             return false;
         }
-        unset($name_copy);
         return true;
     }
 
@@ -181,7 +176,6 @@ class midcom_helper_reflector_nameresolver
         if (empty($name_copy))
         {
             // We do not check for empty names, and do not consider them to be unique
-            unset($name_copy);
             return false;
         }
 
@@ -199,15 +193,12 @@ class midcom_helper_reflector_nameresolver
             }
             if (!$this->_name_is_unique_check_siblings($sibling_classes, $parent))
             {
-                unset($parent, $parent_resolver, $sibling_classes);
                 midcom::get('auth')->drop_sudo();
                 return false;
             }
-            unset($parent, $parent_resolver, $sibling_classes);
         }
         else
         {
-            unset($parent);
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
@@ -218,19 +209,16 @@ class midcom_helper_reflector_nameresolver
                     $is_root_class = true;
                     if (!$this->_name_is_unique_check_roots($root_classes))
                     {
-                        unset($is_root_class, $root_classes);
                         midcom::get('auth')->drop_sudo();
                         return false;
                     }
                 }
             }
-            unset($root_classes);
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get('auth')->drop_sudo();
                 debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
-                unset($is_root_class);
                 return true;
             }
         }
@@ -308,13 +296,11 @@ class midcom_helper_reflector_nameresolver
             {
                 midcom::get('auth')->drop_sudo();
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
             }
             if ($results > 0)
             {
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
-                unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
             }
         }
@@ -357,14 +343,12 @@ class midcom_helper_reflector_nameresolver
             $title_copy = midcom_helper_reflector::get_object_title($this->_object, $title_property);
             if ($title_copy === false)
             {
-                unset($title_copy);
                 // Fatal error with title resolution
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
             if (empty($title_copy))
             {
-                unset($title_copy);
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
@@ -396,20 +380,17 @@ class midcom_helper_reflector_nameresolver
                 // Decrementer underflowed
                 debug_add("Maximum number of tries exceeded, current name was: " . $this->_object->{$name_prop}, MIDCOM_LOG_ERROR);
                 $this->_object->{$name_prop} = $original_name;
-                unset($i, $d, $name_prop, $original_name, $base_name);
                 return false;
             }
             // and the incrementer
             ++$i;
         }
         while (!$this->name_is_unique());
-        unset($i, $d);
 
         // Get a copy of the current, usable name
         $ret = (string)$this->_object->{$name_prop};
         // Restore the original name
         $this->_object->{$name_prop} = $original_name;
-        unset($name_prop, $original_name, $base_name);
         return $ret;
     }
 

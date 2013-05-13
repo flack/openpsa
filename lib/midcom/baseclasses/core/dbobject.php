@@ -1196,7 +1196,6 @@ class midcom_baseclasses_core_dbobject
 
         if (count($parameters) == 0)
         {
-            unset($mc);
             return self::$parameter_cache[$object->guid][$domain];
         }
 
@@ -1204,8 +1203,6 @@ class midcom_baseclasses_core_dbobject
         {
             self::$parameter_cache[$object->guid][$domain][$name] = $mc->get_subkey($name, 'value');
         }
-
-        unset($mc);
 
         return self::$parameter_cache[$object->guid][$domain];
     }
@@ -1253,8 +1250,6 @@ class midcom_baseclasses_core_dbobject
 
                 self::$parameter_cache[$object->guid][$domain][$name] = $mc->get_subkey($guid, 'value');
             }
-
-            unset($mc);
 
             // Flag that we have queried all domains for this object
             self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all'] = array();

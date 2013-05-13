@@ -43,7 +43,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
             {
                 $ret[] = $linkdata;
             }
-            unset($component_ret, $linkdata);
         }
 
         //TODO: Filter out duplicates (not likely but theoretically possible)

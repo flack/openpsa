@@ -55,7 +55,6 @@ implements midcom_helper_datamanager2_interfaces_create
         //set the defaults for vat & due to the schema
         $fields['due']['default'] = $dummy_invoice->get_default('due');
         $fields['vat']['default'] = $dummy_invoice->get_default('vat');
-        unset($dummy_invoice);
 
         return $schemadb;
     }

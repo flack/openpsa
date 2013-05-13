@@ -102,14 +102,11 @@ class midcom_services__sessioning
             $session_err = (string)$php_errormsg;
         }
         ini_set('track_errors', $track_state);
-        unset($track_state);
         if (!isset($_SESSION))
         {
             debug_add("\$_SESSION is not set, error message was: {$session_err}", MIDCOM_LOG_ERROR);
-            unset($session_err, $php_errormsg);
             return false;
         }
-        unset($session_err);
 
         /* Cache disabling made conditional based on domain/key existence */
 
