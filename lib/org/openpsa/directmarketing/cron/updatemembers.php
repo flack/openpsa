@@ -37,12 +37,11 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         $i = 1;
         foreach ($ret as $campaign)
         {
-            $next_time = time()+(($i++)*60);
+            $next_time = time() + (($i++) * 60);
             debug_add("Scheduling member update for campaign #{$campaign->id} ({$campaign->title}) to happen on " . date('Y-m-d H:i:s', $next_time));
-            $stat = $campaign->schedule_update_smart_campaign_members($next_time);
-            if (!$stat)
+            if (!$campaign->schedule_update_smart_campaign_members($next_time))
             {
-                //TODO: Display some error ?
+                debug_add('schedule_update_smart_campaign_members returned false', MIDCOM_LOG_ERROR);
             }
         }
 

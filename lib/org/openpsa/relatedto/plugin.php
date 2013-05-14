@@ -225,7 +225,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         }
         if (empty($data['node']))
         {
-            debug_add("data['node'] not given, trying with siteconfig", MIDCOM_LOG_DEBUG);
+            debug_add("data['node'] not given, trying with siteconfig");
             $siteconfig = org_openpsa_core_siteconfig::get_instance();
             $node_guid = $siteconfig->get_node_guid($button_component);
             if (!$node_guid)

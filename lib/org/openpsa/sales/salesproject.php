@@ -195,10 +195,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
                     else
                     {
                         $to_sort['time'] = $object->end;
-                        if ($object->end < time())
-                        {
-                            //PONDER: Do something ?
-                        }
                         $sort_next[] = $to_sort;
                     }
                     break;

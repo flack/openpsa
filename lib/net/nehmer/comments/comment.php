@@ -209,7 +209,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         if ($ret == net_nehmer_comments_spamchecker::HAM)
         {
             // Quality content
-            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as ham", MIDCOM_LOG_DEBUG);
+            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as ham");
 
             $this->status = net_nehmer_comments_comment::MODERATED;
             $this->update();
@@ -218,7 +218,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         else if ($ret == net_nehmer_comments_spamchecker::SPAM)
         {
             // Spam
-            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as spam", MIDCOM_LOG_DEBUG);
+            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as spam");
 
             $this->status = net_nehmer_comments_comment::JUNK;
             $this->update();

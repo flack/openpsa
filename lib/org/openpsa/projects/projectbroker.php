@@ -144,7 +144,7 @@ class org_openpsa_projects_projectbroker
             $prospect->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::PROSPECT;
             if (!$prospect->create())
             {
-                // TODO: Error reporting
+                debug_add('Failed to create prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_COMPLETE');

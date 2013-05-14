@@ -257,10 +257,8 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             {
                 $latitude = (float) $icbm_parts[0];
                 $longitude = (float) $icbm_parts[1];
-                if (   (   $latitude < 90
-                        && $latitude > -90)
-                    && (   $longitude < 180
-                        && $longitude > -180))
+                if (   abs($latitude) < 90
+                    && abs($longitude) < 180)
                 {
                     $location = new org_routamc_positioning_location_dba();
                     $location->date = time();
@@ -271,10 +269,6 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
                     $location->parentclass = 'org_openpsa_contacts_group_dba';
                     $location->parentcomponent = 'org.openpsa.contacts';
                     $location->create();
-                }
-                else
-                {
-                    // This is no earth coordinate, my friend
                 }
             }
         }

@@ -148,15 +148,10 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         usort($data, array('self', '_sort_by_key'));
         foreach ($data as $row)
         {
-            if (   array_key_exists('is_group', $row)
-                && $row['is_group'] == true)
+            if (!empty($row['is_group']))
             {
                 // Is group, recurse
                 $this->_sort_rows_recursive($row['rows']);
-            }
-            else
-            {
-                // Is normal row, I don't think we want to do anything
             }
         }
     }
