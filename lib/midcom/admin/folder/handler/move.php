@@ -163,11 +163,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
                 $this->_object->update();
                 throw new midcom_error
                 (
-                    "Refusing to move this folder because the move would have created an " .
-                    "infinite loop situation caused by the symlinks on this site. The " .
-                    "whole site would have been completely and irrevocably broken if this " .
-                    "move would have been allowed to take place. Infinite loops can not " .
-                    "be allowed. Sorry, but this was for your own good."
+                    "Refusing to move this folder because the move would have created an
+                    infinite loop situation caused by the symlinks on this site."
                 );
             }
             // It was ok, so set name back now

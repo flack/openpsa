@@ -271,8 +271,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         {
             if (empty($symlink_topic->symlink))
             {
-                debug_add("Symlink topic is not a symlink. Query must have failed. " .
-                    "Constraint was: #{$this->_topic->id}", MIDCOM_LOG_ERROR);
+                debug_add("Symlink topic is not a symlink. Query must have failed. Constraint was: #{$this->_topic->id}", MIDCOM_LOG_ERROR);
             }
             else
             {
@@ -328,9 +327,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 $this->_new_topic->purge();
                 throw new midcom_error
                 (
-                    "Refusing to create this symlink because it is located in the same " .
-                    "folder as its target. You must have made a mistake. Sorry, but this " .
-                    "was for your own good."
+                    "Refusing to create this symlink because it is located in the same
+                    folder as its target"
                 );
             }
             if ($this->_new_topic->up == $topic->id)
@@ -338,12 +336,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 $this->_new_topic->purge();
                 throw new midcom_error
                 (
-                    "Refusing to create this symlink because its parent folder is the same " .
-                    "folder as its target. You must have made a mistake because this would " .
-                    "have created an infinite loop situation. The whole site would have " .
-                    "been completely and irrevocably broken if this symlink would have been " .
-                    "allowed to exist. Infinite loops can not be allowed. Sorry, but this " .
-                    "was for your own good."
+                    "Refusing to create this symlink because its parent folder is the same
+                    folder as its target."
                 );
             }
             $this->_new_topic->update();
@@ -352,11 +346,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 $this->_new_topic->purge();
                 throw new midcom_error
                 (
-                    "Refusing to create this symlink because it would have created an " .
-                    "infinite loop situation. The whole site would have been completely " .
-                    "and irrevocably broken if this symlink would have been allowed to " .
-                    "exist. Please redesign your usage of symlinks. Infinite loops can " .
-                    "not be allowed. Sorry, but this was for your own good."
+                    "Refusing to create this symlink because it would have created an
+                    infinite loop situation."
                 );
             }
             $this->_new_topic->name = $name;
