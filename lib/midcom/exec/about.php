@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?php
-echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 midcom::get('head')->add_stylesheet( MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 $title = 'About Midgard';
 midcom::get('auth')->require_valid_user();

@@ -157,19 +157,19 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.progressbar/js/progress.functions.js');
             midcom::get('head')->add_jscript
             (
-                "$(document).ready(function() {".
-                    "$(\".progressbar\").progressBar(".
-                    "{".
-                        "boxImage: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbar.gif',".
-                        "barImage: {".
-                            "0:  '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_red.gif',".
-                            "30: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_orange.gif',".
-                            "70: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_green.gif'".
-                            "},".
-                        "showText: true".
-                    "}".
-                    ");".
-                "});"
+                "$(document).ready(function() {
+                    $(\".progressbar\").progressBar(
+                    {
+                        boxImage: '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbar.gif',
+                        barImage: {
+                            0:  '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_red.gif',
+                            30: '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_orange.gif',
+                            70: '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_green.gif'
+                            },
+                        showText: true
+                    }
+                    );
+                });"
             );
         }
 

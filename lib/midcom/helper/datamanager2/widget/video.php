@@ -182,17 +182,17 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         }
 
         // Start widget table, add upload image Frame, the statistics frame will just keep a no file notice.
-        $static_html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n" .
-            "<td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'>" .
-            "<div class='midcom_helper_datamanager2_widget_image_thumbnail' style='width:{$x}px; height:{$y}px; border: 1px solid black; margin-bottom: 0.5ex;'>" .
-            "&nbsp;</div>" .
-            "</td>\n<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('no file uploaded') .
+        $static_html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n
+            <td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'>
+            <div class='midcom_helper_datamanager2_widget_image_thumbnail' style='width:{$x}px; height:{$y}px; border: 1px solid black; margin-bottom: 0.5ex;'>
+            &nbsp;</div>
+            </td>\n<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('no file uploaded') .
             "</td>\n</tr>\n";
 
         // Add the upload widget
         $static_html .= "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
-            $this->_l10n->get('upload image') . ":</td>\n" .
-            "<td class='midcom_helper_datamanager2_widget_image_upload'>";
+            $this->_l10n->get('upload image') . ":</td>\n
+            <td class='midcom_helper_datamanager2_widget_image_upload'>";
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         $elements[] = $this->_upload_element;
@@ -200,10 +200,10 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         // Add Title line if configured to do so
         if ($this->show_title)
         {
-            $static_html = "</td>\n</tr>\n" .
-                "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
-                $this->_l10n_midcom->get('title') . ":</td>\n" .
-                "<td class='midcom_helper_datamanager2_widget_image_title'>";
+            $static_html = "</td>\n</tr>\n
+                <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
+                $this->_l10n_midcom->get('title') . ":</td>\n
+                <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array

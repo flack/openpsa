@@ -812,8 +812,8 @@ class midcom_helper_nav_backend
         if (!$cached_node)
         {
             debug_add("NAP Caching Engine: Tried to update the topic {$node[MIDCOM_NAV_NAME]} (#{$node[MIDCOM_NAV_OBJECT]->id}) "
-                . 'which was supposed to be in the cache already, but failed to load the object from the database. '
-                . 'Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
+                . 'which was supposed to be in the cache already, but failed to load the object from the database.
+                  Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
             return;
         }
 

@@ -65,7 +65,7 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
      */
     function add_elements_to_form($attributes)
     {
-    	$attributes = array_merge($attributes, array('class' => 'shorttext'));
+        $attributes = array_merge($attributes, array('class' => 'shorttext'));
         $title = $this->_translate($this->_field['title']);
         $confirm_name = "{$this->name}_confirm";
         $confirm_title = "{$title} " . $this->_translate($this->confirm_text);

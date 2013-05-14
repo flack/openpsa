@@ -115,8 +115,8 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         {
             $static_html .= "<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('type blobs: file size') . ": {$main_info['formattedsize']}<br/>\n";
         }
-        $static_html .= $this->_l10n->get('type image: available sizes') . ":\n" .
-                "<ul class='midcom_helper_datamanager2_widget_image_sizelist'>";
+        $static_html .= $this->_l10n->get('type image: available sizes') . ":\n
+                <ul class='midcom_helper_datamanager2_widget_image_sizelist'>";
         foreach ($this->_type->attachments_info as $info)
         {
             if (   $info['size_x']
@@ -128,8 +128,8 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
             {
                 $size = $this->_l10n_midcom->get('unknown');
             }
-            $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a> " .
-                "{$size}, {$info['formattedsize']}</li>\n";
+            $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a>
+                {$size}, {$info['formattedsize']}</li>\n";
         }
         $static_html .= "</ul>\n";
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
@@ -143,8 +143,8 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         // Add the upload widget
         $static_html = "</td>\n</tr>\n" .
             "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
-            $this->_l10n->get('replace image') . ":</td>\n" .
-            "<td class='midcom_helper_datamanager2_widget_image_upload'>";
+            $this->_l10n->get('replace image') . ":</td>\n
+            <td class='midcom_helper_datamanager2_widget_image_upload'>";
         $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
