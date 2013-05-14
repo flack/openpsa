@@ -243,14 +243,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     }
 
     /**
-     * Show the empty style of AJAX unsubscribing
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_unsubscribe_ajax($handler_id, array &$data)  { }
-
-    /**
      * Handle the request for unsubscribing all subscribers from a campaign
      *
      * @param String $handler_id    Name of the request handler
