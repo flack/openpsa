@@ -146,7 +146,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         if (empty($this->_guid))
         {
-        	return array();
+            return array();
         }
         $filepath = $this->_generate_rcs_filename($this->_guid);
 
@@ -422,7 +422,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
         if (empty($guid))
         {
-        	return false;
+            return false;
         }
         $filename = $this->_generate_rcs_filename($guid);
         $fp = fopen ($filename, "w");

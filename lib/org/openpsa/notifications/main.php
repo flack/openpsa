@@ -154,7 +154,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     {
         $schemadb = array
         (
-        	'default' => array
+            'default' => array
             (
                 'description' => 'notifications',
                 'fields'      => array()

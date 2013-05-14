@@ -47,7 +47,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     public function _handler_autoindex ($handler_id, array $args, array &$data)
     {
         // Get last modified timestamp
-		$qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
 
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
