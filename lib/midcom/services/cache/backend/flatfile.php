@@ -105,9 +105,9 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
         {
             unlink("{$this->_dirname}{$key}");
         }
-        catch(Exception $e)
+        catch (Exception $e)
         {
-            /* Do nothing, be quiet */
+            debug_add($e->getMessage());
         }
     }
 

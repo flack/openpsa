@@ -681,10 +681,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (empty($this->searchfields))
         {
             $this->searchfields = $midcom_reflector->get_search_properties();
-            if (empty($this->searchfields))
-            {
-                //TODO: Special rules for objects that need them
-            }
         }
         if (empty($this->orders))
         {
@@ -701,11 +697,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $header['title'] = $reflection_l10n->get($label);
                 $header['name'] = $label;
                 $this->result_headers[] = $header;
-            }
-
-            if (empty($this->result_headers))
-            {
-                //Special rules for objects that need them
             }
         }
 

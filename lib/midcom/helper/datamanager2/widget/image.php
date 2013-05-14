@@ -179,10 +179,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         // Add Title line if configured to do so.
         if ($this->show_title)
         {
-            $static_html = "</td>\n</tr>\n" .
-                "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
-                $this->_l10n_midcom->get('title') . ":</td>\n" .
-                "<td class='midcom_helper_datamanager2_widget_image_title'>";
+            $static_html = "</td>\n</tr>\n
+                <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
+                $this->_l10n_midcom->get('title') . ":</td>\n
+                <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array
@@ -238,8 +238,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             {
                 $size = $this->_l10n_midcom->get('unknown');
             }
-            $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a> " .
-                "{$size}, {$info['formattedsize']}</li>\n";
+            $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a>
+                {$size}, {$info['formattedsize']}</li>\n";
         }
         $static_html .= "</ul>\n";
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
@@ -251,10 +251,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         }
 
         // Add the upload widget
-        $static_html = "</td>\n</tr>\n" .
-            "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
-            $this->_l10n->get('replace image') . ":</td>\n" .
-            "<td class='midcom_helper_datamanager2_widget_image_upload'>";
+        $static_html = "</td>\n</tr>\n
+            <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
+            $this->_l10n->get('replace image') . ":</td>\n
+            <td class='midcom_helper_datamanager2_widget_image_upload'>";
         $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
@@ -274,10 +274,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         // Add Title line if configured to do so.
         if ($this->show_title)
         {
-            $static_html = "</td>\n</tr>\n" .
-                "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
-                $this->_l10n_midcom->get('title') . ":</td>\n" .
-                "<td class='midcom_helper_datamanager2_widget_image_title'>";
+            $static_html = "</td>\n</tr>\n
+                <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
+                $this->_l10n_midcom->get('title') . ":</td>\n
+                <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
             $attributes = Array
@@ -329,8 +329,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $size = " width='{$x}' height='{$y}'";
 
         // Start widget table, add Thumbnail
-        $html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n" .
-            "<td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'><img class='midcom_helper_datamanager2_widget_image_thumbnail' alt='{$this->name}' src='{$url}' {$size} />";
+        $html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n
+            <td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'><img class='midcom_helper_datamanager2_widget_image_thumbnail' alt='{$this->name}' src='{$url}' {$size} />";
         if ($is_thumbnail)
         {
             $html .= "<br />\n(" . $this->_l10n->get('type image: thumbnail') . ')';
@@ -384,9 +384,9 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             $main_info = $this->_type->attachments_info['main'];
 
             // Add Image with Preview
-            $html = "<p><img src='{$url}' {$size} />&nbsp;" .
-                "<a href='{$main_info['url']}' target='_new'>{$main_info['filename']}</a>, " .
-                "{$main_info['formattedsize']}";
+            $html = "<p><img src='{$url}' {$size} />&nbsp;
+                <a href='{$main_info['url']}' target='_new'>{$main_info['filename']}</a>,
+                {$main_info['formattedsize']}";
         }
         else
         {

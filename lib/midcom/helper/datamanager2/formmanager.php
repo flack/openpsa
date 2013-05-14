@@ -281,8 +281,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         // Translate the required note
         $this->form->setRequiredNote
         (
-            '<span style="font-size:80%; color:#ff0000;">*</span>' .
-            '<span style="font-size:80%;">' .
+            '<span style="font-size:80%; color:#ff0000;">*</span><span style="font-size:80%;">' .
             $this->_l10n->get('denotes required field') .
             '</span>'
         );

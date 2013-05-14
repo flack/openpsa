@@ -215,12 +215,8 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         foreach ($schema['fields'] as  $key => $field)
         {
-            if (   array_key_exists($field['type'], $imagetypes)
-                && $imagetypes[$field['type']] == true)
-            {
-                // TODO: What should we do with the image fields in schema
-            }
-            else
+            if (   !array_key_exists($field['type'], $imagetypes)
+                || $imagetypes[$field['type']] == false)
             {
                 // This schema field isn't an image field, remove from schema
                 unset ($schema['fields'][$key]);

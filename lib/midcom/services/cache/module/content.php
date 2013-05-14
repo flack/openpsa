@@ -532,13 +532,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         _midcom_header('Cache-Control: no-store, no-cache, must-revalidate');
         _midcom_header('Cache-Control: post-check=0, pre-check=0', false);
-        if (   isset($_SERVER['HTTPS'])
-            && isset($_SERVER['HTTP_USER_AGENT'])
-            && preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
-        {
-            //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE with https.
-        }
-        else
+
+        //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE with https.
+        if (   !isset($_SERVER['HTTPS'])
+            || !isset($_SERVER['HTTP_USER_AGENT'])
+            || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
         {
             _midcom_header('Pragma: no-cache');
         }

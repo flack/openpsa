@@ -248,7 +248,7 @@ class midcom_services_i18n_l10n
                 // outside of a string value
                 if ($string == '')
                 {
-                    // Do nothing
+                    continue;
                 }
                 else if (substr($string, 0, 3) == '---')
                 {

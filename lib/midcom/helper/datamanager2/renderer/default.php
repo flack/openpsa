@@ -399,12 +399,6 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         $name = $group->getName();
 
-        if ($this->_in_group)
-        {
-            // the rest of the variables are set in the other groups run of the startGroup function.
-            //$this->_current_group_templates[$this->_current_group_name]['group_elements'] = $this->_group_elements;
-        }
-
         $this->_current_group_templates[$name] = array
         (
             'group_template' => $this->_prepare_template($name, $group, $required, $error, 'group'),

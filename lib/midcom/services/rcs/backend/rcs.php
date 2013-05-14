@@ -523,7 +523,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
         catch (Exception $e)
         {
-            // TODO: Log?
+            debug_add($e->getMessage());
         }
 
         if ($status === 0)

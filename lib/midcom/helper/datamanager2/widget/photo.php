@@ -141,8 +141,8 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         }
 
         // Add the upload widget
-        $static_html = "</td>\n</tr>\n" .
-            "<tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
+        $static_html = "</td>\n</tr>\n
+            <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
             $this->_l10n->get('replace image') . ":</td>\n
             <td class='midcom_helper_datamanager2_widget_image_upload'>";
         $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);

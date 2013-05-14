@@ -232,8 +232,8 @@ END;
         $this->_elements['e_new_filename'] = $this->_form->createElement('text', 'e_new_filename', '', $attributes);
 
         // Title Column
-        $html = "            </td>\n" .
-                "            <td class=\"new title\">";
+        $html = "            </td>\n
+                            <td class=\"new title\">";
         $this->_elements['s_new_title'] = $this->_form->createElement('static', 's_new_title', '', $html);
         $attributes = Array
         (
@@ -245,8 +245,8 @@ END;
         if (! $frozen)
         {
             // Controls Column
-            $html = "            </td>\n" .
-                    "            <td class=\"new upload\">";
+            $html = "            </td>\n
+                                <td class=\"new upload\">";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
             $attributes = Array
             (
@@ -310,8 +310,8 @@ END;
             $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
         }
 
-        $html = "            </td>\n" .
-                "        </tr>\n";
+        $html = "            </td>\n
+                         </tr>\n";
         $this->_elements['s_new_file'] = $this->_form->createElement('static', 's_new_file', '', $html);
     }
 
@@ -374,8 +374,8 @@ END;
         // Filename column
         $html = "        <tr title=\"{$info['guid']}\" class=\"midcom_helper_datamanager2_widget_images_image\">\n" .
                 $sortable .
-                "            <td class=\"exist filename\" title=\"{$info['filename']}\">\n" .
-                "                {$preview}<br />\n
+                "            <td class=\"exist filename\" title=\"{$info['filename']}\">\n
+                                 {$preview}<br />\n
                                  <a href=\"{$info['url']}\">{$info['filename']}</a>\n
                              </td>\n";
         $this->_elements["s_exist_{$identifier}_filename"] = $this->_form->createElement('static', "s_exist_{$identifier}_filename", '', $html);
@@ -449,8 +449,8 @@ END;
     {
         if ($info['object']->can_do('midgard:update'))
         {
-            $html = "            </td>\n" .
-                    "            <td class=\"exist upload\">\n";
+            $html = "            </td>\n
+                                 <td class=\"exist upload\">\n";
             $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
             $attributes = Array
             (
@@ -478,8 +478,7 @@ END;
         }
         // WTF, the identifiers look wonky here
         $html = sprintf("<span id=\"e_exist_{$identifier}_delete\" style=\"display:none;color:red\">%s</span>",
-                        $this->_l10n_midcom->get('You can only upload images here. This file will not be saved.')
-                        );
+                        $this->_l10n_midcom->get('You can only upload images here. This file will not be saved.'));
         $this->_elements["s_exist_{$identifier}_error"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
     }
 
@@ -490,8 +489,8 @@ END;
      */
     private function _add_table_footer($frozen)
     {
-        $html = "    </tbody>\n" .
-                "</table>\n";
+        $html = "    </tbody>\n
+                 </table>\n";
         $this->_elements['s_footer'] = $this->_form->createElement('static', 's_footer', '', $html);
     }
 

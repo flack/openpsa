@@ -110,12 +110,9 @@ class midcom_core_collector extends midcom_core_query
         {
             $this->_query->set_limit($this->_limit);
         }
-        if ($this->_offset)
-        {
-            // Disabled because of http://trac.midgard-project.org/ticket/1964
-            // offset is applied in list_keys() instead
-            //$this->_query->set_offset($this->_offset);
-        }
+        // Disabled because of http://trac.midgard-project.org/ticket/1964
+        // offset is applied in list_keys() instead
+        //$this->_query->set_offset($this->_offset);
 
         $this->_add_visibility_checks();
 
@@ -175,11 +172,7 @@ class midcom_core_collector extends midcom_core_query
                 continue;
             }
 
-            // Check visibility
-            if ($this->hide_invisible)
-            {
-                // TODO: Implement
-            }
+            // TODO: Implement $this->hide_invisible
 
             // Register the GUID as loaded in this request
             midcom::get('cache')->content->register($object_guid);
