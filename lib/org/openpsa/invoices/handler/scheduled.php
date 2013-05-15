@@ -115,9 +115,9 @@ implements org_openpsa_widgets_grid_provider_client
         $invoice['index_deliverable'] = $deliverable->title;
         $invoice['type'] = $type;
 
-        $invoice = $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
-        $invoice = $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
-        $invoice = $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
+        $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
+        $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
+        $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
 
         if (!empty($this->_sales_url))
         {
@@ -127,21 +127,23 @@ implements org_openpsa_widgets_grid_provider_client
         return $invoice;
     }
 
-    private function _render_contact_field($id, $fieldname, array $invoice, $classname = 'org_openpsa_contacts_person_dba')
+    private function _render_contact_field($id, $fieldname, array &$invoice, $classname = 'org_openpsa_contacts_person_dba')
     {
-        try
+        $invoice[$fieldname] = '';
+        $invoice['index_' . $fieldname] = '';
+        if ($id > 0)
         {
-            $object = $classname::get_cached($id);
-            $invoice[$fieldname] = $object->render_link();
-            $invoice['index_' . $fieldname] = $object->get_label();
+            try
+            {
+                $object = $classname::get_cached($id);
+                $invoice[$fieldname] = $object->render_link();
+                $invoice['index_' . $fieldname] = $object->get_label();
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            $invoice[$fieldname] = '';
-            $invoice['index_' . $fieldname] = '';
-        }
-        return $invoice;
     }
 
     /**

@@ -12,7 +12,7 @@
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver
+implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
 {
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
@@ -174,144 +174,47 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    /**
-     * Support for contacts person merge
-     */
-    function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
+    public function get_merge_configuration($object_mode, $merge_mode)
     {
-        switch($mode)
+        $config = array();
+        if ($merge_mode == 'future')
         {
-            case 'all':
-                break;
             /* In theory we could have future things (like resource/manager ships), but now we don't support that mode, we just exit */
-            case 'future':
-                return true;
-                break;
-            default:
-                // Mode not implemented
-                debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                return false;
-                break;
+            return $config;
         }
-
-        // Transfer links from classes we drive
-        // ** resources **
-        $qb_member = org_openpsa_projects_task_resource_dba::new_query_builder();
-        $qb_member->add_constraint('person', '=', $person2->id);
-        $members = $qb_member->execute();
-        if ($members === false)
+        if ($object_mode == 'person')
         {
-            // Some error with QB
-            debug_add('QB Error', MIDCOM_LOG_ERROR);
-            return false;
+            $config['org_openpsa_projects_task_resource_dba'] = array
+            (
+                'person' => array
+                (
+                    'target' => 'id',
+                    'duplicate_check' => 'task'
+                )
+            );
+            $config['org_openpsa_projects_task_status_dba'] = array
+            (
+                'targetPerson' => array
+                (
+                    'target' => 'id',
+                )
+            );
+            $config['org_openpsa_projects_hour_report_dba'] = array
+            (
+                'person' => array
+                (
+                    'target' => 'id',
+                )
+            );
+            $config['org_openpsa_projects_task_dba'] = array
+            (
+                'manager' => array
+                (
+                    'target' => 'id',
+                )
+            );
         }
-        // Transfer memberships
-        foreach ($members as $member)
-        {
-            // TODO: figure out duplicate memberships and delete unneeded ones
-            $member->person = $person1->id;
-            debug_add("Transferred task resource #{$member->id} to person #{$person1->id} (from #{$member->person})", MIDCOM_LOG_INFO);
-            if (!$member->update())
-            {
-                debug_add("Failed to update task resource #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // ** task statuses **
-        $qb_receipt = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb_receipt->add_constraint('targetPerson', '=', $person2->id);
-        $receipts = $qb_receipt->execute();
-        if ($receipts === false)
-        {
-            // Some error with QB
-            debug_add('QB Error / status', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        foreach ($receipts as $receipt)
-        {
-            debug_add("Transferred task_status #{$receipt->id} to person #{$person1->id} (from #{$receipt->person})", MIDCOM_LOG_INFO);
-            $receipt->targetPerson = $person1->id;
-            if (!$receipt->update())
-            {
-                // Error updating
-                debug_add("Failed to update status #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // ** hour reports **
-        $qb_log = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $qb_log->add_constraint('person', '=', $person2->id);
-        $logs = $qb_log->execute();
-        if ($logs === false)
-        {
-            // Some error with QB
-            debug_add('QB Error / hours', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        foreach ($logs as $log)
-        {
-            debug_add("Transferred hour_report #{$log->id} to person #{$person1->id} (from #{$log->person})", MIDCOM_LOG_INFO);
-            $log->person = $person1->id;
-            if (!$log->update())
-            {
-                // Error updating
-                debug_add("Failed to update hour_report #{$log->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // ** Task managers **
-        $qb_task = org_openpsa_projects_task_dba::new_query_builder();
-        $qb_task->add_constraint('manager', '=', $person2->id);
-        $tasks = $qb_task->execute();
-        if ($tasks === false)
-        {
-            // Some error with QB
-            debug_add('QB Error / tasks', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        foreach ($tasks as $task)
-        {
-            debug_add("Transferred task #{$task->id} to person #{$person1->id} (from #{$task->person})", MIDCOM_LOG_INFO);
-            $task->manager = $person1->id;
-            if (!$task->update())
-            {
-                // Error updating
-                debug_add("Failed to update task #{$task->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // Transfer metadata dependencies from classes that we drive
-        $classes = array
-        (
-            'org_openpsa_projects_task_resource_dba',
-            'org_openpsa_projects_task_status_dba',
-            'org_openpsa_projects_task_dba',
-            'org_openpsa_projects_hour_report_dba',
-        );
-
-        $metadata_fields = array
-        (
-            'creator' => 'guid',
-            'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
-        );
-
-        foreach ($classes as $class)
-        {
-            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
-            if (!$ret)
-            {
-                // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // All done
-        return true;
+        return $config;
     }
 
     function background_search_resources($args, &$handler)

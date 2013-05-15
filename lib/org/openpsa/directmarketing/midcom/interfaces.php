@@ -12,7 +12,7 @@
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver
+implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
 {
     /**
      * Background message sending AT batch handler
@@ -103,125 +103,43 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    /**
-     * Support for contacts person merge
-     */
-    function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
+    public function get_merge_configuration($object_mode, $merge_mode)
     {
-        switch ($mode)
+        $config = array();
+        if ($merge_mode == 'future')
         {
-            case 'all':
-                break;
-            case 'future':
-                // DirMar does not have future references so we have nothing to transfer...
-                return true;
-            default:
-                // Mode not implemented
-                debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                return false;
+            // DirMar does not have future references so we have nothing to transfer...
+            return $config;
         }
+        if ($object_mode == 'person')
+        {
+            $config['org_openpsa_directmarketing_campaign_member_dba'] = array
+            (
+                'person' => array
+                (
+                    'target' => 'id',
+                    'duplicate_check' => 'check_duplicate_membership'
+                )
+            );
+            $config['org_openpsa_directmarketing_campaign_messagereceipt_dba'] = array
+            (
+                'person' => array
+                (
+                    'target' => 'id',
+                )
+            );
+            $config['org_openpsa_directmarketing_link_log_dba'] = array
+            (
+                'person' => array
+                (
+                    'target' => 'id',
+                )
+            );
+            $config['org_openpsa_directmarketing_campaign_dba'] = array();
+            $config['org_openpsa_directmarketing_campaign_message_dba'] = array();
 
-        // Transfer links from classes we drive
-        // ** Members **
-        $qb_member = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb_member->add_constraint('person', '=', $person2->id);
-        $members = $qb_member->execute();
-        if ($members === false)
-        {
-            // Some error with QB
-            debug_add('QB Error', MIDCOM_LOG_ERROR);
-            return false;
         }
-        // Transfer memberships
-        foreach ($members as $member)
-        {
-            $member->person = $person1->id;
-            if (!$member->_check_duplicate_membership())
-            {
-                // This is a duplicate membership, delete it
-                debug_add("Person #{$person1->id} is already member in campaign #{$member->campaign}, removing membership #{$member->id}", MIDCOM_LOG_INFO);
-                if (!$member->delete())
-                {
-                    debug_add("Could not delete campaign member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    return false;
-                }
-                continue;
-            }
-            debug_add("Transferred campaign membership #{$member->id} to person #{$person1->id} (from #{$member->person})", MIDCOM_LOG_INFO);
-            if (!$member->update())
-            {
-                debug_add("Failed to update campaign member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // ** Receipts **
-        $qb_receipt = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
-        $qb_receipt->add_constraint('person', '=', $person2->id);
-        $receipts = $qb_receipt->execute();
-        if ($receipts === false)
-        {
-            // Some error with QB
-            debug_add('QB Error / receipts', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        foreach ($receipts as $receipt)
-        {
-            debug_add("Transferred message_receipt #{$receipt->id} to person #{$person1->id} (from #{$receipt->person})", MIDCOM_LOG_INFO);
-            $receipt->person = $person1->id;
-            if (!$receipt->update())
-            {
-                // Error updating
-                debug_add("Failed to update receipt #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // ** Logs **
-        $qb_log = org_openpsa_directmarketing_link_log_dba::new_query_builder();
-        $qb_log->add_constraint('person', '=', $person2->id);
-        $logs = $qb_log->execute();
-        if ($logs === false)
-        {
-            // Some error with QB
-            debug_add('QB Error / links', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        foreach ($logs as $log)
-        {
-            debug_add("Transferred link_log #{$log->id} to person #{$person1->id} (from #{$log->person})", MIDCOM_LOG_INFO);
-            $log->person = $person1->id;
-            if (!$log->update())
-            {
-                // Error updating
-                debug_add("Failed to update link #{$log->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // Transfer metadata dependencies from classes that we drive
-        $classes = array
-        (
-            'org_openpsa_directmarketing_campaign_dba',
-            'org_openpsa_directmarketing_campaign_member_dba',
-            'org_openpsa_directmarketing_campaign_message_dba',
-            'org_openpsa_directmarketing_campaign_messagereceipt_dba',
-            'org_openpsa_directmarketing_link_log_dba',
-        );
-        foreach ($classes as $class)
-        {
-            // TODO: 1.8 metadata format support
-            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, array());
-            if (!$ret)
-            {
-                // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // All done
-        return true;
+        return $config;
     }
 }
 ?>

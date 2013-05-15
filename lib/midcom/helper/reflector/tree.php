@@ -235,11 +235,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb->set_limit(1);
             if ($qb->count())
             {
-                unset($child_classes, $schema_type, $qb, $resolver);
                 return true;
             }
         }
-        unset($child_classes, $schema_type, $qb, $resolver);
         return false;
     }
 
@@ -303,9 +301,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 $ret .= $separator;
             }
         }
-        unset($part, $d, $parts);
         $cache[$cache_key] = $ret;
-        unset($ret);
         return $cache[$cache_key];
     }
 
@@ -348,11 +344,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             unset($part, $parent_reflector);
             $parent = self::get_parent($parent);
         }
-        unset($parent);
 
         $ret = array_reverse($ret);
         $cache[$cache_key] = $ret;
-        unset($ret);
         return $cache[$cache_key];
     }
 
@@ -469,11 +463,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             // PONDER: check for boolean false as result ??
             if (empty($type_children))
             {
-                unset($type_children);
                 continue;
             }
             $child_objects[$schema_type] = $type_children;
-            unset($type_children);
         }
         return $child_objects;
     }
@@ -907,7 +899,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             $qb->add_order($name_property);
         }
-        unset($title_property, $name_property, $ref, $dummy);
     }
 }
 ?>

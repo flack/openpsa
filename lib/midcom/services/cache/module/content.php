@@ -532,13 +532,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         _midcom_header('Cache-Control: no-store, no-cache, must-revalidate');
         _midcom_header('Cache-Control: post-check=0, pre-check=0', false);
-        if (   isset($_SERVER['HTTPS'])
-            && isset($_SERVER['HTTP_USER_AGENT'])
-            && preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
-        {
-            //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE with https.
-        }
-        else
+
+        //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE with https.
+        if (   !isset($_SERVER['HTTPS'])
+            || !isset($_SERVER['HTTP_USER_AGENT'])
+            || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
         {
             _midcom_header('Pragma: no-cache');
         }
@@ -955,7 +953,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         $this->_meta_cache->open(true);
         $this->_meta_cache->put($content_id, $entry_data);
-        unset($entry_data);
         $this->_meta_cache->put($request_id, $content_id);
         $this->_meta_cache->close();
 
@@ -1028,7 +1025,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (!$this->_meta_cache->exists($dl_request_id))
         {
             $this->_meta_cache->close();
-            unset($dl_request_id);
             return false;
         }
         $dl_content_id = $this->_meta_cache->get($dl_request_id);
@@ -1036,7 +1032,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             // No expiry information (or other content metadata) in cache
             $this->_meta_cache->close();
-            unset($dl_content_id, $dl_request_id);
             return false;
         }
         $dl_metadata = $this->_meta_cache->get($dl_content_id);
@@ -1044,7 +1039,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (time() > $dl_metadata['expires'])
         {
             // DL content expired
-            unset($dl_metadata, $dl_content_id, $dl_request_id);
             return false;
         }
         unset($dl_metadata);
@@ -1052,12 +1046,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (!$this->_data_cache->exists($dl_content_id))
         {
             // Ghost read, we have everything but the actual content in cache
-            unset($dl_content_id, $dl_request_id);
             $this->_data_cache->close();
             return false;
         }
         echo $this->_data_cache->get($dl_content_id);
-        unset($dl_content_id, $dl_request_id);
         $this->_data_cache->close();
         return true;
     }
@@ -1101,7 +1093,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
         $this->_meta_cache->close();
         $this->_data_cache->close();
-        unset($dl_cache_data, $dl_content_id, $dl_request_id);
     }
 
     /**

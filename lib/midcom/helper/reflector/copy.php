@@ -517,8 +517,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         // Store for later use - if ever needed
         $this->new_objects[] = $target;
 
-        unset($name_property);
-
         if (   !$this->_copy_data('parameters', $source, $target)
             || !$this->_copy_data('metadata', $source, $target)
             || !$this->_copy_data('attachments', $source, $target)

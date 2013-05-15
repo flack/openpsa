@@ -26,6 +26,18 @@
  */
 
 (function($) {
+    //jquery 1.9+ workaround
+    if ($.browser === undefined)
+    {
+        $.browser = {msie: false, version: 0};
+        var matches = /(msie) ([\w.]+)/.exec(navigator.userAgent);
+        if (matches)
+        {
+            $.browser.msie = matches[1];
+            $.browser.version = matches[2];
+        }
+    }
+    //Workaround end
     var locationWrapper = {
         put: function(hash, win) {
             (win || window).location.hash = this.encoder(hash);

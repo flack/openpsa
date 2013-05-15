@@ -86,40 +86,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _load_configs($component, $object = null)
     {
-        $componentpath = midcom::get('componentloader')->path_to_snippetpath($component);
-
-        // Load and parse the global config
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
-        if (! $cfg)
-        {
-            // Empty defaults
-            $cfg = array();
-        }
-
-        $config = new midcom_helper_configuration($cfg);
+        $config = midcom_baseclasses_components_configuration::get($component, 'config');
 
         if ($object)
         {
             $topic_config = new midcom_helper_configuration($object, $component);
-        }
-
-        // Go for the sitewide default
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("conf:/{$component}/config.inc");
-        if ($cfg !== false)
-        {
-            $config->store($cfg, false);
-        }
-
-        // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/{$component}/config");
-
-        if ($cfg !== false)
-        {
-            $config->store($cfg, false);
-        }
-
-        if (isset($topic_config))
-        {
             $config->store($topic_config->_local, false);
         }
 

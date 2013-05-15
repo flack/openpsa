@@ -95,7 +95,6 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'unsubscribe', 'ajax', $member->guid));
         $this->assertEquals('subscriber_unsubscribe_ajax', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get('auth')->drop_sudo();
     }

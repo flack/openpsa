@@ -45,7 +45,7 @@ class midcom_helper_datamanager2_widget_hiddenTest extends openpsa_testcase
         $this->assertEquals(0.0, $widget->get_default(), 'simple test failed');
 
         $invoice->sum = 5.1;
-        $invoice->update();
+
         $dm2_helper = new openpsa_test_dm2_helper($invoice);
         $widget = $dm2_helper->get_widget('hidden', 'number', array('storage' => 'sum'));
 

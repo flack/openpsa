@@ -58,7 +58,7 @@ class midcom_helper_datamanager2_widget_jsdateTest extends openpsa_testcase
 
         $this->assertEquals($empty_values, $widget->get_default(), 'simple test failed');
         $event->start = $timestamp;
-        $event->update();
+
         $dm2_helper = new openpsa_test_dm2_helper($event);
         //Lazy workaround to reuse the default array from above
         $dm2_helper->get_widget('jsdate', 'date', array('storage' => 'start'));
@@ -110,7 +110,7 @@ class midcom_helper_datamanager2_widget_jsdateTest extends openpsa_testcase
 
         $this->assertEquals('', $widget->render_content(), 'simple test failed');
         $event->start = $timestamp;
-        $event->update();
+
         $dm2_helper = new openpsa_test_dm2_helper($event);
         //Lazy workaround to reuse the default array from above
         $dm2_helper->get_widget('jsdate', 'date', array('storage' => 'start'));

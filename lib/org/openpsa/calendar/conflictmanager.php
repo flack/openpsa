@@ -159,7 +159,6 @@ class org_openpsa_calendar_conflictmanager
             reset ($this->_event->participants);
             $qb->add_constraint('uid', 'IN', array_keys($this->_event->participants));
             $ret = $qb->execute();
-            unset($qb);
         }
         return $ret;
     }

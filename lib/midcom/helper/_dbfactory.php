@@ -488,7 +488,6 @@ class midcom_helper__dbfactory
                 continue;
             }
             $link_value = key($link_values);
-            unset($mc, $link_values);
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $link_value);
             if (null !== $parent_guid)
             {
@@ -751,10 +750,7 @@ class midcom_helper__dbfactory
                     return false;
                 }
                 // "refresh" acl_object
-                if (!midcom_baseclasses_core_dbobject::cast_object($acl_object, $unserialized_object))
-                {
-                    // this shouldn't happen, but shouldn't be fatal either...
-                }
+                midcom_baseclasses_core_dbobject::cast_object($acl_object, $unserialized_object);
                 midcom_baseclasses_core_dbobject::update_post_ops($acl_object);
                 break;
             case 'created':
@@ -770,23 +766,20 @@ class midcom_helper__dbfactory
                     return false;
                 }
                 // refresh object to avoid issues with _on_created requiring ID
-                $acl_object_refresh = new $midcom_dba_classname($unserialized_object->guid);
-                if (   is_object($acl_object_refresh)
-                    && $acl_object_refresh->id)
+                try
                 {
-                    $acl_object = $acl_object_refresh;
+                    $acl_object = new $midcom_dba_classname($unserialized_object->guid);
                     midcom_baseclasses_core_dbobject::create_post_ops($acl_object);
                 }
-                else
+                catch (midcom_error $e)
                 {
-                    // refresh failed (it really shouldn't), what to do ??
+                    $e->log();
                 }
                 break;
             default:
                 debug_add("Do not know how to handle action '{$handle_action}'", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ERROR);
                 return false;
-                break;
         }
 
         $acl_object->_on_imported();

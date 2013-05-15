@@ -240,7 +240,6 @@ class midcom_application
         ob_end_flush();
         /* Cache DL the content */
         midcom::get('cache')->content->store_dl_content($context->id, $config, $dl_cache_data);
-        unset($dl_cache_data);
 
         // Leave Context
         $oldcontext->set_current();

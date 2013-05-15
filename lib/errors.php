@@ -409,7 +409,6 @@ class midcom_exception_handler
             $stacktrace[] = $line;
         }
 
-        unset($stack);
         return $stacktrace;
     }
 }

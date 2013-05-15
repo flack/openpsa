@@ -221,11 +221,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $filename = $this->_process_form();
-        if (!$filename)
-        {
-            // Show error
-        }
-        else
+        if ($filename)
         {
             return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
@@ -281,16 +277,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->bind_view_to_object($this->_file);
 
         $filename = $this->_process_form();
-        if (!$filename)
+        if (   $filename
+            && $filename != $data['filename'])
         {
-            // Show error
-        }
-        else
-        {
-            if ($filename != $data['filename'])
-            {
-                return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
-            }
+            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
 
         $this->_list_files();

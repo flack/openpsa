@@ -14,8 +14,8 @@
  * @see midcom_services_rcs for an overview of the options
  * @package midcom.services.rcs
  */
- class midcom_services_rcs_config
- {
+class midcom_services_rcs_config
+{
     /**
      * The array of configuration options
      *

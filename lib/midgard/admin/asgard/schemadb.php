@@ -69,8 +69,7 @@ class midgard_admin_asgard_schemadb
             {
                 $dba_type = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
             }
-            $dummy_object = new $dba_type();
-            $type_fields = $dummy_object->get_properties();
+            $this->_object = new $dba_type();
         }
         else
         {
@@ -79,8 +78,8 @@ class midgard_admin_asgard_schemadb
             {
                 $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
             }
-            $type_fields = $this->_object->get_properties();
         }
+        $type_fields = $this->_object->get_properties();
 
         //This is an ugly little workaround for unittesting
         $template = midcom_helper_datamanager2_schema::load_database('file:/midgard/admin/asgard/config/schemadb_default.inc');
@@ -276,7 +275,6 @@ class midgard_admin_asgard_schemadb
             $this->_add_name_field($key, $name_obj);
             return;
         }
-        unset($name_obj);
 
         $this->_schemadb['object']->append_field
         (

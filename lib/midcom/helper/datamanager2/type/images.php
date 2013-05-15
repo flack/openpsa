@@ -795,14 +795,10 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     private function _batch_handler_cleanup($tmp_dir, $new_name)
     {
         debug_add("called with: '{$tmp_dir}', '{$new_name}'");
-        if (   empty($tmp_dir)
-            || $tmp_dir === '/'
+        if (   !empty($tmp_dir)
+            && $tmp_dir !== '/'
             /* TODO: better tmp dir matching */
-            || !preg_match('|^/tmp/|', $tmp_dir))
-        {
-            // Do somethign ? we cannot return as there's more work to do...
-        }
-        else
+            && preg_match('|^/tmp/|', $tmp_dir))
         {
             $cmd = "rm -rf {$tmp_dir}";
             debug_add("executing '{$cmd}'");

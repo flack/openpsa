@@ -218,7 +218,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
 
                 $mail->attachments[] = $att;
-                unset($att);
             }
         }
 

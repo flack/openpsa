@@ -35,7 +35,10 @@ Add offer
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
-Agreement %s is scheduled to end on %s. Click here for details: %s
+Agreement %s is scheduled to end on %s.
+Click here for details:
+
+%s
 ---STRINGEND
 
 ---STRING calculation basis

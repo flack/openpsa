@@ -55,6 +55,12 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             {
                 midcom::get('head')->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
+            $config = midcom_helper_misc::get_snippet_content_graceful($this->_config->get('codemirror_config_snippet'));
+
+            $config = str_replace('{$id}', 'codemirror_' . $this->name, $config);
+            $config = str_replace('{$read_only}', '"nocursor"', $config);
+
+            midcom::get('head')->add_jquery_state_script($config);
         }
 
         return true;
@@ -137,12 +143,6 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
         $html = "<textarea rows=\"30\" cols=\"100%\" class=\"codemirror php\" id=\"codemirror_{$this->name}\" name=\"codemirror_{$this->name}\">{$this->value}</textarea>";
 
-        $config = midcom_helper_misc::get_snippet_content_graceful($this->_config->get('codemirror_config_snippet'));
-
-        $config = str_replace('{$id}', 'codemirror_' . $this->name, $config);
-        $config = str_replace('{$read_only}', '"nocursor"', $config);
-
-        midcom::get('head')->add_jquery_state_script($config);
         return $html;
     }
 }

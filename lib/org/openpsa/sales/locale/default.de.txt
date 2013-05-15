@@ -36,7 +36,10 @@ Angebot hinzufügen
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
-Die Vereinbarung "%s" endet planmäßig am %s. Klicken Sie hier für weitere Informationen: %s
+Die Vereinbarung "%s" endet planmäßig am %s.
+Klicken Sie hier für weitere Informationen:
+
+%s
 ---STRINGEND
 
 ---STRING calculation basis

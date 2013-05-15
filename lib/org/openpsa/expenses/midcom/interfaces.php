@@ -12,7 +12,7 @@
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver
+implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
 {
     /**
      * @inheritdoc
@@ -26,75 +26,25 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    /**
-     * Support for contacts person merge
-     */
-    function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
+    public function get_merge_configuration($object_mode, $merge_mode)
     {
-        switch($mode)
+        $config = array();
+        if ($merge_mode == 'future')
         {
-            case 'all':
-                break;
             /* In theory we could have future things (like resource/manager ships), but now we don't support that mode, we just exit */
-            case 'future':
-                return true;
-                break;
-            default:
-                // Mode not implemented
-                debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                return false;
-                break;
+            return $config;
         }
-
-        // Transfer links from classes we drive
-
-        // ** expense reports **
-        $qb_expense = org_openpsa_expenses_expense::new_query_builder();
-        $qb_expense->add_constraint('person', '=', $person2->id);
-        $expenses = $qb_expense->execute();
-        if ($expenses === false)
+        if ($object_mode == 'person')
         {
-            // Some error with QB
-            debug_add('QB Error / expenses', MIDCOM_LOG_ERROR);
-            return false;
+            $config['org_openpsa_expenses_expense'] = array
+            (
+                'person' => array
+                (
+                    'target' => 'id',
+                )
+            );
         }
-        foreach ($expenses as $expense)
-        {
-            debug_add("Transferred expense #{$expense->id} to person #{$person1->id} (from #{$expense->person})", MIDCOM_LOG_INFO);
-            $expense->person = $person1->id;
-            if (!$expense->update())
-            {
-                // Error updating
-                debug_add("Failed to update expense #{$expense->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // Transfer metadata dependencies from classes that we drive
-        $classes = array
-        (
-            'org_openpsa_expenses_expense',
-        );
-
-        $metadata_fields = array
-        (
-            'creator' => 'guid',
-            'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
-        );
-
-        foreach ($classes as $class)
-        {
-            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
-            if (!$ret)
-            {
-                // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // All done
-        return true;
+        return $config;
     }
 }
 ?>

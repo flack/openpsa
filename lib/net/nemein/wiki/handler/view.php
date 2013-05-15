@@ -214,10 +214,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             // Autoinitialize
             $this->_topic->require_do('midgard:create');
             $this->_page = net_nemein_wiki_viewer::initialize_index_article($this->_topic);
-            if ($this->_page)
-            {
-                return true;
-            }
+            return true;
         }
 
         $topic_qb = midcom_db_topic::new_query_builder();

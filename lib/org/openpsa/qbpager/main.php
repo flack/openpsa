@@ -34,10 +34,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_midcom_qb = midcom::get('dbfactory')->new_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
         $this->_midcom_qb_count = midcom::get('dbfactory')->new_query_builder($classname);
-        if (!$this->_sanity_check())
-        {
-            //TODO: throw error?
-        }
         $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
     }
 
@@ -46,11 +42,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     protected function _sanity_check()
     {
-        if (!is_object($this->_midcom_qb))
-        {
-            debug_add('this->_midcom_qb is not an object', MIDCOM_LOG_WARN);
-            return false;
-        }
         if (empty($this->_pager_id))
         {
             debug_add('this->_pager_id is not set (needed for distinguishing different instances on same request)', MIDCOM_LOG_WARN);

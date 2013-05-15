@@ -120,23 +120,29 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public function get_customer()
     {
-        try
-        {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
-        }
-        catch (midcom_error $e)
+        if (!empty($this->customer))
         {
             try
             {
-                $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+                return org_openpsa_contacts_group_dba::get_cached($this->customer);
             }
             catch (midcom_error $e)
             {
-                $customer = null;
                 $e->log();
             }
         }
-        return $customer;
+        if (!empty($this->customerContact))
+        {
+            try
+            {
+                return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
+        }
+        return null;
     }
 
     /**
@@ -189,10 +195,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
                     else
                     {
                         $to_sort['time'] = $object->end;
-                        if ($object->end < time())
-                        {
-                            //PONDER: Do something ?
-                        }
                         $sort_next[] = $to_sort;
                     }
                     break;

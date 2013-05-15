@@ -33,7 +33,6 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
             $qb->include_deleted();
             $qb->set_limit(500);
             $objects = $qb->execute();
-            unset($qb);
             if (!is_array($objects))
             {
                 debug_add("QB failed fatally on class {$mgdschema}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

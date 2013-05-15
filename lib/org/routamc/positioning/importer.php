@@ -41,25 +41,11 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
      */
     function normalize_coordinates($latitude, $longitude)
     {
-        $normalized_coordinates = Array
+        return array
         (
-            'latitude' => null,
-            'longitude' => null,
+            'latitude' => (float) $latitude,
+            'longitude' => (float) $longitude,
         );
-
-        if (!is_float($latitude))
-        {
-            // TODO: Convert to decimal
-        }
-        $normalized_coordinates['latitude'] = $latitude;
-
-        if (!is_float($longitude))
-        {
-            // TODO: Convert to decimal
-        }
-        $normalized_coordinates['longitude'] = $longitude;
-
-        return $normalized_coordinates;
     }
 
     /**

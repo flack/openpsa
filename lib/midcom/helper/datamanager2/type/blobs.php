@@ -289,10 +289,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         foreach ($this->attachments as $identifier => $attachment)
         {
-            $attachment = $this->attachments[$identifier];
             if (!mgd_is_guid($attachment->guid))
             {
-                unset($attachment);
                 continue;
             }
 
@@ -306,7 +304,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             }
 
             $data[] = "{$identifier}:{$attachment->guid}";
-            unset($attachment);
         }
 
         // We need to be selective when saving, excluding one case: empty list

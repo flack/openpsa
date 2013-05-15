@@ -298,7 +298,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_task'] = $task->title;
         $entry['task'] = '<a href="' . $task_url . '"><img class="status-icon" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/' . $task->get_icon() . '" /> ' . $task->title . '</a>';
         if (   $this->_request_data['view_identifier'] == 'my_tasks'
-       	    || $this->_request_data['view_identifier'] == 'project_tasks')
+            || $this->_request_data['view_identifier'] == 'project_tasks')
         {
             $entry['status_control'] = org_openpsa_projects_workflow::render_status_control($task);
             $status_type = $this->_get_status_type($task);
@@ -509,7 +509,7 @@ implements org_openpsa_widgets_grid_provider_client
         {
             $project = org_openpsa_projects_project::get_cached($task->project);
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $ret['parent'] = '<a href="' . $prefix . 'project/{$project->guid}/">' . $project->title . '</a>';
+            $ret['parent'] = '<a href="' . $prefix . 'project/' . $project->guid . '/">' . $project->title . '</a>';
             $ret['index_parent'] = $project->title;
 
         }

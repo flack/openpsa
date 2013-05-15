@@ -45,7 +45,7 @@ class net_nehmer_comments_spamchecker
 
         fclose($fp);
 
-        if (!stristr($buf,"-slv-1-/slv-"))
+        if (!stristr($buf, "-slv-1-/slv-"))
         {
             return self::SPAM;
         }

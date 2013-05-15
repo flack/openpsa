@@ -127,7 +127,6 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertEquals('', $widget->get_default(), 'simple test failed');
         $event->extra = serialize(array(2));
-        $event->update();
 
         $dm2_helper = new openpsa_test_dm2_helper($event);
         //Lazy workaround to reuse the default array from above

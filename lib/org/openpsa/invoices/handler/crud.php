@@ -82,7 +82,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
             }
         }
-        else if ($this->_object)
+        else if (   $this->_object
+                 && !empty($this->_object->customer))
         {
             try
             {
@@ -190,8 +191,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
             // we got a customer, set description default
             $this->_defaults['description'] = $dummy->get_default('remarks');
-
-            unset($dummy);
         }
         else
         {

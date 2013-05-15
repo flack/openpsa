@@ -553,8 +553,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         // 1st step: original image storage and auto-conversion
         if (   ! $this->_save_original_video())
         {
-            debug_add("Failed to save original video {$filename} in" .
-            "{$tmpname}, aborting.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to save original video {$filename} in {$tmpname}, aborting.", MIDCOM_LOG_ERROR);
 
             // Clean up
             $this->delete_all_attachments();
@@ -565,8 +564,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         // Prepare all other images
         if (!$this->_save_main_video())
         {
-            debug_add("Failed to save uploaded video {$filename} in {$tmpname}, aborting.",
-                MIDCOM_LOG_ERROR);
+            debug_add("Failed to save uploaded video {$filename} in {$tmpname}, aborting.", MIDCOM_LOG_ERROR);
 
             // Clean up
             $this->delete_all_attachments();

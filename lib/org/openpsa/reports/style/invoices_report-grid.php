@@ -61,15 +61,18 @@ foreach ($data['invoices'] as $invoice)
         $entry['number'] = $invoice->description;
     }
 
-    try
+    $entry['owner'] = '';
+    if (!empty($invoice->owner))
     {
-        $owner = org_openpsa_contacts_person_dba::get_cached($invoice->owner);
-        $entry['owner'] = $owner->name;
-    }
-    catch (midcom_error $e)
-    {
-        $entry['owner'] = '';
-        $e->log();
+        try
+        {
+            $owner = org_openpsa_contacts_person_dba::get_cached($invoice->owner);
+            $entry['owner'] = $owner->name;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
     }
 
     if ($invoice->{$data['date_field']} > 0)

@@ -157,19 +157,19 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.progressbar/js/progress.functions.js');
             midcom::get('head')->add_jscript
             (
-                "$(document).ready(function() {".
-                    "$(\".progressbar\").progressBar(".
-                    "{".
-                        "boxImage: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbar.gif',".
-                        "barImage: {".
-                            "0:  '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_red.gif',".
-                            "30: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_orange.gif',".
-                            "70: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_green.gif'".
-                            "},".
-                        "showText: true".
-                    "}".
-                    ");".
-                "});"
+                "$(document).ready(function() {
+                    $(\".progressbar\").progressBar(
+                    {
+                        boxImage: '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbar.gif',
+                        barImage: {
+                            0:  '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_red.gif',
+                            30: '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_orange.gif',
+                            70: '" . MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_green.gif'
+                            },
+                        showText: true
+                    }
+                    );
+                });"
             );
         }
 
@@ -185,14 +185,14 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     {
         if ($frozen)
         {
-            $html = "<table class=\"midcom_helper_datamanager2_widget_downloads\" id=\"{$this->_namespace}{$this->name}\" >\n" .
-                    "    <thead>\n" .
-                    "        <tr>\n" .
-                    "            <th class=\"filename\">" . $this->_l10n_midcom->get('name') . "</th>\n" .
-                    "            <th class=\"title\">" . $this->_l10n_midcom->get('title') . "</th>\n" .
-                    "        </tr>\n" .
-                    "    </thead>\n" .
-                    "    <tbody>\n";
+            $html = "<table class=\"midcom_helper_datamanager2_widget_downloads\" id=\"{$this->_namespace}{$this->name}\" >\n
+                         <thead>\n
+                             <tr>\n
+                                 <th class=\"filename\">" . $this->_l10n_midcom->get('name') . "</th>\n
+                                 <th class=\"title\">" . $this->_l10n_midcom->get('title') . "</th>\n
+                             </tr>\n
+                         </thead>\n
+                         <tbody>\n";
         }
         else
         {
@@ -202,16 +202,16 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $index = "            <th class=\"index\">" . $this->_l10n->get('index') . "</th>\n";
             }
 
-            $html = "<table class=\"midcom_helper_datamanager2_widget_downloads\" id=\"{$this->_namespace}{$this->name}\" >\n" .
-                    "    <thead>\n" .
-                    "        <tr>\n" .
+            $html = "<table class=\"midcom_helper_datamanager2_widget_downloads\" id=\"{$this->_namespace}{$this->name}\" >\n
+                         <thead>\n
+                             <tr>\n" .
                     $index .
-                    "            <th class=\"filename\">" . $this->_l10n_midcom->get('name') . "</th>\n" .
-                    "            <th class=\"title\">" . $this->_l10n_midcom->get('title') . "</th>\n" .
-                    "            <th class=\"upload\">" . $this->_l10n_midcom->get('upload') . "</th>\n" .
-                    "        </tr>\n" .
-                    "    </thead>\n" .
-                    "    <tbody>\n";
+                    "            <th class=\"filename\">" . $this->_l10n_midcom->get('name') . "</th>\n
+                                 <th class=\"title\">" . $this->_l10n_midcom->get('title') . "</th>\n
+                                 <th class=\"upload\">" . $this->_l10n_midcom->get('upload') . "</th>\n
+                             </tr>\n
+                         </thead>\n
+                         <tbody>\n";
         }
         $this->_elements['s_header'] = $this->_form->createElement('static', 's_header', '', $html);
     }
@@ -264,10 +264,9 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         if (! $frozen)
         {
             // Controls Column
-            $html = "</td>\n" .
-                    "<td class=\"new upload\">";
-            $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"" .
-                    "value=\"" . $this->progress_id . "\" />";
+            $html = "</td>\n<td class=\"new upload\">";
+            $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"
+                      value=\"" . $this->progress_id . "\" />";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
             $attributes = array
             (
@@ -296,8 +295,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             }
         }
 
-        $html = "</td>\n" .
-                "</tr>\n";
+        $html = "</td>\n</tr>\n";
         $this->_elements['s_new_file'] = $this->_form->createElement('static', 's_new_file', '', $html);
     }
 
@@ -325,9 +323,9 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         // Filename column
         $html = "<tr class=\"midcom_helper_datamanager2_widget_downloads_download\" title=\"{$info['guid']}\">\n" .
                 $sortable .
-                "<td class=\"exist filename\" title=\"{$info['filename']}\">\n" .
-                "<a href=\"{$info['url']}\" class=\"download\">{$info['filename']}</a>\n" .
-                "</td>\n";
+                "<td class=\"exist filename\" title=\"{$info['filename']}\">\n
+                 <a href=\"{$info['url']}\" class=\"download\">{$info['filename']}</a>\n
+                 </td>\n";
         $this->_elements["s_exist_{$identifier}_filename"] = $this->_form->createElement('static', "s_exist_{$identifier}_filename", '', $html);
 
         // Title Column, set the value explicitly, as we are sometimes called after the defaults kick in.
@@ -346,10 +344,9 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             // Controls Column
             if ($this->_type->attachments[$identifier]->can_do('midgard:update'))
             {
-                $html = "</td>\n" .
-                        "<td class=\"exist upload\">";
-                $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"" .
-                    "value=\"" . $this->progress_id . "\" />";
+                $html = "</td>\n<td class=\"exist upload\">";
+                $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"
+                          value=\"" . $this->progress_id . "\" />";
                 $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
                 $attributes = Array
                 (
@@ -389,8 +386,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             }
         }
 
-        $html = "</td>\n" .
-                "</tr>\n";
+        $html = "</td>\n</tr>\n";
         $this->_elements["s_exist_{$identifier}_file"] = $this->_form->createElement('static', "s_exist_{$identifier}_file", '', $html);
     }
 
@@ -401,8 +397,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _add_table_footer($frozen)
     {
-        $html = "</tbody>\n" .
-                "</table>\n";
+        $html = "</tbody>\n</table>\n";
         $this->_elements['s_footer'] = $this->_form->createElement('static', 's_footer', '', $html);
     }
 

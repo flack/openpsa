@@ -25,7 +25,7 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
     public function add_elements_to_form($attributes)
     {
         $elements = array();
-    	$attributes = array_merge($attributes, array('class' => 'shorttext', 'id' => $this->name . '_input'));
+        $attributes = array_merge($attributes, array('class' => 'shorttext', 'id' => $this->name . '_input'));
 
         $menu ='<label><input type="radio" name="org_openpsa_user_person_account_password_switch" value="0" checked="checked"/> ' . $this->_l10n->get("generate_password") . '
             </label>
@@ -54,7 +54,7 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
         $strings = json_encode($strings);
 
         $password_rules = '';
-    	foreach ($this->_config->get('password_score_rules') as $rule)
+        foreach ($this->_config->get('password_score_rules') as $rule)
         {
             $password_rules .= " if (password.match(" . $rule['match'] . ")){ score += " . $rule['score'] . ";}";
         }

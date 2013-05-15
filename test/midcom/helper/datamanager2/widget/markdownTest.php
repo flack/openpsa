@@ -44,7 +44,7 @@ class midcom_helper_datamanager2_widget_markdownTest extends openpsa_testcase
 
         $this->assertEquals('', $widget->get_default(), 'simple test failed');
         $topic->description = 'TEST';
-        $topic->update();
+
         $dm2_helper = new openpsa_test_dm2_helper($topic);
         //Lazy workaround to reuse the default array from above
         $dm2_helper->get_widget('markdown', 'text', array('storage' => 'description'));

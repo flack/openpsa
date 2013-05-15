@@ -625,7 +625,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             {
                 $linkinfo['class'] = $type;
             }
-            unset($type);
 
             $target = $ref->get_link_target($property);
 
@@ -634,14 +633,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             {
                 $linkinfo['target'] = $target;
             }
-            elseif ($linkinfo['type'] == MGD_TYPE_GUID)
+            else if ($linkinfo['type'] == MGD_TYPE_GUID)
             {
                 $linkinfo['target'] = 'guid';
             }
-            unset($target);
 
             $links[$property] = $linkinfo;
-            unset($linkinfo);
         }
 
         debug_print_r("Links for {$this->mgdschema_class}: ", $links);

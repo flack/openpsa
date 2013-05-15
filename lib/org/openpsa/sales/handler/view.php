@@ -220,6 +220,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED)
         {
             //declined, nothing to do...
+            return $toolbar;
         }
         else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
         {

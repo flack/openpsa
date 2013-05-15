@@ -2,9 +2,8 @@
 $title = $this->data['error_title'];
 $message = $this->data['error_message'];
 $code = $this->data['error_code'];
-
-echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">

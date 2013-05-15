@@ -106,7 +106,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             return $data;
         }
         $data = $stat;
-        unset($stat);
         return $data;
     }
 
@@ -127,11 +126,13 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         // GUID has precedence
         if (!empty($productdata['GUID']))
         {
-            $product = new org_openpsa_products_product_dba($productdata['GUID']);
-            if ($product->guid != $productdata['GUID'])
+            try
             {
-                // Could not fetch correct product
-                unset($product);
+                $product = new org_openpsa_products_product_dba($productdata['GUID']);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
             }
         }
         // FIXME, we should check the the field that has storaget set to code, not just the field 'code'

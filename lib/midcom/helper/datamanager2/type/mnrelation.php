@@ -221,8 +221,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         {
             throw new midcom_error
             (
-                'The configuration options mapping_class_name, master_filename and member_fieldname ' .
-                'must be defined for  any mnselect type.'
+                'The configuration options mapping_class_name, master_filename and member_fieldname
+                 must be defined for  any mnselect type.'
             );
         }
 

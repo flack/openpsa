@@ -60,6 +60,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
 
     public function testHandler_copy_tree()
     {
+        $this->create_object('midcom_db_topic', array('up' => self::$_object->id));
         $this->create_user(true);
         midcom::get('auth')->request_sudo('midgard.admin.asgard');
 

@@ -51,7 +51,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     /**
      * Checks for duplicate memberships returns true for NO duplicate memberships
      */
-    private function _check_duplicate_membership()
+    public function check_duplicate_membership()
     {
         $qb = new midgard_query_builder('org_openpsa_campaign_member');
         $qb->add_constraint('person', '=', $this->person);
@@ -81,12 +81,12 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
 
     public function _on_creating()
     {
-        return $this->_check_duplicate_membership();
+        return $this->check_duplicate_membership();
     }
 
     public function _on_updating()
     {
-        return $this->_check_duplicate_membership();
+        return $this->check_duplicate_membership();
     }
 
     /**

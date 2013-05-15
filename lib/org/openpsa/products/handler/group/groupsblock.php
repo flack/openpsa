@@ -80,10 +80,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
             $data['parent_category'] = $categories[0]->code;
         }
-        else
-        {
-            //do not set the parent category. The category is already a top category.
-        }
 
         $group_qb->add_constraint('up', '=', $data['parent_group']);
 

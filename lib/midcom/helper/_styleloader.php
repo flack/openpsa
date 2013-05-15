@@ -719,8 +719,7 @@ class midcom_helper__styleloader
         // Make sure try to use only the first argument if we get space separated list, fixes #1788
         if (strpos($newsub, ' ') !== false)
         {
-            list ($newsub, $ignore) = explode(' ', $newsub, 2);
-            unset($ignore);
+            $newsub = preg_replace('/^(.+?) .+/', '$1', $newsub);
         }
 
         if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE)

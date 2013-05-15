@@ -55,9 +55,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
                 }
                 $new_tag_array[$tagname] = $url;
             }
-            unset($tagname, $url);
             $tag_array = $new_tag_array;
-            unset($new_tag_array);
         }
         $status = net_nemein_tag_handler::tag_object($this->storage->object, $tag_array);
         if (!$status)

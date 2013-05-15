@@ -234,7 +234,6 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             {
                 call_user_func($callback, $callback_args);
             }
-            unset($callback, $callback_args);
         }
         unset($callbacks);
         $html = '';

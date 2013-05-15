@@ -146,12 +146,9 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
                 $field_val = $mc->get_subkey($mc_key, $fieldname);
                 $ret[$key] .= "{$field_val} ";
             }
-            unset($fieldname, $field_val);
 
             $ret = $ret + self::list_groups($id, "{$prefix} > ", $keyproperty, $order_by_score, $label_fields);
-            unset($id, $key);
         }
-        unset($mc, $mc_keys, $dummy, $mc_key);
 
         return $ret;
     }

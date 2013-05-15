@@ -284,10 +284,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $this->_request_data['parent_category'] = $categories[0]->code;
             }
         }
-        else
-        {
-            //do not set the parent category. The category is already a top category.
-        }
         org_openpsa_widgets_grid::add_head_elements();
     }
 

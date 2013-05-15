@@ -368,9 +368,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         // Store the arguments for later use
         $data['args'] = $args;
 
-        // Disable the "Show history" button when we're at its view
-        $this->_view_toolbar->hide_item("__mfa/asgard/object/rcs/{$this->_guid}/");
-
         // Load the toolbars
         $this->_rcs_toolbar();
 

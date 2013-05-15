@@ -129,12 +129,15 @@ implements midcom_helper_datamanager2_interfaces_create
                 }
                 else
                 {
-                    $created_page = net_nemein_wiki_viewer::initialize_index_article($topic);
-                    if (!$created_page)
+                    try
+                    {
+                        $created_page = net_nemein_wiki_viewer::initialize_index_article($topic);
+                    }
+                    catch (midcom_error $e)
                     {
                         // Could not create index
                         $topic->delete();
-                        throw new midcom_error("Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
+                        throw $e;
                     }
                 }
                 // We have created a new topic, now recurse to create the rest of the path.

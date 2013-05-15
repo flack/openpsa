@@ -21,7 +21,8 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         $topic_attributes = array
         (
             'component' => 'net.nemein.wiki',
-            'name' => __CLASS__ . time()
+            'name' => __CLASS__ . time(),
+            'extra' => __CLASS__ . time()
         );
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
         $article_properties = array
@@ -37,9 +38,15 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('net.nemein.wiki');
 
-        $url = $this->run_relocate_handler(self::$_topic);
-        $this->assertEquals('notfound/index/', $url);
+        $data = $this->run_handler(self::$_topic);
+        $this->assertEquals('start', $data['handler_id']);
 
+        $qb = net_nemein_wiki_wikipage::new_query_builder();
+        $qb->add_constraint('topic', '=', self::$_topic->id);
+        $qb->add_constraint('name', '=', 'index');
+        $results = $qb->execute();
+        $this->register_objects($results);
+        $this->assertEquals(1, sizeof($results));
         midcom::get('auth')->drop_sudo();
     }
 

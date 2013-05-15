@@ -13,7 +13,7 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver
+implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
 {
     /**
      * Prepares the component's indexer client
@@ -98,141 +98,29 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    /**
-     * Support for contacts person merge
-     */
-    function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
+    public function get_merge_configuration($object_mode, $merge_mode)
     {
-        switch($mode)
+        $config = array();
+        if ($merge_mode == 'future')
         {
-            case 'all':
-                break;
-            case 'future':
-                // Contacts does not have future references so we have nothing to transfer...
-                return true;
-                break;
-            default:
-                // Mode not implemented
-                debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                return false;
-                break;
+            // Contacts does not have future references so we have nothing to transfer...
+            return $config;
         }
-        $qb = midcom_db_member::new_query_builder();
-        $qb->begin_group('OR');
-            // We need the remaining persons memberships later when we compare the two
-            $qb->add_constraint('uid', '=', $person1->id);
-            $qb->add_constraint('uid', '=', $person2->id);
-        $qb->end_group();
-        $members = $qb->execute();
-        if ($members === false)
+        if ($object_mode == 'person')
         {
-            // Some error with QB
-            debug_add('QB Error', MIDCOM_LOG_ERROR);
-            return false;
+            $config['midcom_db_member'] = array
+            (
+                'uid' => array
+                (
+                    'target' => 'id',
+                    'duplicate_check' => 'gid'
+                )
+            );
+            $config['org_openpsa_contacts_person_dba'] = array();
+            $config['org_openpsa_contacts_group_dba'] = array();
+
         }
-        // Transfer memberships
-        $membership_map = array();
-        foreach ($members as $member)
-        {
-            if ($member->uid != $person1->id)
-            {
-                debug_add("Transferred membership #{$member->id} to person #{$person1->id} (from #{$member->uid})");
-                $member->uid = $person1->id;
-            }
-            if (empty($membership_map[$member->gid]))
-            {
-                $membership_map[$member->gid] = array();
-            }
-            $membership_map[$member->gid][] = $member;
-        }
-        unset($members);
-        // Merge memberships
-        foreach ($membership_map as $members)
-        {
-            foreach ($members as $member)
-            {
-                if (count($members) == 1)
-                {
-                    // We only have one membership in this group, skip rest of the logic
-                    if (!$member->update())
-                    {
-                        // Failure updating member
-                        debug_add("Failed to update member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                        return false;
-                    }
-                    continue;
-                }
-
-                // TODO: Compare memberships to determine which of them are identical and thus not worth keeping
-
-                if (!$member->update())
-                {
-                    // Failure updating member
-                    debug_add("Failed to update member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    return false;
-                }
-            }
-        }
-
-        // Transfer metadata dependencies from classes that we drive
-        $classes = array
-        (
-            'midcom_db_member',
-            'org_openpsa_contacts_person_dba',
-            'org_openpsa_contacts_group_dba'
-        );
-
-        $metadata_fields = array
-        (
-            'creator' => 'guid',
-            'revisor' => 'guid' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
-        );
-
-        foreach ($classes as $class)
-        {
-            $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
-            if (!$ret)
-            {
-                // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-
-        // Copy fields missing from person1 and present in person2 over
-        $skip_properties = array
-        (
-            'id' => true,
-            'guid' => true,
-        );
-        $changed = false;
-        foreach ($person2 as $property => $value)
-        {
-            // Copy only simple properties not marked to be skipped missing from person1
-            if (   empty($person2->$property)
-                || !empty($person1->$property)
-                || isset($skip_properties[$property])
-                || is_array($value)
-                || is_object($value))
-            {
-                continue;
-            }
-            $person1->$property = $value;
-            $changed = true;
-        }
-        // Avoid unnecessary updates
-        if ($changed)
-        {
-            if (!$person1->update())
-            {
-                // Error updating person
-                debug_add("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-        // PONDER: sensible way to do the same for parameters ??
-
-        return true;
+        return $config;
     }
 
     private function _get_data_from_url($url)
@@ -369,10 +257,8 @@ implements midcom_services_permalinks_resolver
             {
                 $latitude = (float) $icbm_parts[0];
                 $longitude = (float) $icbm_parts[1];
-                if (   (   $latitude < 90
-                        && $latitude > -90)
-                    && (   $longitude < 180
-                        && $longitude > -180))
+                if (   abs($latitude) < 90
+                    && abs($longitude) < 180)
                 {
                     $location = new org_routamc_positioning_location_dba();
                     $location->date = time();
@@ -383,10 +269,6 @@ implements midcom_services_permalinks_resolver
                     $location->parentclass = 'org_openpsa_contacts_group_dba';
                     $location->parentcomponent = 'org.openpsa.contacts';
                     $location->create();
-                }
-                else
-                {
-                    // This is no earth coordinate, my friend
                 }
             }
         }
