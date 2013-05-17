@@ -105,7 +105,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 // Create the schema instance
                 $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
 
-                $this->_schemadb->default->fields['name']['required'] = 0;
                 $this->_controller = midcom_helper_datamanager2_controller::create('create');
                 $this->_controller->schemadb =& $this->_schemadb;
                 $this->_controller->schemaname = 'link';
