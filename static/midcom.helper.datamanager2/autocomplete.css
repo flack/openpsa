@@ -118,6 +118,16 @@
     background-position: -32px -192px
 }
 
+.autocomplete-selected .autocomplete-action-icon:hover,
+.autocomplete-saved .autocomplete-action-icon:hover
+{
+    background-position: -32px -192px
+}
+.autocomplete-todelete .autocomplete-action-icon:hover
+{
+    background-position: -208px -192px
+}
+
 .autocomplete-todelete .autocomplete-item-label
 {
     opacity: .6;
