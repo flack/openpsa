@@ -62,6 +62,10 @@ class midcom_helper_datamanager2_qfrule_manager
         foreach ($this->_available[$type] as $rule_name)
         {
             $rule_class = "midcom_helper_datamanager2_qfrule_{$rule_name}";
+            if (!class_exists($rule_class))
+            {
+                continue;
+            }
 
             $stat = $this->_form->registerRule($rule_name, null, new $rule_class);
             if (is_a($stat, 'pear_error'))
