@@ -75,7 +75,7 @@
                  'options' => array(),
                  'multiple_storagemode' => 'imploded_wrapped',
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'article',
