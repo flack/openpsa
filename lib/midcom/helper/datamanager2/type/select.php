@@ -281,7 +281,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         }
         catch (midcom_error $e)
         {
-            debug_add('Failed to load ' . $class . ' ' . $key . ': ' . $e->getMessage());
+            debug_add('Failed to load ' . $widget_config['class'] . ' ' . $key . ': ' . $e->getMessage());
             return null;
         }
         $field_options = $widget_config['titlefield'];
