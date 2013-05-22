@@ -117,7 +117,7 @@ jQuery.fn.create_tablesorter = function(options)
                             var name = jQuery(this).attr('name');
                             name = '___' + name;
                             jQuery(this).attr('name', name);
-                            jQuery(this).attr('disabled', 'disabled');
+                            jQuery(this).prop('disabled', true);
                         });
                 },
                 function()
@@ -129,7 +129,7 @@ jQuery.fn.create_tablesorter = function(options)
                             var name = jQuery(this).attr('name');
                             name = name.replace(/^___/, '');
                             jQuery(this).attr('name', name);
-                            jQuery(this).attr('disabled', '');
+                            jQuery(this).prop("disabled", false);
                         });
                         
                 }
@@ -470,13 +470,13 @@ jQuery.fn.delete_column = function(column_id, options)
     {
         jQuery(options.table_id).find('.' + column_id)
             .removeClass('deleted')
-            .find('input, select, textarea').attr('disabled', '');
+            .find('input, select, textarea').prop('disabled', false);
     }
     else
     {
         jQuery(options.table_id).find('.' + column_id)
             .addClass('deleted')
-            .find('input, select, textarea').attr('disabled', 'disabled');
+            .find('input, select, textarea').prop('disabled', true);
     }
     
     if (jQuery(this).hasClass('deleted'))
