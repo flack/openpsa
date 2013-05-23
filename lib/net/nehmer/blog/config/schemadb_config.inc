@@ -130,7 +130,7 @@
                     'options' => array (),
                     'multiple_storagemode' => 'imploded_wrapped',
                 ),
-                'widget' => 'chooser',
+                'widget' => 'autocomplete',
                 'widget_config' => array
                 (
                     'class'       => 'midcom_db_topic',
@@ -170,7 +170,7 @@
                             'title' => midcom::get('i18n')->get_string('name', 'midcom'),
                         ),
                     ),
-                    'generate_path_for' => 'extra',
+                    'categorize_by_parent_label' => true,
                     'orders' => array
                     (
                         array
@@ -388,7 +388,7 @@
                     'allow_other' => true,
                     'allow_multiple' => false,
                 ),
-                'widget' => 'chooser',
+                'widget' => 'autocomplete',
                 'widget_config' => array
                 (
                     'class'       => 'midcom_db_topic',
@@ -428,7 +428,7 @@
                             'title' => midcom::get('i18n')->get_string('name', 'midcom'),
                         ),
                     ),
-                    'generate_path_for' => 'extra',
+                    'categorize_by_parent_label' => true,
                     'orders' => array
                     (
                         array

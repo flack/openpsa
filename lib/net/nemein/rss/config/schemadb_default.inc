@@ -46,7 +46,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_person',
@@ -87,7 +87,7 @@
                 'require_corresponding_option' => false,
                 'options' => array(),
             ),
-            'widget'  => 'chooser',
+            'widget'  => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'midcom_db_language',

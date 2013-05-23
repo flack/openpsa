@@ -58,7 +58,7 @@
                 'allow_other' => true,
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class'       => 'midcom_db_topic',
