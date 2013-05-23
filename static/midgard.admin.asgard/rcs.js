@@ -10,7 +10,7 @@ jQuery(document).ready(function()
     {
         toggle_checkbox(this);
         
-        if (jQuery(this).attr('checked'))
+        if (jQuery(this).is(':checked'))
         {
             jQuery(this.parentNode.parentNode).addClass('selected');
         }
@@ -25,7 +25,7 @@ jQuery(document).ready(function()
         var count = 0;
         jQuery('#midgard_admin_asgard_rcs_version_compare').find('tbody td input[type="checkbox"]').each(function(i)
         {
-            if (jQuery(this).attr('checked'))
+            if (jQuery(this).is(':checked'))
             {
                 count++;
             }
@@ -43,14 +43,14 @@ jQuery(document).ready(function()
 
 function toggle_checkbox(object)
 {
-    if (!jQuery(object).attr('checked'))
+    if (!jQuery(object).is(':checked'))
     {
         return;
     }
     
     if (prev[1])
     {
-        jQuery('#' + prev[1]).attr('checked', '');
+        jQuery('#' + prev[1]).prop('checked', false);
         jQuery('#' + prev[1] + '_row').removeClass('selected');
     }
     

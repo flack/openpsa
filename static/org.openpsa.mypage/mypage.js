@@ -37,7 +37,7 @@ var org_openpsa_workingon =
     {
         $('#org_openpsa_mypage_workingon_loading').hide();
         $('#org_openpsa_mypage_workingon_start')
-            .attr("disabled", "disabled")
+            .prop("disabled", true)
             .bind('click', function()
             {
                 send_working_on('start');
@@ -63,11 +63,11 @@ var org_openpsa_workingon =
         midcom_helper_datamanager2_autocomplete.select(event, ui);
         if ($('#working_task_selection').val() !== '')
         {
-            $('#org_openpsa_mypage_workingon_start').removeAttr("disabled");
+            $('#org_openpsa_mypage_workingon_start').prop("disabled", false);
         }
         else
         {
-            $('#org_openpsa_mypage_workingon_start').attr("disabled", "disabled");
+            $('#org_openpsa_mypage_workingon_start').prop("disabled", true);
         }
     }
 

@@ -1,22 +1,22 @@
 jQuery.fn.check_all = function(target)
 {
-    var checked = jQuery(this).attr('checked') ? true : false;
+    var checked = jQuery(this).is(':checked');
     
     jQuery(target).find("input[type='checkbox']").each(function(i)
     {
         // Skip the write protected
-        if (jQuery(this).attr('disabled'))
+        if (jQuery(this).is(':disabled'))
         {
             return;
         }
         
         if (checked)
         {
-            jQuery(this).attr('checked', 'checked');
+            jQuery(this).prop('checked', true);
         }
         else
         {
-            jQuery(this).attr('checked', '');
+            jQuery(this).prop('checked', false);
         }
         
         // Trigger the onChange event of the input
@@ -29,25 +29,18 @@ jQuery.fn.invert_selection = function(target)
     jQuery(target).find("input[type='checkbox']").each(function(i)
     {
         // Skip the write protected
-        if (jQuery(this).attr('disabled'))
+        if (jQuery(this).is(':disabled'))
         {
             return;
         }
         
-        if (jQuery(this).attr('checked'))
-        {
-            jQuery(this).attr('checked', '');
-        }
-        else
-        {
-            jQuery(this).attr('checked', 'checked');
-        }
+        jQuery(this).prop('checked', !jQuery(this).is(':checked'));
         
         // Trigger the onChange event of the input
         jQuery(this).change();
     });
     
-    jQuery(this).attr('checked', '');
+    jQuery(this).prop('checked', false);
 }
 
 jQuery(document).ready(function()
@@ -73,7 +66,7 @@ jQuery(document).ready(function()
                 }
             }
             
-            if (jQuery(this).attr('checked'))
+            if (jQuery(this).is(':checked'))
             {
                 jQuery(object).addClass('row_selected');
             }

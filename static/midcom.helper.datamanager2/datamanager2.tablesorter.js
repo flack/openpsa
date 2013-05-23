@@ -4,10 +4,7 @@ var change_label = function()
 {
     var field_name = prompt(COLUMN_TITLE, jQuery(this).parent().find('input.field_name').val());
     jQuery(this).html(field_name);
-    jQuery(this).parent().find('input.field_name').attr(
-    {
-        value: field_name
-    });
+    jQuery(this).parent().find('input.field_name').val(field_name);
 }
 
 
@@ -481,12 +478,9 @@ jQuery.fn.delete_column = function(column_id, options)
     
     if (jQuery(this).hasClass('deleted'))
     {
-        jQuery('<input type="hidden" />')
+        jQuery('<input type="hidden" name="midcom_helper_datamanager2_tabledata_widget_delete[' + options.field_name + '][]"/>')
             .addClass('delete_input')
-            .attr({
-                name: 'midcom_helper_datamanager2_tabledata_widget_delete[' + options.field_name + '][]',
-                value: column_id
-            })
+            .val(column_id)
             .appendTo(jQuery(this));
     }
     else
@@ -539,13 +533,9 @@ jQuery.fn.initialize_column_creation = function(options)
                 .appendTo('#new_column_' + timestamp);
             
             // Input for changing the column name
-            jQuery('<input type="hidden" />')
+            jQuery('<input type="hidden" id="new_column_' + timestamp + '_input" name="midcom_helper_datamanager2_sortable_column[' + options.field_name + '][new_' + timestamp + ']" />')
                 .addClass('field_name')
-                .attr({
-                    id: '#new_column_' + timestamp + '_input',
-                    name: 'midcom_helper_datamanager2_sortable_column[' + options.field_name + '][new_' + timestamp + ']',
-                    value: field_name
-                })
+                .val(field_name)
                 .appendTo(jQuery('#new_column_' + timestamp));
             
             // Insert a new column for each row

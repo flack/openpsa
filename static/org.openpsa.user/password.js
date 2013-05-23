@@ -169,11 +169,11 @@
         //set or remove disabled attribute of the submit button accordingly
         if (disabled)
         {
-            $(opts.submit_button).attr("disabled", "disabled");
+            $(opts.submit_button).prop("disabled", true);
         }
         else
         {
-            $(opts.submit_button).removeAttr("disabled");
+            $(opts.submit_button).prop("disabled", false);
         }
     };
 

@@ -283,7 +283,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             if ($this->show_progressbar)
             {
                 $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
-                $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
+                $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).prop('disabled', true)";
                 $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
             }
             $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
@@ -363,7 +363,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 if ($this->show_progressbar)
                 {
                     $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
-                    $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).attr('disabled', 'true')";
+                    $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).prop('disabled', true)";
                     $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
                 }
                 $this->_elements["s_exist_{$identifier}_br"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");

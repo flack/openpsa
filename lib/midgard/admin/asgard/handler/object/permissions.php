@@ -78,7 +78,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_privileges[] = 'midcom:approve';
         }
 
-        $script = "function submit_privileges(form){jQuery('#submit_action',form).attr({name: 'midcom_helper_datamanager2_add', value: 'add'});form.submit();};function applyRowClasses(){jQuery('.maa_permissions_items tr.maa_permissions_rows_row:odd').addClass('odd');jQuery('.maa_permissions_items tr.maa_permissions_rows_row:even').addClass('even');};";
+        $script = "function submit_privileges(form){jQuery('#submit_action',form).attr({name: 'midcom_helper_datamanager2_add'}).val('add');form.submit();};function applyRowClasses(){jQuery('.maa_permissions_items tr.maa_permissions_rows_row:odd').addClass('odd');jQuery('.maa_permissions_items tr.maa_permissions_rows_row:even').addClass('even');};";
         midcom::get('head')->add_jscript($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/permissions/layout.css');
