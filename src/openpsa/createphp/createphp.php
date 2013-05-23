@@ -21,7 +21,7 @@ class createphp
 {
     /**
      *
-     * @var RdfMapperInterface
+     * @var Midgard\CreatePHP\Manager
      */
     private $_manager;
 
@@ -99,6 +99,12 @@ class createphp
      */
     private function _get_rdf_schema_name(array $data = null)
     {
+        $object = $this->get_object($data);               
+        return get_class($object);
+    }
+
+    public function get_object(array $data = null)
+    {
         if (!empty($data))
         {
             $object = $this->_mapper->getBySubject(trim($data['@subject'], '<>'));
@@ -107,9 +113,10 @@ class createphp
         {
             $object = $this->_mapper->getBySubject(trim($_GET['subject'], '<>'));
         }
-        return get_class($object);
+        
+        return $object;
     }
-
+    
     /**
      *
      * @param array $data
@@ -121,14 +128,15 @@ class createphp
         {
             $data = array();
         }
+
         if (!$rdf_schema_name)
         {
             $rdf_schema_name = $this->_get_rdf_schema_name($data);
         }
 
         $service = $this->_manager->getResthandler();
-        $controller = $this->_manager->getType($rdf_schema_name);
-
+        $controller = $this->_manager->getType($rdf_schema_name);       
+                
         return new \midcom_response_json($service->run($data, $controller));
     }
 
