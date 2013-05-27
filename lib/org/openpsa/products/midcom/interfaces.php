@@ -237,13 +237,13 @@ implements midcom_services_permalinks_resolver
         $root_groups = $qb->execute();
         foreach ($root_groups as $group)
         {
-            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $group, $topic, $config);
+            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $group, $config);
         }
 
         return true;
     }
 
-    public function _on_reindex_tree_iterator(&$indexer, &$dms, &$topic, &$group, &$topic, &$config)
+    public function _on_reindex_tree_iterator(&$indexer, &$dms, &$topic, &$group, &$config)
     {
         if ($dms['group']->autoset_storage($group))
         {
@@ -289,7 +289,7 @@ implements midcom_services_permalinks_resolver
         }
         foreach ($subgroups as $subgroup)
         {
-            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $topic, $config);
+            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
         }
 
         return true;
