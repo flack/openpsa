@@ -135,7 +135,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $e->log();
             }
         }
-        // FIXME, we should check the the field that has storaget set to code, not just the field 'code'
+        // FIXME, we should check the field that has storage set to code, not just the field 'code'
         else if (isset($productdata['code']))
         {
             // FIXME: the product group should be taken into account here, codes are quaranteed to be unique only within the group

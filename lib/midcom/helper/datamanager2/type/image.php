@@ -179,7 +179,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * of which attachments have been updated already when replacing an existing
      * image. All attachments still listed here after a set_image call will
      * be deleted. This keeps attachment GUIDs stable during updates but also
-     * adds resilience against against changed type configuration.
+     * adds resilience against changed type configuration.
      *
      * @var Array
      */
