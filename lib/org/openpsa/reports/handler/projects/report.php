@@ -346,7 +346,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             }
             else
             {
-                debug_add(sprinf("\"%s\" is not a valid grouping, keeping default", $this->_request_data['query_data']['grouping']), MIDCOM_LOG_WARN);
+                debug_add(sprintf("\"%s\" is not a valid grouping, keeping default", $this->_request_data['query_data']['grouping']), MIDCOM_LOG_WARN);
             }
         }
 

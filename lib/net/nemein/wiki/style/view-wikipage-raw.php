@@ -9,6 +9,6 @@ if ($view['content'] != '')
 }
 else
 {
-    echo "<p class=\"stub\">".$GLOBALS['request_data']['l10n']->get('this page is stub')."</p>";
+    echo "<p class=\"stub\">" . $data['l10n']->get('this page is stub')."</p>";
 }
 ?>

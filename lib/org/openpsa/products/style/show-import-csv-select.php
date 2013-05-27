@@ -61,7 +61,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo "            <option></option>\n";
 
                     // Show fields from "default" schemas as selectors
-                    foreach ($fields as $field)
+                    foreach ($fields as $field_id => $field)
                     {
                         $selected = '';
                         if (!empty($field['hidden']))
@@ -71,7 +71,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                             continue;
                         }
 
-                        $field_label = $schemadb[$data['schema']]->translate_schema_string($field['title']);
+                        $field_label = $data['schemadb'][$data['schema']]->translate_schema_string($field['title']);
                         if ($cell == $field_label)
                         {
                             $selected = ' selected';
