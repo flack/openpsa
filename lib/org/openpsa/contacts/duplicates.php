@@ -337,7 +337,7 @@ class org_openpsa_contacts_duplicates
         $results = $mc->list_keys();
         if (empty($results))
         {
-            return $ret;
+            return $persons;
         }
 
         foreach ($results as $guid => $result)

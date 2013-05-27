@@ -773,7 +773,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         if (!array_key_exists($images_identifier, $this->images))
         {
-            debug_add("identifier '{$identifier}' not found in \$this->images", MIDCOM_LOG_ERROR);
+            debug_add("identifier '{$images_identifier}' not found in \$this->images", MIDCOM_LOG_ERROR);
             return false;
         }
         foreach ($this->images[$images_identifier] as $sub_identifier => $info)
