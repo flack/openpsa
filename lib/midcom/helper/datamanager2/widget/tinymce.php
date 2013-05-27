@@ -351,21 +351,6 @@ EOT;
 
         $this->height = 25;
         $this->width = 80;
-
-        if ($this->use_imagepopup)
-        {
-            if ($this->_type->storage->object)
-            {
-                // We have an object, register the schema using that object
-                $this->_schema->register_to_session($this->_type->storage->object->guid);
-            }
-            else
-            {
-                // No object has been created yet. Therefore, we register the schema for the topic GUID
-                $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-                $this->_schema->register_to_session($topic->guid);
-            }
-        }
     }
 
     /**

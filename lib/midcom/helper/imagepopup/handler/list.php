@@ -179,72 +179,36 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     }
 
     /**
-     * Loads and filters the schema from the session.
+     * Loads the schema.
      */
     private function _load_schema()
     {
-        if ($this->_request_data['object'])
-        {
-            $key = "{$this->_request_data['schema_name']}{$this->_request_data['object']->guid}";
-        }
-        else
-        {
-            $key = "{$this->_request_data['schema_name']}{$this->_request_data['folder']->guid}";
-        }
-
-        $session = midcom::get('session');
-
-        if ($session->exists('midcom.helper.datamanager2', $key))
-        {
-            $schema = $session->get('midcom.helper.datamanager2', $key);
-        }
-        else
-        {
-            $schema = array
-            (
-                'description' => 'generated schema',
-                'fields' => array(),
-            );
-        }
-
-        $imagetypes = array
+        $schema = array
         (
-            'images'=> true,
-            'image' => false,
-        );
-
-        foreach ($schema['fields'] as  $key => $field)
-        {
-            if (   !array_key_exists($field['type'], $imagetypes)
-                || $imagetypes[$field['type']] == false)
-            {
-                // This schema field isn't an image field, remove from schema
-                unset ($schema['fields'][$key]);
-            }
-        }
-        if (count($schema['fields']) == 0)
-        {
-            // No image fields natively in the schema, add one
-            $schema['fields']['midcom_helper_imagepopup_images'] = Array
+            'description' => 'generated schema',
+            'fields' => array
             (
-                'title' => $this->_l10n->get('images'),
-                'storage' => null,
-                'type' => 'images',
-                'widget' => 'images',
-                'widget_config' => array
+                'midcom_helper_imagepopup_images' => array
                 (
-                    'set_name_and_title_on_upload' => false
+                    'title' => $this->_l10n->get('images'),
+                    'storage' => null,
+                    'type' => 'images',
+                    'widget' => 'images',
+                    'widget_config' => array
+                    (
+                        'set_name_and_title_on_upload' => false
+                    ),
                 ),
-            );
 
-            $schema['fields']['midcom_helper_imagepopup_files'] = Array
-            (
-                'title' => $this->_l10n->get('files'),
-                'storage' => null,
-                'type' => 'blobs',
-                'widget' => 'downloads',
-            );
-        }
+                'midcom_helper_imagepopup_files' => array
+                (
+                    'title' => $this->_l10n->get('files'),
+                    'storage' => null,
+                    'type' => 'blobs',
+                    'widget' => 'downloads',
+                )
+            )
+        );
 
         $schema_object = new midcom_helper_datamanager2_schema
         (
