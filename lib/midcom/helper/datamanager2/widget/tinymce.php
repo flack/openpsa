@@ -429,7 +429,7 @@ EOT;
         $new_element = new HTML_QuickForm_hidden($original_element->getName(), $original_element->getLabel());
         $new_element->setValue($original_element->getValue());
 
-        $value_container = HTML_QuickForm::createElement('static', $original_element->getName() . '_previews', $original_element->getLabel(), $original_element->getValue());
+        $value_container = $this->_form->createElement('static', $original_element->getName() . '_previews', $original_element->getLabel(), $original_element->getValue());
 
         if (isset($name_after))
         {
