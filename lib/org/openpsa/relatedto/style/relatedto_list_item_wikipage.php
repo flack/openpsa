@@ -18,5 +18,5 @@ $author_card = org_openpsa_widgets_contact::get($page->metadata->creator);
     <div id="org_openpsa_relatedto_details_url_&(page.guid);" style="display: none;" title="&(data['page_url']);raw/&(page.name);/"></div>
     <div id="org_openpsa_relatedto_details_&(page.guid);" class="details hidden" style="display: none;">
     </div>
-    <?php echo org_openpsa_relatedto_handler_relatedto::render_line_controls($link, $data['other_obj']); ?>
+    <?php org_openpsa_relatedto_handler_relatedto::render_line_controls($link, $data['other_obj']); ?>
 </li>

@@ -250,7 +250,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             //delivered, invoiced
             if ($deliverable->invoiced > 0)
             {
-                $toolbar .= "<p>" . $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced, 2) . "</p>\n";
+                $toolbar .= "<p>" . $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced) . "</p>\n";
             }
         }
         else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION

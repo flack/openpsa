@@ -57,7 +57,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         }
 
         //Check for duplicate(s) (for some reason at times the automagic actions in task object try to create duplicate statuses)
-        $mc = self::new_collector('task', '=', $this->task);
+        $mc = self::new_collector('task', $this->task);
         $mc->add_constraint('type', '=', $this->type);
         $mc->add_constraint('timestamp', '=', $this->timestamp);
         $mc->add_constraint('comment', '=', $this->comment);

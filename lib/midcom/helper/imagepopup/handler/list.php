@@ -107,7 +107,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     {
         // Run datamanager for handling the images
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb = $this->_load_schema($data['schema_name']);
+        $this->_controller->schemadb = $this->_load_schema();
         $this->_controller->schemaname = $data['schema_name'];
 
         if ($data['list_type'] == 'page')
