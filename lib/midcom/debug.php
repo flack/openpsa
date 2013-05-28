@@ -245,15 +245,15 @@ class midcom_debug
     }
 
     /**
-     * Dump a variable (by reference)
+     * Dump a variable
      *
      * @param string $message    The message to be logged
-     * @param mixed &$variable    The variable to be logged
+     * @param mixed $variable    The variable to be logged
      * @param int $loglevel        The log level
      */
-    function print_r($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
+    function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   ! $this->_enabled
+        if (   !$this->_enabled
             || $this->_loglevel < $loglevel)
         {
             return;
@@ -270,7 +270,7 @@ class midcom_debug
             $type .= ": " . get_class($variable);
         }
 
-        $this->log (trim ($message) . "\nVariable Type: $type\n" . $varstring, $loglevel);
+        $this->log(trim($message) . "\nVariable Type: $type\n" . $varstring, $loglevel);
     }
 
     /**
@@ -397,13 +397,13 @@ function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
 }
 
 /**
- * Shortcut: Dump a variable (by reference)
+ * Shortcut: Dump a variable
  *
  * @param string $message    The message to be logged
- * @param mixed &$variable    The variable to be logged
+ * @param mixed $variable    The variable to be logged
  * @param int $loglevel        The log level
  */
-function debug_print_r($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
+function debug_print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get('debug')->print_r($message, $variable, $loglevel);
 }
