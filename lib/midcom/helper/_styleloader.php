@@ -423,16 +423,21 @@ class midcom_helper__styleloader
         $this->_styledirs_count[$context->id] = 1;
         $this->_styledirs[$context->id][0] = $this->_snippetdir;
 
-        $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-
-        if (   $root_topic
-            && $root_topic->style)
+        try
         {
-            $db_style = $this->get_style_id_from_path($root_topic->style);
-            if ($db_style)
+            $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+            if ($root_topic->style)
             {
-                $_style = $this->_get_element_in_styletree($db_style, $_element);
+                $db_style = $this->get_style_id_from_path($root_topic->style);
+                if ($db_style)
+                {
+                    $_style = $this->_get_element_in_styletree($db_style, $_element);
+                }
             }
+        }
+        catch (midcom_error_forbidden $e)
+        {
+            $e->log();
         }
 
         if ($_style === false)
