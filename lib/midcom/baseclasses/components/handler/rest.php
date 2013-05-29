@@ -285,7 +285,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * @param string $message
      * @param int $statuscode
      */
-    protected function _stop($message, $statuscode)
+    protected function _stop($message, $statuscode = 500)
     {
         $this->_responseStatus = $statuscode;
         $this->_send_response($message);
