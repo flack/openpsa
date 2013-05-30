@@ -7,6 +7,15 @@ var change_label = function()
     jQuery(this).parent().find('input.field_name').val(field_name);
 }
 
+jQuery.fn.toggleClick = function(){
+    var functions = arguments;
+    return this.click(function(){
+            var iteration = $(this).data('iteration') || 0;
+            functions[iteration].apply(this, arguments);
+            iteration = (iteration + 1) % functions.length ;
+            $(this).data('iteration', iteration);
+    });
+};
 
 jQuery.fn.create_tablesorter = function(options)
 {
@@ -104,9 +113,10 @@ jQuery.fn.create_tablesorter = function(options)
                     src: MIDCOM_STATIC_URL + '/stock-icons/16x16/trash.png',
                     alt: 'Delete'
             })
-            .toggle(
+            .toggleClick(
                 function()
                 {
+                	console.log("add class");
                     jQuery(this).parents('tr')
                         .addClass('deleted')
                         .find('input, select, textarea').each(function(i)
@@ -119,6 +129,7 @@ jQuery.fn.create_tablesorter = function(options)
                 },
                 function()
                 {
+                	console.log("remove class");
                     jQuery(this).parents('tr')
                         .removeClass('deleted')
                         .find('input, select, textarea').each(function(i)
@@ -131,7 +142,8 @@ jQuery.fn.create_tablesorter = function(options)
                         
                 }
             )
-            .prependTo(jQuery(this));
+            .prependTo(jQuery(this))
+            .show();
     });
     
     // Check the amount of rows presented
