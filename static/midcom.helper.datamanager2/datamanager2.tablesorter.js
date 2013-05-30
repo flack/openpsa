@@ -116,7 +116,6 @@ jQuery.fn.create_tablesorter = function(options)
             .toggleClick(
                 function()
                 {
-                	console.log("add class");
                     jQuery(this).parents('tr')
                         .addClass('deleted')
                         .find('input, select, textarea').each(function(i)
@@ -129,7 +128,6 @@ jQuery.fn.create_tablesorter = function(options)
                 },
                 function()
                 {
-                	console.log("remove class");
                     jQuery(this).parents('tr')
                         .removeClass('deleted')
                         .find('input, select, textarea').each(function(i)
