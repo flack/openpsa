@@ -311,6 +311,16 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         {
             throw new midcom_error('Failed to create attachment: ' . midcom_connection::get_error_string());
         }
+        // apply filter for original image
+        $filter_chain = $this->_config->get('original_filter');
+        if (!empty($filter_chain))
+        {
+            $imagefilter = new midcom_helper_imagefilter($attachment);
+            if (!$imagefilter->process_chain($filter_chain))
+            {
+                throw new midcom_error('Image processing failed');
+            }
+        }
         $this->_response->filename = $attachment->name;
 
         $image->attachment = $attachment->id;
