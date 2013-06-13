@@ -36,7 +36,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
 
     private function _fetch_georss_position($url)
     {
-        $rss_content = net_nemein_rss_fetch::raw_fetch($url)->get_items();
+        $items = net_nemein_rss_fetch::raw_fetch($url)->get_items();
         if (!empty($items))
         {
             foreach ($items as $item)

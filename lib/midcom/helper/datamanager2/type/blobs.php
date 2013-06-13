@@ -429,7 +429,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param string $filename The filename to use after processing.
      * @param string $title The title of the attachment to use.
      * @param string $mimetype The MIME Type of the file.
-     * @param resource $source A file handle prepared to read of the the source file.
+     * @param resource $source A file handle prepared to read the source file.
      * @param boolean $autoclose Set this to true if the file handle should automatically be closed
      *     after successful processing.
      * @param string $tmpfile In case you have a filename to the source handle, you should specify

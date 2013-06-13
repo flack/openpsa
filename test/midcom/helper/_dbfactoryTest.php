@@ -71,25 +71,3 @@ class midcom_helper__dbfactoryTest extends openpsa_testcase
         );
     }
 }
-$test_instances = array
-(
-);
-
-foreach ($test_instances as $instance)
-{
-    if (is_object($instance))
-    {
-        $instance_hr = '&lt;object of class ' . get_class($instance) . '&gt;';
-    }
-    else
-    {
-        $instance_hr = "'{$instance}'";
-    }
-    foreach ($test_properties as $property)
-    {
-        $stat = (int)midcom::get('dbfactory')->property_exists($instance, $property);
-        echo "(int)\midcom::get('dbfactory')->property_exists({$instance_hr}, '{$property}') returned {$stat}<br>\n";
-        $stat = (int)property_exists($instance, $property);
-        echo "(int)property_exists({$instance_hr}, '{$property}') returned {$stat}<br>\n";
-    }
-}

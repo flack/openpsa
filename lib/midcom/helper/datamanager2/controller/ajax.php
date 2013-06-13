@@ -317,12 +317,12 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             && (   $result === 'save'
                 || $result === 'cancel'))
         {
-            midcom_helper_datamanager2_controller::set_lock($this->datamanager->storage->object, 0);
+            $this->datamanager->storage->object->metadata->unlock();
         }
         // or set it, if needed
-        elseif (!midcom_helper_datamanager2_controller::is_locked($this->datamanager->storage->object, $this->lock_timeout))
+        else if (!$this->datamanager->storage->object->is_locked())
         {
-            midcom_helper_datamanager2_controller::set_lock($this->datamanager->storage->object, $this->lock_timeout);
+            $this->datamanager->storage->object->metadata->lock();
         }
 
         // Handle successful save explicitly.

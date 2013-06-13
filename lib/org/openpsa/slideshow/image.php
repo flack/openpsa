@@ -115,7 +115,9 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             {
                 return false;
             }
+            midcom::get('auth')->request_sudo('org.openpsa.slideshow');
             $thumbnail = $results[0]->create_folder_thumbnail();
+            midcom::get('auth')->drop_sudo();
         }
         return $thumbnail;
     }
@@ -194,6 +196,5 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         }
         return $data;
     }
-
 }
 ?>

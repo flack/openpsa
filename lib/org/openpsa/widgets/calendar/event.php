@@ -37,14 +37,14 @@ class org_openpsa_widgets_calendar_event
     /**
      * Link to the event
      *
-     * @var string link Link to the event
+     * @var string
      */
     var $link = '';
 
     /**
      * JS onclick for the event
      *
-     * @var string link JS onclick handler
+     * @var string
      */
     var $onclick = '';
 

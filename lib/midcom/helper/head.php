@@ -498,7 +498,20 @@ class midcom_helper_head
         else
         {
             $url = MIDCOM_STATIC_URL . "/jQuery/jquery-{$version}.js";
-            $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
+            if (midcom::get('config')->get('jquery_version_oldie'))
+            {
+                $oldie_url = MIDCOM_STATIC_URL . '/jQuery/jquery-' . midcom::get('config')->get('jquery_version_oldie') . '.js';
+                $this->_jquery_init_scripts .= "<!--[if lt IE 9]>\n";
+                $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$oldie_url}\"></script>\n";
+                $this->_jquery_init_scripts .= "<![endif]-->\n";
+                $this->_jquery_init_scripts .= "<!--[if gte IE 9]><!-->\n";
+                $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
+                $this->_jquery_init_scripts .= "<!--<![endif]-->\n";
+            }
+            else
+            {
+                $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
+            }
         }
 
         if (!defined('MIDCOM_JQUERY_UI_URL'))

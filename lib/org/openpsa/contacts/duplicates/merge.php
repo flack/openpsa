@@ -40,7 +40,7 @@ class org_openpsa_contacts_duplicates_merge
             && $merge_mode !== 'future')
         {
             $this->_errstr = 'invalid merge mode';
-            debug_add("invalid mode {$mode}", MIDCOM_LOG_ERROR);
+            debug_add("invalid mode {$merge_mode}", MIDCOM_LOG_ERROR);
             return false;
         }
 

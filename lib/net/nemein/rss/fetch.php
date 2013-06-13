@@ -102,10 +102,10 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $this->lasterror = $parser->error();
             return array();
         }
-        if (!empty($rss->data['headers']['etag']))
+        if (!empty($parser->data['headers']['etag']))
         {
             // Etag checking
-            $etag = trim($rss->data['headers']['etag']);
+            $etag = trim($parser->data['headers']['etag']);
 
             $feed_etag = $this->_feed->get_parameter('net.nemein.rss', 'etag');
             if (   !empty($feed_etag)

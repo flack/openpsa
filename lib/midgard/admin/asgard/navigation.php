@@ -475,7 +475,8 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             echo "    <li class=\"mgdschema-type\">";
 
             $dbaclass = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
-            if ($dbaclass)
+            if (   $dbaclass
+                && class_exists($dbaclass))
             {
                 $object = new $dbaclass;
             }

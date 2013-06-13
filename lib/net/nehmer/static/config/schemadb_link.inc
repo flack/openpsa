@@ -14,7 +14,7 @@
                 'allow_other' => true,
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'article',
@@ -37,7 +37,7 @@
                         'title' => 'name'
                     ),
                 ),
-                'generate_path_for' => 'name',
+                'categorize_by_parent_label' => true,
                 'constraints' => array
                 (
                     array
@@ -66,7 +66,7 @@
                 'allow_other' => true,
                 'require_corresponding_option' => false,
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'clever_class' => 'topic',
@@ -89,7 +89,7 @@
                         'title' => 'name'
                     ),
                 ),
-                'generate_path_for' => 'name',
+                'categorize_by_parent_label' => true,
                 'constraints' => array
                 (
                     array

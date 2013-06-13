@@ -25,6 +25,6 @@ $event =& $data['other_obj'];
     </div>
 <?php
 //TODO: necessary JS stuff to load details (which should in turn include the events own relatedtos) via AHAH
-  echo org_openpsa_relatedto_handler_relatedto::render_line_controls($link, $data['other_obj']);
+  org_openpsa_relatedto_handler_relatedto::render_line_controls($link, $data['other_obj']);
   ?>
 </li>

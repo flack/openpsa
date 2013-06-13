@@ -54,7 +54,7 @@ abstract class midcom_services_auth_backend
      * system to load a login session. At the end of the successful execution of this
      * function, you have to populate the $session_id and $user members accordingly.
      *
-     * @return boolean Return true if the the login session was successfully loaded, false
+     * @return boolean Return true if the login session was successfully loaded, false
      *     otherwise.
      */
     abstract function read_login_session();

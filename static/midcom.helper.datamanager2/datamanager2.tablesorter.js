@@ -4,12 +4,18 @@ var change_label = function()
 {
     var field_name = prompt(COLUMN_TITLE, jQuery(this).parent().find('input.field_name').val());
     jQuery(this).html(field_name);
-    jQuery(this).parent().find('input.field_name').attr(
-    {
-        value: field_name
-    });
+    jQuery(this).parent().find('input.field_name').val(field_name);
 }
 
+jQuery.fn.toggleClick = function(){
+    var functions = arguments;
+    return this.click(function(){
+            var iteration = $(this).data('iteration') || 0;
+            functions[iteration].apply(this, arguments);
+            iteration = (iteration + 1) % functions.length ;
+            $(this).data('iteration', iteration);
+    });
+};
 
 jQuery.fn.create_tablesorter = function(options)
 {
@@ -107,7 +113,7 @@ jQuery.fn.create_tablesorter = function(options)
                     src: MIDCOM_STATIC_URL + '/stock-icons/16x16/trash.png',
                     alt: 'Delete'
             })
-            .toggle(
+            .toggleClick(
                 function()
                 {
                     jQuery(this).parents('tr')
@@ -117,7 +123,7 @@ jQuery.fn.create_tablesorter = function(options)
                             var name = jQuery(this).attr('name');
                             name = '___' + name;
                             jQuery(this).attr('name', name);
-                            jQuery(this).attr('disabled', 'disabled');
+                            jQuery(this).prop('disabled', true);
                         });
                 },
                 function()
@@ -129,12 +135,13 @@ jQuery.fn.create_tablesorter = function(options)
                             var name = jQuery(this).attr('name');
                             name = name.replace(/^___/, '');
                             jQuery(this).attr('name', name);
-                            jQuery(this).attr('disabled', '');
+                            jQuery(this).prop("disabled", false);
                         });
                         
                 }
             )
-            .prependTo(jQuery(this));
+            .prependTo(jQuery(this))
+            .show();
     });
     
     // Check the amount of rows presented
@@ -470,23 +477,20 @@ jQuery.fn.delete_column = function(column_id, options)
     {
         jQuery(options.table_id).find('.' + column_id)
             .removeClass('deleted')
-            .find('input, select, textarea').attr('disabled', '');
+            .find('input, select, textarea').prop('disabled', false);
     }
     else
     {
         jQuery(options.table_id).find('.' + column_id)
             .addClass('deleted')
-            .find('input, select, textarea').attr('disabled', 'disabled');
+            .find('input, select, textarea').prop('disabled', true);
     }
     
     if (jQuery(this).hasClass('deleted'))
     {
-        jQuery('<input type="hidden" />')
+        jQuery('<input type="hidden" name="midcom_helper_datamanager2_tabledata_widget_delete[' + options.field_name + '][]"/>')
             .addClass('delete_input')
-            .attr({
-                name: 'midcom_helper_datamanager2_tabledata_widget_delete[' + options.field_name + '][]',
-                value: column_id
-            })
+            .val(column_id)
             .appendTo(jQuery(this));
     }
     else
@@ -539,13 +543,9 @@ jQuery.fn.initialize_column_creation = function(options)
                 .appendTo('#new_column_' + timestamp);
             
             // Input for changing the column name
-            jQuery('<input type="hidden" />')
+            jQuery('<input type="hidden" id="new_column_' + timestamp + '_input" name="midcom_helper_datamanager2_sortable_column[' + options.field_name + '][new_' + timestamp + ']" />')
                 .addClass('field_name')
-                .attr({
-                    id: '#new_column_' + timestamp + '_input',
-                    name: 'midcom_helper_datamanager2_sortable_column[' + options.field_name + '][new_' + timestamp + ']',
-                    value: field_name
-                })
+                .val(field_name)
                 .appendTo(jQuery('#new_column_' + timestamp));
             
             // Insert a new column for each row

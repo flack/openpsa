@@ -487,7 +487,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _save_configuration(array &$data)
     {
-        $config_array = $this->_get_config_from_controller($this->_controller);
+        $config_array = $this->_get_config_from_controller();
 
         $config = $this->_draw_array($config_array, '', $data['config']->_global);
 

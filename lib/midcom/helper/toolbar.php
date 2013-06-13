@@ -297,7 +297,7 @@ class midcom_helper_toolbar
         $item = $this->clean_item($item);
         if (! array_key_exists($index, $this->items))
         {
-            debug_add("Insert of item {$item[MIDCOM_TOOLBAR_NAME]} into index $index failed");
+            debug_add("Insert of item {$item[MIDCOM_TOOLBAR_LABEL]} into index $index failed");
             return false;
         }
 

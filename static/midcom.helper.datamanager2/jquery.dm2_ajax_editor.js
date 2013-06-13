@@ -461,7 +461,7 @@
                 }
 
                 // Disable toolbar buttons
-                $('#' + this.identifier + '_ajax_toolbar').find('input[type="submit"]').attr('disabled', 'disabled');
+                $('#' + this.identifier + '_ajax_toolbar').find('input[type="submit"]').prop('disabled', true);
             },
             _fetch_fields: function(edit_mode)
             {

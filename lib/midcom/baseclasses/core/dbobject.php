@@ -1436,7 +1436,7 @@ class midcom_baseclasses_core_dbobject
         if (   ! $object->can_do('midgard:update')
             || ! $object->can_do('midgard:privileges'))
         {
-            debug_add("Failed to set a privilege on object object, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
+            debug_add("Failed to set a privilege, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
             return false;
         }
@@ -1479,7 +1479,7 @@ class midcom_baseclasses_core_dbobject
         if (   !$object->can_do('midgard:update')
             || !$object->can_do('midgard:privileges'))
         {
-            debug_add("Failed to unset a privilege on object object, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
+            debug_add("Failed to unset a privilege, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
             return false;
         }

@@ -18,9 +18,9 @@
             'storage' => 'content',
             'required' => true,
             'type' => 'text',
-            'type_config' => Array 
-            ( 
-                'output_mode' => 'markdown' 
+            'type_config' => Array
+            (
+                'output_mode' => 'markdown'
             ),
             'widget' => 'markdown',
             'widget_config' => Array
@@ -55,7 +55,7 @@
             'readonly' => true,
             'type' => 'text',
             'widget' => 'text',
-        ),        
+        ),
         'redirect' => Array
         (
             // COMPONENT-REQUIRED
@@ -68,7 +68,7 @@
                  'require_corresponding_option' => false,
                  'options' => array(),
             ),
-            'widget' => 'chooser',
+            'widget' => 'autocomplete',
             'widget_config' => array
             (
                 'class' => 'net_nemein_wiki_wikipage',

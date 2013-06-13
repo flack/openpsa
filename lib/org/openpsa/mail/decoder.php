@@ -341,7 +341,7 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
         }
         if (empty($encoding))
         {
-            debug('Given/Detected encoding is empty, cannot convert, aborting', MIDCOM_LOG_WARN);
+            debug_add('Given/Detected encoding is empty, cannot convert, aborting', MIDCOM_LOG_WARN);
             return $data;
         }
         $encoding_lower = strtolower($encoding);

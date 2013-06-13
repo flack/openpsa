@@ -45,8 +45,8 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
         if ($this->delete_missing)
         {
             // Then delete files and folders that are in DB but not in the importing folder
-            $this->delete_missing_folders($foldernames, $style_path);
-            $this->delete_missing_files($filenames, $style_path);
+            $this->delete_missing_folders($foldernames, $path);
+            $this->delete_missing_files($filenames, $path);
         }
     }
 

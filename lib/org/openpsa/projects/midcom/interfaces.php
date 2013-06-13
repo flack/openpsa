@@ -111,7 +111,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         $mc->add_constraint('person', '=', $object->id);
         $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
-        $suspects = @$qb->get_values('task');
+        $suspects = $mc->get_values('task');
         if (empty($suspects))
         {
             return;

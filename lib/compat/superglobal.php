@@ -406,7 +406,7 @@ class midcom_compat_superglobal
      */
     public function _set_current_context($id)
     {
-        return midcom_core_context::set_current($id);
+        return midcom_core_context::get($id)->set_current();
     }
 
     /**

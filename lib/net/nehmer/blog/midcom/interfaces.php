@@ -26,7 +26,7 @@ implements midcom_services_permalinks_resolver
         }
         else if (!$config->get('disable_indexing'))
         {
-            debug_add("The topic {$topic->id} is is not to be indexed, skipping indexing.");
+            debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");
         }
         else
         {

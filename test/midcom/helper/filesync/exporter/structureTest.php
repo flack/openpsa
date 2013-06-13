@@ -32,7 +32,7 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
 
         $exporter = new midcom_helper_filesync_exporter_structure(self::$_rootdir);
         midcom::get('auth')->request_sudo('midcom.helper.filesync');
-        $stat = $exporter->read_structure($topic, $export_name);
+        $exporter->read_structure($topic, $export_name);
         midcom::get('auth')->drop_sudo();
 
         $this->assertFileExists(self::$_rootdir . $export_name . '.inc');

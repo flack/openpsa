@@ -74,7 +74,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         // check param
         if (!$person_guid || !$product_id)
         {
-            $this->_stop("missing param for creating the order");
+            $this->_stop("Missing param for creating the order");
         }
         $salesproject = $this->_get_salesproject($person_guid);
 

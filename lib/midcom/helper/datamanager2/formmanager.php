@@ -675,27 +675,32 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($default == 'none')
         {
             $this->renderer = 'none';
-            return;
         }
-
-        $src = $this->_config->get('default_renderer_src');
-
-        if ($src)
+        else if (strpos($default, '_') === false)
         {
-            // Ensure that the snippet is only loaded once.
-            if (! class_exists($default))
-            {
-                midcom_helper_misc::include_snippet_php($src);
-                if (! class_exists($default))
-                {
-                    throw new midcom_error("The renderer class set in the DM2 configuration does not exist.");
-                }
-            }
-            $this->renderer = new $default($this->namespace);
+            $this->create_renderer($default);
         }
         else
         {
-            $this->create_renderer($default);
+            if (!class_exists($default))
+            {
+                $src = $this->_config->get('default_renderer_src');
+
+                if (!$src)
+                {
+                    throw new midcom_error('Invalid renderer configuration');
+                }
+                // Ensure that the snippet is only loaded once.
+                if (! class_exists($default))
+                {
+                    midcom_helper_misc::include_snippet_php($src);
+                    if (! class_exists($default))
+                    {
+                        throw new midcom_error("The renderer class '{$default}' set in the DM2 configuration does not exist.");
+                    }
+                }
+            }
+            $this->renderer = new $default($this->namespace);
         }
     }
 

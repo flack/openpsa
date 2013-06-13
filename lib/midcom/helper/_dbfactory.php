@@ -281,7 +281,7 @@ class midcom_helper__dbfactory
     }
 
     /**
-     * Returns the the parent object. Tries to utilize the Memcache
+     * Returns the parent object. Tries to utilize the Memcache
      * data, loading the actual information only if it is not cached.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
@@ -801,7 +801,7 @@ class midcom_helper__dbfactory
     {
         if (!is_a($unserialized_object, 'midgard_blob'))
         {
-            debug_add("You should use the *import* method to import normal objects, passing control there", MIDCOM_LOG_WARNING);
+            debug_add("You should use the *import* method to import normal objects, passing control there", MIDCOM_LOG_WARN);
             return $this->import($unserialized_object, $use_force);
         }
         // We need this helper (workaround Zend bug)
