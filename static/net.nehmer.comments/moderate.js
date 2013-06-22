@@ -1,9 +1,16 @@
 $(document).ready(function()
 {
-    $('.net_nehmer_comments_comment_toolbar').on('click', '.moderate-ajax', function(event)
+    $('#net_nehmer_comments_admin').on('click', '.net_nehmer_comments_comment_toolbar .moderate-ajax', function(event)
     {
         event.preventDefault();
-        var comment = $(this).closest('.net_nehmer_comments_comment');
+        var comment = $(this).closest('.net_nehmer_comments_comment'),
+        toolbar = comment.find('.net_nehmer_comments_comment_toolbar');
+
+        if (toolbar.hasClass('net_nehmer_comments_comment_toolbar_busy'))
+        {
+            return;
+        }
+        toolbar.addClass('net_nehmer_comments_comment_toolbar_busy');
         $.post($(this).attr('href'), {guid: $(this).data('guid'), action: $(this).data('action')}, function(data, textStatus, jqXHR)
         {
             var container = comment.parent();

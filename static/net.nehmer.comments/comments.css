@@ -5,6 +5,11 @@
     padding: .2em
 }
 
+.net_nehmer_comments_comment_toolbar_busy
+{
+    opacity: .3
+}
+
 .net_nehmer_comments_comment_toolbar li,
 .net_nehmer_comments_comment_toolbar li form,
 .net_nehmer_comments_comment_toolbar li form div
