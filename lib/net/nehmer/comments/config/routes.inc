@@ -32,6 +32,13 @@
     'fixed_args' => array('moderate'),
     'variable_args' => 1,
 ),
+// Match /moderate/ajax<comment_status_to_moderate>
+'moderate_ajax' => array
+(
+    'handler' => array('net_nehmer_comments_handler_admin', 'moderate_ajax'),
+    'fixed_args' => array('moderate', 'ajax'),
+    'variable_args' => 1,
+),
 // Match /report/<comment guid>
 'report' => array
 (

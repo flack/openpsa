@@ -51,7 +51,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         $this->_request_data['comments'] =& $this->_comments;
         $this->_request_data['objectguid'] =& $this->_objectguid;
-        $this->_request_data['display_datamanager'] =& $this->_display_datamanager;
         $this->_request_data['custom_view'] =& $this->custom_view;
     }
 
@@ -62,6 +61,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         $this->_load_schemadb();
         $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $this->_request_data['display_datamanager'] =& $this->_display_datamanager;
     }
 
     /**
@@ -125,70 +125,23 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         midcom_show_style('admin-end');
     }
 
-    /**
-     * Checks if a button of the admin toolbar was pressed. Detected by looking for the
-     * net_nehmer_comment_adminsubmit value in the Request.
-     *
-     * As of this point, this tool assumes at least owner level privileges for all
-     */
-    private function _process_admintoolbar()
+    private function _load_comments()
     {
-        if (! array_key_exists('net_nehmer_comment_adminsubmit', $_REQUEST))
-        {
-            // Nothing to do.
-            return;
-        }
-
-        if (array_key_exists('action_delete', $_REQUEST))
-        {
-            $comment = new net_nehmer_comments_comment($_REQUEST['guid']);
-            if (! $comment->delete())
-            {
-                throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
-            }
-
-            midcom::get('cache')->invalidate($comment->objectguid);
-            midcom::get()->relocate($_SERVER['REQUEST_URI']);
-            // This will exit.
-        }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    function _handler_moderate($handler_id, array $args, array &$data)
-    {
-        midcom::get('auth')->require_valid_user();
-
-        if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
-        {
-            return new midcom_response_relocate('/');
-        }
-
-        // This might exit.
-        $this->_process_admintoolbar();
-
         $view_status = array();
-
-        $this->_request_data['handler'] = $args[0];
-
-        switch ($args[0])
+        switch ($this->_request_data['handler'])
         {
             case 'reported_abuse':
                 $this->_request_data['status_to_show'] = 'reported abuse';
                 $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
-              break;
+                break;
             case 'abuse':
                 $this->_request_data['status_to_show'] = 'abuse';
                 $view_status[] = net_nehmer_comments_comment::ABUSE;
-              break;
+                break;
             case 'junk':
                 $this->_request_data['status_to_show'] = 'junk';
                 $view_status[] = net_nehmer_comments_comment::JUNK;
-              break;
+                break;
             case 'latest':
                 $this->_request_data['status_to_show'] = 'latest comments';
                 $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
@@ -198,7 +151,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 {
                     $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
-              break;
+                break;
             case 'latest_new':
                 $this->_request_data['status_to_show'] = 'latest comments, only new';
                 $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
@@ -207,11 +160,11 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 {
                     $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
-              break;
+                break;
             case 'latest_approved':
                 $this->_request_data['status_to_show'] = 'latest comments, only approved';
                 $view_status[] = net_nehmer_comments_comment::MODERATED;
-              break;
+                break;
         }
 
         $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comments');
@@ -220,12 +173,100 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         $qb->add_constraint('status', 'IN', $view_status);
         $qb->add_order('metadata.revised', 'DESC');
 
-        $this->_comments = $qb->execute();
+        return $qb->execute();
+    }
 
-        if ($this->_comments)
+    /**
+     * Checks if a button of the admin toolbar was pressed. Detected by looking for the
+     * net_nehmer_comment_adminsubmit value in the Request.
+     *
+     * As of this point, this tool assumes at least owner level privileges for all
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_moderate_ajax($handler_id, array $args, array &$data)
+    {
+        $this->_topic->require_do('net.nehmer.comments:moderation');
+        $this->_verify_post_data();
+
+        $comment = new net_nehmer_comments_comment($_POST['guid']);
+        if (! $comment->delete())
+        {
+            throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
+        }
+
+        midcom::get('cache')->invalidate($comment->objectguid);
+
+        $this->_request_data['handler'] = $args[0];
+        $comments = $this->_load_comments();
+        if (!empty($comments))
+        {
+            $data['comment'] = end($comments);
+            $this->_init_display_datamanager();
+        }
+        midcom::get()->skip_page_style = true;
+    }
+
+    private function _verify_post_data()
+    {
+        if (   !array_key_exists('action', $_POST)
+            || !array_key_exists('guid', $_POST))
+        {
+            throw new midcom_error_notfound('Incomplete POST data');
+        }
+        if ($_POST['action'] !== 'action_delete')
+        {
+            throw new midcom_error_notfound('Unsupported action');
+        }
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_moderate_ajax($handler_id, array &$data)
+    {
+        if (!empty($data['comment']))
+        {
+            $this->_display_datamanager->autoset_storage($data['comment']);
+            $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($data['comment'], $data['handler']);
+            midcom_show_style('admin-comments-item');
+        }
+        else
+        {
+            midcom_show_style('comments-nonefound');
+        }
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_moderate($handler_id, array $args, array &$data)
+    {
+        midcom::get('auth')->require_valid_user();
+
+        if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
+        {
+            return new midcom_response_relocate('/');
+        }
+
+        $this->_request_data['handler'] = $args[0];
+
+        $this->_comments = $this->_load_comments();
+        if (!empty($this->_comments))
         {
             $this->_init_display_datamanager();
         }
+
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/net.nehmer.comments/moderate.js');
+
         net_nehmer_comments_viewer::add_head_elements();
         $this->_prepare_request_data();
         $this->add_breadcrumb('', $this->_l10n->get($data['status_to_show']));
@@ -236,7 +277,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    function _show_moderate($handler_id, array &$data)
+    public function _show_moderate($handler_id, array &$data)
     {
         midcom_show_style('admin-start');
         if ($this->_comments)
@@ -246,15 +287,8 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             {
                 $this->_display_datamanager->autoset_storage($comment);
                 $data['comment'] =& $comment;
-                $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
+                $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment, $data['handler']);
                 midcom_show_style('admin-comments-item');
-
-                if (   midcom::get('auth')->admin
-                    || (   midcom::get('auth')->user
-                        && $comment->can_do('midgard:delete')))
-                {
-                    midcom_show_style('admin-comments-admintoolbar');
-                }
             }
             midcom_show_style('admin-comments-end');
         }
@@ -262,7 +296,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         {
             midcom_show_style('comments-nonefound');
         }
-        midcom_show_style('admin-list-end');
         midcom_show_style('admin-end');
     }
 }
