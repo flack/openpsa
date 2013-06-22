@@ -173,3 +173,30 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .u
 {
     box-shadow: none;
 }
+
+#org_openpsa_sales_salesproject_deliverable_add
+{
+    display: none;
+}
+
+.custom-productselect {
+    position: relative;
+    display: inline-block;
+}
+.custom-productselect-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    height: 1.75em
+}
+.custom-productselect-input {
+    margin: 0;
+    padding: 0.3em;
+}
+.ui-autocomplete .product-description {
+    display: block;
+    font-size: 90%;
+    color: #666
+}

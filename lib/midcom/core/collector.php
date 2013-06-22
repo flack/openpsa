@@ -219,6 +219,12 @@ class midcom_core_collector extends midcom_core_query
             {
                 $this->add_value_property($field);
             }
+
+            if ($indexed_by !== 'guid')
+            {
+                $this->add_value_property($indexed_by);
+            }
+
             $this->execute();
         }
         $results = array();

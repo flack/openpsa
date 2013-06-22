@@ -34,7 +34,28 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
 
-        $this->_request_data['products'] = org_openpsa_products_product_dba::list_products();
+        $this->_request_data['products'] = $this->_list_products();
+    }
+
+    private function _list_products()
+    {
+        $product_list = array();
+        $mc = org_openpsa_products_product_dba::new_collector('metadata.deleted', false);
+
+        $mc->add_order('productGroup');
+        $mc->add_order('code');
+        $mc->add_order('title');
+        $mc->add_constraint('start', '<=', time());
+        $mc->begin_group('OR');
+            /*
+             * List products that either have no defined end-of-market dates
+             * or are still in market
+             */
+            $mc->add_constraint('end', '=', 0);
+            $mc->add_constraint('end', '>=', time());
+        $mc->end_group();
+
+        return $mc->get_rows(array('code', 'title', 'delivery', 'price', 'unit', 'productGroup'), 'id');
     }
 
     /**
@@ -127,9 +148,14 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom::get('metadata')->set_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
         midcom::get('head')->set_pagetitle($this->_salesproject->title);
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
-
+        midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
+
+        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
+
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.css');
     }
 
     /**
