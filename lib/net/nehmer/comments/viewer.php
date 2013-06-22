@@ -105,7 +105,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
         }
     }
 
-    public function _populate_post_toolbar($comment)
+    public function _populate_post_toolbar(net_nehmer_comments_comment $comment, $viewtype = null)
     {
         $toolbar = new midcom_helper_toolbar();
 
@@ -181,23 +181,25 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
                         )
                     )
                 );
-                $toolbar->add_item
-                (
-                    array
+                if (!empty($viewtype))
+                {
+                    $toolbar->add_item
                     (
-                        MIDCOM_TOOLBAR_URL => $_SERVER['REQUEST_URI'],
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editdelete.png',
-                        MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        array
                         (
-                            'net_nehmer_comment_adminsubmit' => '1',
-                            'guid' => $comment->guid,
-                            'action_delete' => 'action_delete',
+                            MIDCOM_TOOLBAR_URL => 'moderate/ajax/' . $viewtype . '/',
+                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete'),
+                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editdelete.png',
+                            MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
+                            MIDCOM_TOOLBAR_OPTIONS => array
+                            (
+                                'class' => 'moderate-ajax',
+                                'data-guid' => $comment->guid,
+                                'data-action' => 'action_delete',
+                            )
                         )
-                    )
-                );
+                    );
+                }
             }
         }
         return $toolbar;

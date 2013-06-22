@@ -16,7 +16,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Comment we are currently working with.
      *
-     * @var Array
+     * @var net_nehmer_comments_comment
      */
     private $_comment = null;
 
@@ -52,7 +52,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         }
 
         $this->_comment = new net_nehmer_comments_comment($args[0]);
-
         $this->_comment->_sudo_requested = false;
 
         if (!$this->_comment->can_do('midgard:update'))
@@ -64,7 +63,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         switch ($_POST['mark'])
         {
             case 'abuse':
-                $this->_report_abuse($data);
+                $this->_report_abuse();
                 break;
 
             case 'confirm_abuse':
@@ -75,7 +74,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 // Update the index
                 $indexer = midcom::get('indexer');
                 $indexer->delete($this->_comment->guid);
-
                 break;
 
             case 'confirm_junk':
@@ -86,20 +84,13 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 // Update the index
                 $indexer = midcom::get('indexer');
                 $indexer->delete($this->_comment->guid);
-
                 break;
 
             case 'not_abuse':
                 $this->_comment->require_do('net.nehmer.comments:moderation');
                 // Confirm the message is abuse
                 $this->_comment->report_not_abuse();
-
-                if (isset($_POST['return_url']))
-                {
-                    return new midcom_response_relocate($_POST['return_url']);
-                }
-
-                return new midcom_response_relocate("read/{$this->_comment->guid}/");
+                break;
         }
         if ($this->_comment->_sudo_requested)
         {
@@ -115,7 +106,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         return new midcom_response_relocate('');
     }
 
-    private function _report_abuse($data)
+    private function _report_abuse()
     {
         // Report the abuse
         $moderators = $this->_config->get('moderators');
@@ -124,21 +115,21 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         {
             // Prepare notification message
             $message = array();
-            $message['title'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
+            $message['title'] = sprintf($this->_l10n->get('comment %s reported as abuse'), $this->_comment->title);
             $message['content'] = '';
             $logs = $this->_comment->get_logs();
             if (count($logs) > 0)
             {
-                $message['content'] .= $data['l10n']->get('moderation history').":\n\n";
+                $message['content'] .= $this->_l10n->get('moderation history').":\n\n";
                 foreach ($logs as $time => $log)
                 {
                     $reported = strftime('%x %X', strtotime("{$time}Z"));
-                    $message['content'] .= $data['l10n']->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $data['l10n']->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
+                    $message['content'] .= $this->_l10n->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $this->_l10n->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
                 }
             }
             $message['content'] = "\n\n" . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
 
-            $message['abstract'] = sprintf($data['l10n']->get('comment %s reported as abuse'), $this->_comment->title);
+            $message['abstract'] = sprintf($this->_l10n->get('comment %s reported as abuse'), $this->_comment->title);
             $message['abstract'] = " " . midcom::get('permalinks')->create_permalink($this->_comment->objectguid);
 
             // Notify moderators
