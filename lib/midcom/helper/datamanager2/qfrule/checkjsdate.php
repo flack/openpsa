@@ -41,7 +41,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             || $date == "0000-00-00"
             || $date == "0000-00-00 00:00:00")
         {
-            debug_add("value {$value} is assumed to be intentionally blank");
+            debug_add("value {$date} is assumed to be intentionally blank");
             return true;
         }
         if ( preg_match("/^\d{4}-\d{2}-\d{2}/", $date) == 0
