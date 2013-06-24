@@ -209,9 +209,9 @@ EOT;
                 array($errmsg, 'regex', '/^[^0]/')
             );
         }
-        $rules[] = array($this->_translate('validation failed: date'), 'checkjsdate');
-        $this->_form->addGroupRule($this->name, array($this->name . '_date' => $rules));
 
+        $this->_form->addRule(array($this->name), $this->_translate('validation failed: date'), 'checkjsdate', $this->name);
+        $this->_form->addGroupRule($this->name, array($this->name . '_date' => $rules));
     }
 
     /**
@@ -236,7 +236,8 @@ EOT;
             (
                 'class' => 'jsdate_hours',
                 'id'    => "{$this->_namespace}{$this->name}_hours",
-                'size'  => 2
+                'size'  => 2,
+                'maxlength'  => 2
             );
             $elements[] = $this->_form->createElement('text', "{$this->name}_hours", '', $attributes);
             $elements[] = $this->_form->createElement('static', "{$this->name}_hours_separator", '', ':');
@@ -244,7 +245,8 @@ EOT;
             (
                 'class' => 'jsdate_minutes',
                 'id'    => "{$this->_namespace}{$this->name}_minutes",
-                'size'  => 2
+                'size'  => 2,
+                'maxlength'  => 2
             );
             $elements[] = $this->_form->createElement('text', "{$this->name}_minutes", '', $attributes);
 
@@ -255,7 +257,8 @@ EOT;
                 (
                     'class' => 'jsdate_seconds',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",
-                    'size'  => 2
+                    'size'  => 2,
+                    'maxlength'  => 2
                 );
                 $elements[] = $this->_form->createElement('text', "{$this->name}_seconds", '', $attributes);
             }
