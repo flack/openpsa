@@ -174,8 +174,8 @@ Für Rechnung %s liegt bereits eine Storno Rechnung vor
 Für Rechnung %s konnte keine Storno Rechnung erzeugt werden
 ---STRINGEND
 
----STRING cancelation for invoice %s
-Storno zur Rechnung %s
+---STRING cancelation for invoice %s, item %s
+Storno zur Rechnung %s, Position %s
 ---STRINGEND
 
 ---STRING mark paid
