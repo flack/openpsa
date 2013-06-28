@@ -219,5 +219,61 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         midcom_show_style('show-salesproject-new');
     }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_delete($handler_id, array $args, array &$data)
+    {
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
+        $this->_salesproject->require_do('midgard:update');
+
+        $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
+
+        switch ($this->_controller->process_form())
+        {
+            case 'delete':
+                if (!$this->_salesproject->delete_tree())
+                {
+                    midcom::get('uimessages')->add($this->_l10n->get($this->_component), "Failed to delete salesproject. Last error: " . midcom_connection::get_error_string(), 'error');
+                    return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
+                }
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get("salesproject %s deleted"), $this->_salesproject->title));
+                return new midcom_response_relocate("");
+            case 'cancel':
+                return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
+        }
+        $data['controller'] = $this->_controller;
+        $this->_load_schemadb();
+        $data['datamanager'] = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $data['datamanager']->autoset_storage($this->_salesproject);
+        $data['salesproject'] = $this->_salesproject;
+
+        // Add toolbar items
+        org_openpsa_helpers::dm2_savecancel($this, 'delete');
+
+        $this->_view_toolbar->bind_to($this->_salesproject);
+        $customer = $this->_salesproject->get_customer();
+        if ($customer)
+        {
+            $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
+        }
+        org_openpsa_sales_viewer::add_breadcrumb_path($this->_salesproject, $this);
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('salesproject')));
+
+        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('delete %s'), $this->_salesproject->title));
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_delete($handler_id, array &$data)
+    {
+        midcom_show_style('show-salesproject-delete');
+    }
 }
 ?>

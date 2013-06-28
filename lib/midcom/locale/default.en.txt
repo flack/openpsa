@@ -70,6 +70,10 @@ Advanced schema and data settings
 all
 ---STRINGEND
 
+---STRING all descendants will be deleted
+All descendants will be deleted
+---STRINGEND
+
 ---STRING and
 and
 ---STRINGEND

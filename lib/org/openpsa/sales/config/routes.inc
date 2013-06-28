@@ -21,6 +21,14 @@
     'variable_args' => 1,
 ),
 
+// Match /salesproject/delete/<salesproject>
+'salesproject_delete' => array
+(
+    'handler' => array('org_openpsa_sales_handler_edit', 'delete'),
+    'fixed_args' => array('salesproject', 'delete'),
+    'variable_args' => 1,
+),
+
 // Match /salesproject/new
 'salesproject_new' => array
 (
