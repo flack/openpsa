@@ -208,7 +208,12 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
     }
 
-    public function _show_history()
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_history($handler_id, array &$data)
     {
         $this->_request_data['history'] = $this->_backend->list_history();
         $this->_request_data['guid'] = $this->_guid;
@@ -267,10 +272,33 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
     /**
      * Show the differences between the versions
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
      */
-    public function _show_diff()
+    public function _show_diff($handler_id, array &$data)
     {
+        $data['handler'] = $this;
         midcom_show_style('bergfald-rcs-diff');
+    }
+
+    public function translate($string)
+    {
+        $translated = $string;
+        $component = midcom::get('dbclassloader')->get_component_for_class($this->_object->__midcom_class_name__);
+        if (midcom::get('componentloader')->is_installed($component))
+        {
+            $translated = midcom::get('i18n')->get_l10n($component)->get($string);
+        }
+        if ($translated === $string)
+        {
+            $translated = $this->_l10n->get($string);
+        }
+        if ($translated === $string)
+        {
+            $translated = $this->_l10n_midcom->get($string);
+        }
+        return $translated;
     }
 
     /**
@@ -306,8 +334,14 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $data['guid'] = $args[0];
     }
 
-    public function _show_preview()
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_preview($handler_id, array &$data)
     {
+        $data['handler'] = $this;
         midcom_show_style('bergfald-rcs-preview');
     }
 

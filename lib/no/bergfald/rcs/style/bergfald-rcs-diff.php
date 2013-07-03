@@ -46,7 +46,7 @@ foreach ($diff as $attribute => $values)
 
     $changes = true;
 
-    echo "<dt>". $data['l10n_midcom']->get($data['l10n']->get($attribute)) ."</dt>\n";
+    echo "<dt>". $data['handler']->translate($attribute) ."</dt>\n";
     echo "    <dd>\n";
     echo nl2br($values['diff']);
     echo "    </dd>\n";
