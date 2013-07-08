@@ -114,20 +114,29 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             return false;
         }
 
-        // add invoice item to cancelation invoice
-        $invoice_item = new org_openpsa_invoices_invoice_item_dba();
-        $invoice_item->invoice = $cancelation_invoice->id;
-        $invoice_item->description = sprintf($this->_l10n->get('cancelation for invoice %s'), $invoice->number);
-        $invoice_item->units = 1;
-        $invoice_item->pricePerUnit = $reverse_sum;
-        $stat = $invoice_item->create();
-
-        if (!$stat)
+        // add invoice item(s) to cancelation invoice
+        // we need to copy each original item and cancel it
+        $items = $invoice->get_invoice_items();
+        $count = 1;
+        foreach ($items as $item)
         {
-            // cleanup
-            $cancelation_invoice->delete();
-            $this->_request_data['message']['message'] = $error_msg;
-            return false;
+            $cancelation_item = new org_openpsa_invoices_invoice_item_dba();
+            $cancelation_item->invoice = $cancelation_invoice->id;
+            $cancelation_item->deliverable = $item->deliverable;
+            $cancelation_item->task = $item->task;
+            $cancelation_item->description = sprintf($this->_l10n->get('cancelation for invoice %s, item %s'), $invoice->number, $count);
+            $cancelation_item->units = $item->units;
+            $cancelation_item->pricePerUnit = $item->pricePerUnit * (-1);
+            $stat = $cancelation_item->create();
+    
+            if (!$stat)
+            {
+                // cleanup
+                $cancelation_invoice->delete();
+                $this->_request_data['message']['message'] = $error_msg;
+                return false;
+            }
+            $count++;
         }
 
         // if storno invoice was created, mark the related invoice as sent and paid

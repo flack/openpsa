@@ -130,7 +130,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // Initialize a new array for the current language
-        $language = array();
+        $language = array
+        (
+            '' => midcom::get('i18n')->get_string('default setting')
+        );
         $language[$lang_str] = $languages[$lang_str];
 
         // Remove the reference from the original array

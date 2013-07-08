@@ -322,6 +322,10 @@ Verkaufsbericht für %s - %s
 Verkaufsprojekt
 ---STRINGEND
 
+---STRING salesproject %s deleted
+Verkaufsprojekt "%s" wurde erfolgreich gelöscht
+---STRINGEND
+
 ---STRING salesprojects
 Verkaufsprojekte
 ---STRINGEND

@@ -13,6 +13,8 @@
  */
 class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_handler
 {
+    private static $_shown_guids = array();
+
     /**
      * Handler for folder deletion.
      *
@@ -190,7 +192,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
     private function _delete_children($object)
     {
-        $children = self::_get_child_objects($object);
+        $children = midcom_helper_reflector_tree::get_child_objects($object);
+
         if (empty($children))
         {
             return true;
@@ -254,79 +257,29 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     /**
      * List topic contents
      *
-     * @param int $id Topic ID
+     * @param midcom_core_dbaobject $parent
      */
-    public static function list_children($id)
+    public static function list_children(midcom_core_dbaobject $parent)
     {
         try
         {
-            $topic = new midcom_db_topic($id);
-            $children = self::_get_child_objects($topic);
+            $children = midcom_helper_reflector_tree::get_child_objects($parent);
         }
         catch (midcom_error $e)
         {
             $children = array();
         }
 
-        $qb_topic = midcom_db_topic::new_query_builder();
-        $qb_topic->add_constraint('up', '=', $id);
-
-        $qb_article = midcom_db_article::new_query_builder();
-        $qb_article->add_constraint('topic', '=', $id);
-
-        if (   $qb_topic->count() === 0
-            && $qb_article->count() === 0
-            && empty($children))
+        if (empty($children))
         {
-            return false;
+            return;
         }
 
         echo "<ul class=\"folder_list\">\n";
 
-        foreach ($qb_topic->execute_unchecked() as $topic)
-        {
-            $topic_title = $topic->get_label();
-
-            echo "    <li class=\"node\">\n";
-            echo "        <img src=\"" . MIDCOM_STATIC_URL."/stock-icons/16x16/stock_folder.png\" alt=\"\" /> {$topic_title}\n";
-
-            self::list_children($topic->id);
-
-            echo "    </li>\n";
-        }
-
-        foreach ($qb_article->execute_unchecked() as $article)
-        {
-            echo "    <li class=\"leaf article\">\n";
-            echo "        <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/document.png\" alt=\"\" /> {$article->title}\n";
-
-            // Check for the reply articles
-            $qb = midcom_db_article::new_query_builder();
-            $qb->add_constraint('up', '=', $article->id);
-
-            if ($qb->count() > 0)
-            {
-                echo "        <ul>\n";
-                foreach ($qb->execute_unchecked() as $reply)
-                {
-                    echo "            <li class=\"leaf_child reply_article\">{$reply->title}\n";
-                    self::_list_leaf_children($reply);
-                    echo "            </li>\n";
-                }
-                echo "        </ul>\n";
-            }
-
-            self::_list_leaf_children($article, array('midgard_article'));
-
-            echo "    </li>\n";
-        }
-
         foreach ($children as $class => $objects)
         {
-            if ($class == 'midgard_topic' || $class == 'midgard_article')
-            {
-                continue;
-            }
+            $reflector = midcom_helper_reflector::get($class);
             $style = "";
             if ($class == 'net_nemein_tag_link')
             {
@@ -334,55 +287,26 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             foreach ($objects as $object)
             {
-                $title = midcom_helper_reflector::get($class)->get_object_label($object);
+                if (array_key_exists($object->guid, self::$_shown_guids))
+                {
+                    //we might see objects twice if they have both up and parent
+                    continue;
+                }
+                else
+                {
+                    self::$_shown_guids[$object->guid] = true;
+                }
+
+                $title = $reflector->get_object_label($object);
+                $icon = $reflector->get_object_icon($object);
                 echo "    <li class=\"leaf $class\"$style>\n";
-                echo "        <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/document.png\" alt=\"\" /> {$title}\n";
-                self::_list_leaf_children($object);
+                echo "        " . $icon . " {$title}\n";
+                self::list_children($object);
                 echo "    </li>\n";
             }
         }
 
         echo "</ul>\n";
-    }
-
-    private function _list_leaf_children($object, $skip = array())
-    {
-        $children = self::_get_child_objects($object, $skip);
-        if (empty($children))
-        {
-            return;
-        }
-
-        echo "        <ul>\n";
-        foreach ($children as $class => $objects)
-        {
-            foreach ($objects as $object)
-            {
-                $title = midcom_helper_reflector::get($class)->get_object_label($object);
-                echo "            <li class=\"leaf_child $class\" style=\"display: none;\">{$title}\n";
-                self::_list_leaf_children($object);
-                echo "            </li>\n";
-            }
-        }
-        echo "        </ul>\n";
-
-    }
-
-    private static function _get_child_objects($object, $skip = array())
-    {
-        $children = midcom_helper_reflector_tree::get_child_objects($object);
-        if ($children === false)
-        {
-            debug_add('Failed to query the children of object {$object->guid}: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            $children = array();
-        }
-
-        if (!empty($skip))
-        {
-            $children = array_diff_key($children, array_flip($skip));
-        }
-
-        return $children;
     }
 }
 ?>

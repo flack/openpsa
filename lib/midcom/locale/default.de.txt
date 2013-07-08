@@ -66,6 +66,10 @@ Fortgeschrittene Einstellungen zu Schema und Daten
 alle
 ---STRINGEND
 
+---STRING all descendants will be deleted
+Alle Kindelemente werden gelöscht
+---STRINGEND
+
 ---STRING and
 und
 ---STRINGEND

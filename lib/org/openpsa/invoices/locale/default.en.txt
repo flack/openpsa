@@ -186,8 +186,8 @@ Invoice %s has already been canceled
 Failed to create cancelation for invoice %s
 ---STRINGEND
 
----STRING cancelation for invoice %s
-Cancelation for invoice %s
+---STRING cancelation for invoice %s, item %s
+Cancelation for invoice %s, item %s
 ---STRINGEND
 
 ---STRING mark paid

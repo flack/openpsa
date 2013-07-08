@@ -321,6 +321,10 @@ Sales report for %s - %s
 Sales project
 ---STRINGEND
 
+---STRING salesproject %s deleted
+Sales project "%s" was deleted successfully
+---STRINGEND
+
 ---STRING salesprojects
 Sales projects
 ---STRINGEND

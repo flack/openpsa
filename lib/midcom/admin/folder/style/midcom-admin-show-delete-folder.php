@@ -14,7 +14,7 @@
     ?>
     </p>
     <?php
-    midcom_admin_folder_handler_delete::list_children($data['topic']->id);
+    midcom_admin_folder_handler_delete::list_children($data['topic']);
     if (isset($data['symlink']))
     {
         ?><p><?php

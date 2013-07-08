@@ -62,10 +62,9 @@ var org_openpsa_tree =
     },
     crop_height: function(tree)
     {
-        var content_height = 0,
-        container_height = $('#content-text').height(),
+        var container_height = $('#content-text').height(),
         tree_content_height = tree.find('.dynatree-container').height(),
-        available_height = container_height - (tree.closest('.sidebar').height() - tree.outerHeight(true))
+        available_height = container_height - (tree.closest('.sidebar').height() - tree.outerHeight(true)),
         new_height = Math.max(Math.min(tree_content_height, available_height, container_height), 20);
 
         if (new_height !== tree.height())
