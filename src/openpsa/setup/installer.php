@@ -147,12 +147,20 @@ class installer
     {
         if (is_link($linkname))
         {
-            if (   realpath($linkname) !== $target
-                && md5_file(realpath($linkname)) !== md5_file($target))
+            if (!file_exists(realpath($linkname)))
             {
-                $io->write('Skipping <info>' . basename($target) . '</info>: Found Link in <info>' . dirname($linkname) . '</info> to <comment>' . realpath($linkname) . '</comment>');
+                $io->write('Link in <info>' . basename($target) . '</info> points to nonexistant path <comment>' . realpath($linkname) . '</comment>, removing');
+                @unlink($linkname);
             }
-            return;
+            else
+            {
+                if (   realpath($linkname) !== $target
+                    && md5_file(realpath($linkname)) !== md5_file($target))
+                {
+                    $io->write('Skipping <info>' . basename($target) . '</info>: Found Link in <info>' . dirname($linkname) . '</info> to <comment>' . realpath($linkname) . '</comment>');
+                }
+                return;
+            }
         }
         else if (is_file($linkname))
         {
