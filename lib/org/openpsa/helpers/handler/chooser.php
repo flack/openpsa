@@ -132,6 +132,8 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
                 $indexer->index($this->_controller->datamanager);
                 break;
+            case 'org_openpsa_products_product_group_dba':
+                break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
@@ -148,7 +150,7 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get('componentloader')->load($component);
         $topic_guid = $siteconfig->get_node_guid($component);
         $this->_node = $nap->resolve_guid($topic_guid);
-
+        
         if (!$this->_node)
         {
             throw new midcom_error("Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string());
@@ -169,6 +171,9 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'org_openpsa_contacts_person_dba':
                 $config_key .= '_person';
                 break;
+            case 'org_openpsa_products_product_group_dba':
+                $config_key .= '_group';
+                break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
@@ -187,6 +192,9 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'org_openpsa_contacts_person_dba':
                 $title = 'person';
+                break;
+            case 'org_openpsa_products_product_group_dba':
+                $title = 'product group';
                 break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
@@ -225,6 +233,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 $this->_object = new org_openpsa_contacts_person_dba($this->_object->id);
                 $jsdata['name'] = $this->_object->name;
                 $jsdata['email'] = $this->_object->email;
+                break;
+            case 'org_openpsa_products_product_group_dba':
+                $this->_object = new org_openpsa_products_product_group_dba($this->_object->id);
+                $jsdata['title'] = $this->_object->title;
                 break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
