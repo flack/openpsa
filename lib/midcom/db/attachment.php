@@ -251,7 +251,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
             if (null === $name)
             {
                 $mc = self::new_collector('guid', $guid);
-                $name = array_pop($mc->get_values('name'));
+                $names = $mc->get_values('name');
+                $name = array_pop($names);
             }
         }
         else if (is_a($attachment, 'midcom_db_attachment'))
