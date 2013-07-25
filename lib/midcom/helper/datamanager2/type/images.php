@@ -746,23 +746,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     }
 
     /**
-     * Rotates applies a rotational filter to all images under given main identifier
-     *
-     * @param string $images_identifier image to rotate
-     * @param string $direction direction to rotate to
-     * @return boolean indicating success/failure
-     */
-    function rotate($images_identifier, $direction)
-    {
-        $filter = $this->_rotate_get_filter($direction);
-        if ($filter === false)
-        {
-            return false;
-        }
-        return $this->apply_filter_images($images_identifier, $filter);
-    }
-
-    /**
      * Applies a given filter to all images (except original) under main identifier
      *
      * @param string $images_identifier identifier for $this->images array
