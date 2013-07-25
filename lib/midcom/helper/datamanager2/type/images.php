@@ -189,8 +189,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     function add_image($filename, $tmpname, $title)
     {
         $identifier = md5(time() . $filename . $tmpname);
-
-        return $this->set_image($identifier, $filename, $tmpname, $title);
+        $this->_identifier = $identifier;
+        return $this->set_image($filename, $tmpname, $title);
     }
 
     /**
@@ -208,30 +208,25 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             return false;
         }
-
-        return $this->set_image($identifier, $filename, $tmpname, $title);
+        $this->_identifier = $identifier;
+        return $this->set_image($filename, $tmpname, $title);
     }
 
     /**
      * Adds or updates an image to the type. Loads and processes the $tmpname
      * file on disk. The identifier is used to select the image in question.
      *
-     * @param string $identifier The image identifier to use.
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
+     * @param boolean $autodelete If this is true (the default), the temporary file will
+     *     be deleted after postprocessing and attachment-creation.
      * @return boolean Indicating success.
      */
-    function set_image($identifier, $filename, $tmpname, $title)
+    function set_image($filename, $tmpname, $title, $autodelete = true)
     {
-        if (empty($identifier))
-        {
-            debug_add("identifier must not be empty", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $this->_identifier = $identifier;
         $this->_title = $title;
-        $this->titles[$identifier] = $title;
+        $this->titles[$this->_identifier] = $title;
         if (array_key_exists($this->_identifier, $this->images))
         {
             // PHP5-TODO: Must be copy-by-value
