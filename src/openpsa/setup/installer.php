@@ -75,10 +75,12 @@ class installer
 
         $basepath = './web/' . $options['midcom-static-dir'] . '/';
         $static_dirs = self::_get_grandchildren($options['vendor-dir'], 'static');
-
+        $project = new \SplFileInfo('.');
+        $prefix = strlen($project->getPathname()) - 1;
         foreach ($static_dirs as $static)
         {
-            self::_link($static->getRealPath(), $basepath . $static->getFilename(), $io);
+            $relative_path = '../../' . substr($static->getPathname(), $prefix);
+            self::_link($relative_path, $basepath . $static->getFilename(), $io);
         }
 
         $themes = self::_get_children($options['themes-dir']);
@@ -86,14 +88,17 @@ class installer
         {
             if (is_dir($theme->getRealPath() . '/static'))
             {
-                self::_link($theme->getRealPath() . '/static', $basepath . $theme->getFilename(), $io);
+                $relative_path = '../../' . substr($theme->getPathname(), $prefix);
+                self::_link($relative_path . '/static', $basepath . $theme->getFilename(), $io);
             }
         }
 
         $static_dirs = self::_get_children($options['static-dir']);
         foreach ($static_dirs as $dir)
         {
-            self::_link($dir->getRealPath(), $basepath . $dir->getFilename(), $io);
+            $relative_path = '../../' . substr($dir->getPathname(), $prefix);
+
+            self::_link($relative_path, $basepath . $dir->getFilename(), $io);
         }
     }
 
