@@ -150,23 +150,29 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                             break;
                     }
                 }
-                elseif (   is_a($object, 'midcom_db_article')
-                        && $object->topic)
+                else if (is_a($object, 'midcom_db_article'))
                 {
-                    $topic = new midcom_db_topic($object->topic);
-                    // With articles we should check for topic component before populating create buttons as so many types can be children of topics
-                    switch ($type)
+                    try
                     {
-                        case 'midgard_article':
-                            // Articles can always be created
-                            break;
-                        default:
-                            $component = midcom::get('dbclassloader')->get_component_for_class($type);
-                            if ($component != $topic->component)
-                            {
-                                $display_button = false;
-                            }
-                            break;
+                        $topic = new midcom_db_topic($object->topic);
+                        // With articles we should check for topic component before populating create buttons as so many types can be children of topics
+                        switch ($type)
+                        {
+                            case 'midgard_article':
+                                // Articles can always be created
+                                break;
+                            default:
+                                $component = midcom::get('dbclassloader')->get_component_for_class($type);
+                                if ($component != $topic->component)
+                                {
+                                    $display_button = false;
+                                }
+                                break;
+                        }
+                    }
+                    catch (midcom_error $e)
+                    {
+                        $e->log();
                     }
                 }
 
