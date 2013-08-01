@@ -80,7 +80,7 @@ class installer
         foreach ($static_dirs as $static)
         {
             $relative_path = '../../' . substr($static->getPathname(), $prefix);
-            self::_link($relative_path, $basepath . $static->getFilename(), $io);
+            self::_link($relative_path, $basepath . $static->getFilename(), $io, $static->getPathname());
         }
 
         $themes = self::_get_children($options['themes-dir']);
@@ -89,7 +89,7 @@ class installer
             if (is_dir($theme->getRealPath() . '/static'))
             {
                 $relative_path = '../../' . substr($theme->getPathname(), $prefix);
-                self::_link($relative_path . '/static', $basepath . $theme->getFilename(), $io);
+                self::_link($relative_path . '/static', $basepath . $theme->getFilename(), $io, $theme->getPathname());
             }
         }
 
@@ -98,7 +98,7 @@ class installer
         {
             $relative_path = '../../' . substr($dir->getPathname(), $prefix);
 
-            self::_link($relative_path, $basepath . $dir->getFilename(), $io);
+            self::_link($relative_path, $basepath . $dir->getFilename(), $io, $dir->getPathname());
         }
     }
 
@@ -148,19 +148,25 @@ class installer
         }
     }
 
-    protected static function _link($target, $linkname, $io)
+    protected static function _link($target, $linkname, $io, $target_path = null)
     {
+        if (null === $target_path)
+        {
+            $target_path = $target;
+        }
+        $target_path = realpath($target_path);
+
         if (is_link($linkname))
         {
             if (!file_exists(realpath($linkname)))
             {
-                $io->write('Link in <info>' . basename($target) . '</info> points to nonexistant path <comment>' . realpath($linkname) . '</comment>, removing');
+                $io->write('Link in <info>' . basename($target) . '</info> points to nonexistant path <comment>' . $linkname . '</comment>, removing');
                 @unlink($linkname);
             }
             else
             {
-                if (   realpath($linkname) !== $target
-                    && md5_file(realpath($linkname)) !== md5_file($target))
+                if (   realpath($linkname) !== $target_path
+                    && md5_file(realpath($linkname)) !== md5_file($target_path))
                 {
                     $io->write('Skipping <info>' . basename($target) . '</info>: Found Link in <info>' . dirname($linkname) . '</info> to <comment>' . realpath($linkname) . '</comment>');
                 }
@@ -169,7 +175,7 @@ class installer
         }
         else if (is_file($linkname))
         {
-            if (md5_file($linkname) !== md5_file($target))
+            if (md5_file(realpath($linkname)) !== md5_file($target_path))
             {
                 $io->write('Skipping <info>' . basename($target) . '</info>: Found existing file in <comment>' . dirname($linkname) . '</comment>');
             }
