@@ -558,6 +558,10 @@ Keine Änderungen im Inhalt
 Keine Dateien vorhanden
 ---STRINGEND
 
+---STRING no revisions exist
+Keine Revisionen vorhanden
+---STRINGEND
+
 ---STRING no title
 Kein Titel
 ---STRINGEND

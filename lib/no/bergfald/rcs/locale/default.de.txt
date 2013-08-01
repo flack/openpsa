@@ -30,6 +30,10 @@ Nachricht
 Revisionskontrolle
 ---STRINGEND
 
+---STRING no revisions exist
+Keine Revisionen vorhanden
+---STRINGEND
+
 ---STRING restore this revision (%s)
 Diese Revision wiederherstellen
 ---STRINGEND

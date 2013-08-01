@@ -7,7 +7,7 @@ echo "<h1>{$data['view_title']}</h1>\n";
 
 if (count($history) == 0)
 {
-   echo $data['l10n']->get('No revisions exist.');
+   echo $data['l10n']->get('no revisions exist');
 }
 else
 {

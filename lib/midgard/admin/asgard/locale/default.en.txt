@@ -590,6 +590,10 @@ No changes in content
 No files
 ---STRINGEND
 
+---STRING no revisions exist
+No revisions exist
+---STRINGEND
+
 ---STRING no title
 No title
 ---STRINGEND

@@ -42,6 +42,10 @@ No changes in content
 Revision control
 ---STRINGEND
 
+---STRING no revisions exist
+No revisions exist
+---STRINGEND
+
 ---STRING restore this revision (%s)
 Restore to this revision (%s)
 ---STRINGEND

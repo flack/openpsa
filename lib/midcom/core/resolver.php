@@ -320,7 +320,7 @@ class midcom_core_resolver
             }
             midcom::get('cache')->content->enable_live_mode();
             midcom::get('cache')->invalidate_all();
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('MidCOM', 'midcom'), "Cache invalidation successful.", 'info');
+            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('MidCOM', 'midcom'), midcom::get('i18n')->get_string("cache invalidation successful", 'midcom'), 'info');
 
             $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get('self');
             $response = new midcom_response_relocate($url);

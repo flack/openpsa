@@ -138,6 +138,10 @@ bottom
 by name
 ---STRINGEND
 
+---STRING cache invalidation successful
+Cache invalidation successful
+---STRINGEND
+
 ---STRING calendar
 by date created
 ---STRINGEND
