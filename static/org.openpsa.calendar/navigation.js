@@ -39,3 +39,30 @@ $(document).ready(function()
         }
     });
 });
+
+var openpsa_calendar =
+{
+    initialize: function(settings)
+    {
+        $('.calendarwidget .free-slot').on('click', function()
+        {
+            var resource = $(this).data('resource'),
+            start = $(this).data('start'),
+            url = settings.prefix + 'new/',
+            window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
+
+            if (   resource
+                && resource.length > 0)
+            {
+                url += resource + '/';
+            }
+            if (   start
+                && start > 0)
+            {
+                url += start + '/';
+            }
+
+            window.open(url, 'newevent', window_options);
+        });
+    }
+};

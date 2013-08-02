@@ -103,11 +103,18 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
     var $reservation_div_options = array();
 
     /**
-     * Optional HTML attributes for free slot <div />s
+     * Can user create new events
      *
-     * @var Array
+     * @var boolean
      */
-    var $free_div_options = array();
+    public $can_create = false;
+
+    /**
+     * NAP node to work on
+     *
+     * @var array
+     */
+    public $node;
 
     /**
      * Resources and reservations to be rendered in the calendar as PHP array
@@ -373,6 +380,19 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                 break;
         }
         echo '</div>';
+
+        if (!empty($this->node))
+        {
+            $config = array
+            (
+                'height' => $this->node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_height'),
+                'width' => $this->node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_width'),
+                'prefix' => $this->node[MIDCOM_NAV_FULLURL] . 'event/'
+            );
+            echo '<script type="text/javascript">';
+            echo 'openpsa_calendar.initialize(' . json_encode($config) . ');';
+            echo '</script>';
+        }
     }
 
     private function _show_month($start, $end)
@@ -755,25 +775,21 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
             foreach ($slots as $slot_id => $slot_time)
             {
                 $additional_free_attributes = "";
-                if (count($this->free_div_options) > 0)
+                $class = '';
+                if ($this->can_create)
                 {
-                    foreach ($this->free_div_options as $attribute => $value)
+                    $start_time = $slot_time;
+                    if ($slot_time == "before")
                     {
-                        // Do replacements
-                        $start_time = $slot_time;
-                        if ($slot_time == "before")
-                        {
-                            $start_time = $before_end - $this->calendar_slot_length;
-                        }
-                        else if ($slot_time == "after")
-                        {
-                            $start_time = $after_start;
-                        }
-                        $value = str_replace('__START__', $start_time, $value);
-                        $value = str_replace('__RESOURCE__', $guid, $value);
-
-                        $additional_free_attributes .= " {$attribute}=\"{$value}\"";
+                        $start_time = $before_end - $this->calendar_slot_length;
                     }
+                    else if ($slot_time == "after")
+                    {
+                        $start_time = $after_start;
+                    }
+                    $class = 'free-slot ';
+                    $additional_free_attributes = ' data-start="' . $start_time . '"';
+                    $additional_free_attributes .= ' data-resource="' . $guid . '"';
                 }
 
                 if ($slot_time == "before")
@@ -781,7 +797,7 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                     $width = ($this->column_width / 2) - 1;
                     if ($resources_shown)
                     {
-                        echo "      <td class=\"start\" style=\"width: {$width}px;\"{$additional_free_attributes}>\n";
+                        echo "      <td class=\"" . $class . "start\" style=\"width: {$width}px;\"{$additional_free_attributes}>\n";
                         echo "        <div class=\"eventlist\">\n";
                         echo "          <span>&nbsp;</span>\n";
                         $reservations = $this->_get_reservations_between($resource, $start, $end);
@@ -794,21 +810,25 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                     }
                     else
                     {
-                        echo "      <td class=\"start\" style=\"width: {$width}px;\"{$additional_free_attributes}>&nbsp;</td>\n";
+                        echo "      <td class=\"" . $class . "start\" style=\"width: {$width}px;\"{$additional_free_attributes}>&nbsp;</td>\n";
                     }
                 }
                 else if ($slot_time == "after")
                 {
                     $width = ($this->column_width / 2) - 1;
 
-                    echo "      <td class=\"end\" style=\"width: {$width}px;\"{$additional_free_attributes}>&nbsp;</td>\n";
+                    echo "      <td class=\"" . $class . "end\" style=\"width: {$width}px;\"{$additional_free_attributes}>&nbsp;</td>\n";
                 }
                 else
                 {
                     $css_class = '';
                     if ($slot_time < time())
                     {
-                        $css_class = " class=\"past\"";
+                        $class .= 'past';
+                    }
+                    if (!empty($class))
+                    {
+                        $css_class = ' class="' . $class . '"';
                     }
                     $slot_width = $this->column_width - 1;
                     echo "      <td{$css_class} width=\"{$slot_width}\" style=\"width: {$slot_width}px;\"{$additional_free_attributes}>&nbsp;</td>\n";
