@@ -44,7 +44,7 @@ var openpsa_calendar =
 {
     initialize: function(settings)
     {
-        $('.calendarwidget .free-slot').on('click', function()
+        $('#org_openpsa_widgets_calendar .free-slot').on('click', function()
         {
             var resource = $(this).data('resource'),
             start = $(this).data('start'),
@@ -63,6 +63,17 @@ var openpsa_calendar =
             }
 
             window.open(url, 'newevent', window_options);
+        });
+        $('#org_openpsa_widgets_calendar .reservation').on('click', function(event)
+        {
+            var guid = $(this).data('event'),
+            url = settings.prefix + guid + '/',
+            window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
+
+            event.preventDefault();
+
+            window.open(url, 'event' + guid, window_options);
+            return false;
         });
     }
 };

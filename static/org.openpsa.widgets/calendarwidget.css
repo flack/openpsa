@@ -53,7 +53,8 @@ table.calendarwidget tbody td {
     padding: 0px;
     margin: 0px;
 }
-table.calendarwidget tbody td:hover {
+
+#org_openpsa_widgets_calendar .free-slot:hover {
     background-color: #EED680;
     cursor: pointer;
 }

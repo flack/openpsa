@@ -96,13 +96,6 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
     var $cell_height = 40;
 
     /**
-     * Optional HTML attributes for reservation slot <div />s
-     *
-     * @var Array
-     */
-    var $reservation_div_options = array();
-
-    /**
      * Can user create new events
      *
      * @var boolean
@@ -455,14 +448,21 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
         }
 
         $event_shown_today = array();
+        $additional_attributes = "";
 
         $day_class = "day";
         if ($end < time())
         {
             $day_class .= " past";
         }
+        if ($this->can_create)
+        {
+            $day_class .= ' free-slot';
+            $additional_attributes = ' data-start="' . $start . '"';
+            $additional_attributes .= ' data-resource="' . midcom::get('auth')->user->guid . '"';
+        }
         echo "\n\n";
-        echo "<div class=\"{$day_class}\" style=\"width: {$this->column_width}px; height: {$this->cell_height}px;\">";
+        echo "<div class=\"{$day_class}\"" . $additional_attributes . " style=\"width: {$this->column_width}px; height: {$this->cell_height}px;\">";
         echo '<h2>' . strftime("%a", $start) . ' <span class="metadata">' . strftime("%x", $start) . '</span></h2>';
 
         // Show reservations as list
@@ -493,17 +493,7 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                     $start_time = date('H:i', $reservation['start']);
                     $end_time = date('H:i', $reservation['end']);
 
-                    $additional_attributes = "";
-                    if (count($this->reservation_div_options) > 0)
-                    {
-                        foreach ($this->reservation_div_options as $attribute => $value)
-                        {
-                            // Do replacements
-                            $value = str_replace('__GUID__', $reservation['guid'], $value);
-
-                            $additional_attributes .= " {$attribute}=\"{$value}\"";
-                        }
-                    }
+                    $additional_attributes = ' data-event="' . $reservation['guid'] . '"';
 
                     echo "<li title=\"{$start_time}-{$end_time}: {$reservation['name']}\">{$start_time}-{$end_time} <span class=\"reservation\"{$additional_attributes}>{$reservation['name']}</span></li>\n";
                     if ($reservation['end'] < $end)
@@ -640,23 +630,14 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                 $additional_event_class .= ' starting_before';
             }
 
-            $additional_attributes = "";
-            if (count($this->reservation_div_options) > 0)
-            {
-                foreach ($this->reservation_div_options as $attribute => $value)
-                {
-                    // Do replacements
-                    $value = str_replace('__GUID__', $reservation['guid'], $value);
-                    $additional_attributes .= " {$attribute}=\"{$value}\"";
-                }
-            }
+            $additional_attributes = ' data-event="' . $reservation['guid'] . '"';
 
             $start_time = date('H:i', $reservation['start']);
             $end_time = date('H:i', $reservation['end']);
             $event_width = ceil($event_width);
             $event_left = round($event_left);
 
-            echo "          <div class=\"vevent{$additional_event_class}\"  title=\"{$start_time}-{$end_time}: {$reservation['name']}\" style=\"width: {$event_width}px; left: {$event_left}px; top: {$event_top}px;\"{$additional_attributes}>\n";
+            echo "          <div class=\"vevent reservation{$additional_event_class}\"  title=\"{$start_time}-{$end_time}: {$reservation['name']}\" style=\"width: {$event_width}px; left: {$event_left}px; top: {$event_top}px;\"{$additional_attributes}>\n";
             echo "            <span class=\"time\">\n";
             echo "              <abbr class=\"dtstart\" title=\"" . gmdate('Y-m-d\TH:i:s\Z', $reservation['start']) . "\">{$start_time}</abbr>\n";
             echo "              <abbr class=\"dtend\" title=\"" . gmdate('Y-m-d\TH:i:s\Z', $reservation['end']) . "\">{$end_time}</abbr>\n";

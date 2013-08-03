@@ -414,19 +414,9 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
 
         // Clicking a free slot should bring up 'new event' dialogue
         $nap = new midcom_helper_nav();
-        $this_node = $nap->get_node($nap->get_current_node());
+        $this->_calendar->node = $nap->get_node($nap->get_current_node());
 
-        $this->_calendar->reservation_div_options = array
-        (
-            'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this_node),
-        );
-        if ($this->_root_event->can_do('midgard:create'))
-        {
-            $this->_calendar->free_div_options = array
-            (
-                'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($this_node, '__START__', '__RESOURCE__'),
-            );
-        }
+        $this->_calendar->can_create = $this->_root_event->can_do('midgard:create');
 
         // Populate contacts
         $this->_populate_calendar_contacts($this->_calendar->get_month_start(), $this->_calendar->get_month_end());
@@ -499,10 +489,6 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $nap = new midcom_helper_nav();
         $this->_calendar->node = $nap->get_node($nap->get_current_node());
 
-        $this->_calendar->reservation_div_options = array
-        (
-            'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this->_calendar->node),
-        );
         $this->_calendar->can_create = $this->_root_event->can_do('midgard:create');
 
         $week_start = $this->_calendar->get_week_start();
@@ -580,19 +566,9 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
 
         // Clicking a free slot should bring up 'new event' dialogue
         $nap = new midcom_helper_nav();
-        $this_node = $nap->get_node($nap->get_current_node());
+        $this->_calendar->node = $nap->get_node($nap->get_current_node());
 
-        if ($this->_root_event->can_do('midgard:create'))
-        {
-            $this->_calendar->reservation_div_options = array
-            (
-                'onclick' => org_openpsa_calendar_interface::calendar_editevent_js('__GUID__', $this_node),
-            );
-        }
-        $this->_calendar->free_div_options = array
-        (
-            'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($this_node, '__START__', '__RESOURCE__'),
-        );
+        $this->_calendar->can_create = $this->_root_event->can_do('midgard:create');
 
         // Populate contacts
         $this->_populate_calendar_contacts($this->_calendar->get_day_start(), $this->_calendar->get_day_end());
