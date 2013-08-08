@@ -758,6 +758,10 @@ Select exactly two choices
 Select the types
 ---STRINGEND
 
+---STRING show %s entries
+Show %s entries
+---STRINGEND
+
 ---STRING show %s %s children
 Show %s %s children
 ---STRINGEND

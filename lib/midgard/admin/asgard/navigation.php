@@ -191,11 +191,25 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     /**
      * Renders the given root objects to HTML and calls _list_child_elements()
      *
-     * @param array &$root_objects reference to the array of root objects
      * @param midcom_helper_reflector_tree &$ref Reflector singleton
      */
-    private function _list_root_elements(&$root_objects, midcom_helper_reflector_tree &$ref)
+    private function _list_root_elements(midcom_helper_reflector_tree &$ref)
     {
+        $total = $ref->count_root_objects();
+        if ($total == 0)
+        {
+            return;
+        }
+        if ($total > $this->_config->get('max_navigation_entries'))
+        {
+            if (empty($_GET['show_all_' . $ref->mgdschema_class]))
+            {
+                echo '<a href="?show_all_' . $ref->mgdschema_class . '=1">' . sprintf($this->_l10n->get('show %s entries'), $total) . '</a>';
+                return;
+            }
+        }
+        $root_objects = $ref->get_root_objects();
+
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
         $label_mapping = array();
@@ -444,12 +458,8 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['expanded'] = true;
             midcom_show_style('midgard_admin_asgard_navigation_section_header');
             $ref = $this->_get_reflector($root_type);
-            $root_objects = $ref->get_root_objects();
-            if (   is_array($root_objects)
-                && count($root_objects) > 0)
-            {
-                $this->_list_root_elements($root_objects, $ref);
-            }
+            $this->_list_root_elements($ref);
+
             midcom_show_style('midgard_admin_asgard_navigation_section_footer');
         }
 

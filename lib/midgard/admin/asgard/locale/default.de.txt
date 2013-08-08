@@ -718,6 +718,10 @@ Typen auswählen
 Shell
 ---STRINGEND
 
+---STRING show %s entries
+%s Einträge anzeigen
+---STRINGEND
+
 ---STRING show %s %s children
 %s %s-Kindelemente anzeigen
 ---STRINGEND

@@ -74,6 +74,7 @@
 'midgard_types' => '',              // List of types, imploded and wrapped (e.g. |midgard_article|,|midgard_topic|)
 'midgard_types_regexp' => '',       // Perl-styled regular expression
 'last_visited_size' => 20,
+'max_navigation_entries' => 100,
 
 // Welcome page
 // List of types we don't list on latest objects
