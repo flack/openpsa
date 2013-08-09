@@ -44,7 +44,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "openpsa\\installer\\installer::prepare_db",
+            "openpsa\\installer\\installer::prepare_database",
             "openpsa\\installer\\installer::setup_root_package"
         ],
         "post-update-cmd": [
