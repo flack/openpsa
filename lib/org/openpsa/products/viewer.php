@@ -174,7 +174,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates root group information
      */
-    public function _on_can_handle($argc, $argv)
+    public function _on_can_handle($argc, array $argv)
     {
         if ($this->_config->get('root_group') === 0)
         {

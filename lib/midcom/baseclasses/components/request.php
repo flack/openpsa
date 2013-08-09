@@ -772,7 +772,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
     }
 
-    public function _on_handled($handler, $args)
+    public function _on_handled($handler, array $args)
     {
     }
 
@@ -793,7 +793,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $argv The argument list.
      * @return boolean Return false to abort the handle phase, true to continue normally.
      */
-    public function _on_can_handle($argc, $argv)
+    public function _on_can_handle($argc, array $argv)
     {
         return true;
     }
