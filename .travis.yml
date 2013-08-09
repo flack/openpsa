@@ -10,7 +10,7 @@ env:
 
 before_script:
   - ./test/travis_midgard2.sh
-  - composer install
+  - composer install --verbose
   - sudo cp schemas/* /usr/share/midgard2/schema
 
 script: phpunit --debug
