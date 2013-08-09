@@ -20,5 +20,6 @@ tar zxf ${MIDGARD_EXT_VERSION}
 sh -c "cd midgardproject-midgard-php5-*&&php `pyrus get php_dir|tail -1`/pake.php install"
 echo "extension=midgard2.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
+wget http://getcomposer.org/composer.phar
 export OPENPSA_SKIP_DB_CREATION=true
-sudo composer install --verbose
+sudo php composer.phar install --verbose
