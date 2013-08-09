@@ -209,7 +209,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
      * Generic request startup work:
      * - Populate the Node Toolbar
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         $this->_populate_node_toolbar();
     }

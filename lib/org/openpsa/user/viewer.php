@@ -55,13 +55,12 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    public function _on_handle($handler_id, $args)
+    public function _on_handle($handler_id, array $args)
     {
         if ($handler_id != 'lostpassword')
         {
             midcom::get('auth')->require_valid_user();
         }
     }
-
 }
 ?>

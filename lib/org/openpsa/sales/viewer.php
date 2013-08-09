@@ -19,7 +19,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
      * - Load the Schema Database
      * - Add the LINK HTML HEAD elements
      */
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         org_openpsa_widgets_contact::add_head_elements();
 

@@ -13,7 +13,7 @@
  */
 class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         $this->_request_data['view'] = 'default';
         $this->_request_data['config'] = $this->_config;

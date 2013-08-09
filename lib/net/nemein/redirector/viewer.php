@@ -39,7 +39,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     /**
      * Add creation link
      */
-    public function _on_handle($handler_id, $args)
+    public function _on_handle($handler_id, array $args)
     {
         if ($this->_topic->can_do('midgard:create'))
         {

@@ -15,7 +15,7 @@
  */
 class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         // Pass topic to handlers
         $this->_request_data['directory'] = new org_openpsa_documents_directory($this->_topic->id);

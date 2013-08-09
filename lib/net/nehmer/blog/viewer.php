@@ -172,7 +172,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         return false;
     }
 
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         $this->_request_data['schemadb'] =
             midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));

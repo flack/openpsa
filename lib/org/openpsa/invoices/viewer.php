@@ -13,7 +13,7 @@
  */
 class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         org_openpsa_widgets_contact::add_head_elements();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");

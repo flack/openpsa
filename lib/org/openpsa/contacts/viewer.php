@@ -18,7 +18,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates the toolbars.
      */
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
         // Always run in uncached mode
         midcom::get('cache')->content->no_cache();

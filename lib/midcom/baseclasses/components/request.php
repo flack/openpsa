@@ -768,7 +768,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $args The argument list.
      * @return boolean Return false to abort the handle phase, true to continue normally.
      */
-    public function _on_handle($handler, $args)
+    public function _on_handle($handler, array $args)
     {
     }
 

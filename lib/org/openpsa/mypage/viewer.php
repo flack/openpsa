@@ -15,7 +15,7 @@
  */
 class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_handle($handler_id, $args)
+    public function _on_handle($handler_id, array $args)
     {
         // Always run in uncached mode
         midcom::get('cache')->content->no_cache();
