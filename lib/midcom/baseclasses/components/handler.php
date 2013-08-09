@@ -227,6 +227,5 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
 
         midcom::get('style')->append_substyle($page_class);
     }
-
 }
 ?>

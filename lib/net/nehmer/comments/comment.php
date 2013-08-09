@@ -583,7 +583,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $message;
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_cache_ratings();
 

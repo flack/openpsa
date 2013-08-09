@@ -13,7 +13,7 @@
  */
 class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_handler
 {
-    function _on_execute()
+    public function _on_execute()
     {
         if (!$this->_config->get('atom_comments_import_enable'))
         {
