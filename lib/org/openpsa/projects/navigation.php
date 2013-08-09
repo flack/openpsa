@@ -16,7 +16,7 @@ class org_openpsa_projects_navigation extends midcom_baseclasses_components_navi
     /**
      * Returns a static leaf list with access to different task lists.
      */
-    function get_leaves()
+    public function get_leaves()
     {
         $leaves = array();
 

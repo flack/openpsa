@@ -30,7 +30,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
      * mode. The leaves' titles are used as a description within NAP, and the toolbar will
      * contain edit and delete links.
      */
-    public function get_leaves()
+    public public function get_leaves()
     {
         $leaves = array();
         if ($this->_config->get('hide_navigation'))

@@ -22,7 +22,7 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
      * mode. The leaves' title are used as a description within NAP, and the toolbar will
      * contain edit and delete links.
      */
-    function get_leaves()
+    public function get_leaves()
     {
         $leaves = array ();
 
