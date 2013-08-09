@@ -10,7 +10,7 @@ env:
 
 before_script:
   - ./test/travis_midgard2.sh
-  - sudo export OPENPSA_SKIP_DB_CREATION=true && sudo `which composer` install --verbose
+  - sudo OPENPSA_SKIP_DB_CREATION=true `which composer` install --verbose
 
 script: phpunit --debug
 
