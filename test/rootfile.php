@@ -26,21 +26,11 @@ if (extension_loaded('midgard2'))
     // if we still can't connect to a DB, we'll create a new one
     if (!$midgard->is_connected())
     {
-        $config = new midgard_config();
-        $config->dbtype = 'SQLite';
-        $config->database = 'openpsa_test';
-        $config->blobdir = OPENPSA_TEST_ROOT . '__output/blobs';
-        $config->logfilename = OPENPSA_TEST_ROOT . '__output/midgard2.log';
-        $config->tablecreate = true;
-        $config->tableupdate = true;
-        $config->loglevel = 'warn';
+        $installer = openpsa\installer\mgd2setup::get(OPENPSA_TEST_ROOT . '__output');
+        $installer->dbtype = 'SQLite';
+        $installer->run();
 
-        if (!$midgard->open_config($config))
-        {
-            throw new Exception('Could not open Midgard connection to test database: ' . $midgard->get_error_string());
-        }
-        require_once dirname(__FILE__) . '/../tools/bootstrap.php';
-        openpsa_prepare_database($config);
+        require_once dirname(__DIR__) . '/tools/bootstrap.php';
         $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
     }
 }
