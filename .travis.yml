@@ -10,7 +10,7 @@ env:
 
 before_script:
   - ./test/travis_midgard2.sh
-  - sudo OPENPSA_SKIP_DB_CREATION=true `which composer` install
+  - sudo OPENPSA_INSTALLER_DBTYPE=SQLite `which composer` install
 
 script: phpunit --debug
 

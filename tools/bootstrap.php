@@ -1,39 +1,4 @@
 <?php
-
-/**
- * Prepares a mgd2 database
- */
-function openpsa_prepare_database($config)
-{
-    if (!$config->create_blobdir())
-    {
-        throw new Exception("Failed to create file attachment storage directory to {$config->blobdir}:" . midgard_connection::get_instance()->get_error_string());
-    }
-
-    // Create storage
-    if (!midgard_storage::create_base_storage())
-    {
-        if (midgard_connection::get_instance()->get_error_string() != 'MGD_ERR_OK')
-        {
-            throw new Exception("Failed to create base database structures" . midgard_connection::get_instance()->get_error_string());
-        }
-    }
-
-    $re = new ReflectionExtension('midgard2');
-    $classes = $re->getClasses();
-    foreach ($classes as $refclass)
-    {
-        if (!$refclass->isSubclassOf('midgard_object'))
-        {
-            continue;
-        }
-        $type = $refclass->getName();
-
-        midgard_storage::create_class_storage($type);
-        midgard_storage::update_class_storage($type);
-    }
-}
-
 /**
  * Simple default topic hierarchy setup for OpenPSA
  *
@@ -86,5 +51,4 @@ function openpsa_prepare_topics()
 
     return $root_topic->guid;
 }
-
 ?>
