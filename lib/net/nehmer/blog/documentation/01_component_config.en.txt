@@ -1,7 +1,7 @@
 Component configuration
 ====
 
-Newsticker/Blog component can be customized to users' need by setting trhe following options via 'Configuration' menu.
+Newsticker/Blog component can be customized to users' needs by setting the following options via 'Configuration' menu.
 
 ##Blog settings##
 
