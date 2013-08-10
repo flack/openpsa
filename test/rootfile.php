@@ -30,7 +30,13 @@ if (extension_loaded('midgard2'))
         $installer = openpsa\installer\mgd2setup::get(OPENPSA_TEST_ROOT . '__output');
         $installer->dbtype = 'SQLite';
         $installer->run();
-
+        /*
+         * @todo: This constant is a workaround to make sure the output
+         * dir is not deleted again straight away. The proper fix would
+         * of course be to delete the old output dir before running the
+         * db setup, but this requires further changes in dependent repos
+         */
+        define('OPENPSA_DB_CREATED', true);
         require_once dirname(__DIR__) . '/tools/bootstrap.php';
         $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
     }

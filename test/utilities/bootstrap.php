@@ -14,7 +14,17 @@ require_once __DIR__ . '/helpers.php';
 define('OPENPSA2_UNITTEST_RUN', true);
 define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
 
-if (file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR))
+function openpsa_test_create_dir($dir)
+{
+    if (   !is_dir($dir)
+        && !mkdir($dir))
+    {
+        throw new Exception('could not create directory ' . $dir);
+    }
+}
+
+if (   file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)
+    && !defined('OPENPSA_DB_CREATED'))
 {
     $ret = false;
     $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
@@ -25,33 +35,19 @@ if (file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR))
     }
 }
 
-if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR))
-{
-    throw new Exception('could not create output directory');
-}
-if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs'))
-{
-    throw new Exception('could not create output RCS directory');
-}
-if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache'))
-{
-    throw new Exception('could not create output cache directory');
-}
-if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs'))
-{
-    throw new Exception('could not create output blob cache directory');
-}
-if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs'))
-{
-    throw new Exception('could not create output blobs directory');
-}
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR);
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs');
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache');
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs');
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs');
+
 $subdirs = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F');
 foreach ($subdirs as $dir)
 {
-    mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir);
+    openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir);
     foreach ($subdirs as $subdir)
     {
-        mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir . '/' . $subdir);
+        openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir . '/' . $subdir);
     }
 }
 
@@ -67,7 +63,8 @@ if (empty($GLOBALS['midcom_config_local']['cache_base_directory']))
 {
     $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/';
 }
-if (empty($GLOBALS['midcom_config_local']['log_filename']))
+if (   empty($GLOBALS['midcom_config_local']['log_filename'])
+    || !file_exists(dirname($GLOBALS['midcom_config_local']['log_filename'])))
 {
     $GLOBALS['midcom_config_local']['log_filename'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log';
 }
