@@ -1,4 +1,4 @@
 Newsticker / Blog component
 ======
-This is a complete rewrite of the old newsticker the has been made for MidCOM 2.6. It incorporates 
+This is a complete rewrite of the old newsticker that has been made for MidCOM 2.6. It incorporates 
 all of the goodies current MidCOM has to offer and can serve as an example component therefore.
