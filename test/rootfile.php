@@ -2,6 +2,7 @@
 /**
  * Setup file for running unit tests
  */
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 $GLOBALS['midcom_config_local'] = array();
