@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/attach.png',
 'description' => 'Image upload and insertion tool',
 'purecode' => true,
-'version' => '9.0beta5',
+'version' => '9.0beta5+git',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),
