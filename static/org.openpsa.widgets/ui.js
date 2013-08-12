@@ -64,6 +64,11 @@ var org_openpsa_layout =
 {
     clip_toolbar: function()
     {
+        if ($('#org_openpsa_toolbar > ul.view_toolbar').length === 0)
+        {
+            // there seem to be no toolbar buttons, so we don't need to dio anything
+            return;
+        }
         var container = $('#toolbar_dropdown').length > 0 ? $('#toolbar_dropdown') : $('<li class="enabled submenu"><a><img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/preferences-desktop.png"/> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
             .attr('id', 'toolbar_dropdown')
             .data('event_attached', false)
