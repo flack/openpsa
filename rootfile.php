@@ -1,44 +1,9 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 $GLOBALS['midcom_config_local'] = array();
 
 // Check that the environment is a working one
-if (extension_loaded('midgard2'))
-{
-    if (!class_exists('midgard_topic'))
-    {
-        throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
-    }
-
-    $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
-
-    $midgard = midgard_connection::get_instance();
-
-    // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-    if (!$midgard->is_connected())
-    {
-        $config = new midgard_config();
-        $config->read_file_at_path(ini_get('midgard.configuration_file'));
-        $midgard->open_config($config);
-    }
-
-    if (method_exists($midgard, 'enable_workspace'))
-    {
-        $midgard->enable_workspace(false);
-    }
-
-    // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
-    // see also https://github.com/midgardproject/midgard-php5/issues/50
-    if (   function_exists('gc_enabled')
-        && gc_enabled())
-    {
-        gc_disable();
-    }
-
-}
-else if (!extension_loaded('midgard'))
-{
-    throw new Exception("OpenPSA requires Midgard PHP extension to run");
-}
+midcom_connection::setup(__DIR__ . DIRECTORY_SEPARATOR);
 
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', __DIR__ . '/lib');
@@ -74,9 +39,6 @@ if (file_exists(__DIR__ . '/themes/' . $GLOBALS['midcom_config_local']['theme'] 
 {
     include __DIR__ . '/themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php';
 }
-
-// Include the MidCOM environment for running OpenPSA
-require MIDCOM_ROOT . '/midcom.php';
 
 // Start request processing
 $midcom = midcom::get();

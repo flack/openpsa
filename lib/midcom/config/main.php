@@ -576,6 +576,7 @@ class midcom_config implements arrayaccess
         if (extension_loaded('midgard2'))
         {
             $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
+            $this->_default_config['person_class'] = 'openpsa_person';
         }
         else
         {

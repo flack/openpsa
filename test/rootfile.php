@@ -8,57 +8,21 @@ define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 $GLOBALS['midcom_config_local'] = array();
 
 // Check that the environment is a working one
-if (extension_loaded('midgard2'))
+if (!midcom_connection::setup(OPENPSA_TEST_ROOT))
 {
-    $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
-
-    // Open connection
-    $midgard = midgard_connection::get_instance();
-
-    // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-    if (   !$midgard->is_connected()
-        && $path = ini_get('midgard.configuration_file'))
-    {
-        $config = new midgard_config();
-        $config->read_file_at_path($path);
-        $midgard->open_config($config);
-    }
-
-    // if we still can't connect to a DB, we'll create a new one
-    if (!$midgard->is_connected())
-    {
-        $installer = openpsa\installer\mgd2setup::get(OPENPSA_TEST_ROOT . '__output');
-        $installer->dbtype = 'SQLite';
-        $installer->run();
-        /*
-         * @todo: This constant is a workaround to make sure the output
-         * dir is not deleted again straight away. The proper fix would
-         * of course be to delete the old output dir before running the
-         * db setup, but this requires further changes in dependent repos
-         */
-        define('OPENPSA_DB_CREATED', true);
-        require_once dirname(__DIR__) . '/tools/bootstrap.php';
-        $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
-    }
-}
-else if (extension_loaded('midgard'))
-{
-    if (file_exists(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php'))
-    {
-        include OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php';
-    }
-    else
-    {
-        include OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php';
-    }
-}
-else
-{
-    throw new Exception("OpenPSA requires Midgard PHP extension to run");
-}
-if (!class_exists('midgard_topic'))
-{
-    throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
+    // if we can't connect to a DB, we'll create a new one
+    $installer = openpsa\installer\mgd2setup::get(OPENPSA_TEST_ROOT . '__output');
+    $installer->dbtype = 'SQLite';
+    $installer->run();
+    /*
+     * @todo: This constant is a workaround to make sure the output
+     * dir is not deleted again straight away. The proper fix would
+     * of course be to delete the old output dir before running the
+     * db setup, but this requires further changes in dependent repos
+     */
+    define('OPENPSA_DB_CREATED', true);
+    require_once dirname(__DIR__) . '/tools/bootstrap.php';
+    $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
 }
 
 // Load configuration

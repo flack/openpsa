@@ -52,6 +52,75 @@ class midcom_connection
     );
 
     /**
+     * DB connection setup routine
+     *
+     * @param string $basedir The directory to look for config files if necessary (mgd1 only)
+     * @throws Exception We use regular exceptions here, because this might run before things are properly set up
+     * @return boolean Indicating success
+     */
+    public static function setup($basedir = null)
+    {
+        if (!class_exists('midgard_topic'))
+        {
+            throw new Exception('You need to install DB MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
+        }
+        if (extension_loaded('midgard2'))
+        {
+            $midgard = midgard_connection::get_instance();
+
+            // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
+            if (!$midgard->is_connected())
+            {
+                if (!($path = ini_get('midgard.configuration_file')))
+                {
+                    return false;
+                }
+                $config = new midgard_config();
+                $config->read_file_at_path(ini_get('midgard.configuration_file'));
+                $midgard->open_config($config);
+            }
+
+            if (method_exists($midgard, 'enable_workspace'))
+            {
+                $midgard->enable_workspace(false);
+            }
+
+            // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
+            // see also https://github.com/midgardproject/midgard-php5/issues/50
+            if (   function_exists('gc_enabled')
+                && gc_enabled())
+            {
+                gc_disable();
+            }
+
+        }
+        else if (extension_loaded('midgard'))
+        {
+            if (!isset($_MIDGARD_CONNECTION))
+            {
+                if (file_exists($basedir . 'mgd1-connection.inc.php'))
+                {
+                    include $basedir . 'mgd1-connection.inc.php';
+                }
+                else if (file_exists($basedir . 'mgd1-connection.inc.php'))
+                {
+                    include $basedir . 'mgd1-connection-default.inc.php';
+                }
+                else
+                {
+                    throw new Exception("Could not connect to database, configuration file not found");
+                }
+            }
+        }
+        else
+        {
+            throw new Exception("OpenPSA requires Midgard PHP extension to run");
+        }
+
+        return true;
+    }
+
+    /**
      * Check whether Midgard database connection exists
      *
      * @return boolean

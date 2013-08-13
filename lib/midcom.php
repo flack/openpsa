@@ -70,7 +70,6 @@ class midcom
             define('MIDCOM_ROOT', dirname(__FILE__));
         }
 
-        require(MIDCOM_ROOT . '/compat/environment.php');
         midcom_compat_environment::initialize();
 
         if (! defined('MIDCOM_STATIC_ROOT'))
@@ -90,9 +89,7 @@ class midcom
 
         ///////////////////////////////////////
         //Constants, Globals and Configuration
-        require(MIDCOM_ROOT . '/constants.php');
-        require(MIDCOM_ROOT. '/midcom/connection.php');
-        require(MIDCOM_ROOT. '/midcom/config/main.php');
+        require MIDCOM_ROOT . '/constants.php';
 
         self::$_services['config'] = new midcom_config;
         // TODO: Move this to compat layer
@@ -113,7 +110,7 @@ class midcom
         // Start the Debugger
         require(MIDCOM_ROOT. '/midcom/debug.php');
 
-        debug_add("Start of MidCOM run: {$_SERVER['REQUEST_URI']}");
+        debug_add("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
 
         self::$_services['auth'] = new midcom_services_auth();
         self::$_services['auth']->initialize();
