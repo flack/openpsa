@@ -445,19 +445,18 @@ input#org_openpsa_search_query
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CCCEC9', endColorstr='#B3B7B6',GradientType=0 ); /* ie */
     border-bottom: 1px solid #a2a2a3;
     border-top: 1px solid #eeeee7;
-    font-weight: bold;
-    font-size: 10px;
     padding: .2em .4em .2em 0;
     white-space: nowrap;
     position: relative;
     box-shadow: 0 -2px 7px rgba(0, 0, 0, 0.1) inset;
+    z-index: 10;
+    font-size: 11px
 }
 
 .org_openpsa_toolbar:hover
 {
     border-bottom: 1px solid #929293;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    z-index: 1;
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar
@@ -471,7 +470,7 @@ input#org_openpsa_search_query
 #container .org_openpsa_toolbar ul.midcom_toolbar li > a
 {
   display: inline-block;
-  color: #000000;
+  color: #222;
   text-decoration: none !important;
 }
 
@@ -502,7 +501,7 @@ input#org_openpsa_search_query
   white-space: nowrap;
   overflow: visible;
   border-radius: 0.5em;
-  text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.8);
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.4);
   line-height: 16px;
 }
 
