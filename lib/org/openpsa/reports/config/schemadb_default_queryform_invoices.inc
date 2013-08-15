@@ -82,6 +82,7 @@
                 (
                     'options' =>  array
                     (
+                        'date'     => midcom::get('i18n')->get_string('invoice date', 'org.openpsa.invoices'),
                         'sent'     => midcom::get('i18n')->get_string('sent date', 'org.openpsa.invoices'),
                         'due'      => midcom::get('i18n')->get_string('due date', 'org.openpsa.invoices'),
                         'paid'     => midcom::get('i18n')->get_string('paid date', 'org.openpsa.invoices'),
