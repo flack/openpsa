@@ -125,6 +125,11 @@ foreach ($data['invoices'] as $invoice)
 echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
 echo "\n//]]></script>";
+
+if ($data['date_field'] == 'date')
+{
+    $data['date_field'] = 'invoice date';
+}
 ?>
 
 <div class="report &(data['table_class']); org_openpsa_invoices full-width">
