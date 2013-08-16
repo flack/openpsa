@@ -55,10 +55,11 @@ class midcom_connection
      * DB connection setup routine
      *
      * @param string $basedir The directory to look for config files if necessary (mgd1 only)
+     * @param string $config_name The name of the DB configuration to use (mgd2 only)
      * @throws Exception We use regular exceptions here, because this might run before things are properly set up
      * @return boolean Indicating success
      */
-    public static function setup($basedir = null)
+    public static function setup($basedir = null, $config_name = null)
     {
         if (!class_exists('midgard_topic'))
         {
@@ -71,6 +72,12 @@ class midcom_connection
             // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
             if (!$midgard->is_connected())
             {
+                if ($config_name !== null)
+                {
+                    $config = new midgard_config();
+                    $config->read_file($config_name);
+                    return $midgard->open_config($config);
+                }
                 if (!($path = ini_get('midgard.configuration_file')))
                 {
                     return false;

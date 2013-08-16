@@ -9,6 +9,9 @@
 namespace openpsa\console;
 
 use Symfony\Component\Console\Application as base_application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use openpsa\console\command\exec;
 
 /**
@@ -18,15 +21,30 @@ use openpsa\console\command\exec;
  */
 class application extends base_application
 {
+    /**
+     * @inheritDoc
+     */
     public function __construct($name = __CLASS__, $version = '9.0beta5+git')
     {
         parent::__construct($name, $version);
 
-        $this->_prepare_environment();
         $this->_add_default_commands();
+        $this->getDefinition()
+            ->addOption(new InputOption('--config', '-c', InputOption::VALUE_REQUIRED, 'Config name (mgd2 only)'));
     }
 
-    private function _prepare_environment()
+    /**
+     * @inheritDoc
+     */
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $config_name = $input->getParameterOption(array('--config', '-c'), null);
+        $this->_prepare_environment($config_name);
+
+        parent::doRun($input, $output);
+    }
+
+    private function _prepare_environment($config_name)
     {
         if (!defined('OPENPSA2_PREFIX'))
         {
@@ -47,7 +65,12 @@ class application extends base_application
         );
         $_SERVER = array_merge($server_defaults, $_SERVER);
 
-        \midcom_connection::setup(OPENPSA_PROJECT_BASEDIR);
+        if (file_exists(OPENPSA_PROJECT_BASEDIR . 'config.inc.php'))
+        {
+            include_once(OPENPSA_PROJECT_BASEDIR . 'config.inc.php');
+        }
+
+        \midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name);
     }
 
     private function _add_default_commands()
