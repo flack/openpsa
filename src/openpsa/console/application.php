@@ -47,7 +47,7 @@ class application extends base_application
         );
         $_SERVER = array_merge($server_defaults, $_SERVER);
 
-        \midcom_connection::setup();
+        \midcom_connection::setup(OPENPSA_PROJECT_BASEDIR);
     }
 
     private function _add_default_commands()
