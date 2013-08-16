@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+//Some fiddling to get autoloader...
+$paths = array
+(
+    dirname(__DIR__) . '/vendor/autoload.php', // installed as root package
+    dirname(dirname(dirname(__DIR__))) . '/autoload.php' // installed as dependency
+);
+$found = false;
+foreach ($paths as $path)
+{
+    if (file_exists($path))
+    {
+        require_once $path;
+        $found = true;
+        break;
+    }
+}
+if (!$found)
+{
+    throw new \Exception('Composer autoloader could not be found');
+}
+
+use openpsa\console\application;
+
+$console = new application();
+$console->run();
