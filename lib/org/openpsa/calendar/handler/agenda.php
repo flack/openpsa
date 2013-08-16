@@ -13,11 +13,6 @@
  */
 class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_handler
 {
-    public function _on_initialize()
-    {
-        org_openpsa_widgets_calendar::add_head_elements();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -26,32 +21,27 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
     public function _handler_day($handler_id, array $args, array &$data)
     {
         // Generate start/end timestamps for the day
-        $requested_time = @strtotime($args[0]);
-        if (!$requested_time)
-        {
-            throw new midcom_error('could not generate time from ' . $args[0]);
-        }
-
-        // Use calendar widget for time calculations
-        $this->_request_data['calendar'] = new org_openpsa_widgets_calendar(date('Y', $requested_time), date('m', $requested_time), date('d', $requested_time));
-        $this->_request_data['calendar']->type = org_openpsa_widgets_calendar::DAY;
-
-        $from = $this->_request_data['calendar']->get_day_start();
-        $to = $this->_request_data['calendar']->get_day_end();
+        $date = new DateTime($args[0]);
+        $date->setTime(0, 0, 0);
+        $from = $date->getTimestamp();
+        $date->setTime(23, 59, 59);
+        $to = $date->getTimestamp();
 
         // List user's event memberships
-        $mc = midcom_db_eventmember::new_collector('uid', midcom_connection::get_user());
+        $mc = org_openpsa_calendar_event_member_dba::new_collector('uid', midcom_connection::get_user());
 
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('eid.start', '<=', $to);
         $mc->add_constraint('eid.end', '>=', $from);
 
         $eventmembers = $mc->get_values('eid');
-        $this->_request_data['events'] = array();
+
+        $data['events'] = array();
         foreach ($eventmembers as $eid)
         {
-            $this->_request_data['events'][] = new org_openpsa_calendar_event_dba($eid);
+            $data['events'][] = new org_openpsa_calendar_event_dba($eid);
         }
+        $data['from'] = $from;
     }
 
     /**

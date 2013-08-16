@@ -77,14 +77,11 @@ implements midcom_helper_datamanager2_interfaces_create
         // ACL handling: require create privileges
         $this->_root_event->require_do('midgard:create');
 
+        $this->_person = midcom::get('auth')->user->get_storage();
+
         if (isset($args[0]))
         {
-            $this->_person = new midcom_db_person($args[0]);
-        }
-
-        if (isset($args[1]))
-        {
-            $this->_requested_time = (int) $args[1];
+            $this->_requested_time = (int) $args[0];
         }
 
         // Load the controller instance

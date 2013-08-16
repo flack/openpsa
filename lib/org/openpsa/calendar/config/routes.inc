@@ -1,51 +1,42 @@
-// Match /month/<date>
-'month_view_with_date' => array
+// This will redirect to the selected mode
+// Match /
+'frontpage' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'month'),
-    'fixed_args' => 'month',
+    'handler' => 'frontpage',
+),
+
+// Match /filters
+'filters_edit' => array
+(
+    'handler' => Array('org_openpsa_calendar_handler_filters', 'edit'),
+    'fixed_args' => Array('filters'),
+),
+
+// Match /agenda/day/<timestamp>
+'agenda_day' => array
+(
+    'handler' => Array('org_openpsa_calendar_handler_agenda', 'day'),
+    'fixed_args' => Array('agenda', 'day'),
     'variable_args' => 1,
 ),
-// Match /month/
-'month_view' => array
+
+// Match /ical/events/<username>
+'ical_user_feed' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'month'),
-    'fixed_args' => 'month',
-),
-// Match /week/<date>
-'week_view_with_date' => array
-(
-    'handler' => array('org_openpsa_calendar_handler_view', 'week'),
-    'fixed_args' => 'week',
+    'handler' => Array('org_openpsa_calendar_handler_ical', 'user_events'),
+    'fixed_args' => Array('ical', 'events'),
     'variable_args' => 1,
 ),
-// Match /week/
-'week_view' => array
+
+// Match /ical/busy/<username>
+'ical_user_busy' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'week'),
-    'fixed_args' => 'week',
-),
-// Match /day/<date>
-'day_view_with_date' => array
-(
-    'handler' => array('org_openpsa_calendar_handler_view', 'day'),
-    'fixed_args' => 'day',
+    'handler' => Array('org_openpsa_calendar_handler_ical', 'user_busy'),
+    'fixed_args' => Array('ical', 'busy'),
     'variable_args' => 1,
 ),
-// Match /day/
-'day_view' => array
-(
-    'handler' => array('org_openpsa_calendar_handler_view', 'day'),
-    'fixed_args' => 'day',
-),
-// Match /event/new/<person_guid>/<timestamp>
-'new_event_for_person_with_time' => array
-(
-    'handler' => array('org_openpsa_calendar_handler_create', 'create'),
-    'fixed_args' => array('event', 'new'),
-    'variable_args' => 2,
-),
-// Match /event/new/<person_guid>
-'new_event_for_person' => array
+// Match /event/new/<timestamp>
+'new_event_with_time' => array
 (
     'handler' => array('org_openpsa_calendar_handler_create', 'create'),
     'fixed_args' => array('event', 'new'),
@@ -86,43 +77,17 @@
     'fixed_args' => 'event',
     'variable_args' => 1,
 ),
-
-// This will redirect to the selected mode
-// Match /
-'frontpage' => array
+// Match /json/
+'calendar_view_json' => array
 (
-    'handler' => 'frontpage',
+    'handler' => array('org_openpsa_calendar_handler_view', 'json'),
+    'fixed_args' => 'json',
 ),
-
-// Match /filters
-'filters_edit' => array
+// Match /<mode>/<date>
+'calendar_view_mode_date' => array
 (
-    'handler' => Array('org_openpsa_calendar_handler_filters', 'edit'),
-    'fixed_args' => Array('filters'),
-),
-
-// Match /agenda/day/<timestamp>
-'agenda_day' => array
-(
-    'handler' => Array('org_openpsa_calendar_handler_agenda', 'day'),
-    'fixed_args' => Array('agenda', 'day'),
-    'variable_args' => 1,
-),
-
-// Match /ical/events/<username>
-'ical_user_feed' => array
-(
-    'handler' => Array('org_openpsa_calendar_handler_ical', 'user_events'),
-    'fixed_args' => Array('ical', 'events'),
-    'variable_args' => 1,
-),
-
-// Match /ical/busy/<username>
-'ical_user_busy' => array
-(
-    'handler' => Array('org_openpsa_calendar_handler_ical', 'user_busy'),
-    'fixed_args' => Array('ical', 'busy'),
-    'variable_args' => 1,
+    'handler' => array('org_openpsa_calendar_handler_view', 'calendar'),
+    'variable_args' => 2,
 ),
 
 // Match /config/

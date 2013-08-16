@@ -217,3 +217,43 @@ Sie wurden aus dem Termin "%s" (%s) entfernt
 ---STRING you have been removed from event "%s" (%s) participants list.
 Sie wurden aus der Teilnehmerliste des Termins "%s" (%s) entfernt
 ---STRINGEND
+
+---STRING all day
+ganztägig
+---STRINGEND
+
+---STRING date format day title
+dddd, d.MMMM yyyy
+---STRINGEND
+
+---STRING date format week title
+d.[ MMMM][ yyyy]{ - d. MMMM yyyy}
+---STRINGEND
+
+---STRING date format month title
+MMMM yyyy
+---STRINGEND
+
+---STRING date format day column
+dddd d.M.
+---STRINGEND
+
+---STRING date format week column
+ddd d.M.
+---STRINGEND
+
+---STRING date format month column
+ddd
+---STRINGEND
+
+---STRING time format
+H:mm
+---STRINGEND
+
+---STRING time format agenda
+H:mm{ - H:mm}
+---STRINGEND
+
+---STRING time format axis
+H:mm
+---STRINGEND

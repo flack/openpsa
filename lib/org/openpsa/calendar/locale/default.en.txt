@@ -217,3 +217,45 @@ You have been removed from event "%s" (%s)
 ---STRING you have been removed from event "%s" (%s) participants list.
 You have been removed from event "%s" (%s) participants list.
 ---STRINGEND
+
+---STRING all day
+all-day
+---STRINGEND
+
+---STRING date format day title
+dddd, MMM d, yyyy
+---STRINGEND
+
+---STRING date format week title
+MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy
+---STRINGEND
+
+---STRING date format month title
+MMMM yyyy
+---STRINGEND
+
+---STRING date format day column
+dddd M/d
+---STRINGEND
+
+---STRING date format week column
+ddd M/d
+---STRINGEND
+
+---STRING date format month column
+ddd
+---STRINGEND
+
+---STRING time format
+h(:mm)t
+---STRINGEND
+
+---STRING time format agenda
+h:mm{ - h:mm}
+---STRINGEND
+
+---STRING time format axis
+h(:mm)tt
+---STRINGEND
+
+

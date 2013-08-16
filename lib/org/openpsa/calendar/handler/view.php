@@ -21,13 +21,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     private $_datamanager;
 
     /**
-     * The calendar widget we're working on
-     *
-     * @var org_openpsa_widgets_calendar
-     */
-    private $_calendar = null;
-
-    /**
      * The calendar root event
      *
      * @var midcom_db_event
@@ -35,40 +28,29 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     private $_root_event = null;
 
     /**
-     * The time to show
-     *
-     * @var int
-     */
-    private $_selected_time = null;
-
-    private $_shown_persons = array();
-
-    /**
      * Initialization of the handler class
      */
     public function _on_initialize()
     {
-        org_openpsa_widgets_calendar::add_head_elements();
-
-        // Load schema database
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
     }
 
     /**
-     * Populate the toolbar
+     * Calendar view
      *
-     * @param string $path    Path to calendar
+     * @param String $handler_id    Name of the request handler
+     * @param array $args           Variable arguments
+     * @param array &$data          Public request data, passed by reference
      */
-    private function _populate_toolbar($path = null)
+    public function _handler_calendar($handler_id, array $args, array &$data)
     {
-        // 'New event' should always be in toolbar
-        $nap = new midcom_helper_nav();
-        $this_node = $nap->get_node($nap->get_current_node());
+        midcom::get('auth')->require_valid_user();
+
         if ($this->_root_event->can_do('midgard:create'))
         {
+            $nap = new midcom_helper_nav();
+            $this_node = $nap->get_node($nap->get_current_node());
+
             $this->_view_toolbar->add_item
             (
                 array
@@ -78,62 +60,20 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                     MIDCOM_TOOLBAR_OPTIONS  => array
                     (
-                        'rel' => 'directlink',
-                        'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($this_node),
+                        'id' => 'openpsa_calendar_add_event',
                     ),
                 )
             );
         }
-
-        if (method_exists($this->_calendar, 'get_' . $path . '_start'))
-        {
-            $previous = date('Y-m-d', call_user_func(array($this->_calendar, 'get_' . $path . '_start')) - 100);
-            $next = date('Y-m-d', call_user_func(array($this->_calendar, 'get_' . $path . '_end')) + 100);
-            $this->_view_toolbar->add_item
+        $this->_view_toolbar->add_item
+        (
+            array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $path . '/' . $previous . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
-                )
-            );
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $path . '/' . $next . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
-                )
-            );
-        }
-
-        if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
-            $this->_node_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'config/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
-                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-                )
-            );
-        }
-
-        midcom_helper_datamanager2_widget_jsdate::add_head_elements();
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
-
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $default_date = date('Y-m-d', $this->_selected_time);
-
-        midcom::get('head')->add_jscript('
-var org_openpsa_calendar_default_date = "' . $default_date . '",
-org_openpsa_calendar_prefix = "' . $prefix . $path . '";
-        ');
+                MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
+            )
+        );
 
         $this->_view_toolbar->add_item
         (
@@ -149,155 +89,85 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                 ),
             )
         );
-        $this->_view_toolbar->add_item
+
+        $data['calendar_options'] = $this->_get_calendar_options();
+
+        midcom_helper_datamanager2_widget_jsdate::add_head_elements();
+        $head = midcom::get('head');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-1.6.3/fullcalendar.min.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-1.6.3/fullcalendar.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
+
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/history.js-1.8.0/jquery.history.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+    }
+
+    private function _get_calendar_options()
+    {
+        return array
         (
-            array
+            'height' => $this->_config->get('calendar_popup_height'),
+            'width' => $this->_config->get('calendar_popup_width'),
+            // this is a workaround until fullcalendar gets proper l10n support...
+            'buttonText' => array
             (
-                MIDCOM_TOOLBAR_URL => "{$path}/" . $this->_get_datestring(time()) . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('today'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/web-calendar.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
+                'today' => $this->_l10n->get('today'),
+                'day' => $this->_l10n->get('day view'),
+                'week' => $this->_l10n->get('week view'),
+                'month' => $this->_l10n->get('month view'),
+            ),
+            'titleFormat' => array
             (
-                MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
-            )
+                'day' => $this->_l10n->get('date format day title'),
+                'week' => $this->_l10n->get('date format week title'),
+                'month' => $this->_l10n->get('date format month title'),
+            ),
+            'columnFormat' => array
+            (
+                'day' => $this->_l10n->get('date format day column'),
+                'week' => $this->_l10n->get('date format week column'),
+                'month' => $this->_l10n->get('date format month column'),
+            ),
+            'allDayText' => $this->_l10n->get('all day'),
+            'timeFormat' => array
+            (
+                'agenda' => $this->_l10n->get('time format agenda'),
+                '' => $this->_l10n->get('time format')
+            ),
+            'axisFormat' => $this->_l10n->get('time format axis'),
         );
     }
 
     /**
-     * Helper that formats a timestamp into a string
+     * Show the calendar view
      *
-     * @param int $from The timestamp, if any
-     * @return string The formatted time
+     * @param String $handler_id    Name of the request handler
+     * @param array &$data          Public request data, passed by reference
      */
-    private function _get_datestring($from = false)
+    public function _show_calendar($handler_id, array &$data)
     {
-        if (!$from)
-        {
-            $from = $this->_selected_time;
-        }
-        $datestring = date('Y-m-d', $from);
-        return $datestring;
+        midcom_show_style('show-calendar');
     }
 
     /**
-     * Populate the calendar with resources
+     * JSON view
      *
-     * @param midcom_db_person $resource
-     * @param int $from Start time
-     * @param int $to End time
+     * @param String $handler_id    Name of the request handler
+     * @param array $args           Variable arguments
+     * @param array &$data          Public request data, passed by reference
      */
-    private function _populate_calendar_resource($resource, $from, $to)
+    public function _handler_json($handler_id, array $args, array &$data)
     {
-        $resource_array = array
-        (
-            'name' => $resource->firstname . ' ' . $resource->lastname,
-            'reservations' => array()
-        );
-        if ($resource->id == midcom_connection::get_user())
-        {
-            $resource_array['name'] = $this->_l10n->get('me');
-            $resource_array['css_class'] = 'blue';
-        }
-
-        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-
-        // Find all events that occur during [$from, $to]
-        $qb->add_constraint('eid.start', '<=', $to);
-        $qb->add_constraint('eid.end', '>=', $from);
-
-        $qb->add_constraint('eid.up', '=', $this->_root_event->id);
-        $qb->add_constraint('uid', '=', (int) $resource->id);
-
-        $memberships = $qb->execute();
-
-        if ($memberships)
-        {
-            foreach ($memberships as $membership)
-            {
-                $event = new org_openpsa_calendar_event_dba($membership->eid);
-
-                // Customize label
-                $label_field = $this->_config->get('event_label');
-                if (!$label_field)
-                {
-                    $label_field = 'title';
-                }
-                $label = $event->$label_field;
-                if ($label_field == 'creator')
-                {
-                    $user = midcom::get('auth')->get_user($event->metadata->creator);
-                    $label = $user->name;
-                }
-
-                $resource_array['reservations'][$event->guid] = array
-                (
-                    'name' => $label,
-                    'location' => $event->location,
-                    'start' => $event->start,
-                    'end' => $event->end,
-                    'private' => false,
-                );
-
-                if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE)
-                {
-                    $resource_array['reservations'][$event->id]['css_class'] = ' private';
-                    $resource_array['reservations'][$event->id]['private'] = true;
-                }
-            }
-        }
-
-        return $resource_array;
+        midcom::get('auth')->require_valid_user();
+        $response = new midcom_response_json;
+        $uids = $this->_load_uids(midcom::get('auth')->user->get_storage());
+        $events = $this->_load_events($uids, $_GET['start'], $_GET['end']);
+        return new midcom_response_json($events);
     }
 
-    /**
-     * Populate the calendar with selected contacts
-     *
-     * @param int $from    Start time
-     * @param int $to      End time
-     */
-    private function _populate_calendar_contacts($from, $to)
+    private function _load_uids($user)
     {
-        $user = midcom::get('auth')->user->get_storage();
-
-        if ($this->_config->get('always_show_self'))
-        {
-            // Populate the user himself first, but only if they can create events
-            $this->_calendar->_resources[$user->guid] = $this->_populate_calendar_resource($user, $from, $to);
-            $this->_shown_persons[$user->id] = true;
-        }
-
-        // Backwards compatibility
-        if ($this->_config->get('always_show_group'))
-        {
-            // Add this group to display as well
-            $additional_group = & midcom::get('auth')->get_group($this->_config->get('always_show_group'));
-            if ($additional_group)
-            {
-                $members = $additional_group->list_members();
-                foreach ($members as $person)
-                {
-                    if (array_key_exists($person->id, $this->_shown_persons))
-                    {
-                        continue;
-                    }
-                    $person_object = $person->get_storage();
-                    $this->_calendar->_resources[$person_object->guid] = $this->_populate_calendar_resource($person_object, $from, $to);
-                    $this->_shown_persons[$person->id] = true;
-                }
-            }
-        }
-
-        $this->_populate_calendar_from_filter($user, $from, $to);
-    }
-
-    private function _populate_calendar_from_filter($user, $from, $to)
-    {
+        $uids = array($user->guid => $user->id);
         // New UI for showing resources
         foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value)
         {
@@ -314,10 +184,9 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
             switch ($type)
             {
                 case 'people':
-                    $qb = midcom_db_person::new_query_builder();
-                    $qb->add_constraint('guid', 'IN', $selected);
-                    $qb->add_constraint('id', 'NOT IN', array_keys($this->_shown_persons));
-                    $persons = $qb->execute();
+                    $mc = midcom_db_person::new_collector('metadata.deleted', false);
+                    $mc->add_constraint('guid', 'IN', $selected);
+                    $uids = array_merge($uids, $mc->get_values('id'));
                     break;
 
                 case 'groups':
@@ -327,271 +196,88 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                     if (!empty($gids))
                     {
                         $mc = midcom_db_member::new_collector('metadata.deleted', false);
-                        $mc->add_constraint('uid', 'NOT IN', array_keys($this->_shown_persons));
                         $mc->add_constraint('gid', 'IN', $gids);
-                        $mc->add_order('metadata.score', 'DESC');
-                        $user_ids = $mc->get_values('uid');
-
-                        if (!empty($user_ids))
-                        {
-                            $qb = midcom_db_person::new_query_builder();
-                            $qb->add_constraint('id', 'IN', $user_ids);
-                            $persons = $qb->execute();
-                        }
+                        $uids = array_merge($uids, $mc->get_values('uid'));
                     }
                     break;
             }
-            if (!empty($persons))
+        }
+        return $uids;
+    }
+
+    /**
+     * Loads calendar events
+     *
+     * @param array $uids
+     * @param int $from Start time
+     * @param int $to End time
+     */
+    private function _load_events(array $uids, $from, $to)
+    {
+        $events = array();
+
+        $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->_root_event->id);
+
+        // Find all events that occur during [$from, $to]
+        $mc->add_constraint('eid.start', '<=', $to);
+        $mc->add_constraint('eid.end', '>=', $from);
+
+        $mc->add_constraint('uid', 'IN', $uids);
+
+        $memberships = $mc->get_rows(array('uid', 'eid'));
+
+        if ($memberships)
+        {
+            // Customize label
+            $label_field = $this->_config->get('event_label');
+            if (!$label_field)
             {
-                foreach ($persons as $person)
+                $label_field = 'title';
+            }
+            foreach ($memberships as $membership)
+            {
+                $event = org_openpsa_calendar_event_dba::get_cached($membership['eid']);
+
+                if (!isset($events[$event->guid]))
                 {
-                    $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-                    $this->_shown_persons[$person->id] = true;
+                    $label = $event->$label_field;
+                    if ($label_field == 'creator')
+                    {
+                        $user = midcom::get('auth')->get_user($event->metadata->creator);
+                        $label = $user->name;
+                    }
+
+                    $events[$event->guid] = array
+                    (
+                        'id' => $event->guid,
+                        'title' => $label,
+                        'location' => $event->location,
+                        'start' => $event->start,
+                        'end' => $event->end,
+                        'className' => array(),
+                        'participants' => array(),
+                        'allDay' => (($event->end - $event->start) > 8 * 60 * 60)
+                    );
+                    if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE)
+                    {
+                        $events[$event->guid]['className'][] = 'private';
+                    }
                 }
+                if ($membership['uid'] == midcom_connection::get_user())
+                {
+                    $events[$event->guid]['participants'][] = $this->_l10n->get('me');
+                    $events[$event->guid]['className'][] = 'paticipant_me';
+                }
+                else
+                {
+                    $person = org_openpsa_contacts_person_dba::get_cached($membership['uid']);
+                    $events[$event->guid]['participants'][] = $person->get_label();
+                }
+                $events[$event->guid]['className'][] = 'paticipant_' . $membership['uid'];
             }
         }
-    }
 
-    private function _generate_date($args)
-    {
-        if (count($args) == 1)
-        {
-            // Go to the chosen week instead of current one
-            // TODO: Check format as YYYY-MM-DD via regexp
-            $requested_time = @strtotime($args[0]);
-            if ($requested_time)
-            {
-                $this->_selected_time = $requested_time;
-            }
-            else
-            {
-                throw new midcom_error("Couldn't generate a date");
-            }
-        }
-        else
-        {
-            $this->_selected_time = time();
-        }
-    }
-
-    /**
-     * Month view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _handler_month($handler_id, array $args, array &$data)
-    {
-        midcom::get('auth')->require_valid_user();
-        $this->_generate_date($args);
-
-        // Instantiate calendar widget
-        $this->_calendar = new org_openpsa_widgets_calendar(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
-        $this->_calendar->type = org_openpsa_widgets_calendar::MONTH;
-        $this->_calendar->cell_height = 100;
-        $this->_calendar->column_width = 60;
-
-        $this->_populate_toolbar('month');
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'week/' . $this->_get_datestring() . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'day/' . $this->_get_datestring() . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-
-        // Clicking a free slot should bring up 'new event' dialogue
-        $nap = new midcom_helper_nav();
-        $this->_calendar->node = $nap->get_node($nap->get_current_node());
-
-        $this->_calendar->can_create = $this->_root_event->can_do('midgard:create');
-
-        // Populate contacts
-        $this->_populate_calendar_contacts($this->_calendar->get_month_start(), $this->_calendar->get_month_end());
-
-        $this->_request_data['calendar'] =& $this->_calendar;
-
-        // Set the breadcrumb
-        $this->add_breadcrumb
-        (
-            'month/' . date('Y-m-01', $this->_calendar->get_week_start()) . '/',
-            strftime('%B %Y', $this->_selected_time)
-        );
-
-        midcom::get('head')->set_pagetitle(strftime("%B %Y", $this->_selected_time));
-    }
-
-    /**
-     * Show the month view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_month($handler_id, array &$data)
-    {
-        $this->_request_data['selected_time'] = $this->_selected_time;
-        midcom_show_style('show-month');
-    }
-
-    /**
-     * Week view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _handler_week($handler_id, array $args, array &$data)
-    {
-        midcom::get('auth')->require_valid_user();
-        $this->_generate_date($args);
-
-        // Instantiate calendar widget
-        $this->_calendar = new org_openpsa_widgets_calendar(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
-
-        // Slots are 2 hours long
-        $this->_calendar->calendar_slot_length = $this->_config->get('week_slot_length') * 60;
-        $this->_calendar->start_hour = $this->_config->get('day_start_time');
-        $this->_calendar->end_hour = $this->_config->get('day_end_time');
-
-        $this->_populate_toolbar('week');
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'month/' . $this->_get_datestring() . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('month view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'day/' . $this->_get_datestring() . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-
-        // Clicking a free slot should bring up 'new event' dialogue
-        $nap = new midcom_helper_nav();
-        $this->_calendar->node = $nap->get_node($nap->get_current_node());
-
-        $this->_calendar->can_create = $this->_root_event->can_do('midgard:create');
-
-        $week_start = $this->_calendar->get_week_start();
-        $week_end = $this->_calendar->get_week_end();
-
-        // Populate contacts
-        $this->_populate_calendar_contacts($week_start, $week_end);
-
-        $this->_request_data['calendar'] =& $this->_calendar;
-
-        // Set the breadcrumb
-        $this->add_breadcrumb('month/' . date('Y-m-01', $week_start) . '/', strftime('%B %Y', $week_start));
-        $this->add_breadcrumb
-        (
-            'week/' . date('Y-m-d', $week_start) . '/',
-            sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start))
-        );
-
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
-    }
-
-    /**
-     * Show the week view
-     *
-     * @param string $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_week($handler_id, array &$data)
-    {
-        $this->_request_data['selected_time'] = $this->_selected_time;
-        midcom_show_style('show-week');
-    }
-
-    /**
-     * Day view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _handler_day($handler_id, array $args, array &$data)
-    {
-        midcom::get('auth')->require_valid_user();
-        $this->_generate_date($args);
-
-        // Instantiate calendar widget
-        $this->_calendar = new org_openpsa_widgets_calendar(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
-        $this->_calendar->type = org_openpsa_widgets_calendar::DAY;
-
-        // Slots are 2 hours long
-        $this->_calendar->calendar_slot_length = $this->_config->get('day_slot_length') * 60;
-        $this->_calendar->start_hour = $this->_config->get('day_start_time');
-        $this->_calendar->end_hour = $this->_config->get('day_end_time');
-        $this->_calendar->column_width = 60;
-
-        $this->_populate_toolbar('day');
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'month/' . $this->_get_datestring() . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('month view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'week/' . $this->_get_datestring() . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-
-        // Clicking a free slot should bring up 'new event' dialogue
-        $nap = new midcom_helper_nav();
-        $this->_calendar->node = $nap->get_node($nap->get_current_node());
-
-        $this->_calendar->can_create = $this->_root_event->can_do('midgard:create');
-
-        // Populate contacts
-        $this->_populate_calendar_contacts($this->_calendar->get_day_start(), $this->_calendar->get_day_end());
-
-        $this->_request_data['calendar'] =& $this->_calendar;
-
-        // Set the breadcrumb
-        $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B %Y', $this->_selected_time));
-        $this->add_breadcrumb('day/' . date('Y-m-d', $this->_selected_time) . '/', strftime('%x', $this->_selected_time));
-
-        midcom::get('head')->set_pagetitle(strftime("%x", $this->_selected_time));
-    }
-
-    /**
-     * Show day view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_day($handler_id, array &$data)
-    {
-        $this->_request_data['selected_time'] = $this->_selected_time;
-        midcom_show_style('show-day');
+        return array_values($events);
     }
 
     /**
@@ -609,31 +295,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         // Get the requested event object
         $this->_request_data['event'] = new org_openpsa_calendar_event_dba($args[0]);
 
-        // Muck schema on private events
-        if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
-        {
-            foreach ($this->_datamanager->_schemadb as $schemaname => $schema)
-            {
-                foreach ($this->_datamanager->_schemadb[$schemaname]->fields as $fieldname => $field)
-                {
-                    switch ($fieldname)
-                    {
-                        case 'title':
-                        case 'start':
-                        case 'end':
-                            break;
-                        default:
-                            $this->_datamanager->_schemadb[$schemaname]->fields[$fieldname]['hidden'] = true;
-                    }
-                }
-            }
-        }
-
-        // Load the event to datamanager
-        if (!$this->_datamanager->autoset_storage($data['event']))
-        {
-            throw new midcom_error('Failed to load the event in datamanager');
-        }
+        $this->_load_datamanager();
 
         // Reload parent if needed
         if (array_key_exists('reload', $_GET))
@@ -695,6 +357,39 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
                 );
             }
             org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['event'], $this->_component, $relatedto_button_settings);
+        }
+    }
+
+    private function _load_datamanager()
+    {
+        // Load schema database
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+
+        // Muck schema on private events
+        if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
+        {
+            foreach ($this->_datamanager->_schemadb as $schemaname => $schema)
+            {
+                foreach ($this->_datamanager->_schemadb[$schemaname]->fields as $fieldname => $field)
+                {
+                    switch ($fieldname)
+                    {
+                        case 'title':
+                        case 'start':
+                        case 'end':
+                            break;
+                        default:
+                            $this->_datamanager->_schemadb[$schemaname]->fields[$fieldname]['hidden'] = true;
+                    }
+                }
+            }
+        }
+
+        // Load the event to datamanager
+        if (!$this->_datamanager->autoset_storage($this->_request_data['event']))
+        {
+            throw new midcom_error('Failed to load the event in datamanager');
         }
     }
 
