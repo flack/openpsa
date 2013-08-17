@@ -35,10 +35,7 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
         $this->_dirname = "{$this->_cache_dir}{$this->_name}/";
 
         // Check for file existence.
-        if (! file_exists($this->_dirname))
-        {
-            mkdir($this->_dirname);
-        }
+        $this->_check_dir($this->_dirname);
 
         $this->_auto_serialize = true;
     }
@@ -133,7 +130,7 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
             $filename = "{$tmpdir}/{$entry}";
             if (!@unlink($filename))
             {
-                debug_add( "Could not clear flatfile cache {$filename}. Most probably due to missing permissions.");
+                debug_add( "Could not clear flatfile cache {$filename}. Most probably due to missing permissions.", MIDCOM_LOG_ERROR);
             }
         }
         $tmp_directory->close();

@@ -42,16 +42,13 @@
  *
  * - <i>string directory</i>: The subdirectory in the cache's base directory to use by this
  *   backend. This is automatically concatenated with the systemwide cache base directory.
- * - <i>string driver</i>: The concrete class instance to create. It must match the name of
- *   a file within the backend directory. Note, that the class must also be named accordingly,
- *   the driver "dba" is searched in the file "backend/dba.php" and must be of the type
- *   "midcom_services_cache_backend_dba".
+ * - <i>string driver</i>: The concrete class instance to create. Note that the class must
+ *   be named accordingly, e.g. the driver "dba" is searched in the type "midcom_services_cache_backend_dba".
  * - <i>boolean auto_serialize</i>: Set this to true to enable automatic serialization on storage
  *   and/or retrieval. Disabled by default.
  *
  * @package midcom.services
  */
-
 abstract class midcom_services_cache_backend
 {
     /**#@+
@@ -80,7 +77,7 @@ abstract class midcom_services_cache_backend
      *
      * @var string
      */
-    var $_cache_dir = null;
+    var $_cache_dir;
 
     /**
      * Set this to true if you plan to store PHP data structures rather than strings, the
@@ -162,8 +159,9 @@ abstract class midcom_services_cache_backend
             $this->_auto_serialize = $this->_config['auto_serialize'];
         }
 
+        $this->_check_dir(midcom::get('config')->get('cache_base_directory'));
         $this->_cache_dir = midcom::get('config')->get('cache_base_directory') . $this->_config['directory'];
-        $this->_check_cache_dir();
+        $this->_check_dir($this->_cache_dir);
 
         $this->_on_initialize();
     }
@@ -187,14 +185,10 @@ abstract class midcom_services_cache_backend
             return;
         }
         // open
-        if (!$this->_open_for_writing)
+        $auto_connect = !$this->_open_for_writing;
+        if ($auto_connect)
         {
-            $auto_close = true;
             $this->open(true);
-        }
-        else
-        {
-            $auto_close = false;
         }
 
         // sync
@@ -221,35 +215,31 @@ abstract class midcom_services_cache_backend
         $this->_unsynced_keys = array();
 
         // close
-        if ($auto_close === true)
+        if ($auto_connect)
         {
             $this->close();
         }
     }
 
     /**
-     * This helper will ensure that the cache base directory is created and usable
+     * This helper will ensure that the given cache directory is created and usable
      * by checking it is actually a directory. If it does not exist, it will be created
      * automatically. Errors will be handled by midcom_error.
+     *
+     * @param string $directory Full directory path
      */
-    private function _check_cache_dir()
+    protected function _check_dir($directory)
     {
-        if (   !file_exists(midcom::get('config')->get('cache_base_directory'))
-            && !@mkdir(midcom::get('config')->get('cache_base_directory'), 0755))
+        if (!file_exists($directory))
         {
-            throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
-        }
-
-        if (!file_exists($this->_cache_dir))
-        {
-            if (!@mkdir($this->_cache_dir, 0755))
+            if (!@mkdir($directory, 0755))
             {
-                throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
+                throw new midcom_error("Failed to create the cache base directory {$directory}: {$php_errormsg}");
             }
         }
-        else if (!is_dir($this->_cache_dir))
+        else if (!is_dir($directory))
         {
-            throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: A file of the same name already exists.");
+            throw new midcom_error("Failed to create the cache base directory {$directory}: A file of the same name already exists.");
         }
     }
 
@@ -422,25 +412,21 @@ abstract class midcom_services_cache_backend
         {
             return true;
         }
-        elseif (isset($this->_unsynced_keys[$key]))
+        else if (isset($this->_unsynced_keys[$key]))
         {
             // this is the deleted key
             return false;
         }
 
-        if (! $this->_open_for_reading)
+        $auto_connect = !$this->_open_for_reading;
+        if ($auto_connect)
         {
-            $auto_close = true;
             $this->open(false);
-        }
-        else
-        {
-            $auto_close = false;
         }
 
         $result = $this->_exists($key);
 
-        if ($auto_close)
+        if ($auto_connect)
         {
             $this->close();
         }
@@ -463,25 +449,21 @@ abstract class midcom_services_cache_backend
         {
             return $this->_local_cache[$key];
         }
-        elseif (isset($this->_unsynced_keys[$key]))
+        else if (isset($this->_unsynced_keys[$key]))
         {
             // this is the deleted key
             return false;
         }
 
-        if (! $this->_open_for_reading)
+        $auto_connect = !$this->_open_for_reading;
+        if ($auto_connect)
         {
-            $auto_close = true;
             $this->open(false);
-        }
-        else
-        {
-            $auto_close = false;
         }
 
         $result = $this->_get($key);
 
-        if ($auto_close)
+        if ($auto_connect)
         {
             $this->close();
         }

@@ -12,7 +12,7 @@
  */
 class midcom_services_cache_backend_null extends midcom_services_cache_backend
 {
-    function _check_cache_dir()
+    protected function _check_dir()
     {
     }
 
