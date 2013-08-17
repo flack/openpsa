@@ -393,15 +393,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Check that we have cache for the identifier
-        $this->_meta_cache->open();
 
         $request_id = $this->generate_request_identifier(0);
         if (!$this->_meta_cache->exists($request_id))
         {
             debug_add("MISS {$request_id}");
             // We have no information about content cached for this request
-            $this->_meta_cache->close();
-
             return;
         }
         debug_add("HIT {$request_id}");
@@ -413,12 +410,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
-            $this->_meta_cache->close();
             return;
         }
 
         $data = $this->_meta_cache->get($content_id);
-        $this->_meta_cache->close();
 
         if (   isset($data['expires'])
             && !is_null($data['expires']))
@@ -442,17 +437,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // we have a not modified match.
         if (! $this->_check_not_modified($data['last_modified'], $data['etag'], $data['sent_headers']))
         {
-            $this->_data_cache->open();
             if (! $this->_data_cache->exists($content_id))
             {
-                $this->_data_cache->close();
                 debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
                 return;
             }
 
             debug_add("HIT {$content_id}");
             $content = $this->_data_cache->get($content_id);
-            $this->_data_cache->close();
 
             foreach ($data['sent_headers'] as $header)
             {
@@ -517,7 +509,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             _midcom_header('Pragma: no-cache');
         }
-        // PONDER:, send expires header (set to long time in past) as well ??
+        // PONDER: Send expires header (set to long time in past) as well ??
     }
 
     /**
@@ -663,8 +655,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function invalidate($guid)
     {
-        $this->_meta_cache->open();
-
         if (!$this->_meta_cache->exists($guid))
         {
             debug_add("No entry for {$guid} in meta cache, ignoring invalidation request.");
@@ -672,7 +662,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $guidmap = $this->_meta_cache->get($guid);
-        $this->_data_cache->open();
         foreach ($guidmap as $content_id)
         {
             if ($this->_meta_cache->exists($content_id))
@@ -919,10 +908,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Construct cache identifiers
         $context = midcom_core_context::get()->id;
         $request_id = $this->generate_request_identifier($context);
-        $this->_meta_cache->open(true);
         $this->_meta_cache->put($content_id, $entry_data);
         $this->_meta_cache->put($request_id, $content_id);
-        $this->_meta_cache->close();
 
         // Cache where the object have been
         $this->store_context_guid_map($context, $content_id, $request_id);
@@ -935,7 +922,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             return;
         }
-        $this->_meta_cache->open(true);
         foreach ($this->context_guids[$context] as $guid)
         {
             // Getting old map from cache
@@ -974,7 +960,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $this->_meta_cache->put($guid, $guidmap);
             }
         }
-        $this->_meta_cache->close();
     }
 
     public function check_dl_hit(&$context, &$dl_config)
@@ -985,36 +970,29 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
-        $this->_meta_cache->open();
         if (!$this->_meta_cache->exists($dl_request_id))
         {
-            $this->_meta_cache->close();
             return false;
         }
         $dl_content_id = $this->_meta_cache->get($dl_request_id);
         if (!$this->_meta_cache->exists($dl_content_id))
         {
             // No expiry information (or other content metadata) in cache
-            $this->_meta_cache->close();
             return false;
         }
         $dl_metadata = $this->_meta_cache->get($dl_content_id);
-        $this->_meta_cache->close();
         if (time() > $dl_metadata['expires'])
         {
             // DL content expired
             return false;
         }
         unset($dl_metadata);
-        $this->_data_cache->open();
         if (!$this->_data_cache->exists($dl_content_id))
         {
             // Ghost read, we have everything but the actual content in cache
-            $this->_data_cache->close();
             return false;
         }
         echo $this->_data_cache->get($dl_content_id);
-        $this->_data_cache->close();
         return true;
     }
 
@@ -1043,16 +1021,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $dl_entry_data['expires'] = time() + $this->_default_lifetime;
         }
 
-        $this->_meta_cache->open(true);
-        $this->_data_cache->open(true);
         $this->_meta_cache->put($dl_request_id, $dl_content_id);
         $this->_meta_cache->put($dl_content_id, $dl_entry_data);
         unset($dl_entry_data);
         $this->_data_cache->put($dl_content_id, $dl_cache_data);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
-        $this->_meta_cache->close();
-        $this->_data_cache->close();
     }
 
     /**
