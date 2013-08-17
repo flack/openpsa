@@ -204,13 +204,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function generate_request_identifier($context, $customdata = null)
     {
-        $module_name = midcom::get('config')->get('cache_module_content_name');
-        if ($module_name == 'auto')
-        {
-            $module_name = midcom_connection::get_unique_host_name();
-        }
-        $identifier_source = 'CACHE:' . $module_name;
-
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = array();
         if (isset($identifier_cache[$context]))
@@ -218,6 +211,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // FIXME: Use customdata here, too
             return $identifier_cache[$context];
         }
+
+        $module_name = midcom::get('config')->get('cache_module_content_name');
+        if ($module_name == 'auto')
+        {
+            $module_name = midcom_connection::get_unique_host_name();
+        }
+        $identifier_source = 'CACHE:' . $module_name;
 
         if (!isset($customdata['cache_module_content_caching_strategy']))
         {
@@ -902,9 +902,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
         $entry_data = array();
-        // Construct cache identifiers
-        $context = midcom_core_context::get()->id;
-        $request_id = $this->generate_request_identifier($context);
 
         if (!is_null($this->_expires))
         {
@@ -919,11 +916,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $entry_data['last_modified'] = $this->_last_modified;
         $entry_data['sent_headers'] = $this->_sent_headers;
 
-        /**
-         * Remove comment to debug cache
-        debug_print_r("Writing meta-cache entry {$content_id}", $entry_data);
-        */
-
+        // Construct cache identifiers
+        $context = midcom_core_context::get()->id;
+        $request_id = $this->generate_request_identifier($context);
         $this->_meta_cache->open(true);
         $this->_meta_cache->put($content_id, $entry_data);
         $this->_meta_cache->put($request_id, $content_id);
@@ -967,7 +962,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $_added = true;
             }
 
-            if ($content_id !== $request_id && !in_array($request_id, $guidmap))
+            if (   $content_id !== $request_id
+                && !in_array($request_id, $guidmap))
             {
                 $guidmap[] = $request_id;
                 $_added = true;

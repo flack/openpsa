@@ -15,7 +15,7 @@
  * by their name and the handler which controls it. The name must be unique throughout the
  * entire server. See Namespacing below for details.
  *
- * A handlers type is identified by its class name, so midcom_sercices_cache_backend_dba is
+ * A handlers type is identified by its class name, so midcom_services_cache_backend_dba is
  * the DBA handler from the original pre 2.4 MidCOM.
  *
  * <b>Inter-Process synchronization:</b>

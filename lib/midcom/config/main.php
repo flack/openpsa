@@ -330,13 +330,12 @@ class midcom_config implements arrayaccess
         'cache_module_content_name' => 'auto',
 
         //Memory Caching Daemon
-        'cache_module_content_backend' => array('driver' => 'flatfile'),
         'cache_module_memcache_backend' => 'flatfile',
         'cache_module_memcache_backend_config' => Array(),
         'cache_module_memcache_data_groups' => Array('ACL', 'PARENT', 'L10N', 'MISC'),
 
         // Defaults:
-        // 'cache_module_content_backend' => Array ('directory' => 'content/', 'driver' => 'dba'),
+        'cache_module_content_backend' => array('driver' => 'flatfile'),
         'cache_module_content_uncached' => true,
         'cache_module_content_headers_strategy' => 'revalidate',
         'cache_module_content_headers_strategy_authenticated' => 'private',
