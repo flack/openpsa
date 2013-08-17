@@ -267,31 +267,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $identifier_source .= ';' . serialize($customdata);
         }
 
-        // TODO: Add browser capability data (mobile, desktop browser etc) from WURFL here
-
         debug_add("Generating context {$context} request-identifier from: {$identifier_source}");
         debug_print_r('$customdata was: ', $customdata);
 
         $identifier_cache[$context] = 'R-' . md5($identifier_source);
         return $identifier_cache[$context];
-    }
-
-    /**
-     * Generate a valid cache identifier for a context of the current content (all loaded objects).
-     */
-    function generate_content_identifier($context)
-    {
-        if (empty($this->context_guids[$context]))
-        {
-            // Error pages and such have no GUIDs in some cases
-            $identifier_source = $this->generate_request_identifier($context);
-        }
-        else
-        {
-            // FIXME: These guids should be registered by language...
-            $identifier_source = implode(',', $this->context_guids[$context]);
-        }
-        return 'C-' . md5($identifier_source);
     }
 
     /**
@@ -904,10 +884,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         else
         {
-            /**
-             * See the FIXME in generate_content_identifier on why we use the content hash
-             * $content_id = $this->generate_content_identifier($context);
-             */
             $content_id = 'C-' . $etag;
             $this->write_meta_cache($content_id, $etag);
             $this->_data_cache->put($content_id, $cache_data);
@@ -985,18 +961,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // flag, which will help us to avoid dumb cache-writes
             $_added = false;
 
-            // // creating flipped-array, as array_key_exists() is much faster than in_array()
-            // $flipped = array_flip($guidmap);
-
-            // if (!array_key_exists($content_id, $flipped))
             if (!in_array($content_id, $guidmap))
             {
                 $guidmap[] = $content_id;
                 $_added = true;
             }
 
-            // if ($content_id !== $request_id and !array_key_exists($request_id, $flipped))
-            if ($content_id !== $request_id and !in_array($request_id, $guidmap))
+            if ($content_id !== $request_id && !in_array($request_id, $guidmap))
             {
                 $guidmap[] = $request_id;
                 $_added = true;
@@ -1063,10 +1034,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
-        /**
-         * See the FIXME in generate_content_identifier on why we use the content hash
-        $dl_content_id = $this->generate_content_identifier($context);
-         */
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
         $dl_entry_data = array();
