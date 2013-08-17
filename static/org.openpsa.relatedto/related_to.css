@@ -15,16 +15,17 @@ ol.org_openpsa_relatedto_list > li
 }
 ol.org_openpsa_relatedto_list li span.title
 {
-  background-color: #e9ede4;
-  padding: 0 0.5em;
-  margin: 0;
-  margin-left: 24px;
-  border-left: solid 1px #babdb6;
-  border-bottom: solid 1px #babdb6;
-  border-bottom-left-radius: 8px;
-  display: block;
-  line-height: 24px;
-  font-weight: bold;
+    background-color: #e9ede4;
+    padding: 0 0.5em;
+    margin: 0;
+    margin-left: 24px;
+    border-left: solid 1px #babdb6;
+    border-bottom: solid 1px #babdb6;
+    border-bottom-left-radius: 8px;
+    display: block;
+    line-height: 24px;
+    font-weight: bold;
+    overflow-x: hidden;
 }
 
 ol.org_openpsa_relatedto_list li .icon

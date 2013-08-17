@@ -95,7 +95,7 @@ var openpsa_calendar_widget =
         // skip if the last state was same than current
         if (last_state.url === new_url)
         {
-	        return;
+            return;
         }
 
         History.pushState(state_data, view.title + ' ' + $('body').data('title'), new_url);
@@ -118,12 +118,13 @@ var openpsa_calendar_widget =
             weekNumbers: true,
             weekMode: 'liquid',
             firstHour: 8,
-	        header:
-	        {
+            ignoreTimezone: false,
+            header:
+            {
                 left: 'month,agendaWeek,agendaDay',
                 center: 'title',
                 right: 'today prev,next'
-	        },
+            },
             events: function (start, end, callback) {
                 $.ajax({
                     url: prefix + 'json/',
@@ -168,6 +169,8 @@ var openpsa_calendar_widget =
         $(selector).fullCalendar(settings);
         openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix, settings);
 
+        $('body').data('title', document.title);
+
         // Prepare History.js
         if ( History.enabled ) {
             History.Adapter.bind(window, 'statechange', function(){
@@ -177,7 +180,6 @@ var openpsa_calendar_widget =
             });
         }
 
-        $('body').data('title', document.title);
         org_openpsa_resizers.append_handler('calendar', function()
         {
             openpsa_calendar_widget.set_height(selector);
