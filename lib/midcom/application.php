@@ -206,6 +206,7 @@ class midcom_application
             $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url);
         }
 
+        $context->set_current();
         /* "content-cache" for DLs, check_hit */
         if (midcom::get('cache')->content->check_dl_hit($context->id, $config))
         {
@@ -214,7 +215,6 @@ class midcom_application
         }
 
         // Parser Init: Generate arguments and instantiate it.
-        $context->set_current();
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);

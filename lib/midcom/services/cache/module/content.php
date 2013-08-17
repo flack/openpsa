@@ -438,19 +438,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $data = $this->_meta_cache->get($content_id);
+        $this->_meta_cache->close();
 
         if (   isset($data['expires'])
             && !is_null($data['expires']))
         {
             if ($data['expires'] < time())
             {
-                $this->_meta_cache->close();
                 debug_add('Current page is in cache, but has expired on ' . gmdate('c', $data['expires']), MIDCOM_LOG_INFO);
                 return;
             }
         }
-
-        $this->_meta_cache->close();
 
         if (!isset($data['last_modified']))
         {
