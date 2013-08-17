@@ -51,11 +51,11 @@
  * last one in the shutdown sequence. Its startup code will exit with _midcom_stop_request() in case of
  * a cache hit, and it will enclose the entire request using PHP's output buffering.
  *
- * <b>Module configuration (see also midcom_config.php)</b>
+ * <b>Module configuration (see also midcom/config/main.php)</b>
  *
  * - <i>string cache_module_content_name</i>: The name of the cache database to use. This should usually be tied to the actual
  *   MidCOM site to have exactly one cache per site. This is mandatory (and populated by a sensible default
- *   by midcom_config.php, see there for details).
+ *   by midcom_config, see there for details).
  * - <i>boolean cache_module_content_uncached</i>: Set this to true to prevent the saving of cached pages. This is useful
  *   for development work, as all other headers (like E-Tag or Last-Modified) are generated
  *   normally. See the uncached() and _uncached members.
@@ -180,14 +180,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var midcom_services_cache_backend
      */
-    var $_meta_cache = null;
+    private $_meta_cache = null;
 
     /**
      * A cache backend used to store the actual cached pages.
      *
      * @var midcom_services_cache_backend
      */
-    var $_data_cache = null;
+    private $_data_cache = null;
 
     /**
      * GUIDs loaded per context in this request
@@ -197,7 +197,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Forced headers
      */
-    var $_force_headers = array();
+    private $_force_headers = array();
 
     /**
      * Generate a valid cache identifier for a context of the current request
@@ -215,7 +215,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         static $identifier_cache = array();
         if (isset($identifier_cache[$context]))
         {
-            // FIXME: Use customdata here too
+            // FIXME: Use customdata here, too
             return $identifier_cache[$context];
         }
 
@@ -350,7 +350,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $this->no_cache();
 
                 throw new midcom_error($message);
-                break;
         }
 
         // Init complete, now check for a cache hit and start up caching.
@@ -492,7 +491,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * This function will start the output cache. Call this before any output
      * is made. MidCOM's startup sequence will automatically do this.
      */
-    function _start_caching()
+    private function _start_caching()
     {
         ob_implicit_flush(false);
         ob_start();
@@ -514,7 +513,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see uncached()
      */
-    function no_cache()
+    public function no_cache()
     {
         if ($this->_no_cache)
         {
@@ -562,7 +561,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see no_cache()
      */
-    function uncached()
+    public function uncached()
     {
         $this->_uncached = true;
     }
@@ -589,7 +588,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @param int $timestamp The UNIX timestamp from which the cached page should be invalidated.
      */
-    function expires($timestamp)
+    public function expires($timestamp)
     {
         if (   is_null($this->_expires)
             || $this->_expires > $timestamp)
@@ -609,7 +608,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @param string $type    The content type to use.
      */
-    function content_type($type)
+    public function content_type($type)
     {
         $this->_content_type = $type;
 
@@ -629,7 +628,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see midcom_application::_exec_file()
      */
-    function enable_live_mode()
+    public function enable_live_mode()
     {
         if ($this->_live_mode)
         {
@@ -675,7 +674,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @param string $header The header that was sent.
      */
-    function register_sent_header($header)
+    public function register_sent_header($header)
     {
         $this->_sent_headers[] = $header;
     }
@@ -684,7 +683,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Looks for list of content and request identifiers paired with the given guid
      * and removes all of those from the caches.
      */
-    function invalidate($guid)
+    public function invalidate($guid)
     {
         $this->_meta_cache->open();
 
@@ -1013,7 +1012,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_meta_cache->close();
     }
 
-    function check_dl_hit(&$context, &$dl_config)
+    public function check_dl_hit(&$context, &$dl_config)
     {
         if (   $this->_no_cache
             || $this->_live_mode)
@@ -1054,7 +1053,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return true;
     }
 
-    function store_dl_content(&$context, &$dl_config, &$dl_cache_data)
+    public function store_dl_content(&$context, &$dl_config, &$dl_cache_data)
     {
         if (   $this->_no_cache
             || $this->_live_mode)
@@ -1212,7 +1211,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * @param string $header name of the header, for example "Cache-Control"
      * @param string $header_string full header string with value, for example "Cache-Control: no-cache"
      */
-    function _replace_sent_header($header, $header_string)
+    private function _replace_sent_header($header, $header_string)
     {
         $matched = false;
         foreach ($this->_sent_headers as $k => $value)
@@ -1231,11 +1230,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
-    function _use_auth_headers()
-    {
-    }
-
-    function cache_control_headers()
+    public function cache_control_headers()
     {
         // Add Expiration and Cache Control headers
         $cache_control = false;
