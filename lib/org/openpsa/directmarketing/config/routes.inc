@@ -166,13 +166,6 @@
     'variable_args' => 1,
 ),
 
-// Match /campaign/list
-'list_campaign' => array
-(
-    'fixed_args' => array('campaign','list'),
-    'handler' => array('org_openpsa_directmarketing_handler_subscriber', 'list'),
-),
-
 // Match /campaign/list/<person GUID>
 'list_campaign_person' => array
 (
@@ -293,5 +286,5 @@
 // Match /
 'frontpage' => array
 (
-    'handler' => 'frontpage'
+    'handler' => array('org_openpsa_directmarketing_handler_list', 'frontpage'),
 ),

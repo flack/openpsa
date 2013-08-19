@@ -758,10 +758,6 @@ Subscribed new
 System default
 ---STRINGEND
 
----STRING tambur (http)
-Tambur (HTTP)
----STRINGEND
-
 ---STRING testers
 Testers
 ---STRINGEND

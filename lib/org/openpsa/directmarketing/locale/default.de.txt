@@ -718,10 +718,6 @@ Neue Abonnenten
 System-Standard
 ---STRINGEND
 
----STRING tambur (http)
-Tambur (HTTP)
----STRINGEND
-
 ---STRING testers
 Tester
 ---STRINGEND

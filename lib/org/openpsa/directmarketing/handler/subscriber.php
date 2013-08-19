@@ -28,60 +28,57 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     public function _handler_list($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        if (count($args) == 1)
+        $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
+
+        if (array_key_exists('add_to_campaign', $_POST))
         {
-            $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
-
-            if (array_key_exists('add_to_campaign', $_POST))
+            // Add person to campaign
+            try
             {
-                // Add person to campaign
-                try
-                {
-                    $campaign = new org_openpsa_directmarketing_campaign_dba($_POST['add_to_campaign']);
-                }
-                catch (midcom_error $e)
-                {
-                    // FIXME: More informative error message
-                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
-                        sprintf(
-                            $this->_l10n->get('Failed adding person %s to campaign %s'),
-                            "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
-                            $_POST['add_to_campaign']
-                        ),
-                        'error'
-                    );
-                    return;
-                }
+                $campaign = new org_openpsa_directmarketing_campaign_dba($_POST['add_to_campaign']);
+            }
+            catch (midcom_error $e)
+            {
+                // FIXME: More informative error message
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
+                    sprintf(
+                        $this->_l10n->get('Failed adding person %s to campaign %s'),
+                        "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
+                        $_POST['add_to_campaign']
+                    ),
+                    'error'
+                );
+                return;
+            }
 
-                // FIXME: use can_do check to be graceful
-                $campaign->require_do('midgard:create');
+            // FIXME: use can_do check to be graceful
+            $campaign->require_do('midgard:create');
 
-                $member = new org_openpsa_directmarketing_campaign_member_dba();
-                $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
-                $member->person = $this->_request_data['person']->id;
-                $member->campaign = $campaign->id;
-                if ($member->create())
-                {
-                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
-                        sprintf(
-                            $this->_l10n->get('added person %s to campaign %s'),
-                            "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
-                            $campaign->title
-                        ),
-                        'ok'
-                    );
-                }
-                else
-                {
-                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
-                        sprintf(
-                            $this->_l10n->get('Failed adding person %s to campaign %s'),
-                            "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
-                            $campaign->title
-                        ),
-                        'error'
-                    );
-                }
+            $member = new org_openpsa_directmarketing_campaign_member_dba();
+            $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
+            $member->person = $this->_request_data['person']->id;
+            $member->campaign = $campaign->id;
+            if ($member->create())
+            {
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
+                    sprintf(
+                        $this->_l10n->get('added person %s to campaign %s'),
+                        "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
+                        $campaign->title
+                    ),
+                    'ok'
+                );
+            }
+            else
+            {
+                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
+                    sprintf(
+                        $this->_l10n->get('Failed adding person %s to campaign %s'),
+                        "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
+                        $campaign->title
+                    ),
+                    'error'
+                );
             }
         }
     }
@@ -99,63 +96,44 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         midcom_show_style("show-campaign-list-header");
         $this->_request_data['campaigns_all'] = array();
-        if (   array_key_exists('person', $this->_request_data)
-            && $this->_request_data['person'])
+
+        $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
+        $qb->add_constraint('person', '=', $this->_request_data['person']->id);
+        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
+        $memberships = $qb->execute();
+
+        $campaign_membership_map = array();
+        if ($memberships)
         {
-            debug_add("Listing campaigns person '{$this->_request_data['person']->guid}' is member of");
-
-            $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-            $qb->add_constraint('person', '=', $this->_request_data['person']->id);
-            $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-            $memberships = $qb->execute();
-
-            $campaign_membership_map = array();
-            if ($memberships)
+            foreach ($memberships as $membership)
             {
-                foreach ($memberships as $membership)
+                try
                 {
-                    try
-                    {
-                        $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
-                        $campaign_membership_map[$membership->campaign] = $membership;
-                    }
-                    catch(midcom_error $e)
-                    {
-                        debug_add('Failed to load campaign ' . $membership->campaign . ', reason: ' . $e->getMessage());
-                    }
+                    $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
+                    $campaign_membership_map[$membership->campaign] = $membership;
                 }
-            }
-
-            // List active campaigns for the "add to campaign" selector
-            $qb_all->add_constraint('archived', '=', 0);
-            $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));
-            $campaigns_all = $qb_all->execute();
-
-            if ($campaigns_all)
-            {
-                foreach ($campaigns_all as $campaign)
+                catch (midcom_error $e)
                 {
-                    if (   !array_key_exists($campaign->id, $campaigns)
-                        && $campaign->can_do('midgard:create'))
-                    {
-                        $this->_request_data['campaigns_all'][] = $campaign;
-                    }
+                    debug_add('Failed to load campaign ' . $membership->campaign . ', reason: ' . $e->getMessage());
                 }
             }
         }
-        else
+
+        // List active campaigns for the "add to campaign" selector
+        $qb_all->add_constraint('archived', '=', 0);
+        if (!empty($campaigns))
         {
-            debug_add("Listing campaigns visible to current user");
+            $qb_all->add_constraint('id', 'NOT IN', array_keys($campaigns));
+        }
+        $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));
+        $campaigns_all = $qb_all->execute();
 
-            $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
-            if ($this->_topic->component = 'org.openpsa.directmarketing')
+        foreach ($campaigns_all as $campaign)
+        {
+            if ($campaign->can_do('midgard:create'))
             {
-                $qb->add_constraint('node', '=', $this->_topic->id);
+                $this->_request_data['campaigns_all'][] = $campaign;
             }
-            $qb->add_constraint('archived', '=', 0);
-            $qb->add_order('metadata.created', $this->_config->get('campaign_list_order'));
-
-            $campaigns = $qb->execute();
         }
 
         if (   is_array($campaigns)

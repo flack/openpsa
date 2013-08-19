@@ -754,10 +754,6 @@ Uusia tilauksia
 Järjestelmän oletus
 ---STRINGEND
 
----STRING tambur (http)
-Tambur (HTTP)
----STRINGEND
-
 ---STRING testers
 Koeryhmä
 ---STRINGEND

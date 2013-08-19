@@ -13,7 +13,7 @@ require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
+class org_openpsa_directmarketing_handler_subscriberTest extends openpsa_testcase
 {
     protected static $_person;
 
@@ -23,17 +23,6 @@ class org_openpsa_directmarketing_handler_listTest extends openpsa_testcase
     }
 
     public function testHandler_list()
-    {
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
-
-        $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'list'));
-        $this->assertEquals('list_campaign', $data['handler_id']);
-        $this->show_handler($data);
-
-        midcom::get('auth')->drop_sudo();
-    }
-
-    public function testHandler_list_person()
     {
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
 

@@ -122,16 +122,11 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
-     * Executes the QBs instanced via resolve, merges results and returns
+     * Executes the collector instantiated via resolve, merges results and returns
      * single array of persons (or false in case of failure)
      */
     function execute()
     {
-        if (!is_array($this->_rules))
-        {
-            debug_add('this->_rules is not an array', MIDCOM_LOG_ERROR);
-            return false;
-        }
         $this->_result_mc->add_value_property('lastname');
         $this->_result_mc->add_value_property('firstname');
         $this->_result_mc->add_value_property('email');

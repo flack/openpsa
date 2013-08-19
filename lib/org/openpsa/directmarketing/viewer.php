@@ -74,48 +74,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         return $schemadbs;
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_frontpage($handler_id, array $args, array &$data)
-    {
-        midcom::get('auth')->require_valid_user();
-
-        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
-        {
-            $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
-            foreach (array_keys($schemadb_campaign) as $name)
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "campaign/create/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($schemadb_campaign[$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    )
-                );
-            }
-        }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_frontpage($handler_id, array &$data)
-    {
-        midcom_show_style("show-frontpage");
-    }
-
     public static function get_messagetype_icon($type)
     {
         $icon = 'stock_mail.png';
