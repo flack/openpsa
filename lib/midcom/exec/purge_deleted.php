@@ -1,5 +1,4 @@
 <?php
-midcom::get('auth')->require_valid_user('basic');
 midcom::get('auth')->require_admin_user();
 midcom::get()->disable_limits();
 
