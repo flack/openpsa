@@ -38,7 +38,7 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
             continue;
         }
     }
-    echo "<h2>Processing class {$mgdschema}</h2>";
+    echo "<h2>Processing class {$mgdschema}</h2>\n";
     flush();
 
     $total = 0;
