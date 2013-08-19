@@ -70,7 +70,11 @@ class application extends base_application
             include_once(OPENPSA_PROJECT_BASEDIR . 'config.inc.php');
         }
 
-        \midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name);
+        $stat = \midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name);
+        if (!$stat)
+        {
+            throw new \RuntimeException('Could not open midgard connection ' . $config_name . ': ' . \midcom_connection::get_error_string());
+        }
     }
 
     private function _add_default_commands()

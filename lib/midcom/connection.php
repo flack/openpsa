@@ -68,7 +68,7 @@ class midcom_connection
         if (extension_loaded('midgard2'))
         {
             $midgard = midgard_connection::get_instance();
-
+            $stat = false;
             // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
             if (!$midgard->is_connected())
             {
@@ -76,15 +76,18 @@ class midcom_connection
                 {
                     $config = new midgard_config();
                     $config->read_file($config_name);
-                    return $midgard->open_config($config);
+                    $stat = $midgard->open_config($config);
                 }
-                if (!($path = ini_get('midgard.configuration_file')))
+                else if ($path = ini_get('midgard.configuration_file'))
                 {
-                    return false;
+                    $config = new midgard_config();
+                    $config->read_file_at_path(ini_get('midgard.configuration_file'));
+                    $stat = $midgard->open_config($config);
                 }
-                $config = new midgard_config();
-                $config->read_file_at_path(ini_get('midgard.configuration_file'));
-                $midgard->open_config($config);
+            }
+            if (!$stat)
+            {
+                return false;
             }
 
             if (method_exists($midgard, 'enable_workspace'))
@@ -99,7 +102,6 @@ class midcom_connection
             {
                 gc_disable();
             }
-
         }
         else if (extension_loaded('midgard'))
         {
