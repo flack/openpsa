@@ -17,8 +17,8 @@ else
             </label>
         </fieldset>
         <div class="form_toolbar">
-            <input name="midcom_helper_datamanager2_save" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
-            <input name="midcom_helper_datamanager2_cancel" class="cancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" type="submit" />
+            <input name="midcom_helper_datamanager2_save[0]" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
+            <input name="midcom_helper_datamanager2_cancel[0]" class="cancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" type="submit" />
         </div>
     </form>
 </div>
