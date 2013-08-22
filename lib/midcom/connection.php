@@ -107,13 +107,13 @@ class midcom_connection
         {
             if (!isset($_MIDGARD_CONNECTION))
             {
-                if (file_exists($basedir . 'mgd1-connection.inc.php'))
+                if (file_exists($basedir . 'config/mgd1-connection.inc.php'))
                 {
-                    include $basedir . 'mgd1-connection.inc.php';
+                    include $basedir . 'config/mgd1-connection.inc.php';
                 }
-                else if (file_exists($basedir . 'mgd1-connection.inc.php'))
+                else if (file_exists($basedir . 'config/mgd1-connection-default.inc.php'))
                 {
-                    include $basedir . 'mgd1-connection-default.inc.php';
+                    include $basedir . 'config/mgd1-connection-default.inc.php';
                 }
                 else
                 {
