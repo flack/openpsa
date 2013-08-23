@@ -52,7 +52,7 @@
             "openpsa\\installer\\installer::setup_root_package"
         ]
     },
-    "bin": ["bin/console"],
+    "bin": ["bin/openpsa"],
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
