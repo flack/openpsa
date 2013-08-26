@@ -126,11 +126,11 @@ echo "  ... Done.\n";
 
 //Migrate accounts to new system
 //You'll have to specify authtype manually if you don't want the default one
-$rootdir = realpath(dirname(__FILE__)) . '/../';
 
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
-$GLOBALS['midcom_config_local']['auth_type'] = 'Plaintext';
+$GLOBALS['midcom_config_local']['auth_type'] = 'SHA256';
 
+$rootdir = realpath(dirname(__DIR__)) . '/';
 require $rootdir . 'lib/midcom.php';
 
 function _migrate_account($person)
@@ -147,7 +147,7 @@ function _migrate_account($person)
     {
         if ($user->authtype !== 'Legacy')
         {
-            echo '    Legacy password detected for user ' . $person->username . "Resetting to 'password', please change ASAP\n";
+            echo '    Legacy password detected for user ' . $person->username . "\n Resetting to 'password', please change ASAP\n";
             $db_password = midcom_connection::prepare_password('password');
         }
     }
