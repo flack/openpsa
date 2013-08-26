@@ -49,14 +49,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @var midcom_services_cache_backend
      */
     private $_cache = null;
-
-    /**
-     * The cache key prefix.
-     *
-     * @var string
-     */
-    public $_prefix = "NAP";
-
     /**#@-*/
 
     /**

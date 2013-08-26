@@ -23,18 +23,23 @@ abstract class midcom_services_cache_module
      * Current configuration.
      *
      * @var Array
-     * @access protected
      */
-    var $_config = null;
+    protected $_config = null;
 
     /**
      * A list of all backends created by _create_backend(). They will be automatically
      * shut down when the module shuts down. They are indexed by their name.
      *
      * @var Array
-     * @access protected
      */
-    var $_backends = Array();
+    protected $_backends = Array();
+
+    /**
+     * The cache key prefix.
+     *
+     * @var string
+     */
+    protected $_prefix;
 
     /**
      * Initialize the module. This will initialize the class configuration
@@ -42,8 +47,9 @@ abstract class midcom_services_cache_module
      *
      * @param array $config Configuration to use.
      */
-    function initialize()
+    public function initialize()
     {
+        $this->_prefix = get_class($this) . $_SERVER['SERVER_NAME'];
         $this->_on_initialize();
     }
 
@@ -83,7 +89,7 @@ abstract class midcom_services_cache_module
      */
     function _create_backend($name, $config)
     {
-        $name .= $this->_prefix .= $_SERVER['SERVER_NAME'];
+        $name = $this->_prefix . $name;
 
         if (array_key_exists($name, $this->_backends))
         {
