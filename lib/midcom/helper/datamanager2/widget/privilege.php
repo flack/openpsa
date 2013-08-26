@@ -26,9 +26,8 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
      * The QF Element list added to the form. Saved for freezing/unfreezing.
      *
      * @var Array
-     * @access protected
      */
-    var $_elements = null;
+    protected $_elements = null;
 
     /**
      * The initialization event handler validates the base type.

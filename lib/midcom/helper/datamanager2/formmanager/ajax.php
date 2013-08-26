@@ -29,9 +29,8 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
      *
      * @param string $name The name of the field for which we should load the widget.
      * @return boolean Indicating success
-     * @access protected
      */
-    function _load_widget($name, $initialize_dependencies = true)
+    protected function _load_widget($name, $initialize_dependencies = true)
     {
         return parent::_load_widget($name, true);
     }

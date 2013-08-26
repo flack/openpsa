@@ -26,25 +26,22 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
      * The QF Element added to the form. Saved for freezing/unfreezing.
      *
      * @var Array
-     * @access protected
      */
-    var $_element = null;
+    protected $_element = null;
 
     /**
      * Holds the privileges to be included in the selection widget
      *
      * @var Array
-     * @access protected
      */
-    var $_privilege_options = null;
+    protected $_privilege_options = null;
 
     /**
      * Holds the javascript to render the privilege selection widget
      *
      * @var String
-     * @access protected
      */
-    var $_jscript = '';
+    protected $_jscript = '';
 
     /**
      * The initialization event handler validates the base type.

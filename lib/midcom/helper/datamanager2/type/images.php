@@ -131,9 +131,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * operation.
      *
      * @var array
-     * @access protected
      */
-    var $_attachment_map = array();
+    protected $_attachment_map = array();
 
     /**
      * The current image title to use when operating on images.

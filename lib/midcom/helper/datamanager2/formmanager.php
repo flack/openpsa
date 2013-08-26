@@ -143,7 +143,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @param string $name The name of the field for which we should load the widget.
      * @return boolean Indicating success
      */
-    private function _load_widget($name, $initialize_dependencies = false)
+    protected function _load_widget($name, $initialize_dependencies = false)
     {
         $config = $this->_schema->fields[$name];
         $classname = $config['widget'];

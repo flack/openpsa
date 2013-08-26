@@ -7,9 +7,9 @@
  */
 
 /**
- * Itemlist Interface
+ * Itemlist abstract base class
  *
- * You have to override the get_sorted_list member, it has to return an array
+ * You have to implement the get_sorted_list member, it has to return an array
  * sorted by the constraints you establish.
  *
  * @todo complete documentation
@@ -18,44 +18,42 @@
  */
 abstract class midcom_helper_nav_itemlist
 {
-   /**
-    * A reference to the NAP instance we belong to.
-    *
-    * @var midcom_helper_nav
-    */
-    protected $_nap = null;
-
-    var $parent_node_id = null;
-
-    /** Initialize the object, used by the factory function.
+    /**
+     * A reference to the NAP instance we belong to.
      *
-     * @param midcom_helper_nav $nap A reference to a NAP object to use.
-     * @param integer $parent_topic_id A ID of the topic in which we operate.
-     * @access private
+     * @var midcom_helper_nav
      */
-    function _init(&$nap, &$parent_topic_id)
+    protected $_nap;
+
+    var $parent_node_id;
+
+    /**
+     * Initialize the object, used by the factory function.
+     *
+     * @param midcom_helper_nav &$nap A reference to a NAP object to use.
+     * @param integer $parent_topic_id An ID of the topic in which we operate.
+     */
+    public function __construct(&$nap, $parent_topic_id)
     {
         $this->_nap =& $nap;
         $this->parent_node_id = $parent_topic_id;
     }
 
-   /**
-    * Returns the sorted list for this topic according to our sorting criteria.
-    *
-    * It has to be overridden. Throw midcom_error on any critical failure.
-    *
-    * @return Array An array of all objects.
-    */
+    /**
+     * Returns the sorted list for this topic according to our sorting criteria.
+     *
+     * It has to be overridden. Throw midcom_error on any critical failure.
+     *
+     * @return Array An array of all objects.
+     */
     abstract function get_sorted_list();
 
-   /**
-    * Get style. If the elements should use a special style, return that here.
-    * if not. use default.
-    *
-    *
-    * @return string MidCOM stylename.
-    */
-
+    /**
+     * Get style. If the elements should use a special style, return that here.
+     * if not. use default.
+     *
+     * @return string MidCOM stylename.
+     */
     /** @ignore */
     function get_style()
     {
@@ -63,9 +61,9 @@ abstract class midcom_helper_nav_itemlist
     }
 
     /**
-     * factory generate the object you want to use for getting a list of items for a certain topic.
+     * Factory to generate the object you want to use for getting a list of items for a certain topic.
      * Use this function to create sorted lists. Example:
-     *     $nav_object = midcom_helper_nav_itemlist::factory( $navorder, &$this, $parent_topic);
+     *     $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_topic);
      *     $result = $nav_object->get_sorted_list();
      *     print_r($result);
      *     // shows:
@@ -78,19 +76,16 @@ abstract class midcom_helper_nav_itemlist
      *     Note that most searchstyles do not bother with styles. But it is useful for custom classes.
      *
      *
-     * @param string sorting sorttype (eks topicsfirst)
-     * @param object pointer to the NAP object.
-     * @param integer parent_topic_id pointer to the topic to base the list on.
+     * @param string $sorting sorttype (e.g. topicsfirst)
+     * @param midcom_helper_nav &$nap pointer to the NAP object.
+     * @param integer $parent_topic pointer to the topic to base the list on.
      * @return midcom_helper_nav_itemlist sortobject
      */
     /** @ignore */
-    static public function factory ($sorting, midcom_helper_nav &$nap, &$parent_topic)
+    static public function factory ($sorting, midcom_helper_nav &$nap, $parent_topic)
     {
-        $class = basename($sorting);
-        $class = "midcom_helper_nav_itemlist_{$class}";
-        $sortclass = new $class();
-        $sortclass->_init($nap, $parent_topic);
-        return $sortclass;
+        $class = "midcom_helper_nav_itemlist_{$sorting}";
+        return new $class($nap, $parent_topic);
     }
 }
 ?>
