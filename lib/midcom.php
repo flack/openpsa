@@ -67,7 +67,7 @@ class midcom
         // Define default constants
         if (! defined('MIDCOM_ROOT'))
         {
-            define('MIDCOM_ROOT', dirname(__FILE__));
+            define('MIDCOM_ROOT', __DIR__);
         }
 
         midcom_compat_environment::initialize();

@@ -5,9 +5,6 @@ $GLOBALS['midcom_config_local'] = array();
 // Check that the environment is a working one
 midcom_connection::setup(__DIR__ . DIRECTORY_SEPARATOR);
 
-// Path to the MidCOM environment
-define('MIDCOM_ROOT', __DIR__ . '/lib');
-
 $prefix = dirname($_SERVER['SCRIPT_NAME']) . '/';
 if (strpos($_SERVER['REQUEST_URI'], $prefix) !== 0)
 {
