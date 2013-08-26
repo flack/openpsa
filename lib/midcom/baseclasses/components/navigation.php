@@ -20,21 +20,12 @@
  */
 abstract class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
 {
-    /**#@+
-     * Component state variable, set during startup. There should be no need to change it
-     * in most cases.
-     *
-     * @access protected
-     */
-
     /**
      * The topic for which we are handling a request.
      *
      * @var midcom_db_topic
      */
-    var $_topic = null;
-
-    /**#@-*/
+    protected $_topic = null;
 
     /**
      * Initialize the NAP class, sets all state variables.

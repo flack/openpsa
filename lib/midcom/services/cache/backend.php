@@ -51,33 +51,27 @@
  */
 abstract class midcom_services_cache_backend
 {
-    /**#@+
-     * Configuration variable
-     *
-     * @access protected
-     */
-
     /**
      * The backend instance name. This variable my not be written to
      * after the instance has been created.
      *
      * @var string
      */
-    var $_name = null;
+    protected $_name = null;
 
     /**
      * Configuration key array. This is populated during initialize().
      *
      * @var Array
      */
-    var $_config = null;
+    protected $_config = null;
 
     /**
      * The base directory in which we may add files and directories within our namespace.
      *
      * @var string
      */
-    var $_cache_dir;
+    protected $_cache_dir;
 
     /**
      * Set this to true if you plan to store PHP data structures rather than strings, the
@@ -86,9 +80,7 @@ abstract class midcom_services_cache_backend
      *
      * @var boolean
      */
-    var $_auto_serialize = false;
-
-    /**#@-*/
+    protected $_auto_serialize = false;
 
     /**#@+
      * Internal state variable

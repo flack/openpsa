@@ -85,9 +85,8 @@ abstract class midcom_services_cache_module
      * @param array $config The configuration of the backend to create. It must contain
      *     the key 'driver', which indicates which backend to use.
      * @return midcom_services_cache_backend A reference to the new backend.
-     * @access protected
      */
-    function _create_backend($name, $config)
+    protected function _create_backend($name, array $config)
     {
         $name = $this->_prefix . $name;
 

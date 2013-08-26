@@ -125,14 +125,6 @@
  */
 abstract class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
 {
-    // START OF CONFIGURATION VARIABLES
-    /**#@+
-     * Component configuration variable, must set during the
-     * construction of the inherited classes.
-     *
-     * @access protected
-     */
-
     /**
      * A list of files, relative to the component's root directory, that
      * should be loaded during initialization.
@@ -141,7 +133,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
      * loaded on-demand by the auoloader instead
      */
-    var $_autoload_files = Array();
+    protected $_autoload_files = Array();
 
     /**
      * A list of libraries which should by loaded during initialization.
@@ -152,7 +144,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
      * loaded on-demand by the auoloader instead
      */
-    var $_autoload_libraries = Array();
+    protected $_autoload_libraries = Array();
 
     /**
      * This is the class suffix used when constructing the NAP handler class.
@@ -161,7 +153,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @var string
      */
-    var $_nap_class_suffix = 'navigation';
+    protected $_nap_class_suffix = 'navigation';
 
     /**
      * This is the class suffix used when constructing the on-site handler class.
@@ -170,10 +162,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @var string
      */
-    var $_site_class_suffix = 'viewer';
-
-    // END OF CONFIGURATION VARIABLES
-    /**#@-*/
+    protected $_site_class_suffix = 'viewer';
 
     /**
      * The component manifest instance associated with this component. Read-Only and automatically
