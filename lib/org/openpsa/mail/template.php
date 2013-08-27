@@ -97,8 +97,6 @@ class org_openpsa_mail_template
 
     private $_patterns = array();
 
-    private $_replacements = array();
-
     /**
      * Constructs the template engine and parses the passed parameters
      *
@@ -108,53 +106,17 @@ class org_openpsa_mail_template
     {
         $this->_parameters = $parameters;
 
-        /* For each parameter, add values to the preg search and
-         * replace arrays, and, where necessary, do some charset
-         * conversions.
-         */
         foreach ($this->_parameters as $key => $value)
         {
-            /* Different parameters:
-             * - Single value (anything that is neither an object or an array), replace directly
-             * - Array and objects, allow access to subkeys or dump the whole thing.
-             * - Datamanager objects have special treatment with datatype recognition.
-             *
-             * Syntax for single values:
-             * __KEY__ will be replaced by its value
-             *
-             * Syntax for arrays, objects and datamanager classes:
-             * __KEY__ will yield a dump of the complete object
-             * __KEY_SUBKEY__ will yield the value of the element SUBKEY of the given
-             *  array or object
-             *
-             * Datamanager notes: Currently the get_csv interface to get a string
-             * representation of a given data type.
-             *
-             * Note, that all keys will be compared case-insensitive.
-             */
-            if (is_array($value))
+            $this->_patterns[] = "/__({$key})__/";
+
+            if (   is_array($value)
+                || is_object($value))
             {
-                $this->_patterns[] = "/__{$key}__/";
-                $this->_replacements[] = $this->_format_array($value);
-                $this->_patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
-                $this->_replacements[] =  '$this->_parameters["' . $key . '"]["\1"]';
-            }
-            else if (is_object($value))
-            {
-                $this->_patterns[] = "/__{$key}__/";
-                $this->_replacements[] = $this->_format_object($value);
-                $this->_patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
-                $this->_replacements[] = '$this->_parameters["' . $key . '"]->\1';
-            }
-            else
-            {
-                $this->_patterns[] = "/__{$key}__/";
-                $this->_replacements[] = $value;
+                $this->_patterns[] = "/__({$key})_([^ \.>\"-]*?)__/";
             }
         }
-
         debug_print_r("Complete list of patterns:", $this->_patterns);
-        debug_print_r("Complete list of replacements:", $this->_replacements);
     }
 
     /**
@@ -168,7 +130,39 @@ class org_openpsa_mail_template
      */
     function parse($input)
     {
-        return preg_replace($this->_patterns, $this->_replacements, $input);
+        return preg_replace_callback($this->_patterns, array($this, '_replace_callback'), $input);
+    }
+
+    private function _replace_callback($matches)
+    {
+        $key = $matches[1];
+        $value = $this->_parameters[$key];
+        if (is_array($value))
+        {
+            if (empty($matches[2]))
+            {
+                return $this->_format_array($value);
+            }
+            else
+            {
+                return $value[$matches[2]];
+            }
+        }
+        else if (is_object($value))
+        {
+            if (empty($matches[2]))
+            {
+                return $this->_format_object($value);
+            }
+            else
+            {
+                return $value->{$matches[2]};
+            }
+        }
+        else
+        {
+            return $value;
+        }
     }
 
     /**
