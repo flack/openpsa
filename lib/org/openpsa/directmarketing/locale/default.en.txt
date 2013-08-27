@@ -807,10 +807,6 @@ Unsubscribing registered
 vCards
 ---STRINGEND
 
----STRING with %s Midgard we can only support "%s" matching for multiple parameters
-With %s Midgard we can only support "%s" matching for multiple parameters
----STRINGEND
-
 ---STRING with name
 with name
 ---STRINGEND

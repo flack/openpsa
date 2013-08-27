@@ -802,10 +802,6 @@ Tilauksen peruttaminen rekisteröity
 Vcard-kortit
 ---STRINGEND
 
----STRING with %s Midgard we can only support "%s" matching for multiple parameters
-Midgard %s:n kanssa voimme käyttää vain "%s" täsmäystä parametrien kanssa
----STRINGEND
-
 ---STRING with name
 nimellä
 ---STRINGEND
@@ -815,10 +811,6 @@ Kirjoita sähköpostiosoitteet
 ---STRINGEND
 
 ---STRING you can also write the addresses to the text field
-Voit myös kirjoittaa sähköpostiosoitteet tekstikenttään
----STRINGEND
-
----STRING you can also write the addresses to the text field, each address on its own row
 Voit myös kirjoittaa sähköpostiosoitteet tekstikenttään, kukin osoite omalle rivilleen
 ---STRINGEND
 

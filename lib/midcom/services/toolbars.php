@@ -409,7 +409,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $styleeditor_url,
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit layout template', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit layout template', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/text-x-generic-template.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 't',
                     MIDCOM_TOOLBAR_ENABLED => $enabled,

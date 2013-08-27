@@ -771,10 +771,6 @@ Geben sie die E-Mail-Adresse ein
 ---STRINGEND
 
 ---STRING you can also write the addresses to the text field
-Sie können Adressen auch in das Textfeld eintragen
----STRINGEND
-
----STRING you can also write the addresses to the text field, each address on its own row
 Sie können die Adressen auch in das Textfeld eingeben, jede Adresse muss in einer eigenen Zeile stehen
 ---STRINGEND
 

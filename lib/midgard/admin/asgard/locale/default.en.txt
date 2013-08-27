@@ -326,10 +326,6 @@ Edit configuration for component %s folder %s
 Edit file %s
 ---STRINGEND
 
----STRING edit layout template
-Edit layout template
----STRINGEND
-
 ---STRING edit text file
 Edit text file
 ---STRINGEND

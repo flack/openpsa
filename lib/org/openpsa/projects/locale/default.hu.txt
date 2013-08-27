@@ -18,10 +18,6 @@ Elfogva
 Megállapodás
 ---STRINGEND
 
----STRING agreement tasks
-Átadás feladatai
----STRINGEND
-
 ---STRING approve
 Jóváhagy
 ---STRINGEND

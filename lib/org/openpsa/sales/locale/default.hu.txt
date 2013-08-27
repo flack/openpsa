@@ -26,10 +26,6 @@
 Aktív
 ---STRINGEND
 
----STRING active salesprojects
-Aktív értékesítési projektek
----STRINGEND
-
 ---STRING add offer
 Szállítás hozzáadása
 ---STRINGEND

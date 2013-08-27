@@ -26,10 +26,6 @@ Uuden tilaussyklin alku
 Käynnissä
 ---STRINGEND
 
----STRING active salesprojects
-Käynnissä olevat myyntiprojektit
----STRINGEND
-
 ---STRING add offer
 Lisää tuote
 ---STRINGEND

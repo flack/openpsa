@@ -26,10 +26,6 @@ Hyväksynyt %s
 Sopimus
 ---STRINGEND
 
----STRING agreement tasks
-Toimituksen tehtävät
----STRINGEND
-
 ---STRING approve
 Hyväksy
 ---STRINGEND
