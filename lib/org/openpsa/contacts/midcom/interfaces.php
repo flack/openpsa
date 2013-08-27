@@ -198,16 +198,12 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             }
             catch (midcom_error $e)
             {
-                $msg = "Person {$args['person']} not found, error " . $e->getMessage();
-                debug_add($msg, MIDCOM_LOG_ERROR);
-                $handler->print_error($msg);
+                $handler->print_error("Person {$args['person']} not found, error " . $e->getMessage());
                 return false;
             }
             if (!$person->homepage)
             {
-                $msg = "Person {$person->guid} has no homepage, skipping";
-                debug_add($msg, MIDCOM_LOG_ERROR);
-                $handler->print_error($msg);
+                $handler->print_error("Person {$person->guid} has no homepage, skipping");
                 return false;
             }
             return $this->_check_person_url($person);
@@ -221,25 +217,19 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             }
             catch (midcom_error $e)
             {
-                $msg = "Group {$args['group']} not found, error " . $e->getMessage();
-                debug_add($msg, MIDCOM_LOG_ERROR);
-                $handler->print_error($msg);
+                $handler->print_error("Group {$args['group']} not found, error " . $e->getMessage());
                 return false;
             }
             if (!$group->homepage)
             {
-                $msg = "Group {$group->guid} has no homepage, skipping";
-                debug_add($msg, MIDCOM_LOG_ERROR);
-                $handler->print_error($msg);
+                $handler->print_error("Group {$group->guid} has no homepage, skipping");
                 return false;
             }
             return $this->_check_group_url($group);
         }
         else
         {
-            $msg = 'Person or Group GUID not set, aborting';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('Person or Group GUID not set, aborting');
             return false;
         }
     }

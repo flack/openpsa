@@ -16,7 +16,6 @@
  *  function cron_callback_method($args, &$handler)
  *  {
  *      $handler->print_error('got args:', $args);
- *      debug_print_r('got args:', $args);
  *      return true;
  *  }
  * </code>

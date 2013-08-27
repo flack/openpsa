@@ -55,11 +55,8 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $method = $entry->method;
             if (!is_callable(array($interface, $method)))
             {
-                $error = "\$interface->{$method}() is not callable";
-                $this->print_error($error);
-                debug_add($error, MIDCOM_LOG_ERROR);
-                debug_add('$interface is ' . get_class($interface));
-                debug_print_r('$args', $args);
+                $error = get_class($interface) . "->{$method}() is not callable";
+                $this->print_error($error, $args);
                 //PONDER: Delete instead ? (There is currently nothing we do with failed entries)
                 $entry->status = midcom_services_at_entry_dba::FAILED;
                 midcom::get('auth')->request_sudo('midcom.services.at');
@@ -71,11 +68,8 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
 
             if ($mret !== true)
             {
-                $error = "\$interface->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
-                $this->print_error($error);
-                debug_add($error, MIDCOM_LOG_ERROR);
-                debug_add('$interface is ' . get_class($interface));
-                debug_print_r('$args', $args);
+                $error = get_class($interface) . "->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
+                $this->print_error($error, $args);
                 //PONDER: Delete instead ? (There is currently nothing we do with failed entries)
                 $entry->status = midcom_services_at_entry_dba::FAILED;
                 midcom::get('auth')->request_sudo('midcom.services.at');

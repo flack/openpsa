@@ -20,9 +20,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         debug_add('_on_execute called');
         if (!midcom::get('auth')->request_sudo('net.nemein.rss'))
         {
-            $msg = "Could not get sudo, aborting operation, see error log for details";
-            $this->print_error($msg);
-            debug_add($msg, MIDCOM_LOG_ERROR);
+            $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
 

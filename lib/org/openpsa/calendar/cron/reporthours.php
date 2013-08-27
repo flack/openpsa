@@ -43,9 +43,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 
         if (!midcom::get('auth')->request_sudo('org.openpsa.calendar'))
         {
-            $msg = "Could not get sudo, aborting operation, see error log for details";
-            $this->print_error($msg);
-            debug_add($msg, MIDCOM_LOG_ERROR);
+            $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
 
@@ -81,7 +79,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             {
                 $msg = "Could not set hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string() . " skipping this member";
                 $this->print_error($msg);
-                debug_add($msg, MIDCOM_LOG_ERROR);
                 continue;
             }
             //Avoid multiple loads of same event
@@ -131,7 +128,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                     {
                         $msg = "Could not UNSET hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string();
                         $this->print_error($msg);
-                        debug_add($msg, MIDCOM_LOG_WARN);
                     }
                 }
             }

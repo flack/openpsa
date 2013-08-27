@@ -23,11 +23,8 @@ class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
         {
             if (! $tmp->delete())
             {
-                // Print and log error
                 $msg = "Failed to delete temporary object {$tmp->id}, last Midgard error was: " . midcom_connection::get_error_string();
-                $this->print_error($msg);
-                debug_add($msg, MIDCOM_LOG_ERROR);
-                debug_print_r('Tried to delete this object:', $tmp);
+                $this->print_error($msg, $tmp);
             }
             else
             {

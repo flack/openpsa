@@ -26,9 +26,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         if (   !isset($args['url_base'])
             || !isset($args['batch']))
         {
-            $msg = 'url_base or batch number not set, aborting';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('url_base or batch number not set, aborting');
             return false;
         }
         midcom::get('auth')->request_sudo($this->_component);
@@ -55,9 +53,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
     {
         if (!array_key_exists('campaign_guid', $args))
         {
-            $msg = 'Campaign GUID not found in arguments list';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('Campaign GUID not found in arguments list');
             return false;
         }
 
@@ -68,18 +64,14 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         }
         catch (midcom_error $e)
         {
-            $msg = "{$args['campaign_guid']} is not a valid campaign GUID";
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error("{$args['campaign_guid']} is not a valid campaign GUID");
             return false;
         }
 
         $stat = $campaign->update_smart_campaign_members();
         if (!$stat)
         {
-            $msg = 'Error while calling campaign->update_smart_campaign_members(), see error log for details';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('Error while calling campaign->update_smart_campaign_members(), see error log for details');
             return false;
         }
 

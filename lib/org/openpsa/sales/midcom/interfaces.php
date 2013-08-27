@@ -179,9 +179,7 @@ implements midcom_services_permalinks_resolver
         if (   !isset($args['deliverable'])
             || !isset($args['cycle']))
         {
-            $msg = 'deliverable GUID or cycle number not set, aborting';
-            $handler->print_error($msg);
-            debug_add($msg, MIDCOM_LOG_ERROR);
+            $handler->print_error('deliverable GUID or cycle number not set, aborting');
             return false;
         }
 
@@ -193,7 +191,6 @@ implements midcom_services_permalinks_resolver
         {
             $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
             $handler->print_error($msg);
-            debug_add($msg, MIDCOM_LOG_ERROR);
             return false;
         }
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
@@ -208,9 +205,7 @@ implements midcom_services_permalinks_resolver
     {
         if (!isset($args['deliverable']))
         {
-            $msg = 'deliverable GUID not set, aborting';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('deliverable GUID not set, aborting');
             return false;
         }
         try
@@ -219,9 +214,7 @@ implements midcom_services_permalinks_resolver
         }
         catch (midcom_error $e)
         {
-            $msg = 'no deliverable with passed GUID: ' . $args['deliverable'] . ', aborting';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('no deliverable with passed GUID: ' . $args['deliverable'] . ', aborting');
             return false;
         }
 
@@ -232,9 +225,7 @@ implements midcom_services_permalinks_resolver
         }
         catch (midcom_error $e)
         {
-            $msg = 'Failed to load salesproject: ' . $e->getMessage();
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('Failed to load salesproject: ' . $e->getMessage());
             return false;
         }
 

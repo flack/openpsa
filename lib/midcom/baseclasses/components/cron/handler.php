@@ -103,8 +103,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
 
     /**
      * This helper function echoes the error message to the client, automatically appending
-     * the classname to the prefix. If you want to log the error, you have to take care of
-     * this yourself.
+     * the classname to the prefix. Passed messages are also written to the error log.
      *
      * @param string $message The error message to print.
      * @param mixed $var A variable you want to print, if any.
@@ -113,9 +112,11 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     {
         $class = get_class($this);
         echo "ERROR ({$class}): {$message}\n";
+        debug_add($message, MIDCOM_LOG_ERROR);
         if (!is_null($var))
         {
             print_r($var);
+            debug_print_r('Passed argument: ', $var);
         }
     }
 }

@@ -27,9 +27,7 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
         }
         catch (midcom_error $e)
         {
-            $msg = 'Person with guid #' . $args['guid'] . ' does not exist';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $handler->print_error('Person with guid #' . $args['guid'] . ' does not exist');
             midcom::get('auth')->drop_sudo();
             return false;
         }
@@ -40,8 +38,6 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
         }
         catch (midcom_error $e)
         {
-            midcom::get('auth')->drop_sudo();
-            $e->log();
             $handler->print_error($e->getMessage());
             midcom::get('auth')->drop_sudo();
             return false;
