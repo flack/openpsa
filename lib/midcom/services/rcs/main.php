@@ -1,10 +1,5 @@
 <?php
 /**
- * The RCS service gives a write only interface to different services wanting to save changes to objects.
- *
- * The RCS service will try to initialize the backend based on GNU RCS, but, if that fails, fall back
- * to the nullrcs handler. The nullrcs handler does not save anything at all.
- *
  * @author tarjei huse
  * @package midcom.services.rcs
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -12,8 +7,10 @@
  */
 
 /**
- * On startup the class will call _probe_rcs that checks if the rcs prerequisites
- * exists and (if they do) save the config.
+ * The RCS service gives a write only interface to different services wanting to save changes to objects.
+ *
+ * The RCS service will try to initialize the backend based on GNU RCS, but, if that fails, fall back
+ * to the nullrcs handler. The nullrcs handler does not save anything at all.
  *
  * <b>Configuration parameters that are in use by this service:</b>
  * * string midcom_services_rcs_bin_dir - the prefix for the rcs utilities (normally /usr/bin)
@@ -80,8 +77,7 @@ class midcom_services_rcs
     function update(&$object, $message = null)
     {
         $handler = $this->load_handler($object);
-        if (   !is_object($handler)
-            || !method_exists($handler, 'update'))
+        if (!is_object($handler))
         {
             debug_add('Could not load handler!');
             return false;
@@ -96,33 +92,16 @@ class midcom_services_rcs
     }
 
     /**
-     * Static method for determining if we should display a particular field
+     * Method for determining if we should display a particular field
      * in the diff or preview states
      */
     public static function is_field_showable($field)
     {
         switch ($field)
         {
-            case '_use_rcs':
-            case '_topic':
-            case 'realm':
             case 'guid':
             case 'id':
             case 'sitegroup':
-            case 'action':
-            case 'errno':
-            case 'errstr':
-            case 'revised':
-            case 'revisor':
-            case 'revision':
-            case 'created':
-            case 'creator':
-            case 'approved':
-            case 'approver':
-            case 'locked':
-            case 'locker':
-            case 'lang':
-            case 'sid':
                 return false;
             case 'password':
                 return midcom::get('auth')->admin;

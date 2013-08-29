@@ -10,25 +10,6 @@
  * Simple styling class to make html out of diffs and get a simple way
  * to provide rcs functionality
  *
- * This handler can be added to your module by some simple steps. Add this to your
- * request_switch array in the main handlerclass:
- *
- * <pre>
- *      $rcs_array =  no_bergfald_rcs_handler::get_plugin_handlers();
- *      foreach ($rcs_array as $key => $switch) {
- *            $this->_request_switch[] = $switch;
- *      }
- * </pre>
- *
- * If you want to have the handler do a callback to your class to add toolbars or other stuff,
- *
- *
- * Links and urls
- * Linking is done with the format rcs/rcs_action/handler_name/object_guid/<more params>
- * Where handler name is the component using nemein rcs.
- * The handler uses the component name to run a callback so the original handler
- * may control other aspects of the operation
- *
  * @todo add support for schemas.
  * @package midgard.admin.asgard
  */
@@ -43,6 +24,8 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
     /**
      * RCS backend
+     *
+     * @var midcom_services_rcs_backend
      */
     private $_backend = null;
 
