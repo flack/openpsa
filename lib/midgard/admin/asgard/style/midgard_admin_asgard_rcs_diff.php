@@ -10,6 +10,7 @@ echo $data['rcs_toolbar']->render();
 echo $data['rcs_toolbar_2']->render();
 ?>
 </div>
+<p>&(comment['message']);</p>
 <dl class="midgard_admin_asgard_rcs_diff">
 <?php
 $changes = false;

@@ -5,6 +5,7 @@ $comment= $data['comment'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <h1>&(data['view_title']);</h1>
+<p>&(data['comment']['message']);</p>
 <div class="rcs_navigation">
 <?php
 if ($data['earlier_revision'])

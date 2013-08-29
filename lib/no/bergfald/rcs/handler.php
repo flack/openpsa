@@ -11,7 +11,7 @@
  * to provide rcs functionality
  *
  * This handler can be added to your module by some simple steps. Add this to your
- * request_switch array in the main handlerclass:
+ * request_switch array in the main handler class:
  *
  * <code>
  *      $rcs_array =  no_bergfald_rcs_handler::get_plugin_handlers();
