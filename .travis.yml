@@ -3,6 +3,7 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
 
 env:
   - MIDGARD_EXT_VERSION=ratatoskr
@@ -12,7 +13,7 @@ before_script:
   - ./test/travis_midgard2.sh
   - sudo OPENPSA_INSTALLER_DBTYPE=SQLite `which composer` install
 
-script: phpunit --debug
+script: valgrind -v --log-file=failure.log phpunit --debug; cat failure.log
 
 notifications:
     irc: "irc.freenode.org#midgard"
