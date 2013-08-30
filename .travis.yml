@@ -11,6 +11,7 @@ env:
 
 before_script:
   - ./test/travis_midgard2.sh
+  - sudo `which composer` self-update
   - sudo OPENPSA_INSTALLER_DBTYPE=SQLite `which composer` install
 
 script: valgrind -v --log-file=failure.log phpunit --debug; cat failure.log
