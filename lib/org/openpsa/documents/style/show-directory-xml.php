@@ -18,25 +18,6 @@ echo "<page>1</page>";
 echo "<total>1</total>";
 echo "<records>" . $records . "</records>";
 
-//jqgrid need nodes in special form like following:
-/*
-  <row>
-      <cell> $id </cell>
-      <cell> $title of document/directory </cell>(used for sorting)
-      <cell> $title_of_document/directory </cell> (shown html)
-      <cell> $creator_index </cell> (string, for sorting)
-      <cell> $creator </cell> (shown html)
-      <cell> $date </cell> (timestamp for sorting)
-      <cell> $date </cell> (shown html)
-      <cell> $file_size_index </cell> (integer, for sorting)
-      <cell> $file_size </cell> (shown html)
-      <cell> $level </cell> (level of the node - passed paramter or is 0)
-      <cell> $parent </cell> (id of the parent)
-      <cell> $leaf </cell> (bool indicating if node is leaf)
-      <cell> $expanded </cell> (bool indication expand-status)
-  </row>
-*/
-
 //parent_directory
 if (isset($data['parent_directory']))
 {

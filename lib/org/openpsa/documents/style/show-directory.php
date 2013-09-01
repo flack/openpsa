@@ -4,7 +4,7 @@
 
 <div class="main">
 <h1><?php echo $data['directory']->extra; ?></h1>
-<div class="fill-height">
+<div class="fill-height full-width">
     <table id="treegrid"></table>
 </div>
 </div>
