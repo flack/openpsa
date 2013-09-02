@@ -150,21 +150,16 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     public static function list_groups($id, &$data, $move = false)
     {
         $mc = midcom_db_group::new_collector('owner', (int) $id);
-        $mc->add_value_property('name');
-        $mc->add_value_property('official');
-        $mc->add_value_property('id');
 
         // Set the order
         $mc->add_order('metadata.score', 'DESC');
         $mc->add_order('official');
         $mc->add_order('name');
 
-        // Get the results
-        $mc->execute();
-        $keys = $mc->list_keys();
+        $groups = $mc->get_rows(array('name', 'official', 'id'));
 
         // Hide empty groups
-        if ($mc->count() === 0)
+        if (count($groups) === 0)
         {
             return;
         }
@@ -175,24 +170,20 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         midcom_show_style('midcom-admin-user-group-list-header');
 
         // Show the groups
-        foreach ($keys as $guid => $array)
+        foreach ($groups as $guid => $array)
         {
             $data['guid'] = $guid;
-            $data['id'] = $mc->get_subkey($guid, 'id');
-            $data['name'] = $mc->get_subkey($guid, 'name');
+            $data['id'] = $array['id'];
+            $data['name'] = $array['name'];
+            $data['title'] = $array['official'];
 
-            if (($title = $mc->get_subkey($guid, 'official')))
-            {
-                $data['title'] = $title;
-            }
-            else
+            if (empty($data['title']))
             {
                 $data['title'] = $data['name'];
-            }
-
-            if (!$data['title'])
-            {
-                $data['title'] = midcom::get('i18n')->get_string('unknown', 'midcom');
+                if (empty($data['title']))
+                {
+                    $data['title'] = midcom::get('i18n')->get_string('unknown', 'midcom');
+                }
             }
 
             // Show the group
