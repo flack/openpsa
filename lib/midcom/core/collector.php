@@ -168,7 +168,6 @@ class midcom_core_collector extends midcom_core_query
                 && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id))
             {
                 debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
-                $this->denied++;
                 continue;
             }
 
