@@ -268,12 +268,9 @@ class midcom_helper_nav_backend
             {
                 return MIDCOM_ERROK;
             }
-        }
-
-        if (!$up)
-        {
             $up = $this->_up($node_id);
         }
+
         $topic_id = (int) $node_id;
 
         // Load parent nodes also to cache
