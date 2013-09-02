@@ -28,53 +28,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Generate markdown documentation for API docs based on schema
-     *
-     * @return string documentation
-     */
-    function help_schemafields2postargs()
-    {
-        $schema_string = '';
-        foreach ($this->_request_data['schemadb_product'] as $schema)
-        {
-            foreach ($schema->fields as $fieldname => $field_setup)
-            {
-                if ($field_setup['readonly'])
-                {
-                    continue;
-                }
-
-                if ($fieldname == 'productGroup')
-                {
-                    $fieldname = 'productgroup';
-                    $field_setup['required'] = true;
-                }
-                $schema_string .= "\n_{$field_setup['type']}_ `{$fieldname}`";
-                if ($field_setup['required'])
-                {
-                    $schema_string .= " __*__";
-                }
-
-                $schema_string .= "\n";
-                $schema_string .= ":    {$field_setup['title']}.";
-
-                if (   $field_setup['type'] == 'select'
-                    && isset($field_setup['type_config']['options']))
-                {
-                    $schema_string .= " Options:<br />\n";
-                    foreach ($field_setup['type_config']['options'] as $key => $value)
-                    {
-                        $schema_string .= "- **{$key}**: {$value}<br />\n";
-                    }
-                }
-
-                $schema_string .= "\n";
-            }
-        }
-        return $schema_string;
-    }
-
-    /**
      * Indexes a product
      *
      * @param midcom_helper_datamanager2_datamanager &$dm The Datamanager encapsulating the event.
@@ -138,7 +91,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'api/product/',
+                    MIDCOM_TOOLBAR_URL => 'export/product/csv/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',

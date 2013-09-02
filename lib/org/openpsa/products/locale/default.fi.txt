@@ -214,10 +214,6 @@ Näytä haku etusivulla
 Näytä asetukset
 ---STRINGEND
 
----STRING export
-Tuo kannasta
----STRINGEND
-
 ---STRING export products
 Tuo tuotteet kannasta
 ---STRINGEND
@@ -261,8 +257,3 @@ Juuritason tuoteryhmä
 ---STRING schema
 Tietokantakuvaus
 ---STRINGEND
-
----STRING you can export csv files here
-Voit tuoda CSV-tiedostoja kannasta täällä
----STRINGEND
-

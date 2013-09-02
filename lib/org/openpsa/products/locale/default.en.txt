@@ -58,10 +58,6 @@ Display search on the front page
 Display Settings
 ---STRINGEND
 
----STRING export
-Export
----STRINGEND
-
 ---STRING export products
 Export products
 ---STRINGEND
@@ -266,11 +262,6 @@ Updated products
 year
 ---STRINGEND
 
----STRING you can export csv files here
-You can export csv files here
----STRINGEND
-
 ---STRING you can import csv files here
 You can import csv files here
 ---STRINGEND
-
