@@ -1,4 +1,4 @@
-BODY 
+body
 {
     font-family: "Verdana", "Arial", "Helvetica", sans-serif;
     padding-left: 180px;
@@ -39,7 +39,6 @@ blockquote
     padding-bottom: 4px;
     background: url(note-area.png) no-repeat 8px 8px;
     min-height: 55px;
-    _height: 55px;
 }
 
 pre code
@@ -50,7 +49,7 @@ pre code
 {
     font-size: 0.8em;
 }
-            
+
 dt
 {
     font-weight:bold;
@@ -145,4 +144,10 @@ div.components ul li img
 div.components ul li span
 {
     padding-left: 6px;
+}
+
+.method_name
+{
+    font-weight: bold;
+    color: brown;
 }

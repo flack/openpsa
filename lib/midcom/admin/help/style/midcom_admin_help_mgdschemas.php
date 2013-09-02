@@ -79,8 +79,7 @@ if (count($data['mgdschemas']) > 0)
                     $signature .= ' & ';
                 }
 
-                $method_url = 'http://www.midgard-project.org/documentation/' . rawurlencode('MgdSchema method ' . $reflectionmethod->getName());
-                $signature .= '<span class="method_name"><a href="' . $method_url . '">' . $reflectionmethod->getName() . '</a></span>';
+                $signature .= '<span class="method_name">' . $reflectionmethod->getName() . '</span>';
 
                 $signature .= '(';
                 $parametersdata = array();
