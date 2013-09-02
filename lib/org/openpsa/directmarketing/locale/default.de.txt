@@ -274,10 +274,6 @@ ist größer als
 HTML-E-Mail
 ---STRINGEND
 
----STRING http api information
-HTTP-API-Information
----STRINGEND
-
 ---STRING import
 Importieren
 ---STRINGEND

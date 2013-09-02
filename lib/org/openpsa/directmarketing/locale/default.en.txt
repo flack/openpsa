@@ -294,10 +294,6 @@ is greater than
 HTML email
 ---STRINGEND
 
----STRING http api information
-HTTP API information
----STRINGEND
-
 ---STRING import
 Import
 ---STRINGEND

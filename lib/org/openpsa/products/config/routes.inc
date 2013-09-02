@@ -239,79 +239,18 @@
     'variable_args' => 1,
 ),
 
-// Handle /api/product/
-'api_product_options' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'options'),
-    'fixed_args' => Array('api', 'product'),
-),
-
-// Handle /api/product/get/<guid>
-'api_product_get' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_get'),
-    'fixed_args' => Array('api', 'product', 'get'),
-    'variable_args' => 1,
-),
-
-// Handle /api/product/list/
-'api_product_list_all' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_list'),
-    'fixed_args' => Array('api', 'product', 'list'),
-),
-
-// Handle /api/product/list/<product_group>
-'api_product_list' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_list'),
-    'fixed_args' => Array('api', 'product', 'list'),
-    'variable_args' => 1,
-),
-
-// Handle /api/product/list/intree/<product_group>
-'api_product_list_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_list'),
-    'fixed_args' => Array('api', 'product', 'list', 'intree'),
-    'variable_args' => 1,
-),
-
-// Handle /api/product/create/
-'api_product_create' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_create'),
-    'fixed_args' => Array('api', 'product', 'create'),
-),
-
-// Handle /api/product/update/<guid>
-'api_product_update' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_update'),
-    'fixed_args' => Array('api', 'product', 'update'),
-    'variable_args' => 1,
-),
-
-// Handle /api/product/delete/<guid>
-'api_product_delete' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_api', 'product_delete'),
-    'fixed_args' => Array('api', 'product', 'delete'),
-    'variable_args' => 1,
-),
-
-// Handle /api/product/csv
-'api_product_csv' => Array
+// Handle /export/product/csv
+'export_product_csv' => Array
 (
     'handler' => Array('org_openpsa_products_handler_product_csv', 'csv'),
-    'fixed_args' => Array('api', 'product', 'csv'),
+    'fixed_args' => Array('export', 'product', 'csv'),
 ),
 
-// Handle /api/product/csv/<schema_name>
-'api_product_csv_schemaname' => Array
+// Handle /export/product/csv/<schema_name>
+'export_product_csv_schemaname' => Array
 (
     'handler' => Array('org_openpsa_products_handler_product_csv', 'csv'),
-    'fixed_args' => Array('api', 'product', 'csv'),
+    'fixed_args' => Array('export', 'product', 'csv'),
     'variable_args' => 1,
 ),
 

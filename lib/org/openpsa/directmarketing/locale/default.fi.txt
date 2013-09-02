@@ -294,10 +294,6 @@ on enemmän kuin
 HTML-sähköposti
 ---STRINGEND
 
----STRING http api information
-HTTP-rajapintatiedot
----STRINGEND
-
 ---STRING import
 Tuo
 ---STRINGEND

@@ -47,9 +47,6 @@
 'products_per_page' => 30,
 'show_items_in_feed' => 10,
 
-'api_products_enable' => true,
-'api_products_schema' => 'default',
-
 // default schema to use when exporting products
 'csv_export_schema' => 'default',
 

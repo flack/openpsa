@@ -58,10 +58,6 @@ Suche auf der Startseite anzeigen
 Anzeigeeinstellungen
 ---STRINGEND
 
----STRING export
-Export
----STRINGEND
-
 ---STRING export products
 Produkte exportieren
 ---STRINGEND
@@ -266,11 +262,6 @@ Aktualisierte Produkte
 Jahr
 ---STRINGEND
 
----STRING you can export csv files here
-Hier können Sie CSV-Dateien exportieren
----STRINGEND
-
 ---STRING you can import csv files here
 Hier können Sie CSV-Dateien importieren
 ---STRINGEND
-
