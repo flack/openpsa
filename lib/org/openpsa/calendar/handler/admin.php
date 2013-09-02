@@ -69,7 +69,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
             case 'cancel':
                 midcom::get('head')->add_jsonload('window.opener.location.reload();');
                 midcom::get('head')->add_jsonload('window.close();');
-                // This will _midcom_stop_request(well, in a way...)
+                // This will exit (well, in a way...)
         }
 
         // Add toolbar items

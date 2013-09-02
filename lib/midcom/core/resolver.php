@@ -289,8 +289,6 @@ class midcom_core_resolver
         }
 
         $this->serve_attachment($attachment);
-        midcom::get()->finish();
-        _midcom_stop_request();
     }
 
     private function _process_permalink($value)
