@@ -54,9 +54,7 @@
  * The scripts executed need to do their own permission checks, they will work with
  * the credentials of the current MidCOM instance unconditionally.
  *
- * Example: http://$host/midcom-exec-midcom/upgrade_metadata.php
- *
- * The remaining URL arguments are put into the globals $argc/$argv.
+ * Example: http://$host/midcom-exec-midcom/update_storage.php
  *
  * <b>string cache</b>
  *
