@@ -484,7 +484,7 @@ class midcom_helper_nav_backend
         }
 
         // Get the node data and verify this is a node that actually has any relevant NAP
-        // information. Internal components like the L10n editor, which don't have
+        // information. Internal components which don't have
         // a NAP interface yet return null here, to be exempt from any NAP processing.
         $nodedata = $interface->get_node();
         if (is_null($nodedata))
@@ -492,15 +492,14 @@ class midcom_helper_nav_backend
             debug_add("The component '{$topic->component}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
             return null;
         }
-        // Now complete the node data structure, we need a metadata object for this:
-        $metadata = $urltopic->metadata;
 
+        // Now complete the node data structure
         $nodedata[MIDCOM_NAV_URL] = $urltopic->name . '/';
         $nodedata[MIDCOM_NAV_NAME] = trim($nodedata[MIDCOM_NAV_NAME]) == '' ? $topic->name : $nodedata[MIDCOM_NAV_NAME];
         $nodedata[MIDCOM_NAV_GUID] = $urltopic->guid;
         $nodedata[MIDCOM_NAV_ID] = $id;
         $nodedata[MIDCOM_NAV_TYPE] = 'node';
-        $nodedata[MIDCOM_NAV_SCORE] = $metadata->score;
+        $nodedata[MIDCOM_NAV_SCORE] = $urltopic->metadata->score;
         $nodedata[MIDCOM_NAV_COMPONENT] = $topic->component;
         $nodedata[MIDCOM_NAV_SORTABLE] = true;
 
@@ -509,10 +508,9 @@ class midcom_helper_nav_backend
             $nodedata[MIDCOM_NAV_CONFIGURATION] = null;
         }
 
-        if (   ! array_key_exists(MIDCOM_NAV_NOENTRY, $nodedata)
-            || $nodedata[MIDCOM_NAV_NOENTRY] == false)
+        if (empty($nodedata[MIDCOM_NAV_NOENTRY]))
         {
-            $nodedata[MIDCOM_NAV_NOENTRY] = (bool) $metadata->get('navnoentry');
+            $nodedata[MIDCOM_NAV_NOENTRY] = (bool) $urltopic->metadata->get('navnoentry');
         }
 
         if ($urltopic->id == $this->_root)
@@ -864,8 +862,8 @@ class midcom_helper_nav_backend
         // No results, return an empty array
         if (count($subnodes) === 0)
         {
-            $listed[$parent_node] = array();
-            return $listed[$parent_node];
+            $listed[$cache_identifier] = array();
+            return $listed[$cache_identifier];
         }
 
         $up = $this->_up($parent_node);
