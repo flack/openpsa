@@ -187,7 +187,6 @@ class midcom_helper_nav_backend
         $this->_root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPICID);
 
         $this->_nap_cache = midcom::get('cache')->nap;
-
         $this->_loader = midcom::get('componentloader');
 
         if (!midcom::get('auth')->admin)
@@ -320,15 +319,11 @@ class midcom_helper_nav_backend
 
             $parent_id = $this->_get_parent_id($topic_id);
 
-            if ($up)
+            if (   $up
+                && $up_id = array_pop($up_ids)
+                && $up_id != $parent_id)
             {
-                if ($up_id = array_pop($up_ids))
-                {
-                    if ($up_id != $parent_id)
-                    {
-                        $parent_id = $up_id;
-                    }
-                }
+                $parent_id = $up_id;
             }
         }
 
@@ -374,18 +369,15 @@ class midcom_helper_nav_backend
 
         // The node is visible, add it to the list.
         self::$_nodes[$nodedata[MIDCOM_NAV_ID]] = $nodedata;
-
         $this->_guid_map[$nodedata[MIDCOM_NAV_GUID]] =& self::$_nodes[$nodedata[MIDCOM_NAV_ID]];
 
         // Load the current leaf, this does *not* load the leaves from the DB, this is done
         // during get_leaf now.
         if ($nodedata[MIDCOM_NAV_ID] === $this->_current)
         {
-            $interface = $this->_loader->get_interface_class($nodedata[MIDCOM_NAV_COMPONENT]);
+            $interface = $this->_get_component_interface($nodedata[MIDCOM_NAV_COMPONENT]);
             if (!$interface)
             {
-                debug_add("Could not get interface class of '{$nodedata[MIDCOM_NAV_COMPONENT]}' to the topic {$topic_id}, cannot add it to the NAP list.",
-                    MIDCOM_LOG_ERROR);
                 return null;
             }
             $currentleaf = $interface->get_current_leaf();
@@ -484,20 +476,10 @@ class midcom_helper_nav_backend
                 MIDCOM_LOG_INFO);
             $topic->component = 'midcom.core.nullcomponent';
         }
-        $path = $topic->component;
 
-        $interface = $this->_loader->get_interface_class($path);
+        $interface = $this->_get_component_interface($topic->component, $topic);
         if (!$interface)
         {
-            debug_add("Could not get interface class of '{$path}' to the topic {$topic->id}, cannot add it to the NAP list.",
-                MIDCOM_LOG_ERROR);
-            return null;
-        }
-
-        if (! $interface->set_object($topic))
-        {
-            debug_add("Could not set the NAP instance of '{$path}' to the topic {$topic->id}, cannot add it to the NAP list.",
-                MIDCOM_LOG_ERROR);
             return null;
         }
 
@@ -507,7 +489,7 @@ class midcom_helper_nav_backend
         $nodedata = $interface->get_node();
         if (is_null($nodedata))
         {
-            debug_add("The component '{$path}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
+            debug_add("The component '{$topic->component}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
             return null;
         }
         // Now complete the node data structure, we need a metadata object for this:
@@ -519,7 +501,7 @@ class midcom_helper_nav_backend
         $nodedata[MIDCOM_NAV_ID] = $id;
         $nodedata[MIDCOM_NAV_TYPE] = 'node';
         $nodedata[MIDCOM_NAV_SCORE] = $metadata->score;
-        $nodedata[MIDCOM_NAV_COMPONENT] = $path;
+        $nodedata[MIDCOM_NAV_COMPONENT] = $topic->component;
         $nodedata[MIDCOM_NAV_SORTABLE] = true;
 
         if (!isset($nodedata[MIDCOM_NAV_CONFIGURATION]))
@@ -547,8 +529,7 @@ class midcom_helper_nav_backend
             $nodedata[MIDCOM_NAV_NODEID] = $up;
 
             if (   !$nodedata[MIDCOM_NAV_NODEID]
-                || (   !array_key_exists($nodedata[MIDCOM_NAV_NODEID], self::$_nodes)
-                    && $this->_loadNode($nodedata[MIDCOM_NAV_NODEID]) !== MIDCOM_ERROK))
+                || $this->_loadNode($nodedata[MIDCOM_NAV_NODEID]) !== MIDCOM_ERROK)
             {
                 return null;
             }
@@ -582,16 +563,12 @@ class midcom_helper_nav_backend
 
         $this->_loaded_leaves[$node[MIDCOM_NAV_ID]] = array();
 
-        $leaves = $this->_get_leaves($node);
+        $leaves = array_filter($this->_get_leaves($node), array($this, '_is_object_visible'));
         foreach ($leaves as $id => $leaf)
         {
-            if ($this->_is_object_visible($leaf))
-            {
-                // The leaf is visible, add it to the list.
-                $this->_leaves[$id] = $leaf;
-                $this->_guid_map[$leaf[MIDCOM_NAV_GUID]] =& $this->_leaves[$id];
-                $this->_loaded_leaves[$node[MIDCOM_NAV_ID]][$id] =& $this->_leaves[$id];
-            }
+            $this->_leaves[$id] = $leaf;
+            $this->_guid_map[$leaf[MIDCOM_NAV_GUID]] =& $this->_leaves[$id];
+            $this->_loaded_leaves[$node[MIDCOM_NAV_ID]][$id] =& $this->_leaves[$id];
         }
     }
 
@@ -626,15 +603,12 @@ class midcom_helper_nav_backend
         $result = array();
         foreach ($leaves as $id => $data)
         {
-            if (   isset($data[MIDCOM_NAV_OBJECT])
-                && is_object($data[MIDCOM_NAV_OBJECT])
-                && $data[MIDCOM_NAV_GUID])
+            if (   !empty($data[MIDCOM_NAV_OBJECT])
+                && $data[MIDCOM_NAV_GUID]
+                && $this->_user_id
+                && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id))
             {
-                if (    $this->_user_id
-                     && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id))
-                {
-                    continue;
-                }
+                continue;
             }
             $result[$id] = $data;
         }
@@ -664,17 +638,10 @@ class midcom_helper_nav_backend
         $topic = $node[MIDCOM_NAV_OBJECT];
 
         // Retrieve a NAP instance
-        $interface = $this->_loader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
+        $interface = $this->_get_component_interface($node[MIDCOM_NAV_COMPONENT], $topic);
         if (!$interface)
         {
-            debug_add("Could not get interface class of '{$node[MIDCOM_NAV_COMPONENT]}' to the topic {$topic->id}, cannot add it to the NAP list.",
-                MIDCOM_LOG_ERROR);
             return null;
-        }
-        if (! $interface->set_object($topic))
-        {
-            debug_print_r('Topic object dump:', $topic);
-            throw new midcom_error("Cannot load NAP information, aborting: Could not set the nap instance of {$node[MIDCOM_NAV_COMPONENT]} to the topic {$topic->id}.");
         }
 
         $leafdata = $interface->get_leaves();
@@ -682,9 +649,19 @@ class midcom_helper_nav_backend
 
         foreach ($leafdata as $id => $leaf)
         {
-            // First, try to somehow gain both a GUID and a Leaf.
-            if (   !isset($leaf[MIDCOM_NAV_GUID])
-                && !isset($leaf[MIDCOM_NAV_OBJECT]))
+            if (!empty($leaf[MIDCOM_NAV_OBJECT]))
+            {
+                $leaf[MIDCOM_NAV_GUID] = $leaf[MIDCOM_NAV_OBJECT]->guid;
+            }
+            else if (!empty($leaf[MIDCOM_NAV_GUID]))
+            {
+                try
+                {
+                    $leaf[MIDCOM_NAV_OBJECT] = midcom::get('dbfactory')->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
+                }
+                catch (midcom_error $e){}
+            }
+            else
             {
                 debug_add("Warning: The leaf {$id} of topic {$topic->id} does set neither a GUID nor an object.");
                 $leaf[MIDCOM_NAV_GUID] = null;
@@ -695,18 +672,6 @@ class midcom_helper_nav_backend
                 {
                     $leaf[MIDCOM_NAV_SCORE] = (int) $score;
                 }
-            }
-            else if (!isset($leaf[MIDCOM_NAV_GUID]))
-            {
-                $leaf[MIDCOM_NAV_GUID] = $leaf[MIDCOM_NAV_OBJECT]->guid;
-            }
-            else if (!isset($leaf[MIDCOM_NAV_OBJECT]))
-            {
-                try
-                {
-                    $leaf[MIDCOM_NAV_OBJECT] = midcom::get('dbfactory')->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
-                }
-                catch (midcom_error $e){}
             }
 
             if (!isset($leaf[MIDCOM_NAV_SORTABLE]))
@@ -999,10 +964,7 @@ class midcom_helper_nav_backend
         {
             return $this->get_leaf($entry[MIDCOM_NAV_ID]);
         }
-        else
-        {
-            return $this->get_node($entry[MIDCOM_NAV_ID]);
-        }
+        return $this->get_node($entry[MIDCOM_NAV_ID]);
     }
 
     /**
@@ -1021,11 +983,6 @@ class midcom_helper_nav_backend
             $node_id = $node->id;
         }
         if ($this->_loadNode($node_id) != MIDCOM_ERROK)
-        {
-            return false;
-        }
-
-        if (!isset(self::$_nodes[$node_id]))
         {
             return false;
         }
@@ -1309,6 +1266,28 @@ class midcom_helper_nav_backend
         }
 
         return true;
+    }
+
+    /**
+     * @param string $component
+     * @param midcom_db_topic $topic
+     * @return midcom_baseclasses_components_interface
+     */
+    private function _get_component_interface($component, $topic = null)
+    {
+        $interface = $this->_loader->get_interface_class($component);
+        if (!$interface)
+        {
+            debug_add("Could not get interface class of '{$component}'", MIDCOM_LOG_ERROR);
+            return null;
+        }
+        if (   $topic !== null
+            && !$interface->set_object($topic))
+        {
+            debug_add("Could not set the NAP instance of '{$component}' to the topic {$topic->id}.", MIDCOM_LOG_ERROR);
+            return null;
+        }
+        return $interface;
     }
 }
 ?>
