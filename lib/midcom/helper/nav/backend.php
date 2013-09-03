@@ -1040,23 +1040,11 @@ class midcom_helper_nav_backend
      */
     function get_current_upper_node()
     {
-        static $upper_node = null;
-
-        if (!$upper_node)
+        if (count($this->_node_path) > 1)
         {
-            $node = null;
-            foreach ($this->_node_path as $node_path_component)
-            {
-                $upper_node = $node;
-                $node = $node_path_component;
-            }
-            if (!$upper_node)
-            {
-                $upper_node = $node;
-            }
+            return $this->_node_path[count($this->_node_path) - 2];
         }
-
-        return $upper_node;
+        return $this->_node_path[0];
     }
 
     /**
@@ -1135,19 +1123,8 @@ class midcom_helper_nav_backend
         {
             $up = null;
             $ids = explode("_", $nodeid);
-            $id = array_shift($ids);
-            foreach ($ids as $id)
-            {
-                if ($up)
-                {
-                    $up .= "_" . $id;
-                }
-                else
-                {
-                    $up = (int) $id;
-                }
-            }
-            $cache[$nodeid] = $up;
+            array_shift($ids);
+            $cache[$nodeid] = implode('_', $ids);
         }
 
         return $cache[$nodeid];
