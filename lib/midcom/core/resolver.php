@@ -423,12 +423,6 @@ class midcom_core_resolver
         }
         $path .= $this->_context->parser->argv[0];
 
-        if (   is_dir($path)
-            && isset($this->_context->parser->argv[1]))
-        {
-            $path .= '/' . $this->_context->parser->argv[1];
-        }
-
         if (!is_file($path))
         {
             throw new midcom_error_notfound("File not found.");
