@@ -342,13 +342,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function add_attachment($identifier, $filename, $title, $mimetype, $tmpname, $autodelete = true)
     {
-        if (! file_exists($tmpname))
-        {
-            debug_add("Cannot add attachment, the file {$tmpname} was not found.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        if (!$this->file_sanity_checks($tmpname, $filename))
+        if (!$this->file_sanity_checks($tmpname))
         {
             // the method will log errors and raise uimessages as needed
             return false;
@@ -571,13 +565,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function update_attachment($identifier, $filename, $title, $mimetype, $tmpname, $autodelete = true)
     {
-        if (! file_exists($tmpname))
-        {
-            debug_add("Cannot add attachment, the file {$tmpname} was not found.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        if (!$this->file_sanity_checks($tmpname, $filename))
+        if (!$this->file_sanity_checks($tmpname))
         {
             // the method will log errors and raise uimessages as needed
             return false;
@@ -820,10 +808,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @see add_attachment
      * @see update_attachment
      * @param string $filepath path to file to check
-     * @param string $filename actual name of the file to use with attachment
      * @return boolean indicating sanity
      */
-    function file_sanity_checks($filepath, $filename = '')
+    function file_sanity_checks($filepath)
     {
         static $checked_files = array();
         static $checks = array
@@ -835,6 +822,12 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if (isset($checked_files[$filepath]))
         {
             return $checked_files[$filepath];
+        }
+        if (! file_exists($filepath))
+        {
+            debug_add("The file {$filepath} was not found.", MIDCOM_LOG_INFO);
+            $checked_files[$filepath] = false;
+            return false;
         }
         foreach ($checks as $check)
         {

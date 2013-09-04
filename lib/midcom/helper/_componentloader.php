@@ -266,13 +266,7 @@ class midcom_helper__componentloader
             return false;
         }
 
-        // Load Snippets
         $directory = $snippetpath . '/midcom';
-        if (! is_dir($directory))
-        {
-            debug_add("Failed to access {$directory}: Directory not found.", MIDCOM_LOG_CRIT);
-            return false;
-        }
 
         // Load the interfaces.php snippet, abort if that file is not available.
         if (! file_exists("{$directory}/interfaces.php"))

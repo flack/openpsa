@@ -429,12 +429,7 @@ class midcom_core_resolver
             $path .= '/' . $this->_context->parser->argv[1];
         }
 
-        if (is_dir($path))
-        {
-            throw new midcom_error_notfound("Path is a directory.");
-        }
-
-        if (! file_exists($path))
+        if (!is_file($path))
         {
             throw new midcom_error_notfound("File not found.");
         }

@@ -17,19 +17,6 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.filesync', 'config');
         $path = $config->get('filesync_path');
-        if (!file_exists($path))
-        {
-            $parent = dirname($path);
-            if (!is_writable($parent))
-            {
-                throw new midcom_error("Directory {$parent} is not writable");
-            }
-
-            if (! mkdir($path))
-            {
-                throw new midcom_error("Failed to create directory {$path}. Reason: " . $php_errormsg);
-            }
-        }
 
         if (substr($path, -1) != '/')
         {
@@ -39,12 +26,7 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
         $module_dir = "{$path}{$prefix}";
         if (!file_exists($module_dir))
         {
-            if (!is_writable($path))
-            {
-                throw new midcom_error("Directory {$path} is not writable");
-            }
-
-             if (! mkdir($module_dir))
+            if (!mkdir($module_dir, 0777, true))
             {
                 throw new midcom_error("Failed to create directory {$module_dir}. Reason: " . $php_errormsg);
             }
