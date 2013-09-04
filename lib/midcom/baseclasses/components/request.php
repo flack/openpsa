@@ -696,7 +696,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             $this->_handler['handler'][0]->initialize($this);
 
-            midcom_core_context::get()->set_key($this->_handler['id'], MIDCOM_CONTEXT_HANDLERID);
+            midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $this->_handler['id']);
         }
     }
 
