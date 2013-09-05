@@ -259,10 +259,7 @@ class midcom_debug
             return;
         }
 
-        ob_start();
-        print_r($variable);
-        $varstring = ob_get_contents();
-        ob_end_clean();
+        $varstring = print_r($variable, true);
 
         $type = gettype($variable);
         if ($type == "object")

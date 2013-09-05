@@ -27,12 +27,6 @@ if (empty($query['resource_expanded']))
             <h1><?php echo $data['l10n']->get('no results'); ?></h1>
             <p><?php echo $data['l10n']->get('no results found matching the report criteria'); ?></p>
         </div>
-        <!--
-        <div class="debug">
-          <h1>Query data</h1>
-          <pre><?php print_r($query); ?></pre>
-        </div>
-        -->
 <?php
 }
 else

@@ -227,15 +227,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         // Copy the file to the static directory
         $cacheroot = midcom::get('config')->get('attachment_cache_root');
-        if (!file_exists($cacheroot))
-        {
-            mkdir($cacheroot);
-        }
-
         $subdir = substr($this->guid, 0, 1);
         if (!file_exists("{$cacheroot}/{$subdir}"))
         {
-            mkdir("{$cacheroot}/{$subdir}");
+            mkdir("{$cacheroot}/{$subdir}", 0777, true);
         }
 
         $filename = "{$cacheroot}/{$subdir}/{$this->guid}_{$this->name}";
@@ -271,7 +266,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
             if (file_exists(midcom::get('config')->get('attachment_cache_root') . '/' . $subdir . '/' . $guid . '_' . $name))
             {
-                return  midcom::get('config')->get('attachment_cache_url') . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
+                return midcom::get('config')->get('attachment_cache_url') . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
             }
         }
 

@@ -101,11 +101,6 @@ class midcom
         // Register autoloader so we get all MidCOM classes loaded automatically
         spl_autoload_register(array('midcom', 'autoload'));
 
-        if (file_exists(MIDCOM_ROOT . '/../vendor/autoload.php'))
-        {
-            require_once MIDCOM_ROOT . '/../vendor/autoload.php';
-        }
-
         /////////////////////
         // Start the Debugger
         require(MIDCOM_ROOT. '/midcom/debug.php');

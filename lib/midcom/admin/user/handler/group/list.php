@@ -55,9 +55,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
         if (isset($_POST['f_submit']))
         {
-            echo "<pre>\n";
-            print_r($_POST);
-            echo "</pre>\n";
             $data['group']->owner = (int) $_POST['midcom_admin_user_move_group'];
 
             if ($data['group']->update())
@@ -65,13 +62,10 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
                 midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), $this->_l10n_midcom->get('updated'));
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
             }
-            else
-            {
-                debug_add('Failed to update the group, last error was '. midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_print_r('We operated on this object', $data['group'], MIDCOM_LOG_ERROR);
+            debug_add('Failed to update the group, last error was '. midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_print_r('We operated on this object', $data['group'], MIDCOM_LOG_ERROR);
 
-                throw new midcom_error('Failed to update the group, see error level log for details');
-            }
+            throw new midcom_error('Failed to update the group, see error level log for details');
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('move %s'), $data['group']->official);

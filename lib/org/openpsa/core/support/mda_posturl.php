@@ -45,10 +45,7 @@ if (   $stat != 200
     || $response['code'] != 200
     || stristr($response['body'], 'error'))
 {
-    ob_start();
-    print_r($response);
-    $response_str = ob_get_contents();
-    ob_end_clean();
+    $response_str = print_r($response, true);
     error_log("Error posting message to: {$POST_TO} ({$stat}), dumping response data:\n===\n{$response_str}===\n");
     exit(1);
 }
