@@ -36,8 +36,8 @@ else
     $mail->body = $_POST['body'];
     $mail->to = $_POST['to'];
     $mail->from = $_POST['from'];
-    $ret = $mail->send();
 
+    $ret = $mail->send();
     echo "mail->send returned {$ret}<br>\n";
     if (!$ret)
     {

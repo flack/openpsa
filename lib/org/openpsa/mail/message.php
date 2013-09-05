@@ -70,8 +70,8 @@ class org_openpsa_mail_message
             }
             else
             {
-                // header already exists => just set a new value (avoid duplicated MIME-Version)
-                if ($msg_headers->get($name))
+                // header already exists => just set a new value
+                if ($msg_headers->has($name))
                 {
                     $msg_headers->get($name)->setValue($value);
                 }
@@ -103,61 +103,25 @@ class org_openpsa_mail_message
 
     public function get_headers()
     {
-        if (   !isset($this->_headers['Content-Type'])
-            || $this->_headers['Content-Type'] == null)
+        if (empty($this->_headers['Content-Type']))
         {
             $this->_headers['Content-Type'] = "text/plain; charset={$this->_encoding}";
         }
-        // Set Mime-version if not set already (done this way to accommodate for various typings
-        $mime_header = false;
 
         //Make sure we don't send any empty headers
         reset ($this->_headers);
         foreach ($this->_headers as $header => $value)
         {
-            if (empty($value))
-            {
-                debug_add("Header '{$header}' has empty value, removing");
-                unset ($this->_headers[$header]);
-                continue;
-            }
-            if (strtolower($header) == 'mime-version')
-            {
-                $mime_header = $header;
-            }
-            else if (   strtolower($header) == 'from'
-                     || strtolower($header) == 'reply-to'
-                     || strtolower($header) == 'to')
+            if (   strtolower($header) == 'from'
+                || strtolower($header) == 'reply-to'
+                || strtolower($header) == 'to')
             {
                 $this->_headers[$header] = $this->_encode_address_field($value);
             }
 
-            if (is_array($value))
+            if (is_string($value))
             {
-                //This is most probably an address header, like To or Cc
-                debug_add('Header ' . $header . ' is in array format. Converting to comma-separated string');
-                $value = implode(', ', $value);
-                $this->_headers[$header] = $value;
-            }
-
-            $value_trimmed = trim($value);
-            if ($value_trimmed != $value)
-            {
-                debug_add("Header '{$header}' has whitespace around its value, rewriting from\n===\n{$value}\n===\nto\n===\n{$value_trimmed}\n===\n");
-                $this->_headers[$header] = $value_trimmed;
-            }
-        }
-
-        if (   $mime_header === false
-            || $this->_headers[$mime_header] == null)
-        {
-            if ($mime_header === false)
-            {
-                $this->_headers['MIME-Version'] = '1.0';
-            }
-            else
-            {
-                $this->_headers[$mime_header] = '1.0';
+                $this->_headers[$header] = trim($value);
             }
         }
 
@@ -243,7 +207,7 @@ class org_openpsa_mail_message
     {
         foreach ($attachments as $att)
         {
-            if (!isset($att['mimetype']) || $att['mimetype'] == null)
+            if (empty($att['mimetype']))
             {
                 $att['mimetype'] = "application/octet-stream";
             }
@@ -268,11 +232,11 @@ class org_openpsa_mail_message
     }
 
     /**
-     * Helper function to work around a problem where some PEAR mail backends (or versions)
-     * trip over special characters in addresses
+     * Helper function that provides backwards compatibility
+     * to addresses specified in a "Name <email@addre.ss>" format
      *
      * @param string $value The value to encode
-     * @return string the encoded value
+     * @return mixed the encoded value
      */
     private function _encode_address_field($value)
     {

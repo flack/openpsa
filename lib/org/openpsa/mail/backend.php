@@ -25,7 +25,7 @@ abstract class org_openpsa_mail_backend
      * @param org_openpsa_mail_message $messages
      */
     abstract function mail(org_openpsa_mail_message $message);
-    
+
     /**
      * Factory method that prepares the mail backend
      */
@@ -73,11 +73,14 @@ abstract class org_openpsa_mail_backend
 
     final public function send(org_openpsa_mail_message $message)
     {
-        try{
+        try
+        {
             $ret = $this->mail($message);
             $this->error = false;
             return $ret;
-        }catch(Exception $e){
+        }
+        catch(Exception $e)
+        {
             $this->error = $e->getMessage();
             return false;
         }
@@ -90,10 +93,6 @@ abstract class org_openpsa_mail_backend
             return false;
         }
 
-        if (is_object($this->error))
-        {
-            return $this->error->getMessage();
-        }
         if (   is_string($this->error)
             && !empty($this->error))
         {
