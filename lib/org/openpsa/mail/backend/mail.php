@@ -20,36 +20,7 @@ class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
 
     public function mail($recipients, array $headers, $body)
     {
-        $real_headers = array();
-        $subject = '';
-        reset($headers);
-        foreach ($headers as $key => $value)
-        {
-            if (strtolower($key) == 'to')
-            {
-                continue;
-            }
-            else if (strtolower($key) == 'subject')
-            {
-                $subject = $value;
-                continue;
-            }
-            $real_headers[$key] = $value;
-        }
-
-        // create message
-        $message = Swift_Message::newInstance($subject)
-        ->setTo($recipients)
-        ->setBody($body);
-        
-        // set headers
-        $headers = $message->getHeaders();
-        foreach ($real_headers as $name => $value)
-        {
-            $headers->addTextHeader($name, $value);
-        }
-        
-        return $this->_mail->send($message);
+        return $this->_mail->send($message->get_message());
     }
 }
 ?>
