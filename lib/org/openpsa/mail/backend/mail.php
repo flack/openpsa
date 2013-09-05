@@ -15,7 +15,8 @@ class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
 {
     public function __construct($params)
     {
-        $this->_mail = Swift_MailTransport::newInstance($params);
+        $transport = Swift_MailTransport::newInstance($params['additional_params']);
+        $this->_mail = Swift_Mailer::newInstance($transport);
     }
 
     public function mail(org_openpsa_mail_message $message)

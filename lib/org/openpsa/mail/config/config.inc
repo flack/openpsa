@@ -1,12 +1,15 @@
 'default_try_backends' => array
 (
-    'mail_sendmail',
-    'mail_smtp',
     'mail',
+'mail_sendmail',
+    'mail_smtp',
+
 ),
 
 //This becomes the fifth parameter of mail()
-'mail_params' => '',
+'mail_params' => array(
+    'additional_params' => ''
+),
 
 //These are passed to the Mail_smtp backend
 'mail_smtp_params' => array
@@ -18,8 +21,8 @@
 //These are passed to the Mail_sendmail backend
 'mail_sendmail_params' => array
 (
-    'sendmail_path' => null,
-    'sendmail_args' => null,
+    'sendmail_path' => '/usr/sbin/sendmail',
+    'sendmail_args' => '-bs',
 ),
 
 //Theses domains report character set incorrectly (thus messing up the conversion if we trust it)
