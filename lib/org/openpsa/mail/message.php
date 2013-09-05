@@ -125,11 +125,6 @@ class org_openpsa_mail_message
             {
                 $mime_header = $header;
             }
-            else if (strtolower($header) == 'subject')
-            {
-                // Encode subject (if necessary)
-                $this->_headers[$header] = $this->_encode_quoted_printable($value);
-            }
             else if (   strtolower($header) == 'from'
                      || strtolower($header) == 'reply-to'
                      || strtolower($header) == 'to')
@@ -244,7 +239,6 @@ class org_openpsa_mail_message
         }
     }
 
-
     private function _process_attachments($attachments)
     {
         foreach ($attachments as $att)
@@ -297,62 +291,6 @@ class org_openpsa_mail_message
             $value = array($address => $name);
         }
         return $value;
-    }
-
-    /**
-     * Quoted-Printable encoding for message headers if necessary
-     *
-     * @todo See if this can be replaced by quoted_printable_encode once we go to 5.3
-     */
-    private function _encode_quoted_printable($subject)
-    {
-        preg_match_all("/[^\x21-\x39\x41-\x7e]/", $subject, $matches);
-        if (   count ($matches[0]) > 0
-            && !stristr($subject, '=?' . strtoupper($this->_encoding) . '?Q?'))
-        {
-            // Sort the results to make sure '=' gets encoded first (otherwise there will be double-encodes...)
-            usort($matches[0], array($this, '_sort_encode_subject'));
-            debug_print_r("matches[0]", $matches);
-            $cache = array();
-            $newSubj = $subject;
-            foreach ($matches[0] as $char)
-            {
-                $hex = str_pad(strtoupper(dechex(ord($char))), 2, '0', STR_PAD_LEFT);
-                if (isset($cache[$hex]))
-                {
-                    continue;
-                }
-                $code = '=' . $hex;
-                debug_add("encoding  '{$char}' to '{$code}'");
-                $newSubj = str_replace($char, $code, $newSubj);
-                $cache[$hex] = true;
-            }
-            $subject = '=?' . strtoupper($this->_encoding) . '?Q?' . $newSubj . '?=';
-        }
-        return $subject;
-    }
-
-    private function _sort_encode_subject($a, $b)
-    {
-        if ($a == '=')
-        {
-            return -1;
-        }
-        if ($b == '=')
-        {
-            return 1;
-        }
-        $aord = ord($a);
-        $bord = ord($b);
-        if ($aord < $bord)
-        {
-            return -1;
-        }
-        if ($aord > $bord)
-        {
-            return 1;
-        }
-        return 0;
     }
 }
 ?>
