@@ -6,14 +6,12 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * Wrapper for HTTP responses
  *
  * @package midcom
  */
-class midcom_response extends Response
+class midcom_response
 {
     /**
      * Character encoding to use
