@@ -238,7 +238,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         {
             $message->set_body($this->body);
         }
-
+                
         return $message;
     }
 
@@ -253,7 +253,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             return false;
         }
 
-        //Prepare mail for sending
+        // prepare mail for sending
         $message = $this->_prepare_message();
 
         $ret = $this->_backend->send($message);

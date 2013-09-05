@@ -35,32 +35,58 @@ class org_openpsa_mail_message
         $this->_encoding = $encoding;
     }
 
-    /**
-     * Merges all email recipients into a comma-separated string
-     *
-     * @todo Support arrays of Cc/Bcc addresses as well
-     */
-    public function get_recipients()
+    public function get_message()
     {
-        if (is_string($this->_to))
+        // create swift message
+        $message = Swift_Message::newInstance('')->setBody($this->get_body());
+        
+        // set headers
+        $headers_setter_map = array(
+            "content-type" => "setContentType",
+            "content-description" => "setDescription",
+            "from" => "setFrom",
+            "to" => "setTo",
+            "cc" => "setCc",
+            "bcc" => "setBcc",
+            "reply-to" => "setReplyTo",
+            "subject" => "setSubject",
+            "date" => "setDate",
+            "return-path" => "setReturnPath"
+        );
+        // map headers we got to swift setter methods
+        $msg_headers = $message->getHeaders();
+        $headers = $this->get_headers();
+        foreach ($headers as $name => $value)
         {
-            $addresses = array($this->_to);
+            if (array_key_exists(strtolower($name), $headers_setter_map))
+            {
+                $setter = $headers_setter_map[strtolower($name)];
+                $message->$setter($value);
+            }
+            else
+            {
+                // header already exists => just set a new value (avoid duplicated MIME-Version)
+                if ($msg_headers->get($name))
+                {
+                    $msg_headers->get($name)->setValue($value);
+                }
+                else 
+                {
+                    $msg_headers->addTextHeader($name, $value);
+                }
+            }
         }
-        else
-        {
-            $addresses = $this->_to;
-        }
-        if (!empty($this->_headers['Cc']))
-        {
-            $addresses[] = $this->_headers['Cc'];
-        }
-        if (!empty($this->_headers['Bcc']))
-        {
-            $addresses[] = $this->_headers['Bcc'];
-        }
-        return implode(', ', $addresses);
-    }
+        // var_dump($message->getHeaders()->toString());
 
+        // add attachments?
+        /*
+        $attachment = Swift_Attachment::fromPath($_FILES['attachedfile']['tmp_name'])->setFilename($name.'_'.$email);
+        $message->attach($attachment);
+        */
+        
+        return $message;
+    }
+     
     public function get_headers()
     {
         if (   !isset($this->_headers['Content-Type'])
@@ -217,7 +243,8 @@ class org_openpsa_mail_message
     {
         if (is_array($value))
         {
-            return array_map(array($this, '_encode_address_field'), $value);
+            array_walk($value, array($this, '_encode_address_field'));
+            return $value;
         }
         if (strpos($value, '<'))
         {
@@ -226,7 +253,8 @@ class org_openpsa_mail_message
             $name = preg_replace('/"\s*$/', '', $name);
             $address = substr($value, strpos($value, '<') + 1);
             $address = substr($address, 0, strlen($address) - 1);
-            $value = $this->_encode_quoted_printable($name) . ' <' . $address . '>';
+            $value = array($address => $name);
+            // $value = $this->_encode_quoted_printable($name) . ' <' . $address . '>';
         }
         return $value;
     }

@@ -22,12 +22,10 @@ abstract class org_openpsa_mail_backend
     /**
      * This function sends the actual email
      *
-     * @param string $recipients Recipients
-     * @param array $headers Mail headers
-     * @param string $body Mail body
+     * @param org_openpsa_mail_message $messages
      */
-    abstract function mail($recipients, array $headers, $body);
-
+    abstract function mail(org_openpsa_mail_message $message);
+    
     /**
      * Factory method that prepares the mail backend
      */
@@ -75,22 +73,14 @@ abstract class org_openpsa_mail_backend
 
     final public function send(org_openpsa_mail_message $message)
     {
-        $ret = $this->mail($message->get_recipients(), $message->get_headers(), $message->get_body());
-        if (!$ret)
-        {
-            $this->error = $ret;
-        }
-        else if (   is_object($ret)
-                 && is_a($ret, 'PEAR_Error'))
-        {
-            $this->error = $ret->getMessage();
-            $ret = false;
-        }
-        else
-        {
+        try{
+            $ret = $this->mail($message);
             $this->error = false;
+            return $ret;
+        }catch(Exception $e){
+            $this->error = $e->getMessage();
+            return false;
         }
-        return $ret;
     }
 
     public function get_error_message()

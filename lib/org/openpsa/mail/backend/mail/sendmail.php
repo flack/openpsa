@@ -14,13 +14,14 @@
 class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
-    {
-        $this->_mail = Mail::factory('sendmail', $params);
+    {        
+        // example: Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs')
+        $this->_mail = Swift_SendmailTransport::newInstance($params['sendmail_path'] . " " . $params['sendmail_args']);
     }
 
-    public function mail($recipients, array $headers, $body)
+    public function mail(org_openpsa_mail_message $message)
     {
-        return $this->_mail->send($recipients, $headers, $body);
+        return $this->_mail->send($message->get_message());
     }
 }
 ?>

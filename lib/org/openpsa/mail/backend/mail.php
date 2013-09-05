@@ -13,13 +13,14 @@
  */
 class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
 {
-    public function __construct(array $params)
+    public function __construct($params)
     {
+        $this->_mail = Swift_MailTransport::newInstance($params);
     }
 
     public function mail($recipients, array $headers, $body)
     {
-        $hdr = '';
+        $real_headers = array();
         $subject = '';
         reset($headers);
         foreach ($headers as $key => $value)
@@ -33,12 +34,22 @@ class org_openpsa_mail_backend_mail extends org_openpsa_mail_backend
                 $subject = $value;
                 continue;
             }
-            $hdr .= "{$key}: {$value}\n";
+            $real_headers[$key] = $value;
         }
 
-        $additional_parameters = midcom_baseclasses_components_configuration::get('org.openpsa.mail', 'config')->get('mail_additional_params');
-
-        return mail($recipients, $subject, $body, $hdr, $additional_parameters);
+        // create message
+        $message = Swift_Message::newInstance($subject)
+        ->setTo($recipients)
+        ->setBody($body);
+        
+        // set headers
+        $headers = $message->getHeaders();
+        foreach ($real_headers as $name => $value)
+        {
+            $headers->addTextHeader($name, $value);
+        }
+        
+        return $this->_mail->send($message);
     }
 }
 ?>
