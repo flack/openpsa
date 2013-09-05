@@ -80,7 +80,8 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     {
         $mail = new org_openpsa_mail($this->_config['mail_send_backend'], $this->_config['mail_send_backend_params']);
         $mail->to = $person->email;
-
+        $mail->subject = $subject;
+        
         $mail->from = $from;
         if (isset($this->_config['reply-to']))
         {
@@ -113,11 +114,10 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
                 // Skip embedding if requested
                 if (empty($this->_config['htmlemail_donotembed']))
                 {
-                    //The mail class uses a caching scheme to avoid fetching embedded objects again.
-                    $mail->embed_images($this->_message);
+                    $mail->embed_images();
                 }
 
-                //Handle link detection
+                // Handle link detection
                 if (!empty($this->_config['link_detector_address']))
                 {
                     $link_address = str_replace('TOKEN', $token, $this->_config['link_detector_address']);
