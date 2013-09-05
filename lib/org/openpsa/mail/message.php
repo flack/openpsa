@@ -21,9 +21,9 @@ class org_openpsa_mail_message
 
     private $_body;
     private $_html_body = null;
-    
+
     /**
-     * 
+     *
      * @var Swift_Message
      */
     private $_message;
@@ -32,18 +32,18 @@ class org_openpsa_mail_message
     {
         $this->_to = $this->_encode_address_field($to);
         $this->_headers = $headers;
-        $this->_encoding = $encoding;    
+        $this->_encoding = $encoding;
 
         $this->_message = Swift_Message::newInstance('');
     }
-    
+
     public function get_recipients()
     {
         return $this->_to;
     }
-            
+
     public function get_message()
-    {              
+    {
         // set headers
         $headers_setter_map = array(
             "content-type" => "setContentType",
@@ -57,7 +57,7 @@ class org_openpsa_mail_message
             "date" => "setDate",
             "return-path" => "setReturnPath"
         );
-        
+
         // map headers we got to swift setter methods
         $msg_headers = $this->_message->getHeaders();
         $headers = $this->get_headers();
@@ -75,32 +75,32 @@ class org_openpsa_mail_message
                 {
                     $msg_headers->get($name)->setValue($value);
                 }
-                else 
+                else
                 {
                     $msg_headers->addTextHeader($name, $value);
                 }
             }
         }
-        
+
         // somehow we need to set the body after the headers...
         if (!empty($this->_html_body))
         {
             $this->_message->setBody($this->_html_body, 'text/html');
             $this->_message->addPart($this->_body, 'text/plain');
         }
-        else 
+        else
         {
-            $this->_message->setBody($this->_body, 'text/plain');            
-        }      
-         
+            $this->_message->setBody($this->_body, 'text/plain');
+        }
+
         return $this->_message;
     }
-    
+
     public function set_header_field($name, $value)
     {
-        $this->_headers[$name] = $value;    
+        $this->_headers[$name] = $value;
     }
-     
+
     public function get_headers()
     {
         if (   !isset($this->_headers['Content-Type'])
@@ -175,13 +175,13 @@ class org_openpsa_mail_message
     }
 
     public function set_body($body)
-    {        
+    {
         $this->_body = $body;
         $this->_html_body = null;
     }
-    
+
     /**
-     * 
+     *
      * @param string $body the html body
      * @param string $altBody the alternative (text) body
      * @param array $attachments
@@ -191,31 +191,31 @@ class org_openpsa_mail_message
     {
         $this->_body = $altBody;
         $this->_html_body = $body;
-        
+
         // adjust html body
         if ($do_image_embedding)
         {
             $this->_embed_images();
         }
-        
+
         // process attachments
         $this->_process_attachments($attachments);
     }
-    
+
     private function _embed_images()
     {
         // anything with SRC = "" something in it (images etc)
-        $regExp_src = "/(src)=([\"'�])(((https?|ftp):\/\/)?(.*?))\\2/i";
+        $regExp_src = "/(src|background)=([\"'�])(((https?|ftp):\/\/)?(.*?))\\2/i";
         preg_match_all($regExp_src, $this->_html_body, $matches_src);
         debug_print_r("matches_src:", $matches_src);
-    
+
         $matches = array(
             "whole" => $matches_src[0],
             "uri" => $matches_src[3],
             "proto" => $matches_src[4],
             "location" => $matches_src[6]
         );
-    
+
         foreach ($matches["whole"] as $key => $match)
         {
             $location = $matches["location"][$key];
@@ -236,7 +236,7 @@ class org_openpsa_mail_message
                     $uri = $proto . "://" . $_SERVER['SERVER_NAME'] . $location;
                 }
             }
-    
+
             // replace src by swiftmailer embedded image
             $repl = $this->_message->embed(Swift_Image::fromPath($uri));
             $new_html = str_replace($location, $repl, $match);
@@ -246,14 +246,14 @@ class org_openpsa_mail_message
 
 
     private function _process_attachments($attachments)
-    { 
+    {
         foreach ($attachments as $att)
         {
             if (!isset($att['mimetype']) || $att['mimetype'] == null)
             {
                 $att['mimetype'] = "application/octet-stream";
             }
-            
+
             $swift_att = false;
             // we got a file path
             if (isset($att['file']) && strlen($att['file']) > 0)
@@ -265,7 +265,7 @@ class org_openpsa_mail_message
             {
                 $swift_att = Swift_Attachment::newInstance($att['content'], $att['name'], $att['mimetype']);
             }
-        
+
             if ($swift_att)
             {
                 $this->_message->attach($swift_att);
