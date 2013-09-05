@@ -7,7 +7,7 @@
  */
 
 /**
- * Send backend for org_openpsa_mail, using PHPs mail() function
+ * Send backend for org_openpsa_mail
  *
  * @package org.openpsa.mail
  */

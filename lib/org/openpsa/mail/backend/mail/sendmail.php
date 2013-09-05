@@ -7,7 +7,7 @@
  */
 
 /**
- * Send backend for org_openpsa_mail, using PEAR Mail_sendmail
+ * Send backend for org_openpsa_mail
  *
  * @package org.openpsa.mail
  */

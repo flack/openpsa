@@ -9,9 +9,6 @@
 /**
  * Class for handling email sending
  *
- * Gracefully degrades in functionality if certain PEAR libraries are
- * not available.
- *
  * <b>Sending Mails</b>
  *
  * Currently, the engine will send the emails through an autodetected backend, which
@@ -97,15 +94,13 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      * @var boolean
      */
     public $allow_only_html = false;
-
+    
     /**
-     * Like attachments but used for inline images.
-     *
-     * This is dynamically filled from html_body if embed_images is called
-     *
-     * @var array
+     * shall embed_images be called by message class?
+     * 
+     * @var boolean
      */
-    private $_embeds = array();
+    private $_do_image_embedding = false;
 
     /**
      * The backend object
@@ -157,12 +152,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function can_attach()
     {
-        if (class_exists('Mail_mime'))
-        {
-            debug_add('Mail_mime exists: returning true');
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -226,13 +216,11 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         }
 
         $message = new org_openpsa_mail_message($this->to, $this->headers, $this->encoding);
-
+        
         //Check whether it's necessary to initialize MIME
-        if (    !empty($this->html_body)
-             || !empty($this->attachments)
-             || !empty($this->_embeds))
+        if (!empty($this->html_body) || !empty($this->attachments))
         {
-            $message->set_mime_body($this->body, $this->html_body, $this->attachments, $this->_embeds);
+            $message->set_html_body($this->html_body, $this->body, $this->attachments, $this->_do_image_embedding);
         }
         else
         {
@@ -264,6 +252,12 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return $ret;
     }
 
+    public function embed_images()
+    {
+        return $this->_do_image_embedding = true;              
+    }
+
+    
     /**
      * Get errormessage from mail class
      *
@@ -278,202 +272,5 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return 'Unknown error';
     }
 
-    /**
-     * Find embeds from source HTML, intentionally does NOT use $this->html_body
-	 *
-     *  @param midcom_core_dbaobject $object Optional DBA object from which attachments can be read
-     */
-    public function embed_images($obj = false)
-    {
-        //Anything with SRC = "" something in it (images etc)
-        $regExp_src = "/(src|background)=([\"'�])(((https?|ftp):\/\/)?(.*?))\\2/i";
-        preg_match_all($regExp_src, $this->html_body, $matches_src);
-        debug_print_r("matches_src:", $matches_src);
-        $tmpArr = array();
-        $tmpArr['whole']    = $matches_src[0];
-        $tmpArr['uri']      = $matches_src[3];
-        $tmpArr['proto']    = $matches_src[4];
-        $tmpArr['location'] = $matches_src[6];
-        $tmpArr['type']     = $matches_src[1];
-
-        list ($this->html_body, $this->_embeds) = $this->_html_get_embeds_loop($obj, $this->html_body, $tmpArr, $this->_embeds, 'special:fromarray');
-    }
-
-    private function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
-    {
-        $type_backup = $type;
-
-        //Cache for embeds data
-        static $embeds_data_cache = array();
-
-        reset($search);
-        while (list ($k, $dummy) = each ($search['whole']))
-        {
-            if ($type_backup == 'special:fromarray')
-            {
-                $type = $search['type'][$k];
-            }
-            debug_add("k: {$k}, type: {$type}, type_backup: {$type_backup}");
-
-            $regExp_file = "/(.*\/|^)(.+?)$/";
-            preg_match($regExp_file, $search['location'][$k], $match_file);
-            debug_print_r("match_file:", $match_file);
-            $search['filename'][$k] = $match_file[2];
-
-            if (isset($embeds_data_cache[$search['location'][$k]]))
-            {
-                $mode = 'cached';
-            }
-            else if ($search['proto'][$k])
-            { //URI is fully qualified
-               $mode = 'fullUri';
-               $uri = $search['uri'][$k];
-            }
-            else if (preg_match('/^\//', $search['location'][$k]))
-            { //URI is relative
-               $mode = 'relUri';
-            }
-            else if ($search['uri'][$k] === $search['filename'][$k])
-            { //URI is just the filename
-               $mode = 'objFile';
-            }
-            else
-            { //We cannot decide what to do
-               $mode = false;
-            }
-
-            debug_add('mode: ' . $mode);
-            switch ($mode)
-            {
-                case 'cached':
-                    //Avoid multiple copies of same file in embeds
-                    if (!$this->_exists_in_embeds($embeds_data_cache[$search['location'][$k]], $embeds))
-                    {
-                        $embeds[] = $embeds_data_cache[$search['location'][$k]];
-                    }
-                    switch (strtolower($type))
-                    {
-                        case 'url':
-                            $html = str_replace($search['whole'][$k], 'url("' . $search['filename'][$k] . '")', $html);
-                            break;
-                        default:
-                            $html = str_replace($search['whole'][$k], $type . '="' . $search['filename'][$k] . '"', $html);
-                            break;
-                    }
-                    break;
-                case 'relUri':
-                    switch ($_SERVER['SERVER_PORT'])
-                    {
-                        case 443:
-                            $uri = 'https://' . $_SERVER['SERVER_NAME'] . $search['location'][$k];
-                            break;
-                        case 80:
-                            $uri = 'http://' . $_SERVER['SERVER_NAME'] . $search['location'][$k];
-                            break;
-                        default:
-                            $uri = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $search['location'][$k];
-                            break;
-                   }
-                    // NOTE: Fall-trough intentional
-                case 'fullUri':
-                    debug_add('Trying to fetch file: ' . $uri);
-                    $cont = @file_get_contents($uri); //Suppress errors, the url might be invalid but if so then we just silently drop it
-                    if (  $cont
-                          && $cont != 'FAILED REDIRECT TO ERROR find does not point to valid object MGD_ERR_OK') //Attachment server error
-                    {
-                        debug_add('Success!');
-                        $tmpArr2 = array();
-                        $tmpArr2['name'] = $search['filename'][$k];
-                        $tmpArr2['content'] = $cont;
-                        if ($mimetype = $this->_get_mimetype($tmpArr2['content'], $tmpArr2['name']))
-                        {
-                            $tmpArr2['mimetype'] = $mimetype;
-                        }
-                        $embeds_data_cache[$search['location'][$k]] = $tmpArr2;
-                        $embeds[] = $tmpArr2;
-                        switch (strtolower($type))
-                        {
-                            case 'url':
-                                $html = str_replace($search['whole'][$k], 'url("' . $search['filename'][$k] . '")', $html);
-                                break;
-                            default:
-                                $html = str_replace($search['whole'][$k], $type . '="' . $search['filename'][$k] . '"', $html);
-                                break;
-                        }
-                        unset($tmpArr2, $cont);
-                    }
-                    else
-                    {
-                        debug_add('FAILURE');
-                    }
-                    break;
-                case 'objFile':
-                    if (is_object($obj))
-                    {
-                        $attObj = $obj->get_attachment($search['filename'][$k]);
-                        if ($attObj)
-                        {
-                            $fp = $attObj->open('r');
-                            if ($fp)
-                            {
-                                $tmpArr2 = array();
-                                $tmpArr2['mimetype'] = $attObj->mimetype;
-                                $tmpArr2['name'] = $search['filename'][$k];
-                                while (!feof($fp))
-                                {
-                                    $tmpArr2['content'] .= fread($fp, 4096);
-                                }
-                                fclose($fp);
-                                $embeds_data_cache[$search['location'][$k]] = $tmpArr2;
-                                $embeds[] = $tmpArr2;
-                                unset ($tmpArr2);
-                            }
-                            unset($attObj);
-                        }
-                    }
-                    break;
-            }
-        }
-        return array($html, $embeds);
-    }
-
-    /**
-     * Determine correct mimetype for file we have only content
-     * (and perhaps filename) for.
-     */
-    private function _get_mimetype($content, $name = 'unknown')
-    {
-        $filename = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_mail_') . "_{$name}";
-        $fp = fopen($filename, 'w');
-        if (!$fp)
-        {
-            //Could not open file for writing
-            unlink($filename);
-            return false;
-        }
-        fwrite($fp, $content);
-        fclose($fp);
-        $mimetype = midcom_helper_misc::get_mimetype($filename);
-        unlink($filename);
-
-        return $mimetype;
-    }
-
-    /**
-     * Whether given file definition is already in embeds
-     */
-    private function _exists_in_embeds($input, $embeds)
-    {
-        reset($embeds);
-        foreach ($embeds as $file_arr)
-        {
-            //PONDER: Check other values as well ?
-            if ($input['name'] === $file_arr['name'])
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 ?>

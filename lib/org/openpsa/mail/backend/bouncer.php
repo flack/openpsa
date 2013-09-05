@@ -34,11 +34,10 @@ class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
         throw new midcom_error('All backends failed to load');
     }
 
-    public function mail($recipients, array $headers, $body)
+    public function mail(org_openpsa_mail_message $message)
     {
-        $headers['X-org.openpsa.mail-bouncer-backend-class'] = get_class($this->_backend);
-
-        return $this->_backend->mail($recipients, $headers, $body);
+        $message->set_header_field('X-org.openpsa.mail-bouncer-backend-class', get_class($this->_backend));
+        return $this->_backend->mail($message);
     }
 
     public function get_error_message()

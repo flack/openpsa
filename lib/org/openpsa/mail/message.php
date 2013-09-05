@@ -20,26 +20,30 @@ class org_openpsa_mail_message
     private $_headers;
 
     private $_body;
-
+    private $_html_body = null;
+    
     /**
-     * Mail_mime holder
-     *
-     * @var Mail_mime
+     * 
+     * @var Swift_Message
      */
-    private $__mime;
+    private $_message;
 
     public function __construct($to, array $headers, $encoding)
     {
         $this->_to = $this->_encode_address_field($to);
         $this->_headers = $headers;
-        $this->_encoding = $encoding;
-    }
+        $this->_encoding = $encoding;    
 
-    public function get_message()
+        $this->_message = Swift_Message::newInstance('');
+    }
+    
+    public function get_recipients()
     {
-        // create swift message
-        $message = Swift_Message::newInstance('')->setBody($this->get_body());
-        
+        return $this->_to;
+    }
+            
+    public function get_message()
+    {              
         // set headers
         $headers_setter_map = array(
             "content-type" => "setContentType",
@@ -53,15 +57,16 @@ class org_openpsa_mail_message
             "date" => "setDate",
             "return-path" => "setReturnPath"
         );
+        
         // map headers we got to swift setter methods
-        $msg_headers = $message->getHeaders();
+        $msg_headers = $this->_message->getHeaders();
         $headers = $this->get_headers();
         foreach ($headers as $name => $value)
         {
             if (array_key_exists(strtolower($name), $headers_setter_map))
             {
                 $setter = $headers_setter_map[strtolower($name)];
-                $message->$setter($value);
+                $this->_message->$setter($value);
             }
             else
             {
@@ -76,15 +81,24 @@ class org_openpsa_mail_message
                 }
             }
         }
-        // var_dump($message->getHeaders()->toString());
-
-        // add attachments?
-        /*
-        $attachment = Swift_Attachment::fromPath($_FILES['attachedfile']['tmp_name'])->setFilename($name.'_'.$email);
-        $message->attach($attachment);
-        */
         
-        return $message;
+        // somehow we need to set the body after the headers...
+        if (!empty($this->_html_body))
+        {
+            $this->_message->setBody($this->_html_body, 'text/html');
+            $this->_message->addPart($this->_body, 'text/plain');
+        }
+        else 
+        {
+            $this->_message->setBody($this->_body, 'text/plain');            
+        }      
+         
+        return $this->_message;
+    }
+    
+    public function set_header_field($name, $value)
+    {
+        $this->_headers[$name] = $value;    
     }
      
     public function get_headers()
@@ -161,73 +175,100 @@ class org_openpsa_mail_message
     }
 
     public function set_body($body)
-    {
+    {        
         $this->_body = $body;
+        $this->_html_body = null;
+    }
+    
+    /**
+     * 
+     * @param string $body the html body
+     * @param string $altBody the alternative (text) body
+     * @param array $attachments
+     * @param boolean $do_image_embedding
+     */
+    public function set_html_body($body, $altBody, $attachments, $do_image_embedding)
+    {
+        $this->_body = $altBody;
+        $this->_html_body = $body;
+        
+        // adjust html body
+        if ($do_image_embedding)
+        {
+            $this->_embed_images();
+        }
+        
+        // process attachments
+        $this->_process_attachments($attachments);
+    }
+    
+    private function _embed_images()
+    {
+        // anything with SRC = "" something in it (images etc)
+        $regExp_src = "/(src)=([\"'�])(((https?|ftp):\/\/)?(.*?))\\2/i";
+        preg_match_all($regExp_src, $this->_html_body, $matches_src);
+        debug_print_r("matches_src:", $matches_src);
+    
+        $matches = array(
+            "whole" => $matches_src[0],
+            "uri" => $matches_src[3],
+            "proto" => $matches_src[4],
+            "location" => $matches_src[6]
+        );
+    
+        foreach ($matches["whole"] as $key => $match)
+        {
+            $location = $matches["location"][$key];
+            // uri is fully qualified
+            if ($matches['proto'][$key])
+            {
+                $uri = $matches["uri"][$key];
+            }
+            // uri is relative
+            else if (preg_match('/^\//', $location))
+            {
+                $uri = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $location;
+                $port = $_SERVER['SERVER_PORT'];
+                // if its a default port..
+                if ($port == 443 || $port == 80)
+                {
+                    $proto = ($port == 443) ? "https" : "http";
+                    $uri = $proto . "://" . $_SERVER['SERVER_NAME'] . $location;
+                }
+            }
+    
+            // replace src by swiftmailer embedded image
+            $repl = $this->_message->embed(Swift_Image::fromPath($uri));
+            $new_html = str_replace($location, $repl, $match);
+            $this->_html_body = str_replace($match, $new_html, $this->_html_body);
+        }
     }
 
-    public function set_mime_body($text_body, $html_body, $attachments, $embeds)
-    {
-        if (!class_exists('Mail_mime'))
-        {
-            debug_add('Mail_mime does not exist, setting text body and aborting', MIDCOM_LOG_WARN);
-            $this->_body = $text_body;
-            return false;
-        }
 
-        $this->__mime = new Mail_mime("\n");
-
-        $this->__mime->_build_params['html_charset'] = strtoupper($this->_encoding);
-        $this->__mime->_build_params['text_charset'] = strtoupper($this->_encoding);
-        $this->__mime->_build_params['head_charset'] = strtoupper($this->_encoding);
-        $this->__mime->_build_params['text_encoding'] = '8bit';
-
-        reset($this->__mime);
-
-        if (strlen($html_body) > 0)
-        {
-           $this->__mime->setHTMLBody($html_body);
-        }
-        if (strlen($text_body) > 0)
-        {
-           $this->__mime->setTxtBody($text_body);
-        }
-        if (!empty($attachments))
-        {
-            $this->_process_attachments($attachments, 'addAttachment');
-        }
-        if (!empty($embeds))
-        {
-            $this->_process_attachments($embeds, 'addHTMLImage');
-        }
-        $this->_body = $this->__mime->get();
-
-        $this->_headers = $this->__mime->headers($this->_headers);
-        // some MTAs manage to mangle multiline headers (RFC "folded"),
-        // here we make sure at least the content type is in single line
-        $this->_headers['Content-Type'] = preg_replace('/\s+/', ' ', $this->_headers['Content-Type']);
-    }
-
-    private function _process_attachments($attachments, $method)
-    {
+    private function _process_attachments($attachments)
+    { 
         foreach ($attachments as $att)
         {
             if (!isset($att['mimetype']) || $att['mimetype'] == null)
             {
                 $att['mimetype'] = "application/octet-stream";
             }
-
+            
+            $swift_att = false;
+            // we got a file path
             if (isset($att['file']) && strlen($att['file']) > 0)
             {
-                $aRet = $this->__mime->$method($att['file'], $att['mimetype'], $att['name'], true);
+                $swift_att = Swift_Attachment::fromPath($att['file'], $att['mimetype']);
             }
+            // we got the contents (bytes)
             else if (isset($att['content']) && strlen($att['content']) > 0)
             {
-                $aRet = $this->__mime->$method($att['content'], $att['mimetype'], $att['name'], false);
+                $swift_att = Swift_Attachment::newInstance($att['content'], $att['name'], $att['mimetype']);
             }
-
-            if ($aRet !== true)
+        
+            if ($swift_att)
             {
-                debug_print_r($method . " failed on attachment " . $att['name'] . " PEAR output:", $aRet);
+                $this->_message->attach($swift_att);
             }
         }
     }
@@ -254,7 +295,6 @@ class org_openpsa_mail_message
             $address = substr($value, strpos($value, '<') + 1);
             $address = substr($address, 0, strlen($address) - 1);
             $value = array($address => $name);
-            // $value = $this->_encode_quoted_printable($name) . ' <' . $address . '>';
         }
         return $value;
     }
