@@ -67,7 +67,7 @@ $('#treegrid').on('contextmenu', '.document', function(e)
         $.ajax
         ({
             type: "POST",
-            url: MIDCOM_PAGE_PREFIX + "/midcom-exec-org.openpsa.documents/mark_visited.php",
+            url: MIDCOM_PAGE_PREFIX.replace(/\/$/, '') + "/midcom-exec-org.openpsa.documents/mark_visited.php",
             data: "guid=" + guid,
             complete: function()
             {
