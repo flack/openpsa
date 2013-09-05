@@ -1,9 +1,8 @@
 'default_try_backends' => array
 (
-    'mail',
-'mail_sendmail',
+    'mail_sendmail',
     'mail_smtp',
-
+    'mail',
 ),
 
 //This becomes the fifth parameter of mail()

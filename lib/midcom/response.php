@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Wrapper for HTTP responses
  *
  * @package midcom
  */
-abstract class midcom_response
+class midcom_response extends Response
 {
     /**
      * Character encoding to use
@@ -53,10 +55,5 @@ abstract class midcom_response
     {
         $this->_data = $data;
     }
-
-    /**
-     * Sends the response to the client and shuts down the environment
-     */
-    abstract public function send();
 }
 ?>
