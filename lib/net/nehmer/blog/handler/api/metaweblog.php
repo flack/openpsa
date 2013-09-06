@@ -259,15 +259,8 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to load DM2 for the article.');
         }
 
-        $arg = $article->name ?: $article->guid;
-        if ($this->_config->get('view_in_url'))
-        {
-            $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
-        }
-        else
-        {
-            $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
-        }
+        $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $link .= $this->_master->get_url($article);
 
         if (array_key_exists('categories', $this->_datamanager->types))
         {
@@ -374,6 +367,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         $qb->add_order('metadata.published', 'DESC');
 
         $articles = $qb->execute();
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         foreach ($articles as $article)
         {
             if (!$this->_datamanager->autoset_storage($article))
@@ -382,15 +376,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
                 continue;
             }
 
-            $arg = $article->name ?: $article->guid;
-            if ($this->_config->get('view_in_url'))
-            {
-                $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
-            }
-            else
-            {
-                $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
-            }
+            $link = $prefix . $this->_master->get_url($article);
 
             if (array_key_exists('categories', $this->_datamanager->types))
             {

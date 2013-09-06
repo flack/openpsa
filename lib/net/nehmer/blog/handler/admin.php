@@ -156,16 +156,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $arg = $this->_article->name ?: $this->_article->guid;
-
-        if ($this->_config->get('view_in_url'))
-        {
-            $view_url = "view/{$arg}/";
-        }
-        else
-        {
-            $view_url = "{$arg}/";
-        }
+        $view_url = $this->_master->get_url($this->_article);
 
         $this->add_breadcrumb($view_url, $this->_article->title);
 
@@ -214,14 +205,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                if ($this->_config->get('view_in_url'))
-                {
-                    return new midcom_response_relocate("view/{$this->_article->name}/");
-                }
-                else
-                {
-                    return new midcom_response_relocate("{$this->_article->name}/");
-                }
+                return new midcom_response_relocate($this->_master->get_url($this->_article->name));
         }
 
         $this->_prepare_request_data();
@@ -304,15 +288,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         {
             midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
-            // Redirect to view page.
-            if ($this->_config->get('view_in_url'))
-            {
-                return new midcom_response_relocate("view/{$this->_article->name}/");
-            }
-            else
-            {
-                return new midcom_response_relocate("{$this->_article->name}/");
-            }
+            return new midcom_response_relocate($this->_master->get_url($this->_article));
         }
 
         $this->_prepare_request_data();

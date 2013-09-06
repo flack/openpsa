@@ -496,17 +496,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['article'] =& $article;
                 $data['article_counter'] = $article_counter;
                 $data['article_count'] = $total_count;
-                $arg = $article->name ?: $article->guid;
-
-                if ($this->_config->get('view_in_url'))
-                {
-                    $data['local_view_url'] = "{$prefix}view/{$arg}/";
-                }
-                else
-                {
-                    $data['local_view_url'] = "{$prefix}{$arg}/";
-                }
-
+                $data['local_view_url'] = $prefix . $this->_master->get_url($article);
                 if (   $this->_config->get('link_to_external_url')
                     && !empty($article->url))
                 {

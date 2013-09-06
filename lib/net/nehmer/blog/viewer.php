@@ -51,6 +51,17 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
     }
 
+    public function get_url(midcom_db_article $article)
+    {
+        $view_url = $article->name ?: $article->guid;
+
+        if ($this->_config->get('view_in_url'))
+        {
+            $view_url = 'view/' . $view_url;
+        }
+        return $view_url . '/';
+    }
+
     /**
      * Adds the RSS Feed LINK head elements.
      */

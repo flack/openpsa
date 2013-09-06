@@ -43,16 +43,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $arg = $this->_article->name ?: $this->_article->guid;
-
-        if ($this->_config->get('view_in_url'))
-        {
-            $view_url = "view/{$arg}/";
-        }
-        else
-        {
-            $view_url = "{$arg}/";
-        }
+        $view_url = $this->_master->get_url($this->_article);
 
         $this->add_breadcrumb($view_url, $this->_article->title);
 
@@ -141,20 +132,13 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate("{$this->_article->name}/");
 
             case 'cancel':
+                $url = '';
                 if (isset($_GET['article']))
                 {
-                    if ($this->_config->get('view_in_url'))
-                    {
-                        $prefix = 'view/';
-                    }
-                    else
-                    {
-                        $prefix = '';
-                    }
                     try
                     {
                         $article = new midcom_db_article($_GET['article']);
-                        return new midcom_response_relocate("{$prefix}{$article->name}/");
+                        $url = $this->_master->get_url($article);
                     }
                     catch (midcom_error $e)
                     {
@@ -162,7 +146,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                 }
 
-                return new midcom_response_relocate('');
+                return new midcom_response_relocate($url);
         }
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
@@ -225,14 +209,7 @@ implements midcom_helper_datamanager2_interfaces_create
             midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
-            if ($this->_config->get('view_in_url'))
-            {
-                midcom::get()->relocate("view/{$this->_article->name}/");
-            }
-            else
-            {
-                midcom::get()->relocate("{$this->_article->name}/");
-            }
+            midcom::get()->relocate($this->_master->get_url($this->_article));
             // This will exit
         }
 

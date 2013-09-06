@@ -168,15 +168,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         $tmp = Array();
-        $arg = $this->_article->name ?: $this->_article->guid;
-        if ($this->_config->get('view_in_url'))
-        {
-            $view_url = "view/{$arg}/";
-        }
-        else
-        {
-            $view_url = "{$arg}/";
-        }
+        $view_url = $this->_master->get_url($this->_article);
 
         $this->add_breadcrumb($view_url, $this->_article->title);
 

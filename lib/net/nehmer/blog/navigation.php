@@ -94,21 +94,11 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
 
         $results = $qb->execute();
 
-        // Checkup for the url prefix
-        if ($this->_config->get('view_in_url'))
-        {
-            $prefix = 'view/';
-        }
-        else
-        {
-            $prefix = '';
-        }
-
         foreach ($results as $article)
         {
             $leaves[$article->id] = array
             (
-                MIDCOM_NAV_URL => "{$prefix}{$article->name}/",
+                MIDCOM_NAV_URL => $this->_master->get_url($article),
                 MIDCOM_NAV_NAME => $article->title ?: $article->name,
                 MIDCOM_NAV_GUID => $article->guid,
                 MIDCOM_NAV_OBJECT => $article,
