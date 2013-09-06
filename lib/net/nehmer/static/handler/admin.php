@@ -285,14 +285,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
-            if ($this->_config->get('view_in_url'))
-            {
-                midcom::get()->relocate("view/{$this->_article->name}/");
-            }
-            else
-            {
-                midcom::get()->relocate("{$this->_article->name}/");
-            }
+            midcom::get()->relocate("{$this->_article->name}/");
             // This will exit
         }
 
