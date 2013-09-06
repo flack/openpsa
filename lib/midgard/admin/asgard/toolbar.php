@@ -219,7 +219,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                     MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
                     MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('show history', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
-                    MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) === '____mfa-asgard-object_rcs') ? false : true,
+                    MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) !== '____mfa-asgard-object_rcs'),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'h',
                 )
             );

@@ -19,7 +19,7 @@ if ($authors)
 }
 
 $item->title = $data['article']->title;
-$arg = $data['article']->name ? $data['article']->name : $data['article']->guid;
+$arg = $data['article']->name ?: $data['article']->guid;
 
 if (   $data['config']->get('link_to_external_url')
     && !empty($data['article']->url))

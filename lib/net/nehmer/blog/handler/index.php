@@ -230,7 +230,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
                 $data['article'] =& $article;
                 $data['article_counter'] = $article_counter;
-                $arg = $article->name ? $article->name : $article->guid;
+                $arg = $article->name ?: $article->guid;
 
                 if ($this->_config->get('view_in_url'))
                 {

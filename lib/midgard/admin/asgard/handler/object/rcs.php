@@ -146,7 +146,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$previous}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-previous.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first) ? true : false,
+                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first),
                 )
             );
 

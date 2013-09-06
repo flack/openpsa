@@ -44,7 +44,7 @@ if (count($data['mgdschemas']) > 0)
                 }
             }
 
-            $mod = ($i/2 == round($i/2))?" even":" odd";
+            $mod = ($i % 2 == 0) ? " even":" odd";
             $i++;
 
             echo "            <tr>\n";

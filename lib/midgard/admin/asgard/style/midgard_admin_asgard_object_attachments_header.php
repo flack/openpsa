@@ -43,7 +43,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "        {$file->name}\n";
                 echo "    </a>\n ";
                 echo "  </td>\n";
-                $last_edit = ($file->metadata->revised == 0) ? $file->metadata->created : $file->metadata->revised;
+                $last_edit = $file->metadata->revised ?: $file->metadata->created;
                 echo "  <td>" . strftime('%x %X', $last_edit) . "</td>\n";
                 if (!empty($persons[$file->metadata->revisor]->guid))
                 {

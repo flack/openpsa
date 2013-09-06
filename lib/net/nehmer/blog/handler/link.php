@@ -43,7 +43,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $arg = $this->_article->name ? $this->_article->name : $this->_article->guid;
+        $arg = $this->_article->name ?: $this->_article->guid;
 
         if ($this->_config->get('view_in_url'))
         {

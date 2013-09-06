@@ -259,7 +259,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Failed to load DM2 for the article.');
         }
 
-        $arg = $article->name ? $article->name : $article->guid;
+        $arg = $article->name ?: $article->guid;
         if ($this->_config->get('view_in_url'))
         {
             $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";
@@ -382,7 +382,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
                 continue;
             }
 
-            $arg = $article->name ? $article->name : $article->guid;
+            $arg = $article->name ?: $article->guid;
             if ($this->_config->get('view_in_url'))
             {
                 $link = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "view/{$arg}/";

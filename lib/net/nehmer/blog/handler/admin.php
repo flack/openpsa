@@ -156,7 +156,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $arg = $this->_article->name ? $this->_article->name : $this->_article->guid;
+        $arg = $this->_article->name ?: $this->_article->guid;
 
         if ($this->_config->get('view_in_url'))
         {

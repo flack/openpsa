@@ -448,7 +448,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                         continue;
                     }
 
-                    $title = ($main['description']) ? $main['description'] : $main['filename'];
+                    $title = $main['description'] ?: $main['filename'];
 
                     if (array_key_exists('thumbnail', $images))
                     {

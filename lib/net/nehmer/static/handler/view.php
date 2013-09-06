@@ -166,7 +166,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             $this->_request_data['controller']->process_ajax();
         }
 
-        $arg = $this->_article->name ? $this->_article->name : $this->_article->guid;
+        $arg = $this->_article->name ?: $this->_article->guid;
         if (   $arg != 'index'
             && $this->_config->get('hide_navigation'))
         {

@@ -496,7 +496,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['article'] =& $article;
                 $data['article_counter'] = $article_counter;
                 $data['article_count'] = $total_count;
-                $arg = $article->name ? $article->name : $article->guid;
+                $arg = $article->name ?: $article->guid;
 
                 if ($this->_config->get('view_in_url'))
                 {

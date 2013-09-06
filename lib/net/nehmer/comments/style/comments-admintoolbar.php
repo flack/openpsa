@@ -14,7 +14,7 @@ else
 {
     $username = $data['l10n_midcom']->get('anonymous');
 }
-$ip = $comment->ip ? $comment->ip : '?.?.?.?';
+$ip = $comment->ip ?: '?.?.?.?';
 $metadata = sprintf($data['l10n']->get('creator: %s, created %s, source ip %s.'),
     $username, strftime('%x %X', $created), $ip);
 ?>

@@ -109,7 +109,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $leaves[$article->id] = array
             (
                 MIDCOM_NAV_URL => "{$prefix}{$article->name}/",
-                MIDCOM_NAV_NAME => ($article->title != '') ? $article->title : $article->name,
+                MIDCOM_NAV_NAME => $article->title ?: $article->name,
                 MIDCOM_NAV_GUID => $article->guid,
                 MIDCOM_NAV_OBJECT => $article,
             );

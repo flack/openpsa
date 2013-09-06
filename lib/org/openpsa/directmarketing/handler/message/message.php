@@ -131,7 +131,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_request_data['message']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
-                MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0) ? true : false,
+                MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0),
             )
         );
 
@@ -148,7 +148,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_URL => "message/send/{$this->_request_data['message']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
-                MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')) ? true : false,
+                MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')),
                 MIDCOM_TOOLBAR_OPTIONS => array
                 (
                     'onclick' => "return confirm('" . $this->_l10n->get('are you sure you wish to send this to the whole campaign') . "')",

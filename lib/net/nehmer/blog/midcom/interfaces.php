@@ -89,7 +89,7 @@ implements midcom_services_permalinks_resolver
             return null;
         }
 
-        $arg = $object->name ? $object->name : $object->guid;
+        $arg = $object->name ?: $object->guid;
 
         if ($config->get('view_in_url'))
         {
