@@ -56,11 +56,6 @@
 'categories_custom_enable' => true,
 'categories_in_navigation' => false,
 
-'api_email_enable' => false,
-'api_email_schema' => 'default',
-'api_email_autoapprove' => false,
-'api_email_abort_authornotfound' => true,
-
 'api_metaweblog_enable' => true,
 'api_metaweblog_schema' => 'default',
 

@@ -112,13 +112,6 @@
     'handler' => Array('net_nemein_wiki_handler_view', 'view'),
 ),
 
-// Match /email_import
-'email_import' => array
-(
-    'handler' => Array('net_nemein_wiki_handler_emailimport', 'emailimport'),
-    'fixed_args' => 'email_import',
-),
-
 // Match /<wikipage>
 'view' => array
 (

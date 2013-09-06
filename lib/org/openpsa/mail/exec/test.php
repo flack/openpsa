@@ -12,9 +12,9 @@ if (   empty($_POST['to'])
         <p>
             Backend: <select name="backend">
                         <option value="try_default">Component default(s)</option>
-                        <option value="mail_smtp">PEAR Mail/SMTP</option>
-                        <option value="mail_sendmail">PEAR Mail/Sendmail</option>
-                        <option value="mail">PHP mail()</option>
+                        <option value="mail_smtp">SMTP</option>
+                        <option value="mail_sendmail">Sendmail</option>
+                        <option value="mail">mail</option>
                      </select><br/>
             From: <input name="from" size=50 type="text" value="noreply@openpsa2.org"/><br/>
             To: <input name="to" size=50 type="text" value="test@openpsa2.org" /><br/>

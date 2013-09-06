@@ -138,16 +138,6 @@
     'handler' => array('net_nehmer_blog_handler_configuration', 'recreate'),
     'fixed_args' => array('config', 'recreate'),
 ),
-'api-email' => Array
-(
-    'handler' => array('net_nehmer_blog_handler_api_email', 'import'),
-    'fixed_args' => array('api', 'email'),
-),
-'api-email-basicauth' => Array
-(
-    'handler' => array('net_nehmer_blog_handler_api_email', 'import'),
-    'fixed_args' => array('api', 'email_basicauth'),
-),
 'api-metaweblog' => Array
 (
     'handler' => array('net_nehmer_blog_handler_api_metaweblog', 'server'),

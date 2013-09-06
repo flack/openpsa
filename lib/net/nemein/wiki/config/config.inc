@@ -3,7 +3,6 @@
 'wikilink_regexp' => '/\[(.*?)\](.|)/',
 'rss_count'       => 20,
 'latest_count'     => 10,
-'emailimport_title_format' => '%s from %s on %s',
 'autogenerate_toc' => true,
 'display_related_to' => false,
 'default_schema'  => 'default',

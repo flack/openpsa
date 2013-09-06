@@ -26,22 +26,6 @@
     ),
     'dependencies' => array
     (
-        'Mail' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
-        'Mail_mime' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
-        'Net_SMTP' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
-        'Auth_SASL' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),

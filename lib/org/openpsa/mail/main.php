@@ -11,8 +11,8 @@
  *
  * <b>Sending Mails</b>
  *
- * Currently, the engine will send the emails through an autodetected backend, which
- * can be either Mail_smtp, Mail_sendmail or PHP's mail() function (in that order).
+ * Currently, the engine will send the emails through an autodetected transport, which
+ * can be either SMTP, Sendmail or PHP's mail() function (in that order).
  *
  * <b>Example usage code</b>
  *

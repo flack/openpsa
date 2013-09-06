@@ -10,14 +10,14 @@
     'additional_params' => ''
 ),
 
-//These are passed to the Mail_smtp backend
+//These are passed to the SMTP transport
 'mail_smtp_params' => array
 (
     'host' => null,
     'port' => null
 ),
 
-//These are passed to the Mail_sendmail backend
+//These are passed to the Sendmail transport
 'mail_sendmail_params' => array
 (
     'sendmail_path' => '/usr/sbin/sendmail',
