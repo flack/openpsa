@@ -1,6 +1,4 @@
 <?php
-// Available request keys: article, datamanager, edit_url, delete_url, create_urls
-
 $view = $data['view_message'];
 ?>
 

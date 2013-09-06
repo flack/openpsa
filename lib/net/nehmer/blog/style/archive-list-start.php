@@ -1,6 +1,4 @@
 <?php
-// Available request keys: start, end
-
 $start = $data['start']->format($data['l10n_midcom']->get('short date'));
 $end = $data['end']->format($data['l10n_midcom']->get('short date'));
 ?>

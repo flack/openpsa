@@ -1,6 +1,4 @@
 <?php
-// Available request keys: article, datamanager, edit_url, delete_url, create_urls
-
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 

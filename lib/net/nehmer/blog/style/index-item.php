@@ -1,5 +1,4 @@
 <?php
-// Available request keys: datamanager, article, view_url, article_counter
 $view = $data['datamanager']->get_content_html();
 $view_counter = $data['article_counter'];
 $article_count = $data['article_count'];

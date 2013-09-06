@@ -1,5 +1,4 @@
 <?php
-// Available request keys: filename, data
 $object = $data['data'];
 ?>
   <tr>

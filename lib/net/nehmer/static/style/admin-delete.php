@@ -1,5 +1,4 @@
 <?php
-// Available request keys: article, datamanager, edit_url, delete_url, create_urls
 $dn_data= $data['datamanager']->get_content_html();
 
 $desc = $data['datamanager']->schema->description;

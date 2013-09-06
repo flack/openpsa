@@ -1,7 +1,3 @@
-<?php
-// Available request keys: controller, indexmode, schema, schemadb
-?>
-
 <h1><?php echo $data['topic']->extra; ?>: <?php echo $data['view_title']; ?></h1>
 
 <?php

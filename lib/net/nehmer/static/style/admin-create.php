@@ -1,6 +1,4 @@
 <?php
-// Available request keys: controller, indexmode, schema, schemadb
-
 $desc = $data['schemadb'][$data['schema']]->description;
 $title = sprintf($data['l10n_midcom']->get('create %s'), $data['l10n']->get($desc));
 ?>
