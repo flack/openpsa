@@ -48,9 +48,22 @@ class midgard_admin_asgard_schemadb
      */
     public $add_copy_fields = false;
 
-    public function __construct($object, $config)
+    public function __construct($object, $config, $type = null)
     {
-        $this->_object = $object;
+        if ($type != null)
+        {
+            $this->_object = new $type();
+        }
+        else
+        {
+            $this->_object = $object;
+            $type = get_class($this->_object);
+        }
+        if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
+        {
+            $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
+        }
+        $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($type));
         $this->_config = $config;
         $this->_l10n = midcom::get('i18n')->get_l10n('midgard.admin.asgard');
     }
@@ -60,25 +73,9 @@ class midgard_admin_asgard_schemadb
      *
      * The operations are done on all available schemas within the DB.
      */
-    public function create($type, $include_fields)
+    public function create($include_fields)
     {
-        if ($type != null)
-        {
-            $dba_type = $type;
-            if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
-            {
-                $dba_type = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
-            }
-            $this->_object = new $dba_type();
-        }
-        else
-        {
-            $type = get_class($this->_object);
-            if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
-            {
-                $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
-            }
-        }
+        $type = get_class($this->_object);
         $type_fields = $this->_object->get_properties();
 
         //This is an ugly little workaround for unittesting
@@ -94,8 +91,6 @@ class midgard_admin_asgard_schemadb
             $this->_schemadb['object']->l10n_schema = midcom::get('i18n')->get_l10n($component);
         }
 
-        $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($type));
-
         if (!empty($include_fields))
         {
             if (is_string($include_fields))
@@ -110,7 +105,7 @@ class midgard_admin_asgard_schemadb
 
         if (!extension_loaded('midgard2'))
         {
-            // Midgard1 returns properties is random order so we need to sort them heuristically
+            // Midgard1 returns properties in random order so we need to sort them heuristically
             usort($type_fields, array($this, 'sort_schema_fields'));
         }
 
@@ -678,149 +673,85 @@ class midgard_admin_asgard_schemadb
         );
     }
 
-    function sort_schema_fields($first, $second)
+    private function _get_score($field)
     {
         $preferred_fields = $this->_config->get('object_preferred_fields');
         $timerange_fields = $this->_config->get('object_timerange_fields');
-        $address_fields = $this->_config->get('object_address_fields');
         $phone_fields = $this->_config->get('object_phone_fields');
+        $address_fields = $this->_config->get('object_address_fields');
         $location_fields = $this->_config->get('object_location_fields');
 
-        // We handle the cases, and then their subcases
-        if (   in_array($first, $preferred_fields)
-            && $this->_reflector->get_midgard_type($first) != MGD_TYPE_LONGTEXT)
-        {
-            // This is one of the preferred fields, check subcases
-            if (in_array($second, $preferred_fields))
-            {
-                return strnatcmp($first, $second);
-            }
+        $score = 7;
 
-            return -1;
+        if ($this->_reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT)
+        {
+            $score = 1;
+        }
+        else if (in_array($field, $preferred_fields))
+        {
+            $score = 0;
+        }
+        else if ($this->_reflector->is_link($field))
+        {
+            $score = 2;
+        }
+        else if (in_array($field, $timerange_fields))
+        {
+            $score = 3;
+        }
+        else if (in_array($field, $phone_fields))
+        {
+            $score = 4;
+        }
+        else if (in_array($field, $address_fields))
+        {
+            $score = 5;
+        }
+        else if (in_array($field, $location_fields))
+        {
+            $score = 6;
         }
 
-        if ($this->_reflector->get_midgard_type($first) == MGD_TYPE_LONGTEXT)
+        return $score;
+    }
+
+    public function sort_schema_fields($first, $second)
+    {
+        $score1 = $this->_get_score($first);
+        $score2 = $this->_get_score($second);
+        if ($score1 < $score2)
         {
-            // This is a longtext field, they come next
-            if (   in_array($second, $preferred_fields)
-                && $this->_reflector->get_midgard_type($second) != MGD_TYPE_LONGTEXT)
-            {
-                return 1;
-            }
-            if ($this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT)
-            {
-                return strnatcmp($first, $second);
-            }
             return -1;
         }
-
-        if ($this->_reflector->is_link($first))
+        else if ($score1 > $score2)
         {
-            // This is a linked property, they come next
-            if (   in_array($second, $preferred_fields)
-                || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT)
-            {
-                return 1;
-            }
-            if ($this->_reflector->is_link($second))
-            {
-                return strnatcmp($first, $second);
-            }
-            return -1;
-        }
-
-        if (in_array($first, $timerange_fields))
-        {
-            if (   in_array($second, $preferred_fields)
-                || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT
-                || $this->_reflector->is_link($second))
-            {
-                return 1;
-            }
-
-            if (in_array($second, $timerange_fields))
-            {
-                // Both are phone fields, arrange them in proper order
-                return (array_search($first, $timerange_fields) < array_search($second, $timerange_fields)) ? -1 : 1;
-            }
-
-            return -1;
-        }
-
-        if (in_array($first, $phone_fields))
-        {
-            if (   in_array($second, $preferred_fields)
-                || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT
-                || $this->_reflector->is_link($second)
-                || in_array($second, $timerange_fields))
-            {
-                return 1;
-            }
-
-            if (in_array($second, $phone_fields))
-            {
-                // Both are phone fields, arrange them in proper order
-                return (array_search($first, $phone_fields) < array_search($second, $phone_fields)) ? -1 : 1;
-            }
-
-            return -1;
-        }
-
-        if (in_array($first, $address_fields))
-        {
-            if (   in_array($second, $preferred_fields)
-                || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT
-                || $this->_reflector->is_link($second)
-                || in_array($second, $timerange_fields)
-                || in_array($second, $phone_fields))
-            {
-                return 1;
-            }
-
-            if (in_array($second, $address_fields))
-            {
-                // Both are address fields, arrange them in proper order
-                return (array_search($first, $address_fields) < array_search($second, $address_fields)) ? -1 : 1;
-            }
-
-            return -1;
-        }
-
-        if (in_array($first, $location_fields))
-        {
-            if (   in_array($second, $preferred_fields)
-                || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT
-                || $this->_reflector->is_link($second)
-                || in_array($second, $timerange_fields)
-                || in_array($second, $phone_fields)
-                || in_array($second, $address_fields))
-            {
-                return 1;
-            }
-
-            if (in_array($second, $location_fields))
-            {
-                // Both are address fields, arrange them in proper order
-                return (array_search($first, $location_fields) < array_search($second, $location_fields)) ? -1 : 1;
-            }
-
-            return -1;
-        }
-
-        if (   in_array($second, $preferred_fields)
-            || $this->_reflector->get_midgard_type($second) == MGD_TYPE_LONGTEXT
-            || $this->_reflector->is_link($second)
-            || in_array($second, $timerange_fields)
-            || in_array($second, $phone_fields)
-            || in_array($second, $address_fields)
-            || in_array($second, $location_fields))
-        {
-            // First field was not a preferred field, but second is
             return 1;
         }
-
-        // Others come as they do
-        return strnatcmp($first, $second);
+        else if (   $score1 < 3
+                 || $score1 > 6)
+        {
+            return strnatcmp($first, $second);
+        }
+        else
+        {
+            switch ($score1)
+            {
+                case 3:
+                    $type = 'timerange';
+                    break;
+                case 4:
+                    $type = 'phone';
+                    break;
+                case 5:
+                    $type = 'address';
+                    break;
+                case 6:
+                    $type = 'location';
+                    break;
+            }
+            $fields = $this->_config->get('object_' . $type . '_fields');
+            return (array_search($first, $fields) < array_search($second, $fields)) ? -1 : 1;
+        }
     }
 }
 ?>
