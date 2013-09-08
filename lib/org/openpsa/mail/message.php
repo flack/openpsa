@@ -186,14 +186,7 @@ class org_openpsa_mail_message
             // uri is relative
             else if (preg_match('/^\//', $location))
             {
-                $uri = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $location;
-                $port = $_SERVER['SERVER_PORT'];
-                // if its a default port..
-                if ($port == 443 || $port == 80)
-                {
-                    $proto = ($port == 443) ? "https" : "http";
-                    $uri = $proto . "://" . $_SERVER['SERVER_NAME'] . $location;
-                }
+                $uri = midcom::get()->get_host_name() . $location;
             }
 
             // replace src by swiftmailer embedded image
