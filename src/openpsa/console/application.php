@@ -46,6 +46,10 @@ class application extends base_application
 
     private function _prepare_environment($config_name)
     {
+        if (file_exists(OPENPSA_PROJECT_BASEDIR . 'config.inc.php'))
+        {
+            include_once OPENPSA_PROJECT_BASEDIR . 'config.inc.php';
+        }
         if (!defined('OPENPSA2_PREFIX'))
         {
             define('OPENPSA2_PREFIX', '/');
@@ -65,13 +69,7 @@ class application extends base_application
         );
         $_SERVER = array_merge($server_defaults, $_SERVER);
 
-        if (file_exists(OPENPSA_PROJECT_BASEDIR . 'config.inc.php'))
-        {
-            include_once(OPENPSA_PROJECT_BASEDIR . 'config.inc.php');
-        }
-
-        $stat = \midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name);
-        if (!$stat)
+        if (!\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name))
         {
             throw new \RuntimeException('Could not open midgard connection ' . $config_name . ': ' . \midcom_connection::get_error_string());
         }
