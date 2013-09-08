@@ -108,20 +108,18 @@ class org_openpsa_mail_message
             $this->_headers['Content-Type'] = "text/plain; charset={$this->_encoding}";
         }
 
-        //Make sure we don't send any empty headers
         reset ($this->_headers);
         foreach ($this->_headers as $header => $value)
         {
+            if (is_string($value))
+            {
+                $this->_headers[$header] = trim($value);
+            }
             if (   strtolower($header) == 'from'
                 || strtolower($header) == 'reply-to'
                 || strtolower($header) == 'to')
             {
                 $this->_headers[$header] = $this->_encode_address_field($value);
-            }
-
-            if (is_string($value))
-            {
-                $this->_headers[$header] = trim($value);
             }
         }
 
