@@ -140,18 +140,14 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_add($handler_id, array $args, array &$data)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+        if (!array_key_exists('product', $_POST))
         {
-            throw new midcom_error_forbidden('Only POST requests are allowed here.');
+            throw new midcom_error('No product specified, aborting.');
         }
 
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $this->_salesproject->require_do('midgard:create');
 
-        if (!array_key_exists('product', $_POST))
-        {
-            throw new midcom_error('No product specified, aborting.');
-        }
         if (is_array($_POST['product']))
         {
             $selection = json_decode($_POST['product']['selection']);

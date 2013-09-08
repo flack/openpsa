@@ -154,20 +154,15 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     public function _handler_set($handler_id, array $args, array &$data)
     {
+        if (!array_key_exists('task', $_POST))
+        {
+            throw new midcom_error('No task specified.');
+        }
+
         $relocate = '';
         if (array_key_exists('url', $_POST))
         {
             $relocate = $_POST['url'];
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] != 'POST')
-        {
-            throw new midcom_error_forbidden('Only POST requests are allowed here.');
-        }
-
-        if (!array_key_exists('task', $_POST))
-        {
-            throw new midcom_error('No task specified.');
         }
 
         // Handle "not working on anything"

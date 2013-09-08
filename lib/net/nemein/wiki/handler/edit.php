@@ -230,7 +230,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     public function _handler_change($handler_id, array $args, array &$data)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+        if (empty($_POST['change_to']))
         {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
