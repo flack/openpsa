@@ -35,33 +35,6 @@ if (midcom::get('config')->get('indexer_backend') === false)
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
-switch($_SERVER['SERVER_PORT'])
-{
-    case 80:
-        $current_uri = "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
-        break;
-    case 443:
-        $current_uri = "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
-        break;
-    default:
-        if (!empty($_SERVER['HTTPS']))
-        {
-            $current_uri = 'https://';
-        }
-        else
-        {
-            $current_uri = 'http://';
-        }
-        $current_uri .= "{$_SERVER['SERVER_NAME']}";
-
-        if (!preg_match('/:' . $_SERVER['SERVER_PORT'] . '/', $_SERVER['SERVER_NAME']))
-        {
-            $current_uri .= ":{$_SERVER['SERVER_PORT']}";
-        }
-        $current_uri .= $_SERVER['REQUEST_URI'];
-        break;
-}
-
 //check if language is passed - if not take the current-one
 $language = midcom::get('i18n')->get_current_language();
 if (isset($_REQUEST['language']))
@@ -71,7 +44,7 @@ if (isset($_REQUEST['language']))
 
 if (!class_exists('org_openpsa_httplib'))
 {
-    $singlep_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-midcom/reindex_singleprocess.php', $current_uri);
+    $singlep_uri = midcom::get()->get_page_prefix() . 'midcom-exec-midcom/reindex_singleprocess.php';
     throw new midcom_error("We need org.openpsa.httplib installed to use the granular reindex, use {$singlep_uri} to get the old way.");
 }
 
@@ -103,7 +76,7 @@ echo "<pre>\n";
 
 debug_dump_mem("Initial Memory Usage");
 
-$reindex_topic_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-midcom/reindex_singlenode.php', $current_uri);
+$reindex_topic_uri = midcom::get()->get_page_prefix() . 'midcom-exec-midcom/reindex_singlenode.php';
 
 $http_client = new org_openpsa_httplib();
 $http_client->set_param('timeout', 300);
