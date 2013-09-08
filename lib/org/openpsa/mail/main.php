@@ -246,7 +246,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     public function embed_images()
     {
-        return $this->_do_image_embedding = true;
+        $this->_do_image_embedding = true;
     }
 
 
