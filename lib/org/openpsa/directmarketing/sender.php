@@ -77,6 +77,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      */
     public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = array())
     {
+        parent::__construct();
         $this->_message = $message;
 
         switch ($this->_message->orgOpenpsaObtype)
@@ -98,9 +99,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
                 throw new midcom_error('unsupported message type');
         }
         $this->_backend = new $classname($config, $this->_message);
-        $config = midcom_baseclasses_components_configuration::get('org.openpsa.directmarketing', 'config');
-
-        $this->chunk_size = $config->get('chunk_size');
+        $this->chunk_size = $this->_config->get('chunk_size');
     }
 
     /**
@@ -256,35 +255,34 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $content = $member->personalize_message($content, $this->_message->orgOpenpsaObtype, $person);
         $token = $this->_create_token();
         $subject = $member->personalize_message($subject, org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT, $person);
+        $params = array();
 
         try
         {
             $this->_backend->send($person, $member, $token, $subject, $content, $from);
-            if (!$this->test_mode)
-            {
-                $member->create_receipt($this->_message->id, org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT, $token);
-            }
             self::$_messages_sent++;
+            $status = org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT;
         }
         catch (midcom_error $e)
         {
+            $status = org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILURE;
             if (!$this->test_mode)
             {
-                $params = array
+                $params[] = array
                 (
-                    array
-                    (
-                        'domain' => 'org.openpsa.directmarketing',
-                        'name' => 'send_error_message',
-                        'value' => $e->getMessage(),
-                    ),
+                    'domain' => 'org.openpsa.directmarketing',
+                    'name' => 'send_error_message',
+                    'value' => $e->getMessage(),
                 );
-                $member->create_receipt($this->_message->id, org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILURE, $token, $params);
             }
             if ($this->send_output)
             {
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), $e->getMessage(), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
             }
+        }
+        if (!$this->test_mode)
+        {
+            $member->create_receipt($this->_message->id, $status, $token);
         }
     }
 
@@ -317,8 +315,8 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         {
             return $this->_create_token();
         }
-            return $token;
-        }
+        return $token;
+    }
 
     /**
      * Check is given member has denied contacts of given type

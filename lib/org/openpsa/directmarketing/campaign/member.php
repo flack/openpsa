@@ -167,7 +167,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     /**
      * Creates a message receipt of type.
      */
-    function create_receipt($message_id, $type, $token = '', $parameters = false)
+    function create_receipt($message_id, $type, $token, array $parameters = array())
     {
         $receipt = new org_openpsa_directmarketing_campaign_messagereceipt_dba();
         $receipt->orgOpenpsaObtype = $type;
@@ -185,8 +185,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             debug_add('Failed to create, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return $stat;
         }
-        if (   is_array($parameters)
-            && !empty($parameters))
+        if (!empty($parameters))
         {
             foreach ($parameters as $param_data)
             {
