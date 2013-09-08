@@ -94,10 +94,10 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      * @var boolean
      */
     public $allow_only_html = false;
-    
+
     /**
      * shall embed_images be called by message class?
-     * 
+     *
      * @var boolean
      */
     private $_do_image_embedding = false;
@@ -145,14 +145,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         {
             $this->headers[$name] = $value;
         }
-    }
-
-    /**
-     * Returns true/false depending on whether we can send attachments
-     */
-    function can_attach()
-    {
-        return true;
     }
 
     /**
@@ -216,7 +208,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         }
 
         $message = new org_openpsa_mail_message($this->to, $this->headers, $this->encoding);
-        
+
         //Check whether it's necessary to initialize MIME
         if (!empty($this->html_body) || !empty($this->attachments))
         {
@@ -226,7 +218,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         {
             $message->set_body($this->body);
         }
-                
+
         return $message;
     }
 
@@ -254,10 +246,10 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     public function embed_images()
     {
-        return $this->_do_image_embedding = true;              
+        return $this->_do_image_embedding = true;
     }
 
-    
+
     /**
      * Get errormessage from mail class
      *

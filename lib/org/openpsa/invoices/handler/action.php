@@ -128,7 +128,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $cancelation_item->units = $item->units;
             $cancelation_item->pricePerUnit = $item->pricePerUnit * (-1);
             $stat = $cancelation_item->create();
-    
+
             if (!$stat)
             {
                 // cleanup
@@ -202,32 +202,29 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
 
         // attach pdf to mail
-        if ($mail->can_attach())
+        foreach ($pdf_files as $attachment)
         {
-            foreach ($pdf_files as $attachment)
+            $att = array();
+            $att['name'] = $attachment->name . ".pdf";
+            $att['mimetype'] = "application/pdf";
+
+            $fp = $attachment->open("r");
+            if (!$fp)
             {
-                $att = array();
-                $att['name'] = $attachment->name . ".pdf";
-                $att['mimetype'] = "application/pdf";
-
-                $fp = $attachment->open("r");
-                if (!$fp)
-                {
-                    //Failed to open attachment for reading, skip the file
-                    continue;
-                }
-
-                $att['content'] = '';
-
-                while (!feof($fp))
-                {
-                    $att['content'] .=  fread($fp, 4096);
-                }
-                $attachment->close();
-                debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
-
-                $mail->attachments[] = $att;
+                //Failed to open attachment for reading, skip the file
+                continue;
             }
+
+            $att['content'] = '';
+
+            while (!feof($fp))
+            {
+                $att['content'] .=  fread($fp, 4096);
+            }
+            $attachment->close();
+            debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
+
+            $mail->attachments[] = $att;
         }
 
         if (!$mail->send())
