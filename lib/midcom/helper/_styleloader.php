@@ -281,8 +281,8 @@ class midcom_helper__styleloader
 
     /**
      * Returns a style element that matches $name and is in style $id.
-     * Unlike mgd_get_element_by_name2 it also returns an element if it is not in
-     * the given style, but in one of its parent styles.
+     * It also returns an element if it is not in the given style,
+     * but in one of its parent styles.
      *
      * @param int $id        The style id to search in.
      * @param string $name    The element to locate.
@@ -330,8 +330,7 @@ class midcom_helper__styleloader
             midcom::get('cache')->content->register($style_guid);
 
             $up = $style_mc->get_subkey($style_guid, 'up');
-            if (   $up
-                && $up != 0)
+            if ($up)
             {
                 $value = $this->_get_element_in_styletree($up, $name);
                 $cached[$id][$name] = $value;
@@ -414,13 +413,11 @@ class midcom_helper__styleloader
 
         $this->_snippetdir = MIDCOM_ROOT . '/midcom/style';
         $context = midcom_core_context::get();
-        if (isset($this->_styledirs_count[$context->id]))
+        if (isset($this->_styledirs[$context->id]))
         {
-            $styledirs_count_backup = $this->_styledirs_count;
             $styledirs_backup = $this->_styledirs;
         }
 
-        $this->_styledirs_count[$context->id] = 1;
         $this->_styledirs[$context->id][0] = $this->_snippetdir;
 
         try
@@ -445,9 +442,8 @@ class midcom_helper__styleloader
             $_style = $this->_get_element_from_snippet($_element);
         }
 
-        if (isset($styledirs_count_backup))
+        if (isset($styledirs_backup))
         {
-            $this->_styledirs_count = $styledirs_count_backup;
             $this->_styledirs = $styledirs_backup;
         }
 
@@ -512,9 +508,9 @@ class midcom_helper__styleloader
             }
 
             $current_context = midcom_core_context::get()->id;
-            for ($i = 0; $i < $this->_styledirs_count[$current_context]; $i++)
+            foreach ($this->_styledirs[$current_context] as $path)
             {
-                $filename = $this->_styledirs[$current_context][$i] .  "/{$_element}.php";
+                $filename = $path .  "/{$_element}.php";
                 if (file_exists($filename))
                 {
                     $this->_snippets[$filename] = file_get_contents($filename);
@@ -788,7 +784,6 @@ class midcom_helper__styleloader
         $this->_styledirs[$current_context][count($this->_styledirs[$current_context])] = $component_style;
 
         $this->_styledirs[$current_context] =  array_merge($this->_styledirs[$current_context], $this->_styledirs_append[$current_context]);
-        $this->_styledirs_count[$current_context] = count($this->_styledirs[$current_context]);
     }
 
     /**
@@ -818,10 +813,6 @@ class midcom_helper__styleloader
         if (!isset($this->_styledirs_append[$context]))
         {
             $this->_styledirs_append[$context] = array();
-        }
-        if (!isset($this->_styledirs_count[$context]))
-        {
-            $this->_styledirs_count[$context] = 0;
         }
 
         if (   $this->_topic
