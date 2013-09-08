@@ -564,8 +564,9 @@ class midcom_helper__styleloader
      * @param midcom_db_topic $topic    Current topic
      * @return int Database ID if the style to use in current view or false
      */
-    private function _get_component_style($topic)
+    private function _get_component_style(midcom_db_topic $topic)
     {
+        $_st = false;
         // get user defined style for component
         // style inheritance
         // should this be cached somehow?
@@ -573,7 +574,7 @@ class midcom_helper__styleloader
         {
             $_st = $this->get_style_id_from_path($topic->style);
         }
-        elseif (!empty($GLOBALS['midcom_style_inherited']))
+        else if (!empty($GLOBALS['midcom_style_inherited']))
         {
             // FIXME: This GLOBALS is set by urlparser. Should be removed
             // get user defined style inherited from topic tree
@@ -593,7 +594,7 @@ class midcom_helper__styleloader
             }
         }
 
-        if (isset($_st))
+        if ($_st)
         {
             $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
@@ -611,12 +612,7 @@ class midcom_helper__styleloader
             }
         }
 
-        if (isset($_st))
-        {
-            return $_st;
-        }
-
-        return false;
+        return $_st;
     }
 
     /**
@@ -828,8 +824,8 @@ class midcom_helper__styleloader
             $this->_styledirs_count[$context] = 0;
         }
 
-        $_st = $this->_get_component_style($this->_topic);
-        if (isset($_st))
+        if (   $this->_topic
+            && $_st = $this->_get_component_style($this->_topic))
         {
             array_unshift($this->_scope, $_st);
         }
@@ -849,17 +845,13 @@ class midcom_helper__styleloader
      */
     function leave_context()
     {
-        /* does this cause an extra, not needed call to ->parameter ? */
-        $_st = $this->_get_component_style($this->_topic);
-        if (isset($_st))
+        if (   $this->_topic
+            && $this->_get_component_style($this->_topic))
         {
             array_shift($this->_scope);
         }
-
         array_shift($this->_context);
 
-        // get our topic again
-        // FIXME: does this have to be above _get_component_style($this->_topic) ??
         $this->_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
