@@ -83,15 +83,7 @@ class midcom_helper_imagefilter
         if (is_string($input))
         {
             // TODO: error handling
-            $src = fopen($input, 'r');
-            $dst = fopen($tmpname, 'w+');
-            while (! feof($src))
-            {
-                $buffer = fread($src, 131072); /* 128 kB */
-                fwrite($dst, $buffer, 131072);
-            }
-            fclose($src);
-            fclose($dst);
+            copy($input, $tmpname);
             return $tmpname;
         }
 
@@ -416,15 +408,7 @@ class midcom_helper_imagefilter
      */
     private function _process_tempfile($tmpname)
     {
-        $src = fopen($tmpname, "r");
-        $dst = fopen($this->_filename, "w+");
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
-        fclose($src);
-        fclose($dst);
+        copy($tmpname, $this->_filename);
         unlink($tmpname);
     }
 

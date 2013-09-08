@@ -104,13 +104,11 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             $opml_file = $_FILES['net_nemein_rss_manage_opml']['tmp_name'];
 
             // We have OPML file, parse it
-            $opml_handle = fopen($opml_file, 'r');
-            $opml_data = fread($opml_handle, filesize($opml_file));
-            fclose($opml_handle);
+            $opml_data = file_get_contents($opml_file);
             unlink($opml_file);
 
             $opml_parser = xml_parser_create();
-            xml_parse_into_struct($opml_parser, $opml_data, $opml_values );
+            xml_parse_into_struct($opml_parser, $opml_data, $opml_values);
             foreach ($opml_values as $opml_element)
             {
                 if ($opml_element['tag'] === 'OUTLINE')

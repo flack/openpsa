@@ -280,15 +280,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             {
                 // Copy the file for later processing
                 $data['tmp_file'] = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_products_import_csv');
-                $src = fopen($_FILES['org_openpsa_products_import_upload']['tmp_name'], 'r');
-                $dst = fopen($data['tmp_file'], 'w+');
-                while (! feof($src))
-                {
-                    $buffer = fread($src, 131072); /* 128 kB */
-                    fwrite($dst, $buffer, 131072);
-                }
-                fclose($src);
-                fclose($dst);
+                copy($_FILES['org_openpsa_products_import_upload']['tmp_name'], $data['tmp_file']);
 
                 // Read cell headers from the file
                 $read_rows = 0;

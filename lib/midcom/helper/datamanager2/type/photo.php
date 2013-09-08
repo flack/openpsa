@@ -220,15 +220,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         // PONDER: Read placeholder image file location from configuration somehow ??
         $replacement = MIDCOM_ROOT . '/midcom/helper/datamanager2/type/type_photo_placeholder.png';
         // TODO: Error handling
-        $src = fopen($replacement, 'r');
-        $dst = fopen($this->_original_tmpname, 'w+');
-        while (!feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
-        fclose($src);
-        fclose($dst);
+        copy($replacement, $this->_original_tmpname);
         return false;
     }
 

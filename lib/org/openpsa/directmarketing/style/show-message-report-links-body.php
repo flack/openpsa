@@ -50,16 +50,9 @@ $body_class = " class='{$data['body_class']}'";
                 if ($is_html)
                 {
                     debug_add("Trying to fetch '{$target}' and read title from there");
-                    $remote_data = false;
-                    $fp = @fopen($url, 'r');
-                    if ($fp)
+                    $remote_data = file_get_contents($url);
+                    if ($remote_data)
                     {
-                        while (!feof($fp))
-                        {
-                            $remote_data .= fread($fp, 4096);
-                        }
-                        fclose($fp);
-
                         $regexs = array
                         (
                             /* The parentheses are funny because we need to always have the same key for the label */

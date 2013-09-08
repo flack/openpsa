@@ -33,16 +33,9 @@ $form_suffix = $data['form_suffix'];
                 if (preg_match('/(\.html?|\/|\.com|\.net|\.org|\.fi|\.info)$/', trim(urldecode($target))))
                 {
                     debug_add("Trying to fetch '{$target}' and read title from there");
-                    $remote_data = false;
-                    $fp = @fopen(trim(urldecode($target)), 'r');
-                    if ($fp)
+                    $remote_data = @file_get_contents(trim(urldecode($target)));
+                    if ($remote_data)
                     {
-                        while (!feof($fp))
-                        {
-                            $remote_data .= fread($fp, 4096);
-                        }
-                        fclose($fp);
-
                         $regexs = array
                         (
                             /* The parentheses are funny because we need to always have the same key for the label */
