@@ -66,21 +66,6 @@ class midcom_compat_default extends midcom_compat_environment
     private function _httpd_setup()
     {
         /*
-         * First, block all Link prefetching requests as long as
-         * MidCOM isn't bulletproofed against this "feature".
-         * Ultimately, this is also a matter of performance...
-         */
-        if (   array_key_exists('HTTP_X_MOZ', $_SERVER)
-            && $_SERVER['HTTP_X_MOZ'] == 'prefetch')
-        {
-            $this->header('Cache-Control: no-cache');
-            $this->header('Pragma: no-cache');
-            $this->header('HTTP/1.0 403 Forbidden');
-            echo '403: Forbidden<br><br>Prefetching not allowed.';
-            $this->stop_request();
-        }
-
-        /*
          * Second, make sure the URLs not having query string (or midcom-xxx- -method signature)
          * have trailing slash or some extension in the "filename".
          *
