@@ -66,7 +66,7 @@ class midcom_helper_formatter
                 eval('?>' . $content);
                 break;
             default:
-                call_user_func($GLOBALS['midgard_filters'][$name], $content);
+                call_user_func(self::$_filters[$name], $content);
                 break;
         }
         return ob_get_clean();

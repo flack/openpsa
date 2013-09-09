@@ -8,10 +8,13 @@
 
 /**
  * The Grand Unified Reflector, Tree information
+ *
  * @package midcom.helper.reflector
  */
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
+    private static $_instances = array();
+
     /**
      * @param mixed $src classname or object
      * @return midcom_helper_reflector_tree Reflector instance
@@ -26,11 +29,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             $classname = $src;
         }
-        if (!isset($GLOBALS['midcom_helper_reflector_tree_singletons'][$classname]))
+        if (!isset(self::$_instances[$classname]))
         {
-            $GLOBALS['midcom_helper_reflector_tree_singletons'][$classname] =  new midcom_helper_reflector_tree($src);
+            self::$_instances[$classname] =  new self($src);
         }
-        return $GLOBALS['midcom_helper_reflector_tree_singletons'][$classname];
+        return self::$_instances[$classname];
     }
 
     /**

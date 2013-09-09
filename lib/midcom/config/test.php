@@ -105,16 +105,16 @@ class midcom_config_test
 
     private function _check_rcs()
     {
-        $config = $GLOBALS['midcom_config'];
-        if (!empty($config['midcom_services_rcs_enable']))
+        $config = midcom::get('config');
+        if ($config->get('midcom_services_rcs_enable'))
         {
-            if (!is_writable($config['midcom_services_rcs_root']))
+            if (!is_writable($config->get('midcom_services_rcs_root')))
             {
-                $this->println("MidCOM RCS", self::ERROR, "You must make the directory <b>{$config['midcom_services_rcs_root']}</b> writable by your webserver!");
+                $this->println("MidCOM RCS", self::ERROR, "You must make the directory <b>" . $config->get('midcom_services_rcs_root') . "</b> writable by your webserver!");
             }
-            else if (!is_executable($config['midcom_services_rcs_bin_dir'] . "/ci"))
+            else if (!is_executable($config->get('midcom_services_rcs_bin_dir') . "/ci"))
             {
-                $this->println("MidCOM RCS", self::ERROR, "You must make <b>{$config['midcom_services_rcs_bin_dir']}/ci</b> executable by your webserver!");
+                $this->println("MidCOM RCS", self::ERROR, "You must make <b>" . $config->get('midcom_services_rcs_bin_dir') . "/ci</b> executable by your webserver!");
             }
             else
             {

@@ -129,17 +129,18 @@ class org_openpsa_helpers_list
      */
     static function workgroups($add_me = 'last', $show_members = false)
     {
+        static $cache = array();
         // List user's ACL groups for usage in DM arrays
-        $array_name = 'org_openpsa_helpers_workgroups_cache_' . $add_me . '_' . $show_members;
-        if (!array_key_exists($array_name, $GLOBALS))
+        $array_name = $add_me . '_' . $show_members;
+        if (!array_key_exists($array_name, $cache))
         {
-            $GLOBALS[$array_name] = array();
+            $cache[$array_name] = array();
             if (midcom::get('auth')->user)
             {
                 if ($add_me == 'first')
                 {
                     //TODO: Localization
-                    $GLOBALS[$array_name][midcom::get('auth')->user->id] = 'me';
+                    $cache[$array_name][midcom::get('auth')->user->id] = 'me';
                 }
 
                 $users_groups = midcom::get('auth')->user->list_memberships();
@@ -154,7 +155,7 @@ class org_openpsa_helpers_list
                         $label = $vgroup;
                     }
 
-                    $GLOBALS[$array_name][$key] = $label;
+                    $cache[$array_name][$key] = $label;
 
                     //TODO: get the vgroup object based on the key or something, this check fails always.
                     if (   $show_members
@@ -163,21 +164,21 @@ class org_openpsa_helpers_list
                         $vgroup_members = $vgroup->list_members();
                         foreach ($vgroup_members as $key2 => $person)
                         {
-                            $GLOBALS[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
+                            $cache[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
                         }
                     }
                 }
 
-                asort($GLOBALS[$array_name]);
+                asort($cache[$array_name]);
 
                 if ($add_me == 'last')
                 {
                     //TODO: Localization
-                    $GLOBALS[$array_name][midcom::get('auth')->user->id] = 'me';
+                    $cache[$array_name][midcom::get('auth')->user->id] = 'me';
                 }
             }
         }
-        return $GLOBALS[$array_name];
+        return $cache[$array_name];
     }
 }
 ?>

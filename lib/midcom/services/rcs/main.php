@@ -42,7 +42,7 @@ class midcom_services_rcs
     {
         if (is_null($config))
         {
-            $config = $GLOBALS['midcom_config'];
+            $config = midcom::get('config');
         }
 
         $this->config = new midcom_services_rcs_config($config);
