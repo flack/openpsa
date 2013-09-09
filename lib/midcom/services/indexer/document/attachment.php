@@ -382,10 +382,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         $in = $this->_attachment->open('r');
         $out = fopen($tmpname, 'w');
-        while (! feof($in))
-        {
-            fwrite($out, fread($in, 131072));
-        }
+        stream_copy_to_stream($in, $out);
         fclose($out);
         fclose($in);
         return $tmpname;

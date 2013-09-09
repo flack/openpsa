@@ -532,10 +532,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             return false;
         }
 
-        while (! feof($source))
-        {
-            fwrite($dest, fread($source, 100000));
-        }
+        stream_copy_to_stream($source, $dest);
 
         $this->close();
         return true;

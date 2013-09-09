@@ -265,10 +265,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             // Copy the contents
             $backup_handle = $backup_attachment->open('w');
 
-            while (!feof($original_handle))
-            {
-                fwrite($backup_handle, fread($original_handle, 4096), 4096);
-            }
+            stream_copy_to_stream($original_handle, $backup_handle);
+
             fclose($original_handle);
 
             // Copy attachment parameters

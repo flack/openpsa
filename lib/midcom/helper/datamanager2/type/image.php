@@ -353,14 +353,10 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             // TODO: Error reporting
             return false;
         }
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
+        stream_copy_to_stream($src, $dst);
         $att->close();
-
         fclose($dst);
+
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
         $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
