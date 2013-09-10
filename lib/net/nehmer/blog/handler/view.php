@@ -118,14 +118,10 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         if (count($articles) > 0)
         {
             $this->_article = $articles[0];
+            return true;
         }
 
-        if (!$this->_article)
-        {
-            return false;
-            // This will 404
-        }
-        return true;
+        return false;
     }
 
     /**

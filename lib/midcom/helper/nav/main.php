@@ -224,12 +224,7 @@ class midcom_helper_nav
         $qb->add_constraint('id', '=', $node_id);
         $qb->add_constraint('up', 'INTREE', $root_id);
 
-        if ($qb->count() > 0)
-        {
-            return true;
-        }
-
-        return false;
+        return ($qb->count() > 0);
     }
 
     /**

@@ -207,7 +207,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         debug_add("try to build rules for class: {$class}");
 
         //special case parameters - uses 3 rules standard
-        if($class == 'midgard_parameter')
+        if ($class == 'midgard_parameter')
         {
             $this->add_parameter_rule($rules);
             return true;

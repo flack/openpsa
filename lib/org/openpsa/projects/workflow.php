@@ -142,12 +142,7 @@ class org_openpsa_projects_workflow
     static function propose(&$task, $pid, $comment = '')
     {
         debug_add("saving proposed status for person {$pid}");
-        if (!self::create_status($task, org_openpsa_projects_task_status_dba::PROPOSED, $pid, $comment))
-        {
-            return false;
-        }
-
-        return true;
+        return self::create_status($task, org_openpsa_projects_task_status_dba::PROPOSED, $pid, $comment);
     }
 
     /**

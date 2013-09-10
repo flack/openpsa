@@ -42,22 +42,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             $qb->add_constraint('id', '<>', (int)$this->id);
         }
 
-        $dupes = $qb->execute();
-        if (count($dupes) > 0)
-        {
-            return true;
-        }
-        return false;
+        return ($qb->count() > 0);
     }
 
     public function _on_creating()
     {
-        if ($this->_find_duplicates())
-        {
-            return false;
-        }
-
-        return true;
+        return (!$this->_find_duplicates());
     }
 
     /**
@@ -181,12 +171,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if ($this->_find_duplicates())
-        {
-            return false;
-        }
-
-        return true;
+        return (!$this->_find_duplicates());
     }
 
     static function pid_to_obj($pid)

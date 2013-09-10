@@ -55,7 +55,6 @@ class org_openpsa_contacts_duplicates_merge
                 // object mode not set properly
                 $this->_errstr = 'invalid object mode';
                 return false;
-                break;
         }
 
         $components = array_keys(midcom::get('componentloader')->manifests);
@@ -340,11 +339,7 @@ class org_openpsa_contacts_duplicates_merge
         $qb->add_order('name', 'ASC');
         $qb->set_limit(1);
         $results = @$qb->execute();
-        if (!empty($results))
-        {
-            return true;
-        }
-        return false;
+        return (!empty($results));
     }
 }
 ?>

@@ -55,11 +55,7 @@ class midcom_core_dbaproxy
     {
         if ($this->__tried_to_load)
         {
-            if (null === $this->__object)
-            {
-                return false;
-            }
-            return true;
+            return (null !== $this->__object);
         }
 
         $this->__tried_to_load = true;

@@ -176,11 +176,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $topic->id);
         $qb->set_limit(1);
-        if ($qb->count() > 0)
-        {
-            return true;
-        }
-        return false;
+        return ($qb->count() > 0);
     }
 
     public function _on_handle($handler, array $args)

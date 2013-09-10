@@ -773,11 +773,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             return true;
         }
-        if (midcom_helper_reflector::is_same_class($link_class, $schema_type))
-        {
-            return true;
-        }
-        return false;
+        return (midcom_helper_reflector::is_same_class($link_class, $schema_type));
     }
 
     /**

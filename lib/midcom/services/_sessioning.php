@@ -141,11 +141,7 @@ class midcom_services__sessioning
             return false;
         }
 
-        if (!isset($_SESSION['midcom_session_data'][$domain][$key]))
-        {
-            return false;
-        }
-        return true;
+        return (isset($_SESSION['midcom_session_data'][$domain][$key]));
     }
 
     /**

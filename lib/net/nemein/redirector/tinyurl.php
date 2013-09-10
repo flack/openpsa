@@ -21,12 +21,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
      */
     public function _on_creating()
     {
-        if ($this->duplicate_names())
-        {
-            return false;
-        }
-
-        return true;
+        return (!$this->duplicate_names());
     }
 
     /**
@@ -34,12 +29,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
      */
     public function _on_updating()
     {
-        if ($this->duplicate_names())
-        {
-            return false;
-        }
-
-        return true;
+        return (!$this->duplicate_names());
     }
 
     /**
@@ -58,14 +48,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
 
         $mc->execute();
 
-        if (count($mc->list_keys()) > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (count($mc->list_keys()) > 0);
     }
 
     /**

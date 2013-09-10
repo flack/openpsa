@@ -694,12 +694,8 @@ class midcom_core_privilege
                         return false;
                     }
                     $this->_invalidate_cache();
-                    return true;
                 }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
         }
 

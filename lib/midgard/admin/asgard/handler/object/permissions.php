@@ -477,8 +477,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $footer .= $form_toolbar_html;
 
         $data['editor_footer'] = $footer;
-
-        return true;
     }
 
     private function _render_select($object)

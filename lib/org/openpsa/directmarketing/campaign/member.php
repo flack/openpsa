@@ -69,14 +69,8 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         {
             $qb->add_constraint('id', '<>', $this->id);
         }
-        $ret = $qb->execute();
 
-        if (count($ret) > 0)
-        {
-            //We already have a membership with the same campaign and person
-            return false;
-        }
-        return true;
+        return ($qb->count() == 0);
     }
 
     public function _on_creating()

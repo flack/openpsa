@@ -283,15 +283,13 @@ implements midcom_services_permalinks_resolver
         $qb_groups->add_constraint('up', '=', $group->id);
         $subgroups = $qb_groups->execute();
         unset($qb_groups);
-        if (!is_array($subgroups))
+        if (is_array($subgroups))
         {
-            return true;
+            foreach ($subgroups as $subgroup)
+            {
+                $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
+            }
         }
-        foreach ($subgroups as $subgroup)
-        {
-            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
-        }
-
         return true;
     }
 }

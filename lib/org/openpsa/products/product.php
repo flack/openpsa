@@ -106,11 +106,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         // Make sure the product is in the same product group
         $qb->add_constraint('productGroup', '=', (int)$this->productGroup);
 
-        if ($qb->count() > 0)
-        {
-            return false;
-        }
-        return true;
+        return ($qb->count() == 0);
     }
 }
 ?>

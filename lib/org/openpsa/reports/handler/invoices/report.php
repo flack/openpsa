@@ -151,11 +151,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _filter_by_date($inv)
     {
-        if ($inv->{$this->_request_data['date_field']} > $this->_request_data['end'])
-        {
-            return false;
-        }
-        return true;
+        return ($inv->{$this->_request_data['date_field']} <= $this->_request_data['end']);
     }
 
     private function _load_invoices($status)

@@ -431,12 +431,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     private function _update_parent()
     {
-        if ($this->_skip_parent_refresh)
+        if (!$this->_skip_parent_refresh)
         {
-            return true;
+            $project = new org_openpsa_projects_project($this->project);
+            $project->refresh_from_tasks();
         }
-        $project = new org_openpsa_projects_project($this->project);
-        $project->refresh_from_tasks();
+
         return true;
     }
 

@@ -51,12 +51,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         }
 
         // Save the object
-        if (!$this->_datamanager->save())
-        {
-            return false;
-        }
-
-        return true;
+        return $this->_datamanager->save();
     }
 
     private function _import_group($groupdata)

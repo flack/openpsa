@@ -28,12 +28,8 @@ class org_openpsa_expenses_expense extends midcom_core_dbaobject
         {
             $this->person = midcom_connection::get_user();
         }
-        //Is task is not set abort
-        if (!$this->task)
-        {
-            return false;
-        }
-        return true;
+        //If task is not set abort
+        return ($this->task);
     }
 
     public function _on_creating()

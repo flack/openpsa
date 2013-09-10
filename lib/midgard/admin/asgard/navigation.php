@@ -294,11 +294,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     private function _is_selected($object)
     {
-        if (in_array($object->guid, $this->_object_path))
-        {
-            return true;
-        }
-        return false;
+        return (in_array($object->guid, $this->_object_path));
     }
 
     protected function _common_css_classes(&$object, &$ref, &$css_class)

@@ -52,12 +52,7 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
             $qb->add_constraint('id', '<>', $this->id);
         }
 
-        $result = $qb->execute();
-        if (count($result) > 0)
-        {
-            return true;
-        }
-        return false;
+        return ($qb->count() > 0);
     }
 
     function get_reservations($from, $to)

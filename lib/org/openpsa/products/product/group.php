@@ -58,12 +58,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             $qb->add_constraint('up', '=', $this->up);
         }
 
-        $result = $qb->execute();
-        if (count($result) > 0)
-        {
-            return true;
-        }
-        return false;
+        return ($qb->count() > 0);
     }
 
     /**

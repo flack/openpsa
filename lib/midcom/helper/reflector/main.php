@@ -689,15 +689,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         $one = self::resolve_baseclass($class_one);
         $two = self::resolve_baseclass($class_two);
-        if ($one == $two)
-        {
-            return true;
-        }
-        if (self::class_rewrite($one) == $two)
-        {
-            return true;
-        }
-        if ($one == self::class_rewrite($two))
+        if (   $one == $two
+            || self::class_rewrite($one) == $two
+            || $one == self::class_rewrite($two))
         {
             return true;
         }

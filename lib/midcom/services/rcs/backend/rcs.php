@@ -78,11 +78,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $result = $this->rcs_update($object, $update_string);
 
         // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
-        if ($result > 0)
-        {
-            return false;
-        }
-        return true;
+        return ($result == 0);
     }
 
     /**
@@ -643,11 +639,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $object->set_rcs_message("Reverted to revision {$revision}");
 
-        if ($object->update())
-        {
-            return true;
-        }
-        return false;
+        return $object->update();
     }
 }
 ?>

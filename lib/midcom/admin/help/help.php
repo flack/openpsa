@@ -95,12 +95,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             return false;
         }
 
-        if (file_exists($file))
-        {
-            return true;
-        }
-
-        return false;
+        return (file_exists($file));
     }
 
     static function generate_file_path($help_id, $component, $language = null)
@@ -449,7 +444,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
             $this->_request_data['properties'][$mgdschema_class] = array_merge($default_properties, $additional_properties);
         }
-        return true;
     }
 
     private function _get_property_data($mrp, $prop)
