@@ -35,8 +35,6 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
                 $foldernames[] = $entry;
             }
 
-            // Deal with element
-
             // Check file type
             $filename_parts = explode('.', $entry);
             if (count($filename_parts) < 2)
@@ -98,34 +96,6 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
         }
     }
 
-    private function read_styledir($path)
-    {
-        $directory = dir($path);
-        $foldernames = array();
-        while (false !== ($entry = $directory->read()))
-        {
-            if (substr($entry, 0, 1) == '.')
-            {
-                // Ignore dotfiles
-                continue;
-            }
-
-            if (is_dir("{$path}/{$entry}"))
-            {
-                // Recurse deeper
-                $this->read_style("{$path}/{$entry}", 0);
-                $foldernames[] = $entry;
-            }
-        }
-        $directory->close();
-
-        if ($this->delete_missing)
-        {
-            // Then delete files and folders that are in DB but not in the importing folder
-            $this->delete_missing_folders($foldernames, 0);
-        }
-    }
-
     public function get_leaf_qb($parent_id)
     {
         $qb = midcom_db_element::new_query_builder();
@@ -142,7 +112,11 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
 
     public function import()
     {
-        $this->read_styledir($this->root_dir);
+        $nodes = $this->_read_dirs($this->root_dir);
+        foreach ($nodes as $node)
+        {
+            $this->read_style($node, 0);
+        }
     }
 }
 ?>

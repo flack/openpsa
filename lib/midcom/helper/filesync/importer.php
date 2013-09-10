@@ -63,6 +63,31 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         }
     }
 
+    protected function _read_dirs($path)
+    {
+        $foldernames = array();
+        $nodes = array();
+        foreach (glob($path . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $dirname)
+        {
+            $entry = basename($dirname);
+            if (substr($entry, 0, 1) == '.')
+            {
+                // Ignore dotfiles
+                continue;
+            }
+
+            $nodes[] = $dirname;
+            $foldernames[] = $entry;
+        }
+
+        if ($this->delete_missing)
+        {
+            // Then delete files and folders that are in DB but not in the importing folder
+            $this->delete_missing_folders($foldernames, 0);
+        }
+        return $nodes;
+    }
+
     protected function _get_node($classname, $parent_id, $path)
     {
         $name = basename($path);
