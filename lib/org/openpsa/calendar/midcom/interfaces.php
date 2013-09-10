@@ -72,8 +72,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             $qb->add_constraint('title', '=', '__org_openpsa_calendar');
             $qb->add_constraint('up', '=', 0);
             $ret = $qb->execute();
-            if (   is_array($ret)
-                && count($ret) > 0)
+            if (!empty($ret))
             {
                 $root_event = $ret[0];
             }

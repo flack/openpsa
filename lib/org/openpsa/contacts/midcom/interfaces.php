@@ -53,8 +53,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
 
         $results = $qb->execute();
 
-        if (   is_array($results)
-            && count($results) > 0)
+        if (!empty($results))
         {
             foreach ($results as $group)
             {
@@ -149,8 +148,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         // Check for RSS feed
         $rss_url = org_openpsa_httplib_helpers::get_link_values($html, 'alternate');
 
-        if (   $rss_url
-            && count($rss_url) > 0)
+        if (!empty($rss_url))
         {
             $data['rss_url'] = $rss_url[0]['href'];
 

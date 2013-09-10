@@ -343,8 +343,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         // Copy the root object
         $root = $this->copy_object($source, $parent);
 
-        if (   !$root
-            || !$root->guid)
+        if (empty($root->guid))
         {
             $this->errors[] = sprintf($this->_l10n->get('failed to copy object %s'), $source->guid);
             return false;
@@ -356,8 +355,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         // Get the children
         $children = midcom_helper_reflector_tree::get_child_objects($source);
 
-        if (   !$children
-            || count($children) === 0)
+        if (empty($children))
         {
             return $root;
         }

@@ -51,10 +51,7 @@ implements midcom_services_permalinks_resolver
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product_group->id);
 
-                if ($qb_intree->count() > 0)
-                {
-                    $intree = true;
-                }
+                $intree = ($qb_intree->count() > 0);
             }
 
             if ($intree)
@@ -105,10 +102,7 @@ implements midcom_services_permalinks_resolver
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product->productGroup);
 
-                if ($qb_intree->count() > 0)
-                {
-                    $intree = true;
-                }
+                $intree = ($qb_intree->count() > 0);
             }
 
             if ($intree)
@@ -166,10 +160,7 @@ implements midcom_services_permalinks_resolver
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $productlink->productGroup);
 
-                if ($qb_intree->count() > 0)
-                {
-                    $intree = true;
-                }
+                $intree = ($qb_intree->count() > 0);
             }
 
             if ($intree)

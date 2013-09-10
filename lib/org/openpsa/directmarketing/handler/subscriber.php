@@ -136,8 +136,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             }
         }
 
-        if (   is_array($campaigns)
-            && count($campaigns) > 0)
+        if (!empty($campaigns))
         {
             foreach ($campaigns as $campaign)
             {

@@ -111,9 +111,8 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             $qb->add_constraint('name', 'IN', array_keys($this->_related_guids));
 
             $qb->add_constraint('domain', '=', 'net.nemein.wiki:related_to');
-            $ret = @$qb->execute();
-            if (   is_array($ret)
-                && count($ret) > 0)
+            $ret = $qb->execute();
+            if (!empty($ret))
             {
                 foreach ($ret as $related_to)
                 {
@@ -137,17 +136,11 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         if (   $this->wiki[MIDCOM_NAV_OBJECT]->can_do('midgard:create')
             && $this->new_wikipage)
         {
-            $enable_creation = true;
-
             // Check for duplicates
             $qb = net_nemein_wiki_wikipage::new_query_builder();
             $qb->add_constraint('topic', '=', $this->wiki[MIDCOM_NAV_OBJECT]->id);
             $qb->add_constraint('title', '=', rawurldecode($this->new_wikipage));
-            $result = $qb->execute();
-            if (count($result) > 0)
-            {
-                $enable_creation = false;
-            }
+            $enable_creation = ($qb->count() == 0);
         }
 
        $toolbar->add_item
@@ -174,7 +167,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         }
 
         $this->_list_related();
-        if (   count($this->related) > 0)
+        if (count($this->related) > 0)
         {
             echo "<div class=\"area net_nemein_wiki related\">\n";
 

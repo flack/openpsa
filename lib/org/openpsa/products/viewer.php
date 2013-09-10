@@ -173,8 +173,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         if ($this->_config->get('custom_rss_feeds'))
         {
             $feeds = $this->_config->get('custom_rss_feeds');
-            if (   $feeds !== false
-                && count($feeds) > 0)
+            if (!empty($feeds))
             {
                 foreach ($feeds as $title => $url)
                 {

@@ -30,7 +30,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
                 $this->_request_data["link_url"] = $link_url . "/" . $tree["topic"]->name;
                 midcom_show_style("show-navigation-item-begin");
 
-                if(count($tree) > 1)
+                if (count($tree) > 1)
                 {
                     midcom_show_style("show-navigation-submenu-begin");
                     $this->_show_navigation_tree($tree, $link_url . "/" . $tree["topic"]->name);

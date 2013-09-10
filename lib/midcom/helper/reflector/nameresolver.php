@@ -282,7 +282,6 @@ class midcom_helper_reflector_nameresolver
             // Guard against QB failure
             if ($results === false)
             {
-                midcom::get('auth')->drop_sudo();
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 return false;
             }

@@ -118,7 +118,7 @@ foreach ($properties_map as $class => $properties)
             // pass type of first rule_group to javascript, if there is one
             if (count($current_rules) > 0)
             {
-                if(isset($current_rules['type']))
+                if (isset($current_rules['type']))
                 {
                     echo '"' . $current_rules['type'] . '"';
                 }
@@ -134,7 +134,7 @@ foreach ($properties_map as $class => $properties)
             ?>);
             <?php
                 // add an empty rule if no rules are currently given
-                if(count($current_rules) > 0 && empty($current_rules['classes']))
+                if (count($current_rules) > 0 && empty($current_rules['classes']))
                 {
                     echo "groups[group_id].add_rule(false);";
                 }

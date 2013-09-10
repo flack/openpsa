@@ -15,8 +15,7 @@ $data = $this->data;
         </label>
     </p>
 <?php
-if (   isset($data['restored_form_data'])
-    && count($data['restored_form_data']) > 0)
+if (!empty($data['restored_form_data']))
 {
     foreach ($data['restored_form_data'] as $key => $value)
     {

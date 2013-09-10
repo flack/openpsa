@@ -58,8 +58,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     echo "{$prefix}</tr>\n";
 
     $child_types = midcom_helper_reflector_tree::get_child_objects($object, true);
-    if (   is_array($child_types)
-        && count($child_types) > 0)
+    if (!empty($child_types))
     {
         $child_indent = $indent + 20;
         echo "{$prefix}<tbody class=\"children\">\n";

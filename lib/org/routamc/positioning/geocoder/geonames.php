@@ -80,8 +80,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
 
         $simplexml = simplexml_load_string($response);
 
-        if (   !isset($simplexml->code)
-            || count($simplexml->code) == 0)
+        if (empty($simplexml->code))
         {
             $this->error = 'POSITIONING_CITY_NOT_FOUND';
             return null;
@@ -167,8 +166,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
         $response = $http_request->get($url);
         $simplexml = simplexml_load_string($response);
 
-        if (   !isset($simplexml->geoname)
-            || count($simplexml->geoname) == 0)
+        if (empty($simplexml->geoname))
         {
             $this->error = 'POSITIONING_DETAILS_NOT_FOUND';
 

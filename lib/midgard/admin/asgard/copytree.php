@@ -88,8 +88,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
             return;
         }
         $siblings = midcom_helper_reflector_tree::get_child_objects($object);
-        if (   is_array($siblings)
-            && count($siblings) > 0)
+        if (!empy($siblings))
         {
             echo "{$prefix}<ul>\n";
             foreach ($siblings as $type => $children)

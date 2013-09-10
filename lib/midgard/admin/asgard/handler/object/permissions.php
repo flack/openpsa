@@ -340,17 +340,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_prepare_request_data();
 
-        // Figure out label for the object's class
-        switch (get_class($this->_object))
-        {
-            case 'midcom_db_topic':
-                $type = $this->_l10n->get('folder');
-                break;
-            default:
-                $type_parts = explode('_', get_class($this->_object));
-                $type = $type_parts[count($type_parts) - 1];
-        }
-
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
     }
 

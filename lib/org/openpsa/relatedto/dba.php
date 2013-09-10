@@ -72,8 +72,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         $mc->set_limit(1);
         $mc->execute();
         $ret = $mc->list_keys();
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (!empty($ret))
         {
             return key($ret);
         }

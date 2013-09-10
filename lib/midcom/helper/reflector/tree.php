@@ -145,8 +145,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        $count = $qb->count();
-        return $count;
+        return $qb->count();
     }
 
     function has_root_objects($deleted = false)
@@ -666,8 +665,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
             return false;
         }
-        $count = $qb->count();
-        return $count;
+        return $qb->count();
     }
 
     /**

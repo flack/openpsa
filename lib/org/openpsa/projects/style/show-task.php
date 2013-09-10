@@ -89,8 +89,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
     $qb->add_order('type', 'DESC');
     $ret = $qb->execute();
 
-    if (   is_array($ret)
-        && count($ret) > 0)
+    if (!empty($ret))
     {
         echo "<h3>" . $data['l10n']->get('status history') . "</h3>\n";
 

@@ -40,8 +40,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $fields =& $schemadb[$this->get_schema_name()]->fields;
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (   is_array($vat_array)
-            && count($vat_array) > 0)
+        if (!empty($vat_array))
         {
             $vat_values = array();
             foreach ($vat_array as $vat)

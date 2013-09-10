@@ -36,8 +36,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         $qb = net_nemein_tag_tag_dba::new_query_builder();
         $qb->add_constraint('tag', '=', $tag);
         $results = $qb->execute();
-        if (   is_array($results)
-            && count($results) > 0)
+        if (!empty($results))
         {
             return $results[0];
         }

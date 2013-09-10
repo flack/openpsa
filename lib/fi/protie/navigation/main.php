@@ -348,8 +348,7 @@ class fi_protie_navigation
         $children = $this->_nap->list_nodes($id);
 
         // Stop traversing the path if there are no children
-        if (   !$children
-            || count($children) === 0)
+        if (empty($children))
         {
             return;
         }
@@ -396,8 +395,7 @@ class fi_protie_navigation
         $children = $this->_nap->list_child_elements($id);
 
         // Stop traversing the path if there are no children
-        if (   !$children
-            || count($children) === 0)
+        if (empty($children))
         {
             return;
         }
@@ -506,7 +504,7 @@ class fi_protie_navigation
             {
                 $children = $this->_nap->list_child_elements($child[MIDCOM_NAV_ID]);
             }
-            if (is_array($children) && count($children) > 0)
+            if (!empty($children))
             {
                 $classes[] = $this->css_has_children;
             }

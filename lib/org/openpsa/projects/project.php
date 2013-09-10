@@ -107,8 +107,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         $mc->execute();
         $ret = $mc->list_keys();
 
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (!empty($ret))
         {
             foreach ($ret as $guid => $empty)
             {

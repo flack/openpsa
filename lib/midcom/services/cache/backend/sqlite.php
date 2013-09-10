@@ -61,9 +61,9 @@ class midcom_services_cache_backend_sqlite extends midcom_services_cache_backend
         $key = sqlite_escape_string($key);
         $results = $this->_db->query("SELECT value FROM {$this->_table} WHERE key='{$key}'");
         $results = $results->fetchAll();
-        if(count($results) == 0)
+        if (count($results) == 0)
         {
-          return false; // No hit.
+            return false; // No hit.
         }
 
         return $results[0]['value'];

@@ -462,8 +462,7 @@ class midcom_baseclasses_core_dbobject
         $children = midcom_helper_reflector_tree::get_child_objects($object);
 
         // Children found
-        if (   $children
-            && count($children))
+        if (!empty($children))
         {
             // Delete first the descendants
             foreach ($children as $array)

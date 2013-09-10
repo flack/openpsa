@@ -42,8 +42,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $fields =& $this->_schemadb['default']->fields;
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (   is_array($vat_array)
-            && count($vat_array) > 0)
+        if (!empty($vat_array))
         {
             $vat_values = array();
             foreach ($vat_array as $vat)
