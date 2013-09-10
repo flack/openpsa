@@ -227,25 +227,11 @@ class midgard_admin_asgard_stylehelper
             return $elements;
         }
 
-        $directory = dir($path);
-
-        if (!$directory)
+        foreach (glob($path . '/*.php', GLOB_NOSORT) as $filepath)
         {
-            debug_add("Failed to read directory {$path}");
-            return $elements;
+            $file = basename($filepath);
+            $elements[str_replace('.php', '', $file)] = $filepath;
         }
-
-        while (($file = $directory->read()) !== false)
-        {
-            if (!preg_match('/\.php$/i', $file))
-            {
-                continue;
-            }
-
-            $elements[str_replace('.php', '', $file)] = "{$path}/{$file}";
-        }
-
-        $directory->close();
 
         return $elements;
     }

@@ -101,11 +101,7 @@ class midcom_helper_imagefilter
             unlink($tmpname);
             return false;
         }
-        while (! feof($src))
-        {
-            $buffer = fread($src, 131072); /* 128 kB */
-            fwrite($dst, $buffer, 131072);
-        }
+        stream_copy_to_stream($src, $dst);
         $input->close();
         fclose($dst);
         return $tmpname;

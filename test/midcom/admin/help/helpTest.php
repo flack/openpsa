@@ -61,6 +61,74 @@ class midcom_admin_help_helpTest extends openpsa_testcase
         $this->assertNotEquals('help_style', $stat);
     }
 
+    /**
+     * @dataProvider provider_list_files
+     */
+    public function test_list_files($component, $index, $expected)
+    {
+        //@todo: To test properly, we should setup a context with a handler of the component
+        $handler = new midcom_admin_help_help;
+        $this->assertEquals($expected, $handler->list_files($component, $index));
+    }
+
+    public function provider_list_files()
+    {
+        return array
+        (
+            array
+            (
+                'org.openpsa.core',
+                false,
+                array
+                (
+                    'dependencies' => array
+                    (
+                        'path' => '/dependencies',
+                        'subject' => 'help_dependencies',
+                        'lang' => 'en'
+                    ),
+                    'urlmethods' => array
+                    (
+                        'path' => '/urlmethods',
+                        'subject' => 'help_urlmethods',
+                        'lang' => 'en'
+                    ),
+                )
+            ),
+            array
+            (
+                'net.nehmer.blog',
+                false,
+                array
+                (
+                    'dependencies' => array
+                    (
+                        'path' => '/dependencies',
+                        'subject' => 'help_dependencies',
+                        'lang' => 'en'
+                    ),
+                    '01_component_config' => array
+                    (
+                        'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/01_component_config.en.txt',
+                        'subject' => 'Component configuration',
+                        'lang' => 'en'
+                    ),
+                    'mgdschemas' => array
+                    (
+                        'path' => '/mgdschemas',
+                        'subject' => 'help_mgdschemas',
+                        'lang' => 'en'
+                    ),
+                    'style' => array
+                    (
+                        'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/style.en.txt',
+                        'subject' => 'net.nehmer.blog style elements',
+                        'lang' => 'en'
+                    ),
+                )
+            )
+        );
+    }
 
 }
 ?>

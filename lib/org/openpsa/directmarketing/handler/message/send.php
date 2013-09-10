@@ -210,15 +210,17 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 break;
             default:
                 // Schedule background send
-                debug_add('Registering background send job to start on: ' . date('Y-m-d H:i:s', $data['send_start']));
-                $at_handler_arguments = array
+                debug_add('Registering background send job with url ' . $data['batch_url_base_full'] . ' to start on: ' . date('Y-m-d H:i:s', $data['send_start']));
+                $at_arguments = array
                 (
                     'batch' => 1,
                     'url_base' => $data['batch_url_base_full'],
                 );
-                debug_add("---SHOW SEND---" . $data['batch_url_base_full'], MIDCOM_LOG_ERROR);
-                $bool = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'background_send_message', $at_handler_arguments);
-                debug_add("--- RESULT register:" . $bool,  MIDCOM_LOG_ERROR);
+
+                if (!midcom_services_at_interface::register($data['send_start'], $this->_component, 'background_send_message', $at_arguments))
+                {
+                    throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
+                }
                 midcom_show_style('send-start');
                 break;
         }

@@ -81,7 +81,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         $mail = new org_openpsa_mail($this->_config['mail_send_backend'], $this->_config['mail_send_backend_params']);
         $mail->to = $person->email;
         $mail->subject = $subject;
-        
+
         $mail->from = $from;
         if (isset($this->_config['reply-to']))
         {
@@ -179,13 +179,9 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
                     //Failed to open attachment for reading, skip the file
                     continue;
                 }
-                $att['content'] = '';
                 /* PONDER: Should we cache the content somehow so that we only need to read it once per request ??
                  We would save some file opens at the expense of keeping the contents in memory (potentially very expensive) */
-                while (!feof($fp))
-                {
-                    $att['content'] .=  fread($fp, 4096);
-                }
+                $att['content'] = stream_get_contents($fp);
                 fclose($fp);
                 debug_add("adding attachment '{$att['name']}' from field '{$field}' to attachments array");
                 $attachments[] = $att;

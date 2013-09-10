@@ -286,16 +286,18 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function _list_physical_files($component)
     {
-        $path = midcom_admin_help_help::get_documentation_dir($component);
-        if (!file_exists($path))
+        $component_dir = midcom_admin_help_help::get_documentation_dir($component);
+        if (!is_dir($component_dir))
         {
             return array();
         }
 
         $files = array();
-        $directory = dir($path);
-        while (false !== ($entry = $directory->read()))
+        $pattern = $component_dir . '*.{' . midcom::get('i18n')->get_current_language() . ',' . midcom::get('config')->get('i18n_fallback_language') . '}.txt';
+
+        foreach (glob($pattern, GLOB_NOSORT|GLOB_BRACE) as $path)
         {
+            $entry = basename($path);
             if (    substr($entry, 0, 1) == '.'
                  || substr($entry, 0, 5) == 'index'
                  || substr($entry, 0, 7) == 'handler'
@@ -306,32 +308,15 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
 
             $filename_parts = explode('.', $entry);
-            if (count($filename_parts) < 3)
-            {
-                continue;
-            }
-
-            if ($filename_parts[2] != 'txt')
-            {
-                // Not text file, skip
-                continue;
-            }
-
-            if (   $filename_parts[1] != midcom::get('i18n')->get_current_language()
-                && $filename_parts[1] != midcom::get('config')->get('i18n_fallback_language'))
-            {
-                // Wrong language
-                continue;
-            }
 
             $files[$filename_parts[0]] = array
             (
-                'path' => "{$path}{$entry}",
+                'path' => $path,
                 'subject' => self::get_help_title($filename_parts[0], $component),
                 'lang' => $filename_parts[1],
             );
         }
-        $directory->close();
+
         return $files;
     }
 
