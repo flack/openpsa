@@ -729,28 +729,17 @@ class midcom_helper__componentloader
      */
     public function get_component_dependencies($component)
     {
-        static $checked = null;
-        if (is_null($checked))
-        {
-            $checked = array();
-        }
+        static $checked = array();
         if (isset($checked[$component]))
         {
-            return array();
+            return $checked[$component];
         }
-        $checked[$component] = true;
+        $checked[$component] = array();
 
-        if (!$this->is_installed($component))
+        if (   !$this->is_installed($component)
+            || empty($this->manifests[$component]->_raw_data['package.xml']['dependencies']))
         {
-            return array();
-        }
-
-        $dependencies = array();
-
-        if (   !isset($this->manifests[$component]->_raw_data['package.xml'])
-            || !isset($this->manifests[$component]->_raw_data['package.xml']['dependencies']))
-        {
-            return $dependencies;
+            return $checked[$component];
         }
 
         foreach ($this->manifests[$component]->_raw_data['package.xml']['dependencies'] as $dependency => $dependency_data)
@@ -767,12 +756,12 @@ class midcom_helper__componentloader
                 continue;
             }
 
-            $dependencies[] = $dependency;
+            $checked[$component][] = $dependency;
             $subdependencies = $this->get_component_dependencies($dependency);
-            $dependencies = array_merge($dependencies, $subdependencies);
+            $checked[$component] = array_merge($checked[$component], $subdependencies);
         }
-
-        return array_unique($dependencies);
+        $checked[$component] = array_unique($checked[$component]);
+        return $checked[$component];
     }
 
     /**
@@ -786,11 +775,7 @@ class midcom_helper__componentloader
         static $core_components = null;
         if (is_array($core_components))
         {
-            if (in_array($component, $core_components))
-            {
-                return true;
-            }
-            return false;
+            return (in_array($component, $core_components));
         }
 
         $core_components = array
@@ -831,12 +816,7 @@ class midcom_helper__componentloader
         }
         $core_components = array_unique(array_merge($core_components, $dependencies));
 
-        if (in_array($component, $core_components))
-        {
-            return true;
-        }
-
-        return false;
+        return (in_array($component, $core_components));
     }
 
     public function get_component_version($component)
