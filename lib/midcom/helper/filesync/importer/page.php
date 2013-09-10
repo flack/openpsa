@@ -50,11 +50,8 @@ class midcom_helper_filesync_importer_page extends midcom_helper_filesync_import
                 case 'php':
                     $field = 'value';
                     break;
-            }
-
-            if (!$field)
-            {
-                continue;
+                default:
+                    continue;
             }
 
             $filenames[] = $pageelement_name;

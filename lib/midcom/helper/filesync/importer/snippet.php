@@ -53,10 +53,8 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
                 case 'txt':
                     $field = 'doc';
                     break;
-            }
-            if (!$field)
-            {
-                continue;
+                default:
+                    continue;
             }
 
             $filenames[] = $snippet_name;

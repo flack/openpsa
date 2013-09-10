@@ -43,15 +43,13 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
             }
             $element_name = $filename_parts[0];
             $field = false;
-            switch($filename_parts[count($filename_parts) - 1])
+            switch ($filename_parts[count($filename_parts) - 1])
             {
                 case 'php':
                     $field = 'value';
                     break;
-            }
-            if (!$field)
-            {
-                continue;
+                default:
+                    continue;
             }
 
             $filenames[] = $element_name;
