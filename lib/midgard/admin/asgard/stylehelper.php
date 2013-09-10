@@ -131,9 +131,6 @@ class midgard_admin_asgard_stylehelper
         {
             // Get the list of style elements for the component
             $results['elements'][$component] = $this->_get_component_default_elements($component);
-
-            // Arrange elements in alphabetical order
-            ksort($results['elements'][$component]);
         }
 
         $results['elements']['midcom'] = array
@@ -227,7 +224,7 @@ class midgard_admin_asgard_stylehelper
             return $elements;
         }
 
-        foreach (glob($path . '/*.php', GLOB_NOSORT) as $filepath)
+        foreach (glob($path . '/*.php') as $filepath)
         {
             $file = basename($filepath);
             $elements[str_replace('.php', '', $file)] = $filepath;

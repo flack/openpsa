@@ -298,8 +298,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         foreach (glob($pattern, GLOB_NOSORT|GLOB_BRACE) as $path)
         {
             $entry = basename($path);
-            if (    substr($entry, 0, 1) == '.'
-                 || substr($entry, 0, 5) == 'index'
+            if (    substr($entry, 0, 5) == 'index'
                  || substr($entry, 0, 7) == 'handler'
                  || substr($entry, 0, 9) == 'urlmethod')
             {
@@ -398,15 +397,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             return $data;
         }
 
-        $dir_handle = opendir($exec_path);
-
-        while (false !== ($file = readdir($dir_handle)))
+        foreach (glob($exec_path . '/*.php', GLOB_NOSORT) as $path)
         {
-            if (preg_match('/^\./', $file))
-            {
-                //Skip hidden files
-                continue;
-            }
+            $file = basename($path);
             $data[$file] = array();
 
             $info_id = "urlmethod_" . str_replace('.php', '', $file);

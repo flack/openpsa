@@ -69,15 +69,8 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         $nodes = array();
         foreach (glob($path . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $dirname)
         {
-            $entry = basename($dirname);
-            if (substr($entry, 0, 1) == '.')
-            {
-                // Ignore dotfiles
-                continue;
-            }
-
             $nodes[] = $dirname;
-            $foldernames[] = $entry;
+            $foldernames[] = basename($dirname);
         }
 
         if ($this->delete_missing)
