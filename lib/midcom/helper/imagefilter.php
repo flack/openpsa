@@ -278,113 +278,17 @@ class midcom_helper_imagefilter
 
         debug_print_r("Have to execute {$command} with these arguments:", $args);
 
-        switch ($command)
+        if ($command == 'none')
         {
-            case 'gamma':
-                if (   array_key_exists(0, $args)
-                    && $args[0] > 0)
-                {
-                    $gamma = (double) $args[0];
-                }
-                else
-                {
-                    $gamma = 1.2;
-                }
-                return $this->gamma($gamma);
-
-            case 'exifrotate':
-                return $this->exifrotate();
-
-            case 'rotate':
-                if (   array_key_exists(0, $args)
-                    && $args[0] > 0
-                    && $args[0] < 360)
-                {
-                    $rotate = (double) $args[0];
-                }
-                else
-                {
-                    $rotate = 0;
-                }
-                return $this->rotate($rotate);
-
-            case 'resize':
-                if (count($args) == 0)
-                {
-                    debug_add('No arguments given, doing nothing.', MIDCOM_LOG_INFO);
-                    return true;
-                }
-                $x = (int) $args[0];
-                if (   array_key_exists(1, $args)
-                    && $args[1] > 0)
-                {
-                    $y = (int) $args[1];
-                }
-                else
-                {
-                    $y = 0;
-                }
-                return $this->rescale($x, $y);
-
-            case 'convert':
-                if (count($args) == 0)
-                {
-                    return $this->convert();
-                }
-                else
-                {
-                    return $this->convert($args[0]);
-                }
-
-            case 'squarethumb':
-                switch (count($args))
-                {
-                    case 1:
-                        return $this->squarethumb($args[0]);
-
-                    case 2:
-                        return $this->squarethumb($args[0], $args[1]);
-
-                    default:
-                        return true;
-                }
-
-            case 'crop':
-                switch (count($args))
-                {
-                    case 3:
-                        return $this->crop($args[0], $args[1], $args[2]);
-
-                    case 2:
-                        return $this->crop($args[0], $args[1]);
-
-                    case 1:
-                        return $this->crop($args[0], $args[0]);
-
-                    default:
-                        return true;
-                }
-
-            case 'fill':
-                if (count($args) === 3)
-                {
-                    return $this->fill($args[0], $args[1], $args[2]);
-                }
-
-                if (count($args) === 4)
-                {
-                    return $this->fill($args[0], $args[1], $args[2], $args[3]);
-                }
-
-                return true;
-
-            case 'none':
-                return true;
-
-            default:
-                debug_add('This is no known command, we try to find a callback.');
-                return $this->execute_user_callback($command, $args);
+            return true;
         }
+        else if (is_callable(array($this, $command)))
+        {
+            return call_user_func_array(array($this, $command), $args);
+        }
+
+        debug_add('This is no known command, we try to find a callback.');
+        return $this->execute_user_callback($command, $args);
     }
 
     /*********** INTERNAL HELPERS ******************/
@@ -455,8 +359,10 @@ class midcom_helper_imagefilter
      * @param float $gamma Gamma adjustment value.
      * @return boolean true on success.
      */
-    public function gamma($gamma)
+    public function gamma($gamma = 1.2)
     {
+        $gamma = (double) $gamma;
+
         $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -gamma "
             . escapeshellarg($gamma) . " " . escapeshellarg($this->_filename);
 
@@ -556,52 +462,49 @@ class midcom_helper_imagefilter
         $do_unlink = false;
         $imagesize = getimagesize($this->_filename);
 
-        if (   $imagesize[2] == 2
+        if (   $imagesize[2] == IMAGETYPE_JPEG
             && $this->_jpegtran_available())
         {
             /* jpegtran */
-            switch ($exif["Orientation"])
-            {
-                case 2: $rotate = "-flip horizontal"; break;
-                case 3: $rotate = "-rotate 180"; break;
-                case 4: $rotate = "-flip vertical"; break;
-                case 5: $rotate = "-transpose"; break;
-                case 6: $rotate = "-rotate 90"; break;
-                case 7: $rotate = "-transverse"; break;
-                case 8: $rotate = "-rotate 270"; break;
-                default:
-                    debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"],
-                        MIDCOM_LOG_INFO);
-                    return true;
-            }
+            $operations = array
+            (
+                2 => "-flip horizontal",
+                3 => "-rotate 180",
+                4 => "-flip vertical",
+                5 => "-transpose",
+                6 => "-rotate 90",
+                7 => "-transverse",
+                8 => "-rotate 270"
+            );
 
             $tmpfile = $this->_get_tempfile();
             $do_unlink = true;
-            $cmd = midcom::get('config')->get('utility_jpegtran') . " -copy all {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
+            $cmd = midcom::get('config')->get('utility_jpegtran') . " -outfile {$tmpfile} -copy all";
         }
         else
         {
             /* Mogrify */
             debug_add("jpegtran not found, falling back to mogrify.");
 
-            switch ($exif["Orientation"])
-            {
-                case 2: $rotate = "-flip"; break;
-                case 3: $rotate = "-rotate 180"; break;
-                case 4: $rotate = "-flip"; break;
-                case 5: $rotate = "-rotate 90 -flip"; break;
-                case 6: $rotate = "-rotate 90"; break;
-                case 7: $rotate = "-rotate 270 -flop"; break;
-                case 8: $rotate = "-rotate 270"; break;
-                default:
-                    debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"],
-                        MIDCOM_LOG_INFO);
-                    return true;
-            }
+            $operations = array
+            (
+                2 => "-flip",
+                3 => "-rotate 180",
+                4 => "-flip",
+                5 => "-rotate 90 -flip",
+                6 => "-rotate 90",
+                7 => "-rotate 270 -flop",
+                8 => "-rotate 270"
+            );
 
-            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} {$rotate} "
-                . escapeshellarg($this->_filename);
+            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality}";
         }
+        if (!array_key_exists($exif["Orientation"], $operations))
+        {
+            debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"], MIDCOM_LOG_INFO);
+            return true;
+        }
+        $cmd .= ' ' . $operations[$exif["Orientation"]] . ' ' . escapeshellarg($this->_filename);
 
         debug_add("executing: {$cmd}");
         exec($cmd, $output, $exit_code);
@@ -635,7 +538,7 @@ class midcom_helper_imagefilter
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
      * @return boolean true on success.
      */
-    public function rotate($rotate)
+    public function rotate($rotate = 0)
     {
         // Do some normalizing on the argument
         while ($rotate < 0)
@@ -646,10 +549,10 @@ class midcom_helper_imagefilter
         {
             $rotate -= 360;
         }
-        if ($rotate == 0 || $rotate == 360)
+        if (   $rotate == 0
+            || $rotate == 360)
         {
             debug_add("Rotate is {$rotate}, we're happy as-is.");
-            // We're happy as-is :)
             return true;
         }
 
@@ -711,8 +614,11 @@ class midcom_helper_imagefilter
      * @param int $y Height
      * @return boolean true on success.
      */
-    public function rescale($x, $y)
+    public function resize($x = 0, $y = 0)
     {
+        $x = (int) $x;
+        $y = (int) $y;
+
         if ($x == 0 && $y == 0)
         {
             debug_add("Both x and y are 0, skipping operation.", MIDCOM_LOG_INFO);
@@ -765,7 +671,7 @@ class midcom_helper_imagefilter
      * @param int $x Width
      * @return boolean true on success.
      */
-    public function squarethumb($x, $gravity = 'center')
+    public function squarethumb($x = 0, $gravity = 'center')
     {
         return $this->crop($x, $x, $gravity);
     }
@@ -777,8 +683,18 @@ class midcom_helper_imagefilter
      * @param int $y Height
      * @return boolean true on success.
      */
-    public function crop($x, $y, $gravity = 'center')
+    public function crop($x = 0, $y = 0, $gravity = 'center')
     {
+        if ($x == 0)
+        {
+            return true;
+        }
+
+        if ($y == 0)
+        {
+            $y = $x;
+        }
+
         $data = @getimagesize($this->_filename);
 
         // 1a. If got...
@@ -834,8 +750,16 @@ class midcom_helper_imagefilter
      * @param string $gravity Gravity point
      * @return boolean true on success.
      */
-    public function fill($x, $y, $color, $gravity = 'center')
+    public function fill($x = null, $y = null, $color = null, $gravity = 'center')
     {
+        if (   empty($x)
+            || empty($y)
+            || empty($color))
+        {
+            //This is a bit silly, but here for backwards compatibility...
+            return true;
+        }
+
         // Currently accepting only hex colors
         if (!preg_match('/^#?([0-9a-f]{3}){1,2}$/', $color))
         {
