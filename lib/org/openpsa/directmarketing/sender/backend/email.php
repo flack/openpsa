@@ -148,7 +148,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     private function _get_attachments()
     {
         $attachments = array();
-        reset($this->_config['dm_types']);
         foreach ($this->_config['dm_types'] as $field => $typedata)
         {
             if (empty($typedata->attachments_info))

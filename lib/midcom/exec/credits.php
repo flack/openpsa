@@ -57,7 +57,7 @@ foreach (midcom::get('componentloader')->manifests as $name => $manifest)
 }
 
 ksort($developers);
-reset($developers);
+
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -159,7 +159,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                 foreach ($details['roles'] as $role => $packages_types)
                                 {
                                     ksort($packages_types);
-                                    reset($packages_types);
                                     foreach ($packages_types as $package_type => $components)
                                     {
                                         ?>

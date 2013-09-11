@@ -603,7 +603,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     function implode_members(array $array)
     {
         $output = array();
-        reset($array);
         foreach ($array as $pid => $bool)
         {
             $person = org_openpsa_contacts_person_dba::get_cached($pid);

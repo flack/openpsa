@@ -82,7 +82,6 @@ class midcom_helper_datamanager2_ajax_autocomplete
             && is_array($this->_request['orders']))
         {
             ksort($this->_request['orders']);
-            reset($this->_request['orders']);
             foreach ($this->_request['orders'] as $data)
             {
                 foreach ($data as $field => $order)
@@ -101,7 +100,6 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
         $mgd2 = extension_loaded('midgard2');
         ksort($constraints);
-        reset($constraints);
         foreach ($constraints as $key => $data)
         {
             if (   !array_key_exists('value', $data)
