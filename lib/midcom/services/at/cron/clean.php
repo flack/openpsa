@@ -30,12 +30,6 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
 
         midcom::get('auth')->request_sudo('midcom.services.at');
         $qbret = $qb->execute();
-        if (empty($qbret))
-        {
-            debug_add('Got empty resultset, exiting');
-            midcom::get('auth')->drop_sudo();
-            return;
-        }
 
         foreach ($qbret as $entry)
         {

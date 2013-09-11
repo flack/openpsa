@@ -49,7 +49,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
         if (   isset($_POST['order'])
             && is_array($_POST['order']))
         {
-            foreach ($_POST['order'] as $field=> $order)
+            foreach ($_POST['order'] as $field => $order)
             {
                 $qb->add_order($field, $order);
             }

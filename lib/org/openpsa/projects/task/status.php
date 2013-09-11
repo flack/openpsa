@@ -86,14 +86,11 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             $qb->add_constraint('task', '=', $this->task);
             $qb->add_constraint('person', '=', $this->targetPerson);
             $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
-            if ($qb->count() > 0)
+            $results = $qb->execute();
+            foreach ($results as $result)
             {
-                $results = $qb->execute();
-                foreach ($results as $result)
-                {
-                    debug_add("removing user #{$this->targetPerson} from resources");
-                    $result->delete();
-                }
+                debug_add("removing user #{$this->targetPerson} from resources");
+                $result->delete();
             }
         }
 

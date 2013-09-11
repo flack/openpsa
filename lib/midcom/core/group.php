@@ -147,8 +147,7 @@ class midcom_core_group
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('owner', '=', $this->_storage->id);
-        $result = $qb->execute();
-        return $result;
+        return $qb->execute();
     }
 
     /**

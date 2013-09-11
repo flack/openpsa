@@ -113,12 +113,9 @@ class org_openpsa_helpers_list
             $qb->add_order('title');
             $ret = $qb->execute();
 
-            if (count($ret) > 0)
+            foreach ($ret as $task)
             {
-                foreach ($ret as $task)
-                {
-                    $cache[$task->guid] = $task->title;
-                }
+                $cache[$task->guid] = $task->title;
             }
         }
         return $cache;

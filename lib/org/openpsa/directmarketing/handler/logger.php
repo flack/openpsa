@@ -97,8 +97,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '=', $token);
         $qb->add_constraint('orgOpenpsaObtype', '=', $type);
-        $ret = $qb->execute();
-        return $ret;
+        return $qb->execute();
     }
 
     /**

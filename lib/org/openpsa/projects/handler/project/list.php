@@ -111,12 +111,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ONHOLD);
         $ret = $qb->execute();
 
-        if (count($ret) > 0)
+        foreach ($ret as $project)
         {
-            foreach ($ret as $project)
-            {
-                $this->_request_data['project_list_results']['not_started'][$project->guid] = $project;
-            }
+            $this->_request_data['project_list_results']['not_started'][$project->guid] = $project;
         }
     }
 
@@ -132,12 +129,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $ret = $qb->execute();
 
-        if (count($ret) > 0)
+        foreach ($ret as $project)
         {
-            foreach ($ret as $project)
-            {
-                $this->_request_data['project_list_results']['ongoing'][$project->guid] = $project;
-            }
+            $this->_request_data['project_list_results']['ongoing'][$project->guid] = $project;
         }
     }
 
@@ -150,12 +144,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $ret = $qb->execute();
 
-        if (count($ret) > 0)
+        foreach ($ret as $project)
         {
-            foreach ($ret as $project)
-            {
-                $this->_request_data['project_list_results']['overtime'][$project->guid] = $project;
-            }
+            $this->_request_data['project_list_results']['overtime'][$project->guid] = $project;
         }
     }
 
@@ -184,12 +175,9 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $qb = org_openpsa_projects_project::new_query_builder();
         $ret = $qb->execute();
 
-        if (count($ret) > 0)
+        foreach ($ret as $project)
         {
-            foreach ($ret as $project)
-            {
-                $this->_request_data['project_list_results']['all'][$project->guid] = $project;
-            }
+            $this->_request_data['project_list_results']['all'][$project->guid] = $project;
         }
     }
 

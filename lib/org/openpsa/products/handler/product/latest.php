@@ -35,10 +35,8 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
             }
             else
             {
-                $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $categories_qb->add_constraint('up', '=', $groups[0]->id);
-                $categories = $categories_qb->execute();
-                $categories_in = array();
+                $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
+                $categories = $categories_mc->get_values('id');
 
                 if (count($categories) == 0)
                 {
@@ -50,11 +48,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                 }
                 else
                 {
-                    for ($i = 0; $i < count($categories); $i++)
-                    {
-                        $categories_in[$i] = $categories[$i]->id;
-                    }
-                    $product_qb->add_constraint('productGroup', 'IN', $categories_in);
+                    $product_qb->add_constraint('productGroup', 'IN', $categories);
                 }
             }
         }

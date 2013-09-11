@@ -25,15 +25,7 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
         $ret = $qb->execute();
         midcom::get('auth')->drop_sudo();
-        if (!is_array($ret))
-        {
-            //TODO: display some error ?
-            return false;
-        }
-        if (empty($ret))
-        {
-            return;
-        }
+
         $i = 1;
         foreach ($ret as $campaign)
         {

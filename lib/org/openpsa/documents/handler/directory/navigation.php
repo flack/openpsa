@@ -97,8 +97,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint("component", "=", $current_component);
         $qb->add_constraint("up", "INTREE", $root_topic->id);
-        $document_topics = $qb->execute();
-        $this->_request_data['topic_array'] = $document_topics;
+        $this->_request_data['topic_array'] = $qb->execute();
 
         //This handler is supposed to be used with dynamic_load or AJAX, so skip page style
         midcom::get()->skip_page_style = true;

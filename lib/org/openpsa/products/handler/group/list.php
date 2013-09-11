@@ -57,13 +57,10 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     // No such parent group found
                     return false;
                 }
-                if (!empty($groups[0]->id))
+                $qb->add_constraint('up', '=', $groups[0]->id);
+                if ($handler_id == 'listall')
                 {
-                    $qb->add_constraint('up', '=', $groups[0]->id);
-                    if ($handler_id == 'listall')
-                    {
-                        $qb->add_constraint('code', '=', $args[1]);
-                    }
+                    $qb->add_constraint('code', '=', $args[1]);
                 }
             }
             else
@@ -444,15 +441,10 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
         else if ($this->_request_data['handler_id'] == 'listall')
         {
-            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $categories_qb->add_constraint('up', '=', $this->_request_data['group']->id);
-            $categories = $categories_qb->execute();
-            for ($i = 0; $i < count($categories); $i++)
-            {
-                $categories_in[$i] = $categories[$i]->id;
-            }
+            $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $this->_request_data['group']->id);
+            $categories = $categories_mc->get_values('id');
 
-            $product_qb->add_constraint('productGroup', 'IN', $categories_in);
+            $product_qb->add_constraint('productGroup', 'IN', $categories);
         }
         else
         {

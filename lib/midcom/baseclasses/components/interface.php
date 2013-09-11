@@ -90,12 +90,7 @@
  *     {
  *         $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
  *         $qb->add_constraint('topic', '=', $topic->id);
- *         $result = $qb->execute();
- *
- *         if ($result === false)
- *         {
- *             debug_add("Could not query the articles for {$topic->id}, skipping indexing.");
- *         }
+ *         $articles = $qb->execute();
  *
  *         $datamanager = new midcom_helper_datamanager2_datamanager($config->get('schemadb'));
  *

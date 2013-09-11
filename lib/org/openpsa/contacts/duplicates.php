@@ -71,10 +71,6 @@ class org_openpsa_contacts_duplicates
 
         $check_persons = $qb->execute();
 
-        if (!is_array($check_persons))
-        {
-            return false;
-        }
         foreach ($check_persons as $check_person)
         {
             $p_array = $this->p_duplicate_person($person, $check_person);
@@ -230,10 +226,6 @@ class org_openpsa_contacts_duplicates
 
         $check_groups = $qb->execute();
 
-        if (!is_array($check_groups))
-        {
-            return false;
-        }
         foreach ($check_groups as $check_group)
         {
             $p_array = $this->p_duplicate_group($group, $check_group);

@@ -115,17 +115,14 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
             $qb->add_constraint('date', '>=', $this->date);
 
             $matches = $qb->execute();
-            if (count($matches) > 0)
+            foreach ($matches as $location)
             {
-                foreach ($matches as $location)
-                {
-                    // Switch the location to point to this log
-                    $location->log = $this->id;
-                    $location->latitude = $this->latitude;
-                    $location->longitude = $this->longitude;
-                    $location->altitude = $this->altitude;
-                    $location->update();
-                }
+                // Switch the location to point to this log
+                $location->log = $this->id;
+                $location->latitude = $this->latitude;
+                $location->longitude = $this->longitude;
+                $location->altitude = $this->altitude;
+                $location->update();
             }
         }
     }

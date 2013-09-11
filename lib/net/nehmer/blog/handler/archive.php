@@ -125,7 +125,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $result = $qb->execute();
         }
 
-        if ($result)
+        if (!empty($result))
         {
             return new DateTime(strftime('%Y-%m-%d %H:%M:%S', $result[0]->metadata->published));
         }

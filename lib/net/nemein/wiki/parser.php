@@ -161,11 +161,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $qb->add_constraint('name', '<>', $this->_page->name);
         $qb->add_order('title', 'ASC');
         $pages = $qb->execute();
-        if (!is_array($pages))
-        {
-            // QB error
-            return false;
-        }
+
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_page->topic);
         $ret = "\n<ul class=\"node-toc\">\n";

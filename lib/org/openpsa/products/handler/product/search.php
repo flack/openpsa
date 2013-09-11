@@ -258,9 +258,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             $this->_add_ordering($qb, $ordering);
         }
 
-        $ret = $qb->execute();
-
-        return $ret;
+        return $qb->execute();
     }
 
     /**

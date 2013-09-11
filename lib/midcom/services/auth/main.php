@@ -794,8 +794,7 @@ class midcom_services_auth
         $qb->add_constraint('name', '=', $name);
 
         $result = @$qb->execute();
-        if (   ! $result
-            || count($result) == 0)
+        if (empty($result))
         {
             $result = false;
             return $result;

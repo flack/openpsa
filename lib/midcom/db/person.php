@@ -108,14 +108,11 @@ class midcom_db_person extends midcom_core_dbaobject
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('uid', '=', $this->id);
         $result = $qb->execute();
-        if ($result)
+        foreach ($result as $membership)
         {
-            foreach ($result as $membership)
+            if (! $membership->delete())
             {
-                if (! $membership->delete())
-                {
-                    debug_add("Failed to delete membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                }
+                debug_add("Failed to delete membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 
@@ -123,14 +120,11 @@ class midcom_db_person extends midcom_core_dbaobject
         $qb = midcom_db_eventmember::new_query_builder();
         $qb->add_constraint('uid', '=', $this->id);
         $result = $qb->execute();
-        if ($result)
+        foreach ($result as $membership)
         {
-            foreach ($result as $membership)
+            if (! $membership->delete())
             {
-                if (! $membership->delete())
-                {
-                    debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                }
+                debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 

@@ -215,8 +215,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
     {
         $qb = $this->_prepare_qb();
         $results = $qb->execute();
-        if (   $results === false
-            || !is_array($results))
+        if (!is_array($results))
         {
             throw new midcom_error('Error when executing QB');
         }

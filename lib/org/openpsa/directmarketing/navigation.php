@@ -22,10 +22,7 @@ class org_openpsa_directmarketing_navigation extends midcom_baseclasses_componen
         $qb->add_constraint('archived', '=', 0);
         $qb->add_order('metadata.created', $this->_config->get('navi_order'));
         $campaigns = $qb->execute();
-        if (empty($campaigns))
-        {
-            return $leaves;
-        }
+
         foreach ($campaigns as $campaign)
         {
             $leaves["campaign_{$campaign->id}"] = array

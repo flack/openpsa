@@ -56,12 +56,9 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('up', '=', $task->id);
         $results = $qb->execute();
-        if (is_array($results))
+        foreach ($results as $child_task)
         {
-            foreach ($results as $child_task)
-            {
-                $ret = $this->_expand_task($child_task, $ret);
-            }
+            $ret = $this->_expand_task($child_task, $ret);
         }
         return $ret;
     }

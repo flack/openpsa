@@ -201,7 +201,7 @@ class midcom_services_i18n
             $qb = new midgard_query_builder('midgard_language');
             $qb->add_constraint('code', '=', $code);
             $ret = $qb->execute();
-            if ($ret)
+            if (!empty($ret))
             {
                 $cache[$code] = $ret[0]->id;
             }

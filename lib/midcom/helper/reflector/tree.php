@@ -198,9 +198,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 $qb->add_order($title_property);
             }
         }
-        $objects = $qb->execute();
 
-        return $objects;
+        return $qb->execute();
     }
 
     /**
@@ -647,9 +646,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Sort by title and name if available
         midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $schema_type);
 
-        $objects = $qb->execute();
-
-        return $objects;
+        return $qb->execute();
     }
 
     /**

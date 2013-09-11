@@ -297,18 +297,11 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $articles = $qb->execute();
 
-        if ($articles)
+        if (array_key_exists(0, $articles))
         {
-            if (array_key_exists(0, $articles))
-            {
-                return max($topic->metadata->revised, $articles[0]->metadata->revised);
-            }
-            return $topic->metadata->revised;
+            return max($topic->metadata->revised, $articles[0]->metadata->revised);
         }
-        else
-        {
-            return $topic->metadata->revised;
-        }
+        return $topic->metadata->revised;
     }
 
     /**

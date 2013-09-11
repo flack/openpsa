@@ -145,11 +145,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $qb->add_constraint('value', '=', self::resolve_value($tagname));
         $qb->add_constraint('fromGuid', '=', $object_guid);
         $links = $qb->execute();
-        if (!is_array($links))
-        {
-            debug_add("Failed to fetch tag link(s) for tag \"{$tagstring}\" for object {$object_guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            return;
-        }
+
         foreach ($links as $link)
         {
             if (!$link->delete())
@@ -465,10 +461,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $qb->add_constraint('context', '=', $context);
         $qb->add_constraint('value', '<>', '');
         $links = $qb->execute();
-        if (!is_array($links))
-        {
-            return false;
-        }
+
         foreach ($links as $link)
         {
             try
@@ -498,10 +491,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $qb = net_nemein_tag_tag_dba::new_query_builder();
         $qb->add_constraint('metadata.navnoentry', '=', 0);
         $db_tags = $qb->execute();
-        if (!is_array($db_tags))
-        {
-            return false;
-        }
+
         foreach ($db_tags as $tag)
         {
             $tags[$tag->tag] = $tag->url;

@@ -116,8 +116,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $qb->add_constraint('topic', '=', $topic->up);
                 $results = $qb->execute();
 
-                if (   is_array($results)
-                    && count($results) == 1)
+                if (count($results) == 1)
                 {
                     $article =& $results[0];
                     $article->name = 'index';
@@ -142,11 +141,11 @@ implements midcom_helper_datamanager2_interfaces_create
                 }
                 // We have created a new topic, now recurse to create the rest of the path.
                 return $this->_check_unique_wikiword($wikiword);
-                break;
+
             case (is_object($resolved['wikipage'])):
                 // Page exists
                 throw new midcom_error('Wiki page with that name already exists.');
-                break;
+                
             default:
                 // No more namespaces left, create the page to latest parent
                 if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id)

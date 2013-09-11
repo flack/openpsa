@@ -52,16 +52,14 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         $ret = $qb->execute();
         $data['qbpager'] =& $qb;
         midcom_show_style("show-message-list-header");
-        if (count($ret) > 0)
+
+        foreach ($ret as $message)
         {
-            foreach ($ret as $message)
-            {
-                $this->_datamanager->autoset_storage($message);
-                $data['message'] =& $message;
-                $data['message_array'] = $this->_datamanager->get_content_html();
-                $data['message_class'] = $message->get_css_class();
-                midcom_show_style('show-message-list-item');
-            }
+            $this->_datamanager->autoset_storage($message);
+            $data['message'] =& $message;
+            $data['message_array'] = $this->_datamanager->get_content_html();
+            $data['message_class'] = $message->get_css_class();
+            midcom_show_style('show-message-list-item');
         }
         midcom_show_style("show-message-list-footer");
     }

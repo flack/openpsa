@@ -201,9 +201,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         $qb->add_order($this->_request_data['date_field'], 'DESC');
 
-        $invoices = $qb->execute();
-
-        return $invoices;
+        return $qb->execute();
     }
 
     /**
