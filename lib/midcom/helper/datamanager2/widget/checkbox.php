@@ -85,7 +85,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
             $title = '';
         }
 
-        if (is_array($this->jsevents) && count($this->jsevents))
+        if (is_array($this->jsevents))
         {
             foreach ($this->jsevents as $event => $action)
             {

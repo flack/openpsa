@@ -253,34 +253,28 @@ implements midcom_services_permalinks_resolver
             $qb_products = org_openpsa_products_product_dba::new_query_builder();
             $qb_products->add_constraint('productGroup', '=', $group->id);
             $products = $qb_products->execute();
-            unset($qb_products);
-            if (is_array($products))
+
+            foreach ($products as $product)
             {
-                foreach ($products as $product)
+                if (!$dms['product']->autoset_storage($product))
                 {
-                    if (!$dms['product']->autoset_storage($product))
-                    {
-                        debug_add("Warning, failed to initialize datamanager for product {$product->id}. Skipping it.", MIDCOM_LOG_WARN);
-                        continue;
-                    }
-                    org_openpsa_products_viewer::index($dms['product'], $indexer, $topic, $config);
+                    debug_add("Warning, failed to initialize datamanager for product {$product->id}. Skipping it.", MIDCOM_LOG_WARN);
+                    continue;
                 }
+                org_openpsa_products_viewer::index($dms['product'], $indexer, $topic, $config);
             }
-            unset($products);
         }
 
         $subgroups = array();
         $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
         $qb_groups->add_constraint('up', '=', $group->id);
         $subgroups = $qb_groups->execute();
-        unset($qb_groups);
-        if (is_array($subgroups))
+
+        foreach ($subgroups as $subgroup)
         {
-            foreach ($subgroups as $subgroup)
-            {
-                $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
-            }
+            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
         }
+
         return true;
     }
 }

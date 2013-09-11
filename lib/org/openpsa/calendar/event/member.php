@@ -183,11 +183,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $mc->add_order('eid.start', 'ASC');
         $mc->add_order('eid.end', 'ASC');
         $eventmembers = $mc->get_values('eid');
-        if (!is_array($eventmembers))
-        {
-            // QB error
-            return $slots;
-        }
+
         $events_by_date = array();
         foreach ($eventmembers as $eid)
         {

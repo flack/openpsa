@@ -166,16 +166,12 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
 
         $uwret = $qb_unwanted->execute();
-        if (   is_array($uwret)
-            && !empty($uwret))
+        foreach ($uwret as $member)
         {
-            foreach ($uwret as $member)
+            debug_add("Deleting unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}");
+            if (!$member->delete())
             {
-                debug_add("Deleting unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}");
-                if (!$member->delete())
-                {
-                    debug_add("Failed to delete unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                }
+                debug_add("Failed to delete unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 

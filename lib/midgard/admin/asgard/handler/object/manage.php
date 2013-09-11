@@ -263,7 +263,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 return array($new_type_property, $parent_property);
             }
         }
-        return false;
+        throw new midcom_error("Could not establish link between {$new_type} and " . get_class($this->_object));
     }
 
     /**
@@ -284,14 +284,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             else
             {
                 // Figure out the linking property
-                $link_info = $this->_find_linking_property($create_type);
-                if (!is_array($link_info))
-                {
-                    throw new midcom_error("Could not establish link between {$create_type} and " . get_class($this->_object));
-                }
-
-                $child_property = $link_info[0];
-                $parent_property = $link_info[1];
+                list($child_property, $parent_property) = $this->_find_linking_property($create_type);
                 $this->_new_object->$child_property = $this->_object->$parent_property;
             }
         }
@@ -353,13 +346,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             else
             {
                 // Set "defaults"
-                $link_info = $this->_find_linking_property($this->_new_type);
-                if (!is_array($link_info))
-                {
-                    throw new midcom_error("Could not establish link between {$this->_new_type} and " . get_class($this->_object));
-                }
-                $parent_property = $link_info[1];
-                $data['defaults'][$link_info[0]] = $this->_object->$parent_property;
+                list($child_property, $parent_property) = $this->_find_linking_property($this->_new_type);
+                $data['defaults'][$child_property] = $this->_object->$parent_property;
             }
         }
 

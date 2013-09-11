@@ -125,13 +125,10 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             {
                 $object = midcom::get('dbfactory')->get_object_by_guid($guid);
                 $atts = $object->list_attachments();
-                if ($atts)
+                foreach ($atts as $attachment)
                 {
-                    foreach ($atts as $attachment)
-                    {
-                        debug_add("Deleting attachment {$attachment->id} from the index.");
-                        $indexer->delete($attachment->guid);
-                    }
+                    debug_add("Deleting attachment {$attachment->id} from the index.");
+                    $indexer->delete($attachment->guid);
                 }
             }
             catch (midcom_error $e)

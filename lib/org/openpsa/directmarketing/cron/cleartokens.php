@@ -33,11 +33,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
         $qb->add_constraint('timestamp', '<', $th);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $ret = $qb->execute_unchecked();
-        if (!is_array($ret))
-        {
-            //TODO: display some error ?
-            return false;
-        }
+
         if (empty($ret))
         {
             debug_add('No results, returning early.');

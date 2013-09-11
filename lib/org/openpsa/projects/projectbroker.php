@@ -35,11 +35,7 @@ class org_openpsa_projects_projectbroker
             'org_openpsa_contacts_person_dba',
         );
         $tag_map = net_nemein_tag_handler::get_object_tags($task);
-        if (!is_array($tag_map))
-        {
-            // Critical failure when fetching tags, aborting
-            return false;
-        }
+
         $tags = array();
         // Resolve tasks tags (with contexts) into single array of tags without contexts
         foreach (array_keys($tag_map) as $tagname)

@@ -1709,14 +1709,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         $qb = $object->get_attachment_qb();
-        $result = $qb->execute();
-        if (   !$result
-            || !is_array($result))
-        {
-            return array();
-        }
-
-        return $result;
+        return $qb->execute();
     }
 
     /**

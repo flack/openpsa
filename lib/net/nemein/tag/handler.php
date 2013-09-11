@@ -32,12 +32,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
         $existing_tags = net_nemein_tag_handler::get_object_tags($object);
 
-        if (!is_array($existing_tags))
-        {
-            // Major failure when getting existing tags
-            debug_add('get_object_tags() reported critical failure, aborting', MIDCOM_LOG_ERROR);
-            return false;
-        }
         // Determine operations
         $add_tags = array();
         $update_tags = array();
@@ -256,7 +250,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $link_mc->execute();
         $links = $link_mc->list_keys();
 
-        if (!$links)
+        if (empty($links))
         {
             return $tags;
         }
@@ -269,7 +263,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $mc->execute();
         $tag_guids = $mc->list_keys();
 
-        if (!$tag_guids)
+        if (empty($tag_guids))
         {
             return $tags;
         }

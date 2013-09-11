@@ -42,10 +42,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $qb_members->add_order('person.lastname', 'ASC');
         $qb_members->add_order('person.firstname', 'ASC');
         $members = $qb_members->execute_unchecked();
-        if (!is_array($members))
-        {
-            throw new midcom_error('Fatal QB error');
-        }
 
         $this->membership_mode = $this->_config->get('csv_export_memberships');
 

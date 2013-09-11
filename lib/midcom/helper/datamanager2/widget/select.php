@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             'id'    => "{$this->_namespace}{$this->name}",
         ));
 
-        if (is_array($this->jsevents) && count($this->jsevents))
+        if (is_array($this->jsevents))
         {
             foreach ($this->jsevents as $event => $action)
             {
