@@ -42,16 +42,13 @@ else
 
         // Save image to a temp file
         $tmp_name = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_products_product_oldimage_');
-        $fp = fopen($tmp_name, 'w');
 
-        if (!fwrite($fp, $image))
+        if (!file_put_contents($tmp_name, $image))
         {
             //Could not write, clean up and continue
             echo("Error when writing file {$tmp_name}");
-            fclose($fp);
             continue;
         }
-        fclose($fp);
 
         $datamanager->autoset_storage($product);
         $datamanager->types['image']->set_image("{$product->code}.jpg", $tmp_name, $product->title);

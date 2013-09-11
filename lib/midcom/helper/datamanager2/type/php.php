@@ -99,9 +99,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         }
 
         $tmpfile = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom_helper_datamanager2_type_php_');
-        $fp = fopen($tmpfile, 'w');
-        fwrite($fp, $this->value);
-        fclose($fp);
+        file_put_contents($tmpfile, $this->value);
         $return_status = 0;
         $parse_results = array();
         exec("php -l {$tmpfile} 2>&1", $parse_results, $return_status);

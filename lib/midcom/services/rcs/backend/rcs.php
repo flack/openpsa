@@ -417,9 +417,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             return false;
         }
         $filename = $this->_generate_rcs_filename($guid);
-        $fp = fopen ($filename, "w");
-        fwrite ($fp, $data);
-        fclose ($fp);
+        file_put_contents($filename, $data);
     }
 
     /**

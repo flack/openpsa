@@ -135,33 +135,19 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
     {
         $filename = "{$this->_cache_dir}{$identifier}.php";
 
-        $handle = @fopen($filename, 'w');
-        if (! $handle)
-        {
-            debug_add("Failed to open the file {$filename} for writing.", MIDCOM_LOG_ERROR);
-            if (isset($php_errormsg))
-            {
-                debug_add($php_errormsg, MIDCOM_LOG_ERROR);
-            }
-            return false;
-        }
-
-        if (! @fwrite($handle, "<?php\n{$code}\n?>\n"))
+        if (!file_put_contents($filename, "<?php\n{$code}\n?>\n"))
         {
             debug_add("Failed to write to the file {$filename}.", MIDCOM_LOG_ERROR);
             if (isset($php_errormsg))
             {
                 debug_add($php_errormsg, MIDCOM_LOG_ERROR);
             }
-            fclose($handle);
             return false;
         }
 
-        fclose($handle);
-
         if (!$skip_load)
         {
-            require($filename);
+            require $filename;
         }
 
         return true;

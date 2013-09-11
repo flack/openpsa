@@ -276,9 +276,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _check_config($config)
     {
         $tmpfile = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
-        $fp = fopen($tmpfile, 'w');
-        fwrite($fp, "<?php\n\$data = array({$config}\n);\n?>");
-        fclose($fp);
+        file_put_contents($tmpfile, "<?php\n\$data = array({$config}\n);\n?>");
         $parse_results = `php -l {$tmpfile}`;
         debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
         unlink($tmpfile);
