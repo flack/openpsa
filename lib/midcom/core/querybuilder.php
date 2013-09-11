@@ -26,8 +26,6 @@
  */
 class midcom_core_querybuilder extends midcom_core_query
 {
-    private $_qb_error_result = 'UNDEFINED';
-
     /**
      * Which window size to use. Is calculated when executing for the first time
      */
@@ -82,7 +80,6 @@ class midcom_core_querybuilder extends midcom_core_query
 
         if (!is_array($result))
         {
-            $this->_qb_error_result = $result;
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             if (isset($php_errormsg))
             {
@@ -130,15 +127,6 @@ class midcom_core_querybuilder extends midcom_core_query
     }
 
     /**
-     * Resets some internal variables for re-execute
-     */
-    protected function _reset()
-    {
-        $this->_qb_error_result = 'UNDEFINED';
-        parent::_reset();
-    }
-
-    /**
      * This function will execute the Querybuilder and call the appropriate callbacks from the
      * class it is associated to. This way, class authors have full control over what is actually
      * returned to the application.
@@ -151,8 +139,7 @@ class midcom_core_querybuilder extends midcom_core_query
      * 3. void _on_process_query_result(&$result) is called after the successful execution of the query. You
      *    may remove any unwanted entries from the resultset at this point.
      *
-     * @return Array The result of the query builder or null on any error. Note, that empty resultsets
-     *     will return an empty array.
+     * @return Array The result of the query builder.
      */
     function execute_windowed()
     {
@@ -161,7 +148,7 @@ class midcom_core_querybuilder extends midcom_core_query
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            return null;
+            return array();
         }
 
         if ($this->_constraint_count == 0)
@@ -175,10 +162,6 @@ class midcom_core_querybuilder extends midcom_core_query
         {
             // No point to do windowing
             $newresult = $this->_execute_and_check_privileges();
-            if (!is_array($newresult))
-            {
-                return $newresult;
-            }
         }
         else
         {
@@ -191,12 +174,6 @@ class midcom_core_querybuilder extends midcom_core_query
 
             while (($resultset = $this->_execute_and_check_privileges(true)) !== false)
             {
-                if ($this->_qb_error_result !== 'UNDEFINED')
-                {
-                    // QB failed in above method TODO: better catch
-                    return $this->_qb_error_result;
-                }
-
                 $size = sizeof($resultset);
 
                 if ($offset >= $size)
@@ -296,7 +273,7 @@ class midcom_core_querybuilder extends midcom_core_query
         }
     }
 
-    function execute()
+    public function execute()
     {
         $this->_check_groups();
 
@@ -324,7 +301,7 @@ class midcom_core_querybuilder extends midcom_core_query
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            return null;
+            return array();
         }
 
         if ($this->_constraint_count == 0)
@@ -344,14 +321,10 @@ class midcom_core_querybuilder extends midcom_core_query
         }
 
         $newresult = $this->_execute_and_check_privileges();
-        if (!is_array($newresult))
-        {
-            return $newresult;
-        }
 
         if ($this->_limit)
         {
-            while(count($newresult) > $this->_limit)
+            while (count($newresult) > $this->_limit)
             {
                 array_pop($newresult);
             }
