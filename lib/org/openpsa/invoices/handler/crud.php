@@ -377,7 +377,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             );
             // sending per email enabled in billing data?
             $billing_data = $this->_object->get_billing_data();
-            if (intval($billing_data->sendingoption) == 2)
+            if (intval($billing_data->sendingoption) != 2)
             {
                 $this->_view_toolbar->add_item
                 (
