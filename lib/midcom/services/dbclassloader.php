@@ -244,8 +244,32 @@ class midcom_services_dbclassloader
      */
     function get_component_for_class($classname)
     {
-        $class_parts = explode('_', $classname);
+        $class_parts = array_filter(explode('_', $classname));
         $component = '';
+        // Fix for incorrectly named classes
+        $component_map = array
+        (
+            'midcom.db' => 'midcom',
+            'midcom.core' => 'midcom',
+            'midgard' => 'midcom',
+            'org.openpsa.campaign' => 'org.openpsa.directmarketing',
+            'org.openpsa.link' => 'org.openpsa.directmarketing',
+            'org.openpsa.document' => 'org.openpsa.documents',
+            'org.openpsa.organization' => 'org.openpsa.contacts',
+            'org.openpsa.person' => 'org.openpsa.contacts',
+            'org.openpsa.role' => 'org.openpsa.contacts',
+            'org.openpsa.member' => 'org.openpsa.contacts',
+            'org.openpsa.salesproject' => 'org.openpsa.sales',
+            'org.openpsa.event' => 'org.openpsa.calendar',
+            'org.openpsa.invoice' => 'org.openpsa.invoices',
+            'org.openpsa.billing' => 'org.openpsa.invoices',
+            'org.openpsa.query' => 'org.openpsa.reports',
+            'org.openpsa.task' => 'org.openpsa.projects',
+            'org.openpsa.project' => 'org.openpsa.projects',
+            'org.openpsa.hour' => 'org.openpsa.projects',
+            'org.openpsa.expense' => 'org.openpsa.expenses'
+        );
+
         foreach ($class_parts as $part)
         {
             if (empty($component))
@@ -256,56 +280,12 @@ class midcom_services_dbclassloader
             {
                 $component .= ".{$part}";
             }
-
-            // Fix for incorrectly named classes
-            switch ($component)
+            if (array_key_exists($component, $component_map))
             {
-                // Handle MidCOM's own classes
-                case 'midcom.db':
-                case 'midcom.core':
-                case 'midgard':
-                    return 'midcom';
-
-                case 'org.openpsa.campaign':
-                case 'org.openpsa.link':
-                    $component = 'org.openpsa.directmarketing';
-                    break;
-                case 'org.openpsa.document':
-                    $component = 'org.openpsa.documents';
-                    break;
-                case 'org.openpsa.organization':
-                case 'org.openpsa.person':
-                case 'org.openpsa.role':
-                case 'org.openpsa.member':
-                    $component = 'org.openpsa.contacts';
-                    break;
-                case 'org.openpsa.salesproject':
-                    $component = 'org.openpsa.sales';
-                    break;
-                case 'org.openpsa.event':
-                    $component = 'org.openpsa.calendar';
-                    break;
-                case 'org.openpsa.invoice':
-                case 'org.openpsa.billing':
-                    $component = 'org.openpsa.invoices';
-                    break;
-                case 'org.openpsa.query':
-                    $component = 'org.openpsa.reports';
-                    break;
-                case 'org.openpsa.task':
-                case 'org.openpsa.project':
-                case 'org.openpsa.hour':
-                case 'org.openpsa.deliverable':
-                    $component = 'org.openpsa.projects';
-                    break;
-                case 'org.openpsa.expense':
-                    $component = 'org.openpsa.expenses';
-                    break;
+                $component = $component_map[$component];
             }
 
-            if (   !empty($component)
-                && $component != 'midcom'
-                && midcom::get('componentloader')->is_installed($component))
+            if (midcom::get('componentloader')->is_installed($component))
             {
                 return $component;
             }
