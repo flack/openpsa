@@ -25,8 +25,8 @@ $form_suffix = $data['form_suffix'];
                 $total += $count;
                 $of_clicks = $link_data['percentages']['of_links'][$target];
                 $of_recipients = $link_data['percentages']['of_recipients'][$target];
-                $rule_ser = org_openpsa_helpers::array2code($link_data['rules'][$target]);
-                $visual_width = round($of_clicks*5);
+                $rule_ser = var_export($link_data['rules'][$target], true);
+                $visual_width = round($of_clicks * 5);
                 $target_label = $target;
                 // Fetch target url and look for a heading to use
                 //TODO: Make a HEAD request and check the content-type instead of trying to guess here

@@ -13,57 +13,6 @@
  */
 class org_openpsa_helpers
 {
-    /**
-     * returns array as code to generate it
-     */
-    static function array2code($arr, $level = 0, $code = '')
-    {
-        $pad1 = '';
-        $d = $level * 4;
-        while ($d--)
-        {
-            $pad1 .= ' ';
-        }
-        $pad2 = '';
-        $d = ($level+1) * 4;
-        while ($d--)
-        {
-            $pad2 .= ' ';
-        }
-        $code .= "Array\n{$pad1}(\n";
-        foreach ($arr as $k => $v)
-        {
-            $code .= $pad2;
-            switch (true)
-            {
-                case is_numeric($k):
-                    $code .= "{$k} => ";
-                    break;
-                default:
-                    $code .= "'{$k}' => ";
-                    break;
-            }
-            switch (true)
-            {
-                case is_array($v):
-                    $code = self::array2code($v, $level+2, $code);
-                    break;
-                case is_numeric($v):
-                    $code .= "{$v},\n";
-                    break;
-                default:
-                    $code .= "'" . str_replace("'", "\'", $v) . "',\n";
-                    break;
-            }
-        }
-        $code .= "{$pad1})";
-        if ($level > 0)
-        {
-            $code .= ",\n";
-        }
-        return $code;
-    }
-
     public static function render_fileinfo($object, $field)
     {
         $output = '';

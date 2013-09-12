@@ -32,8 +32,8 @@ $body_class = " class='{$data['body_class']}'";
                 $total += $count['total'];
                 $of_clicks = $link_data['percentages']['of_links'][$target]['total'];
                 $of_recipients = $link_data['percentages']['of_recipients'][$target]['total'];
-                $rule_ser = org_openpsa_helpers::array2code($link_data['rules'][$target]);
-                $visual_width = round($of_clicks*5);
+                $rule_ser = var_export($link_data['rules'][$target], true);
+                $visual_width = round($of_clicks * 5);
                 $target_label = $target;
                 // Fetch target url and look for a heading to use
                 $is_html = false;

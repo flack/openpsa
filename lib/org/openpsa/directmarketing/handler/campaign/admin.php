@@ -281,7 +281,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 unset ($rules['generated_from']);
                 // PONDER: return to editor or save anyway ? now we overwrite the value with the modified rule and return to editor.
                 midcom::get('uimessages')->add('org.openpsa.directmarketing', $this->_l10n->get('longtext:generated_from_found_in_adv_rule'), 'error');
-                $_POST['midcom_helper_datamanager2_dummy_field_rules'] = org_openpsa_helpers::array2code($rules);
+                $_POST['midcom_helper_datamanager2_dummy_field_rules'] = var_export($rules, true);
 
                 $this->_update_breadcrumb_line($handler_id);
                 org_openpsa_helpers::dm2_savecancel($this);

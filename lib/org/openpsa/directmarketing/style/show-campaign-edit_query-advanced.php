@@ -5,7 +5,7 @@ if (isset($_POST['midcom_helper_datamanager_dummy_field_rules']))
 }
 else
 {
-    $editor_content = org_openpsa_helpers::array2code($data['campaign']->rules);
+    $editor_content = var_export($data['campaign']->rules, true);
 }
 ?>
 <div class="main">
