@@ -163,8 +163,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             return false;
         }
 
-        $copy = $attachment->copy_from_file($tmp_file);
-        if (!$copy)
+        if (!$attachment->copy_from_file($tmp_file))
         {
             debug_add("Failed to copy pdf from " . $tmp_file . " to attachment", MIDCOM_LOG_ERROR);
             return false;

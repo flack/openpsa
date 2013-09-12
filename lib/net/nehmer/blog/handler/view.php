@@ -163,7 +163,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             // TODO: Should we tell admin to create a net.nehmer.comments folder?
         }
 
-        $tmp = Array();
         $view_url = $this->_master->get_url($this->_article);
 
         $this->add_breadcrumb($view_url, $this->_article->title);
