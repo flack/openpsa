@@ -18,7 +18,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
     /**
      * Loads all entries that need to be processed and processes them.
      *
-     * @todo FIXME: refactor to use more modern MidCOM interfaces and better sanity-checking
+     * @todo: refactor to use more modern MidCOM interfaces and better sanity-checking
      */
     public function _on_execute()
     {

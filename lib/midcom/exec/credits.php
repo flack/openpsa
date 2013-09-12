@@ -145,7 +145,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                     {
                         $person_label  = "<div class=\"vcard\">\n";
                         $person_label .= "    <h2><a href=\"https://github.com/{$details['username']}\" class=\"url fn\">{$details['name']}</a></h2>\n";
-                        // TODO: Replace gravatar with photo from Midgard site as soon as we have a URL method for it
                         $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($details['email']) . "&amp;size=60";
                         $person_label .= "    <div><img class=\"photo\" src=\"{$gravatar_url}\" /></div>\n";
                         $person_label .= "    <div style=\"display: none;\"><a class=\"email\" href=\"mailto:{$details['email']}\">{$details['email']}</a></div>\n";

@@ -543,7 +543,7 @@ class midcom_connection
      * Get various pieces of information extracted from the URL
      *
      * @return mixed The data for the requested key or false if it doesn't exist
-     * @todo this should mabe check the key for validity
+     * @todo this should maybe check the key for validity
      */
     static function get_url($key)
     {

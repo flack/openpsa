@@ -7,12 +7,8 @@
  */
 
 /**
- * Simple flat file database backend. Creates a file per key.
+ * SQLite backend.
  *
- * No locking is done within this backend yet.
- *
- *
- * @todo Implement proper locking
  * @package midcom.services
  */
 class midcom_services_cache_backend_sqlite extends midcom_services_cache_backend

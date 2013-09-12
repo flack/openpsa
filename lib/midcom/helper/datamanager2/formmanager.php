@@ -175,7 +175,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @param mixed $name The name of the form. This defaults to the name of the currently active component, which should
      *     suffice in most cases.
      * @return boolean Indicating success.
-     * @todo Refactor into subfunctions for better readability.
      */
     function initialize($name = null)
     {

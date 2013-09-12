@@ -220,29 +220,19 @@ else
                 continue;
             }
 
-            if (!isset($actors))
+            try
             {
-                $actors = array();
+                $actor = midcom_db_person::get_cached($activity->actor);
             }
-            if (!isset($actors[$activity->actor]))
+            catch (midcom_error $e)
             {
-                try
-                {
-                    $actors[$activity->actor] = new midcom_db_person($activity->actor);
-                }
-                catch (midcom_error $e)
-                {
-                    $actors[$activity->actor] = new midcom_db_person();
-                }
+                $actor  = new midcom_db_person();
             }
 
             $class = get_class($object);
-            if (!array_key_exists($class, $reflectors))
-            {
-                $reflectors[$class] = new midcom_helper_reflector($object);
-            }
+            $reflector = midcom_helper_reflector::get($object);
 
-            $title = htmlspecialchars($reflectors[$class]->get_object_label($object));
+            $title = htmlspecialchars($reflector->get_object_label($object));
             if (empty($title))
             {
                 $title = $object->guid;
@@ -257,7 +247,7 @@ else
 
             echo "        <tr>\n";
             echo "          <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$object->guid}\" /></td>\n";
-            echo "          <td class=\"icon\">" . $reflectors[$class]->get_object_icon($object) . "</td>\n";
+            echo "          <td class=\"icon\">" . $reflector->get_object_icon($object) . "</td>\n";
             echo "          <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$object->guid}/\" title=\"{$class}\">" . $title . "</a></td>\n";
             if ($data['config']->get('enable_review_dates'))
             {
@@ -272,7 +262,7 @@ else
                 }
             }
             echo "          <td class=\"revised\">" . strftime('%x %X', $activity->metadata->published) . "</td>\n";
-            echo "          <td class=\"revisor\">{$actors[$activity->actor]->name}</td>\n";
+            echo "          <td class=\"revisor\">{$actor->name}</td>\n";
             echo "          <td class=\"approved\">{$approved_str}</td>\n";
             echo "          <td class=\"revision\">{$activity->summary}</td>\n";
             echo "        </tr>\n";

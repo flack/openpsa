@@ -66,7 +66,7 @@ class midcom_helper__styleloader
      *
      * @var array
      */
-    private $_scope;
+    private $_scope = array();
 
     /**
      * Current topic
@@ -89,26 +89,25 @@ class midcom_helper__styleloader
     var $_filedirs = array();
 
     /**
-     * Current context
+     * Context stack
      *
-     * @var id
+     * @var array
      */
-    private $_context;
+    private $_context = array();
 
     /**
      * Style element cache
      *
      * @var array
      */
-    private $_styles;
+    private $_styles = array();
 
     /**
      * Default style element cache
      *
-     * @todo Is this still in use?
      * @var array
      */
-    private $_snippets;
+    private $_snippets = array();
 
     /**
      * List of styledirs to handle after componentstyle
@@ -140,18 +139,6 @@ class midcom_helper__styleloader
      * @var array
      */
     public $data;
-
-    /**
-     * Simple initialization
-     */
-    public function __construct()
-    {
-        $this->_context = array ();
-        $this->_scope = array ();
-        $this->_topic = false;
-        $this->_styles = array ();
-        $this->_snippets = array ();
-    }
 
     /**
      * Returns the path of the style described by $id.

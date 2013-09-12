@@ -567,10 +567,7 @@ END;
 
         if ( preg_match('/\.(zip|tar(\.gz|\.bz2)?|tgz)$/', strtolower($file['name']), $extension_matches))
         {
-            // PHP5-TODO: This must be copy-by-value
-            $copy = $file;
-            unset($file);
-            if (! $this->_type->_batch_handler($extension_matches[1], $copy))
+            if (! $this->_type->_batch_handler($extension_matches[1], $file))
             {
                 debug_add("Failed to add attachments from compressed files to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }

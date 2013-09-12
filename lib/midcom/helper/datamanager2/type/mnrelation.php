@@ -409,7 +409,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         foreach ($this->selection as $key)
         {
             //TODO: Ideally, selections not matching the constraints should be filtered out, but
-            //for now, we trust the componant author to correctly configure their stuff
+            //for now, we trust the component author to correctly configure their stuff
 
             // Do we have this key already? If yes, move it to the new list, otherwise create it.
             if (array_key_exists($key, $existing_members))

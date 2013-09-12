@@ -531,7 +531,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 $config[$property] = $value;
             }
         }
-        unset($property, $value);
 
         // And complex ones
         if (!array_key_exists('storage', $config))

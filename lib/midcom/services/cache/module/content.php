@@ -1087,7 +1087,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                which causes issues with Squid for example (could be that we output extra
                whitespace somewhere or something), now we just don't send it if headers_strategy
                implies caching */
-            switch($this->_headers_strategy)
+            switch ($this->_headers_strategy)
             {
                 case 'public':
                 case 'private':

@@ -36,7 +36,6 @@ $qb->begin_group('OR');
 $qb->end_group();
 $qb->add_order('name');
 $topics = $qb->execute();
-unset($qb);
 echo "<h2>Topics</h2>\n";
 foreach ($topics as $topic)
 {
@@ -55,7 +54,6 @@ $qb->begin_group('OR');
 $qb->end_group();
 $qb->add_order('name');
 $articles = $qb->execute();
-unset($qb);
 foreach ($articles as $article)
 {
     $node =& $nap->get_node($article->topic);

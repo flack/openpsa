@@ -254,16 +254,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     private function _init_csv_variables()
     {
         // FIXME: Use global configuration
-        $this->csv['s'] = $this->_config->get('csv_export_separator');
-        if (empty($this->csv['s']))
-        {
-            $this->csv['s'] = ';';
-        }
-        $this->csv['q'] = $this->_config->get('csv_export_quote');
-        if (empty($this->csv['q']))
-        {
-            $this->csv['q'] = '"';
-        }
+        $this->csv['s'] = $this->_config->get('csv_export_separator') ?: ';';
+        $this->csv['q'] = $this->_config->get('csv_export_quote') ?: '"';
         if (empty($this->csv['d']))
         {
             $this->csv['d'] = $this->_l10n_midcom->get('decimal point');
@@ -272,11 +264,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         {
             throw new midcom_error("CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
         }
-        $this->csv['nl'] = $this->_config->get('csv_export_newline');
-        if (empty($this->csv['nl']))
-        {
-            $this->csv['nl'] = "\n";
-        }
+        $this->csv['nl'] = $this->_config->get('csv_export_newline') ?: "\n";
         $this->csv['charset'] = $this->_config->get('csv_export_charset');
         if (empty($this->csv['charset']))
         {
@@ -289,11 +277,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 $this->csv['charset'] = 'UTF-8';
             }
         }
-        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type');
-        if (empty($this->csv['mimetype']))
-        {
-            $this->csv['mimetype'] = 'appplication/csv';
-        }
+        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type') ?: 'appplication/csv';
     }
 
     public function encode_csv($data)

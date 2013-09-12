@@ -252,7 +252,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @param mixed $object    MgdSchema object
      * @return String       Label of the object
-     * @todo remove any hardcoded class names/prefixes
      */
     public function get_object_label($object)
     {
@@ -909,7 +908,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @see midcom_helper_reflector::get_object_title()
      * @param $object the object to get the title property for
      * @return string name of property or boolean false on failure
-     * @todo when midgard_reflection_property supports flagging name fields use that instead of heuristics
      */
     public function get_title_property_nonstatic($object)
     {

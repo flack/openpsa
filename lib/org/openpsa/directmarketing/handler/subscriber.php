@@ -246,11 +246,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $memberships = $qb->execute();
 
-        if ($memberships === false)
-        {
-            midcom::get('auth')->drop_sudo();
-            throw new midcom_error('Some error occurred with QB');
-        }
         foreach ($memberships as $member)
         {
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
