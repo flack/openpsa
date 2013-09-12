@@ -69,16 +69,7 @@ abstract class midcom_baseclasses_components_base
 
     public function __isset($field)
     {
-        switch ($field)
-        {
-            case '_i18n':
-            case '_l10n':
-            case '_l10n_midcom':
-            case '_config':
-                return true;
-            default:
-                return false;
-        }
+        return (in_array($field, array('_i18n', '_l10n', '_l10n_midcom', '_config')));
     }
 
     public function set_active_leaf($leaf_id)

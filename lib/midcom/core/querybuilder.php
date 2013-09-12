@@ -346,13 +346,13 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function get_result($key, $mode = null)
     {
-        switch ($mode)
+        if ($mode == 'unchecked')
         {
-            case 'unchecked':
-                $results = $this->execute_unchecked();
-                break;
-            default:
-                $results = $this->execute();
+            $results = $this->execute_unchecked();
+        }
+        else
+        {
+            $results = $this->execute();
         }
 
         if (!isset($results[$key]))

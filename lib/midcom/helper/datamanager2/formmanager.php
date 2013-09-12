@@ -881,29 +881,23 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     public static function get_clicked_button()
     {
-        switch (true)
+        $available_buttons = array
+        (
+            'save',
+            'next',
+            'previous',
+            'cancel',
+            'preview',
+            'delete'
+        );
+        foreach ($available_buttons as $button)
         {
-            case (array_key_exists('midcom_helper_datamanager2_save', $_REQUEST)):
-                return 'save';
-
-            case (array_key_exists('midcom_helper_datamanager2_next', $_REQUEST)):
-                return 'next';
-
-            case (array_key_exists('midcom_helper_datamanager2_previous', $_REQUEST)):
-                return 'previous';
-
-            case (array_key_exists('midcom_helper_datamanager2_cancel', $_REQUEST)):
-                return 'cancel';
-
-            case (array_key_exists('midcom_helper_datamanager2_preview', $_REQUEST)):
-                return 'preview';
-
-            case (array_key_exists('midcom_helper_datamanager2_delete', $_REQUEST)):
-                return 'delete';
-
-            default:
-                return 'edit';
+            if (array_key_exists('midcom_helper_datamanager2_' . $button, $_REQUEST))
+            {
+                return $button;
+            }
         }
+        return 'edit';
     }
 }
 ?>

@@ -283,25 +283,16 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     public static function tag_link2tagname($tag, $value = null, $context = null)
     {
-        switch (true)
+        $tagname = $tag;
+        if (!empty($context))
         {
-            /* Tag with context and value and we want contexts */
-            case (   !empty($value)
-                  && !empty($context)):
-                $tagname = "{$context}:{$tag}={$value}";
-                break;
-            /* Tag with value (or value and context but we don't want contexts) */
-            case (!empty($value)):
-                $tagname = "{$tag}={$value}";
-                break;
-            /* Tag with context (no value) and we want contexts */
-            case (!empty($context)):
-                $tagname = "{$context}:{$tag}";
-                break;
-            /* Default case, just the tag */
-            default:
-                $tagname = $tag;
+            $tagname = $context . ':' . $tagname;
         }
+        if (!empty($value))
+        {
+            $tagname .= '=' . $value;
+        }
+
         return $tagname;
     }
 

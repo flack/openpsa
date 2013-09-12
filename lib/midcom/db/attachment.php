@@ -78,7 +78,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *     mgd_open_attachmentl for details).
      * @return resource A file handle to the attachment if successful, false on failure.
      */
-    function open()
+    function open($mode = 'default')
     {
         if (! $this->id)
         {
@@ -93,31 +93,17 @@ class midcom_db_attachment extends midcom_core_dbaobject
             @fclose($this->_open_handle);
             $this->_open_handle = null;
         }
-
-        switch (func_num_args())
+        $blob = new midgard_blob($this->__object);
+        if ($mode = 'default')
         {
-            case 0:
-                $mode = 'default';
-                $this->_open_write_mode = true;
-
-                $blob = new midgard_blob($this->__object);
-
-                $handle = $blob->get_handler();
-                break;
-
-            case 1:
-                $mode = func_get_arg(0);
-                $this->_open_write_mode = ($mode{0} != 'r');
-
-                /* WARNING, read mode not supported by midgard_blob! */
-                $blob = new midgard_blob($this->__object);
-
-                $handle = @fopen($blob->get_path(), $mode);
-                break;
-
-            default:
-                trigger_error('midcom_db_attachment takes either zero or one arguments.', E_USER_ERROR);
-                // This should exit.
+            $this->_open_write_mode = true;
+            $handle = $blob->get_handler();
+        }
+        else
+        {
+            /* WARNING, read mode not supported by midgard_blob! */
+            $this->_open_write_mode = ($mode{0} != 'r');
+            $handle = @fopen($blob->get_path(), $mode);
         }
 
         if (!$handle)

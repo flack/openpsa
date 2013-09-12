@@ -237,19 +237,10 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             return new midcom_response_relocate($relocate_url);
         }
 
-        switch ($args[0])
+        $method = '_batch_' . $args[0];
+        if (!method_exists($this, $method))
         {
-            case 'removeaccount':
-                $method = '_batch_removeaccount';
-                break;
-            case 'groupadd':
-                $method = '_batch_groupadd';
-                break;
-            case 'passwords':
-                $method = '_batch_passwords';
-                break;
-            default:
-                throw new midcom_error('Unknown action');
+            throw new midcom_error('Unknown action');
         }
 
         $qb = midcom_db_person::new_query_builder();

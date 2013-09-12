@@ -206,18 +206,7 @@ class midcom_core_privilege
         {
             $assignee = $this->assignee;
         }
-        switch ($assignee)
-        {
-            case 'SELF':
-            case 'EVERYONE':
-            case 'USERS':
-            case 'ANONYMOUS':
-            case 'OWNER':
-                return true;
-
-            default:
-                return false;
-        }
+        return (in_array($assignee, array('SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER')));
     }
 
     /**

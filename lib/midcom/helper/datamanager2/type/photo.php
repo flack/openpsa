@@ -240,40 +240,38 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     {
         $img = false;
         $linkto = false;
-        switch (true)
+        if (array_key_exists('main', $this->attachments_info))
         {
-            case (   array_key_exists('view', $this->attachments_info)
-                  && array_key_exists('main', $this->attachments_info)):
+            $img = $this->attachments_info['main'];
+            if (array_key_exists('view', $this->attachments_info))
+            {
                 $img = $this->attachments_info['view'];
                 $linkto = $this->attachments_info['main'];
-                break;
-            case (   array_key_exists('thumbnail', $this->attachments_info)
-                  && array_key_exists('main', $this->attachments_info)):
+            }
+            else if (array_key_exists('thumbnail', $this->attachments_info))
+            {
                 $img = $this->attachments_info['thumbnail'];
                 $linkto = $this->attachments_info['main'];
-                break;
-            case (   array_key_exists('main', $this->attachments_info)
-                  && array_key_exists('archival', $this->attachments_info)):
-                $img = $this->attachments_info['main'];
+            }
+            else if (array_key_exists('archival', $this->attachments_info))
+            {
                 $linkto = $this->attachments_info['archival'];
-                break;
-            case (array_key_exists('main', $this->attachments_info)):
-                $img = $this->attachments_info['main'];
-                break;
-            default:
-                $ret = "";
-                if (sizeof($this->attachments_info) > 0)
+            }
+        }
+        else
+        {
+            $ret = "";
+            if (sizeof($this->attachments_info) > 0)
+            {
+                // Could not figure out what to do, listing all files we have...
+                $ret .= "\n" . $this->_l10n->get('could not figure out which image to show, listing files') . "\n<ul>\n";
+                foreach ($this->attachments_info as $key => $data)
                 {
-                    // Could not figure out what to do, listing all files we have...
-                    $ret .= "\n" . $this->_l10n->get('could not figure out which image to show, listing files') . "\n<ul>\n";
-                    foreach ($this->attachments_info as $key => $data)
-                    {
-                        $ret .= "    <li><a href='{$data['url']}'>{$key}</a></li>\n";
-                    }
-                    $ret .= "</ul>\n";
+                    $ret .= "    <li><a href='{$data['url']}'>{$key}</a></li>\n";
                 }
-                return $ret;
-                break;
+                $ret .= "</ul>\n";
+            }
+            return $ret;
         }
         $return = "\n<div class='midcom_helper_datamanager2_type_photo'>\n";
         $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$img['identifier']}' />";

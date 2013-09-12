@@ -292,13 +292,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             case ($class):
                 $id = (int) $object;
                 $object = new $class($id);
-
-                // Bulletproof the attempt
-                if (!$object->guid)
-                {
-                    return false;
-                }
-
                 break;
 
             default:

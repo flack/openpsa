@@ -37,20 +37,15 @@ class midcom_compat_superglobal
         {
             case 0:
                 return midcom::get()->{$method}();
-                break;
             case 1:
                 return midcom::get()->{$method}($arguments[0]);
-                break;
             case 2:
                 return midcom::get()->{$method}($arguments[0], $arguments[1]);
-                break;
             case 3:
                 return midcom::get()->{$method}($arguments[0], $arguments[1], $arguments[3]);
-                break;
             default:
                 //There is no function in midcom_application with more than 3 parameters, but you never know...
                 return call_user_func_array(array(midcom::get(), $method), $arguments);
-                break;
         }
     }
 
