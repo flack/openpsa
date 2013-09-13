@@ -175,7 +175,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             $event->participants[$data['person']->id] =  true;
             // Always force busy in this view
             $event->busy = true;
-            echo $encoder->add_event($event);
+            $encoder->add_event($event);
         }
         echo $encoder;
     }
