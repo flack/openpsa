@@ -537,10 +537,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (! $source)
         {
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            if (isset($php_errormsg))
-            {
-                debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_WARN);
-            }
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
             return false;
         }
         $result = $this->copy_from_handle($source);

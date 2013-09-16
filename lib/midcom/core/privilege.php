@@ -449,24 +449,8 @@ class midcom_core_privilege
         $mc->add_value_property('assignee');
         $mc->add_value_property('classname');
         $mc->add_value_property('value');
-        midcom_connection::set_error(MGD_ERR_OK);
         $mc->execute();
         $privileges = $mc->list_keys();
-        if (!$privileges)
-        {
-            if (midcom_connection::get_error() != MGD_ERR_OK)
-            {
-                debug_add("Failed to retrieve all {$type} privileges for the Object GUID {$guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_print_r('Result was:', $result);
-                if (isset($php_errormsg))
-                {
-                    debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
-                }
-                throw new midcom_error('Privilege collector failed to execute: ' . midcom_connection::get_error_string());
-            }
-
-            return $result;
-        }
 
         foreach ($privileges as $privilege_guid => $value)
         {

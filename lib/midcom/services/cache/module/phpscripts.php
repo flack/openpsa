@@ -54,11 +54,12 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
         $this->_cache_dir = midcom::get('config')->get('cache_base_directory')
             . midcom::get('config')->get('cache_module_phpscripts_directory');
 
-        if (! file_exists($this->_cache_dir))
+        if (!file_exists($this->_cache_dir))
         {
             if (! @mkdir($this->_cache_dir, 0755))
             {
-                throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
+                midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+                throw new midcom_error("Failed to create the cache base directory {$this->_cache_dir}");
             }
         }
         else if (! is_dir($this->_cache_dir))
@@ -138,10 +139,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
         if (!file_put_contents($filename, "<?php\n{$code}\n?>\n"))
         {
             debug_add("Failed to write to the file {$filename}.", MIDCOM_LOG_ERROR);
-            if (isset($php_errormsg))
-            {
-                debug_add($php_errormsg, MIDCOM_LOG_ERROR);
-            }
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
             return false;
         }
 

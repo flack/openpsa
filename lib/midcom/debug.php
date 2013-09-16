@@ -137,6 +137,15 @@ class midcom_debug
         return $this->_loglevel;
     }
 
+    public function log_php_error($loglevel = MIDCOM_LOG_DEBUG)
+    {
+        $error = error_get_last();
+        if (!empty($error['message']))
+        {
+            $this->log('Last PHP error was: ' . $error['message']);
+        }
+    }
+
     /**
      * Log a message
      *

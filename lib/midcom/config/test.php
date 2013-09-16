@@ -193,15 +193,6 @@ class midcom_config_test
             $this->println('Setting: register_globals', self::OK);
         }
 
-        if ($this->ini_get_boolean('track_errors'))
-        {
-            $this->println('Setting: track_errors', self::OK);
-        }
-        else
-        {
-            $this->println('Setting: track_errors', self::WARNING, 'track_errors is disabled, it is strongly suggested to be activated as this allows the framework to handle more errors gracefully.');
-        }
-
         $upload_limit = $this->ini_get_filesize('upload_max_filesize');
         if ($upload_limit >= (50 * 1024 * 1024))
         {

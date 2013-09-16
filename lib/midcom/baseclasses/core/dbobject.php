@@ -1033,28 +1033,14 @@ class midcom_baseclasses_core_dbobject
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
         $qb->add_constraint('value', '<>', MIDCOM_PRIVILEGE_INHERIT);
-        $result = @$qb->execute();
-
-        if (! $result)
-        {
-            if (midcom_connection::get_error_string() == 'MGD_ERR_OK')
-            {
-                // Workaround
-                return true;
-            }
-
-            debug_add("Failed to retrieve all privileges for the " . get_class($object) . " {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            if (isset($php_errormsg))
-            {
-                debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
-            }
-
-            throw new midcom_error('The query builder failed to execute, see the log file for more information.');
-        }
+        $result = $qb->execute();
 
         foreach ($result as $dbpriv)
         {
-            $dbpriv->delete();
+            if (!$dbpriv->delete())
+            {
+                return false;
+            }
         }
         return true;
     }

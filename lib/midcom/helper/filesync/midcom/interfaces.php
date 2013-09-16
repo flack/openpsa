@@ -28,7 +28,8 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
         {
             if (!mkdir($module_dir, 0777, true))
             {
-                throw new midcom_error("Failed to create directory {$module_dir}. Reason: " . $php_errormsg);
+                midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+                throw new midcom_error("Failed to create directory {$module_dir}");
             }
         }
 

@@ -226,7 +226,8 @@ abstract class midcom_services_cache_backend
         {
             if (!@mkdir($directory, 0755))
             {
-                throw new midcom_error("Failed to create the cache base directory {$directory}: {$php_errormsg}");
+                midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+                throw new midcom_error("Failed to create the cache base directory {$directory}");
             }
         }
         else if (!is_dir($directory))

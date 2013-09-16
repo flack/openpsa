@@ -120,7 +120,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         if ($handle === false)
         {
-            throw new midcom_error("Failed to open the database {$this->_filename} (Write-mode: {$write}): {$php_errormsg}");
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to open the database {$this->_filename} (Write-mode: {$write})");
         }
         $this->_handle = $handle;
     }
@@ -145,8 +146,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         $result = @dba_fetch($key, $this->_handle);
         if ($result === false)
         {
-            // Note: Apparently not php error here, so no php_errormsg as well.
-            throw new midcom_error("Failed to read key {$key} from the database {$this->_filename}: {$php_errormsg}");
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to read key {$key} from the database {$this->_filename}");
         }
         return $result;
     }
@@ -155,7 +156,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     {
         if (! @dba_replace($key, $data, $this->_handle))
         {
-            throw new midcom_error("Failed to write key {$key} to the database {$this->_filename}: {$php_errormsg}");
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to write key {$key} to the database {$this->_filename}");
         }
     }
 
@@ -168,7 +170,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         if (! @dba_delete($key, $this->_handle))
         {
-            throw new midcom_error("Failed to remove key {$key} from the database {$this->_filename}: {$php_errormsg}");
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to remove key {$key} from the database {$this->_filename}");
         }
     }
 
@@ -178,7 +181,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         $handle = @dba_open($this->_filename, 'n', $this->_handler);
         if ($handle === false)
         {
-            throw new midcom_error("Failed to truncate the database {$this->_filename}: {$php_errormsg}");
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to truncate the database {$this->_filename}");
         }
         dba_close($handle);
     }
