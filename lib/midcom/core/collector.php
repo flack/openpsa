@@ -139,11 +139,6 @@ class midcom_core_collector extends midcom_core_query
 
         $newresult = $this->_list_keys_and_check_privileges();
 
-        if (!is_array($newresult))
-        {
-            return $newresult;
-        }
-
         call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$newresult));
 
         $this->count = count($newresult);

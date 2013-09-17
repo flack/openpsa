@@ -208,7 +208,7 @@ class midcom_core_group
         $result = $mc->list_keys();
         if (empty($result))
         {
-            return $result;
+            return array();
         }
 
         $return = Array();

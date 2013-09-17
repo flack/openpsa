@@ -146,7 +146,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param array &$arr
      * @param midcom_core_dbaobject $obj
      * @param boolean $inbound True means toGuid == $obj->guid, false fromGuid == $obj->guid
-     * @return boolean Indicating success
      */
     private function _get_object_links(array &$arr, midcom_core_dbaobject $obj, $inbound = true)
     {
@@ -168,10 +167,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $mc->execute();
         $links = $mc->list_keys();
-        if (!is_array($links))
-        {
-            return false;
-        }
+
         foreach ($links as $guid => $link)
         {
             //TODO: check for duplicates ?
@@ -196,7 +192,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $to_arr['sort_time'] = $this->_get_object_links_sort_time($to_arr['other_obj']);
             $arr[] = $to_arr;
         }
-        return true;
     }
 
     /**

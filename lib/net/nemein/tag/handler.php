@@ -370,7 +370,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $link_mc->execute();
         $links = $link_mc->list_keys();
 
-        if (!$links)
+        if (empty($links))
         {
             return $tags;
         }
@@ -383,7 +383,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $mc->execute();
         $tag_guids = $mc->list_keys();
 
-        if (!$tag_guids)
+        if (empty($tag_guids))
         {
             return $tags;
         }
