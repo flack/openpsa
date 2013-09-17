@@ -157,7 +157,7 @@ class midcom_core_collector extends midcom_core_query
         $result = $this->_query->list_keys();
         if (!is_array($result))
         {
-            return $result;
+            return array();
         }
         $newresult = array();
         $classname = $this->_real_class;
@@ -243,14 +243,12 @@ class midcom_core_collector extends midcom_core_query
 
     /**
      * implements midgard_collector::list_keys with ACL checking
+     *
+     * @return array
      */
     public function list_keys()
     {
         $result = $this->_list_keys_and_check_privileges();
-        if (!is_array($result))
-        {
-            return $result;
-        }
 
         $size = sizeof($result);
 
