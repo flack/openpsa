@@ -301,8 +301,7 @@ class midcom_helper_toolbar
             return false;
         }
 
-        if (!  array_key_exists(MIDCOM_TOOLBAR_SUBMENU, $this->items[$index])
-            || $this->items[$index][MIDCOM_TOOLBAR_SUBMENU] === null)
+        if (empty($this->items[$index][MIDCOM_TOOLBAR_SUBMENU]))
         {
             $this->items[$index][MIDCOM_TOOLBAR_SUBMENU] = new midcom_helper_toolbar($this->class_style, $this->id_style);
         }
@@ -324,34 +323,23 @@ class midcom_helper_toolbar
         static $used_access_keys = array();
 
         $item[MIDCOM_TOOLBAR__ORIGINAL_URL] = $item[MIDCOM_TOOLBAR_URL];
-        if (! array_key_exists(MIDCOM_TOOLBAR_OPTIONS, $item))
+        $defaults = array
+        (
+            MIDCOM_TOOLBAR_OPTIONS => array(),
+            MIDCOM_TOOLBAR_HIDDEN => false,
+            MIDCOM_TOOLBAR_HELPTEXT => '',
+            MIDCOM_TOOLBAR_ICON => null,
+            MIDCOM_TOOLBAR_ENABLED => true,
+            MIDCOM_TOOLBAR_POST => false,
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => array(),
+        );
+        // we can't use array_merge unfortunately, because the constants are numeric..
+        foreach ($defaults as $key => $value)
         {
-            $item[MIDCOM_TOOLBAR_OPTIONS] = array();
-        }
-        if (! array_key_exists(MIDCOM_TOOLBAR_HIDDEN, $item))
-        {
-            $item[MIDCOM_TOOLBAR_HIDDEN] = false;
-        }
-        if (! array_key_exists(MIDCOM_TOOLBAR_HELPTEXT, $item))
-        {
-            $item[MIDCOM_TOOLBAR_HELPTEXT] = '';
-        }
-        if (! array_key_exists(MIDCOM_TOOLBAR_ICON, $item))
-        {
-            $item[MIDCOM_TOOLBAR_ICON] = null;
-        }
-        if (! array_key_exists(MIDCOM_TOOLBAR_ENABLED, $item))
-        {
-            $item[MIDCOM_TOOLBAR_ENABLED] = true;
-        }
-
-        if (! array_key_exists(MIDCOM_TOOLBAR_POST, $item))
-        {
-            $item[MIDCOM_TOOLBAR_POST] = false;
-        }
-        if (! array_key_exists(MIDCOM_TOOLBAR_POST_HIDDENARGS, $item))
-        {
-            $item[MIDCOM_TOOLBAR_POST_HIDDENARGS] = Array();
+            if (!array_key_exists($key, $item))
+            {
+                $item[$key] = $value;
+            }
         }
 
         // Check that access keys get registered only once
@@ -385,18 +373,11 @@ class midcom_helper_toolbar
             }
         }
 
-        // Some items may want to keep their links unmutilated
-        $direct_link = false;
-        if (   array_key_exists(MIDCOM_TOOLBAR_OPTIONS, $item)
-            && array_key_exists("rel", $item[MIDCOM_TOOLBAR_OPTIONS])
-            && $item[MIDCOM_TOOLBAR_OPTIONS]["rel"] == "directlink")
-        {
-            $direct_link = true;
-        }
-
-        if (! $direct_link
+        if (   (empty($item[MIDCOM_TOOLBAR_OPTIONS]["rel"])
+                   // Some items may want to keep their links unmutilated
+                || $item[MIDCOM_TOOLBAR_OPTIONS]["rel"] != "directlink")
             && substr($item[MIDCOM_TOOLBAR_URL], 0, 1) != '/'
-            && ! preg_match('|^https?://|', $item[MIDCOM_TOOLBAR_URL]))
+            && !preg_match('|^https?://|', $item[MIDCOM_TOOLBAR_URL]))
         {
             $item[MIDCOM_TOOLBAR_URL] =
                   midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
@@ -717,12 +698,9 @@ class midcom_helper_toolbar
             {
                 $output .= " title='{$item[MIDCOM_TOOLBAR_HELPTEXT]}'";
             }
-            if (count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0)
+            foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
             {
-                foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
-                {
-                    $output .= " $key=\"$val\" ";
-                }
+                $output .= " $key=\"$val\" ";
             }
             if (! is_null($item[MIDCOM_TOOLBAR_ACCESSKEY]))
             {
@@ -767,8 +745,7 @@ class midcom_helper_toolbar
             }
         }
 
-        if (   array_key_exists(MIDCOM_TOOLBAR_SUBMENU, $item)
-            && $item[MIDCOM_TOOLBAR_SUBMENU]  !== null)
+        if (!empty($item[MIDCOM_TOOLBAR_SUBMENU]))
         {
             $output .= $item[MIDCOM_TOOLBAR_SUBMENU]->render();
         }
@@ -791,12 +768,9 @@ class midcom_helper_toolbar
             $output .= "  <form method=\"post\" action=\"{$item[MIDCOM_TOOLBAR_URL]}\">\n";
             $output .= "    <div><button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
 
-            if (count($item[MIDCOM_TOOLBAR_OPTIONS]) > 0)
+            foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
             {
-                foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
-                {
-                    $output .= " $key=\"$val\" ";
-                }
+                $output .= " $key=\"$val\" ";
             }
 
             if ($item[MIDCOM_TOOLBAR_ACCESSKEY])
@@ -822,20 +796,16 @@ class midcom_helper_toolbar
         if ($item[MIDCOM_TOOLBAR_ENABLED])
         {
             $output .= "</button>\n";
-            if ($item[MIDCOM_TOOLBAR_POST_HIDDENARGS])
+            foreach ($item[MIDCOM_TOOLBAR_POST_HIDDENARGS] as $key => $value)
             {
-                foreach ($item[MIDCOM_TOOLBAR_POST_HIDDENARGS] as $key => $value)
-                {
-                    $key = htmlspecialchars($key);
-                    $value = htmlspecialchars($value);
-                    $output .= "    <input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>\n";
-                }
+                $key = htmlspecialchars($key);
+                $value = htmlspecialchars($value);
+                $output .= "    <input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>\n";
             }
             $output .= "  </div></form>\n";
         }
 
-        if (   array_key_exists(MIDCOM_TOOLBAR_SUBMENU, $item)
-            && $item[MIDCOM_TOOLBAR_SUBMENU]  !== null)
+        if (!empty($item[MIDCOM_TOOLBAR_SUBMENU]))
         {
             $output .= $item[MIDCOM_TOOLBAR_SUBMENU]->render();
         }
