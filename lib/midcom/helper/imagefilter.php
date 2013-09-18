@@ -78,7 +78,9 @@ class midcom_helper_imagefilter
      */
     function create_tmp_copy($input)
     {
-        $tmpname = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom_helper_imagefilter_');
+        // For some strange reason, files created by tempnam() stay empty after copy(), so we build
+        // the name by other means until this can be figured out..
+        $tmpname = midcom::get('config')->get('midcom_tempdir') . '/' . uniqid('midcom_helper_imagefilter_', true);
 
         if (is_string($input))
         {
