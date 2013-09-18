@@ -25,6 +25,8 @@
     ],
     "require": {
         "php": ">=5.3.0",
+        "ext-mbstring": "*",
+        "ext-iconv": "*",
         "pear-pear/XML_RPC": "*",
         "pear-pear/HTTP_Request2": "*",
         "pear-pear/Text_Diff": "*",

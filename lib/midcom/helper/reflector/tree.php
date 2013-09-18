@@ -74,12 +74,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 return $x;
             }
             $qb_callback = array($midcom_dba_classname, 'new_query_builder');
-            if (!is_callable($qb_callback))
-            {
-                debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-                $x = false;
-                return $x;
-            }
             $qb = call_user_func($qb_callback);
         }
 

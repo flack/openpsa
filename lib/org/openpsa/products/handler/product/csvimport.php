@@ -66,12 +66,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
      */
     private function _charset_convert($data)
     {
-        if (   !function_exists('mb_detect_encoding')
-            || !function_exists('iconv'))
-        {
-            return $data;
-        }
-
         static $target_charset = null;
         static $detect_list = null;
         static $iconv_append = null;

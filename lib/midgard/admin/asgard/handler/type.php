@@ -31,11 +31,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             return $qb;
         }
         $qb_callback = array($midcom_dba_classname, 'new_query_builder');
-        if (!is_callable($qb_callback))
-        {
-            debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-            return $qb;
-        }
         $qb = call_user_func($qb_callback);
 
         return $qb;

@@ -283,8 +283,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     public function encode_csv($data)
     {
         /* START: Quick'n'Dirty on-the-fly charset conversion */
-        if (   $this->csv['charset'] !== 'UTF-8'
-            && function_exists('iconv'))
+        if ($this->csv['charset'] !== 'UTF-8')
         {
             $to_charset = "{$this->csv['charset']}//TRANSLIT";
             // Ragnaroek-todo: use try-catch here to avoid trouble with the error_handler if iconv gets whiny

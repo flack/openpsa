@@ -164,15 +164,7 @@ class midcom_config_test
 
     public function check_php()
     {
-        $this->print_header('PHP');
-        if (version_compare(phpversion(), '5.3.0', '<'))
-        {
-            $this->println('Version', self::ERROR, 'PHP 5.3.0 or greater is required for MidCOM.');
-        }
-        else
-        {
-            $this->println('Version', self::OK, phpversion());
-        }
+        $this->print_header('PHP ' . PHP_VERSION);
 
         $cur_limit = $this->ini_get_filesize('memory_limit');
         if ($cur_limit >= (40 * 1024 * 1024))
@@ -231,15 +223,6 @@ class midcom_config_test
             $this->println('Setting: magic_quotes_runtime', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
         }
 
-        if (! function_exists('mb_strlen'))
-        {
-            $this->println('Multi-Byte String functions', self::ERROR, 'The Multi-Byte String functions are unavailable, they are required for MidCOM operation.');
-        }
-        else
-        {
-            $this->println('Multi-Byte String functions', self::OK);
-        }
-
         if (ini_get("apc.enabled") == "1")
         {
             $this->println("Bytecode cache", self::OK, "APC is enabled");
@@ -283,14 +266,6 @@ class midcom_config_test
         else
         {
             $this->println('EXIF reader', self::OK);
-        }
-        if (! function_exists('iconv'))
-        {
-            $this->println('iconv', self::ERROR, 'The PHP iconv module is required for MidCOM operation.');
-        }
-        else
-        {
-            $this->println('iconv', self::OK);
         }
     }
 }

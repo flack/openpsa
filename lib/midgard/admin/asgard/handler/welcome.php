@@ -55,10 +55,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 continue;
             }
             $qb_callback = array($class, 'new_query_builder');
-            if (!is_callable($qb_callback))
-            {
-                continue;
-            }
             $qb = call_user_func($qb_callback);
 
             if ($since != 'any')
