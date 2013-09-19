@@ -16,6 +16,12 @@ class midcom_db_member extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_member';
 
+    /**
+     * Disable central activitystream, class uses custom one
+     */
+    public $_use_activitystream = false;
+    public $_use_rcs = false;
+
     public function get_label()
     {
         try
@@ -53,6 +59,16 @@ class midcom_db_member extends midcom_core_dbaobject
 
     public function _on_creating()
     {
+        return $this->_check_gid();
+    }
+
+    public function _on_updating()
+    {
+        return $this->_check_gid();
+    }
+
+    private function _check_gid()
+    {
         // Allow root group membership creation only for admins
         if ($this->gid == 0)
         {
@@ -63,32 +79,6 @@ class midcom_db_member extends midcom_core_dbaobject
                 return false;
             }
         }
-
-        // Disable automatic activity stream entry, we use custom here
-        $this->_use_activitystream = false;
-
-        return true;
-    }
-
-    public function _on_updating()
-    {
-        // Allow root group membership creation only for admins (check update as well to avoid sneaky bastards
-        if ($this->gid == 0)
-        {
-            if (midcom::get('auth')->admin)
-            {
-                debug_add("Group #0 membership creation only allowed for admins");
-                debug_print_function_stack('Forbidden ROOT member creation called from');
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function _on_deleting()
-    {
-        // Disable automatic activity stream entry, we use custom here
-        $this->_use_activitystream = false;
 
         return true;
     }
