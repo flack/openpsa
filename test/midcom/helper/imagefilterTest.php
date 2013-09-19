@@ -159,7 +159,7 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $filter = $this->_get_prepared_filter();
         $this->_testDimensions($filter->get_file(), 16, 16);
 
-        $stat = $filter->crop(12, 12);
+        $stat = $filter->squarethumb(12);
         $this->assertTrue($stat);
 
         $this->_testDimensions($filter->get_file(), 12, 12);
