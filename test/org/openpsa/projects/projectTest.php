@@ -18,6 +18,9 @@ class org_openpsa_projects_projectTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.projects');
 
         $project = new org_openpsa_projects_project();
+        $project->_use_activitystream = false;
+        $project->_use_rcs = false;
+
         $stat = $project->create();
         $this->assertTrue($stat);
         $this->register_object($project);

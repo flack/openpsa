@@ -21,6 +21,9 @@ class org_openpsa_documents_documentTest extends openpsa_testcase
         $topic = $this->create_object('org_openpsa_documents_directory', array('name' => 'TEST_' . __CLASS__ . time()));
 
         $document = new org_openpsa_documents_document_dba();
+        $document->_use_activitystream = false;
+        $document->_use_rcs = false;
+
         $document->topic = $topic->id;
         $stat = $document->create();
         $this->assertTrue($stat);

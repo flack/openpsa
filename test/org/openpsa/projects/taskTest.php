@@ -18,6 +18,8 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.projects');
 
         $task = new org_openpsa_projects_task_dba();
+        $task->_use_activitystream = false;
+        $task->_use_rcs = false;
 
         if (extension_loaded('midgard2'))
         {

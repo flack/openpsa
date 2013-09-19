@@ -404,6 +404,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         while (!empty($queue))
         {
             $object = array_pop($queue);
+            $object->_use_activitystream = false;
+            $object->_use_rcs = false;
             try
             {
                 $stat = $object->refresh();

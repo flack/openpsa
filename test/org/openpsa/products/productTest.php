@@ -26,6 +26,8 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $product = new org_openpsa_products_product_dba();
         $product->code = $code;
         $product->productGroup = self::$_group->id;
+        $product->_use_activitystream = false;
+        $product->_use_rcs = false;
 
         midcom::get('auth')->request_sudo('org.openpsa.products');
         $stat = $product->create();

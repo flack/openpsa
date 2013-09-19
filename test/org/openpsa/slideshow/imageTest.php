@@ -19,6 +19,9 @@ class org_openpsa_slideshow_imageTest extends openpsa_testcase
         midcom::get('auth')->request_sudo('org.openpsa.slideshow');
 
         $image = new org_openpsa_slideshow_image_dba();
+        $image->_use_activitystream = false;
+        $image->_use_rcs = false;
+
         $image->topic = $topic->id;
         $stat = $image->create();
         $this->assertTrue($stat);
