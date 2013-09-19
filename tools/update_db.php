@@ -12,6 +12,13 @@ if (!extension_loaded('midgard2'))
     die("Midgard2 is not installed in your PHP environment.\n");
 }
 
+//Some fiddling to get autoloader...
+$paths = array
+(
+    dirname(__DIR__) . '/vendor/autoload.php', // installed as root package
+    dirname(dirname(dirname(__DIR__))) . '/autoload.php' // installed as dependency
+);
+
 // Create a config file
 $config = new midgard_config();
 if (!$config->read_file($argv[1], false))
