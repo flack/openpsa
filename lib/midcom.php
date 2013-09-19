@@ -95,7 +95,6 @@ class midcom
         // TODO: Move this to compat layer
         $GLOBALS['midcom_config'] =& self::$_services['config'];
 
-        ini_set('track_errors', '1');
         require(MIDCOM_ROOT. '/errors.php');
 
         // Register autoloader so we get all MidCOM classes loaded automatically

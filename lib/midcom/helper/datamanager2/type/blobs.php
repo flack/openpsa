@@ -125,8 +125,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             $info = explode(':', $item);
             if (   !is_array($info)
-                || !array_key_exists(0, $info)
-                || !array_key_exists(1, $info))
+                || count($info) < 2)
             {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
