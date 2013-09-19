@@ -321,7 +321,7 @@ class midcom_helper_imagefilter
      * The command name is the function that is searched. The function must
      * use the following signature:
      *
-     * boolean callback (string $infile, $string outfile, array $parameters);
+     * boolean callback (string $infile, string $outfile, array $parameters);
      *
      * infile is the file to be manipulated, outfile the name where
      * the result has to be stored in (a temporary file usually) and
