@@ -96,8 +96,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         foreach ($this->_schema->fields as $name => $type_definition)
         {
-            if (   !array_key_exists($name, $types)
-                || !$types[$name])
+            if (empty($types[$name]))
             {
                 if ($type_definition['required'] == true)
                 {

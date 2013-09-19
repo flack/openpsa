@@ -289,10 +289,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                     //we might see objects twice if they have both up and parent
                     continue;
                 }
-                else
-                {
-                    self::$_shown_guids[$object->guid] = true;
-                }
+                self::$_shown_guids[$object->guid] = true;
 
                 $title = $reflector->get_object_label($object);
                 $icon = $reflector->get_object_icon($object);
