@@ -116,39 +116,6 @@ class midcom_helper__componentloader
     var $manifests = array();
 
     /**
-     * This array contains all registered MidCOM operation watches. They are indexed by
-     * operation and map to components / libraries which have registered to classes.
-     * Values consist of an array whose first element is the component and subsequent
-     * elements are the types involved (so a single count means all objects).
-     *
-     * @var array
-     */
-    private $_watches = array
-    (
-        MIDCOM_OPERATION_DBA_CREATE => Array(),
-        MIDCOM_OPERATION_DBA_UPDATE => Array(),
-        MIDCOM_OPERATION_DBA_DELETE => Array(),
-        MIDCOM_OPERATION_DBA_IMPORT => Array(),
-    );
-
-    /**
-     * This is an array containing a list of watches that need to be executed at the end
-     * of any given request. The array is indexed by artificial keys constructed out of the
-     * watched object's class type and guid values. The array always contains the object
-     * instance in the first element, and all components that need to be notified in the
-     * subsequent keys.
-     *
-     * @var array
-     */
-    private $_watch_notifications = array
-    (
-        MIDCOM_OPERATION_DBA_CREATE => Array(),
-        MIDCOM_OPERATION_DBA_UPDATE => Array(),
-        MIDCOM_OPERATION_DBA_DELETE => Array(),
-        MIDCOM_OPERATION_DBA_IMPORT => Array(),
-    );
-
-    /**
      * Mapping for components paths not included in the main midcom directory hierarchy
      *
      * @var array
@@ -516,31 +483,7 @@ class midcom_helper__componentloader
         // Register watches
         if ($manifest->watches !== null)
         {
-            foreach ($manifest->watches as $watch)
-            {
-                // Check for every operation we know and register the watches.
-                // We make shortcuts for less typing.
-                $operations = $watch['operations'];
-                $watch_info = $watch['classes'];
-                if ($watch_info === null)
-                {
-                    $watch_info = Array();
-                }
-
-                // Add the component name into the watch information, it is
-                // required for later processing of the watch.
-                array_unshift($watch_info, $manifest->name);
-
-                foreach ($this->_watches as $operation_id => $ignore)
-                {
-                    // Check whether the operations flag list from the component
-                    // contains the operation_id we're checking a watch for.
-                    if ($operations & $operation_id)
-                    {
-                        $this->_watches[$operation_id][] = $watch_info;
-                    }
-                }
-            }
+            midcom::get('dispatcher')->add_watches($manifest->watches, $manifest->name);
         }
     }
 
@@ -550,15 +493,6 @@ class midcom_helper__componentloader
      * the operation in question, it is not taken by reference.
      *
      * Call this only if the operation in question has completed successfully.
-     *
-     * The component handlers can safely assume that it is only called once per object
-     * and operation at the end of the request.
-     *
-     * This latter fact is important to understand: Watches are not executed immediately,
-     * instead, they are collected throughout the request and executed during
-     * midcom_application::finish() exactly once per instance. The instance is refreshed
-     * before it is actually sent to the watchers using a refresh member function unless
-     * the object has been deleted, then there will be no refresh attempt.
      *
      * An instance in this respect is a unique combination of class type and guid values.
      *
@@ -578,116 +512,7 @@ class midcom_helper__componentloader
      */
     public function trigger_watches($operation, $object)
     {
-        if ($this->_watch_notifications === null)
-        {
-            debug_add('Notifies were already processed, aborting.', MIDCOM_LOG_WARN);
-            return;
-        }
-        // We collect the components of all watches here, so that we can
-        // unique-out all duplicates before actually calling the handler.
-        $components = Array();
-        foreach ($this->_watches[$operation] as $watch)
-        {
-            if (count($watch) == 1)
-            {
-                $components[] = $watch[0];
-            }
-            else
-            {
-                $component = array_shift($watch);
-                foreach ($watch as $classname)
-                {
-                    if (is_a($object, $classname))
-                    {
-                        $components[] = $component;
-                        break;
-                    }
-                }
-            }
-        }
-
-        $components = array_unique($components);
-
-        $object_key = get_class($object) . $object->guid;
-        debug_add("Adding notification for operation {$operation} on {$object_key}");
-        if (! array_key_exists($object_key, $this->_watch_notifications[$operation]))
-        {
-            $this->_watch_notifications[$operation][$object_key] = Array(clone $object);
-        }
-        /*
-         * Workaround for AS-related problem: If watch is triggered by set_parameter,
-         * and later in the same request, the object itself is updated (f.x. DM with at least one
-         * field set to parameter storage), no activitystream entry will be created
-         * unless we manually merge the flags
-         *
-         * @todo find a cleaner and more generic way to implement this
-         */
-        else if (   !$this->_watch_notifications[$operation][$object_key][0]->_use_activitystream
-                 && $object->_use_activitystream)
-        {
-            $this->_watch_notifications[$operation][$object_key][0]->_use_activitystream = true;
-        }
-
-        foreach ($components as $component)
-        {
-            if (! in_array($component, $this->_watch_notifications[$operation][$object_key]))
-            {
-                $this->_watch_notifications[$operation][$object_key][] = $component;
-            }
-        }
-    }
-
-    /**
-     * This function processes all pending notifies and flushes the pending list.
-     * It is called automatically during MidCOM shutdown at the end of the request.
-     *
-     * All Notifies for objects which can't be refreshed will be ignored silently
-     * (but logged of course). Deleted objects are of course not refreshed.
-     *
-     * This function can only be called once during a request.
-     */
-    public function process_pending_notifies()
-    {
-        if ($this->_watch_notifications === null)
-        {
-            debug_add('Pending notifies should only be processed once at the end of the request, aborting.', MIDCOM_LOG_WARN);
-            return;
-        }
-
-        foreach ($this->_watch_notifications as $operation => $operation_data)
-        {
-            foreach ($operation_data as $object_key => $data)
-            {
-                debug_add("Processing operation {$operation} for {$object_key}");
-                $object = array_shift($data);
-
-                if (   $operation != MIDCOM_OPERATION_DBA_DELETE
-                    && $operation != MIDCOM_OPERATION_DBA_IMPORT)
-                {
-                    // Only refresh when we haven't deleted/imported the record.
-                    if (! $object->refresh())
-                    {
-                        debug_add('Failed to refresh an object before notification, skipping it. see the debug level log for a dump.', MIDCOM_LOG_WARN);
-                        continue;
-                    }
-                }
-                foreach ($data as $component)
-                {
-                    if (! $this->is_loaded($component))
-                    {
-                        // Try to load the component, fail silently if we can't load the component
-                        if (! $this->_load($component))
-                        {
-                            debug_add("Failed to load the component {$component} required for handling the current watch set, skipping watch.", MIDCOM_LOG_INFO);
-                            continue;
-                        }
-                    }
-                    debug_add("Calling \$this->_interface_classes[{$component}]->trigger_watch({$operation}, \$object)");
-                    $this->_interface_classes[$component]->trigger_watch($operation, $object);
-                }
-            }
-        }
-        $this->_watch_notifications = null;
+        midcom::get('dispatcher')->trigger_watch($operation, $object);
     }
 
     /**

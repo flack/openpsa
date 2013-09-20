@@ -271,8 +271,6 @@ class midcom_application
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
         midcom::get('cache')->content->_finish_caching();
 
-        midcom::get('componentloader')->process_pending_notifies();
-
         // Store any unshown messages
         midcom::get('uimessages')->store();
 

@@ -40,7 +40,8 @@
         "ezyang/htmlpurifier": "*",
         "openpsa/installer": "dev-master",
         "symfony/console": "~2.3.0",
-        "swiftmailer/swiftmailer": "*" 
+        "symfony/event-dispatcher": "~2.3.0",
+        "swiftmailer/swiftmailer": "~5.0.0"
     },
     "scripts": {
         "post-install-cmd": [
@@ -63,6 +64,9 @@
     },
     "autoload": {
         "classmap": ["lib"],
-        "psr-0": { "openpsa": "src/" }
+        "psr-0": {
+            "openpsa": "src/",
+            "midcom": "src/"
+        }
     }
 }

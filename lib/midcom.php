@@ -45,6 +45,7 @@ class midcom
         'config' => 'midcom_config',
         'dbclassloader' => 'midcom_services_dbclassloader',
         'dbfactory' => 'midcom_helper__dbfactory',
+        'dispatcher' => '\\midcom\\events\\dispatcher',
         'debug' => 'midcom_debug',
         'head' => 'midcom_helper_head',
         'i18n' => 'midcom_services_i18n',
