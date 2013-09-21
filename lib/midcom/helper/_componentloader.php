@@ -506,9 +506,8 @@ class midcom_helper__componentloader
      *
      * @param int $operation The operation that has occurred.
      * @param mixed $object The object on which the operation occurred. The system will
-     *     do is_a checks against any registered class restriction on the watch. The object
-     *     is not taken by-reference but refreshed before actually executing the hook at the
-     *     end of the request.
+     *     do is_a checks against any registered class restriction on the watch
+     * @deprecated Use dispatcher directly instead
      */
     public function trigger_watches($operation, $object)
     {

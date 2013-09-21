@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\events\dbaevent;
+
 /**
  * This class only contains static functions which are there to hook into
  * the classes you derive from the MidgardSchema DB types like (New)MidgardArticle.
@@ -106,7 +108,7 @@ class midcom_baseclasses_core_dbobject
             }
         }
 
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('dispatcher')->dispatch(dbaevent::UPDATE, new dbaevent($object));
     }
 
     /**
@@ -357,7 +359,8 @@ class midcom_baseclasses_core_dbobject
         self::_set_owner_privileges($object);
 
         $object->_on_created();
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
+        midcom::get('dispatcher')->dispatch(dbaevent::CREATE, new dbaevent($object));
+
         if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
@@ -498,7 +501,7 @@ class midcom_baseclasses_core_dbobject
     public static function delete_post_ops(midcom_core_dbaobject $object)
     {
         $object->_on_deleted();
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
+        midcom::get('dispatcher')->dispatch(dbaevent::DELETE, new dbaevent($object));
         if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
@@ -1300,13 +1303,7 @@ class midcom_baseclasses_core_dbobject
             self::$parameter_cache[$object->guid][$domain][$name] = $value;
         }
 
-        // Don't store parameter changes to activity stream
-        $original_use_activitystream = $object->_use_activitystream;
-        $object->_use_activitystream = false;
-
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-
-        $object->_use_activitystream = $original_use_activitystream;
+        midcom::get('dispatcher')->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 
         return true;
     }
@@ -1365,13 +1362,7 @@ class midcom_baseclasses_core_dbobject
         // Unset via MgdSchema API directly
         $result = $object->__object->parameter($domain, $name, '');
 
-        // Don't store parameter changes to activity stream
-        $original_use_activitystream = $object->_use_activitystream;
-        $object->_use_activitystream = false;
-
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-
-        $object->_use_activitystream = $original_use_activitystream;
+        midcom::get('dispatcher')->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 
         return $result;
     }

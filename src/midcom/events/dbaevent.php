@@ -21,14 +21,23 @@ class dbaevent extends Event
     const UPDATE = 'midcom:update';
     const DELETE = 'midcom:delete';
     const IMPORT = 'midcom:import';
+    const APPROVE = 'midcom:approve';
+    const UNAPPROVE = 'midcom:unapprove';
+    const PARAMETER = 'midcom:parameter';
 
+    /**
+     * @var midcom_core_dbaobject
+     */
     private $_object;
 
-    public function __construct($object)
+    public function __construct(\midcom_core_dbaobject $object)
     {
         $this->_object = $object;
     }
 
+    /**
+     * @return midcom_core_dbaobject
+     */
     public function get_object()
     {
         return $this->_object;

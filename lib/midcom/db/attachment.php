@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\events\dbaevent;
+
 /**
  * MidCOM level replacement for the Midgard Attachment record with framework support.
  *

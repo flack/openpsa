@@ -33,6 +33,12 @@ class dispatcher extends EventDispatcher
         \MIDCOM_OPERATION_DBA_IMPORT => dbaevent::IMPORT,
     );
 
+    /**
+     * Compat function for ragnaroek-style events.
+     *
+     * @param int $operation_id One of the MIDCOM_OPERATION_DBA_ constants
+     * @param midcom_core_dbaobject $object The current object
+     */
     public function trigger_watch($operation_id, $object)
     {
         $event_name = $this->_watches[$operation_id];
@@ -44,24 +50,11 @@ class dispatcher extends EventDispatcher
     {
         foreach ($watches as $watch)
         {
-            // Check for every operation we know and register the watches.
-            // We make shortcuts for less typing.
-            $operations = $watch['operations'];
-            $watch_info = $watch['classes'];
-            if ($watch_info === null)
-            {
-                $watch_info = Array();
-            }
-
-            // Add the component name into the watch information, it is
-            // required for later processing of the watch.
-            array_unshift($watch_info, $component);
-
             foreach ($this->_watches as $operation_id => $event_name)
             {
                 // Check whether the operations flag list from the component
                 // contains the operation_id we're checking a watch for.
-                if ($operations & $operation_id)
+                if ($watch['operations'] & $operation_id)
                 {
                     $listener = new dbalistener($component, $watch['classes']);
                     $this->addListener($event_name, array($listener, 'handle_event'));

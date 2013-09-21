@@ -504,20 +504,30 @@ abstract class midcom_core_dbaobject
         {
             return true;
         }
-        midcom::get('cache')->invalidate($this->guid);
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
-        return $this->__object->approve();
+        if ($this->__object->approve())
+        {
+            midcom::get('cache')->invalidate($this->guid);
+            midcom::get('dispatcher')->dispatch(dbaevent::APPROVE, new dbevent($this));
+            return true;
+        }
+        return false;
     }
+
     public function unapprove()
     {
         if (!$this->__object->is_approved())
         {
             return true;
         }
-        midcom::get('cache')->invalidate($this->guid);
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
-        return $this->__object->unapprove();
+        if ($this->__object->unapprove())
+        {
+            midcom::get('cache')->invalidate($this->guid);
+            midcom::get('dispatcher')->dispatch(dbaevent::UNAPPROVE, new dbevent($this));
+            return true;
+        }
+        return false;
     }
+
     public function get_properties()
     {
         if (!$this->__object)
