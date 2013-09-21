@@ -7,6 +7,7 @@
  */
 
 require_once MIDCOM_ROOT . '/compat/componentdata.php';
+require_once MIDCOM_ROOT . '/compat/autoloader.php';
 
 if (extension_loaded('midgard2'))
 {
@@ -85,4 +86,6 @@ $_MIDCOM = new midcom_compat_superglobal;
  * @global Array $GLOBALS['midcom_component_data']
  */
 $GLOBALS['midcom_component_data'] = new midcom_compat_componentdata;
+
+$autoloader = new midcom_compat_autoloader;
 ?>
