@@ -157,12 +157,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 return;
             }
 
-            $object = $this->get_parent();
-            if ($object !== null)
-            {
-                midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-            }
-
             $this->file_to_cache();
         }
     }
