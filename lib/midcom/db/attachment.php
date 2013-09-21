@@ -418,18 +418,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return true;
     }
 
-    /**
-     * Created callback, triggers watches on the parent(!) object.
-     */
-    public function _on_created()
-    {
-        $object = $this->get_parent();
-        if ($object !== null)
-        {
-            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-        }
-    }
-
     function update_cache()
     {
         // Check if the attachment can be read anonymously
@@ -452,11 +440,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function _on_updated()
     {
         $this->update_cache();
-        $object = $this->get_parent();
-        if ($object !== null)
-        {
-            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-        }
     }
 
     /**
@@ -472,12 +455,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
             {
                 @unlink($filename);
             }
-        }
-
-        $object = $this->get_parent();
-        if ($object !== null)
-        {
-            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
         }
     }
 
