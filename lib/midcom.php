@@ -63,47 +63,22 @@ class midcom
 
     public static function init()
     {
-        ///////////////////////////////////
-        // Try to be smart about the paths:
-        // Define default constants
-        if (! defined('MIDCOM_ROOT'))
-        {
-            define('MIDCOM_ROOT', __DIR__);
-        }
+        //Constants, Globals and Configuration
+        require __DIR__ . '/constants.php';
 
         midcom_compat_environment::initialize();
-
-        if (! defined('MIDCOM_STATIC_ROOT'))
-        {
-            $pos = strrpos(MIDCOM_ROOT, '/');
-            if ($pos === false)
-            {
-                // No slash, this is strange
-                throw new midcom_error('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
-            }
-            define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
-        }
-        if (! defined('MIDCOM_STATIC_URL'))
-        {
-            define('MIDCOM_STATIC_URL', '/midcom-static');
-        }
-
-        ///////////////////////////////////////
-        //Constants, Globals and Configuration
-        require MIDCOM_ROOT . '/constants.php';
 
         self::$_services['config'] = new midcom_config;
         // TODO: Move this to compat layer
         $GLOBALS['midcom_config'] =& self::$_services['config'];
 
-        require(MIDCOM_ROOT. '/errors.php');
+        require __DIR__ . '/errors.php';
 
         // Register autoloader so we get all MidCOM classes loaded automatically
         spl_autoload_register(array('midcom', 'autoload'));
 
-        /////////////////////
         // Start the Debugger
-        require(MIDCOM_ROOT. '/midcom/debug.php');
+        require __DIR__. '/midcom/debug.php';
 
         debug_add("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
 
@@ -115,13 +90,12 @@ class midcom
          */
         self::$_services['cache'] = new midcom_services_cache();
 
-        /////////////////////////////////////
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
 
         if (!empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek']))
         {
-            require_once MIDCOM_ROOT . '/compat/bootstrap.php';
+            require_once __DIR__ . '/compat/bootstrap.php';
         }
 
         self::$_application->initialize();

@@ -8,6 +8,30 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+///////////////////////////////////
+// Try to be smart about the paths:
+// Define default constants
+if (! defined('MIDCOM_ROOT'))
+{
+    define('MIDCOM_ROOT', __DIR__);
+}
+
+if (! defined('MIDCOM_STATIC_ROOT'))
+{
+    $pos = strrpos(MIDCOM_ROOT, '/');
+    if ($pos === false)
+    {
+        // No slash, this is strange
+        throw new midcom_error('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
+    }
+    define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
+}
+if (! defined('MIDCOM_STATIC_URL'))
+{
+    define('MIDCOM_STATIC_URL', '/midcom-static');
+}
+
+
 /**#@+
  *MidCOM Default Error Codes (-> HTTP)
  */
