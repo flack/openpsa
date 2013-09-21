@@ -69,8 +69,6 @@ class midcom
         midcom_compat_environment::initialize();
 
         self::$_services['config'] = new midcom_config;
-        // TODO: Move this to compat layer
-        $GLOBALS['midcom_config'] =& self::$_services['config'];
 
         require __DIR__ . '/errors.php';
 
@@ -93,14 +91,14 @@ class midcom
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
 
-        if (!empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek']))
+        if (self::$_services['config']->get('midcom_compat_ragnaroek'))
         {
             require_once __DIR__ . '/compat/bootstrap.php';
         }
 
         self::$_application->initialize();
 
-        if (   !empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek'])
+        if (   self::$_services['config']->get('midcom_compat_ragnaroek')
             && file_exists(MIDCOM_CONFIG_FILE_AFTER))
         {
             include MIDCOM_CONFIG_FILE_AFTER;

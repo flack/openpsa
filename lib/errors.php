@@ -26,7 +26,7 @@ class midcom_exception_handler
 
     private function _generate_http_response()
     {
-        if ($GLOBALS['midcom_config']['auth_login_form_httpcode'] == 200)
+        if (midcom::get('config')->get('auth_login_form_httpcode') == 200)
         {
             _midcom_header('HTTP/1.0 200 OK');
             return;
@@ -275,9 +275,9 @@ class midcom_exception_handler
      */
     private function send($httpcode, $message)
     {
-        if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode])
-            || !is_array($GLOBALS['midcom_config']['error_actions'][$httpcode])
-            || !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['action']))
+        $error_actions = midcom::get('config')->get('error_actions');
+        if (   !isset($error_actions[$httpcode])
+            || !isset($error_actions[$httpcode]['action']))
         {
             // No action specified for this error code, skip
             return;
@@ -292,41 +292,41 @@ class midcom_exception_handler
         }
 
         // Send as email handler
-        if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'email')
+        if ($error_actions[$httpcode]['action'] == 'email')
         {
-            $this->_send_email($httpcode, $msg);
+            $this->_send_email($httpcode, $msg, $error_actions[$httpcode]);
         }
         // Append to log file handler
-        else if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'log')
+        else if ($error_actions[$httpcode]['action'] == 'log')
         {
-            $this->_log($httpcode, $msg);
+            $this->_log($httpcode, $msg, $error_actions[$httpcode]);
         }
     }
 
-    private function _log($httpcode, $msg)
+    private function _log($httpcode, $msg, array $config)
     {
-        if (empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']))
+        if (empty($config['filename']))
         {
             // No log file specified, skip
             return;
         }
 
-        if (   !is_writable($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
-            && !is_writable(dirname($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])))
+        if (   !is_writable($config['filename'])
+            && !is_writable(dirname($config['filename'])))
         {
-            debug_add("Error logging file {$GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']} is not writable", MIDCOM_LOG_WARN);
+            debug_add("Error logging file {$config['filename']} is not writable", MIDCOM_LOG_WARN);
             return;
         }
 
         // Add the line to the error-specific log
-        $logger = new midcom_debug($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']);
+        $logger = new midcom_debug($config['filename']);
         $logger->set_loglevel(MIDCOM_LOG_INFO);
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
-    private function _send_email($httpcode, $msg)
+    private function _send_email($httpcode, $msg, array $config)
     {
-        if (empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
+        if (empty($config['email']))
         {
             // No recipient specified, skip
             return;
@@ -339,7 +339,7 @@ class midcom_exception_handler
         }
 
         $mail = new org_openpsa_mail();
-        $mail->to = $GLOBALS['midcom_config']['error_actions'][$httpcode]['email'];
+        $mail->to = $config['email'];
         $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
         $mail->subject = "[{$_SERVER['SERVER_NAME']}] {$msg}";
         $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";

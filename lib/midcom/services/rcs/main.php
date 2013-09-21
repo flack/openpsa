@@ -76,14 +76,17 @@ class midcom_services_rcs
      */
     function update(&$object, $message = null)
     {
+        if (!$this->config->use_rcs())
+        {
+            return true;
+        }
         $handler = $this->load_handler($object);
         if (!is_object($handler))
         {
             debug_add('Could not load handler!');
             return false;
         }
-        if (   !$handler->update($object, $message)
-            && $this->config->use_rcs())
+        if (!$handler->update($object, $message))
         {
             debug_add('RCS: Could not save file!');
             return false;

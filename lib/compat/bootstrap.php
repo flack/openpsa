@@ -48,6 +48,13 @@ if (extension_loaded('midgard2'))
     );
 }
 
+/**
+ * MidCOM configuration array
+ *
+ * @global Array $GLOBALS['midcom_config']
+ */
+$GLOBALS['midcom_config'] = midcom::get('config');
+
 if (! defined('MIDCOM_CONFIG_FILE_BEFORE'))
 {
     define('MIDCOM_CONFIG_FILE_BEFORE', midcom::get('config')->get('midcom_config_basedir') . '/midcom.conf');

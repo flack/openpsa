@@ -143,7 +143,7 @@ require $rootdir . 'lib/midcom.php';
 function _migrate_account($person)
 {
     $user = new midgard_user();
-    $user->authtype = $GLOBALS['midcom_config']['auth_type'];
+    $user->authtype = midcom::get('config'->get('auth_type');
     $db_password = $person->password;
 
     if (substr($person->password, 0, 2) == '**')
@@ -162,7 +162,7 @@ function _migrate_account($person)
     $user->password = $db_password;
     $user->login = $person->username;
 
-    if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+    if (midcom::get('config')->get('person_class') != 'midgard_person')
     {
         $mgd_person = new midgard_person($person->guid);
     }
@@ -185,7 +185,7 @@ function _migrate_account($person)
 }
 
 echo "  Migrating accounts\n";
-$qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+$qb = new midgard_query_builder(midcom::get('config')->get('person_class');
 $qb->add_constraint('username', '<>', '');
 $results = $qb->execute();
 
