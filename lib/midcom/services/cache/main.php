@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use midcom\events\dbaevent;
+
 /**
  * This class is the central access point for all registered caching services. Currently
  * this includes the NAP, Memcache, Content and PHPscripts cache databases.
@@ -34,7 +37,7 @@
  *
  * @package midcom.services
  */
-class midcom_services_cache
+class midcom_services_cache implements EventSubscriberInterface
 {
     /**
      * List of all loaded modules, indexed by their class name.
@@ -64,6 +67,56 @@ class midcom_services_cache
         {
             $this->load_module($name);
         }
+        midcom::get('dispatcher')->addSubscriber($this);
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return array
+        (
+            dbaevent::CREATE => array('handle_create'),
+            dbaevent::UPDATE => array('handle_update'),
+            dbaevent::DELETE => array('handle_event'),
+            dbaevent::APPROVE => array('handle_event'),
+            dbaevent::UNAPPROVE => array('handle_event'),
+        );
+    }
+
+    public function handle_event(dbaevent $event)
+    {
+        $object = $event->get_object();
+        $this->invalidate($object->guid);
+    }
+
+    public function handle_create(dbaevent $event)
+    {
+        $object = $event->get_object();
+        $parent = $object->get_parent();
+        if (   $parent
+            && $parent->guid)
+        {
+            // Invalidate parent from cache so content caches have chance to react
+            $this->invalidate($parent->guid);
+        }
+    }
+
+    public function handle_update(dbaevent $event)
+    {
+        $object = $event->get_object();
+        $this->invalidate($object->guid);
+
+        if (midcom::get('config')->get('attachment_cache_enabled'))
+        {
+            $atts = $object->list_attachments();
+            foreach ($atts as $att)
+            {
+                $this->invalidate($att->guid);
+                // This basically ensures that attachment cache links are
+                // deleted when their parent is no longer readable by everyone
+                // @todo: The only question is: Does it even get triggered on privilege changes?
+                $att->update_cache();
+            }
+        }
     }
 
     /**
@@ -76,6 +129,7 @@ class midcom_services_cache
         {
             $this->_modules[$name]->shutdown();
         }
+        midcom::get('dispatcher')->removeSubscriber($this);
     }
 
     /**

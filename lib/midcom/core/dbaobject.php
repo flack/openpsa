@@ -506,7 +506,6 @@ abstract class midcom_core_dbaobject
         }
         if ($this->__object->approve())
         {
-            midcom::get('cache')->invalidate($this->guid);
             midcom::get('dispatcher')->dispatch(dbaevent::APPROVE, new dbevent($this));
             return true;
         }
@@ -521,7 +520,6 @@ abstract class midcom_core_dbaobject
         }
         if ($this->__object->unapprove())
         {
-            midcom::get('cache')->invalidate($this->guid);
             midcom::get('dispatcher')->dispatch(dbaevent::UNAPPROVE, new dbevent($this));
             return true;
         }

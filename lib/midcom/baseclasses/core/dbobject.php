@@ -96,18 +96,6 @@ class midcom_baseclasses_core_dbobject
 
         $object->_on_updated();
 
-        midcom::get('cache')->invalidate($object->guid);
-
-        if (midcom::get('config')->get('attachment_cache_enabled'))
-        {
-            $atts = $object->list_attachments();
-            foreach ($atts as $att)
-            {
-                midcom::get('cache')->invalidate($att->guid);
-                $att->update_cache();
-            }
-        }
-
         midcom::get('dispatcher')->dispatch(dbaevent::UPDATE, new dbaevent($object));
     }
 
@@ -367,14 +355,6 @@ class midcom_baseclasses_core_dbobject
             $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
-
-        $parent = $object->get_parent();
-        if (   $parent
-            && $parent->guid)
-        {
-            // Invalidate parent from cache so content caches have chance to react
-            midcom::get('cache')->invalidate($parent->guid);
-        }
     }
 
     /**
@@ -508,8 +488,6 @@ class midcom_baseclasses_core_dbobject
             $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
-
-        midcom::get('cache')->invalidate($object->guid);
     }
 
     /**
