@@ -1013,7 +1013,6 @@ class midcom_baseclasses_core_dbobject
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
-        $qb->add_constraint('value', '<>', MIDCOM_PRIVILEGE_INHERIT);
         $result = $qb->execute();
 
         foreach ($result as $dbpriv)
