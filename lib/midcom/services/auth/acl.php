@@ -231,7 +231,7 @@
  * </pre>
  *
  * These calls operate only on the privileges of the given object. They do not do any merging
- * whatsoever, this is the job of the CAL framework itself (midcom_services_auth_acl).
+ * whatsoever, this is the job of the ACL framework itself (midcom_services_auth_acl).
  *
  * Unsetting a privilege does not deny it, but clears the privilege specification on the current
  * object and sets it to INHERIT internally. As you might have guessed, if you want to clear
@@ -429,20 +429,18 @@ class midcom_services_auth_acl
             return;
         }
 
-        $object = new $class();
+        $privs = array
+        (
+            'EVERYONE' => array(),
+            'ANONYMOUS' => array(),
+            'USERS' => array()
+        );
 
-        if (!method_exists($object, 'get_class_magic_default_privileges'))
+        if (method_exists($class, 'get_class_magic_default_privileges'))
         {
-            self::$_default_magic_class_privileges[$class] = array
-            (
-                'EVERYONE' => array(),
-                'ANONYMOUS' => array(),
-                'USERS' => array()
-            );
-            return;
+            $object = new $class();
+            $privs = $object->get_class_magic_default_privileges();
         }
-
-        $privs = $object->get_class_magic_default_privileges();
 
         self::$_default_magic_class_privileges[$class] = $privs;
     }
@@ -591,9 +589,7 @@ class midcom_services_auth_acl
         $user = $this->auth->get_user($user_id);
 
         // user privileges
-        if (   is_object($user)
-            && method_exists($user, 'get_privileges')
-            && method_exists($user, 'get_per_class_privileges'))
+        if (is_a($user, 'midcom_core_user'))
         {
             $user_privileges = $user->get_privileges();
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
@@ -770,7 +766,6 @@ class midcom_services_auth_acl
                 if (!isset($collected_privileges[$name]))
                 {
                     debug_add("Object privilege {$name} has no value, from parent {$parent_guid} it is {$value}.");
-                    continue;
                 }
             }
         }
@@ -782,7 +777,7 @@ class midcom_services_auth_acl
         return $final_privileges;
     }
 
-    function can_do_byclass($privilege, $user, $class, $component)
+    function can_do_byclass($privilege, $user, $class)
     {
         if ($this->_internal_sudo)
         {
@@ -799,12 +794,8 @@ class midcom_services_auth_acl
             {
                 if (!class_exists($class))
                 {
-                    if (   is_null($component)
-                        || !midcom::get('componentloader')->load_graceful($component))
-                    {
-                        debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
-                        return false;
-                    }
+                    debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
+                    return false;
                 }
 
                 $tmp_object = new $class();
@@ -924,9 +915,7 @@ class midcom_services_auth_acl
         $user = $this->auth->get_user($user_id);
 
         // user privileges
-        if (   is_object($user)
-            && method_exists($user, 'get_privileges')
-            && method_exists($user, 'get_per_class_privileges'))
+        if (is_a($user, 'midcom_core_user'))
         {
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
 
@@ -1082,7 +1071,7 @@ class midcom_services_auth_acl
      */
     private function _can_do_internal_sudo($privilege)
     {
-        switch($privilege)
+        switch ($privilege)
         {
             case 'midgard:create':
             case 'midgard:update':

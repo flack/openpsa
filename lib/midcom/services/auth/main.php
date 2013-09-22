@@ -408,7 +408,7 @@ class midcom_services_auth
             debug_add("Querying privilege {$privilege} for user {$user->id} to class {$classname}");
         }
 
-        return $this->acl->can_do_byclass($privilege, $user, $class, $component);
+        return $this->acl->can_do_byclass($privilege, $user, $class);
     }
 
     /**
