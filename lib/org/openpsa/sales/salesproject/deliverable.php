@@ -76,6 +76,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function _on_deleted()
     {
+        $entries = $this->get_at_entries();
+        foreach ($entries as $entry)
+        {
+            $entry->delete();
+        }
         $this->_update_parent();
     }
 
