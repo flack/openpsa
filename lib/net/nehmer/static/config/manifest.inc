@@ -43,7 +43,6 @@
     ),
     'dependencies' => array
     (
-        'net.nehmer.blog' => array(),
         'midcom.helper.datamanager2' => array(),
         'midcom' => array(),
     ),
