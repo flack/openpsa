@@ -77,4 +77,16 @@
         ),
     ),
 ),
-'watches' => array(),
+'watches' => array
+(
+    array
+    (
+        'classes' => array
+        (
+            'midcom_db_person',
+            'org_openpsa_contacts_person_dba',
+            'org_openpsa_directmarketing_campaign_dba'
+        ),
+        'operations' => MIDCOM_OPERATION_DBA_DELETE,
+    ),
+),
