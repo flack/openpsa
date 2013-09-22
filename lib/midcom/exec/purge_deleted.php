@@ -56,11 +56,6 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
         $qb->include_deleted();
         $qb->set_limit($chunk_size);
         $objects = $qb->execute();
-        if (!is_array($objects))
-        {
-            echo "FATAL QB ERROR\n";
-            continue;
-        }
         $total += count($objects);
         foreach ($objects as $obj)
         {
