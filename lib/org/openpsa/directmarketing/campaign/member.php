@@ -179,20 +179,18 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             debug_add('Failed to create, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return $stat;
         }
-        if (!empty($parameters))
+        foreach ($parameters as $param_data)
         {
-            foreach ($parameters as $param_data)
+            if (   empty($param_data['domain'])
+                || empty($param_data['name'])
+                || empty($param_data['value']))
             {
-                if (   empty($param_data['domain'])
-                    || empty($param_data['name'])
-                    || empty($param_data['value']))
-                {
-                    // TODO: Log warning
-                    continue;
-                }
-                $receipt->set_parameter($param_data['domain'], $param_data['name'], $param_data['value']);
+                // TODO: Log warning
+                continue;
             }
+            $receipt->set_parameter($param_data['domain'], $param_data['name'], $param_data['value']);
         }
+
         midcom::get('auth')->drop_sudo();
     }
 }
