@@ -139,17 +139,10 @@ class midcom_exception_handler
     public function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
     {
         $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
-        ob_start();
-        echo "\n";
-        try
+        if (!empty($errcontext))
         {
-            @var_dump($errcontext);
+            $msg .= "\n" . print_r($errcontext, true);
         }
-        catch (Exception $e)
-        {
-            debug_print_r('Exception encountered while dumping the error context', $e, MIDCOM_LOG_ERROR);
-        }
-        $msg .= ob_get_clean();
 
         switch ($errno)
         {
