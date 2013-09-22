@@ -50,11 +50,11 @@
     'dependencies' => array
     (
         'midcom.helper.reflector' => array(),
-        'midcom.helper.activitystream' => array(),
-        'midcom.helper.datamanager2' => array
+        'midcom.helper.activitystream' => array
         (
-            'version' => '1.0.4beta43',
+            'optional' => 'yes'
         ),
+        'midcom.helper.datamanager2' => array(),
         'midcom.admin.help' => array(),
     ),
 ),

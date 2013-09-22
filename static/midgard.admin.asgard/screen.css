@@ -631,6 +631,11 @@ p
     margin-bottom: 5px;
 }
 
+#latest_objects h2
+{
+    clear: both
+}
+
 #latest_objects .actions
 {
     margin-top: 5px;

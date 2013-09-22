@@ -678,6 +678,10 @@ Permissions
 Purge
 ---STRINGEND
 
+---STRING recent changes
+Recent Changes
+---STRINGEND
+
 ---STRING regular expression for selecting mgdschema types
 Regular expression for selecting MgdSchema types
 ---STRINGEND
