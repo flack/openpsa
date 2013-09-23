@@ -9,12 +9,16 @@ env:
   - MIDGARD_EXT_VERSION=ratatoskr
   - MIDGARD_EXT_VERSION=master
 
+matrix:
+  allow_failures:
+    - php: 5.5
+
 before_script:
   - ./test/travis_midgard2.sh
   - sudo `which composer` self-update
   - sudo OPENPSA_INSTALLER_DBTYPE=SQLite `which composer` install
 
-script: valgrind -v --log-file=failure.log phpunit --debug; cat failure.log
+script: phpunit --debug
 
 notifications:
     irc: "irc.freenode.org#midgard"
