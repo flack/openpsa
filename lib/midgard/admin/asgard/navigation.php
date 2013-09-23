@@ -272,9 +272,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 continue;
             }
 
-            $methods = get_class_methods($class);
-            if (   is_array($methods)
-                && in_array('navigation', $methods)
+            if (   method_exists($class, 'navigation')
                 && ($this->_request_data['plugin_name'] == "asgard_{$component}"))
             {
                 $this->_request_data['expanded'] = true;
@@ -354,6 +352,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         {
             $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model');
         }
+        $exclude = ($model == 'exclude');
 
         // Get the possible regular expression
         $regexp = $this->_config->get('midgard_types_regexp');
@@ -368,43 +367,23 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $regexp = "/{$regexp}/";
         }
 
-        $label_mapping = Array();
-        foreach ($this->root_types as $root_type)
+        if ($exclude)
         {
-            // If there are any types or if the regular expression has been set, check which
-            // types should be shown
-            if (   !empty($types)
-                || $regexp !== '//')
+            $types = array_diff($this->root_types, $types);
+        }
+        else if (!empty($types))
+        {
+            $types = array_intersect($this->root_types, $types);
+        }
+
+        $label_mapping = Array();
+        foreach ($types as $root_type)
+        {
+            // If the regular expression has been set, check which types should be shown
+            if (   $regexp !== '//'
+                && (boolean) preg_match($regexp, $root_type) == $exclude)
             {
-                // Skip the excluded
-                if ($model === 'exclude')
-                {
-                    if (   !empty($types)
-                        && in_array($root_type, $types))
-                    {
-                        continue;
-                    }
-
-                    if (   $regexp !== '//'
-                        && preg_match($regexp, $root_type))
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    if (   !empty($types)
-                        && !in_array($root_type, $types))
-                    {
-                        continue;
-                    }
-
-                    if (   $regexp !== '//'
-                        && !preg_match($regexp, $root_type))
-                    {
-                        continue;
-                    }
-                }
+                continue;
             }
 
             $ref = $this->_get_reflector($root_type);
@@ -430,7 +409,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $label_mapping = $this->_process_root_types();
 
         $expanded_types = array_intersect(array_keys($label_mapping), $this->expanded_root_types);
-        $collapsed_types = array_diff($label_mapping, $expanded_types);
 
         /*
          * Use a dropdown for displaying the navigation if at least one type is expanded
@@ -463,6 +441,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['section_name'] = $this->_l10n->get('midgard objects');
             $this->_request_data['expanded'] = true;
             midcom_show_style('midgard_admin_asgard_navigation_section_header');
+            $collapsed_types = array_diff_key($label_mapping, array_flip($expanded_types));
 
             $this->_draw_type_list($collapsed_types);
 

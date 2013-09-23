@@ -391,7 +391,7 @@ class midcom_helper_reflector_nameresolver
             return false;
         }
         $resolver = midcom_helper_reflector_tree::get($schema_type);
-        $qb =& $resolver->_child_objects_type_qb($schema_type, $parent, false);
+        $qb = $resolver->_child_objects_type_qb($schema_type, $parent, false);
         if (!is_object($qb))
         {
             return false;
@@ -417,7 +417,7 @@ class midcom_helper_reflector_nameresolver
             return false;
         }
         $resolver =& midcom_helper_reflector_tree::get($schema_type);
-        $qb =& $resolver->_root_objects_qb(false);
+        $qb = $resolver->_root_objects_qb(false);
         if (!$qb)
         {
             return false;

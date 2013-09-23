@@ -166,25 +166,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $properties = array_keys(get_object_vars($object));
         }
 
-        $return = array();
-
-        $invalid = array
-        (
-            'id',
-            'guid',
-            'metadata',
-        );
-
-        foreach ($properties as $property)
-        {
-            // Remove properties that should not be copied
-            if (in_array($property, $invalid))
-            {
-                continue;
-            }
-
-            $return[] = $property;
-        }
+        $return = array_diff($properties, array('id', 'guid', 'metadata'));
 
         // Cache them
         $this->properties[$mgdschema_class] = $return;

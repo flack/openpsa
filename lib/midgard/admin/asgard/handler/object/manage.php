@@ -706,13 +706,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree')
         {
-            foreach ($_POST['all_objects'] as $guid)
-            {
-                if (!in_array($guid, $_POST['selected']))
-                {
-                    $copy->exclude[] = $guid;
-                }
-            }
+            $copy->exclude = array_diff($_POST['all_objects'], $_POST['selected']);
         }
         else
         {
@@ -727,8 +721,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $new_object = $copy->get_object();
 
-        if (   !$new_object
-            || !$new_object->guid)
+        if (empty($new_object->guid))
         {
             throw new midcom_error('Failed to copy the object');
         }

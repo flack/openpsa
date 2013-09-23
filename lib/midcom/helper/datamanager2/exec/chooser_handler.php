@@ -140,7 +140,7 @@ foreach ($results as $object)
                  */
                 || (   $class == 'midcom_db_topic'
                     && $item_name == 'extra')
-                || (   in_array($class, array('midcom_db_group', 'midcom_db_group'))
+                || (   $class == 'midcom_db_group'
                     && $item_name == 'name'))
             {
                 $value = midcom_helper_reflector_tree::resolve_path($object);
