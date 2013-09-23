@@ -472,24 +472,25 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return false;
         }
 
-        $search_properties = array();
+        $default_properties = array
+        (
+            'title' => true,
+            'tag' => true,
+            'firstname' => true,
+            'lastname' => true,
+            'official' => true,
+            'username' => true,
+        );
+
+        $search_properties = array_intersect_key($default_properties, array_flip($properties));
 
         foreach ($properties as $property)
         {
-            switch(true)
+            if (strpos($property, 'name') !== false)
             {
-                case (strpos($property, 'name') !== false):
-                    // property contains 'name'
-                case ($property == 'title'):
-                case ($property == 'tag'):
-                case ($property == 'firstname'):
-                case ($property == 'lastname'):
-                case ($property == 'official'):
-                case ($property == 'username'):
-                    $search_properties[$property] = true;
-                    break;
-                // TODO: More per property heuristics
+                $search_properties[$property] = true;
             }
+            // TODO: More per property heuristics
         }
         // TODO: parent and up heuristics
 
@@ -503,42 +504,18 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Exceptions - always search these fields
-        $always_search_all = $this->_config->get('always_search_fields');
-        // safety against misconfiguration
-        if (!is_array($always_search_all))
+        $always_search_all = $this->_config->get('always_search_fields') ?: array();
+        if (!empty($always_search_all[$this->mgdschema_class]))
         {
-            $always_search_all = array();
-        }
-        if (isset($always_search_all[$this->mgdschema_class]))
-        {
-            foreach ($always_search_all[$this->mgdschema_class] as $property)
-            {
-                if (!in_array($property, $properties))
-                {
-                    debug_add("Property '{$property}' is set as always search, but is not a property in class '{$this->mgdschema_class}'", MIDCOM_LOG_WARN);
-                    continue;
-                }
-                $search_properties[$property] = true;
-            }
+            $fields = array_intersect($always_search_all[$this->mgdschema_class], $properties);
+            $search_properties = $search_properties + array_flip($fields);
         }
 
         // Exceptions - never search these fields
-        $never_search_all = $this->_config->get('never_search_fields');
-        // safety against misconfiguration
-        if (!is_array($never_search_all))
+        $never_search_all = $this->_config->get('never_search_fields') ?: array();
+        if (!empty($never_search_all[$this->mgdschema_class]))
         {
-            $never_search_all = array();
-        }
-        if (isset($never_search_all[$this->mgdschema_class]))
-        {
-            foreach ($never_search_all[$this->mgdschema_class] as $property)
-            {
-                if (array_key_exists($property, $search_properties))
-                {
-                    debug_add("Removing '{$property}' from \$search_properties", MIDCOM_LOG_INFO);
-                    unset($search_properties[$property]);
-                }
-            }
+            $search_properties = array_diff_key($search_properties, array_flip($never_search_all[$this->mgdschema_class]));
         }
 
         $search_properties = array_keys($search_properties);
