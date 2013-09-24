@@ -40,6 +40,7 @@ class midcom
      */
     private static $_service_classes = array
     (
+        'auth' => 'midcom_services_auth',
         'componentloader' => 'midcom_helper__componentloader',
         'cache' => 'midcom_services_cache',
         'config' => 'midcom_config',
@@ -66,27 +67,14 @@ class midcom
         //Constants, Globals and Configuration
         require __DIR__ . '/constants.php';
 
-        midcom_compat_environment::initialize();
-
-        self::$_services['config'] = new midcom_config;
-
-        require __DIR__ . '/errors.php';
-
-        // Start the Debugger
-        require __DIR__. '/midcom/debug.php';
-
-        debug_add("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
-
-        self::$_services['auth'] = new midcom_services_auth();
-        self::$_services['auth']->initialize();
+        // Instantiate the MidCOM main class
+        self::$_application = new midcom_application();
+        self::get('auth')->initialize();
 
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
         self::$_services['cache'] = new midcom_services_cache();
-
-        // Instantiate the MidCOM main class
-        self::$_application = new midcom_application();
 
         if (self::$_services['config']->get('midcom_compat_ragnaroek'))
         {
@@ -111,6 +99,11 @@ class midcom
      */
     public static function get($name = null)
     {
+        if (!defined('MIDCOM_ERROK'))
+        {
+            self::init();
+        }
+
         if (null === $name)
         {
             return self::$_application;
@@ -136,6 +129,4 @@ class midcom
         return self::$_version;
     }
 }
-
-midcom::init();
 ?>

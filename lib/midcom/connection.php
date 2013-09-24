@@ -22,8 +22,6 @@ class midcom_connection
 
     private static $_defaults = array
     (
-        'argv' => array(),
-
         'user' => 0,
         'admin' => false,
         'root' => false,

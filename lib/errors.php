@@ -24,6 +24,20 @@ class midcom_exception_handler
      */
     private $_exception;
 
+    /**
+     * Register the error and Exception handlers
+     */
+    public static function register()
+    {
+        if (!defined('OPENPSA2_UNITTEST_RUN'))
+        {
+            $handler = new self;
+            set_error_handler(array($handler, 'handle_error'), E_ALL ^ (E_NOTICE | E_WARNING));
+            set_exception_handler(array($handler, 'handle_exception'));
+        }
+
+    }
+
     private function _generate_http_response()
     {
         if (midcom::get('config')->get('auth_login_form_httpcode') == 200)
@@ -144,17 +158,8 @@ class midcom_exception_handler
             $msg .= "\n" . print_r($errcontext, true);
         }
 
-        switch ($errno)
-        {
-            case E_ERROR:
-            case E_COMPILE_ERROR:
-            case E_RECOVERABLE_ERROR:
-            case E_USER_ERROR:
-                // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
-                throw new midcom_error($msg, $errno);
-        }
-        // Leave other errors for PHP to take care of
-        return false;
+        // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
+        throw new midcom_error($msg, $errno);
     }
 
     /**
@@ -509,14 +514,4 @@ class midcom_error_midgard extends midcom_error
         parent::log($loglevel);
     }
 }
-
-// Register the error and Exception handlers
-// 2009-01-08 rambo: Seems like the boolean expression does not work as intended, see my changes in the error handler itself
-if (!defined('OPENPSA2_UNITTEST_RUN'))
-{
-    $handler = new midcom_exception_handler();
-    set_error_handler(array($handler, 'handle_error'), E_ALL & ~E_NOTICE | E_WARNING);
-    set_exception_handler(array($handler, 'handle_exception'));
-}
-
 ?>

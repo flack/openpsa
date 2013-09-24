@@ -61,6 +61,13 @@ class midcom_application
      */
     public $skip_page_style = false;
 
+    public function __construct()
+    {
+        midcom::get('debug')->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
+        midcom_compat_environment::initialize();
+        midcom_exception_handler::register();
+    }
+
     /**
      * Main MidCOM initialization.
      *
