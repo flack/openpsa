@@ -345,10 +345,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         foreach ($items as $item)
         {
             $info = explode(':', $item);
-            if (   !is_array($info)
-                || !array_key_exists(0, $info)
-                || !array_key_exists(1, $info)
-                || !array_key_exists(2, $info))
+            if (count($info) < 3)
             {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
@@ -379,16 +376,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     function convert_to_storage()
     {
-        foreach ($this->titles as $images_identifier => $title)
+        $titles = array_intersect_key(array_filter($this->titles), $this->images[$images_identifier]);
+        foreach ($titles as $images_identifier => $title)
         {
-            if (empty($title))
-            {
-                continue;
-            }
-            if (!isset($this->images[$images_identifier]))
-            {
-                continue;
-            }
             foreach ($this->images[$images_identifier] as $info)
             {
                 if ($info['object']->title === $title)

@@ -632,14 +632,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             }
             $current_tag .= $char;
         }
+        $tags = array_filter(array_map('trim', $tags));
         foreach ($tags as $tag)
         {
-            // Just to be sure there is not extra whitespace in beginning or end of tag
-            $tag = trim($tag);
-            if (empty($tag))
-            {
-                continue;
-            }
             $tag_array[$tag] = '';
         }
         return $tag_array;

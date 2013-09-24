@@ -2,6 +2,13 @@
 require_once __DIR__ . '/vendor/autoload.php';
 $GLOBALS['midcom_config_local'] = array();
 
+$var = array
+(
+    'empty' => '',
+    'array' => array(),
+    'valid' => 4.4
+);
+
 // Check that the environment is a working one
 midcom_connection::setup(__DIR__ . DIRECTORY_SEPARATOR);
 

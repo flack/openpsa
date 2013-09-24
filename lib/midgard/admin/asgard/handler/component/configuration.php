@@ -148,14 +148,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         // Prepare defaults
-        foreach ($this->_request_data['config']->get_all() as $key => $value)
+        $config = array_intersect_key($this->_request_data['config']->get_all(), $schemadb[$schema]->fields);
+        foreach ($config as $key => $value)
         {
-            if (!isset($schemadb[$schema]->fields[$key]))
-            {
-                // Skip
-                continue;
-            }
-
             if (is_array($value))
             {
                 $schemadb[$schema]->fields[$key]['default'] = "array(\n" . $this->_draw_array($value, '    ') . ")";

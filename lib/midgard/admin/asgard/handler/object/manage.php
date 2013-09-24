@@ -362,16 +362,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (   isset($_GET['defaults'])
             && is_array($_GET['defaults']))
         {
-            foreach ($_GET['defaults'] as $key => $value)
-            {
-                if (!isset($this->_schemadb['object']->fields[$key]))
-                {
-                    // No such field in schema
-                    continue;
-                }
-
-                $data['defaults'][$key] = trim($value);
-            }
+            $defaults = array_intersect_key($_GET['defaults'], $this->_schemadb['object']->fields);
+            $data['defaults'] = array_merge($data['defaults'], array_map('trim', $defaults));
         }
 
         $this->_controller = midcom_helper_datamanager2_controller::create('create');

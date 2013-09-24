@@ -230,16 +230,10 @@ class midcom_helper_imagefilter
      */
     function process_chain($chain)
     {
-        $filters = explode(";", $chain);
+        $filters = array_filter(explode(";", $chain));
 
         foreach ($filters as $cmd)
         {
-            if ($cmd == '')
-            {
-                // Skip empty commands
-                continue;
-            }
-
             if (!$this->process_command($cmd))
             {
                 debug_add("Execution of {$cmd} failed, aborting now.");

@@ -167,11 +167,7 @@ class midcom_core_group
 
         $qb = new midgard_query_builder('midgard_member');
         $qb->add_constraint('gid', '=', $this->_storage->id);
-        $result = @$qb->execute();
-        if (! $result)
-        {
-            return $return;
-        }
+        $result = $qb->execute();
 
         foreach ($result as $member)
         {
@@ -185,7 +181,6 @@ class midcom_core_group
                 debug_add("The membership record {$member->id} is invalid, the user {$member->uid} failed to load.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . $e->getMessage());
                 debug_print_r('Membership record was:', $member);
-                continue;
             }
         }
 
@@ -217,14 +212,13 @@ class midcom_core_group
             try
             {
                 $group = new midcom_core_group($gid);
+                $return[$group->id] = $group;
             }
             catch (Exception $e)
             {
                 debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
-                continue;
             }
-            $return[$group->id] = $group;
         }
 
         return $return;

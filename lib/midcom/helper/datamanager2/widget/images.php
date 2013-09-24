@@ -712,13 +712,9 @@ END;
             // Explicitly set scores for each attachment found in the blobs type
             $this->_type->_sorted_list = array();
             $images_scores = $_REQUEST['midcom_helper_datamanager2_sortable'][$this->name];
+            $images_scores = array_intersect_key($images_scores, $this->_type->images);
             foreach ($images_scores as $images_identifier => $score)
             {
-                // Sanity check
-                if (!isset($this->_type->images[$images_identifier]))
-                {
-                    continue;
-                }
                 foreach ($this->_type->images[$images_identifier] as $info)
                 {
                     /**

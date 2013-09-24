@@ -205,11 +205,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 if (!array_key_exists($type, $row))
                 {
                     debug_add("row #{$num} does not have {$type} set", MIDCOM_LOG_INFO);
-                    $i2_tgt = count($datamanager->schema->field_order);
-                    for ($i2 = 0; $i2 < $i2_tgt; $i2++)
-                    {
-                        $output[] = '';
-                    }
+                    $target_size = count($datamanager->schema->field_order) + count($output);
+                    $output = array_pad($output, $target_size, '');
                     continue;
                 }
                 $object =& $row[$type];

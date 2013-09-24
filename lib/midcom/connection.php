@@ -577,7 +577,7 @@ class midcom_connection
      */
     private static function _parse_url($uri, $self, $prefix)
     {
-        $path_parts = explode('/', $uri);
+        $path_parts = array_filter(explode('/', $uri));
         $page_style = '';
         $path = $self;
 
@@ -585,11 +585,6 @@ class midcom_connection
         $args_started = false;
         foreach ($path_parts as $part)
         {
-            if ($part == '')
-            {
-                continue;
-            }
-
             if (    midcom::get('config')->get('theme')
                  && !$args_started
                  && midcom_helper_misc::check_page_exists($part))

@@ -207,24 +207,16 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             if (   !empty($config_defs['addAttribute'])
                 && is_array($config_defs['addAttribute']))
             {
-                foreach ($config_defs['addAttribute'] as $attrdef)
+                foreach (array_filter($config_defs['addAttribute'], 'is_array') as $attrdef)
                 {
-                    if (!is_array($attrdef))
-                    {
-                        continue;
-                    }
                     call_user_func_array(array($def, 'addAttribute'), $attrdef);
                 }
             }
             if (   !empty($config_defs['addElement'])
                 && is_array($config_defs['addElement']))
             {
-                foreach ($config_defs['addElement'] as $elemdef)
+                foreach (array_filter($config_defs['addElement'], 'is_array') as $elemdef)
                 {
-                    if (!is_array($elemdef))
-                    {
-                        continue;
-                    }
                     call_user_func_array(array($def, 'addElement'), $elemdef);
                 }
             }

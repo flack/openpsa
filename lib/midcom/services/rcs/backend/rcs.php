@@ -541,15 +541,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $newest = $this->get_revision($latest_revision);
 
         $return = array();
-
+        $oldest = array_intersect_key($oldest, $newest);
         foreach ($oldest as $attribute => $oldest_value)
         {
-            if (!array_key_exists($attribute, $newest))
-            {
-                continue;
-                // This isn't in the newer version, skip
-            }
-
             if (is_array($oldest_value))
             {
                 continue;
