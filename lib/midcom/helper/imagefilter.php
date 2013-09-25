@@ -510,8 +510,8 @@ class midcom_helper_imagefilter
         $imagesize = getimagesize($this->_filename);
 
         // Try lossless jpegtran rotation if possible
-        if (   $imagesize[2] == 2
-            && ($rotate == 90 || $rotate == 180 || $rotate == 270)
+        if (   $imagesize[2] == IMAGETYPE_JPEG
+            && ($rotate % 90 == 0)
             && $this->_jpegtran_available())
         {
             $tmpfile = $this->_get_tempfile();
