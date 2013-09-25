@@ -18,6 +18,14 @@ $paths = array
     dirname(__DIR__) . '/vendor/autoload.php', // installed as root package
     dirname(dirname(dirname(__DIR__))) . '/autoload.php' // installed as dependency
 );
+foreach ($paths as $path)
+{
+    if (file_exists($path))
+    {
+        require_once $path;
+        break;
+    }
+}
 
 // Create a config file
 $config = new midgard_config();
