@@ -35,7 +35,6 @@ class midcom_exception_handler
             set_error_handler(array($handler, 'handle_error'), E_ALL ^ (E_NOTICE | E_WARNING));
             set_exception_handler(array($handler, 'handle_exception'));
         }
-
     }
 
     private function _generate_http_response()
@@ -102,9 +101,8 @@ class midcom_exception_handler
         {
             debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
             echo "<br />{$title}: {$login_warning}";
-            midcom::get()->finish();
             debug_add("Emergency Error Message output finished, exiting now");
-            _midcom_stop_request();
+            midcom::get()->finish();
         }
 
         // Drop any output buffer first.
@@ -120,9 +118,8 @@ class midcom_exception_handler
 
         midcom::get('style')->show_midcom('midcom_services_auth_access_denied');
 
-        midcom::get()->finish();
         debug_add("Error Page output finished, exiting now");
-        _midcom_stop_request();
+        midcom::get()->finish();
     }
 
     /**
@@ -254,11 +251,7 @@ class midcom_exception_handler
 
         debug_add("Error Page output finished, exiting now");
         midcom::get('cache')->content->no_cache();
-        if (midcom::get())
-        {
-            midcom::get()->finish();
-        }
-        _midcom_stop_request();
+        midcom::get()->finish();
     }
 
     /**

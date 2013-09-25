@@ -297,6 +297,7 @@ class midcom_application
         midcom::get('cache')->shutdown();
 
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
+        _midcom_stop_request();
     }
 
     /**
