@@ -91,31 +91,28 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     public function testProcess_Chain()
     {
         $filter = $this->_get_prepared_filter();
+        $filter->process_chain("resize(5,5)");
+    }
 
-        // test invalid command
-        $stat = $filter->process_chain(";ThisCommandIsTotallyUnknown");
-        $this->assertFalse($stat);
-
-        // test some valid chain
-        $stat = $filter->process_chain("resize(5,5)");
-        $this->assertTrue($stat);
+    /**
+     * @expectedException midcom_error
+     */
+    public function testProcess_Chain_invalid()
+    {
+        $filter = $this->_get_prepared_filter();
+        $filter->process_chain(";ThisCommandIsTotallyUnknown");
     }
 
     public function testGamma()
     {
         $filter = $this->_get_prepared_filter();
-        $stat = $filter->gamma(0/100);
-        $this->assertTrue($stat);
+        $filter->gamma(0/100);
     }
 
     public function testResize()
     {
         $filter = $this->_get_prepared_filter();
-        $this->_testDimensions($filter->get_file(), 16, 16);
-
-        $stat = $filter->resize(3, 3);
-        $this->assertTrue($stat);
-
+        $filter->resize(3, 3);
         $this->_testDimensions($filter->get_file(), 3, 3);
     }
 
@@ -124,55 +121,40 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $filter = $this->_get_prepared_filter();
         $this->_testMimetype($filter->get_file(), "image/png");
 
-        $stat = $filter->convert('jpg');
-        $this->assertTrue($stat);
+        $filter->convert('jpg');
         $this->_testMimetype($filter->get_file(), "image/jpeg");
     }
 
     public function testRotate()
     {
         $filter = $this->_get_prepared_filter();
-        $stat = $filter->rotate(45);
-        $this->assertTrue($stat);
+        $filter->rotate(45);
     }
 
     public function testExifRotate()
     {
         $filter = $this->_get_prepared_filter();
-        $stat = $filter->exifrotate();
-        $this->assertTrue($stat);
+        $filter->exifrotate();
     }
 
     public function testCrop()
     {
         $filter = $this->_get_prepared_filter();
-        $this->_testDimensions($filter->get_file(), 16, 16);
-
-        $stat = $filter->crop(8, 8);
-        $this->assertTrue($stat);
-
+        $filter->crop(8, 8);
         $this->_testDimensions($filter->get_file(), 8, 8);
     }
 
     public function testSquareThumb()
     {
         $filter = $this->_get_prepared_filter();
-        $this->_testDimensions($filter->get_file(), 16, 16);
-
-        $stat = $filter->squarethumb(12);
-        $this->assertTrue($stat);
-
+        $filter->squarethumb(12);
         $this->_testDimensions($filter->get_file(), 12, 12);
     }
 
     public function testFill()
     {
         $filter = $this->_get_prepared_filter();
-        $this->_testDimensions($filter->get_file(), 16, 16);
-
-        $stat = $filter->fill(24, 24, '#000000');
-        $this->assertTrue($stat);
-
+        $filter->fill(24, 24, '#000000');
         $this->_testDimensions($filter->get_file(), 24, 24);
     }
 }

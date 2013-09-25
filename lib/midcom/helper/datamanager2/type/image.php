@@ -453,9 +453,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
         $this->_filter = new midcom_helper_imagefilter($this->attachments[$identifier]);
 
-        if (!$this->_filter->process_chain($filter))
+        try
         {
-            debug_add("Failed to process filter chain '{$filter}', aborting", MIDCOM_LOG_ERROR);
+            $this->_filter->process_chain($filter);
+        }
+        catch (midcom_error $e)
+        {
+            midcom::get('uimessages')->add('midcom.helper.imagefilter', $e->getMessage(), 'error');
+            $e->log();
             // Clean up
             $this->_filter = null;
             return false;
@@ -679,8 +684,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function _save_derived_image($identifier)
     {
-        if (! $this->_filter->process_chain($this->derived_images[$identifier]))
+        try
         {
+            $this->_filter->process_chain($this->derived_images[$identifier]);
+        }
+        catch (midcom_error $e)
+        {
+            midcom::get('uimessages')->add('midcom.helper.imagefilter', $e->getMessage(), 'error');
+            $e->log();
             return false;
         }
 
@@ -745,12 +756,19 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
 
         $result = true;
-
         // Filter if necessary.
-        if (   $this->filter_chain
-            && ! $this->_filter->process_chain($this->filter_chain))
+        if ($this->filter_chain)
         {
-            $result = false;
+            try
+            {
+                $this->_filter->process_chain($this->filter_chain);
+            }
+            catch (midcom_error $e)
+            {
+                midcom::get('uimessages')->add('midcom.helper.imagefilter', $e->getMessage(), 'error');
+                $e->log();
+                $result = false;
+            }
         }
 
         if ($result)
