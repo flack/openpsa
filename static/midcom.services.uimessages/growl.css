@@ -1,6 +1,6 @@
 /**
  * Styles for ui messages with javascript
-**/
+ */
 
 #midcom_services_uimessages_wrapper
 {
@@ -12,6 +12,7 @@
     position: absolute;
     top: 0;
     right: 30%;
+    z-index: 100
 }
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages
@@ -37,7 +38,8 @@
 {
     float: right;
     position: relative;
-    right: -12px
+    right: -12px;
+    cursor: pointer
 }
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages h3
