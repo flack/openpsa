@@ -303,9 +303,7 @@ class midcom_core_collector extends midcom_core_query
 
     public function set_key_property($property, $value = null)
     {
-        debug_add("MidCOM collector does not allow switching key properties. It is always GUID.", MIDCOM_LOG_ERROR);
-
-        return false;
+        throw new midcom_error("Switching key properties is not allowed.");
     }
 
     public function add_value_property($property)
