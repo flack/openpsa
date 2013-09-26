@@ -69,7 +69,6 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         {
             throw new midcom_error("The field {$this->name} had no name or assignee specified with it, cannot start up.");
         }
-        return true;
     }
 
     /**

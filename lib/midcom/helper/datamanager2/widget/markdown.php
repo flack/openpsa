@@ -55,27 +55,16 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
 
     /**
      * The initialization event handler post-processes the maxlength setting.
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
-        if (   ! array_key_exists('value', $this->_type)
-            || is_array($this->_type->value)
-            || is_object($this->_type->value))
-        {
-            debug_add("Warning, the field {$this->name} does not have a value member or it is an array or object, you cannot use the text widget with it.",
-                MIDCOM_LOG_WARN);
-            return false;
-        }
+        $this->_require_type_value();
 
         midcom::get('head')->enable_jquery();
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/jquery.markitup.pack.js');
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/set.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/skins/markitup/style.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/style.css');
-
-        return true;
     }
 
     /**

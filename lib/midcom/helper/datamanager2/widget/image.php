@@ -46,19 +46,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
 
     /**
      * The initialization event handler post-processes the maxlength setting.
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
-        if (! is_a($this->_type, 'midcom_helper_datamanager2_type_image'))
-        {
-            debug_add("Warning, the field {$this->name} is not an image type or subclass thereof, you cannot use the image widget with it.",
-                MIDCOM_LOG_WARN);
-            return false;
-        }
-
-        return true;
+        $this->_require_type_class('midcom_helper_datamanager2_type_image');
     }
 
     /**

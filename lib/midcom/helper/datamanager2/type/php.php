@@ -56,8 +56,6 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
                 midcom::get('head')->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
         }
-
-        return true;
     }
 
     function convert_from_storage ($source)

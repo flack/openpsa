@@ -48,19 +48,10 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
 
     /**
      * The initialization event handler post-processes the maxlength setting.
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
-        if (   ! array_key_exists('value', $this->_type)
-            || is_array($this->_type->value)
-            || is_object($this->_type->value))
-        {
-            debug_add("Warning, the field {$this->name} does not have a value member or it is an array or object, you cannot use the text widget with it.",
-                MIDCOM_LOG_WARN);
-            return false;
-        }
+        $this->_require_type_value();
 
         if ($this->maxlength == -1)
         {
@@ -73,7 +64,6 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
         {
             $this->maxlength = 0;
         }
-        return true;
     }
 
     /**

@@ -170,7 +170,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     public function _on_initialize()
     {
         $this->_instance_mode = 'multiple';
-        return parent::_on_initialize();
     }
 
     /**
