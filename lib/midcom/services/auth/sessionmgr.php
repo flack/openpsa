@@ -344,13 +344,7 @@ class midcom_services_auth_sessionmgr
 
         if (!$auth_result)
         {
-            unset ($this->_loaded_sessions[$sessionid]);
-            if (! $session->delete())
-            {
-                debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return false;
-            }
-            $session->purge();
+            $this->delete_session($sessionid);
             return false;
         }
 

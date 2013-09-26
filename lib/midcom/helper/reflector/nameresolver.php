@@ -58,11 +58,6 @@ class midcom_helper_reflector_nameresolver
     public function name_is_clean($name_property = null)
     {
         $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === false)
-        {
-            //get_object_name failed
-            return false;
-        }
         if (empty($name_copy))
         {
             // empty name is not "clean"
@@ -236,14 +231,7 @@ class midcom_helper_reflector_nameresolver
             $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
 
             $qb->add_constraint($child_name_property, '=', $name_copy);
-            $results = $qb->count();
-            // Guard against QB failure
-            if ($results === false)
-            {
-                debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-            if ($results > 0)
+            if ($qb->count())
             {
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
                 return false;
@@ -278,14 +266,7 @@ class midcom_helper_reflector_nameresolver
             $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
 
             $qb->add_constraint($child_name_property, '=', $name_copy);
-            $results = $qb->count();
-            // Guard against QB failure
-            if ($results === false)
-            {
-                debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-            if ($results > 0)
+            if ($qb->count())
             {
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
                 return false;

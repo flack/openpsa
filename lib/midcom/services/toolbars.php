@@ -298,8 +298,7 @@ class midcom_services_toolbars
         $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Bullet-proof
-        if (   !$topic
-            || !$topic->guid)
+        if (empty($topic->guid))
         {
             return false;
         }
