@@ -39,5 +39,21 @@ class midcom_admin_user_handler_group_listTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
+
+    public function test_belongs_to()
+    {
+        $root = $this->create_object('midcom_db_group');
+        $child = $this->create_object('midcom_db_group', array('owner' => $root->id));
+        $grandchild = $this->create_object('midcom_db_group', array('owner' => $child->id));
+
+        $other = $this->create_object('midcom_db_group');
+
+        $this->assertTrue(midcom_admin_user_handler_group_list::belongs_to($root->id, $root->id));
+        $this->assertTrue(midcom_admin_user_handler_group_list::belongs_to($child->id, $root->id));
+        $this->assertTrue(midcom_admin_user_handler_group_list::belongs_to($grandchild->id, $root->id));
+        $this->assertFalse(midcom_admin_user_handler_group_list::belongs_to($root->id, $other->id));
+        $this->assertFalse(midcom_admin_user_handler_group_list::belongs_to($grandchild->id, $other->id));
+    }
+
 }
 ?>

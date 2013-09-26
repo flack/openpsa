@@ -210,31 +210,14 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      */
     public static function belongs_to($id, $owner)
     {
-        do
+        if ($id === $owner)
         {
-            if ($id === $owner)
-            {
-                return true;
-            }
-
-            $mc = midcom_db_group::new_collector('id', $id);
-            $mc->set_limit(1);
-            $keys = $mc->get_values('owner');
-
-            // Get the first array key
-            foreach ($keys as $key)
-            {
-                if ($key === 0)
-                {
-                    return false;
-                }
-
-                $id = $key;
-            }
+            return true;
         }
-        while ($mc->count() > 0);
-
-        return false;
+        $qb = midcom_db_group::new_query_builder();
+        $qb->add_constraint('id', '=', $id);
+        $qb->add_constraint('owner', 'INTREE', $owner);
+        return ($qb->count() > 0);
     }
 }
 ?>
