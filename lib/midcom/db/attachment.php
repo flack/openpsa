@@ -88,11 +88,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if ($this->_open_handle !== null)
         {
             debug_add("Warning, the Attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
-            @fclose($this->_open_handle);
+            fclose($this->_open_handle);
             $this->_open_handle = null;
         }
+
         $blob = new midgard_blob($this->__object);
-        if ($mode = 'default')
+        if ($mode == 'default')
         {
             $this->_open_write_mode = true;
             $handle = $blob->get_handler();
@@ -101,7 +102,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             /* WARNING, read mode not supported by midgard_blob! */
             $this->_open_write_mode = ($mode{0} != 'r');
-            $handle = @fopen($blob->get_path(), $mode);
+            $handle = fopen($blob->get_path(), $mode);
         }
 
         if (!$handle)

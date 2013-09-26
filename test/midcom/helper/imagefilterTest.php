@@ -57,15 +57,23 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
 
         // the files should have the same size
         $this->assertEquals($stat["size"], $dest_stat["size"], "Original image and tmp copy filesize mismatch!");
+        $this->assertEquals(filesize(self::$_filename), filesize($tmpname));
 
         // now write the file into an attachment
-        $attachment = $this->create_object('midcom_db_attachment', array('parentguid' => self::$_topic->guid));
+        $attachment = $this->create_object('midcom_db_attachment', array('parentguid' => self::$_topic->guid, 'title'=>'someImg'));
         $filter->set_file($tmpname);
         $filter->write($attachment);
 
         // check if files are equal
         $blob = new midgard_blob($attachment->__object);
         $this->assertFileEquals(self::$_filename, $blob->get_path());
+        $this->assertEquals(filesize(self::$_filename), filesize($blob->get_path()));
+
+        // test with attachment
+        $filter = new midcom_helper_imagefilter($attachment);
+        $filename = $filter->get_file();
+        $this->assertNotEquals($filename, self::$_filename);
+        $this->assertEquals(filesize(self::$_filename), filesize($filename));
     }
 
     public function testImageMagick_available()
