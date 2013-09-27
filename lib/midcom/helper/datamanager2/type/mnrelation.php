@@ -232,7 +232,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         }
 
         $this->allow_other = false;
-        parent::_on_initalize();
+        parent::_on_initialize();
     }
 
     /**
