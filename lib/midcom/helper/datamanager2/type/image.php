@@ -199,7 +199,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var string
      */
-    private $_instance_mode = 'single';
+    protected $_instance_mode = 'single';
 
     /**
      * Whether to check for imagemagic by running some commands

@@ -167,10 +167,10 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     public $sortable = true;
 
-    public function _on_initialize()
-    {
-        $this->_instance_mode = 'multiple';
-    }
+    /**
+     * @inheritDoc
+     */
+    protected $_instance_mode = 'multiple';
 
     /**
      * Adds a new image to the list.
