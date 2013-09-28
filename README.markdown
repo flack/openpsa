@@ -46,7 +46,7 @@ Then, use Composer to install PHP dependencies
 
 This will setup the project directory for OpenPSA usage. You can then create new database by running:
 
-    $ ./vendor/bin/openpsa-installer mgd2:setup
+    $ ./vendor/bin/openpsa-installer midgard2:setup
 
 See the [openpsa-installer](https://github.com/flack/openpsa-installer) documentation for more details.
 
