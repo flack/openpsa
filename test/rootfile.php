@@ -11,9 +11,8 @@ $GLOBALS['midcom_config_local'] = array();
 if (!midcom_connection::setup(dirname(__DIR__). DIRECTORY_SEPARATOR))
 {
     // if we can't connect to a DB, we'll create a new one
-    $installer = openpsa\installer\mgd2setup::get(OPENPSA_TEST_ROOT . '__output');
-    $installer->dbtype = 'SQLite';
-    $installer->run();
+    openpsa\installer\mgd2setup::install(OPENPSA_TEST_ROOT . '__output', 'SQLite');
+
     /*
      * @todo: This constant is a workaround to make sure the output
      * dir is not deleted again straight away. The proper fix would
