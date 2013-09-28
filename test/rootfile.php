@@ -11,7 +11,7 @@ $GLOBALS['midcom_config_local'] = array();
 if (!midcom_connection::setup(dirname(__DIR__). DIRECTORY_SEPARATOR))
 {
     // if we can't connect to a DB, we'll create a new one
-    openpsa\installer\mgd2setup::install(OPENPSA_TEST_ROOT . '__output', 'SQLite');
+    openpsa\installer\midgard2\setup::install(OPENPSA_TEST_ROOT . '__output', 'SQLite');
 
     /*
      * @todo: This constant is a workaround to make sure the output
