@@ -51,7 +51,7 @@
             "openpsa\\installer\\installer::setup_root_package"
         ]
     },
-    "bin": ["bin/openpsa"],
+    "bin": ["bin/midcom"],
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
