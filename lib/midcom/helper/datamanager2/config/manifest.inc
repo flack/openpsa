@@ -58,19 +58,8 @@
     'dependencies' => array
     (
         'net.nemein.tag' => array(),
-        'HTML_QuickForm' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
-        'HTMLPurifier' => array
-        (
-            'channel' => 'htmlpurifier.org',
-        ),
         'midcom' => array(),
         'midcom.helper.imagepopup' => array(),
-        'midcom.helper.reflector' => array
-        (
-            'min' => '1.0.1',
-        ),
+        'midcom.helper.reflector' => array(),
     ),
 ),
