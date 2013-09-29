@@ -1,6 +1,6 @@
 <?php
 /**
- * @package openpsa.console
+ * @package midcom.console
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * CLI wrapper for midcom-exec calls
  *
- * @package openpsa.console
+ * @package midcom.console
  */
 class exec extends Command
 {
@@ -32,7 +32,8 @@ class exec extends Command
         $this->_filename = $parts[1] . '.php';
 
         $this->setDescription('Run midcom-exec script ' . $this->_filename)
-            ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)');
+            ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)')
+            ->addOption('login', 'l', InputOption::VALUE_NONE, 'Use Midgard authorization');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -62,6 +63,16 @@ class exec extends Command
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL)
         {
             $output->writeln('Running ' . $this->_component . '/' . $this->_filename);
+        }
+        if ($input->getOption('login'))
+        {
+            $dialog = $this->getHelperSet()->get('dialog');
+            $username = $dialog->ask($output, '<question>Username:</question> ');
+            $password = $dialog->askHiddenResponse($output, '<question>Password:</question> ', false);
+            if (!\midcom::get('auth')->login($username, $password))
+            {
+                throw new \RuntimeException('Login failed');
+            }
         }
         \midcom::get('auth')->request_sudo($this->_component);
 
