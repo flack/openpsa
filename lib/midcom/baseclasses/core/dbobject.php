@@ -451,7 +451,6 @@ class midcom_baseclasses_core_dbobject
             {
                 $children = $qb->execute();
                 // Delete first the descendants
-                //foreach ($children as $child)
                 while ($child = array_pop($children))
                 {
                     //Inherit RCS status (so that f.x. large tree deletions can run faster)
