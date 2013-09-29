@@ -233,7 +233,7 @@ class midcom_services_auth
      * Internal helper, synchronizes the main service class with the authentication state
      * of the authentication backend.
      */
-    function _sync_user_with_backend()
+    private function _sync_user_with_backend()
     {
         $this->user =& $this->_auth_backend->user;
         // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
@@ -945,7 +945,12 @@ class midcom_services_auth
      */
     public function login($username, $password)
     {
-        return $this->_auth_backend->create_login_session($username, $password);
+        if ($this->_auth_backend->create_login_session($username, $password))
+        {
+            $this->_sync_user_with_backend();
+            return true;
+        }
+        return false;
     }
 
     public function trusted_login($username)

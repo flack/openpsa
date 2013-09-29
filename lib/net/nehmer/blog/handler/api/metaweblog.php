@@ -205,7 +205,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         $article = $this->_create_article($args[3]['title']);
         if (empty($article->guid))
@@ -243,7 +242,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         try
         {
@@ -311,7 +309,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         try
         {
@@ -357,7 +354,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         $response = array();
 
@@ -431,7 +427,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         $response = array();
 
@@ -471,7 +466,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         if (count($args) < 3)
         {
@@ -525,7 +519,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         try
         {
@@ -562,7 +555,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         {
             return new XML_RPC_Response(0, midcom_connection::get_error(), 'Authentication failed.');
         }
-        midcom::get('auth')->initialize();
 
         $response = array();
 
