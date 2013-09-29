@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace openpsa\console;
+namespace midcom\console;
 
 use Symfony\Component\Console\Application as base_application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use openpsa\console\command\exec;
+use midcom\console\command\exec;
 
 /**
  * OpenPSA CLI command runner
@@ -24,7 +24,7 @@ class application extends base_application
     /**
      * @inheritDoc
      */
-    public function __construct($name = __CLASS__, $version = '9.0beta5+git')
+    public function __construct($name = 'midcom\console', $version = '9.0beta5+git')
     {
         parent::__construct($name, $version);
 

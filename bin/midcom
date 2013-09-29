@@ -26,7 +26,7 @@ if (!$found)
     throw new \Exception('Composer autoloader could not be found');
 }
 
-use openpsa\console\application;
+use midcom\console\application;
 
 $console = new application();
 $console->run();
