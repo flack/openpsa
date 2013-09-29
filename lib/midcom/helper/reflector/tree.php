@@ -446,12 +446,17 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $qb;
     }
 
+    /**
+     * Figure out constraint(s) to use to get child objects
+     */
     private function _get_link_fields($ref, $schema_type, $for_object)
     {
         static $cache = array();
         $cache_key = $schema_type . '-' . get_class($for_object);
         if (empty($cache[$cache_key]))
         {
+            $ref = new midgard_reflection_property($schema_type);
+
             $linkfields = array();
             $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
             $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
@@ -508,9 +513,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        // Figure out constraint(s) to use to get child objects
-        $ref = new midgard_reflection_property($schema_type);
-        $linkfields = $this->_get_link_fields($ref, $schema_type, $for_object);
+        $linkfields = $this->_get_link_fields($schema_type, $for_object);
 
         if (count($linkfields) === 0)
         {
