@@ -441,16 +441,18 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_tree(midcom_core_dbaobject $object)
     {
-        // Get the child nodes
-        $children = midcom_helper_reflector_tree::get_child_objects($object);
+        $reflector = midcom_helper_reflector_tree::get($object);
+        $child_classes = $reflector->get_child_classes();
 
-        // Children found
-        if (!empty($children))
+        foreach ($child_classes as $class)
         {
-            // Delete first the descendants
-            foreach ($children as $array)
+            $qb = $reflector->_child_objects_type_qb($class, $object, false);
+            if ($qb)
             {
-                foreach ($array as $child)
+                $children = $qb->execute();
+                // Delete first the descendants
+                //foreach ($children as $child)
+                while ($child = array_pop($children))
                 {
                     //Inherit RCS status (so that f.x. large tree deletions can run faster)
                     $child->_use_rcs = $object->_use_rcs;
