@@ -199,17 +199,25 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         {
             return;
         }
+        echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
+
         if ($total > $this->_config->get('max_navigation_entries'))
         {
             if (empty($_GET['show_all_' . $ref->mgdschema_class]))
             {
-                echo '<a href="?show_all_' . $ref->mgdschema_class . '=1">' . sprintf($this->_l10n->get('show %s entries'), $total) . '</a>';
+                if (!empty($this->_object_path))
+                {
+                    $object = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[0]);
+                    $label = htmlspecialchars($ref->get_object_label($object));
+                    $this->_draw_root_element($ref, $object, $label);
+                }
+
+                echo '<li><a href="?show_all_' . $ref->mgdschema_class . '=1">' . sprintf($this->_l10n->get('show %s entries'), $total) . '</a></li>';
                 return;
             }
         }
-        $root_objects = $ref->get_root_objects();
 
-        echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
+        $root_objects = $ref->get_root_objects();
 
         $label_mapping = array();
         foreach ($root_objects as $i => $object)
@@ -222,39 +230,42 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         foreach ($label_mapping as $index => $label)
         {
             $object = $root_objects[$index];
-            $selected = $this->_is_selected($object);
-            $css_class = get_class($object);
-            $this->_common_css_classes($object, $ref, $css_class);
-
-            $mode = $this->_request_data['default_mode'];
-            if (strpos($css_class, 'readonly'))
-            {
-                $mode = 'view';
-            }
-
-            $this->shown_objects[$object->guid] = true;
-
-            echo "    <li class=\"{$css_class}\">";
-
-            $icon = $ref->get_object_icon($object);
-
-            if (empty($label))
-            {
-                $label = "#oid_{$object->id}";
-            }
-
-            echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$object->guid}/\" title=\"GUID: {$object->guid}, ID: {$object->id}\">{$icon}{$label}</a>\n";
-
-            // If there is exactly one root object, show its children, since this is what the user most likely wants to reach
-            if ($selected || sizeof($root_objects) == 1)
-            {
-                $this->_list_child_elements($object);
-            }
-
+            $this->_draw_root_element($ref, $object, $label, (sizeof($root_objects) == 1));
             echo "    </li>\n";
         }
 
         echo "</ul>\n";
+    }
+
+    private function _draw_root_element(midcom_helper_reflector_tree $ref, $object, $label, $autoexpand = false)
+    {
+        $selected = $this->_is_selected($object);
+        $css_class = get_class($object);
+        $this->_common_css_classes($object, $ref, $css_class);
+
+        $mode = $this->_request_data['default_mode'];
+        if (strpos($css_class, 'readonly'))
+        {
+            $mode = 'view';
+        }
+
+        $this->shown_objects[$object->guid] = true;
+
+        echo "    <li class=\"{$css_class}\">";
+
+        $icon = $ref->get_object_icon($object);
+
+        if (empty($label))
+        {
+            $label = "#oid_{$object->id}";
+        }
+
+        echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$object->guid}/\" title=\"GUID: {$object->guid}, ID: {$object->id}\">{$icon}{$label}</a>\n";
+        if (   $selected
+            || $autoexpand)
+        {
+            $this->_list_child_elements($object);
+        }
     }
 
     private function _draw_plugins()
