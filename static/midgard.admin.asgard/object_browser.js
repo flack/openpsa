@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    $('a.thickbox').on('click', function(event)
+    $('#midgard_admin_asgard_deletetree').on('click', 'a.thickbox', function(event)
     {
         if (!$(this).data('initialized'))
         {
