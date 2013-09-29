@@ -446,6 +446,51 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $qb;
     }
 
+    private function _get_link_fields($ref, $schema_type, $for_object)
+    {
+        static $cache = array();
+        $cache_key = $schema_type . '-' . get_class($for_object);
+        if (empty($cache[$cache_key]))
+        {
+            $linkfields = array();
+            $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
+            $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
+            $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
+
+            $linkfields = array_filter($linkfields);
+            $data = array();
+            foreach ($linkfields as $link_type => $field)
+            {
+                $linked_class = $ref->get_link_name($field);
+                if (   empty($linked_class)
+                    && $ref->get_midgard_type($field) === MGD_TYPE_GUID)
+                {
+                    // Guid link without class specification, valid for all classes
+                    continue;
+                }
+                if ($linked_class != $object_baseclass)
+                {
+                    // This link points elsewhere
+                    continue;
+                }
+                $info = array
+                (
+                    'name' => $field,
+                    'type' => $ref->get_midgard_type($field),
+                    'target' => $ref->get_link_target($field)
+                );
+                if (   empty($info['target'])
+                    && $info['type'] === MGD_TYPE_GUID)
+                {
+                    $info['target'] = 'guid';
+                }
+                $data[$link_type] = $info;
+            }
+            $cache[$cache_key] = $data;
+        }
+        return $cache[$cache_key];
+    }
+
     /**
      * Creates a QB instance for _get_child_objects_type and _count_child_objects_type
      */
@@ -465,29 +510,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         // Figure out constraint(s) to use to get child objects
         $ref = new midgard_reflection_property($schema_type);
-
-        $multiple_links = false;
-        $linkfields = array();
-        $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
-        $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
-        $linkfields = array_filter($linkfields);
-        $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
-
-        foreach ($linkfields as $link_type => $field)
-        {
-            $linked_class = $ref->get_link_name($field);
-            if (   empty($linked_class)
-                && $ref->get_midgard_type($field) === MGD_TYPE_GUID)
-            {
-                // Guid link without class specification, valid for all classes
-                continue;
-            }
-            if ($linked_class != $object_baseclass)
-            {
-                // This link points elsewhere
-                unset($linkfields[$link_type]);
-            }
-        }
+        $linkfields = $this->_get_link_fields($ref, $schema_type, $for_object);
 
         if (count($linkfields) === 0)
         {
@@ -495,21 +518,18 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
+        $multiple_links = false;
         if (count($linkfields) > 1)
         {
             $multiple_links = true;
             $qb->begin_group('OR');
         }
 
-        foreach ($linkfields as $link_type => $field)
+        foreach ($linkfields as $link_type => $field_data)
         {
-            $field_type = $ref->get_midgard_type($field);
-            $field_target = $ref->get_link_target($field);
-            if (   empty($field_target)
-                && $field_type === MGD_TYPE_GUID)
-            {
-                $field_target = 'guid';
-            }
+            $field_target = $field_data['target'];
+            $field_type = $field_data['type'];
+            $field = $field_data['name'];
 
             if (   !$field_target
                 || !isset($for_object->$field_target))
