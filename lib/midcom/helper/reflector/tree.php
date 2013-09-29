@@ -449,7 +449,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Figure out constraint(s) to use to get child objects
      */
-    private function _get_link_fields($ref, $schema_type, $for_object)
+    private function _get_link_fields($schema_type, $for_object)
     {
         static $cache = array();
         $cache_key = $schema_type . '-' . get_class($for_object);
