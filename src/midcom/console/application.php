@@ -28,10 +28,15 @@ class application extends base_application
     {
         parent::__construct($name, $version);
 
-        $this->_prepare_environment();
-        $this->_add_default_commands();
         $this->getDefinition()
             ->addOption(new InputOption('--config', '-c', InputOption::VALUE_REQUIRED, 'Config name (mgd2 only)'));
+        $this->getDefinition()
+            ->addOption(new InputOption('--servername', '-s', InputOption::VALUE_REQUIRED, 'HTTP server name', 'localhost'));
+        $this->getDefinition()
+            ->addOption(new InputOption('--port', '-p', InputOption::VALUE_REQUIRED, 'HTTP server port', '80'));
+
+        $this->_prepare_environment();
+        $this->_add_default_commands();
     }
 
     /**
@@ -39,6 +44,16 @@ class application extends base_application
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $_SERVER['SERVER_NAME'] = $input->getParameterOption(array('--servername', '-s'), null);
+        $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'];
+        $_SERVER['SERVER_PORT'] = $input->getParameterOption(array('--port', '-p'), null);
+        $_SERVER['REMOTE_PORT'] = $_SERVER['SERVER_PORT'];
+
+        if ($_SERVER['SERVER_PORT'] == 443)
+        {
+            $_SERVER['HTTPS'] = 'on';
+        }
+
         $config_name = $input->getParameterOption(array('--config', '-c'), null);
         if (!\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name))
         {
