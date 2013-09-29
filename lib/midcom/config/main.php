@@ -572,22 +572,10 @@ class midcom_config implements arrayaccess
         }
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
-        $basedir = "/var/lib/midgard";
-        // TODO: Would be good to include DB name into the path
         if (extension_loaded('midgard2'))
         {
-            $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
             $this->_default_config['person_class'] = 'openpsa_person';
         }
-        else
-        {
-            $prefix = midcom_connection::get('config', 'prefix');
-            if ($prefix == '/usr/local')
-            {
-                $basedir = '/var/local/lib/midgard';
-            }
-        }
-        $this->_default_config['midcom_services_rcs_root'] = $basedir . '/rcs';
     }
 
     public function get($key, $default = null)
