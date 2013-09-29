@@ -226,48 +226,24 @@ class midcom_helper__componentloader
         {
             return false;
         }
-        $snippetpath = $this->path_to_snippetpath($path);
 
-        if (!$snippetpath)
+        $classname = $this->path_to_prefix($path) . '_interface';
+        if (!class_exists($classname))
         {
+            debug_add("Class {$classname} does not exist.", MIDCOM_LOG_CRIT);
             return false;
         }
-
-        $directory = $snippetpath . '/midcom';
-
-        // Load the interfaces.php snippet, abort if that file is not available.
-        if (! file_exists("{$directory}/interfaces.php"))
-        {
-            debug_add("File {$directory}/interfaces.php is not present.", MIDCOM_LOG_CRIT);
-            return false;
-        }
-        require_once $directory . '/interfaces.php';
-
-        // Load the component interface, try to be backwards-compatible
-        $prefix = $this->path_to_prefix($path);
-
-        if (class_exists("{$prefix}_interface"))
-        {
-            $classname = "{$prefix}_interface";
-            $this->_interface_classes[$path] = new $classname();
-        }
-        else
-        {
-            debug_add("Class {$prefix}_interface does not exist.", MIDCOM_LOG_CRIT);
-            return false;
-        }
+        $this->_interface_classes[$path] = new $classname();
 
         midcom::get('dbclassloader')->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
-        $init_class =& $this->_interface_classes[$path];
-        if ($init_class->initialize($path) == false)
+        if ($this->_interface_classes[$path]->initialize($path) == false)
         {
             debug_add("Initialize of Component {$path} failed.", MIDCOM_LOG_CRIT);
             return false;
         }
 
         $this->_loaded[] = $path;
-
         $this->_tried_to_load[$path] = true;
 
         return true;

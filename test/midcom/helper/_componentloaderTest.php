@@ -87,8 +87,13 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $this->assertEquals(array(), $componentloader->list_loaded_components());
     }
 
-    public function test_loaded_external_component()
+    public function test_load_external_component()
     {
+        // Workaround for autoloader. In real installations the file would
+        // be in composer's classmap
+        require_once  __DIR__ . '/__files/testcomponent/midcom/interfaces.php';
+        // Workaround end
+
         $componentloader = midcom::get('componentloader');
         $componentloader->register_component('openpsa.unittest.testcomponent', __DIR__ . '/__files/testcomponent');
         $this->assertTrue($componentloader->load_graceful('openpsa.unittest.testcomponent'));
