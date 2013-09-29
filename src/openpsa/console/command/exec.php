@@ -21,19 +21,22 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class exec extends Command
 {
+    private $_component;
+
+    private $_filename;
+
     protected function configure()
     {
-        $this->setName('midcom:exec')
-            ->setDescription('Run midcom-exec script')
-            ->addArgument('component', InputArgument::REQUIRED, 'Component name')
-            ->addArgument('filename', InputArgument::REQUIRED, 'Name of the file to run')
+        $parts = explode(':', $this->getName());
+        $this->_component = $parts[0];
+        $this->_filename = $parts[1] . '.php';
+
+        $this->setDescription('Run midcom-exec script ' . $this->_filename)
             ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $component = $input->getArgument('component');
-        $filename = $input->getArgument('filename');
         $get = $input->getArgument('get');
 
         if (is_array($get))
@@ -58,13 +61,13 @@ class exec extends Command
 
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL)
         {
-            $output->writeln('Running ' . $component . ' ' . $filename);
+            $output->writeln('Running ' . $this->_component . '/' . $this->_filename);
         }
-        \midcom::get('auth')->request_sudo($component);
+        \midcom::get('auth')->request_sudo($this->_component);
 
         $context = \midcom_core_context::get();
         $context->parser = \midcom::get('serviceloader')->load('midcom_core_service_urlparser');
-        $context->parser->parse(array('midcom-exec-' . $component, $filename));
+        $context->parser->parse(array('midcom-exec-' . $this->_component, $this->_filename));
 
         $resolver = new \midcom_core_resolver($context);
         $resolver->process();

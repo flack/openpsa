@@ -28,6 +28,7 @@ class application extends base_application
     {
         parent::__construct($name, $version);
 
+        $this->_prepare_environment();
         $this->_add_default_commands();
         $this->getDefinition()
             ->addOption(new InputOption('--config', '-c', InputOption::VALUE_REQUIRED, 'Config name (mgd2 only)'));
@@ -39,12 +40,15 @@ class application extends base_application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $config_name = $input->getParameterOption(array('--config', '-c'), null);
-        $this->_prepare_environment($config_name);
+        if (!\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name))
+        {
+            throw new \RuntimeException('Could not open midgard connection ' . $config_name . ': ' . \midcom_connection::get_error_string());
+        }
 
         parent::doRun($input, $output);
     }
 
-    private function _prepare_environment($config_name)
+    private function _prepare_environment()
     {
         if (file_exists(OPENPSA_PROJECT_BASEDIR . 'config.inc.php'))
         {
@@ -68,15 +72,28 @@ class application extends base_application
             'REMOTE_PORT' => '80'
         );
         $_SERVER = array_merge($server_defaults, $_SERVER);
-
-        if (!\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR, $config_name))
-        {
-            throw new \RuntimeException('Could not open midgard connection ' . $config_name . ': ' . \midcom_connection::get_error_string());
-        }
     }
 
     private function _add_default_commands()
     {
-        $this->add(new exec);
+        $loader = \midcom::get('componentloader');
+        $this->_process_dir(MIDCOM_ROOT . '/midcom/exec', 'midcom');
+        foreach ($loader->manifests as $manifest)
+        {
+            $exec_dir = $loader->path_to_snippetpath($manifest->name) . '/exec';
+            $this->_process_dir($exec_dir, $manifest->name);
+        }
+    }
+
+    private function _process_dir($exec_dir, $component)
+    {
+        if (is_dir($exec_dir))
+        {
+            foreach (glob($exec_dir . '/*.php') as $file)
+            {
+                $command = substr(basename($file), 0, -4);
+                $this->add(new exec($component . ':' . $command));
+            }
+        }
     }
 }
