@@ -584,17 +584,25 @@ class midcom_config implements arrayaccess
         {
             return $default;
         }
-        return $this->offsetGet($key);
+
+        // Check the midcom_config site prefix for absolute local urls
+        if (   $key === 'midcom_site_url'
+            && substr($this->_merged_config[$key], 0, 1) === '/')
+        {
+            $this->_merged_config[$key] = midcom::get()->get_page_prefix() . substr($this->_merged_config[$key], 1);
+        }
+
+        return $this->_merged_config[$key];
     }
 
     public function set($key, $value)
     {
-        $this->offsetSet($key, $value);
+        $this->_merged_config[$key] = $value;
     }
 
     public function offsetSet($offset, $value)
     {
-        $this->_merged_config[$offset] = $value;
+        $this->set($offset, $value);
     }
 
     public function offsetExists($offset)
@@ -609,7 +617,7 @@ class midcom_config implements arrayaccess
 
     public function offsetGet($offset)
     {
-        return isset($this->_merged_config[$offset]) ? $this->_merged_config[$offset] : null;
+        return $this->get($offset);
     }
 }
 ?>

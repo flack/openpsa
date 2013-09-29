@@ -93,12 +93,6 @@ class midcom_application
         // Initialize Context Storage
         $context = new midcom_core_context(0);
         $context->set_current();
-
-        // Check the midcom_config site prefix for absolute local urls
-        if (substr($config->get('midcom_site_url'), 0, 1) == '/')
-        {
-            $config->set('midcom_site_url', $this->get_page_prefix() . substr($config->get('midcom_site_url'), 1));
-        }
     }
 
     /* *************************************************************************
