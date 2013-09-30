@@ -118,7 +118,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return array_reverse($object_path);
     }
 
-    private function _list_child_elements($object, $prefix = '    ', $level = 0)
+    private function _list_child_elements($object, $level = 0)
     {
         if ($level > 25)
         {
@@ -128,21 +128,27 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $siblings = midcom_helper_reflector_tree::get_child_objects($object);
         if (!empty($siblings))
         {
-            echo "{$prefix}<ul>\n";
+            echo "<ul>\n";
             foreach ($siblings as $type => $children)
             {
+                $total = count($children);
+                if (   $total > $this->_config->get('max_navigation_entries')
+                    && empty($_GET['show_all_' . $type]))
+                {
+                    $this->_draw_collapsed_element($level, $type, $total);
+                    return;
+                }
+
                 $label_mapping = Array();
-                $i = 0;
-                foreach ($children as $child)
+                foreach ($children as $i => $child)
                 {
                     if (isset($this->shown_objects[$child->guid]))
                     {
                         continue;
                     }
 
-                    $ref =& $this->_get_reflector($child);
+                    $ref = $this->_get_reflector($child);
                     $label_mapping[$i] = htmlspecialchars($ref->get_object_label($child));
-                    $i++;
                 }
 
                 asort($label_mapping);
@@ -150,40 +156,10 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 foreach ($label_mapping as $index => $label)
                 {
                     $child =& $children[$index];
-
-                    $ref =& $this->_get_reflector($child);
-
-                    $selected = $this->_is_selected($child);
-                    $css_class = $type;
-                    $this->_common_css_classes($child, $ref, $css_class);
-
-                    $mode = $this->_request_data['default_mode'];
-                    if (strpos($css_class, 'readonly'))
-                    {
-                        $mode = 'view';
-                    }
-
-                    $this->shown_objects[$child->guid] = true;
-
-                    echo "{$prefix}    <li class=\"{$css_class}\">";
-
-                    $icon = $ref->get_object_icon($child);
-                    if (empty($label))
-                    {
-                        $label = "#{$child->id}";
-                    }
-
-                    echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$child->guid}/\" title=\"GUID: {$child->guid}, ID: {$child->id}\">{$icon}{$label}</a>\n";
-
-                    if ($selected)
-                    {
-                        $this->_list_child_elements($child, "{$prefix}        ", $level+1);
-                    }
-
-                    echo "{$prefix}    </li>\n";
+                    $this->_draw_element($child, $label, $level);
                 }
             }
-            echo "{$prefix}</ul>\n";
+            echo "</ul>\n";
         }
     }
 
@@ -201,20 +177,11 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
-        if ($total > $this->_config->get('max_navigation_entries'))
+        if (   $total > $this->_config->get('max_navigation_entries')
+            && empty($_GET['show_all_' . $ref->mgdschema_class]))
         {
-            if (empty($_GET['show_all_' . $ref->mgdschema_class]))
-            {
-                if (!empty($this->_object_path))
-                {
-                    $object = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[0]);
-                    $label = htmlspecialchars($ref->get_object_label($object));
-                    $this->_draw_root_element($ref, $object, $label);
-                }
-
-                echo '<li><a href="?show_all_' . $ref->mgdschema_class . '=1">' . sprintf($this->_l10n->get('show %s entries'), $total) . '</a></li>';
-                return;
-            }
+            $this->_draw_collapsed_element(0, $ref->mgdschema_class, $total);
+            return;
         }
 
         $root_objects = $ref->get_root_objects();
@@ -226,19 +193,37 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
 
         asort($label_mapping);
-
+        $autoexpand = (sizeof($root_objects) == 1);
         foreach ($label_mapping as $index => $label)
         {
             $object = $root_objects[$index];
-            $this->_draw_root_element($ref, $object, $label, (sizeof($root_objects) == 1));
-            echo "    </li>\n";
+            $this->_draw_element($object, $label, 1, $autoexpand);
         }
 
         echo "</ul>\n";
     }
 
-    private function _draw_root_element(midcom_helper_reflector_tree $ref, $object, $label, $autoexpand = false)
+    private function _draw_collapsed_element($level, $type, $total)
     {
+        if (!empty($this->_object_path[$level]))
+        {
+            $child = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[$level]);
+            if ($child->__mgdschema_class_name__ == $type)
+            {
+                $ref =& $this->_get_reflector($child);
+                $label = htmlspecialchars($ref->get_object_label($child));
+                $this->_draw_element($child, $label, $level);
+            }
+        }
+        $icon = midcom_helper_reflector::get_object_icon(new $type);
+        echo '<li><a class="expand-type-children" href="?show_all_' . $type . '=1">' . $icon . ' ' . sprintf($this->_l10n->get('show %s entries'), $total) . '</a></li>';
+        echo "</ul>\n";
+    }
+
+    private function _draw_element($object, $label, $level = 0, $autoexpand = false)
+    {
+        $ref = $this->_get_reflector($child);
+
         $selected = $this->_is_selected($object);
         $css_class = get_class($object);
         $this->_common_css_classes($object, $ref, $css_class);
@@ -264,8 +249,9 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         if (   $selected
             || $autoexpand)
         {
-            $this->_list_child_elements($object);
+            $this->_list_child_elements($object, $level + 1);
         }
+        echo "    </li>\n";
     }
 
     private function _draw_plugins()

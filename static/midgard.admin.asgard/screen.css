@@ -175,6 +175,12 @@ p
 {
 }
 
+#navigation div.section ul.midgard_admin_asgard_navigation li a.expand-type-children
+{
+    font-style: italic;
+    color: #666
+}
+
 #navigation h3
 {
     background-color: #babdb6;
