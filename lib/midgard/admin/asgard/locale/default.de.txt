@@ -722,8 +722,8 @@ Typen auswählen
 Shell
 ---STRINGEND
 
----STRING show %s entries
-%s Einträge anzeigen
+---STRING show all %s %s entries
+Alle %s %s-Elemente anzeigen
 ---STRINGEND
 
 ---STRING show %s %s children
