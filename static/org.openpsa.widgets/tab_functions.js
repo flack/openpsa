@@ -27,22 +27,39 @@ var org_openpsa_widgets_tabs =
             },
             activate: function(event, ui)
             {
-                $.history.load('!' + ui.newPanel.attr('id'));
                 $(window).trigger('resize');
+
+                var last_state = History.getState(),
+                data = {tab_id: ui.newPanel.attr('id')};
+
+                // skip if the last state was same than current
+                if (last_state.tab_id !== data.tab_id)
+                {
+                    History.pushState(data, $('body').data('title'), '?' + data.tab_id);
+                }
             },
             create: function(event, ui)
             {
-                $.history.init(org_openpsa_widgets_tabs.history_loader);
+                // Prepare History.js
+                if (History.enabled)
+                {
+                     History.Adapter.bind(window, 'statechange', function()
+                     {
+                         org_openpsa_widgets_tabs.history_loader();
+                     });
+                }
             }
         });
 
     },
-    history_loader: function(hash)
+    history_loader: function()
     {
-        var tab_id = 0;
+        var tab_id = 0, state = History.getState(),
+        hash = state.data.tab_id;
+
         if (hash !== '')
         {
-            tab_id = parseInt(hash.replace(/!ui-tabs-/, '')) - 1;
+            tab_id = parseInt(hash.replace(/ui-tabs-/, '')) - 1;
         }
 
         if ($('#tabs').tabs('option', 'active') != tab_id)
