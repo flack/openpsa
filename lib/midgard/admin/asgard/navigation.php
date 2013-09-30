@@ -118,7 +118,13 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return array_reverse($object_path);
     }
 
-    private function _list_child_elements($object, $level = 0)
+    protected function _is_collapsed($type, $total)
+    {
+        return (   $total > $this->_config->get('max_navigation_entries')
+                && empty($_GET['show_all_' . $type]));
+    }
+
+    protected function _list_child_elements($object, $level = 0)
     {
         if ($level > 25)
         {
@@ -145,8 +151,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             echo "<ul>\n";
             foreach ($child_types as $type => $data)
             {
-                if (   $data['total'] > $this->_config->get('max_navigation_entries')
-                    && empty($_GET['show_all_' . $type]))
+                if ($this->_is_collapsed($type, $data['total']))
                 {
                     $this->_draw_collapsed_element($level, $type, $data['total']);
                     return;
@@ -190,8 +195,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
-        if (   $total > $this->_config->get('max_navigation_entries')
-            && empty($_GET['show_all_' . $ref->mgdschema_class]))
+        if ($this->_is_collapsed($ref->mgdschema_class, $total))
         {
             $this->_draw_collapsed_element(0, $ref->mgdschema_class, $total);
             return;
@@ -233,7 +237,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo "</ul>\n";
     }
 
-    private function _draw_element($object, $label, $level = 0, $autoexpand = false)
+    protected function _draw_element($object, $label, $level = 0, $autoexpand = false)
     {
         $ref = $this->_get_reflector($child);
 
