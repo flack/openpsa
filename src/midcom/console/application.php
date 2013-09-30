@@ -91,6 +91,13 @@ class application extends base_application
 
     private function _add_default_commands()
     {
+        // mgd1 workaround: some methods return fatal errors when called without connection, so we set this up here:
+        if (   extension_loaded('midgard')
+            && !\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR))
+        {
+            throw new \RuntimeException('Could not open midgard connection: ' . \midcom_connection::get_error_string());
+        }
+
         $loader = \midcom::get('componentloader');
         $this->_process_dir(MIDCOM_ROOT . '/midcom/exec', 'midcom');
         foreach ($loader->manifests as $manifest)
