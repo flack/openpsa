@@ -125,20 +125,33 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             debug_add('Recursion level 25 exceeded, aborting', MIDCOM_LOG_ERROR);
             return;
         }
-        $siblings = midcom_helper_reflector_tree::get_child_objects($object);
-        if (!empty($siblings))
+        $ref = $this->_get_reflector($object);
+
+        $child_types = array();
+        foreach ($ref->get_child_classes() as $class)
+        {
+            $qb = $ref->_child_objects_type_qb($class, $object, false);
+            $count = $qb->count_unchecked();
+
+            if ($count == 0)
+            {
+                continue;
+            }
+            $child_types[$class] = array('total' => $count, 'qb' => $qb);
+        }
+
+        if (!empty($child_types))
         {
             echo "<ul>\n";
-            foreach ($siblings as $type => $children)
+            foreach ($child_types as $type => $data)
             {
-                $total = count($children);
-                if (   $total > $this->_config->get('max_navigation_entries')
+                if (   $data['total'] > $this->_config->get('max_navigation_entries')
                     && empty($_GET['show_all_' . $type]))
                 {
-                    $this->_draw_collapsed_element($level, $type, $total);
+                    $this->_draw_collapsed_element($level, $type, $data['total']);
                     return;
                 }
-
+                $children = $data['qb']->execute();
                 $label_mapping = Array();
                 foreach ($children as $i => $child)
                 {

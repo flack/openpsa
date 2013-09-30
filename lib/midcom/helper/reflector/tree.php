@@ -383,19 +383,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        //make sure children of the same type come out on top
-        $i = 0;
-        foreach ($child_classes as $child_class)
-        {
-            if (midcom::get('dbfactory')->is_a($object, $child_class))
-            {
-                unset($child_classes[$i]);
-                array_unshift($child_classes, $child_class);
-                break;
-            }
-            $i++;
-        }
-
         $child_objects = array();
         foreach ($child_classes as $schema_type)
         {
@@ -680,6 +667,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         // TODO: handle exceptions
 
+        //make sure children of the same type come out on top
+        if ($key = array_search($this->mgdschema_class, $child_classes))
+        {
+            unset($child_classes[$key]);
+            array_unshift($child_classes, $this->mgdschema_class);
+        }
         return $child_classes;
     }
 
