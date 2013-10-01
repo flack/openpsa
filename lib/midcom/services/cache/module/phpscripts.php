@@ -177,8 +177,9 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
 
     /**
      * The GUID invalidation wrapper is empty, as cached script files are not bound to any GUID.
+     * {@inheritDoc}
      */
-    function invalidate($guid)
+    function invalidate($guid, $object = null)
     {
     }
 

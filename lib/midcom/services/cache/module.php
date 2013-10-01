@@ -148,7 +148,8 @@ abstract class midcom_services_cache_module
      * Invalidate all cache objects related to the given GUID.
      *
      * @param GUID $guid The GUID that has to be invalidated.
+     * @param object $object The object that has to be invalidated (if available).
      */
-    abstract function invalidate($guid);
+    abstract function invalidate($guid, $object = null);
 }
 ?>

@@ -85,7 +85,7 @@ class midcom_services_cache implements EventSubscriberInterface
     public function handle_event(dbaevent $event)
     {
         $object = $event->get_object();
-        $this->invalidate($object->guid);
+        $this->invalidate($object);
     }
 
     public function handle_create(dbaevent $event)
@@ -96,14 +96,14 @@ class midcom_services_cache implements EventSubscriberInterface
             && $parent->guid)
         {
             // Invalidate parent from cache so content caches have chance to react
-            $this->invalidate($parent->guid);
+            $this->invalidate($parent);
         }
     }
 
     public function handle_update(dbaevent $event)
     {
         $object = $event->get_object();
-        $this->invalidate($object->guid);
+        $this->invalidate($object);
 
         if (midcom::get('config')->get('attachment_cache_enabled'))
         {
@@ -191,9 +191,10 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     function invalidate($guid, $skip_module = '')
     {
+        $object = null;
         if (is_object($guid))
         {
-            debug_print_r("Got an object, trying to auto-detect the GUID. Passed type was:", $guid);
+            $object = $guid;
             $guid = $guid->guid;
         }
         if (empty($guid))
@@ -210,7 +211,7 @@ class midcom_services_cache implements EventSubscriberInterface
                 continue;
             }
             debug_add("Invalidating the cache module {$name} for GUID {$guid}.");
-            $this->_modules[$name]->invalidate($guid);
+            $this->_modules[$name]->invalidate($guid, $object);
         }
     }
 }
