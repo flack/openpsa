@@ -187,8 +187,7 @@ class midcom_debug
         }
 
         //find the proper caller
-        $bt = debug_backtrace(false);
-        $prefix .= $this->_get_caller($bt);
+        $prefix .= $this->_get_caller();
         fputs($file, $prefix . trim($message) . "\n");
         fclose($file);
 
@@ -215,9 +214,16 @@ class midcom_debug
         }
     }
 
-    private function _get_caller($bt)
+    private function _get_caller()
     {
         $return = '';
+        $options = false;
+        if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+        {
+            $options = DEBUG_BACKTRACE_IGNORE_ARGS;
+        }
+
+        $bt = debug_backtrace($options);
 
         while ($bt)
         {
