@@ -562,7 +562,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $links = array();
         $parent_property = midgard_object_class::get_property_parent($obj);
         $up_property = midgard_object_class::get_property_up($obj);
-        foreach ($properties as $property => $dummy)
+        foreach ($properties as $property)
         {
             if ($property == 'guid')
             {
