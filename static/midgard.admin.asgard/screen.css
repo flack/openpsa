@@ -25,21 +25,22 @@ p
 
 #container-wrapper
 {
-  position: absolute;
-  min-height: 100%;
-  z-index: 2;
-  width: 100%;
+    position: absolute;
+    height: 100%;
+    z-index: 2;
+    width: 100%;
 }
 
 #container
 {
-  padding: 10px 10px 58px;
+    padding: 10px;
+    height: calc(100% - 68px);
 }
 
 #navigation,
 #content
 {
-  margin: 0em;
+    margin: 0em;
 }
 
 #navigation
@@ -215,10 +216,12 @@ p
 
 #content
 {
-  background-color: #d3d7cf;
-  margin-left: 230px;
-  padding: 1em;
-  border-radius: 6px;
+    background-color: #d3d7cf;
+    margin-left: 230px;
+    padding: 1em;
+    border-radius: 6px;
+    min-height: calc(100% - 2em);
+    margin-bottom: 58px
 }
 #content div.page-title
 {
@@ -241,7 +244,7 @@ p
 
 #content div.page-title h1 a
 {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 #content div.page-title h1 .object_language
