@@ -405,7 +405,7 @@ class midcom_helper__componentloader
         if (! is_array($manifests))
         {
             debug_add('Cache miss, generating component manifest cache now.');
-            $manifests = $this->_get_manifests();
+            $manifests = $this->get_manifests();
             midcom::get('cache')->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
 
@@ -421,7 +421,7 @@ class midcom_helper__componentloader
      *
      * @todo investigate if we should unset the package.xml part of the arrays and serialize them
      */
-    private function _get_manifests()
+    public function get_manifests()
     {
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"

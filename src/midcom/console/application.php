@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\command\exec;
+
 /**
  * OpenPSA CLI command runner
  *
@@ -100,9 +101,13 @@ class application extends base_application
             throw new \RuntimeException('Could not open midgard connection: ' . \midcom_connection::get_error_string());
         }
 
-        $loader = \midcom::get('componentloader');
+        require_once dirname(dirname(dirname(__DIR__))) . '/lib/constants.php';
         $this->_process_dir(MIDCOM_ROOT . '/midcom/exec', 'midcom');
-        foreach ($loader->manifests as $manifest)
+
+        // we retrieve the manifests directly here, because we might get them
+        // from the wrong cache (--servername does not apply here yet)
+        $loader = new \midcom_helper__componentloader;
+        foreach ($loader->get_manifests() as $manifest)
         {
             $exec_dir = $loader->path_to_snippetpath($manifest->name) . '/exec';
             $this->_process_dir($exec_dir, $manifest->name);
