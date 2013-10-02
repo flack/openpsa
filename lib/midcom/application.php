@@ -84,12 +84,6 @@ class midcom_application
 
         midcom::get('componentloader')->load_all_manifests();
 
-        $config = midcom::get('config');
-        foreach ($config->get('midcom_components', array()) as $name => $path)
-        {
-            midcom::get('componentloader')->register_component($name, $path);
-        }
-
         // Initialize Context Storage
         $context = new midcom_core_context(0);
         $context->set_current();

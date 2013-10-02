@@ -116,13 +116,6 @@ class midcom_helper__componentloader
     var $manifests = array();
 
     /**
-     * Mapping for components paths not included in the main midcom directory hierarchy
-     *
-     * @var array
-     */
-    private $_component_paths = array();
-
-    /**
      * This function will invoke _load directly. If the loading process
      * is unsuccessful, it will throw midcom_error.
      *
@@ -298,7 +291,6 @@ class midcom_helper__componentloader
             $this->load_all_manifests();
         }
         $this->_register_manifest(new midcom_core_manifest($filename));
-        $this->_component_paths[$name] = $path;
     }
 
     /**
@@ -332,18 +324,16 @@ class midcom_helper__componentloader
      */
     public function path_to_snippetpath($component_name)
     {
-        if (array_key_exists($component_name, $this->_component_paths))
+        if (array_key_exists($component_name, $this->manifests))
         {
-            return $this->_component_paths[$component_name];
+            return dirname(dirname($this->manifests[$component_name]->filename));
         }
-        $directory = MIDCOM_ROOT . "/" . strtr($component_name, ".", "/");
-
-        if (! is_dir($directory))
+        else if ($component_name == 'midcom')
         {
-            debug_add("Failed to validate the component path {$directory}: It is no directory.", MIDCOM_LOG_CRIT);
-            return false;
+            return MIDCOM_ROOT . '/midcom';
         }
-        return $directory;
+        debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
+        return false;
     }
 
     /**
@@ -423,6 +413,7 @@ class midcom_helper__componentloader
      */
     public function get_manifests()
     {
+        $candidates = array();
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
         // This does follow symlinks, which can be important when several
@@ -432,7 +423,16 @@ class midcom_helper__componentloader
         exec('find ' . MIDCOM_ROOT . ' -follow -type d -name "config"', $directories);
         foreach ($directories as $directory)
         {
-            $filename = "{$directory}/manifest.inc";
+            $candidates[] = "{$directory}/manifest.inc";
+        }
+        // now we look for extra components the user my have registered
+        $config = midcom::get('config');
+        foreach ($config->get('midcom_components', array()) as $path)
+        {
+            $candidates[] = $path . '/config/manifest.inc';
+        }
+        foreach ($candidates as $filename)
+        {
             if (file_exists($filename))
             {
                 $manifests[] = new midcom_core_manifest($filename);
