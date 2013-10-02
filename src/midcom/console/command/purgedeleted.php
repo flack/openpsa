@@ -25,7 +25,7 @@ class purgedeleted extends Command
         $this->setName('midcom:purgedeleted')
             ->setDescription('Purge deleted objects')
             ->addOption('days', null, InputOption::VALUE_REQUIRED, 'Grace period in days', '25')
-            ->addOption('chunksize', null, InputOption::VALUE_REQUIRED, 'Maximum number of objects purged per class at once (use 0 to disable limit)', '1000');
+            ->addOption('chunksize', null, InputOption::VALUE_REQUIRED, 'Maximum number of objects purged per class at once (use 0 to disable limit)', '500');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -47,25 +47,26 @@ class purgedeleted extends Command
 
         foreach ($handler->get_classes() as $mgdschema)
         {
-            $output->writeln("\nProcessing class <info>{$mgdschema}</info>");
+            $output->writeln("\n\nProcessing class <info>{$mgdschema}</info>");
+            $purged = 0;
+            $errors = 0;
             do
             {
                 $stats = $handler->process_class($mgdschema, $chunk_size);
-
                 foreach ($stats['errors'] as $error)
                 {
                     $output->writeln('  <error>' . $error . '</error>');
                 }
-                if ($stats['found'] > 0)
+                if ($purged > 0)
                 {
-                    $output->writeln("  Purged <info>{$stats['purged']}</info> deleted objects, <comment>" . count($stats['errors']) . " failures</comment>");
+                    $output->write("\x0D");
                 }
-                else
-                {
-                    $output->writeln("  <comment>No matching objects found</comment>");
-                }
+                $purged += $stats['purged'];
+                $errors += count($stats['errors']);
+                $output->write("  Purged <info>{$purged}</info> deleted objects, <comment>" . $errors . " failures</comment>");
             }
             while ($stats['found'] == $chunk_size);
         }
+        $output->writeln("\nDone.");
     }
 }
