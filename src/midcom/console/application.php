@@ -59,6 +59,12 @@ class application extends base_application
         {
             throw new \RuntimeException('Could not open midgard connection ' . $config_name . ': ' . \midcom_connection::get_error_string());
         }
+        if (   extension_loaded('midgard2')
+            && OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity())
+        {
+            $config = \midgard_connection::get_instance()->config;
+            $output->writeln('Using <comment>' . $config->dbtype . '</comment> database <info>' . $config->database . '</info>');
+        }
 
         // This makes sure that existing auth and cache instances get overridden
         \midcom::init();
