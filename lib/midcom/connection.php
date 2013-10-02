@@ -40,7 +40,6 @@ class midcom_connection
         (
             'prefix' => '',
             'quota' => false,
-            'unique_host_name' => 'openpsa',
             'auth_cookie_id' => 1,
         ),
 
@@ -609,7 +608,7 @@ class midcom_connection
     {
         if (null === self::_get('config', 'unique_host_name'))
         {
-            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
+            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));
         }
 
         return self::$_data['config']['unique_host_name'];
