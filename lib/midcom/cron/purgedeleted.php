@@ -13,8 +13,6 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
 {
     private $_cutoff;
 
-    public $quiet = true;
-
     public function set_cutoff($days)
     {
         $this->_cutoff = mktime(23, 59, 59, date('n'), date('j') - $days, date('Y'));
@@ -29,64 +27,77 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         return $this->_cutoff;
     }
 
-    private function _log($message, $level = MIDCOM_LOG_DEBUG)
+    public function get_classes()
     {
-        debug_add(trim($message, " \n"), $level);
-
-        if (!$this->quiet)
+        $classes = array();
+        foreach (midcom_connection::get_schema_types() as $mgdschema)
         {
-            if ($level == MIDCOM_LOG_ERROR)
+            if (   substr($mgdschema, 0, 2) == '__'
+                || (   class_exists('MidgardReflectorObject')
+                    && !MidgardReflectorObject::has_metadata_class($mgdschema)))
             {
-                $message = 'ERROR: ' . $message;
+                continue;
             }
-            echo $message . "\n";
-            flush();
+            $classes[] = $mgdschema;
         }
+        return $classes;
     }
 
     public function _on_execute()
     {
         $cut_off = $this->get_cutoff();
-        $this->_log('Purging entries deleted before ' . gmdate('Y-m-d H:i:s', $cut_off) . "\n");
-        foreach (midcom_connection::get_schema_types() as $mgdschema)
+        debug_add('Purging entries deleted before ' . gmdate('Y-m-d H:i:s', $cut_off) . "\n");
+        foreach ($this->get_classes() as $mgdschema)
         {
-            if (substr($mgdschema, 0, 2) == '__')
+            debug_add("Processing class {$mgdschema}");
+            $stats = $this->process_class($mgdschema, $limit);
+
+            foreach ($stats['errors'] as $error)
             {
-                continue;
+                debug_add($error, MIDCOM_LOG_ERROR);
             }
-            if (   class_exists('MidgardReflectorObject')
-                && !MidgardReflectorObject::has_metadata_class($mgdschema))
+            if ($stats['found'] > 0)
             {
-                continue;
-            }
-            $this->_log("Processing class {$mgdschema}");
-            $qb = new midgard_query_builder($mgdschema);
-            $qb->add_constraint('metadata.deleted', '<>', 0);
-            $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
-            $qb->include_deleted();
-            $qb->set_limit(500);
-            $objects = $qb->execute();
-            $found = count($objects);
-            $purged = 0;
-            foreach ($objects as $obj)
-            {
-                if (!$obj->purge())
-                {
-                    $this->_log("Failed to purge {$mgdschema} {$obj->guid}, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_print_r('Failed object', $obj);
-                    continue;
-                }
-                $purged++;
-            }
-            if ($found > 0)
-            {
-                $this->_log("  Found {$found} deleted {$mgdschema} objects, purged {$purged}\n", MIDCOM_LOG_INFO);
+                debug_add("  Found {$stats['found']} deleted {$mgdschema} objects, purged {$stats['purged']}\n", MIDCOM_LOG_INFO);
             }
             else
             {
-                $this->_log("  No {$mgdschema} objects deleted before cutoff date found\n");
+                debug_add("  No {$mgdschema} objects deleted before cutoff date found\n");
             }
         }
+    }
+
+    public function process_class($mgdschema, $limit = false)
+    {
+        $cut_off = $this->get_cutoff();
+        $qb = new midgard_query_builder($mgdschema);
+        $qb->add_constraint('metadata.deleted', '<>', 0);
+        $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
+        $qb->include_deleted();
+        if ($limit)
+        {
+            $qb->set_limit($limit);
+        }
+        $objects = $qb->execute();
+
+        $stats = array
+        (
+            'found' => count($objects),
+            'purged' => 0,
+            'errors' => array()
+        );
+
+        foreach ($objects as $obj)
+        {
+            if (!$obj->purge())
+            {
+                $stats['errors'][] = "Failed to purge {$obj->guid}, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string();
+                debug_print_r('Purge failed for object', $obj);
+                continue;
+            }
+            $stats['purged']++;
+        }
+        return $stats;
     }
 }
 ?>
