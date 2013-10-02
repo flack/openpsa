@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\command\exec;
-
 /**
  * OpenPSA CLI command runner
  *
@@ -59,6 +58,9 @@ class application extends base_application
         {
             throw new \RuntimeException('Could not open midgard connection ' . $config_name . ': ' . \midcom_connection::get_error_string());
         }
+
+        // This makes sure that existing auth and cache instances get overridden
+        \midcom::init();
 
         parent::doRun($input, $output);
     }
