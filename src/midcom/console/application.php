@@ -109,7 +109,7 @@ class application extends base_application
         $loader = new \midcom_helper__componentloader;
         foreach ($loader->get_manifests() as $manifest)
         {
-            $exec_dir = $loader->path_to_snippetpath($manifest->name) . '/exec';
+            $exec_dir = dirname(dirname($manifest->filename)) . '/exec';
             $this->_process_dir($exec_dir, $manifest->name);
         }
     }
