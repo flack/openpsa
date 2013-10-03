@@ -50,7 +50,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         foreach ($this->get_classes() as $mgdschema)
         {
             debug_add("Processing class {$mgdschema}");
-            $stats = $this->process_class($mgdschema, $limit);
+            $stats = $this->process_class($mgdschema);
 
             foreach ($stats['errors'] as $error)
             {
@@ -67,7 +67,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         }
     }
 
-    public function process_class($mgdschema, $limit = false)
+    public function process_class($mgdschema, $limit = 500)
     {
         $cut_off = $this->get_cutoff();
         $qb = new midgard_query_builder($mgdschema);
