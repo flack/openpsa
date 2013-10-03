@@ -237,7 +237,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $message = $this->_prepare_message();
 
         $ret = $this->_backend->send($message);
-        if ($ret !== true)
+        if (!$ret)
         {
             debug_add('Mail sending failed: ' . $this->_backend->get_error_message(), MIDCOM_LOG_ERROR);
         }
