@@ -65,26 +65,30 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     private function _search_type_qb($dummy_object, $term)
     {
         $object_class = get_class($dummy_object);
-        $type_fields = array_keys(get_object_vars($dummy_object));
-        $reflector = new midgard_reflection_property($object_class);
-        unset($type_fields['metadata']);
+        $mgd_reflector = new midgard_reflection_property($object_class);
 
         $qb = $this->_prepare_qb($dummy_object);
         if (!$qb)
         {
             return array();
         }
+        $type_fields = midcom_helper_reflector::get($dummy_object)->get_search_properties();
 
         $constraints = 0;
         $qb->begin_group('OR');
         foreach ($type_fields as $key)
         {
-            $field_type = $reflector->get_midgard_type($key);
+            $field_type = $mgd_reflector->get_midgard_type($key);
             switch ($field_type)
             {
                 case MGD_TYPE_STRING:
                 case MGD_TYPE_LONGTEXT:
                     $qb->add_constraint($key, 'LIKE', "%{$term}%");
+                    $constraints++;
+                    break;
+                case MGD_TYPE_UINT:
+                case MGD_TYPE_INT:
+                    $qb->add_constraint($key, '=', (int) $term);
                     $constraints++;
                     break;
             }
