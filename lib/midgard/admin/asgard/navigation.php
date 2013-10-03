@@ -143,6 +143,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             {
                 continue;
             }
+            midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $class);
             if ($this->_is_collapsed($class, $count))
             {
                 $qb->set_limit($this->_config->get('max_navigation_entries'));
@@ -192,14 +193,22 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      */
     private function _list_root_elements(midcom_helper_reflector_tree &$ref)
     {
-        $total = $ref->count_root_objects();
-        if ($total == 0)
+        $qb = $ref->_root_objects_qb(false);
+
+        if (   !$qb
+            || !($total = $qb->count_unchecked()))
         {
             return;
         }
+        midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $ref->mgdschema_class);
+        if ($this->_is_collapsed($ref->mgdschema_class, $total))
+        {
+            $qb->set_limit($this->_config->get('max_navigation_entries'));
+        }
+
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
-        $root_objects = $ref->get_root_objects();
+        $root_objects = $qb->execute();
 
         $label_mapping = array();
         foreach ($root_objects as $i => $object)

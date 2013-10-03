@@ -38,10 +38,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Creates a QB instance for get_root_objects and count_root_objects
-     *
-     * @access private
      */
-    function _root_objects_qb($deleted)
+    public function _root_objects_qb($deleted)
     {
         $schema_type =& $this->mgdschema_class;
         $root_classes = self::get_root_classes();
