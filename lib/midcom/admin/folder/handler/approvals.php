@@ -32,23 +32,12 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
         $object = midcom::get('dbfactory')->get_object_by_guid($_REQUEST['guid']);
         $object->require_do('midcom:approve');
 
-        /**
-         * This flag is used to make it possible to explicitly recognize user intent
-         * to for example do special operations in midcom.helper.replicator
-         */
-        if (   !isset($GLOBALS['midcom_admin_folder_handler_approvals'])
-            || !is_array($GLOBALS['midcom_admin_folder_handler_approvals']))
-        {
-            $GLOBALS['midcom_admin_folder_handler_approvals'] = array();
-        }
         if ($handler_id == '____ais-folder-approve')
         {
-            $GLOBALS['midcom_admin_folder_handler_approvals'][$object->guid] = 'approve';
             $object->metadata->approve();
         }
         else
         {
-            $GLOBALS['midcom_admin_folder_handler_approvals'][$object->guid] = 'unapprove';
             $object->metadata->unapprove();
         }
 
