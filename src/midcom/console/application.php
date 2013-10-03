@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\command\exec;
 use midcom\console\command\purgedeleted;
+use midcom\console\command\repligard;
 
 /**
  * OpenPSA CLI command runner
@@ -120,6 +121,7 @@ class application extends base_application
             $this->_process_dir($exec_dir, $manifest->name);
         }
         $this->add(new purgedeleted);
+        $this->add(new repligard);
     }
 
     private function _process_dir($exec_dir, $component)
