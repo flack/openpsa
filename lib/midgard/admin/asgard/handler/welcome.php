@@ -215,16 +215,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 'class' => get_class($object)
             );
 
-            //Todo: Why not is_approved?
-            if (   $object->metadata->approved == 0
-                || $object->metadata->approved < $object->metadata->revised)
-            {
-                $row['approved'] = $this->_l10n->get('not approved');
-            }
-            else
-            {
-                $row['approved'] = strftime('%x %X', $object->metadata->approved);
-            }
             $row['approved'] = ($object->is_approved()) ? strftime('%x %X', $object->metadata->approved) : $this->_l10n->get('not approved');
 
             $title = substr($reflector->get_object_label($object), 0, 60);
