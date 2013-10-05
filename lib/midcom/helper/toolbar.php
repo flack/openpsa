@@ -322,9 +322,9 @@ class midcom_helper_toolbar
     {
         static $used_access_keys = array();
 
-        $item[MIDCOM_TOOLBAR__ORIGINAL_URL] = $item[MIDCOM_TOOLBAR_URL];
         $defaults = array
         (
+            MIDCOM_TOOLBAR_URL => './',
             MIDCOM_TOOLBAR_OPTIONS => array(),
             MIDCOM_TOOLBAR_HIDDEN => false,
             MIDCOM_TOOLBAR_HELPTEXT => '',
@@ -341,6 +341,7 @@ class midcom_helper_toolbar
                 $item[$key] = $value;
             }
         }
+        $item[MIDCOM_TOOLBAR__ORIGINAL_URL] = $item[MIDCOM_TOOLBAR_URL];
 
         // Check that access keys get registered only once
         if (   empty($item[MIDCOM_TOOLBAR_ACCESSKEY])
