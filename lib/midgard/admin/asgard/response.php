@@ -1,4 +1,16 @@
 <?php
+/**
+ * @package midgard.admin.asgard
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+
+/**
+ * Renderer for asgard views
+ *
+ * @package midgard.admin.asgard
+ */
 class midgard_admin_asgard_response extends midcom_response
 {
     private $_handler;
@@ -11,6 +23,9 @@ class midgard_admin_asgard_response extends midcom_response
         $this->_callback = $callback;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function send()
     {
         $context = midcom_core_context::get();
