@@ -113,10 +113,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_person->name);
-        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_toolbar($data, $handler_id);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
         $this->add_breadcrumb("", $data['view_title']);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     /**
@@ -127,14 +127,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['handler_id'] = $handler_id;
         $data['l10n'] =& $this->_l10n;
         $data['person'] =& $this->_person;
         midcom_show_style('midcom-admin-user-person-edit');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**
@@ -171,7 +167,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_person->name);
-        midcom::get('head')->set_pagetitle($data['view_title']);
         midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
@@ -180,6 +175,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         // Add jQuery Form handling for generating passwords with AJAX
         midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
+        return new midgard_admin_asgard_response($this, '_show_edit_account');
     }
 
     public function _save_account(midcom_helper_datamanager2_controller $controller)
@@ -208,8 +204,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_edit_account($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['handler_id'] = $handler_id;
         $data['l10n'] =& $this->_l10n;
         $data['person'] =& $this->_person;
@@ -219,8 +213,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             midcom_show_style('midcom-admin-user-generate-passwords');
         }
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**

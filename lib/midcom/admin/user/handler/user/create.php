@@ -71,10 +71,10 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['view_title'] = $this->_l10n->get('create user');
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/create/", $data['view_title']);
+        return new midgard_admin_asgard_response($this, '_show_create');
     }
 
     /**
@@ -85,10 +85,8 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_create($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         $data['person'] =& $this->_person;
         midcom_show_style('midcom-admin-user-person-create');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

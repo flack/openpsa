@@ -69,9 +69,9 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('move %s'), $data['group']->official);
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb($handler_id);
+        return new midgard_admin_asgard_response($this, '_show_move');
     }
 
     /**
@@ -82,7 +82,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      */
     public function _show_move($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-list-start');
 
         // Show the form headers
@@ -95,7 +94,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         midcom_show_style('midcom-admin-user-move-group-end');
 
         midcom_show_style('midcom-admin-user-group-list-end');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**
@@ -112,9 +110,8 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
         $data['view_title'] = $this->_l10n->get('groups');
 
-        midcom::get('head')->set_pagetitle($data['view_title']);
-
         $this->_update_breadcrumb($handler_id);
+        return new midgard_admin_asgard_response($this, '_show_list');
     }
 
     /**
@@ -125,14 +122,12 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      */
     public function _show_list($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-list-start');
 
         // Show the recursive listing
         self::list_groups(0, $data);
 
         midcom_show_style('midcom-admin-user-group-list-end');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**

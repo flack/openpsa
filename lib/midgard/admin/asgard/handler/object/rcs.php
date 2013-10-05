@@ -369,15 +369,14 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             });
         });
         ");
+        return new midgard_admin_asgard_response($this, '_show_history');
     }
 
     public function _show_history()
     {
-        midgard_admin_asgard_plugin::asgard_header();
         $this->_request_data['history'] = $this->_backend->list_history();
         $this->_request_data['guid']    = $this->_guid;
         midcom_show_style('midgard_admin_asgard_rcs_history');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     private function _resolve_object_title()
@@ -420,12 +419,12 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_request_data['guid'] = $args[0];
 
         $this->_request_data['view_title'] = sprintf($this->_l10n->get('changes done in revision %s to %s'), $this->_request_data['latest_revision'], $this->_resolve_object_title());
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_request_data($handler_id);
 
         // Load the toolbars
         $this->_rcs_toolbar();
+        return new midgard_admin_asgard_response($this, '_show_diff');
     }
 
     /**
@@ -433,9 +432,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public function _show_diff()
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_rcs_diff');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**
@@ -460,7 +457,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_view_toolbar->hide_item("__mfa/asgard/object/rcs/preview/{$this->_guid}/{$revision}/");
 
         $this->_request_data['view_title'] = sprintf($this->_l10n->get('viewing version %s of %s'), $revision, $this->_resolve_object_title());
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_request_data($handler_id);
 
@@ -470,13 +466,12 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         // Load the toolbars
         $this->_rcs_toolbar();
+        return new midgard_admin_asgard_response($this, '_show_preview');
     }
 
     public function _show_preview()
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_rcs_preview');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**

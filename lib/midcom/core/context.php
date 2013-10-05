@@ -392,6 +392,7 @@ class midcom_core_context
     public function run(midcom_baseclasses_components_interface $handler)
     {
         $result = $handler->handle();
+
         if (false === $result)
         {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");

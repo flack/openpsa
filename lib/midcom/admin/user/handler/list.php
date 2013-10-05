@@ -94,7 +94,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
         $this->_prepare_toolbar($data);
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        return new midgard_admin_asgard_response($this, '_show_list');
     }
 
     private function _list_persons()
@@ -199,8 +199,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      */
     public function _show_list($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['config'] =& $this->_config;
 
         $data['persons'] =& $this->_persons;
@@ -213,7 +211,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         }
 
         midcom_show_style('midcom-admin-user-personlist-footer');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**

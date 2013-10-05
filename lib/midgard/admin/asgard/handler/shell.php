@@ -60,11 +60,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = $controller;
         $data['view_title'] = $this->_l10n->get('shell');
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb("__mfa/asgard/shell/", $data['view_title']);
+        return new midgard_admin_asgard_response($this, '_show_shell');
     }
 
     /**
@@ -73,12 +73,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_shell($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
-
         midcom_show_style('midgard_admin_asgard_shell');
-
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 }
 ?>

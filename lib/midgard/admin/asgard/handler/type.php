@@ -154,7 +154,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         }
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_find_component();
         $data['documentation_component'] = $data['component'];
@@ -168,6 +167,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
+        return new midgard_admin_asgard_response($this, '_show_type');
     }
 
     private function _prepare_toolbar(&$data)
@@ -248,9 +248,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
      */
     public function _show_type($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
         $data['current_type'] = $this->type;
-        midcom_show_style('midgard_admin_asgard_middle');
 
         // Show the garbage bins of child types
         $data['type'] = $this->type;
@@ -276,8 +274,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $this->show_child_types($this->type, $data);
             midcom_show_style('midgard_admin_asgard_type_children_end');
         }
-
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     function show_child_types($type, &$data)

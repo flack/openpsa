@@ -143,6 +143,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_view');
     }
 
     /**
@@ -153,16 +154,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_view($handler_id, array &$data)
     {
-        if (isset($_GET['ajax']))
-        {
-            midcom_show_style('midgard_admin_asgard_object_view');
-            return;
-        }
-
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_view');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     /**
@@ -230,6 +222,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     /**
@@ -240,10 +233,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_edit');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     private function _find_linking_property($new_type)
@@ -414,6 +404,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         $this->_prepare_request_data();
+        if ($handler_id !== '____mfa-asgard-object_create_chooser')
+        {
+            return new midgard_admin_asgard_response($this, '_show_create');
+        }
     }
 
     /**
@@ -441,10 +435,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             return;
         }
 
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_create');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     private function _object_to_jsdata(&$object)
@@ -563,6 +554,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
         $this->_add_jscripts();
+        return new midgard_admin_asgard_response($this, '_show_delete');
     }
 
     /**
@@ -574,9 +566,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     public function _show_delete($handler_id, array &$data)
     {
         $data['view_object'] = $this->_datamanager->get_content_html();
-        midcom_show_style('midgard_admin_asgard_header');
-
-        midcom_show_style('midgard_admin_asgard_middle');
 
         // Initialize the tree
         $data['tree'] = new midgard_admin_asgard_copytree($this->_object, $data);
@@ -584,7 +573,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $data['tree']->inputs = false;
 
         midcom_show_style('midgard_admin_asgard_object_delete');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     /**
@@ -646,6 +634,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         $data['target'] = $target;
+        return new midgard_admin_asgard_response($this, '_show_copy');
     }
 
     /**
@@ -737,17 +726,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_copy($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
-
-        midcom_show_style('midgard_admin_asgard_middle');
-
         // Show the tree hierarchy
         if ($handler_id === '____mfa-asgard-object_copy_tree')
         {
             $data['tree'] = new midgard_admin_asgard_copytree($this->_object, $data);
             $data['tree']->inputs = true;
             $data['tree']->copy_tree = true;
-
             midcom_show_style('midgard_admin_asgard_object_copytree');
         }
         else
@@ -755,7 +739,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             // Show the copy page
             midcom_show_style('midgard_admin_asgard_object_copy');
         }
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 }
 ?>

@@ -98,7 +98,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $ref = new midcom_helper_reflector($this->_group);
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $ref->get_object_title($this->_group));
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
 
@@ -122,6 +121,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             )
         );
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     /**
@@ -132,9 +132,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-edit');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>
