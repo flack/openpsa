@@ -40,7 +40,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 return new midcom_response_relocate("__mfa/asgard/");
 
             case 'edit':
-
                 if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
                     && !empty($controller->datamanager->validation_errors))
                 {
