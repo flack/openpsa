@@ -60,10 +60,50 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['controller'] = $controller;
         $data['view_title'] = $this->_l10n->get('shell');
 
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/shell.js');
+
+        $data['asgard_toolbar'] = $this->_prepare_toolbar();
+
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb("__mfa/asgard/shell/", $data['view_title']);
         return new midgard_admin_asgard_response($this, '_show_shell');
+    }
+
+    private function _prepare_toolbar()
+    {
+        $toolbar = new midgard_admin_asgard_toolbar();
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('save in browser'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 's',
+                MIDCOM_TOOLBAR_OPTIONS => array('id' => 'save-script')
+            )
+        );
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('restore from browser'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'r',
+                MIDCOM_TOOLBAR_OPTIONS => array('id' => 'restore-script')
+            )
+        );
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('clear all'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'r',
+                MIDCOM_TOOLBAR_OPTIONS => array('id' => 'clear-script')
+            )
+        );
+        return $toolbar;
     }
 
     /**

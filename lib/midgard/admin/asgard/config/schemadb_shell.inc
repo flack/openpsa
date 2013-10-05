@@ -4,8 +4,7 @@
     'l10n_db'     => 'midgard.admin.asgard',
     'operations' => array
     (
-        'save' => 'run',
-        'cancel' => 'cancel'
+        'save' => 'run'
     ),
     'fields'      => array
     (
