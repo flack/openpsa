@@ -291,7 +291,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $obj = $object;
         }
-
+        $label = '';
         if (method_exists($obj, 'get_label'))
         {
             $label = $obj->get_label();
@@ -312,9 +312,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             {
                 $label = $obj->name;
             }
-            else
+            else if ($obj->id > 0)
             {
-                $label = $obj->guid;
+                $label = $this->get_class_label() . ' #' . $obj->id;
             }
         }
         return $label;

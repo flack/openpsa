@@ -268,11 +268,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         $icon = $ref->get_object_icon($object);
 
-        if (empty($label))
-        {
-            $label = "#oid_{$object->id}";
-        }
-
         echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$object->guid}/\" title=\"GUID: {$object->guid}, ID: {$object->id}\">{$icon}{$label}</a>\n";
         if (   $selected
             || $autoexpand)
