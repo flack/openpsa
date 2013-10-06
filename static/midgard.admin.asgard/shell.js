@@ -1,12 +1,57 @@
 $(document).ready(function()
 {
+    var editor = CodeMirror.fromTextArea(document.getElementById("org_openpsa_mypage_code"), {
+        mode: "application/x-httpd-php",
+        lineNumbers: true,
+        theme: "eclipse",
+        lineWrapping: true,
+        matchBrackets: true,
+        indentUnit: 4,
+        indentWithTabs: false,
+        enterMode: "keep",
+        tabMode: "shift",
+        readOnly: false,
+        extraKeys: {
+            "F11": function() {
+                var scroller = editor.getScrollerElement();
+                if (scroller.className.search(/\bCodeMirror-fullscreen\b/) === -1) {
+                    scroller.className += " CodeMirror-fullscreen";
+                    scroller.style.height = "100%";
+                    scroller.style.width = "100%";
+                    editor.refresh();
+                } else {
+                    scroller.className = scroller.className.replace(" CodeMirror-fullscreen", "");
+                    scroller.style.height = '';
+                    scroller.style.width = '';
+                    editor.refresh();
+                }
+            },
+            "Esc": function() {
+                var scroller = editor.getScrollerElement();
+                if (scroller.className.search(/\bCodeMirror-fullscreen\b/) !== -1) {
+                    scroller.className = scroller.className.replace(" CodeMirror-fullscreen", "");
+                    scroller.style.height = '';
+                    scroller.style.width = '';
+                    editor.refresh();
+                }
+            }
+        }
+    });
+    var hlLine = editor.addLineClass(0, 'background', "activeline");
+
+    editor.on('cursorActivity', function(instance)
+    {
+        instance.removeLineClass(hlLine, 'background', 'activeline');
+        hlLine = instance.addLineClass(instance.getCursor().line, 'background', "activeline");
+    });
+
     var storage_available = (typeof window.localStorage !== 'undefined' && window.localStorage)
     if (storage_available)
     {
         $('#save-script').on('click', function(event)
         {
             event.preventDefault();
-            var script = window.editors["org_openpsa_mypage_code"].getValue();
+            var script = editor.getValue();
             window.localStorage.setItem('saved-script', script);
             $('#restore-script').removeClass('disabled');
         });
@@ -16,7 +61,7 @@ $(document).ready(function()
             var script = window.localStorage.getItem('saved-script');
             if (script)
             {
-                window.editors["org_openpsa_mypage_code"].setValue(script);
+                editor.setValue(script);
             }
         });
         $('#clear-script').on('click', function(event)
@@ -24,7 +69,7 @@ $(document).ready(function()
             event.preventDefault();
             window.localStorage.removeItem('saved-script');
             $('#restore-script').addClass('disabled');
-            window.editors["org_openpsa_mypage_code"].setValue('');
+            editor.setValue('');
         });
         if (!window.localStorage.getItem('saved-script'))
         {
@@ -35,4 +80,12 @@ $(document).ready(function()
     {
         $('#save-script, #restore-script, #clear-script').hide();
     }
+    $("#org_openpsa_mypage")
+        .attr('target', 'shell-runner')
+        .attr('action', $("#org_openpsa_mypage").attr('action') + '?ajax')
+        .on('submit', function(event)
+        {
+            $('#output-wrapper').show();
+            //event.preventDefault();
+        });
 });

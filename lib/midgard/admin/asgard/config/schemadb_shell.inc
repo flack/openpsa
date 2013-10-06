@@ -17,7 +17,7 @@
             (
                 'output_mode' => 'code',
             ),
-            'widget'      => 'codemirror',
+            'widget'      => 'textarea',
             'widget_config' => Array
             (
                 'height' => 30,

@@ -36,9 +36,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $data['code'] = $controller->formmanager->get_value('code');
                 break;
 
-            case 'cancel':
-                return new midcom_response_relocate("__mfa/asgard/");
-
             case 'edit':
                 if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
                     && !empty($controller->datamanager->validation_errors))
@@ -112,7 +109,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_shell($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_shell');
+        if (!isset($_GET['ajax']))
+        {
+            midcom_show_style('midgard_admin_asgard_shell');
+        }
+        else
+        {
+            midcom::get('cache')->content->enable_live_mode();
+            while (@ob_end_flush());
+            ob_implicit_flush(true);
+            midcom_show_style('midgard_admin_asgard_shell_runner');
+            ob_implicit_flush(false);
+        }
     }
 }
 ?>
