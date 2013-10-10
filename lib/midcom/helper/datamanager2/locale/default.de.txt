@@ -283,6 +283,10 @@ Reihenfolge speichern, niedrige Nummern erscheinen zuerst
 Video löschen
 ---STRINGEND
 
+---STRING validation failed for field %s: %s
+Validation schlug fehl für Feld <em>%s</em>: %s
+---STRINGEND
+
 ---STRING unsupported image format
 Ungültiges Bildformat.
 ---STRINGEND
