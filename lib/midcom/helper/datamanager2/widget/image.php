@@ -40,7 +40,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      *
      * @var boolean
      */
-    var $show_title = true;
+    public $show_title = true;
 
     public $show_action_elements = false;
 
@@ -402,40 +402,50 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function on_submit($results)
     {
-        // TODO: refactor these checks to separate methods
         if (array_key_exists("{$this->name}_delete", $results))
         {
             if (! $this->_type->delete_all_attachments())
             {
-                debug_add("Failed to delete all attached old images on the field {$this->name}.",
-                    MIDCOM_LOG_ERROR);
+                debug_add("Failed to delete all attached old images on the field {$this->name}.", MIDCOM_LOG_ERROR);
             }
 
             // Adapt the form:
             $this->_cast_formgroup_to_upload();
+            return;
         }
-        else if (array_key_exists("{$this->name}_rotate", $results))
+
+        if (array_key_exists("{$this->name}_rotate", $results))
         {
             // The direction is the key (since the value is the point clicked on the image input)
             $direction = key($results["{$this->name}_rotate"]);
-            if (! $this->_type->rotate($direction))
+            if (!$this->_type->rotate($direction))
             {
-                debug_add("Failed to rotate image on the field {$this->name}.",
-                    MIDCOM_LOG_ERROR);
+                debug_add("Failed to rotate image on the field {$this->name}.", MIDCOM_LOG_ERROR);
             }
+
+            $this->_cast_formgroup_to_replacedelete();
+            return;
         }
-        else if ($this->_upload_element->isUploadedFile())
+
+        if (!$this->_upload_element->isUploadedFile())
         {
-            $file = $this->_upload_element->getValue();
-            if ($this->show_title)
-            {
-                $title = $results["{$this->name}_title"];
-            }
-            else
-            {
-                $title = '';
-            }
-            if (! $this->_type->set_image($file['name'], $file['tmp_name'], $title))
+            return;
+        }
+
+        // if the image is valid we need to set it now
+        // otherwhise if other form fields validations fail, it will not be set
+        $file = $this->_upload_element->getValue();
+        $title = "";
+        if ($this->show_title && isset($results[$this->name . "_title"]))
+        {
+            $title = $results[$this->name . "_title"];
+        }
+        $this->_type->title = $title;
+        $this->_type->uploaded_file = $this->_upload_element;
+
+        if ($this->_type->validate())
+        {
+            if (!$this->_type->set_image($file['name'], $file['tmp_name'], $title))
             {
                 debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
                 $this->_cast_formgroup_to_upload();
@@ -486,11 +496,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function sync_type_with_widget($results)
     {
-        if (   $this->show_title
-            && isset($results["{$this->name}_title"]))
-        {
-            $this->_type->title = $results["{$this->name}_title"];
-        }
+        // this has been done in on_submit function
     }
 
     /**
@@ -498,8 +504,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function get_default()
     {
-        if (   $this->show_title
-            && $this->_type->title !== '')
+        if ($this->show_title && $this->_type->title !== '')
         {
             return Array("{$this->name}_title" => $this->_type->title);
         }

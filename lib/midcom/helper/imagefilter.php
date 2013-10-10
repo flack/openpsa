@@ -106,6 +106,7 @@ class midcom_helper_imagefilter
         stream_copy_to_stream($src, $dst);
         $input->close();
         fclose($dst);
+
         return $tmpname;
     }
 
@@ -275,7 +276,6 @@ class midcom_helper_imagefilter
     }
 
     /*********** INTERNAL HELPERS ******************/
-
     private function _run_command($cmd, $tempfile = null)
     {
         debug_add("executing: {$cmd}");
@@ -392,6 +392,20 @@ class midcom_helper_imagefilter
             . escapeshellarg("{$this->_filename}[0]") . " {$format}:{$tempfile}";
 
         $this->_run_command($cmd, $tempfile);
+    }
+
+    public function identify($filename)
+    {
+        try
+        {
+            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "identify " . escapeshellarg($filename);
+            $this->_run_command($cmd);
+        }
+        catch(midcom_error $e)
+        {
+            return false;
+        }
+        return true;
     }
 
     /**

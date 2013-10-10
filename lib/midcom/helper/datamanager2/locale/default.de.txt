@@ -11,7 +11,7 @@
 ---STRINGEND
 
 ---STRING You can only upload images here. This file will not be saved.
-hier können Sie nur Bilder hochladen. Diese Datei wird nicht gespeichert
+Hier können Sie nur Bilder hochladen. Diese Datei wird nicht gespeichert.
 ---STRINGEND
 
 ---STRING add new file
@@ -283,3 +283,14 @@ Reihenfolge speichern, niedrige Nummern erscheinen zuerst
 Video löschen
 ---STRINGEND
 
+---STRING unsupported image format
+Ungültiges Bildformat.
+---STRINGEND
+
+---STRING sanity check failed
+Bild ist möglicherweise korrupt.
+---STRINGEND
+
+---STRING upload max filesize exceeded
+Die Datei ist zu groß.
+---STRINGEND

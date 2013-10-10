@@ -15,54 +15,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
 {
     public $show_action_elements = false;
 
-    /**
-     * The on_submit event handles all file uploads immediately. They are passed through
-     * the type at that point.
-     */
-    function on_submit($results)
-    {
-        // TODO: refactor these checks to separate methods
-        if (array_key_exists("{$this->name}_delete", $results))
-        {
-            if (! $this->_type->delete_all_attachments())
-            {
-                debug_add("Failed to delete all attached old images on the field {$this->name}.",
-                MIDCOM_LOG_ERROR);
-            }
-
-            // Adapt the form:
-            $this->_cast_formgroup_to_replacedelete();
-        }
-        else if (array_key_exists("{$this->name}_rotate", $results))
-        {
-            // The direction is the key (since the value is the point clicked on the image input)
-            $direction = key($results["{$this->name}_rotate"]);
-            if (! $this->_type->rotate($direction))
-            {
-                debug_add("Failed to rotate image on the field {$this->name}.",
-                    MIDCOM_LOG_ERROR);
-            }
-            $this->_cast_formgroup_to_replacedelete();
-            return;
-        }
-        else if (!$this->_upload_element->isUploadedFile())
-        {
-            // _FILES juggling won't work anyways for doing archive extraction, drive the type directly for that
-            return;
-        }
-        $file = $this->_upload_element->getValue();
-        if (! $this->_type->set_image($file['name'], $file['tmp_name'], ''))
-        {
-            debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
-            // This (in parent) calls the _create_upload_elements which we have overridden here to our liking.
-            //$this->_cast_formgroup_to_upload();
-        }
-        else
-        {
-            // This (in parent) in fact calls the _create_replace_elements which we have overridden here to our liking
-            $this->_cast_formgroup_to_replacedelete();
-        }
-    }
+    public $show_title = false; // we render no title
 
     /**
      * Creates the upload elements for empty types.
@@ -72,7 +25,6 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      */
     function _create_upload_elements(&$elements)
     {
-        debug_add('called');
         $static_html = "<label for='{$this->_namespace}{$this->name}'>" . $this->_l10n->get('upload image') . ": \n";
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
         $elements[] = $this->_upload_element;
@@ -90,8 +42,6 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      */
     function _create_replace_elements(&$elements)
     {
-        debug_add('called');
-
         switch (true)
         {
             case (array_key_exists('main', $this->_type->attachments_info)):
