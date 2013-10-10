@@ -56,15 +56,9 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $fields['pdf_file']['hidden'] = false;
         }
-        if (!empty($this->_object->sent))
-        {
-            $fields['due']['hidden'] = false;
-            $fields['sent']['hidden'] = false;
-        }
-        if (!empty($this->_object->paid))
-        {
-            $fields['paid']['hidden'] = false;
-        }
+        $fields['due']['hidden'] = empty($this->_object->sent);
+        $fields['sent']['hidden'] = empty($this->_object->sent);
+        $fields['paid']['hidden'] = empty($this->_object->paid);
 
         if (!empty($this->_object->customerContact))
         {
@@ -81,8 +75,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
             }
         }
-        else if (   $this->_object
-                 && !empty($this->_object->customer))
+        else if (!empty($this->_object->customer))
         {
             try
             {
@@ -108,19 +101,22 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     private function _populate_schema_customers_for_contact($contact_id)
     {
         $fields =& $this->_schemadb['default']->fields;
-        $organizations = array();
+        $organizations = array(0 => '');
         $member_mc = org_openpsa_contacts_member_dba::new_collector('uid', $contact_id);
         $member_mc->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $groups = $member_mc->get_values('gid');
-        foreach ($groups as $group)
+        if (!empty($groups))
         {
-            try
+            $qb = org_openpsa_contacts_group_dba::new_query_builder();
+            $qb->add_constraint('id', 'IN', $groups);
+            $qb->add_order('official');
+            $qb->add_order('name');
+            foreach ($qb->execute() as $group)
             {
-                $organization = org_openpsa_contacts_group_dba::get_cached($group);
-                $organizations[$organization->id] = $organization->official;
+                $organizations[$group->id] = $group->official;
             }
-            catch (midcom_error $e){}
         }
+
         //Fill the customer field to DM
         $fields['customer']['type_config']['options'] = $organizations;
     }

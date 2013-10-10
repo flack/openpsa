@@ -1,10 +1,10 @@
 <?php
 //If we need to do any specific mangling etc, we do it here.
-$query =& $data['query_data'];
-$report =& $data['report'];
+$query = $data['query_data'];
+$report = $data['report'];
 if (empty($report['title']))
 {
-    $report['title'] = sprintf($data['l10n']->get('basic report for %s - %s'), strftime('%x', $query['start']['timestamp']), strftime('%x', $query['end']['timestamp']));
+    $report['title'] = sprintf($data['l10n']->get('basic report for %s - %s'), strftime('%x', $query['start']), strftime('%x', $query['end']));
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

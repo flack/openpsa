@@ -206,7 +206,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var string
      */
-    private $_instance_mode = 'single';
+    protected $_instance_mode = 'single';
 
     /**
      * Whether to check for imagemagic by running some commands
@@ -231,12 +231,10 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
     public function _on_initialize()
     {
-        $stat = parent::_on_initialize();
         if (!isset($this->check_imagemagic))
         {
             $this->check_imagemagic = $this->_config->get('verify_imagemagick');
         }
-        return $stat;
     }
 
     function imagemagick_available($raise_uimessage = false)

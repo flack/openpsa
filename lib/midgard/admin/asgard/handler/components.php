@@ -110,13 +110,13 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $data['view_title'] = $this->_l10n->get('components');
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_list_components();
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
+        return new midgard_admin_asgard_response($this, '_show_list');
     }
 
     /**
@@ -127,8 +127,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['list_type'] = 'core_components';
         midcom_show_style('midgard_admin_asgard_components_header');
         foreach ($data['core_components'] as $component => $component_data)
@@ -155,8 +153,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             midcom_show_style('midgard_admin_asgard_components_item');
         }
         midcom_show_style('midgard_admin_asgard_components_footer');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**
@@ -178,7 +174,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $data['component_dependencies'] = midcom::get('componentloader')->get_component_dependencies($data['component']);
 
         $data['view_title'] = $data['component_data']['title'];
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['asgard_toolbar']->add_item
         (
@@ -194,6 +189,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
         $this->add_breadcrumb("__mfa/asgard/components/{$data['component']}", $data['component_data']['title']);
+        return new midgard_admin_asgard_response($this, '_show_component');
     }
 
     /**
@@ -204,11 +200,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      */
     public function _show_component($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         midcom_show_style('midgard_admin_asgard_components_component');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

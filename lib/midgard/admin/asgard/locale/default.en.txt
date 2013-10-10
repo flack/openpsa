@@ -150,6 +150,10 @@ Changes from version %s
 Child types of %s
 ---STRINGEND
 
+---STRING clear all
+Clear all
+---STRINGEND
+
 ---STRING choose action
 Choose action
 ---STRINGEND
@@ -690,6 +694,10 @@ Regular expression for selecting MgdSchema types
 Require authentication
 ---STRINGEND
 
+---STRING restore from browser
+Restore from browser
+---STRINGEND
+
 ---STRING restore this revision (%s)
 Restore to this revision (%s)
 ---STRINGEND
@@ -738,6 +746,10 @@ Revision history of %s %s
 Run
 ---STRINGEND
 
+---STRING save in browser
+Save in browser
+---STRINGEND
+
 ---STRING script output
 Script Output
 ---STRINGEND
@@ -758,8 +770,8 @@ Select exactly two choices
 Select the types
 ---STRINGEND
 
----STRING show %s entries
-Show %s entries
+---STRING show all %s %s entries
+Show all %s %s entries
 ---STRINGEND
 
 ---STRING show %s %s children

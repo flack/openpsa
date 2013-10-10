@@ -1,28 +1,35 @@
 $(document).ready(function()
 {
-    // Add ajax to each Thickbox link. This will tell to Asgard that it
-    // should show only the object view style and nothing else.
-    $('a.thickbox').each(function(i)
+    $('#midgard_admin_asgard_copytree, #midgard_admin_asgard_deletetree').on('click', 'a.thickbox', function(event)
     {
-        var link = $(this).attr('href');
-
-        if (!link)
+        if (!$(this).data('initialized'))
         {
-            link = '';
-        }
+            event.preventDefault();
 
-        if (link.match(/\?/))
-        {
-            link = link.replace(/\?/, '?ajax&');
-        }
-        else
-        {
-            link += '?ajax';
-        }
+            // Add ajax to each colorbox link. This will tell to Asgard that it
+            // should show only the object view style and nothing else.
+            var link = $(this).attr('href');
 
-        // Convert the link to use thickbox
-        $(this).attr('href', link);
-        $(this).attr('target', '_self');
+            if (!link)
+            {
+                link = '';
+            }
+
+            if (link.match(/\?/))
+            {
+                link = link.replace(/\?/, '?ajax&');
+            }
+            else
+            {
+                link += '?ajax';
+            }
+
+            // Convert the link to use thickbox
+            $(this).attr('href', link);
+            $(this).attr('target', '_self');
+
+            $(this).colorbox({maxHeight: '90%', maxWidth: '90%', fixed: true});
+            $(this).data('initialized', true);
+        }
     });
-    $('a.thickbox').colorbox({maxHeight: '90%', maxWidth: '90%', fixed: true});
 });

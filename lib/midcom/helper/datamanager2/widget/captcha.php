@@ -74,8 +74,6 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
 
     /**
      * The initialization event handler creates the captcha passphrase (if necessary).
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
@@ -89,8 +87,6 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
             $hash = $_SERVER['REQUEST_URI'];
             $this->_session_key = md5($hash);
         }
-
-        return true;
     }
 
     /**

@@ -572,22 +572,10 @@ class midcom_config implements arrayaccess
         }
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
-        $basedir = "/var/lib/midgard";
-        // TODO: Would be good to include DB name into the path
         if (extension_loaded('midgard2'))
         {
-            $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
             $this->_default_config['person_class'] = 'openpsa_person';
         }
-        else
-        {
-            $prefix = midcom_connection::get('config', 'prefix');
-            if ($prefix == '/usr/local')
-            {
-                $basedir = '/var/local/lib/midgard';
-            }
-        }
-        $this->_default_config['midcom_services_rcs_root'] = $basedir . '/rcs';
     }
 
     public function get($key, $default = null)
@@ -596,17 +584,25 @@ class midcom_config implements arrayaccess
         {
             return $default;
         }
-        return $this->offsetGet($key);
+
+        // Check the midcom_config site prefix for absolute local urls
+        if (   $key === 'midcom_site_url'
+            && substr($this->_merged_config[$key], 0, 1) === '/')
+        {
+            $this->_merged_config[$key] = midcom::get()->get_page_prefix() . substr($this->_merged_config[$key], 1);
+        }
+
+        return $this->_merged_config[$key];
     }
 
     public function set($key, $value)
     {
-        $this->offsetSet($key, $value);
+        $this->_merged_config[$key] = $value;
     }
 
     public function offsetSet($offset, $value)
     {
-        $this->_merged_config[$offset] = $value;
+        $this->set($offset, $value);
     }
 
     public function offsetExists($offset)
@@ -621,7 +617,7 @@ class midcom_config implements arrayaccess
 
     public function offsetGet($offset)
     {
-        return isset($this->_merged_config[$offset]) ? $this->_merged_config[$offset] : null;
+        return $this->get($offset);
     }
 }
 ?>

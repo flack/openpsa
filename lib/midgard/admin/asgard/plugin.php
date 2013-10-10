@@ -147,7 +147,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $label = $data['object_reflector']->get_object_label($object);
         $type_label = midgard_admin_asgard_plugin::get_type_label(get_class($object));
         $data['view_title'] = sprintf($title_string, $type_label, $label);
-        midcom::get('head')->set_pagetitle($data['view_title']);
     }
 
     /**
@@ -390,23 +389,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
 
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
-    }
-
-    /**
-     * Add Asgard styling for plugins
-     */
-    public static function asgard_header()
-    {
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
-    }
-
-    /**
-     * Add Asgard styling for plugins
-     */
-    public static function asgard_footer()
-    {
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     /**

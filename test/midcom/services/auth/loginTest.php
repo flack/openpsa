@@ -36,8 +36,6 @@ class midcom_services_auth_loginTest extends openpsa_testcase
         $auth = midcom::get('auth');
         $stat = $auth->login(self::$_username, self::$_password);
         $this->assertTrue($stat);
-
-        $auth->_sync_user_with_backend();
         $this->assertTrue($auth->is_valid_user());
 
         $user = $auth->user;

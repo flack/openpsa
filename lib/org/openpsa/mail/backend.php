@@ -79,7 +79,7 @@ abstract class org_openpsa_mail_backend
             $this->error = false;
             return $ret;
         }
-        catch(Exception $e)
+        catch (Exception $e)
         {
             $this->error = $e->getMessage();
             return false;

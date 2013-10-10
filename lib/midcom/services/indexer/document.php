@@ -713,16 +713,9 @@ class midcom_services_indexer_document
         // Check for imploded_wrapped DM2 select storage.
         if (strpos($id, '|') !== false)
         {
-            $id_arr = explode('|', $id);
+            $id_arr = array_filter(explode('|', $id));
             // Find first non-empty value in the array and use that
-            foreach ($id_arr as $id_val)
-            {
-                if (!empty($id_val))
-                {
-                    $id = $id_val;
-                    break;
-                }
-            }
+            $id = (!empty($id_arr)) ? array_shift($id_arr) : false;
         }
 
         $author = midcom::get('auth')->get_user($id);

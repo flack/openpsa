@@ -408,11 +408,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_writefile ($guid, $data)
     {
-        if (!is_writable($this->_config->get_rcs_root()))
-        {
-            return false;
-        }
-        if (empty($guid))
+        if (   !is_writable($this->_config->get_rcs_root())
+            || empty($guid))
         {
             return false;
         }

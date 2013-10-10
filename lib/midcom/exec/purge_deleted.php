@@ -12,64 +12,41 @@ else
 {
     $grace_days = $_GET['days'];
 }
+$handler = new midcom_cron_purgedeleted;
+$handler->set_cutoff((int) $grace_days);
 
 echo "<h1>Purge deleted objects</h1>\n";
 echo "<p>Current grace period is {$grace_days} days, use ?days=x to set to other value</p>\n";
 
-// 1 second before midnight $grace_days ago
-$cut_off = mktime(23, 59, 59, date('n'), date('j')-$grace_days, date('Y'));
-
 while(@ob_end_flush());
 echo "<pre>\n";
 flush();
-foreach (midcom_connection::get_schema_types() as $mgdschema)
-{
-    if ($mgdschema == '__midgard_cache')
-    {
-        continue;
-    }
-    if (class_exists('midgard_reflector_object'))
-    {
-        // In Midgard2 we can have objects that don't
-        // have metadata. These are implicitly purged.
-        $ref = new midgard_reflector_object($mgdschema);
-        if (!$ref->has_metadata_class($mgdschema))
-        {
-            continue;
-        }
-    }
-    echo "<h2>Processing class {$mgdschema}</h2>\n";
-    flush();
 
-    $total = 0;
-    $purged = 0;
-    $failed_guids = array();
+foreach ($handler->get_classes() as $mgdschema)
+{
+    echo "<p><strong>Processing class {$mgdschema}</strong>\n";
+    flush();
     do
     {
-        $qb = new midgard_query_builder($mgdschema);
-        $qb->add_constraint('metadata.deleted', '<>', 0);
-        if (!empty($failed_guids))
+        $stats = $handler->process_class($mgdschema, $chunk_size);
+
+        foreach ($stats['errors'] as $error)
         {
-            $qb->add_constraint('guid', 'NOT IN', $failed_guids);
+            echo '  ERROR:' . $error . '\n';
+            flush();
         }
-        $qb->add_constraint('metadata.revised', '<', gmdate('Y-m-d H:i:s', $cut_off));
-        $qb->include_deleted();
-        $qb->set_limit($chunk_size);
-        $objects = $qb->execute();
-        $total += count($objects);
-        foreach ($objects as $obj)
+        if ($stats['found'] > 0)
         {
-            if (!$obj->purge())
-            {
-                echo "ERROR: Failed to purge <tt>{$obj->guid}</tt>, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string() . "\n";
-                $failed_guids[] = $obj->guid;
-                continue 1;
-            }
-            $purged++;
+            echo "  Purged {$stats['purged']} deleted objects, " . count($stats['errors']) . " failures\n";
         }
-    } while (count($objects) > 0);
-    echo "Found {$total} objects, purged {$purged} objects, " . sizeof($failed_guids) . " failures\n";
-    flush();
+        else
+        {
+            echo "  No matching objects found\n";
+        }
+        flush();
+    }
+    while ($stats['found'] == $chunk_size);
+    echo "<p>";
 }
 
 echo "Done.\n";

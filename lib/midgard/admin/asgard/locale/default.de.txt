@@ -150,6 +150,10 @@ Aktion auswählen
 Ziel auswählen
 ---STRINGEND
 
+---STRING clear all
+alles zurücksetzen
+---STRINGEND
+
 ---STRING code
 Code
 ---STRINGEND
@@ -654,6 +658,10 @@ Regulärer Ausdruck zur Auswahl von MgdSchema-Typen
 Authentifizierung verlangen
 ---STRINGEND
 
+---STRING restore from browser
+vom Browser laden
+---STRINGEND
+
 ---STRING restore this revision (%s)
 Diese Revision wiederherstellen
 ---STRINGEND
@@ -698,6 +706,10 @@ Revisionsgeschichte von %s %s
 Ausführen
 ---STRINGEND
 
+---STRING save in browser
+im Browser speichern
+---STRINGEND
+
 ---STRING script output
 Script-Ausgabe
 ---STRINGEND
@@ -722,8 +734,8 @@ Typen auswählen
 Shell
 ---STRINGEND
 
----STRING show %s entries
-%s Einträge anzeigen
+---STRING show all %s %s entries
+Alle %s %s-Elemente anzeigen
 ---STRINGEND
 
 ---STRING show %s %s children

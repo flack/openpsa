@@ -38,10 +38,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Creates a QB instance for get_root_objects and count_root_objects
-     *
-     * @access private
      */
-    function _root_objects_qb($deleted)
+    public function _root_objects_qb($deleted)
     {
         $schema_type =& $this->mgdschema_class;
         $root_classes = self::get_root_classes();
@@ -383,19 +381,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        //make sure children of the same type come out on top
-        $i = 0;
-        foreach ($child_classes as $child_class)
-        {
-            if (midcom::get('dbfactory')->is_a($object, $child_class))
-            {
-                unset($child_classes[$i]);
-                array_unshift($child_classes, $child_class);
-                break;
-            }
-            $i++;
-        }
-
         $child_objects = array();
         foreach ($child_classes as $schema_type)
         {
@@ -447,6 +432,54 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
+     * Figure out constraint(s) to use to get child objects
+     */
+    private function _get_link_fields($schema_type, $for_object)
+    {
+        static $cache = array();
+        $cache_key = $schema_type . '-' . get_class($for_object);
+        if (empty($cache[$cache_key]))
+        {
+            $ref = new midgard_reflection_property($schema_type);
+
+            $linkfields = array();
+            $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
+            $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
+            $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
+
+            $linkfields = array_filter($linkfields);
+            $data = array();
+            foreach ($linkfields as $link_type => $field)
+            {
+                $info = array
+                (
+                    'name' => $field,
+                    'type' => $ref->get_midgard_type($field),
+                    'target' => $ref->get_link_target($field)
+                );
+                $linked_class = $ref->get_link_name($field);
+                if (   empty($linked_class)
+                    && $info['type'] === MGD_TYPE_GUID)
+                {
+                    // Guid link without class specification, valid for all classes
+                    if (empty($info['target']))
+                    {
+                        $info['target'] = 'guid';
+                    }
+                }
+                else if ($linked_class != $object_baseclass)
+                {
+                    // This link points elsewhere
+                    continue;
+                }
+                $data[$link_type] = $info;
+            }
+            $cache[$cache_key] = $data;
+        }
+        return $cache[$cache_key];
+    }
+
+    /**
      * Creates a QB instance for _get_child_objects_type and _count_child_objects_type
      */
     public function _child_objects_type_qb($schema_type, $for_object, $deleted)
@@ -463,31 +496,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        // Figure out constraint(s) to use to get child objects
-        $ref = new midgard_reflection_property($schema_type);
-
-        $multiple_links = false;
-        $linkfields = array();
-        $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
-        $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
-        $linkfields = array_filter($linkfields);
-        $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
-
-        foreach ($linkfields as $link_type => $field)
-        {
-            $linked_class = $ref->get_link_name($field);
-            if (   empty($linked_class)
-                && $ref->get_midgard_type($field) === MGD_TYPE_GUID)
-            {
-                // Guid link without class specification, valid for all classes
-                continue;
-            }
-            if ($linked_class != $object_baseclass)
-            {
-                // This link points elsewhere
-                unset($linkfields[$link_type]);
-            }
-        }
+        $linkfields = $this->_get_link_fields($schema_type, $for_object);
 
         if (count($linkfields) === 0)
         {
@@ -495,21 +504,18 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
+        $multiple_links = false;
         if (count($linkfields) > 1)
         {
             $multiple_links = true;
             $qb->begin_group('OR');
         }
 
-        foreach ($linkfields as $link_type => $field)
+        foreach ($linkfields as $link_type => $field_data)
         {
-            $field_type = $ref->get_midgard_type($field);
-            $field_target = $ref->get_link_target($field);
-            if (   empty($field_target)
-                && $field_type === MGD_TYPE_GUID)
-            {
-                $field_target = 'guid';
-            }
+            $field_target = $field_data['target'];
+            $field_type = $field_data['type'];
+            $field = $field_data['name'];
 
             if (   !$field_target
                 || !isset($for_object->$field_target))
@@ -659,6 +665,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         // TODO: handle exceptions
 
+        //make sure children of the same type come out on top
+        if ($key = array_search($this->mgdschema_class, $child_classes))
+        {
+            unset($child_classes[$key]);
+            array_unshift($child_classes, $this->mgdschema_class);
+        }
         return $child_classes;
     }
 

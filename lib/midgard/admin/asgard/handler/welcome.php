@@ -103,7 +103,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $data['schema_types'] = array_diff(midcom_connection::get_schema_types(), $this->_config->get('skip_in_filter'));
 
         $data['view_title'] = $this->_l10n->get('asgard');
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         if (isset($_POST['execute_mass_action']))
         {
@@ -160,6 +159,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
 
         $this->_populate_toolbar();
+        return new midgard_admin_asgard_response($this, '_show_welcome');
     }
 
     private function _load_activities()
@@ -215,16 +215,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 'class' => get_class($object)
             );
 
-            //Todo: Why not is_approved?
-            if (   $object->metadata->approved == 0
-                || $object->metadata->approved < $object->metadata->revised)
-            {
-                $row['approved'] = $this->_l10n->get('not approved');
-            }
-            else
-            {
-                $row['approved'] = strftime('%x %X', $object->metadata->approved);
-            }
             $row['approved'] = ($object->is_approved()) ? strftime('%x %X', $object->metadata->approved) : $this->_l10n->get('not approved');
 
             $title = substr($reflector->get_object_label($object), 0, 60);
@@ -370,14 +360,11 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     public function _show_welcome($handler_id, array &$data)
     {
         $data['config'] = $this->_config;
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
 
         if (midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             midcom_show_style('midgard_admin_asgard_welcome');
         }
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 }
 ?>

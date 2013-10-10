@@ -293,23 +293,25 @@ class midcom_helper_nav_backend
         while (   $parent_id
                && !isset(self::$_nodes[$parent_id]))
         {
-            // Pass the full topic so _loadNodeData doesn't have to reload it
-            $result = $this->_loadNodeData($parent_id);
-            switch ($result)
+            try
             {
-                case MIDCOM_ERRFORBIDDEN:
-                    $log_level = MIDCOM_LOG_WARN;
-                    if (!$this->_get_parent_id($topic_id))
-                    {
-                        // This can happen only when a target for a symlink pointing outside the tree is tried to be accessed.
-                        // It is normal then, so use info as log level in that case.
-                        $log_level = MIDCOM_LOG_INFO;
-                    }
-                    debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", $log_level);
-                    return MIDCOM_ERRFORBIDDEN;
-
-                case MIDCOM_ERRCRIT:
-                    return MIDCOM_ERRCRIT;
+                self::$_nodes[$parent_id] = $this->_loadNodeData($parent_id);
+            }
+            catch (midcom_error_forbidden $e)
+            {
+                $log_level = MIDCOM_LOG_WARN;
+                if (!$this->_get_parent_id($topic_id))
+                {
+                    // This can happen only when a target for a symlink pointing outside the tree is tried to be accessed.
+                    // It is normal then, so use info as log level in that case.
+                    $log_level = MIDCOM_LOG_INFO;
+                }
+                debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", $log_level);
+                return $e->getCode();
+            }
+            catch (midcom_error $e)
+            {
+                return $e->getCode();
             }
 
             if (null === $lastgoodnode)
@@ -333,7 +335,15 @@ class midcom_helper_nav_backend
             $this->_lastgoodnode = $lastgoodnode;
         }
 
-        return $this->_loadNodeData($topic_id, $up);
+        try
+        {
+            self::$_nodes[$node_id] = $this->_loadNodeData($topic_id);
+        }
+        catch (midcom_error $e)
+        {
+            return $e->getCode();
+        }
+        return MIDCOM_ERROK;
     }
 
     /**
@@ -353,7 +363,7 @@ class midcom_helper_nav_backend
      * as this can happen if dynamic_load is called before showing the navigation.
      *
      * @param mixed $topic_id Topic ID to be processed
-     * @return int            One of the MGD_ERR constants
+     * @return array The loaded node data
      */
     private function _loadNodeData($topic_id, $up = null)
     {
@@ -364,11 +374,12 @@ class midcom_helper_nav_backend
              || (   $this->_user_id
                  && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $nodedata[MIDCOM_NAV_GUID], 'midcom_db_topic', $this->_user_id)))
         {
-            return MIDCOM_ERRFORBIDDEN;
+            throw new midcom_error_forbidden('Node cannot be read or is invisible');
         }
 
         // The node is visible, add it to the list.
         self::$_nodes[$nodedata[MIDCOM_NAV_ID]] = $nodedata;
+
         $this->_guid_map[$nodedata[MIDCOM_NAV_GUID]] =& self::$_nodes[$nodedata[MIDCOM_NAV_ID]];
 
         // Load the current leaf, this does *not* load the leaves from the DB, this is done
@@ -378,7 +389,7 @@ class midcom_helper_nav_backend
             $interface = $this->_get_component_interface($nodedata[MIDCOM_NAV_COMPONENT]);
             if (!$interface)
             {
-                return null;
+                throw new midcom_error('Failed to load interface class for ' . $nodedata[MIDCOM_NAV_COMPONENT]);
             }
             $currentleaf = $interface->get_current_leaf();
             if ($currentleaf !== false)
@@ -387,7 +398,7 @@ class midcom_helper_nav_backend
             }
         }
 
-        return MIDCOM_ERROK;
+        return $nodedata;
     }
 
     /**
@@ -976,7 +987,7 @@ class midcom_helper_nav_backend
     function get_node($node_id)
     {
         $node = $node_id;
-        if (is_object($node) && $node->guid)
+        if (!empty($node->guid))
         {
             $node_id = $node->id;
         }

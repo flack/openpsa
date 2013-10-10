@@ -96,17 +96,10 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
 
     /**
      * The initialization event handler post-processes the maxlength setting.
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
-        if (! is_a($this->_type, 'midcom_helper_datamanager2_type_images'))
-        {
-            debug_add("Warning, the field {$this->name} is not an images type or subclass thereof, you cannot use the images widget with it.",
-                MIDCOM_LOG_WARN);
-            return false;
-        }
+        $this->_require_type_class('midcom_helper_datamanager2_type_images');
 
         // Reflect the type config setting for maximum count
         if (   isset($this->_type->max_count)
@@ -135,8 +128,6 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
         }
 
         midcom::get('head')->add_jscript($this->_get_filename_validation_script());
-
-        return true;
     }
 
     function _get_filename_validation_script()

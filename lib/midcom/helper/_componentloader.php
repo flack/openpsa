@@ -116,13 +116,6 @@ class midcom_helper__componentloader
     var $manifests = array();
 
     /**
-     * Mapping for components paths not included in the main midcom directory hierarchy
-     *
-     * @var array
-     */
-    private $_component_paths = array();
-
-    /**
      * This function will invoke _load directly. If the loading process
      * is unsuccessful, it will throw midcom_error.
      *
@@ -226,48 +219,24 @@ class midcom_helper__componentloader
         {
             return false;
         }
-        $snippetpath = $this->path_to_snippetpath($path);
 
-        if (!$snippetpath)
+        $classname = $this->path_to_prefix($path) . '_interface';
+        if (!class_exists($classname))
         {
+            debug_add("Class {$classname} does not exist.", MIDCOM_LOG_CRIT);
             return false;
         }
-
-        $directory = $snippetpath . '/midcom';
-
-        // Load the interfaces.php snippet, abort if that file is not available.
-        if (! file_exists("{$directory}/interfaces.php"))
-        {
-            debug_add("File {$directory}/interfaces.php is not present.", MIDCOM_LOG_CRIT);
-            return false;
-        }
-        require_once $directory . '/interfaces.php';
-
-        // Load the component interface, try to be backwards-compatible
-        $prefix = $this->path_to_prefix($path);
-
-        if (class_exists("{$prefix}_interface"))
-        {
-            $classname = "{$prefix}_interface";
-            $this->_interface_classes[$path] = new $classname();
-        }
-        else
-        {
-            debug_add("Class {$prefix}_interface does not exist.", MIDCOM_LOG_CRIT);
-            return false;
-        }
+        $this->_interface_classes[$path] = new $classname();
 
         midcom::get('dbclassloader')->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
-        $init_class =& $this->_interface_classes[$path];
-        if ($init_class->initialize($path) == false)
+        if ($this->_interface_classes[$path]->initialize($path) == false)
         {
             debug_add("Initialize of Component {$path} failed.", MIDCOM_LOG_CRIT);
             return false;
         }
 
         $this->_loaded[] = $path;
-
         $this->_tried_to_load[$path] = true;
 
         return true;
@@ -322,7 +291,6 @@ class midcom_helper__componentloader
             $this->load_all_manifests();
         }
         $this->_register_manifest(new midcom_core_manifest($filename));
-        $this->_component_paths[$name] = $path;
     }
 
     /**
@@ -356,18 +324,16 @@ class midcom_helper__componentloader
      */
     public function path_to_snippetpath($component_name)
     {
-        if (array_key_exists($component_name, $this->_component_paths))
+        if (array_key_exists($component_name, $this->manifests))
         {
-            return $this->_component_paths[$component_name];
+            return dirname(dirname($this->manifests[$component_name]->filename));
         }
-        $directory = MIDCOM_ROOT . "/" . strtr($component_name, ".", "/");
-
-        if (! is_dir($directory))
+        else if ($component_name == 'midcom')
         {
-            debug_add("Failed to validate the component path {$directory}: It is no directory.", MIDCOM_LOG_CRIT);
-            return false;
+            return MIDCOM_ROOT . '/midcom';
         }
-        return $directory;
+        debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
+        return false;
     }
 
     /**
@@ -429,7 +395,7 @@ class midcom_helper__componentloader
         if (! is_array($manifests))
         {
             debug_add('Cache miss, generating component manifest cache now.');
-            $manifests = $this->_get_manifests();
+            $manifests = $this->get_manifests();
             midcom::get('cache')->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
 
@@ -445,8 +411,9 @@ class midcom_helper__componentloader
      *
      * @todo investigate if we should unset the package.xml part of the arrays and serialize them
      */
-    private function _get_manifests()
+    public function get_manifests()
     {
+        $candidates = array();
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
         // This does follow symlinks, which can be important when several
@@ -456,7 +423,16 @@ class midcom_helper__componentloader
         exec('find ' . MIDCOM_ROOT . ' -follow -type d -name "config"', $directories);
         foreach ($directories as $directory)
         {
-            $filename = "{$directory}/manifest.inc";
+            $candidates[] = "{$directory}/manifest.inc";
+        }
+        // now we look for extra components the user my have registered
+        $config = midcom::get('config');
+        foreach ($config->get('midcom_components', array()) as $path)
+        {
+            $candidates[] = $path . '/config/manifest.inc';
+        }
+        foreach ($candidates as $filename)
+        {
             if (file_exists($filename))
             {
                 $manifests[] = new midcom_core_manifest($filename);

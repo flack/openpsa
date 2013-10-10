@@ -222,11 +222,9 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             throw new midcom_error("{$classname} is not a valid DM2 type");
         }
 
-        if (! $this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this))
+        if ($this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this) === false)
         {
-            debug_add("Failed to initialize the type for {$name}, see the debug level log for full details.",
-                MIDCOM_LOG_INFO);
-            return false;
+            throw new midcom_error("Failed to initialize the type for {$name}");
         }
     }
 

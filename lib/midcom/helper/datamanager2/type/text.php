@@ -134,18 +134,10 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
     public function _on_initialize()
     {
-        $stat = parent::_on_initialize();
         // if purification is not explicitly set use according to config variables and output mode
         if (!isset($this->purify))
         {
-            switch ($this->output_mode)
-            {
-                case 'html':
-                    $this->purify = $this->_config->get('html_purify');
-                    break;
-                default:
-                    $this->purify = false;
-            }
+            $this->purify = ($this->output_mode == 'html') ? $this->_config->get('html_purify') : false;
         }
         // Just in case someone *really* needs to specify html purifier configs here
         if (!isset($this->purify_config))
@@ -163,7 +155,6 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
             debug_add('Both allowed and forbidden patterns are set, allowed has precedence', MIDCOM_LOG_ERROR);
             $this->forbidden_patterns = null;
         }
-        return $stat;
     }
 
     function convert_from_storage ($source)

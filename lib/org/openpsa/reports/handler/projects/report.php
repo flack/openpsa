@@ -78,50 +78,10 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         {
             $qb_hr->add_constraint('invoiceable', '=', (bool) $this->_request_data['query_data']['invoiceable_filter']);
         }
-        debug_add('checking for approved_filter');
-        if (array_key_exists('approved_filter', $this->_request_data['query_data']))
-        {
-            debug_add('approved_filter detected, raw value: ' . $this->_request_data['query_data']['approved_filter']);
-            if ($this->_request_data['query_data']['approved_filter'] != -1)
-            {
-                if ((int) $this->_request_data['query_data']['approved_filter'])
-                {
-                    debug_add('approved_filter parsed as only approved, adding constraint');
-                    $qb_hr->add_constraint('metadata.approved', '<>', '0000-00-00 00:00:00');
-                }
-                else
-                {
-                    debug_add('approved_filter parsed as only NOT approved, adding constraint');
-                    $qb_hr->add_constraint('metadata.approved', '=', '0000-00-00 00:00:00');
-                }
-            }
-            else
-            {
-                debug_add('approved_filter parsed as BOTH, do not add any constraints');
-            }
-        }
-        debug_add('checking for invoiced_filter');
-        if (array_key_exists('invoiced_filter', $this->_request_data['query_data']))
-        {
-            debug_add('invoiced_filter detected, raw value: ' . $this->_request_data['query_data']['invoiced_filter']);
-            if ($this->_request_data['query_data']['invoiced_filter'] != -1)
-            {
-                if ((int) $this->_request_data['query_data']['invoiced_filter'])
-                {
-                    debug_add('invoiced_filter parsed as only invoiced, adding constraint');
-                    $qb_hr->add_constraint('invoice', '<>', 0);
-                }
-                else
-                {
-                    debug_add('invoiced_filter parsed as only NOT invoiced, adding constraint');
-                    $qb_hr->add_constraint('invoice', '=', 0);
-                }
-            }
-            else
-            {
-                debug_add('invoiced_filter parsed as BOTH, do not add any constraints');
-            }
-        }
+
+        $this->_apply_filter($qb_hr, 'approved', 'metadata.isapproved', false);
+        $this->_apply_filter($qb_hr, 'invoiced', 'invoice', 0);
+
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
@@ -138,6 +98,33 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             $qb_hr->add_constraint('reportType', '=', $this->_request_data['query_data']['hour_type_filter']);
         }
         return $qb_hr->execute();
+    }
+
+    private function _apply_filter(midcom_core_query &$qb, $name, $field, $value)
+    {
+        $filter = $name . '_filter';
+        debug_add('checking for ' . $filter);
+        if (array_key_exists($filter, $this->_request_data['query_data']))
+        {
+            debug_add($filter . ' detected, raw value: ' . $this->_request_data['query_data'][$filter]);
+            if ($this->_request_data['query_data'][$filter] != -1)
+            {
+                if ((int) $this->_request_data['query_data'][$filter])
+                {
+                    debug_add($filter . ' parsed as ONLY, adding constraint');
+                    $qb->add_constraint($field, '<>', $value);
+                }
+                else
+                {
+                    debug_add($filter . ' parsed as only NOT, adding constraint');
+                    $qb->add_constraint($field, '=', $value);
+                }
+            }
+            else
+            {
+                debug_add($filter . ' parsed as BOTH, do not add any constraints');
+            }
+        }
     }
 
     private function _sort_rows_recursive(&$data)

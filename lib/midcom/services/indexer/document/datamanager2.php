@@ -239,8 +239,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                 $this->abstract = $abstract;
             }
         }
-
-        return false;
     }
 
     /**

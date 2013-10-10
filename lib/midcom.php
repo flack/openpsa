@@ -65,7 +65,7 @@ class midcom
     public static function init()
     {
         //Constants, Globals and Configuration
-        require __DIR__ . '/constants.php';
+        require_once __DIR__ . '/constants.php';
 
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();

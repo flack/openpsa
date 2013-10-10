@@ -52,6 +52,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     /**
@@ -62,10 +63,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_object_parameters');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 }
 ?>

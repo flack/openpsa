@@ -363,7 +363,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param array $defaults
      * @return boolean Indicating success
      */
-    public function copy_object(&$source, &$parent = null, $defaults = array())
+    public function copy_object(&$source, &$parent = null, array $defaults = array())
     {
         // Resolve the source object
         self::resolve_object($source);
@@ -397,12 +397,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Override with defaults
-        if ($defaults)
+        foreach ($defaults as $name => $value)
         {
-            foreach ($defaults as $name => $value)
-            {
-                $target->$name = $value;
-            }
+            $target->$name = $value;
         }
 
         $parent_property = $this->get_parent_property($source);
@@ -412,8 +409,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         {
             self::resolve_object($parent);
 
-            if (   !$parent
-                || !$parent->guid)
+            if (empty($parent->guid))
             {
                 return false;
             }
@@ -717,8 +713,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $this->new_root_object = $this->copy_object($this->source, $this->target);
         }
 
-        if (   !$this->new_root_object
-            || !$this->new_root_object->guid)
+        if (empty($this->new_root_object->guid))
         {
             $this->errors[] = $this->_l10n->get('failed to get the new root object');
             return false;

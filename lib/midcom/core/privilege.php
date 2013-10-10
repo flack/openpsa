@@ -324,17 +324,17 @@ class midcom_core_privilege
                 MIDCOM_LOG_INFO);
             return false;
         }
+        $valid_values = array
+        (
+            MIDCOM_PRIVILEGE_ALLOW,
+            MIDCOM_PRIVILEGE_DENY,
+            MIDCOM_PRIVILEGE_INHERIT,
+        );
 
-        switch ($this->value)
+        if (!in_array($this->value, $valid_values))
         {
-            case MIDCOM_PRIVILEGE_ALLOW:
-            case MIDCOM_PRIVILEGE_DENY:
-            case MIDCOM_PRIVILEGE_INHERIT:
-                break;
-
-            default:
-                debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
-                return false;
+            debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
+            return false;
         }
 
         return true;
@@ -648,7 +648,6 @@ class midcom_core_privilege
                     return false;
                 }
                 $this->_invalidate_cache();
-                return true;
             }
             else
             {
@@ -664,8 +663,8 @@ class midcom_core_privilege
                     }
                     $this->_invalidate_cache();
                 }
-                return true;
             }
+            return true;
         }
 
         if ($this->__guid)

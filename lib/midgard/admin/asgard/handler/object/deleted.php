@@ -63,6 +63,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
         $this->add_breadcrumb("", $this->_l10n->get('object deleted'));
+        return new midgard_admin_asgard_response($this, '_show_deleted');
     }
 
     /**
@@ -73,9 +74,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      */
     public function _show_deleted($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_object_deleted');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

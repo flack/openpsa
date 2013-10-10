@@ -361,17 +361,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     private function _create_attachment_location()
     {
-        $location_in_use = true;
+        $max_tries = 500;
         $location = '';
 
-        while ($location_in_use)
+        for ($i = 0; $i < $max_tries; $i++)
         {
-            $base = get_class($this);
-            $base .= microtime();
-            $base .= $_SERVER['SERVER_NAME'];
-            $base .= $_SERVER['REMOTE_ADDR'];
-            $base .= $_SERVER['REMOTE_PORT'];
-            $name = strtolower(md5($base));
+            $name = strtolower(md5(uniqid('', true)));
             $location = strtoupper(substr($name, 0, 1) . '/' . substr($name, 1, 1) . '/') . $name;
 
             // Check uniqueness
@@ -381,16 +376,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
             if ($result == 0)
             {
-                $location_in_use = false;
+                debug_add("Created this location: {$location}");
+                return $location;
             }
-            else
-            {
-                debug_add("Location {$location} is in use, retrying");
-            }
+            debug_add("Location {$location} is in use, retrying");
         }
-
-        debug_add("Created this location: {$location}");
-        return $location;
+        throw new midcom_error('could not create attachment location');
     }
 
     /**

@@ -91,7 +91,6 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @param array $config The configuration data which should be used to customize the type.
      * @param midcom_helper_datamanager2_storage &$storage A reference to the storage object to use.
      * @param midcom_helper_datamanager2_datamanager $datamanager The current DM2 instance
-     * @return boolean Indicating success. If this is false, the type will be unusable.
      */
     function initialize($name, $config, $storage, midcom_helper_datamanager2_datamanager $datamanager)
     {
@@ -109,7 +108,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
             $this->$key = $value;
         }
 
-        return $this->_on_initialize();
+        $this->_on_initialize();
     }
 
     /**
@@ -164,12 +163,9 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     /**
      * This event handler is called after construction, so passing references to $this to the
      * outside is safe at this point.
-     *
-     * @return boolean Indicating success, false will abort the type construction sequence.
      */
     public function _on_initialize()
     {
-        return true;
     }
 
     /**

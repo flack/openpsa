@@ -549,12 +549,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
 
         // Check the static parts
-        for ($i = 0; $i < $fixed_args_count; $i++)
+        if (array_slice($argv, 0, $fixed_args_count) != $request['fixed_args'])
         {
-            if ($argv[$i] != $request['fixed_args'][$i])
-            {
-                return false;
-            }
+            return false;
         }
 
         // Validation for variable args

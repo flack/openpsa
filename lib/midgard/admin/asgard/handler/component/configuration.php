@@ -188,8 +188,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['view_title'] = sprintf($this->_l10n->get('configuration for %s'), $data['name']);
         $this->_prepare_toolbar($handler_id);
-        midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumbs($handler_id);
+        return new midgard_admin_asgard_response($this, '_show_view');
     }
 
     /**
@@ -200,8 +200,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_view($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         midcom_show_style('midgard_admin_asgard_component_configuration_header');
 
         foreach ($data['config']->_global as $key => $value)
@@ -221,7 +219,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             midcom_show_style('midgard_admin_asgard_component_configuration_item');
         }
         midcom_show_style('midgard_admin_asgard_component_configuration_footer');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     private function _detect($value)
@@ -475,7 +472,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $this->_prepare_breadcrumbs($handler_id);
         }
 
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     private function _save_configuration(array &$data)
@@ -542,9 +539,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_component_configuration_edit');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     private function _detect_schema($key, $value)

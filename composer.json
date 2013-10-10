@@ -39,24 +39,22 @@
         "michelf/php-markdown": ">=1.3",
         "ezyang/htmlpurifier": "*",
         "openpsa/installer": "dev-master",
-        "symfony/console": "~2.3.0",
-        "symfony/event-dispatcher": "~2.3.0",
-        "swiftmailer/swiftmailer": "~5.0.0"
+        "symfony/event-dispatcher": "~2.3.0@stable",
+        "swiftmailer/swiftmailer": "~5.0.0@stable"
     },
     "scripts": {
         "post-install-cmd": [
-            "openpsa\\installer\\installer::prepare_database",
             "openpsa\\installer\\installer::setup_root_package"
         ],
         "post-update-cmd": [
             "openpsa\\installer\\installer::setup_root_package"
         ]
     },
-    "bin": ["bin/openpsa"],
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
-        "ext-midgard2": ">=10.05.5"
+        "ext-midgard2": ">=10.05.5",
+        "openpsa/midcom-console": "dev-master"
     },
     "provide": {
         "midgard/midcom": "*",

@@ -16,7 +16,7 @@ matrix:
 before_script:
   - ./test/travis_midgard2.sh
   - sudo `which composer` self-update
-  - sudo OPENPSA_INSTALLER_DBTYPE=SQLite `which composer` install
+  - sudo `which composer` install
 
 script: phpunit --debug
 

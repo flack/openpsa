@@ -530,12 +530,7 @@ abstract class midcom_core_dbaobject
 
     public function get_properties()
     {
-        if (!$this->__object)
-        {
-            $classname = $this->__mgdschema_class_name__;
-            $this->__object = new $classname();
-        }
-        return array_keys(get_object_vars($this->__object));
+        return midcom_helper_reflector::get_object_fieldnames($this);
     }
 
     public function connect($signal, $callback, $user_data = null)
