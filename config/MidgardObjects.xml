@@ -4,7 +4,7 @@
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
-        <property name="firstname" type="string" index="yes" unique="yes">
+        <property name="firstname" type="string" index="yes">
             <description>First name of the person</description>
         </property>
         <property name="lastname" type="string" index="yes">
