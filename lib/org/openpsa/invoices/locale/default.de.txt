@@ -162,6 +162,14 @@ Storno-Rechnung für
 Storniert durch
 ---STRINGEND
 
+---STRING invoice got canceled by %s
+Rechnung wurde storniert durch %s
+---STRINGEND
+
+---STRING invoice canceled at %s by %s
+Storniert am %s durch %s
+---STRINGEND
+
 ---STRING create cancelation for invoice
 stornieren
 ---STRINGEND
