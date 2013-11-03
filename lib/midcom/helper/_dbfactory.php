@@ -255,9 +255,9 @@ class midcom_helper__dbfactory
      */
     public function property_exists($object, $property)
     {
-        $helper = new helper;
         if (is_object($object))
         {
+            $helper = new helper;
             // We're dealing with either MgdSchema or MidCOM DBA object
             if (   isset($object->__object)
                 && is_object($object->__object))
@@ -278,7 +278,7 @@ class midcom_helper__dbfactory
             return false;
         }
         $instance = new $object();
-        return $helper->property_exists($instance, $property);
+        return $this->property_exists($instance, $property);
     }
 
     /**
