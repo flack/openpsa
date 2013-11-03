@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * The Grand Unified Reflector, copying helper class
+ *
  * @package midcom.helper.reflector
  */
 class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecode
@@ -163,7 +166,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
         else
         {
-            $properties = array_keys(get_object_vars($object));
+            $helper = new helper;
+            $properties = $helper->get_all_properties($object);
         }
 
         $return = array_diff($properties, array('id', 'guid', 'metadata'));

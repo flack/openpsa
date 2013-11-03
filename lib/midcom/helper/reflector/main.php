@@ -1,4 +1,5 @@
 <?php
+use midgard\introspection\helper;
 /**
  * @package midcom.helper.reflector
  * @author The Midgard Project, http://www.midgard-project.org
@@ -120,8 +121,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $classname = $object->__mgdschema_class_name__;
                 $object = new $classname;
             }
-
-            self::$_cache['fieldnames'][$class] = array_keys(get_object_vars($object));
+            $helper = new helper;
+            self::$_cache['fieldnames'][$class] = $helper->get_all_properties($object);
         }
 
         return self::$_cache['fieldnames'][$class];
@@ -505,7 +506,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         if (    is_string($label_prop)
              && $label_prop != 'guid'
-             && property_exists($obj, $label_prop))
+             && midcom::get('dbfactory')->property_exists($obj, $label_prop))
         {
             $search_properties[$label_prop] = true;
         }

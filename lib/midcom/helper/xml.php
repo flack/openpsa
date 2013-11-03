@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * This is a simple class to move midgard objects to and from
  * xml.
@@ -205,7 +207,8 @@ class midcom_helper_xml
         }
         else
         {
-            $fields = array_keys(get_object_vars($object));
+            $helper = new helper;
+            $fields = $helper->get_all_properties($object);
         }
 
         $classname = $this->_get_classname($object);

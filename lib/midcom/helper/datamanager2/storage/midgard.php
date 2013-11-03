@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * Datamanager 2 Data storage implementation: Pure Midgard object.
  *
@@ -75,8 +77,9 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
 
             default:
                 $fieldname = $this->_schema->fields[$name]['storage']['location'];
-                if (   !property_exists($this->object, $fieldname)
-                    && !property_exists($this->object->__object, $fieldname))
+                $helper = new helper;
+                if (   !$helper->property_exists($this->object, $fieldname)
+                    && !$helper->property_exists($this->object->__object, $fieldname))
                 {
                     throw new midcom_error("Missing {$fieldname} field in object: " . get_class($this->object));
                 }
@@ -119,9 +122,10 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 );
 
             case 'metadata':
+                $helper = new helper;
                 if (   !isset($this->object->metadata)
-                    || (   !property_exists($this->object->metadata, $name)
-                        && !property_exists($this->object->__object->metadata, $name)))
+                    || (   !$helper->property_exists($this->object->metadata, $name)
+                        && !$helper->property_exists($this->object->__object->metadata, $name)))
                 {
                     throw new midcom_error("Missing {$name} metadata field in object: " . get_class($this->object));
                 }

@@ -7,6 +7,7 @@
  */
 
 use midcom\events\dbaevent;
+use midgard\introspection\helper;
 
 /**
  * This class only contains static functions which are there to hook into
@@ -795,9 +796,10 @@ class midcom_baseclasses_core_dbobject
      */
     public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
     {
+        $helper = new helper;
         if (is_a($oldobject, $newobject->__mgdschema_class_name__))
         {
-            $vars = get_object_vars($oldobject);
+            $vars = $helper->get_object_vars($oldobject);
             foreach ($vars as $name => $value)
             {
                 if (   substr($name, 0, 2) == '__'
@@ -990,8 +992,9 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _clear_object(midcom_core_dbaobject $object)
     {
-        $vars = get_object_vars($object);
-        foreach ($vars as $name => $value)
+        $helper = new helper;
+        $vars = $helper->get_all_properties($object);
+        foreach ($vars as $name)
         {
             if (   substr($name, 0, 2) == '__'
                 && substr($name, -2) == '__')

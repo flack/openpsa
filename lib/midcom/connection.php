@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * Wrapper for Midgard-related functionality, provides compatibility between versions
  *
@@ -501,38 +503,11 @@ class midcom_connection
      */
     static function get_schema_types()
     {
-        if (isset(self::$_data['schema_types']))
+        if (!isset(self::$_data['schema_types']))
         {
-            return self::$_data['schema_types'];
+            $helper = new helper;
+            self::$_data['schema_types'] = $helper->get_all_schemanames();
         }
-        if (null === self::_get('schema', 'types'))
-        {
-            // Superglobal is off, Midgard 9.09 or newer
-            // Get the classes from PHP5 reflection
-            $re = new ReflectionExtension('midgard2');
-            $classes = $re->getClasses();
-            foreach ($classes as $refclass)
-            {
-                if ($refclass->isSubclassOf('midgard_object'))
-                {
-                    $name = $refclass->getName();
-                    if (   class_exists('MidgardReflectorObject')
-                        && (   MidgardReflectorObject::is_abstract($name)
-                            || MidgardReflectorObject::is_mixin($name)
-                            || MidgardReflectorObject::is_interface($name)))
-                    {
-                        continue;
-                    }
-                    self::$_data['schema_types'][] = $name;
-                }
-            }
-        }
-        else
-        {
-            // Midgard 8.09 or 9.03
-            self::$_data['schema_types'] = array_keys(self::_get('schema', 'types'));
-        }
-
         return self::$_data['schema_types'];
     }
 

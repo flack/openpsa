@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * n.n.static NAP interface class
  *
@@ -60,8 +62,9 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         }
         if (strpos($sort_property, 'metadata.') === false)
         {
+            $helper = new helper;
             $article = new midgard_article();
-            if (!property_exists($article, $sort_property))
+            if (!$helper->property_exists($article, $sort_property))
             {
                 $sort_property = 'metadata.' . $sort_property;
             }
