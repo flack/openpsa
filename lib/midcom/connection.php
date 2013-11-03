@@ -60,10 +60,6 @@ class midcom_connection
      */
     public static function setup($basedir = null, $config_name = null)
     {
-        if (!class_exists('midgard_topic'))
-        {
-            throw new Exception('You need to install DB MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
-        }
         if (extension_loaded('midgard2'))
         {
             $midgard = midgard_connection::get_instance();
@@ -122,7 +118,22 @@ class midcom_connection
         }
         else
         {
-            throw new Exception("OpenPSA requires Midgard PHP extension to run");
+            if (file_exists($basedir . 'config/midgard-portable.inc.php'))
+            {
+                include $basedir . 'config/midgard-portable.inc.php';
+            }
+            else if (file_exists($basedir . 'config/midgard-portable-default.inc.php'))
+            {
+                include $basedir . 'config/midgard-portable-default.inc.php';
+            }
+            else
+            {
+                throw new Exception("Could not connect to database, configuration file not found");
+            }
+        }
+        if (!class_exists('midgard_topic'))
+        {
+            throw new Exception('You need to install DB MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
         }
 
         return true;
