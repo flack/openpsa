@@ -572,7 +572,7 @@ class midcom_config implements arrayaccess
         }
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
-        if (extension_loaded('midgard2'))
+        if (!extension_loaded('midgard'))
         {
             $this->_default_config['person_class'] = 'openpsa_person';
         }

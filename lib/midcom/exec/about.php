@@ -67,7 +67,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                 <tbody>
                     <tr>
                         <td><?php
-                            if (extension_loaded('midgard2'))
+                            if (!extension_loaded('midgard'))
                             {
                                 echo "<a href=\"http://midgard-project.org/midgard2/\">Midgard2</a>";
                             }

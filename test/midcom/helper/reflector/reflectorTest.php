@@ -298,7 +298,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_link_properties()
     {
-        if (extension_loaded('midgard2'))
+        if (!extension_loaded('midgard'))
         {
             return array
             (
