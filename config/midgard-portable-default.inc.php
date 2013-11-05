@@ -12,7 +12,7 @@ $schema_dirs = array
     $basedir . '/config/'
 );
 
-$driver = new driver($schema_dirs, sys_get_temp_dir(), '');
+$driver = new driver($schema_dirs, $basedir . '/var', '');
 
 // CHANGE PARAMETERS AS REQUIRED:
 $db_config = array
