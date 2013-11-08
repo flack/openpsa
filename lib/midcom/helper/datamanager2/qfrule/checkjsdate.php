@@ -29,7 +29,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             }
             else
             {
-                $date .= ' ' . $time;
+                $date .= $time;
             }
         }
 
@@ -65,6 +65,12 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
 
     private function _sanitize_time($value, $options)
     {
+        if (   empty($value[0][$options . '_hours'])
+            && empty($value[0][$options . '_minutes'])
+            && empty($value[0][$options . '_seconds']))
+        {
+            return '';
+        }
         $hours = $value[0][$options . '_hours'];
         if (!$this->_check_time($hours, 24))
         {
@@ -96,7 +102,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             $seconds = '00';
         }
 
-        return sprintf('%2s', $hours) . ':' . sprintf('%2s', $minutes) . ':' . sprintf('%2s', $seconds);
+        return ' ' . sprintf('%2s', $hours) . ':' . sprintf('%2s', $minutes) . ':' . sprintf('%2s', $seconds);
     }
 
     private function _check_time($input, $max)
