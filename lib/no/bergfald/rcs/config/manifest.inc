@@ -32,9 +32,9 @@
     ),
     'dependencies' => array
     (
-        'Text_Diff' => array
+        'Horde_Text_Diff' => array
         (
-            'channel' => 'pear.php.net',
+            'channel' => 'pear.horde.org',
         ),
         'midcom' => array(),
     ),

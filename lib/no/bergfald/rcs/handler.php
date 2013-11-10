@@ -56,7 +56,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     private $_object;
 
     /**
-     * Load the text_diff libaries needed to show diffs.
+     * Load the statics & prepend styledir
      */
     public function _on_initialize()
     {

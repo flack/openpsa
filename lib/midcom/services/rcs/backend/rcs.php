@@ -558,17 +558,15 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 $lines1 = explode ("\n", $oldest_value);
                 $lines2 = explode ("\n", $newest[$attribute]);
 
-                // Ignore deprecation warnings caused by Text_Diff
-                $old_value = error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
-                $diff = new Text_Diff($lines1, $lines2);
+                $diff = new Horde_Text_Diff('auto', array($lines1, $lines2));
 
                 if ($renderer_style == 'unified')
                 {
-                    $renderer = new Text_Diff_Renderer_unified();
+                    $renderer = new Horde_Text_Diff_Renderer_Unified();
                 }
                 else
                 {
-                    $renderer = new Text_Diff_Renderer_inline();
+                    $renderer = new Horde_Text_Diff_Renderer_Inline();
                 }
 
                 if (!$diff->isEmpty())
@@ -585,7 +583,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                         $return[$attribute]['diff'] = str_replace('</ins>', '</span>', $return[$attribute]['diff']);
                     }
                 }
-                error_reporting($old_value);
             }
         }
 

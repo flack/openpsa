@@ -37,7 +37,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     public $_object = null;
 
     /**
-     * Load the text_diff libaries needed to show diffs.
+     * Load statics
      */
     public function _on_initialize()
     {
