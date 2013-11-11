@@ -408,22 +408,17 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             try
             {
                 $stat = $object->refresh();
-                //var_dump($stat);
                 if ($stat === false)
                 {
-                    //var_dump('REFRESH::: ' . get_class($object) . ' ' . $object->id . ' ' . midcom_connection::get_error());
                     // we can only assume this means that the object is already deleted.
                     // Normally, the error codes from core should tell us later on, too, but
                     // they don't seem to be reliable in all versions
                     continue;
                 }
-                //echo 'DELETE ' . get_class($object->__object) . ' ' . $object->guid . ' ' . $object->id . ' ';
                 $stat = $object->delete();
-                //echo '=> ' . ($stat ? 'true' : 'false') . ' dep ' . ($object->has_dependents() ? 'true' : 'false') . "\n";
             }
             catch (midcom_error $e)
             {
-                var_dump('EEEE ' . $e->getMessage());
                 $stat = false;
             }
             if (!$stat)
@@ -439,15 +434,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 }
                 else
                 {
-                    //throw new midcom_error('Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
-                    echo 'Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string() . "\n";
+                    throw new midcom_error('Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
                 }
             }
             else
             {
-                //echo 'PURGE ' . get_class($object);
                 $stat = $object->purge();
-                //echo ' => ' . ($stat ? 'true' : 'false') . "\n";
             }
             if ($iteration++ > $limit)
             {
@@ -460,9 +452,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                     }
                 }
                 $classnames_string = implode(', ', $classnames);
-                //throw new midcom_error('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
-                echo 'Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string() . "\n";
-                break;
+                throw new midcom_error('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
             }
         }
 

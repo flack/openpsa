@@ -440,7 +440,7 @@ class midcom_config implements arrayaccess
         'utility_diff' => 'diff',
         'utility_rcs' => 'rcs',
 
-        'midcom_services_rcs_bin_dir' => '/usr/local/bin',
+        'midcom_services_rcs_bin_dir' => '/usr/bin',
         'midcom_services_rcs_root' => '',
         'midcom_services_rcs_enable' => true,
 
