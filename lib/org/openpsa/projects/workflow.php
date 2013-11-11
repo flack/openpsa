@@ -104,12 +104,12 @@ class org_openpsa_projects_workflow
     /**
      * Shortcut for creating status object
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param integer $status_type The status to convert
      * @param integer $target_person The person ID, if any
      * @param string $comment The status comment, if any
      */
-    public static function create_status(&$task, $status_type, $target_person = 0, $comment = '')
+    public static function create_status($task, $status_type, $target_person = 0, $comment = '')
     {
         debug_print_function_stack('create_status called from: ');
         $status = new org_openpsa_projects_task_status_dba();
@@ -135,11 +135,11 @@ class org_openpsa_projects_workflow
     /**
      * Propose task to a resource
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param integer $pid The person ID
      * @param string $comment Status comment, if any
      */
-    static function propose(&$task, $pid, $comment = '')
+    static function propose($task, $pid, $comment = '')
     {
         debug_add("saving proposed status for person {$pid}");
         return self::create_status($task, org_openpsa_projects_task_status_dba::PROPOSED, $pid, $comment);
@@ -148,11 +148,11 @@ class org_openpsa_projects_workflow
     /**
      * Accept the proposal
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param integer $pid The person ID
      * @param string $comment Status comment, if any
      */
-    static function accept(&$task, $pid = -1, $comment = '')
+    static function accept($task, $pid = -1, $comment = '')
     {
         if ($pid < 0)
         {
@@ -166,9 +166,9 @@ class org_openpsa_projects_workflow
     /**
      * Decline the proposal
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function decline(&$task, $comment = '')
+    static function decline($task, $comment = '')
     {
         debug_add("task->decline() called with user #" . midcom_connection::get_user());
 
@@ -178,9 +178,9 @@ class org_openpsa_projects_workflow
     /**
      * Mark task as started (in case it's not already done)
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function start(&$task, $started_by = 0)
+    static function start($task, $started_by = 0)
     {
         debug_add("task->start() called with user #" . midcom_connection::get_user());
         //PONDER: Check actual status objects for more accurate logic ?
@@ -197,9 +197,9 @@ class org_openpsa_projects_workflow
     /**
      * Mark task as completed
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function complete(&$task, $comment = '')
+    static function complete($task, $comment = '')
     {
         debug_add("task->complete() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables
@@ -222,9 +222,9 @@ class org_openpsa_projects_workflow
     /**
      * Drops a completed task to started status
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function remove_complete(&$task, $comment = '')
+    static function remove_complete($task, $comment = '')
     {
         debug_add("task->remove_complete() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::COMPLETED)
@@ -239,9 +239,9 @@ class org_openpsa_projects_workflow
     /**
      * Drops tasks status to started
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    private static function _drop_to_started(&$task, $comment = '')
+    private static function _drop_to_started($task, $comment = '')
     {
         if ($task->status <= org_openpsa_projects_task_status_dba::STARTED)
         {
@@ -254,9 +254,9 @@ class org_openpsa_projects_workflow
     /**
      * Mark task as approved
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function approve(&$task, $comment = '')
+    static function approve($task, $comment = '')
     {
         debug_add("task->approve() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
@@ -276,7 +276,7 @@ class org_openpsa_projects_workflow
         return self::close($task, $comment);
     }
 
-    static function reject(&$task, $comment = '')
+    static function reject($task, $comment = '')
     {
         debug_add("task->reject() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
@@ -292,9 +292,9 @@ class org_openpsa_projects_workflow
     /**
      * Drops an approved task to started status
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function remove_approve(&$task, $comment = '')
+    static function remove_approve($task, $comment = '')
     {
         debug_add("task->remove_approve() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::APPROVED)
@@ -308,9 +308,9 @@ class org_openpsa_projects_workflow
     /**
      * Mark task as closed
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function close(&$task, $comment = '')
+    static function close($task, $comment = '')
     {
         debug_add("task->close() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / require to be approved first
@@ -352,9 +352,9 @@ class org_openpsa_projects_workflow
     /**
      * Reopen a closed task
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function reopen(&$task, $comment = '')
+    static function reopen($task, $comment = '')
     {
         debug_add("task->reopen() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::CLOSED)
@@ -368,21 +368,12 @@ class org_openpsa_projects_workflow
     /**
      * Connect the task hour reports to an invoice
      *
-     * @param org_openpsa_projects_task_dba &$task The task we're working on
-     * @param org_openpsa_invoices_invoice_dba &$invoice The invoice we're working on
+     * @param org_openpsa_projects_task_dba $task The task we're working on
+     * @param org_openpsa_invoices_invoice_dba $invoice The invoice we're working on
      */
-    static function mark_invoiced(&$task, &$invoice)
+    static function mark_invoiced($task, $invoice)
     {
         debug_add("task->mark_invoiced() called with user #" . midcom_connection::get_user());
-
-        try
-        {
-            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-        }
 
         // Mark the hour reports invoiced
         $hours_marked = 0;
@@ -392,11 +383,18 @@ class org_openpsa_projects_workflow
         $qb->add_constraint('invoiceable', '=', true);
 
         // Check how the agreement deals with hour reports
-        if (   $deliverable
-            && $deliverable->invoiceApprovedOnly)
+        try
         {
-            // The agreement allows invoicing only approved hours, therefore don't mark unapproved
-            $qb->add_constraint('metadata.isapproved', '=', true);
+            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
+            if ($deliverable->invoiceApprovedOnly)
+            {
+                // The agreement allows invoicing only approved hours, therefore don't mark unapproved
+                $qb->add_constraint('metadata.isapproved', '=', true);
+            }
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
         }
 
         $reports = $qb->execute();
