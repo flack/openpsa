@@ -23,3 +23,4 @@ $db_config = array
 
 connection::initialize($driver, $db_config);
 midgard_storage::create_base_storage();
+//midgard_connection::get_instance()->config->create_blobdir();

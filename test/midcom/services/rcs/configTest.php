@@ -34,17 +34,17 @@ class midcom_services_rcs_configTest extends openpsa_testcase
     public function test_get_bin_prefix()
     {
         $conf = new midcom_config;
-        $conf['midcom_services_rcs_bin_dir'] = '/usr/bin';
+        $conf['midcom_services_rcs_bin_dir'] = '/usr/local/bin';
 
         $config = new midcom_services_rcs_config($conf);
-        $this->assertEquals('/usr/bin', $config->get_bin_prefix());
+        $this->assertEquals('/usr/local/bin', $config->get_bin_prefix());
     }
 
     public function test_get_handler()
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_root'] = '/tmp';
-        $conf['midcom_services_rcs_bin_dir'] = '/usr/bin';
+        $conf['midcom_services_rcs_bin_dir'] = '/usr/local/bin';
         $conf['midcom_services_rcs_enable'] = true;
 
         $topic = new midcom_db_topic;

@@ -74,6 +74,7 @@ class midcom_core_querybuilder extends midcom_core_query
         }
         catch (Exception $e)
         {
+            throw $e;
             debug_add("Query failed: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return array();
         }
