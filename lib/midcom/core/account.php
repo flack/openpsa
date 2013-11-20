@@ -63,6 +63,13 @@ class midcom_core_account
         $this->_user = $this->_get_user();
     }
 
+    /**
+     * Static account getter
+     *
+     * @param midcom_db_person $person
+     * @throws midcom_error
+     * @return midcom_core_account
+     */
     public static function &get(&$person)
     {
         if (empty($person->guid))
@@ -216,11 +223,20 @@ class midcom_core_account
         {
             $mc = new midgard_collector('midgard_user', 'authtype', midcom::get('config')->get('auth_type'));
             $mc->set_key_property('person');
-            $mc->add_constraint('login', $operator, $value);
+            if (   $operator !== '='
+                && $value !== '')
+            {
+                $mc->add_constraint('login', $operator, $value);
+            }
             $mc->execute();
             $user_results = $mc->list_keys();
 
-            if (count($user_results) < 1)
+            if (   $operator === '='
+                && $value === '')
+            {
+                $query->add_constraint('guid', 'NOT IN', array_keys($user_results));
+            }
+            else if (count($user_results) < 1)
             {
                 // make sure we don't return any results if no midgard_user entry was found
                 $query->add_constraint('id', '=', 0);
