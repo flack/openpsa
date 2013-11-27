@@ -132,4 +132,8 @@ $(document).ready(function()
         }));
         $('#end_container').toggle(!continuous.is(':checked'));
     }
+    if (window.location.hash.substr(0, 13) === '#deliverable_')
+    {
+        $(window.location.hash + ' > .icon').click();
+    }
 });
