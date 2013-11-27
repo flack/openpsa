@@ -79,7 +79,7 @@ class midcom_core_privilege
         if (is_array($src))
         {
             // Store given values to our privilege array
-            $this->__privilege = $src;
+            $this->__privilege = array_merge($this->__privilege, $src);
         }
         else
         {

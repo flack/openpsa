@@ -75,7 +75,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             (
                 'up' => $root_topic->id,
                 'component' => $component,
-                'name' => 'handler_test_' . time()
+                'name' => 'handler_' . get_called_class() . time()
             );
             $topic = self::create_class_object('midcom_db_topic', $topic_attributes);
         }
@@ -439,7 +439,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
             else
             {
-                $object->purge();
+                $stat = $object->purge();
             }
             if ($iteration++ > $limit)
             {
