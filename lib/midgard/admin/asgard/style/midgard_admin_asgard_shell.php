@@ -1,3 +1,9 @@
+<?php
+$identifier = $data['controller']->formmanager->namespace . 'code';
+?>
+<script type="text/javascript">
+var midgard_admin_asgard_shell_identifier = '&(identifier);';
+</script>
 <div class="object_edit">
 <?php
 $data['controller']->display_form();

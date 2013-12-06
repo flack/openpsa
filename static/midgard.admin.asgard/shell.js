@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    var editor = CodeMirror.fromTextArea(document.getElementById("org_openpsa_mypage_code"), {
+    var editor = CodeMirror.fromTextArea(document.getElementById(window.midgard_admin_asgard_shell_identifier), {
         mode: "application/x-httpd-php",
         lineNumbers: true,
         theme: "eclipse",
