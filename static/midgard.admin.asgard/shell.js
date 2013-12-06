@@ -80,12 +80,13 @@ $(document).ready(function()
     {
         $('#save-script, #restore-script, #clear-script').hide();
     }
-    $("#org_openpsa_mypage")
+    var form_id = window.midgard_admin_asgard_shell_identifier.slice(0, -5);
+
+    $("#" + form_id)
         .attr('target', 'shell-runner')
-        .attr('action', $("#org_openpsa_mypage").attr('action') + '?ajax')
+        .attr('action', $("#" + form_id).attr('action') + '?ajax')
         .on('submit', function(event)
         {
             $('#output-wrapper').show();
-            //event.preventDefault();
         });
 });
