@@ -19,7 +19,15 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             debug_add('value is not an array or date is missing');
             return false;
         }
-        $date = $value[0][$options . '_date'];
+        // This comes from AJAX editor. @todo: Find out why the format is different
+        if (is_string($value[0]))
+        {
+            $date = $value[0];
+        }
+        else
+        {
+            $date = $value[0][$options . '_date'];
+        }
         if (isset($value[0][$options . '_hours']))
         {
             $time = $this->_sanitize_time($value, $options);
@@ -44,8 +52,8 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             debug_add("value {$date} is assumed to be intentionally blank");
             return true;
         }
-        if ( preg_match("/^\d{4}-\d{2}-\d{2}/", $date) == 0
-           && preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $date) == 0)
+        if (    preg_match("/^\d{4}-\d{2}-\d{2}/", $date) == 0
+             && preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $date) == 0)
         {
             debug_add("value {$date} is incorrectly formatted");
             return false;
@@ -60,6 +68,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
         }
 
         $ret = checkdate($date_array[1], $date_array[2], $date_array[0]);
+
         return $ret;
     }
 
