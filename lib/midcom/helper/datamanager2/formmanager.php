@@ -827,21 +827,15 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // types.
             foreach ($this->widgets as $name => $copy)
             {
-                if ($ajax_mode)
+                if (!array_key_exists($name, $results))
                 {
-                    if (array_key_exists($name, $results))
+                    if ($ajax_mode)
                     {
-                        $this->widgets[$name]->sync_type_with_widget($results);
+                        continue;
                     }
+                    $results[$name] = null;
                 }
-                else
-                {
-                    if (!array_key_exists($name, $results))
-                    {
-                        $results[$name] = null;
-                    }
-                    $this->widgets[$name]->sync_type_with_widget($results);
-                }
+                $this->widgets[$name]->sync_type_with_widget($results);
             }
         }
 
