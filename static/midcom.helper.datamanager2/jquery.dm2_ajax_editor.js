@@ -560,17 +560,26 @@
 
                 if (this.parsed_data.exit_code === 'save' && this.config.in_creation_mode)
                 {
-                    var new_holder = $('<div />').attr('id', this.parsed_data.new_identifier + '_area').insertBefore(this.active_creation_holder);
+                    var new_holder = self.creation_tpl.clone();
 
-                    $.each(xml_fields, function() {
-                        $('<div />').addClass(self.parsed_data.new_identifier).attr('id', self.parsed_data.new_identifier + '_' + $(this).attr('name')).html($(this).text()).appendTo(new_holder);
+                    $.each(xml_fields, function(index, element)
+                    {
+                        $(new_holder.children()[index])
+                            .addClass(self.parsed_data.new_identifier)
+                            .attr('id', self.parsed_data.new_identifier + '_' + $(this).attr('name'))
+                            .html($(this).text());
                     });
+
+                    new_holder
+                        .attr('id', this.parsed_data.new_identifier + '_area')
+                        .insertBefore(this.active_creation_holder);
 
                     this.active_creation_holder.remove();
                     this.toolbar = null;
 
                     var conf = $.extend({}, this.config, {in_creation_mode: false, allow_removal: true});
                     $.dm2.ajax_editor.init(this.parsed_data.new_identifier, conf);
+                    new_holder.show();
 
                     return;
                 }
