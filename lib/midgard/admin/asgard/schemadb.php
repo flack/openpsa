@@ -556,6 +556,8 @@ class midgard_admin_asgard_schemadb
                     break;
                 }
                 $component = midcom::get('dbclassloader')->get_component_for_class($linked_type);
+                $searchfields = $linked_type_reflector->get_search_properties();
+                $searchfields[] = 'guid';
                 $this->_schemadb['object']->append_field
                 (
                     $key,
@@ -578,7 +580,7 @@ class midgard_admin_asgard_schemadb
                             'component' => $component,
                             'titlefield' => $linked_type_reflector->get_label_property(),
                             'id_field' => $this->_reflector->get_link_target($key),
-                            'searchfields' => $linked_type_reflector->get_search_properties(),
+                            'searchfields' => $searchfields,
                             'result_headers' => $this->_get_result_headers($linked_type_reflector),
                             'orders' => array(),
                             'creation_mode_enabled' => true,
