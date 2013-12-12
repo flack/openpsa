@@ -223,8 +223,9 @@ class midcom_core_account
         {
             $mc = new midgard_collector('midgard_user', 'authtype', midcom::get('config')->get('auth_type'));
             $mc->set_key_property('person');
+
             if (   $operator !== '='
-                && $value !== '')
+                || $value !== '')
             {
                 $mc->add_constraint('login', $operator, $value);
             }
