@@ -72,5 +72,46 @@ class midcom_core_accountTest extends openpsa_testcase
 
         midcom::get('auth')->drop_sudo();
     }
+
+    private function getQueryMock()
+    {
+        return $this->getMock('midcom_core_query', array('add_constraint', 'execute', 'count', 'count_unchecked'));
+    }
+
+    public function testAddUsernameConstraint()
+    {
+        $rdm_username = uniqid(__FUNCTION__);
+        if (method_exists('midgard_user', 'login'))
+        {
+            // test invalid user
+            $operator = "=";
+            $query = $this->getQueryMock();
+            $query->expects($this->once())
+            ->method('add_constraint')
+            ->with($this->equalTo('id'), $this->equalTo("="), $this->equalTo(0));
+
+            midcom_core_account::add_username_constraint($query, "=", $rdm_username);
+
+            // test empty usernames
+            $query = $this->getQueryMock();
+            $query->expects($this->once())
+            ->method('add_constraint')
+            ->with($this->equalTo('guid'), $this->equalTo("NOT IN"));
+
+            midcom_core_account::add_username_constraint($query, "=", "");
+        }
+        else
+        {
+            $operator = "=";
+            $value = "bob";
+
+            $query = $this->getQueryMock();
+            $query->expects($this->once())
+            ->method('add_constraint')
+            ->with($this->equalTo('username'), $this->equalTo($operator), $this->equalTo($value));
+
+            midcom_core_account::add_username_constraint($query, $operator, $value);
+        }
+    }
 }
 ?>
