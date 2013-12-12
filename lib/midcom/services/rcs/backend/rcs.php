@@ -539,12 +539,19 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $return = array();
         $oldest = array_intersect_key($oldest, $newest);
+
+        $ln = midcom::get('i18n')->get_l10n("midcom");
+        $repl = array(
+            '<del>' => "<span class=\"deleted\" title=\"" . sprintf($ln->get("removed in %s"), $latest_revision) . "\">",
+            '</del>' => '</span>',
+            '<ins>' => "<span class=\"inserted\" title=\"" . sprintf($ln->get("added in %s"), $latest_revision) . "\">",
+            '</ins>' => '</span>'
+        );
         foreach ($oldest as $attribute => $oldest_value)
         {
             if (is_array($oldest_value))
             {
                 continue;
-                // Skip
             }
 
             $return[$attribute] = array
@@ -558,29 +565,30 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 $lines1 = explode ("\n", $oldest_value);
                 $lines2 = explode ("\n", $newest[$attribute]);
 
-                $diff = new Horde_Text_Diff('auto', array($lines1, $lines2));
-
+                $options = array();
+                $diff = new Diff($lines1, $lines2, $options);
                 if ($renderer_style == 'unified')
                 {
-                    $renderer = new Horde_Text_Diff_Renderer_Unified();
+                    $renderer = new Diff_Renderer_Text_Unified;
                 }
                 else
                 {
-                    $renderer = new Horde_Text_Diff_Renderer_Inline();
+                    $renderer = new midcom_services_rcs_renderer_html_sidebyside;
                 }
 
-                if (!$diff->isEmpty())
+                if ($lines1 != $lines2)
                 {
                     // Run the diff
-                    $return[$attribute]['diff'] = $renderer->render($diff);
+                    $return[$attribute]['diff'] = $diff->render($renderer);
+                    if ($renderer_style == 'unified')
+                    {
+                        $return[$attribute]['diff'] = htmlspecialchars($return[$attribute]['diff']);
+                    }
 
                     if ($renderer_style == 'inline')
                     {
                         // Modify the output for nicer rendering
-                        $return[$attribute]['diff'] = str_replace('<del>', "<span class=\"deleted\" title=\"removed in {$latest_revision}\">", $return[$attribute]['diff']);
-                        $return[$attribute]['diff'] = str_replace('</del>', '</span>', $return[$attribute]['diff']);
-                        $return[$attribute]['diff'] = str_replace('<ins>', "<span class=\"inserted\" title=\"added in {$latest_revision}\">", $return[$attribute]['diff']);
-                        $return[$attribute]['diff'] = str_replace('</ins>', '</span>', $return[$attribute]['diff']);
+                        $return[$attribute]['diff'] = strtr($return[$attribute]['diff'], $repl);
                     }
                 }
             }

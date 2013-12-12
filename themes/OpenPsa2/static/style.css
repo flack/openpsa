@@ -606,3 +606,11 @@ input#org_openpsa_search_query
     color: #666;
 	margin-top: .5em
 }
+
+table.DifferencesSideBySide{
+	width:90%;
+}
+table.DifferencesSideBySide .Left,
+table.DifferencesSideBySide .Right{
+    width:45%;
+}

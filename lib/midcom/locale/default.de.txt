@@ -834,3 +834,19 @@ Bilder im Ordner "%s" erneut erzeugen
 Abgeschickte Formulardaten wiederherstellen
 ---STRINGEND
 
+---STRING Old Version
+Alte Version
+---STRINGEND
+
+---STRING New Version
+Neue Version
+---STRINGEND
+
+---STRING removed in %s
+entfernt in %s
+---STRINGEND
+
+---STRING added in %s
+neu in %s
+---STRINGEND
+

@@ -21,10 +21,6 @@
         {
             "type": "pear",
             "url": "http://pear.php.net"
-        },
-        {
-            "type": "pear",
-            "url": "http://pear.horde.org"
         }
     ],
     "require": {
@@ -33,7 +29,7 @@
         "ext-iconv": "*",
         "pear-pear/XML_RPC": "*",
         "pear-pear/HTTP_Request2": "*",
-        "pear-horde/Horde_Text_Diff": "*",
+        "phpspec/php-diff": "dev-master",
         "midgard/midgardmvc-helper-urlize": ">=1.1",
         "gregwar/captcha": ">=1.0",
         "openpsa/quickform": "dev-master",
