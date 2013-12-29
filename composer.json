@@ -61,6 +61,11 @@
         "midgard/midcom": "*",
         "openpsa/openpsa": "*"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.0-dev"
+        }
+    }
     "autoload": {
         "classmap": ["lib"],
         "psr-0": {
