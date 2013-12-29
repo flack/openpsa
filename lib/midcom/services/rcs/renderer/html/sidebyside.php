@@ -87,7 +87,7 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
                             $fromLine = $change['base']['offset'] + $no + 1;
                             $html .= '<tr>';
                             $html .= '<th>'.$fromLine.'</th>';
-                            $html .= '<td class="Left"><span>'.$line.'</span>&nbsp;</td>';
+                            $html .= '<td class="Left"><del>'.$line.'</del>&nbsp;</td>';
                             if(!isset($change['changed']['lines'][$no])) {
                                 $toLine = '&nbsp;';
                                 $changedLine = '&nbsp;';
@@ -97,7 +97,7 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
                                 $changedLine = '<span>'.$change['changed']['lines'][$no].'</span>';
                             }
                             $html .= '<th>'.$toLine.'</th>';
-                            $html .= '<td class="Right">'.$changedLine.'</td>';
+                            $html .= '<td class="Right"><ins>'.$changedLine.'</ins></td>';
                             $html .= '</tr>';
                         }
                     }
