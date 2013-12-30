@@ -264,7 +264,7 @@ form.datamanager2
 
 form.datamanager2 .form fieldset.fieldset
 {
-    border-color: #999;
+    border-color: #ccc;
     border-radius: 5px;
     background: #FFFFFF;
     background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
@@ -275,7 +275,7 @@ form.datamanager2 .form fieldset.fieldset
 
 form.datamanager2 .form fieldset.fieldset:hover
 {
-    box-shadow: 1px 5px 7px #ccc;
+    box-shadow: 1px 5px 7px #ddd;
 }
 
 form.datamanager2 .form fieldset.fieldset legend
@@ -505,8 +505,8 @@ dl.campaigns dt.unsubscribed {
 /* Better looking business cards */
 #container div.vcard
 {
-    border: 1px solid #807D74;
-    border-radius: 8px;
+    border: 1px solid #babdb6;
+    border-radius: 6px;
     background: #FFFFFF;
     background: -moz-linear-gradient(top, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(72%, #fbfbfb), color-stop(73%, #f7f7f7), color-stop(100%, #fcfcfc));
