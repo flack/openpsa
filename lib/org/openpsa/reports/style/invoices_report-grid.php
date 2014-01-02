@@ -122,70 +122,47 @@ foreach ($data['invoices'] as $invoice)
 
     $entries[] = $entry;
 }
-echo '<script type="text/javascript">//<![CDATA[';
-echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
-echo "\n//]]></script>";
 
 if ($data['date_field'] == 'date')
 {
     $data['date_field'] = 'invoice date';
 }
+
+$l10n = midcom::get('i18n')->get_l10n('org.openpsa.invoices');
+$grid = new org_openpsa_widgets_grid($grid_id, 'local');
+
+$grid->set_column('number', $l10n->get('invoice number'), 'width: 80', 'string')
+    ->set_column('owner', '')
+    ->set_column('date', $l10n->get($data['date_field']), 'width: 80, fixed: true, formatter: "date", align: "center"')
+    ->set_column('customer', $l10n->get('customer'), 'width: 100', 'string')
+    ->set_column('contact', $l10n->get('customer contact'), 'width: 100', 'string')
+    ->set_column('sum', $l10n->get('customer contact'), 'width: 90, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"')
+    ->set_column('vat', $l10n->get('vat'), 'width: 40, fixed: true, align: "right"', 'number')
+    ->set_column('vat_sum', $l10n->get('vat sum'), 'width: 70, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"');
+
+$grid->set_option('loadonce', true)
+    ->set_option('caption', $data['table_title'])
+    ->set_option('grouping', true)
+    ->set_option('groupingView', array
+         (
+             'groupField' => array('owner'),
+             'groupColumnShow' => array(false),
+             'groupText' => array('<strong>{0}</strong> ({1})'),
+             'groupOrder' => array('asc'),
+             'groupSummary' => array(true),
+             'showSummaryOnHide' => true
+         ))
+    ->set_option('sortname', $sortname)
+    ->set_option('sortorder', $sortorder);
+
+$grid->set_footer_data($footer_data);
 ?>
 
 <div class="report &(data['table_class']); org_openpsa_invoices full-width">
-
-<table id="&(grid_id);"></table>
-<div id="p_&(grid_id);"></div>
-
+<?php
+    echo $grid->render($entries);
+?>
 </div>
-
-<script type="text/javascript">
-jQuery("#&(grid_id);").jqGrid({
-      datatype: "local",
-      data: &(grid_id);_entries,
-      colNames: ['id', 'index_number', <?php
-                 echo '"' . midcom::get('i18n')->get_string('invoice number', 'org.openpsa.invoices') . '", "owner",';
-                 echo '"' . midcom::get('i18n')->get_string($data['date_field'], 'org.openpsa.invoices') . '",';
-                 echo '"index_customer", "' . midcom::get('i18n')->get_string('customer', 'org.openpsa.invoices') . '",';
-                 echo '"index_contact", "' . midcom::get('i18n')->get_string('customer contact', 'org.openpsa.invoices') . '",';
-                 echo '"' . midcom::get('i18n')->get_string('sum excluding vat', 'org.openpsa.invoices') . '",';
-                 echo '"index_vat", "' . midcom::get('i18n')->get_string('vat', 'org.openpsa.invoices') . '",';
-                 echo '"' . midcom::get('i18n')->get_string('vat sum', 'org.openpsa.invoices') . '"';
-      ?>],
-      colModel:[
-          {name:'id', index:'id', hidden:true, key:true},
-          {name:'index_number',index:'index_number', hidden:true},
-          {name:'number', index: 'index_number'},
-          {name:'owner', index: 'owner'},
-          {name:'date', index: 'date', width: 80, fixed: true, formatter: 'date', align: 'center'},
-          {name:'index_customer', index: 'index_customer', hidden:true },
-          {name:'customer', index: 'index_customer', width: 100},
-          {name:'index_contact', index: 'index_contact', hidden:true },
-          {name:'contact', index: 'index_contact', width: 100},
-          {name:'sum', index: 'sum', width: 90, fixed: true, sorttype: "number", formatter: "number", align: 'right', summaryType:'sum'},
-          {name:'index_vat', index: 'index_vat', sorttype: "number", hidden:true },
-          {name:'vat', index: 'index_vat', width: 40, fixed: true, align: 'right'},
-          {name:'vat_sum', index: 'vat_sum', width: 70, fixed: true, sorttype: "number", formatter: "number", align: 'right', summaryType:'sum'}
-      ],
-      rowNum: <?php echo sizeof($entries); ?>,
-      loadonce: true,
-      caption: "&(data['table_title']);",
-      footerrow: true,
-      grouping: true,
-      groupingView: {
-          groupField: ['owner'],
-          groupColumnShow: [false],
-          groupText : ['<strong>{0}</strong> ({1})'],
-          groupOrder: ['asc'],
-          groupSummary : [true],
-          showSummaryOnHide: true
-       },
-	  sortname: '&(sortname);',
-	  sortorder: '&(sortorder);'
-});
-
-jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
-</script>
 
 <?php
 $host_prefix = midcom::get()->get_host_prefix();

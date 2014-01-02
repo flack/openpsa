@@ -1176,6 +1176,10 @@ body .ui-tooltip {
 
 /* Manually added styles */
 
+.ui-widget-content {
+    border-color: #daddd6;
+}
+
 .ui-widget-header {
     background: #5282bc; /* Old browsers */
     background: -moz-linear-gradient(top, #5282bc 0%, #4e7ab8 56%, #2a5e96 100%); /* FF3.6+ */
@@ -1345,8 +1349,7 @@ body .ui-tooltip {
 
 .ui-jqgrid tr.jqgroup td
 {
-    border-top: 1px solid #999791;
-    border-bottom: 1px solid #BABDB6;
+    border-top: 1px solid #daddd6;
 }
 
 .ui-jqgrid tr.jqgfirstrow+tr.jqgroup td

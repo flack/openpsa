@@ -29,7 +29,7 @@
         "ext-iconv": "*",
         "pear-pear/XML_RPC": "*",
         "pear-pear/HTTP_Request2": "*",
-        "phpspec/php-diff": "dev-master",
+        "phpspec/php-diff": "1.0.*",
         "midgard/midgardmvc-helper-urlize": ">=1.1",
         "gregwar/captcha": ">=1.0",
         "openpsa/quickform": "dev-master",
@@ -60,6 +60,11 @@
     "provide": {
         "midgard/midcom": "*",
         "openpsa/openpsa": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.0-dev"
+        }
     },
     "autoload": {
         "classmap": ["lib"],

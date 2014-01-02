@@ -1,10 +1,14 @@
 /* "Now working on" rendering */
 div.org_openpsa_mypage_workingon
 {
-    border: 1px solid #babdb6;
+    border: 1px solid #daddd6;
     border-radius: 8px;
     padding-left: 24px;
     padding-bottom: 8px;
+}
+div.org_openpsa_mypage_workingon:hover
+{
+    box-shadow: 1px 5px 7px #ddd;
 }
 #content-text div.org_openpsa_mypage_workingon h3
 {
