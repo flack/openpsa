@@ -150,6 +150,7 @@ class midcom_core_account
                 $entry->delete();
             }
         }
+        unset(self::$_instances[$this->_person->guid]);
         return true;
     }
 

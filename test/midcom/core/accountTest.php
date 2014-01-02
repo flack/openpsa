@@ -31,14 +31,14 @@ class midcom_core_accountTest extends openpsa_testcase
         $account->set_password($password);
         $this->assertEquals(midcom_connection::prepare_password($password), $account->get_password());
 
-        $username = __CLASS__ . ' user ' . time();
+        $username = uniqid(__FUNCTION__ . ' user');
         $account->set_username($username);
         $this->assertEquals($username, $account->get_username());
 
         $stat = $account->save();
         $this->assertTrue($stat);
 
-        $new_username = __CLASS__ . ' user ' . time();
+        $new_username = uniqid(__FUNCTION__ . ' user');
         $account->set_username($new_username);
         $stat = $account->save();
         $this->assertTrue($stat);
@@ -50,14 +50,43 @@ class midcom_core_accountTest extends openpsa_testcase
         midcom::get('auth')->drop_sudo();
     }
 
+    public function testGet()
+    {
+        midcom::get('auth')->request_sudo('midcom.core');
+
+        $account1 = midcom_core_account::get(self::$_person);
+        $username = uniqid(__FUNCTION__ . ' user');
+        $account1->set_username($username);
+        $stat = $account1->save();
+        $this->assertTrue($stat);
+        $stat = $account1->delete();
+        $this->assertTrue($stat);
+
+        // after deletion of account, try getting the account again
+        // we should get a fresh object, not the one from the static cache
+        $account2 = midcom_core_account::get(self::$_person);
+        $this->assertNotEquals(spl_object_hash($account1), spl_object_hash($account2), "We should get a fresh account object");
+        // save and delete should work as well
+        $account2->set_username($username);
+        $stat = $account2->save();
+        $this->assertTrue($stat);
+        $stat = $account2->delete();
+        $this->assertTrue($stat);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
     public function testNameUnique()
     {
         midcom::get('auth')->request_sudo('midcom.core');
 
         $account1 = midcom_core_account::get(self::$_person);
-        $username = __CLASS__ . ' user ' . time();
+        $username = uniqid(__FUNCTION__ . ' user');
+
         $account1->set_username($username);
-        $account1->save();
+        $stat = $account1->save();
+        $this->assertTrue($stat);
+
         $this->assertEquals($username, $account1->get_username());
 
         $person = $this->create_object('midcom_db_person');
@@ -67,6 +96,7 @@ class midcom_core_accountTest extends openpsa_testcase
         $account2->set_password($password);
         $account2->set_username($username);
 
+        // save should fail as the username is not unique
         $stat = $account2->save();
         $this->assertFalse($stat);
 
@@ -80,7 +110,7 @@ class midcom_core_accountTest extends openpsa_testcase
 
     public function testAddUsernameConstraint()
     {
-        $rdm_username = uniqid(__FUNCTION__);
+        $rdm_username = uniqid(__FUNCTION__ . ' user');
         if (method_exists('midgard_user', 'login'))
         {
             // test invalid user
