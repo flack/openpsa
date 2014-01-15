@@ -43,13 +43,9 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         // create invoice_items
-        foreach ($_POST['org_openpsa_invoices_invoice_tasks'] as $task_id => $invoiceable)
+        $ids = array_keys(array_filter($_POST['org_openpsa_invoices_invoice_tasks']));
+        foreach ($ids as $task_id)
         {
-            if (!$invoiceable)
-            {
-                continue;
-            }
-
             $task = $this->_tasks[$task_id];
 
             //instance the invoice_items

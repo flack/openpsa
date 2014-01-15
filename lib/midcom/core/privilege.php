@@ -79,7 +79,7 @@ class midcom_core_privilege
         if (is_array($src))
         {
             // Store given values to our privilege array
-            $this->__privilege = $src;
+            $this->__privilege = array_merge($this->__privilege, $src);
         }
         else
         {
@@ -324,17 +324,17 @@ class midcom_core_privilege
                 MIDCOM_LOG_INFO);
             return false;
         }
+        $valid_values = array
+        (
+            MIDCOM_PRIVILEGE_ALLOW,
+            MIDCOM_PRIVILEGE_DENY,
+            MIDCOM_PRIVILEGE_INHERIT,
+        );
 
-        switch ($this->value)
+        if (!in_array($this->value, $valid_values))
         {
-            case MIDCOM_PRIVILEGE_ALLOW:
-            case MIDCOM_PRIVILEGE_DENY:
-            case MIDCOM_PRIVILEGE_INHERIT:
-                break;
-
-            default:
-                debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
-                return false;
+            debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
+            return false;
         }
 
         return true;
@@ -397,11 +397,7 @@ class midcom_core_privilege
 
         $cache_key = $type . '::' . $guid;
 
-        if (array_key_exists($cache_key, $cache))
-        {
-            $return = $cache[$cache_key];
-        }
-        else
+        if (!array_key_exists($cache_key, $cache))
         {
             $return = midcom::get('cache')->memcache->get('ACL', $cache_key);
 
@@ -415,7 +411,7 @@ class midcom_core_privilege
             $cache[$cache_key] = $return;
         }
 
-        return $return;
+        return $cache[$cache_key];
     }
 
     /**
@@ -449,24 +445,8 @@ class midcom_core_privilege
         $mc->add_value_property('assignee');
         $mc->add_value_property('classname');
         $mc->add_value_property('value');
-        midcom_connection::set_error(MGD_ERR_OK);
         $mc->execute();
         $privileges = $mc->list_keys();
-        if (!$privileges)
-        {
-            if (midcom_connection::get_error() != MGD_ERR_OK)
-            {
-                debug_add("Failed to retrieve all {$type} privileges for the Object GUID {$guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_print_r('Result was:', $result);
-                if (isset($php_errormsg))
-                {
-                    debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
-                }
-                throw new midcom_error('Privilege collector failed to execute: ' . midcom_connection::get_error_string());
-            }
-
-            return $result;
-        }
 
         foreach ($privileges as $privilege_guid => $value)
         {
@@ -668,7 +648,6 @@ class midcom_core_privilege
                     return false;
                 }
                 $this->_invalidate_cache();
-                return true;
             }
             else
             {
@@ -684,8 +663,8 @@ class midcom_core_privilege
                     }
                     $this->_invalidate_cache();
                 }
-                return true;
             }
+            return true;
         }
 
         if ($this->__guid)

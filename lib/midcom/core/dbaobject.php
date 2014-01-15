@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\events\dbaevent;
+
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
  *
@@ -504,28 +506,31 @@ abstract class midcom_core_dbaobject
         {
             return true;
         }
-        midcom::get('cache')->invalidate($this->guid);
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
-        return $this->__object->approve();
+        if ($this->__object->approve())
+        {
+            midcom::get('dispatcher')->dispatch(dbaevent::APPROVE, new dbaevent($this));
+            return true;
+        }
+        return false;
     }
+
     public function unapprove()
     {
         if (!$this->__object->is_approved())
         {
             return true;
         }
-        midcom::get('cache')->invalidate($this->guid);
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $this);
-        return $this->__object->unapprove();
+        if ($this->__object->unapprove())
+        {
+            midcom::get('dispatcher')->dispatch(dbaevent::UNAPPROVE, new dbaevent($this));
+            return true;
+        }
+        return false;
     }
+
     public function get_properties()
     {
-        if (!$this->__object)
-        {
-            $classname = $this->__mgdschema_class_name__;
-            $this->__object = new $classname();
-        }
-        return array_keys(get_object_vars($this->__object));
+        return midcom_helper_reflector::get_object_fieldnames($this);
     }
 
     public function connect($signal, $callback, $user_data = null)

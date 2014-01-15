@@ -1,7 +1,7 @@
 'name' => 'midgard.admin.asgard',
 'icon' => 'midgard.admin.asgard/asgard2-16.png',
 'purecode' => true,
-'version' => '9.0beta5+git',
+'version' => '9.0.0-rc.1+git',
 'state' => 'stable',
 'privileges' => array
 (
@@ -50,11 +50,11 @@
     'dependencies' => array
     (
         'midcom.helper.reflector' => array(),
-        'midcom.helper.activitystream' => array(),
-        'midcom.helper.datamanager2' => array
+        'midcom.helper.activitystream' => array
         (
-            'version' => '1.0.4beta43',
+            'optional' => 'yes'
         ),
+        'midcom.helper.datamanager2' => array(),
         'midcom.admin.help' => array(),
     ),
 ),

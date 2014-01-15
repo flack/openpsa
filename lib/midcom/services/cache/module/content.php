@@ -652,8 +652,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Looks for list of content and request identifiers paired with the given guid
      * and removes all of those from the caches.
+     *
+     * {@inheritDoc}
      */
-    public function invalidate($guid)
+    public function invalidate($guid, $object = null)
     {
         if (!$this->_meta_cache->exists($guid))
         {

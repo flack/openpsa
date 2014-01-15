@@ -134,7 +134,7 @@ class midcom_services_uimessages
             foreach ($stored_messages as $message)
             {
                 $id = $this->add($message['title'], $message['message'], $message['type']);
-                $this->_messages_from_session[] = $id;
+                $this->_messages_from_session[$id] = true;
             }
         }
     }
@@ -162,15 +162,8 @@ class midcom_services_uimessages
 
         // We have to be careful what messages to store to session to prevent them
         // from accumulating
-        $messages_to_store = array();
-        foreach ($this->_message_stack as $id => $message)
-        {
-            // Check that the messages were not coming from earlier session
-            if (!in_array($id, $this->_messages_from_session))
-            {
-                $messages_to_store[$id] = $message;
-            }
-        }
+        $messages_to_store = array_diff_key($this->_message_stack, $this->_messages_from_session);
+
         if (count($messages_to_store) == 0)
         {
             // We have only messages coming from earlier sessions, and we ditch those

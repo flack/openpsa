@@ -16,6 +16,9 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
 
+    public $_use_activitystream = false;
+    public $_use_rcs = false;
+
     const SCHEDULED = 100;
     const RUNNING = 110;
     const FAILED = 120;
@@ -26,16 +29,6 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      * @var array
      */
     var $arguments = array();
-
-    /**
-     * Empty constructor
-     */
-    public function __construct($id = null)
-    {
-        $this->_use_rcs = false;
-        $this->_use_activitystream = false;
-        parent::__construct($id);
-    }
 
     /**
      * Makes sure $arguments is properly set

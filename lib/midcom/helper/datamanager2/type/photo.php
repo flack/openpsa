@@ -140,7 +140,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
 
         if (array_key_exists('archival', $this->_pending_attachments))
         {
-            // We never touch the archival version after it has been uploaded
+            // we never touch the archival version after it has been uploaded
             unset($this->_pending_attachments['archival']);
         }
         else

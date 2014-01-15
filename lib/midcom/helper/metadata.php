@@ -388,24 +388,24 @@ class midcom_helper_metadata
                 }
                 if ($value == 0)
                 {
-                    $this->__metadata->$key = '0000-00-00 00:00:00';
+                    $value = '0000-00-00 00:00:00';
                 }
                 else
                 {
-                    $this->__metadata->$key = gmstrftime('%Y-%m-%d %T', $value);
+                    $value = gmstrftime('%Y-%m-%d %T', $value);
                 }
-
-                if (extension_loaded('midgard2'))
+                if (!extension_loaded('midgard'))
                 {
-                    if ($this->__metadata->$key == '0000-00-00 00:00:00')
+                    if ($value == '0000-00-00 00:00:00')
                     {
-                        $this->__metadata->$key = null;
+                        $value = null;
                     }
                     else
                     {
-                        $this->__metadata->$key = new midgard_datetime($this->__metadata->$key);
+                        $value = new midgard_datetime($value);
                     }
                 }
+                $this->__metadata->$key = $value;
                 $value = true;
                 break;
 
@@ -493,7 +493,7 @@ class midcom_helper_metadata
             case 'scheduleend':
             case 'exported':
             case 'imported':
-                if (   extension_loaded('midgard2')
+                if (   !extension_loaded('midgard')
                     && isset($this->__metadata->$key))
                 {
                     //This is ugly, but seems the only possible way...

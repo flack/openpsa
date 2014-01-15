@@ -53,8 +53,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
                         foreach ($schemadb['default']->fields as $field_id => $field)
                         {
-                            if (   array_key_exists('hidden', $field)
-                                && $field['hidden'])
+                            if (!empty($field['hidden']))
                             {
                                 // Hidden field, skip
                                 // TODO: We may want to use some customdata field for this instead

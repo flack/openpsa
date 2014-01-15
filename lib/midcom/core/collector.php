@@ -139,11 +139,6 @@ class midcom_core_collector extends midcom_core_query
 
         $newresult = $this->_list_keys_and_check_privileges();
 
-        if (!is_array($newresult))
-        {
-            return $newresult;
-        }
-
         call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$newresult));
 
         $this->count = count($newresult);
@@ -157,7 +152,7 @@ class midcom_core_collector extends midcom_core_query
         $result = $this->_query->list_keys();
         if (!is_array($result))
         {
-            return $result;
+            return array();
         }
         $newresult = array();
         $classname = $this->_real_class;
@@ -243,14 +238,12 @@ class midcom_core_collector extends midcom_core_query
 
     /**
      * implements midgard_collector::list_keys with ACL checking
+     *
+     * @return array
      */
     public function list_keys()
     {
         $result = $this->_list_keys_and_check_privileges();
-        if (!is_array($result))
-        {
-            return $result;
-        }
 
         $size = sizeof($result);
 
@@ -310,9 +303,7 @@ class midcom_core_collector extends midcom_core_query
 
     public function set_key_property($property, $value = null)
     {
-        debug_add("MidCOM collector does not allow switching key properties. It is always GUID.", MIDCOM_LOG_ERROR);
-
-        return false;
+        throw new midcom_error("Switching key properties is not allowed.");
     }
 
     public function add_value_property($property)

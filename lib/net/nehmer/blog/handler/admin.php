@@ -205,7 +205,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                return new midcom_response_relocate($this->_master->get_url($this->_article->name));
+                return new midcom_response_relocate($this->_master->get_url($this->_article));
         }
 
         $this->_prepare_request_data();

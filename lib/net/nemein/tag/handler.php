@@ -370,7 +370,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $link_mc->execute();
         $links = $link_mc->list_keys();
 
-        if (!$links)
+        if (empty($links))
         {
             return $tags;
         }
@@ -383,7 +383,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $mc->execute();
         $tag_guids = $mc->list_keys();
 
-        if (!$tag_guids)
+        if (empty($tag_guids))
         {
             return $tags;
         }
@@ -632,14 +632,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             }
             $current_tag .= $char;
         }
+        $tags = array_filter(array_map('trim', $tags));
         foreach ($tags as $tag)
         {
-            // Just to be sure there is not extra whitespace in beginning or end of tag
-            $tag = trim($tag);
-            if (empty($tag))
-            {
-                continue;
-            }
             $tag_array[$tag] = '';
         }
         return $tag_array;

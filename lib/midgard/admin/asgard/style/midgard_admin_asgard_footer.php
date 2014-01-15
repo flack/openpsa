@@ -66,7 +66,7 @@
                 <img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.services.toolbars/images/midgard-logo.png" alt="(M)" />
                 <strong><?php
                     echo $data['l10n']->get('asgard for');
-                    if (extension_loaded('midgard2'))
+                    if (!extension_loaded('midgard'))
                     {
                         echo " Midgard2 ";
                     }

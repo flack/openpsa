@@ -48,38 +48,18 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             // FIXME: Replace only the first instance, there might be others matching the same string
             $url = str_replace(midcom_connection::get_url('prefix') . "/", '/', $url);
         }
-        if (   $url == ''
-            || $url == '/')
+        $url = trim($url, '/');
+        if ($url == '')
         {
             $tokenized[$original_url] = array();
             return $tokenized[$original_url];
         }
         else
         {
-            if (strpos($url, '/') === 0)
-            {
-                $url = substr($url, 1);
-            }
-            if (substr($url, -1) == '/')
-            {
-                $url = substr($url, 0, -1);
-            }
-
             $argv_tmp = explode('/', $url);
         }
 
-        $argv = array();
-        foreach ($argv_tmp as $arg)
-        {
-            if (empty($arg))
-            {
-                continue;
-            }
-
-            $argv[] = $arg;
-        }
-
-        $tokenized[$original_url] = $argv;
+        $tokenized[$original_url] = array_filter($argv_tmp);
         return $tokenized[$original_url];
     }
 

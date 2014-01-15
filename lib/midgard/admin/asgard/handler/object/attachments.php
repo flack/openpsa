@@ -230,6 +230,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_add_jscripts();
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_create');
     }
 
     /**
@@ -240,8 +241,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _show_create($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['files'] =& $this->_files;
         $data['object'] =& $this->_object;
         midcom_show_style('midgard_admin_asgard_object_attachments_header');
@@ -249,8 +248,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
         midcom_show_style('midgard_admin_asgard_object_attachments_new');
         midcom_show_style('midgard_admin_asgard_object_attachments_footer');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**
@@ -311,6 +308,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     /**
@@ -321,8 +319,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $host_prefix = midcom::get()->get_host_prefix();
         $delete_url = $host_prefix . '__mfa/asgard/object/attachments/delete/' . $this->_object->guid . '/' . $this->_file->name;
 
@@ -333,8 +329,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         midcom_show_style('midgard_admin_asgard_object_attachments_header');
         midcom_show_style('midgard_admin_asgard_object_attachments_file');
         midcom_show_style('midgard_admin_asgard_object_attachments_footer');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 
     /**
@@ -377,6 +371,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_delete');
     }
 
     /**
@@ -387,13 +382,9 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _show_delete($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['file'] =& $this->_file;
         $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
         midcom_show_style('midgard_admin_asgard_object_attachments_delete');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

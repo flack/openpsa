@@ -92,7 +92,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function __get($property)
     {
-        if ($property == 'invoice_label'
+        if (   $property == 'invoice_label'
             || $property == 'postal_label')
         {
             if (!isset($this->_address_extras[$property]))

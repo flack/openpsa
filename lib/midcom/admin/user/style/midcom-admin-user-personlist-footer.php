@@ -34,24 +34,11 @@ if (count($data['persons']) > 0)
                         <?php
                         foreach ($data['groups_for_select'] as $group)
                         {
-                            if (!is_array($group))
-                            {
-                                continue;
-                            }
+                            $title = $group['title'];
 
-                            $level_indent = '';
-                            for($i = 0;$i < $group['level']; $i++)
+                            if ($group['level'] > 0)
                             {
-                                $level_indent = $level_indent . '-';
-                            }
-
-                            if ($level_indent != '')
-                            {
-                                $title = $level_indent . '> ' . $group['title'];
-                            }
-                            else
-                            {
-                                $title = $group['title'];
+                                $title = str_repeat('-', $group['level']) . '> ' . $group['title'];
                             }
 
                             echo "<option value=\"" . $group['id'] . "\">" . $title . "</option>\n";

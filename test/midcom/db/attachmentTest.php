@@ -106,7 +106,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
         midcom::get('config')->set('attachment_cache_enabled', true);
 
-        $expected_path = $GLOBALS['midcom_config']['attachment_cache_root'] . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
+        $expected_path = midcom::get('config')->get('attachment_cache_root') . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
 
         $attachment->file_to_cache();
         midcom::get('config')->set('attachment_cache_enabled', false);

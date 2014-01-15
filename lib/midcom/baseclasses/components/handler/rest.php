@@ -48,7 +48,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * @var string
      */
     protected $_mode;
-    
+
     /**
      * the id or guid of the requested object
      * @var mixed
@@ -63,7 +63,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         // try logging in over basic auth
         midcom::get('auth')->_http_basic_auth();
     }
-    
+
     /**
      * the base handler that should be pointed to by the routes
      *
@@ -101,12 +101,12 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             default:
                 break;
         }
-        
+
         foreach ($this->_request['params'] as $key => $value)
         {
             $this->_request['params'][$key] = $this->_parse_value($value);
         }
-        
+
         // determine id / guid
         if (isset($this->_request['params']['id']))
         {

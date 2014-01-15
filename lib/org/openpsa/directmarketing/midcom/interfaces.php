@@ -14,6 +14,32 @@
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
 {
+    public function _on_watched_dba_delete($object)
+    {
+        $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
+        if (   is_a($object, 'midcom_db_person')
+            || is_a($object, 'org_openpsa_contacts_person_dba'))
+        {
+            $qb->add_constraint('person', '=', $object->id);
+        }
+        else if (is_a($object, 'org_openpsa_directmarketing_campaign_dba'))
+        {
+            $qb->add_constraint('campaign', '=', $object->id);
+        }
+        else
+        {
+            return;
+        }
+
+        midcom::get('auth')->request_sudo($this->_component);
+        $memberships = $qb->execute();
+        foreach ($memberships as $membership)
+        {
+            $membership->delete();
+        }
+        midcom::get('auth')->drop_sudo();
+    }
+
     /**
      * Background message sending AT batch handler
      *

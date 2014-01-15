@@ -98,7 +98,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-1.6.3/fullcalendar.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
 
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/history.js-1.8.0/jquery.history.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
     }
 

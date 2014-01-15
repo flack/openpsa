@@ -33,10 +33,7 @@ if (   array_key_exists('cities_file_path', $_POST)
 
     midcom::get()->disable_limits();
     // this is a potentially very time and resource intensive operation, so let's play nicely:
-    if (is_callable('proc_nice'))
-    {
-        proc_nice(10);
-    }
+    proc_nice(10);
     while (@ob_end_flush());
 
     $imported_cities = Array();
@@ -52,7 +49,6 @@ if (   array_key_exists('cities_file_path', $_POST)
 
         if (   !isset($data[$fields_map['featurecode']])
             || !in_array($data[$fields_map['featurecode']], $features))
-
         {
             continue;
         }

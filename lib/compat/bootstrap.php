@@ -7,6 +7,7 @@
  */
 
 require_once MIDCOM_ROOT . '/compat/componentdata.php';
+require_once MIDCOM_ROOT . '/compat/autoloader.php';
 
 if (extension_loaded('midgard2'))
 {
@@ -48,6 +49,13 @@ if (extension_loaded('midgard2'))
     );
 }
 
+/**
+ * MidCOM configuration array
+ *
+ * @global Array $GLOBALS['midcom_config']
+ */
+$GLOBALS['midcom_config'] = midcom::get('config');
+
 if (! defined('MIDCOM_CONFIG_FILE_BEFORE'))
 {
     define('MIDCOM_CONFIG_FILE_BEFORE', midcom::get('config')->get('midcom_config_basedir') . '/midcom.conf');
@@ -78,4 +86,6 @@ $_MIDCOM = new midcom_compat_superglobal;
  * @global Array $GLOBALS['midcom_component_data']
  */
 $GLOBALS['midcom_component_data'] = new midcom_compat_componentdata;
+
+$autoloader = new midcom_compat_autoloader;
 ?>

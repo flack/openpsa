@@ -467,20 +467,6 @@ input#org_openpsa_search_query
   overflow: hidden;
 }
 
-#container .org_openpsa_toolbar ul.midcom_toolbar li > a
-{
-  display: inline-block;
-  color: #222;
-  text-decoration: none !important;
-}
-
-.org_openpsa_toolbar ul.midcom_toolbar li > a img,
-.org_openpsa_toolbar ul.midcom_toolbar button img
-{
-  border: none;
-  vertical-align: bottom;
-}
-
 .org_openpsa_toolbar ul.midcom_toolbar li
 {
   display: inline-block;
@@ -497,6 +483,8 @@ input#org_openpsa_search_query
 .org_openpsa_toolbar ul.midcom_toolbar li > a,
 .org_openpsa_toolbar ul.midcom_toolbar li button
 {
+  display: inline-block;
+  color: #222;
   padding: .3em .5em;
   white-space: nowrap;
   overflow: visible;
@@ -505,17 +493,19 @@ input#org_openpsa_search_query
   line-height: 16px;
 }
 
+#container .org_openpsa_toolbar ul.midcom_toolbar li > a
+{
+  text-decoration: none !important;
+}
+
 .org_openpsa_toolbar ul.midcom_toolbar li button
 {
   border-style: none;
-  display: inline;
   text-decoration: none;
   background-color: transparent;
-  color: #000;
   cursor: pointer;
   margin: 0 !important;
-  font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li > a:hover,
@@ -525,6 +515,13 @@ input#org_openpsa_search_query
     background: -moz-linear-gradient(top, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fcfcfc), color-stop(14%, #efefef), color-stop(30%, #ededed), color-stop(100%, #ffffff));
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FCFCFC', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li > a img,
+.org_openpsa_toolbar ul.midcom_toolbar button img
+{
+  border: none;
+  vertical-align: bottom;
 }
 
 .org_openpsa_toolbar ul.view_toolbar li
@@ -608,4 +605,12 @@ input#org_openpsa_search_query
 {
     color: #666;
 	margin-top: .5em
+}
+
+table.DifferencesSideBySide{
+	width:90%;
+}
+table.DifferencesSideBySide .Left,
+table.DifferencesSideBySide .Right{
+    width:45%;
 }

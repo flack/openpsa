@@ -44,10 +44,9 @@ class midcom_response_relocate extends midcom_response
 
         midcom::get('cache')->content->no_cache();
 
-        midcom::get()->finish();
         debug_add("Relocating to {$location}");
         midcom::get()->header($location, $this->code);
-        _midcom_stop_request();
+        midcom::get()->finish();
     }
 }
 ?>

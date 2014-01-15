@@ -93,18 +93,11 @@ class midcom_services__sessioning
             return;
         }
 
-        $track_state = ini_get('track_errors');
-        ini_set('track_errors', true);
         @session_start();
-        $session_err = null;
-        if (isset($php_errormsg))
-        {
-            $session_err = (string)$php_errormsg;
-        }
-        ini_set('track_errors', $track_state);
         if (!isset($_SESSION))
         {
-            debug_add("\$_SESSION is not set, error message was: {$session_err}", MIDCOM_LOG_ERROR);
+            debug_add("\$_SESSION is not set", MIDCOM_LOG_ERROR);
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
             return false;
         }
 

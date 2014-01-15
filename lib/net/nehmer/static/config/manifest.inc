@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.static',
-'version' => '9.0beta5+git',
+'version' => '9.0.0-rc.1+git',
 'icon' => 'stock-icons/16x16/document.png',
 'state' => 'stable',
 'class_mapping' => array
@@ -43,7 +43,6 @@
     ),
     'dependencies' => array
     (
-        'net.nehmer.blog' => array(),
         'midcom.helper.datamanager2' => array(),
         'midcom' => array(),
     ),

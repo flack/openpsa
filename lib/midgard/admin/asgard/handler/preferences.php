@@ -95,6 +95,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // Load the common data
         $this->_process_request_data($data);
+        return new midgard_admin_asgard_response($this, '_show_preferences');
     }
 
     /**
@@ -105,15 +106,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_preferences($handler_id, array &$data)
     {
-        if (isset($_GET['ajax']))
-        {
-            midcom_show_style('midgard_admin_asgard_preferences');
-            return;
-        }
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_preferences');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     /**

@@ -19,7 +19,7 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_enable'] = true;
-        $GLOBALS['midcom_config']['midcom_services_rcs_enable'] = true;
+        midcom::get('config')->set('midcom_services_rcs_enable', true);
 
         self::$_config = new midcom_services_rcs_config($conf);
     }

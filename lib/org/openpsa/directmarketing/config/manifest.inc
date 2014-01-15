@@ -9,7 +9,7 @@
     'org_openpsa_campaign_message_receipt' => 'org_openpsa_directmarketing_campaign_messagereceipt_dba',
     'org_openpsa_link_log' => 'org_openpsa_directmarketing_link_log_dba',
 ),
-'version' => '9.0beta5+git',
+'version' => '9.0.0-rc.1+git',
 'state' => 'stable',
 'package.xml' => array
 (
@@ -77,4 +77,16 @@
         ),
     ),
 ),
-'watches' => array(),
+'watches' => array
+(
+    array
+    (
+        'classes' => array
+        (
+            'midcom_db_person',
+            'org_openpsa_contacts_person_dba',
+            'org_openpsa_directmarketing_campaign_dba'
+        ),
+        'operations' => MIDCOM_OPERATION_DBA_DELETE,
+    ),
+),

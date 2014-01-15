@@ -356,8 +356,6 @@ EOT;
     /**
      * This is called during intialization the function is used to
      * register the schema to a session key
-     *
-     * @return boolean always true
      */
      public function _on_initialize()
      {
@@ -366,7 +364,6 @@ EOT;
             $this->_add_external_html_elements();
             $this->_add_initscript('none');
         }
-        return true;
      }
 
     /**

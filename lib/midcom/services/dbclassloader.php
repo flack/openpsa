@@ -261,6 +261,7 @@ class midcom_services_dbclassloader
             'org.openpsa.member' => 'org.openpsa.contacts',
             'org.openpsa.salesproject' => 'org.openpsa.sales',
             'org.openpsa.event' => 'org.openpsa.calendar',
+            'org.openpsa.eventmember' => 'org.openpsa.calendar',
             'org.openpsa.invoice' => 'org.openpsa.invoices',
             'org.openpsa.billing' => 'org.openpsa.invoices',
             'org.openpsa.query' => 'org.openpsa.reports',

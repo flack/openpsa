@@ -96,8 +96,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         foreach ($this->_schema->fields as $name => $type_definition)
         {
-            if (   !array_key_exists($name, $types)
-                || !$types[$name])
+            if (empty($types[$name]))
             {
                 if ($type_definition['required'] == true)
                 {
@@ -178,9 +177,10 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
                 {
                     // Hide unserialization errors, but log them.
                     $data = @unserialize($data);
-                    if (isset($php_errormsg))
+                    if (!$data)
                     {
-                        debug_add("Unserialization failed for field {$name}: {$php_errormsg}", MIDCOM_LOG_INFO);
+                        debug_add("Unserialization failed for field {$name}", MIDCOM_LOG_INFO);
+                        midcom::get('debug')->log_php_error(MIDCOM_LOG_INFO);
                     }
                 }
             }

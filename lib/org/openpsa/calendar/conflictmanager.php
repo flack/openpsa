@@ -186,7 +186,7 @@ class org_openpsa_calendar_conflictmanager
         if (   array_key_exists($member->event, $processed_events_resources)
             && array_key_exists($member->resource, $processed_events_resources[$member->event]))
         {
-            continue;
+            return;
         }
         if (   !array_key_exists($member->event, $processed_events_resources)
             || !is_array($processed_events_resources[$member->event]))
@@ -211,7 +211,7 @@ class org_openpsa_calendar_conflictmanager
             {
                 debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
                 $member->delete();
-                continue;
+                return;
             }
         }
         debug_add("overlap found in event {$event->title} (#{$event->id})");

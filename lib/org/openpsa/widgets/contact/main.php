@@ -395,50 +395,40 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         $mc->execute();
 
         $memberships = $mc->list_keys();
-        if ($memberships)
+        foreach ($memberships as $guid => $empty)
         {
-            foreach ($memberships as $guid => $empty)
+            try
             {
-                try
-                {
-                    $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                    continue;
-                }
+                $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
 
-                echo "<li class=\"org\">";
-                if ($mc->get_subkey($guid, 'extra'))
-                {
-                    echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
-                }
+            echo "<li class=\"org\">";
+            if ($mc->get_subkey($guid, 'extra'))
+            {
+                echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
+            }
 
-                if ($group->official)
+            $group_label = $group->get_label();
+
+            if ($this->link_contacts)
+            {
+                if (!self::$_contacts_url)
                 {
-                    $group_label = $group->official;
+                    $this->link_contacts = false;
                 }
                 else
                 {
-                    $group_label = $group->name;
+                    $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\">{$group_label}</a>";
                 }
-
-                if ($this->link_contacts)
-                {
-                    if (!self::$_contacts_url)
-                    {
-                        $this->link_contacts = false;
-                    }
-                    else
-                    {
-                        $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\">{$group_label}</a>";
-                    }
-                }
-
-                echo "<span class=\"organization-name\">{$group_label}</span>";
-                echo "</li>\n";
             }
+
+            echo "<span class=\"organization-name\">{$group_label}</span>";
+            echo "</li>\n";
         }
     }
 

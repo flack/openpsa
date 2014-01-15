@@ -41,7 +41,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             {
                 throw new Exception('Login for user ' . $username . ' failed');
             }
-            midcom::get('auth')->_sync_user_with_backend();
         }
         self::$_class_objects[$person->guid] = $person;
         //Sync to get password under mgd1
@@ -70,13 +69,13 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 return $result[0];
             }
 
-            $root_topic = midcom_db_topic::get_cached($GLOBALS['midcom_config']['midcom_root_topic_guid']);
+            $root_topic = midcom_db_topic::get_cached(midcom::get('config')->get('midcom_root_topic_guid'));
 
             $topic_attributes = array
             (
                 'up' => $root_topic->id,
                 'component' => $component,
-                'name' => 'handler_test_' . time()
+                'name' => 'handler_' . get_called_class() . time()
             );
             $topic = self::create_class_object('midcom_db_topic', $topic_attributes);
         }
@@ -404,6 +403,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         while (!empty($queue))
         {
             $object = array_pop($queue);
+            $object->_use_activitystream = false;
+            $object->_use_rcs = false;
             try
             {
                 $stat = $object->refresh();
@@ -438,7 +439,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
             else
             {
-                $object->purge();
+                $stat = $object->purge();
             }
             if ($iteration++ > $limit)
             {

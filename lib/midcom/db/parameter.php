@@ -18,12 +18,8 @@ class midcom_db_parameter extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_parameter';
 
-    public function __construct($id = null)
-    {
-        $this->_use_rcs = false;
-        $this->_use_activitystream = false;
-        parent::__construct($id);
-    }
+    public $_use_activitystream = false;
+    public $_use_rcs = false;
 
     function get_parent_guid_uncached()
     {

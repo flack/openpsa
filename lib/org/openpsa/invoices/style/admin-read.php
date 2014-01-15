@@ -74,11 +74,25 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             if ($invoice->paid)
             {
                 echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->paid) . '</span>: <br />';
-                echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
-                if ($invoice->due < $invoice->paid)
+
+                // does the invoice has a cancelation invoice?
+                if ($invoice->cancelationInvoice)
                 {
-                    echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
-                    echo $data['l10n']->get('overdue') . '</li>';
+                    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+                    $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
+                    $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
+
+                    $link = "<a href=\"" . $cancelation_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
+                    echo sprintf(midcom::get('i18n')->get_string('invoice got canceled by %s'), $link);
+                }
+                else
+                {
+                    echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
+                    if ($invoice->due < $invoice->paid)
+                    {
+                        echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
+                        echo $data['l10n']->get('overdue') . '</li>';
+                    }
                 }
             }
             else if (   $invoice->due

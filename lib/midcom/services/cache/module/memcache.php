@@ -90,11 +90,9 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     }
 
     /**
-     * Invalidates the GUID for all known data groups.
-     *
-     * @param string $guid The GUID to invalidate.
+     * {@inheritDoc}
      */
-    function invalidate($guid)
+    function invalidate($guid, $object = null)
     {
         if ($this->_cache !== null)
         {

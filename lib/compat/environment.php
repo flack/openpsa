@@ -22,7 +22,7 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        require('ragnaroek.php');
+        require_once 'ragnaroek.php';
 
         if (class_exists('midgardmvc_core'))
         {

@@ -71,11 +71,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     }
 
     /**
-     * Invalidates all cache objects related to the GUID specified.
-     *
-     * @param string $guid The GUID to invalidate.
+     * {@inheritDoc}
      */
-    function invalidate($guid)
+    function invalidate($guid, $object = null)
     {
         $napobject = $this->get_guid($guid);
 
@@ -83,7 +81,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         {
             // The object itself is not in cache, but it still might have a parent that
             // needs invalidating (f.x. if it is newly-created or was moved from outside the tree)
-            $napobject = $this->_load_from_guid($guid);
+            $napobject = $this->_load_from_guid($guid, $object);
             if (!$napobject)
             {
                 // We couldn't load the object (because it's deleted f.x.) or it is not in NAP.
@@ -147,12 +145,15 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $this->_cache->remove("{$this->_prefix}-{$leaves_key}");
     }
 
-    private function _load_from_guid($guid)
+    private function _load_from_guid($guid, $object = null)
     {
         $napobject = false;
         try
         {
-            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+            if (!is_object($object))
+            {
+                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+            }
             $nav = new midcom_helper_nav;
             if (is_a($object, 'midcom_db_topic'))
             {

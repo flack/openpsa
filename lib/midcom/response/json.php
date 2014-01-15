@@ -30,7 +30,6 @@ class midcom_response_json extends midcom_response
         echo json_encode($this->_data);
 
         midcom::get()->finish();
-        _midcom_stop_request();
     }
 }
 ?>

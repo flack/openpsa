@@ -35,7 +35,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         midcom::get('cache')->content->no_cache();
 
         $data['view_title'] = $this->_l10n->get('trash');
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['types'] = array();
         foreach (midcom_connection::get_schema_types() as $type)
@@ -67,6 +66,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/trash/', $this->_l10n->get('trash'));
+        return new midgard_admin_asgard_response($this, '_show_trash');
     }
 
     /**
@@ -77,10 +77,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      */
     public function _show_trash($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
-        midcom_show_style('midgard_admin_asgard_middle');
         midcom_show_style('midgard_admin_asgard_trash');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 
     /**
@@ -98,7 +95,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $this->type = $args[0];
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $dummy = new $this->type;
         $data['midcom_dba_classname'] = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy);
@@ -136,6 +132,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             "__mfa/asgard/trash/{$this->type}/",
             sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']))
         );
+        return new midgard_admin_asgard_response($this, '_show_trash_type');
     }
 
     private function _purge()
@@ -211,12 +208,9 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      */
     public function _show_trash_type($handler_id, array &$data)
     {
-        midcom_show_style('midgard_admin_asgard_header');
         $data['current_type'] = $this->type;
-        midcom_show_style('midgard_admin_asgard_middle');
 
         midcom_show_style('midgard_admin_asgard_trash_type');
-        midcom_show_style('midgard_admin_asgard_footer');
     }
 }
 ?>

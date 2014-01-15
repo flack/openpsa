@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * The Grand Unified Reflector, copying helper class
+ *
  * @package midcom.helper.reflector
  */
 class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecode
@@ -163,28 +166,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
         else
         {
-            $properties = array_keys(get_object_vars($object));
+            $helper = new helper;
+            $properties = $helper->get_all_properties($object);
         }
 
-        $return = array();
-
-        $invalid = array
-        (
-            'id',
-            'guid',
-            'metadata',
-        );
-
-        foreach ($properties as $property)
-        {
-            // Remove properties that should not be copied
-            if (in_array($property, $invalid))
-            {
-                continue;
-            }
-
-            $return[] = $property;
-        }
+        $return = array_diff($properties, array('id', 'guid', 'metadata'));
 
         // Cache them
         $this->properties[$mgdschema_class] = $return;
@@ -381,7 +367,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param array $defaults
      * @return boolean Indicating success
      */
-    public function copy_object(&$source, &$parent = null, $defaults = array())
+    public function copy_object(&$source, &$parent = null, array $defaults = array())
     {
         // Resolve the source object
         self::resolve_object($source);
@@ -415,12 +401,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Override with defaults
-        if ($defaults)
+        foreach ($defaults as $name => $value)
         {
-            foreach ($defaults as $name => $value)
-            {
-                $target->$name = $value;
-            }
+            $target->$name = $value;
         }
 
         $parent_property = $this->get_parent_property($source);
@@ -430,8 +413,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         {
             self::resolve_object($parent);
 
-            if (   !$parent
-                || !$parent->guid)
+            if (empty($parent->guid))
             {
                 return false;
             }
@@ -735,8 +717,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $this->new_root_object = $this->copy_object($this->source, $this->target);
         }
 
-        if (   !$this->new_root_object
-            || !$this->new_root_object->guid)
+        if (empty($this->new_root_object->guid))
         {
             $this->errors[] = $this->_l10n->get('failed to get the new root object');
             return false;

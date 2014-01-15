@@ -124,9 +124,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         foreach ($items as $item)
         {
             $info = explode(':', $item);
-            if (   !is_array($info)
-                || !array_key_exists(0, $info)
-                || !array_key_exists(1, $info))
+            if (count($info) < 2)
             {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
@@ -356,10 +354,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if (! $handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
-            if (isset($php_errormsg))
-            {
-                debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_INFO);
-            }
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -375,10 +370,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if (! @unlink($tmpname))
             {
                 debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
-                if (isset($php_errormsg))
-                {
-                    debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_WARN);
-                }
+                midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
             }
         }
 
@@ -577,10 +569,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if (! $handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
-            if (isset($php_errormsg))
-            {
-                debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_INFO);
-            }
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -595,10 +584,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if (! @unlink($tmpname))
             {
                 debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
-                if (isset($php_errormsg))
-                {
-                    debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_WARN);
-                }
+                midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
             }
         }
 

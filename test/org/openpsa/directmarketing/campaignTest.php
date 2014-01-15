@@ -26,6 +26,9 @@ class org_openpsa_directmarketing_campaignTest extends openpsa_testcase
 
         $campaign = new org_openpsa_directmarketing_campaign_dba();
         $campaign->node = $topic->id;
+        $campaign->_use_activitystream = false;
+        $campaign->_use_rcs = false;
+
         $stat = $campaign->create();
 
         $this->assertTrue($stat, midcom_connection::get_error_string());

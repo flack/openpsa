@@ -2,7 +2,7 @@
 'description' => 'User management tool',
 'icon' => 'midcom.admin.user/user-manager.png',
 'purecode' => true,
-'version' => '9.0beta5+git',
+'version' => '9.0.0-rc.1+git',
 'privileges' => array
 (
     'access' => MIDCOM_PRIVILEGE_DENY,

@@ -99,17 +99,10 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     /**
      * The initialization event handler post-processes the maxlength setting.
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
-        if (!is_a($this->_type, 'org_routamc_positioning_dm2_type'))
-        {
-            debug_add("Warning, the field {$this->name} is not a position type or subclass thereof, you cannot use the position widget with it.",
-                MIDCOM_LOG_WARN);
-            return false;
-        }
+        $this->_require_type_class('org_routamc_positioning_dm2_type');
 
         if (is_null($this->enabled_methods))
         {
@@ -163,8 +156,6 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             'text',
             'uri',
         );
-
-        return true;
     }
 
     /**

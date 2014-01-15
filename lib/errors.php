@@ -24,9 +24,22 @@ class midcom_exception_handler
      */
     private $_exception;
 
+    /**
+     * Register the error and Exception handlers
+     */
+    public static function register()
+    {
+        if (!defined('OPENPSA2_UNITTEST_RUN'))
+        {
+            $handler = new self;
+            set_error_handler(array($handler, 'handle_error'), E_ALL ^ (E_NOTICE | E_WARNING));
+            set_exception_handler(array($handler, 'handle_exception'));
+        }
+    }
+
     private function _generate_http_response()
     {
-        if ($GLOBALS['midcom_config']['auth_login_form_httpcode'] == 200)
+        if (midcom::get('config')->get('auth_login_form_httpcode') == 200)
         {
             _midcom_header('HTTP/1.0 200 OK');
             return;
@@ -88,9 +101,8 @@ class midcom_exception_handler
         {
             debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
             echo "<br />{$title}: {$login_warning}";
-            midcom::get()->finish();
             debug_add("Emergency Error Message output finished, exiting now");
-            _midcom_stop_request();
+            midcom::get()->finish();
         }
 
         // Drop any output buffer first.
@@ -106,9 +118,8 @@ class midcom_exception_handler
 
         midcom::get('style')->show_midcom('midcom_services_auth_access_denied');
 
-        midcom::get()->finish();
         debug_add("Error Page output finished, exiting now");
-        _midcom_stop_request();
+        midcom::get()->finish();
     }
 
     /**
@@ -139,29 +150,13 @@ class midcom_exception_handler
     public function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
     {
         $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
-        ob_start();
-        echo "\n";
-        try
+        if (!empty($errcontext))
         {
-            @var_dump($errcontext);
+            $msg .= "\n" . print_r($errcontext, true);
         }
-        catch (Exception $e)
-        {
-            debug_print_r('Exception encountered while dumping the error context', $e, MIDCOM_LOG_ERROR);
-        }
-        $msg .= ob_get_clean();
 
-        switch ($errno)
-        {
-            case E_ERROR:
-            case E_COMPILE_ERROR:
-            case E_RECOVERABLE_ERROR:
-            case E_USER_ERROR:
-                // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
-                throw new midcom_error($msg, $errno);
-        }
-        // Leave other errors for PHP to take care of
-        return false;
+        // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
+        throw new midcom_error($msg, $errno);
     }
 
     /**
@@ -256,11 +251,7 @@ class midcom_exception_handler
 
         debug_add("Error Page output finished, exiting now");
         midcom::get('cache')->content->no_cache();
-        if (midcom::get())
-        {
-            midcom::get()->finish();
-        }
-        _midcom_stop_request();
+        midcom::get()->finish();
     }
 
     /**
@@ -275,9 +266,9 @@ class midcom_exception_handler
      */
     private function send($httpcode, $message)
     {
-        if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode])
-            || !is_array($GLOBALS['midcom_config']['error_actions'][$httpcode])
-            || !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['action']))
+        $error_actions = midcom::get('config')->get('error_actions');
+        if (   !isset($error_actions[$httpcode])
+            || !isset($error_actions[$httpcode]['action']))
         {
             // No action specified for this error code, skip
             return;
@@ -292,41 +283,41 @@ class midcom_exception_handler
         }
 
         // Send as email handler
-        if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'email')
+        if ($error_actions[$httpcode]['action'] == 'email')
         {
-            $this->_send_email($httpcode, $msg);
+            $this->_send_email($httpcode, $msg, $error_actions[$httpcode]);
         }
         // Append to log file handler
-        else if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'log')
+        else if ($error_actions[$httpcode]['action'] == 'log')
         {
-            $this->_log($httpcode, $msg);
+            $this->_log($httpcode, $msg, $error_actions[$httpcode]);
         }
     }
 
-    private function _log($httpcode, $msg)
+    private function _log($httpcode, $msg, array $config)
     {
-        if (empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']))
+        if (empty($config['filename']))
         {
             // No log file specified, skip
             return;
         }
 
-        if (   !is_writable($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
-            && !is_writable(dirname($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])))
+        if (   !is_writable($config['filename'])
+            && !is_writable(dirname($config['filename'])))
         {
-            debug_add("Error logging file {$GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']} is not writable", MIDCOM_LOG_WARN);
+            debug_add("Error logging file {$config['filename']} is not writable", MIDCOM_LOG_WARN);
             return;
         }
 
         // Add the line to the error-specific log
-        $logger = new midcom_debug($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']);
+        $logger = new midcom_debug($config['filename']);
         $logger->set_loglevel(MIDCOM_LOG_INFO);
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
-    private function _send_email($httpcode, $msg)
+    private function _send_email($httpcode, $msg, array $config)
     {
-        if (empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
+        if (empty($config['email']))
         {
             // No recipient specified, skip
             return;
@@ -339,7 +330,7 @@ class midcom_exception_handler
         }
 
         $mail = new org_openpsa_mail();
-        $mail->to = $GLOBALS['midcom_config']['error_actions'][$httpcode]['email'];
+        $mail->to = $config['email'];
         $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
         $mail->subject = "[{$_SERVER['SERVER_NAME']}] {$msg}";
         $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";
@@ -516,14 +507,4 @@ class midcom_error_midgard extends midcom_error
         parent::log($loglevel);
     }
 }
-
-// Register the error and Exception handlers
-// 2009-01-08 rambo: Seems like the boolean expression does not work as intended, see my changes in the error handler itself
-if (!defined('OPENPSA2_UNITTEST_RUN'))
-{
-    $handler = new midcom_exception_handler();
-    set_error_handler(array($handler, 'handle_error'), E_ALL & ~E_NOTICE | E_WARNING);
-    set_exception_handler(array($handler, 'handle_exception'));
-}
-
 ?>

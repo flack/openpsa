@@ -20,15 +20,10 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task_resource';
 
+    public $_use_activitystream = false;
+    public $_use_rcs = false;
+
     private $_personobject;
-
-    public function __construct($id = null)
-    {
-        $this->_use_rcs = false;
-        $this->_use_activitystream = false;
-
-        parent::__construct($id);
-    }
 
     private function _find_duplicates()
     {

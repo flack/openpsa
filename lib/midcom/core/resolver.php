@@ -442,7 +442,6 @@ class midcom_core_resolver
 
         // Exit
         midcom::get()->finish();
-        _midcom_stop_request('');
     }
 }
 ?>

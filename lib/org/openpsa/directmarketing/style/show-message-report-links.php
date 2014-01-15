@@ -58,15 +58,11 @@ $form_suffix = $data['form_suffix'];
                         unset($remote_data);
                     }
                 }
-                $target_label_parts = preg_split("/\s+/", $target_label);
+                $target_label_parts = array_filter(preg_split("/\s+/", $target_label));
                 $target_label_new = '';
                 // Mangle long words to avoid them blowing up the report
                 foreach ($target_label_parts as $part)
                 {
-                    if (empty($part))
-                    {
-                        continue;
-                    }
                     if (strlen($part) > 30)
                     {
                         $part = "<span title='{$part}'>" . substr($part, 0, 12) . '...' . substr($part, -12) . '</span>';

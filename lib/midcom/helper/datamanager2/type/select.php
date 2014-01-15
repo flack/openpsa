@@ -189,14 +189,12 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         if (   !is_array($this->options)
             && $this->option_callback === null)
         {
-            debug_add("Either 'options' or 'option_callback' must be defined for the field {$this->name}.", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Either 'options' or 'option_callback' must be defined for the field {$this->name}");
         }
         if (   !empty($this->options)
             && $this->option_callback !== null)
         {
-            debug_add("Both 'options' and 'option_callback' was defined for the field {$this->name}, go for one of them.", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Both 'options' and 'option_callback' was defined for the field {$this->name}");
         }
 
         if ($this->option_callback !== null)
@@ -214,8 +212,6 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         {
             $this->serialized_storage = false;
         }
-
-        return true;
     }
 
     /**

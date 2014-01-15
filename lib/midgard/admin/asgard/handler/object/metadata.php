@@ -115,6 +115,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
     /**
@@ -125,9 +126,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_object_metadata');
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

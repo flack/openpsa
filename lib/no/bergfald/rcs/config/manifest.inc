@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/history.png',
 'description' => 'Front and backend for a versioning library',
 'purecode' => true,
-'version' => '9.0beta5+git',
+'version' => '9.0.0-rc.1+git',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),
@@ -32,9 +32,9 @@
     ),
     'dependencies' => array
     (
-        'Text_Diff' => array
+        'Horde_Text_Diff' => array
         (
-            'channel' => 'pear.php.net',
+            'channel' => 'pear.horde.org',
         ),
         'midcom' => array(),
     ),

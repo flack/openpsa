@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\events\dbaevent;
+use midgard\introspection\helper;
+
 /**
  * This class only contains static functions which are there to hook into
  * the classes you derive from the MidgardSchema DB types like (New)MidgardArticle.
@@ -94,19 +97,7 @@ class midcom_baseclasses_core_dbobject
 
         $object->_on_updated();
 
-        midcom::get('cache')->invalidate($object->guid);
-
-        if (midcom::get('config')->get('attachment_cache_enabled'))
-        {
-            $atts = $object->list_attachments();
-            foreach ($atts as $att)
-            {
-                midcom::get('cache')->invalidate($att->guid);
-                $att->update_cache();
-            }
-        }
-
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
+        midcom::get('dispatcher')->dispatch(dbaevent::UPDATE, new dbaevent($object));
     }
 
     /**
@@ -357,20 +348,13 @@ class midcom_baseclasses_core_dbobject
         self::_set_owner_privileges($object);
 
         $object->_on_created();
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_CREATE, $object);
+        midcom::get('dispatcher')->dispatch(dbaevent::CREATE, new dbaevent($object));
+
         if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
             $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
-        }
-
-        $parent = $object->get_parent();
-        if (   $parent
-            && $parent->guid)
-        {
-            // Invalidate parent from cache so content caches have chance to react
-            midcom::get('cache')->invalidate($parent->guid);
         }
     }
 
@@ -458,16 +442,17 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_tree(midcom_core_dbaobject $object)
     {
-        // Get the child nodes
-        $children = midcom_helper_reflector_tree::get_child_objects($object);
+        $reflector = midcom_helper_reflector_tree::get($object);
+        $child_classes = $reflector->get_child_classes();
 
-        // Children found
-        if (!empty($children))
+        foreach ($child_classes as $class)
         {
-            // Delete first the descendants
-            foreach ($children as $array)
+            $qb = $reflector->_child_objects_type_qb($class, $object, false);
+            if ($qb)
             {
-                foreach ($array as $child)
+                $children = $qb->execute();
+                // Delete first the descendants
+                while ($child = array_pop($children))
                 {
                     //Inherit RCS status (so that f.x. large tree deletions can run faster)
                     $child->_use_rcs = $object->_use_rcs;
@@ -498,15 +483,13 @@ class midcom_baseclasses_core_dbobject
     public static function delete_post_ops(midcom_core_dbaobject $object)
     {
         $object->_on_deleted();
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_DELETE, $object);
+        midcom::get('dispatcher')->dispatch(dbaevent::DELETE, new dbaevent($object));
         if (   midcom::get('config')->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
             $rcs = midcom::get('rcs');
             $rcs->update($object, $object->get_rcs_message());
         }
-
-        midcom::get('cache')->invalidate($object->guid);
     }
 
     /**
@@ -813,9 +796,10 @@ class midcom_baseclasses_core_dbobject
      */
     public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
     {
+        $helper = new helper;
         if (is_a($oldobject, $newobject->__mgdschema_class_name__))
         {
-            $vars = get_object_vars($oldobject);
+            $vars = $helper->get_object_vars($oldobject);
             foreach ($vars as $name => $value)
             {
                 if (   substr($name, 0, 2) == '__'
@@ -1008,8 +992,9 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _clear_object(midcom_core_dbaobject $object)
     {
-        $vars = get_object_vars($object);
-        foreach ($vars as $name => $value)
+        $helper = new helper;
+        $vars = $helper->get_all_properties($object);
+        foreach ($vars as $name)
         {
             if (   substr($name, 0, 2) == '__'
                 && substr($name, -2) == '__')
@@ -1032,29 +1017,14 @@ class midcom_baseclasses_core_dbobject
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
-        $qb->add_constraint('value', '<>', MIDCOM_PRIVILEGE_INHERIT);
-        $result = @$qb->execute();
-
-        if (! $result)
-        {
-            if (midcom_connection::get_error_string() == 'MGD_ERR_OK')
-            {
-                // Workaround
-                return true;
-            }
-
-            debug_add("Failed to retrieve all privileges for the " . get_class($object) . " {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            if (isset($php_errormsg))
-            {
-                debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
-            }
-
-            throw new midcom_error('The query builder failed to execute, see the log file for more information.');
-        }
+        $result = $qb->execute();
 
         foreach ($result as $dbpriv)
         {
-            $dbpriv->delete();
+            if (!$dbpriv->delete())
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -1314,13 +1284,7 @@ class midcom_baseclasses_core_dbobject
             self::$parameter_cache[$object->guid][$domain][$name] = $value;
         }
 
-        // Don't store parameter changes to activity stream
-        $original_use_activitystream = $object->_use_activitystream;
-        $object->_use_activitystream = false;
-
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-
-        $object->_use_activitystream = $original_use_activitystream;
+        midcom::get('dispatcher')->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 
         return true;
     }
@@ -1379,13 +1343,7 @@ class midcom_baseclasses_core_dbobject
         // Unset via MgdSchema API directly
         $result = $object->__object->parameter($domain, $name, '');
 
-        // Don't store parameter changes to activity stream
-        $original_use_activitystream = $object->_use_activitystream;
-        $object->_use_activitystream = false;
-
-        midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-
-        $object->_use_activitystream = $original_use_activitystream;
+        midcom::get('dispatcher')->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 
         return $result;
     }

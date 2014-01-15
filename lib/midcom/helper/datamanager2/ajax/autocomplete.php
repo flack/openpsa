@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass($query->get_classname());
         $reflector = new midgard_reflection_property($mgdschema_class);
 
-        $mgd2 = extension_loaded('midgard2');
+        $mgd2 = (!extension_loaded('midgard'));
         ksort($constraints);
         foreach ($constraints as $key => $data)
         {

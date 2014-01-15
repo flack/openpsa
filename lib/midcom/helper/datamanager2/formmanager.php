@@ -141,7 +141,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * based on the schema.
      *
      * @param string $name The name of the field for which we should load the widget.
-     * @return boolean Indicating success
      */
     protected function _load_widget($name, $initialize_dependencies = false)
     {
@@ -159,13 +158,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             throw new midcom_error("{$classname} is not a valid DM2 widget");
         }
 
-        if (! $this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies))
+        if ($this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies) === false)
         {
-            debug_add("Failed to initialize the widget for {$name}, see the debug level log for full details, this field will be skipped.",
-                MIDCOM_LOG_INFO);
-            return false;
+            throw new midcom_error("Failed to initialize the widget for {$name}");
         }
-        return true;
     }
 
     /**
@@ -222,10 +218,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 continue;
             }
 
-            if (! $this->_load_widget($name))
-            {
-                continue;
-            }
+            $this->_load_widget($name);
 
             // Start the fieldsets if required
             $this->_start_fieldset($name, $config);
@@ -834,21 +827,15 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // types.
             foreach ($this->widgets as $name => $copy)
             {
-                if ($ajax_mode)
+                if (!array_key_exists($name, $results))
                 {
-                    if (array_key_exists($name, $results))
+                    if ($ajax_mode)
                     {
-                        $this->widgets[$name]->sync_type_with_widget($results);
+                        continue;
                     }
+                    $results[$name] = null;
                 }
-                else
-                {
-                    if (!array_key_exists($name, $results))
-                    {
-                        $results[$name] = null;
-                    }
-                    $this->widgets[$name]->sync_type_with_widget($results);
-                }
+                $this->widgets[$name]->sync_type_with_widget($results);
             }
         }
 

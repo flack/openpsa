@@ -14,12 +14,8 @@ echo "</h2>";
     </thead>
     <tbody>
         <?php
-        foreach ($data['types'] as $type => $items)
+        foreach (array_filter($data['types']) as $type => $items)
         {
-            if ($items == 0)
-            {
-                continue;
-            }
             ?>
             <tr>
                 <td><a href="&(prefix);__mfa/asgard/trash/&(type);"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/trash-full.png" /> <?php echo midgard_admin_asgard_plugin::get_type_label($type); ?></a></td>

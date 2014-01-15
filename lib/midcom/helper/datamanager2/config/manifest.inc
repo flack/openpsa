@@ -1,6 +1,6 @@
 'name' => 'midcom.helper.datamanager2',
 'icon' => 'midcom.helper.datamanager2/datamanager.png',
-'version' => '9.0beta5+git',
+'version' => '9.0.0-rc.1+git',
 'state' => 'stable',
 'purecode' => true,
 'package.xml' => array
@@ -58,19 +58,8 @@
     'dependencies' => array
     (
         'net.nemein.tag' => array(),
-        'HTML_QuickForm' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
-        'HTMLPurifier' => array
-        (
-            'channel' => 'htmlpurifier.org',
-        ),
         'midcom' => array(),
         'midcom.helper.imagepopup' => array(),
-        'midcom.helper.reflector' => array
-        (
-            'min' => '1.0.1',
-        ),
+        'midcom.helper.reflector' => array(),
     ),
 ),

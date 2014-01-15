@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\events\dbaevent;
+
 /**
  * MidCOM level replacement for the Midgard Attachment record with framework support.
  *
@@ -15,6 +17,9 @@ class midcom_db_attachment extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_attachment';
+
+    public $_use_activitystream = false;
+    public $_use_rcs = false;
 
     /**
      * Internal tracking state variable, holds the file handle of any open
@@ -28,13 +33,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * Internal tracking state variable, true if the attachment has a handle opened in write mode
      */
     var $_open_write_mode = false;
-
-    public function __construct($id = null)
-    {
-        $this->_use_rcs = false;
-        $this->_use_activitystream = false;
-        parent::__construct($id);
-    }
 
     function get_parent_guid_uncached()
     {
@@ -90,11 +88,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if ($this->_open_handle !== null)
         {
             debug_add("Warning, the Attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
-            @fclose($this->_open_handle);
+            fclose($this->_open_handle);
             $this->_open_handle = null;
         }
+
         $blob = new midgard_blob($this->__object);
-        if ($mode = 'default')
+        if ($mode == 'default')
         {
             $this->_open_write_mode = true;
             $handle = $blob->get_handler();
@@ -103,7 +102,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             /* WARNING, read mode not supported by midgard_blob! */
             $this->_open_write_mode = ($mode{0} != 'r');
-            $handle = @fopen($blob->get_path(), $mode);
+            $handle = fopen($blob->get_path(), $mode);
         }
 
         if (!$handle)
@@ -155,12 +154,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
             {
                 debug_add("Failed to update attachment {$this->id}", MIDCOM_LOG_WARN);
                 return;
-            }
-
-            $object = $this->get_parent();
-            if ($object !== null)
-            {
-                midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
             }
 
             $this->file_to_cache();
@@ -368,17 +361,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     private function _create_attachment_location()
     {
-        $location_in_use = true;
+        $max_tries = 500;
         $location = '';
 
-        while ($location_in_use)
+        for ($i = 0; $i < $max_tries; $i++)
         {
-            $base = get_class($this);
-            $base .= microtime();
-            $base .= $_SERVER['SERVER_NAME'];
-            $base .= $_SERVER['REMOTE_ADDR'];
-            $base .= $_SERVER['REMOTE_PORT'];
-            $name = strtolower(md5($base));
+            $name = strtolower(md5(uniqid('', true)));
             $location = strtoupper(substr($name, 0, 1) . '/' . substr($name, 1, 1) . '/') . $name;
 
             // Check uniqueness
@@ -388,16 +376,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
             if ($result == 0)
             {
-                $location_in_use = false;
+                debug_add("Created this location: {$location}");
+                return $location;
             }
-            else
-            {
-                debug_add("Location {$location} is in use, retrying");
-            }
+            debug_add("Location {$location} is in use, retrying");
         }
-
-        debug_add("Created this location: {$location}");
-        return $location;
+        throw new midcom_error('could not create attachment location');
     }
 
     /**
@@ -416,18 +400,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $this->location = $this->_create_attachment_location();
 
         return true;
-    }
-
-    /**
-     * Created callback, triggers watches on the parent(!) object.
-     */
-    public function _on_created()
-    {
-        $object = $this->get_parent();
-        if ($object !== null)
-        {
-            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-        }
     }
 
     function update_cache()
@@ -452,11 +424,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function _on_updated()
     {
         $this->update_cache();
-        $object = $this->get_parent();
-        if ($object !== null)
-        {
-            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
-        }
     }
 
     /**
@@ -472,12 +439,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
             {
                 @unlink($filename);
             }
-        }
-
-        $object = $this->get_parent();
-        if ($object !== null)
-        {
-            midcom::get('componentloader')->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
         }
     }
 
@@ -537,10 +498,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (! $source)
         {
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            if (isset($php_errormsg))
-            {
-                debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_WARN);
-            }
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
             return false;
         }
         $result = $this->copy_from_handle($source);

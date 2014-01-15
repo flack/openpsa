@@ -38,71 +38,29 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Creates a QB instance for get_root_objects and count_root_objects
-     *
-     * @access private
      */
-    function &_root_objects_qb($deleted)
+    public function _root_objects_qb($deleted)
     {
         $schema_type =& $this->mgdschema_class;
-        $root_classes = midcom_helper_reflector_tree::get_root_classes();
+        $root_classes = self::get_root_classes();
         if (!in_array($schema_type, $root_classes))
         {
             debug_add("Type {$schema_type} is not a \"root\" type", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
+            return false;
         }
 
-        if ($deleted)
-        {
-            $qb = new midgard_query_builder($schema_type);
-        }
-        else
-        {
-            // Figure correct MidCOM DBA class to use and get midcom QB
-            $qb = false;
-            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
-            if (empty($midcom_dba_classname))
-            {
-                debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
-                $x = false;
-                return $x;
-            }
-            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
-            {
-                debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-                $x = false;
-                return $x;
-            }
-            $qb_callback = array($midcom_dba_classname, 'new_query_builder');
-            if (!is_callable($qb_callback))
-            {
-                debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-                $x = false;
-                return $x;
-            }
-            $qb = call_user_func($qb_callback);
-        }
-
-        // Sanity-check
+        $qb = $this->_get_type_qb($schema_type, $deleted);
         if (!$qb)
         {
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
-        }
-        // Deleted constraints
-        if ($deleted)
-        {
-            $qb->include_deleted();
-            $qb->add_constraint('metadata.deleted', '<>', 0);
+            return false;
         }
 
         // Figure out constraint to use to get root level objects
         $upfield = midgard_object_class::get_property_up($schema_type);
         if (!empty($upfield))
         {
-            $ref =& $this->_mgd_reflector;
-            $uptype = $ref->get_midgard_type($upfield);
+            $uptype = $this->_mgd_reflector->get_midgard_type($upfield);
             switch ($uptype)
             {
                 case MGD_TYPE_STRING:
@@ -130,11 +88,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function count_root_objects($deleted = false)
     {
-        // PONDER: Check for some generic user privilege instead  ??
-        if (   $deleted
-            && !midcom_connection::is_admin())
+        if (!self::_check_permissions($deleted))
         {
-            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -164,11 +119,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public function get_root_objects($deleted = false)
     {
-        // PONDER: Check for some generic user privilege instead  ??
-        if (   $deleted
-            && !midcom_connection::is_admin())
+        if (!self::_check_permissions($deleted))
         {
-            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -178,26 +130,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
             return false;
         }
-        midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
-
-        $ref = $this->get($this->mgdschema_class);
-
-        $label_property = $ref->get_label_property();
-
-        if (   is_string($label_property)
-            && midcom::get('dbfactory')->property_exists($this->mgdschema_class, $label_property))
-        {
-            $qb->add_order($label_property);
-        }
-        else
-        {
-            $title_property = $ref->get_title_property(new $this->mgdschema_class());
-            if (   is_string($title_property)
-                && midcom::get('dbfactory')->property_exists($this->mgdschema_class, $title_property))
-            {
-                $qb->add_order($title_property);
-            }
-        }
+        self::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
 
         return $qb->execute();
     }
@@ -211,14 +144,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function has_child_objects(&$object, $deleted = false)
     {
-        // PONDER: Check for some generic user privilege instead  ??
-        if (   $deleted
-            && !midcom_connection::is_admin())
+        if (!self::_check_permissions($deleted))
         {
-            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;
         }
-        $resolver = new midcom_helper_reflector_tree($object);
+        $resolver = new self($object);
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
@@ -251,14 +181,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function count_child_objects(&$object, $deleted = false)
     {
-        // PONDER: Check for some generic user privilege instead  ??
-        if (   $deleted
-            && !midcom_connection::is_admin())
+        if (!self::_check_permissions($deleted))
         {
-            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;
         }
-        $resolver = new midcom_helper_reflector_tree($object);
+        $resolver = new self($object);
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
@@ -417,6 +344,19 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $parent_object;
     }
 
+    private static function _check_permissions($deleted)
+    {
+        // PONDER: Check for some generic user privilege instead  ??
+        if (   $deleted
+            && !midcom_connection::is_admin()
+            && !midcom::get('auth')->is_component_sudo())
+        {
+            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Get children of given object
      *
@@ -426,14 +366,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public static function get_child_objects(&$object, $deleted = false)
     {
-        // PONDER: Check for some generic user privilege instead  ??
-        if (   $deleted
-            && !midcom_connection::is_admin())
+        if (!self::_check_permissions($deleted))
         {
-            debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;
         }
-        $resolver = new midcom_helper_reflector_tree($object);
+        $resolver = new self($object);
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
@@ -442,19 +379,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
             }
             return false;
-        }
-
-        //make sure children of the same type come out on top
-        $i = 0;
-        foreach ($child_classes as $child_class)
-        {
-            if (midcom::get('dbfactory')->is_a($object, $child_class))
-            {
-                unset($child_classes[$i]);
-                array_unshift($child_classes, $child_class);
-                break;
-            }
-            $i++;
         }
 
         $child_objects = array();
@@ -471,31 +395,23 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_objects;
     }
 
-    /**
-     * Creates a QB instance for _get_child_objects_type and _count_child_objects_type
-     */
-    public function &_child_objects_type_qb(&$schema_type, &$for_object, $deleted)
+    private function _get_type_qb($schema_type, $deleted)
     {
+        $qb = false;
+
         if (empty($schema_type))
         {
             debug_add('Passed schema_type argument is empty, this is fatal', MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
-        }
-        if (!is_object($for_object))
-        {
-            debug_add('Passed for_object argument is not object, this is fatal', MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
+            return $qb;
         }
         if ($deleted)
         {
             $qb = new midgard_query_builder($schema_type);
+            $qb->include_deleted();
+            $qb->add_constraint('metadata.deleted', '<>', 0);
         }
         else
         {
-            $qb = false;
-
             // Figure correct MidCOM DBA class to use and get midcom QB
             $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (empty($midcom_dba_classname))
@@ -512,81 +428,100 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
             $qb = call_user_func(array($midcom_dba_classname, 'new_query_builder'));
         }
+        return $qb;
+    }
 
-        // Deleted constraints
-        if ($deleted)
+    /**
+     * Figure out constraint(s) to use to get child objects
+     */
+    private function _get_link_fields($schema_type, $for_object)
+    {
+        static $cache = array();
+        $cache_key = $schema_type . '-' . get_class($for_object);
+        if (empty($cache[$cache_key]))
         {
-            $qb->include_deleted();
-            $qb->add_constraint('metadata.deleted', '<>', 0);
+            $ref = new midgard_reflection_property($schema_type);
+
+            $linkfields = array();
+            $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
+            $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
+            $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
+
+            $linkfields = array_filter($linkfields);
+            $data = array();
+            foreach ($linkfields as $link_type => $field)
+            {
+                $info = array
+                (
+                    'name' => $field,
+                    'type' => $ref->get_midgard_type($field),
+                    'target' => $ref->get_link_target($field)
+                );
+                $linked_class = $ref->get_link_name($field);
+                if (   empty($linked_class)
+                    && $info['type'] === MGD_TYPE_GUID)
+                {
+                    // Guid link without class specification, valid for all classes
+                    if (empty($info['target']))
+                    {
+                        $info['target'] = 'guid';
+                    }
+                }
+                else if ($linked_class != $object_baseclass)
+                {
+                    // This link points elsewhere
+                    continue;
+                }
+                $data[$link_type] = $info;
+            }
+            $cache[$cache_key] = $data;
+        }
+        return $cache[$cache_key];
+    }
+
+    /**
+     * Creates a QB instance for _get_child_objects_type and _count_child_objects_type
+     */
+    public function _child_objects_type_qb($schema_type, $for_object, $deleted)
+    {
+        if (!is_object($for_object))
+        {
+            debug_add('Passed for_object argument is not object, this is fatal', MIDCOM_LOG_ERROR);
+            return false;
+        }
+        $qb = $this->_get_type_qb($schema_type, $deleted);
+        if (!$qb)
+        {
+            debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
+            return false;
         }
 
-        // Figure out constraint(s) to use to get child objects
-        $ref = new midgard_reflection_property($schema_type);
-
-        $multiple_links = false;
-        $linkfields = array();
-        $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
-        $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
-
-        $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
-
-        foreach ($linkfields as $link_type => $field)
-        {
-            if (empty($field))
-            {
-                // No such field for the object
-                unset($linkfields[$link_type]);
-                continue;
-            }
-
-            $linked_class = $ref->get_link_name($field);
-            if (   empty($linked_class)
-                && $ref->get_midgard_type($field) === MGD_TYPE_GUID)
-            {
-                // Guid link without class specification, valid for all classes
-                continue;
-            }
-            if ($linked_class != $object_baseclass)
-            {
-                // This link points elsewhere
-                unset($linkfields[$link_type]);
-                continue;
-            }
-        }
+        $linkfields = $this->_get_link_fields($schema_type, $for_object);
 
         if (count($linkfields) === 0)
         {
             debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
+            return false;
         }
 
+        $multiple_links = false;
         if (count($linkfields) > 1)
         {
             $multiple_links = true;
             $qb->begin_group('OR');
         }
 
-        foreach ($linkfields as $link_type => $field)
+        foreach ($linkfields as $link_type => $field_data)
         {
-            $field_type = $ref->get_midgard_type($field);
-            $field_target = $ref->get_link_target($field);
-            if (   empty($field_target)
-                && $field_type === MGD_TYPE_GUID)
-            {
-                $field_target = 'guid';
-            }
+            $field_target = $field_data['target'];
+            $field_type = $field_data['type'];
+            $field = $field_data['name'];
 
             if (   !$field_target
                 || !isset($for_object->$field_target))
             {
-                if ($multiple_links)
-                {
-                    $qb->end_group();
-                }
                 // Why return false ???
-                $x = false;
-                return $x;
+                return false;
             }
             switch ($field_type)
             {
@@ -611,13 +546,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     break;
                 default:
                     debug_add("Do not know how to handle linked field '{$field}', has type {$field_type}", MIDCOM_LOG_INFO);
-                    if ($multiple_links)
-                    {
-                        $qb->end_group();
-                    }
+
                     // Why return false ???
-                    $x = false;
-                    return $x;
+                    return false;
             }
         }
 
@@ -634,7 +565,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of objects
      */
-    public function _get_child_objects_type(&$schema_type, &$for_object, $deleted)
+    public function _get_child_objects_type($schema_type, $for_object, $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
@@ -644,7 +575,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         // Sort by title and name if available
-        midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $schema_type);
+        self::add_schema_sorts_to_qb($qb, $schema_type);
 
         return $qb->execute();
     }
@@ -654,7 +585,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of objects
      */
-    public function _count_child_objects_type(&$schema_type, &$for_object, $deleted)
+    public function _count_child_objects_type($schema_type, $for_object, $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
@@ -688,12 +619,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function get_child_classes()
     {
-        // Check against static calling
-        if (empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
         static $child_classes_all = array();
         if (!isset($child_classes_all[$this->mgdschema_class]))
         {
@@ -715,13 +640,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function _resolve_child_classes()
     {
-        // Check against static calling
-        if (empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         $child_class_exceptions_neverchild = $this->_config->get('child_class_exceptions_neverchild');
 
         // Safety against misconfiguration
@@ -731,13 +649,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $child_class_exceptions_neverchild = array();
         }
         $child_classes = array();
-        foreach (midcom_connection::get_schema_types() as $schema_type)
+        $types = array_diff(midcom_connection::get_schema_types(), $child_class_exceptions_neverchild);
+        foreach ($types as $schema_type)
         {
-            if (in_array($schema_type, $child_class_exceptions_neverchild))
-            {
-                // Special cases, don't treat as children for normal objects
-                continue;
-            }
             $parent_property = midgard_object_class::get_property_parent($schema_type);
             $up_property = midgard_object_class::get_property_up($schema_type);
 
@@ -751,6 +665,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         // TODO: handle exceptions
 
+        //make sure children of the same type come out on top
+        if ($key = array_search($this->mgdschema_class, $child_classes))
+        {
+            unset($child_classes[$key]);
+            array_unshift($child_classes, $this->mgdschema_class);
+        }
         return $child_classes;
     }
 
@@ -801,16 +721,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $root_exceptions_notroot = array();
         }
         $root_classes = array();
-        foreach (midcom_connection::get_schema_types() as $schema_type)
+        $types = array_diff(midcom_connection::get_schema_types(), $root_exceptions_notroot);
+        foreach ($types as $schema_type)
         {
             if (substr($schema_type, 0, 2) == '__')
             {
-                continue;
-            }
-
-            if (in_array($schema_type, $root_exceptions_notroot))
-            {
-                // Explicitly specified to not be root class, skip all heuristics
                 continue;
             }
 
@@ -840,7 +755,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
             $root_classes[] = $schema_type;
         }
-        unset($root_exceptions_notroot);
+
         $root_exceptions_forceroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_forceroot');
         // Safety against misconfiguration
         if (!is_array($root_exceptions_forceroot))
@@ -848,24 +763,18 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_add("config->get('root_class_exceptions_forceroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
             $root_exceptions_forceroot = array();
         }
-        if (!empty($root_exceptions_forceroot))
+        $root_exceptions_forceroot = array_diff($root_exceptions_forceroot, $root_classes);
+        foreach ($root_exceptions_forceroot as $schema_type)
         {
-            foreach ($root_exceptions_forceroot as $schema_type)
+            if (!class_exists($schema_type))
             {
-                if (!class_exists($schema_type))
-                {
-                    // Not a valid class
-                    debug_add("Type {$schema_type} has been listed to always be root class, but the class does not exist", MIDCOM_LOG_WARN);
-                    continue;
-                }
-                if (in_array($schema_type, $root_classes))
-                {
-                    // Already listed
-                    continue;
-                }
-                $root_classes[] = $schema_type;
+                // Not a valid class
+                debug_add("Type {$schema_type} has been listed to always be root class, but the class does not exist", MIDCOM_LOG_WARN);
+                continue;
             }
+            $root_classes[] = $schema_type;
         }
+
         usort($root_classes, 'strnatcmp');
         return $root_classes;
     }
@@ -879,7 +788,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     public static function add_schema_sorts_to_qb(&$qb, $schema_type)
     {
         // Sort by "title" and "name" if available
-        $ref = midcom_helper_reflector_tree::get($schema_type);
+        $ref = self::get($schema_type);
         $dummy = new $schema_type();
         $title_property = $ref->get_title_property($dummy);
         if (   is_string($title_property)

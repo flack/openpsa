@@ -54,7 +54,7 @@ $runner->check_for_utility('tar', midcom_config_test::WARNING, 'The tar utility 
 $runner->check_for_utility('gzip', midcom_config_test::WARNING, 'The gzip utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
 $runner->check_for_utility('jpegtran', midcom_config_test::WARNING, 'The jpegtran utility is used for lossless JPEG operations, even though ImageMagick can do the same conversions, the lossless features provided by this utility are used where appropriate, so its installation is recommended unless it is known to cause problems.', 'The jpegtran utility is used for lossless rotations of JPEG images. If there are problems with image rotations, disabling jpegtran, which will cause ImageMagick to be used instead, probably helps.');
 
-$runner->check_for_utility('diff', midcom_config_test::WARNING, 'diff is needed by the versioning library‥ You can also use the pear library Text_Diff');
+$runner->check_for_utility('diff', midcom_config_test::WARNING, 'diff is needed by the versioning library‥ You can also use the pear library Horde_Text_Diff');
 
 if (midcom::get('config')->get('indexer_backend'))
 {

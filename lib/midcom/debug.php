@@ -137,6 +137,15 @@ class midcom_debug
         return $this->_loglevel;
     }
 
+    public function log_php_error($loglevel = MIDCOM_LOG_DEBUG)
+    {
+        $error = error_get_last();
+        if (!empty($error['message']))
+        {
+            $this->log('Last PHP error was: ' . $error['message']);
+        }
+    }
+
     /**
      * Log a message
      *
@@ -178,8 +187,7 @@ class midcom_debug
         }
 
         //find the proper caller
-        $bt = debug_backtrace(false);
-        $prefix .= $this->_get_caller($bt);
+        $prefix .= $this->_get_caller();
         fputs($file, $prefix . trim($message) . "\n");
         fclose($file);
 
@@ -206,9 +214,16 @@ class midcom_debug
         }
     }
 
-    private function _get_caller($bt)
+    private function _get_caller()
     {
         $return = '';
+        $options = false;
+        if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+        {
+            $options = DEBUG_BACKTRACE_IGNORE_ARGS;
+        }
+
+        $bt = debug_backtrace($options);
 
         while ($bt)
         {

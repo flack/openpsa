@@ -850,3 +850,20 @@ Write mail
 Yes
 ---STRINGEND
 
+---STRING Old Version
+Old Version
+---STRINGEND
+
+---STRING New Version
+New Version
+---STRINGEND
+
+---STRING removed in %s
+removed in %s
+---STRINGEND
+
+---STRING added in %s
+added in %s
+---STRINGEND
+
+

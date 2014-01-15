@@ -108,17 +108,15 @@ class midcom_config_test
         $config = midcom::get('config');
         if ($config->get('midcom_services_rcs_enable'))
         {
-            if (!is_writable($config->get('midcom_services_rcs_root')))
+            try
             {
-                $this->println("MidCOM RCS", self::ERROR, "You must make the directory <b>" . $config->get('midcom_services_rcs_root') . "</b> writable by your webserver!");
-            }
-            else if (!is_executable($config->get('midcom_services_rcs_bin_dir') . "/ci"))
-            {
-                $this->println("MidCOM RCS", self::ERROR, "You must make <b>" . $config->get('midcom_services_rcs_bin_dir') . "/ci</b> executable by your webserver!");
-            }
-            else
-            {
+                $config = new midcom_services_rcs_config($config);
+                $config->test_rcs_config();
                 $this->println("MidCOM RCS", self::OK);
+            }
+            catch (midcom_error $e)
+            {
+                $this->println("MidCOM RCS", self::ERROR, $e->getMessage());
             }
         }
         else
@@ -164,15 +162,7 @@ class midcom_config_test
 
     public function check_php()
     {
-        $this->print_header('PHP');
-        if (version_compare(phpversion(), '5.3.0', '<'))
-        {
-            $this->println('Version', self::ERROR, 'PHP 5.3.0 or greater is required for MidCOM.');
-        }
-        else
-        {
-            $this->println('Version', self::OK, phpversion());
-        }
+        $this->print_header('PHP ' . PHP_VERSION);
 
         $cur_limit = $this->ini_get_filesize('memory_limit');
         if ($cur_limit >= (40 * 1024 * 1024))
@@ -191,15 +181,6 @@ class midcom_config_test
         else
         {
             $this->println('Setting: register_globals', self::OK);
-        }
-
-        if ($this->ini_get_boolean('track_errors'))
-        {
-            $this->println('Setting: track_errors', self::OK);
-        }
-        else
-        {
-            $this->println('Setting: track_errors', self::WARNING, 'track_errors is disabled, it is strongly suggested to be activated as this allows the framework to handle more errors gracefully.');
         }
 
         $upload_limit = $this->ini_get_filesize('upload_max_filesize');
@@ -238,15 +219,6 @@ class midcom_config_test
         else
         {
             $this->println('Setting: magic_quotes_runtime', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
-        }
-
-        if (! function_exists('mb_strlen'))
-        {
-            $this->println('Multi-Byte String functions', self::ERROR, 'The Multi-Byte String functions are unavailable, they are required for MidCOM operation.');
-        }
-        else
-        {
-            $this->println('Multi-Byte String functions', self::OK);
         }
 
         if (ini_get("apc.enabled") == "1")
@@ -292,14 +264,6 @@ class midcom_config_test
         else
         {
             $this->println('EXIF reader', self::OK);
-        }
-        if (! function_exists('iconv'))
-        {
-            $this->println('iconv', self::ERROR, 'The PHP iconv module is required for MidCOM operation.');
-        }
-        else
-        {
-            $this->println('iconv', self::OK);
         }
     }
 }

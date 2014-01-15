@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * This class contains an email template engine. It can take a template and fill
  * it in with the parameters that have been passed.
@@ -177,8 +179,9 @@ class org_openpsa_mail_template
      */
     private function _format_object($obj)
     {
+        $helper = new helper;
         $result = "";
-        foreach (get_object_vars($obj) as $key => $value)
+        foreach ($helper->get_object_vars($obj) as $key => $value)
         {
             if (substr($key, 0, 1) == "_")
             {

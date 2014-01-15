@@ -4,8 +4,7 @@
     'l10n_db'     => 'midgard.admin.asgard',
     'operations' => array
     (
-        'save' => 'run',
-        'cancel' => 'cancel'
+        'save' => 'run'
     ),
     'fields'      => array
     (
@@ -18,7 +17,7 @@
             (
                 'output_mode' => 'code',
             ),
-            'widget'      => 'codemirror',
+            'widget'      => 'textarea',
             'widget_config' => Array
             (
                 'height' => 30,

@@ -79,9 +79,9 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('folders of %s'), $this->_group->official);
-        midcom::get('head')->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
+        return new midgard_admin_asgard_response($this, '_show_folders');
     }
 
     /**
@@ -92,12 +92,8 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      */
     public function _show_folders($handler_id, array &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();
-
         $data['group'] =& $this->_group;
         midcom_show_style('midcom-admin-user-group-folders');
-
-        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

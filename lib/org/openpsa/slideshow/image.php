@@ -84,11 +84,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         }
 
         $imagefilter = new midcom_helper_imagefilter($original);
-
-        if (!$imagefilter->process_chain($filter_chain))
-        {
-            throw new midcom_error('Image processing failed');
-        }
+        $imagefilter->process_chain($filter_chain);
         if ($is_new)
         {
             if (!$derived->create())
@@ -140,10 +136,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.slideshow', 'config');
 
         $filter_chain = $config->get('folder_thumbnail_filter');
-        if (!$imagefilter->process_chain($filter_chain))
-        {
-            throw new midcom_error('Image processing failed');
-        }
+        $imagefilter->process_chain($filter_chain);
         if (!$thumbnail->create())
         {
             throw new midcom_error('Failed to create folder thumbnail: ' . midcom_connection::get_error_string());

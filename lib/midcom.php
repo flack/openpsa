@@ -16,7 +16,7 @@ class midcom
      *
      * @var string
      */
-    private static $_version = '9.0beta5+git';
+    private static $_version = '9.0.0-rc.1+git';
 
     /**
      * Main application singleton
@@ -40,11 +40,13 @@ class midcom
      */
     private static $_service_classes = array
     (
+        'auth' => 'midcom_services_auth',
         'componentloader' => 'midcom_helper__componentloader',
         'cache' => 'midcom_services_cache',
         'config' => 'midcom_config',
         'dbclassloader' => 'midcom_services_dbclassloader',
         'dbfactory' => 'midcom_helper__dbfactory',
+        'dispatcher' => '\\midcom\\events\\dispatcher',
         'debug' => 'midcom_debug',
         'head' => 'midcom_helper_head',
         'i18n' => 'midcom_services_i18n',
@@ -62,161 +64,30 @@ class midcom
 
     public static function init()
     {
-        ///////////////////////////////////
-        // Try to be smart about the paths:
-        // Define default constants
-        if (! defined('MIDCOM_ROOT'))
-        {
-            define('MIDCOM_ROOT', __DIR__);
-        }
-
-        midcom_compat_environment::initialize();
-
-        if (! defined('MIDCOM_STATIC_ROOT'))
-        {
-            $pos = strrpos(MIDCOM_ROOT, '/');
-            if ($pos === false)
-            {
-                // No slash, this is strange
-                throw new midcom_error('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
-            }
-            define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
-        }
-        if (! defined('MIDCOM_STATIC_URL'))
-        {
-            define('MIDCOM_STATIC_URL', '/midcom-static');
-        }
-
-        ///////////////////////////////////////
         //Constants, Globals and Configuration
-        require MIDCOM_ROOT . '/constants.php';
+        require_once __DIR__ . '/constants.php';
 
-        self::$_services['config'] = new midcom_config;
-        // TODO: Move this to compat layer
-        $GLOBALS['midcom_config'] =& self::$_services['config'];
-
-        ini_set('track_errors', '1');
-        require(MIDCOM_ROOT. '/errors.php');
-
-        // Register autoloader so we get all MidCOM classes loaded automatically
-        spl_autoload_register(array('midcom', 'autoload'));
-
-        /////////////////////
-        // Start the Debugger
-        require(MIDCOM_ROOT. '/midcom/debug.php');
-
-        debug_add("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
-
-        self::$_services['auth'] = new midcom_services_auth();
-        self::$_services['auth']->initialize();
+        // Instantiate the MidCOM main class
+        self::$_application = new midcom_application();
+        self::get('auth')->initialize();
 
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
         self::$_services['cache'] = new midcom_services_cache();
 
-        /////////////////////////////////////
-        // Instantiate the MidCOM main class
-        self::$_application = new midcom_application();
-
-        if (!empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek']))
+        if (self::$_services['config']->get('midcom_compat_ragnaroek'))
         {
-            require_once MIDCOM_ROOT . '/compat/bootstrap.php';
+            require_once __DIR__ . '/compat/bootstrap.php';
         }
 
         self::$_application->initialize();
 
-        if (   !empty($GLOBALS['midcom_config']['midcom_compat_ragnaroek'])
+        if (   self::$_services['config']->get('midcom_compat_ragnaroek')
             && file_exists(MIDCOM_CONFIG_FILE_AFTER))
         {
             include MIDCOM_CONFIG_FILE_AFTER;
         }
-    }
-
-    /**
-     * Automatically load missing class files
-     *
-     * @param string $class_name Name of a missing PHP class
-     */
-    public static function autoload($class_name)
-    {
-        static $autoloaded = 0;
-
-        if (preg_match('/_dba?$/', $class_name))
-        {
-            // DBA object files are named objectname.php
-
-            // Ensure we have the component loaded
-            if (!self::get('dbclassloader')->load_component_for_class($class_name))
-            {
-                // Failed to load the component
-                return;
-            }
-            if (class_exists($class_name))
-            {
-                return;
-            }
-
-            $class_name = preg_replace('/_dba?$/', '', $class_name);
-        }
-        else if (   preg_match('/^[^_]+?_[^_]+?_[^_]+?_interface$/', $class_name)
-                 && $class_name != 'midcom_baseclasses_components_interface')
-        {
-            // MidCOM component interfaces are named midcom/interface.php
-            self::get('dbclassloader')->load_component_for_class($class_name);
-            return;
-        }
-
-        $path = self::_resolve_path($class_name);
-
-        if (!$path)
-        {
-            return;
-        }
-
-        require $path;
-        $autoloaded++;
-    }
-
-    private static function _resolve_path($classname)
-    {
-        $path = str_replace('//', '/_', str_replace('_', '/', $classname)) . '.php';
-        if (file_exists(MIDCOM_ROOT . '/' . $path))
-        {
-            return MIDCOM_ROOT . '/' . $path;
-        }
-        else
-        {
-            $alternative_path = str_replace('.php', '/main.php', $path);
-            if (file_exists(MIDCOM_ROOT . '/' . $alternative_path))
-            {
-                return MIDCOM_ROOT . '/' . $alternative_path;
-            }
-        }
-        // file was not found in-tree, let's look somewhere else
-        $component = preg_replace('|^([a-z].+?)/(.+?)/([^/\.]+).*$|', '$1.$2.$3', $path);
-
-        if (self::get('componentloader')->is_installed($component))
-        {
-            $component_path = self::get('componentloader')->path_to_snippetpath($component);
-            $class_part = preg_replace('|^/|', '', substr($path, strlen($component)));
-            $path = str_replace('/.php', '.php', $component_path . '/' . $class_part);
-
-            if (file_exists($path))
-            {
-                return $path;
-            }
-            else
-            {
-                $alternative_path = str_replace('.php', '/main.php', $path);
-                if (file_exists($alternative_path))
-                {
-                    return $alternative_path;
-                }
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -228,6 +99,11 @@ class midcom
      */
     public static function get($name = null)
     {
+        if (!defined('MIDCOM_ERROK'))
+        {
+            self::init();
+        }
+
         if (null === $name)
         {
             return self::$_application;
@@ -253,6 +129,4 @@ class midcom
         return self::$_version;
     }
 }
-
-midcom::init();
 ?>

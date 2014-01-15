@@ -17,6 +17,9 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
     {
         midcom::get('auth')->request_sudo('org.openpsa.invoices');
         $invoice = new org_openpsa_invoices_invoice_dba();
+        $invoice->_use_activitystream = false;
+        $invoice->_use_rcs = false;
+
         $next_number = $invoice->generate_invoice_number();
         $this->assertTrue(is_int($next_number));
         $invoice->number = $next_number;

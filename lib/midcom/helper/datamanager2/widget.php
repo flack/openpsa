@@ -138,7 +138,6 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @param midcom_helper_datamanager2_type $type The type to which we are bound.
      * @param string $namespace The namespace to use including the trailing underscore.
      * @param boolean $initialize_dependencies Whether to load JS and other dependencies on initialize
-     * @return boolean Indicating success. If this is false, the type will be unusable.
      */
     function initialize($name, $config, $schema, $type, $namespace, $initialize_dependencies = false)
     {
@@ -159,7 +158,38 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
             $this->$key = $value;
         }
 
-        return $this->_on_initialize();
+        $this->_on_initialize();
+    }
+
+    /**
+     * Tests if selected type has a scalar "value" property
+     */
+    protected function _require_type_value()
+    {
+        if (   ! array_key_exists('value', $this->_type)
+            || is_array($this->_type->value)
+            || is_object($this->_type->value))
+        {
+            throw new midcom_error("The type {$this->name} does not have a value member or it is an array or object, you cannot use it with " . get_class($this));
+        }
+    }
+
+    protected function _require_type_class($classes)
+    {
+        if (!is_array($classes))
+        {
+            $classes = (array) $classes;
+        }
+
+        foreach ($classes as $class)
+        {
+            if (is_a($this->_type, $class))
+            {
+                return true;
+            }
+        }
+
+        throw new midcom_error("The field {$this->name} uses an invalid type: " . get_class($this) . ' requires one of ' . implode(' ', $classes));
     }
 
     /**
@@ -191,12 +221,9 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     /**
      * This event handler is called during construction, so passing references to $this to the
      * outside is unsafe at this point.
-     *
-     * @return boolean Indicating success, false will abort the type construction sequence.
      */
     public function _on_initialize()
     {
-        return true;
     }
 
     /**

@@ -78,12 +78,14 @@ class midcom_helper_imagefilter
      */
     function create_tmp_copy($input)
     {
-        $tmpname = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom_helper_imagefilter_');
+        $tmpname = $this->_get_tempfile();
 
         if (is_string($input))
         {
             // TODO: error handling
             copy($input, $tmpname);
+            // With the following line, filesize() will return zero, see https://bugs.php.net/bug.php?id=65701
+            clearstatcache(false, $tmpname);
             return $tmpname;
         }
 
@@ -104,6 +106,7 @@ class midcom_helper_imagefilter
         stream_copy_to_stream($src, $dst);
         $input->close();
         fclose($dst);
+
         return $tmpname;
     }
 
@@ -224,29 +227,15 @@ class midcom_helper_imagefilter
      * Processing stops as soon as one filter command fails.
      *
      * @param string chain The filter chain to be processed (filter1();filter2();...)
-     * @return boolean true, if all filters have been successfully applied, false otherwise.
      */
     function process_chain($chain)
     {
-        $filters = explode(";", $chain);
+        $filters = array_filter(explode(";", $chain));
 
         foreach ($filters as $cmd)
         {
-            if ($cmd == '')
-            {
-                // Skip empty commands
-                continue;
-            }
-
-            if (!$this->process_command($cmd))
-            {
-                debug_add("Execution of {$cmd} failed, aborting now.");
-                midcom::get('uimessages')->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
-                return false;
-            }
+            $this->process_command($cmd);
         }
-
-        return true;
     }
 
     /**
@@ -263,35 +252,53 @@ class midcom_helper_imagefilter
      * result in a null operation) and will ignore excessive arguments.
      *
      * @param string cmd The command to be executed.
-     * @return boolean true, if the filter executed successfully, false otherwise.
      */
     function process_command($cmd)
     {
         $i = preg_match('/([a-z_]*)\(([^)]*)\)/', $cmd, $matches);
-        if (! $i)
+        if (!$i)
         {
-            debug_add("Failed to parse command {$cmd}, aborting.", MIDCOM_LOG_INFO);
-            return false;
+            throw new midcom_error("Failed to parse command {$cmd}");
         }
         $command = $matches[1];
         $args = explode(',', $matches[2]);
 
         debug_print_r("Have to execute {$command} with these arguments:", $args);
-
-        if ($command == 'none')
+        if (is_callable(array($this, $command)))
         {
-            return true;
+            call_user_func_array(array($this, $command), $args);
         }
-        else if (is_callable(array($this, $command)))
+        else if ($command != 'none')
         {
-            return call_user_func_array(array($this, $command), $args);
+            debug_add('This is no known command, we try to find a callback.');
+            $this->execute_user_callback($command, $args);
         }
-
-        debug_add('This is no known command, we try to find a callback.');
-        return $this->execute_user_callback($command, $args);
     }
 
     /*********** INTERNAL HELPERS ******************/
+    private function _run_command($cmd, $tempfile = null)
+    {
+        debug_add("executing: {$cmd}");
+        $output = null;
+        $exit_code = 0;
+        exec($cmd . ' 2>&1', $output, $exit_code);
+
+        if ($exit_code !== 0)
+        {
+            if ($tempfile !== null)
+            {
+                unlink($tempfile);
+            }
+            $command = basename(preg_replace('/ .+/', '', $cmd));
+            debug_print_r("Command [{$cmd}] returned {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
+            throw new midcom_error($command . " returned error code {$exit_code}");
+        }
+        if ($tempfile !== null)
+        {
+            $this->_process_tempfile($tempfile);
+        }
+        return $output;
+    }
 
     /**
      * Returns the name of a temporary file to be used to write
@@ -319,7 +326,7 @@ class midcom_helper_imagefilter
      * The command name is the function that is searched. The function must
      * use the following signature:
      *
-     * boolean callback (string $infile, $string outfile, array $parameters);
+     * boolean callback (string $infile, string $outfile, array $parameters);
      *
      * infile is the file to be manipulated, outfile the name where
      * the result has to be stored in (a temporary file usually) and
@@ -328,25 +335,22 @@ class midcom_helper_imagefilter
      *
      * @param string $command  The name of the callback to execute
      * @param array $args      The arguments passed to the callback
-     * @return The return code of the callback.
      */
     function execute_user_callback($command, $args)
     {
-        if (! function_exists($command))
+        if (!function_exists($command))
         {
-            debug_add("The function {$command} could not be found, aborting", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("The function {$command} could not be found");
         }
         $tmpfile = $this->_get_tempfile();
 
-        if (! $command($this->_filename, $tmpfile, $args))
+        if (!$command($this->_filename, $tmpfile, $args))
         {
             unlink($tmpfile);
-            return false;
+            throw new midcom_error("The function {$command} returned false");
         }
 
         $this->_process_tempfile($tmpfile);
-        return true;
     }
 
     /**
@@ -357,7 +361,6 @@ class midcom_helper_imagefilter
      * Where $gamma is a positive floating point number, e.g. 1.2
      *
      * @param float $gamma Gamma adjustment value.
-     * @return boolean true on success.
      */
     public function gamma($gamma = 1.2)
     {
@@ -365,19 +368,7 @@ class midcom_helper_imagefilter
 
         $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -gamma "
             . escapeshellarg($gamma) . " " . escapeshellarg($this->_filename);
-
-        exec($cmd, $output, $exit_code);
-
-        if ($exit_code === 0)
-        {
-            return true;
-        }
-        else
-        {
-            debug_print_r("ImageMagick failed to convert the image, it returned with {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: [{$cmd}]");
-            return false;
-        }
+        $this->_run_command($cmd);
     }
 
     /**
@@ -400,20 +391,21 @@ class midcom_helper_imagefilter
         $cmd = midcom::get('config')->get('utility_imagemagick_base') . "convert {$this->_quality} "
             . escapeshellarg("{$this->_filename}[0]") . " {$format}:{$tempfile}";
 
-        exec($cmd, $output, $exit_code);
+        $this->_run_command($cmd, $tempfile);
+    }
 
-        if ($exit_code === 0)
+    public function identify($filename)
+    {
+        try
         {
-            $this->_process_tempfile($tempfile);
-            return true;
+            $cmd = midcom::get('config')->get('utility_imagemagick_base') . "identify " . escapeshellarg($filename);
+            $this->_run_command($cmd);
         }
-        else
+        catch(midcom_error $e)
         {
-            unlink($tempfile);
-            debug_print_r("ImageMagick failed to convert the image, it returned with {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: [{$cmd}]");
             return false;
         }
+        return true;
     }
 
     /**
@@ -423,43 +415,35 @@ class midcom_helper_imagefilter
      * if it is missing.
      *
      * Filter Syntax: exifrotate()
-     *
-     * @return boolean true on success.
      */
     public function exifrotate()
     {
         if (! function_exists("exif_read_data"))
         {
-            debug_add("exif_read_data required for exifrotate.", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("exif_read_data required for exifrotate.");
         }
         // Silence this, gives warnings on images that do not contain EXIF data
         try
         {
             $exif = @exif_read_data($this->_filename);
+            if (empty($exif['Orientation']))
+            {
+                debug_add("EXIF information missing or without orientation tag. Skipping.", MIDCOM_LOG_INFO);
+                return;
+            }
         }
         catch (Exception $e)
         {
             debug_add("Could not read EXIF data: " . $e->getMessage() . ", skipping.", MIDCOM_LOG_WARN);
-            return true;
-        }
-        if (!is_array($exif))
-        {
-            debug_add("Could not read EXIF data, skipping.", MIDCOM_LOG_WARN);
-            return true;
-        }
-        if (!array_key_exists('Orientation', $exif))
-        {
-            debug_add("EXIF information misses the orientation tag. Skipping.", MIDCOM_LOG_INFO);
-            return true;
+            return;
         }
         if ($exif["Orientation"] == 1)
         {
             debug_add("No rotation necessary.");
-            return true;
+            return;
         }
 
-        $do_unlink = false;
+        $tmpfile = null;
         $imagesize = getimagesize($this->_filename);
 
         if (   $imagesize[2] == IMAGETYPE_JPEG
@@ -478,7 +462,6 @@ class midcom_helper_imagefilter
             );
 
             $tmpfile = $this->_get_tempfile();
-            $do_unlink = true;
             $cmd = midcom::get('config')->get('utility_jpegtran') . " -outfile {$tmpfile} -copy all";
         }
         else
@@ -502,29 +485,11 @@ class midcom_helper_imagefilter
         if (!array_key_exists($exif["Orientation"], $operations))
         {
             debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"], MIDCOM_LOG_INFO);
-            return true;
+            return;
         }
         $cmd .= ' ' . $operations[$exif["Orientation"]] . ' ' . escapeshellarg($this->_filename);
 
-        debug_add("executing: {$cmd}");
-        exec($cmd, $output, $exit_code);
-
-        if ($exit_code !== 0)
-        {
-            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}");
-            if ($do_unlink)
-            {
-                unlink($tmpfile);
-            }
-            return false;
-        }
-
-        if ($do_unlink)
-        {
-            $this->_process_tempfile($tmpfile);
-        }
-        return true;
+        $this->_run_command($cmd, $tmpfile);
     }
 
     /**
@@ -536,7 +501,6 @@ class midcom_helper_imagefilter
      * and less than 360; if omitted, a null operation is done.
      *
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
-     * @return boolean true on success.
      */
     public function rotate($rotate = 0)
     {
@@ -553,19 +517,18 @@ class midcom_helper_imagefilter
             || $rotate == 360)
         {
             debug_add("Rotate is {$rotate}, we're happy as-is.");
-            return true;
+            return;
         }
 
-        $do_unlink = false;
+        $tmpfile = null;
         $imagesize = getimagesize($this->_filename);
 
         // Try lossless jpegtran rotation if possible
-        if (   $imagesize[2] == 2
-            && ($rotate == 90 || $rotate == 180 || $rotate == 270)
+        if (   $imagesize[2] == IMAGETYPE_JPEG
+            && ($rotate % 90 == 0)
             && $this->_jpegtran_available())
         {
             $tmpfile = $this->_get_tempfile();
-            $do_unlink = true;
             $cmd = midcom::get('config')->get('utility_jpegtran') . " -copy all -rotate {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
         }
         else
@@ -576,25 +539,9 @@ class midcom_helper_imagefilter
             $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -rotate {$rotate} " . escapeshellarg($this->_filename);
         }
 
-        debug_add("We have to rotate clockwise by {$rotate} degrees, do_unlink: {$do_unlink}");
-        exec($cmd, $output, $exit_code);
+        debug_add("We have to rotate clockwise by {$rotate} degrees");
 
-        if ($exit_code !== 0)
-        {
-            debug_print_r("Imagemagick/jpegtran returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}");
-            if ($do_unlink)
-            {
-                unlink($tmpfile);
-            }
-            return false;
-        }
-
-        if ($do_unlink)
-        {
-            $this->_process_tempfile($tmpfile);
-        }
-        return true;
+        $this->_run_command($cmd, $tmpfile);
     }
 
     /**
@@ -612,7 +559,6 @@ class midcom_helper_imagefilter
      *
      * @param int $x Width
      * @param int $y Height
-     * @return boolean true on success.
      */
     public function resize($x = 0, $y = 0)
     {
@@ -622,7 +568,7 @@ class midcom_helper_imagefilter
         if ($x == 0 && $y == 0)
         {
             debug_add("Both x and y are 0, skipping operation.", MIDCOM_LOG_INFO);
-            return true;
+            return;
         }
 
         if ($x == 0)
@@ -642,19 +588,7 @@ class midcom_helper_imagefilter
         $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} {$geo} "
             . escapeshellarg($this->_filename);
 
-        $output = null;
-        $exit_code = 0;
-        exec($cmd, $output, $exit_code);
-
-        if ($exit_code !== 0)
-        {
-            debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-
-            debug_add("Command was: {$cmd}");
-            return false;
-        }
-
-        return true;
+        $this->_run_command($cmd);
     }
 
     /**
@@ -669,11 +603,10 @@ class midcom_helper_imagefilter
      * backwards compatibility
      *
      * @param int $x Width
-     * @return boolean true on success.
      */
     public function squarethumb($x = 0, $gravity = 'center')
     {
-        return $this->crop($x, $x, $gravity);
+        $this->crop($x, $x, $gravity);
     }
 
     /**
@@ -681,13 +614,12 @@ class midcom_helper_imagefilter
      *
      * @param int $x Width
      * @param int $y Height
-     * @return boolean true on success.
      */
     public function crop($x = 0, $y = 0, $gravity = 'center')
     {
         if ($x == 0)
         {
-            return true;
+            return;
         }
 
         if ($y == 0)
@@ -707,19 +639,13 @@ class midcom_helper_imagefilter
         {
             // If image data was not available, try to get it with identify program
             $cmd = midcom::get('config')->get('utility_imagemagick_base') . "identify -verbose {$this->_filename}";
-            exec($cmd, $output, $exit_code);
 
-            if ($exit_code !== 0)
-            {
-                debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-                debug_add("Command was: {$cmd}");
-            }
-
+            $output = $this->_run_command($cmd);
             $output = implode("\n", $output);
 
             if (!preg_match('/Geometry:\s([0-9]+)x([0-9]+)/i', $output, $regs))
             {
-                return false;
+                throw new midcom_error('Could not read geometry data');
             }
 
             $size_x = (int) $regs[1];
@@ -729,16 +655,7 @@ class midcom_helper_imagefilter
         // Get resize ratio in relations to the original
         $ratio = str_replace(',', '.', 100 * max($x / $size_x, $y / $size_y));
         $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -resize {$ratio}% -gravity {$gravity} -crop {$x}x{$y}+0+0 +repage " . escapeshellarg($this->_filename);
-        exec($cmd, $output, $exit_code);
-
-        if ($exit_code !== 0)
-        {
-            debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}");
-            return false;
-        }
-
-        return true;
+        $this->_run_command($cmd);
     }
 
     /**
@@ -748,7 +665,6 @@ class midcom_helper_imagefilter
      * @param int $y Height
      * @param string $color Color
      * @param string $gravity Gravity point
-     * @return boolean true on success.
      */
     public function fill($x = null, $y = null, $color = null, $gravity = 'center')
     {
@@ -757,30 +673,18 @@ class midcom_helper_imagefilter
             || empty($color))
         {
             //This is a bit silly, but here for backwards compatibility...
-            return true;
+            return;
         }
 
         // Currently accepting only hex colors
         if (!preg_match('/^#?([0-9a-f]{3}){1,2}$/', $color))
         {
-            debug_add("Given color ({$color}) is not hex RGB.", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Given color ({$color}) is not hex RGB.");
         }
 
         $cmd = midcom::get('config')->get('utility_imagemagick_base') . "mogrify {$this->_quality} -resize '{$x}x{$y}' -background '{$color}' -gravity {$gravity} -extent {$x}x{$y} +repage " . escapeshellarg($this->_filename);
 
-        $output = null;
-        $exit_code = 0;
-        exec($cmd, $output, $exit_code);
-
-        if ($exit_code !== 0)
-        {
-            debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
-            debug_add("Command was: {$cmd}");
-            return false;
-        }
-
-        return true;
+        $this->_run_command($cmd);
     }
 }
 ?>

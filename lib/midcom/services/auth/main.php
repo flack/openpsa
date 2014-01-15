@@ -223,15 +223,7 @@ class midcom_services_auth
         // Now we check whether there is a success-relocate URL given somewhere.
         if (array_key_exists('midcom_services_auth_login_success_url', $_REQUEST))
         {
-            if (midcom::get())
-            {
-                midcom::get()->relocate($_REQUEST['midcom_services_auth_login_success_url']);
-            }
-            else
-            {
-                _midcom_header("Location: {$_REQUEST['midcom_services_auth_login_success_url']}");
-                _midcom_stop_request();
-            }
+            midcom::get()->relocate($_REQUEST['midcom_services_auth_login_success_url']);
             // This will exit.
         }
         return true;
@@ -241,7 +233,7 @@ class midcom_services_auth
      * Internal helper, synchronizes the main service class with the authentication state
      * of the authentication backend.
      */
-    function _sync_user_with_backend()
+    private function _sync_user_with_backend()
     {
         $this->user =& $this->_auth_backend->user;
         // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
@@ -408,7 +400,7 @@ class midcom_services_auth
             debug_add("Querying privilege {$privilege} for user {$user->id} to class {$classname}");
         }
 
-        return $this->acl->can_do_byclass($privilege, $user, $class, $component);
+        return $this->acl->can_do_byclass($privilege, $user, $class);
     }
 
     /**
@@ -691,7 +683,6 @@ class midcom_services_auth
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
             midcom::get()->finish();
-            _midcom_stop_request();
         }
         else
         {
@@ -954,7 +945,12 @@ class midcom_services_auth
      */
     public function login($username, $password)
     {
-        return $this->_auth_backend->create_login_session($username, $password);
+        if ($this->_auth_backend->create_login_session($username, $password))
+        {
+            $this->_sync_user_with_backend();
+            return true;
+        }
+        return false;
     }
 
     public function trusted_login($username)
@@ -1065,7 +1061,6 @@ class midcom_services_auth
         midcom::get('style')->show_midcom('midcom_services_auth_login_page');
 
         midcom::get()->finish();
-        _midcom_stop_request();
     }
 }
 ?>

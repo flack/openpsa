@@ -6,12 +6,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * n.n.static Autoindex page handler
  *
  * @package net.nehmer.static
  */
-
 class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_handler
 {
     /**
@@ -120,8 +121,9 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         }
         if (strpos($sort_property, 'metadata.') === false)
         {
+            $helper = new helper;
             $article = new midgard_article();
-            if (!property_exists($article, $sort_property))
+            if (!$helper->property_exists($article, $sort_property))
             {
                 $sort_property = 'metadata.' . $sort_property;
             }

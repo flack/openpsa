@@ -218,7 +218,7 @@ class midcom_helper__styleloader
         }
 
         $path = preg_replace("/^\/(.*)/", "$1", $path); // leading "/"
-        $path_array = explode('/', $path);
+        $path_array = array_filter(explode('/', $path));
 
         $current_style = $rootstyle;
 
@@ -230,24 +230,12 @@ class midcom_helper__styleloader
 
         foreach ($path_array as $path_item)
         {
-            if ($path_item == '')
-            {
-                // Skip
-                continue;
-            }
-
             $mc = midgard_style::new_collector('up', $current_style);
             $mc->set_key_property('guid');
             $mc->add_value_property('id');
             $mc->add_constraint('name', '=', $path_item);
             $mc->execute();
             $styles = $mc->list_keys();
-
-            if (!$styles)
-            {
-                $cached[$rootstyle][$path] = false;
-                return false;
-            }
 
             foreach ($styles as $style_guid => $value)
             {
@@ -293,16 +281,15 @@ class midcom_helper__styleloader
         $element_mc->add_constraint('name', '=', $name);
         $element_mc->execute();
         $elements = $element_mc->list_keys();
-        if ($elements)
+
+        foreach ($elements as $element_guid => $value)
         {
-            foreach ($elements as $element_guid => $value)
-            {
-                $value = $element_mc->get_subkey($element_guid, 'value');
-                midcom::get('cache')->content->register($element_guid);
-                $cached[$id][$name] = $value;
-                return $value;
-            }
+            $value = $element_mc->get_subkey($element_guid, 'value');
+            midcom::get('cache')->content->register($element_guid);
+            $cached[$id][$name] = $value;
+            return $value;
         }
+
 
         // No such element on this level, check parents
         $style_mc = midgard_style::new_collector('id', $id);

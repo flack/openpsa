@@ -29,12 +29,7 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
             $qb_links = net_nemein_tag_link_dba::new_query_builder();
             $qb_links->add_constraint('tag', '=', $tag->id);
             $count = $qb_links->count_unchecked();
-            if ($count === false)
-            {
-                // QB error, skip
-                debug_add("There was QB level error, skip rest of the checks");
-                continue;
-            }
+
             if ($count > 0)
             {
                 // Tag has links, skip

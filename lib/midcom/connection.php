@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * Wrapper for Midgard-related functionality, provides compatibility between versions
  *
@@ -22,8 +24,6 @@ class midcom_connection
 
     private static $_defaults = array
     (
-        'argv' => array(),
-
         'user' => 0,
         'admin' => false,
         'root' => false,
@@ -42,7 +42,6 @@ class midcom_connection
         (
             'prefix' => '',
             'quota' => false,
-            'unique_host_name' => 'openpsa',
             'auth_cookie_id' => 1,
         ),
 
@@ -61,10 +60,6 @@ class midcom_connection
      */
     public static function setup($basedir = null, $config_name = null)
     {
-        if (!class_exists('midgard_topic'))
-        {
-            throw new Exception('You need to install DB MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
-        }
         if (extension_loaded('midgard2'))
         {
             $midgard = midgard_connection::get_instance();
@@ -123,7 +118,22 @@ class midcom_connection
         }
         else
         {
-            throw new Exception("OpenPSA requires Midgard PHP extension to run");
+            if (file_exists($basedir . 'config/midgard-portable.inc.php'))
+            {
+                include $basedir . 'config/midgard-portable.inc.php';
+            }
+            else if (file_exists($basedir . 'config/midgard-portable-default.inc.php'))
+            {
+                include $basedir . 'config/midgard-portable-default.inc.php';
+            }
+            else
+            {
+                throw new Exception("Could not connect to database, configuration file not found");
+            }
+        }
+        if (!class_exists('midgard_topic'))
+        {
+            throw new Exception('You need to install DB MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
         }
 
         return true;
@@ -504,38 +514,11 @@ class midcom_connection
      */
     static function get_schema_types()
     {
-        if (isset(self::$_data['schema_types']))
+        if (!isset(self::$_data['schema_types']))
         {
-            return self::$_data['schema_types'];
+            $helper = new helper;
+            self::$_data['schema_types'] = $helper->get_all_schemanames();
         }
-        if (null === self::_get('schema', 'types'))
-        {
-            // Superglobal is off, Midgard 9.09 or newer
-            // Get the classes from PHP5 reflection
-            $re = new ReflectionExtension('midgard2');
-            $classes = $re->getClasses();
-            foreach ($classes as $refclass)
-            {
-                if ($refclass->isSubclassOf('midgard_object'))
-                {
-                    $name = $refclass->getName();
-                    if (   class_exists('MidgardReflectorObject')
-                        && (   MidgardReflectorObject::is_abstract($name)
-                            || MidgardReflectorObject::is_mixin($name)
-                            || MidgardReflectorObject::is_interface($name)))
-                    {
-                        continue;
-                    }
-                    self::$_data['schema_types'][] = $name;
-                }
-            }
-        }
-        else
-        {
-            // Midgard 8.09 or 9.03
-            self::$_data['schema_types'] = array_keys(self::_get('schema', 'types'));
-        }
-
         return self::$_data['schema_types'];
     }
 
@@ -585,11 +568,10 @@ class midcom_connection
         $args_started = false;
         foreach ($path_parts as $part)
         {
-            if ($part == '')
+            if ($part === '')
             {
                 continue;
             }
-
             if (    midcom::get('config')->get('theme')
                  && !$args_started
                  && midcom_helper_misc::check_page_exists($part))
@@ -616,7 +598,7 @@ class midcom_connection
     {
         if (null === self::_get('config', 'unique_host_name'))
         {
-            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
+            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));
         }
 
         return self::$_data['config']['unique_host_name'];

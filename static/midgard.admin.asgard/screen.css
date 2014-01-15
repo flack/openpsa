@@ -25,21 +25,22 @@ p
 
 #container-wrapper
 {
-  position: absolute;
-  min-height: 100%;
-  z-index: 2;
-  width: 100%;
+    position: absolute;
+    height: 100%;
+    z-index: 2;
+    width: 100%;
 }
 
 #container
 {
-  padding: 10px 10px 58px;
+    padding: 10px;
+    height: calc(100% - 68px);
 }
 
 #navigation,
 #content
 {
-  margin: 0em;
+    margin: 0em;
 }
 
 #navigation
@@ -175,6 +176,12 @@ p
 {
 }
 
+#navigation div.section ul.midgard_admin_asgard_navigation li a.expand-type-children
+{
+    font-style: italic;
+    color: #666
+}
+
 #navigation h3
 {
     background-color: #babdb6;
@@ -209,10 +216,12 @@ p
 
 #content
 {
-  background-color: #d3d7cf;
-  margin-left: 230px;
-  padding: 1em;
-  border-radius: 6px;
+    background-color: #d3d7cf;
+    margin-left: 230px;
+    padding: 1em;
+    border-radius: 6px;
+    min-height: calc(100% - 2em);
+    margin-bottom: 58px
 }
 #content div.page-title
 {
@@ -235,7 +244,7 @@ p
 
 #content div.page-title h1 a
 {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 #content div.page-title h1 .object_language
@@ -557,6 +566,14 @@ p
     text-decoration: none
 }
 
+#container #toolbar ul li a.disabled,
+#container #toolbar ul li a.disabled:hover
+{
+    background-color: transparent;
+    color: #555;
+    cursor: not-allowed
+}
+
 #breadcrumb
 {
   color: #663;
@@ -629,6 +646,11 @@ p
 #latest_objects .filter
 {
     margin-bottom: 5px;
+}
+
+#latest_objects h2
+{
+    clear: both
 }
 
 #latest_objects .actions
@@ -925,26 +947,34 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
     background-repeat: no-repeat;
     padding-left: 20px;
 }
-
-#content #shell-output
+#content #shell-runner
 {
-    border: 1px solid #aaa;
-    background-color: white;
-    max-height: 600px;
     overflow: auto;
-    padding: .4em 1em;
+    background-color: white;
+    border: 1px solid #aaa;
     box-shadow: inset 0 1px 7px rgba(0, 0, 0, .2);
     border-radius: 4px;
+    height: 200px;
+    width: 100%;
 }
 
-#content #shell-output pre
+#load-indicator
 {
-    margin: 0
-}
-#content #shell-output .shell-error
-{
-    background-color: red;
+    background-image: url('../stock-icons/16x16/ajax-loading.gif');
+    background-repeat: no-repeat;
+    background-position: 4px center;
+    position: fixed;
+    top: 15px;
+    right: 0px;
     color: white;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 3px 0 0 3px;
+    padding: .3em 1em .3em 25px;
+    z-index: 100;
+    display: none;
+}
+
+body.loading #load-indicator
+{
+    display: block
 }

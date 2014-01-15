@@ -1,4 +1,5 @@
 <?php
+use midgard\introspection\helper;
 /**
  * @package midcom.helper.reflector
  * @author The Midgard Project, http://www.midgard-project.org
@@ -23,6 +24,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         'instance' => array(),
         'title' => array(),
         'name' => array(),
+        'fieldnames' => array(),
         'object_icon_map' => null,
         'create_icon_map' => null
     );
@@ -89,6 +91,41 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             self::$_cache['instance'][$classname] = new midcom_helper_reflector($src);
         }
         return self::$_cache['instance'][$classname];
+    }
+
+    /**
+     * Get object's (mgdschema) fieldnames.
+     *
+     * This uses a static classname cache to avoid duplicate
+     * lookups. This is a lot more memory-efficient than calling
+     * get_object_vars on each instance directly, since this returns
+     * values as well, which unecessarily consume memory.
+     * get_class_vars() does not work on MgdSchema classes,
+     * so we resort to this
+     *
+     * @param object $object Object The object to query
+     * @return array The object vars
+     */
+    public static function get_object_fieldnames($object)
+    {
+        if (!is_object($object))
+        {
+            throw new midcom_error('Invalid parameter type');
+        }
+        $class = get_class($object);
+
+        if (!isset(self::$_cache['fielnames'][$class]))
+        {
+            if (midcom::get('dbclassloader')->is_midcom_db_object($object))
+            {
+                $classname = $object->__mgdschema_class_name__;
+                $object = new $classname;
+            }
+            $helper = new helper;
+            self::$_cache['fieldnames'][$class] = $helper->get_all_properties($object);
+        }
+
+        return self::$_cache['fieldnames'][$class];
     }
 
     /**
@@ -196,23 +233,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $obj = new $this->mgdschema_class;
         }
-        $properties = get_object_vars($obj);
-
-        if (isset($properties['__object']))
-        {
-            $tmp = get_object_vars($properties['__object']);
-
-            if (!empty($tmp))
-            {
-                $properties = $tmp;
-            }
-        }
-
-        if (empty($properties))
-        {
-            debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
+        $properties = array_flip(self::get_object_fieldnames($obj));
 
         // TODO: less trivial implementation
         // FIXME: Remove hardcoded class logic
@@ -271,7 +292,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $obj = $object;
         }
-
+        $label = '';
         if (method_exists($obj, 'get_label'))
         {
             $label = $obj->get_label();
@@ -292,9 +313,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             {
                 $label = $obj->name;
             }
-            else
+            else if ($obj->id > 0)
             {
-                $label = $obj->guid;
+                $label = $this->get_class_label() . ' #' . $obj->id;
             }
         }
         return $label;
@@ -457,39 +478,27 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         debug_add("Starting analysis for class {$this->mgdschema_class}");
         $obj =& $this->_dummy_object;
 
-        // Get property list and start checking (or abort on error)
-        if (midcom::get('dbclassloader')->is_midcom_db_object($obj))
-        {
-            $properties = $obj->get_object_vars();
-        }
-        else
-        {
-            $properties = array_keys(get_object_vars($obj));
-        }
-        if (empty($properties))
-        {
-            debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
+        $properties = self::get_object_fieldnames($obj);
 
-        $search_properties = array();
+        $default_properties = array
+        (
+            'title' => true,
+            'tag' => true,
+            'firstname' => true,
+            'lastname' => true,
+            'official' => true,
+            'username' => true,
+        );
+
+        $search_properties = array_intersect_key($default_properties, array_flip($properties));
 
         foreach ($properties as $property)
         {
-            switch(true)
+            if (strpos($property, 'name') !== false)
             {
-                case (strpos($property, 'name') !== false):
-                    // property contains 'name'
-                case ($property == 'title'):
-                case ($property == 'tag'):
-                case ($property == 'firstname'):
-                case ($property == 'lastname'):
-                case ($property == 'official'):
-                case ($property == 'username'):
-                    $search_properties[$property] = true;
-                    break;
-                // TODO: More per property heuristics
+                $search_properties[$property] = true;
             }
+            // TODO: More per property heuristics
         }
         // TODO: parent and up heuristics
 
@@ -497,48 +506,24 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         if (    is_string($label_prop)
              && $label_prop != 'guid'
-             && property_exists($obj, $label_prop))
+             && midcom::get('dbfactory')->property_exists($obj, $label_prop))
         {
             $search_properties[$label_prop] = true;
         }
 
         // Exceptions - always search these fields
-        $always_search_all = $this->_config->get('always_search_fields');
-        // safety against misconfiguration
-        if (!is_array($always_search_all))
+        $always_search_all = $this->_config->get('always_search_fields') ?: array();
+        if (!empty($always_search_all[$this->mgdschema_class]))
         {
-            $always_search_all = array();
-        }
-        if (isset($always_search_all[$this->mgdschema_class]))
-        {
-            foreach ($always_search_all[$this->mgdschema_class] as $property)
-            {
-                if (!in_array($property, $properties))
-                {
-                    debug_add("Property '{$property}' is set as always search, but is not a property in class '{$this->mgdschema_class}'", MIDCOM_LOG_WARN);
-                    continue;
-                }
-                $search_properties[$property] = true;
-            }
+            $fields = array_intersect($always_search_all[$this->mgdschema_class], $properties);
+            $search_properties = $search_properties + array_flip($fields);
         }
 
         // Exceptions - never search these fields
-        $never_search_all = $this->_config->get('never_search_fields');
-        // safety against misconfiguration
-        if (!is_array($never_search_all))
+        $never_search_all = $this->_config->get('never_search_fields') ?: array();
+        if (!empty($never_search_all[$this->mgdschema_class]))
         {
-            $never_search_all = array();
-        }
-        if (isset($never_search_all[$this->mgdschema_class]))
-        {
-            foreach ($never_search_all[$this->mgdschema_class] as $property)
-            {
-                if (array_key_exists($property, $search_properties))
-                {
-                    debug_add("Removing '{$property}' from \$search_properties", MIDCOM_LOG_INFO);
-                    unset($search_properties[$property]);
-                }
-            }
+            $search_properties = array_diff_key($search_properties, array_flip($never_search_all[$this->mgdschema_class]));
         }
 
         $search_properties = array_keys($search_properties);
@@ -573,17 +558,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $obj =& $this->_dummy_object;
 
         // Get property list and start checking (or abort on error)
-        $properties = get_object_vars($obj);
-        if (empty($properties))
-        {
-            debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
+        $properties = self::get_object_fieldnames($obj);
 
         $links = array();
         $parent_property = midgard_object_class::get_property_parent($obj);
         $up_property = midgard_object_class::get_property_up($obj);
-        foreach ($properties as $property => $dummy)
+        foreach ($properties as $property)
         {
             if ($property == 'guid')
             {

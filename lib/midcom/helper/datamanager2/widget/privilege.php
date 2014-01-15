@@ -31,17 +31,10 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
 
     /**
      * The initialization event handler validates the base type.
-     *
-     * @return boolean Indicating Success
      */
     public function _on_initialize()
     {
-        if (! is_a($this->_type, 'midcom_helper_datamanager2_type_privilege'))
-        {
-            debug_add("Warning, the field {$this->name} is not of type privilege.", MIDCOM_LOG_WARN);
-            return false;
-        }
-        return true;
+        $this->_require_type_class('midcom_helper_datamanager2_type_privilege');
     }
 
     /**

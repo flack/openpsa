@@ -112,7 +112,7 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
         </form>
     </div>
 
-    <h2><?php echo midcom::get('i18n')->get_string('latest activities', 'midcom.helper.activitystream'); ?></h2>
+    <h2><?php echo $data['l10n']->get('recent changes'); ?></h2>
     <form name="latest_objects_mass_action" method="post">
       <table class="results table_widget" id="batch_process">
         <thead>
@@ -146,128 +146,23 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
         </tfoot>
     <tbody>
 <?php
-if (isset($_GET['type_filter']))
+foreach ($data['revised'] as $row)
 {
-    foreach ($data['revised'] as $object)
+    echo "        <tr>\n";
+    echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$row['guid']}\" /></td>\n";
+    echo "            <td class=\"icon\">" . $row['icon'] . "</td>\n";
+    echo "            <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$row['guid']}/\" title=\"{$row['class']}\">" . $row['title'] . "</a></td>\n";
+
+    if (isset($row['review_date']))
     {
-        $class = get_class($object);
-        $approved = $object->metadata->approved;
-        $approved_str = strftime('%x %X', $approved);
-        if ($approved == 0  || $approved < $object->metadata->revised)
-        {
-            $approved_str = $data['l10n']->get('not approved');
-        }
-        $title = substr($data['reflectors'][$class]->get_object_label($object), 0, 60);
-        if (empty($title))
-        {
-            $title = '[' . $data['l10n']->get('no title') . ']';
-        }
-        $revisor = midcom::get('auth')->get_user($object->metadata->revisor);
-
-        if (empty($revisor))
-        {
-            $revisor_name = $data['l10n_midcom']->get('unknown');
-        }
-        else
-        {
-            $revisor_name = $revisor->name;
-        }
-
-        echo "        <tr>\n";
-        echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$object->guid}\" /></td>\n";
-        echo "            <td class=\"icon\">" . $data['reflectors'][$class]->get_object_icon($object) . "</td>\n";
-        echo "            <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$object->guid}/\" title=\"{$class}\">" . $title . "</a></td>\n";
-
-        if ($data['config']->get('enable_review_dates'))
-        {
-            $review_date = $object->get_parameter('midcom.helper.metadata', 'review_date');
-            if (!$review_date)
-            {
-                echo "            <td class=\"review_by\">N/A</td>\n";
-            }
-            else
-            {
-                echo "            <td class=\"review_by\">" . strftime('%x', $review_date) . "</td>\n";
-            }
-        }
-
-        echo "            <td class=\"revised\">" . strftime('%x %X', $object->metadata->revised) . "</td>\n";
-        echo "            <td class=\"revisor\">{$revisor_name}</td>\n";
-        echo "            <td class=\"approved\">{$approved_str}</td>\n";
-        echo "            <td class=\"revision\">{$object->metadata->revision}</td>\n";
-        echo "        </tr>\n";
+        echo "            <td class=\"review_by\">" . $row['review_date'] . "</td>\n";
     }
-}
-else
-{
-    $activities = midcom_helper_activitystream_activity_dba::get($data['config']->get('last_visited_size'));
-    if (count($activities) > 0)
-    {
-        $reflectors = Array();
 
-        foreach ($activities as $activity)
-        {
-            try
-            {
-                $object = midcom::get('dbfactory')->get_object_by_guid($activity->target);
-            }
-            catch (midcom_error $e)
-            {
-                if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
-                {
-                    // TODO: Visualize deleted objects somehow
-                }
-                continue;
-            }
-
-            try
-            {
-                $actor = midcom_db_person::get_cached($activity->actor);
-            }
-            catch (midcom_error $e)
-            {
-                $actor  = new midcom_db_person();
-            }
-
-            $class = get_class($object);
-            $reflector = midcom_helper_reflector::get($object);
-
-            $title = htmlspecialchars($reflector->get_object_label($object));
-            if (empty($title))
-            {
-                $title = $object->guid;
-            }
-
-            $approved = $object->metadata->approved;
-            $approved_str = strftime('%x %X', $approved);
-            if ($approved == 0  || $approved < $object->metadata->revised)
-            {
-                $approved_str = $data['l10n']->get('not approved');
-            }
-
-            echo "        <tr>\n";
-            echo "          <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$object->guid}\" /></td>\n";
-            echo "          <td class=\"icon\">" . $reflector->get_object_icon($object) . "</td>\n";
-            echo "          <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$object->guid}/\" title=\"{$class}\">" . $title . "</a></td>\n";
-            if ($data['config']->get('enable_review_dates'))
-            {
-                $review_date = $object->get_parameter('midcom.helper.metadata', 'review_date');
-                if (!$review_date)
-                {
-                    echo "            <td class=\"review_by\">N/A</td>\n";
-                }
-                else
-                {
-                    echo "            <td class=\"review_by\">" . strftime('%x', $review_date) . "</td>\n";
-                }
-            }
-            echo "          <td class=\"revised\">" . strftime('%x %X', $activity->metadata->published) . "</td>\n";
-            echo "          <td class=\"revisor\">{$actor->name}</td>\n";
-            echo "          <td class=\"approved\">{$approved_str}</td>\n";
-            echo "          <td class=\"revision\">{$activity->summary}</td>\n";
-            echo "        </tr>\n";
-        }
-    }
+    echo "            <td class=\"revised\">" . strftime('%x %X', $row['revised']) . "</td>\n";
+    echo "            <td class=\"revisor\">{$row['revisor']}</td>\n";
+    echo "            <td class=\"approved\">{$row['approved']}</td>\n";
+    echo "            <td class=\"revision\">{$row['revision']}</td>\n";
+    echo "        </tr>\n";
 }?>
   </tbody>
 </table>

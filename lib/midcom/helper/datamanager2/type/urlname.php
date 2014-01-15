@@ -54,8 +54,6 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
     /**
      * This event handler is called after construction, so passing references to $this to the
      * outside is safe at this point.
-     *
-     * @return boolean Indicating success, false will abort the type construction sequence.
      */
     public function _on_initialize()
     {
@@ -74,7 +72,6 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
                 'privilege' => 'midcom:urlname',
             );
         }
-        return true;
     }
 
     function convert_from_storage($source)

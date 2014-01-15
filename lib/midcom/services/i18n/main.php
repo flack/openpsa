@@ -600,10 +600,7 @@ class midcom_services_i18n
         {
             debug_add("Iconv returned failed to convert a string, returning an empty string.", MIDCOM_LOG_WARN);
             debug_print_r("Tried to convert this string from {$source_charset} to {$destination_charset}:", $string);
-            if (isset($php_errormsg))
-            {
-                debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_WARN);
-            }
+            midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
             return false;
         }
         return $result;

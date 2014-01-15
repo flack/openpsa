@@ -22,7 +22,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
                 if ($sales_url)
                 {
                     $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
-                    $output = "<a href=\"{$sales_url}salesproject/{$salesproject->guid}/#{$agreement->guid}/\">{$output}</a>\n";
+                    $output = "<a href=\"{$sales_url}salesproject/{$salesproject->guid}/#deliverable_{$agreement->guid}\">{$output}</a>\n";
                 }
 
                 echo '<div class="area">';

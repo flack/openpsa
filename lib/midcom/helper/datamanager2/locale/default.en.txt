@@ -287,3 +287,14 @@ Write the order, lower numbers are placed first
 Validation failed for field <em>%s</em>: %s
 ---STRINGEND
 
+---STRING unsupported image format
+Unsupported image format.
+---STRINGEND
+
+---STRING sanity check failed
+Image might be corrupt.
+---STRINGEND
+
+---STRING upload max filesize exceeded
+The file is too large.
+---STRINGEND

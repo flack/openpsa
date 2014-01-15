@@ -61,6 +61,13 @@ class midcom_application
      */
     public $skip_page_style = false;
 
+    public function __construct()
+    {
+        midcom::get('debug')->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
+        midcom_compat_environment::initialize();
+        midcom_exception_handler::register();
+    }
+
     /**
      * Main MidCOM initialization.
      *
@@ -77,21 +84,9 @@ class midcom_application
 
         midcom::get('componentloader')->load_all_manifests();
 
-        $config = midcom::get('config');
-        foreach ($config->get('midcom_components', array()) as $name => $path)
-        {
-            midcom::get('componentloader')->register_component($name, $path);
-        }
-
         // Initialize Context Storage
         $context = new midcom_core_context(0);
         $context->set_current();
-
-        // Check the midcom_config site prefix for absolute local urls
-        if (substr($config->get('midcom_site_url'), 0, 1) == '/')
-        {
-            $config->set('midcom_site_url', $this->get_page_prefix() . substr($config->get('midcom_site_url'), 1));
-        }
     }
 
     /* *************************************************************************
@@ -271,8 +266,6 @@ class midcom_application
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
         midcom::get('cache')->content->_finish_caching();
 
-        midcom::get('componentloader')->process_pending_notifies();
-
         // Store any unshown messages
         midcom::get('uimessages')->store();
 
@@ -292,6 +285,7 @@ class midcom_application
         midcom::get('cache')->shutdown();
 
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
+        _midcom_stop_request();
     }
 
     /**
