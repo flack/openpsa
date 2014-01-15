@@ -29,7 +29,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
     private function _get_salesproject($person_guid)
     {
         $person = new org_openpsa_contacts_person_dba($person_guid);
-        
+
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb->add_constraint('customerContact', '=', $person->id);
         $results = $qb->execute();
@@ -85,6 +85,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $deliverable->salesproject = $salesproject->id;
 
+        $deliverable->units = 1;
         $deliverable->copyFromProduct($product);
 
         $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
