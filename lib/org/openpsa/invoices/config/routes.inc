@@ -146,6 +146,11 @@
     'variable_args' => 1,
 ),
 
+'invoice_rest' => array(
+    'handler' => array('org_openpsa_invoices_handler_rest_invoice', 'process'),
+    'fixed_args' => array('rest', 'invoice'),
+),
+
 // Match /config/
 'config' => array
 (
