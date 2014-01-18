@@ -43,7 +43,7 @@ class createphp
         }
         $loader = new ArrayLoader($config);
         $this->_manager = $loader->getManager($this->_mapper);
-        $this->_manager->registerWorkflow('delete', new delete);
+        $this->_manager->getRestHandler()->registerWorkflow('delete', new delete);
     }
 
     /**
@@ -99,7 +99,7 @@ class createphp
      */
     private function _get_rdf_schema_name(array $data = null)
     {
-        $object = $this->get_object($data);               
+        $object = $this->get_object($data);
         return get_class($object);
     }
 
@@ -113,10 +113,10 @@ class createphp
         {
             $object = $this->_mapper->getBySubject(trim($_GET['subject'], '<>'));
         }
-        
+
         return $object;
     }
-    
+
     /**
      *
      * @param array $data
@@ -135,8 +135,8 @@ class createphp
         }
 
         $service = $this->_manager->getResthandler();
-        $controller = $this->_manager->getType($rdf_schema_name);       
-                
+        $controller = $this->_manager->getType($rdf_schema_name);
+
         return new \midcom_response_json($service->run($data, $controller));
     }
 
@@ -147,7 +147,7 @@ class createphp
             throw new midcom_error ("no subject passed");
         }
 
-        return new \midcom_response_json($this->_manager->getWorkflows($_GET["subject"]));
+        return new \midcom_response_json($this->_manager->getRestHandler()->getWorkflows($_GET["subject"]));
     }
 }
 ?>
