@@ -535,6 +535,22 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     {
                         $qb->add_constraint($field, '=', (int) $for_object->$field_target);
                     }
+                    else if ($link_type == 'parent')
+                    {
+                        $up_property = midgard_object_class::get_property_up($schema_type);
+                        if (!empty($up_property))
+                        {
+                            //we only return direct children (otherwise they would turn up twice in recursive queries)
+                            $qb->begin_group('AND');
+                            $qb->add_constraint($field, '=', (int) $for_object->$field_target);
+                            $qb->add_constraint($up_property, '=', 0);
+                            $qb->end_group();
+                        }
+                        else
+                        {
+                            $qb->add_constraint($field, '=', (int) $for_object->$field_target);
+                        }
+                    }
                     else
                     {
                         $qb->begin_group('AND');
