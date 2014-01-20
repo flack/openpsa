@@ -21,6 +21,36 @@ use Midgard\CreatePHP\Type\TypeInterface;
  */
 class dba2rdfMapper extends AbstractRdfMapper
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function orderChildren(EntityInterface $entity, CollectionInterface $node, $expectedOrder)
+    {
+        $children = $this->getChildren($entity->getObject(), $node);
+        $child_subjects = array();
+        $child_map = array();
+
+        foreach ($children as $child)
+        {
+            $child_subjects[] = $this->createSubject($child);
+            $child_map[$this->createSubject($child)] = $child;
+        }
+
+        $child_subjects = $this->sort($child_subjects, $expectedOrder);
+
+        foreach ($child_subjects as $index => $subject)
+        {
+            if ($index !== $child_map[$subject]->metadata->score)
+            {
+                $child_map[$subject]->metadata->score = $index;
+                if (!$child_map[$subject]->update())
+                {
+                    throw new midcom_error(midcom_connection::get_error_string());
+                }
+            }
+        }
+    }
+
     public function getBySubject($identifier)
     {
         $identifier = str_replace(\midcom::get('config')->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
