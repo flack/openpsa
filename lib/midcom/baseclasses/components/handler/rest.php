@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General
  */
 
+use midgard\introspection\helper;
+
 /**
  * generic REST handler baseclass
  * this needs to be extended by every REST handler in the application
@@ -259,6 +261,52 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         $this->_send_response();
     }
 
+    protected function object2data($object)
+    {
+        if (method_exists($object, 'get_properties'))
+        {
+            // MidCOM DBA decorator object
+            $fields = $object->get_properties();
+        }
+        else
+        {
+            $helper = new helper;
+            $fields = $helper->get_all_properties($object);
+        }
+
+        $data = array();
+        foreach ($fields as $key)
+        {
+            if (substr($key, 0, 1) == '_')
+            {
+                // Remove private fields
+                continue;
+            }
+            if (is_object($object->$key))
+            {
+                $data[$key] = $this->object2data($object->$key);
+            }
+            else
+            {
+                $data[$key] = $object->$key;
+            }
+
+        }
+
+        return $data;
+    }
+
+    protected function _prepare_response()
+    {
+        // prepare the object
+        $object = $this->_object;
+        if (!$object)
+        {
+            return;
+        }
+        $this->_response["object"] = $this->object2data($object->__object);
+    }
+
     /**
      * sends the response as json
      * containing the current response data
@@ -267,6 +315,9 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      */
     protected function _send_response($message = false)
     {
+        // prepare response data
+        $this->_prepare_response();
+
         // always add status code and message
         $this->_response['code'] = $this->_responseStatus;
         if ($message)
