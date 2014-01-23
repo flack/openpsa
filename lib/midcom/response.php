@@ -26,7 +26,7 @@ class midcom_response
      *
      * @var int HTTP response code
      */
-    public $code = 200;
+    public $code = MIDCOM_ERROK;
 
     /**
      * The data to be transmitted
@@ -53,5 +53,6 @@ class midcom_response
     {
         $this->_data = $data;
     }
+
 }
 ?>

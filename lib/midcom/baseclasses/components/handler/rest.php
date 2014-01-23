@@ -33,7 +33,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @var int
      */
-    protected $_responseStatus = 500;
+    protected $_responseStatus = MIDCOM_ERRCRIT;
 
     /**
      * the object we're working on
@@ -154,7 +154,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         // for all other modes, we need an id or guid
         if (!$this->_id)
         {
-            $this->_stop("Missing id / guid for " . $this->_mode . " mode", 500);
+            $this->_stop("Missing id / guid for " . $this->_mode . " mode", MIDCOM_ERRCRIT);
         }
 
         // try finding existing object
@@ -201,14 +201,14 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
         if ($stat)
         {
-            $this->_responseStatus = 200;
+            $this->_responseStatus = MIDCOM_ERROK;
             $this->_response["id"] = $this->_object->id;
             $this->_response["guid"] = $this->_object->guid;
             $this->_response["message"] = $this->_mode . " ok";
         }
         else
         {
-            $this->_stop("Failed to " . $this->_mode . " object", 500);
+            $this->_stop("Failed to " . $this->_mode . " object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
         }
     }
 
@@ -248,7 +248,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             // no response has been set
             if (is_null($this->_response))
             {
-                throw new Exception('Method not allowed', 405);
+                throw new Exception('Could not handle request, unknown method', 405);
             }
         }
         catch (Exception $e)
@@ -285,7 +285,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * @param string $message
      * @param int $statuscode
      */
-    protected function _stop($message, $statuscode = 500)
+    protected function _stop($message, $statuscode = MIDCOM_ERRCRIT)
     {
         $this->_responseStatus = $statuscode;
         $this->_send_response($message);
@@ -299,7 +299,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     {
         if (!$this->_object)
         {
-            $this->_stop("No object given", 500);
+            $this->_stop("No object given", MIDCOM_ERRCRIT);
         }
     }
 
@@ -310,7 +310,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function handle_get()
     {
         $this->retrieve_object();
-        $this->_responseStatus = 200;
+        $this->_responseStatus = MIDCOM_ERROK;
         $this->_response["object"] = $this->_object;
         $this->_response["message"] = "get ok";
     }
@@ -336,14 +336,14 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         if ($stat)
         {
             // on success, return id
-            $this->_responseStatus = 200;
+            $this->_responseStatus = MIDCOM_ERROK;
             $this->_response["id"] = $this->_object->id;
             $this->_response["guid"] = $this->_object->guid;
             $this->_response["message"] = $this->_mode . "ok";
         }
         else
         {
-            $this->_stop("Failed to delete object", 500);
+            $this->_stop("Failed to delete object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
         }
     }
 }

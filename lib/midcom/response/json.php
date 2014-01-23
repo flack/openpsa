@@ -26,6 +26,8 @@ class midcom_response_json extends midcom_response
         midcom::get()->skip_page_style = true;
         midcom::get('cache')->content->content_type('application/json');
         midcom::get()->header('Content-type: application/json; charset=' . $this->encoding);
+        // set status code
+        midcom::get()->header('Doesnt matter', true, $this->code);
 
         echo json_encode($this->_data);
 
