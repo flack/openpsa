@@ -290,7 +290,6 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             {
                 $data[$key] = $object->$key;
             }
-
         }
 
         return $data;
