@@ -111,7 +111,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $mail->parameters = array
             (
                 "USERNAME" => $username,
-                "PASSWORD" => $password
+                "PASSWORD" => $password,
+                "SITE_URL" => midcom::get('config')->get('midcom_site_url')
             );
 
             if (!$mail->send())
