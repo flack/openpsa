@@ -18,7 +18,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         return "org_openpsa_invoices_billing_data_dba";
     }
 
-    private function get_billingdata($linkGuid, $autocreate = true)
+    private function get_billingdata($linkGuid)
     {
         $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb->add_constraint("linkGuid", "=", $linkGuid);
@@ -28,11 +28,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
             return array_pop($billingdata);
         }
 
-        // got no billingdata so far..
-        if (!$autocreate)
-        {
-            return false;
-        }
+        // got no billingdata so far.. auto-create!
         // before autocreation, check if person exists
         try
         {
