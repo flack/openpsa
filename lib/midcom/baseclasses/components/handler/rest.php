@@ -76,7 +76,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function _handler_process($handler_id, array $args, array &$data)
     {
         $this->_init();
-        $this->_process_request();
+        return $this->_process_request();
     }
 
     /**
@@ -216,6 +216,8 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
     /**
      * do the processing: will call the corresponding handler method and set the mode
+     *
+     * @return midcom_response_json
      */
     protected function _process_request()
     {
@@ -255,13 +257,13 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         }
         catch (Exception $e)
         {
-            $this->_stop($e->getMessage(), $e->getCode());
+            return $this->_send_response($e->getMessage(), $e->getCode());
         }
 
-        $this->_send_response();
+        return $this->_send_response();
     }
 
-    protected function object2data($object)
+    public function object2data($object)
     {
         if (method_exists($object, 'get_properties'))
         {
@@ -311,8 +313,9 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * containing the current response data
      *
      * @param string $message
+     * @return midcom_response_json
      */
-    protected function _send_response($message = false)
+    private function _send_response($message = false)
     {
         // prepare response data
         $this->_prepare_response();
@@ -326,7 +329,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
         $response = new midcom_response_json($this->_response);
         $response->code = $this->_response['code'];
-        $response->send();
+        return $response;
     }
 
     /**
@@ -337,8 +340,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      */
     protected function _stop($message, $statuscode = MIDCOM_ERRCRIT)
     {
-        $this->_responseStatus = $statuscode;
-        $this->_send_response($message);
+        throw new midcom_error($message, $statuscode);
     }
 
     /**
