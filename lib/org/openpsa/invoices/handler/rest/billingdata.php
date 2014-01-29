@@ -50,7 +50,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         {
             return false;
         }
-        $billingdata->__metadata = null;
+
         return $billingdata;
     }
 
