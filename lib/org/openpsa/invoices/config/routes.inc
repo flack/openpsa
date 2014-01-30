@@ -150,7 +150,8 @@
     'handler' => array('org_openpsa_invoices_handler_rest_invoice', 'process'),
     'fixed_args' => array('rest', 'invoice'),
 ),
-'invoice_rest' => array(
+
+'billingdata_rest' => array(
     'handler' => array('org_openpsa_invoices_handler_rest_billingdata', 'process'),
     'fixed_args' => array('rest', 'billingdata'),
 ),
