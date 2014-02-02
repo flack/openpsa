@@ -319,6 +319,17 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
 
+        $relocate_url = '';
+        try
+        {
+            $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
+            $relocate_url = 'hours/task/' . $task->guid . '/';
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
+
         switch ($this->_controller->process_form())
         {
             case 'delete':
@@ -327,13 +338,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 {
                     throw new midcom_error("Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
                 }
-
-                // Delete ok, relocating to welcome.
-                return new midcom_response_relocate('');
+                //Fall-through
 
             case 'cancel':
-                // Redirect to view page.
-                return new midcom_response_relocate('');
+                return new midcom_response_relocate($relocate_url);
         }
 
         $this->_load_schemadb();
@@ -343,7 +351,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['controller'] = $this->_controller;
 
         $this->_update_breadcrumb_line($handler_id);
-
+        org_openpsa_helpers::dm2_savecancel($this, 'delete');
         $this->_view_toolbar->bind_to($this->_hour_report);
 
         midcom::get('metadata')->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
