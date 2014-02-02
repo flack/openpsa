@@ -483,8 +483,8 @@ class midcom_config implements arrayaccess
         'wrap_style_show_with_name' => false,
 
         // Related to JavaScript libraries
-        'jquery_version' => '2.0.3.min',
-        'jquery_version_oldie' => '1.10.2.min',
+        'jquery_version' => '2.1.0.min',
+        'jquery_version_oldie' => '1.11.0.min',
         'jquery_ui_version' => '1.10.3',
         'jquery_ui_theme' => null,
         'jquery_load_from_google' => false,
