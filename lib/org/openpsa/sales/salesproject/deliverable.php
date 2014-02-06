@@ -258,7 +258,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $at_entries = $this->get_at_entries();
         if (!isset($at_entries[0]))
         {
-            throw new midcom_error('No AT entry found');
+            debug_add('No AT entry found');
+            return false;
         }
 
         $entry = $at_entries[0];
@@ -267,12 +268,15 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         if (!$scheduler->run_cycle($entry->arguments['cycle']))
         {
-            throw new midcom_error('Failed to run cycle, see debug log for details');
+            debug_add('Failed to run cycle');
+            return false;
         }
         if (!$entry->delete())
         {
-            throw new midcom_error('Could not delete AT entry: ' . midcom_connection::get_error_string());
+            debug_add('Could not delete AT entry: ' . midcom_connection::get_error_string());
+            return false;
         }
+        return true;
     }
 
     function invoice()
