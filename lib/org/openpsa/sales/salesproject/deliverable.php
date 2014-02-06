@@ -250,6 +250,31 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
     }
 
+    /**
+     * Manually trigger a subscription cycle run.
+     */
+    function run_cycle()
+    {
+        $at_entries = $this->get_at_entries();
+        if (!isset($at_entries[0]))
+        {
+            throw new midcom_error('No AT entry found');
+        }
+
+        $entry = $at_entries[0];
+        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($entry->arguments['deliverable']);
+        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
+
+        if (!$scheduler->run_cycle($entry->arguments['cycle']))
+        {
+            throw new midcom_error('Failed to run cycle, see debug log for details');
+        }
+        if (!$entry->delete())
+        {
+            throw new midcom_error('Could not delete AT entry: ' . midcom_connection::get_error_string());
+        }
+    }
+
     function invoice()
     {
         if (   $this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED

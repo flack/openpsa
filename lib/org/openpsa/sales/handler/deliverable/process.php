@@ -69,11 +69,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             throw new midcom_error('No valid operation specified.');
         }
 
-        if ($operation == 'run_cycle')
-        {
-            $this->_run_cycle();
-        }
-        else if (!$this->_deliverable->$operation())
+        if (!$this->_deliverable->$operation())
         {
             throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
@@ -82,28 +78,5 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
         return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
     }
 
-    /**
-     * Manually trigger a subscription cycle run.
-     */
-    private function _run_cycle()
-    {
-        if (empty($_POST['at_entry']))
-        {
-            throw new midcom_error('No AT entry specified');
-        }
-
-        $entry = new midcom_services_at_entry_dba($_POST['at_entry']);
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($entry->arguments['deliverable']);
-        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-
-        if (!$scheduler->run_cycle($entry->arguments['cycle']))
-        {
-            throw new midcom_error('Failed to run cycle, see debug log for details');
-        }
-        if (!$entry->delete())
-        {
-            throw new midcom_error('Could not delete AT entry: ' . midcom_connection::get_error_string());
-        }
-    }
 }
 ?>

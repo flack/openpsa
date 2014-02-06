@@ -70,6 +70,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
     {
         $person_guid = isset($this->_request['params']['person_guid']) ? $this->_request['params']['person_guid'] : false;
         $product_id = isset($this->_request['params']['product_id']) ? intval($this->_request['params']['product_id']) : false;
+        $run_cycle = isset($this->_request['params']['run_cycle']) ? $this->_request['params']['run_cycle'] : false;
 
         // check param
         if (!$person_guid || !$product_id)
@@ -108,10 +109,13 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         // finally, order the product
         $stat = $deliverable->order();
-
         if (!$stat)
         {
             $this->_stop("Failed ordering deliverable: " . midcom_connection::get_error_string());
+        }
+        if ($run_cycle)
+        {
+            $deliverable->run_cycle();
         }
 
         $this->_object = $deliverable;

@@ -260,7 +260,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
                     {
-                        $toolbar .= ' <input type="hidden" name="at_entry" value="' . $entries[0]->guid . "\" />\n";
                         $toolbar .= ' <input type="submit" class="run_cycle" name="run_cycle" value="' . $this->_l10n->get('generate now') . "\" />\n";
                     }
                     $toolbar .= "</p>\n";
