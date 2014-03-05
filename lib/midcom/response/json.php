@@ -27,7 +27,8 @@ class midcom_response_json extends midcom_response
         midcom::get('cache')->content->content_type('application/json');
         midcom::get()->header('Content-type: application/json; charset=' . $this->encoding, $this->code);
 
-        echo json_encode($this->_data);
+        $exporter = new midcom_helper_exporter_json();
+        echo $exporter->array2data($this->_data);
 
         midcom::get()->finish();
     }

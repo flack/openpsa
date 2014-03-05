@@ -305,6 +305,7 @@ class midcom_services_auth_sessionmgr
             // Cast the person object to correct person class
             $this->person = new $person_class($this->person->guid);
         }
+
         return true;
     }
 
