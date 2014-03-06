@@ -20,6 +20,182 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         self::$_user = self::create_user();
     }
 
+    public function testCreate_account()
+    {
+        midcom::get('auth')->request_sudo("midcom.core");
+
+        $helper = new org_openpsa_user_accounthelper;
+        // test error cases
+        $person = self::create_class_object('midcom_db_person', array());
+        // no person guid
+        $this->assertFalse($helper->create_account("", "", ""));
+        // no username
+        $this->assertFalse($helper->create_account($person->guid, "", ""));
+        // cannot send welcome mail without mail adress
+        $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "", "", true));
+
+        // test with no password given
+        $person = self::create_class_object('midcom_db_person', array());
+        $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), "", "", false, false), $helper->errstr);
+
+        // this should work, so creating an account again should fail
+        $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), ""));
+
+        // test with password given
+        $person = self::create_class_object('midcom_db_person', array());
+        $password = org_openpsa_user_accounthelper::generate_password();
+        $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "bob@nowhere.cc", $password, false, false), $helper->errstr);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testDelete_account()
+    {
+        midcom::get('auth')->request_sudo("midcom.core");
+
+        $person = self::create_user();
+        $helper = new org_openpsa_user_accounthelper($person);
+        $this->assertTrue($helper->delete_account());
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testClose_account()
+    {
+        midcom::get('auth')->request_sudo("midcom.core");
+
+        $person = self::create_user();
+        $helper = new org_openpsa_user_accounthelper($person);
+
+        $account = midcom_core_account::get($person);
+        $password = $account->get_password();
+
+        // not blocked yet
+        $this->assertFalse($helper->is_blocked());
+
+        $this->assertTrue($helper->close_account());
+
+        // check that account password is empty and the parameter is set correctly
+        $this->assertEmpty($account->get_password());
+        $param = $person->get_parameter("org_openpsa_user_blocked_account", "account_password");
+        $this->assertEquals($password, $param);
+
+        // test that account is blocked
+        $this->assertTrue($helper->is_blocked());
+
+        // try closing again.. this should just return true
+        $this->assertTrue($helper->close_account());
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testReopen_account()
+    {
+        midcom::get('auth')->request_sudo("midcom.core");
+
+        $person = self::create_user();
+        $helper = new org_openpsa_user_accounthelper($person);
+
+        $account = midcom_core_account::get($person);
+        $password = $account->get_password();
+
+        // close account
+        $this->assertFalse($helper->is_blocked());
+        $this->assertTrue($helper->close_account());
+        $this->assertTrue($helper->is_blocked());
+        $this->assertEmpty($account->get_password());
+
+        // now try reopening it
+        $helper->reopen_account();
+
+        // check that account password is set again and the parameter is deleted
+        $this->assertEquals($password, $account->get_password(), "Password should be set again");
+        $this->assertNull($person->get_parameter("org_openpsa_user_blocked_account", "account_password"), "Param should have been deleted");
+
+        // account is not blocked anymore
+        $this->assertFalse($helper->is_blocked());
+
+        // try reopening unblocked account
+        try
+        {
+            $helper->reopen_account();
+            $this->fail("Reopening an unblocked account should throw an exception");
+        }
+        catch(Exception $e)
+        {}
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    private function _get_person_by_formdata($data, $expected_result)
+    {
+        if (isset($data["username"]))
+        {
+            $_POST["username"] = $data["username"];
+        }
+        $person = org_openpsa_user_accounthelper::get_person_by_formdata($data);
+        if ($expected_result)
+        {
+            $this->assertTrue($person instanceof midcom_db_person);
+        }
+        else
+        {
+            $this->assertFalse($person);
+        }
+        $this->reset_server_vars();
+    }
+
+    public function testGet_person_by_formdata()
+    {
+        midcom::get('auth')->request_sudo("midcom.core");
+
+        // try invalid data
+        $this->_get_person_by_formdata(array(), false);
+
+        // try invalid username
+        $fake_username = uniqid("abcabcab");
+        $this->_get_person_by_formdata(array("username" => $fake_username, "password" => "abc"), false);
+
+        // try valid username
+        $username = uniqid("PBF");
+        $person = self::create_user();
+        $account = midcom_core_account::get($person);
+        $account->set_username($username);
+        $account->save();
+
+        $this->_get_person_by_formdata(array("username" => $username, "password" => "abc"), true);
+
+        midcom::get('auth')->drop_sudo();
+    }
+
+    public function testCheck_login_attempts()
+    {
+        midcom::get('auth')->request_sudo("midcom.core");
+
+        $person = self::create_user();
+        $helper = new org_openpsa_user_accounthelper($person);
+
+        $max_attempts = midcom_baseclasses_components_configuration::get("org.openpsa.user", 'config')->get('max_password_attempts');
+
+        // no attempts so far..
+        // account should not be blocked
+        $this->assertFalse($helper->is_blocked());
+        $this->assertNull($person->get_parameter("org_openpsa_user_password", "attempts"));
+
+        for ($attempt_num=1; $attempt_num<$max_attempts; $attempt_num++)
+        {
+            $this->assertTrue($helper->check_login_attempts());
+            $attempts = unserialize($person->get_parameter("org_openpsa_user_password", "attempts"));
+            $this->assertEquals($attempt_num, count($attempts));
+        }
+
+        // account should get blocked now!
+        $this->assertFalse($helper->check_login_attempts());
+        $this->assertTrue($helper->is_blocked());
+
+        midcom::get('auth')->drop_sudo();
+    }
+
     public function testGenerate_password()
     {
         $password = org_openpsa_user_accounthelper::generate_password();

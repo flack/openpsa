@@ -46,23 +46,24 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false, $auto_relocate = true)
     {
-        //quick validation
+        $this->errstr = ""; // start fresh
+
+        // quick validation
         if (empty($person_guid))
         {
-            $this->errstr = "cannot identify user: no guid given";
+            $this->errstr = "Unable to identify user: no guid given";
             return false;
         }
 
         if (empty($username))
         {
-            $this->errstr = "cannot create account: no username given";
+            $this->errstr = "Unable to create account: no username given";
             return false;
         }
 
-        if (   $send_welcome_mail
-            && empty($usermail))
+        if ($send_welcome_mail && empty($usermail))
         {
-            $this->errstr = "cannot deliver welcome mail: no usermail adress given";
+            $this->errstr = "Unable to deliver welcome mail: no usermail adress given";
             return false;
         }
 
@@ -81,7 +82,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $generated_password = false;
         }
 
-        $this->_account = new midcom_core_account($this->_person);
+        $this->_account = midcom_core_account::get($this->_person);
 
         //an account already existing?
         if ($this->_account->get_password())
@@ -94,7 +95,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $success = $this->set_account($username, $password);
         if (!$success)
         {
-            $this->errstr = "couldnt set account, reason: " . $this->errstr;
+            $this->errstr = "Could not set account, reason: " . midcom_connection::get_error_string();
             return false;
         }
 
@@ -120,7 +121,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
                 return false;
             }
-
         }
         else
         {
@@ -152,6 +152,55 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
             return true;
         }
+    }
+
+    /**
+     * Sets username and password for person
+     *
+     * @param string $username Contains username
+     * @param string $new_password Contains the new password to set
+     */
+    public function set_account($username, $new_password)
+    {
+        $this->_account = midcom_core_account::get($this->_person);
+        if (!empty($new_password))
+        {
+            $new_password_encrypted = midcom_connection::prepare_password($new_password);
+
+            //check if the new encrypted password was already used
+            if (    $this->check_password_reuse($new_password_encrypted)
+            && $this->check_password_strength($new_password))
+            {
+                $this->_save_old_password();
+                $this->_account->set_password($new_password);
+            }
+            else
+            {
+                $this->errstr = "password strength too low";
+                return false;
+            }
+        }
+
+        $this->_account->set_username($username);
+
+        // probably username not unique
+        if (!$this->_account->save())
+        {
+            $this->errstr = "Failed to save account, reason: " . midcom_connection::get_error_string();
+            return false;
+        }
+
+        if (!empty($new_password))
+        {
+            // add timestamp of password-change
+            $this->_person->set_parameter("org_openpsa_user_password", "last_change", time());
+        }
+        // sets privilege
+        midcom::get('auth')->request_sudo($this->_component);
+        $this->_person->set_privilege('midgard:owner', "user:" . $this->_person->guid);
+        midcom::get('auth')->drop_sudo();
+
+        return true;
     }
 
     /**
@@ -431,6 +480,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     }
 
     /**
+     * Function to delete account
+     *
+     * @return boolean indicates success
+     */
+    public function delete_account()
+    {
+        $this->_account = midcom_core_account::get($this->_person);
+        return $this->_account->delete();
+    }
+
+    /**
      * Permanently disable an user account
      *
      * @return boolean - indicates success
@@ -450,17 +510,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return $this->_account->save();
     }
 
-     /**
-     * Function to delete account
-     *
-     * @return boolean indicates success
-     */
-    public function delete_account()
-    {
-        $this->_account = midcom_core_account::get($this->_person);
-        return $this->_account->delete();
-    }
-
     /**
      * Reopen a blocked account.
      *
@@ -468,7 +517,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function reopen_account()
     {
-        $account = new midcom_core_account($this->_person);
+        $account = midcom_core_account::get($this->_person);
         if ($account->get_password())
         {
             $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
@@ -477,62 +526,11 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         }
 
         $account->set_password($this->_person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
-        $account->save();
         $this->_person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
     }
 
     /**
-     * Sets username and password for person
-     *
-     * @param string $username Contains username
-     * @param string $new_password Contains the new password to set
-     */
-    public function set_account($username, $new_password)
-    {
-        $this->_account = midcom_core_account::get($this->_person);
-        if (!empty($new_password))
-        {
-            $new_password_encrypted = midcom_connection::prepare_password($new_password);
-
-            //check if the new encrypted password was already used
-            if (    $this->check_password_reuse($new_password_encrypted)
-                 && $this->check_password_strength($new_password))
-            {
-                $this->_save_old_password();
-                $this->_account->set_password($new_password);
-            }
-            else
-            {
-                $this->errstr = "password strength too low";
-                return false;
-            }
-        }
-
-        $this->_account->set_username($username);
-
-        //probably username not unique
-        if (!$this->_account->save())
-        {
-            $this->errstr = "Failed to save account";
-            return false;
-        }
-
-        if (!empty($new_password))
-        {
-            //add timestamp of password-change
-            $this->_person->set_parameter("org_openpsa_user_password", "last_change", time());
-        }
-        //sets privilege
-        midcom::get('auth')->request_sudo($this->_component);
-        $this->_person->set_privilege('midgard:owner', "user:" . $this->_person->guid);
-        midcom::get('auth')->drop_sudo();
-
-        return true;
-    }
-
-    /**
-     * Helper to determine if an account is blocked based on form data
-     * sent by client
+     * Helper to determine if an account is blocked
      */
     public function is_blocked()
     {
