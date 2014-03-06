@@ -49,11 +49,11 @@ class org_openpsa_invoices_handler_rest_billingdataTest extends openpsa_testcase
 
         // check some properties..
         $this->assertEquals(200, $response->code);
-        $this->assertTrue(isset($obj["guid"]));
-        $this->assertTrue(isset($obj["metadata"]));
-        $this->assertEquals($obj["linkGuid"], self::$_person->guid);
-        $this->assertEquals($obj["metadata"]["creator"], self::$_person->guid);
-        $this->assertEquals($obj["metadata"]["deleted"], false);
+        $this->assertTrue(isset($obj->guid));
+        $this->assertTrue(isset($obj->metadata));
+        $this->assertEquals($obj->linkGuid, self::$_person->guid);
+        $this->assertEquals($obj->metadata->creator, self::$_person->guid);
+        $this->assertEquals($obj->metadata->deleted, false);
 
         midcom::get('auth')->drop_sudo();
     }
