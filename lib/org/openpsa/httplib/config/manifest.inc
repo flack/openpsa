@@ -26,10 +26,6 @@
     ),
     'dependencies' => array
     (
-        'HTTP_Request2' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),
