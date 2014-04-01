@@ -43,7 +43,9 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         // test with password given
         $person = self::create_class_object('midcom_db_person', array());
-        $password = org_openpsa_user_accounthelper::generate_password();
+        $helper = new org_openpsa_user_accounthelper();
+        $password = $helper->generate_safe_password();
+
         $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "bob@nowhere.cc", $password, false, false), $helper->errstr);
 
         midcom::get('auth')->drop_sudo();
