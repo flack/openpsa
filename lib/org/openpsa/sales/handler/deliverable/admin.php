@@ -140,13 +140,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     {
         $fields =& $this->_schemadb['subscription']->fields;
 
-        if (   (   $this->_deliverable->continuous
-                || $this->_deliverable->end > time())
-            && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED)
-        {
-            $fields['next_cycle']['hidden'] = false;
-        }
-
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
@@ -154,8 +147,15 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         if (sizeof($at_entries) != 1)
         {
+            if (   (   $this->_deliverable->continuous
+                    || $this->_deliverable->end > time())
+                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED)
+            {
+                $fields['next_cycle']['hidden'] = false;
+            }
             return;
         }
+        $fields['next_cycle']['hidden'] = false;
 
         $entry = $at_entries[0];
 
