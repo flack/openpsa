@@ -58,11 +58,43 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
 
     private function _get_data()
     {
+        //different results according to different extention versions
+        if (extension_loaded('midgard'))
+        {
+            return '{"metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false},"guid":"","sitegroup":1,"action":"","id":0,"style":33,"sid":0,"lang":0,"value":"test","name":"Test"}';
+        }
         return '{"guid":"","metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false},"action":"","id":0,"name":"Test","style":33,"value":"test"}';
     }
 
     private function _get_data_array()
     {
+        //different results according to different extention versions
+        if (extension_loaded('midgard'))
+        {
+            return array
+            (
+                'metadata' => array
+                (
+                        'guid' => '',
+                        'created' => 0,
+                        'hidden' => false,
+                        'deleted' => false,
+                        'isapproved' => false,
+                        'islocked' => false
+                ),
+                'guid' => '',
+                'sitegroup' => 1,
+                'action' => '',
+                'id' => 0,
+                'style' => 33,
+                'sid' => 0,
+                'lang' => 0,
+                'value' => 'test',
+                'name' => 'Test',
+            );
+            
+        }
+        
         return array
         (
             'guid' => '',
