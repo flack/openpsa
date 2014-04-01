@@ -268,7 +268,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             $args = array
             (
                 'deliverable' => $this->_deliverable->guid,
-                'cycle'       => 1,
+                'cycle'       => 2, //TODO: We might want to calculate the correct cycle number from start and unit at some point
             );
             $at_entry = new midcom_services_at_entry_dba();
             $at_entry->start = $next_cycle;
