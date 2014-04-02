@@ -22,7 +22,7 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         $data = $mapper->array2data($arr);
 
         $expected = json_encode(array("message" => $arr["message"], "code" => $arr["code"], "object" => $this->_get_data_array()));
-        $this->assertEquals($expected, $data);
+        $this->assertJsonStringEqualsJsonString($expected, $data);
     }
 
     public function test_data2array()
@@ -33,7 +33,8 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         $arr = $mapper->data2array($data);
 
         $expected = $this->_get_data_array();
-        $this->assertEquals($expected, $arr);
+        // assert arrays are same.. array_diff should be empty
+        $this->assertEmpty(array_merge(array_diff($expected, $arr), array_diff($arr, $expected)));
     }
 
     public function test_object2data()
@@ -44,7 +45,7 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         $data = $mapper->object2data($object);
 
         $expected = $this->_get_data();
-        $this->assertEquals($expected, $data);
+        $this->assertJsonStringEqualsJsonString($expected, $data);
     }
 
     private function _get_object()
@@ -58,61 +59,43 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
 
     private function _get_data()
     {
-        //different results according to different extention versions
+        $data = '{"id":0,"name":"Test","value":"test","guid":"","style":33,"action":"",';
         if (extension_loaded('midgard'))
         {
-            return '{"metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false},"guid":"","sitegroup":1,"action":"","id":0,"style":33,"sid":0,"lang":0,"value":"test","name":"Test"}';
+            $data .= '"sitegroup":1,"sid":0,"lang":0,';
         }
-        return '{"guid":"","metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false},"action":"","id":0,"name":"Test","style":33,"value":"test"}';
+        $data .= '"metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false}}';
+
+        return $data;
     }
 
     private function _get_data_array()
     {
-        //different results according to different extention versions
-        if (extension_loaded('midgard'))
-        {
-            return array
-            (
-                'metadata' => array
-                (
-                        'guid' => '',
-                        'created' => 0,
-                        'hidden' => false,
-                        'deleted' => false,
-                        'isapproved' => false,
-                        'islocked' => false
-                ),
-                'guid' => '',
-                'sitegroup' => 1,
-                'action' => '',
-                'id' => 0,
-                'style' => 33,
-                'sid' => 0,
-                'lang' => 0,
-                'value' => 'test',
-                'name' => 'Test',
-            );
-            
-        }
-        
-        return array
-        (
+        $data = array(
             'guid' => '',
+            'action' => '',
+            'id' => 0,
+            'name' => 'Test',
+            'style' => 33,
+            'value' => 'test',
             'metadata' => array
-            (
+           (
                 'guid' => '',
                 'created' => 0,
                 'hidden' => false,
                 'deleted' => false,
                 'isapproved' => false,
                 'islocked' => false
-            ),
-            'action' => '',
-            'id' => 0,
-            'name' => 'Test',
-            'style' => 33,
-            'value' => 'test'
+           )
         );
+        // different results according to different extention versions
+        if (extension_loaded('midgard'))
+        {
+            $data['sitegroup'] = 1;
+            $data['sid'] = 0;
+            $data['lang'] = 0;
+        }
+        return $data;
     }
 }
 ?>
