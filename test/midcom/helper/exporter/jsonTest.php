@@ -33,8 +33,8 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         $arr = $mapper->data2array($data);
 
         $expected = $this->_get_data_array();
-        // assert arrays are same.. array_diff should be empty
-        $this->assertEmpty(array_merge(array_diff($expected, $arr), array_diff($arr, $expected)));
+        // assert arrays are equal
+        $this->assertEquals($expected, $arr);
     }
 
     public function test_object2data()
