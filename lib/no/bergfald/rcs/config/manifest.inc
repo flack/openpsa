@@ -32,10 +32,6 @@
     ),
     'dependencies' => array
     (
-        'Horde_Text_Diff' => array
-        (
-            'channel' => 'pear.horde.org',
-        ),
         'midcom' => array(),
     ),
 ),
