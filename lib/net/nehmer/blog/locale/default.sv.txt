@@ -102,10 +102,6 @@ Nyhets inlägg visnings konfiguration
 Ändra Artikel
 ---STRINGEND
 
----STRING enable blogging apis
-Slå på fjärrändring via MetaWebLog API
----STRINGEND
-
 ---STRING enable date filters get
 Slå på datum filer (GET parameter)
 ---STRINGEND

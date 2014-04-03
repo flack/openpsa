@@ -17,17 +17,10 @@
             "homepage": "http://bergie.iki.fi/"
         }
     ],
-    "repositories": [
-        {
-            "type": "pear",
-            "url": "http://pear.php.net"
-        }
-    ],
     "require": {
         "php": ">=5.3.0",
         "ext-mbstring": "*",
         "ext-iconv": "*",
-        "pear-pear/XML_RPC": "*",
         "kriswallsmith/buzz": ">=0.10",
         "phpspec/php-diff": "1.0.*",
         "midgard/midgardmvc-helper-urlize": ">=1.1",

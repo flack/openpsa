@@ -65,11 +65,7 @@
     'handler' => array('net_nehmer_blog_handler_feed', 'feed'),
     'fixed_args' => 'atom.xml',
 ),
-'feed-rsd' => Array
-(
-    'handler' => array('net_nehmer_blog_handler_api_metaweblog', 'rsd'),
-    'fixed_args' => 'rsd.xml',
-),
+
 // The Archive
 'archive-welcome' => Array
 (
@@ -137,11 +133,6 @@
 (
     'handler' => array('net_nehmer_blog_handler_configuration', 'recreate'),
     'fixed_args' => array('config', 'recreate'),
-),
-'api-metaweblog' => Array
-(
-    'handler' => array('net_nehmer_blog_handler_api_metaweblog', 'server'),
-    'fixed_args' => array('api', 'metaweblog'),
 ),
 
 // View article (might be changed by config setting view_in_url)

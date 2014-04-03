@@ -134,10 +134,6 @@ News item display configuration
 Edit Article
 ---STRINGEND
 
----STRING enable blogging apis
-Enable remote editing via MetaWebLog API
----STRINGEND
-
 ---STRING enable date filters get
 Enable date filters (GET parameter)
 ---STRINGEND
