@@ -118,10 +118,6 @@ Ustawienia wyświetlania
 Edytuj
 ---STRINGEND
 
----STRING enable blogging apis
-Włącz zdalną edycje poprzez MetaWebLog
----STRINGEND
-
 ---STRING enable date filters get
 Włącz filtry daty jako parametry GET
 ---STRINGEND

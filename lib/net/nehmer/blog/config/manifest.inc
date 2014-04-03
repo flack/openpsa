@@ -41,10 +41,5 @@
         'org.openpsa.mail' => array(),
         'org.openpsa.qbpager' => array(),
         'net.nemein.rss' => array(),
-        'XML_RPC' => array
-        (
-            'channel' => 'pear.php.net',
-            'optional' => 'yes'
-        ),
     ),
 ),

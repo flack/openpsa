@@ -5,9 +5,6 @@
 'state' => 'devel',
 'privileges' => array(),
 'class_mapping' => array(),
-/**
- * This is used by the PEAR packaging.
- */
 'package.xml' => array
 (
     'summary' => 'MidCOM nomodule handler',

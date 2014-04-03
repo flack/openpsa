@@ -56,9 +56,6 @@
 'categories_custom_enable' => true,
 'categories_in_navigation' => false,
 
-'api_metaweblog_enable' => true,
-'api_metaweblog_schema' => 'default',
-
 'rss_subscription_enable' => false,
 'link_to_external_url' => false,
 
