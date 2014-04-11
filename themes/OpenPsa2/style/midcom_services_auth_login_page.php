@@ -25,6 +25,7 @@ else
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/login.css', 'all');
+    $head->add_jscript('var MIDCOM_PAGE_PREFIX = "' . midcom_connection::get_url('self') . '";');
     $head->print_head_elements();
 ?>
 
@@ -72,7 +73,7 @@ else
   </div>
  </div>
 <script type="text/javascript">
-document.cookie = "cookietest=success;";
+document.cookie = "cookietest=success;path=" + MIDCOM_PAGE_PREFIX;
 if (document.cookie.indexOf("cookietest=") == -1)
 {
     document.getElementById('cookie_warning').style.display = 'block';
