@@ -10,7 +10,7 @@ use Buzz\Browser;
 use Buzz\Client\FileGetContents;
 use Buzz\Message\Request;
 use Buzz\Message\RequestInterface;
-use Buzz\Message\Request\Form\FormRequest;
+use Buzz\Message\Form\FormRequest;
 use Buzz\Util\Url;
 
 /**
@@ -152,7 +152,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     function post($uri, &$variables, $headers = null)
     {
         $browser = $this->_get_browser();
-        $request = $this->_get_request(RequestInterface::METHOD_POST, $url, $headers, $this->basicauth['user'], $this->basicauth['password']);
+        $request = $this->_get_request(RequestInterface::METHOD_POST, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
 
         // Handle the variables to POST
         if (   !is_array($variables)
