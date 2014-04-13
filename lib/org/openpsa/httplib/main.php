@@ -57,7 +57,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
                     $client->setTimeout($value);
                     break;
                 case 'ssl_verify_peer':
-                    $client->setVerfiyPeer($value);
+                    $client->setVerifyPeer($value);
                     break;
                 case 'follow_redirects':
                     if ($value)
