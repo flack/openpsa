@@ -1,5 +1,5 @@
-// Match /list/<status>
-'list_status' => array
+// Match /list/<state>
+'list_state' => array
 (
     'handler' => array('org_openpsa_sales_handler_list', 'list'),
     'fixed_args' => array('list'),

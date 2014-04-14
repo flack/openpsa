@@ -374,7 +374,7 @@ Einmalige Bestellung
 Arbeit begonnen
 ---STRINGEND
 
----STRING status
+---STRING state
 Status
 ---STRINGEND
 

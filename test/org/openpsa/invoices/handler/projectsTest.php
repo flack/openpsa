@@ -41,7 +41,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         (
             'salesproject' => $salesproject->id,
             'price' => 100,
-            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED,
+            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED,
             'invoiceByActualUnits' => false
         );
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
@@ -80,7 +80,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $this->assertEquals($deliverable->id, $item->deliverable);
 
         $deliverable->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED, $deliverable->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, $deliverable->state);
 
         midcom::get('auth')->drop_sudo();
     }

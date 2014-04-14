@@ -149,7 +149,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         {
             if (   (   $this->_deliverable->continuous
                     || $this->_deliverable->end > time())
-                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED)
+                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED)
             {
                 $fields['next_cycle']['hidden'] = false;
             }

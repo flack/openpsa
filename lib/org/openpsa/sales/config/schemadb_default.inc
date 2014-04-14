@@ -32,21 +32,21 @@
             ),
             'widget' => 'textarea',
         ),
-        'status' => array
+        'state' => array
         (
-            'title' => 'status',
-            'storage' => 'status',
+            'title' => 'state',
+            'storage' => 'state',
             'type' => 'select',
             'type_config' => array
             (
                 'options' => array
                 (
-                    org_openpsa_sales_salesproject_dba::STATUS_ACTIVE    => 'active',
-                    org_openpsa_sales_salesproject_dba::STATUS_CANCELED  => 'canceled',
-                    org_openpsa_sales_salesproject_dba::STATUS_LOST      => 'lost',
-                    org_openpsa_sales_salesproject_dba::STATUS_WON       => 'won',
-                    org_openpsa_sales_salesproject_dba::STATUS_DELIVERED => 'delivered',
-                    org_openpsa_sales_salesproject_dba::STATUS_INVOICED  => 'invoiced',
+                    org_openpsa_sales_salesproject_dba::STATE_ACTIVE    => 'active',
+                    org_openpsa_sales_salesproject_dba::STATE_CANCELED  => 'canceled',
+                    org_openpsa_sales_salesproject_dba::STATE_LOST      => 'lost',
+                    org_openpsa_sales_salesproject_dba::STATE_WON       => 'won',
+                    org_openpsa_sales_salesproject_dba::STATE_DELIVERED => 'delivered',
+                    org_openpsa_sales_salesproject_dba::STATE_INVOICED  => 'invoiced',
                 ),
             ),
             'widget' => 'select',

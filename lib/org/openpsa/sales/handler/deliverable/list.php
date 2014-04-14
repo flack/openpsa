@@ -42,8 +42,8 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_salesproject'] = $salesproject->title;
         $entry['salesproject'] = $salesproject_link;
         $entry['unit'] = $unit_options[$deliverable->unit];
-        $entry['index_status'] = $deliverable->state;
-        $entry['status'] = $this->_l10n->get($deliverable->get_status());
+        $entry['index_state'] = $deliverable->state;
+        $entry['state'] = $this->_l10n->get($deliverable->get_state());
         if ($deliverable->invoiceByActualUnits)
         {
             $entry['type'] = $this->_l10n->get('invoice by actual units');

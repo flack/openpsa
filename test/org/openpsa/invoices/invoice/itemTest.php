@@ -47,7 +47,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
         self::$_deliverable->refresh();
         $this->assertEquals(self::$_invoice->sum, 250);
         $this->assertEquals(self::$_deliverable->invoiced, 250);
-        $this->assertEquals(self::$_deliverable->state, org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED);
+        $this->assertEquals(self::$_deliverable->state, org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED);
 
         $item->units = 3.5;
         $stat = $item->update();

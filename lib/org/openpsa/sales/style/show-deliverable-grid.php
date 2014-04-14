@@ -7,7 +7,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <?php
 $grid->set_column('title', $data['l10n']->get('title'), 'classes: "ui-ellipsis"', 'string');
 $grid->set_column('salesproject', $data['l10n']->get('salesproject'), 'width: 100, classes: "ui-ellipsis"', 'string');
-$grid->set_column('status', $data['l10n']->get('status'), 'width: 60', 'number');
+$grid->set_column('state', $data['l10n']->get('state'), 'width: 60', 'number');
 if ($data['product']->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
 {
     $grid->set_column('unit', $data['l10n']->get('invoicing period'), 'width: 60');

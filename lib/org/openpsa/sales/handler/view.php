@@ -167,9 +167,9 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $qb->add_constraint('up', '=', 0);
 
-        if ($this->_salesproject->status != org_openpsa_sales_salesproject_dba::STATUS_LOST)
+        if ($this->_salesproject->state != org_openpsa_sales_salesproject_dba::STATE_LOST)
         {
-            $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
+            $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         }
         $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
@@ -237,18 +237,18 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     {
         $toolbar = '';
 
-        if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED)
+        if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
         {
             //new, proposed
             $toolbar .= "<input type=\"submit\" class=\"order\" name=\"order\" value=\"" . $this->_l10n->get('mark ordered') . "\" />\n";
             $toolbar .= "<input type=\"submit\" class=\"decline\" name=\"decline\" value=\"" . $this->_l10n->get('mark declined') . "\" />\n";
         }
-        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED)
+        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
         {
             //declined, nothing to do...
             return $toolbar;
         }
-        else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
+        else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED)
         {
             //started, ordered
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
@@ -265,12 +265,12 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                     $toolbar .= "</p>\n";
                 }
             }
-            else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
+            else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
             {
                 $toolbar .= "<input type=\"submit\" class=\"deliver\" name=\"deliver\" value=\"" . $this->_l10n->get('mark delivered') . "\" />\n";
             }
         }
-        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
+        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
         {
             //delivered, invoiced
             if ($deliverable->invoiced > 0)

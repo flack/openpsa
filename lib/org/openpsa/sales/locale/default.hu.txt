@@ -242,7 +242,7 @@ Egyszeri szállítás
 Munka kezdete
 ---STRINGEND
 
----STRING status
+---STRING state
 Állapot
 ---STRINGEND
 

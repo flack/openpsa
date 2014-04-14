@@ -377,7 +377,7 @@ Single delivery
 Work started
 ---STRINGEND
 
----STRING status
+---STRING state
 Status
 ---STRINGEND
 

@@ -100,7 +100,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $qb->add_constraint('invoiceableHours', '>', 0);
             $qb->begin_group('AND');
                 $qb->add_constraint('agreement.invoiceByActualUnits', '=', false);
-                $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED);
+                $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED);
                 $qb->add_constraint('agreement.price', '>', 0);
             $qb->end_group();
         $qb->end_group();

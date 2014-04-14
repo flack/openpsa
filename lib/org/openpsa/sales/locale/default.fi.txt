@@ -278,7 +278,7 @@ Kertatoimitus
 Työ aloitettu
 ---STRINGEND
 
----STRING status
+---STRING state
 Tila
 ---STRINGEND
 
