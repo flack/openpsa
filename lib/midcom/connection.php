@@ -66,14 +66,13 @@ class midcom_connection
 
             if (method_exists($midgard, 'enable_workspace'))
             {
-                var_dump("disable workspace feature");
                 $midgard->enable_workspace(false);
             }
 
             // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
             // see also https://github.com/midgardproject/midgard-php5/issues/50
             if (   function_exists('gc_enabled')
-            && gc_enabled())
+                && gc_enabled())
             {
                 gc_disable();
             }
