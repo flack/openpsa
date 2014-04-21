@@ -484,7 +484,7 @@ class midcom_services_dbclassloader
      * Simple helper to check whether we are dealing with a MidCOM Database object
      * or a subclass thereof.
      *
-     * @param object $object The object to check
+     * @param object|string $object The object (or classname) to check
      * @return boolean true if this is a MidCOM Database object, false otherwise.
      */
     function is_midcom_db_object($object)
