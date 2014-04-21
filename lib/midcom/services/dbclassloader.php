@@ -210,15 +210,19 @@ class midcom_services_dbclassloader
         // Sometimes we might get class string instead of an object
         if (is_string($object))
         {
-            $classname = $object;
-            $object = new $classname();
+            $object = new $object;
         }
         if ($this->is_midcom_db_object($object))
         {
             return true;
         }
 
-        // First, try the quick way
+        if (!extension_loaded('midgard'))
+        {
+            return is_a($object, 'midgard_object');
+        }
+
+        // Midgard1 compat, the quick way
         if (in_array(get_class($object), midcom_connection::get_schema_types()))
         {
             return true;
@@ -319,10 +323,10 @@ class midcom_services_dbclassloader
     /**
      * Get a MidCOM DB class name for a MgdSchema Object.
      *
-     * @param object &$object The object to check
+     * @param string|object $object The object (or classname) to check
      * @return string The corresponding MidCOM DB class name, false otherwise.
      */
-    function get_midcom_class_name_for_mgdschema_object(&$object)
+    function get_midcom_class_name_for_mgdschema_object($object)
     {
         static $dba_classes_by_mgdschema = array();
 
@@ -337,7 +341,7 @@ class midcom_services_dbclassloader
         }
         else
         {
-            debug_add("{$object} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
+            debug_print_r("Invalid input provided", $object, MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -480,10 +484,10 @@ class midcom_services_dbclassloader
      * Simple helper to check whether we are dealing with a MidCOM Database object
      * or a subclass thereof.
      *
-     * @param object &$object The object to check
+     * @param object $object The object to check
      * @return boolean true if this is a MidCOM Database object, false otherwise.
      */
-    function is_midcom_db_object(&$object)
+    function is_midcom_db_object($object)
     {
         if (is_object($object))
         {
@@ -492,8 +496,7 @@ class midcom_services_dbclassloader
         else if (   is_string($object)
                  && class_exists($object))
         {
-            $dummy = new $object();
-            return is_a($dummy, 'midcom_core_dbaobject');
+            return $this->is_midcom_db_object(new $object);
         }
 
         return false;
@@ -501,17 +504,12 @@ class midcom_services_dbclassloader
 
     function get_component_classes($component)
     {
-        $classes = array();
-
         if ($component == 'midcom')
         {
-            $classes = $this->get_midgard_classes();
-            return $classes;
+            return $this->get_midgard_classes();
         }
 
-        $classes = midcom::get('componentloader')->manifests[$component]->class_mapping;
-
-        return $classes;
+        return midcom::get('componentloader')->manifests[$component]->class_mapping;
     }
 
     function get_midgard_classes()
