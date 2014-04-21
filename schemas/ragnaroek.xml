@@ -254,7 +254,7 @@
         <property name="type"     type="integer" index="yes">
             <description>Type of the event</description>
         </property>
-        <property name="extra"    type="string">
+        <property name="extra"    type="text">
             <description>Additional information about the event</description>
         </property>
         <property name="busy"     type="boolean">

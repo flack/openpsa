@@ -47,7 +47,7 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
         $this->assertEquals($end, $event->end);
 
         $stat = $event->delete();
-        $this->assertTrue($stat);
+        $this->assertTrue($stat, midcom_connection::get_error_string());
 
         midcom::get('auth')->drop_sudo();
      }

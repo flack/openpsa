@@ -118,9 +118,9 @@ class midgard_admin_asgard_schemadbTest extends openpsa_testcase
             ),
             array
             (
-                new midcom_db_event,
+                new org_openpsa_calendar_event_dba,
                 'start',
-                'extra',
+                'orgOpenpsaOwnerWg',
                 -1
             ),
             array
