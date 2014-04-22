@@ -223,7 +223,7 @@ EOT;
      *
      * @return string empty or containing ",imagepopup"
      */
-    function _get_imagepopup_jsstring()
+    private function _get_imagepopup_jsstring()
     {
         if ($this->_type->storage !== null)
         {

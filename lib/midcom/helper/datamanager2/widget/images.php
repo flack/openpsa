@@ -130,7 +130,7 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
         midcom::get('head')->add_jscript($this->_get_filename_validation_script());
     }
 
-    function _get_filename_validation_script()
+    private function _get_filename_validation_script()
     {
         return <<<END
 function midcom_helper_dm2_widget_images_check(evt, id) {
