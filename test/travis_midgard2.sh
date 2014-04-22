@@ -29,5 +29,5 @@ else
     sudo ${COMPOSER} require openpsa/midgard-portable:dev-master
 fi
 
-${COMPOSER} install
-
+sudo ${COMPOSER} install
+sudo chmod -R a+w var/
