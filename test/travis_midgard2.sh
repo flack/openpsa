@@ -30,4 +30,4 @@ else
 fi
 
 sudo ${COMPOSER} install
-sudo chmod -R a+w var/
+sudo chown -R travis var/
