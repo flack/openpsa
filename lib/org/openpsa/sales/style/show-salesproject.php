@@ -24,14 +24,14 @@ $salesproject = $data['salesproject'];
      <td>&(view['code']);</td>
     </tr>
     <tr>
-     <th><?php echo $data['l10n']->get('status'); ?></th>
-     <td>&(view['status']);</td>
+     <th><?php echo $data['l10n']->get('state'); ?></th>
+     <td>&(view['state']);</td>
     </tr>
     <tr>
      <th><?php echo $data['l10n_midcom']->get('description'); ?></th>
      <td>&(view['description']:h);</td>
     </tr>
-    <?php if ($salesproject->status == org_openpsa_sales_salesproject_dba::STATUS_ACTIVE)
+    <?php if ($salesproject->state == org_openpsa_sales_salesproject_dba::STATE_ACTIVE)
     { ?>
         <tr>
          <th><?php echo $data['l10n']->get('estimated closing date'); ?></th>

@@ -39,7 +39,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
         // List sales projects
         $salesproject_mc = org_openpsa_sales_salesproject_dba::new_collector('metadata.deleted', false);
-        $salesproject_mc->add_constraint('status', '<>', org_openpsa_sales_salesproject_dba::STATUS_LOST);
+        $salesproject_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
 
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
@@ -53,7 +53,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
         // List deliverables related to the sales projects
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
-        $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
+        $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         $deliverable_mc->add_constraint('salesproject', 'IN', $salesprojects);
         $deliverables = $deliverable_mc->get_values('id');
 

@@ -21,7 +21,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $person = new midcom_db_person();
         $person->_use_rcs = false;
         $person->_use_activitystream = false;
-        $password = substr('p_' . time(), 0, 11);
+        $person->extra = substr('p_' . time(), 0, 11);
         $username = uniqid(__CLASS__ . '-user-');
 
         midcom::get('auth')->request_sudo('midcom.core');
@@ -31,13 +31,13 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
 
         $account = midcom_core_account::get($person);
-        $account->set_password($password);
+        $account->set_password($person->extra);
         $account->set_username($username);
         $account->save();
         midcom::get('auth')->drop_sudo();
         if ($login)
         {
-            if (!midcom::get('auth')->login($username, $password))
+            if (!midcom::get('auth')->login($username, $person->extra))
             {
                 throw new Exception('Login for user ' . $username . ' failed');
             }

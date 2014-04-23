@@ -251,9 +251,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
 
     /**
-     * Get errormessage from mail class
-     *
-     * Handles also the PEAR errors from libraries used.
+     * Get error message from mail class
      */
     function get_error_message()
     {

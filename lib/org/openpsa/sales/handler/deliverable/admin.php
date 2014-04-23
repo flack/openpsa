@@ -138,6 +138,8 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     private function _modify_schema()
     {
+        $fields =& $this->_schemadb['subscription']->fields;
+
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
@@ -145,13 +147,18 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         if (sizeof($at_entries) != 1)
         {
+            if (   (   $this->_deliverable->continuous
+                    || $this->_deliverable->end > time())
+                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED)
+            {
+                $fields['next_cycle']['hidden'] = false;
+            }
             return;
         }
+        $fields['next_cycle']['hidden'] = false;
 
         $entry = $at_entries[0];
-        $fields =& $this->_schemadb['subscription']->fields;
 
-        $fields['next_cycle']['hidden'] = false;
         $fields['next_cycle']['default'] = array('next_cycle_date' => date('Y-m-d', $entry->start));
         $fields['at_entry']['default'] = $entry->id;
     }
@@ -254,6 +261,26 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $entry->start = $next_cycle;
                 $entry->update();
             }
+        }
+        else if ($next_cycle > 0)
+        {
+            //TODO: This code is copied from scheduler, and should be merged into a separate method at some point
+            $args = array
+            (
+                'deliverable' => $this->_deliverable->guid,
+                'cycle'       => 2, //TODO: We might want to calculate the correct cycle number from start and unit at some point
+            );
+            $at_entry = new midcom_services_at_entry_dba();
+            $at_entry->start = $next_cycle;
+            $at_entry->component = $this->_component;
+            $at_entry->method = 'new_subscription_cycle';
+            $at_entry->arguments = $args;
+
+            if (!$at_entry->create())
+            {
+                throw new midcom_error('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string());
+            }
+            org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $this->_deliverable, $this->_component);
         }
     }
 

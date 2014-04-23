@@ -17,7 +17,7 @@
         <property name="code" type="string"/>
         <property name="title" type="string"/>
         <property name="description" type="text"/>
-        <property name="status" field="salesprojectStatus" type="integer"/>
+        <property name="state" field="salesprojectStatus" type="integer"/>
 
         <property name="customer" link="org_openpsa_organization:id" type="unsigned integer"/>
         <property name="customerContact" link="midgard_person:id" type="unsigned integer"/>

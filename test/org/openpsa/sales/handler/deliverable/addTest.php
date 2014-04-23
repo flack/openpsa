@@ -30,7 +30,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $product_attributes = array
         (
             'productGroup' => $product_group->id,
-            'name' => 'TEST_' . __CLASS__ . '_' . time(),
+            'code' => 'TEST_' . __CLASS__ . '_' . time(),
         );
         $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
 

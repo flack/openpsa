@@ -83,7 +83,7 @@ implements midcom_services_permalinks_resolver
         $qb->end_group();
 
         //Target sales project is active
-        $qb->add_constraint('status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
+        $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
 
         //Each event participant is either manager or member (resource/contact) in task
         $qb->begin_group('OR');
@@ -121,7 +121,7 @@ implements midcom_services_permalinks_resolver
         if (!empty($guids))
         {
             $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-            $qb->add_constraint('status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
+            $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
             $qb->add_constraint('guid', 'IN', $guids);
             $qbret = $qb->execute();
             foreach ($qbret as $salesproject)
@@ -138,7 +138,7 @@ implements midcom_services_permalinks_resolver
         }
         $qb2 = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb2->add_constraint('owner', '=', $object->id);
-        $qb2->add_constraint('status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
+        $qb2->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
         if (!empty($seen_sp))
         {
             $qb2->add_constraint('id', 'NOT IN', array_keys($seen_sp));

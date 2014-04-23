@@ -59,7 +59,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED, $deliverable->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
 
         $_POST = array
         (
@@ -68,7 +68,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED, $deliverable->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED, $deliverable->state);
 
         $_POST = array
         (
@@ -77,7 +77,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED, $deliverable->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, $deliverable->state);
 
         midcom::get('auth')->drop_sudo();
     }
@@ -113,7 +113,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED, $deliverable->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
 
         $mc = new org_openpsa_relatedto_collector($deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'DESC');

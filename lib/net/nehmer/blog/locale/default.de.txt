@@ -118,10 +118,6 @@ Konfiguration der Anzeige
 Artikel bearbeiten
 ---STRINGEND
 
----STRING enable blogging apis
-Fernzugriff über die MetaWebLog API aktivieren
----STRINGEND
-
 ---STRING enable date filters get
 Datumsfilter via HTTP GET aktivieren
 ---STRINGEND

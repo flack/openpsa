@@ -34,9 +34,9 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
-        if ($handler_id == 'list_status')
+        if ($handler_id == 'list_state')
         {
-            $qb = $this->_add_status_constraint($args[0], $qb);
+            $qb = $this->_add_state_constraint($args[0], $qb);
             $data['mode'] = $args[0];
             $data['list_title'] = $this->_l10n->get('salesprojects ' . $args[0]);
         }
@@ -85,15 +85,15 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         $this->add_breadcrumb("", $data['list_title']);
     }
 
-    private function _add_status_constraint($status, midcom_core_query $qb)
+    private function _add_state_constraint($state, midcom_core_query $qb)
     {
-        $statuscode = 'org_openpsa_sales_salesproject_dba::STATUS_' . strtoupper($status);
-        if (!defined($statuscode))
+        $code = 'org_openpsa_sales_salesproject_dba::STATE_' . strtoupper($state);
+        if (!defined($code))
         {
-            throw new midcom_error('Unknown list type ' . $status);
+            throw new midcom_error('Unknown list type ' . $state);
         }
 
-        $qb->add_constraint('status', '=', constant($statuscode));
+        $qb->add_constraint('state', '=', constant($code));
         return $qb;
     }
 

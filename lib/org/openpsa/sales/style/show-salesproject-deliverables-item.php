@@ -62,7 +62,7 @@ $price = org_openpsa_helpers::format_number($data['deliverable_object']->price);
         if (   $data['projects_url']
             && $data['product']
             && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE
-            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
+            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
         {
             midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
         }

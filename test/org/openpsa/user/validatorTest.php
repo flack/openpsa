@@ -31,7 +31,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $fields = array(
             "person" => $person->guid,
             "username" => $account->get_username(),
-            "current_password" => $account->get_password()
+            "current_password" => $person->extra
         );
         $this->assertTrue($val->validate_edit_form($fields));
 

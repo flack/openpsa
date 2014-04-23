@@ -145,7 +145,7 @@ class midcom_services__sessioning
      * @param mixed $key        The key to query.
      * @return mixed            The session key's data value, or null on failure.
      */
-    function _get_helper ($domain, $key)
+    private function _get_helper ($domain, $key)
     {
         return unserialize($_SESSION["midcom_session_data"][$domain][$key]);
     }

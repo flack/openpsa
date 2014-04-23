@@ -520,7 +520,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * @return string The imploded data string.
      */
-    function _get_imploded_options()
+    private function _get_imploded_options()
     {
         $glue = $this->multiple_separator;
 

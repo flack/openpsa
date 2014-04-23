@@ -122,10 +122,6 @@ Uutisten näyttöasetukset
 Muokkaa artikkelia
 ---STRINGEND
 
----STRING enable blogging apis
-Salli artikkelien etähallinta MetaWebLog API:lla
----STRINGEND
-
 ---STRING enable date filters get
 Salli päivämäärällä suodatus (GET-parametri)
 ---STRINGEND

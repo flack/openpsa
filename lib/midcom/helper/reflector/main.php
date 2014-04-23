@@ -40,7 +40,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         // Resolve root class name
         $this->mgdschema_class = self::resolve_baseclass($src);
-
         // Could not resolve root class name
         if (empty($this->mgdschema_class))
         {
@@ -183,7 +182,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
 
-        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($use_classname);
 
         if (!empty($midcom_dba_classname))
         {
@@ -742,17 +741,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Check for decorators first
-        $parent_class = false;
-        if (   isset($class_instance->__object)
-            && is_object($class_instance->__object))
+        if (!empty($class_instance->__mgdschema_class_name__))
         {
-            // Decorated object instance
-            $parent_class = get_class($class_instance->__object);
-        }
-        else if (!empty($class_instance->__mgdschema_class_name__))
-        {
-            // Decorator without object
             $parent_class = $class_instance->__mgdschema_class_name__;
+            if (   !empty($class_instance->__object)
+                && !$class_instance->__object instanceof $class_instance->__mgdschema_class_name__)
+            {
+                $parent_class = get_class($class_instance->__object);
+                debug_add('mgdschema object class ' . $parent_class . ' is not an instance of ' . $class_instance->__mgdschema_class_name__, MIDCOM_LOG_INFO);
+            }
         }
         else
         {

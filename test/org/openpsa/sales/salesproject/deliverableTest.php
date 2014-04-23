@@ -129,11 +129,11 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'deliverable' => array
                     (
                         'plannedUnits' => 10,
-                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     ),
                     'salesproject' => array
                     (
-                        'status' => org_openpsa_sales_salesproject_dba::STATUS_WON
+                        'state' => org_openpsa_sales_salesproject_dba::STATE_WON
                     )
                 ),
             ),
@@ -144,7 +144,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'product' => array(),
                     'deliverable' => array
                     (
-                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     )
                 ),
                 false,
@@ -174,11 +174,11 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                         'plannedUnits' => 10,
                         'cost' => 0,
                         'units' => 0,
-                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     ),
                     'salesproject' => array
                     (
-                        'status' => org_openpsa_sales_salesproject_dba::STATUS_WON
+                        'state' => org_openpsa_sales_salesproject_dba::STATE_WON
                     )
                 ),
             ),
@@ -203,23 +203,23 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertTrue($stat);
 
         $this->_salesproject->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_LOST, $this->_salesproject->status);
-        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED, $deliverable->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, $this->_salesproject->state);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED, $deliverable->state);
 
         $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
         $deliverable3 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
-        $this->_salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_ACTIVE;
+        $this->_salesproject->state = org_openpsa_sales_salesproject_dba::STATE_ACTIVE;
         $this->_salesproject->update();
 
         $this->assertTrue($deliverable2->decline());
         $this->assertFalse($deliverable2->decline());
 
         $this->_salesproject->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_ACTIVE, $this->_salesproject->status);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_ACTIVE, $this->_salesproject->state);
 
         $this->assertTrue($deliverable3->decline());
         $this->_salesproject->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_LOST, $this->_salesproject->status);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, $this->_salesproject->state);
         midcom::get('auth')->drop_sudo();
     }
 

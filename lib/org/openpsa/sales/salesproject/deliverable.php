@@ -16,13 +16,13 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject_deliverable';
 
-    const STATUS_NEW = 100;
-    const STATUS_PROPOSED = 200;
-    const STATUS_DECLINED = 300;
-    const STATUS_ORDERED = 400;
-    const STATUS_STARTED = 450;
-    const STATUS_DELIVERED = 500;
-    const STATUS_INVOICED = 600;
+    const STATE_NEW = 100;
+    const STATE_PROPOSED = 200;
+    const STATE_DECLINED = 300;
+    const STATE_ORDERED = 400;
+    const STATE_STARTED = 450;
+    const STATE_DELIVERED = 500;
+    const STATE_INVOICED = 600;
 
     /**
      * Combination property containing HTML depiction of the deliverable
@@ -113,22 +113,22 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_deliverable_html .= "</span>\n";
     }
 
-    function get_status()
+    function get_state()
     {
         switch ($this->state)
         {
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW:
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_PROPOSED:
+            case self::STATE_NEW:
+            case self::STATE_PROPOSED:
                 return 'proposed';
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED:
+            case self::STATE_DECLINED:
                 return 'declined';
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED:
+            case self::STATE_ORDERED:
                 return 'ordered';
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED:
+            case self::STATE_STARTED:
                 return 'started';
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED:
+            case self::STATE_DELIVERED:
                 return 'delivered';
-            case org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED:
+            case self::STATE_INVOICED:
                 return 'invoiced';
         }
         return '';
@@ -281,7 +281,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function invoice()
     {
-        if (   $this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED
+        if (   $this->state > self::STATE_INVOICED
             || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             return false;
@@ -301,24 +301,24 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function decline()
     {
-        if ($this->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED)
+        if ($this->state >= self::STATE_DECLINED)
         {
             return false;
         }
 
-        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED;
+        $this->state = self::STATE_DECLINED;
 
         if ($this->update())
         {
             // Update sales project if it doesn't have any open deliverables
             $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
             $qb->add_constraint('salesproject', '=', $this->salesproject);
-            $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
+            $qb->add_constraint('state', '<>', self::STATE_DECLINED);
             if ($qb->count() == 0)
             {
                 // No proposals that are not declined
                 $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-                $salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_LOST;
+                $salesproject->state = org_openpsa_sales_salesproject_dba::STATE_LOST;
                 $salesproject->update();
             }
 
@@ -329,7 +329,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function order()
     {
-        if ($this->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
+        if ($this->state >= self::STATE_ORDERED)
         {
             return false;
         }
@@ -367,15 +367,15 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             }
         }
 
-        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED;
+        $this->state = self::STATE_ORDERED;
 
         if ($this->update())
         {
             // Update sales project and mark as won
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            if ($salesproject->status != org_openpsa_sales_salesproject_dba::STATUS_WON)
+            if ($salesproject->state != org_openpsa_sales_salesproject_dba::STATE_WON)
             {
-                $salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_WON;
+                $salesproject->state = org_openpsa_sales_salesproject_dba::STATE_WON;
                 $salesproject->update();
             }
 
@@ -387,7 +387,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function deliver($update_deliveries = true)
     {
-        if ($this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED)
+        if ($this->state > self::STATE_DELIVERED)
         {
             return false;
         }
@@ -422,7 +422,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             }
         }
 
-        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED;
+        $this->state = self::STATE_DELIVERED;
         $this->end = time();
         if ($this->update())
         {

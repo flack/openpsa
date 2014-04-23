@@ -1,6 +1,6 @@
 <?php
 $view =& $data['view_deliverable'];
-$status = $data['deliverable']->get_status();
+$state = $data['deliverable']->get_state();
 
 $costType = $view['costType'];
 $per_unit = $data['l10n']->get('per unit');
@@ -19,7 +19,7 @@ catch (midcom_error $e)
     $unit = $data['l10n']->get('unit');
 }
 ?>
-<div class="org_openpsa_sales_salesproject_deliverable &(status);">
+<div class="org_openpsa_sales_salesproject_deliverable &(state);">
     <div class="sidebar">
         <div class="contacts area">
             <?php
@@ -57,8 +57,8 @@ catch (midcom_error $e)
         <table class="agreement">
             <tbody>
                 <tr>
-                    <th><?php echo $data['l10n']->get('status'); ?></th>
-                    <td><?php echo $data['l10n']->get($status); ?></td>
+                    <th><?php echo $data['l10n']->get('state'); ?></th>
+                    <td><?php echo $data['l10n']->get($state); ?></td>
                 </tr>
                 <tr>
                     <th><?php echo $data['l10n']->get('estimated delivery'); ?></th>
@@ -174,7 +174,7 @@ catch (midcom_error $e)
     }
 
     if (   $data['projects_url']
-        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
+        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
     {
         if (   $product
             && $product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)

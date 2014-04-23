@@ -63,6 +63,20 @@ class midcom_connection
         if (extension_loaded('midgard2'))
         {
             $midgard = midgard_connection::get_instance();
+
+            if (method_exists($midgard, 'enable_workspace'))
+            {
+                $midgard->enable_workspace(false);
+            }
+
+            // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
+            // see also https://github.com/midgardproject/midgard-php5/issues/50
+            if (   function_exists('gc_enabled')
+                && gc_enabled())
+            {
+                gc_disable();
+            }
+
             $stat = false;
             // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
             if (!$midgard->is_connected())
@@ -83,19 +97,6 @@ class midcom_connection
             if (!$stat)
             {
                 return false;
-            }
-
-            if (method_exists($midgard, 'enable_workspace'))
-            {
-                $midgard->enable_workspace(false);
-            }
-
-            // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
-            // see also https://github.com/midgardproject/midgard-php5/issues/50
-            if (   function_exists('gc_enabled')
-                && gc_enabled())
-            {
-                gc_disable();
             }
         }
         else if (extension_loaded('midgard'))

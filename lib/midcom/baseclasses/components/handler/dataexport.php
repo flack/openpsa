@@ -307,8 +307,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $data = preg_replace("/\n\r|\r\n|\r/", "\n", $data);
             // Escape quotes (PONDER: make configurable between doubling the character and escaping)
             $data = str_replace($this->csv['q'], '\\' . $this->csv['q'], $data);
-            // Escape newlines
-            $data = str_replace("\n", '\\n', $data);
             // Quote
             $data = "{$this->csv['q']}{$data}{$this->csv['q']}";
         }

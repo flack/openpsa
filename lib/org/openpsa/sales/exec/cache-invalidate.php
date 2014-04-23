@@ -10,7 +10,7 @@ midcom::get()->disable_limits();
 echo "<h1>Invalidating deliverable caches:</h1>\n";
 
 $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-$qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED);
+$qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED);
 $deliverables = $qb->execute();
 
 echo "<pre>\n";

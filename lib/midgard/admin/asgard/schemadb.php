@@ -57,13 +57,12 @@ class midgard_admin_asgard_schemadb
         else
         {
             $this->_object = $object;
-            $type = get_class($this->_object);
         }
-        if (!midcom::get('dbclassloader')->is_midcom_db_object($type))
+        if (!midcom::get('dbclassloader')->is_midcom_db_object($this->_object))
         {
             $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
         }
-        $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($type));
+        $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_object));
         $this->_config = $config;
         $this->_l10n = midcom::get('i18n')->get_l10n('midgard.admin.asgard');
     }
