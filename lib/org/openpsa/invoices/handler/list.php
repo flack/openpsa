@@ -185,38 +185,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_dashboard($handler_id, array $args, array &$data)
     {
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'invoice/new/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'projects/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('project invoicing'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'scheduled/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('scheduled invoices'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
-            )
-        );
+        $this->_master->prepare_toolbar('dashboard');
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))

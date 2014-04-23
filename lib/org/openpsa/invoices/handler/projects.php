@@ -132,6 +132,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $title = $this->_l10n->get('project invoicing');
         midcom::get('head')->set_pagetitle($title);
         $this->add_breadcrumb("", $title);
+
+        $this->_master->prepare_toolbar('projects');
     }
 
     /**

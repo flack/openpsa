@@ -72,6 +72,59 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         return $action;
     }
 
+    public function prepare_toolbar($mode)
+    {
+        if ($mode !== 'dashboard')
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => '',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('dashboard'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+                )
+            );
+        }
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'invoice/new/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+            )
+        );
+
+        if ($mode !== 'scheduled')
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => 'scheduled/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('scheduled invoices'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                )
+            );
+        }
+        if ($mode !== 'projects')
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => 'projects/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('project invoicing'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                )
+            );
+        }
+    }
+
     public function add_next_previous($object, $toolbar, $urlprefix)
     {
         if ($object->number > 1)
