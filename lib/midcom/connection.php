@@ -131,6 +131,8 @@ class midcom_connection
             {
                 throw new Exception("Could not connect to database, configuration file not found");
             }
+            // we assume the database is alright if the base storage field already exists
+            return \midgard_storage::class_storage_exists('midgard_user');
         }
         if (!class_exists('midgard_topic'))
         {

@@ -7,18 +7,6 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 $GLOBALS['midcom_config_local'] = array();
 
-// NOTE: load this before the sqlite stuff..
-// Load configuration
-if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php'))
-{
-    include OPENPSA_TEST_ROOT . 'config.inc.php';
-}
-else
-{
-    include OPENPSA_TEST_ROOT . '../config-default.inc.php';
-}
-
-// do we even need that?
 // Check that the environment is a working one
 if (!midcom_connection::setup(dirname(__DIR__). DIRECTORY_SEPARATOR))
 {
@@ -33,6 +21,16 @@ if (!midcom_connection::setup(dirname(__DIR__). DIRECTORY_SEPARATOR))
     define('OPENPSA_DB_CREATED', true);
     require_once dirname(__DIR__) . '/tools/bootstrap.php';
     $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
+}
+
+// Load configuration
+if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php'))
+{
+    include OPENPSA_TEST_ROOT . 'config.inc.php';
+}
+else
+{
+    include OPENPSA_TEST_ROOT . '../config-default.inc.php';
 }
 
 // Path to the MidCOM environment
