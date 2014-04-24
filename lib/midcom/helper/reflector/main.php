@@ -381,6 +381,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         $object_class = get_class($obj);
         $object_baseclass = self::resolve_baseclass($obj);
+
         switch(true)
         {
             // object knows it's icon, how handy!
@@ -405,6 +406,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 break;
             case (strpos($object_class, 'member') !== false):
             case (strpos($object_class, 'organization') !== false):
+            case (strpos($object_class, 'group') !== false):
                 $icon = 'stock_people.png';
                 break;
             case (strpos($object_class, 'element') !== false):
