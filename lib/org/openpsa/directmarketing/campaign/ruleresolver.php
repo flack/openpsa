@@ -271,10 +271,11 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $constraint_match = "IN";
 
         //check for match type- Needed to get persons who aren't a member of a group
-        if($rule['match'] == '<>' || $rule['match'] == 'NOT LIKE')
+        if (   $rule['match'] == '<>'
+            || $rule['match'] == 'NOT LIKE')
         {
             $constraint_match = "NOT IN";
-            switch($rule['match'])
+            switch ($rule['match'])
             {
                 case '<>':
                     $match = '=';

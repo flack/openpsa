@@ -449,7 +449,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
 
-        if(!empty($this->_object))
+        if (!empty($this->_object))
         {
             $this->_request_data['invoice_items'] = $this->_object->get_invoice_items();
         }

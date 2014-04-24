@@ -6,7 +6,7 @@
 
 function hide_invoice_address()
 {
-    if($('#org_openpsa_invoices_use_contact_address').is(':checked'))
+    if ($('#org_openpsa_invoices_use_contact_address').is(':checked'))
     {
         $(".invoice_adress").hide();
     }

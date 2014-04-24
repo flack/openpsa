@@ -16,22 +16,18 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
     </td>
     <td class="revisor">
         <?php
-        if ($history['user'])
+        if (   $history['user']
+            && $user = midcom::get('auth')->get_user($history['user']))
         {
-            $user = midcom::get('auth')->get_user($history['user']);
-
-            if(is_object($user))
+            if (class_exists('org_openpsa_widgets_contact'))
             {
-                if (class_exists('org_openpsa_widgets_contact'))
-                {
-                    $user_card = org_openpsa_widgets_contact::get($user->guid);
-                    $person_label = $user_card->show_inline();
-                }
-                else
-                {
-                    $person = $user->get_storage();
-                    $person_label = $person->name;
-                }
+                $user_card = org_openpsa_widgets_contact::get($user->guid);
+                $person_label = $user_card->show_inline();
+            }
+            else
+            {
+                $person = $user->get_storage();
+                $person_label = $person->name;
             }
             echo "                    {$person_label}\n";
         }

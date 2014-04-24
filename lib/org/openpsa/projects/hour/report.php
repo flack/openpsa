@@ -91,11 +91,12 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     }
 
     /**
-     * function checks if hour_report is invoiceable & applies minimum time slot
+     * Checks if hour report is invoiceable and rounds according to the
+     * time slot defined by task or config (at minimum, one slot is counted).
      */
     function modify_hours_by_time_slot($update = true)
     {
-        if($this->invoiceable)
+        if ($this->invoiceable)
         {
             $task = new org_openpsa_projects_task_dba($this->task);
             $time_slot = (float)$task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
@@ -107,14 +108,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
                     $time_slot = 1;
                 }
             }
-            $time_slot_amount = $this->hours / $time_slot;
-            $time_slot_amount_int = intval($time_slot_amount);
-            $difference =  $time_slot_amount - (float)$time_slot_amount_int;
-            if ($difference > 0.5 || $time_slot_amount_int == 0)
-            {
-                $time_slot_amount_int++;
-            }
-            $this->hours = $time_slot_amount_int * $time_slot;
+            $this->hours = max(1, round($this->hours / $time_slot)) * $time_slot;
             if ($update)
             {
                 $this->update();

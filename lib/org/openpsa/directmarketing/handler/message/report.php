@@ -301,8 +301,8 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $array['percentages']['of_recipients'][$link->target]['total'] = ((count($array['counts'][$link->target])-1)/($receipt_data['sent']-$receipt_data['bounced']))*100;
         $array['percentages']['of_recipients'][$link->target][$link->token] = ($array['counts'][$link->target][$link->token]/($receipt_data['sent']-$receipt_data['bounced']))*100;
 
-        if(   (!isset($array['percentages']['of_recipients']['total']))
-           || $array['percentages']['of_recipients'][$link->target]['total'] > $array['percentages']['of_recipients']['total'])
+        if (   !isset($array['percentages']['of_recipients']['total'])
+            || $array['percentages']['of_recipients'][$link->target]['total'] > $array['percentages']['of_recipients']['total'])
         {
             $array['percentages']['of_recipients']['total'] = $array['percentages']['of_recipients'][$link->target]['total'];
         }

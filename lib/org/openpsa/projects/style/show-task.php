@@ -142,7 +142,8 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         <p class="time"><strong><?php echo $data['l10n']->get('timeframe'); ?>:</strong> &(view_task['start']:h); - &(view_task['end']:h);</p>
 
         <?php
-        if(array_key_exists('priority', $data['datamanager']->types) && array_key_exists($task->priority, $data['datamanager']->types['priority']->options))
+        if (   array_key_exists('priority', $data['datamanager']->types)
+            && array_key_exists($task->priority, $data['datamanager']->types['priority']->options))
         {
             ?>
             <p class="priority"><strong><?php echo $data['l10n']->get('priority') . ':</strong> ' . $data['l10n']->get($data['datamanager']->types['priority']->options[$task->priority]); ?></p>

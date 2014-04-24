@@ -33,7 +33,7 @@ foreach ($data['entries'] as $entry)
         ?>
         <cell><![CDATA[&(entry.text:h);]]></cell>
         <?php
-        if($entry->followUp == 0)
+        if ($entry->followUp == 0)
         {
             echo "<cell>none</cell>";
         }

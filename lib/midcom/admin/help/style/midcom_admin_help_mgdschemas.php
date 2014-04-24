@@ -27,15 +27,7 @@ if (count($data['mgdschemas']) > 0)
             $proplink_description = '';
             if ($val['link'])
             {
-                $linked_component = '';
-                if(substr($val['link_name'], 0, 8) == 'midgard_')
-                {
-                    $linked_component = 'midcom';
-                }
-                else
-                {
-                    $linked_component = midcom::get('dbclassloader')->get_component_for_class($val['link_name']);
-                }
+                $linked_component = midcom::get('dbclassloader')->get_component_for_class($val['link_name']);
                 if ($linked_component)
                 {
                     $proplink = "<a href='{$prefix}__ais/help/{$linked_component}/mgdschemas/#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";

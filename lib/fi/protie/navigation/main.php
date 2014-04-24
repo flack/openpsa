@@ -484,11 +484,11 @@ class fi_protie_navigation
             {
                 $classes[] = $this->css_first_last;
             }
-            else if($item_counter == 1)
+            else if ($item_counter == 1)
             {
                 $classes[] = $this->css_first;
             }
-            else if($item_counter == $item_count)
+            else if ($item_counter == $item_count)
             {
                 $classes[] = $this->css_last;
             }

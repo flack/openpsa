@@ -279,7 +279,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             }
             $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
 
-            if($this->show_progressbar)
+            if ($this->show_progressbar)
             {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
                 $this->_elements['new_progress'] = & $this->_form->createElement('static', "new_progress", '', $html);

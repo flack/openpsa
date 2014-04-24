@@ -38,41 +38,28 @@ echo $data['rcs_toolbar']->render();
                 echo "                    <td><input id=\"midgard_admin_asgard_rcs_version_compare_{$i}\" type=\"checkbox\" name=\"compare[]\" value=\"{$rev}\" />\n";
                 echo "                    <td><span style=\"display: none;\">". substr($rev, 2) ."</span><a href='{$prefix}__mfa/asgard/object/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
                 echo "                    <td><span style=\"display: none;\">{$history['date']}</span>".strftime('%x %X Z', $history['date'])."</td>\n";
+                echo "                    <td>";
 
-                if ($history['user'])
+                if (   $history['user']
+                    && $user = midcom::get('auth')->get_user($history['user']))
                 {
-                    $user = midcom::get('auth')->get_user($history['user']);
-                    if(is_object($user))
+                    $person = $user->get_storage();
+                    if (class_exists('org_openpsa_widgets_contact'))
                     {
-                        $person = $user->get_storage();
-                        if (class_exists('org_openpsa_widgets_contact'))
-                        {
-                            $user_card = new org_openpsa_widgets_contact($person);
-                            $person_label = $user_card->show_inline();
-                        }
-                        else
-                        {
-                            $person_label = $person->name;
-                        }
-                        echo "                    <td>{$person_label}</td>\n";
-                    }
-                    elseif ($history['ip'])
-                    {
-                        echo "                    <td>{$history['ip']}</td>\n";
+                        $user_card = new org_openpsa_widgets_contact($person);
+                        $person_label = $user_card->show_inline();
                     }
                     else
                     {
-                        echo "                    <td></td>\n";
+                        $person_label = $person->name;
                     }
+                    echo $person_label;
                 }
-                elseif ($history['ip'])
+                else if ($history['ip'])
                 {
-                    echo "                    <td>{$history['ip']}</td>\n";
+                    echo $history['ip'];
                 }
-                else
-                {
-                    echo "                    <td></td>\n";
-                }
+                echo "</td>\n";
                 echo "                    <td>{$history['lines']}</td>\n";
                 echo "                    <td>{$history['message']}</td>\n";
                 echo "                </tr>\n";

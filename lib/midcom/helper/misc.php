@@ -453,10 +453,10 @@ class midcom_helper_misc
         $path_array = explode('/', midcom::get('config')->get('theme'));
         $theme_array = $path_array;
 
-        foreach($path_array as $sub_style)
+        foreach ($path_array as $sub_style)
         {
             $theme_path = implode('/', $theme_array);
-            if(is_dir($theme_root . $theme_path . '/style/' . $page_name))
+            if (is_dir($theme_root . $theme_path . '/style/' . $page_name))
             {
                 return true;
             }

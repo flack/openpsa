@@ -3,11 +3,11 @@ $view = $data['datamanager']->get_content_html();
 $view_counter = $data['article_counter'];
 $article_count = $data['article_count'];
 $class_str = midcom::get('metadata')->get_object_classes($data['article']);
-if($view_counter == 0)
+if ($view_counter == 0)
 {
     $class_str = ' first';
 }
-elseif($view_counter == ($article_count-1))
+else if ($view_counter == ($article_count - 1))
 {
     $class_str = ' last';
 }

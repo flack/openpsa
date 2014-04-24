@@ -77,7 +77,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
         $return_page = '__mfa/asgard/';
-        if(isset($_GET['return_uri']))
+        if (isset($_GET['return_uri']))
         {
             $return_page = $_GET['return_uri'];
         }
