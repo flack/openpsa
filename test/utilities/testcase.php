@@ -33,13 +33,16 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $account = midcom_core_account::get($person);
         $account->set_password($person->extra);
         $account->set_username($username);
-        $account->save();
+        if (!$account->save())
+        {
+            throw new Exception('Account could not be saved. Reason: ' . midcom_connection::get_error_string());
+        }
         midcom::get('auth')->drop_sudo();
         if ($login)
         {
             if (!midcom::get('auth')->login($username, $person->extra))
             {
-                throw new Exception('Login for user ' . $username . ' failed');
+                throw new Exception('Login for user ' . $username . ' failed. Reason: ' . midcom_connection::get_error_string());
             }
         }
         self::$_class_objects[$person->guid] = $person;
