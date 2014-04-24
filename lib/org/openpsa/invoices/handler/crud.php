@@ -210,57 +210,14 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     {
         if ($this->_mode == 'read')
         {
-            $this->_count_invoice_hours();
+            $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+            $qb->add_constraint('invoice', '=', $this->_object->id);
+            $this->_request_data['reports'] = $qb->execute();
+
             org_openpsa_widgets_grid::add_head_elements();
 
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         }
-    }
-
-    private function _count_invoice_hours()
-    {
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $this->_object->id);
-        $qb->add_order('date', 'ASC');
-        $reports = $qb->execute();
-        if (!is_array($reports)
-            || sizeof($reports) < 1)
-        {
-            return false;
-        }
-
-        $this->_request_data['sorted_reports'] = array
-        (
-            'reports' => array(),
-            'approved' => array
-            (
-                'hours' => 0,
-                'reports' => array(),
-            ),
-            'not_approved' => array
-            (
-                'hours' => 0,
-                'reports' => array(),
-            ),
-            // TODO other sorts ?
-        );
-        foreach ($reports as $report)
-        {
-            $this->_request_data['sorted_reports']['reports'][$report->guid] = $report;
-            if  ($report->is_approved())
-            {
-                $sort =& $this->_request_data['sorted_reports']['approved'];
-            }
-            else
-            {
-                $sort =& $this->_request_data['sorted_reports']['not_approved'];
-            }
-            $sort['hours'] += $report->hours;
-
-            // PHP5-TODO: Must be copy-by-value
-            $sort['reports'][] =& $this->_request_data['sorted_reports']['reports'][$report->guid];
-        }
-        return true;
     }
 
     function _populate_toolbar($handler_id)

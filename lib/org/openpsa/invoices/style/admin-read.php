@@ -253,15 +253,14 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     <?php }
 
 // Display invoiced hours and tasks
-if (    isset($data['sorted_reports'])
-     && count($data['sorted_reports']['reports']) > 0)
+if (!empty($data['reports']))
 {
     $grid_id = 'invoice_' . $invoice->number . '_hours_grid';
 
     $guids = array();
     $rows = array();
 
-    foreach ($data['sorted_reports']['reports'] as $report)
+    foreach ($data['reports'] as $report)
     {
         $row = array();
 
@@ -344,6 +343,7 @@ jQuery("#&(grid_id);").jqGrid({
       rowNum: <?php echo sizeof($rows); ?>,
       scroll: 1,
       caption: '<?php echo $data['l10n']->get('invoiced hour reports'); ?>',
+      sortname: 'date',
       grouping: true,
       groupingView: {
           groupField: ['task'],
