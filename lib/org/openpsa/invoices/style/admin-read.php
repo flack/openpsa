@@ -297,7 +297,7 @@ if (!empty($data['reports']))
         $row['index_reporter'] = $reporter->rname;
         $row['reporter'] = $reporter_card->show_inline();
         $row['hours'] = $report->hours;
-        $row['description'] = $report->description;
+        $row['description'] = $report->get_description();
         $row['approved'] = $approved_img;
         $row['task'] = "<a href=\"{$projects_url}task/{$task->guid}/\">{$task->title}</a>";
 

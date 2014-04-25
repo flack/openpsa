@@ -11,12 +11,6 @@ foreach ($reports['reports'] as $report)
 {
     $entry = array();
 
-    $description = "<em>" . $data['l10n']->get('no description given') . "</em>";
-    if (! preg_match("/^[\W]*?$/", $report->description))
-    {
-        $description = $report->description;
-    }
-
     $entry['id'] = $report->id;
     $entry['date'] = strftime('%Y-%m-%d', $report->date);
 
@@ -27,8 +21,8 @@ foreach ($reports['reports'] as $report)
         $entry['index_task'] = $task->get_label();
     }
 
-    $entry['index_description'] = $description;
-    $entry['description'] = '<a href="' . $prefix . 'hours/edit/' . $report->guid . '">' . $description . '</a>';
+    $entry['index_description'] = $report->description;
+    $entry['description'] = '<a href="' . $prefix . 'hours/edit/' . $report->guid . '">' . $report->get_description() . '</a>';
 
     $entry['reporter'] = $reporters[$report->person];
 

@@ -94,7 +94,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
      * Checks if hour report is invoiceable and rounds according to the
      * time slot defined by task or config (at minimum, one slot is counted).
      */
-    function modify_hours_by_time_slot($update = true)
+    public function modify_hours_by_time_slot($update = true)
     {
         if ($this->invoiceable)
         {
@@ -114,6 +114,16 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
                 $this->update();
             }
         }
+    }
+
+    public function get_description()
+    {
+        if (!preg_match("/^[\W]*?$/", $this->description))
+        {
+            return $this->description;
+        }
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.expenses');
+        return "<em>" . $l10n->get('no description given') . "</em>";
     }
 }
 ?>
