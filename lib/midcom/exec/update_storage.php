@@ -1,7 +1,7 @@
 <?php
-if (!extension_loaded('midgard2'))
+if (extension_loaded('midgard'))
 {
-    throw new midcom_error("This script requires Midgard2");
+    throw new midcom_error("This script requires Midgard2 API support");
 }
 
 midcom::get('auth')->require_valid_user('basic');
@@ -18,18 +18,10 @@ flush();
 midgard_storage::create_base_storage();
 echo "  Created base storage\n";
 
-$re = new ReflectionExtension('midgard2');
-$classes = $re->getClasses();
-$counter = 0;
+$types = midcom_connection::get_schema_types();
 $start = microtime(true);
-foreach ($classes as $refclass)
+foreach ($types as $type)
 {
-    if (!$refclass->isSubclassOf('midgard_object'))
-    {
-        continue;
-    }
-    $type = $refclass->getName();
-
     $counter++;
     if (midgard_storage::class_storage_exists($type))
     {
@@ -43,7 +35,7 @@ foreach ($classes as $refclass)
     }
     flush();
 }
-echo "Processed " . $counter . " schema types in " . round(microtime(true) - $start, 2) . "s";
+echo "Processed " . count($types) . " schema types in " . round(microtime(true) - $start, 2) . "s";
 echo "\n\nDone.";
 echo "</pre>";
 ob_start();
