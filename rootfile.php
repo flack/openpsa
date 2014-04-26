@@ -29,7 +29,7 @@ else
 
 if (! defined('MIDCOM_STATIC_URL'))
 {
-    define('MIDCOM_STATIC_URL', '/openpsa2-static');
+    define('MIDCOM_STATIC_URL', '/midcom-static');
 }
 
 if (file_exists(__DIR__ . '/themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php'))
