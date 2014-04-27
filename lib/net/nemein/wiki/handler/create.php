@@ -145,7 +145,7 @@ implements midcom_helper_datamanager2_interfaces_create
             case (is_object($resolved['wikipage'])):
                 // Page exists
                 throw new midcom_error('Wiki page with that name already exists.');
-                
+
             default:
                 // No more namespaces left, create the page to latest parent
                 if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id)
@@ -222,7 +222,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('');
         }
 
-        $data['view_title'] = sprintf($this->_request_data['l10n']->get('create wikipage %s'), $this->_wikiword);
+        $data['view_title'] = sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword);
         midcom::get('head')->set_pagetitle($data['view_title']);
         $data['preview_mode'] = false;
 
