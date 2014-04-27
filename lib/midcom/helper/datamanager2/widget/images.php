@@ -279,7 +279,7 @@ END;
         }
         // Filename column
         $html .= "            <td class=\"new text\" colspan=\"2\">";
-        $html .= sprintf("%s:", $this->_l10n->get('add new file'));
+        $html .= $this->_l10n->get('add new file') . ':';
         $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
 
         if (! $frozen)

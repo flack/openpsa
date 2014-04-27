@@ -52,7 +52,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
-        $this->add_breadcrumb('', sprintf($this->_l10n->get('create group')));
+        $this->add_breadcrumb('', $this->_l10n->get('create group'));
 
         org_openpsa_helpers::dm2_savecancel($this);
     }

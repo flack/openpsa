@@ -99,7 +99,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('');
         }
 
-        $this->add_breadcrumb('', sprintf($this->_l10n->get('create person')));
+        $this->add_breadcrumb('', $this->_l10n->get('create person'));
 
         org_openpsa_helpers::dm2_savecancel($this);
     }

@@ -23,7 +23,7 @@
         if (!midcom::get('config')->get('symlinks'))
         {
             ?><p><?php
-            echo sprintf($data['l10n']->get('symlinks are currently disabled'));
+            echo $data['l10n']->get('symlinks are currently disabled');
             ?></p><?php
         }
     }
