@@ -89,11 +89,11 @@ foreach ($data['directories'] as $directory)
     echo "<cell>false</cell>";
     echo "</row>\n";
 }
-$icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
 foreach ($data['documents'] as $document)
 {
     $file_size = 0;
     $download_url = '';
+    $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
     if ($data['datamanager']->autoset_storage($document))
     {
         $attach = array_shift($data['datamanager']->types['document']->attachments_info);
