@@ -55,7 +55,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             $wikiword = $this->_page->title;
             if ($this->_page->delete())
             {
-                midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s deleted'), $wikiword), 'ok');
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s deleted'), $wikiword), 'ok');
 
                 // Update the index
                 $indexer = midcom::get('indexer');
@@ -76,7 +76,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             array
             (
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('cancel'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('cancel'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
             )
         );

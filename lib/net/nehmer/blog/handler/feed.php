@@ -159,7 +159,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 break;
 
             case 'feed-category-rss2':
-                $this->_feed->title = sprintf($this->_request_data['l10n']->get('%s category %s'), $this->_feed->title, $this->_request_data['category']);
+                $this->_feed->title = sprintf($this->_l10n->get('%s category %s'), $this->_feed->title, $this->_request_data['category']);
                 $this->_feed->syndicationURL = "{$this->_feed->link}feeds/category/{$this->_request_data['category']}";
                 break;
 

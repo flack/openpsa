@@ -69,7 +69,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             array
             (
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('view'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             )
@@ -79,7 +79,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             array
             (
                 MIDCOM_TOOLBAR_URL => "edit/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('edit'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
@@ -90,7 +90,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             array
             (
                 MIDCOM_TOOLBAR_URL => "delete/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('delete'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:delete'),
@@ -130,7 +130,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             array
             (
                 MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n']->get('what links'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             )
         );
@@ -145,7 +145,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n']->get('unsubscribe'),
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('unsubscribe'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
@@ -162,7 +162,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n']->get('subscribe'),
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('subscribe'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
@@ -182,7 +182,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 (
                     'rel' => 'alternate',
                     'type' => 'application/x-wiki',
-                    'title' => $this->_request_data['l10n_midcom']->get('edit'),
+                    'title' => $this->_l10n_midcom->get('edit'),
                     'href' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
                 )
             );
@@ -550,25 +550,25 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             // We're subscribing to the whole wiki
             $object = $this->_topic;
-            $target = sprintf($this->_request_data['l10n']->get('whole wiki %s'), $this->_topic->extra);
+            $target = sprintf($this->_l10n->get('whole wiki %s'), $this->_topic->extra);
         }
         else
         {
             $object = $this->_page;
-            $target = sprintf($this->_request_data['l10n']->get('page %s'), $this->_page->title);
+            $target = sprintf($this->_l10n->get('page %s'), $this->_page->title);
         }
 
         if (array_key_exists('subscribe', $_POST))
         {
             // Subscribe to page
             $object->set_parameter('net.nemein.wiki:watch', $user->guid, time());
-            midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('subscribed to changes in %s'), $target), 'ok');
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('subscribed to changes in %s'), $target), 'ok');
         }
         else
         {
             // Remove subscription
             $object->delete_parameter('net.nemein.wiki:watch', $user->guid);
-            midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('unsubscribed from changes in %s'), $target), 'ok');
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('unsubscribed from changes in %s'), $target), 'ok');
         }
 
         midcom::get('auth')->drop_sudo();

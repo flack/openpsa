@@ -396,7 +396,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             array
             (
                 MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get("back"),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
         );

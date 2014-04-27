@@ -94,7 +94,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 // Reindex the article
                 $indexer = midcom::get('indexer');
                 net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
-                midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
                 // *** FALL-THROUGH ***
             case 'cancel':
                 if ($this->_page->name == 'index')
@@ -112,7 +112,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             array
             (
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('view'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             )
@@ -122,7 +122,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             array
             (
                 MIDCOM_TOOLBAR_URL => "delete/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('delete'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:delete'),
@@ -160,7 +160,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         $this->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
 
-        $data['view_title'] = sprintf($this->_request_data['l10n']->get('edit %s'), $this->_page->title);
+        $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_page->title);
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         // Set the breadcrumb pieces

@@ -39,7 +39,7 @@
  * For example:
  *
  * <code>
- * midcom::get('uimessages')->add($this->_request_data['l10n']->get('net.nemein.wiki'), sprintf($this->_request_data['l10n']->get('page "%s" added'), $this->_wikiword), 'ok');
+ * midcom::get('uimessages')->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page "%s" added'), $this->_wikiword), 'ok');
  * </code>
  *
  * <b>Configuration:</b>
