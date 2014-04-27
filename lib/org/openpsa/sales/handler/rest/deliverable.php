@@ -18,18 +18,18 @@ class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_comp
     {
         return "org_openpsa_sales_salesproject_deliverable_dba";
     }
-    
+
     public function handle_update()
-    {    
+    {
         $this->retrieve_object();
-        
+
         // if endtime was set, we need to set continuous to false
         if (isset($this->_request['params']['end']))
         {
             $this->_request['params']['continuous'] = false;
-            
+
             // cleanup at entries
-            midcom::get('auth')->request_sudo('de.vioworld.account');
+            midcom::get('auth')->request_sudo($this->_component);
             $at_entries = $this->_object->get_at_entries();
             $deliverable_end = $this->_request['params']['end'];
             foreach ($at_entries as $at_entry)
@@ -38,10 +38,10 @@ class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_comp
                 $at_entry->delete();
             }
             midcom::get('auth')->drop_sudo();
-            
+
             $this->_request['params']['end'] = $deliverable_end;
         }
-        
+
         parent::handle_update();
     }
 }
