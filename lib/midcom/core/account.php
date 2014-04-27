@@ -89,6 +89,7 @@ class midcom_core_account
         if (!$this->_is_username_unique())
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom'), midcom::get('i18n')->get_string('username already exists', 'org.openpsa.contacts'), 'error');
+            midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
 
