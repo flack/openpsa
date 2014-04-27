@@ -59,7 +59,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         // Convert fields from latin-1 to MidCOM charset (usually utf-8)
         foreach ($groupdata as $key => $value)
         {
-            $groupdata[$key] = iconv('ISO-8859-1', midcom::get('i18n')->get_current_charset(), $value);
+            $groupdata[$key] = iconv('ISO-8859-1', $this->_i18n->get_current_charset(), $value);
         }
 
         $group = null;

@@ -74,7 +74,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
             foreach ($tasks as $task)
             {
-                $stat = org_openpsa_projects_workflow::complete($task, sprintf(midcom::get('i18n')->get_string('completed by subscription %s', 'org.openpsa.sales'), $cycle_number));
+                $stat = org_openpsa_projects_workflow::complete($task, sprintf($this->_i18n->get_string('completed by subscription %s', 'org.openpsa.sales'), $cycle_number));
                 if ($stat)
                 {
                     $tasks_completed[] = $task;
@@ -154,7 +154,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if (is_null($next_run))
         {
-            $next_run_label = midcom::get('i18n')->get_string('no more cycles', 'org.openpsa.sales');
+            $next_run_label = $this->_i18n->get_string('no more cycles', 'org.openpsa.sales');
         }
         else
         {
@@ -162,23 +162,23 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
 
         // Title for long notifications
-        $message['title'] = sprintf(midcom::get('i18n')->get_string('subscription cycle %d closed for agreement %s (%s)', 'org.openpsa.sales'), $cycle_number, $this->_deliverable->title, $customer->get_label());
+        $message['title'] = sprintf($this->_i18n->get_string('subscription cycle %d closed for agreement %s (%s)', 'org.openpsa.sales'), $cycle_number, $this->_deliverable->title, $customer->get_label());
 
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
-        $message['content'] .= midcom::get('i18n')->get_string('invoiced', 'org.openpsa.sales') . ": {$invoiced_sum}\n\n";
+        $message['content'] .= $this->_i18n->get_string('invoiced', 'org.openpsa.sales') . ": {$invoiced_sum}\n\n";
 
         if ($invoiced_sum > 0)
         {
             $invoice = $calculator->get_invoice();
-            $message['content'] .= midcom::get('i18n')->get_string('invoice', 'org.openpsa.invoices') . " {$invoice->number}:\n";
+            $message['content'] .= $this->_l10n->get('invoice') . " {$invoice->number}:\n";
             $url = $siteconfig->get_node_full_url('org.openpsa.invoices');
             $message['content'] .= $url . 'invoice/' . $invoice->guid . "/\n\n";
         }
 
         if (count($tasks_completed) > 0)
         {
-            $message['content'] .= "\n" . midcom::get('i18n')->get_string('tasks completed', 'org.openpsa.sales') . ":\n";
+            $message['content'] .= "\n" . $this->_i18n->get_string('tasks completed', 'org.openpsa.sales') . ":\n";
 
             foreach ($tasks_completed as $task)
             {
@@ -188,7 +188,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if (count($tasks_not_completed) > 0)
         {
-            $message['content'] .= "\n" . midcom::get('i18n')->get_string('tasks not completed', 'org.openpsa.sales') . ":\n";
+            $message['content'] .= "\n" . $this->_i18n->get_string('tasks not completed', 'org.openpsa.sales') . ":\n";
 
             foreach ($tasks_not_completed as $task)
             {
@@ -198,18 +198,18 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if ($new_task)
         {
-            $message['content'] .= "\n" . midcom::get('i18n')->get_string('created new task', 'org.openpsa.sales') . ":\n";
+            $message['content'] .= "\n" . $this->_i18n->get_string('created new task', 'org.openpsa.sales') . ":\n";
             $message['content'] .= "{$task->title}\n";
         }
 
-        $message['content'] .= "\n" . midcom::get('i18n')->get_string('next run', 'org.openpsa.sales') . ": {$next_run_label}\n\n";
-        $message['content'] .= midcom::get('i18n')->get_string('agreement', 'org.openpsa.projects') . ":\n";
+        $message['content'] .= "\n" . $this->_i18n->get_string('next run', 'org.openpsa.sales') . ": {$next_run_label}\n\n";
+        $message['content'] .= $this->_i18n->get_string('agreement', 'org.openpsa.projects') . ":\n";
 
         $url = $siteconfig->get_node_full_url('org.openpsa.sales');
         $message['content'] .= $url . 'deliverable/' . $this->_deliverable->guid . '/';
 
         // Content for short notifications
-        $message['abstract'] = sprintf(midcom::get('i18n')->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
+        $message['abstract'] = sprintf($this->_i18n->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
 
         // Send the message out
         org_openpsa_notifications::notify('org.openpsa.sales:new_subscription_cycle', $owner->guid, $message);
@@ -265,7 +265,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $tagger = new net_nemein_tag_handler();
             $tagger->copy_tags($this->_deliverable, $task);
 
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf(midcom::get('i18n')->get_string('created task "%s"', 'org.openpsa.sales'), $task->title), 'ok');
+            midcom::get('uimessages')->add($this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($this->_i18n->get_string('created task "%s"', 'org.openpsa.sales'), $task->title), 'ok');
             return $task;
         }
         else

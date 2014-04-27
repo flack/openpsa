@@ -82,8 +82,8 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
                     $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
                     $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
 
-                    $link = "<a href=\"" . $cancelation_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
-                    echo sprintf(midcom::get('i18n')->get_string('invoice got canceled by %s'), $link);
+                    $link = "<a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
+                    echo sprintf($data['l10n']->get('invoice got canceled by %s'), $link);
                 }
                 else
                 {
@@ -156,7 +156,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         echo '<div class="value">' . date($data['l10n_midcom']->get('short date'), $invoice->sent) . "</div>\n</div>\n";
     } ?>
 
-    <div class="field"><div class="title"><?php echo midcom::get('i18n')->get_string('description', 'midcom');?>: </div>
+    <div class="field"><div class="title"><?php echo $data['l10n_midcom']->get('description');?>: </div>
     <div class="description value">&(view['description']:h);</div></div>
 
     <?php
@@ -167,8 +167,8 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
 
         echo "<div class=\"field\">";
-        echo "<div class=\"title\">" . midcom::get('i18n')->get_string('cancelation invoice') .":</div>";
-        echo "<div class=\"value\"><a href=\"" . $cancelation_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $cancelation_invoice->get_label() . "</a></div>";
+        echo "<div class=\"title\">" . $data['l10n']->get('cancelation invoice') .":</div>";
+        echo "<div class=\"value\"><a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a></div>";
         echo "</div>";
     }
     // is the invoice a cancelation invoice itself?
@@ -178,8 +178,8 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $canceled_invoice_link = $prefix . 'invoice/' . $canceled_invoice->guid . '/';
 
         echo "<div class=\"field\">";
-        echo "<div class=\"title\">" . midcom::get('i18n')->get_string('canceled invoice') .":</div>";
-        echo "<div class=\"value\"><a href=\"" . $canceled_invoice_link . "\">" . midcom::get('i18n')->get_string('invoice') . " " . $canceled_invoice->get_label() . "</a></div>";
+        echo "<div class=\"title\">" . $data['l10n']->get('canceled invoice') .":</div>";
+        echo "<div class=\"value\"><a href=\"" . $canceled_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $canceled_invoice->get_label() . "</a></div>";
         echo "</div>";
     }
     ?>
@@ -192,7 +192,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <thead>
         <tr>
         <th>
-        <?php echo midcom::get('i18n')->get_string('description', 'midcom'); ?>
+        <?php echo $data['l10n_midcom']->get('description'); ?>
         </th>
         <th class='numeric'>
         <?php echo $data['l10n']->get('price'); ?>

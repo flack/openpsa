@@ -174,9 +174,9 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         $components = array
         (
             // TODO: better localization strings
-            'org.openpsa.projects' => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
-            'org.openpsa.sales' => midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'),
-            'org.openpsa.invoices' => midcom::get('i18n')->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
+            'org.openpsa.projects' => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+            'org.openpsa.sales' => $this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
+            'org.openpsa.invoices' => $this->_i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
         );
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

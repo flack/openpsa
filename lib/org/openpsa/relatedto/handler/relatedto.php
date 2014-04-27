@@ -118,7 +118,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $class_label = $ref->get_class_label();
         $object_label = $ref->get_object_label($this->_object);
 
-        $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf(midcom::get('i18n')->get_string('notes for %s %s on %s', 'org.openpsa.relatedto'), $class_label, $object_label, strftime('%x %H:%M')));
+        $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get('notes for %s %s on %s'), $class_label, $object_label, strftime('%x %H:%M')));
 
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_object, $this->_request_data['topic']->component, $relatedto_button_settings);
 
@@ -634,7 +634,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
 
-        $title = midcom::get('i18n')->get_string('invoice', 'org.openpsa.invoices') . ' ' . $other_obj->get_label();
+        $title = $this->_i18n->get_string('invoice', 'org.openpsa.invoices') . ' ' . $other_obj->get_label();
 
         if ($invoices_url)
         {

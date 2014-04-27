@@ -92,12 +92,12 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             {
                 if (!$metadata->unlock())
                 {
-                    midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf(midcom::get('i18n')->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_connection::get_error_string()), 'error');
+                    midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to unlock, reason %s'), midcom_connection::get_error_string()), 'error');
                 }
             }
             else
             {
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), midcom::get('i18n')->get_string('permission denied', 'midcom'), 'error');
+                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('permission denied'), 'error');
             }
 
             // Make sure we have CSS loaded
@@ -151,7 +151,6 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             }
 
             debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
-            $dm2_label = midcom::get('i18n')->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
 
             foreach ($this->datamanager->validation_errors as $name => $message)
             {
@@ -166,8 +165,8 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
 
                 midcom::get('uimessages')->add
                 (
-                    $dm2_label,
-                    sprintf(midcom::get('i18n')->get_string('validation failed for field %s: %s', 'midcom.helper.datamanager2'), $label, $message),
+                    $this->_l10n->get($this->_component),
+                    sprintf($this->_l10n->get('validation failed for field %s: %s'), $label, $message),
                     'error'
                 );
             }

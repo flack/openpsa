@@ -147,7 +147,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
         else
         {
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.notifications', 'org.openpsa.notifications'), sprintf(midcom::get('i18n')->get_string('notification sent to %s', 'org.openpsa.notifications'), $growl_to));
+            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('notification sent to %s'), $growl_to));
         }
         return $ret;
     }

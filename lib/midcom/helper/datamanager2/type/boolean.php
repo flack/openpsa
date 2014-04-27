@@ -99,11 +99,11 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
     {
         if ($this->value)
         {
-            return midcom::get('i18n')->get_string('yes', 'midcom.helper.datamanager2');
+            return $this->_l10n->get('yes');
         }
         else
         {
-            return midcom::get('i18n')->get_string('no', 'midcom.helper.datamanager2');
+            return $this->_l10n->get('no');
         }
     }
 

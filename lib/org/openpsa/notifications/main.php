@@ -175,7 +175,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                 $action_key = "{$component}:{$action}";
                 $field_config = array
                 (
-                    'title'   => midcom::get('i18n')->get_string("action {$action}", $component),
+                    'title'   => $this->_i18n->get_string("action {$action}", $component),
                     'storage' => array
                     (
                         'location' => 'configuration',
@@ -197,7 +197,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                 {
                     $field_config['start_fieldset'] = array
                     (
-                        'title' => midcom::get('i18n')->get_string($component, $component),
+                        'title' => $this->_i18n->get_string($component, $component),
                         'css_group' => 'area',
                     );
                 }

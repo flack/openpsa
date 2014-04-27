@@ -72,7 +72,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('salesproject', 'org.openpsa.sales'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('salesproject', 'org.openpsa.sales'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                 )
             );

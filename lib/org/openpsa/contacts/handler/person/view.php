@@ -151,7 +151,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user management', 'org.openpsa.user'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                 )
             );

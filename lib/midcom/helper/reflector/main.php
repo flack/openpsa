@@ -156,8 +156,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $this->_l10n;
         }
         // Got component, try to load the l10n helper for it
-        $midcom_i18n = midcom::get('i18n');
-        $component_l10n = $midcom_i18n->get_l10n($component);
+        $component_l10n = $this->_i18n->get_l10n($component);
         if (!empty($component_l10n))
         {
             self::$_cache['l10n'][$this->mgdschema_class] = $component_l10n;

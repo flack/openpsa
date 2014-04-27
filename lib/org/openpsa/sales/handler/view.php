@@ -94,7 +94,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                 )
             );

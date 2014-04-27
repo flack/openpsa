@@ -14,7 +14,7 @@
 class midcom_admin_user_validator
 {
     /**
-     * Test is username is available.
+     * Test if username is available.
      *
      * If the formdata contains a person GUID, it is ignored during the search
      *

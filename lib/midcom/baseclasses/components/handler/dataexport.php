@@ -158,10 +158,10 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 {
                     $this->_totals[$type . '-' . $name] = 0;
                 }
-                $title = midcom::get('i18n')->get_string($title, $this->_component);
+                $title = $this->_l10n->get($title);
                 if ($multiple_types)
                 {
-                    $title = midcom::get('i18n')->get_string($type, $this->_component) . ': ' . $title;
+                    $title = $this->_l10n->get($type) . ': ' . $title;
                 }
                 $row[] = $title;
             }

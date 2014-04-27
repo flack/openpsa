@@ -72,13 +72,13 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($deliverable->invoiceByActualUnits)
         {
-            $type = midcom::get('i18n')->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
+            $type = $this->_i18n->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
             $invoice_sum = $deliverable->units * $deliverable->pricePerUnit;
         }
         else
         {
             $invoice_sum = $deliverable->price;
-            $type = midcom::get('i18n')->get_l10n('org.openpsa.reports')->get('fixed price');
+            $type = $this->_i18n->get_l10n('org.openpsa.reports')->get('fixed price');
         }
 
         $invoice['sum'] = $invoice_sum;

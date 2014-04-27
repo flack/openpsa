@@ -19,9 +19,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         midcom::get('cache')->content->no_cache();
 
         // Preferred language
-        if (($language = midgard_admin_asgard_plugin::get_preference('interface_language')))
+        if (($language = self::get_preference('interface_language')))
         {
-            midcom::get('i18n')->set_language($language);
+            $this->_i18n->set_language($language);
         }
 
         // Enable jQuery
@@ -51,7 +51,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         self::get_default_mode($data);
 
         // Preferred language
-        if (($language = midgard_admin_asgard_plugin::get_preference('interface_language')))
+        if (($language = self::get_preference('interface_language')))
         {
             midcom::get('i18n')->set_language($language);
         }

@@ -150,7 +150,7 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get('componentloader')->load($component);
         $topic_guid = $siteconfig->get_node_guid($component);
         $this->_node = $nap->resolve_guid($topic_guid);
-        
+
         if (!$this->_node)
         {
             throw new midcom_error("Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string());
@@ -199,7 +199,7 @@ implements midcom_helper_datamanager2_interfaces_create
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
-        $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), midcom::get('i18n')->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
+        $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
 
         midcom_show_style('popup_head');
         if ($this->_action != 'form')

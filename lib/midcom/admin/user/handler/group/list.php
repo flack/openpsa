@@ -171,7 +171,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
                 $data['title'] = $data['name'];
                 if (empty($data['title']))
                 {
-                    $data['title'] = midcom::get('i18n')->get_string('unknown', 'midcom');
+                    $data['title'] = $data['l10n_midcom']->get('unknown');
                 }
             }
 

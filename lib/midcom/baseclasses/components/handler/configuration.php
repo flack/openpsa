@@ -97,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 array
                 (
                     MIDCOM_TOOLBAR_URL => 'config/recreate/',
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('recreate images', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('recreate images', 'midcom'),
                     // TODO: better icon
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/recurring.png',
                     MIDCOM_TOOLBAR_POST => true,
@@ -128,7 +128,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
 
         $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        $data['title'] = sprintf(midcom::get('i18n')->get_string('component %s configuration for folder %s', 'midcom'), midcom::get('i18n')->get_string($data['component'], $data['component']), $data['topic']->extra);
+        $data['title'] = sprintf($this->_l10n_midcom->get('component %s configuration for folder %s'), $this->_i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
         midcom::get('head')->set_pagetitle($data['title']);
     }
 
@@ -192,7 +192,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
         $this->add_breadcrumb('config/recreate/', $this->_l10n_midcom->get('recreate images'));
         $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        $data['title'] = sprintf(midcom::get('i18n')->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
+        $data['title'] = sprintf($this->_l10n_midcom->get('recreate images for folder %s'), $data['topic']->extra);
         midcom::get('head')->set_pagetitle($data['title']);
     }
 

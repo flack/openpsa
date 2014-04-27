@@ -122,7 +122,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             $this->add_breadcrumb
             (
                 midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
-                sprintf(midcom::get('i18n')->get_string('page %s', 'org.openpsa.qbpager'), $qb->get_current_page())
+                sprintf($this->_i18n->get_string('page %s', 'org.openpsa.qbpager'), $qb->get_current_page())
             );
         }
     }

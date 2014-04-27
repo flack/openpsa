@@ -103,7 +103,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->_group->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user management', 'org.openpsa.user'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                 )
             );

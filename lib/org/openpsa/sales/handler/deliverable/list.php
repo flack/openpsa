@@ -50,7 +50,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         else
         {
-            $entry['type'] = midcom::get('i18n')->get_string('fixed price', 'org.openpsa.reports');
+            $entry['type'] = $this->_i18n->get_string('fixed price', 'org.openpsa.reports');
         }
         $entry['pricePerUnit'] = $deliverable->pricePerUnit;
         $entry['units'] = $deliverable->units;

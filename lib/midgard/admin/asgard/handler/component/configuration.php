@@ -123,7 +123,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
         }
-        $schemadb[$schema]->l10n_schema = midcom::get('i18n')->get_l10n($this->_request_data['name']);
+        $schemadb[$schema]->l10n_schema = $this->_i18n->get_l10n($this->_request_data['name']);
 
         foreach ($this->_request_data['config']->_global as $key => $value)
         {
@@ -204,7 +204,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         foreach ($data['config']->_global as $key => $value)
         {
-            $data['key'] = midcom::get('i18n')->get_string($key, $data['name']);
+            $data['key'] = $this->_i18n->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
 
             if (isset($data['config']->_local[$key]))
@@ -276,7 +276,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (strstr($parse_results, 'Parse error'))
         {
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
-            throw new midcom_error(sprintf(midcom::get('i18n')->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
+            throw new midcom_error(sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
         }
     }
 

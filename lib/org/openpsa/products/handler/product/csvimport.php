@@ -72,7 +72,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         static $iconv_target = null;
         if (empty($target_charset))
         {
-            $target_charset = midcom::get('i18n')->get_current_charset();
+            $target_charset = $this->_i18n->get_current_charset();
         }
         if (empty($detect_list))
         {

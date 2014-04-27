@@ -258,7 +258,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 else
                 {
                     // This is a component-specific privilege, call component to localize it
-                    $privilege_label = midcom::get('i18n')->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
+                    $privilege_label = $this->_i18n->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
                 }
 
                 if (! isset($header_items[$privilege_label]))

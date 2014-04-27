@@ -57,8 +57,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         if (   ! array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
             && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
         {
-            $i18n = midcom::get('i18n');
-            $l10n = $i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
+            $l10n = $this->_i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
             $this->_request_data['components'][$node[MIDCOM_NAV_COMPONENT]] = $l10n->get($node[MIDCOM_NAV_COMPONENT]);
         }
         $this->_request_data['topics'][$node[MIDCOM_NAV_FULLURL]] = "{$prefix}{$node[MIDCOM_NAV_NAME]}";

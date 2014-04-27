@@ -313,11 +313,11 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
                 && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
             {
                 $wikilink = rawurlencode($wikilink);
-                return "<a href=\"{$folder[MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . midcom::get('i18n')->get_string('click to create', 'net.nemein.wiki') . "\">{$text}</a>";
+                return "<a href=\"{$folder[MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . $this->_l10n->get('click to create') . "\">{$text}</a>";
             }
             else
             {
-                return "<span class=\"wiki_missing_nouser\" title=\"" . midcom::get('i18n')->get_string('login to create', 'net.nemein.wiki') . "\">{$text}</span>";
+                return "<span class=\"wiki_missing_nouser\" title=\"" . $this->_l10n->get('login to create') . "\">{$text}</span>";
             }
         }
 
