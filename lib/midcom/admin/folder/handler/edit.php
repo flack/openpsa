@@ -227,7 +227,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         }
         else
         {
-            $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $this->_request_data['topic']->extra);
+            $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $this->_topic->get_label());
         }
 
         $this->_request_data['topic'] =& $this->_topic;
@@ -418,16 +418,11 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Show the style element
         if ($this->_handler_id === 'create')
         {
-            $data['page_title'] = sprintf($this->_i18n->get_string("create folder", 'midcom.admin.folder'));
+            $data['page_title'] = $this->_l10n->get("create folder");
         }
         else
         {
-            $topic_title = $this->_topic->extra;
-            if (!$topic_title)
-            {
-                $topic_title = $this->_topic->name;
-            }
-            $data['page_title'] = sprintf($this->_i18n->get_string("{$this->_handler_id} folder %s", 'midcom.admin.folder'), $topic_title);
+            $data['page_title'] = sprintf($this->_l10n->get("{$this->_handler_id} folder %s"), $this->_topic->get_label());
         }
 
         midcom_show_style('midcom-admin-show-folder-actions');

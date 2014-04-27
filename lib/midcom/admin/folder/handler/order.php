@@ -89,12 +89,8 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             // This will skip the rest of the handling
         }
 
-        // Get the approval status if metadata object is available
-        $approval_status = false;
-        if ($object->metadata->is_approved())
-        {
-            $approval_status = true;
-        }
+        // Get the approval status (before setting score)
+        $approval_status = $object->metadata->is_approved();
 
         //$metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that instead of raw update
         if (!$object->metadata->set('score', $score))
@@ -154,12 +150,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         // Set page title
         $data['folder'] = $this->_topic;
-        $folder_title = $data['folder']->extra;
-        if (!$folder_title)
-        {
-            $folder_title = $data['folder']->name;
-        }
-        $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $folder_title);
+        $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
         midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar

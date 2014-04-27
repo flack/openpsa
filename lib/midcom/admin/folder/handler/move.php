@@ -119,7 +119,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $disabled = ' disabled="disabled"';
         }
         echo "<ul>\n";
-        echo "<li class=\"{$class}\"><label><input{$selected}{$disabled} type=\"radio\" name=\"move_to\" value=\"{$folder->id}\" /> {$folder->extra}</label>\n";
+        echo "<li class=\"{$class}\"><label><input{$selected}{$disabled} type=\"radio\" name=\"move_to\" value=\"{$folder->id}\" /> " . $folder->get_label() . "</label>\n";
 
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $folder->id);

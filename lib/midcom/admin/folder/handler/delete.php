@@ -56,7 +56,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $this->_node_toolbar->hide_item('__ais/folder/delete/');
 
         // Set page title
-        $data['title'] = sprintf($this->_l10n->get('delete folder %s'), $data['topic']->extra);
+        $data['title'] = sprintf($this->_l10n->get('delete folder %s'), $this->_topic->get_label());
         midcom::get('head')->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
@@ -242,11 +242,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
         }
 
-        $data['title'] = $this->_topic->extra;
-        if (!$data['title'])
-        {
-            $data['title'] = $this->_topic->name;
-        }
+        $data['title'] = $this->_topic->get_label();
 
         midcom_show_style('midcom-admin-show-delete-folder');
     }
