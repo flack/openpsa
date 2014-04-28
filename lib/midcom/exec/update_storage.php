@@ -22,7 +22,6 @@ $types = midcom_connection::get_schema_types();
 $start = microtime(true);
 foreach ($types as $type)
 {
-    $counter++;
     if (midgard_storage::class_storage_exists($type))
     {
         midgard_storage::update_class_storage($type);
