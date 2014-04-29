@@ -33,7 +33,17 @@ abstract class midcom_baseclasses_components_base
      */
     private $_services = array();
 
-    public function __construct(){}
+    /**
+     * Initialize all member variables, remember to set $_component before calling
+     * this constructor from your derived classes.
+     */
+    public function __construct()
+    {
+        if ($this->_component == '')
+        {
+            $this->_component = preg_replace('/^(.+?)_(.+?)_([^_]+).*/', '$1.$2.$3', get_class($this));
+        }
+    }
 
     public function __get($field)
     {

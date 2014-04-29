@@ -84,13 +84,13 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                     'dependencies' => array
                     (
                         'path' => '/dependencies',
-                        'subject' => 'help_dependencies',
+                        'subject' => 'Component dependencies',
                         'lang' => 'en'
                     ),
                     'urlmethods' => array
                     (
                         'path' => '/urlmethods',
-                        'subject' => 'help_urlmethods',
+                        'subject' => 'Additional URL methods',
                         'lang' => 'en'
                     ),
                 )
@@ -104,7 +104,7 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                     'dependencies' => array
                     (
                         'path' => '/dependencies',
-                        'subject' => 'help_dependencies',
+                        'subject' => 'Component dependencies',
                         'lang' => 'en'
                     ),
                     '01_component_config' => array
@@ -116,7 +116,7 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                     'mgdschemas' => array
                     (
                         'path' => '/mgdschemas',
-                        'subject' => 'help_mgdschemas',
+                        'subject' => 'MgdSchema classes',
                         'lang' => 'en'
                     ),
                     'style' => array

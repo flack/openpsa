@@ -84,14 +84,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     private $_breadcrumbs = array();
 
     /**
-     * Main constructor does not do much yet, it shouldn't be overridden though,
-     * use the _on_initialize event handler instead.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Initializes the request handler class, called by the component interface after
      * instantiation. Required to allow safe $this references during startup.
      *

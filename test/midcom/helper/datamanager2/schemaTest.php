@@ -15,6 +15,7 @@ class midcom_helper_datamanager2_schemaTest extends openpsa_testcase
 {
     public function test_load_database()
     {
+        midcom_core_context::get()->set_key(MIDCOM_CONTEXT_COMPONENT, 'midcom.helper.datamanager2');
         $filename = 'file:/../test/midcom/helper/datamanager2/__files/schemadb_invoice.inc';
         $db = midcom_helper_datamanager2_schema::load_database($filename);
         $this->assertTrue(is_array($db));

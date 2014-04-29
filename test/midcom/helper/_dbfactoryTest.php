@@ -28,7 +28,7 @@ class midcom_helper__dbfactoryTest extends openpsa_testcase
 
         foreach ($test_properties as $property)
         {
-            $this->assertTrue($dbfactory->property_exists($input, $property));
+            $this->assertTrue($dbfactory->property_exists($input, $property), 'Property ' . $property . ' not found');
         }
     }
 

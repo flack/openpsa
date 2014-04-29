@@ -392,6 +392,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
+        if (!midcom::get('componentloader')->is_installed($l10n_name))
+        {
+            $l10n_name = 'midcom';
+        }
         $this->l10n_schema = $this->_i18n->get_l10n($l10n_name);
 
         if (array_key_exists('operations', $this->_raw_schema))
@@ -680,8 +684,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         $translate_string = strtolower($string);
 
-        if (   !empty($this->l10n_schema)
-            && $this->l10n_schema->string_available($translate_string))
+        if ($this->l10n_schema->string_available($translate_string))
         {
             return $this->l10n_schema->get($translate_string);
         }
