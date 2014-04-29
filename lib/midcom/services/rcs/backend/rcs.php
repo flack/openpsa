@@ -35,7 +35,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
         if (!file_exists($dirpath))
         {
-            debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_WARN);
+            debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_INFO);
             mkdir($dirpath, 0777, true);
         }
         $filename = "{$dirpath}/{$guid}";

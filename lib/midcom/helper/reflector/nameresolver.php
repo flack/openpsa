@@ -201,7 +201,7 @@ class midcom_helper_reflector_nameresolver
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get('auth')->drop_sudo();
-                debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
+                debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
                 return true;
             }
         }
@@ -500,7 +500,7 @@ class midcom_helper_reflector_nameresolver
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get('auth')->drop_sudo();
-                debug_add("Object #{$this->_object->guid} has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
+                debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
                 return array($i, $base_name);
             }
             else

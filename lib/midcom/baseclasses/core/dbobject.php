@@ -324,7 +324,7 @@ class midcom_baseclasses_core_dbobject
         if (   !$object->__exec_create()
             && $object->id == 0)
         {
-            debug_add("Failed to create the record, last Midgard error: " . midcom_connection::get_error_string());
+            debug_add("Failed to create " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string());
             return false;
         }
 
@@ -419,7 +419,7 @@ class midcom_baseclasses_core_dbobject
         // Finally, delete the object itself
         if (! $object->__exec_delete())
         {
-            debug_add("Failed to create the record, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add("Failed to delete " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
 
