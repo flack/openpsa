@@ -170,9 +170,8 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
             return;
         }
 
-        debug_add("Calling \self::\$memcache->flush()");
         $stat = @self::$memcache->flush();
-        debug_add("self::\$memcache->flush() returned " . (int) $stat);
+        debug_add("memcache->flush() returned " . (int) $stat);
     }
 
     /**
