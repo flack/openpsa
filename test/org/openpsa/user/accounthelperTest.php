@@ -180,20 +180,18 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $max_attempts = midcom_baseclasses_components_configuration::get("org.openpsa.user", 'config')->get('max_password_attempts');
 
         // no attempts so far..
-        // account should not be blocked
-        $this->assertFalse($helper->is_blocked());
+        $this->assertFalse($helper->is_blocked(), 'account should not be blocked');
         $this->assertNull($person->get_parameter("org_openpsa_user_password", "attempts"));
 
-        for ($attempt_num=1; $attempt_num<$max_attempts; $attempt_num++)
+        for ($attempt_num = 1; $attempt_num < $max_attempts; $attempt_num++)
         {
             $this->assertTrue($helper->check_login_attempts());
             $attempts = unserialize($person->get_parameter("org_openpsa_user_password", "attempts"));
             $this->assertEquals($attempt_num, count($attempts));
         }
 
-        // account should get blocked now!
         $this->assertFalse($helper->check_login_attempts());
-        $this->assertTrue($helper->is_blocked());
+        $this->assertTrue($helper->is_blocked(), 'account should get blocked now!');
 
         midcom::get('auth')->drop_sudo();
     }

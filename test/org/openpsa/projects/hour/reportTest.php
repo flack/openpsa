@@ -54,7 +54,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         $this->assertEquals($task_hours['reportedHours'], 3.5);
 
         $stat = $report->delete();
-        $this->assertTrue($stat);
+        $this->assertTrue($stat, midcom_connection::get_error_string());
 
         self::$_task->refresh();
         $this->assertEquals(self::$_task->reportedHours, 0);
