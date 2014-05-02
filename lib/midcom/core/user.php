@@ -169,24 +169,7 @@ class midcom_core_user
      *
      * @param mixed $id This is either a Midgard Person ID or GUID, a midcom_user ID or an already instantiated midgard_person.
      */
-    public function __construct($id = null)
-    {
-        if (is_null($id))
-        {
-            throw new midcom_error('The class midcom_user is not default constructible.');
-        }
-
-        $this->_load($id);
-    }
-
-    /**
-     * Helper function that will look up a user in the Midgard Database and
-     * assign the object to the $storage member.
-     *
-     * @param mixed $id This is either a Midgard Person ID or GUID, a midcom_user ID or an already instantiated midgard_person.
-     * @return boolean Indicating success.
-     */
-    private function _load($id)
+    public function __construct($id)
     {
         $person_class = midcom::get('config')->get('person_class');
 

@@ -161,7 +161,7 @@ class midcom_helper_toolbar
      *
      * @var Array
      */
-    var $items;
+    var $items = array();
 
     /**
      * Allow our users to add arbitrary data to the toolbar.
@@ -190,7 +190,6 @@ class midcom_helper_toolbar
     {
         $this->id_style = $id_style;
         $this->class_style = $class_style;
-        $this->items = Array();
     }
 
     /**

@@ -8,6 +8,7 @@
 
 /**
  * Helper to merge duplicate objects
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_duplicates_merge

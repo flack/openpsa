@@ -62,7 +62,7 @@ class midcom_services_uimessages
      *
      * @var Array
      */
-    private $_allowed_types = array();
+    private $_allowed_types = array('info', 'ok', 'warning', 'error', 'debug');
 
     /**
      * List of messages retrieved from session to avoid storing them again
@@ -84,19 +84,6 @@ class midcom_services_uimessages
      * @var String
      */
     public $uimessage_holder = 'body';
-
-    /**
-     * Simple constructor, calls base class.
-     */
-    public function __construct()
-    {
-        // Set the list of allowed message types
-        $this->_allowed_types[] = 'info';
-        $this->_allowed_types[] = 'ok';
-        $this->_allowed_types[] = 'warning';
-        $this->_allowed_types[] = 'error';
-        $this->_allowed_types[] = 'debug';
-    }
 
     /**
      * Initialize the message stack on service start-up. Reads older unshown

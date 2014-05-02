@@ -93,13 +93,11 @@ class midcom_helper_configuration
         {
             $this->_object = $param1;
             $this->_path = $param2;
-            $this->_local = array();
             $this->_store_from_object(true);
         }
         else if (! is_null($param1))
         {
             $this->_global = $param1;
-            $this->_local = array();
             $this->_merged = $param1;
         }
     }

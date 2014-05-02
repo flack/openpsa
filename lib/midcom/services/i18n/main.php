@@ -45,7 +45,7 @@ class midcom_services_i18n
      *
      * @var Array
      */
-    private $_http_lang;
+    private $_http_lang = array();
 
     /**
      * Preferred charsets extracted out of the HTTP content negotiation.
@@ -54,7 +54,7 @@ class midcom_services_i18n
      *
      * @var Array
      */
-    private $_http_charset;
+    private $_http_charset = array();
 
     /**
      * Fallback language, in case the selected language is not available.
@@ -70,7 +70,7 @@ class midcom_services_i18n
      *
      * @var Array
      */
-    private $_obj_l10n;
+    private $_obj_l10n = array();
 
     /**
      * Current language.
@@ -114,10 +114,6 @@ class midcom_services_i18n
      */
     public function __construct()
     {
-        $this->_http_lang = Array();
-        $this->_http_charset = Array();
-        $this->_obj_l10n = Array();
-
         if (!$this->_load_language_db())
         {
             debug_add("Could not load language database. Aborting.", MIDCOM_LOG_CRIT);

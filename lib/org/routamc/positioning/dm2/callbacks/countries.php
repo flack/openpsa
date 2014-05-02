@@ -24,13 +24,11 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
      *
      * @var array
      */
-    private $_data = null;
+    private $_data = array();
 
     public function __construct($args)
     {
         parent::__construct();
-
-        $this->_data = array();
 
         if (isset($args['start_message']))
         {
