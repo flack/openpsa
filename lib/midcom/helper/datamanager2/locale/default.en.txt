@@ -143,6 +143,14 @@ This object was locked by %s
 File size
 ---STRINGEND
 
+---STRING type csrf: missing csrf token
+CSRF token missing
+---STRINGEND
+
+---STRING type csrf: invalid csrf token
+Invalid CSRF token
+---STRINGEND
+
 ---STRING type date: this date must be later than %s
 This date must be later than %s
 ---STRINGEND

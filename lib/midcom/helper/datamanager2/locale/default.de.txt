@@ -139,6 +139,14 @@ Dieses Objekt wurde von %s gesperrt
 Dateigröße
 ---STRINGEND
 
+---STRING type csrf: missing csrf token
+CSRF-Token fehlt
+---STRINGEND
+
+---STRING type csrf: invalid csrf token
+CSRF-Token ungültig
+---STRINGEND
+
 ---STRING type date: this date must be later than %s
 Dieses Datum muss größer als %s sein
 ---STRINGEND
