@@ -9,6 +9,7 @@ if [ "$MIDGARD_EXT_VERSION" != "portable" ]
 then
     # Install Pake
     pyrus channel-discover pear.indeyets.ru
+    pyrus channel-discover pear.symfony-project.com
     pyrus install -f http://pear.indeyets.ru/get/pake-1.7.2.tgz
 
     # Install Midgard2 library dependencies
