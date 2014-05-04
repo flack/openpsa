@@ -7,6 +7,13 @@
     ),
     'fields' => array
     (
+        'csrf' => array
+        (
+            'title' => 'csrf',
+            'type' => 'text',
+            'widget' => 'csrf',
+            'required' => 'true',
+        ),
         'author' => array
         (
             'title' => 'author',
