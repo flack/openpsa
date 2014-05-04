@@ -39,6 +39,13 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         <!-- BEGIN error --><span class='field_error'>{error}</span><br /><!-- END error -->\t{element}</div>\n\t</div>\n\t";
 
     /**
+     * Element template string
+     *
+     * @var string
+     */
+    private $_hidden_template = "<!-- BEGIN error --><span class='field_error'>{error}</span><br /><!-- END error -->\t{element}\n\t";
+
+    /**
      * Group template string
      *
      * @var string
@@ -240,6 +247,9 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
                 case 'group':
                     $template = $this->_default_group_template;
                     break;
+                case 'hidden':
+                    $template = $this->_hidden_template;
+                    break;
                 default:
                     $template = $this->_element_template;
                     break;
@@ -318,11 +328,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     }
 
     /**
-     * Renders an element as HTML
-     *
-     * @param HTML_QuickForm_element &$element The object being visited
-     * @param boolean $required Whether an element is required
-     * @param string $error An error message associated with an element
+     * @inheritDoc
      */
     public function renderElement(&$element, $required, $error)
     {
@@ -349,14 +355,13 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     }
 
     /**
-     * Renders a hidden element
-     *
-     * @param HTML_QuickForm_hidden &$element The object being visited
+     * @inheritDoc
      */
-    public function renderHidden(&$element)
+    public function renderHidden(&$element, $required, $error)
     {
+        $html = $this->_prepare_template($element->getName(), $element, $required, $error, 'hidden');
         $this->_extract_helptext($element);
-        $this->_hidden_html .= $element->toHtml() . "\n";
+        $this->_hidden_html .= str_replace('{element}', $element->toHtml(), $html);
     }
 
     /**
