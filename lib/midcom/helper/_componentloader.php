@@ -521,9 +521,10 @@ class midcom_helper__componentloader
      * Get list of component and its dependencies depend on
      *
      * @param string $component Name of a component
+     * @param string $called_from When dependencies are recursively resolved, this is used to avoid circular calls
      * @return array List of dependencies
      */
-    public function get_component_dependencies($component)
+    public function get_component_dependencies($component, $called_from = false)
     {
         static $checked = array();
         if (isset($checked[$component]))
@@ -546,14 +547,15 @@ class midcom_helper__componentloader
                 continue;
             }
 
-            if ($dependency == 'midcom')
+            if (   $dependency == 'midcom'
+                || $dependency == $called_from)
             {
                 // Ignore
                 continue;
             }
 
             $checked[$component][] = $dependency;
-            $subdependencies = $this->get_component_dependencies($dependency);
+            $subdependencies = $this->get_component_dependencies($dependency, $component);
             $checked[$component] = array_merge($checked[$component], $subdependencies);
         }
         $checked[$component] = array_unique($checked[$component]);
