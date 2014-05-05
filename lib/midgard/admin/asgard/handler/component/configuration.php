@@ -113,12 +113,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $schema = 'config';
             }
 
-            $schemadb = midcom_helper_datamanager2_schema::load_database("file:/" . str_replace('.', '/', $this->_request_data['name']) . '/config/config_schemadb.inc');
-
+            $schemadb = midcom_helper_datamanager2_schema::load_database($schema_array);
             // TODO: Log error on deprecated config schema?
         }
-
-        if (!$schemadb)
+        else
         {
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
@@ -130,11 +128,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // try to sniff what fields are missing in schema
             if (!array_key_exists($key, $schemadb[$schema]->fields))
             {
-                $schemadb[$schema]->append_field
-                (
-                    $key,
-                    $this->_detect_schema($key, $value)
-                );
+                $schemadb[$schema]->append_field($key, $this->_detect_schema($key, $value));
                 $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
             }
 
