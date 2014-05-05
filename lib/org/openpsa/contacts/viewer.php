@@ -23,15 +23,8 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         // Always run in uncached mode
         midcom::get('cache')->content->no_cache();
 
-        if ($handler != 'mycontacts_xml')
-        {
-            midcom::get('auth')->require_valid_user();
-            org_openpsa_widgets_contact::add_head_elements();
-        }
-        else
-        {
-            midcom::get('auth')->require_valid_user('basic');
-        }
+        midcom::get('auth')->require_valid_user();
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     public function get_group_tree()

@@ -213,10 +213,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
         usort($data, array('midcom_helper_datamanager2_widget_autocomplete', 'sort_items'));
 
-        $response = new midcom_response_json();
-
-        $response->set_data($data);
-        return $response;
+        return new midcom_response_json($data);
     }
 
     private function _populate_toolbar()
@@ -315,7 +312,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         if (!$this->_query_string)
         {
-            return false;
+            return;
         }
 
         $qb_org = org_openpsa_contacts_group_dba::new_query_builder();
@@ -332,7 +329,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         if (!$this->_query_string)
         {
-            return false;
+            return;
         }
 
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
@@ -341,7 +338,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $this->_persons = $qb->execute();
     }
 
-    private function _apply_constraints(midcom_core_query &$qb, $type)
+    private function _apply_constraints(midcom_core_query $qb, $type)
     {
         // Search using only the fields defined in config
         $fields = explode(',', $this->_config->get($type . '_search_fields'));

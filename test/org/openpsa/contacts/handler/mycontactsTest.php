@@ -31,17 +31,6 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
         midcom::get('auth')->drop_sudo();
     }
 
-    public function testHandler_list_xml()
-    {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
-
-        $data = $this->run_handler('org.openpsa.contacts', array('mycontacts', 'xml'));
-        $this->assertEquals('mycontacts_xml', $data['handler_id']);
-
-        $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
-    }
-
     public function testHandler_add()
     {
         midcom::get('auth')->request_sudo('org.openpsa.contacts');

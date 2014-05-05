@@ -39,18 +39,23 @@ class org_openpsa_contacts_mycontacts
         }
     }
 
+    /**
+     *
+     * @param boolean $autocreate
+     * @return org_openpsa_contacts_list_dba|false
+     */
     private function _get_group($autocreate = false)
     {
-        if ($this->_group)
+        if (!$this->_group)
         {
-            return $this->_group;
-        }
-        $qb = org_openpsa_contacts_list_dba::new_query_builder();
-        $qb->add_constraint('person', '=', $this->_user->guid);
-        $results = $qb->execute();
-        if (sizeof($results) == 0)
-        {
-            if ($autocreate)
+            $qb = org_openpsa_contacts_list_dba::new_query_builder();
+            $qb->add_constraint('person', '=', $this->_user->guid);
+            $results = $qb->execute();
+            if (sizeof($results) > 0)
+            {
+                $this->_group = $results[0];
+            }
+            else if ($autocreate)
             {
                 $this->_group = new org_openpsa_contacts_list_dba;
                 $this->_group->person = $this->_user->guid;
@@ -64,10 +69,7 @@ class org_openpsa_contacts_mycontacts
                 return false;
             }
         }
-        else
-        {
-            $this->_group = $results[0];
-        }
+
         return $this->_group;
     }
 

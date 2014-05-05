@@ -12,13 +12,6 @@
     'fixed_args' => 'mycontacts',
 ),
 
-// Match /mycontacts/xml
-'mycontacts_xml' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_mycontacts', 'list'),
-    'fixed_args' => array('mycontacts', 'xml'),
-),
-
 // Match /mycontacts/add/<person guid>
 'mycontacts_add' => array
 (
