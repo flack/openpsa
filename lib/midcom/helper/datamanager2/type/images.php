@@ -375,7 +375,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     function convert_to_storage()
     {
-        $titles = array_intersect_key(array_filter($this->titles), $this->images[$images_identifier]);
+        $titles = array_intersect_key(array_filter($this->titles), $this->images);
         foreach ($titles as $images_identifier => $title)
         {
             foreach ($this->images[$images_identifier] as $info)
