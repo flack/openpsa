@@ -541,12 +541,6 @@ class midcom_helper__componentloader
 
         foreach ($this->manifests[$component]->_raw_data['package.xml']['dependencies'] as $dependency => $dependency_data)
         {
-            if (isset($dependency_data['channel']))
-            {
-                //TODO: Should we really ignore external dependencies?
-                continue;
-            }
-
             if (   $dependency == 'midcom'
                 || $dependency == $called_from)
             {

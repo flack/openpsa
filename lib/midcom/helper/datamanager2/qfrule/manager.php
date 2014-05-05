@@ -67,12 +67,7 @@ class midcom_helper_datamanager2_qfrule_manager
                 continue;
             }
 
-            $stat = $this->_form->registerRule($rule_name, null, new $rule_class);
-            if (is_a($stat, 'pear_error'))
-            {
-                $msg = $stat->getMessage();
-                debug_add("Got PEAR error '{$msg}' from form->registerRule(), when adding {$type} rule '{$rule_name}'", MIDCOM_LOG_WARN);
-            }
+            $this->_form->registerRule($rule_name, null, new $rule_class);
         }
     }
 
