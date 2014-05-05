@@ -1,6 +1,6 @@
 COMPOSER=`which composer`;
 
-sudo ${COMPOSER} self-update
+${COMPOSER} self-update
 
 # MidCOM requires rcs
 sudo apt-get install rcs
@@ -27,8 +27,8 @@ then
     sh -c "cd midgardproject-midgard-php5-*&&php `pyrus get php_dir|tail -1`/pake.php install"
     echo "extension=midgard2.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 else
-    sudo ${COMPOSER} require openpsa/midgard-portable:dev-master
+    ${COMPOSER} require openpsa/midgard-portable:dev-master
 fi
 
-sudo ${COMPOSER} install
+${COMPOSER} install
 sudo chown -R travis var/
