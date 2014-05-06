@@ -166,16 +166,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     {
         if (preg_match('/\s*reversed?\s*/', $ordering))
         {
-            $reversed = true;
             $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-        }
-        else
-        {
-            $reversed = false;
-        }
-
-        if ($reversed)
-        {
             $qb->add_order($ordering, 'DESC');
         }
         else
@@ -303,19 +294,11 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 $data['results'] = $this->_qb_search($data['search_constraints']);
             }
         }
-        else if (array_key_exists('org_openpsa_products_list_all', $_REQUEST))
+        else if (   array_key_exists('org_openpsa_products_list_all', $_REQUEST)
+                 || $this->_config->get('search_default_to_all'))
         {
             // Process search
             $data['results'] = $this->_qb_list_all();
-        }
-        else
-        {
-            // No search has yet been made
-            if ($this->_config->get('search_default_to_all'))
-            {
-                // Process search
-                $data['results'] = $this->_qb_list_all();
-            }
         }
 
         // Prepare datamanager
@@ -409,39 +392,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         }
 
         midcom_show_style('product_search_footer');
-    }
-
-    /**
-     * Static helper for finding queried search values
-     */
-    function get_queried_value($property, $constraint = null)
-    {
-        if (   !array_key_exists('org_openpsa_products_search', $_REQUEST)
-            || !is_array($_REQUEST['org_openpsa_products_search']))
-        {
-            // No search was made
-            return null;
-        }
-
-        if (   !array_key_exists($property, $_REQUEST['org_openpsa_products_search'])
-            || !is_array($_REQUEST['org_openpsa_products_search'][$property]))
-        {
-            // This property wasn't specified
-            return null;
-        }
-
-        if (!array_key_exists('value', $_REQUEST['org_openpsa_products_search'][$property]))
-        {
-            return null;
-        }
-
-        if (   !is_null($constraint)
-            && $_REQUEST['org_openpsa_products_search'][$property]['constraint'] != $constraint)
-        {
-            return null;
-        }
-
-        return $_REQUEST['org_openpsa_products_search'][$property]['value'];
     }
 }
 ?>

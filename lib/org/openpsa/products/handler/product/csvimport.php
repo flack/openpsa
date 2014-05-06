@@ -277,37 +277,45 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 copy($_FILES['org_openpsa_products_import_upload']['tmp_name'], $data['tmp_file']);
 
                 // Read cell headers from the file
-                $read_rows = 0;
-                $handle = fopen($_FILES['org_openpsa_products_import_upload']['tmp_name'], 'r');
-                $separator = $data['separator'];
-                $total_columns = 0;
-                while (   $read_rows < 2
-                       && $csv_line = fgetcsv($handle, 3000, $separator))
-                {
-                    if ($total_columns == 0)
-                    {
-                        $total_columns = count($csv_line);
-                    }
-                    $columns_with_content = 0;
-                    foreach ($csv_line as $value)
-                    {
-                        if ($value != '')
-                        {
-                            $columns_with_content++;
-                        }
-                    }
-                    $percentage = round(100 / $total_columns * $columns_with_content);
-
-                    if ($percentage >= $this->_config->get('import_csv_data_percentage'))
-                    {
-                        $data['rows'][] = $csv_line;
-                        $read_rows++;
-                    }
-                }
+                $data['rows'] = $this->_read_file($_FILES['org_openpsa_products_import_upload']['tmp_name'], 0, 1);
             }
 
             $data['time_end'] = time();
         }
+    }
+
+    private function _read_file($filename, $offset = 0, $limit = 0)
+    {
+        $lines = array();
+        $read_rows = 0;
+        $total_columns = 0;
+        $handle = fopen($filename, 'r');
+        $separator = $this->_request_data['separator'];
+
+        while ($csv_line = fgetcsv($handle, 3000, $separator))
+        {
+            if ($total_columns == 0)
+            {
+                $total_columns = count($csv_line);
+            }
+            $columns_with_content = count(array_filter($csv_line));
+            $percentage = round(100 / $total_columns * $columns_with_content);
+
+            if ($percentage >= $this->_config->get('import_csv_data_percentage'))
+            {
+                $read_rows++;
+                if (   $limit > 0
+                    && $read_rows > ($limit + $offset))
+                {
+                    break;
+                }
+                if ($offset < $read_rows)
+                {
+                    $lines[] = $csv_line;
+                }
+            }
+        }
+        return $lines;
     }
 
     /**
@@ -339,8 +347,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
     {
         $this->_prepare_handler($args);
 
-        $data['groups'] = array();
-
         if (!array_key_exists('org_openpsa_products_import_separator', $_POST))
         {
             throw new midcom_error('No CSV separator specified.');
@@ -361,6 +367,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         $data['time_start'] = time();
 
         $data['rows'] = array();
+        $data['groups'] = array();
         $data['separator'] = $_POST['org_openpsa_products_import_separator'];
         if (!empty($_POST['org_openpsa_products_import_new_products_product_group']))
         {
@@ -374,38 +381,11 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         $this->_datamanager->set_schema($data['schema']);
 
         // Start processing the file
-        $read_rows = 0;
-        $total_columns = 0;
-        $handle = fopen($_POST['org_openpsa_products_import_tmp_file'], 'r');
-        $separator = $data['separator'];
+        $data['rows'] = $this->_read_file($_FILES['org_openpsa_products_import_upload']['tmp_name'], 1);
 
-        while ($csv_line = fgetcsv($handle, 3000, $separator))
+        foreach ($data['rows'] as $csv_line)
         {
-            if ($total_columns == 0)
-            {
-                $total_columns = count($csv_line);
-            }
-            $columns_with_content = count(array_filter($csv_line));
-            $percentage = round(100 / $total_columns * $columns_with_content);
-
-            if ($percentage >= $this->_config->get('import_csv_data_percentage'))
-            {
-                $data['rows'][] = $csv_line;
-                $read_rows++;
-            }
-            else
-            {
-                // This line has no proper content, skip
-                continue;
-            }
-
             $product = array();
-
-            if ($read_rows == 1)
-            {
-                // First line is headers, skip
-                continue;
-            }
             foreach ($csv_line as $field => $value)
             {
                 // Some basic CSV format cleanup
@@ -443,12 +423,9 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             }
         }
 
-        if (count($data['groups']) > 0)
+        foreach ($data['groups'] as $product)
         {
-            foreach ($data['groups'] as $product)
-            {
-                $this->_import_product($product);
-            }
+            $this->_import_product($product);
         }
 
         $data['time_end'] = time();
