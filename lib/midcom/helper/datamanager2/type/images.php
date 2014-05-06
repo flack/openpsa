@@ -834,52 +834,31 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             $this->_batch_handler_cleanup($tmp_dir, $new_name);
             return false;
         }
-        $files = array();
         // Handle archives with subdirectories correctly
-        $this->_batch_handler_get_files_recursive($tmp_dir, $files);
+        $files = $this->_batch_handler_get_files_recursive($tmp_dir);
 
         foreach ($files as $file)
         {
             // Set image
-            $basename = basename($file);
-            $this->add_image($basename, $file, $basename);
+            $this->add_image($file->getBaseName(), $file->getPathName(), $file->getBaseName());
         }
 
         $this->_batch_handler_cleanup($tmp_dir, $new_name);
     }
 
-    private function _batch_handler_get_files_recursive($path, &$files)
+    private function _batch_handler_get_files_recursive($path)
     {
-        $dp = @opendir($path);
-        if (!$dp)
+        try
         {
-            return;
+            $dir = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
+            $iterator = new RecursiveIteratorIterator($dir);
+            // ignore backup files
+            return new RegexIterator($iterator, '/[^~]$/i');
         }
-        while (($file = readdir($dp)) !== false)
+        catch (UnexpectedValueException $e)
         {
-            if (preg_match('/(^\.)|(~$)/', $file))
-            {
-                // ignore dotfiles and backup files
-                continue;
-            }
-            $filepath = "{$path}/{$file}";
-            if (is_dir($filepath))
-            {
-                // It's a directory, recurse
-                $this->_batch_handler_get_files_recursive($filepath, $files);
-                continue;
-            }
-            if (is_link($filepath))
-            {
-                // Is a symlink, we can't do anything sensible with it
-                continue;
-            }
-            if (!is_readable($filepath))
-            {
-                // for some weird reason the file *we* extracted is not readable by us...
-                continue;
-            }
-            $files[] = $filepath;
+            debug_add("failed to create iterator:" . $e->getMessage(), MIDCOM_LOG_ERROR);
+            return array();
         }
     }
 
