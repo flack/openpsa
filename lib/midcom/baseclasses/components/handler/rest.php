@@ -252,12 +252,13 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             // no response has been set
             if (is_null($this->_response))
             {
-                throw new Exception('Could not handle request, unknown method', 405);
+                $this->_stop('Could not handle request, unknown method', 405);
             }
         }
-        catch (Exception $e)
+        catch (midcom_error $e)
         {
-            return $this->_send_response($e->getMessage(), $e->getCode());
+            $this->_responseStatus = $e->getCode();
+            return $this->_send_response($e->getMessage());
         }
 
         return $this->_send_response();
