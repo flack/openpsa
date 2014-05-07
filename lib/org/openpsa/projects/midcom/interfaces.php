@@ -32,16 +32,9 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
      *
      * Currently handles persons
      */
-    function org_openpsa_relatedto_find_suspects($object, $defaults, &$links_array)
+    public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
-        if (   !is_array($links_array)
-            || !is_object($object))
-        {
-            debug_add('$links_array is not array or $object is not object, make sure you call this correctly', MIDCOM_LOG_ERROR);
-            return;
-        }
-
-        switch(true)
+        switch (true)
         {
             case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
                 $this->_find_suspects_person($object, $defaults, $links_array);
@@ -61,7 +54,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
      * Current rule: all participants of event must be either manager, contact or resource in task
      * that overlaps in time with the event.
      */
-    private function _find_suspects_event(&$object, &$defaults, &$links_array)
+    private function _find_suspects_event(midcom_core_dbaobject $object, &$defaults, array &$links_array)
     {
         if (   !is_array($object->participants)
             || count($object->participants) < 1)
@@ -104,7 +97,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    private function _find_suspects_person(&$object, &$defaults, &$links_array)
+    private function _find_suspects_person(midcom_core_dbaobject $object, &$defaults, array &$links_array)
     {
         //List all projects and tasks given person is involved with
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $object->id);

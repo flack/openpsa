@@ -26,7 +26,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      * The see org.openpsa.projects for an example of how the component interface method
      * org_openpsa_relatedto_find_suspects() should work.
      */
-    public static function find_links_object($object, $defaults = false)
+    public static function find_links_object(midcom_core_dbaobject $object, $defaults = false)
     {
         $ret = array();
         $components = array_keys(midcom::get('componentloader')->manifests);
@@ -38,7 +38,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
                 //Skip midcom core
                 continue;
             }
-            $component_ret = org_openpsa_relatedto_suspect::find_links_object_component($object, $component, $defaults);
+            $component_ret = self::find_links_object_component($object, $component, $defaults);
             foreach ($component_ret as $linkdata)
             {
                 $ret[] = $linkdata;
@@ -55,7 +55,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      *
      * See org_openpsa_relatedto_suspect::find_links_object() for details
      */
-    public static function find_links_object_component($object, $component, $defaults = false)
+    public static function find_links_object_component(midcom_core_dbaobject $object, $component, $defaults = false)
     {
         $ret = array();
 
