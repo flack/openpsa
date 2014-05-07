@@ -206,7 +206,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         switch(true)
         {
             case midcom::get('dbfactory')->is_a($obj, 'midcom_db_event'):
-                return $obj->start;
             case midcom::get('dbfactory')->is_a($obj, 'org_openpsa_projects_task_dba'):
                 return $obj->start;
             default:

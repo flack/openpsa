@@ -124,15 +124,13 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _show_entry($handler_id, &$data)
     {
-        switch($this->_output_mode)
+        if ($this->_output_mode == 'xml')
         {
-            case 'html':
-            case 'xml':
-                midcom_show_style('show_entries_' . $this->_output_mode);
-                break;
-            default:
-                midcom_show_style('show_entries_html');
-                break;
+            midcom_show_style('show_entries_xml');
+        }
+        else
+        {
+            midcom_show_style('show_entries_html');
         }
     }
 
@@ -324,12 +322,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _prepare_header()
     {
-        switch($this->_output_mode)
+        if ($this->_output_mode == 'xml')
         {
-            case 'xml':
-                midcom::get()->header("Content-type: text/xml; charset=UTF-8");
-                midcom::get()->skip_page_style = true;
-                break;
+            midcom::get()->header("Content-type: text/xml; charset=UTF-8");
+            midcom::get()->skip_page_style = true;
         }
     }
 
