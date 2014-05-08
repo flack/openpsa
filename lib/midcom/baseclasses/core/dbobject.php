@@ -512,7 +512,6 @@ class midcom_baseclasses_core_dbobject
             );
         }
 
-        $stats = array();
         foreach ($guids as $guid)
         {
             $object = midcom_helper_reflector::get_object($guid, $type);
@@ -523,21 +522,11 @@ class midcom_baseclasses_core_dbobject
                 continue;
             }
 
-            $undeleted = false;
             if ($object->undelete($guid))
             {
-                $undeleted = true;
                 // refresh
                 $object = midcom::get('dbfactory')->get_object_by_guid($guid);
                 $undeleted_size += $object->metadata->size;
-            }
-
-            if (!$undeleted)
-            {
-                debug_add("Failed to undelete object with GUID {$guid} errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            }
-            else
-            {
                 $parent = $object->get_parent();
                 if (!empty($parent->guid))
                 {
@@ -552,7 +541,10 @@ class midcom_baseclasses_core_dbobject
                     $object->_on_updated();
                 }
             }
-            $stats[$guid] = $undeleted;
+            else
+            {
+                debug_add("Failed to undelete object with GUID {$guid} errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            }
 
             // FIXME: We should only undelete parameters & attachments deleted inside some small window of the main objects delete
             $undeleted_size += self::undelete_parameters($guid);
@@ -602,12 +594,7 @@ class midcom_baseclasses_core_dbobject
         $params = $qb->execute();
         foreach ($params as $param)
         {
-            $undeleted = false;
             if ($param->undelete($param->guid))
-            {
-                $undeleted = true;
-            }
-            if ($undeleted)
             {
                 $undeleted_size += $param->metadata->size;
             }
@@ -634,20 +621,15 @@ class midcom_baseclasses_core_dbobject
         $atts = $qb->execute();
         foreach ($atts as $att)
         {
-            $undeleted = false;
             if ($att->undelete($att->guid))
-            {
-                $undeleted = true;
-            }
-            if (!$undeleted)
-            {
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed undeleting attachment %s, reason %s', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'error');
-            }
-            else
             {
                 midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('attachment %s undeleted', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'ok');
                 $undeleted_size += $att->metadata->size;
                 $undeleted_size += self::undelete_parameters($att->guid);
+            }
+            else
+            {
+                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed undeleting attachment %s, reason %s', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'error');
             }
         }
 
