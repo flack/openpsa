@@ -872,12 +872,6 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (empty($object->__object))
-        {
-            debug_add("Failed to load " . get_class($object) . " object #{$id}, it seems to be instantiated in wrong way as the DBA object doesn't contain the decorated MgdSchema object.", MIDCOM_LOG_ERROR);
-            self::_clear_object($object);
-            return false;
-        }
         $object->__exec_get_by_id((int) $id);
 
         if (   $object->id != 0
