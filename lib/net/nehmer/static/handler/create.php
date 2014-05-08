@@ -175,17 +175,6 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
-                /**
-                 * http://trac.midgard-project.org/ticket/809 should have taken care of this.
-                 * BUT: to be extra careful, let's do this sanity-check anyway.
-                 */
-                if (strlen($this->_article->name) == 0)
-                {
-                    // Generate something to avoid empty "/" links in case of failures
-                    $this->_article->name = time();
-                    $this->_article->update();
-                }
-
                 // Index the article
                 $indexer = midcom::get('indexer');
                 net_nehmer_static_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);

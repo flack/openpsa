@@ -136,13 +136,6 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
-                // #809 should have taken care of this, but see same place in n.n.static
-                if (strlen($this->_article->name) == 0)
-                {
-                    // Generate something to avoid empty "/" links in case of failures
-                    $this->_article->name = time();
-                    $this->_article->update();
-                }
                 // Index the article
                 $indexer = midcom::get('indexer');
                 net_nehmer_blog_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
