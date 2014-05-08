@@ -806,7 +806,6 @@ class midcom_baseclasses_core_dbobject
      * After we instantiated the midgard object do some post processing and ACL checks
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating success.
      * @see load()
      */
     public static function post_db_load_checks(midcom_core_dbaobject $object)
@@ -824,8 +823,6 @@ class midcom_baseclasses_core_dbobject
         {
             midcom::get('cache')->content->register($object->guid);
         }
-
-        return true;
     }
 
     /**
