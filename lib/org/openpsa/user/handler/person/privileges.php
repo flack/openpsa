@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $fields['calendar']['privilege_object'] = $root_event;
             $fields['calendar']['privilege_assignee'] = $user_object->id;
         }
-        else if (isset($fields['calendar']))
+        else
         {
             unset($fields['calendar']);
         }

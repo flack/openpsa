@@ -36,12 +36,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();
-        if ( is_object($root_event))
+        if (is_object($root_event))
         {
             $fields['calendar']['privilege_object'] = $root_event;
             $fields['calendar']['privilege_assignee'] = $group_object->id;
         }
-        else if (isset($fields['calendar']))
+        else
         {
             unset($fields['calendar']);
         }

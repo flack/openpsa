@@ -308,10 +308,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         // Clear up all attachments no longer in use
         if ($ret)
         {
-            if (array_key_exists('main', $this->_pending_attachments))
-            {
-                unset($this->_pending_attachments['main']);
-            }
+            unset($this->_pending_attachments['main']);
             $this->_clean_pending_attachments();
         }
         return $ret;
@@ -341,8 +338,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         // PHP5-TODO: Must be copy-by-value
         $this->_pending_attachments = $this->attachments;
         // Remove original and main from pending attachments
-        if (   $this->keep_original
-            && array_key_exists('original', $this->_pending_attachments))
+        if ($this->keep_original)
         {
             unset($this->_pending_attachments['original']);
         }

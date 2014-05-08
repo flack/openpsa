@@ -229,10 +229,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
 
             // This one is already an assignee, remove from 'Add assignee' options
-            if (array_key_exists($privilege->assignee, $additional_assignees))
-            {
-                unset($additional_assignees[$privilege->assignee]);
-            }
+            unset($additional_assignees[$privilege->assignee]);
         }
 
         asort($additional_assignees);

@@ -224,13 +224,7 @@ class org_openpsa_calendar_conflictmanager
             $event = new org_openpsa_calendar_event_dba($event->id);
 
             //resources
-            foreach ($this->_event->resources as $id => $bool)
-            {
-                if (array_key_exists($id, $event->resources))
-                {
-                    unset($event->resources[$id]);
-                }
-            }
+            $event->resources = array_diff_key($event->resources, $this->_event->resources);
             if ($set_as_modified)
             {
                 $modified_events[$event->id] = $event;
@@ -294,13 +288,7 @@ class org_openpsa_calendar_conflictmanager
             $event = new org_openpsa_calendar_event_dba($event->id);
 
             //participants
-            foreach ($this->_event->participants as $id => $bool)
-            {
-                if (array_key_exists($id, $event->participants))
-                {
-                    unset($event->participants[$id]);
-                }
-            }
+            $event->participants = array_diff_key($event->participants, $this->_event->participants);
             $modified_events[$event->id] = $event;
         }
         else

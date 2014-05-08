@@ -1031,9 +1031,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         // Not in cache, query from MgdSchema API directly
-        $value = $object->__object->get_parameter($domain, $name);
-
-        return $value;
+        return $object->__object->get_parameter($domain, $name);
     }
 
     /**
@@ -1135,11 +1133,6 @@ class midcom_baseclasses_core_dbobject
         $mc->add_constraint('domain', '=', $domain);
         $mc->execute();
         $parameters = $mc->list_keys();
-
-        if (count($parameters) == 0)
-        {
-            return self::$parameter_cache[$object->guid][$domain];
-        }
 
         foreach ($parameters as $name => $values)
         {
@@ -1305,13 +1298,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   isset(self::$parameter_cache[$object->guid])
-            && is_array(self::$parameter_cache[$object->guid])
-            && isset(self::$parameter_cache[$object->guid][$domain]))
-        {
-            // Invalidate run-time cache
-            unset(self::$parameter_cache[$object->guid][$domain]);
-        }
+        // Invalidate run-time cache
+        unset(self::$parameter_cache[$object->guid][$domain]);
 
         // Unset via MgdSchema API directly
         $result = $object->__object->parameter($domain, $name, '');

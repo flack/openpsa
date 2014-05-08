@@ -388,8 +388,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         // If navigation is configured to display product groups, remove the lowest level
         // parent to prevent duplicate entries in breadcrumb display
-        if (   $this->_config->get('display_navigation')
-            && isset($tmp[count($tmp) - 1]))
+        if ($this->_config->get('display_navigation'))
         {
             unset($tmp[count($tmp) - 1]);
         }

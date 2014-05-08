@@ -77,7 +77,6 @@ class org_openpsa_projects_projectbroker
 
     private function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
     {
-        $keep_prospects = array();
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))
         {
@@ -89,27 +88,19 @@ class org_openpsa_projects_projectbroker
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
             return;
         }
+
+        debug_add('clearing prospects that do not have free time from the list');
         midcom::get('auth')->request_sudo('org.openpsa.projects');
         foreach ($prospects as $key => $person)
         {
             $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
-            if (!empty($slots))
+            if (empty($slots))
             {
-                $keep_prospects[$key] = true;
+                debug_add("removing '{$person->name}' from prospects list");
+                unset($prospects[$key]);
             }
         }
         midcom::get('auth')->drop_sudo();
-        // Clear prospects that do not fill the time slot constraint
-        debug_add('clearing prospects that do not have free time from the list');
-        foreach ($prospects as $key => $person)
-        {
-            if (array_key_exists($key, $keep_prospects))
-            {
-                continue;
-            }
-            debug_add("removing '{$person->name}' from prospects list");
-            unset($prospects[$key]);
-        }
     }
 
     /**

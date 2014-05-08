@@ -36,8 +36,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         // PHP5-TODO: Must be copy-by-value
         $this->_pending_attachments = $this->attachments;
         // Remove archival and main from pending attachments
-        if (   !$this->do_not_save_archival
-            && array_key_exists('archival', $this->_pending_attachments))
+        if (!$this->do_not_save_archival)
         {
             unset($this->_pending_attachments['archival']);
         }
