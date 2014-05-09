@@ -189,10 +189,9 @@ class midcom_core_collector extends midcom_core_query
             $this->execute();
         }
         $results = $this->list_keys();
-        foreach ($results as $guid => $value)
+        foreach (array_keys($results) as $guid)
         {
-            $value = $this->get_subkey($guid, $field);
-            $results[$guid] = $value;
+            $results[$guid] = $this->get_subkey($guid, $field);
         }
         return $results;
     }
@@ -209,10 +208,7 @@ class midcom_core_collector extends midcom_core_query
     {
         if (!$this->_executed)
         {
-            foreach ($fields as $field)
-            {
-                $this->add_value_property($field);
-            }
+            array_map(array($this, 'add_value_property'), $fields);
 
             if ($indexed_by !== 'guid')
             {
