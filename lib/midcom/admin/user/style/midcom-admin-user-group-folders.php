@@ -9,7 +9,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         echo "<th>" . $data['l10n']->get('folders') . "</th>\n";
         foreach ($data['privileges'] as $privilege)
         {
-            echo "<th>" . midcom::get('i18n')->get_string($privilege, 'midgard.admin.asgard') . "</th>\n";
+            echo "<th>" . $privilege . "</th>\n";
         }
         ?>
     </thead>
@@ -32,7 +32,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "<tr>\n";
             echo "<th><a href=\"{$prefix}__mfa/asgard/object/permissions/{$object->guid}/\">{$object->extra}</a></th>\n";
 
-            foreach ($privs as $privilege)
+            foreach (array_keys($data['privileges']) as $privilege)
             {
                 echo "<td>";
                 if (!isset($privs[$privilege]))
@@ -45,7 +45,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 {
                     echo $data['l10n_midcom']->get('yes');
                 }
-                elseif ($privs[$privilege] == 2)
+                else if ($privs[$privilege] == 2)
                 {
                     echo $data['l10n_midcom']->get('no');
                 }

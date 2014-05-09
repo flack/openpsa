@@ -60,17 +60,13 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
 
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('assignee', '=', "group:{$this->_group->guid}");
+        $qb->add_constraint('objectguid', '<>', '');
         $privileges = $qb->execute();
         $data['objects'] = array();
         $data['privileges'] = array();
         foreach ($privileges as $privilege)
         {
-            if (!$privilege->objectguid)
-            {
-                // We're only interested in privs applying to objects now, skip
-                continue;
-            }
-            $data['privileges'][] = $privilege->privilegename;
+            $data['privileges'][$privilege->privilegename] = $this->_i18n->get_string($privilege->privilegename, 'midgard.admin.asgard');
             if (!isset($data['objects'][$privilege->objectguid]))
             {
                 $data['objects'][$privilege->objectguid] = array();

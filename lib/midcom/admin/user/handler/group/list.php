@@ -179,11 +179,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             if ($move)
             {
                 // Prevent moving owner to any of its children
-                $data['disabled'] = false;
-                if (self::belongs_to($data['id'], $data['group']->id))
-                {
-                    $data['disabled'] = true;
-                }
+                $data['disabled'] = self::belongs_to($data['id'], $data['group']->id);
 
                 midcom_show_style('midcom-admin-user-group-list-group-move');
             }
