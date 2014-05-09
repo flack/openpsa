@@ -123,11 +123,7 @@ abstract class midcom_core_query
         static $_class_mapping_cache = Array();
 
         $this->_real_class = $classname;
-        if (isset($_class_mapping_cache[$classname]))
-        {
-            $mgdschemaclass = $_class_mapping_cache[$classname];
-        }
-        else
+        if (empty($_class_mapping_cache[$classname]))
         {
             if (!is_subclass_of($classname, 'midcom_core_dbaobject'))
             {
@@ -142,23 +138,14 @@ abstract class midcom_core_query
             $mgdschemaclass = $dummy->__mgdschema_class_name__;
             $_class_mapping_cache[$classname] = $mgdschemaclass;
         }
-        return $mgdschemaclass;
+        return $_class_mapping_cache[$classname];
     }
 
     protected function _add_visibility_checks()
     {
-        if ($this->_visibility_checks_added)
-        {
-            return;
-        }
-
-        if (!$this->hide_invisible)
-        {
-            $this->_visibility_checks_added = true;
-            return;
-        }
-
-        if (!midcom::get('config')->get('show_hidden_objects'))
+        if (   !$this->_visibility_checks_added
+            && $this->hide_invisible
+            && !midcom::get('config')->get('show_hidden_objects'))
         {
             $this->add_constraint('metadata.hidden', '=', false);
             $now = strftime('%Y-%m-%d %H:%M:%S');
