@@ -103,11 +103,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             default:
                 break;
         }
-
-        foreach ($this->_request['params'] as $key => $value)
-        {
-            $this->_request['params'][$key] = $this->_parse_value($value);
-        }
+        $this->_request['params'] = array_map(array($this, '_parse_value'), $this->_request['params']);
 
         // determine id / guid
         if (isset($this->_request['params']['id']))

@@ -517,20 +517,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             if (method_exists($handler, $method))
             {
                 $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
-                if ($result)
-                {
-                    return true;
-                }
-                else
+                if (!$result)
                 {
                     // This can_handle failed, allow next one to take over if there is one
                     continue;
                 }
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
         // No match
         return false;

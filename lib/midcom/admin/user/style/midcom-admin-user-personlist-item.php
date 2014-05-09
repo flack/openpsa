@@ -47,7 +47,7 @@
         try
         {
             $group = midcom_db_group::get_cached($member->gid);
-            $value = $group->official;
+            $value = $group->get_label();
             if ($group->can_do('midgard:update'))
             {
                 $value = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/group/edit/{$group->guid}/\">{$value}</a>";

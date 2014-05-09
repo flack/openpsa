@@ -307,10 +307,7 @@ class fi_protie_navigation
             }
         }
 
-        if (!empty($params))
-        {
-            $this->_params_cache = '?' . http_build_query($params);
-        }
+        $this->_params_cache = '?' . http_build_query($params);
 
         return $this->_params_cache;
     }
