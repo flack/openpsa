@@ -40,24 +40,6 @@ class midcom_db_event extends midcom_core_dbaobject
     }
 
     /**
-     * Deletes event membership records associated with this event.
-     */
-    public function _on_deleted()
-    {
-        // Delete event memberships
-        $qb = midcom_db_eventmember::new_query_builder();
-        $qb->add_constraint('eid', '=', $this->id);
-        $result = $qb->execute();
-        foreach ($result as $membership)
-        {
-            if (! $membership->delete())
-            {
-                debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            }
-        }
-    }
-
-    /**
      * Returns a prepared query builder which lists all eventmember records for this event.
      * No translation to persons is done.
      *
