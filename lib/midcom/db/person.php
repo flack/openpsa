@@ -16,6 +16,12 @@ class midcom_db_person extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_person';
 
+    public $autodelete_dependents = array
+    (
+        'midcom_db_eventmember' => 'uid',
+        'midcom_db_member' => 'uid'
+    );
+
     /**
      * Read-Only variable, consisting of "$firstname $lastname".
      *
@@ -89,46 +95,6 @@ class midcom_db_person extends midcom_core_dbaobject
     public function _on_loaded()
     {
         $this->_update_computed_members();
-    }
-
-    /**
-     * Deletes all group and event memberships of the original person record. SUDO privileges
-     * are used at this point, since only memberships are associated to the groups, not persons
-     * and event memberships belong to the event, again not to the person.
-     */
-    public function _on_deleted()
-    {
-        if (! midcom::get('auth')->request_sudo('midcom'))
-        {
-            debug_add('Failed to get SUDO privileges, skipping membership deletion silently.', MIDCOM_LOG_ERROR);
-            return;
-        }
-
-        // Delete group memberships
-        $qb = midcom_db_member::new_query_builder();
-        $qb->add_constraint('uid', '=', $this->id);
-        $result = $qb->execute();
-        foreach ($result as $membership)
-        {
-            if (! $membership->delete())
-            {
-                debug_add("Failed to delete membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            }
-        }
-
-        // Delete event memberships
-        $qb = midcom_db_eventmember::new_query_builder();
-        $qb->add_constraint('uid', '=', $this->id);
-        $result = $qb->execute();
-        foreach ($result as $membership)
-        {
-            if (! $membership->delete())
-            {
-                debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            }
-        }
-
-        midcom::get('auth')->drop_sudo();
     }
 
     /**
