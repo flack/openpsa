@@ -1165,8 +1165,8 @@ class midcom_helper_nav_backend
      */
     private function _check_leaf_id($leaf_id)
     {
-         if (! $leaf_id)
-         {
+        if (! $leaf_id)
+        {
             debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
             return false;
         }

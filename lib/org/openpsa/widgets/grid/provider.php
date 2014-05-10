@@ -238,10 +238,7 @@ class org_openpsa_widgets_grid_provider
         {
             return $default;
         }
-        else
-        {
-            return $this->_grid->get_option($key);
-        }
+        return $this->_grid->get_option($key);
     }
 
     private function _convert_to_localdata()

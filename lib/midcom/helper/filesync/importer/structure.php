@@ -75,39 +75,36 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         {
             return midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         }
+        $object_qb = $this->get_node_qb($parent_id);
+        $object_qb->add_constraint('name', '=', $structure['name']);
+        if ($object_qb->count() == 0)
+        {
+            // New style
+            $topic = new midcom_db_topic();
+            $topic->up = $parent_id;
+            $topic->name = $structure['name'];
+            $topic->extra = $structure['title'];
+            $topic->title = $structure['title'];
+            $topic->component = $structure['component'];
+            if (!$topic->create())
+            {
+                throw new midcom_error('Failed to create topic: ' . midcom_connection::get_error_string());
+            }
+
+            if (!empty($structure['create_index']))
+            {
+                // Create index article for n.n.static
+                $article = new midcom_db_article();
+                $article->name = 'index';
+                $article->title = $structure['title'];
+                $article->topic = $topic->id;
+                $article->create();
+            }
+        }
         else
         {
-            $object_qb = $this->get_node_qb($parent_id);
-            $object_qb->add_constraint('name', '=', $structure['name']);
-            if ($object_qb->count() == 0)
-            {
-                // New style
-                $topic = new midcom_db_topic();
-                $topic->up = $parent_id;
-                $topic->name = $structure['name'];
-                $topic->extra = $structure['title'];
-                $topic->title = $structure['title'];
-                $topic->component = $structure['component'];
-                if (!$topic->create())
-                {
-                    throw new midcom_error('Failed to create topic: ' . midcom_connection::get_error_string());
-                }
-
-                if (!empty($structure['create_index']))
-                {
-                    // Create index article for n.n.static
-                    $article = new midcom_db_article();
-                    $article->name = 'index';
-                    $article->title = $structure['title'];
-                    $article->topic = $topic->id;
-                    $article->create();
-                }
-            }
-            else
-            {
-                $topics = $object_qb->execute();
-                $topic = $topics[0];
-            }
+            $topics = $object_qb->execute();
+            $topic = $topics[0];
         }
         return $topic;
     }

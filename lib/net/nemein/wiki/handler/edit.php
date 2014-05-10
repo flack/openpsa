@@ -101,10 +101,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 {
                     return new midcom_response_relocate('');
                 }
-                else
-                {
-                    return new midcom_response_relocate("{$this->_page->name}/");
-                }
+                return new midcom_response_relocate("{$this->_page->name}/");
         }
 
         $this->_view_toolbar->add_item

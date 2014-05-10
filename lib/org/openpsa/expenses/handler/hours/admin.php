@@ -159,10 +159,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 {
                     return new midcom_response_relocate("hours/task/" . $task->guid . "/");
                 }
-                else
-                {
-                    return new midcom_response_relocate('');
-                }
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();

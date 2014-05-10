@@ -153,10 +153,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
         {
             return false;
         }
-        else
-        {
-            return $this->_element->isFrozen();
-        }
+        return $this->_element->isFrozen();
     }
 
     function freeze()

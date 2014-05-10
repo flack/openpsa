@@ -41,11 +41,10 @@ implements midcom_services_permalinks_resolver
     {
         if ($object instanceof org_openpsa_documents_document_dba)
         {
-            if ($object->topic != $topic->id)
+            if ($object->topic == $topic->id)
             {
-                return null;
+                return "document/{$object->guid}/";
             }
-            return "document/{$object->guid}/";
         }
         return null;
     }

@@ -23,10 +23,5 @@ class midcom_helper_datamanager2_qfrule_requiremultiselect extends HTML_QuickFor
         debug_add('value is non-empty array');
         return true;
     }
-
-    function getValidationScript($options = null)
-    {
-        return array('', '');
-    }
 }
 ?>

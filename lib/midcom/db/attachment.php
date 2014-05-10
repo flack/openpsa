@@ -125,9 +125,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $attachment = new midgard_attachment($this->guid);
         $blob = new midgard_blob($attachment);
 
-        $contents = $blob->read_content();
-
-        return $contents;
+        return $blob->read_content();
     }
 
     /**
@@ -212,9 +210,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             mkdir("{$cacheroot}/{$subdir}", 0777, true);
         }
 
-        $filename = "{$cacheroot}/{$subdir}/{$this->guid}_{$this->name}";
-
-        return $filename;
+        return "{$cacheroot}/{$subdir}/{$this->guid}_{$this->name}";
     }
 
     public static function get_url($attachment, $name = null)

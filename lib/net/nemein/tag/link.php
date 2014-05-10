@@ -62,14 +62,9 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     private function _sanity_check()
     {
-        if (   empty($this->fromGuid)
-            || empty($this->fromClass)
-            || empty($this->tag))
-        {
-            // All required properties not defined
-            return false;
-        }
-        return true;
+        return (   !empty($this->fromGuid)
+                && !empty($this->fromClass)
+                && !empty($this->tag));
     }
 
     public function _on_creating()

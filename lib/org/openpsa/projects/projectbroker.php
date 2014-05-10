@@ -162,8 +162,7 @@ class org_openpsa_projects_projectbroker
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
             return false;
         }
-        $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
-        return $slots;
+        return org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
     }
 }
 ?>

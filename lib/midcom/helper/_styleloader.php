@@ -424,14 +424,10 @@ class midcom_helper__styleloader
         if ($_style !== false)
         {
             $this->_parse_element($_style, $path);
+            return true;
         }
-        else
-        {
-            debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        return true;
+        debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
+        return false;
     }
 
     /**

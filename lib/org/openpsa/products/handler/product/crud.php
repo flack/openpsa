@@ -40,10 +40,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
             {
                 return "product/{$this->_group_up->code}/{$object->code}/";
             }
-            else
-            {
-                return "product/{$object->code}/";
-            }
+            return "product/{$object->code}/";
         }
         return "product/{$object->guid}/";
     }

@@ -63,8 +63,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
     public static function get_type_label($type)
     {
-        $ref = midcom_helper_reflector_tree::get($type);
-        return $ref->get_class_label();
+        return midcom_helper_reflector_tree::get($type)->get_class_label();
     }
 
     /**
@@ -159,23 +158,16 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         {
             return $data['default_mode'];
         }
+        $data['default_mode'] = 'view';
 
-        if (midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1)
+        if (   !midgard_admin_asgard_plugin::get_preference('edit_mode')
+            && midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1)
         {
             $data['default_mode'] = 'edit';
         }
-        else
-        {
-            $data['default_mode'] = 'view';
-        }
-
-        if (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1)
+        else if (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1)
         {
             $data['default_mode'] = 'edit';
-        }
-        else
-        {
-            $data['default_mode'] = 'view';
         }
 
         return $data['default_mode'];
@@ -189,9 +181,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     private static function _generate_url($action, $guid)
     {
-        $url = '__mfa/asgard/object/' . $action . '/' . $guid . '/';
-
-        return $url;
+        return '__mfa/asgard/object/' . $action . '/' . $guid . '/';
     }
 
     /**

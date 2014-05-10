@@ -154,17 +154,15 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     function & dm2_create_callback(&$datamanager)
     {
-        $invoice = new org_openpsa_invoices_invoice_dba();
+        $this->_object = new org_openpsa_invoices_invoice_dba();
 
-        if (! $invoice->create())
+        if (! $this->_object->create())
         {
-            debug_print_r('We operated on this object:', $invoice);
+            debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_object =& $invoice;
-
-        return $invoice;
+        return $this->_object;
     }
 
     function _load_defaults()

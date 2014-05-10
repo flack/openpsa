@@ -187,11 +187,8 @@ class midgard_admin_asgard_schemadb
 
     private function _filter_schema_fields($key)
     {
-        if ($key == 'metadata')
-        {
-            return false;
-        }
-        if (in_array($key, $this->_config->get('object_skip_fields')))
+        if (   $key == 'metadata'
+            || in_array($key, $this->_config->get('object_skip_fields')))
         {
             return false;
         }

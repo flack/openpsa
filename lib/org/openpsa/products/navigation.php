@@ -24,16 +24,12 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
      */
     public function get_leaves()
     {
-        $leaves = array ();
-
         if (!$this->_config->get('display_navigation'))
         {
-            return $leaves;
+            return array();
         }
-
         // Get the configured root group for the navigation
-        $leaves = org_openpsa_products_navigation::get_product_group_navigation($this->_config->get('root_group'));
-        return $leaves;
+        return self::get_product_group_navigation($this->_config->get('root_group'));
     }
 
     /**
@@ -131,9 +127,7 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         }
 
         // Reverse the array to start from the root and continue upwards
-        $levels = array_reverse($levels);
-
-        return $levels;
+        return array_reverse($levels);
     }
 }
 ?>

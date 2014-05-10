@@ -361,11 +361,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             $this->_use_activitystream = false;
             return $this->update();
         }
-        else
-        {
-            debug_add("All project information is up-to-date");
-            return true;
-        }
+        debug_add("All project information is up-to-date");
+        return true;
     }
 }
 ?>

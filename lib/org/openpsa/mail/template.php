@@ -145,10 +145,7 @@ class org_openpsa_mail_template
             {
                 return $this->_format_array($value);
             }
-            else
-            {
-                return $value[$matches[2]];
-            }
+            return $value[$matches[2]];
         }
         else if (is_object($value))
         {
@@ -156,15 +153,9 @@ class org_openpsa_mail_template
             {
                 return $this->_format_object($value);
             }
-            else
-            {
-                return $value->{$matches[2]};
-            }
+            return $value->{$matches[2]};
         }
-        else
-        {
-            return $value;
-        }
+        return $value;
     }
 
     /**

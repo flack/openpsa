@@ -237,27 +237,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
 
     function convert_to_html()
     {
-        $img = false;
-        $linkto = false;
-        if (array_key_exists('main', $this->attachments_info))
-        {
-            $img = $this->attachments_info['main'];
-            if (array_key_exists('view', $this->attachments_info))
-            {
-                $img = $this->attachments_info['view'];
-                $linkto = $this->attachments_info['main'];
-            }
-            else if (array_key_exists('thumbnail', $this->attachments_info))
-            {
-                $img = $this->attachments_info['thumbnail'];
-                $linkto = $this->attachments_info['main'];
-            }
-            else if (array_key_exists('archival', $this->attachments_info))
-            {
-                $linkto = $this->attachments_info['archival'];
-            }
-        }
-        else
+        if (!array_key_exists('main', $this->attachments_info))
         {
             $ret = "";
             if (sizeof($this->attachments_info) > 0)
@@ -272,6 +252,24 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             }
             return $ret;
         }
+
+        $img = $this->attachments_info['main'];
+        $linkto = false;
+        if (array_key_exists('view', $this->attachments_info))
+        {
+            $img = $this->attachments_info['view'];
+            $linkto = $this->attachments_info['main'];
+        }
+        else if (array_key_exists('thumbnail', $this->attachments_info))
+        {
+            $img = $this->attachments_info['thumbnail'];
+            $linkto = $this->attachments_info['main'];
+        }
+        else if (array_key_exists('archival', $this->attachments_info))
+        {
+            $linkto = $this->attachments_info['archival'];
+        }
+
         $return = "\n<div class='midcom_helper_datamanager2_type_photo'>\n";
         $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$img['identifier']}' />";
         if ($linkto)

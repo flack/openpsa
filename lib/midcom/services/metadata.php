@@ -138,10 +138,7 @@ class midcom_services_metadata
         {
             return $this->_page_classes[$context->id];
         }
-        else
-        {
-            return 'default';
-        }
+        return 'default';
     }
 
     /**

@@ -124,17 +124,14 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $at_entry->method = 'new_subscription_cycle';
         $at_entry->arguments = $args;
 
-        if ($at_entry->create())
-        {
-            debug_add('AT entry for cycle ' . $cycle_number . ' created');
-            org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $this->_deliverable, 'org.openpsa.sales');
-            return true;
-        }
-        else
+        if (!$at_entry->create())
         {
             debug_add('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
+        debug_add('AT entry for cycle ' . $cycle_number . ' created');
+        org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $this->_deliverable, 'org.openpsa.sales');
+        return true;
     }
 
     private function _notify_owner($calculator, $cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task = null)
@@ -253,26 +250,23 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         // TODO: Figure out if we really want to keep this
         $task->hoursInvoiceableDefault = true;
-        if ($task->create())
-        {
-            $task->add_members('contacts', array_keys($salesproject->contacts));
-            if (!empty($source_task))
-            {
-                $source_task->get_members();
-                $task->add_members('resources', array_keys($source_task->resources));
-            }
-
-            // Copy tags from deliverable so we can seek resources
-            $tagger = new net_nemein_tag_handler();
-            $tagger->copy_tags($this->_deliverable, $task);
-
-            midcom::get('uimessages')->add($this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($this->_i18n->get_string('created task "%s"', 'org.openpsa.sales'), $task->title), 'ok');
-            return $task;
-        }
-        else
+        if (!$task->create())
         {
             throw new midcom_error("The task for this cycle could not be created. Last Midgard error was: " . midcom_connection::get_error_string());
         }
+        $task->add_members('contacts', array_keys($salesproject->contacts));
+        if (!empty($source_task))
+        {
+            $source_task->get_members();
+            $task->add_members('resources', array_keys($source_task->resources));
+        }
+
+        // Copy tags from deliverable so we can seek resources
+        $tagger = new net_nemein_tag_handler();
+        $tagger->copy_tags($this->_deliverable, $task);
+
+        midcom::get('uimessages')->add($this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($this->_i18n->get_string('created task "%s"', 'org.openpsa.sales'), $task->title), 'ok');
+        return $task;
     }
 
     function calculate_cycles($months = null)
@@ -339,9 +333,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 $new_date->setDate((int) $new_date->format('Y'), (int) $new_date->format('m'), (int) $new_date->format('t'));
             }
         }
-        $next_cycle = (int) $new_date->format('U');
-
-        return $next_cycle;
+        return (int) $new_date->format('U');
     }
 
     /**

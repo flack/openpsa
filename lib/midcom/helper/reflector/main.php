@@ -873,8 +873,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_title_property($object)
     {
-        $resolver = self::get($object);
-        return $resolver->get_title_property_nonstatic($object);
+        return self::get($object)->get_title_property_nonstatic($object);
     }
 
     /**

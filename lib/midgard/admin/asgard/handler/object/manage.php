@@ -396,10 +396,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     {
                         return $this->_prepare_relocate($this->_object);
                     }
-                    else
-                    {
-                        return new midcom_response_relocate("__mfa/asgard/{$args[0]}/");
-                    }
+                    return new midcom_response_relocate("__mfa/asgard/{$args[0]}/");
                 }
         }
 
@@ -472,8 +469,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             {
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/");
             }
-            $parent = $object->get_parent();
-            if ($parent)
+            if ($parent = $object->get_parent())
             {
                 return $this->_prepare_relocate($parent);
             }

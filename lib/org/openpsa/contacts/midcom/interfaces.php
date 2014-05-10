@@ -225,11 +225,8 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             }
             return $this->_check_group_url($group);
         }
-        else
-        {
-            $handler->print_error('Person or Group GUID not set, aborting');
-            return false;
-        }
+        $handler->print_error('Person or Group GUID not set, aborting');
+        return false;
     }
 
     private function _check_group_url(org_openpsa_contacts_group_dba $group)

@@ -83,10 +83,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         {
             return $this->privilege->value;
         }
-        else
-        {
-            return MIDCOM_PRIVILEGE_INHERIT;
-        }
+        return MIDCOM_PRIVILEGE_INHERIT;
     }
 
     /**

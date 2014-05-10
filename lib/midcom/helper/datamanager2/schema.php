@@ -356,13 +356,8 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             return $schemadb;
         }
-        else
-        {
-            debug_print_r('Passed schema db was:', $schemadb);
-            throw new midcom_error( 'Failed to access the schema database: Invalid variable type while constructing.');
-        }
-
-        return false;
+        debug_print_r('Passed schema db was:', $schemadb);
+        throw new midcom_error( 'Failed to access the schema database: Invalid variable type while constructing.');
     }
 
     /**

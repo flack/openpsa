@@ -222,8 +222,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
     private function _resolve_object_title()
     {
-        $reflector = midcom_helper_reflector::get($this->_object);
-        return $reflector->get_object_label($this->_object);
+        return midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
     }
 
     /**
@@ -365,10 +364,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]), 'ok');
             return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
         }
-        else
-        {
-            throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
-        }
+        throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
     }
 }
 ?>

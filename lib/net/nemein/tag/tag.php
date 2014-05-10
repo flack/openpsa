@@ -29,31 +29,23 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 
     public static function get_by_tag($tag)
     {
-        if (empty($tag))
+        if (!empty($tag))
         {
-            return false;
-        }
-        $qb = net_nemein_tag_tag_dba::new_query_builder();
-        $qb->add_constraint('tag', '=', $tag);
-        $results = $qb->execute();
-        if (!empty($results))
-        {
-            return $results[0];
+            $qb = net_nemein_tag_tag_dba::new_query_builder();
+            $qb->add_constraint('tag', '=', $tag);
+            $results = $qb->execute();
+            if (!empty($results))
+            {
+                return $results[0];
+            }
         }
         return false;
     }
 
     public function _on_creating()
     {
-        if (!$this->validate_tag($this->tag))
-        {
-            return false;
-        }
-        if ($this->_check_duplicates() > 0)
-        {
-            return false;
-        }
-        return true;
+        return (   $this->validate_tag($this->tag)
+                && $this->_check_duplicates() == 0);
     }
 
     /**
@@ -91,15 +83,8 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if (!$this->validate_tag($this->tag))
-        {
-            return false;
-        }
-        if ($this->_check_duplicates() > 0)
-        {
-            return false;
-        }
-        return true;
+        return (   $this->validate_tag($this->tag)
+                && $this->_check_duplicates() == 0);
     }
 
     private function _check_duplicates()

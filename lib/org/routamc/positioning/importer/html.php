@@ -101,10 +101,7 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
 
             return $position;
         }
-        else
-        {
-            $this->error = 'POSITIONING_ICBM_NO_URL';
-        }
+        $this->error = 'POSITIONING_ICBM_NO_URL';
 
         return null;
     }

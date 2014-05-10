@@ -261,34 +261,32 @@ class midcom_connection
             }
             return $user;
         }
-        else
+
+        // Ragnaroek
+        $sg_name = '';
+        $mode = midcom::get('config')->get('auth_sitegroup_mode');
+
+        if ($mode == 'auto')
         {
-            // Ragnaroek
-            $sg_name = '';
-            $mode = midcom::get('config')->get('auth_sitegroup_mode');
-
-            if ($mode == 'auto')
-            {
-                $mode = (self::_get('sitegroup') == 0) ? 'not-sitegrouped' : 'sitegrouped';
-            }
-
-            if ($mode == 'sitegrouped')
-            {
-                $sitegroup = new midgard_sitegroup(self::_get('sitegroup'));
-                $sg_name = $sitegroup->name;
-            }
-            $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
-            if (   !$stat
-                && midcom::get('config')->get('auth_type') == 'Plaintext'
-                && strlen($password) > 11)
-            {
-                //mgd1 has the password field defined with length 13, but it doesn't complain
-                //when saving a longer password, it just sometimes shortens it, so we try the
-                //shortened version here (we cut at 11 because the first two characters are **)
-                $stat = midgard_user::auth($username, substr($password, 0, 11), $sg_name, $trusted);
-            }
-            return $stat;
+            $mode = (self::_get('sitegroup') == 0) ? 'not-sitegrouped' : 'sitegrouped';
         }
+
+        if ($mode == 'sitegrouped')
+        {
+            $sitegroup = new midgard_sitegroup(self::_get('sitegroup'));
+            $sg_name = $sitegroup->name;
+        }
+        $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
+        if (   !$stat
+            && midcom::get('config')->get('auth_type') == 'Plaintext'
+            && strlen($password) > 11)
+        {
+            //mgd1 has the password field defined with length 13, but it doesn't complain
+            //when saving a longer password, it just sometimes shortens it, so we try the
+            //shortened version here (we cut at 11 because the first two characters are **)
+            $stat = midgard_user::auth($username, substr($password, 0, 11), $sg_name, $trusted);
+        }
+        return $stat;
     }
 
     public static function prepare_password($password, $username = null)
@@ -388,11 +386,9 @@ class midcom_connection
             $qb->add_constraint('person', '=', $person->guid);
             return ($qb->count() > 0);
         }
-        else
-        {
-            // Ragnaroek
-            return ($person->username != '');
-        }
+
+        // Ragnaroek
+        return ($person->username != '');
     }
 
     /**
@@ -418,8 +414,7 @@ class midcom_connection
             return 0;
         }
 
-        $person = $user->get_person();
-        return $person->id;
+        return $user->get_person()->id;
     }
 
     /**

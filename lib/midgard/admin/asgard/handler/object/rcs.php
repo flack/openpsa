@@ -381,8 +381,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
     private function _resolve_object_title()
     {
-        $reflector = midcom_helper_reflector::get($this->_object);
-        return $reflector->get_object_label($this->_object);
+        return midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
     }
 
     /**
@@ -502,13 +501,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             midcom::get('uimessages')->add($this->_l10n->get('no.bergfald.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_guid}/");
         }
-        else
-        {
-            throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
-        }
-
-        // Load the toolbars
-        $this->_rcs_toolbar();
+        throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
     }
 }
 ?>

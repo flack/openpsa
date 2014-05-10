@@ -38,9 +38,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_INFO);
             mkdir($dirpath, 0777, true);
         }
-        $filename = "{$dirpath}/{$guid}";
-
-        return $filename;
+        return "{$dirpath}/{$guid}";
     }
 
     /**
@@ -234,8 +232,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $mode = current($versions);
 
-        while( $mode
-            && $mode !== $version)
+        while (   $mode
+               && $mode !== $version)
         {
             $mode = next($versions);
 
@@ -425,17 +423,15 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_readfile ($guid)
     {
-        if (empty($guid))
+        if (!empty($guid))
         {
-            return '';
+            $filename = $this->_generate_rcs_filename($guid);
+            if (file_exists($filename))
+            {
+                return file_get_contents($filename);
+            }
         }
-        $filename = $this->_generate_rcs_filename($guid);
-
-        if (!file_exists($filename))
-        {
-            return '';
-        }
-        return file_get_contents($filename);
+        return '';
     }
 
     /**
@@ -513,15 +509,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             debug_add($e->getMessage());
         }
 
-        if ($status === 0)
+        if ($status !== 0)
         {
-            // Unix exit code 0 means all ok...
-            return $status;
+            debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
+            debug_print_r('Got output: ', $output);
         }
-
-        debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
-        debug_print_r('Got output: ', $output);
-        // any other exit codes means some sort of error
         return $status;
     }
 

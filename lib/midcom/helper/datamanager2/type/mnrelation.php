@@ -247,10 +247,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         {
             return $this->storage->object->id;
         }
-        else
-        {
-            return $this->storage->object->guid;
-        }
+        return $this->storage->object->guid;
     }
 
     /**

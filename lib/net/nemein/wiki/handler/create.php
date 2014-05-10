@@ -47,9 +47,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array();
-        $defaults['title'] = $this->_wikiword;
-        return $defaults;
+        return array('title' => $this->_wikiword);
     }
 
     /**

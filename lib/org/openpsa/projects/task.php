@@ -210,7 +210,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
                     break;
             }
             $this->{$varName}[$mc->get_subkey($guid, 'person')] = true;
-            }
+        }
         return true;
     }
 

@@ -66,6 +66,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
         {
             return $parameter_cache[$objectguid][$name];
         }
+        $parameter_cache[$objectguid][$name] = null;
 
         $mc = midgard_parameter::new_collector('parentguid', $objectguid);
         $mc->set_key_property('value');
@@ -75,13 +76,10 @@ class midcom_db_parameter extends midcom_core_dbaobject
         $mc->execute();
         $parameters = $mc->list_keys();
 
-        if (count($parameters) == 0)
+        if (count($parameters) > 0)
         {
-            $parameter_cache[$objectguid][$name] = null;
-            return $parameter_cache[$objectguid][$name];
+            $parameter_cache[$objectguid][$name] = key($parameters);
         }
-
-        $parameter_cache[$objectguid][$name] = key($parameters);
 
         return $parameter_cache[$objectguid][$name];
     }

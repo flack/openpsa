@@ -42,8 +42,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->topic);
         $qb->add_constraint('title', '=', $this->title);
-        $result = $qb->execute();
-        if (count($result) > 0)
+        if ($qb->count() > 0)
         {
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;

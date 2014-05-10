@@ -230,22 +230,16 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             {
                 return null;
             }
-            else
-            {
-                // This is probably chooser or autocomplete
-                // FIXME: This is not exactly an elegant way to do this
-                return $this->_get_name_from_object($key);
-            }
+            // This is probably chooser or autocomplete
+            // FIXME: This is not exactly an elegant way to do this
+            return $this->_get_name_from_object($key);
         }
 
         if ($this->option_callback === null)
         {
             return $this->options[$key];
         }
-        else
-        {
-            return $this->_callback->get_name_for_key($key);
-        }
+        return $this->_callback->get_name_for_key($key);
     }
 
     private function _get_name_from_object($key)
@@ -331,10 +325,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         {
             return $this->options;
         }
-        else
-        {
-            return $this->_callback->list_all();
-        }
+        return $this->_callback->list_all();
     }
 
     /**
@@ -417,25 +408,16 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         {
             return $this->_convert_multiple_to_storage();
         }
-        else
+        if (   $this->allow_other
+            && !empty($this->others))
         {
-            if (   $this->allow_other
-                && !empty($this->others))
-            {
-                return $this->others[0];
-            }
-            else
-            {
-                if (count($this->selection) == 0)
-                {
-                    return '';
-                }
-                else
-                {
-                    return current($this->selection);
-                }
-            }
+            return $this->others[0];
         }
+        if (count($this->selection) == 0)
+        {
+            return '';
+        }
+        return current($this->selection);
     }
 
     /**
@@ -495,10 +477,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 {
                     return array_merge($this->selection, $this->others);
                 }
-                else
-                {
-                    return $this->selection;
-                }
+                return $this->selection;
 
             case 'imploded':
                 $options = $this->_get_imploded_options();
@@ -578,16 +557,10 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             {
                 return implode(',', $data);
             }
-            else
-            {
-                return $data;
-            }
+            return $data;
         }
-        else
-        {
-            $values = $this->combine_values();
-            return implode($values, ', ');
-        }
+        $values = $this->combine_values();
+        return implode($values, ', ');
     }
 
     /**
@@ -647,12 +620,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
     public function convert_to_html()
     {
-        $values_localized = array();
-        $values = $this->combine_values();
-        foreach ($values as $value)
-        {
-            $values_localized[] = $this->translate($value);
-        }
+        $values_localized = array_map(array($this, 'translate'), $this->combine_values());
         return implode($values_localized, ', ');
     }
 }

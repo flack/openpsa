@@ -44,21 +44,17 @@ implements midcom_helper_datamanager2_interfaces_view
 
         if (array_key_exists('org_openpsa_user_deleteok', $_POST))
         {
-            $delete_succeeded = $this->_group->delete();
-            if ($delete_succeeded)
-            {
-                // Update the index
-                $indexer = midcom::get('indexer');
-                $indexer->delete($this->_group->guid);
-
-                return new midcom_response_relocate('');
-            }
-            else
+            if (!$this->_group->delete())
             {
                 // Failure, give a message
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
                 return new midcom_response_relocate('group/' . $this->_group->guid . '/');
             }
+            // Update the index
+            $indexer = midcom::get('indexer');
+            $indexer->delete($this->_group->guid);
+
+            return new midcom_response_relocate('');
         }
 
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_group);

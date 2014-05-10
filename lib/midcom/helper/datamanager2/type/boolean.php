@@ -65,10 +65,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
+        return 0;
     }
 
     function convert_from_csv ($source)
@@ -89,10 +86,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         {
             return '1';
         }
-        else
-        {
-            return '0';
-        }
+        return '0';
     }
 
     function convert_to_email()
@@ -101,10 +95,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         {
             return $this->_l10n->get('yes');
         }
-        else
-        {
-            return $this->_l10n->get('no');
-        }
+        return $this->_l10n->get('no');
     }
 
     /**

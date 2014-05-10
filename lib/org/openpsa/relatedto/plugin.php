@@ -256,7 +256,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     static function common_toolbar_buttons_defaults()
     {
-        $buttons = array
+        return array
         (
             'event' => array
             (
@@ -280,7 +280,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                 'component' => 'org.openpsa.documents'
             ),
         );
-        return $buttons;
     }
 
     static function common_node_toolbar_buttons(&$toolbar, &$bind_object, $calling_component, $buttons = 'default')

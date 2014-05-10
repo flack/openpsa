@@ -228,9 +228,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
      */
     private function _code_sort_by_title($a, $b)
     {
-        $ap = $a->title;
-        $bp = $b->title;
-        return strnatcmp($ap, $bp);
+        return strnatcmp($a->title, $b->title);
     }
 
     /**
@@ -315,10 +313,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
                 $wikilink = rawurlencode($wikilink);
                 return "<a href=\"{$folder[MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . $this->_l10n->get('click to create') . "\">{$text}</a>";
             }
-            else
-            {
-                return "<span class=\"wiki_missing_nouser\" title=\"" . $this->_l10n->get('login to create') . "\">{$text}</span>";
-            }
+            return "<span class=\"wiki_missing_nouser\" title=\"" . $this->_l10n->get('login to create') . "\">{$text}</span>";
         }
 
         $url_name = $resolver->generate_page_url($wikipage_match['wikipage']);

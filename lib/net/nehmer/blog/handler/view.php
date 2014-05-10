@@ -219,9 +219,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
             // We got a topic. Make it a NAP node
             $nap = new midcom_helper_nav();
-            $comments_node = $nap->get_node($comments_topic->id);
-
-            return $comments_node;
+            return $nap->get_node($comments_topic->id);
         }
 
         // No comments topic specified, autoprobe

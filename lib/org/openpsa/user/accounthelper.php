@@ -92,8 +92,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         }
 
         //try creating
-        $success = $this->set_account($username, $password);
-        if (!$success)
+        if (!$this->set_account($username, $password))
         {
             $this->errstr = "Could not set account, reason: " . midcom_connection::get_error_string();
             return false;
@@ -169,7 +168,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
             //check if the new encrypted password was already used
             if (    $this->check_password_reuse($new_password_encrypted)
-            && $this->check_password_strength($new_password))
+                 && $this->check_password_strength($new_password))
             {
                 $this->_save_old_password();
                 $this->_account->set_password($new_password);

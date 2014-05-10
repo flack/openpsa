@@ -140,20 +140,14 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
                 {
                     return '0000-00-00 00:00:00';
                 }
-                else
-                {
-                    return $this->value->format('Y-m-d H:i:s');
-                }
+                return $this->value->format('Y-m-d H:i:s');
 
             case 'ISO_DATE':
                 if ($this->is_empty())
                 {
                     return '0000-00-00';
                 }
-                else
-                {
-                    return $this->value->format('Y-m-d');
-                }
+                return $this->value->format('Y-m-d');
 
             case 'ISO_EXTENDED':
             case 'ISO_EXTENDED_MICROTIME':
@@ -161,20 +155,14 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
                 {
                     return '0000-00-00T00:00:00.0';
                 }
-                else
-                {
-                    return str_replace(',', '.', $this->value->format('c'));
-                }
+                return str_replace(',', '.', $this->value->format('c'));
 
             case 'UNIXTIME':
                 if ($this->is_empty())
                 {
                     return 0;
                 }
-                else
-                {
-                    return (int) $this->value->format('U');
-                }
+                return (int) $this->value->format('U');
 
             default:
                 throw new midcom_error("Invalid storage type for the Datamanager date type: {$this->storage_type}");
@@ -208,11 +196,8 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             return '';
         }
-        else
-        {
-            $format = $this->_get_format();
-            return htmlspecialchars($this->value->format($format));
-        }
+        $format = $this->_get_format();
+        return htmlspecialchars($this->value->format($format));
     }
 
     /**

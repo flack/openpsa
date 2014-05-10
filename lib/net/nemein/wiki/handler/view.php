@@ -264,10 +264,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             return $this->_load_page('index');
         }
-        else
-        {
-            return $this->_load_page($args[0]);
-        }
+        return $this->_load_page($args[0]);
     }
 
     /**
@@ -301,10 +298,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 return new midcom_response_relocate("{$result[0]->name}/");
             }
-            else
-            {
-                return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
-            }
+            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
         }
 
         $this->_populate_toolbar();
@@ -357,12 +351,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     private function _toc_prefix($level)
     {
-        $prefix = '';
-        for ($i=0; $i < $level; $i++)
-        {
-            $prefix .= '    ';
-        }
-        return $prefix;
+        return str_pad('', 4 * $level);
     }
 
     /**
@@ -439,9 +428,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $toc .= $prefix . "</ol>\n";
         }
 
-        $content = $toc . $content;
-
-        return $content;
+        return $toc . $content;
     }
 
     /**

@@ -292,10 +292,7 @@ class midcom_helper_configuration
         {
             return $this->_merged[$key];
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**

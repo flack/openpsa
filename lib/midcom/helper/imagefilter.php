@@ -118,34 +118,31 @@ class midcom_helper_imagefilter
             debug_add("Could not open file '{$this->_filename}' for reading", MIDCOM_LOG_ERROR);
             return false;
         }
-        if (!$target->copy_from_handle($src))
+        $stat = $target->copy_from_handle($src);
+        if (!$stat)
         {
             debug_add("copy_from_handle() failed", MIDCOM_LOG_ERROR);
-            fclose($src);
-            return false;
         }
         fclose($src);
-        return true;
+        return $stat;
     }
 
     public static function imagemagick_available()
     {
         static $return = -1;
-        if ($return !== -1)
+        if ($return === -1)
         {
-            return $return;
+            $convert_cmd = escapeshellcmd(midcom::get('config')->get('utility_imagemagick_base') . "convert -version");
+            $output = array();
+            $ret = null;
+            exec($convert_cmd, $output, $ret);
+            $return = ($ret === 0 || $ret === 1);
+            if (!$return)
+            {
+                debug_add("ImageMagick, '{$convert_cmd}' (part of ImageMagick suite) returned failure", MIDCOM_LOG_ERROR);
+            }
         }
-        $convert_cmd = escapeshellcmd(midcom::get('config')->get('utility_imagemagick_base') . "convert -version");
-        $output = array();
-        $ret = null;
-        exec($convert_cmd, $output, $ret);
-        if ($ret !== 0 && $ret !== 1)
-        {
-            debug_add("ImageMagick, '{$convert_cmd}' (part of ImageMagick suite) returned failure", MIDCOM_LOG_ERROR);
-            $return = false;
-            return $return;
-        }
-        $return = true;
+
         return $return;
     }
 
@@ -156,28 +153,25 @@ class midcom_helper_imagefilter
         {
             return $return;
         }
-        $cmd = midcom::get('config')->get('utility_jpegtran');
-        if (!$cmd)
+        $return = false;
+        if ($cmd = midcom::get('config')->get('utility_jpegtran'))
         {
-            $return = false;
-            return $return;
-        }
-        if (!file_exists($cmd))
-        {
-            $find_cmd = escapeshellcmd('which ' . midcom::get('config')->get('utility_jpegtran'));
-            $output = array();
-            $ret = null;
-
-            exec($find_cmd, $output, $ret);
-
-            if ($ret !== 0)
+            $return = true;
+            if (!file_exists($cmd))
             {
-                debug_add("jpegtran (part of libjpeg suite) was not found", MIDCOM_LOG_ERROR);
-                $return = false;
-                return $return;
+                $find_cmd = escapeshellcmd('which ' . midcom::get('config')->get('utility_jpegtran'));
+                $output = array();
+                $ret = null;
+                exec($find_cmd, $output, $ret);
+
+                if ($ret !== 0)
+                {
+                    debug_add("jpegtran (part of libjpeg suite) was not found", MIDCOM_LOG_ERROR);
+                    $return = false;
+                }
             }
         }
-        $return = true;
+
         return $return;
     }
 

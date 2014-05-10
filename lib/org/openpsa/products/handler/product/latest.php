@@ -33,23 +33,20 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                 return false;
                 // No matching group
             }
+            $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
+            $categories = $categories_mc->get_values('id');
+
+            if (count($categories) == 0)
+            {
+                /* No matching categories belonging to this group
+                 * So we can search for the application using only
+                 * this group id
+                 */
+                $product_qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
+            }
             else
             {
-                $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
-                $categories = $categories_mc->get_values('id');
-
-                if (count($categories) == 0)
-                {
-                    /* No matching categories belonging to this group
-                     * So we can search for the application using only
-                     * this group id
-                     */
-                    $product_qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
-                }
-                else
-                {
-                    $product_qb->add_constraint('productGroup', 'IN', $categories);
-                }
+                $product_qb->add_constraint('productGroup', 'IN', $categories);
             }
         }
 

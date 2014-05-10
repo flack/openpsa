@@ -414,7 +414,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
 
             $modifier = $modifier * 1.05;
             setlocale(LC_NUMERIC, $current_locale);
-            return org_routamc_positioning_utils::get_closest($class, $center, $limit, $max_distance, $modifier);
+            return self::get_closest($class, $center, $limit, $max_distance, $modifier);
         }
 
         $results = $qb->execute();
@@ -426,7 +426,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                 'latitude'  => $result->latitude,
                 'longitude' => $result->longitude,
             );
-            $distance = sprintf("%05d", round(org_routamc_positioning_utils::get_distance($center, $result_coordinates)));
+            $distance = sprintf("%05d", round(self::get_distance($center, $result_coordinates)));
 
             if (   !is_null($max_distance)
                 && $distance > $max_distance)

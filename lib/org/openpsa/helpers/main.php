@@ -135,8 +135,7 @@ class org_openpsa_helpers
             $localeconv = localeconv();
         }
 
-        $output = number_format((float) $number, 2, $localeconv['decimal_point'], $localeconv['thousands_sep']);
-        return $output;
+        return number_format((float) $number, 2, $localeconv['decimal_point'], $localeconv['thousands_sep']);
     }
 }
 ?>

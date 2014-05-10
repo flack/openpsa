@@ -330,8 +330,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     /**
      * Save configuration values to a topic as parameters
-     *
-     * @return boolean
      */
     private function _save_topic($topic, $config)
     {
@@ -363,8 +361,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             }
             $topic->set_parameter($this->_request_data['name'], $key, $value);
         }
-
-        return true;
     }
 
     private function _get_config_from_controller()

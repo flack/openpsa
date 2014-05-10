@@ -60,10 +60,7 @@ implements midcom_services_permalinks_resolver
                 {
                     return "{$product_group->code}/";
                 }
-                else
-                {
-                    return "{$product_group->guid}/";
-                }
+                return "{$product_group->guid}/";
             }
         }
         else
@@ -72,10 +69,7 @@ implements midcom_services_permalinks_resolver
             {
                 return "{$product_group->code}/";
             }
-            else
-            {
-                return "{$product_group->guid}/";
-            }
+            return "{$product_group->guid}/";
         }
     }
 
@@ -85,56 +79,45 @@ implements midcom_services_permalinks_resolver
         {
             return null;
         }
-        $intree = false;
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
         if (   $real_config->get('root_group') != null
             && $real_config->get('root_group') != 0)
         {
             $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
-            if ($root_group->id == $product->productGroup)
-            {
-                $intree = true;
-            }
-            else
+            if ($root_group->id != $product->productGroup)
             {
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product->productGroup);
 
-                $intree = ($qb_intree->count() > 0);
+                if ($qb_intree->count() == 0)
+                {
+                    return null;
+                }
             }
 
-            if ($intree)
+            $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
+            $category_qb->add_constraint('id', '=', $product->productGroup);
+            $category = $category_qb->execute_unchecked();
+            //Check if the product is in a nested category.
+            if (!empty($category[0]->up))
             {
-                $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $category_qb->add_constraint('id', '=', $product->productGroup);
-                $category = $category_qb->execute_unchecked();
-                //Check if the product is in a nested category.
-                if (!empty($category[0]->up))
+                $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
+                $parent_category_qb->add_constraint('id', '=', $category[0]->up);
+                $parent_category = $parent_category_qb->execute_unchecked();
+                if (!empty($parent_category[0]->code))
                 {
-                    $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                    $parent_category_qb->add_constraint('id', '=', $category[0]->up);
-                    $parent_category = $parent_category_qb->execute_unchecked();
-                    if (!empty($parent_category[0]->code))
-                    {
-                        return "product/{$parent_category[0]->code}/{$product->code}/";
-                    }
+                    return "product/{$parent_category[0]->code}/{$product->code}/";
                 }
-                else
-                {
-                    return "product/{$product->code}/";
-                }
-            }
-            else
-            {
-                return null;
             }
         }
-        else
+        if ($product->code)
         {
-            return "product/{$product->guid}/";
+            return "product/{$product->code}/";
         }
+
+        return "product/{$product->guid}/";
     }
 
     private function _resolve_productlink($productlink, $topic)
@@ -143,56 +126,40 @@ implements midcom_services_permalinks_resolver
         {
             return null;
         }
-        $intree = false;
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
         if (   $real_config->get('root_group') != null
             && $real_config->get('root_group') != 0)
         {
             $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
-            if ($root_group->id == $productlink->productGroup)
-            {
-                $intree = true;
-            }
-            else
+            if ($root_group->id != $productlink->productGroup)
             {
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $productlink->productGroup);
 
-                $intree = ($qb_intree->count() > 0);
+                if ($qb_intree->count() == 0)
+                {
+                    return null;
+                }
             }
 
-            if ($intree)
+            $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
+            $category_qb->add_constraint('id', '=', $productlink->productGroup);
+            $category = $category_qb->execute_unchecked();
+            //Check if the product is in a nested category.
+            if (!empty($category[0]->up))
             {
-                $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $category_qb->add_constraint('id', '=', $productlink->productGroup);
-                $category = $category_qb->execute_unchecked();
-                //Check if the product is in a nested category.
-                if (!empty($category[0]->up))
-                {
-                    $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                    $parent_category_qb->add_constraint('id', '=', $category[0]->up);
-                    $parent_category = $parent_category_qb->execute_unchecked();
-                    if (!empty($parent_category[0]->code))
-                    {
-                        return "productlink/{$productlink->guid}/";
-                    }
-                }
-                else
+                $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
+                $parent_category_qb->add_constraint('id', '=', $category[0]->up);
+                $parent_category = $parent_category_qb->execute_unchecked();
+                if (!empty($parent_category[0]->code))
                 {
                     return "productlink/{$productlink->guid}/";
                 }
             }
-            else
-            {
-                return null;
-            }
         }
-        else
-        {
-            return "productlink/{$productlink->guid}/";
-        }
+        return "productlink/{$productlink->guid}/";
     }
 
     /**

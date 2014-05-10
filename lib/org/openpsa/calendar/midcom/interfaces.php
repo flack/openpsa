@@ -140,9 +140,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             $url = "{$node[MIDCOM_NAV_FULLURL]}event/new/";
         }
         $url .= $url_append;
-        $js = "window.open('{$url}', 'newevent', '" . self::_js_window_options($height, $width) . "'); return false;";
-
-        return $js;
+        return "window.open('{$url}', 'newevent', '" . self::_js_window_options($height, $width) . "'); return false;";
     }
 
     /**
@@ -171,15 +169,8 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
      */
     private static function _js_window_options($height, $width)
     {
-        $ret = "toolbar=0,";
-        $ret .= "location=0,";
-        $ret .= "status=0,";
-        $ret .= "height={$height},";
-        $ret .= "width={$width},";
-        $ret .= "dependent=1,";
-        $ret .= "alwaysRaised=1,";
-        $ret .= "scrollbars=1,";
-        $ret .= "resizable=1";
+        $ret = "toolbar=0,location=0,status=0,height={$height},width={$width},";
+        $ret .= "dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
         return $ret;
     }
 

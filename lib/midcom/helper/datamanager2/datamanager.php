@@ -267,14 +267,11 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             {
                 return false;
             }
-            else
+            debug_add("Given schema name {$schema} was not found, reverting to default.", MIDCOM_LOG_INFO);
+            // Schema database has probably changed so we should be graceful here
+            if (!$this->set_schema(null))
             {
-                debug_add("Given schema name {$schema} was not found, reverting to default.", MIDCOM_LOG_INFO);
-                // Schema database has probably changed so we should be graceful here
-                if (!$this->set_schema(null))
-                {
-                    return false;
-                }
+                return false;
             }
         }
         return $this->set_storage($object);

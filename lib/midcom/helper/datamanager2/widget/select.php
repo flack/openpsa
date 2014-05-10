@@ -161,10 +161,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
                 ),
             );
         }
-        else
-        {
-            return array($this->name => $this->_type->selection);
-        }
+        return array($this->name => $this->_type->selection);
     }
 
     /**

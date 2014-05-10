@@ -348,8 +348,7 @@ class midcom_services_indexer
 
         // Try to get a metadata object for the argument passed
         // This should catch all DBA objects as well.
-        $metadata = midcom_helper_metadata::retrieve($object);
-        if ($metadata)
+        if ($metadata = midcom_helper_metadata::retrieve($object))
         {
             debug_add('Successfully fetched a Metadata object for the argument.');
             return new midcom_services_indexer_document_midcom($metadata);

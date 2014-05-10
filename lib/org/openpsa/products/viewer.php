@@ -335,8 +335,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             }
             $object = $parent;
         }
-        $tmp = array_reverse($tmp);
-        return $tmp;
+        return array_reverse($tmp);
     }
 
 

@@ -460,7 +460,7 @@ EOT;
     {
         foreach ($this->_widget_elements as $element)
         {
-            if (method_exists($element, 'isFrozen')
+            if (   method_exists($element, 'isFrozen')
                 && !$element->isFrozen())
             {
                 return false;

@@ -572,8 +572,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         if (!empty($author_info['username']))
         {
-            $person = midcom::get('auth')->get_user_by_name($author_info['username']);
-            if ($person)
+            if ($person = midcom::get('auth')->get_user_by_name($author_info['username']))
             {
                 return $person->get_storage();
             }

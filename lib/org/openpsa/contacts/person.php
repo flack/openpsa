@@ -45,15 +45,11 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 
-        $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        if ($contacts_url)
+        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts'))
         {
             return '<a href="' . $contacts_url . 'person/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
         }
-        else
-        {
-            return $this->get_label();
-        }
+        return $this->get_label();
     }
 
     public function _on_creating()
@@ -88,14 +84,9 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     {
         if ($this->rname)
         {
-            $property = 'rname';
+            return 'rname';
         }
-        else
-        {
-            $property = 'username';
-        }
-
-        return $property;
+        return 'username';
     }
 }
 ?>

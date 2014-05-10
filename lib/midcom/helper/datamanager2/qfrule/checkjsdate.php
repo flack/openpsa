@@ -118,10 +118,5 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
     {
         return (is_numeric($input) && $input >= 0 && $input < $max);
     }
-
-    public function getValidationScript($options = null)
-    {
-        return array('', '');
-    }
 }
 ?>

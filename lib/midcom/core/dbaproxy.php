@@ -62,8 +62,7 @@ class midcom_core_dbaproxy
 
         try
         {
-            $object = call_user_func(array($this->__midcom_class_name__, 'get_cached'), $this->__identifier);
-            $this->__object = $object;
+            $this->__object = call_user_func(array($this->__midcom_class_name__, 'get_cached'), $this->__identifier);
             return true;
         }
         catch (midcom_error $e)

@@ -89,29 +89,26 @@ class org_openpsa_contacts_mycontacts
 
     public function is_member($guid)
     {
-        $group = $this->_get_group();
-        if (!$group)
+        if ($group = $this->_get_group())
         {
-            return false;
+            return $group->is_member($guid);
         }
-        return $group->is_member($guid);
+        return false;
     }
 
     public function list_members()
     {
-        $group = $this->_get_group();
-        if (!$group)
+        if ($group = $this->_get_group())
         {
-            return array();
+            $memberships = $group->list_members();
+            if (sizeof($memberships) > 0)
+            {
+                $qb = org_openpsa_contacts_person_dba::new_query_builder();
+                $qb->add_constraint('id', 'IN', $memberships);
+                return $qb->execute();
+            }
         }
-        $memberships = $group->list_members();
-        if (sizeof($memberships) == 0)
-        {
-            return array();
-        }
-        $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', $memberships);
-        return $qb->execute();
+        return array();
     }
 }
 ?>

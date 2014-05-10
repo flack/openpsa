@@ -160,10 +160,6 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         {
             $image_guids[] = $image->guid;
         }
-        if (empty($image_guids))
-        {
-            return $data;
-        }
         $mc = midcom_db_attachment::new_collector('metadata.deleted', false);
         $mc->add_constraint('parentguid', 'IN', $image_guids);
         $rows = $mc->get_rows(array('id', 'name', 'guid'), 'id');

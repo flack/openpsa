@@ -40,43 +40,29 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     {
         if ($this->official)
         {
-            $label = $this->official;
+            return $this->official;
         }
-        else
-        {
-            $label = $this->name;
-        }
-
-        return $label;
+        return $this->name;
     }
 
     function get_label_property()
     {
         if ($this->official)
         {
-            $property = 'official';
+            return 'official';
         }
-        else
-        {
-            $property = 'name';
-        }
-
-        return $property;
+        return 'name';
     }
 
     public function render_link()
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 
-        $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        if ($contacts_url)
+        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts'))
         {
             return '<a href="' . $contacts_url . 'group/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
         }
-        else
-        {
-            return $this->get_label();
-        }
+        return $this->get_label();
     }
 
     private function _get_address_extra($property)
@@ -143,19 +129,18 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     private function _get_members_array()
     {
-        if ($this->_members_loaded)
+        if (!$this->_members_loaded)
         {
-            return $this->members;
-        }
-        $this->members = array();
-        $mc = midcom_db_member::new_collector('gid', $this->id);
-        $uids = $mc->get_values('uid');
+            $this->members = array();
+            $mc = midcom_db_member::new_collector('gid', $this->id);
+            $uids = $mc->get_values('uid');
 
-        foreach ($uids as $uid)
-        {
-            $this->members[$uid] = true;
+            foreach ($uids as $uid)
+            {
+                $this->members[$uid] = true;
+            }
+            $this->_members_loaded = true;
         }
-        $this->_members_loaded = true;
         return $this->members;
     }
 

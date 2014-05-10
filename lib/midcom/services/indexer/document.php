@@ -692,13 +692,12 @@ class midcom_services_indexer_document
     {
         try
         {
-            $person = midcom_db_person::get_cached($id);
+            return midcom_db_person::get_cached($id);
         }
         catch (midcom_error $e)
         {
             return false;
         }
-        return $person;
     }
 
     /**

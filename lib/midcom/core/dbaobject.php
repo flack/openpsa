@@ -185,7 +185,6 @@ abstract class midcom_core_dbaobject
      * Shortcut for accessing MidCOM Query Builder
      *
      * @return midcom_core_querybuilder The initialized instance of the query builder.
-     * @see midcom_core_querybuilder
      */
     public static function new_query_builder()
     {
@@ -198,7 +197,6 @@ abstract class midcom_core_dbaobject
      * @param string $domain The domain property of the collector instance
      * @param mixed $value Value match for the collector instance
      * @return midcom_core_collector The initialized instance of the collector.
-     * @see midcom_core_collector
      */
     public static function new_collector($domain, $value)
     {

@@ -87,8 +87,6 @@ class org_openpsa_mypage_workingon
         $this->start = $task_time;
         $this->description = $workingon->description;
         $this->invoiceable = $workingon->invoiceable;
-
-        return true;
     }
 
     /**
@@ -153,8 +151,7 @@ class org_openpsa_mypage_workingon
 
         $hour_report->hours = $this->time / 3600;
 
-        $stat = $hour_report->create();
-        if (!$stat)
+        if (!$hour_report->create())
         {
             midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get('i18n')->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
             return false;

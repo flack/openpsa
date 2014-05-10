@@ -63,9 +63,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
 
     public function get_schema_defaults()
     {
-        $defaults = array();
-        $defaults['productGroup'] = $this->_request_data['up'];
-        return $defaults;
+        return array('productGroup' => $this->_request_data['up']);
     }
 
     /**
@@ -132,10 +130,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
                 {
                     return new midcom_response_relocate('');
                 }
-                else
-                {
-                    return new midcom_response_relocate("{$this->_request_data['up']}/");
-                }
+                return new midcom_response_relocate("{$this->_request_data['up']}/");
         }
 
         $this->_prepare_request_data();

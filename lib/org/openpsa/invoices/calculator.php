@@ -145,19 +145,16 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $invoice->vat = $invoice->get_default('vat');
         $invoice->description = $invoice->get_default('remarks');
 
-        if ($invoice->create())
-        {
-            // Register the cycle number for reporting purposes
-            if (!is_null($cycle_number))
-            {
-                $invoice->set_parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
-            }
-            return $invoice;
-        }
-        else
+        if (!$invoice->create())
         {
             throw new midcom_error('Failed to create invoice, ' . midcom_connection::get_error_string());
         }
+        // Register the cycle number for reporting purposes
+        if (!is_null($cycle_number))
+        {
+            $invoice->set_parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
+        }
+        return $invoice;
     }
 }
 ?>

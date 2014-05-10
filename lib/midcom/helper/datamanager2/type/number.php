@@ -105,10 +105,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
             $locale_info = localeconv();
             return number_format($this->value, $this->precision, $locale_info['decimal_point'], $locale_info['thousands_sep']);
         }
-        else
-        {
-            return htmlspecialchars($this->value);
-        }
+        return htmlspecialchars($this->value);
     }
 
     /**

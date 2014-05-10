@@ -165,10 +165,9 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
                     return -1;
                 }
                 return 0;
-                break;
+
             case is_string($ap):
                 return strnatcmp($ap, $bp);
-                break;
         }
         return 0;
     }

@@ -66,8 +66,7 @@ class midcom_services_permalinks
         $nav = new midcom_helper_nav();
 
         // Step 1: Maybe NAP already knows the topic.
-        $napobj = $nav->resolve_guid($guid);
-        if ($napobj)
+        if ($napobj = $nav->resolve_guid($guid))
         {
             return $napobj[MIDCOM_NAV_FULLURL];
         }
@@ -109,10 +108,7 @@ class midcom_services_permalinks
                 $napobj = $nav->get_node($parent->id);
                 return $napobj[MIDCOM_NAV_FULLURL] . $object->name;
             }
-            else
-            {
-                return $this->create_attachment_link($object->guid, $object->name);
-            }
+            return $this->create_attachment_link($object->guid, $object->name);
         }
 
         // Ok, unfortunately, this is not an immediate topic. We try to traverse

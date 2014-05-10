@@ -41,8 +41,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
 
         $billingdata = new org_openpsa_invoices_billing_data_dba();
         $billingdata->linkGuid = $linkGuid;
-        $stat = $billingdata->create();
-        if (!$stat)
+        if (!$billingdata->create())
         {
             return false;
         }

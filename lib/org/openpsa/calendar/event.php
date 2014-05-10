@@ -77,10 +77,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         {
             return $this->title;
         }
-        else
-        {
-            return strftime('%x', $this->start) . " {$this->title}";
-        }
+        return strftime('%x', $this->start) . " {$this->title}";
     }
 
     function get_parent_guid_uncached()
@@ -90,10 +87,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         {
             return $root_event->guid;
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     public function _on_loaded()
@@ -505,10 +499,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             //It's unlikely to have more than one result and this should return an object (or false)
             return $ret[0];
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**

@@ -219,14 +219,12 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     private function _list_notifiers()
     {
         // TODO: Figure out which notifiers are possible
-        $notifiers = array
+        return array
         (
             ''         => $this->_l10n->get('inherit'),
             'none'     => $this->_l10n->get('none'),
             'email'    => $this->_l10n->get('email'),
         );
-
-        return $notifiers;
     }
 }
 ?>

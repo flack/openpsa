@@ -170,8 +170,7 @@ class midcom_helper_misc
         // Get style elements
         $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $code);
         // Echo variables
-        $code = preg_replace_callback("%&\(([^)]*)\);%i", array('midcom_helper_formatter', 'convert_to_php'), $code);
-        return $code;
+        return preg_replace_callback("%&\(([^)]*)\);%i", array('midcom_helper_formatter', 'convert_to_php'), $code);
     }
 
     /**
@@ -290,10 +289,7 @@ class midcom_helper_misc
             // More than a kilo
             return sprintf("%01.1f", $size / 1024) . " KB";
         }
-        else
-        {
-            return $size . " Bytes";
-        }
+        return $size . " Bytes";
     }
 
     /**
@@ -429,7 +425,7 @@ class midcom_helper_misc
                 $content = file_get_contents($filename_page);
                 return $content;
             }
-            elseif (file_exists($filename))
+            else if (file_exists($filename))
             {
                 $content = file_get_contents($filename);
                 return $content;
@@ -449,7 +445,6 @@ class midcom_helper_misc
      */
     public static function check_page_exists($page_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
-        $is_dir = false;
         $path_array = explode('/', midcom::get('config')->get('theme'));
         $theme_array = $path_array;
 
@@ -462,7 +457,7 @@ class midcom_helper_misc
             }
             array_pop($theme_array);
         }
-        return $is_dir;
+        return false;
     }
 }
 ?>

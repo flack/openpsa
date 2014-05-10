@@ -162,8 +162,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public static function resolve_object_title($object)
     {
-        $object_reflector = midcom_helper_reflector::get($object);
-        return $object_reflector->get_object_label($object);
+        return midcom_helper_reflector::get($object)->get_object_label($object);
     }
 
     /**
@@ -518,9 +517,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _render_static($object)
     {
-        $html = $object->_text;
-
-        return $html;
+        return $object->_text;
     }
 
     private function _render_row_label($row_name)

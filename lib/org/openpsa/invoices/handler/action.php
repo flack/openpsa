@@ -105,12 +105,10 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $cancelation_invoice->sum = $reverse_sum;
         $cancelation_invoice->number = $cancelation_invoice->generate_invoice_number();
         $cancelation_invoice->vat = $invoice->vat;
-        $stat = $cancelation_invoice->create();
 
-        $error_msg = sprintf($this->_l10n->get('could not create cancelation for invoice %s'), $invoice->get_label());
-        if (!$stat)
+        if (!$cancelation_invoice->create())
         {
-            $this->_request_data['message']['message'] = $error_msg;
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not create cancelation for invoice %s'), $invoice->get_label());
             return false;
         }
 
@@ -127,13 +125,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $cancelation_item->description = sprintf($this->_l10n->get('cancelation for invoice %s, item %s'), $invoice->number, $count);
             $cancelation_item->units = $item->units;
             $cancelation_item->pricePerUnit = $item->pricePerUnit * (-1);
-            $stat = $cancelation_item->create();
 
-            if (!$stat)
+            if (!$cancelation_item->create())
             {
                 // cleanup
                 $cancelation_invoice->delete();
-                $this->_request_data['message']['message'] = $error_msg;
+                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not create item for cancelation invoice %s'), $cancelation_invoice->get_label());
                 return false;
             }
             $count++;
@@ -151,12 +148,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $invoice->paid = $time;
         }
         $invoice->cancelationInvoice = $cancelation_invoice->id;
-        $invoice->update();
-        if (!$stat)
+        if (!$invoice->update())
         {
             // cleanup
             $cancelation_invoice->delete();
-            $this->_request_data['message']['message'] = $error_msg;
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not update invoice %s'), $invoice->get_label());
             return false;
         }
 
@@ -234,11 +230,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $this->_request_data['message']['message'] = sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message());
             return false;
         }
-        else
-        {
-            $invoice->set_parameter($this->_component, 'sent_by_mail', time());
-            return $this->_mark_as_sent($invoice);
-        }
+        $invoice->set_parameter($this->_component, 'sent_by_mail', time());
+        return $this->_mark_as_sent($invoice);
     }
 
     /**

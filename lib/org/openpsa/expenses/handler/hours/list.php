@@ -206,7 +206,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
-        $options = array
+        return array
         (
             'none' => array('label' => midcom::get('i18n')->get_string("choose action", "midcom.admin.user")),
             'change_task' => array
@@ -220,7 +220,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 'widget_config' => $invoice_conf
             )
         );
-        return $options;
     }
 }
 ?>

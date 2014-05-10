@@ -260,16 +260,13 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _sort_link_array(&$arr)
     {
-        switch ($this->_sort)
+        if ($this->_sort == 'reverse')
         {
-            case 'reverse':
-                uasort($arr, array('self', '_sort_by_time_reverse'));
-                break;
-            case 'normal':
-            case 'default':
-            default:
-                uasort($arr, array('self', '_sort_by_time'));
-                break;
+            uasort($arr, array('self', '_sort_by_time_reverse'));
+        }
+        else
+        {
+            uasort($arr, array('self', '_sort_by_time'));
         }
     }
 

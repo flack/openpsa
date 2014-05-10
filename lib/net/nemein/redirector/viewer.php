@@ -217,9 +217,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 return $node[MIDCOM_NAV_FULLURL];
 
             case 'permalink':
-                $url = midcom::get('permalinks')->resolve_permalink($data['config']->get('redirection_guid'));
-
-                if ($url)
+                if ($url = midcom::get('permalinks')->resolve_permalink($data['config']->get('redirection_guid')))
                 {
                     return $url;
                 }

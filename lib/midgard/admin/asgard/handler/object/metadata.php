@@ -105,7 +105,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // Reindex the object
                 //$indexer = midcom::get('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                // *** FALL-THROUGH ***
                 midcom::get('cache')->invalidate($this->_object->guid);
                 return new midcom_response_relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
 

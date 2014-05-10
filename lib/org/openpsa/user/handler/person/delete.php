@@ -46,21 +46,17 @@ implements midcom_helper_datamanager2_interfaces_view
 
         if (array_key_exists('org_openpsa_user_deleteok', $_POST))
         {
-            $delete_succeeded = $this->_person->delete();
-            if ($delete_succeeded)
-            {
-                // Update the index
-                $indexer = midcom::get('indexer');
-                $indexer->delete($this->_person->guid);
-
-                return new midcom_response_relocate('');
-            }
-            else
+            if (!$this->_person->delete())
             {
                 // Failure, give a message
                 midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
                 return new midcom_response_relocate('view/' . $this->_person->guid . '/');
             }
+            // Update the index
+            $indexer = midcom::get('indexer');
+            $indexer->delete($this->_person->guid);
+
+            return new midcom_response_relocate('');
         }
 
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_person);

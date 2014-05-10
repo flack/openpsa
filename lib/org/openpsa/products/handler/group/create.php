@@ -144,10 +144,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 {
                     return new midcom_response_relocate('');
                 }
-                else
-                {
-                    return new midcom_response_relocate("{$this->_request_data['up']}/");
-                }
+                return new midcom_response_relocate("{$this->_request_data['up']}/");
         }
 
         $this->_prepare_request_data();
@@ -189,13 +186,13 @@ implements midcom_helper_datamanager2_interfaces_create
         if (isset($this->_request_data['parent']))
         {
             $group = $this->_request_data['parent'];
-            $root_group = $this->_config->get('root_group');
 
             if (!$group)
             {
                 return false;
             }
 
+            $root_group = $this->_config->get('root_group');
             $parent = $group;
 
             while ($parent)

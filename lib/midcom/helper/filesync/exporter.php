@@ -112,8 +112,7 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
             throw new midcom_error("Requested exporter class {$type} is not installed.");
         }
 
-        $class = new $classname(midcom_helper_filesync_interface::prepare_dir($type));
-        return $class;
+        return new $classname(midcom_helper_filesync_interface::prepare_dir($type));
     }
 }
 ?>

@@ -40,10 +40,7 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
             {
                 return "productlink/{$this->_group_up->code}/{$object->code}/";
             }
-            else
-            {
-                return "productlink/{$object->code}/";
-            }
+            return "productlink/{$object->code}/";
         }
         return "productlink/{$object->guid}/";
     }

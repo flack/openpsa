@@ -291,12 +291,8 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             if ($echo)
             {
                 echo $pages_xml_str;
-                return;
             }
-            else
-            {
-                return $pages_xml_str;
-            }
+            return $pages_xml_str;
         }
 
         //TODO: "showing results (offset)-(offset+limit)
@@ -318,10 +314,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         {
             echo $pages_xml_str;
         }
-        else
-        {
-            return $pages_xml_str;
-        }
+        return $pages_xml_str;
     }
 
     /**

@@ -60,7 +60,6 @@ class midcom_core_context
      *
      * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.
      * @param MidgardObject $node Root node of the context
-     * @return int The ID of the newly created component.
      */
     public function __construct($id = null, $node = null)
     {
@@ -95,8 +94,6 @@ class midcom_core_context
 
     /**
      * Marks context as current
-     *
-     * @return boolean    Indicating if the switch was successful.
      */
     public function set_current()
     {

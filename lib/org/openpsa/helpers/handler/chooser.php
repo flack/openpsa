@@ -108,17 +108,15 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function & dm2_create_callback(&$datamanager)
     {
-        $object = new $this->_dbaclass();
+        $this->_object = new $this->_dbaclass();
 
-        if (!$object->create())
+        if (!$this->_object->create())
         {
-            debug_print_r('We operated on this object:', $object);
+            debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new object. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_object =& $object;
-
-        return $object;
+        return $this->_object;
     }
 
     /**
