@@ -197,9 +197,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             $url .= '?' . http_build_query($filters);
         }
 
-        $link = "<a href=\"{$url}\">" . $label . "</a>";
-
-        return $link;
+        return "<a href=\"{$url}\">" . $label . "</a>";
     }
 
     /**

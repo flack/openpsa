@@ -326,10 +326,8 @@ class fi_protie_navigation
         // Get nodes
         $node_path = $nap->get_node_path();
 
-        $leaf = $nap->get_current_leaf();
-
         // If NAP offers a leaf it should be stored in the node path
-        if ($leaf)
+        if ($leaf = $nap->get_current_leaf())
         {
             $node_path[] = $leaf;
         }

@@ -43,23 +43,19 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             return $tokenized[$original_url];
         }
 
+        $tokenized[$original_url] = array();
         if (strlen(midcom_connection::get_url('prefix')) > 1)
         {
             // FIXME: Replace only the first instance, there might be others matching the same string
             $url = str_replace(midcom_connection::get_url('prefix') . "/", '/', $url);
         }
         $url = trim($url, '/');
-        if ($url == '')
-        {
-            $tokenized[$original_url] = array();
-            return $tokenized[$original_url];
-        }
-        else
+        if ($url != '')
         {
             $argv_tmp = explode('/', $url);
+            $tokenized[$original_url] = array_filter($argv_tmp);
         }
 
-        $tokenized[$original_url] = array_filter($argv_tmp);
         return $tokenized[$original_url];
     }
 

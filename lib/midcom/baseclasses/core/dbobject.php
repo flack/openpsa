@@ -778,9 +778,9 @@ class midcom_baseclasses_core_dbobject
      */
     public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
     {
-        $helper = new helper;
         if (is_a($oldobject, $newobject->__mgdschema_class_name__))
         {
+            $helper = new helper;
             $vars = $helper->get_object_vars($oldobject);
             foreach ($vars as $name => $value)
             {
@@ -1726,12 +1726,7 @@ class midcom_baseclasses_core_dbobject
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
-        if (! $object->_on_deleting())
-        {
-            return false;
-        }
-
-        return true;
+        return $object->_on_deleting();
     }
 }
 ?>

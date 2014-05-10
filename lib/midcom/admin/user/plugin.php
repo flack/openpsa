@@ -34,23 +34,17 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
         $string = '';
         for ($x = 0; $x < (int) $length; $x++)
         {
-            $rand = (int) rand(48, 122);
-            $char = chr($rand);
-
-            $k = 0;
-
+            do
+            {
+                $char = chr(rand(48, 122));
+            }
             while (   !preg_match('/[a-zA-Z0-9]/', $char)
                    || (   $strong
                        && strlen($string) > 0
                        && strstr($string, $char))
                    || (   $no_similars
-                       && in_array($char, $similars)))
-            {
-                $rand = (int) rand(48, 122);
-                $char = chr($rand);
+                       && in_array($char, $similars)));
 
-                $k++;
-            }
             $string .= $char;
         }
 

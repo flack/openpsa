@@ -89,14 +89,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     static function help_exists($help_id, $component)
     {
-        $file = self::generate_file_path($help_id, $component);
-
-        if (!$file)
+        if ($file = self::generate_file_path($help_id, $component))
         {
-            return false;
+            return (file_exists($file));
         }
 
-        return (file_exists($file));
+        return false;
     }
 
     static function generate_file_path($help_id, $component, $language = null)
@@ -112,12 +110,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             if ($language != midcom::get('config')->get('i18n_fallback_language'))
             {
                 // Try MidCOM's default fallback language
-                $file = self::generate_file_path($help_id, $component, midcom::get('config')->get('i18n_fallback_language'));
+                return self::generate_file_path($help_id, $component, midcom::get('config')->get('i18n_fallback_language'));
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         return $file;
@@ -125,19 +120,17 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     static function get_help_title($help_id, $component)
     {
-        $subject = midcom::get('i18n')->get_string("help_" . $help_id, 'midcom.admin.help');
         $path = self::generate_file_path($help_id, $component);
-        if (!$path)
+        if ($path)
         {
-            return $subject;
-        }
-        $file_contents = file($path);
-        if (trim($file_contents[0]))
-        {
-            $subject = trim($file_contents[0]);
+            $file_contents = file($path);
+            if (trim($file_contents[0]))
+            {
+                return trim($file_contents[0]);
+            }
         }
 
-        return $subject;
+        return midcom::get('i18n')->get_string("help_" . $help_id, 'midcom.admin.help');
     }
 
     /**
@@ -156,9 +149,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $help_contents = file_get_contents($file);
 
         // Replace static URLs (URLs for screenshots etc)
-        $help_contents = str_replace('MIDCOM_STATIC_URL', MIDCOM_STATIC_URL, $help_contents);
-
-        return $help_contents;
+        return str_replace('MIDCOM_STATIC_URL', MIDCOM_STATIC_URL, $help_contents);
     }
 
     /**
@@ -447,18 +438,16 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
     }
 
-    private function _get_property_data($mrp, $prop)
+    private function _get_property_data(midgard_reflection_property $mrp, $prop)
     {
-        $ret = array();
-
-        $ret['value'] = $mrp->description($prop);
-
-        $ret['link'] = $mrp->is_link($prop);
-        $ret['link_name'] = $mrp->get_link_name($prop);
-        $ret['link_target'] = $mrp->get_link_target($prop);
-
-        $ret['midgard_type'] = $this->mgdtypes[$mrp->get_midgard_type($prop)];
-        return $ret;
+        return array
+        (
+            'value' => $mrp->description($prop),
+            'link' => $mrp->is_link($prop),
+            'link_name' => $mrp->get_link_name($prop),
+            'link_target' => $mrp->get_link_target($prop),
+            'midgard_type' => $this->mgdtypes[$mrp->get_midgard_type($prop)]
+        );
     }
 
     private function _load_component_data($name)

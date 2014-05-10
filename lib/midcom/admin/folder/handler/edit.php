@@ -288,8 +288,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
 
         // Get the relocation url
-        $url = preg_replace("/{$old_name}\/\$/", "{$this->_topic->name}/", $prefix);
-        return $url;
+        return preg_replace("/{$old_name}\/\$/", "{$this->_topic->name}/", $prefix);
     }
 
     private function _create_topic($prefix)
@@ -367,8 +366,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         }
 
         // Get the relocation url
-        $url = "{$prefix}{$this->_new_topic->name}/";
-        return $url;
+        return "{$prefix}{$this->_new_topic->name}/";
     }
 
     /**

@@ -40,12 +40,11 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function get_schema_name()
     {
-        $name = 'config';
         if (isset($this->_master->_handler['schema']))
         {
-            $name = $this->_master->_handler['schema'];
+            return $this->_master->_handler['schema'];
         }
-        return $name;
+        return 'config';
     }
 
     public function load_schemadb()
@@ -176,12 +175,8 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        if (array_key_exists('midcom_baseclasses_components_handler_configuration_recreatecancel', $_POST))
-        {
-            return new midcom_response_relocate('config/');
-        }
-
-        if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
+        if (   array_key_exists('midcom_baseclasses_components_handler_configuration_recreatecancel', $_POST)
+            || !array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
         {
             return new midcom_response_relocate('config/');
         }

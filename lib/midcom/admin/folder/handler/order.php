@@ -17,8 +17,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 {
     /**
      * This function will set the score.
-     *
-     * @return boolean Indicating success
      */
     private function _process_order_form()
     {
@@ -35,10 +33,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             // This will exit
         }
 
-        // If the actual score list hasn't been posted, return false
+        // If the actual score list hasn't been posted, return
         if (!isset($_POST['f_submit']))
         {
-            return false;
+            return;
         }
 
         // Success tells whether the update was successful or not. On default everything goes fine,

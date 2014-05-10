@@ -299,13 +299,12 @@ class midcom_core_account
 
         try
         {
-            $stat = $this->_user->create();
+            return $this->_user->create();
         }
         catch (midgard_error_exception $e)
         {
             return false;
         }
-        return $stat;
     }
 
     private function _update()

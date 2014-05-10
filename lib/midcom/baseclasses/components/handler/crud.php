@@ -159,12 +159,11 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _get_url_prefix()
     {
-        $prefix = "";
-        if (!empty($this->_prefix))
+        if (empty($this->_prefix))
         {
-            $prefix = $this->_prefix . '/';
+            return '';
         }
-        return $prefix;
+        return $this->_prefix . '/';
     }
 
     /**
@@ -174,12 +173,11 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     private function _get_style_prefix()
     {
-        $prefix = "";
-        if (!empty($this->_prefix))
+        if (empty($this->_prefix))
         {
-            $prefix = $this->_prefix . '-';
+            return '';
         }
-        return $prefix;
+        return $this->_prefix . '-';
     }
 
     /**

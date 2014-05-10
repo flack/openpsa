@@ -516,8 +516,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             if (method_exists($handler, $method))
             {
-                $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
-                if (!$result)
+                if (!$handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data))
                 {
                     // This can_handle failed, allow next one to take over if there is one
                     continue;
@@ -755,7 +754,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param mixed $handler The ID (array key) of the handler that is responsible to handle
      *   the request.
      * @param array $args The argument list.
-     * @return boolean Return false to abort the handle phase, true to continue normally.
      */
     public function _on_handle($handler, array $args)
     {
@@ -842,7 +840,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
-     * @return boolean Indicating success
      */
     public function _load_plugin($namespace, $plugin)
     {
@@ -873,7 +870,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_active_plugin = new $plugin_config['class']();
         $this->_active_plugin->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
 
-        return $this->_prepare_plugin($namespace, $plugin);
+        $this->_prepare_plugin($namespace, $plugin);
     }
 
     /**
@@ -934,7 +931,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
-     * @return boolean Indicating Success
      */
     public function _prepare_plugin ($namespace, $plugin)
     {
@@ -963,7 +959,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             $this->_request_switch["__{$namespace}-{$plugin}-{$identifier}"] = $handler_config;
         }
-        return true;
     }
 
     /**
